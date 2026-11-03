@@ -44,13 +44,13 @@ internal class KaleidoscopeFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.kaleidoscope, R.string.filter_help_kaleidoscope)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::angle, floatParam(R.string.angle, 0f, 0f..360f, roundTo = 0))
-            field(Value::angle2, floatParam(R.string.secondary_angle, 0f, 0f..360f, roundTo = 0))
-            field(Value::centreX, floatParam(R.string.center_x, 0.5f, 0f..1f))
-            field(Value::centreY, floatParam(R.string.center_y, 0.5f, 0f..1f))
-            field(Value::sides, intParam(R.string.sides, 5, 2..12))
-            field(Value::radius, floatParam(R.string.radius, 0f, 0f..100f))
+        override val parameters = structuredParameters {
+            Value::angle.float(R.string.angle, 0f, 0f..360f, roundTo = 0)
+            Value::angle2.float(R.string.secondary_angle, 0f, 0f..360f, roundTo = 0)
+            Value::centreX.float(R.string.center_x, 0.5f, 0f..1f)
+            Value::centreY.float(R.string.center_y, 0.5f, 0f..1f)
+            Value::sides.int(R.string.sides, 5, 2..12)
+            Value::radius.float(R.string.radius, 0f, 0f..100f)
         }
     }
 }

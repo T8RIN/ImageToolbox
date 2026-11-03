@@ -76,116 +76,113 @@ internal class DetailsEqualizerFilter(
             R.string.filter_help_gmic_filter_details_equalizer
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.gmic_param_base_scale, 5, 0f..15f),
-                    gmicNumber(R.string.gmic_param_detail_scale, 0.5f, 0f..5f),
-                    gmicNumber(R.string.gmic_param_coarse_threshold, 0, 0f..10f),
-                    gmicNumber(R.string.gmic_param_coarse_smoothness, 0, 0f..10f),
-                    gmicSelection(
-                        R.string.gmic_param_coarse_smoothing,
-                        "Diffusion",
-                        listOf("Gaussian", "Bilateral", "Diffusion")
-                    ),
-                    gmicNumber(R.string.gmic_param_coarse_gain, 0, -4f..4f),
-                    gmicNumber(R.string.gmic_param_medium_threshold, 0, 0f..10f),
-                    gmicNumber(R.string.gmic_param_medium_smoothness, 0, 0f..10f),
-                    gmicSelection(
-                        R.string.gmic_param_medium_smoothing,
-                        "Diffusion",
-                        listOf("Gaussian", "Bilateral", "Diffusion")
-                    ),
-                    gmicNumber(R.string.gmic_param_medium_gain, 0, -4f..4f),
-                    gmicNumber(R.string.gmic_param_small_threshold, 0, 0f..10f),
-                    gmicNumber(R.string.gmic_param_small_smoothness, 0, 0f..10f),
-                    gmicSelection(
-                        R.string.gmic_param_small_smoothing,
-                        "Diffusion",
-                        listOf("Gaussian", "Bilateral", "Diffusion")
-                    ),
-                    gmicNumber(R.string.gmic_param_small_gain, 0, -4f..4f),
-                    gmicNumber(R.string.gmic_param_fine_threshold, 0, 0f..10f),
-                    gmicNumber(R.string.gmic_param_fine_smoothness, 0, 0f..10f),
-                    gmicSelection(
-                        R.string.gmic_param_fine_smoothing,
-                        "Diffusion",
-                        listOf("Gaussian", "Bilateral", "Diffusion")
-                    ),
-                    gmicNumber(R.string.gmic_param_fine_gain, 0, -4f..4f),
-                    gmicSelection(
-                        R.string.gmic_param_channel,
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.gmic_param_base_scale, 5, 0f..15f),
+                gmicNumber(R.string.gmic_param_detail_scale, 0.5f, 0f..5f),
+                gmicNumber(R.string.gmic_param_coarse_threshold, 0, 0f..10f),
+                gmicNumber(R.string.gmic_param_coarse_smoothness, 0, 0f..10f),
+                gmicSelection(
+                    R.string.gmic_param_coarse_smoothing,
+                    "Diffusion",
+                    listOf("Gaussian", "Bilateral", "Diffusion")
+                ),
+                gmicNumber(R.string.gmic_param_coarse_gain, 0, -4f..4f),
+                gmicNumber(R.string.gmic_param_medium_threshold, 0, 0f..10f),
+                gmicNumber(R.string.gmic_param_medium_smoothness, 0, 0f..10f),
+                gmicSelection(
+                    R.string.gmic_param_medium_smoothing,
+                    "Diffusion",
+                    listOf("Gaussian", "Bilateral", "Diffusion")
+                ),
+                gmicNumber(R.string.gmic_param_medium_gain, 0, -4f..4f),
+                gmicNumber(R.string.gmic_param_small_threshold, 0, 0f..10f),
+                gmicNumber(R.string.gmic_param_small_smoothness, 0, 0f..10f),
+                gmicSelection(
+                    R.string.gmic_param_small_smoothing,
+                    "Diffusion",
+                    listOf("Gaussian", "Bilateral", "Diffusion")
+                ),
+                gmicNumber(R.string.gmic_param_small_gain, 0, -4f..4f),
+                gmicNumber(R.string.gmic_param_fine_threshold, 0, 0f..10f),
+                gmicNumber(R.string.gmic_param_fine_smoothness, 0, 0f..10f),
+                gmicSelection(
+                    R.string.gmic_param_fine_smoothing,
+                    "Diffusion",
+                    listOf("Gaussian", "Bilateral", "Diffusion")
+                ),
+                gmicNumber(R.string.gmic_param_fine_gain, 0, -4f..4f),
+                gmicSelection(
+                    R.string.gmic_param_channel,
+                    "All",
+                    listOf(
                         "All",
-                        listOf(
-                            "All",
-                            "Rgba",
-                            "Rgb",
-                            "Red",
-                            "Green",
-                            "Blue",
-                            "Alpha",
-                            "LinearRgb",
-                            "LinearRed",
-                            "LinearGreen",
-                            "LinearBlue",
-                            "YCbCr",
-                            "Luminance",
-                            "Chrominance",
-                            "BlueChrominance",
-                            "RedChrominance",
-                            "GreenChrominance",
-                            "Lab",
-                            "LabLightness",
-                            "LabChrominance",
-                            "LabA",
-                            "LabB",
-                            "Lch",
-                            "LchChrominance",
-                            "LchChroma",
-                            "LchHue",
-                            "Hsv",
-                            "HsvHue",
-                            "HsvSaturation",
-                            "HsvValue",
-                            "Hsi",
-                            "HsiIntensity",
-                            "Hsl",
-                            "HslLightness",
-                            "Cmyk",
-                            "Cmy",
-                            "Cyan",
-                            "Magenta",
-                            "Yellow",
-                            "Key",
-                            "Yiq",
-                            "YiqLuma",
-                            "YiqChrominance",
-                            "Ryb",
-                            "RybRed",
-                            "RybYellow",
-                            "RybBlue"
-                        )
-                    ),
-                    gmicSelection(
-                        R.string.gmic_param_value_action,
-                        "None",
-                        listOf("None", "Cut", "Normalize")
-                    ),
-                    gmicSelection(
-                        R.string.gmic_param_parallelism,
+                        "Rgba",
+                        "Rgb",
+                        "Red",
+                        "Green",
+                        "Blue",
+                        "Alpha",
+                        "LinearRgb",
+                        "LinearRed",
+                        "LinearGreen",
+                        "LinearBlue",
+                        "YCbCr",
+                        "Luminance",
+                        "Chrominance",
+                        "BlueChrominance",
+                        "RedChrominance",
+                        "GreenChrominance",
+                        "Lab",
+                        "LabLightness",
+                        "LabChrominance",
+                        "LabA",
+                        "LabB",
+                        "Lch",
+                        "LchChrominance",
+                        "LchChroma",
+                        "LchHue",
+                        "Hsv",
+                        "HsvHue",
+                        "HsvSaturation",
+                        "HsvValue",
+                        "Hsi",
+                        "HsiIntensity",
+                        "Hsl",
+                        "HslLightness",
+                        "Cmyk",
+                        "Cmy",
+                        "Cyan",
+                        "Magenta",
+                        "Yellow",
+                        "Key",
+                        "Yiq",
+                        "YiqLuma",
+                        "YiqChrominance",
+                        "Ryb",
+                        "RybRed",
+                        "RybYellow",
+                        "RybBlue"
+                    )
+                ),
+                gmicSelection(
+                    R.string.gmic_param_value_action,
+                    "None",
+                    listOf("None", "Cut", "Normalize")
+                ),
+                gmicSelection(
+                    R.string.gmic_param_parallelism,
+                    "Auto",
+                    listOf(
                         "Auto",
-                        listOf(
-                            "Auto",
-                            "OneThread",
-                            "TwoThreads",
-                            "FourThreads",
-                            "EightThreads",
-                            "SixteenThreads"
-                        )
-                    ),
-                    gmicInteger(R.string.gmic_param_spatial_overlap, 32, 0f..256f)
-                )
+                        "OneThread",
+                        "TwoThreads",
+                        "FourThreads",
+                        "EightThreads",
+                        "SixteenThreads"
+                    )
+                ),
+                gmicInteger(R.string.gmic_param_spatial_overlap, 32, 0f..256f)
             )
         }
     }

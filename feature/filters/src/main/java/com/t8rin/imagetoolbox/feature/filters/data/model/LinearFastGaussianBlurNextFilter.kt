@@ -54,16 +54,14 @@ internal class LinearFastGaussianBlurNextFilter(
             R.string.filter_help_linear_fast_gaussian_blur_next
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::radius, intParam(R.string.radius, 10, 1..300))
-            field(
-                Value::transferFunction,
-                enumParam(R.string.tag_transfer_function, default = { TransferFunc.SRGB })
-            )
-            field(
-                Value::edgeMode,
-                enumParam(R.string.edge_mode, default = { BlurEdgeMode.Reflect101 })
-            )
+        override val parameters = structuredParameters {
+            Value::radius.int(R.string.radius, 10, 1..300)
+            Value::transferFunction.enum(
+                R.string.tag_transfer_function,
+                label = { it.label }) { TransferFunc.SRGB }
+            Value::edgeMode.enum(
+                R.string.edge_mode,
+                label = { it.label }) { BlurEdgeMode.Reflect101 }
         }
     }
 }

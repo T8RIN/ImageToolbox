@@ -50,17 +50,14 @@ internal class SecamFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.secam, R.string.filter_help_secam)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::chromaRadius, intParam(R.string.chroma_radius, 4, 1..16))
-            field(
-                Value::frequencyDeviation,
-                floatParam(R.string.frequency_deviation, 0.8f, 0.2f..1f)
-            )
-            field(Value::noise, floatParam(R.string.noise, 0.12f, 0f..0.65f))
-            field(Value::preEmphasis, floatParam(R.string.pre_emphasis, 0.55f, 0f..1f))
-            field(Value::lineCrosstalk, floatParam(R.string.line_crosstalk, 0.07f, 0f..0.5f))
-            field(Value::seed, intParam(R.string.seed, 0, 0..10000))
-            field(Value::strength, floatParam(R.string.strength, 1f, 0f..1f))
+        override val parameters = structuredParameters {
+            Value::chromaRadius.int(R.string.chroma_radius, 4, 1..16)
+            Value::frequencyDeviation.float(R.string.frequency_deviation, 0.8f, 0.2f..1f)
+            Value::noise.float(R.string.noise, 0.12f, 0f..0.65f)
+            Value::preEmphasis.float(R.string.pre_emphasis, 0.55f, 0f..1f)
+            Value::lineCrosstalk.float(R.string.line_crosstalk, 0.07f, 0f..0.5f)
+            Value::seed.seed(R.string.seed, 0, 0..10000)
+            Value::strength.float(R.string.strength, 1f, 0f..1f)
         }
     }
 }

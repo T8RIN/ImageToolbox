@@ -48,18 +48,15 @@ internal class GraphicNovelFilter(
             R.string.filter_help_gmic_filter_graphic_novel
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.gmic_param_smoothness, 18, 0f..100f),
-                    gmicNumber(R.string.threshold, 55, 0f..100f),
-                    gmicNumber(R.string.gmic_param_edge_shade, 7, 0f..30f),
-                    gmicNumber(R.string.gmic_param_edge_thickness, 1, 0f..5f),
-                    gmicInteger(R.string.gmic_param_posterization, 7, 0f..15f),
-                    gmicNumber(R.string.strength, 35, 0f..100f),
-                    gmicNumber(R.string.gmic_param_retinex_regularization, 4, 0f..32f)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.gmic_param_smoothness, 18, 0f..100f),
+                gmicNumber(R.string.threshold, 55, 0f..100f),
+                gmicNumber(R.string.gmic_param_edge_shade, 7, 0f..30f),
+                gmicNumber(R.string.gmic_param_edge_thickness, 1, 0f..5f),
+                gmicInteger(R.string.gmic_param_posterization, 7, 0f..15f),
+                gmicNumber(R.string.strength, 35, 0f..100f),
+                gmicNumber(R.string.gmic_param_retinex_regularization, 4, 0f..32f)
             )
         }
     }

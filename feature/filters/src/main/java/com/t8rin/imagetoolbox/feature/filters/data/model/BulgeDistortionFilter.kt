@@ -43,9 +43,9 @@ internal class BulgeDistortionFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.bulge, R.string.filter_help_bulge)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::radius, floatParam(R.string.radius, 0.25f, 0f..1f))
-            field(Value::scale, floatParam(R.string.scale, 0.5f, -1f..1f))
+        override val parameters = structuredParameters {
+            Value::radius.float(R.string.radius, 0.25f, 0f..1f)
+            Value::scale.float(R.string.scale, 0.5f, -1f..1f)
         }
     }
 }

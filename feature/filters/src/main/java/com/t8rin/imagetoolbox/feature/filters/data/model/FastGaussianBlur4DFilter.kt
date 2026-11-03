@@ -46,8 +46,8 @@ internal class FastGaussianBlur4DFilter(
         override val info =
             FilterInfo(R.string.fast_gaussian_blur_4d, R.string.filter_help_fast_gaussian_blur_4d)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::radius, floatParam(default = 10f, range = 1f..100f))
+        override val parameters = structuredParameters {
+            Value::radius.float(default = 10f, range = 1f..100f)
         }
     }
 }

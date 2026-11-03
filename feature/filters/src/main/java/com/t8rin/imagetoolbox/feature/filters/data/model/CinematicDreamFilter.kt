@@ -50,19 +50,16 @@ internal class CinematicDreamFilter(
             R.string.filter_help_gmic_filter_cinematic_dream
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.gmic_param_details_strength, 75, 0f..400f),
-                    gmicNumber(R.string.gmic_param_details_scale, 45, 0f..255f),
-                    gmicNumber(R.string.softness, 55, 0f..255f),
-                    gmicInteger(R.string.highlights, 28, 0f..100f),
-                    gmicNumber(R.string.contrast, 18, 0f..100f),
-                    gmicNumber(R.string.gmic_param_shadow_strength, 0.55f, 0f..1f),
-                    gmicNumber(R.string.gmic_param_shadow_scale, 6, 0f..20f),
-                    gmicToggle(R.string.gmic_param_normalize, true)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.gmic_param_details_strength, 75, 0f..400f),
+                gmicNumber(R.string.gmic_param_details_scale, 45, 0f..255f),
+                gmicNumber(R.string.softness, 55, 0f..255f),
+                gmicInteger(R.string.highlights, 28, 0f..100f),
+                gmicNumber(R.string.contrast, 18, 0f..100f),
+                gmicNumber(R.string.gmic_param_shadow_strength, 0.55f, 0f..1f),
+                gmicNumber(R.string.gmic_param_shadow_scale, 6, 0f..20f),
+                gmicToggle(R.string.gmic_param_normalize, true)
             )
         }
     }

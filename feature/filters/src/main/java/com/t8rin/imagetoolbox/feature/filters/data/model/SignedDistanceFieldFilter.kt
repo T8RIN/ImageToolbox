@@ -53,34 +53,24 @@ internal class SignedDistanceFieldFilter(
         override val info =
             FilterInfo(R.string.signed_distance_field, R.string.filter_help_signed_distance_field)
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::alphaMask,
-                toggleParam(R.string.mask_source, false, R.string.luminance, R.string.alpha)
+        override val parameters = structuredParameters {
+            Value::alphaMask.toggle(R.string.mask_source, false, R.string.luminance, R.string.alpha)
+            Value::threshold.float(R.string.threshold, 0.48f, 0f..1f)
+            Value::distance.float(R.string.distance, 44f, 1f..180f, roundTo = 1)
+            Value::mode.choice(
+                R.string.gmic_param_mode, 0,
+                R.string.gradient,
+                R.string.glow,
+                R.string.isolines
             )
-            field(Value::threshold, floatParam(R.string.threshold, 0.48f, 0f..1f))
-            field(Value::distance, floatParam(R.string.distance, 44f, 1f..180f, roundTo = 1))
-            field(
-                Value::mode,
-                choiceParam(
-                    R.string.gmic_param_mode, 0,
-                    R.string.gradient,
-                    R.string.glow,
-                    R.string.isolines
-                )
-            )
-            field(Value::spacing, floatParam(R.string.spacing, 8f, 1f..60f, roundTo = 1))
-            field(
-                Value::insideColor,
-                colorParam(R.string.inside_color, ColorModel(0xFFF6EFDE.toInt()))
-            )
-            field(
-                Value::outsideColor,
-                colorParam(R.string.outside_color, ColorModel(0xFF101D36.toInt()))
-            )
-            field(
-                Value::invert,
-                toggleParam(R.string.gmic_param_invert, false, R.string.normal, R.string.inverted)
+            Value::spacing.float(R.string.spacing, 8f, 1f..60f, roundTo = 1)
+            Value::insideColor.color(R.string.inside_color, ColorModel(0xFFF6EFDE.toInt()))
+            Value::outsideColor.color(R.string.outside_color, ColorModel(0xFF101D36.toInt()))
+            Value::invert.toggle(
+                R.string.gmic_param_invert,
+                false,
+                R.string.normal,
+                R.string.inverted
             )
         }
     }

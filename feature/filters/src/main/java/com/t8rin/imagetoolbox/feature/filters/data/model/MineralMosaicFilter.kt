@@ -46,16 +46,13 @@ internal class MineralMosaicFilter(
             R.string.filter_help_gmic_filter_mineral_mosaic
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.density, 1, 0f..3f),
-                    gmicNumber(R.string.area, 2, 0f..32f),
-                    gmicNumber(R.string.gmic_param_smoothness, 1, 0f..10f),
-                    gmicNumber(R.string.strength, 100, 0f..255f),
-                    gmicNumber(R.string.angle, 0, 0f..360f)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.density, 1, 0f..3f),
+                gmicNumber(R.string.area, 2, 0f..32f),
+                gmicNumber(R.string.gmic_param_smoothness, 1, 0f..10f),
+                gmicNumber(R.string.strength, 100, 0f..255f),
+                gmicNumber(R.string.angle, 0, 0f..360f)
             )
         }
     }

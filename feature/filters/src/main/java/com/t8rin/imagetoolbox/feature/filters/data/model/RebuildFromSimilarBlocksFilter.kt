@@ -46,15 +46,12 @@ internal class RebuildFromSimilarBlocksFilter(
             R.string.filter_help_gmic_filter_rebuild_from_similar_blocks
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.block_size, 5, 2f..50f),
-                    gmicNumber(R.string.gmic_param_regularization, 10, 0f..20f),
-                    gmicNumber(R.string.gmic_param_luminance, 0.75f, 0f..3f),
-                    gmicSelection(R.string.gmic_param_norm, "L2", listOf("L1", "L2"))
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.block_size, 5, 2f..50f),
+                gmicNumber(R.string.gmic_param_regularization, 10, 0f..20f),
+                gmicNumber(R.string.gmic_param_luminance, 0.75f, 0f..3f),
+                gmicSelection(R.string.gmic_param_norm, "L2", listOf("L1", "L2"))
             )
         }
     }

@@ -46,18 +46,15 @@ internal class TemperatureBalanceFilter(
             R.string.filter_help_gmic_filter_temperature_balance
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.saturation, 0.2f, -1f..1f),
-                    gmicNumber(R.string.gmic_param_level, 0.1f, -1f..1f),
-                    gmicNumber(R.string.color, 1.15f, 0f..2f),
-                    gmicSelection(
-                        R.string.texture_lighting,
-                        "AutomaticScanAllHues",
-                        listOf("Automatic", "AutomaticScanAllHues", "StandardNoScan")
-                    )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.saturation, 0.2f, -1f..1f),
+                gmicNumber(R.string.gmic_param_level, 0.1f, -1f..1f),
+                gmicNumber(R.string.color, 1.15f, 0f..2f),
+                gmicSelection(
+                    R.string.texture_lighting,
+                    "AutomaticScanAllHues",
+                    listOf("Automatic", "AutomaticScanAllHues", "StandardNoScan")
                 )
             )
         }

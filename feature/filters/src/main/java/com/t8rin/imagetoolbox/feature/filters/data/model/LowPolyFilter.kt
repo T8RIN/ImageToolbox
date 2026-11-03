@@ -46,9 +46,9 @@ internal class LowPolyFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.low_poly, R.string.filter_help_low_poly)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::strength, floatParam(R.string.strength, 2000f, 50f..30000f, roundTo = 0))
-            field(Value::fill, booleanParam(R.string.fill, true))
+        override val parameters = structuredParameters {
+            Value::strength.float(R.string.strength, 2000f, 50f..30000f, roundTo = 0)
+            Value::fill.boolean(R.string.fill, true)
         }
     }
 }

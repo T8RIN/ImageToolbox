@@ -45,17 +45,14 @@ internal class DoodleFilter(
         override val info =
             FilterInfo(R.string.gmic_filter_doodle, R.string.filter_help_gmic_filter_doodle)
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.gmic_param_precision, 30, 0f..100f),
-                    gmicNumber(R.string.gmic_param_smoothness, 2, 0f..10f),
-                    gmicNumber(R.string.gmic_param_coherence, 2, 0f..10f),
-                    gmicNumber(R.string.threshold, 1.5f, 0f..10f),
-                    gmicInteger(R.string.spacing, 2, 0f..20f),
-                    gmicNumber(R.string.gmic_param_minimum_stroke_length, 70, 0f..255f)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.gmic_param_precision, 30, 0f..100f),
+                gmicNumber(R.string.gmic_param_smoothness, 2, 0f..10f),
+                gmicNumber(R.string.gmic_param_coherence, 2, 0f..10f),
+                gmicNumber(R.string.threshold, 1.5f, 0f..10f),
+                gmicInteger(R.string.spacing, 2, 0f..20f),
+                gmicNumber(R.string.gmic_param_minimum_stroke_length, 70, 0f..255f)
             )
         }
     }

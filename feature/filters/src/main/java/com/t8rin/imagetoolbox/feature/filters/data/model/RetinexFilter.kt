@@ -49,24 +49,21 @@ internal class RetinexFilter(
         override val info =
             FilterInfo(R.string.gmic_filter_retinex, R.string.filter_help_gmic_filter_retinex)
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.strength, 75, 0f..100f),
-                    gmicNumber(R.string.offset, 16, 1f..256f),
-                    gmicSelection(
-                        R.string.tag_color_space,
-                        "Hsv",
-                        listOf("Hsi", "Hsv", "Lab", "LinearRgb", "Rgb", "YCbCr")
-                    ),
-                    gmicNumber(R.string.gmic_param_min_cut, 1, 0f..100f),
-                    gmicNumber(R.string.gmic_param_max_cut, 1, 0f..100f),
-                    gmicNumber(R.string.gmic_param_regularization, 5, 0f..32f),
-                    gmicNumber(R.string.gmic_param_low_scale, 15, 1f..512f),
-                    gmicNumber(R.string.gmic_param_middle_scale, 80, 1f..512f),
-                    gmicNumber(R.string.gmic_param_high_scale, 250, 1f..512f)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.strength, 75, 0f..100f),
+                gmicNumber(R.string.offset, 16, 1f..256f),
+                gmicSelection(
+                    R.string.tag_color_space,
+                    "Hsv",
+                    listOf("Hsi", "Hsv", "Lab", "LinearRgb", "Rgb", "YCbCr")
+                ),
+                gmicNumber(R.string.gmic_param_min_cut, 1, 0f..100f),
+                gmicNumber(R.string.gmic_param_max_cut, 1, 0f..100f),
+                gmicNumber(R.string.gmic_param_regularization, 5, 0f..32f),
+                gmicNumber(R.string.gmic_param_low_scale, 15, 1f..512f),
+                gmicNumber(R.string.gmic_param_middle_scale, 80, 1f..512f),
+                gmicNumber(R.string.gmic_param_high_scale, 250, 1f..512f)
             )
         }
     }

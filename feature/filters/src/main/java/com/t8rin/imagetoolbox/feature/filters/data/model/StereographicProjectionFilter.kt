@@ -54,32 +54,29 @@ internal class StereographicProjectionFilter(
             R.string.filter_help_gmic_filter_stereographic_projection
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicSelection(
-                        R.string.gmic_param_transform,
-                        "Direct",
-                        listOf("Direct", "Inverse")
-                    ),
-                    gmicNumber(R.string.center_x, 50, 0f..100f),
-                    gmicNumber(R.string.center_y, 50, 0f..100f),
-                    gmicNumber(R.string.gmic_param_radius_point_x, 50, 0f..100f),
-                    gmicNumber(R.string.gmic_param_radius_point_y, 75, 0f..100f),
-                    gmicNumber(R.string.gmic_param_horizon_leveling, 0, -10f..10f),
-                    gmicNumber(R.string.gmic_param_side_blur, 0, 0f..20f),
-                    gmicNumber(R.string.dilation, 0, -2f..2f),
-                    gmicSelection(
-                        R.string.tile_mode_mirror,
-                        "None",
-                        listOf("None", "XAxis", "YAxis", "BothAxes")
-                    ),
-                    gmicSelection(
-                        R.string.gmic_param_boundary,
-                        "Transparent",
-                        listOf("Transparent", "Nearest", "Periodic", "Mirror")
-                    )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicSelection(
+                    R.string.gmic_param_transform,
+                    "Direct",
+                    listOf("Direct", "Inverse")
+                ),
+                gmicNumber(R.string.center_x, 50, 0f..100f),
+                gmicNumber(R.string.center_y, 50, 0f..100f),
+                gmicNumber(R.string.gmic_param_radius_point_x, 50, 0f..100f),
+                gmicNumber(R.string.gmic_param_radius_point_y, 75, 0f..100f),
+                gmicNumber(R.string.gmic_param_horizon_leveling, 0, -10f..10f),
+                gmicNumber(R.string.gmic_param_side_blur, 0, 0f..20f),
+                gmicNumber(R.string.dilation, 0, -2f..2f),
+                gmicSelection(
+                    R.string.tile_mode_mirror,
+                    "None",
+                    listOf("None", "XAxis", "YAxis", "BothAxes")
+                ),
+                gmicSelection(
+                    R.string.gmic_param_boundary,
+                    "Transparent",
+                    listOf("Transparent", "Nearest", "Periodic", "Mirror")
                 )
             )
         }

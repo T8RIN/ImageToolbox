@@ -47,17 +47,14 @@ internal class RoundedFrameFilter(
             R.string.filter_help_gmic_filter_rounded_frame
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.gmic_param_x_size, 10, 0f..100f),
-                    gmicNumber(R.string.gmic_param_y_size, 10, 0f..100f),
-                    gmicNumber(R.string.radius, 20, 0f..100f),
-                    gmicNumber(R.string.gmic_param_smoothness, 0.1f, 0f..15f),
-                    gmicColor(R.string.color, -16777216),
-                    gmicToggle(R.string.antialias, true)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.gmic_param_x_size, 10, 0f..100f),
+                gmicNumber(R.string.gmic_param_y_size, 10, 0f..100f),
+                gmicNumber(R.string.radius, 20, 0f..100f),
+                gmicNumber(R.string.gmic_param_smoothness, 0.1f, 0f..15f),
+                gmicColor(R.string.color, -16777216),
+                gmicToggle(R.string.antialias, true)
             )
         }
     }

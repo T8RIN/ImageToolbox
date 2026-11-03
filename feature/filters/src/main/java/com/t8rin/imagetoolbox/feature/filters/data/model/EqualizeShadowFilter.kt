@@ -42,12 +42,9 @@ internal class EqualizeShadowFilter(
             R.string.filter_help_gmic_filter_equalize_shadow
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.amplitude, 0.8f, 0f..1f)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.amplitude, 0.8f, 0f..1f)
             )
         }
     }

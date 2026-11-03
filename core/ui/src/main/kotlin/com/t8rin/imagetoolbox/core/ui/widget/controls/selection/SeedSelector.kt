@@ -17,7 +17,6 @@
 
 package com.t8rin.imagetoolbox.core.ui.widget.controls.selection
 
-import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -158,14 +157,6 @@ fun SeedSelector(
 @InstallIn(SingletonComponent::class)
 internal interface SeedSelectorEntryPoint {
     val fileControllerEventEmitter: FileControllerEventEmitter
-}
-
-@Composable
-fun isSeedString(@StringRes title: Int?): Boolean {
-    val value = stringResource(title ?: return false)
-    val seed = stringResource(R.string.seed)
-
-    return value == seed
 }
 
 internal fun Random.seed(

@@ -47,8 +47,8 @@ internal class YililomaDitheringFilter(
         override val info =
             FilterInfo(R.string.yililoma_dithering, R.string.filter_help_yililoma_dithering)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::grayscale, booleanParam(R.string.gray_scale, false))
+        override val parameters = structuredParameters {
+            Value::grayscale.boolean(R.string.gray_scale, false)
         }
     }
 }

@@ -51,14 +51,14 @@ internal class DirectionalEmbroideryFilter(
         override val info =
             FilterInfo(R.string.directional_embroidery, R.string.filter_help_directional_embroidery)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::stitchLength, floatParam(R.string.stitch_length, 9f, 3f..45f, roundTo = 1))
-            field(Value::density, floatParam(R.string.density, 0.8f, 0.1f..1f))
-            field(Value::thickness, floatParam(R.string.texture_thickness, 0.29f, 0.08f..0.55f))
-            field(Value::relief, floatParam(R.string.relief_strength, 0.62f, 0f..1f))
-            field(Value::colorLevels, intParam(R.string.color_levels, 9, 2..16))
-            field(Value::seed, intParam(R.string.seed, 0, 0..10000))
-            field(Value::strength, floatParam(R.string.strength, 1f, 0f..1f))
+        override val parameters = structuredParameters {
+            Value::stitchLength.float(R.string.stitch_length, 9f, 3f..45f, roundTo = 1)
+            Value::density.float(R.string.density, 0.8f, 0.1f..1f)
+            Value::thickness.float(R.string.texture_thickness, 0.29f, 0.08f..0.55f)
+            Value::relief.float(R.string.relief_strength, 0.62f, 0f..1f)
+            Value::colorLevels.int(R.string.color_levels, 9, 2..16)
+            Value::seed.seed(R.string.seed, 0, 0..10000)
+            Value::strength.float(R.string.strength, 1f, 0f..1f)
         }
     }
 }

@@ -52,22 +52,19 @@ internal class PolaroidFrameFilter(
             R.string.filter_help_gmic_filter_polaroid_frame
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicInteger(R.string.gmic_param_frame_size, 10, 0f..400f),
-                    gmicInteger(R.string.gmic_param_bottom_size, 20, 0f..400f),
-                    gmicNumber(R.string.gmic_param_x_shadow, 2, -20f..20f),
-                    gmicNumber(R.string.gmic_param_y_shadow, 3, -20f..20f),
-                    gmicNumber(R.string.gmic_param_smoothness, 3, 0f..5f),
-                    gmicNumber(R.string.gmic_param_x_curvature, 0, 0f..1f),
-                    gmicNumber(R.string.gmic_param_y_curvature, 0, 0f..1f),
-                    gmicNumber(R.string.angle, 8, -180f..180f),
-                    gmicNumber(R.string.gmic_param_vignette_strength, 50, 0f..255f),
-                    gmicNumber(R.string.gmic_param_vignette_min_radius, 70, 0f..100f),
-                    gmicNumber(R.string.gmic_param_vignette_max_radius, 95, 0f..100f)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicInteger(R.string.gmic_param_frame_size, 10, 0f..400f),
+                gmicInteger(R.string.gmic_param_bottom_size, 20, 0f..400f),
+                gmicNumber(R.string.gmic_param_x_shadow, 2, -20f..20f),
+                gmicNumber(R.string.gmic_param_y_shadow, 3, -20f..20f),
+                gmicNumber(R.string.gmic_param_smoothness, 3, 0f..5f),
+                gmicNumber(R.string.gmic_param_x_curvature, 0, 0f..1f),
+                gmicNumber(R.string.gmic_param_y_curvature, 0, 0f..1f),
+                gmicNumber(R.string.angle, 8, -180f..180f),
+                gmicNumber(R.string.gmic_param_vignette_strength, 50, 0f..255f),
+                gmicNumber(R.string.gmic_param_vignette_min_radius, 70, 0f..100f),
+                gmicNumber(R.string.gmic_param_vignette_max_radius, 95, 0f..100f)
             )
         }
     }

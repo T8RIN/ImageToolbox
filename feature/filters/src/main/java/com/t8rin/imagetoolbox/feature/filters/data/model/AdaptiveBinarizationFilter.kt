@@ -52,28 +52,24 @@ internal class AdaptiveBinarizationFilter(
         override val info =
             FilterInfo(R.string.adaptive_binarization, R.string.filter_help_adaptive_binarization)
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::algorithm,
-                choiceParam(
-                    R.string.algorithm, 0,
-                    R.string.sauvola,
-                    R.string.niblack,
-                    R.string.wolf,
-                    R.string.nick
-                )
+        override val parameters = structuredParameters {
+            Value::algorithm.choice(
+                R.string.algorithm, 0,
+                R.string.sauvola,
+                R.string.niblack,
+                R.string.wolf,
+                R.string.nick
             )
-            field(Value::radius, floatParam(R.string.radius, 20f, 1f..80f, roundTo = 1))
-            field(Value::coefficient, floatParam(R.string.threshold_coefficient, 0.22f, -1f..1f))
-            field(Value::dynamicRange, floatParam(R.string.dynamic_range, 0.5f, 0.02f..1f))
-            field(Value::ink, colorParam(R.string.ink_color, ColorModel(0xFF151515.toInt())))
-            field(
-                Value::paper,
-                colorParam(R.string.texture_paper_color, ColorModel(0xFFFFFFFF.toInt()))
-            )
-            field(
-                Value::invert,
-                toggleParam(R.string.gmic_param_invert, false, R.string.normal, R.string.inverted)
+            Value::radius.float(R.string.radius, 20f, 1f..80f, roundTo = 1)
+            Value::coefficient.float(R.string.threshold_coefficient, 0.22f, -1f..1f)
+            Value::dynamicRange.float(R.string.dynamic_range, 0.5f, 0.02f..1f)
+            Value::ink.color(R.string.ink_color, ColorModel(0xFF151515.toInt()))
+            Value::paper.color(R.string.texture_paper_color, ColorModel(0xFFFFFFFF.toInt()))
+            Value::invert.toggle(
+                R.string.gmic_param_invert,
+                false,
+                R.string.normal,
+                R.string.inverted
             )
         }
     }

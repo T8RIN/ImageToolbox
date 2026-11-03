@@ -50,13 +50,13 @@ internal class LayeredPaperCutFilter(
         override val info =
             FilterInfo(R.string.layered_paper_cut, R.string.filter_help_layered_paper_cut)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::layers, intParam(R.string.texture_layers, 6, 2..12))
-            field(Value::smoothness, floatParam(R.string.smoothness, 3f, 0.2f..12f, roundTo = 1))
-            field(Value::depth, floatParam(R.string.texture_depth, 5f, 1f..22f, roundTo = 1))
-            field(Value::lightAngle, floatParam(R.string.light_angle, 45f, 0f..360f, roundTo = 1))
-            field(Value::grain, floatParam(R.string.grain, 0.3f, 0f..1f))
-            field(Value::strength, floatParam(R.string.strength, 1f, 0f..1f))
+        override val parameters = structuredParameters {
+            Value::layers.int(R.string.texture_layers, 6, 2..12)
+            Value::smoothness.float(R.string.smoothness, 3f, 0.2f..12f, roundTo = 1)
+            Value::depth.float(R.string.texture_depth, 5f, 1f..22f, roundTo = 1)
+            Value::lightAngle.float(R.string.light_angle, 45f, 0f..360f, roundTo = 1)
+            Value::grain.float(R.string.grain, 0.3f, 0f..1f)
+            Value::strength.float(R.string.strength, 1f, 0f..1f)
         }
     }
 }

@@ -50,20 +50,17 @@ internal class WaterReflectionFilter(
             R.string.filter_help_gmic_filter_water_reflection
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.gmic_param_height, 50, 0f..100f),
-                    gmicNumber(R.string.gmic_param_attenuation, 1, 0.1f..4f),
-                    gmicColor(R.string.color, 1080991934),
-                    gmicNumber(R.string.amplitude, 0, 0f..100f),
-                    gmicNumber(R.string.softness, 1.5f, 0f..4f),
-                    gmicNumber(R.string.x_angle, 0, -10f..10f),
-                    gmicNumber(R.string.y_angle, -3.3f, -10f..10f),
-                    gmicNumber(R.string.tag_focal_length, 7, 0f..10f),
-                    gmicNumber(R.string.zoom, 1.5f, 1f..5f)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.gmic_param_height, 50, 0f..100f),
+                gmicNumber(R.string.gmic_param_attenuation, 1, 0.1f..4f),
+                gmicColor(R.string.color, 1080991934),
+                gmicNumber(R.string.amplitude, 0, 0f..100f),
+                gmicNumber(R.string.softness, 1.5f, 0f..4f),
+                gmicNumber(R.string.x_angle, 0, -10f..10f),
+                gmicNumber(R.string.y_angle, -3.3f, -10f..10f),
+                gmicNumber(R.string.tag_focal_length, 7, 0f..10f),
+                gmicNumber(R.string.zoom, 1.5f, 1f..5f)
             )
         }
     }

@@ -43,13 +43,10 @@ internal class ColorTemperatureFilter(
             R.string.filter_help_gmic_filter_color_temperature
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.gmic_param_color_temperature, 8, -20f..20f),
-                    gmicToggle(R.string.gmic_param_automatic_color_balance, false)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.gmic_param_color_temperature, 8, -20f..20f),
+                gmicToggle(R.string.gmic_param_automatic_color_balance, false)
             )
         }
     }

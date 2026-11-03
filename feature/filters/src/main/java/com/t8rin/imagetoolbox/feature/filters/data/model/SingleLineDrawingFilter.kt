@@ -53,18 +53,15 @@ internal class SingleLineDrawingFilter(
         override val info =
             FilterInfo(R.string.single_line_drawing, R.string.filter_help_single_line_drawing)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::pointCount, intParam(R.string.point_count, 1500, 60..3500))
-            field(Value::densityCurve, floatParam(R.string.density_curve, 1.5f, 0.35f..4f))
-            field(Value::lineWidth, floatParam(R.string.line_width, 1.1f, 0.4f..5f, roundTo = 1))
-            field(Value::ink, colorParam(R.string.ink_color, ColorModel(0xFF282229.toInt())))
-            field(
-                Value::paper,
-                colorParam(R.string.texture_paper_color, ColorModel(0xFFFAF5E7.toInt()))
-            )
-            field(Value::optimization, intParam(R.string.optimization, 2, 0..4))
-            field(Value::seed, intParam(R.string.seed, 0, 0..10000))
-            field(Value::strength, floatParam(R.string.strength, 1f, 0f..1f))
+        override val parameters = structuredParameters {
+            Value::pointCount.int(R.string.point_count, 1500, 60..3500)
+            Value::densityCurve.float(R.string.density_curve, 1.5f, 0.35f..4f)
+            Value::lineWidth.float(R.string.line_width, 1.1f, 0.4f..5f, roundTo = 1)
+            Value::ink.color(R.string.ink_color, ColorModel(0xFF282229.toInt()))
+            Value::paper.color(R.string.texture_paper_color, ColorModel(0xFFFAF5E7.toInt()))
+            Value::optimization.int(R.string.optimization, 2, 0..4)
+            Value::seed.seed(R.string.seed, 0, 0..10000)
+            Value::strength.float(R.string.strength, 1f, 0f..1f)
         }
     }
 }

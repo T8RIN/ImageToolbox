@@ -29,6 +29,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.enums.PolarCoordinatesTy
 import com.t8rin.imagetoolbox.core.filters.domain.model.enums.PopArtBlendingMode
 import com.t8rin.imagetoolbox.core.filters.domain.model.enums.TransferFunc
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
+import com.t8rin.imagetoolbox.feature.filters.data.model.toFiniteFloat
 import kotlin.io.encoding.Base64
 
 internal fun Pair<String, String>.fromPair(): Any? {
@@ -37,9 +38,9 @@ internal fun Pair<String, String>.fromPair(): Any? {
 
     return when {
         name == Int::class.simpleName -> value.toInt()
-        name == Float::class.simpleName -> value.toFloat()
+        name == Float::class.simpleName -> value.toFiniteFloat()
         name == String::class.simpleName -> Base64.decode(value).toString(Charsets.UTF_8)
-        name == Boolean::class.simpleName -> value.toBoolean()
+        name == Boolean::class.simpleName -> value.toBooleanStrict()
         name == Unit::class.simpleName -> Unit
         name == PolarCoordinatesType::class.simpleName -> PolarCoordinatesType.valueOf(value)
         name == GradientPalette::class.simpleName -> requireNotNull(
@@ -48,7 +49,7 @@ internal fun Pair<String, String>.fromPair(): Any? {
             )
         )
         name == FloatArray::class.simpleName -> value.split(PROPERTIES_SEPARATOR)
-            .map { it.toFloat() }
+            .map { it.toFiniteFloat() }
             .toFloatArray()
 
         name == GmicFilterParams::class.simpleName -> GmicFilterParams(
@@ -60,15 +61,14 @@ internal fun Pair<String, String>.fromPair(): Any? {
         name == "FilterValueWrapper{ColorModel}" -> ColorModel(value.toInt())
 
         "${Pair::class.simpleName}{" in name -> {
-            val (firstType, secondType) = name.getTypeFromBraces().split(PROPERTIES_SEPARATOR)
-            val (firstPart, secondPart) = value.split(PROPERTIES_SEPARATOR)
+            val (firstType, secondType) = name.getTypeFromBraces().parts(2)
+            val (firstPart, secondPart) = value.parts(2)
             firstPart.fromPart(firstType) to secondPart.fromPart(secondType)
         }
 
         "${Triple::class.simpleName}{" in name -> {
-            val (firstType, secondType, thirdType) = name.getTypeFromBraces()
-                .split(PROPERTIES_SEPARATOR)
-            val (firstPart, secondPart, thirdPart) = value.split(PROPERTIES_SEPARATOR)
+            val (firstType, secondType, thirdType) = name.getTypeFromBraces().parts(3)
+            val (firstPart, secondPart, thirdPart) = value.parts(3)
             Triple(
                 firstPart.fromPart(firstType),
                 secondPart.fromPart(secondType),
@@ -77,9 +77,8 @@ internal fun Pair<String, String>.fromPair(): Any? {
         }
 
         "${Quad::class.simpleName}{" in name -> {
-            val (firstType, secondType, thirdType, fourthType) = name.getTypeFromBraces()
-                .split(PROPERTIES_SEPARATOR)
-            val (firstPart, secondPart, thirdPart, fourthPart) = value.split(PROPERTIES_SEPARATOR)
+            val (firstType, secondType, thirdType, fourthType) = name.getTypeFromBraces().parts(4)
+            val (firstPart, secondPart, thirdPart, fourthPart) = value.parts(4)
             Quad(
                 firstPart.fromPart(firstType),
                 secondPart.fromPart(secondType),
@@ -89,7 +88,7 @@ internal fun Pair<String, String>.fromPair(): Any? {
         }
 
         name == IntegerSize::class.simpleName -> {
-            val (width, height) = value.split(PROPERTIES_SEPARATOR)
+            val (width, height) = value.parts(2)
 
             IntegerSize(
                 width = width.toInt(),
@@ -106,9 +105,9 @@ internal fun String.getTypeFromBraces(): String = removeSuffix("}").split("{")[1
 internal fun String.fromPart(type: String): Any {
     return when (type) {
         Int::class.simpleName() -> toInt()
-        Float::class.simpleName() -> toFloat()
+        Float::class.simpleName() -> toFiniteFloat()
         ColorModel::class.simpleName() -> ColorModel(toInt())
-        Boolean::class.simpleName() -> toBoolean()
+        Boolean::class.simpleName() -> toBooleanStrict()
         BlurEdgeMode::class.simpleName() -> BlurEdgeMode.valueOf(this)
         TransferFunc::class.simpleName() -> TransferFunc.valueOf(this)
         FadeSide::class.simpleName() -> FadeSide.valueOf(this)
@@ -120,6 +119,10 @@ internal fun String.fromPart(type: String): Any {
 }
 
 private const val PROPERTIES_SEPARATOR = "$"
+
+private fun String.parts(count: Int): List<String> = split(PROPERTIES_SEPARATOR).also {
+    require(it.size == count) { "Expected $count stored parameters, got ${it.size}" }
+}
 
 internal fun storedParameterValues(value: Any?, count: Int): List<Any?>? {
     val fields = when (value) {

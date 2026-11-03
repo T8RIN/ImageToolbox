@@ -44,8 +44,8 @@ internal class SketchFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.sketch, R.string.filter_help_sketch)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::kernelSize, floatParam(default = 5f, range = 3f..9f, roundTo = 0))
+        override val parameters = structuredParameters {
+            Value::kernelSize.float(default = 5f, range = 3f..9f, roundTo = 0)
         }
     }
 }

@@ -44,16 +44,13 @@ internal class BoostChromaticityFilter(
             R.string.filter_help_gmic_filter_boost_chromaticity
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.amplitude, 75, 0f..100f),
-                    gmicSelection(
-                        R.string.gmic_param_color_space,
-                        "LabMixed",
-                        listOf("YCbCrDistinct", "YCbCrMixed", "LabDistinct", "LabMixed")
-                    )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.amplitude, 75, 0f..100f),
+                gmicSelection(
+                    R.string.gmic_param_color_space,
+                    "LabMixed",
+                    listOf("YCbCrDistinct", "YCbCrMixed", "LabDistinct", "LabMixed")
                 )
             )
         }

@@ -56,32 +56,29 @@ internal class SmoothSkinFilter(
             R.string.filter_help_gmic_filter_smooth_skin
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicSelection(
-                        R.string.gmic_param_skin_estimation,
-                        "Automatic",
-                        listOf("None", "Manual", "Automatic")
-                    ),
-                    gmicNumber(R.string.tolerance, 0.5f, 0f..1f),
-                    gmicNumber(R.string.gmic_param_mask_smoothness, 1, 0f..5f),
-                    gmicNumber(R.string.threshold, 1, 0f..10f),
-                    gmicToggle(R.string.gmic_param_pre_normalize, true),
-                    gmicNumber(R.string.gmic_param_manual_x, 50, 0f..100f),
-                    gmicNumber(R.string.gmic_param_manual_y, 50, 0f..100f),
-                    gmicNumber(R.string.radius, 5, 0f..25f),
-                    gmicNumber(R.string.gmic_param_base_scale, 2, 0f..10f),
-                    gmicNumber(R.string.gmic_param_fine_scale, 0.2f, 0f..0.8f),
-                    gmicNumber(R.string.gmic_param_detail_smoothness, 3, 0f..10f),
-                    gmicSelection(
-                        R.string.gmic_param_smoothness_type,
-                        "Bilateral",
-                        listOf("Gaussian", "Bilateral")
-                    ),
-                    gmicNumber(R.string.gain, 0.05f, 0f..0.5f)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicSelection(
+                    R.string.gmic_param_skin_estimation,
+                    "Automatic",
+                    listOf("None", "Manual", "Automatic")
+                ),
+                gmicNumber(R.string.tolerance, 0.5f, 0f..1f),
+                gmicNumber(R.string.gmic_param_mask_smoothness, 1, 0f..5f),
+                gmicNumber(R.string.threshold, 1, 0f..10f),
+                gmicToggle(R.string.gmic_param_pre_normalize, true),
+                gmicNumber(R.string.gmic_param_manual_x, 50, 0f..100f),
+                gmicNumber(R.string.gmic_param_manual_y, 50, 0f..100f),
+                gmicNumber(R.string.radius, 5, 0f..25f),
+                gmicNumber(R.string.gmic_param_base_scale, 2, 0f..10f),
+                gmicNumber(R.string.gmic_param_fine_scale, 0.2f, 0f..0.8f),
+                gmicNumber(R.string.gmic_param_detail_smoothness, 3, 0f..10f),
+                gmicSelection(
+                    R.string.gmic_param_smoothness_type,
+                    "Bilateral",
+                    listOf("Gaussian", "Bilateral")
+                ),
+                gmicNumber(R.string.gain, 0.05f, 0f..0.5f)
             )
         }
     }

@@ -48,12 +48,11 @@ internal class LinearBoxBlurFilter(
         override val info =
             FilterInfo(R.string.linear_box_blur, R.string.filter_help_linear_box_blur)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::radius, intParam(R.string.radius, 10, 1..300))
-            field(
-                Value::transferFunction,
-                enumParam(R.string.tag_transfer_function, default = { TransferFunc.SRGB })
-            )
+        override val parameters = structuredParameters {
+            Value::radius.int(R.string.radius, 10, 1..300)
+            Value::transferFunction.enum(
+                R.string.tag_transfer_function,
+                label = { it.label }) { TransferFunc.SRGB }
         }
     }
 }

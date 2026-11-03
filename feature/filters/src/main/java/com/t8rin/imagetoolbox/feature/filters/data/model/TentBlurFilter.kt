@@ -46,11 +46,8 @@ internal class TentBlurFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.tent_blur, R.string.filter_help_tent_blur)
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::sigma,
-                floatParam(default = 10f, range = 1f..300f, roundTo = NEAREST_ODD_ROUNDING)
-            )
+        override val parameters = structuredParameters {
+            Value::sigma.float(default = 10f, range = 1f..300f, roundTo = NEAREST_ODD_ROUNDING)
         }
     }
 }

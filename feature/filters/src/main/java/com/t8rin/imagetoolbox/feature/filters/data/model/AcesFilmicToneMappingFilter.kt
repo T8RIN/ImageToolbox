@@ -47,8 +47,8 @@ internal class AcesFilmicToneMappingFilter(
             R.string.filter_help_aces_filmic_tone_mapping
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::exposure, floatParam(default = 1f, range = -4f..4f))
+        override val parameters = structuredParameters {
+            Value::exposure.float(default = 1f, range = -4f..4f)
         }
     }
 }

@@ -41,10 +41,10 @@ internal class RaysFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.rays, R.string.filter_help_rays)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::opacity, floatParam(R.string.opacity, 0.75f, 0f..1f))
-            field(Value::threshold, floatParam(R.string.threshold, 0.25f, 0f..1f))
-            field(Value::strength, floatParam(R.string.strength, 1f, 0f..5f))
+        override val parameters = structuredParameters {
+            Value::opacity.float(R.string.opacity, 0.75f, 0f..1f)
+            Value::threshold.float(R.string.threshold, 0.25f, 0f..1f)
+            Value::strength.float(R.string.strength, 1f, 0f..5f)
         }
     }
 }

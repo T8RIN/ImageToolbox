@@ -49,11 +49,11 @@ internal class SphereLensDistortionFilter(
             R.string.filter_help_sphere_lensh_distortion
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::refractionIndex, floatParam(R.string.refraction_index, 2.5f, 1f..10f))
-            field(Value::radius, floatParam(R.string.radius, 0.5f, 0f..1f))
-            field(Value::centerX, floatParam(R.string.center_x, 0.5f, 0f..1f))
-            field(Value::centerY, floatParam(R.string.center_y, 0.5f, 0f..1f))
+        override val parameters = structuredParameters {
+            Value::refractionIndex.float(R.string.refraction_index, 2.5f, 1f..10f)
+            Value::radius.float(R.string.radius, 0.5f, 0f..1f)
+            Value::centerX.float(R.string.center_x, 0.5f, 0f..1f)
+            Value::centerY.float(R.string.center_y, 0.5f, 0f..1f)
         }
     }
 }

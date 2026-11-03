@@ -52,22 +52,19 @@ internal class ReliefLightFilter(
             R.string.filter_help_gmic_filter_relief_light
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.gmic_param_ambient_lightness, 0.3f, 0f..5f),
-                    gmicNumber(R.string.gmic_param_specular_lightness, 0.2f, 0f..2f),
-                    gmicNumber(R.string.gmic_param_specular_size, 0.2f, 0f..1f),
-                    gmicNumber(R.string.texture_darkness, 0, 0f..1f),
-                    gmicNumber(R.string.gmic_param_light_smoothness, 1, 0f..5f),
-                    gmicNumber(R.string.gmic_param_light_x, 50, 0f..100f),
-                    gmicNumber(R.string.gmic_param_light_y, 50, 0f..100f),
-                    gmicNumber(R.string.gmic_param_light_z, 5, 0f..20f),
-                    gmicNumber(R.string.scale, 0.5f, 0f..3f),
-                    gmicToggle(R.string.gmic_param_opacity_as_heightmap, false),
-                    gmicNumber(R.string.gmic_param_image_smoothness, 0, 0f..10f)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.gmic_param_ambient_lightness, 0.3f, 0f..5f),
+                gmicNumber(R.string.gmic_param_specular_lightness, 0.2f, 0f..2f),
+                gmicNumber(R.string.gmic_param_specular_size, 0.2f, 0f..1f),
+                gmicNumber(R.string.texture_darkness, 0, 0f..1f),
+                gmicNumber(R.string.gmic_param_light_smoothness, 1, 0f..5f),
+                gmicNumber(R.string.gmic_param_light_x, 50, 0f..100f),
+                gmicNumber(R.string.gmic_param_light_y, 50, 0f..100f),
+                gmicNumber(R.string.gmic_param_light_z, 5, 0f..20f),
+                gmicNumber(R.string.scale, 0.5f, 0f..3f),
+                gmicToggle(R.string.gmic_param_opacity_as_heightmap, false),
+                gmicNumber(R.string.gmic_param_image_smoothness, 0, 0f..10f)
             )
         }
     }

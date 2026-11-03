@@ -50,34 +50,31 @@ internal class RowShifterFilter(
             R.string.filter_help_gmic_filter_row_shifter
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicSelection(
-                        R.string.order,
-                        "XThenY",
-                        listOf("XThenY", "Simultaneous", "YThenX")
-                    ),
-                    gmicNumber(R.string.gmic_param_x_shift, 0, -5f..5f),
-                    gmicNumber(R.string.gmic_param_x_centre, 0.5f, 0f..1f),
-                    gmicNumber(R.string.gmic_param_y_shift, 0, -5f..5f),
-                    gmicNumber(R.string.gmic_param_y_centre, 0.5f, 0f..1f),
-                    gmicSelection(
-                        R.string.gmic_param_interpolation,
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicSelection(
+                    R.string.order,
+                    "XThenY",
+                    listOf("XThenY", "Simultaneous", "YThenX")
+                ),
+                gmicNumber(R.string.gmic_param_x_shift, 0, -5f..5f),
+                gmicNumber(R.string.gmic_param_x_centre, 0.5f, 0f..1f),
+                gmicNumber(R.string.gmic_param_y_shift, 0, -5f..5f),
+                gmicNumber(R.string.gmic_param_y_centre, 0.5f, 0f..1f),
+                gmicSelection(
+                    R.string.gmic_param_interpolation,
+                    "Bilinear",
+                    listOf(
+                        "NoneOption",
+                        "Nearest",
+                        "Average",
                         "Bilinear",
-                        listOf(
-                            "NoneOption",
-                            "Nearest",
-                            "Average",
-                            "Bilinear",
-                            "Grid",
-                            "Bicubic",
-                            "Lanczos"
-                        )
-                    ),
-                    gmicToggle(R.string.gmic_param_invert_shifts, false)
-                )
+                        "Grid",
+                        "Bicubic",
+                        "Lanczos"
+                    )
+                ),
+                gmicToggle(R.string.gmic_param_invert_shifts, false)
             )
         }
     }

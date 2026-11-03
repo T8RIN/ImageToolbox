@@ -18,8 +18,7 @@
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import android.graphics.Bitmap
-import androidx.compose.ui.graphics.Color
-import com.t8rin.imagetoolbox.core.data.image.utils.ColorUtils.toModel
+import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.PopArt.Value
@@ -50,13 +49,12 @@ internal class PopArtFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.pop_art, R.string.filter_help_pop_art)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::strength, floatParam(R.string.strength, 1f, 0f..1f))
-            field(Value::color, colorParam(R.string.color, Color.Red.toModel(), allowAlpha = true))
-            field(
-                Value::overlayMode,
-                enumParam(R.string.overlay_mode, default = { PopArtBlendingMode.MULTIPLY })
-            )
+        override val parameters = structuredParameters {
+            Value::strength.float(R.string.strength, 1f, 0f..1f)
+            Value::color.color(R.string.color, ColorModel(0xFFFF0000.toInt()), allowAlpha = true)
+            Value::overlayMode.enum(
+                R.string.overlay_mode,
+                label = { it.label }) { PopArtBlendingMode.MULTIPLY }
         }
     }
 }

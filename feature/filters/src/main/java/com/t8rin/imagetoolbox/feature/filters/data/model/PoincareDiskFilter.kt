@@ -59,31 +59,28 @@ internal class PoincareDiskFilter(
             R.string.filter_help_gmic_filter_poincare_disk
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicInteger(R.string.gmic_param_p_value, 5, 3f..16f),
-                    gmicInteger(R.string.gmic_param_q_value, 6, 3f..32f),
-                    gmicNumber(R.string.just_size, 100, 0f..200f),
-                    gmicInteger(R.string.iterations, 20, 0f..40f),
-                    gmicNumber(R.string.angle, 0, -180f..180f),
-                    gmicSelection(
-                        R.string.gmic_param_tiling,
-                        "Polygonal",
-                        listOf("Triangular", "Polygonal")
-                    ),
-                    gmicToggle(R.string.antialias, true),
-                    gmicSelection(R.string.fill, "Image", listOf("Binary", "Image")),
-                    gmicNumber(R.string.gmic_param_x_shift, 50, 0f..100f),
-                    gmicNumber(R.string.gmic_param_y_shift, 50, 0f..100f),
-                    gmicNumber(R.string.zoom, 0, -10f..10f),
-                    gmicNumber(R.string.gmic_param_image_angle, 0, -180f..180f),
-                    gmicInteger(R.string.gmic_param_outline, 2, 0f..8f),
-                    gmicColor(R.string.outline_color, -16777216),
-                    gmicColor(R.string.first_color, -16777216),
-                    gmicColor(R.string.second_color, -1)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicInteger(R.string.gmic_param_p_value, 5, 3f..16f),
+                gmicInteger(R.string.gmic_param_q_value, 6, 3f..32f),
+                gmicNumber(R.string.just_size, 100, 0f..200f),
+                gmicInteger(R.string.iterations, 20, 0f..40f),
+                gmicNumber(R.string.angle, 0, -180f..180f),
+                gmicSelection(
+                    R.string.gmic_param_tiling,
+                    "Polygonal",
+                    listOf("Triangular", "Polygonal")
+                ),
+                gmicToggle(R.string.antialias, true),
+                gmicSelection(R.string.fill, "Image", listOf("Binary", "Image")),
+                gmicNumber(R.string.gmic_param_x_shift, 50, 0f..100f),
+                gmicNumber(R.string.gmic_param_y_shift, 50, 0f..100f),
+                gmicNumber(R.string.zoom, 0, -10f..10f),
+                gmicNumber(R.string.gmic_param_image_angle, 0, -180f..180f),
+                gmicInteger(R.string.gmic_param_outline, 2, 0f..8f),
+                gmicColor(R.string.outline_color, -16777216),
+                gmicColor(R.string.first_color, -16777216),
+                gmicColor(R.string.second_color, -1)
             )
         }
     }

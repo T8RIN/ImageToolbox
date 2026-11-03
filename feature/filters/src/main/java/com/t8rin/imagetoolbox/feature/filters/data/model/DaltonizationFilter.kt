@@ -48,20 +48,17 @@ internal class DaltonizationFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.daltonization, R.string.filter_help_daltonization)
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::visionType,
-                choiceParam(
-                    R.string.vision_type, 1,
-                    R.string.protan,
-                    R.string.deutan,
-                    R.string.tritan
-                )
+        override val parameters = structuredParameters {
+            Value::visionType.choice(
+                R.string.vision_type, 1,
+                R.string.protan,
+                R.string.deutan,
+                R.string.tritan
             )
-            field(Value::severity, floatParam(R.string.severity, 1f, 0f..1f))
-            field(Value::correction, floatParam(R.string.correction, 0.8f, 0f..1.5f))
-            field(Value::preserveLuminance, floatParam(R.string.preserve_luminance, 0.8f, 0f..1f))
-            field(Value::strength, floatParam(R.string.strength, 1f, 0f..1f))
+            Value::severity.float(R.string.severity, 1f, 0f..1f)
+            Value::correction.float(R.string.correction, 0.8f, 0f..1.5f)
+            Value::preserveLuminance.float(R.string.preserve_luminance, 0.8f, 0f..1f)
+            Value::strength.float(R.string.strength, 1f, 0f..1f)
         }
     }
 }

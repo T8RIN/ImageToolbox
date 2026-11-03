@@ -59,47 +59,44 @@ internal class BrushifyFilter(
         override val info =
             FilterInfo(R.string.gmic_filter_brushify, R.string.filter_help_gmic_filter_brushify)
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicSelection(
-                        R.string.shape,
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicSelection(
+                    R.string.shape,
+                    "Ellipse",
+                    listOf(
+                        "Rectangle",
+                        "Diamond",
+                        "Pentagon",
+                        "Hexagon",
+                        "Octagon",
                         "Ellipse",
-                        listOf(
-                            "Rectangle",
-                            "Diamond",
-                            "Pentagon",
-                            "Hexagon",
-                            "Octagon",
-                            "Ellipse",
-                            "Gaussian",
-                            "Star",
-                            "Heart"
-                        )
-                    ),
-                    gmicNumber(R.string.gmic_param_ratio, 0.25f, 0f..1f),
-                    gmicInteger(R.string.gmic_param_number_of_sizes, 4, 1f..16f),
-                    gmicInteger(R.string.gmic_param_maximal_size, 64, 1f..128f),
-                    gmicNumber(R.string.gmic_param_minimal_size, 25, 0f..100f),
-                    gmicInteger(R.string.orientation, 12, 1f..24f),
-                    gmicNumber(R.string.fuzziness, 0, 0f..10f),
-                    gmicNumber(R.string.gmic_param_smoothness, 2, 0f..10f),
-                    gmicSelection(
-                        R.string.light,
-                        "Full",
-                        listOf("None", "Flat", "Darken", "Lighten", "Full")
-                    ),
-                    gmicNumber(R.string.strength, 0.2f, 0f..1f),
-                    gmicNumber(R.string.opacity, 0.5f, 0f..1f),
-                    gmicNumber(R.string.density, 30, 0f..100f),
-                    gmicNumber(R.string.gmic_param_contour_coherence, 1, 0f..1f),
-                    gmicNumber(R.string.gmic_param_orientation_coherence, 1, 0f..1f),
-                    gmicNumber(R.string.gmic_param_gradient_smoothness, 1, 0f..10f),
-                    gmicNumber(R.string.gmic_param_structure_smoothness, 5, 0f..10f),
-                    gmicNumber(R.string.gmic_param_primary_angle, 0, -180f..180f),
-                    gmicNumber(R.string.dispersion, 0.2f, 0f..1f)
-                )
+                        "Gaussian",
+                        "Star",
+                        "Heart"
+                    )
+                ),
+                gmicNumber(R.string.gmic_param_ratio, 0.25f, 0f..1f),
+                gmicInteger(R.string.gmic_param_number_of_sizes, 4, 1f..16f),
+                gmicInteger(R.string.gmic_param_maximal_size, 64, 1f..128f),
+                gmicNumber(R.string.gmic_param_minimal_size, 25, 0f..100f),
+                gmicInteger(R.string.orientation, 12, 1f..24f),
+                gmicNumber(R.string.fuzziness, 0, 0f..10f),
+                gmicNumber(R.string.gmic_param_smoothness, 2, 0f..10f),
+                gmicSelection(
+                    R.string.light,
+                    "Full",
+                    listOf("None", "Flat", "Darken", "Lighten", "Full")
+                ),
+                gmicNumber(R.string.strength, 0.2f, 0f..1f),
+                gmicNumber(R.string.opacity, 0.5f, 0f..1f),
+                gmicNumber(R.string.density, 30, 0f..100f),
+                gmicNumber(R.string.gmic_param_contour_coherence, 1, 0f..1f),
+                gmicNumber(R.string.gmic_param_orientation_coherence, 1, 0f..1f),
+                gmicNumber(R.string.gmic_param_gradient_smoothness, 1, 0f..10f),
+                gmicNumber(R.string.gmic_param_structure_smoothness, 5, 0f..10f),
+                gmicNumber(R.string.gmic_param_primary_angle, 0, -180f..180f),
+                gmicNumber(R.string.dispersion, 0.2f, 0f..1f)
             )
         }
     }

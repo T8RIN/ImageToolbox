@@ -46,10 +46,10 @@ internal class GrayscaleFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.gray_scale, R.string.filter_help_gray_scale)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::colorRed, floatParam(R.string.color_red, 0.299f, 0f..1f))
-            field(Value::colorGreen, floatParam(R.string.color_green, 0.587f, 0f..1f))
-            field(Value::colorBlue, floatParam(R.string.color_blue, 0.114f, 0f..1f))
+        override val parameters = structuredParameters {
+            Value::colorRed.float(R.string.color_red, 0.299f, 0f..1f)
+            Value::colorGreen.float(R.string.color_green, 0.587f, 0f..1f)
+            Value::colorBlue.float(R.string.color_blue, 0.114f, 0f..1f)
         }
     }
 }

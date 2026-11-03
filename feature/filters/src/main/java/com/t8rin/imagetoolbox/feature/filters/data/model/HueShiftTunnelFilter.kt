@@ -35,17 +35,14 @@ internal class HueShiftTunnelFilter(
         override val info =
             FilterInfo(R.string.hue_shift_tunnel, R.string.filter_help_hue_shift_tunnel)
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::intensity,
-                floatParam(R.string.texture_intensity, 2f, -10f..10f, roundTo = 3)
-            )
-            field(Value::saturation, floatParam(R.string.saturation, 1f, 0f..2f, roundTo = 3))
-            field(Value::hueOffset, floatParam(R.string.hue, 0f, -1f..1f, roundTo = 3))
-            field(Value::offsetX, floatParam(R.string.offset_x, 0f, -1f..1f, roundTo = 3))
-            field(Value::offsetY, floatParam(R.string.offset_y, 0f, -1f..1f, roundTo = 3))
-            field(Value::scale, floatParam(R.string.scale, 1f, 0.05f..8f, roundTo = 3))
-            field(Value::rotation, floatParam(R.string.rotation, 0f, -180f..180f, roundTo = 3))
+        override val parameters = structuredParameters {
+            Value::intensity.float(R.string.texture_intensity, 2f, -10f..10f, roundTo = 3)
+            Value::saturation.float(R.string.saturation, 1f, 0f..2f, roundTo = 3)
+            Value::hueOffset.float(R.string.hue, 0f, -1f..1f, roundTo = 3)
+            Value::offsetX.float(R.string.offset_x, 0f, -1f..1f, roundTo = 3)
+            Value::offsetY.float(R.string.offset_y, 0f, -1f..1f, roundTo = 3)
+            Value::scale.float(R.string.scale, 1f, 0.05f..8f, roundTo = 3)
+            Value::rotation.float(R.string.rotation, 0f, -180f..180f, roundTo = 3)
         }
 
         private val SHADER = """

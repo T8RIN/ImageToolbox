@@ -46,10 +46,10 @@ internal class MobiusFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.mobius, R.string.filter_help_mobius)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::exposure, floatParam(R.string.exposure, 1f, 0f..2f))
-            field(Value::transition, floatParam(R.string.transition, 0.9f, -2f..2f))
-            field(Value::peak, floatParam(R.string.peak, 1f, -2f..2f))
+        override val parameters = structuredParameters {
+            Value::exposure.float(R.string.exposure, 1f, 0f..2f)
+            Value::transition.float(R.string.transition, 0.9f, -2f..2f)
+            Value::peak.float(R.string.peak, 1f, -2f..2f)
         }
     }
 }

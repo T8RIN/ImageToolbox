@@ -45,9 +45,9 @@ internal class SaturationFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.saturation, R.string.filter_help_saturation)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::strength, floatParam(R.string.strength, 2f, 0f..2f))
-            field(Value::enableTonemapping, booleanParam(R.string.enable_tonemapping, true))
+        override val parameters = structuredParameters {
+            Value::strength.float(R.string.strength, 2f, 0f..2f)
+            Value::enableTonemapping.boolean(R.string.enable_tonemapping, true)
         }
     }
 }

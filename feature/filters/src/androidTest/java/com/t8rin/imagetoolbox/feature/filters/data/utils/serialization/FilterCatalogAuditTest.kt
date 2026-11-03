@@ -25,13 +25,13 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.presentation.model.GmicUiFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.model.toUiFilter
 import com.t8rin.imagetoolbox.feature.filters.data.AndroidFilterProvider
 import com.t8rin.imagetoolbox.core.resources.R
 import kotlinx.coroutines.runBlocking
 import org.json.JSONObject
+import org.json.JSONTokener
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -58,12 +58,16 @@ class FilterCatalogAuditTest {
         assertEquals(592, groups.count { it.second.canUseTemplate })
         assertEquals(groups.size, groups.map { it.second.serializationKey }.toSet().size)
         val cacheKeys = mutableSetOf<String>()
-        val legacy =
-            instrumentation.context.assets.open("filter-values-before.jsonl").bufferedReader()
-                .useLines { lines ->
-                    lines.map { JSONObject(it) }
-                        .associateBy { it.getString("transformTemplate").substringBefore(':') }
-                }
+        val legacy = instrumentation.context.assets.open("filter-values-before.jsonl")
+            .bufferedReader().use { reader ->
+                val tokens = JSONTokener(reader.readText())
+                buildList {
+                    while (tokens.nextClean() != '\u0000') {
+                        tokens.back()
+                        add(tokens.nextValue() as JSONObject)
+                    }
+                }.associateBy { it.getString("transformTemplate").substringBefore(':') }
+            }
         val snapshot = File(context.cacheDir, "filters-$phase.jsonl")
         java.io.FileOutputStream(snapshot, start > 0).bufferedWriter().use { writer ->
             groups.subList(start, stop).forEachIndexed { localIndex, (group, ui) ->
@@ -88,7 +92,6 @@ class FilterCatalogAuditTest {
                         "${param.title?.let(context::getString)} ${param.valueRange} ${param.roundTo} " +
                                 param.options.map(context::getString)
                     })
-                    .put("gmic", (ui as? GmicUiFilter)?.gmicParamsInfo?.toString())
                     .put(
                         "newInstance",
                         listOf(ui.newInstance()).toDatastoreString(includeValue = true)

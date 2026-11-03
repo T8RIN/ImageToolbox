@@ -50,58 +50,55 @@ internal class ConstrainedSharpenFilter(
             R.string.filter_help_gmic_filter_constrained_sharpen
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.gmic_param_sharpen_radius, 0.75f, 0f..10f),
-                    gmicNumber(R.string.amount, 2.5f, 0f..10f),
-                    gmicNumber(R.string.threshold, 1, 0f..50f),
-                    gmicInteger(R.string.gmic_param_constraint_radius, 5, 0f..10f),
-                    gmicNumber(R.string.gmic_param_overshoot, 0, 0f..50f),
-                    gmicSelection(
-                        R.string.gmic_param_channel,
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.gmic_param_sharpen_radius, 0.75f, 0f..10f),
+                gmicNumber(R.string.amount, 2.5f, 0f..10f),
+                gmicNumber(R.string.threshold, 1, 0f..50f),
+                gmicInteger(R.string.gmic_param_constraint_radius, 5, 0f..10f),
+                gmicNumber(R.string.gmic_param_overshoot, 0, 0f..50f),
+                gmicSelection(
+                    R.string.gmic_param_channel,
+                    "Luminance",
+                    listOf(
+                        "All",
+                        "Rgba",
+                        "Rgb",
+                        "Red",
+                        "Green",
+                        "Blue",
+                        "Alpha",
+                        "LinearRgb",
+                        "LinearRed",
+                        "LinearGreen",
+                        "LinearBlue",
                         "Luminance",
-                        listOf(
-                            "All",
-                            "Rgba",
-                            "Rgb",
-                            "Red",
-                            "Green",
-                            "Blue",
-                            "Alpha",
-                            "LinearRgb",
-                            "LinearRed",
-                            "LinearGreen",
-                            "LinearBlue",
-                            "Luminance",
-                            "Chrominance",
-                            "BlueChrominance",
-                            "RedChrominance",
-                            "GreenChrominance",
-                            "LabLightness",
-                            "LabChrominance",
-                            "LabA",
-                            "LabB",
-                            "LchChrominance",
-                            "LchChroma",
-                            "LchHue",
-                            "HsvHue",
-                            "HsvSaturation",
-                            "HsvValue",
-                            "HsiIntensity",
-                            "HslLightness",
-                            "Cyan",
-                            "Magenta",
-                            "Yellow",
-                            "Key"
-                        )
-                    ),
-                    gmicSelection(
-                        R.string.gmic_param_value_action,
-                        "Cut",
-                        listOf("NoneOption", "Cut", "Normalize")
+                        "Chrominance",
+                        "BlueChrominance",
+                        "RedChrominance",
+                        "GreenChrominance",
+                        "LabLightness",
+                        "LabChrominance",
+                        "LabA",
+                        "LabB",
+                        "LchChrominance",
+                        "LchChroma",
+                        "LchHue",
+                        "HsvHue",
+                        "HsvSaturation",
+                        "HsvValue",
+                        "HsiIntensity",
+                        "HslLightness",
+                        "Cyan",
+                        "Magenta",
+                        "Yellow",
+                        "Key"
                     )
+                ),
+                gmicSelection(
+                    R.string.gmic_param_value_action,
+                    "Cut",
+                    listOf("NoneOption", "Cut", "Normalize")
                 )
             )
         }

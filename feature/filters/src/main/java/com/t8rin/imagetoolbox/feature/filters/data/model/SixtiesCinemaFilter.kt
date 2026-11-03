@@ -46,16 +46,13 @@ internal class SixtiesCinemaFilter(
             R.string.filter_help_gmic_filter_sixties_cinema
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.grain, 10, 0f..25f),
-                    gmicToggle(R.string.gmic_param_noon_for_midnight, false),
-                    gmicToggle(R.string.gmic_param_gene_kelly, false),
-                    gmicToggle(R.string.gmic_param_ray_harryhausen, false),
-                    gmicToggle(R.string.gmic_param_cary_grant, false)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.grain, 10, 0f..25f),
+                gmicToggle(R.string.gmic_param_noon_for_midnight, false),
+                gmicToggle(R.string.gmic_param_gene_kelly, false),
+                gmicToggle(R.string.gmic_param_ray_harryhausen, false),
+                gmicToggle(R.string.gmic_param_cary_grant, false)
             )
         }
     }

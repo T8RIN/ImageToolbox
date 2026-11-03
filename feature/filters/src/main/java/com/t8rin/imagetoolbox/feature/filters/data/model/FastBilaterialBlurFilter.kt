@@ -49,16 +49,10 @@ internal class FastBilaterialBlurFilter(
         override val info =
             FilterInfo(R.string.fast_bilaterial_blur, R.string.filter_help_fast_bilaterial_blur)
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::justSize,
-                floatParam(R.string.just_size, 11f, 1f..200f, roundTo = NEAREST_ODD_ROUNDING)
-            )
-            field(Value::sigma, floatParam(R.string.sigma, 10f, 1f..100f, roundTo = 1))
-            field(
-                Value::spatialSigma,
-                floatParam(R.string.spatial_sigma, 3f, 1f..100f, roundTo = 1)
-            )
+        override val parameters = structuredParameters {
+            Value::justSize.float(R.string.just_size, 11f, 1f..200f, roundTo = NEAREST_ODD_ROUNDING)
+            Value::sigma.float(R.string.sigma, 10f, 1f..100f, roundTo = 1)
+            Value::spatialSigma.float(R.string.spatial_sigma, 3f, 1f..100f, roundTo = 1)
         }
     }
 }

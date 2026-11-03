@@ -46,10 +46,10 @@ internal class GlitchFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.glitch, R.string.filter_help_glitch)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::amount, floatParam(R.string.amount, 20f, 0f..100f, roundTo = 0))
-            field(Value::seed, floatParam(R.string.seed, 15f, 0f..100f, roundTo = 0))
-            field(Value::repeatCount, floatParam(R.string.repeat_count, 9f, 0f..100f, roundTo = 0))
+        override val parameters = structuredParameters {
+            Value::amount.float(R.string.amount, 20f, 0f..100f, roundTo = 0)
+            Value::seed.seed(R.string.seed, 15f, 0f..100f, roundTo = 0)
+            Value::repeatCount.float(R.string.repeat_count, 9f, 0f..100f, roundTo = 0)
         }
     }
 }

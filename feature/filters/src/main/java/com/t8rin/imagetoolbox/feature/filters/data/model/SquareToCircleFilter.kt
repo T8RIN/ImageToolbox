@@ -53,32 +53,29 @@ internal class SquareToCircleFilter(
             R.string.filter_help_gmic_filter_square_to_circle
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicSelection(
-                        R.string.gmic_param_mode,
-                        "SquareToCircle",
-                        listOf("SquareToCircle", "CircleToSquare")
-                    ),
-                    gmicNumber(R.string.center_x, 50, 0f..100f),
-                    gmicNumber(R.string.center_y, 50, 0f..100f),
-                    gmicNumber(R.string.strength, 100, 0f..100f),
-                    gmicNumber(R.string.zoom, 0, -100f..100f),
-                    gmicNumber(R.string.angle, 0, -180f..180f),
-                    gmicSelection(
-                        R.string.gmic_param_interpolation,
-                        "Linear",
-                        listOf("NearestNeighbor", "Linear")
-                    ),
-                    gmicSelection(
-                        R.string.gmic_param_boundary,
-                        "Transparent",
-                        listOf("Transparent", "Nearest", "Periodic", "Mirror")
-                    ),
-                    gmicToggle(R.string.gmic_param_adapt_to_image_ratio, true)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicSelection(
+                    R.string.gmic_param_mode,
+                    "SquareToCircle",
+                    listOf("SquareToCircle", "CircleToSquare")
+                ),
+                gmicNumber(R.string.center_x, 50, 0f..100f),
+                gmicNumber(R.string.center_y, 50, 0f..100f),
+                gmicNumber(R.string.strength, 100, 0f..100f),
+                gmicNumber(R.string.zoom, 0, -100f..100f),
+                gmicNumber(R.string.angle, 0, -180f..180f),
+                gmicSelection(
+                    R.string.gmic_param_interpolation,
+                    "Linear",
+                    listOf("NearestNeighbor", "Linear")
+                ),
+                gmicSelection(
+                    R.string.gmic_param_boundary,
+                    "Transparent",
+                    listOf("Transparent", "Nearest", "Periodic", "Mirror")
+                ),
+                gmicToggle(R.string.gmic_param_adapt_to_image_ratio, true)
             )
         }
     }

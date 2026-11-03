@@ -52,22 +52,19 @@ internal class PaintingFrameFilter(
             R.string.filter_help_gmic_filter_painting_frame
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.just_size, 10, 0f..100f),
-                    gmicNumber(R.string.contrast, 0.4f, 0f..1f),
-                    gmicNumber(R.string.gmic_param_smoothness, 6, 0f..30f),
-                    gmicColor(R.string.color, -1980296),
-                    gmicNumber(R.string.gmic_param_vignette_size, 2, 0f..50f),
-                    gmicNumber(R.string.gmic_param_vignette_contrast, 400, 0f..1000f),
-                    gmicNumber(R.string.gmic_param_defects_contrast, 50, 0f..512f),
-                    gmicNumber(R.string.density, 10, 0f..100f),
-                    gmicNumber(R.string.gmic_param_defects_size, 1, 0f..10f),
-                    gmicNumber(R.string.gmic_param_defects_smoothness, 0.5f, 0f..20f),
-                    gmicInteger(R.string.gmic_param_serial_number, 123456, 0f..1000000f)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.just_size, 10, 0f..100f),
+                gmicNumber(R.string.contrast, 0.4f, 0f..1f),
+                gmicNumber(R.string.gmic_param_smoothness, 6, 0f..30f),
+                gmicColor(R.string.color, -1980296),
+                gmicNumber(R.string.gmic_param_vignette_size, 2, 0f..50f),
+                gmicNumber(R.string.gmic_param_vignette_contrast, 400, 0f..1000f),
+                gmicNumber(R.string.gmic_param_defects_contrast, 50, 0f..512f),
+                gmicNumber(R.string.density, 10, 0f..100f),
+                gmicNumber(R.string.gmic_param_defects_size, 1, 0f..10f),
+                gmicNumber(R.string.gmic_param_defects_smoothness, 0.5f, 0f..20f),
+                gmicInteger(R.string.gmic_param_serial_number, 123456, 0f..1000000f)
             )
         }
     }

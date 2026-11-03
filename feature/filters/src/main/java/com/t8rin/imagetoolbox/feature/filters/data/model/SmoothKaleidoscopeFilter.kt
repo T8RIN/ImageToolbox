@@ -35,17 +35,14 @@ internal class SmoothKaleidoscopeFilter(
         override val info =
             FilterInfo(R.string.smooth_kaleidoscope, R.string.filter_help_smooth_kaleidoscope)
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::blend,
-                floatParam(R.string.raw_highlight_recovery_blend, 0.25f, 0f..1f, roundTo = 3)
-            )
-            field(Value::offset, floatParam(R.string.offset, 0f, -1f..1f, roundTo = 3))
-            field(Value::frequency, floatParam(R.string.frequency, 2f, 1f..16f, roundTo = 3))
-            field(Value::offsetX, floatParam(R.string.offset_x, 0f, -1f..1f, roundTo = 3))
-            field(Value::offsetY, floatParam(R.string.offset_y, 0f, -1f..1f, roundTo = 3))
-            field(Value::scale, floatParam(R.string.scale, 1f, 0.05f..8f, roundTo = 3))
-            field(Value::rotation, floatParam(R.string.rotation, 0f, -180f..180f, roundTo = 3))
+        override val parameters = structuredParameters {
+            Value::blend.float(R.string.raw_highlight_recovery_blend, 0.25f, 0f..1f, roundTo = 3)
+            Value::offset.float(R.string.offset, 0f, -1f..1f, roundTo = 3)
+            Value::frequency.float(R.string.frequency, 2f, 1f..16f, roundTo = 3)
+            Value::offsetX.float(R.string.offset_x, 0f, -1f..1f, roundTo = 3)
+            Value::offsetY.float(R.string.offset_y, 0f, -1f..1f, roundTo = 3)
+            Value::scale.float(R.string.scale, 1f, 0.05f..8f, roundTo = 3)
+            Value::rotation.float(R.string.rotation, 0f, -180f..180f, roundTo = 3)
         }
 
         private val SHADER = """

@@ -46,15 +46,12 @@ internal class RichardsonLucySharpenFilter(
             R.string.filter_help_gmic_filter_richardson_lucy_sharpen
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.sigma, 1, 0.5f..10f),
-                    gmicInteger(R.string.iterations, 10, 1f..100f),
-                    gmicSelection(R.string.blur, "Gaussian", listOf("Exponential", "Gaussian")),
-                    gmicToggle(R.string.gmic_param_cut_values, true)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.sigma, 1, 0.5f..10f),
+                gmicInteger(R.string.iterations, 10, 1f..100f),
+                gmicSelection(R.string.blur, "Gaussian", listOf("Exponential", "Gaussian")),
+                gmicToggle(R.string.gmic_param_cut_values, true)
             )
         }
     }

@@ -50,33 +50,30 @@ internal class MirroredArrayFilter(
             R.string.filter_help_gmic_filter_mirrored_array
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicInteger(R.string.iterations, 1, 1f..10f),
-                    gmicNumber(R.string.gmic_param_x_offset, 0, 0f..100f),
-                    gmicNumber(R.string.gmic_param_y_offset, 0, 0f..100f),
-                    gmicSelection(
-                        R.string.gmic_param_mode,
-                        "BothAxes",
-                        listOf("XAxis", "YAxis", "BothAxes", "DoubleBothAxes")
-                    ),
-                    gmicSelection(
-                        R.string.gmic_param_initialization,
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicInteger(R.string.iterations, 1, 1f..10f),
+                gmicNumber(R.string.gmic_param_x_offset, 0, 0f..100f),
+                gmicNumber(R.string.gmic_param_y_offset, 0, 0f..100f),
+                gmicSelection(
+                    R.string.gmic_param_mode,
+                    "BothAxes",
+                    listOf("XAxis", "YAxis", "BothAxes", "DoubleBothAxes")
+                ),
+                gmicSelection(
+                    R.string.gmic_param_initialization,
+                    "Original",
+                    listOf(
                         "Original",
-                        listOf(
-                            "Original",
-                            "MirrorX",
-                            "MirrorY",
-                            "Rotate90",
-                            "Rotate180",
-                            "Rotate270"
-                        )
-                    ),
-                    gmicToggle(R.string.gmic_param_expand_size, false),
-                    gmicInteger(R.string.crop, 0, 0f..100f)
-                )
+                        "MirrorX",
+                        "MirrorY",
+                        "Rotate90",
+                        "Rotate180",
+                        "Rotate270"
+                    )
+                ),
+                gmicToggle(R.string.gmic_param_expand_size, false),
+                gmicInteger(R.string.crop, 0, 0f..100f)
             )
         }
     }

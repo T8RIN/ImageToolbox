@@ -44,14 +44,11 @@ internal class DesaturateNormFilter(
             R.string.filter_help_gmic_filter_desaturate_norm
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.color_red, 0.6f, 0f..1f),
-                    gmicNumber(R.string.color_blue, 0.4f, 0f..1f),
-                    gmicNumber(R.string.gmic_param_exponent, 2.2f, 1f..3f)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.color_red, 0.6f, 0f..1f),
+                gmicNumber(R.string.color_blue, 0.4f, 0f..1f),
+                gmicNumber(R.string.gmic_param_exponent, 2.2f, 1f..3f)
             )
         }
     }

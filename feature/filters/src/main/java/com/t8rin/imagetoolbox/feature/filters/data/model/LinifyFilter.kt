@@ -46,20 +46,17 @@ internal class LinifyFilter(
         override val info =
             FilterInfo(R.string.gmic_filter_linify, R.string.filter_help_gmic_filter_linify)
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.density, 40, 0f..100f),
-                    gmicNumber(R.string.texture_spread, 2, 0f..10f),
-                    gmicNumber(R.string.resolution, 40, 0f..100f),
-                    gmicNumber(R.string.opacity, 10, 0f..30f),
-                    gmicInteger(R.string.gmic_param_line_precision, 24, 1f..128f),
-                    gmicSelection(
-                        R.string.gmic_param_color_mode,
-                        "Subtractive",
-                        listOf("Subtractive", "Additive")
-                    )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.density, 40, 0f..100f),
+                gmicNumber(R.string.texture_spread, 2, 0f..10f),
+                gmicNumber(R.string.resolution, 40, 0f..100f),
+                gmicNumber(R.string.opacity, 10, 0f..30f),
+                gmicInteger(R.string.gmic_param_line_precision, 24, 1f..128f),
+                gmicSelection(
+                    R.string.gmic_param_color_mode,
+                    "Subtractive",
+                    listOf("Subtractive", "Additive")
                 )
             )
         }

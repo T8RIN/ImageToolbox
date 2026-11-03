@@ -50,9 +50,9 @@ internal class LeftToRightDitheringFilter(
             R.string.filter_help_left_to_right_dithering
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::threshold, floatParam(R.string.threshold, 200f, 1f..255f, roundTo = 0))
-            field(Value::grayscale, booleanParam(R.string.gray_scale, false))
+        override val parameters = structuredParameters {
+            Value::threshold.float(R.string.threshold, 200f, 1f..255f, roundTo = 0)
+            Value::grayscale.boolean(R.string.gray_scale, false)
         }
     }
 }

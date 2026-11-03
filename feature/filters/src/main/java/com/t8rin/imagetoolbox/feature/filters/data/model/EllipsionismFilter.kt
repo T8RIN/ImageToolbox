@@ -47,17 +47,14 @@ internal class EllipsionismFilter(
             R.string.filter_help_gmic_filter_ellipsionism
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.gmic_param_primary_radius, 20, 1f..100f),
-                    gmicNumber(R.string.second_radius, 10, 1f..100f),
-                    gmicNumber(R.string.gmic_param_smoothness, 0.5f, 0f..10f),
-                    gmicNumber(R.string.opacity, 0.7f, 0f..1f),
-                    gmicNumber(R.string.gmic_param_outline, 3, 1f..3f),
-                    gmicNumber(R.string.density, 0.5f, 0.1f..2f)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.gmic_param_primary_radius, 20, 1f..100f),
+                gmicNumber(R.string.second_radius, 10, 1f..100f),
+                gmicNumber(R.string.gmic_param_smoothness, 0.5f, 0f..10f),
+                gmicNumber(R.string.opacity, 0.7f, 0f..1f),
+                gmicNumber(R.string.gmic_param_outline, 3, 1f..3f),
+                gmicNumber(R.string.density, 0.5f, 0.1f..2f)
             )
         }
     }

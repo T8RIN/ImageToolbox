@@ -41,10 +41,10 @@ internal class ShearFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.shear, R.string.filter_help_shear)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::xAngle, floatParam(R.string.x_angle, 15f, -89f..89f, 0))
-            field(Value::yAngle, floatParam(R.string.y_angle, 0f, -89f..89f, 0))
-            field(Value::resize, booleanParam(R.string.resize, true))
+        override val parameters = structuredParameters {
+            Value::xAngle.float(R.string.x_angle, 15f, -89f..89f, 0)
+            Value::yAngle.float(R.string.y_angle, 0f, -89f..89f, 0)
+            Value::resize.boolean(R.string.resize, true)
         }
     }
 }

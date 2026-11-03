@@ -43,12 +43,12 @@ internal class SmearFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.smear, R.string.filter_help_smear)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::angle, floatParam(R.string.angle, 45f, 0f..360f, 0))
-            field(Value::density, floatParam(R.string.density, 1f, 0f..1f))
-            field(Value::mix, floatParam(R.string.mix, 1f, 0f..1f))
-            field(Value::distance, intParam(R.string.distance, 100, 0..200))
-            field(Value::shape, intParam(R.string.shape, 0, 0..3))
+        override val parameters = structuredParameters {
+            Value::angle.float(R.string.angle, 45f, 0f..360f, 0)
+            Value::density.float(R.string.density, 1f, 0f..1f)
+            Value::mix.float(R.string.mix, 1f, 0f..1f)
+            Value::distance.int(R.string.distance, 100, 0..200)
+            Value::shape.int(R.string.shape, 0, 0..3)
         }
     }
 }

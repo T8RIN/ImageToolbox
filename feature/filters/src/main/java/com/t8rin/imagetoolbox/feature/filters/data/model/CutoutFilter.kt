@@ -43,15 +43,12 @@ internal class CutoutFilter(
         override val info =
             FilterInfo(R.string.gmic_filter_cutout, R.string.filter_help_gmic_filter_cutout)
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicInteger(R.string.levels, 4, 2f..32f),
-                    gmicNumber(R.string.gmic_param_edge_simplicity, 0.5f, 0f..3f),
-                    gmicInteger(R.string.gmic_param_edge_fidelity, 4, 0f..10f),
-                    gmicToggle(R.string.gmic_param_normalize, true)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicInteger(R.string.levels, 4, 2f..32f),
+                gmicNumber(R.string.gmic_param_edge_simplicity, 0.5f, 0f..3f),
+                gmicInteger(R.string.gmic_param_edge_fidelity, 4, 0f..10f),
+                gmicToggle(R.string.gmic_param_normalize, true)
             )
         }
     }

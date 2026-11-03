@@ -39,8 +39,8 @@ internal class HighPassFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.high_pass, R.string.filter_help_high_pass)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::radius, floatParam(default = 10f, range = 1f..100f))
+        override val parameters = structuredParameters {
+            Value::radius.float(default = 10f, range = 1f..100f)
         }
     }
 }

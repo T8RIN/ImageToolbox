@@ -34,23 +34,14 @@ internal class RubidiumFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.rubidium, R.string.filter_help_rubidium)
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::displacement,
-                floatParam(R.string.displacement, 0.1f, -0.5f..0.5f, roundTo = 3)
-            )
-            field(
-                Value::intensity,
-                floatParam(R.string.texture_intensity, 0.2f, -1f..1f, roundTo = 3)
-            )
-            field(
-                Value::balance,
-                floatParam(R.string.procedural_balance, 0.5f, 0f..1f, roundTo = 3)
-            )
-            field(Value::offsetX, floatParam(R.string.offset_x, 0f, -1f..1f, roundTo = 3))
-            field(Value::offsetY, floatParam(R.string.offset_y, 0f, -1f..1f, roundTo = 3))
-            field(Value::scale, floatParam(R.string.scale, 1f, 0.05f..8f, roundTo = 3))
-            field(Value::rotation, floatParam(R.string.rotation, 0f, -180f..180f, roundTo = 3))
+        override val parameters = structuredParameters {
+            Value::displacement.float(R.string.displacement, 0.1f, -0.5f..0.5f, roundTo = 3)
+            Value::intensity.float(R.string.texture_intensity, 0.2f, -1f..1f, roundTo = 3)
+            Value::balance.float(R.string.procedural_balance, 0.5f, 0f..1f, roundTo = 3)
+            Value::offsetX.float(R.string.offset_x, 0f, -1f..1f, roundTo = 3)
+            Value::offsetY.float(R.string.offset_y, 0f, -1f..1f, roundTo = 3)
+            Value::scale.float(R.string.scale, 1f, 0.05f..8f, roundTo = 3)
+            Value::rotation.float(R.string.rotation, 0f, -180f..180f, roundTo = 3)
         }
 
         private val SHADER = """

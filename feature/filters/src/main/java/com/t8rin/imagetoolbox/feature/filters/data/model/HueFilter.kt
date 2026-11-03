@@ -36,8 +36,8 @@ internal class HueFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.hue, R.string.filter_help_hue)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::hue, floatParam(default = 90f, range = 0f..255f))
+        override val parameters = structuredParameters {
+            Value::hue.float(default = 90f, range = 0f..255f)
         }
     }
 }

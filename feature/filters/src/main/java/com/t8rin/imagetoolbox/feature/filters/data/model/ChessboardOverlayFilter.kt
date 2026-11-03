@@ -49,19 +49,16 @@ internal class ChessboardOverlayFilter(
             R.string.filter_help_gmic_filter_chessboard_overlay
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicInteger(R.string.gmic_param_first_size, 64, 1f..512f),
-                    gmicInteger(R.string.gmic_param_second_size, 64, 1f..512f),
-                    gmicInteger(R.string.gmic_param_first_offset, 0, 0f..512f),
-                    gmicInteger(R.string.gmic_param_second_offset, 0, 0f..512f),
-                    gmicNumber(R.string.angle, 0, 0f..180f),
-                    gmicNumber(R.string.opacity, 0.25f, 0f..1f),
-                    gmicColor(R.string.first_color, -16777216),
-                    gmicColor(R.string.second_color, -1)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicInteger(R.string.gmic_param_first_size, 64, 1f..512f),
+                gmicInteger(R.string.gmic_param_second_size, 64, 1f..512f),
+                gmicInteger(R.string.gmic_param_first_offset, 0, 0f..512f),
+                gmicInteger(R.string.gmic_param_second_offset, 0, 0f..512f),
+                gmicNumber(R.string.angle, 0, 0f..180f),
+                gmicNumber(R.string.opacity, 0.25f, 0f..1f),
+                gmicColor(R.string.first_color, -16777216),
+                gmicColor(R.string.second_color, -1)
             )
         }
     }

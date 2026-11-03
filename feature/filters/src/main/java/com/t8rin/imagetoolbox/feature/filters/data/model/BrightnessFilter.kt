@@ -44,8 +44,8 @@ internal class BrightnessFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.brightness, R.string.filter_help_brightness)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::bias, floatParam(default = 0.5f, range = -1f..1f))
+        override val parameters = structuredParameters {
+            Value::bias.float(default = 0.5f, range = -1f..1f)
         }
     }
 }

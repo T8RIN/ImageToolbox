@@ -47,11 +47,11 @@ internal class ClaheLABFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.clahe_lab, R.string.filter_help_clahe_lab)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::threshold, floatParam(R.string.threshold, 0.5f, -10f..10f))
-            field(Value::gridSizeHorizontal, intParam(R.string.grid_size_x, 8, 1..100))
-            field(Value::gridSizeVertical, intParam(R.string.grid_size_y, 8, 1..100))
-            field(Value::binsCount, intParam(R.string.bins_count, 128, 2..256))
+        override val parameters = structuredParameters {
+            Value::threshold.float(R.string.threshold, 0.5f, -10f..10f)
+            Value::gridSizeHorizontal.int(R.string.grid_size_x, 8, 1..100)
+            Value::gridSizeVertical.int(R.string.grid_size_y, 8, 1..100)
+            Value::binsCount.int(R.string.bins_count, 128, 2..256)
         }
     }
 }

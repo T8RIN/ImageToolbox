@@ -48,12 +48,12 @@ internal class PinchFilter(
         override val info =
             FilterInfo(R.string.whirl_and_pinch, R.string.filter_help_whirl_and_pinch)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::angle, floatParam(R.string.angle, 15f, 0f..360f, roundTo = 0))
-            field(Value::centreX, floatParam(R.string.center_x, 0.5f, 0f..1f))
-            field(Value::centreY, floatParam(R.string.center_y, 0.5f, 0f..1f))
-            field(Value::radius, floatParam(R.string.radius, 1f, 0f..2f))
-            field(Value::amount, floatParam(R.string.amount, 0.5f, -1f..1f))
+        override val parameters = structuredParameters {
+            Value::angle.float(R.string.angle, 15f, 0f..360f, roundTo = 0)
+            Value::centreX.float(R.string.center_x, 0.5f, 0f..1f)
+            Value::centreY.float(R.string.center_y, 0.5f, 0f..1f)
+            Value::radius.float(R.string.radius, 1f, 0f..2f)
+            Value::amount.float(R.string.amount, 0.5f, -1f..1f)
         }
     }
 }

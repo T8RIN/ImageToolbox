@@ -46,50 +46,47 @@ internal class FillHolesFilter(
         override val info =
             FilterInfo(R.string.gmic_filter_fill_holes, R.string.filter_help_gmic_filter_fill_holes)
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicInteger(R.string.gmic_param_morph_radius, 11, 3f..50f),
-                    gmicInteger(R.string.gmic_param_edge_radius, 21, 0f..50f),
-                    gmicInteger(R.string.gmic_param_close_radius, 5, 0f..10f),
-                    gmicSelection(
-                        R.string.gmic_param_channel,
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicInteger(R.string.gmic_param_morph_radius, 11, 3f..50f),
+                gmicInteger(R.string.gmic_param_edge_radius, 21, 0f..50f),
+                gmicInteger(R.string.gmic_param_close_radius, 5, 0f..10f),
+                gmicSelection(
+                    R.string.gmic_param_channel,
+                    "All",
+                    listOf(
                         "All",
-                        listOf(
-                            "All",
-                            "RGBAAll",
-                            "RGBAll",
-                            "RGBRed",
-                            "RGBGreen",
-                            "RGBBlue",
-                            "RGBAAlpha",
-                            "YCbCrLuminance",
-                            "YCbCrBlueRedChrominances",
-                            "YCbCrBlueChrominance",
-                            "YCbCrRedChrominance",
-                            "YCbCrGreenChrominance",
-                            "LabLightness",
-                            "LabAbChrominances",
-                            "LabAChrominance",
-                            "LabBChrominance",
-                            "LchChChrominances",
-                            "LchCChrominance",
-                            "LchHChrominance",
-                            "HSVHue",
-                            "HSVSaturation",
-                            "HSVValue",
-                            "HSIIntensity",
-                            "HSLLightness",
-                            "CMYKCyan",
-                            "CMYKMagenta",
-                            "CMYKYellow",
-                            "CMYKKey"
-                        )
-                    ),
-                    gmicToggle(R.string.gmic_param_fill_light_colours, false),
-                    gmicToggle(R.string.fast, true)
-                )
+                        "RGBAAll",
+                        "RGBAll",
+                        "RGBRed",
+                        "RGBGreen",
+                        "RGBBlue",
+                        "RGBAAlpha",
+                        "YCbCrLuminance",
+                        "YCbCrBlueRedChrominances",
+                        "YCbCrBlueChrominance",
+                        "YCbCrRedChrominance",
+                        "YCbCrGreenChrominance",
+                        "LabLightness",
+                        "LabAbChrominances",
+                        "LabAChrominance",
+                        "LabBChrominance",
+                        "LchChChrominances",
+                        "LchCChrominance",
+                        "LchHChrominance",
+                        "HSVHue",
+                        "HSVSaturation",
+                        "HSVValue",
+                        "HSIIntensity",
+                        "HSLLightness",
+                        "CMYKCyan",
+                        "CMYKMagenta",
+                        "CMYKYellow",
+                        "CMYKKey"
+                    )
+                ),
+                gmicToggle(R.string.gmic_param_fill_light_colours, false),
+                gmicToggle(R.string.fast, true)
             )
         }
     }

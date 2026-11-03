@@ -34,10 +34,12 @@ import com.t8rin.imagetoolbox.core.filters.presentation.model.UiDreamPaintingFil
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiEqualizeHistogramPixelationFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiMightyDetailsFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.SideFadeFilter
+import com.t8rin.imagetoolbox.feature.filters.data.model.filterCacheKey
 import com.t8rin.imagetoolbox.feature.filters.data.model.TornEdgeFilter
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNotEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -45,6 +47,23 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class FilterRenderingRegressionTest {
     private val provider = AndroidFilterProvider()
+
+    @Test
+    fun bitmapCacheKeysTrackContentsAndPixelChanges() {
+        val first =
+            Bitmap.createBitmap(7, 5, Bitmap.Config.ARGB_8888).apply { eraseColor(Color.RED) }
+        val second = first.copy(Bitmap.Config.ARGB_8888, true)
+        try {
+            val initial = filterCacheKey(ImageModel(first))
+            assertEquals(initial, filterCacheKey(ImageModel(second)))
+            first.setPixel(0, 0, Color.BLUE)
+            assertNotEquals(initial, filterCacheKey(ImageModel(first)))
+            assertEquals(initial, filterCacheKey(ImageModel(second)))
+        } finally {
+            first.recycle()
+            second.recycle()
+        }
+    }
 
     @Test
     fun histogramGridLargerThanImageStillRenders() = runBlocking {

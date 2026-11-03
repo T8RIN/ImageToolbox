@@ -58,38 +58,35 @@ internal class DrosteFilter(
         override val info =
             FilterInfo(R.string.gmic_filter_droste, R.string.filter_help_gmic_filter_droste)
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.gmic_param_upper_left_x, 20, 0f..100f),
-                    gmicNumber(R.string.gmic_param_upper_left_y, 20, 0f..100f),
-                    gmicNumber(R.string.gmic_param_upper_right_x, 80, 0f..100f),
-                    gmicNumber(R.string.gmic_param_upper_right_y, 20, 0f..100f),
-                    gmicNumber(R.string.gmic_param_lower_right_x, 80, 0f..100f),
-                    gmicNumber(R.string.gmic_param_lower_right_y, 80, 0f..100f),
-                    gmicNumber(R.string.gmic_param_lower_left_x, 20, 0f..100f),
-                    gmicNumber(R.string.gmic_param_lower_left_y, 80, 0f..100f),
-                    gmicInteger(R.string.iterations, 1, 1f..10f),
-                    gmicNumber(R.string.gmic_param_x_shift, 0, -100f..100f),
-                    gmicNumber(R.string.gmic_param_y_shift, 0, -100f..100f),
-                    gmicNumber(R.string.angle, 0, 0f..360f),
-                    gmicNumber(R.string.zoom, 1, 0.1f..5f),
-                    gmicSelection(
-                        R.string.tile_mode_mirror,
-                        "None",
-                        listOf("None", "XAxis", "YAxis", "BothAxes")
-                    ),
-                    gmicSelection(
-                        R.string.gmic_param_boundary,
-                        "Nearest",
-                        listOf("Transparent", "Nearest", "Periodic", "Mirror")
-                    ),
-                    gmicSelection(
-                        R.string.draw_mode,
-                        "Replace",
-                        listOf("Replace", "ReplaceSharpest", "Behind", "Below")
-                    )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.gmic_param_upper_left_x, 20, 0f..100f),
+                gmicNumber(R.string.gmic_param_upper_left_y, 20, 0f..100f),
+                gmicNumber(R.string.gmic_param_upper_right_x, 80, 0f..100f),
+                gmicNumber(R.string.gmic_param_upper_right_y, 20, 0f..100f),
+                gmicNumber(R.string.gmic_param_lower_right_x, 80, 0f..100f),
+                gmicNumber(R.string.gmic_param_lower_right_y, 80, 0f..100f),
+                gmicNumber(R.string.gmic_param_lower_left_x, 20, 0f..100f),
+                gmicNumber(R.string.gmic_param_lower_left_y, 80, 0f..100f),
+                gmicInteger(R.string.iterations, 1, 1f..10f),
+                gmicNumber(R.string.gmic_param_x_shift, 0, -100f..100f),
+                gmicNumber(R.string.gmic_param_y_shift, 0, -100f..100f),
+                gmicNumber(R.string.angle, 0, 0f..360f),
+                gmicNumber(R.string.zoom, 1, 0.1f..5f),
+                gmicSelection(
+                    R.string.tile_mode_mirror,
+                    "None",
+                    listOf("None", "XAxis", "YAxis", "BothAxes")
+                ),
+                gmicSelection(
+                    R.string.gmic_param_boundary,
+                    "Nearest",
+                    listOf("Transparent", "Nearest", "Periodic", "Mirror")
+                ),
+                gmicSelection(
+                    R.string.draw_mode,
+                    "Replace",
+                    listOf("Replace", "ReplaceSharpest", "Behind", "Below")
                 )
             )
         }

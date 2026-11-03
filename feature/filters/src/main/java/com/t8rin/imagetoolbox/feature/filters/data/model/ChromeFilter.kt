@@ -40,9 +40,9 @@ internal class ChromeFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.chrome, R.string.filter_help_chrome)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::amount, floatParam(R.string.amount, 0.5f, 0f..1f))
-            field(Value::exposure, floatParam(R.string.exposure, 1f, 0f..5f))
+        override val parameters = structuredParameters {
+            Value::amount.float(R.string.amount, 0.5f, 0f..1f)
+            Value::exposure.float(R.string.exposure, 1f, 0f..5f)
         }
     }
 }

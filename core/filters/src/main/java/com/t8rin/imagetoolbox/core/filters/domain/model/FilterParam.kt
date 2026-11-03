@@ -22,5 +22,6 @@ data class FilterParam(
     val title: Int? = null,
     val valueRange: ClosedFloatingPointRange<Float>,
     val roundTo: Int = 2,
-    val options: List<Int> = emptyList()
+    val options: List<Int> = emptyList(),
+    val isSeed: Boolean = false
 )

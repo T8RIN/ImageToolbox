@@ -52,16 +52,12 @@ internal class MotionBlurFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.motion_blur, R.string.filter_help_motion_blur)
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::kernelSize,
-                intParam(R.string.just_size, 25, 0..201, roundTo = NEAREST_ODD_ROUNDING)
-            )
-            field(Value::angle, floatParam(R.string.angle, 45f, 0f..360f))
-            field(
-                Value::edgeMode,
-                enumParam(R.string.edge_mode, default = { BlurEdgeMode.Reflect101 })
-            )
+        override val parameters = structuredParameters {
+            Value::kernelSize.int(R.string.just_size, 25, 0..201, roundTo = NEAREST_ODD_ROUNDING)
+            Value::angle.float(R.string.angle, 45f, 0f..360f)
+            Value::edgeMode.enum(
+                R.string.edge_mode,
+                label = { it.label }) { BlurEdgeMode.Reflect101 }
         }
     }
 }

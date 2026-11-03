@@ -49,10 +49,10 @@ internal class RgbChannelRegistrationFilter(
             R.string.filter_help_rgb_channel_registration
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::maxShift, floatParam(R.string.max_shift, 15f, 1f..80f, roundTo = 1))
-            field(Value::minConfidence, floatParam(R.string.min_confidence, 0.24f, 0.05f..0.95f))
-            field(Value::strength, floatParam(R.string.strength, 1f, 0f..1f))
+        override val parameters = structuredParameters {
+            Value::maxShift.float(R.string.max_shift, 15f, 1f..80f, roundTo = 1)
+            Value::minConfidence.float(R.string.min_confidence, 0.24f, 0.05f..0.95f)
+            Value::strength.float(R.string.strength, 1f, 0f..1f)
         }
     }
 }

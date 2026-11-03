@@ -46,8 +46,8 @@ internal class EqualizeHistogramHSVFilter(
         override val info =
             FilterInfo(R.string.equalize_histogram_hsv, R.string.filter_help_equalize_histogram_hsv)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::binsCount, floatParam(R.string.bins_count, 128f, 2f..256f, roundTo = 0))
+        override val parameters = structuredParameters {
+            Value::binsCount.float(R.string.bins_count, 128f, 2f..256f, roundTo = 0)
         }
     }
 }

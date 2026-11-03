@@ -49,25 +49,22 @@ internal class ShufflePatchesFilter(
             R.string.filter_help_gmic_filter_shuffle_patches
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicSelection(
-                        R.string.gmic_param_mode,
-                        "Shuffle",
-                        listOf("Shuffle", "Rotate", "ShuffleAndRotate")
-                    ),
-                    gmicSelection(
-                        R.string.raw_highlight_recovery_reconstruct,
-                        "Colors",
-                        listOf("Colors", "Gradients", "Laplacians")
-                    ),
-                    gmicInteger(R.string.gmic_param_patch_size, 64, 4f..512f),
-                    gmicNumber(R.string.gmic_param_overlap, 0, 0f..50f),
-                    gmicNumber(R.string.gmic_param_overlap_deviation, 20, 0f..100f),
-                    gmicInteger(R.string.seed, 0, 0f..65535f)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicSelection(
+                    R.string.gmic_param_mode,
+                    "Shuffle",
+                    listOf("Shuffle", "Rotate", "ShuffleAndRotate")
+                ),
+                gmicSelection(
+                    R.string.raw_highlight_recovery_reconstruct,
+                    "Colors",
+                    listOf("Colors", "Gradients", "Laplacians")
+                ),
+                gmicInteger(R.string.gmic_param_patch_size, 64, 4f..512f),
+                gmicNumber(R.string.gmic_param_overlap, 0, 0f..50f),
+                gmicNumber(R.string.gmic_param_overlap_deviation, 20, 0f..100f),
+                gmicSeed(R.string.seed, 0, 0f..65535f)
             )
         }
     }

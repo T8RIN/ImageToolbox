@@ -50,39 +50,36 @@ internal class HuffmanGlitchFilter(
             R.string.filter_help_gmic_filter_huffman_glitch
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.gmic_param_noise_level, 30, 0f..100f),
-                    gmicSelection(
-                        R.string.gmic_param_split_mode,
-                        "None",
-                        listOf("None", "HorizontalBlocks", "VerticalBlocks", "Patches")
-                    ),
-                    gmicInteger(R.string.block_size, 25, 0f..100f),
-                    gmicNumber(R.string.gmic_param_patch_overlap, 0, 0f..50f),
-                    gmicSelection(
-                        R.string.tag_color_space,
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.gmic_param_noise_level, 30, 0f..100f),
+                gmicSelection(
+                    R.string.gmic_param_split_mode,
+                    "None",
+                    listOf("None", "HorizontalBlocks", "VerticalBlocks", "Patches")
+                ),
+                gmicInteger(R.string.block_size, 25, 0f..100f),
+                gmicNumber(R.string.gmic_param_patch_overlap, 0, 0f..50f),
+                gmicSelection(
+                    R.string.tag_color_space,
+                    "Rgb",
+                    listOf(
                         "Rgb",
-                        listOf(
-                            "Rgb",
-                            "Cmyk",
-                            "Hcy",
-                            "Hsi",
-                            "Hsl",
-                            "Hsv",
-                            "Jzazbz",
-                            "Lab",
-                            "Lch",
-                            "OkLab",
-                            "YCbCr",
-                            "Yiq"
-                        )
-                    ),
-                    gmicInteger(R.string.gmic_param_quantization, 0, 0f..64f),
-                    gmicInteger(R.string.seed, 0, 0f..65536f)
-                )
+                        "Cmyk",
+                        "Hcy",
+                        "Hsi",
+                        "Hsl",
+                        "Hsv",
+                        "Jzazbz",
+                        "Lab",
+                        "Lch",
+                        "OkLab",
+                        "YCbCr",
+                        "Yiq"
+                    )
+                ),
+                gmicInteger(R.string.gmic_param_quantization, 0, 0f..64f),
+                gmicSeed(R.string.seed, 0, 0f..65536f)
             )
         }
     }

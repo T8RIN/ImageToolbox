@@ -20,6 +20,7 @@ package com.t8rin.imagetoolbox.feature.filters.di
 import android.graphics.Bitmap
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
+import com.t8rin.imagetoolbox.core.filters.domain.FilterFactory
 import com.t8rin.imagetoolbox.core.filters.domain.FilterParamsInteractor
 import com.t8rin.imagetoolbox.core.filters.domain.FilterProvider
 import com.t8rin.imagetoolbox.core.filters.domain.ShaderPresetRepository
@@ -29,7 +30,7 @@ import com.t8rin.imagetoolbox.feature.filters.data.AndroidFilterProvider
 import com.t8rin.imagetoolbox.feature.filters.data.AndroidShaderPresetRepository
 import com.t8rin.imagetoolbox.feature.filters.domain.FilterMaskApplier
 import com.t8rin.imagetoolbox.core.filters.presentation.model.FilterCatalog
-import com.t8rin.imagetoolbox.feature.filters.data.model.GeneratedFilterCatalog
+import com.t8rin.imagetoolbox.feature.filters.presentation.model.GeneratedFilterCatalog
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -69,5 +70,8 @@ internal interface FilterModule {
     companion object {
         @Provides
         fun filterCatalog(): FilterCatalog = GeneratedFilterCatalog
+
+        @Provides
+        fun filterFactory(): FilterFactory = GeneratedFilterCatalog
     }
 }

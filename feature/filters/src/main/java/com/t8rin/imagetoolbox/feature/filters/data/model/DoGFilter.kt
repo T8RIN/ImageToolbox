@@ -40,9 +40,9 @@ internal class DoGFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.dog, R.string.filter_help_dog)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::radius, floatParam(R.string.radius, 1f, 0f..100f))
-            field(Value::secondRadius, floatParam(R.string.second_radius, 2f, 0f..100f))
+        override val parameters = structuredParameters {
+            Value::radius.float(R.string.radius, 1f, 0f..100f)
+            Value::secondRadius.float(R.string.second_radius, 2f, 0f..100f)
         }
     }
 }

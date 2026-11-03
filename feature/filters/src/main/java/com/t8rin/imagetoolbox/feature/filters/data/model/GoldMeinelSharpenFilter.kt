@@ -52,82 +52,79 @@ internal class GoldMeinelSharpenFilter(
             R.string.filter_help_gmic_filter_gold_meinel_sharpen
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.sigma, 1, 0.5f..10f),
-                    gmicInteger(R.string.iterations, 5, 1f..15f),
-                    gmicNumber(R.string.gmic_param_acceleration, 1, 1f..3f),
-                    gmicSelection(R.string.blur, "Gaussian", listOf("Exponential", "Gaussian")),
-                    gmicToggle(R.string.gmic_param_cut_values, true),
-                    gmicSelection(
-                        R.string.gmic_param_channel,
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.sigma, 1, 0.5f..10f),
+                gmicInteger(R.string.iterations, 5, 1f..15f),
+                gmicNumber(R.string.gmic_param_acceleration, 1, 1f..3f),
+                gmicSelection(R.string.blur, "Gaussian", listOf("Exponential", "Gaussian")),
+                gmicToggle(R.string.gmic_param_cut_values, true),
+                gmicSelection(
+                    R.string.gmic_param_channel,
+                    "All",
+                    listOf(
                         "All",
-                        listOf(
-                            "All",
-                            "Rgba",
-                            "Rgb",
-                            "Red",
-                            "Green",
-                            "Blue",
-                            "Alpha",
-                            "LinearRgb",
-                            "LinearRed",
-                            "LinearGreen",
-                            "LinearBlue",
-                            "YCbCr",
-                            "Luminance",
-                            "Chrominance",
-                            "BlueChrominance",
-                            "RedChrominance",
-                            "GreenChrominance",
-                            "Lab",
-                            "LabLightness",
-                            "LabChrominance",
-                            "LabA",
-                            "LabB",
-                            "Lch",
-                            "LchChrominance",
-                            "LchChroma",
-                            "LchHue",
-                            "Hsv",
-                            "HsvHue",
-                            "HsvSaturation",
-                            "HsvValue",
-                            "Hsi",
-                            "HsiIntensity",
-                            "Hsl",
-                            "HslLightness",
-                            "Cmyk",
-                            "Cmy",
-                            "Cyan",
-                            "Magenta",
-                            "Yellow",
-                            "Key",
-                            "Yiq",
-                            "YiqLuma",
-                            "YiqChrominance",
-                            "Ryb",
-                            "RybRed",
-                            "RybYellow",
-                            "RybBlue"
-                        )
-                    ),
-                    gmicSelection(
-                        R.string.gmic_param_parallelism,
+                        "Rgba",
+                        "Rgb",
+                        "Red",
+                        "Green",
+                        "Blue",
+                        "Alpha",
+                        "LinearRgb",
+                        "LinearRed",
+                        "LinearGreen",
+                        "LinearBlue",
+                        "YCbCr",
+                        "Luminance",
+                        "Chrominance",
+                        "BlueChrominance",
+                        "RedChrominance",
+                        "GreenChrominance",
+                        "Lab",
+                        "LabLightness",
+                        "LabChrominance",
+                        "LabA",
+                        "LabB",
+                        "Lch",
+                        "LchChrominance",
+                        "LchChroma",
+                        "LchHue",
+                        "Hsv",
+                        "HsvHue",
+                        "HsvSaturation",
+                        "HsvValue",
+                        "Hsi",
+                        "HsiIntensity",
+                        "Hsl",
+                        "HslLightness",
+                        "Cmyk",
+                        "Cmy",
+                        "Cyan",
+                        "Magenta",
+                        "Yellow",
+                        "Key",
+                        "Yiq",
+                        "YiqLuma",
+                        "YiqChrominance",
+                        "Ryb",
+                        "RybRed",
+                        "RybYellow",
+                        "RybBlue"
+                    )
+                ),
+                gmicSelection(
+                    R.string.gmic_param_parallelism,
+                    "Auto",
+                    listOf(
                         "Auto",
-                        listOf(
-                            "Auto",
-                            "OneThread",
-                            "TwoThreads",
-                            "FourThreads",
-                            "EightThreads",
-                            "SixteenThreads"
-                        )
-                    ),
-                    gmicInteger(R.string.gmic_param_spatial_overlap, 24, 0f..256f)
-                )
+                        "OneThread",
+                        "TwoThreads",
+                        "FourThreads",
+                        "EightThreads",
+                        "SixteenThreads"
+                    )
+                ),
+                gmicInteger(R.string.gmic_param_spatial_overlap, 24, 0f..256f)
             )
         }
     }

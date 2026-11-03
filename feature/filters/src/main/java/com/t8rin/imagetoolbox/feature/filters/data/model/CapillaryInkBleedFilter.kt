@@ -51,17 +51,14 @@ internal class CapillaryInkBleedFilter(
         override val info =
             FilterInfo(R.string.capillary_ink_bleed, R.string.filter_help_capillary_ink_bleed)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::wetness, floatParam(R.string.wetness, 0.77f, 0f..1f))
-            field(
-                Value::direction,
-                floatParam(R.string.fiber_direction, 40f, 0f..180f, roundTo = 1)
-            )
-            field(Value::spread, floatParam(R.string.ink_spread, 4f, 1f..16f, roundTo = 1))
-            field(Value::roughness, floatParam(R.string.texture_roughness, 0.65f, 0f..1f))
-            field(Value::steps, intParam(R.string.steps, 5, 1..12))
-            field(Value::seed, intParam(R.string.seed, 0, 0..10000))
-            field(Value::strength, floatParam(R.string.strength, 1f, 0f..1f))
+        override val parameters = structuredParameters {
+            Value::wetness.float(R.string.wetness, 0.77f, 0f..1f)
+            Value::direction.float(R.string.fiber_direction, 40f, 0f..180f, roundTo = 1)
+            Value::spread.float(R.string.ink_spread, 4f, 1f..16f, roundTo = 1)
+            Value::roughness.float(R.string.texture_roughness, 0.65f, 0f..1f)
+            Value::steps.int(R.string.steps, 5, 1..12)
+            Value::seed.seed(R.string.seed, 0, 0..10000)
+            Value::strength.float(R.string.strength, 1f, 0f..1f)
         }
     }
 }

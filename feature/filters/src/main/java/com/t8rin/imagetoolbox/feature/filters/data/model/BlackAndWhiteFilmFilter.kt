@@ -64,57 +64,54 @@ internal class BlackAndWhiteFilmFilter(
             R.string.filter_help_gmic_filter_black_and_white_film
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicSelection(
-                        R.string.gmic_param_film_type,
-                        "KodakTriX",
-                        listOf(
-                            "Manual",
-                            "Agfa200X",
-                            "Agfapan25",
-                            "Agfapan100",
-                            "Agfapan400",
-                            "IlfordDelta100",
-                            "IlfordDelta400",
-                            "IlfordDelta3200",
-                            "IlfordFp4",
-                            "IlfordHp4",
-                            "IlfordPanF",
-                            "IlfordSfx",
-                            "IlfordXp2Super",
-                            "KodakTmax100",
-                            "KodakTmax400",
-                            "KodakTriX"
-                        )
-                    ),
-                    gmicNumber(R.string.gmic_param_red_level, 0.299f, 0f..1f),
-                    gmicNumber(R.string.gmic_param_red_smoothness, 0, 0f..10f),
-                    gmicNumber(R.string.gmic_param_green_level, 0.587f, 0f..1f),
-                    gmicNumber(R.string.gmic_param_green_smoothness, 0, 0f..10f),
-                    gmicNumber(R.string.gmic_param_blue_level, 0.114f, 0f..1f),
-                    gmicNumber(R.string.gmic_param_blue_smoothness, 0, 0f..10f),
-                    gmicNumber(R.string.gamma, 1.05f, 0.01f..5f),
-                    gmicNumber(R.string.contrast, 1.2f, 0f..4f),
-                    gmicNumber(R.string.gmic_param_brightness, 0, -255f..255f),
-                    gmicNumber(R.string.hue, 30, 0f..360f),
-                    gmicNumber(R.string.saturation, 0.08f, 0f..1f),
-                    gmicNumber(R.string.gmic_param_grain_shadows, 18, 0f..200f),
-                    gmicNumber(R.string.gmic_param_grain_midtones, 10, 0f..200f),
-                    gmicNumber(R.string.gmic_param_grain_highlights, 5, 0f..200f),
-                    gmicNumber(R.string.gmic_param_grain_tone_fading, 2, 0f..10f),
-                    gmicNumber(R.string.gmic_param_grain_scale, 0.8f, 0f..3f),
-                    gmicSelection(
-                        R.string.gmic_param_grain_type,
-                        "Gaussian",
-                        listOf("Gaussian", "Uniform", "SaltAndPepper", "Poisson")
-                    ),
-                    gmicNumber(R.string.gmic_param_local_contrast, 8, 0f..60f),
-                    gmicInteger(R.string.radius, 16, 1f..512f),
-                    gmicNumber(R.string.gmic_param_contrast_smoothness, 4, 0f..10f)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicSelection(
+                    R.string.gmic_param_film_type,
+                    "KodakTriX",
+                    listOf(
+                        "Manual",
+                        "Agfa200X",
+                        "Agfapan25",
+                        "Agfapan100",
+                        "Agfapan400",
+                        "IlfordDelta100",
+                        "IlfordDelta400",
+                        "IlfordDelta3200",
+                        "IlfordFp4",
+                        "IlfordHp4",
+                        "IlfordPanF",
+                        "IlfordSfx",
+                        "IlfordXp2Super",
+                        "KodakTmax100",
+                        "KodakTmax400",
+                        "KodakTriX"
+                    )
+                ),
+                gmicNumber(R.string.gmic_param_red_level, 0.299f, 0f..1f),
+                gmicNumber(R.string.gmic_param_red_smoothness, 0, 0f..10f),
+                gmicNumber(R.string.gmic_param_green_level, 0.587f, 0f..1f),
+                gmicNumber(R.string.gmic_param_green_smoothness, 0, 0f..10f),
+                gmicNumber(R.string.gmic_param_blue_level, 0.114f, 0f..1f),
+                gmicNumber(R.string.gmic_param_blue_smoothness, 0, 0f..10f),
+                gmicNumber(R.string.gamma, 1.05f, 0.01f..5f),
+                gmicNumber(R.string.contrast, 1.2f, 0f..4f),
+                gmicNumber(R.string.gmic_param_brightness, 0, -255f..255f),
+                gmicNumber(R.string.hue, 30, 0f..360f),
+                gmicNumber(R.string.saturation, 0.08f, 0f..1f),
+                gmicNumber(R.string.gmic_param_grain_shadows, 18, 0f..200f),
+                gmicNumber(R.string.gmic_param_grain_midtones, 10, 0f..200f),
+                gmicNumber(R.string.gmic_param_grain_highlights, 5, 0f..200f),
+                gmicNumber(R.string.gmic_param_grain_tone_fading, 2, 0f..10f),
+                gmicNumber(R.string.gmic_param_grain_scale, 0.8f, 0f..3f),
+                gmicSelection(
+                    R.string.gmic_param_grain_type,
+                    "Gaussian",
+                    listOf("Gaussian", "Uniform", "SaltAndPepper", "Poisson")
+                ),
+                gmicNumber(R.string.gmic_param_local_contrast, 8, 0f..60f),
+                gmicInteger(R.string.radius, 16, 1f..512f),
+                gmicNumber(R.string.gmic_param_contrast_smoothness, 4, 0f..10f)
             )
         }
     }

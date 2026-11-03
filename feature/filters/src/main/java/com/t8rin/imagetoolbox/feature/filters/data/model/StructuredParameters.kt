@@ -17,12 +17,10 @@
 
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
-import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.FilterParam
 import com.t8rin.imagetoolbox.core.filters.domain.model.StructuredFilterParameters
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.feature.filters.data.utils.serialization.FILTER_FIELDS_SEPARATOR
+import com.t8rin.imagetoolbox.feature.filters.data.utils.serialization.StoredParameterValues
 import kotlin.reflect.KProperty1
 
 internal class StructuredParameters<T : Filter.ParameterValue>(
@@ -31,27 +29,9 @@ internal class StructuredParameters<T : Filter.ParameterValue>(
 
     override fun get(property: KProperty1<in T, *>): FilterParam = field(property).info
 
-    fun number(property: KProperty1<in T, Float>): FilterField.Number =
-        field(property) as FilterField.Number
-
-    fun integer(property: KProperty1<in T, Int>): FilterField.Integer =
-        field(property) as FilterField.Integer
-
-    fun toggle(property: KProperty1<in T, Boolean>): FilterField.Toggle =
-        field(property) as FilterField.Toggle
-
-    fun color(property: KProperty1<in T, ColorModel>): FilterField.Color =
-        field(property) as FilterField.Color
-
-    fun array(property: KProperty1<in T, FloatArray>): FilterField.Array =
-        field(property) as FilterField.Array
-
     @Suppress("UNCHECKED_CAST")
-    fun <V> custom(property: KProperty1<in T, V>): FilterField.Value<V> =
-        field(property) as FilterField.Value<V>
-
-    fun gmic(property: KProperty1<in T, GmicFilterParams>): GmicParameters =
-        field(property) as GmicParameters
+    fun <V> field(property: KProperty1<in T, V>): FilterField<V> =
+        requireNotNull(fields[property]) { "Missing filter parameter ${property.name}" } as FilterField<V>
 
     override val controls: List<FilterParam> by lazy {
         fields.values.flatMap { it.controls }
@@ -59,7 +39,9 @@ internal class StructuredParameters<T : Filter.ParameterValue>(
 
     override val isSerializable: Boolean = fields.values.all { it.isSerializable }
 
-    fun orderedFields(vararg properties: KProperty1<in T, *>): List<KProperty1<in T, *>> {
+    fun orderedFields(
+        vararg properties: KProperty1<in T, *>
+    ): List<KProperty1<in T, *>> {
         val expected = properties.toSet()
         require(fields.keys == expected) {
             val missing = expected - fields.keys
@@ -72,41 +54,24 @@ internal class StructuredParameters<T : Filter.ParameterValue>(
     fun encode(value: T): String? {
         if (!isSerializable) return null
         val values = fields.map { (property, field) ->
-            field.encode(property.get(value)) ?: return null
-        }
-        return values.joinToString(FILTER_FIELDS_SEPARATOR)
+            val current = property.get(value)
+            property.name to if (current == null) null else field.encode(current) ?: return null
+        }.toMap()
+        return StoredParameterValues.encode(values)
     }
+
+    fun cacheKey(value: T): String = filterCacheKey(
+        fields.map { (property, field) ->
+            property.name to field.cache(property.get(value))
+        }.toMap()
+    )
 
     @Suppress("UNCHECKED_CAST")
-    private fun <V> FilterField<V>.encode(value: Any?): String? =
-        if (value == null) "~" else encodeValue(value as V)
+    private fun <V> FilterField<V>.encode(value: Any): String? = encodeValue(value as V)
 
-    private fun field(property: KProperty1<in T, *>): FilterField<*> =
-        requireNotNull(fields[property]) { "Missing filter parameter ${property.name}" }
-}
-
-internal class StructuredParametersBuilder<T : Filter.ParameterValue> {
-    private val fields = mutableMapOf<KProperty1<in T, *>, FilterField<*>>()
-
-    fun field(property: KProperty1<in T, Float>, field: FilterField.Number) = bind(property, field)
-
-    fun field(property: KProperty1<in T, Int>, field: FilterField.Integer) = bind(property, field)
-
-    fun field(property: KProperty1<in T, Boolean>, field: FilterField.Toggle) =
-        bind(property, field)
-
-    fun field(property: KProperty1<in T, ColorModel>, field: FilterField.Color) =
-        bind(property, field)
-
-    fun <V> field(property: KProperty1<in T, V>, field: FilterField.Value<V>) =
-        bind(property, field)
-
-    private fun <V> bind(property: KProperty1<in T, V>, field: FilterField<V>) {
-        require(property !in fields) { "Duplicate filter parameter ${property.name}" }
-        fields[property] = field
-    }
-
-    fun build(): StructuredParameters<T> = StructuredParameters(fields.toMap())
+    @Suppress("UNCHECKED_CAST")
+    private fun <V> FilterField<V>.cache(value: Any?): Any? =
+        if (value == null) null else cacheValue(value as V)
 }
 
 internal fun <T : Filter.ParameterValue> structuredParameters(

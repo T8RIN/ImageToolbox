@@ -49,32 +49,29 @@ internal class PolarTransformFilter(
             R.string.filter_help_gmic_filter_polar_transform
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicSelection(
-                        R.string.gmic_param_preset,
-                        "CustomTransform",
-                        listOf("CustomTransform", "InverseRadius", "SwapRadiusAngle")
-                    ),
-                    gmicNumber(R.string.center_x, 50, 0f..100f),
-                    gmicNumber(R.string.center_y, 50, 0f..100f),
-                    gmicSelection(
-                        R.string.gmic_param_radius_expression,
-                        "r + R/10*cos(a*5)",
-                        listOf("r + R/10*cos(a*5)", "r", "R-r", "a*R/(2*pi)")
-                    ),
-                    gmicSelection(
-                        R.string.gmic_param_angle_expression,
-                        "a",
-                        listOf("a", "-a", "r*2*pi/R", "a + r/R")
-                    ),
-                    gmicSelection(
-                        R.string.gmic_param_boundary,
-                        "Mirror",
-                        listOf("Transparent", "Nearest", "Periodic", "Mirror")
-                    )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicSelection(
+                    R.string.gmic_param_preset,
+                    "CustomTransform",
+                    listOf("CustomTransform", "InverseRadius", "SwapRadiusAngle")
+                ),
+                gmicNumber(R.string.center_x, 50, 0f..100f),
+                gmicNumber(R.string.center_y, 50, 0f..100f),
+                gmicSelection(
+                    R.string.gmic_param_radius_expression,
+                    "r + R/10*cos(a*5)",
+                    listOf("r + R/10*cos(a*5)", "r", "R-r", "a*R/(2*pi)")
+                ),
+                gmicSelection(
+                    R.string.gmic_param_angle_expression,
+                    "a",
+                    listOf("a", "-a", "r*2*pi/R", "a + r/R")
+                ),
+                gmicSelection(
+                    R.string.gmic_param_boundary,
+                    "Mirror",
+                    listOf("Transparent", "Nearest", "Periodic", "Mirror")
                 )
             )
         }

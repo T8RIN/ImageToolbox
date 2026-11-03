@@ -40,12 +40,9 @@ internal class FractalizeFilter(
         override val info =
             FilterInfo(R.string.gmic_filter_fractalize, R.string.filter_help_gmic_filter_fractalize)
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.gmic_param_detail_level, 0.8f, 0f..1f)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.gmic_param_detail_level, 0.8f, 0f..1f)
             )
         }
     }

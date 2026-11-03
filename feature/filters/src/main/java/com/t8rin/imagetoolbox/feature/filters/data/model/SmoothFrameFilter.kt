@@ -44,14 +44,11 @@ internal class SmoothFrameFilter(
             R.string.filter_help_gmic_filter_smooth_frame
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicInteger(R.string.gmic_param_width, 5, 0f..100f),
-                    gmicInteger(R.string.gmic_param_height, 5, 0f..100f),
-                    gmicNumber(R.string.gmic_param_roundness, 0.25f, 0f..1f)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicInteger(R.string.gmic_param_width, 5, 0f..100f),
+                gmicInteger(R.string.gmic_param_height, 5, 0f..100f),
+                gmicNumber(R.string.gmic_param_roundness, 0.25f, 0f..1f)
             )
         }
     }

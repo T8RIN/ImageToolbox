@@ -55,43 +55,40 @@ internal class ShapeismFilter(
         override val info =
             FilterInfo(R.string.gmic_filter_shapeism, R.string.filter_help_gmic_filter_shapeism)
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicSelection(
-                        R.string.shape,
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicSelection(
+                    R.string.shape,
+                    "Circle",
+                    listOf(
+                        "Square",
+                        "Triangle",
                         "Circle",
-                        listOf(
-                            "Square",
-                            "Triangle",
-                            "Circle",
-                            "Diamond",
-                            "Hexagon",
-                            "Octagon",
-                            "Star",
-                            "Heart",
-                            "Custom"
-                        )
-                    ),
-                    gmicInteger(R.string.texture_branches, 7, 3f..16f),
-                    gmicNumber(R.string.texture_thickness, 0.38f, 0f..1f),
-                    gmicNumber(R.string.angle, 0, 0f..360f),
-                    gmicToggle(R.string.antialias, true),
-                    gmicInteger(R.string.scale, 5, 1f..16f),
-                    gmicInteger(R.string.gmic_param_maximal_size, 32, 1f..256f),
-                    gmicInteger(R.string.gmic_param_minimal_size, 8, 1f..256f),
-                    gmicSelection(
-                        R.string.gmic_param_allowed_angles,
-                        "Any",
-                        listOf("Zero", "ZeroOr180", "RightAngles", "Any")
-                    ),
-                    gmicInteger(R.string.spacing, 0, -5f..5f),
-                    gmicInteger(R.string.gmic_param_precision, 5, 1f..10f),
-                    gmicNumber(R.string.texture_edges, 0.5f, 0f..2f),
-                    gmicNumber(R.string.gmic_param_smoothness, 1, 0f..10f),
-                    gmicColor(R.string.background_color, -16777216)
-                )
+                        "Diamond",
+                        "Hexagon",
+                        "Octagon",
+                        "Star",
+                        "Heart",
+                        "Custom"
+                    )
+                ),
+                gmicInteger(R.string.texture_branches, 7, 3f..16f),
+                gmicNumber(R.string.texture_thickness, 0.38f, 0f..1f),
+                gmicNumber(R.string.angle, 0, 0f..360f),
+                gmicToggle(R.string.antialias, true),
+                gmicInteger(R.string.scale, 5, 1f..16f),
+                gmicInteger(R.string.gmic_param_maximal_size, 32, 1f..256f),
+                gmicInteger(R.string.gmic_param_minimal_size, 8, 1f..256f),
+                gmicSelection(
+                    R.string.gmic_param_allowed_angles,
+                    "Any",
+                    listOf("Zero", "ZeroOr180", "RightAngles", "Any")
+                ),
+                gmicInteger(R.string.spacing, 0, -5f..5f),
+                gmicInteger(R.string.gmic_param_precision, 5, 1f..10f),
+                gmicNumber(R.string.texture_edges, 0.5f, 0f..2f),
+                gmicNumber(R.string.gmic_param_smoothness, 1, 0f..10f),
+                gmicColor(R.string.background_color, -16777216)
             )
         }
     }

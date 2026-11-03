@@ -38,8 +38,8 @@ internal class KuwaharaFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.kuwahara, R.string.filter_help_kuwahara)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::radius, floatParam(default = 9f, range = 0f..10f, roundTo = 0))
+        override val parameters = structuredParameters {
+            Value::radius.float(default = 9f, range = 0f..10f, roundTo = 0)
         }
     }
 }

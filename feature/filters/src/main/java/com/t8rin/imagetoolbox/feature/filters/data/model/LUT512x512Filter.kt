@@ -58,11 +58,9 @@ internal class LUT512x512Filter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.lut512x512, R.string.filter_help_lut512x512)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::intensity, floatParam(R.string.strength, 1f, 0f..1f))
-            field(
-                Value::image,
-                imageParam(R.string.target_lut_image) { ImageModel(R.drawable.lookup) })
+        override val parameters = structuredParameters {
+            Value::intensity.float(R.string.strength, 1f, 0f..1f)
+            Value::image.image(R.string.target_lut_image) { ImageModel(R.drawable.lookup) }
         }
     }
 }

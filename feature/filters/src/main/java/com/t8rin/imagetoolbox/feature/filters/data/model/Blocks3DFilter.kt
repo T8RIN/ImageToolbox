@@ -69,28 +69,25 @@ internal class Blocks3DFilter(
         override val info =
             FilterInfo(R.string.gmic_filter_blocks_3d, R.string.filter_help_gmic_filter_blocks_3d)
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicInteger(R.string.resolution, 32, 1f..128f),
-                    gmicNumber(R.string.gmic_param_smoothness, 0, 0f..40f),
-                    gmicNumber(R.string.gmic_param_elevation, 4, -10f..10f),
-                    gmicNumber(R.string.just_size, 1.5f, 0f..3f),
-                    gmicNumber(R.string.angle, 30, 0f..360f),
-                    gmicNumber(R.string.gmic_param_tilt, 60, 0f..90f),
-                    gmicNumber(R.string.gmic_param_fov, 45, 1f..90f),
-                    gmicNumber(R.string.gmic_param_x_centering, 50, 0f..100f),
-                    gmicNumber(R.string.gmic_param_y_centering, 50, 0f..100f),
-                    gmicNumber(R.string.gmic_param_x_light, 0, -100f..100f),
-                    gmicNumber(R.string.gmic_param_y_light, -50, -100f..100f),
-                    gmicNumber(R.string.gmic_param_z_light, -100, -100f..0f),
-                    gmicNumber(R.string.gmic_param_specular_lightness, 0.5f, 0f..1f),
-                    gmicNumber(R.string.gmic_param_specular_shininess, 0.7f, 0f..3f),
-                    gmicToggle(R.string.gmic_param_use_light, true),
-                    gmicToggle(R.string.antialias, true),
-                    gmicColor(R.string.outline_color, -2147483648)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicInteger(R.string.resolution, 32, 1f..128f),
+                gmicNumber(R.string.gmic_param_smoothness, 0, 0f..40f),
+                gmicNumber(R.string.gmic_param_elevation, 4, -10f..10f),
+                gmicNumber(R.string.just_size, 1.5f, 0f..3f),
+                gmicNumber(R.string.angle, 30, 0f..360f),
+                gmicNumber(R.string.gmic_param_tilt, 60, 0f..90f),
+                gmicNumber(R.string.gmic_param_fov, 45, 1f..90f),
+                gmicNumber(R.string.gmic_param_x_centering, 50, 0f..100f),
+                gmicNumber(R.string.gmic_param_y_centering, 50, 0f..100f),
+                gmicNumber(R.string.gmic_param_x_light, 0, -100f..100f),
+                gmicNumber(R.string.gmic_param_y_light, -50, -100f..100f),
+                gmicNumber(R.string.gmic_param_z_light, -100, -100f..0f),
+                gmicNumber(R.string.gmic_param_specular_lightness, 0.5f, 0f..1f),
+                gmicNumber(R.string.gmic_param_specular_shininess, 0.7f, 0f..3f),
+                gmicToggle(R.string.gmic_param_use_light, true),
+                gmicToggle(R.string.antialias, true),
+                gmicColor(R.string.outline_color, -2147483648)
             )
         }
     }

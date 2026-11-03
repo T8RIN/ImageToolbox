@@ -17,11 +17,10 @@
 
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
-import androidx.compose.ui.graphics.Color
+import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.data.image.utils.ColorUtils.blue
 import com.t8rin.imagetoolbox.core.data.image.utils.ColorUtils.green
 import com.t8rin.imagetoolbox.core.data.image.utils.ColorUtils.red
-import com.t8rin.imagetoolbox.core.data.image.utils.ColorUtils.toModel
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.FalseColor.Value
 import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
@@ -49,9 +48,9 @@ internal class FalseColorFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.false_color, R.string.filter_help_false_color)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::darkColor, colorParam(R.string.first_color, Color.Yellow.toModel()))
-            field(Value::lightColor, colorParam(R.string.second_color, Color.Magenta.toModel()))
+        override val parameters = structuredParameters {
+            Value::darkColor.color(R.string.first_color, ColorModel(0xFFFFFF00.toInt()))
+            Value::lightColor.color(R.string.second_color, ColorModel(0xFFFF00FF.toInt()))
         }
     }
 }

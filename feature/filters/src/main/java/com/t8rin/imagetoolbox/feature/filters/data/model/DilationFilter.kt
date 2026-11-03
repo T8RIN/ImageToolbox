@@ -61,9 +61,9 @@ internal class DilationFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.dilation, R.string.filter_help_dilation)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::justSize, floatParam(R.string.just_size, 25f, 1f..150f, roundTo = 0))
-            field(Value::useCircleKernel, booleanParam(R.string.use_circle_kernel, true))
+        override val parameters = structuredParameters {
+            Value::justSize.float(R.string.just_size, 25f, 1f..150f, roundTo = 0)
+            Value::useCircleKernel.boolean(R.string.use_circle_kernel, true)
         }
     }
 }

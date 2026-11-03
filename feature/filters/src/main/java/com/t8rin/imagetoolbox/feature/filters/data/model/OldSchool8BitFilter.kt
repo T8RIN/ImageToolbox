@@ -44,14 +44,11 @@ internal class OldSchool8BitFilter(
             R.string.filter_help_gmic_filter_old_school8_bit
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.scale, 25, 1f..100f),
-                    gmicNumber(R.string.dithering, 800, 0f..10000f),
-                    gmicInteger(R.string.levels, 16, 2f..256f)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.scale, 25, 1f..100f),
+                gmicNumber(R.string.dithering, 800, 0f..10000f),
+                gmicInteger(R.string.levels, 16, 2f..256f)
             )
         }
     }

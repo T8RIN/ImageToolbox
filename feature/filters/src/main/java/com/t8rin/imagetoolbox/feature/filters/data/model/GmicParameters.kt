@@ -18,8 +18,9 @@
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import androidx.annotation.StringRes
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterParam
+import com.t8rin.imagetoolbox.core.filters.domain.model.GmicParameterInfo
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.filters.presentation.model.GmicParameterInfo
 import java.math.BigDecimal
 import kotlin.io.encoding.Base64
 
@@ -29,12 +30,29 @@ internal class GmicParameters(
 ) : FilterField.Value<GmicFilterParams>(
     { GmicFilterParams(defaults) },
     control(valueRange = 0f..0f),
-    emptyList(),
+    fields.map { field ->
+        when (field) {
+            is GmicParameterInfo.Number -> FilterParam(
+                field.title, field.range, field.roundTo, isSeed = field.isSeed
+            )
+
+            is GmicParameterInfo.Toggle -> control(field.title, 0f..1f, 0)
+            is GmicParameterInfo.Selection -> control(
+                field.title,
+                0f..field.entries.lastIndex.toFloat(),
+                0
+            )
+
+            is GmicParameterInfo.Color -> control(field.title, 0f..0f)
+        }
+    },
     encode = { params -> params.values.joinToString("*") { Base64.encode(it.encodeToByteArray()) } },
     decode = { value ->
         GmicFilterParams(value.split('*').map { Base64.decode(it).decodeToString() })
     }
-)
+) {
+    override val hasEditor: Boolean get() = true
+}
 
 internal data class GmicField(val default: String, val control: GmicParameterInfo)
 
@@ -59,6 +77,15 @@ internal fun gmicInteger(
 ): GmicField = GmicField(
     default.toString(),
     GmicParameterInfo.Number(title, range, isInteger = true, roundTo)
+)
+
+internal fun gmicSeed(
+    @StringRes title: Int,
+    default: Int,
+    range: ClosedFloatingPointRange<Float>
+): GmicField = GmicField(
+    default.toString(),
+    GmicParameterInfo.Number(title, range, isInteger = true, isSeed = true)
 )
 
 internal fun gmicToggle(@StringRes title: Int, default: Boolean): GmicField =

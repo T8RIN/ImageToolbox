@@ -53,31 +53,28 @@ internal class CircleTransformFilter(
             R.string.filter_help_gmic_filter_circle_transform
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.center_x, 50, 0f..100f),
-                    gmicNumber(R.string.center_y, 50, 0f..100f),
-                    gmicNumber(R.string.gmic_param_radius_point_x, 75, 0f..100f),
-                    gmicNumber(R.string.gmic_param_radius_point_y, 50, 0f..100f),
-                    gmicNumber(R.string.gmic_param_x_scale, -2, -16f..16f),
-                    gmicNumber(R.string.gmic_param_y_scale, -2, -16f..16f),
-                    gmicSelection(
-                        R.string.texture_symmetry,
-                        "None",
-                        listOf("None", "Inside", "Outside")
-                    ),
-                    gmicSelection(
-                        R.string.gmic_param_interpolation,
-                        "Linear",
-                        listOf("NearestNeighbor", "Linear")
-                    ),
-                    gmicSelection(
-                        R.string.gmic_param_boundary,
-                        "Mirror",
-                        listOf("Transparent", "Nearest", "Periodic", "Mirror")
-                    )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.center_x, 50, 0f..100f),
+                gmicNumber(R.string.center_y, 50, 0f..100f),
+                gmicNumber(R.string.gmic_param_radius_point_x, 75, 0f..100f),
+                gmicNumber(R.string.gmic_param_radius_point_y, 50, 0f..100f),
+                gmicNumber(R.string.gmic_param_x_scale, -2, -16f..16f),
+                gmicNumber(R.string.gmic_param_y_scale, -2, -16f..16f),
+                gmicSelection(
+                    R.string.texture_symmetry,
+                    "None",
+                    listOf("None", "Inside", "Outside")
+                ),
+                gmicSelection(
+                    R.string.gmic_param_interpolation,
+                    "Linear",
+                    listOf("NearestNeighbor", "Linear")
+                ),
+                gmicSelection(
+                    R.string.gmic_param_boundary,
+                    "Mirror",
+                    listOf("Transparent", "Nearest", "Periodic", "Mirror")
                 )
             )
         }

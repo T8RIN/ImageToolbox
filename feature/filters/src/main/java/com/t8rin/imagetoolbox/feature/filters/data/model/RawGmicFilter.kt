@@ -18,9 +18,6 @@
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import android.graphics.Bitmap
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import coil3.size.Size
 import com.t8rin.gmic.Gmic
 import com.t8rin.gmic.GmicFilter
@@ -79,8 +76,8 @@ internal class RawGmicFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.gmic_filter, R.string.filter_help_gmic_filter)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::command, stringParam(R.string.command, default = { "fx_gmicky 0" }))
+        override val parameters = structuredParameters {
+            Value::command.text(R.string.command) { "fx_gmicky 0" }
         }
     }
 }

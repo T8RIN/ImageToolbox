@@ -46,9 +46,9 @@ internal class VHSFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.vhs, R.string.filter_help_vhs)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::seed, floatParam(R.string.seed, 2f, 0f..PI.toFloat(), roundTo = 3))
-            field(Value::strength, floatParam(R.string.strength, 3f, 0f..10f, roundTo = 3))
+        override val parameters = structuredParameters {
+            Value::seed.seed(R.string.seed, 2f, 0f..PI.toFloat(), roundTo = 3)
+            Value::strength.float(R.string.strength, 3f, 0f..10f, roundTo = 3)
         }
     }
 }

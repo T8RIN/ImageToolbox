@@ -47,20 +47,17 @@ internal class SmoothAbstractFilter(
             R.string.filter_help_gmic_filter_smooth_abstract
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.gmic_param_smoothness, 75, 0f..100f),
-                    gmicSelection(
-                        R.string.gmic_param_regularization,
-                        "Isotropic",
-                        listOf("Isotropic", "DelaunayGuided", "EdgeOriented")
-                    ),
-                    gmicInteger(R.string.iterations, 20, 0f..100f),
-                    gmicNumber(R.string.gmic_param_geometry, 1, 0f..5f),
-                    gmicNumber(R.string.texture_detail, 30, 0f..50f)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.gmic_param_smoothness, 75, 0f..100f),
+                gmicSelection(
+                    R.string.gmic_param_regularization,
+                    "Isotropic",
+                    listOf("Isotropic", "DelaunayGuided", "EdgeOriented")
+                ),
+                gmicInteger(R.string.iterations, 20, 0f..100f),
+                gmicNumber(R.string.gmic_param_geometry, 1, 0f..5f),
+                gmicNumber(R.string.texture_detail, 30, 0f..50f)
             )
         }
     }

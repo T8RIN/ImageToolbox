@@ -24,13 +24,10 @@ import androidx.compose.ui.Modifier
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.shader.ShaderPreset
 import com.t8rin.imagetoolbox.core.filters.presentation.model.FilterParameterEditor
-import com.t8rin.imagetoolbox.core.filters.presentation.model.GmicUiFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.AsciiParamsItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.CropOrPerspectiveParamsItem
-import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.DisplacementParamsItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.DistortPerspectiveParamsItem
-import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.GmicFilterParamsItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.LensProfilesLinkItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.NtscParamsItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.RawGmicCommandsItem
@@ -55,24 +52,6 @@ internal fun <T : Any> FilterItemContent(
                 filter.ParamsItem(onFilterChange, previewOnly)
                 if (filter is Filter.RawGmic) RawGmicCommandsItem()
                 if (filter is Filter.LensCorrection) LensProfilesLinkItem(previewOnly)
-            }
-
-            is GmicUiFilter -> {
-                GmicFilterParamsItem(
-                    value = filter.gmicValue,
-                    filter = filter,
-                    onFilterChange = { onFilterChange(filter.withGmicValue(it)) },
-                    previewOnly = previewOnly
-                )
-            }
-
-            is Filter.Displacement -> {
-                DisplacementParamsItem(
-                    value = filter.value,
-                    filter = filter,
-                    onFilterChange = onFilterChange,
-                    previewOnly = previewOnly
-                )
             }
 
             is Filter.Shader -> {

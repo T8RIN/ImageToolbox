@@ -54,23 +54,20 @@ internal class MarkerDrawingFilter(
             R.string.filter_help_gmic_filter_marker_drawing
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicInteger(R.string.gmic_param_length, 70, 1f..256f),
-                    gmicNumber(R.string.radius, 4, 1f..32f),
-                    gmicNumber(R.string.opacity, 10, 0f..100f),
-                    gmicNumber(R.string.gmic_param_inertia, 15, 0f..100f),
-                    gmicNumber(R.string.gmic_param_curviness, 100, 0f..200f),
-                    gmicNumber(R.string.texture_anisotropy, 85, 0f..100f),
-                    gmicNumber(R.string.gmic_param_smoothness, 0.5f, 0f..5f),
-                    gmicNumber(R.string.gmic_param_coherence, 3, 0f..16f),
-                    gmicInteger(R.string.iterations, 3, 1f..64f),
-                    gmicSelection(R.string.gmic_param_background, "Color", listOf("Blur", "Color")),
-                    gmicNumber(R.string.gmic_param_background_blur, 20, 0f..128f),
-                    gmicColor(R.string.background_color, -1)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicInteger(R.string.gmic_param_length, 70, 1f..256f),
+                gmicNumber(R.string.radius, 4, 1f..32f),
+                gmicNumber(R.string.opacity, 10, 0f..100f),
+                gmicNumber(R.string.gmic_param_inertia, 15, 0f..100f),
+                gmicNumber(R.string.gmic_param_curviness, 100, 0f..200f),
+                gmicNumber(R.string.texture_anisotropy, 85, 0f..100f),
+                gmicNumber(R.string.gmic_param_smoothness, 0.5f, 0f..5f),
+                gmicNumber(R.string.gmic_param_coherence, 3, 0f..16f),
+                gmicInteger(R.string.iterations, 3, 1f..64f),
+                gmicSelection(R.string.gmic_param_background, "Color", listOf("Blur", "Color")),
+                gmicNumber(R.string.gmic_param_background_blur, 20, 0f..128f),
+                gmicColor(R.string.background_color, -1)
             )
         }
     }

@@ -51,18 +51,15 @@ internal class CmykPressFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.cmyk_press, R.string.filter_help_cmyk_press)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::spacing, intParam(R.string.spacing, 8, 2..30))
-            field(Value::blackGeneration, floatParam(R.string.black_generation, 0.68f, 0f..1f))
-            field(Value::dotGain, floatParam(R.string.dot_gain, 0.22f, 0f..1f))
-            field(
-                Value::misregistration,
-                floatParam(R.string.misregistration, 1.2f, 0f..18f, roundTo = 1)
-            )
-            field(Value::inkLimit, floatParam(R.string.ink_limit, 2.6f, 0.75f..4f))
-            field(Value::paperGrain, floatParam(R.string.paper_grain, 0.4f, 0f..1f))
-            field(Value::seed, intParam(R.string.seed, 0, 0..10000))
-            field(Value::strength, floatParam(R.string.strength, 1f, 0f..1f))
+        override val parameters = structuredParameters {
+            Value::spacing.int(R.string.spacing, 8, 2..30)
+            Value::blackGeneration.float(R.string.black_generation, 0.68f, 0f..1f)
+            Value::dotGain.float(R.string.dot_gain, 0.22f, 0f..1f)
+            Value::misregistration.float(R.string.misregistration, 1.2f, 0f..18f, roundTo = 1)
+            Value::inkLimit.float(R.string.ink_limit, 2.6f, 0.75f..4f)
+            Value::paperGrain.float(R.string.paper_grain, 0.4f, 0f..1f)
+            Value::seed.seed(R.string.seed, 0, 0..10000)
+            Value::strength.float(R.string.strength, 1f, 0f..1f)
         }
     }
 }

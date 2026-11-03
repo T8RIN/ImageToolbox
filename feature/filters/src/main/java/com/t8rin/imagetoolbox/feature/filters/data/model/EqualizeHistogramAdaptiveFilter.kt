@@ -49,9 +49,9 @@ internal class EqualizeHistogramAdaptiveFilter(
             R.string.filter_help_equalize_histogram_adaptive
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::gridSizeX, floatParam(R.string.grid_size_x, 3f, 1f..100f, roundTo = 0))
-            field(Value::gridSizeY, floatParam(R.string.grid_size_y, 3f, 1f..100f, roundTo = 0))
+        override val parameters = structuredParameters {
+            Value::gridSizeX.float(R.string.grid_size_x, 3f, 1f..100f, roundTo = 0)
+            Value::gridSizeY.float(R.string.grid_size_y, 3f, 1f..100f, roundTo = 0)
         }
     }
 }

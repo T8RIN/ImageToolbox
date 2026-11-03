@@ -135,6 +135,8 @@ aboutlibraries-m3 = { module = "com.mikepenz:aboutlibraries-compose-m3", version
 moshi = { module = "com.squareup.moshi:moshi-kotlin", version.ref = "moshi" }
 moshi-adapters = { module = "com.squareup.moshi:moshi-adapters", version.ref = "moshi" }
 symbol-processing-api = { module = "com.google.devtools.ksp:symbol-processing-api", version.ref = "ksp" }
+symbol-processing-embeddable = { module = "com.google.devtools.ksp:symbol-processing-aa-embeddable", version.ref = "ksp" }
+symbol-processing-common = { module = "com.google.devtools.ksp:symbol-processing-common-deps", version.ref = "ksp" }
 trickle = { module = "com.github.T8RIN:Trickle", version.ref = "trickle" }
 jsoup = { module = "org.jsoup:jsoup", version.ref = "jsoup" }
 mlkit-document-scanner = { module = "com.google.android.gms:play-services-mlkit-document-scanner", version.ref = "mlkitDocumentScanner" }
@@ -220,12 +222,15 @@ gms-gradle = { module = "com.google.gms:google-services", version.ref = "gms" }
 kotlinx-serialization-gradle = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "kotlin" }
 ksp-gradle = { module = "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
 agp-gradle = { module = "com.android.tools.build:gradle", version.ref = "agp" }
+aaptcompiler = { module = "com.android.tools.build:aaptcompiler", version.ref = "agp" }
+apksig = { module = "com.android.tools.build:apksig", version.ref = "agp" }
 detekt-gradle = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
 aboutlibraries-gradle = { module = "com.mikepenz.aboutlibraries.plugin:aboutlibraries-plugin", version.ref = "aboutlibraries" }
 compose-compiler-gradle = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }
 
 # Used in convention plugins
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
+kotlin-compiler-embeddable = { module = "org.jetbrains.kotlin:kotlin-compiler-embeddable", version.ref = "kotlin" }
 
 dagger-hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt" }
 dagger-hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
@@ -235,6 +240,8 @@ detekt-compose = { module = "io.nlopez.compose.rules:detekt", version.ref = "det
 window-sizeclass = { module = "androidx.compose.material3:material3-window-size-class", version.ref = "material3" }
 androidx-material = { module = "androidx.compose.material:material", version.ref = "composeVersion" }
 androidx-material3 = { module = "androidx.compose.material3:material3", version.ref = "material3" }
+compose-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "composeVersion" }
+compose-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "composeVersion" }
 compose-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "composeVersion" }
 compose-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "composeVersion" }
 compose-animation = { module = "androidx.compose.animation:animation", version.ref = "composeVersion" }

@@ -46,8 +46,8 @@ internal class RadialWeavePixelationFilter(
             R.string.filter_help_radial_weave_pixelization
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::layers, floatParam(default = 25f, range = 5f..200f))
+        override val parameters = structuredParameters {
+            Value::layers.float(default = 25f, range = 5f..200f)
         }
     }
 }

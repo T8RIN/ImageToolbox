@@ -38,12 +38,9 @@ internal class WhiteBalanceFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.white_balance, R.string.filter_help_white_balance)
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::temperature,
-                floatParam(R.string.temperature, 7000.0f, 1000f..10000f, roundTo = 0)
-            )
-            field(Value::tint, floatParam(R.string.tint, 100f, -100f..100f))
+        override val parameters = structuredParameters {
+            Value::temperature.float(R.string.temperature, 7000.0f, 1000f..10000f, roundTo = 0)
+            Value::tint.float(R.string.tint, 100f, -100f..100f)
         }
     }
 }

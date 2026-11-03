@@ -50,25 +50,19 @@ internal class RisographFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.risograph, R.string.filter_help_risograph)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::spacing, intParam(R.string.spacing, 8, 2..30))
-            field(
-                Value::misregistration,
-                floatParam(R.string.misregistration, 2.5f, 0f..20f, roundTo = 1)
+        override val parameters = structuredParameters {
+            Value::spacing.int(R.string.spacing, 8, 2..30)
+            Value::misregistration.float(R.string.misregistration, 2.5f, 0f..20f, roundTo = 1)
+            Value::dotGain.float(R.string.dot_gain, 0.32f, 0f..1f)
+            Value::inks.choice(
+                R.string.inks, 0,
+                R.string.blue_and_pink,
+                R.string.blue_and_green,
+                R.string.green_and_pink
             )
-            field(Value::dotGain, floatParam(R.string.dot_gain, 0.32f, 0f..1f))
-            field(
-                Value::inks,
-                choiceParam(
-                    R.string.inks, 0,
-                    R.string.blue_and_pink,
-                    R.string.blue_and_green,
-                    R.string.green_and_pink
-                )
-            )
-            field(Value::paperGrain, floatParam(R.string.paper_grain, 0.4f, 0f..1f))
-            field(Value::seed, intParam(R.string.seed, 0, 0..10000))
-            field(Value::strength, floatParam(R.string.strength, 1f, 0f..1f))
+            Value::paperGrain.float(R.string.paper_grain, 0.4f, 0f..1f)
+            Value::seed.seed(R.string.seed, 0, 0..10000)
+            Value::strength.float(R.string.strength, 1f, 0f..1f)
         }
     }
 }

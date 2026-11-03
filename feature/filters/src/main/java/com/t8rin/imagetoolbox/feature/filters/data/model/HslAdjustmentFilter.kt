@@ -49,19 +49,16 @@ internal class HslAdjustmentFilter(
             R.string.filter_help_gmic_filter_hsl_adjustment
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.contrast, 1.1f, 0f..2f),
-                    gmicNumber(R.string.gmic_param_level, 0.05f, -1f..1f),
-                    gmicToggle(R.string.gmic_param_auto_reduce_level, false),
-                    gmicNumber(R.string.hue, 35, 0f..360f),
-                    gmicNumber(R.string.amount, 0.35f, 0.2f..1f),
-                    gmicToggle(R.string.gmic_param_auto_set_inverse_hue, false),
-                    gmicNumber(R.string.gamma, 1, 0f..2f),
-                    gmicNumber(R.string.gmic_param_output_contrast, 1.05f, 0f..2f)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.contrast, 1.1f, 0f..2f),
+                gmicNumber(R.string.gmic_param_level, 0.05f, -1f..1f),
+                gmicToggle(R.string.gmic_param_auto_reduce_level, false),
+                gmicNumber(R.string.hue, 35, 0f..360f),
+                gmicNumber(R.string.amount, 0.35f, 0.2f..1f),
+                gmicToggle(R.string.gmic_param_auto_set_inverse_hue, false),
+                gmicNumber(R.string.gamma, 1, 0f..2f),
+                gmicNumber(R.string.gmic_param_output_contrast, 1.05f, 0f..2f)
             )
         }
     }

@@ -49,18 +49,15 @@ internal class SuperPixelsFilter(
             R.string.filter_help_gmic_filter_super_pixels
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicInteger(R.string.just_size, 16, 4f..64f),
-                    gmicNumber(R.string.gmic_param_regularity, 10, 0f..128f),
-                    gmicInteger(R.string.iterations, 5, 1f..16f),
-                    gmicSelection(R.string.color, "Average", listOf("Random", "Average")),
-                    gmicNumber(R.string.gmic_param_border_opacity, 1, 0f..1f),
-                    gmicInteger(R.string.border_thickness, 1, 1f..16f),
-                    gmicColor(R.string.border_color, -16777216)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicInteger(R.string.just_size, 16, 4f..64f),
+                gmicNumber(R.string.gmic_param_regularity, 10, 0f..128f),
+                gmicInteger(R.string.iterations, 5, 1f..16f),
+                gmicSelection(R.string.color, "Average", listOf("Random", "Average")),
+                gmicNumber(R.string.gmic_param_border_opacity, 1, 0f..1f),
+                gmicInteger(R.string.border_thickness, 1, 1f..16f),
+                gmicColor(R.string.border_color, -16777216)
             )
         }
     }

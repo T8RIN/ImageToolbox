@@ -47,8 +47,8 @@ internal class CandlelightFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.candlelight, R.string.filter_help_candlelight)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::strength, floatParam(R.string.strength, 1f, 0f..1f))
+        override val parameters = structuredParameters {
+            Value::strength.float(R.string.strength, 1f, 0f..1f)
         }
     }
 }

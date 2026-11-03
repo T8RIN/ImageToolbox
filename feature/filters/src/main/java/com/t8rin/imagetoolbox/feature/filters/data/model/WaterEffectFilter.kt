@@ -48,12 +48,12 @@ internal class WaterEffectFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.water_effect, R.string.filter_help_water_effect)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::fractionSize, floatParam(R.string.just_size, 0.2f, 0f..1f))
-            field(Value::frequencyX, floatParam(R.string.frequency_x, 2f, -4f..4f))
-            field(Value::frequencyY, floatParam(R.string.frequency_y, 2f, -4f..4f))
-            field(Value::amplitudeX, floatParam(R.string.amplitude_x, 0.5f, -4f..4f))
-            field(Value::amplitudeY, floatParam(R.string.amplitude_y, 0.5f, -4f..4f))
+        override val parameters = structuredParameters {
+            Value::fractionSize.float(R.string.just_size, 0.2f, 0f..1f)
+            Value::frequencyX.float(R.string.frequency_x, 2f, -4f..4f)
+            Value::frequencyY.float(R.string.frequency_y, 2f, -4f..4f)
+            Value::amplitudeX.float(R.string.amplitude_x, 0.5f, -4f..4f)
+            Value::amplitudeY.float(R.string.amplitude_y, 0.5f, -4f..4f)
         }
     }
 }

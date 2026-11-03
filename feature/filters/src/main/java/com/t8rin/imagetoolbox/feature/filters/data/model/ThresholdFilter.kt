@@ -45,8 +45,8 @@ internal class ThresholdFilter(
         override val info =
             FilterInfo(R.string.luminance_threshold, R.string.filter_help_luminance_threshold)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::threshold, floatParam(default = 128f, range = 0f..255f, roundTo = 0))
+        override val parameters = structuredParameters {
+            Value::threshold.float(default = 128f, range = 0f..255f, roundTo = 0)
         }
     }
 }

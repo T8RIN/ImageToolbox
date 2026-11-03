@@ -46,19 +46,16 @@ internal class BreaksFilter(
         override val info =
             FilterInfo(R.string.gmic_filter_breaks, R.string.filter_help_gmic_filter_breaks)
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicSelection(R.string.type, "Flat", listOf("Flat", "Relief")),
-                    gmicNumber(R.string.amplitude, 30, 0f..300f),
-                    gmicNumber(R.string.frequency, 30, 0f..100f),
-                    gmicNumber(R.string.gmic_param_smoothness, 0.5f, 0f..10f),
-                    gmicSelection(
-                        R.string.gmic_param_boundary,
-                        "Mirror",
-                        listOf("Transparent", "Nearest", "Periodic", "Mirror")
-                    )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicSelection(R.string.type, "Flat", listOf("Flat", "Relief")),
+                gmicNumber(R.string.amplitude, 30, 0f..300f),
+                gmicNumber(R.string.frequency, 30, 0f..100f),
+                gmicNumber(R.string.gmic_param_smoothness, 0.5f, 0f..10f),
+                gmicSelection(
+                    R.string.gmic_param_boundary,
+                    "Mirror",
+                    listOf("Transparent", "Nearest", "Periodic", "Mirror")
                 )
             )
         }

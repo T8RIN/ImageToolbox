@@ -47,8 +47,8 @@ internal class HejlBurgessToneMappingFilter(
             R.string.filter_help_heji_burgess_tone_mapping
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::exposure, floatParam(default = 1f, range = 0f..4f))
+        override val parameters = structuredParameters {
+            Value::exposure.float(default = 1f, range = 0f..4f)
         }
     }
 }

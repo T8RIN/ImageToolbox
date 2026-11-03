@@ -54,15 +54,12 @@ internal class AsciiFilter(
     companion object : Filter.Schema.Custom<Value> {
         override val info = FilterInfo(R.string.ascii, R.string.filter_help_ascii)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::gradient, stringParam(R.string.gradient) { Gradient.OLD.value })
-            field(Value::fontSize, floatParam(R.string.font_size, 10f, 1f..100f))
-            field(Value::font, fontParam(R.string.font) { null })
-            field(
-                Value::backgroundColor,
-                colorParam(R.string.background_color, ColorModel(0xFF000000.toInt()))
-            )
-            field(Value::isGrayscale, booleanParam(R.string.gray_scale, false))
+        override val parameters = structuredParameters {
+            Value::gradient.text(R.string.gradient) { Gradient.OLD.value }
+            Value::fontSize.float(R.string.font_size, 10f, 1f..100f)
+            Value::font.font(R.string.font) { null }
+            Value::backgroundColor.color(R.string.background_color, ColorModel(0xFF000000.toInt()))
+            Value::isGrayscale.boolean(R.string.gray_scale, false)
         }
     }
 }

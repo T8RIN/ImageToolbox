@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,4 +23,9 @@ plugins {
 dependencies {
     implementation(kotlin("stdlib"))
     implementation(libs.symbol.processing.api)
+
+    testImplementation(libs.junit)
+    testImplementation(libs.symbol.processing.embeddable)
+    testImplementation(libs.symbol.processing.common)
+    testImplementation(libs.kotlin.compiler.embeddable)
 }

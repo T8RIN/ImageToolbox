@@ -48,19 +48,16 @@ internal class AgxToneMappingFilter(
         override val info =
             FilterInfo(R.string.agx_tone_mapping, R.string.filter_help_agx_tone_mapping)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::exposure, floatParam(R.string.exposure, 0f, -4f..4f))
-            field(
-                Value::look,
-                choiceParam(
-                    R.string.look, 0,
-                    R.string.neutral,
-                    R.string.golden,
-                    R.string.punchy
-                )
+        override val parameters = structuredParameters {
+            Value::exposure.float(R.string.exposure, 0f, -4f..4f)
+            Value::look.choice(
+                R.string.look, 0,
+                R.string.neutral,
+                R.string.golden,
+                R.string.punchy
             )
-            field(Value::saturation, floatParam(R.string.saturation, 1f, 0f..1.75f))
-            field(Value::strength, floatParam(R.string.strength, 1f, 0f..1f))
+            Value::saturation.float(R.string.saturation, 1f, 0f..1.75f)
+            Value::strength.float(R.string.strength, 1f, 0f..1f)
         }
     }
 }

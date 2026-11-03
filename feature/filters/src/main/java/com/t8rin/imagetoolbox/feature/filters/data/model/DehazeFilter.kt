@@ -46,9 +46,9 @@ internal class DehazeFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.dehaze, R.string.filter_help_dehaze)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::radius, floatParam(R.string.radius, 17f, 1f..50f, roundTo = 0))
-            field(Value::omega, floatParam(R.string.omega, 0.45f, 0f..1f))
+        override val parameters = structuredParameters {
+            Value::radius.float(R.string.radius, 17f, 1f..50f, roundTo = 0)
+            Value::omega.float(R.string.omega, 0.45f, 0f..1f)
         }
     }
 }

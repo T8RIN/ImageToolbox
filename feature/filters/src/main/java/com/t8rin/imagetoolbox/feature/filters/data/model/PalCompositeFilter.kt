@@ -51,15 +51,15 @@ internal class PalCompositeFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.pal_composite, R.string.filter_help_pal_composite)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::lumaFilter, floatParam(R.string.luminance_filtering, 0.88f, 0f..1f))
-            field(Value::chromaRadius, intParam(R.string.chroma_radius, 2, 1..6))
-            field(Value::noise, floatParam(R.string.noise, 0.035f, 0f..0.3f, roundTo = 3))
-            field(Value::phaseError, intParam(R.string.phase_error, 12, -45..45))
-            field(Value::scanSamples, intParam(R.string.samples_per_line, 720, 160..960))
-            field(Value::lineCompensation, floatParam(R.string.line_compensation, 0.7f, 0f..1f))
-            field(Value::seed, intParam(R.string.seed, 0, 0..10000))
-            field(Value::strength, floatParam(R.string.strength, 1f, 0f..1f))
+        override val parameters = structuredParameters {
+            Value::lumaFilter.float(R.string.luminance_filtering, 0.88f, 0f..1f)
+            Value::chromaRadius.int(R.string.chroma_radius, 2, 1..6)
+            Value::noise.float(R.string.noise, 0.035f, 0f..0.3f, roundTo = 3)
+            Value::phaseError.int(R.string.phase_error, 12, -45..45)
+            Value::scanSamples.int(R.string.samples_per_line, 720, 160..960)
+            Value::lineCompensation.float(R.string.line_compensation, 0.7f, 0f..1f)
+            Value::seed.seed(R.string.seed, 0, 0..10000)
+            Value::strength.float(R.string.strength, 1f, 0f..1f)
         }
     }
 }

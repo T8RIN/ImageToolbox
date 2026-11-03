@@ -52,21 +52,18 @@ internal class DreamPaintingFilter(
             R.string.filter_help_gmic_filter_dream_painting
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicInteger(R.string.gmic_param_abstraction, 4, 1f..10f),
-                    gmicNumber(R.string.gmic_param_details_scale, 2, 0f..5f),
-                    gmicNumber(R.string.gmic_param_color_strength, 1.7f, 0f..4f),
-                    gmicNumber(R.string.gmic_param_paint_smoothness, 40, 0f..1000f),
-                    gmicToggle(R.string.gmic_param_sharpen_shades, true),
-                    gmicNumber(R.string.gmic_param_bloom_strength, 45, 0f..400f),
-                    gmicNumber(R.string.gmic_param_bloom_scale, 35, 0f..255f),
-                    gmicNumber(R.string.gmic_param_bloom_smoothness, 45, 0f..255f),
-                    gmicInteger(R.string.highlights, 35, 0f..100f),
-                    gmicNumber(R.string.contrast, 12, 0f..100f)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicInteger(R.string.gmic_param_abstraction, 4, 1f..10f),
+                gmicNumber(R.string.gmic_param_details_scale, 2, 0f..5f),
+                gmicNumber(R.string.gmic_param_color_strength, 1.7f, 0f..4f),
+                gmicNumber(R.string.gmic_param_paint_smoothness, 40, 0f..1000f),
+                gmicToggle(R.string.gmic_param_sharpen_shades, true),
+                gmicNumber(R.string.gmic_param_bloom_strength, 45, 0f..400f),
+                gmicNumber(R.string.gmic_param_bloom_scale, 35, 0f..255f),
+                gmicNumber(R.string.gmic_param_bloom_smoothness, 45, 0f..255f),
+                gmicInteger(R.string.highlights, 35, 0f..100f),
+                gmicNumber(R.string.contrast, 12, 0f..100f)
             )
         }
     }

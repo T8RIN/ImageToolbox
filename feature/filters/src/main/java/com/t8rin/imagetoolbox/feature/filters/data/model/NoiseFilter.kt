@@ -44,8 +44,8 @@ internal class NoiseFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.noise, R.string.filter_help_noise)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::threshold, floatParam(default = 128f, range = 0f..255f, roundTo = 0))
+        override val parameters = structuredParameters {
+            Value::threshold.float(default = 128f, range = 0f..255f, roundTo = 0)
         }
     }
 }

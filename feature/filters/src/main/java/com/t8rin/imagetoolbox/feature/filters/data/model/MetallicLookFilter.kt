@@ -45,17 +45,14 @@ internal class MetallicLookFilter(
             R.string.filter_help_gmic_filter_metallic_look
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.strength, 1, 0f..1f),
-                    gmicNumber(R.string.gmic_param_smoothness, 0, 0f..20f),
-                    gmicSelection(
-                        R.string.gmic_param_metal,
-                        "Silver",
-                        listOf("Silver", "Gold", "Copper", "Bronze", "BlueSteel")
-                    )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.strength, 1, 0f..1f),
+                gmicNumber(R.string.gmic_param_smoothness, 0, 0f..20f),
+                gmicSelection(
+                    R.string.gmic_param_metal,
+                    "Silver",
+                    listOf("Silver", "Gold", "Copper", "Bronze", "BlueSteel")
                 )
             )
         }

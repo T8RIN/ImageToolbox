@@ -50,29 +50,23 @@ internal class DctGlitchFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.dct_glitch, R.string.filter_help_dct_glitch)
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::blockSize,
-                choiceParam(
-                    R.string.block_size, 1,
-                    R.string.dct_block_8_8,
-                    R.string.dct_block_16_16
-                )
+        override val parameters = structuredParameters {
+            Value::blockSize.choice(
+                R.string.block_size, 1,
+                R.string.dct_block_8_8,
+                R.string.dct_block_16_16
             )
-            field(Value::minimumFrequency, floatParam(R.string.min_frequency, 0.07f, 0f..1f))
-            field(Value::maximumFrequency, floatParam(R.string.max_frequency, 0.55f, 0f..1f))
-            field(
-                Value::operation,
-                choiceParam(
-                    R.string.operation, 2,
-                    R.string.zero_ac,
-                    R.string.flip_sign,
-                    R.string.chroma_distortion
-                )
+            Value::minimumFrequency.float(R.string.min_frequency, 0.07f, 0f..1f)
+            Value::maximumFrequency.float(R.string.max_frequency, 0.55f, 0f..1f)
+            Value::operation.choice(
+                R.string.operation, 2,
+                R.string.zero_ac,
+                R.string.flip_sign,
+                R.string.chroma_distortion
             )
-            field(Value::probability, floatParam(R.string.probability, 0.58f, 0f..1f))
-            field(Value::seed, intParam(R.string.seed, 0, 0..10000))
-            field(Value::strength, floatParam(R.string.strength, 1f, 0f..1f))
+            Value::probability.float(R.string.probability, 0.58f, 0f..1f)
+            Value::seed.seed(R.string.seed, 0, 0..10000)
+            Value::strength.float(R.string.strength, 1f, 0f..1f)
         }
     }
 }

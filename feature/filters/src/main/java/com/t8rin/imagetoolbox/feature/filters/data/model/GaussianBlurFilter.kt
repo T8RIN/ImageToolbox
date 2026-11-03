@@ -52,13 +52,12 @@ internal class GaussianBlurFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.gaussian_blur, R.string.filter_help_gaussian_blur)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::radius, floatParam(R.string.radius, 25f, 0f..100f, roundTo = 0))
-            field(Value::sigma, floatParam(R.string.sigma, 10f, 1f..100f))
-            field(
-                Value::edgeMode,
-                enumParam(R.string.edge_mode, default = { BlurEdgeMode.Reflect101 })
-            )
+        override val parameters = structuredParameters {
+            Value::radius.float(R.string.radius, 25f, 0f..100f, roundTo = 0)
+            Value::sigma.float(R.string.sigma, 10f, 1f..100f)
+            Value::edgeMode.enum(
+                R.string.edge_mode,
+                label = { it.label }) { BlurEdgeMode.Reflect101 }
         }
     }
 }

@@ -135,9 +135,9 @@ internal class MirrorFilter(
         override val info =
             FilterInfo(R.string.tile_mode_mirror, R.string.filter_help_tile_mode_mirror)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::center, floatParam(R.string.center, 0.5f, 0f..1f))
-            field(Value::side, enumParam(R.string.side, default = { MirrorSide.LeftToRight }))
+        override val parameters = structuredParameters {
+            Value::center.float(R.string.center, 0.5f, 0f..1f)
+            Value::side.enum(R.string.side, label = { it.label }) { MirrorSide.LeftToRight }
         }
     }
 }

@@ -17,10 +17,9 @@
 
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
-import androidx.compose.ui.graphics.Color
 import com.jhlabs.ContourFilter
 import com.jhlabs.JhFilter
-import com.t8rin.imagetoolbox.core.data.image.utils.ColorUtils.toModel
+import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.Contour.Value
 import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
@@ -44,14 +43,11 @@ internal class ContourFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.contour, R.string.filter_help_contour)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::levels, floatParam(R.string.levels, 5f, 0f..50f))
-            field(Value::scale, floatParam(R.string.scale, 1f, 0f..1f, roundTo = 0))
-            field(Value::offset, floatParam(R.string.offset, 0f, 0f..255f, roundTo = 0))
-            field(
-                Value::color,
-                colorParam(R.string.color, Color(0xff000000).toModel(), allowAlpha = true)
-            )
+        override val parameters = structuredParameters {
+            Value::levels.float(R.string.levels, 5f, 0f..50f)
+            Value::scale.float(R.string.scale, 1f, 0f..1f, roundTo = 0)
+            Value::offset.float(R.string.offset, 0f, 0f..255f, roundTo = 0)
+            Value::color.color(R.string.color, ColorModel(0xFF000000.toInt()), allowAlpha = true)
         }
     }
 }

@@ -18,8 +18,7 @@
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import android.graphics.Bitmap
-import androidx.compose.ui.graphics.Color
-import com.t8rin.imagetoolbox.core.data.image.utils.ColorUtils.toModel
+import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.ColorPoster.Value
@@ -51,12 +50,9 @@ internal class ColorPosterFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.color_poster, R.string.filter_help_color_poster)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::strength, floatParam(R.string.strength, 0.5f, 0f..1f))
-            field(
-                Value::color,
-                colorParam(R.string.color, Color(0xFF4DFFE4).toModel(), allowAlpha = true)
-            )
+        override val parameters = structuredParameters {
+            Value::strength.float(R.string.strength, 0.5f, 0f..1f)
+            Value::color.color(R.string.color, ColorModel(0xFF4DFFE4.toInt()), allowAlpha = true)
         }
     }
 }

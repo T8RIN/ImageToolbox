@@ -53,31 +53,28 @@ internal class FilamentsFilter(
         override val info =
             FilterInfo(R.string.gmic_filter_filaments, R.string.filter_help_gmic_filter_filaments)
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.density, 50, 0f..100f),
-                    gmicNumber(R.string.gmic_param_length, 50, 0f..100f),
-                    gmicNumber(R.string.contour, 75, 0f..100f),
-                    gmicNumber(R.string.distortion, 30, 0f..100f),
-                    gmicNumber(R.string.gmic_param_smoothness, 10, 0f..100f),
-                    gmicNumber(R.string.rotation, 0, -180f..180f),
-                    gmicToggle(R.string.gmic_param_local_normalization, true),
-                    gmicToggle(R.string.gmic_param_throw_from_left, true),
-                    gmicToggle(R.string.gmic_param_throw_from_right, true),
-                    gmicToggle(R.string.gmic_param_throw_from_above, true),
-                    gmicToggle(R.string.gmic_param_throw_from_below, true),
-                    gmicNumber(R.string.opacity, 50, 0f..100f),
-                    gmicSelection(
-                        R.string.gmic_param_color_mode,
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.density, 50, 0f..100f),
+                gmicNumber(R.string.gmic_param_length, 50, 0f..100f),
+                gmicNumber(R.string.contour, 75, 0f..100f),
+                gmicNumber(R.string.distortion, 30, 0f..100f),
+                gmicNumber(R.string.gmic_param_smoothness, 10, 0f..100f),
+                gmicNumber(R.string.rotation, 0, -180f..180f),
+                gmicToggle(R.string.gmic_param_local_normalization, true),
+                gmicToggle(R.string.gmic_param_throw_from_left, true),
+                gmicToggle(R.string.gmic_param_throw_from_right, true),
+                gmicToggle(R.string.gmic_param_throw_from_above, true),
+                gmicToggle(R.string.gmic_param_throw_from_below, true),
+                gmicNumber(R.string.opacity, 50, 0f..100f),
+                gmicSelection(
+                    R.string.gmic_param_color_mode,
+                    "WhiteOnBlack",
+                    listOf(
                         "WhiteOnBlack",
-                        listOf(
-                            "WhiteOnBlack",
-                            "BlackOnWhite",
-                            "WhiteOnTransparent",
-                            "BlackOnTransparent"
-                        )
+                        "BlackOnWhite",
+                        "WhiteOnTransparent",
+                        "BlackOnTransparent"
                     )
                 )
             )

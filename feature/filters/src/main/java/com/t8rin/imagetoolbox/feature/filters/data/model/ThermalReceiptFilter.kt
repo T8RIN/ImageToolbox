@@ -51,14 +51,14 @@ internal class ThermalReceiptFilter(
         override val info =
             FilterInfo(R.string.thermal_receipt, R.string.filter_help_thermal_receipt)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::size, intParam(R.string.just_size, 4, 1..22))
-            field(Value::heat, floatParam(R.string.heat, 1.35f, 0.4f..2.5f))
-            field(Value::heatRetention, floatParam(R.string.heat_retention, 0.32f, 0f..0.9f))
-            field(Value::defects, floatParam(R.string.defects, 0.015f, 0f..0.15f, roundTo = 3))
-            field(Value::fading, floatParam(R.string.fading, 0.1f, 0f..0.8f))
-            field(Value::seed, intParam(R.string.seed, 0, 0..10000))
-            field(Value::strength, floatParam(R.string.strength, 1f, 0f..1f))
+        override val parameters = structuredParameters {
+            Value::size.int(R.string.just_size, 4, 1..22)
+            Value::heat.float(R.string.heat, 1.35f, 0.4f..2.5f)
+            Value::heatRetention.float(R.string.heat_retention, 0.32f, 0f..0.9f)
+            Value::defects.float(R.string.defects, 0.015f, 0f..0.15f, roundTo = 3)
+            Value::fading.float(R.string.fading, 0.1f, 0f..0.8f)
+            Value::seed.seed(R.string.seed, 0, 0..10000)
+            Value::strength.float(R.string.strength, 1f, 0f..1f)
         }
     }
 }

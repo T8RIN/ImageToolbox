@@ -42,11 +42,11 @@ internal class LevelsFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.levels, R.string.filter_help_levels)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::lowInput, floatParam(R.string.low_input, 0f, 0f..1f))
-            field(Value::highInput, floatParam(R.string.high_input, 1f, 0f..1f))
-            field(Value::lowOutput, floatParam(R.string.low_output, 0f, 0f..1f))
-            field(Value::highOutput, floatParam(R.string.high_output, 1f, 0f..1f))
+        override val parameters = structuredParameters {
+            Value::lowInput.float(R.string.low_input, 0f, 0f..1f)
+            Value::highInput.float(R.string.high_input, 1f, 0f..1f)
+            Value::lowOutput.float(R.string.low_output, 0f, 0f..1f)
+            Value::highOutput.float(R.string.high_output, 1f, 0f..1f)
         }
     }
 }

@@ -56,28 +56,25 @@ internal class ToneEnhanceFilter(
             R.string.filter_help_gmic_filter_tone_enhance
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.gmic_param_shadows_detail, 0.6f, 0f..2f),
-                    gmicNumber(R.string.gmic_param_shadows_gamma, 0.9f, 0.2f..1.8f),
-                    gmicNumber(R.string.gmic_param_highlights_detail, 0.5f, 0f..2f),
-                    gmicNumber(R.string.gmic_param_highlights_gamma, 1.1f, 0.2f..1.8f),
-                    gmicInteger(R.string.center, 128, 0f..255f),
-                    gmicNumber(R.string.gmic_param_midpoint_detail, 0.4f, 0f..2f),
-                    gmicNumber(R.string.gmic_param_midpoint_gamma, 1, 0.2f..1.8f),
-                    gmicNumber(R.string.gmic_param_recovery_boost, 0.6f, 0f..1f),
-                    gmicNumber(R.string.gmic_param_recovery_smoothness, 0.2f, 0f..2f),
-                    gmicInteger(R.string.gmic_param_detail_mask_smoothness, 3, 0f..20f),
-                    gmicSelection(
-                        R.string.gmic_param_channel,
-                        "YCbCr",
-                        listOf("Hsi", "Hsv", "Lab", "LinearRgb", "Rgb", "YCbCr")
-                    ),
-                    gmicSelection(R.string.values, "Cut", listOf("Cut", "Normalize")),
-                    gmicToggle(R.string.gmic_param_color_median, false)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.gmic_param_shadows_detail, 0.6f, 0f..2f),
+                gmicNumber(R.string.gmic_param_shadows_gamma, 0.9f, 0.2f..1.8f),
+                gmicNumber(R.string.gmic_param_highlights_detail, 0.5f, 0f..2f),
+                gmicNumber(R.string.gmic_param_highlights_gamma, 1.1f, 0.2f..1.8f),
+                gmicInteger(R.string.center, 128, 0f..255f),
+                gmicNumber(R.string.gmic_param_midpoint_detail, 0.4f, 0f..2f),
+                gmicNumber(R.string.gmic_param_midpoint_gamma, 1, 0.2f..1.8f),
+                gmicNumber(R.string.gmic_param_recovery_boost, 0.6f, 0f..1f),
+                gmicNumber(R.string.gmic_param_recovery_smoothness, 0.2f, 0f..2f),
+                gmicInteger(R.string.gmic_param_detail_mask_smoothness, 3, 0f..20f),
+                gmicSelection(
+                    R.string.gmic_param_channel,
+                    "YCbCr",
+                    listOf("Hsi", "Hsv", "Lab", "LinearRgb", "Rgb", "YCbCr")
+                ),
+                gmicSelection(R.string.values, "Cut", listOf("Cut", "Normalize")),
+                gmicToggle(R.string.gmic_param_color_median, false)
             )
         }
     }

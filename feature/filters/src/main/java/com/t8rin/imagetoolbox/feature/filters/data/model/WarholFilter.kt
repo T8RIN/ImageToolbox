@@ -43,15 +43,12 @@ internal class WarholFilter(
         override val info =
             FilterInfo(R.string.gmic_filter_warhol, R.string.filter_help_gmic_filter_warhol)
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicInteger(R.string.gmic_param_x_tiles, 2, 1f..10f),
-                    gmicInteger(R.string.gmic_param_y_tiles, 2, 1f..10f),
-                    gmicNumber(R.string.gmic_param_smoothness, 2, 0f..10f),
-                    gmicNumber(R.string.color, 45, 0f..60f)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicInteger(R.string.gmic_param_x_tiles, 2, 1f..10f),
+                gmicInteger(R.string.gmic_param_y_tiles, 2, 1f..10f),
+                gmicNumber(R.string.gmic_param_smoothness, 2, 0f..10f),
+                gmicNumber(R.string.color, 45, 0f..60f)
             )
         }
     }

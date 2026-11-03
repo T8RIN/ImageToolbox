@@ -38,12 +38,9 @@ internal class CrosshatchFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.crosshatch, R.string.filter_help_crosshatch)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::spacing, floatParam(R.string.spacing, 0.01f, 0.001f..0.05f, roundTo = 4))
-            field(
-                Value::lineWidth,
-                floatParam(R.string.line_width, 0.003f, 0.001f..0.02f, roundTo = 4)
-            )
+        override val parameters = structuredParameters {
+            Value::spacing.float(R.string.spacing, 0.01f, 0.001f..0.05f, roundTo = 4)
+            Value::lineWidth.float(R.string.line_width, 0.003f, 0.001f..0.02f, roundTo = 4)
         }
     }
 }

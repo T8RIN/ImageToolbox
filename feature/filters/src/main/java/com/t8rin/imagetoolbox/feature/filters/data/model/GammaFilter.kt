@@ -44,8 +44,8 @@ internal class GammaFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.gamma, R.string.filter_help_gamma)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::gamma, floatParam(default = 1f, range = 0f..2f))
+        override val parameters = structuredParameters {
+            Value::gamma.float(default = 1f, range = 0f..2f)
         }
     }
 }

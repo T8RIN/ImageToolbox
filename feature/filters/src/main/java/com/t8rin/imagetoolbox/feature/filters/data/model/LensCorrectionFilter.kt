@@ -59,9 +59,9 @@ internal class LensCorrectionFilter(
         override val info =
             FilterInfo(R.string.lens_correction, R.string.filter_help_lens_correction)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::strength, floatParam(R.string.strength, 1f, -1f..3f))
-            field(Value::profile, fileParam(R.string.target_lens_profile) { FileModel("") })
+        override val parameters = structuredParameters {
+            Value::strength.float(R.string.strength, 1f, -1f..3f)
+            Value::profile.file(R.string.target_lens_profile) { FileModel("") }
         }
     }
 }

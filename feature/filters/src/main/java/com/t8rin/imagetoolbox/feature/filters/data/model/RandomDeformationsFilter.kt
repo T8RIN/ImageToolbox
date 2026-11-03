@@ -53,34 +53,31 @@ internal class RandomDeformationsFilter(
             R.string.filter_help_gmic_filter_random_deformations
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicToggle(R.string.gmic_param_recompute, false),
-                    gmicNumber(R.string.amplitude, 5, 0f..50f),
-                    gmicSelection(
-                        R.string.gmic_param_interpolation,
-                        "Linear",
-                        listOf("NoneOption", "Linear", "Bicubic")
-                    ),
-                    gmicNumber(R.string.gmic_param_matrix_density, 10, 1f..100f),
-                    gmicSelection(
-                        R.string.gmic_param_matrix_interpolation,
-                        "Bicubic",
-                        listOf("Linear", "Bicubic")
-                    ),
-                    gmicSelection(
-                        R.string.gmic_param_mode,
-                        "Noise",
-                        listOf("Noise", "SpreadNoise")
-                    ),
-                    gmicNumber(R.string.gmic_param_character, 0, -100f..100f),
-                    gmicSelection(
-                        R.string.gmic_param_boundary,
-                        "Neumann",
-                        listOf("Dirichlet", "Neumann", "Periodic", "Mirror")
-                    )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicToggle(R.string.gmic_param_recompute, false),
+                gmicNumber(R.string.amplitude, 5, 0f..50f),
+                gmicSelection(
+                    R.string.gmic_param_interpolation,
+                    "Linear",
+                    listOf("NoneOption", "Linear", "Bicubic")
+                ),
+                gmicNumber(R.string.gmic_param_matrix_density, 10, 1f..100f),
+                gmicSelection(
+                    R.string.gmic_param_matrix_interpolation,
+                    "Bicubic",
+                    listOf("Linear", "Bicubic")
+                ),
+                gmicSelection(
+                    R.string.gmic_param_mode,
+                    "Noise",
+                    listOf("Noise", "SpreadNoise")
+                ),
+                gmicNumber(R.string.gmic_param_character, 0, -100f..100f),
+                gmicSelection(
+                    R.string.gmic_param_boundary,
+                    "Neumann",
+                    listOf("Dirichlet", "Neumann", "Periodic", "Mirror")
                 )
             )
         }

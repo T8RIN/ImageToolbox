@@ -45,9 +45,9 @@ internal class AldridgeFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.aldridge, R.string.filter_help_aldridge)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::exposure, floatParam(R.string.exposure, 1f, 0f..2f))
-            field(Value::cutoff, floatParam(R.string.cutoff, 0.025f, -1f..1f, roundTo = 3))
+        override val parameters = structuredParameters {
+            Value::exposure.float(R.string.exposure, 1f, 0f..2f)
+            Value::cutoff.float(R.string.cutoff, 0.025f, -1f..1f, roundTo = 3)
         }
     }
 }

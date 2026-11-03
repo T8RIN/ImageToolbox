@@ -19,11 +19,11 @@ package com.t8rin.imagetoolbox.feature.filters.data.transformation
 
 import android.graphics.Bitmap
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
-import com.t8rin.imagetoolbox.feature.filters.data.model.GeneratedFilterCatalog
+import com.t8rin.imagetoolbox.feature.filters.data.model.GeneratedFilterRegistry
 
 internal interface FilterTransformation : Transformation<Bitmap> {
     val value: Any
     val cacheKeyExtra: Any? get() = null
 
-    override val cacheKey: String get() = GeneratedFilterCatalog.cacheKey(this)
+    override val cacheKey: String get() = GeneratedFilterRegistry.cacheKey(this)
 }

@@ -50,12 +50,11 @@ internal class LinearGaussianBoxBlurFilter(
             R.string.filter_help_linear_gaussian_box_blur
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::sigma, floatParam(R.string.sigma, 10f, 1f..300f, roundTo = 0))
-            field(
-                Value::transferFunction,
-                enumParam(R.string.tag_transfer_function, default = { TransferFunc.SRGB })
-            )
+        override val parameters = structuredParameters {
+            Value::sigma.float(R.string.sigma, 10f, 1f..300f, roundTo = 0)
+            Value::transferFunction.enum(
+                R.string.tag_transfer_function,
+                label = { it.label }) { TransferFunc.SRGB }
         }
     }
 }

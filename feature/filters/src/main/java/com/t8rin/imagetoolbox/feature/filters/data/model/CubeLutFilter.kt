@@ -58,9 +58,9 @@ internal class CubeLutFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.cube_lut, R.string.filter_help_cube_lut)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::intensity, floatParam(R.string.strength, 1f, 0f..1f))
-            field(Value::file, fileParam(R.string.target_cube_lut_file) { FileModel("") })
+        override val parameters = structuredParameters {
+            Value::intensity.float(R.string.strength, 1f, 0f..1f)
+            Value::file.file(R.string.target_cube_lut_file) { FileModel("") }
         }
     }
 }

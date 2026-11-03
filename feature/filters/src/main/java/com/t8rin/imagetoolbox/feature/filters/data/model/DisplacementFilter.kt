@@ -68,34 +68,35 @@ internal class DisplacementFilter(
         )
     }
 
-    companion object : Filter.Schema.Custom<Value> {
+    companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.displacement, R.string.filter_help_displacement)
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::strengthX,
-                floatParam(R.string.displacement_strength_x, 0.1f, -1f..1f, roundTo = 3)
-            )
-            field(
-                Value::strengthY,
-                floatParam(R.string.displacement_strength_y, 0.1f, -1f..1f, roundTo = 3)
-            )
-            field(
-                Value::horizontalMap,
-                imageParam(R.string.horizontal_displacement_map) { ImageModel("") })
-            field(
-                Value::verticalMap,
-                editorParam<ImageModel?>(
-                    { null },
-                    control(R.string.vertical_displacement_map, 0f..0f)
-                )
-            )
-            field(
-                Value::interpolation,
-                enumParam(R.string.gmic_param_interpolation) { DisplacementInterpolation.Linear })
-            field(
-                Value::boundary,
-                enumParam(R.string.gmic_param_boundary) { DisplacementBoundary.Clamp })
+        override val parameters = structuredParameters {
+            Value::horizontalMap.image(R.string.horizontal_displacement_map) { ImageModel("") }
+            Value::verticalMap.editor(control(R.string.vertical_displacement_map, 0f..0f)) { null }
+            Value::strengthX.float(R.string.displacement_strength_x, 0.1f, -1f..1f, roundTo = 3)
+            Value::strengthY.float(R.string.displacement_strength_y, 0.1f, -1f..1f, roundTo = 3)
+            Value::interpolation.enum(
+                R.string.gmic_param_interpolation,
+                label = {
+                    when (it) {
+                        DisplacementInterpolation.Nearest -> R.string.nearest
+                        DisplacementInterpolation.Linear -> R.string.linear
+                        DisplacementInterpolation.Cubic -> R.string.cubic
+                    }
+                }
+            ) { DisplacementInterpolation.Linear }
+            Value::boundary.enum(
+                R.string.gmic_param_boundary,
+                label = {
+                    when (it) {
+                        DisplacementBoundary.Transparent -> R.string.displacement_boundary_transparent
+                        DisplacementBoundary.Clamp -> R.string.tile_mode_clamp
+                        DisplacementBoundary.Wrap -> R.string.wrap
+                        DisplacementBoundary.Mirror -> R.string.tile_mode_mirror
+                    }
+                }
+            ) { DisplacementBoundary.Clamp }
         }
     }
 }

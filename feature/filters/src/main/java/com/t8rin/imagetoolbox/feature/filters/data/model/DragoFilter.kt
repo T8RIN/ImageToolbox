@@ -45,9 +45,9 @@ internal class DragoFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.drago, R.string.filter_help_drago)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::exposure, floatParam(R.string.exposure, 1f, 0f..2f))
-            field(Value::threshold, floatParam(R.string.threshold, 250f, 0f..500f))
+        override val parameters = structuredParameters {
+            Value::exposure.float(R.string.exposure, 1f, 0f..2f)
+            Value::threshold.float(R.string.threshold, 250f, 0f..500f)
         }
     }
 }

@@ -50,24 +50,18 @@ internal class SstvReceptionFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.sstv_reception, R.string.filter_help_sstv_reception)
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::transmissionMode,
-                choiceParam(
-                    R.string.transmission_mode, 0,
-                    R.string.sstv_martin,
-                    R.string.sstv_scottie
-                )
+        override val parameters = structuredParameters {
+            Value::transmissionMode.choice(
+                R.string.transmission_mode, 0,
+                R.string.sstv_martin,
+                R.string.sstv_scottie
             )
-            field(
-                Value::frequencyDrift,
-                floatParam(R.string.frequency_drift, 0.06f, 0f..0.25f, roundTo = 3)
-            )
-            field(Value::syncError, floatParam(R.string.sync_error, 0.014f, 0f..0.08f, roundTo = 3))
-            field(Value::noise, floatParam(R.string.noise, 0.08f, 0f..0.4f))
-            field(Value::dropout, floatParam(R.string.dropped_lines, 0.035f, 0f..0.2f, roundTo = 3))
-            field(Value::seed, intParam(R.string.seed, 0, 0..10000))
-            field(Value::strength, floatParam(R.string.strength, 1f, 0f..1f))
+            Value::frequencyDrift.float(R.string.frequency_drift, 0.06f, 0f..0.25f, roundTo = 3)
+            Value::syncError.float(R.string.sync_error, 0.014f, 0f..0.08f, roundTo = 3)
+            Value::noise.float(R.string.noise, 0.08f, 0f..0.4f)
+            Value::dropout.float(R.string.dropped_lines, 0.035f, 0f..0.2f, roundTo = 3)
+            Value::seed.seed(R.string.seed, 0, 0..10000)
+            Value::strength.float(R.string.strength, 1f, 0f..1f)
         }
     }
 }

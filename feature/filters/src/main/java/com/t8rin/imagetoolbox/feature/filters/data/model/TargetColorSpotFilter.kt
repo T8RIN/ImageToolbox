@@ -46,18 +46,15 @@ internal class TargetColorSpotFilter(
             R.string.filter_help_gmic_filter_target_color_spot
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.gmic_param_x_position, 50, 0f..100f),
-                    gmicNumber(R.string.gmic_param_y_position, 50, 0f..100f),
-                    gmicColor(R.string.target_color, -22746),
-                    gmicSelection(
-                        R.string.gmic_param_chromaticity_range,
-                        "Wide",
-                        listOf("Global", "Wide", "Narrow")
-                    )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.gmic_param_x_position, 50, 0f..100f),
+                gmicNumber(R.string.gmic_param_y_position, 50, 0f..100f),
+                gmicColor(R.string.target_color, -22746),
+                gmicSelection(
+                    R.string.gmic_param_chromaticity_range,
+                    "Wide",
+                    listOf("Global", "Wide", "Narrow")
                 )
             )
         }

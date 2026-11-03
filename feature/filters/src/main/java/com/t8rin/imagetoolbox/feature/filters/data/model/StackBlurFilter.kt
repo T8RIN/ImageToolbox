@@ -46,9 +46,9 @@ internal class StackBlurFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.stack_blur, R.string.filter_help_stack_blur)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::scale, floatParam(R.string.scale, 0.5f, 0.1f..1f))
-            field(Value::radius, floatParam(R.string.radius, 10f, 0f..100f, roundTo = 0))
+        override val parameters = structuredParameters {
+            Value::scale.float(R.string.scale, 0.5f, 0.1f..1f)
+            Value::radius.float(R.string.radius, 10f, 0f..100f, roundTo = 0)
         }
     }
 }

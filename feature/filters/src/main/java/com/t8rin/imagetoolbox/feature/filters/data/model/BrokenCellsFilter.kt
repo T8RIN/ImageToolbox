@@ -34,22 +34,16 @@ internal class BrokenCellsFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.broken_cells, R.string.filter_help_broken_cells)
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::intensity,
-                floatParam(R.string.texture_intensity, 0.5f, 0f..1f, roundTo = 3)
-            )
-            field(Value::distortion, floatParam(R.string.distortion, 0.2f, -1f..1f, roundTo = 3))
-            field(
-                Value::variability,
-                floatParam(R.string.procedural_variability, 0.5f, 0f..1f, roundTo = 3)
-            )
-            field(Value::frequency, floatParam(R.string.frequency, 8f, 1f..40f, roundTo = 3))
-            field(Value::seed, intParam(R.string.procedural_seed, 0, 0..1000))
-            field(Value::offsetX, floatParam(R.string.offset_x, 0f, -1f..1f, roundTo = 3))
-            field(Value::offsetY, floatParam(R.string.offset_y, 0f, -1f..1f, roundTo = 3))
-            field(Value::scale, floatParam(R.string.scale, 1f, 0.05f..8f, roundTo = 3))
-            field(Value::rotation, floatParam(R.string.rotation, 0f, -180f..180f, roundTo = 3))
+        override val parameters = structuredParameters {
+            Value::intensity.float(R.string.texture_intensity, 0.5f, 0f..1f, roundTo = 3)
+            Value::distortion.float(R.string.distortion, 0.2f, -1f..1f, roundTo = 3)
+            Value::variability.float(R.string.procedural_variability, 0.5f, 0f..1f, roundTo = 3)
+            Value::frequency.float(R.string.frequency, 8f, 1f..40f, roundTo = 3)
+            Value::seed.seed(R.string.procedural_seed, 0, 0..1000)
+            Value::offsetX.float(R.string.offset_x, 0f, -1f..1f, roundTo = 3)
+            Value::offsetY.float(R.string.offset_y, 0f, -1f..1f, roundTo = 3)
+            Value::scale.float(R.string.scale, 1f, 0.05f..8f, roundTo = 3)
+            Value::rotation.float(R.string.rotation, 0f, -180f..180f, roundTo = 3)
         }
 
         private val SHADER = """

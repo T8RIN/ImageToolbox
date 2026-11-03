@@ -38,8 +38,8 @@ internal class PosterizeFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.posterize, R.string.filter_help_posterize)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::amount, floatParam(default = 5f, range = 1f..40f, roundTo = 0))
+        override val parameters = structuredParameters {
+            Value::amount.float(default = 5f, range = 1f..40f, roundTo = 0)
         }
     }
 }

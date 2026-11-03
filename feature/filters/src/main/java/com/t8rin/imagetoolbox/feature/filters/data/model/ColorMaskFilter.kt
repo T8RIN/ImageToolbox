@@ -17,10 +17,9 @@
 
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
-import androidx.compose.ui.graphics.Color
 import com.jhlabs.JhFilter
 import com.jhlabs.MaskFilter
-import com.t8rin.imagetoolbox.core.data.image.utils.ColorUtils.toModel
+import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.ColorMask.Value
 import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
@@ -39,8 +38,8 @@ internal class ColorMaskFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.color_mask, R.string.filter_help_color_mask)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::color, colorParam(R.string.color, Color.Cyan.toModel(), allowAlpha = true))
+        override val parameters = structuredParameters {
+            Value::color.color(R.string.color, ColorModel(0xFF00FFFF.toInt()), allowAlpha = true)
         }
     }
 }

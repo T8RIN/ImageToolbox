@@ -56,38 +56,35 @@ internal class HsvEqualizerFilter(
             R.string.filter_help_gmic_filter_hsv_equalizer
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.gmic_param_first_hue_band, 25, 0f..360f),
-                    gmicNumber(R.string.gmic_param_first_band_width, 55, 1f..360f),
-                    gmicNumber(R.string.gmic_param_first_hue_shift, 8, -180f..180f),
-                    gmicNumber(
-                        R.string.gmic_param_first_saturation_correction,
-                        0.2f,
-                        -0.99f..0.99f
-                    ),
-                    gmicNumber(R.string.gmic_param_first_value_correction, 0.04f, -0.99f..0.99f),
-                    gmicNumber(R.string.gmic_param_second_hue_band, 200, 0f..360f),
-                    gmicNumber(R.string.gmic_param_second_band_width, 70, 1f..360f),
-                    gmicNumber(R.string.gmic_param_second_hue_shift, -6, -180f..180f),
-                    gmicNumber(
-                        R.string.gmic_param_second_saturation_correction,
-                        0.14f,
-                        -0.99f..0.99f
-                    ),
-                    gmicNumber(R.string.gmic_param_second_value_correction, -0.03f, -0.99f..0.99f),
-                    gmicNumber(R.string.gmic_param_third_hue_band, 330, 0f..360f),
-                    gmicNumber(R.string.gmic_param_third_band_width, 45, 1f..360f),
-                    gmicNumber(R.string.gmic_param_third_hue_shift, 4, -180f..180f),
-                    gmicNumber(
-                        R.string.gmic_param_third_saturation_correction,
-                        0.1f,
-                        -0.99f..0.99f
-                    ),
-                    gmicNumber(R.string.gmic_param_third_value_correction, 0.06f, -0.99f..0.99f)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.gmic_param_first_hue_band, 25, 0f..360f),
+                gmicNumber(R.string.gmic_param_first_band_width, 55, 1f..360f),
+                gmicNumber(R.string.gmic_param_first_hue_shift, 8, -180f..180f),
+                gmicNumber(
+                    R.string.gmic_param_first_saturation_correction,
+                    0.2f,
+                    -0.99f..0.99f
+                ),
+                gmicNumber(R.string.gmic_param_first_value_correction, 0.04f, -0.99f..0.99f),
+                gmicNumber(R.string.gmic_param_second_hue_band, 200, 0f..360f),
+                gmicNumber(R.string.gmic_param_second_band_width, 70, 1f..360f),
+                gmicNumber(R.string.gmic_param_second_hue_shift, -6, -180f..180f),
+                gmicNumber(
+                    R.string.gmic_param_second_saturation_correction,
+                    0.14f,
+                    -0.99f..0.99f
+                ),
+                gmicNumber(R.string.gmic_param_second_value_correction, -0.03f, -0.99f..0.99f),
+                gmicNumber(R.string.gmic_param_third_hue_band, 330, 0f..360f),
+                gmicNumber(R.string.gmic_param_third_band_width, 45, 1f..360f),
+                gmicNumber(R.string.gmic_param_third_hue_shift, 4, -180f..180f),
+                gmicNumber(
+                    R.string.gmic_param_third_saturation_correction,
+                    0.1f,
+                    -0.99f..0.99f
+                ),
+                gmicNumber(R.string.gmic_param_third_value_correction, 0.06f, -0.99f..0.99f)
             )
         }
     }

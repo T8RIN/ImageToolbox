@@ -37,8 +37,8 @@ internal class LookupFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.lookup, R.string.filter_help_lookup)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::amount, floatParam(default = -1f, range = -10f..10f))
+        override val parameters = structuredParameters {
+            Value::amount.float(default = -1f, range = -10f..10f)
         }
     }
 }

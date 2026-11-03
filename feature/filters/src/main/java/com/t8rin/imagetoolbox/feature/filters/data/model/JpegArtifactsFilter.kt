@@ -42,12 +42,9 @@ internal class JpegArtifactsFilter(
             R.string.filter_help_gmic_filter_jpeg_artifacts
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicInteger(R.string.quality, 50, 1f..100f)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicInteger(R.string.quality, 50, 1f..100f)
             )
         }
     }

@@ -45,17 +45,14 @@ internal class TileableRotationFilter(
             R.string.filter_help_gmic_filter_tileable_rotation
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.angle, 45, 0f..360f),
-                    gmicInteger(R.string.gmic_param_maximum_size_factor, 8, 0f..20f),
-                    gmicSelection(
-                        R.string.gmic_param_array_mode,
-                        "None",
-                        listOf("None", "XAxis", "YAxis", "BothAxes", "DoubleBothAxes")
-                    )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.angle, 45, 0f..360f),
+                gmicInteger(R.string.gmic_param_maximum_size_factor, 8, 0f..20f),
+                gmicSelection(
+                    R.string.gmic_param_array_mode,
+                    "None",
+                    listOf("None", "XAxis", "YAxis", "BothAxes", "DoubleBothAxes")
                 )
             )
         }

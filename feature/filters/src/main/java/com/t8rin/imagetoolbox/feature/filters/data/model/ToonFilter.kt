@@ -38,9 +38,9 @@ internal class ToonFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.toon, R.string.filter_help_toon)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::threshold, floatParam(R.string.threshold, 0.2f, 0f..5f))
-            field(Value::quantizationLevels, floatParam(R.string.quantizationLevels, 10f, 0f..100f))
+        override val parameters = structuredParameters {
+            Value::threshold.float(R.string.threshold, 0.2f, 0f..5f)
+            Value::quantizationLevels.float(R.string.quantizationLevels, 10f, 0f..100f)
         }
     }
 }

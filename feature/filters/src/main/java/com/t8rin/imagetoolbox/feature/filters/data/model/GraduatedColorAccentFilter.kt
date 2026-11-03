@@ -47,22 +47,19 @@ internal class GraduatedColorAccentFilter(
             R.string.filter_help_gmic_filter_graduated_color_accent
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicColor(R.string.gmic_param_reference_color, -26624),
-                    gmicNumber(R.string.amplitude, 2.5f, 0f..5f),
-                    gmicSelection(
-                        R.string.gmic_param_maximum_value,
-                        "FromInput",
-                        listOf("FromInput", "FromReferenceColor", "MaximumAllowed")
-                    ),
-                    gmicSelection(
-                        R.string.gmic_param_channel,
-                        "Saturation",
-                        listOf("Saturation", "Lightness")
-                    )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicColor(R.string.gmic_param_reference_color, -26624),
+                gmicNumber(R.string.amplitude, 2.5f, 0f..5f),
+                gmicSelection(
+                    R.string.gmic_param_maximum_value,
+                    "FromInput",
+                    listOf("FromInput", "FromReferenceColor", "MaximumAllowed")
+                ),
+                gmicSelection(
+                    R.string.gmic_param_channel,
+                    "Saturation",
+                    listOf("Saturation", "Lightness")
                 )
             )
         }

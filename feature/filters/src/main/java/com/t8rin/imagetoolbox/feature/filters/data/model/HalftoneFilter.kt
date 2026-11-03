@@ -37,8 +37,8 @@ internal class HalftoneFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.halftone, R.string.filter_help_halftone)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::amount, floatParam(default = 0.005f, range = 0.001f..0.02f, roundTo = 4))
+        override val parameters = structuredParameters {
+            Value::amount.float(default = 0.005f, range = 0.001f..0.02f, roundTo = 4)
         }
     }
 }

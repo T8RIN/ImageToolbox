@@ -39,8 +39,8 @@ internal class HighlightsAndShadowsFilter(
         override val info =
             FilterInfo(R.string.highlights_shadows, R.string.filter_help_highlights_shadows)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::amount, floatParam(default = 0.25f, range = 0f..2f))
+        override val parameters = structuredParameters {
+            Value::amount.float(default = 0.25f, range = 0f..2f)
         }
     }
 }

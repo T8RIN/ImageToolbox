@@ -44,16 +44,13 @@ internal class UnstripFilter(
         override val info =
             FilterInfo(R.string.gmic_filter_unstrip, R.string.filter_help_gmic_filter_unstrip)
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.gmic_param_smoothness, 1, 0f..10f),
-                    gmicNumber(R.string.just_size, 20, 1f..50f),
-                    gmicNumber(R.string.gmic_param_sensitivity, 4, 1f..10f),
-                    gmicToggle(R.string.gmic_param_normalize, true),
-                    gmicToggle(R.string.gmic_param_fft_preview, false)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.gmic_param_smoothness, 1, 0f..10f),
+                gmicNumber(R.string.just_size, 20, 1f..50f),
+                gmicNumber(R.string.gmic_param_sensitivity, 4, 1f..10f),
+                gmicToggle(R.string.gmic_param_normalize, true),
+                gmicToggle(R.string.gmic_param_fft_preview, false)
             )
         }
     }

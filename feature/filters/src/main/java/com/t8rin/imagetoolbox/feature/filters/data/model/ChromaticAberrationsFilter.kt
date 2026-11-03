@@ -56,33 +56,30 @@ internal class ChromaticAberrationsFilter(
             R.string.filter_help_gmic_filter_chromatic_aberrations
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicColor(R.string.texture_primary_color, -65536),
-                    gmicSelection(
-                        R.string.gmic_param_primary_type,
-                        "Shift",
-                        listOf("Shift", "Radial", "Angular", "Random")
-                    ),
-                    gmicNumber(R.string.gmic_param_primary_x_amplitude, 2, -32f..32f),
-                    gmicNumber(R.string.gmic_param_primary_y_amplitude, 2, -32f..32f),
-                    gmicNumber(R.string.gmic_param_primary_smoothness, 0, 0f..10f),
-                    gmicNumber(R.string.gmic_param_primary_center_attenuation, 50, -100f..100f),
-                    gmicNumber(R.string.gmic_param_primary_attenuation_decay, 1, 0f..8f),
-                    gmicColor(R.string.texture_secondary_color, -16711936),
-                    gmicSelection(
-                        R.string.gmic_param_secondary_type,
-                        "Shift",
-                        listOf("Shift", "Radial", "Angular", "Random")
-                    ),
-                    gmicNumber(R.string.gmic_param_secondary_x_amplitude, 0, -32f..32f),
-                    gmicNumber(R.string.gmic_param_secondary_y_amplitude, 0, -32f..32f),
-                    gmicNumber(R.string.gmic_param_secondary_smoothness, 0, 0f..10f),
-                    gmicNumber(R.string.gmic_param_secondary_center_attenuation, 0, -100f..100f),
-                    gmicNumber(R.string.gmic_param_secondary_attenuation_decay, 1, 0f..8f)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicColor(R.string.texture_primary_color, -65536),
+                gmicSelection(
+                    R.string.gmic_param_primary_type,
+                    "Shift",
+                    listOf("Shift", "Radial", "Angular", "Random")
+                ),
+                gmicNumber(R.string.gmic_param_primary_x_amplitude, 2, -32f..32f),
+                gmicNumber(R.string.gmic_param_primary_y_amplitude, 2, -32f..32f),
+                gmicNumber(R.string.gmic_param_primary_smoothness, 0, 0f..10f),
+                gmicNumber(R.string.gmic_param_primary_center_attenuation, 50, -100f..100f),
+                gmicNumber(R.string.gmic_param_primary_attenuation_decay, 1, 0f..8f),
+                gmicColor(R.string.texture_secondary_color, -16711936),
+                gmicSelection(
+                    R.string.gmic_param_secondary_type,
+                    "Shift",
+                    listOf("Shift", "Radial", "Angular", "Random")
+                ),
+                gmicNumber(R.string.gmic_param_secondary_x_amplitude, 0, -32f..32f),
+                gmicNumber(R.string.gmic_param_secondary_y_amplitude, 0, -32f..32f),
+                gmicNumber(R.string.gmic_param_secondary_smoothness, 0, 0f..10f),
+                gmicNumber(R.string.gmic_param_secondary_center_attenuation, 0, -100f..100f),
+                gmicNumber(R.string.gmic_param_secondary_attenuation_decay, 1, 0f..8f)
             )
         }
     }

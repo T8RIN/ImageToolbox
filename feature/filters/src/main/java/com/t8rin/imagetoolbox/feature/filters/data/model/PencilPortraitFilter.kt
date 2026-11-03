@@ -46,16 +46,13 @@ internal class PencilPortraitFilter(
             R.string.filter_help_gmic_filter_pencil_portrait
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.gmic_param_stroke_length, 30, 0f..500f),
-                    gmicNumber(R.string.angle, 120, 0f..180f),
-                    gmicNumber(R.string.threshold, 1, 0f..10f),
-                    gmicNumber(R.string.opacity, 0.5f, 0f..1f),
-                    gmicColor(R.string.color, -7319787)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.gmic_param_stroke_length, 30, 0f..500f),
+                gmicNumber(R.string.angle, 120, 0f..180f),
+                gmicNumber(R.string.threshold, 1, 0f..10f),
+                gmicNumber(R.string.opacity, 0.5f, 0f..1f),
+                gmicColor(R.string.color, -7319787)
             )
         }
     }

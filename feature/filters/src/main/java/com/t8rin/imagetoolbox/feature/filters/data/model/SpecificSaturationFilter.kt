@@ -49,19 +49,16 @@ internal class SpecificSaturationFilter(
             R.string.filter_help_gmic_filter_specific_saturation
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.gmic_param_input, 1.2f, 0f..2f),
-                    gmicNumber(R.string.gmic_param_opposing, 0.9f, 0f..2f),
-                    gmicInteger(R.string.hue, 35, 0f..360f),
-                    gmicNumber(R.string.gmic_param_level, 0.08f, -0.5f..0.5f),
-                    gmicNumber(R.string.gamma, 1, 0.2f..1.8f),
-                    gmicNumber(R.string.contrast, 1.1f, 0.2f..1.8f),
-                    gmicToggle(R.string.gmic_param_srgb_conversion, true),
-                    gmicToggle(R.string.gmic_param_process_top_layer_only, false)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.gmic_param_input, 1.2f, 0f..2f),
+                gmicNumber(R.string.gmic_param_opposing, 0.9f, 0f..2f),
+                gmicInteger(R.string.hue, 35, 0f..360f),
+                gmicNumber(R.string.gmic_param_level, 0.08f, -0.5f..0.5f),
+                gmicNumber(R.string.gamma, 1, 0.2f..1.8f),
+                gmicNumber(R.string.contrast, 1.1f, 0.2f..1.8f),
+                gmicToggle(R.string.gmic_param_srgb_conversion, true),
+                gmicToggle(R.string.gmic_param_process_top_layer_only, false)
             )
         }
     }

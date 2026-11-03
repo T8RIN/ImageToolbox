@@ -48,23 +48,20 @@ internal class TaquinFilter(
         override val info =
             FilterInfo(R.string.gmic_filter_taquin, R.string.filter_help_gmic_filter_taquin)
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicInteger(R.string.gmic_param_x_tiles, 7, 1f..20f),
-                    gmicInteger(R.string.gmic_param_y_tiles, 7, 1f..20f),
-                    gmicSelection(
-                        R.string.gmic_param_removed_tile,
-                        "None",
-                        listOf("None", "First", "Last", "Random")
-                    ),
-                    gmicNumber(R.string.gmic_param_relief, 50, 0f..255f),
-                    gmicNumber(R.string.border_thickness, 5, 0f..100f),
-                    gmicInteger(R.string.gmic_param_border_outline, 0, 0f..16f),
-                    gmicColor(R.string.outline_color, -16777216),
-                    gmicInteger(R.string.seed, 0, 0f..65535f)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicInteger(R.string.gmic_param_x_tiles, 7, 1f..20f),
+                gmicInteger(R.string.gmic_param_y_tiles, 7, 1f..20f),
+                gmicSelection(
+                    R.string.gmic_param_removed_tile,
+                    "None",
+                    listOf("None", "First", "Last", "Random")
+                ),
+                gmicNumber(R.string.gmic_param_relief, 50, 0f..255f),
+                gmicNumber(R.string.border_thickness, 5, 0f..100f),
+                gmicInteger(R.string.gmic_param_border_outline, 0, 0f..16f),
+                gmicColor(R.string.outline_color, -16777216),
+                gmicSeed(R.string.seed, 0, 0f..65535f)
             )
         }
     }

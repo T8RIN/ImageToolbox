@@ -49,13 +49,13 @@ internal class WaterDropFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.water_drop, R.string.filter_help_water_drop)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::wavelength, floatParam(R.string.wavelength, 0.1f, 0.01f..1f))
-            field(Value::amplitude, floatParam(R.string.amplitude, 0.05f, 0f..0.5f))
-            field(Value::phase, floatParam(R.string.phase, 0f, 0f..360f, roundTo = 0))
-            field(Value::centreX, floatParam(R.string.center_x, 0.5f, 0f..1f))
-            field(Value::centreY, floatParam(R.string.center_y, 0.5f, 0f..1f))
-            field(Value::radius, floatParam(R.string.radius, 0.5f, 0.01f..1f))
+        override val parameters = structuredParameters {
+            Value::wavelength.float(R.string.wavelength, 0.1f, 0.01f..1f)
+            Value::amplitude.float(R.string.amplitude, 0.05f, 0f..0.5f)
+            Value::phase.float(R.string.phase, 0f, 0f..360f, roundTo = 0)
+            Value::centreX.float(R.string.center_x, 0.5f, 0f..1f)
+            Value::centreY.float(R.string.center_y, 0.5f, 0f..1f)
+            Value::radius.float(R.string.radius, 0.5f, 0.01f..1f)
         }
     }
 }

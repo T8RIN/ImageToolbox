@@ -44,13 +44,13 @@ internal class ChannelMixFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.channel_mix, R.string.filter_help_channel_mix)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::blueGreen, intParam(R.string.blue_green, 255, 0..255))
-            field(Value::redBlue, intParam(R.string.red_blue, 255, 0..255))
-            field(Value::greenRed, intParam(R.string.green_red, 255, 0..255))
-            field(Value::intoR, intParam(R.string.into_red, 255, 0..255))
-            field(Value::intoG, intParam(R.string.into_green, 255, 0..255))
-            field(Value::intoB, intParam(R.string.into_blue, 127, 0..255))
+        override val parameters = structuredParameters {
+            Value::blueGreen.int(R.string.blue_green, 255, 0..255)
+            Value::redBlue.int(R.string.red_blue, 255, 0..255)
+            Value::greenRed.int(R.string.green_red, 255, 0..255)
+            Value::intoR.int(R.string.into_red, 255, 0..255)
+            Value::intoG.int(R.string.into_green, 255, 0..255)
+            Value::intoB.int(R.string.into_blue, 127, 0..255)
         }
     }
 }

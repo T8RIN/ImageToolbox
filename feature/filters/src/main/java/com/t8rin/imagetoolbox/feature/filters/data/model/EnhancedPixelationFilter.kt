@@ -44,8 +44,8 @@ internal class EnhancedPixelationFilter(
         override val info =
             FilterInfo(R.string.enhanced_pixelation, R.string.filter_help_enhanced_pixelation)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::layers, floatParam(default = 48f, range = 10f..200f))
+        override val parameters = structuredParameters {
+            Value::layers.float(default = 48f, range = 10f..200f)
         }
     }
 }

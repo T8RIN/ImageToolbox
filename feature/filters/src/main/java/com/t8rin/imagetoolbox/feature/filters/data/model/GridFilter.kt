@@ -58,17 +58,14 @@ internal class GridFilter(
         override val info =
             FilterInfo(R.string.gmic_filter_grid, R.string.filter_help_gmic_filter_grid)
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.horizontal_spacing, 10, 0f..100f),
-                    gmicNumber(R.string.vertical_spacing, 10, 0f..100f),
-                    gmicNumber(R.string.offset_x, 0, -100f..100f),
-                    gmicNumber(R.string.offset_y, 0, -100f..100f),
-                    gmicNumber(R.string.opacity, 0.5f, 0f..1f),
-                    gmicColor(R.string.grid_color, -16777216)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.horizontal_spacing, 10, 0f..100f),
+                gmicNumber(R.string.vertical_spacing, 10, 0f..100f),
+                gmicNumber(R.string.offset_x, 0, -100f..100f),
+                gmicNumber(R.string.offset_y, 0, -100f..100f),
+                gmicNumber(R.string.opacity, 0.5f, 0f..1f),
+                gmicColor(R.string.grid_color, -16777216)
             )
         }
     }

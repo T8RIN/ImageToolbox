@@ -50,13 +50,13 @@ internal class EnhancedGlitchFilter(
         override val info =
             FilterInfo(R.string.enhanced_glitch, R.string.filter_help_enhanced_glitch)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::channelsShiftX, floatParam(R.string.channel_shift_x, -0.08f, -1f..1f))
-            field(Value::channelsShiftY, floatParam(R.string.channel_shift_y, -0.08f, -1f..1f))
-            field(Value::corruptionSize, floatParam(R.string.corruption_size, 0.01f, 0f..1f))
-            field(Value::corruptionCount, intParam(R.string.amount, 60, 1..100))
-            field(Value::corruptionShiftX, floatParam(R.string.corruption_shift_x, -0.05f, -1f..1f))
-            field(Value::corruptionShiftY, floatParam(R.string.corruption_shift_y, 0.0f, -1f..1f))
+        override val parameters = structuredParameters {
+            Value::channelsShiftX.float(R.string.channel_shift_x, -0.08f, -1f..1f)
+            Value::channelsShiftY.float(R.string.channel_shift_y, -0.08f, -1f..1f)
+            Value::corruptionSize.float(R.string.corruption_size, 0.01f, 0f..1f)
+            Value::corruptionCount.int(R.string.amount, 60, 1..100)
+            Value::corruptionShiftX.float(R.string.corruption_shift_x, -0.05f, -1f..1f)
+            Value::corruptionShiftY.float(R.string.corruption_shift_y, 0.0f, -1f..1f)
         }
     }
 }

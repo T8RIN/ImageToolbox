@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,7 +28,8 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontVariation
 import androidx.compose.ui.text.font.FontWeight
-import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.settings.data.model.toDomainFontFamily
+import com.t8rin.imagetoolbox.core.settings.data.model.toFontType
 import com.t8rin.imagetoolbox.core.settings.domain.model.DomainFontFamily
 import com.t8rin.imagetoolbox.core.settings.domain.model.FontType
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
@@ -55,16 +56,6 @@ sealed class UiFontFamily(
     constructor(
         name: String?,
         variable: Boolean,
-        fontRes: Int
-    ) : this(
-        name = name,
-        variable = variable,
-        type = FontType.Resource(fontRes)
-    )
-
-    constructor(
-        name: String?,
-        variable: Boolean,
         filePath: String
     ) : this(
         name = name,
@@ -78,17 +69,13 @@ sealed class UiFontFamily(
     operator fun component4() = type
 
     data object Montserrat : UiFontFamily(
-        fontRes = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            R.font.montserrat_variable
-        } else R.font.montserrat_regular,
+        type = DomainFontFamily.Montserrat.toFontType(),
         name = "Montserrat",
         variable = true
     )
 
     data object Caveat : UiFontFamily(
-        fontRes = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            R.font.caveat_variable
-        } else R.font.caveat_regular,
+        type = DomainFontFamily.Caveat.toFontType(),
         name = "Caveat",
         variable = true
     )
@@ -99,147 +86,145 @@ sealed class UiFontFamily(
     )
 
     data object Comfortaa : UiFontFamily(
-        fontRes = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            R.font.comfortaa_varibale
-        } else R.font.comfortaa_regular,
+        type = DomainFontFamily.Comfortaa.toFontType(),
         name = "Comfortaa",
         variable = true
     )
 
     data object Handjet : UiFontFamily(
-        fontRes = R.font.handjet_varibale,
+        type = DomainFontFamily.Handjet.toFontType(),
         name = "Handjet",
         variable = true
     )
 
     data object YsabeauSC : UiFontFamily(
-        fontRes = R.font.ysabeau_sc_variable,
+        type = DomainFontFamily.YsabeauSC.toFontType(),
         name = "Ysabeau SC",
         variable = true
     )
 
     data object Jura : UiFontFamily(
-        fontRes = R.font.jura_variable,
+        type = DomainFontFamily.Jura.toFontType(),
         name = "Jura",
         variable = true
     )
 
     data object Tektur : UiFontFamily(
-        fontRes = R.font.tektur_variable,
+        type = DomainFontFamily.Tektur.toFontType(),
         name = "Tektur",
         variable = true
     )
 
     data object Podkova : UiFontFamily(
-        fontRes = R.font.podkova_variable,
+        type = DomainFontFamily.Podkova.toFontType(),
         name = "Podkova",
         variable = true
     )
 
     data object DejaVu : UiFontFamily(
-        fontRes = R.font.dejavu_regular,
+        type = DomainFontFamily.DejaVu.toFontType(),
         name = "Deja Vu",
         variable = false
     )
 
     data object BadScript : UiFontFamily(
-        fontRes = R.font.bad_script_regular,
+        type = DomainFontFamily.BadScript.toFontType(),
         name = "Bad Script",
         variable = false
     )
 
     data object RuslanDisplay : UiFontFamily(
-        fontRes = R.font.ruslan_display_regular,
+        type = DomainFontFamily.RuslanDisplay.toFontType(),
         name = "Ruslan Display",
         variable = false
     )
 
     data object Catterdale : UiFontFamily(
-        fontRes = R.font.cattedrale_regular,
+        type = DomainFontFamily.Catterdale.toFontType(),
         name = "Catterdale",
         variable = false
     )
 
     data object FRM32 : UiFontFamily(
-        fontRes = R.font.frm32_regular,
+        type = DomainFontFamily.FRM32.toFontType(),
         name = "FRM32",
         variable = false
     )
 
     data object TokeelyBrookings : UiFontFamily(
-        fontRes = R.font.tokeely_brookings_regular,
+        type = DomainFontFamily.TokeelyBrookings.toFontType(),
         name = "Tokeely Brookings",
         variable = false
     )
 
     data object Nunito : UiFontFamily(
-        fontRes = R.font.nunito_variable,
+        type = DomainFontFamily.Nunito.toFontType(),
         name = "Nunito",
         variable = true
     )
 
     data object Nothing : UiFontFamily(
-        fontRes = R.font.nothing_font_regular,
+        type = DomainFontFamily.Nothing.toFontType(),
         name = "Nothing",
         variable = false
     )
 
     data object WOPRTweaked : UiFontFamily(
-        fontRes = R.font.wopr_tweaked_regular,
+        type = DomainFontFamily.WOPRTweaked.toFontType(),
         name = "WOPR Tweaked",
         variable = false
     )
 
     data object AlegreyaSans : UiFontFamily(
-        fontRes = R.font.alegreya_sans_regular,
+        type = DomainFontFamily.AlegreyaSans.toFontType(),
         name = "Alegreya Sans",
         variable = false
     )
 
     data object MinecraftGnu : UiFontFamily(
-        fontRes = R.font.minecraft_gnu_regular,
+        type = DomainFontFamily.MinecraftGnu.toFontType(),
         name = "Minecraft GNU",
         variable = false
     )
 
     data object GraniteFixed : UiFontFamily(
-        fontRes = R.font.granite_fixed_regular,
+        type = DomainFontFamily.GraniteFixed.toFontType(),
         name = "Granite Fixed",
         variable = false
     )
 
     data object NokiaPixel : UiFontFamily(
-        fontRes = R.font.nokia_pixel_regular,
+        type = DomainFontFamily.NokiaPixel.toFontType(),
         name = "Nokia Pixel",
         variable = false
     )
 
     data object Ztivalia : UiFontFamily(
-        fontRes = R.font.ztivalia_regular,
+        type = DomainFontFamily.Ztivalia.toFontType(),
         name = "Ztivalia",
         variable = false
     )
 
     data object Axotrel : UiFontFamily(
-        fontRes = R.font.axotrel_regular,
+        type = DomainFontFamily.Axotrel.toFontType(),
         name = "Axotrel",
         variable = false
     )
 
     data object LcdOctagon : UiFontFamily(
-        fontRes = R.font.lcd_octagon_regular,
+        type = DomainFontFamily.LcdOctagon.toFontType(),
         name = "LCD Octagon",
         variable = false
     )
 
     data object LcdMoving : UiFontFamily(
-        fontRes = R.font.lcd_moving_regular,
+        type = DomainFontFamily.LcdMoving.toFontType(),
         name = "LCD Moving",
         variable = false
     )
 
     data object Unisource : UiFontFamily(
-        fontRes = R.font.unisource_regular,
+        type = DomainFontFamily.Unisource.toFontType(),
         name = "Unisource",
         variable = false
     )
@@ -267,37 +252,9 @@ sealed class UiFontFamily(
         }
     }
 
-    fun asDomain(): DomainFontFamily {
-        return when (this) {
-            Caveat -> DomainFontFamily.Caveat
-            Comfortaa -> DomainFontFamily.Comfortaa
-            System -> DomainFontFamily.System
-            Handjet -> DomainFontFamily.Handjet
-            Jura -> DomainFontFamily.Jura
-            Podkova -> DomainFontFamily.Podkova
-            Tektur -> DomainFontFamily.Tektur
-            YsabeauSC -> DomainFontFamily.YsabeauSC
-            Montserrat -> DomainFontFamily.Montserrat
-            DejaVu -> DomainFontFamily.DejaVu
-            BadScript -> DomainFontFamily.BadScript
-            RuslanDisplay -> DomainFontFamily.RuslanDisplay
-            Catterdale -> DomainFontFamily.Catterdale
-            FRM32 -> DomainFontFamily.FRM32
-            TokeelyBrookings -> DomainFontFamily.TokeelyBrookings
-            Nunito -> DomainFontFamily.Nunito
-            Nothing -> DomainFontFamily.Nothing
-            WOPRTweaked -> DomainFontFamily.WOPRTweaked
-            AlegreyaSans -> DomainFontFamily.AlegreyaSans
-            MinecraftGnu -> DomainFontFamily.MinecraftGnu
-            GraniteFixed -> DomainFontFamily.GraniteFixed
-            NokiaPixel -> DomainFontFamily.NokiaPixel
-            Ztivalia -> DomainFontFamily.Ztivalia
-            Axotrel -> DomainFontFamily.Axotrel
-            LcdMoving -> DomainFontFamily.LcdMoving
-            LcdOctagon -> DomainFontFamily.LcdOctagon
-            Unisource -> DomainFontFamily.Unisource
-            is Custom -> DomainFontFamily.Custom(name, filePath)
-        }
+    fun asDomain(): DomainFontFamily = when (this) {
+        is Custom -> DomainFontFamily.Custom(name, filePath)
+        else -> type.toDomainFontFamily()
     }
 
     companion object {
@@ -385,9 +342,9 @@ fun FontType?.asUi(): UiFontFamily {
     }
 }
 
-fun FontType?.asDomain(): DomainFontFamily = this?.asUi()?.asDomain() ?: DomainFontFamily.System
+fun FontType?.asDomain(): DomainFontFamily = toDomainFontFamily()
 
-fun DomainFontFamily?.asFontType(): FontType? = this?.toUiFont()?.type
+fun DomainFontFamily?.asFontType(): FontType? = toFontType()
 
 fun DomainFontFamily.toUiFont(): UiFontFamily = when (this) {
     DomainFontFamily.Caveat -> UiFontFamily.Caveat

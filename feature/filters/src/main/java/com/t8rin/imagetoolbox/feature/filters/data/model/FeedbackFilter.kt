@@ -42,11 +42,11 @@ internal class FeedbackFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.feedback, R.string.filter_help_feedback)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::distance, floatParam(R.string.distance, 10f, -100f..100f, roundTo = 0))
-            field(Value::angle, floatParam(R.string.angle, 0f, -180f..180f, roundTo = 0))
-            field(Value::rotation, floatParam(R.string.rotation, 3f, -180f..180f, roundTo = 0))
-            field(Value::zoom, floatParam(R.string.zoom, 0.05f, -1f..1f))
+        override val parameters = structuredParameters {
+            Value::distance.float(R.string.distance, 10f, -100f..100f, roundTo = 0)
+            Value::angle.float(R.string.angle, 0f, -180f..180f, roundTo = 0)
+            Value::rotation.float(R.string.rotation, 3f, -180f..180f, roundTo = 0)
+            Value::zoom.float(R.string.zoom, 0.05f, -1f..1f)
         }
     }
 }

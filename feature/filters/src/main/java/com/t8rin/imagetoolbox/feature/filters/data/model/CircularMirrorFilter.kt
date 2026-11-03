@@ -35,14 +35,14 @@ internal class CircularMirrorFilter(
         override val info =
             FilterInfo(R.string.circular_mirror, R.string.filter_help_circular_mirror)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::intensity, floatParam(R.string.texture_intensity, 1f, 0f..1f, roundTo = 3))
-            field(Value::radius, floatParam(R.string.radius, 0.3f, 0.01f..1f, roundTo = 3))
-            field(Value::mode, intParam(R.string.gmic_param_mode, 0, 0..1))
-            field(Value::offsetX, floatParam(R.string.offset_x, 0f, -1f..1f, roundTo = 3))
-            field(Value::offsetY, floatParam(R.string.offset_y, 0f, -1f..1f, roundTo = 3))
-            field(Value::scale, floatParam(R.string.scale, 1f, 0.05f..8f, roundTo = 3))
-            field(Value::rotation, floatParam(R.string.rotation, 0f, -180f..180f, roundTo = 3))
+        override val parameters = structuredParameters {
+            Value::intensity.float(R.string.texture_intensity, 1f, 0f..1f, roundTo = 3)
+            Value::radius.float(R.string.radius, 0.3f, 0.01f..1f, roundTo = 3)
+            Value::mode.int(R.string.gmic_param_mode, 0, 0..1)
+            Value::offsetX.float(R.string.offset_x, 0f, -1f..1f, roundTo = 3)
+            Value::offsetY.float(R.string.offset_y, 0f, -1f..1f, roundTo = 3)
+            Value::scale.float(R.string.scale, 1f, 0.05f..8f, roundTo = 3)
+            Value::rotation.float(R.string.rotation, 0f, -180f..180f, roundTo = 3)
         }
 
         private val SHADER = """

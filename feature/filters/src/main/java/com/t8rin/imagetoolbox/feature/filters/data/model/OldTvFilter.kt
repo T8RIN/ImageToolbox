@@ -18,8 +18,7 @@
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import android.graphics.Bitmap
-import androidx.compose.ui.graphics.Color
-import com.t8rin.imagetoolbox.core.data.image.utils.ColorUtils.toModel
+import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.transformation.ChainTransformation
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
@@ -42,7 +41,7 @@ internal class OldTvFilter(
         MonochromeFilter(
             FilterValues.monochrome(
                 intensity = 1f,
-                color = Color(0xFF1C3A00).toModel()
+                color = ColorModel(0xFF1C3A00.toInt())
             )
         )
     )

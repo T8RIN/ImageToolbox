@@ -46,16 +46,13 @@ internal class RandomPatchArrayFilter(
             R.string.filter_help_gmic_filter_random_patch_array
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicInteger(R.string.gmic_param_source_x_tiles, 5, 1f..128f),
-                    gmicInteger(R.string.gmic_param_source_y_tiles, 5, 1f..128f),
-                    gmicInteger(R.string.gmic_param_destination_x_tiles, 7, 1f..128f),
-                    gmicInteger(R.string.gmic_param_destination_y_tiles, 7, 1f..128f),
-                    gmicInteger(R.string.seed, 0, 0f..65535f)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicInteger(R.string.gmic_param_source_x_tiles, 5, 1f..128f),
+                gmicInteger(R.string.gmic_param_source_y_tiles, 5, 1f..128f),
+                gmicInteger(R.string.gmic_param_destination_x_tiles, 7, 1f..128f),
+                gmicInteger(R.string.gmic_param_destination_y_tiles, 7, 1f..128f),
+                gmicSeed(R.string.seed, 0, 0f..65535f)
             )
         }
     }

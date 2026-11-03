@@ -46,8 +46,8 @@ internal class QuantizierFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.quantizier, R.string.filter_help_quantizier)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::maxColors, floatParam(default = 256f, range = 2f..4096f, roundTo = 0))
+        override val parameters = structuredParameters {
+            Value::maxColors.float(default = 256f, range = 2f..4096f, roundTo = 0)
         }
     }
 }

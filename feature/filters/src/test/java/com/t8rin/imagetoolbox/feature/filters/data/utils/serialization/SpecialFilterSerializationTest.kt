@@ -60,10 +60,6 @@ class SpecialFilterSerializationTest {
         assertFalse(filter.value.headSwitchingEnabled)
         assertFalse(filter.value.chromaNoiseEnabled)
         assertFalse(filter.value.scaleEnabled)
-        assertEquals(
-            "$prefix.UiVHSNtscFilter:VHSNtscParams:$payload",
-            listOf(filter).toDatastoreString(true)
-        )
         assertRoundTrip(filter)
     }
 

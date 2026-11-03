@@ -46,8 +46,8 @@ internal class NativeStackBlurFilter(
         override val info =
             FilterInfo(R.string.native_stack_blur, R.string.filter_help_native_stack_blur)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::radius, floatParam(default = 25f, range = 3f..250f, roundTo = 0))
+        override val parameters = structuredParameters {
+            Value::radius.float(default = 25f, range = 3f..250f, roundTo = 0)
         }
     }
 }

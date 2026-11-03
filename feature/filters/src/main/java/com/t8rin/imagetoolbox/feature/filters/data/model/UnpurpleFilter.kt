@@ -46,25 +46,22 @@ internal class UnpurpleFilter(
         override val info =
             FilterInfo(R.string.gmic_filter_unpurple, R.string.filter_help_gmic_filter_unpurple)
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.gmic_param_intensity_of_purple_fringe, 1, 0f..1f),
-                    gmicNumber(R.string.gmic_param_minimum_brightness, 0, 0f..1f),
-                    gmicNumber(R.string.gmic_param_minimum_red_blue_ratio_in_the_fringe, 0, 0f..1f),
-                    gmicNumber(
-                        R.string.gmic_param_maximum_red_blue_ratio_in_the_fringe,
-                        0.33f,
-                        0f..1f
-                    ),
-                    gmicInteger(R.string.gmic_param_blur_standard_deviation, 5, 1f..10f),
-                    gmicToggle(
-                        R.string.gmic_param_gentle_mode_overrides_minimum_brightness_and_minimun_red_blue_ratio,
-                        false
-                    ),
-                    gmicInteger(R.string.bit_depth, 0, 0f..32f)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.gmic_param_intensity_of_purple_fringe, 1, 0f..1f),
+                gmicNumber(R.string.gmic_param_minimum_brightness, 0, 0f..1f),
+                gmicNumber(R.string.gmic_param_minimum_red_blue_ratio_in_the_fringe, 0, 0f..1f),
+                gmicNumber(
+                    R.string.gmic_param_maximum_red_blue_ratio_in_the_fringe,
+                    0.33f,
+                    0f..1f
+                ),
+                gmicInteger(R.string.gmic_param_blur_standard_deviation, 5, 1f..10f),
+                gmicToggle(
+                    R.string.gmic_param_gentle_mode_overrides_minimum_brightness_and_minimun_red_blue_ratio,
+                    false
+                ),
+                gmicInteger(R.string.bit_depth, 0, 0f..32f)
             )
         }
     }

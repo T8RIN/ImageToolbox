@@ -18,9 +18,8 @@
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import android.graphics.Bitmap
-import androidx.compose.ui.graphics.Color
 import com.awxkee.aire.Aire
-import com.t8rin.imagetoolbox.core.data.image.utils.ColorUtils.toModel
+import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.Crystallize.Value
@@ -47,12 +46,9 @@ internal class CrystallizeFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.crystallize, R.string.filter_help_crystallize)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::amount, floatParam(R.string.amount, 1f, 0.01f..2f))
-            field(
-                Value::strokeColor,
-                colorParam(R.string.stroke_color, Color.Transparent.toModel(), allowAlpha = true)
-            )
+        override val parameters = structuredParameters {
+            Value::amount.float(R.string.amount, 1f, 0.01f..2f)
+            Value::strokeColor.color(R.string.stroke_color, ColorModel(0), allowAlpha = true)
         }
     }
 }

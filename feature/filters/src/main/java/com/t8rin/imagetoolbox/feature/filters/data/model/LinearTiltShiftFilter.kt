@@ -51,13 +51,13 @@ internal class LinearTiltShiftFilter(
         override val info =
             FilterInfo(R.string.linear_tilt_shift, R.string.filter_help_linear_tilt_shift)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::blurRadius, floatParam(R.string.blur_radius, 25f, 1f..100f, roundTo = 0))
-            field(Value::sigma, floatParam(R.string.sigma, 10f, 1f..50f))
-            field(Value::anchorX, floatParam(R.string.center_x, 0.5f, 0f..1f))
-            field(Value::anchorY, floatParam(R.string.center_y, 0.5f, 0f..1f))
-            field(Value::holeRadius, floatParam(R.string.size, 0.2f, 0f..1f))
-            field(Value::angle, floatParam(R.string.angle, 45f, 0f..360f, roundTo = 0))
+        override val parameters = structuredParameters {
+            Value::blurRadius.float(R.string.blur_radius, 25f, 1f..100f, roundTo = 0)
+            Value::sigma.float(R.string.sigma, 10f, 1f..50f)
+            Value::anchorX.float(R.string.center_x, 0.5f, 0f..1f)
+            Value::anchorY.float(R.string.center_y, 0.5f, 0f..1f)
+            Value::holeRadius.float(R.string.size, 0.2f, 0f..1f)
+            Value::angle.float(R.string.angle, 45f, 0f..360f, roundTo = 0)
         }
     }
 }

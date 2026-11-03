@@ -42,11 +42,11 @@ internal class ColorHalftoneFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.color_halftone, R.string.filter_help_color_halftone)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::radius, floatParam(R.string.radius, 2f, 0f..50f))
-            field(Value::cyan, floatParam(R.string.cyan, 108f, 0f..360f, roundTo = 0))
-            field(Value::magenta, floatParam(R.string.magenta, 162f, 0f..360f, roundTo = 0))
-            field(Value::yellow, floatParam(R.string.yellow, 90f, 0f..360f, roundTo = 0))
+        override val parameters = structuredParameters {
+            Value::radius.float(R.string.radius, 2f, 0f..50f)
+            Value::cyan.float(R.string.cyan, 108f, 0f..360f, roundTo = 0)
+            Value::magenta.float(R.string.magenta, 162f, 0f..360f, roundTo = 0)
+            Value::yellow.float(R.string.yellow, 90f, 0f..360f, roundTo = 0)
         }
     }
 }

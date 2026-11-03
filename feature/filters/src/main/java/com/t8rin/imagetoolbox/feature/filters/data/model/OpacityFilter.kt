@@ -37,8 +37,8 @@ internal class OpacityFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.opacity, R.string.filter_help_opacity)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::opacity, floatParam(default = 0.5f, range = 0f..1f))
+        override val parameters = structuredParameters {
+            Value::opacity.float(default = 0.5f, range = 0f..1f)
         }
     }
 }

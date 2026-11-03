@@ -48,10 +48,10 @@ internal class AnisotropicDiffusionFilter(
         override val info =
             FilterInfo(R.string.anisotropic_diffusion, R.string.filter_help_anisotropic_diffusion)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::repeatCount, floatParam(R.string.repeat_count, 20f, 1f..100f, roundTo = 0))
-            field(Value::conduction, floatParam(R.string.conduction, 0.6f, 0.1f..1f))
-            field(Value::diffusion, floatParam(R.string.diffusion, 0.5f, 0.01f..1f))
+        override val parameters = structuredParameters {
+            Value::repeatCount.float(R.string.repeat_count, 20f, 1f..100f, roundTo = 0)
+            Value::conduction.float(R.string.conduction, 0.6f, 0.1f..1f)
+            Value::diffusion.float(R.string.diffusion, 0.5f, 0.01f..1f)
         }
     }
 }

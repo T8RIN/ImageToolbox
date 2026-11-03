@@ -70,21 +70,14 @@ internal class SeamCarvingFilter(
     companion object : Filter.Schema.Custom<Value> {
         override val info = FilterInfo(R.string.seam_carving, R.string.filter_help_seam_carving)
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::size,
-                editorParam(
-                    { IntegerSize.Zero },
-                    control(R.string.width, 0f..0f),
-                    control(R.string.height, 0f..0f)
-                )
-            )
-            field(Value::maskFile, editorParam({ FileModel("") }))
-            field(
-                Value::useBackwardEnergy,
-                booleanParam(R.string.seam_carving_backward_energy, false)
-            )
-            field(Value::useMaskAsRemoval, booleanParam(null, false))
+        override val parameters = structuredParameters {
+            Value::size.editor(
+                control(R.string.width, 0f..0f),
+                control(R.string.height, 0f..0f)
+            ) { IntegerSize.Zero }
+            Value::maskFile.editor { FileModel("") }
+            Value::useBackwardEnergy.boolean(R.string.seam_carving_backward_energy, false)
+            Value::useMaskAsRemoval.boolean(null, false)
         }
     }
 }

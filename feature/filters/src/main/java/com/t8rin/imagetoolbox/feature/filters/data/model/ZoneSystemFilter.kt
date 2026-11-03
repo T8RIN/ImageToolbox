@@ -47,17 +47,14 @@ internal class ZoneSystemFilter(
             R.string.filter_help_gmic_filter_zone_system
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicInteger(R.string.gmic_param_shadows_zone, 2, 1f..5f),
-                    gmicInteger(R.string.gmic_param_highlights_zone, 9, 6f..10f),
-                    gmicNumber(R.string.gamma, 1.1f, 0f..5f),
-                    gmicNumber(R.string.contrast, 1.15f, 0f..4f),
-                    gmicInteger(R.string.gmic_param_black_point, 8, 0f..255f),
-                    gmicInteger(R.string.tag_white_point, 245, 0f..255f)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicInteger(R.string.gmic_param_shadows_zone, 2, 1f..5f),
+                gmicInteger(R.string.gmic_param_highlights_zone, 9, 6f..10f),
+                gmicNumber(R.string.gamma, 1.1f, 0f..5f),
+                gmicNumber(R.string.contrast, 1.15f, 0f..4f),
+                gmicInteger(R.string.gmic_param_black_point, 8, 0f..255f),
+                gmicInteger(R.string.tag_white_point, 245, 0f..255f)
             )
         }
     }

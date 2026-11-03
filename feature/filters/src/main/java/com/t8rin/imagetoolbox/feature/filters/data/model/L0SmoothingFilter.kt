@@ -48,14 +48,11 @@ internal class L0SmoothingFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.l0_smoothing, R.string.filter_help_l0_smoothing)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::lambda, floatParam(R.string.lambda, 0.016f, 0.0001f..0.2f, roundTo = 4))
-            field(
-                Value::penaltyGrowth,
-                floatParam(R.string.penalty_growth, 2.2f, 1.3f..4f, roundTo = 1)
-            )
-            field(Value::iterations, floatParam(R.string.iterations, 9f, 1f..14f, roundTo = 0))
-            field(Value::strength, floatParam(R.string.strength, 1f, 0f..1f))
+        override val parameters = structuredParameters {
+            Value::lambda.float(R.string.lambda, 0.016f, 0.0001f..0.2f, roundTo = 4)
+            Value::penaltyGrowth.float(R.string.penalty_growth, 2.2f, 1.3f..4f, roundTo = 1)
+            Value::iterations.float(R.string.iterations, 9f, 1f..14f, roundTo = 0)
+            Value::strength.float(R.string.strength, 1f, 0f..1f)
         }
     }
 }

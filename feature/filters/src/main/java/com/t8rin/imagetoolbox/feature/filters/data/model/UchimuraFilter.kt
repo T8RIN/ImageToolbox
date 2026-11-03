@@ -44,8 +44,8 @@ internal class UchimuraFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.uchimura, R.string.filter_help_uchimura)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::exposure, floatParam(default = 1f, range = 0f..2f))
+        override val parameters = structuredParameters {
+            Value::exposure.float(default = 1f, range = 0f..2f)
         }
     }
 }

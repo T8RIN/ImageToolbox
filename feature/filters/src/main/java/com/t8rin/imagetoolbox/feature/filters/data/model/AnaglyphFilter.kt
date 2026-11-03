@@ -41,8 +41,8 @@ internal class AnaglyphFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.anaglyph, R.string.filter_help_anaglyph)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::amount, floatParam(default = 20f, range = 0f..100f, roundTo = 0))
+        override val parameters = structuredParameters {
+            Value::amount.float(default = 20f, range = 0f..100f, roundTo = 0)
         }
     }
 }

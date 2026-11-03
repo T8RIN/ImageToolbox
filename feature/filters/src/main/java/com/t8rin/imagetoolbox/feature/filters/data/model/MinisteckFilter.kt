@@ -46,18 +46,15 @@ internal class MinisteckFilter(
         override val info =
             FilterInfo(R.string.gmic_filter_ministeck, R.string.filter_help_gmic_filter_ministeck)
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicInteger(R.string.color, 8, 2f..24f),
-                    gmicInteger(R.string.resolution, 64, 16f..256f),
-                    gmicInteger(R.string.gmic_param_piece_size, 8, 1f..64f),
-                    gmicInteger(R.string.gmic_param_piece_complexity, 2, 1f..10f),
-                    gmicNumber(R.string.amplitude, 100, 0f..256f),
-                    gmicNumber(R.string.gmic_param_relief_size, 0.3f, 0f..1f),
-                    gmicToggle(R.string.gmic_param_outline, false)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicInteger(R.string.color, 8, 2f..24f),
+                gmicInteger(R.string.resolution, 64, 16f..256f),
+                gmicInteger(R.string.gmic_param_piece_size, 8, 1f..64f),
+                gmicInteger(R.string.gmic_param_piece_complexity, 2, 1f..10f),
+                gmicNumber(R.string.amplitude, 100, 0f..256f),
+                gmicNumber(R.string.gmic_param_relief_size, 0.3f, 0f..1f),
+                gmicToggle(R.string.gmic_param_outline, false)
             )
         }
     }

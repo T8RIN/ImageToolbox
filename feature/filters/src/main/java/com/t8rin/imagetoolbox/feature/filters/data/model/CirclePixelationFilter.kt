@@ -45,8 +45,8 @@ internal class CirclePixelationFilter(
         override val info =
             FilterInfo(R.string.circle_pixelation, R.string.filter_help_circle_pixelation)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::layers, floatParam(default = 24f, range = 5f..200f))
+        override val parameters = structuredParameters {
+            Value::layers.float(default = 24f, range = 5f..200f)
         }
     }
 }

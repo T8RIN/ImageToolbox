@@ -18,11 +18,10 @@
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import android.graphics.Bitmap
-import androidx.compose.ui.graphics.Color
 import androidx.core.graphics.applyCanvas
 import androidx.core.graphics.createBitmap
-import com.t8rin.imagetoolbox.core.data.image.utils.ColorUtils.toModel
 import com.t8rin.imagetoolbox.core.data.image.utils.drawBitmap
+import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.model.Position
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
@@ -61,18 +60,23 @@ internal class BorderFrameFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.border_frame, R.string.filter_help_border_frame)
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::horizontalBorderThickness,
-                floatParam(R.string.horizontal_border_thickness, 20f, 0f..500f, roundTo = 0)
+        override val parameters = structuredParameters {
+            Value::horizontalBorderThickness.float(
+                R.string.horizontal_border_thickness,
+                20f,
+                0f..500f,
+                roundTo = 0
             )
-            field(
-                Value::verticalBorderThickness,
-                floatParam(R.string.vertical_border_thickness, 40f, 0f..500f, roundTo = 0)
+            Value::verticalBorderThickness.float(
+                R.string.vertical_border_thickness,
+                40f,
+                0f..500f,
+                roundTo = 0
             )
-            field(
-                Value::borderColor,
-                colorParam(R.string.border_color, Color.White.toModel(), allowAlpha = true)
+            Value::borderColor.color(
+                R.string.border_color,
+                ColorModel(0xFFFFFFFF.toInt()),
+                allowAlpha = true
             )
         }
     }

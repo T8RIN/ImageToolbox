@@ -49,13 +49,13 @@ internal class RfReceptionFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.rf_reception, R.string.filter_help_rf_reception)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::delay, intParam(R.string.delay, 19, 1..85))
-            field(Value::reflection, floatParam(R.string.reflection, 0.42f, 0f..0.9f))
-            field(Value::noise, floatParam(R.string.noise, 0.09f, 0f..0.4f))
-            field(Value::frequency, intParam(R.string.frequency, 21, 1..120))
-            field(Value::seed, intParam(R.string.seed, 0, 0..10000))
-            field(Value::strength, floatParam(R.string.strength, 1f, 0f..1f))
+        override val parameters = structuredParameters {
+            Value::delay.int(R.string.delay, 19, 1..85)
+            Value::reflection.float(R.string.reflection, 0.42f, 0f..0.9f)
+            Value::noise.float(R.string.noise, 0.09f, 0f..0.4f)
+            Value::frequency.int(R.string.frequency, 21, 1..120)
+            Value::seed.seed(R.string.seed, 0, 0..10000)
+            Value::strength.float(R.string.strength, 1f, 0f..1f)
         }
     }
 }

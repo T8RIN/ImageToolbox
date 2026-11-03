@@ -34,16 +34,16 @@ internal class StreakCirclesFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.streak_circles, R.string.filter_help_streak_circles)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::intensity, floatParam(R.string.texture_intensity, 1f, 0f..1f, roundTo = 3))
-            field(Value::count, intParam(R.string.procedural_count, 20, 1..64))
-            field(Value::radius, floatParam(R.string.radius, 0.15f, 0.01f..0.5f, roundTo = 3))
-            field(Value::layers, intParam(R.string.texture_layers, 8, 1..32))
-            field(Value::seed, intParam(R.string.procedural_seed, 0, 0..1000))
-            field(Value::offsetX, floatParam(R.string.offset_x, 0f, -1f..1f, roundTo = 3))
-            field(Value::offsetY, floatParam(R.string.offset_y, 0f, -1f..1f, roundTo = 3))
-            field(Value::scale, floatParam(R.string.scale, 1f, 0.05f..8f, roundTo = 3))
-            field(Value::rotation, floatParam(R.string.rotation, 0f, -180f..180f, roundTo = 3))
+        override val parameters = structuredParameters {
+            Value::intensity.float(R.string.texture_intensity, 1f, 0f..1f, roundTo = 3)
+            Value::count.int(R.string.procedural_count, 20, 1..64)
+            Value::radius.float(R.string.radius, 0.15f, 0.01f..0.5f, roundTo = 3)
+            Value::layers.int(R.string.texture_layers, 8, 1..32)
+            Value::seed.seed(R.string.procedural_seed, 0, 0..1000)
+            Value::offsetX.float(R.string.offset_x, 0f, -1f..1f, roundTo = 3)
+            Value::offsetY.float(R.string.offset_y, 0f, -1f..1f, roundTo = 3)
+            Value::scale.float(R.string.scale, 1f, 0.05f..8f, roundTo = 3)
+            Value::rotation.float(R.string.rotation, 0f, -180f..180f, roundTo = 3)
         }
 
         private val SHADER = """

@@ -50,13 +50,13 @@ internal class AnamorphicStreaksFilter(
         override val info =
             FilterInfo(R.string.anamorphic_streaks, R.string.filter_help_anamorphic_streaks)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::threshold, floatParam(R.string.threshold, 0.58f, 0.08f..1f))
-            field(Value::angle, floatParam(R.string.angle, 0f, -90f..90f, roundTo = 1))
-            field(Value::length, floatParam(R.string.gmic_param_length, 85f, 2f..180f, roundTo = 1))
-            field(Value::width, floatParam(R.string.gmic_param_width, 1.4f, 0.5f..16f, roundTo = 1))
-            field(Value::falloff, floatParam(R.string.falloff, 2.4f, 0.5f..8f, roundTo = 1))
-            field(Value::intensity, floatParam(R.string.texture_intensity, 2.4f, 0f..5f))
+        override val parameters = structuredParameters {
+            Value::threshold.float(R.string.threshold, 0.58f, 0.08f..1f)
+            Value::angle.float(R.string.angle, 0f, -90f..90f, roundTo = 1)
+            Value::length.float(R.string.gmic_param_length, 85f, 2f..180f, roundTo = 1)
+            Value::width.float(R.string.gmic_param_width, 1.4f, 0.5f..16f, roundTo = 1)
+            Value::falloff.float(R.string.falloff, 2.4f, 0.5f..8f, roundTo = 1)
+            Value::intensity.float(R.string.texture_intensity, 2.4f, 0f..5f)
         }
     }
 }

@@ -39,8 +39,8 @@ internal class SobelEdgeDetectionFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.sobel_edge, R.string.filter_help_sobel_edge)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::lineWidth, floatParam(R.string.line_width, 1f, 1f..25f, roundTo = 0))
+        override val parameters = structuredParameters {
+            Value::lineWidth.float(R.string.line_width, 1f, 1f..25f, roundTo = 0)
         }
     }
 }

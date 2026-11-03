@@ -18,10 +18,10 @@
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import android.graphics.Bitmap
-import androidx.compose.ui.graphics.Color
 import com.awxkee.aire.Aire
 import com.t8rin.imagetoolbox.core.data.image.utils.ColorUtils.toAbgr
-import com.t8rin.imagetoolbox.core.data.image.utils.ColorUtils.toModel
+import com.t8rin.imagetoolbox.core.data.image.utils.ColorUtils.toColor
+import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.HorizontalWindStagger.Value
@@ -29,7 +29,6 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
 import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
 import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.ui.theme.toColor
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 
 @FilterDefinition(group = FilterGroups.GLITCH)
@@ -44,7 +43,7 @@ internal class HorizontalWindStaggerFilter(
         bitmap = input,
         windStrength = value.strength,
         streamsCount = value.amount,
-        clearColor = value.color.colorInt.toColor().toAbgr()
+        clearColor = value.color.toColor().toAbgr()
     )
 
     companion object : Filter.Schema.Structured<Value> {
@@ -53,13 +52,10 @@ internal class HorizontalWindStaggerFilter(
             R.string.filter_help_horizontal_wind_stagger
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::strength, floatParam(R.string.strength, 0.2f, 0f..100f, roundTo = 1))
-            field(Value::amount, intParam(R.string.amount, 90, 10..200))
-            field(
-                Value::color,
-                colorParam(R.string.color, Color.Transparent.toModel(), allowAlpha = true)
-            )
+        override val parameters = structuredParameters {
+            Value::strength.float(R.string.strength, 0.2f, 0f..100f, roundTo = 1)
+            Value::amount.int(R.string.amount, 90, 10..200)
+            Value::color.color(R.string.color, ColorModel(0), allowAlpha = true)
         }
     }
 }

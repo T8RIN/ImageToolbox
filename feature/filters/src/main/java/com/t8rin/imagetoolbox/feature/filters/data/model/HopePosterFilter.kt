@@ -43,13 +43,10 @@ internal class HopePosterFilter(
             R.string.filter_help_gmic_filter_hope_poster
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.gamma, 0, -3f..3f),
-                    gmicNumber(R.string.gmic_param_smoothness, 3, 0f..20f)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.gamma, 0, -3f..3f),
+                gmicNumber(R.string.gmic_param_smoothness, 3, 0f..20f)
             )
         }
     }

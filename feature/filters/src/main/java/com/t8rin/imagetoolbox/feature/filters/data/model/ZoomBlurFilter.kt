@@ -41,10 +41,10 @@ internal class ZoomBlurFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.zoom_blur, R.string.filter_help_zoom_blur)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::blurCenterX, floatParam(R.string.blur_center_x, 0.5f, 0f..1f))
-            field(Value::blurCenterY, floatParam(R.string.blur_center_y, 0.5f, 0f..1f))
-            field(Value::blurSize, floatParam(R.string.blur_size, 5f, 0f..10f))
+        override val parameters = structuredParameters {
+            Value::blurCenterX.float(R.string.blur_center_x, 0.5f, 0f..1f)
+            Value::blurCenterY.float(R.string.blur_center_y, 0.5f, 0f..1f)
+            Value::blurSize.float(R.string.blur_size, 5f, 0f..10f)
         }
     }
 }

@@ -42,12 +42,9 @@ internal class VectorPaintingFilter(
             R.string.filter_help_gmic_filter_vector_painting
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.texture_detail, 9, 0f..10f)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.texture_detail, 9, 0f..10f)
             )
         }
     }

@@ -46,10 +46,10 @@ internal class CrtCurvatureFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.crt_curvature, R.string.filter_help_crt_curvature)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::curvature, floatParam(R.string.curvature, 0.25f, -1f..1f, roundTo = 3))
-            field(Value::vignette, floatParam(R.string.vignette, 0.65f, 0f..1f, roundTo = 3))
-            field(Value::chroma, floatParam(R.string.chroma, 0.015f, 0f..1f, roundTo = 3))
+        override val parameters = structuredParameters {
+            Value::curvature.float(R.string.curvature, 0.25f, -1f..1f, roundTo = 3)
+            Value::vignette.float(R.string.vignette, 0.65f, 0f..1f, roundTo = 3)
+            Value::chroma.float(R.string.chroma, 0.015f, 0f..1f, roundTo = 3)
         }
     }
 }

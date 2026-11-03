@@ -56,13 +56,15 @@ internal class LinearGaussianBlurFilter(
         override val info =
             FilterInfo(R.string.linear_gaussian_blur, R.string.filter_help_linear_gaussian_blur)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::kernelSize, intParam(R.string.strength, 25, 3..600, NEAREST_ODD_ROUNDING))
-            field(Value::sigma, floatParam(R.string.sigma, 10f, 1f..50f))
-            field(Value::edgeMode, enumParam(R.string.edge_mode) { BlurEdgeMode.Reflect101 })
-            field(
-                Value::transferFunction,
-                enumParam(R.string.tag_transfer_function) { TransferFunc.SRGB })
+        override val parameters = structuredParameters {
+            Value::kernelSize.int(R.string.strength, 25, 3..600, NEAREST_ODD_ROUNDING)
+            Value::sigma.float(R.string.sigma, 10f, 1f..50f)
+            Value::edgeMode.enum(
+                R.string.edge_mode,
+                label = { it.label }) { BlurEdgeMode.Reflect101 }
+            Value::transferFunction.enum(
+                R.string.tag_transfer_function,
+                label = { it.label }) { TransferFunc.SRGB }
         }
     }
 }

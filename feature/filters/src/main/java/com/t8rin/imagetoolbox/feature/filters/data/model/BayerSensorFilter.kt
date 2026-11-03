@@ -50,25 +50,24 @@ internal class BayerSensorFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.bayer_sensor, R.string.filter_help_bayer_sensor)
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::pattern,
-                choiceParam(
-                    R.string.bayer_pattern, 0,
-                    R.string.rggb,
-                    R.string.bggr,
-                    R.string.grbg,
-                    R.string.gbrg
-                )
+        override val parameters = structuredParameters {
+            Value::pattern.choice(
+                R.string.bayer_pattern, 0,
+                R.string.rggb,
+                R.string.bggr,
+                R.string.grbg,
+                R.string.gbrg
             )
-            field(Value::scale, floatParam(R.string.scale, 0.55f, 0.1f..1f))
-            field(Value::shotNoise, floatParam(R.string.shot_noise, 0.045f, 0f..0.25f, roundTo = 3))
-            field(Value::readNoise, floatParam(R.string.read_noise, 0.006f, 0f..0.15f, roundTo = 3))
-            field(Value::seed, intParam(R.string.seed, 0, 0..10000))
-            field(Value::strength, floatParam(R.string.strength, 1f, 0f..1f))
-            field(
-                Value::edgeAware,
-                toggleParam(R.string.demosaicing, false, R.string.bilinear, R.string.edge_aware)
+            Value::scale.float(R.string.scale, 0.55f, 0.1f..1f)
+            Value::shotNoise.float(R.string.shot_noise, 0.045f, 0f..0.25f, roundTo = 3)
+            Value::readNoise.float(R.string.read_noise, 0.006f, 0f..0.15f, roundTo = 3)
+            Value::seed.seed(R.string.seed, 0, 0..10000)
+            Value::strength.float(R.string.strength, 1f, 0f..1f)
+            Value::edgeAware.toggle(
+                R.string.demosaicing,
+                false,
+                R.string.bilinear,
+                R.string.edge_aware
             )
         }
     }

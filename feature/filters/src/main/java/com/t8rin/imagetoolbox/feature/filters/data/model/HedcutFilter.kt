@@ -46,18 +46,15 @@ internal class HedcutFilter(
         override val info =
             FilterInfo(R.string.gmic_filter_hedcut, R.string.filter_help_gmic_filter_hedcut)
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.contrast, 0.5f, 0f..1f),
-                    gmicNumber(R.string.gmic_param_luminance_level, 0.5f, 0f..1f),
-                    gmicNumber(R.string.gmic_param_smoothing, 0.5f, 0f..1f),
-                    gmicNumber(R.string.just_size, 0.0f, 0f..1f),
-                    gmicNumber(R.string.gmic_param_step, 0.5f, 0f..1f),
-                    gmicToggle(R.string.quality, false),
-                    gmicToggle(R.string.gmic_param_force_gray, true)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.contrast, 0.5f, 0f..1f),
+                gmicNumber(R.string.gmic_param_luminance_level, 0.5f, 0f..1f),
+                gmicNumber(R.string.gmic_param_smoothing, 0.5f, 0f..1f),
+                gmicNumber(R.string.just_size, 0.0f, 0f..1f),
+                gmicNumber(R.string.gmic_param_step, 0.5f, 0f..1f),
+                gmicToggle(R.string.quality, false),
+                gmicToggle(R.string.gmic_param_force_gray, true)
             )
         }
     }

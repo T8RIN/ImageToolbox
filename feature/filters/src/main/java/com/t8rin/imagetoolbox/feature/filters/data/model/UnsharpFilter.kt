@@ -44,8 +44,8 @@ internal class UnsharpFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.unsharp, R.string.filter_help_unsharp)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::intensity, floatParam(default = 0.5f, range = 0f..1f))
+        override val parameters = structuredParameters {
+            Value::intensity.float(default = 0.5f, range = 0f..1f)
         }
     }
 }

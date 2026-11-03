@@ -46,11 +46,8 @@ import com.t8rin.imagetoolbox.core.utils.filename
 import com.t8rin.imagetoolbox.core.utils.toImageModel
 import com.t8rin.imagetoolbox.feature.archive_tools.domain.ArchiveManager
 import com.t8rin.imagetoolbox.feature.archive_tools.domain.model.ArchiveExtractionOptions
-import com.t8rin.imagetoolbox.feature.filters.data.utils.serialization.PACKAGE_ALIAS
-import com.t8rin.imagetoolbox.feature.filters.data.utils.serialization.REAL_PACKAGE
-import com.t8rin.imagetoolbox.feature.filters.data.utils.serialization.toDatastoreString
-import com.t8rin.imagetoolbox.feature.filters.data.utils.serialization.toFiltersList
-import com.t8rin.imagetoolbox.feature.filters.data.utils.serialization.toTemplateFiltersList
+import com.t8rin.imagetoolbox.feature.filters.data.utils.serialization.FilterSerialization
+import com.t8rin.imagetoolbox.feature.filters.data.utils.serialization.TemplateLinkCodec
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
@@ -67,25 +64,28 @@ internal class AndroidFilterParamsInteractor @Inject constructor(
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap>,
     private val archiveManager: ArchiveManager,
+    private val serialization: FilterSerialization,
     dispatchersHolder: DispatchersHolder
 ) : DispatchersHolder by dispatchersHolder, FilterParamsInteractor {
 
     override fun getRecentFilters(): Flow<List<Filter<*>>> = dataStore.data.map { prefs ->
-        prefs[RECENT_FILTERS]?.toFiltersList(false) ?: emptyList()
+        prefs[RECENT_FILTERS]?.let { serialization.decodeFilters(it, false) } ?: emptyList()
     }
 
     override suspend fun addRecentFilter(filter: Filter<*>) {
         dataStore.edit { prefs ->
-            val currentFilters = prefs[RECENT_FILTERS]?.toFiltersList(false) ?: emptyList()
+            val currentFilters = prefs[RECENT_FILTERS]
+                ?.let { serialization.decodeFilters(it, false) }
+                .orEmpty()
             val newList = listOf(filter) + currentFilters.filter {
                 !it::class.java.isInstance(filter)
             }
-            prefs[RECENT_FILTERS] = newList.take(10).toDatastoreString()
+            prefs[RECENT_FILTERS] = serialization.encodeFilters(newList.take(10))
         }
     }
 
     override fun getFavoriteFilters(): Flow<List<Filter<*>>> = dataStore.data.map { prefs ->
-        prefs[FAVORITE_FILTERS]?.toFiltersList(false) ?: emptyList()
+        prefs[FAVORITE_FILTERS]?.let { serialization.decodeFilters(it, false) } ?: emptyList()
     }
 
     override suspend fun toggleFavorite(filter: Filter<*>) {
@@ -93,15 +93,13 @@ internal class AndroidFilterParamsInteractor @Inject constructor(
         if (currentFilters.filterIsInstance(filter::class.java).isEmpty()) {
             dataStore.edit { prefs ->
                 prefs[FAVORITE_FILTERS] =
-                    (listOf(filter) + currentFilters).toDatastoreString()
+                    serialization.encodeFilters(listOf(filter) + currentFilters)
             }
         } else {
             dataStore.edit { prefs ->
-                prefs[FAVORITE_FILTERS] = currentFilters
-                    .filter {
-                        !it::class.java.isInstance(filter)
-                    }
-                    .toDatastoreString()
+                prefs[FAVORITE_FILTERS] = serialization.encodeFilters(
+                    currentFilters.filter { !it::class.java.isInstance(filter) }
+                )
             }
         }
     }
@@ -110,7 +108,7 @@ internal class AndroidFilterParamsInteractor @Inject constructor(
         dataStore.data.map { prefs ->
             prefs[TEMPLATE_FILTERS]
                 ?.takeIf(String::isNotEmpty)
-                ?.toTemplateFiltersList()
+                ?.let { serialization.decodeTemplates(it, skipInvalid = true) }
                 .orEmpty()
         }
 
@@ -119,23 +117,23 @@ internal class AndroidFilterParamsInteractor @Inject constructor(
         replacing: TemplateFilter?
     ) {
         val currentTemplates = getTemplateFilters().first()
-        val replacingContent = replacing?.let(::encodeTemplateFilter)
-        val newContent = encodeTemplateFilter(templateFilter)
+        val replacingContent = replacing?.let(::serializeTemplateFilter)
+        val newContent = serializeTemplateFilter(templateFilter)
         val alreadyAdded = replacing == null && currentTemplates.any {
-            encodeTemplateFilter(it) == newContent
+            serializeTemplateFilter(it) == newContent
         }
 
         if (alreadyAdded) return
 
         val nextTemplates = currentTemplates
             .filterNot { template ->
-                val content = encodeTemplateFilter(template)
+                val content = serializeTemplateFilter(template)
                 content == replacingContent || content == newContent
             }
             .plus(templateFilter)
 
         dataStore.edit { prefs ->
-            prefs[TEMPLATE_FILTERS] = nextTemplates.toDatastoreString()
+            prefs[TEMPLATE_FILTERS] = serialization.encodeTemplates(nextTemplates)
         }
     }
 
@@ -158,12 +156,12 @@ internal class AndroidFilterParamsInteractor @Inject constructor(
     ): String = encodeTemplateFilter(templateFilter)
 
     override suspend fun removeTemplateFilter(templateFilter: TemplateFilter) {
-        val content = encodeTemplateFilter(templateFilter)
+        val content = serializeTemplateFilter(templateFilter)
         val nextTemplates = getTemplateFilters().first().filterNot {
-            encodeTemplateFilter(it) == content
+            serializeTemplateFilter(it) == content
         }
         dataStore.edit { prefs ->
-            prefs[TEMPLATE_FILTERS] = nextTemplates.toDatastoreString()
+            prefs[TEMPLATE_FILTERS] = serialization.encodeTemplates(nextTemplates)
         }
     }
 
@@ -244,13 +242,11 @@ internal class AndroidFilterParamsInteractor @Inject constructor(
     }
 
     override fun isValidTemplateFilter(string: String): Boolean =
-        (REAL_PACKAGE in string || PACKAGE_ALIAS in string) &&
-                "Filter" in string &&
-                LINK_HEADER in string
+        decodeTemplateFilterOrNull(string) != null
 
     override suspend fun reorderFavoriteFilters(newOrder: List<Filter<*>>) {
         dataStore.edit { prefs ->
-            prefs[FAVORITE_FILTERS] = newOrder.toDatastoreString()
+            prefs[FAVORITE_FILTERS] = serialization.encodeFilters(newOrder)
         }
     }
 
@@ -299,16 +295,16 @@ internal class AndroidFilterParamsInteractor @Inject constructor(
         }
     }
 
+    private fun serializeTemplateFilter(templateFilter: TemplateFilter): String =
+        serialization.encodeTemplates(listOf(templateFilter))
+
     private fun encodeTemplateFilter(templateFilter: TemplateFilter): String =
-        "$LINK_HEADER${listOf(templateFilter).toDatastoreString()}"
+        TemplateLinkCodec.encode(serializeTemplateFilter(templateFilter))
 
     private fun decodeTemplateFilter(content: String): TemplateFilter {
-        check(isValidTemplateFilter(content))
-        return content
-            .removePrefix(LINK_HEADER)
-            .toTemplateFiltersList()
-            .firstOrNull()
-            ?: error("Invalid filter template")
+        val template = serialization.decodeTemplates(TemplateLinkCodec.decode(content)).single()
+        require(template.filters.isNotEmpty()) { "Empty filter template" }
+        return template
     }
 
     private fun decodeTemplateFilterOrNull(content: String): TemplateFilter? =
@@ -337,8 +333,6 @@ private fun String.isZipArchive(): Boolean {
             filename.endsWith(".zipx") ||
             filename.endsWith(".cbz")
 }
-
-private const val LINK_HEADER: String = "https://github.com/T8RIN/ImageToolbox?"
 
 private val FAVORITE_FILTERS = stringPreferencesKey("FAVORITE_FILTERS")
 private val RECENT_FILTERS = stringPreferencesKey("RECENT_FILTERS")

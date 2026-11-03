@@ -49,16 +49,13 @@ internal class FilmGrainFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.film_grain, R.string.filter_help_film_grain)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::size, floatParam(R.string.just_size, 2.1f, 0.65f..12f))
-            field(Value::intensity, floatParam(R.string.texture_intensity, 0.23f, 0f..0.7f))
-            field(Value::sizeVariation, floatParam(R.string.size_variation, 0.6f, 0f..1f))
-            field(
-                Value::exposureDependence,
-                floatParam(R.string.exposure_dependence, 0.72f, 0f..1f)
-            )
-            field(Value::colorGrain, floatParam(R.string.color_grain, 0.13f, 0f..1f))
-            field(Value::seed, intParam(R.string.seed, 0, 0..10000))
+        override val parameters = structuredParameters {
+            Value::size.float(R.string.just_size, 2.1f, 0.65f..12f)
+            Value::intensity.float(R.string.texture_intensity, 0.23f, 0f..0.7f)
+            Value::sizeVariation.float(R.string.size_variation, 0.6f, 0f..1f)
+            Value::exposureDependence.float(R.string.exposure_dependence, 0.72f, 0f..1f)
+            Value::colorGrain.float(R.string.color_grain, 0.13f, 0f..1f)
+            Value::seed.seed(R.string.seed, 0, 0..10000)
         }
     }
 }

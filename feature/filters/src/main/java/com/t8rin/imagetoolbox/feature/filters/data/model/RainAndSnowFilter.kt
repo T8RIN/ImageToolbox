@@ -47,17 +47,14 @@ internal class RainAndSnowFilter(
             R.string.filter_help_gmic_filter_rain_and_snow
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.angle, 65, -180f..180f),
-                    gmicNumber(R.string.speed, 10, 0f..50f),
-                    gmicNumber(R.string.density, 50, 0f..100f),
-                    gmicNumber(R.string.radius, 0.1f, 0f..3f),
-                    gmicNumber(R.string.gamma, 1, 0f..2f),
-                    gmicNumber(R.string.opacity, 1, 0f..1f)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.angle, 65, -180f..180f),
+                gmicNumber(R.string.speed, 10, 0f..50f),
+                gmicNumber(R.string.density, 50, 0f..100f),
+                gmicNumber(R.string.radius, 0.1f, 0f..3f),
+                gmicNumber(R.string.gamma, 1, 0f..2f),
+                gmicNumber(R.string.opacity, 1, 0f..1f)
             )
         }
     }

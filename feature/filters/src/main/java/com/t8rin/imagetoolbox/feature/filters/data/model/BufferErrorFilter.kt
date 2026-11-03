@@ -47,17 +47,14 @@ internal class BufferErrorFilter(
             R.string.filter_help_gmic_filter_buffer_error
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.gmic_param_width, 50, 0f..200f),
-                    gmicNumber(R.string.gmic_param_height, 50, 0f..200f),
-                    gmicNumber(R.string.gmic_param_buffer_selection_start_percent, 0, 0f..100f),
-                    gmicNumber(R.string.gmic_param_buffer_selection_length_percent, 100, 0f..400f),
-                    gmicNumber(R.string.gmic_param_buffer_selection_shift_percent, 0, 0f..100f),
-                    gmicToggle(R.string.gmic_param_repeat_buffer, true)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.gmic_param_width, 50, 0f..200f),
+                gmicNumber(R.string.gmic_param_height, 50, 0f..200f),
+                gmicNumber(R.string.gmic_param_buffer_selection_start_percent, 0, 0f..100f),
+                gmicNumber(R.string.gmic_param_buffer_selection_length_percent, 100, 0f..400f),
+                gmicNumber(R.string.gmic_param_buffer_selection_shift_percent, 0, 0f..100f),
+                gmicToggle(R.string.gmic_param_repeat_buffer, true)
             )
         }
     }

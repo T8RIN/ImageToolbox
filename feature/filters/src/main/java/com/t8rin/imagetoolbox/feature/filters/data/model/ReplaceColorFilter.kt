@@ -18,8 +18,7 @@
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import android.graphics.Bitmap
-import androidx.compose.ui.graphics.Color
-import com.t8rin.imagetoolbox.core.data.image.utils.ColorUtils.toModel
+import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.ReplaceColor.Value
@@ -47,23 +46,17 @@ internal class ReplaceColorFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.replace_color, R.string.filter_help_replace_color)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::tolerance, floatParam(R.string.tolerance, 0f, 0f..1f))
-            field(
-                Value::colorToReplace,
-                colorParam(
-                    R.string.color_to_replace,
-                    Color(red = 0.0f, green = 0.0f, blue = 0.0f, alpha = 1.0f).toModel(),
-                    allowAlpha = true
-                )
+        override val parameters = structuredParameters {
+            Value::tolerance.float(R.string.tolerance, 0f, 0f..1f)
+            Value::colorToReplace.color(
+                R.string.color_to_replace,
+                ColorModel(0xFF000000.toInt()),
+                allowAlpha = true
             )
-            field(
-                Value::targetColor,
-                colorParam(
-                    R.string.target_color,
-                    Color(red = 1.0f, green = 1.0f, blue = 1.0f, alpha = 1.0f).toModel(),
-                    allowAlpha = true
-                )
+            Value::targetColor.color(
+                R.string.target_color,
+                ColorModel(0xFFFFFFFF.toInt()),
+                allowAlpha = true
             )
         }
     }

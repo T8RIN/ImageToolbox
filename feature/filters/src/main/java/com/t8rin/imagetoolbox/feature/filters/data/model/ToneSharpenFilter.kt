@@ -45,17 +45,14 @@ internal class ToneSharpenFilter(
             R.string.filter_help_gmic_filter_tone_sharpen
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.amount, 1.2f, 0f..4f),
-                    gmicInteger(R.string.center, 128, 0f..255f),
-                    gmicSelection(
-                        R.string.gmic_param_value_action,
-                        "NormalizeLuma",
-                        listOf("Cut", "NormalizeLuma")
-                    )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.amount, 1.2f, 0f..4f),
+                gmicInteger(R.string.center, 128, 0f..255f),
+                gmicSelection(
+                    R.string.gmic_param_value_action,
+                    "NormalizeLuma",
+                    listOf("Cut", "NormalizeLuma")
                 )
             )
         }

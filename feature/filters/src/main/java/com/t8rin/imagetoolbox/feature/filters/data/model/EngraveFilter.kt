@@ -54,28 +54,25 @@ internal class EngraveFilter(
         override val info =
             FilterInfo(R.string.gmic_filter_engrave, R.string.filter_help_gmic_filter_engrave)
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.radius, 0.5f, 0f..2f),
-                    gmicNumber(R.string.density, 50, 0f..200f),
-                    gmicNumber(R.string.texture_edges, 0, 0f..10f),
-                    gmicNumber(R.string.gmic_param_coherence, 8, 0f..40f),
-                    gmicNumber(R.string.threshold, 40, 0f..100f),
-                    gmicInteger(R.string.gmic_param_minimal_area, 0, -256f..256f),
-                    gmicNumber(R.string.gmic_param_flat_regions_removal, 0, 0f..10f),
-                    gmicToggle(R.string.gmic_param_add_color_background, true),
-                    gmicNumber(R.string.gmic_param_quantization, 10, 0f..40f),
-                    gmicInteger(R.string.texture_shading, 1, 0f..5f),
-                    gmicNumber(R.string.hue, 0, -180f..180f),
-                    gmicNumber(R.string.saturation, 0, -100f..100f),
-                    gmicNumber(R.string.gmic_param_lightness, 0, -100f..100f),
-                    gmicSelection(
-                        R.string.antialias,
-                        "X1_5",
-                        listOf("Disabled", "X1_5", "X2", "X3")
-                    )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.radius, 0.5f, 0f..2f),
+                gmicNumber(R.string.density, 50, 0f..200f),
+                gmicNumber(R.string.texture_edges, 0, 0f..10f),
+                gmicNumber(R.string.gmic_param_coherence, 8, 0f..40f),
+                gmicNumber(R.string.threshold, 40, 0f..100f),
+                gmicInteger(R.string.gmic_param_minimal_area, 0, -256f..256f),
+                gmicNumber(R.string.gmic_param_flat_regions_removal, 0, 0f..10f),
+                gmicToggle(R.string.gmic_param_add_color_background, true),
+                gmicNumber(R.string.gmic_param_quantization, 10, 0f..40f),
+                gmicInteger(R.string.texture_shading, 1, 0f..5f),
+                gmicNumber(R.string.hue, 0, -180f..180f),
+                gmicNumber(R.string.saturation, 0, -100f..100f),
+                gmicNumber(R.string.gmic_param_lightness, 0, -100f..100f),
+                gmicSelection(
+                    R.string.antialias,
+                    "X1_5",
+                    listOf("Disabled", "X1_5", "X2", "X3")
                 )
             )
         }

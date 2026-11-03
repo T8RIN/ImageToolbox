@@ -52,17 +52,14 @@ internal class ContourHatchingFilter(
         override val info =
             FilterInfo(R.string.contour_hatching, R.string.filter_help_contour_hatching)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::spacing, floatParam(R.string.spacing, 7f, 2f..32f, roundTo = 1))
-            field(Value::width, floatParam(R.string.gmic_param_width, 0.65f, 0.1f..0.9f))
-            field(Value::angle, floatParam(R.string.angle, 35f, 0f..180f, roundTo = 1))
-            field(Value::contrast, floatParam(R.string.contrast, 1.35f, 0.5f..3f))
-            field(Value::ink, colorParam(R.string.ink_color, ColorModel(0xFF292429.toInt())))
-            field(
-                Value::paper,
-                colorParam(R.string.texture_paper_color, ColorModel(0xFFF7F1DD.toInt()))
-            )
-            field(Value::strength, floatParam(R.string.strength, 1f, 0f..1f))
+        override val parameters = structuredParameters {
+            Value::spacing.float(R.string.spacing, 7f, 2f..32f, roundTo = 1)
+            Value::width.float(R.string.gmic_param_width, 0.65f, 0.1f..0.9f)
+            Value::angle.float(R.string.angle, 35f, 0f..180f, roundTo = 1)
+            Value::contrast.float(R.string.contrast, 1.35f, 0.5f..3f)
+            Value::ink.color(R.string.ink_color, ColorModel(0xFF292429.toInt()))
+            Value::paper.color(R.string.texture_paper_color, ColorModel(0xFFF7F1DD.toInt()))
+            Value::strength.float(R.string.strength, 1f, 0f..1f)
         }
     }
 }

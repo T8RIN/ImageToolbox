@@ -45,17 +45,14 @@ internal class GradientSharpenFilter(
             R.string.filter_help_gmic_filter_gradient_sharpen
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.amount, 0.8f, 0f..2f),
-                    gmicNumber(R.string.scale, 1.4f, 0.1f..2f),
-                    gmicSelection(
-                        R.string.gmic_param_value_action,
-                        "NormalizeLuma",
-                        listOf("Cut", "NormalizeLuma")
-                    )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.amount, 0.8f, 0f..2f),
+                gmicNumber(R.string.scale, 1.4f, 0.1f..2f),
+                gmicSelection(
+                    R.string.gmic_param_value_action,
+                    "NormalizeLuma",
+                    listOf("Cut", "NormalizeLuma")
                 )
             )
         }

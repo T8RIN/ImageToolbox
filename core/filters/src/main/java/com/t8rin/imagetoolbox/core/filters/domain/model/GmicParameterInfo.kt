@@ -15,18 +15,9 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.core.filters.presentation.model
+package com.t8rin.imagetoolbox.core.filters.domain.model
 
 import androidx.annotation.StringRes
-import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-
-interface GmicUiFilter {
-    val gmicValue: GmicFilterParams
-    val gmicParamsInfo: List<GmicParameterInfo>
-
-    fun withGmicValue(value: GmicFilterParams): Filter.ParameterValue
-}
 
 sealed interface GmicParameterInfo {
     @get:StringRes
@@ -36,7 +27,8 @@ sealed interface GmicParameterInfo {
         override val title: Int,
         val range: ClosedFloatingPointRange<Float>,
         val isInteger: Boolean,
-        val roundTo: Int = if (isInteger) 0 else 2
+        val roundTo: Int = if (isInteger) 0 else 2,
+        val isSeed: Boolean = false
     ) : GmicParameterInfo
 
     data class Toggle(

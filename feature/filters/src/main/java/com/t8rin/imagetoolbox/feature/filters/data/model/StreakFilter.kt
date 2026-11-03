@@ -44,18 +44,15 @@ internal class StreakFilter(
         override val info =
             FilterInfo(R.string.gmic_filter_streak, R.string.filter_help_gmic_filter_streak)
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicColor(R.string.mask_color, -65536),
-                    gmicNumber(R.string.gmic_param_step, 0, 0f..30f),
-                    gmicNumber(R.string.angle, 0, 0f..360f),
-                    gmicSelection(
-                        R.string.gmic_param_propagation,
-                        "BidirectionalSmooth",
-                        listOf("Backward", "Forward", "BidirectionalSharp", "BidirectionalSmooth")
-                    )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicColor(R.string.mask_color, -65536),
+                gmicNumber(R.string.gmic_param_step, 0, 0f..30f),
+                gmicNumber(R.string.angle, 0, 0f..360f),
+                gmicSelection(
+                    R.string.gmic_param_propagation,
+                    "BidirectionalSmooth",
+                    listOf("Backward", "Forward", "BidirectionalSharp", "BidirectionalSmooth")
                 )
             )
         }

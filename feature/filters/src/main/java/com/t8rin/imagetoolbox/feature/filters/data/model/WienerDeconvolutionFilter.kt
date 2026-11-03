@@ -49,23 +49,22 @@ internal class WienerDeconvolutionFilter(
         override val info =
             FilterInfo(R.string.wiener_deconvolution, R.string.filter_help_wiener_deconvolution)
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::psf,
-                choiceParam(
-                    R.string.blur_shape, 0,
-                    R.string.motion_blur,
-                    R.string.defocus,
-                    R.string.gaussian
-                )
+        override val parameters = structuredParameters {
+            Value::psf.choice(
+                R.string.blur_shape, 0,
+                R.string.motion_blur,
+                R.string.defocus,
+                R.string.gaussian
             )
-            field(Value::radius, floatParam(R.string.radius, 5f, 1f..35f, roundTo = 1))
-            field(Value::angle, floatParam(R.string.angle, 0f, -90f..90f, roundTo = 1))
-            field(
-                Value::regularization,
-                floatParam(R.string.regularization, 0.026f, 0.0001f..0.25f, roundTo = 4)
+            Value::radius.float(R.string.radius, 5f, 1f..35f, roundTo = 1)
+            Value::angle.float(R.string.angle, 0f, -90f..90f, roundTo = 1)
+            Value::regularization.float(
+                R.string.regularization,
+                0.026f,
+                0.0001f..0.25f,
+                roundTo = 4
             )
-            field(Value::strength, floatParam(R.string.strength, 0.8f, 0f..1f))
+            Value::strength.float(R.string.strength, 0.8f, 0f..1f)
         }
     }
 }

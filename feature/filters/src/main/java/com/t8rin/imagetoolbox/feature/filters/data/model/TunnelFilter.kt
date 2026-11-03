@@ -45,17 +45,14 @@ internal class TunnelFilter(
         override val info =
             FilterInfo(R.string.gmic_filter_tunnel, R.string.filter_help_gmic_filter_tunnel)
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicInteger(R.string.texture_depth, 4, 1f..100f),
-                    gmicNumber(R.string.gmic_param_factor, 80, 1f..99f),
-                    gmicNumber(R.string.center_x, 50, 0f..100f),
-                    gmicNumber(R.string.center_y, 50, 0f..100f),
-                    gmicNumber(R.string.opacity, 0.2f, 0f..1f),
-                    gmicNumber(R.string.angle, 0, -90f..90f)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicInteger(R.string.texture_depth, 4, 1f..100f),
+                gmicNumber(R.string.gmic_param_factor, 80, 1f..99f),
+                gmicNumber(R.string.center_x, 50, 0f..100f),
+                gmicNumber(R.string.center_y, 50, 0f..100f),
+                gmicNumber(R.string.opacity, 0.2f, 0f..1f),
+                gmicNumber(R.string.angle, 0, -90f..90f)
             )
         }
     }

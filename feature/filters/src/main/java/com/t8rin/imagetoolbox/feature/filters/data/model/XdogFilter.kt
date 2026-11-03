@@ -52,18 +52,15 @@ internal class XdogFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.xdog, R.string.filter_help_xdog)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::sigma, floatParam(R.string.sigma, 2.5f, 0.5f..12f, roundTo = 1))
-            field(Value::ratio, floatParam(R.string.gmic_param_ratio, 1.6f, 1.1f..4f))
-            field(Value::weight, floatParam(R.string.weight, 12f, 1f..30f, roundTo = 1))
-            field(Value::threshold, floatParam(R.string.threshold, 0.42f, -0.5f..1f))
-            field(Value::sharpness, floatParam(R.string.tag_sharpness, 14f, 1f..60f, roundTo = 1))
-            field(Value::ink, colorParam(R.string.ink_color, ColorModel(0xFF251E1B.toInt())))
-            field(
-                Value::paper,
-                colorParam(R.string.texture_paper_color, ColorModel(0xFFFAF0DF.toInt()))
-            )
-            field(Value::strength, floatParam(R.string.strength, 1f, 0f..1f))
+        override val parameters = structuredParameters {
+            Value::sigma.float(R.string.sigma, 2.5f, 0.5f..12f, roundTo = 1)
+            Value::ratio.float(R.string.gmic_param_ratio, 1.6f, 1.1f..4f)
+            Value::weight.float(R.string.weight, 12f, 1f..30f, roundTo = 1)
+            Value::threshold.float(R.string.threshold, 0.42f, -0.5f..1f)
+            Value::sharpness.float(R.string.tag_sharpness, 14f, 1f..60f, roundTo = 1)
+            Value::ink.color(R.string.ink_color, ColorModel(0xFF251E1B.toInt()))
+            Value::paper.color(R.string.texture_paper_color, ColorModel(0xFFFAF0DF.toInt()))
+            Value::strength.float(R.string.strength, 1f, 0f..1f)
         }
     }
 }

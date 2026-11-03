@@ -50,86 +50,83 @@ internal class DeblurFilter(
         override val info =
             FilterInfo(R.string.gmic_filter_deblur, R.string.filter_help_gmic_filter_deblur)
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.radius, 2, 0f..20f),
-                    gmicInteger(R.string.iterations, 10, 0f..100f),
-                    gmicNumber(R.string.gmic_param_time_step, 20, 0f..50f),
-                    gmicNumber(R.string.gmic_param_smoothness, 0.1f, 0f..10f),
-                    gmicSelection(
-                        R.string.gmic_param_regularization,
-                        "MeanCurvature",
-                        listOf("Tikhonov", "MeanCurvature", "TotalVariation")
-                    ),
-                    gmicSelection(
-                        R.string.gmic_param_channel,
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.radius, 2, 0f..20f),
+                gmicInteger(R.string.iterations, 10, 0f..100f),
+                gmicNumber(R.string.gmic_param_time_step, 20, 0f..50f),
+                gmicNumber(R.string.gmic_param_smoothness, 0.1f, 0f..10f),
+                gmicSelection(
+                    R.string.gmic_param_regularization,
+                    "MeanCurvature",
+                    listOf("Tikhonov", "MeanCurvature", "TotalVariation")
+                ),
+                gmicSelection(
+                    R.string.gmic_param_channel,
+                    "All",
+                    listOf(
                         "All",
-                        listOf(
-                            "All",
-                            "Rgba",
-                            "Rgb",
-                            "Red",
-                            "Green",
-                            "Blue",
-                            "Alpha",
-                            "LinearRgb",
-                            "LinearRed",
-                            "LinearGreen",
-                            "LinearBlue",
-                            "YCbCr",
-                            "Luminance",
-                            "Chrominance",
-                            "BlueChrominance",
-                            "RedChrominance",
-                            "GreenChrominance",
-                            "Lab",
-                            "LabLightness",
-                            "LabChrominance",
-                            "LabA",
-                            "LabB",
-                            "Lch",
-                            "LchChrominance",
-                            "LchChroma",
-                            "LchHue",
-                            "Hsv",
-                            "HsvHue",
-                            "HsvSaturation",
-                            "HsvValue",
-                            "Hsi",
-                            "HsiIntensity",
-                            "Hsl",
-                            "HslLightness",
-                            "Cmyk",
-                            "Cmy",
-                            "Cyan",
-                            "Magenta",
-                            "Yellow",
-                            "Key",
-                            "Yiq",
-                            "YiqLuma",
-                            "YiqChrominance",
-                            "Ryb",
-                            "RybRed",
-                            "RybYellow",
-                            "RybBlue"
-                        )
-                    ),
-                    gmicSelection(
-                        R.string.gmic_param_parallelism,
+                        "Rgba",
+                        "Rgb",
+                        "Red",
+                        "Green",
+                        "Blue",
+                        "Alpha",
+                        "LinearRgb",
+                        "LinearRed",
+                        "LinearGreen",
+                        "LinearBlue",
+                        "YCbCr",
+                        "Luminance",
+                        "Chrominance",
+                        "BlueChrominance",
+                        "RedChrominance",
+                        "GreenChrominance",
+                        "Lab",
+                        "LabLightness",
+                        "LabChrominance",
+                        "LabA",
+                        "LabB",
+                        "Lch",
+                        "LchChrominance",
+                        "LchChroma",
+                        "LchHue",
+                        "Hsv",
+                        "HsvHue",
+                        "HsvSaturation",
+                        "HsvValue",
+                        "Hsi",
+                        "HsiIntensity",
+                        "Hsl",
+                        "HslLightness",
+                        "Cmyk",
+                        "Cmy",
+                        "Cyan",
+                        "Magenta",
+                        "Yellow",
+                        "Key",
+                        "Yiq",
+                        "YiqLuma",
+                        "YiqChrominance",
+                        "Ryb",
+                        "RybRed",
+                        "RybYellow",
+                        "RybBlue"
+                    )
+                ),
+                gmicSelection(
+                    R.string.gmic_param_parallelism,
+                    "Auto",
+                    listOf(
                         "Auto",
-                        listOf(
-                            "Auto",
-                            "OneThread",
-                            "TwoThreads",
-                            "FourThreads",
-                            "EightThreads",
-                            "SixteenThreads"
-                        )
-                    ),
-                    gmicInteger(R.string.gmic_param_spatial_overlap, 24, 0f..256f)
-                )
+                        "OneThread",
+                        "TwoThreads",
+                        "FourThreads",
+                        "EightThreads",
+                        "SixteenThreads"
+                    )
+                ),
+                gmicInteger(R.string.gmic_param_spatial_overlap, 24, 0f..256f)
             )
         }
     }

@@ -60,9 +60,9 @@ internal class BokehFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.bokeh, R.string.filter_help_bokeh)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::size, floatParam(R.string.just_size, 6f, 1f..150f, roundTo = 0))
-            field(Value::amount, floatParam(R.string.amount, 6f, 3f..40f, roundTo = 0))
+        override val parameters = structuredParameters {
+            Value::size.float(R.string.just_size, 6f, 1f..150f, roundTo = 0)
+            Value::amount.float(R.string.amount, 6f, 3f..40f, roundTo = 0)
         }
     }
 }

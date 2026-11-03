@@ -43,15 +43,12 @@ internal class EquirectangularProjectionFilter(
             R.string.filter_help_gmic_filter_equirectangular_projection
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicSelection(
-                        R.string.gmic_param_mode,
-                        "NadirZenith",
-                        listOf("NadirZenith", "Equirectangular")
-                    )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicSelection(
+                    R.string.gmic_param_mode,
+                    "NadirZenith",
+                    listOf("NadirZenith", "Equirectangular")
                 )
             )
         }

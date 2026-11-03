@@ -49,11 +49,8 @@ internal class CrossBlurFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.cross_blur, R.string.filter_help_cross_blur)
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::size,
-                floatParam(default = 25f, range = 3f..200f, roundTo = NEAREST_ODD_ROUNDING)
-            )
+        override val parameters = structuredParameters {
+            Value::size.float(default = 25f, range = 3f..200f, roundTo = NEAREST_ODD_ROUNDING)
         }
     }
 }

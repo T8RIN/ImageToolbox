@@ -50,16 +50,13 @@ internal class FilmNegativeFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.film_negative, R.string.filter_help_film_negative)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::exposure, floatParam(R.string.exposure, 0.65f, -3f..3f))
-            field(Value::densityRange, floatParam(R.string.density_range, 3f, 0.2f..6f))
-            field(Value::contrast, floatParam(R.string.contrast, 1f, 0.4f..2.4f))
-            field(Value::toneCurve, floatParam(R.string.tone_curve, 0.35f, 0f..1f))
-            field(
-                Value::filmBase,
-                colorParam(R.string.film_base_color, ColorModel(0xFFFFA352.toInt()))
-            )
-            field(Value::strength, floatParam(R.string.strength, 1f, 0f..1f))
+        override val parameters = structuredParameters {
+            Value::exposure.float(R.string.exposure, 0.65f, -3f..3f)
+            Value::densityRange.float(R.string.density_range, 3f, 0.2f..6f)
+            Value::contrast.float(R.string.contrast, 1f, 0.4f..2.4f)
+            Value::toneCurve.float(R.string.tone_curve, 0.35f, 0f..1f)
+            Value::filmBase.color(R.string.film_base_color, ColorModel(0xFFFFA352.toInt()))
+            Value::strength.float(R.string.strength, 1f, 0f..1f)
         }
     }
 }

@@ -35,18 +35,19 @@ internal abstract class ShaderEffectFilter<T : Any>(
 internal fun <T : Filter.ParameterValue> StructuredParameters<T>.uniforms(value: T): List<ShaderUniform> =
     fields.map { (property, field) ->
         val raw = property.get(value)
-        when (field) {
-            is FilterField.Number -> ShaderUniform.Number(
+        when (raw) {
+            is Float -> {
+                val number = (field as? FilterField.Number)?.constrain(raw) ?: raw
+                require(number.isFinite()) { "Shader uniform ${property.name} must be finite" }
+                ShaderUniform.Number(property.name, number)
+            }
+
+            is Int -> ShaderUniform.Number(
                 property.name,
-                field.constrain(raw as Float)
+                ((field as? FilterField.Integer)?.constrain(raw) ?: raw).toFloat()
             )
 
-            is FilterField.Integer -> ShaderUniform.Number(
-                property.name,
-                field.constrain(raw as Int).toFloat()
-            )
-
-            is FilterField.Color -> ShaderUniform.Color(property.name, (raw as ColorModel).colorInt)
+            is ColorModel -> ShaderUniform.Color(property.name, raw.colorInt)
             else -> error("Unsupported shader uniform ${property.name}")
         }
     }

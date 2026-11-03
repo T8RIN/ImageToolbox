@@ -49,17 +49,11 @@ internal class WaveletDenoiseFilter(
         override val info =
             FilterInfo(R.string.wavelet_denoise, R.string.filter_help_wavelet_denoise)
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::luminanceNoise,
-                floatParam(R.string.luminance_noise, 0.018f, 0f..0.15f, roundTo = 3)
-            )
-            field(
-                Value::ntscChromaNoise,
-                floatParam(R.string.ntsc_chroma_noise, 0.03f, 0f..0.15f, roundTo = 3)
-            )
-            field(Value::levels, floatParam(R.string.levels, 3f, 1f..4f, roundTo = 0))
-            field(Value::strength, floatParam(R.string.strength, 1f, 0f..1f))
+        override val parameters = structuredParameters {
+            Value::luminanceNoise.float(R.string.luminance_noise, 0.018f, 0f..0.15f, roundTo = 3)
+            Value::ntscChromaNoise.float(R.string.ntsc_chroma_noise, 0.03f, 0f..0.15f, roundTo = 3)
+            Value::levels.float(R.string.levels, 3f, 1f..4f, roundTo = 0)
+            Value::strength.float(R.string.strength, 1f, 0f..1f)
         }
     }
 }

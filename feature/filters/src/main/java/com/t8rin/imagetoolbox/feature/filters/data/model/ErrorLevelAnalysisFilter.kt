@@ -46,8 +46,8 @@ internal class ErrorLevelAnalysisFilter(
         override val info =
             FilterInfo(R.string.error_level_analysis, R.string.filter_help_error_level_analysis)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::quality, floatParam(R.string.quality, 90f, 0f..100f, roundTo = 0))
+        override val parameters = structuredParameters {
+            Value::quality.float(R.string.quality, 90f, 0f..100f, roundTo = 0)
         }
     }
 }

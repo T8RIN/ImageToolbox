@@ -52,11 +52,9 @@ internal class PaletteTransferFilter(
         override val info =
             FilterInfo(R.string.palette_transfer, R.string.filter_help_palette_transfer)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::intensity, floatParam(R.string.strength, 1f, 0f..1f))
-            field(
-                Value::image,
-                imageParam(R.string.target_image) { ImageModel(R.drawable.filter_preview_source_2) })
+        override val parameters = structuredParameters {
+            Value::intensity.float(R.string.strength, 1f, 0f..1f)
+            Value::image.image(R.string.target_image) { ImageModel(R.drawable.filter_preview_source_2) }
         }
     }
 }

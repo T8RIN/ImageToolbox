@@ -45,17 +45,14 @@ internal class CubismFilter(
         override val info =
             FilterInfo(R.string.gmic_filter_cubism, R.string.filter_help_gmic_filter_cubism)
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicInteger(R.string.iterations, 2, 0f..10f),
-                    gmicNumber(R.string.density, 50, 0f..200f),
-                    gmicNumber(R.string.texture_thickness, 10, 0f..50f),
-                    gmicNumber(R.string.angle, 90, 0f..360f),
-                    gmicNumber(R.string.opacity, 0.7f, 0.01f..1f),
-                    gmicNumber(R.string.gmic_param_smoothness, 0, 0f..5f)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicInteger(R.string.iterations, 2, 0f..10f),
+                gmicNumber(R.string.density, 50, 0f..200f),
+                gmicNumber(R.string.texture_thickness, 10, 0f..50f),
+                gmicNumber(R.string.angle, 90, 0f..360f),
+                gmicNumber(R.string.opacity, 0.7f, 0.01f..1f),
+                gmicNumber(R.string.gmic_param_smoothness, 0, 0f..5f)
             )
         }
     }

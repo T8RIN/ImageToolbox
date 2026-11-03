@@ -18,8 +18,7 @@
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import android.graphics.Bitmap
-import androidx.compose.ui.graphics.Color
-import com.t8rin.imagetoolbox.core.data.image.utils.ColorUtils.toModel
+import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.TriTone.Value
@@ -48,16 +47,10 @@ internal class TriToneFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.tri_tone, R.string.filter_help_tri_tone)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::shadowColor, colorParam(R.string.first_color, Color(0xFFFF003B).toModel()))
-            field(
-                Value::midtoneColor,
-                colorParam(R.string.second_color, Color(0xFF831111).toModel())
-            )
-            field(
-                Value::highlightColor,
-                colorParam(R.string.third_color, Color(0xFFFF0099).toModel())
-            )
+        override val parameters = structuredParameters {
+            Value::shadowColor.color(R.string.first_color, ColorModel(0xFFFF003B.toInt()))
+            Value::midtoneColor.color(R.string.second_color, ColorModel(0xFF831111.toInt()))
+            Value::highlightColor.color(R.string.third_color, ColorModel(0xFFFF0099.toInt()))
         }
     }
 }

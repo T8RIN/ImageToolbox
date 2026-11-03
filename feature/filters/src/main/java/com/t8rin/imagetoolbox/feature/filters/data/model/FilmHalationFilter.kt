@@ -48,12 +48,12 @@ internal class FilmHalationFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.film_halation, R.string.filter_help_film_halation)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::threshold, floatParam(R.string.threshold, 0.58f, 0.08f..1f))
-            field(Value::knee, floatParam(R.string.soft_knee, 0.2f, 0.01f..0.5f))
-            field(Value::radius, floatParam(R.string.radius, 15f, 1f..40f, roundTo = 1))
-            field(Value::warmth, floatParam(R.string.warmth, 0.75f, 0f..1f))
-            field(Value::intensity, floatParam(R.string.texture_intensity, 1.35f, 0f..5f))
+        override val parameters = structuredParameters {
+            Value::threshold.float(R.string.threshold, 0.58f, 0.08f..1f)
+            Value::knee.float(R.string.soft_knee, 0.2f, 0.01f..0.5f)
+            Value::radius.float(R.string.radius, 15f, 1f..40f, roundTo = 1)
+            Value::warmth.float(R.string.warmth, 0.75f, 0f..1f)
+            Value::intensity.float(R.string.texture_intensity, 1.35f, 0f..5f)
         }
     }
 }

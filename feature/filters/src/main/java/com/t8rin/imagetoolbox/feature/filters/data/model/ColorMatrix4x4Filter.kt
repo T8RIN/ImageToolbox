@@ -39,18 +39,15 @@ internal class ColorMatrix4x4Filter(
         override val info =
             FilterInfo(R.string.color_matrix_4x4, R.string.filter_help_color_matrix_4x4)
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::matrix,
-                floatArrayParam(columns = 4, default = {
-                    floatArrayOf(
-                        1.0f, 0.0f, 0.0f, 0.0f,
-                        0.0f, 1.0f, 0.0f, 0.0f,
-                        0.0f, 0.0f, 1.0f, 0.0f,
-                        0.0f, 0.0f, 0.0f, 1.0f
-                    )
-                })
-            )
+        override val parameters = structuredParameters {
+            Value::matrix.array(columns = 4) {
+                floatArrayOf(
+                    1.0f, 0.0f, 0.0f, 0.0f,
+                    0.0f, 1.0f, 0.0f, 0.0f,
+                    0.0f, 0.0f, 1.0f, 0.0f,
+                    0.0f, 0.0f, 0.0f, 1.0f
+                )
+            }
         }
     }
 }

@@ -47,19 +47,16 @@ internal class DcpDehazeFilter(
         override val info =
             FilterInfo(R.string.gmic_filter_dcp_dehaze, R.string.filter_help_gmic_filter_dcp_dehaze)
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicInteger(R.string.scale, 5, 1f..20f),
-                    gmicNumber(R.string.strength, 1, 0f..2f),
-                    gmicNumber(R.string.min, 0.2f, 0f..1f),
-                    gmicNumber(R.string.max, 1, 0f..1f),
-                    gmicNumber(R.string.gmic_param_brightness, 0, -100f..100f),
-                    gmicNumber(R.string.contrast, 0, -100f..100f),
-                    gmicNumber(R.string.gamma, 0, -100f..100f),
-                    gmicToggle(R.string.gmic_param_transmittance_map, false)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicInteger(R.string.scale, 5, 1f..20f),
+                gmicNumber(R.string.strength, 1, 0f..2f),
+                gmicNumber(R.string.min, 0.2f, 0f..1f),
+                gmicNumber(R.string.max, 1, 0f..1f),
+                gmicNumber(R.string.gmic_param_brightness, 0, -100f..100f),
+                gmicNumber(R.string.contrast, 0, -100f..100f),
+                gmicNumber(R.string.gamma, 0, -100f..100f),
+                gmicToggle(R.string.gmic_param_transmittance_map, false)
             )
         }
     }

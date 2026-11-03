@@ -48,23 +48,20 @@ internal class SelectiveDesaturationFilter(
             R.string.filter_help_gmic_filter_selective_desaturation
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicColor(R.string.gmic_param_reference_color, -1754827),
-                    gmicSelection(
-                        R.string.gmic_param_desaturate,
-                        "AllButReferenceColor",
-                        listOf("ReferenceColor", "AllButReferenceColor")
-                    ),
-                    gmicNumber(R.string.strength, 5, 0f..10f),
-                    gmicInteger(R.string.gmic_param_regularization, 4, 0f..20f),
-                    gmicSelection(
-                        R.string.gmic_param_maximum_saturation,
-                        "FromInput",
-                        listOf("FromInput", "FromReferenceColor", "MaximumValue")
-                    )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicColor(R.string.gmic_param_reference_color, -1754827),
+                gmicSelection(
+                    R.string.gmic_param_desaturate,
+                    "AllButReferenceColor",
+                    listOf("ReferenceColor", "AllButReferenceColor")
+                ),
+                gmicNumber(R.string.strength, 5, 0f..10f),
+                gmicInteger(R.string.gmic_param_regularization, 4, 0f..20f),
+                gmicSelection(
+                    R.string.gmic_param_maximum_saturation,
+                    "FromInput",
+                    listOf("FromInput", "FromReferenceColor", "MaximumValue")
                 )
             )
         }

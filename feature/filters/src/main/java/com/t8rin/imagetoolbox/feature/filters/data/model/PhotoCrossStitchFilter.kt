@@ -51,14 +51,14 @@ internal class PhotoCrossStitchFilter(
         override val info =
             FilterInfo(R.string.photo_cross_stitch, R.string.filter_help_photo_cross_stitch)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::size, intParam(R.string.just_size, 11, 4..38))
-            field(Value::threadColors, intParam(R.string.thread_colors, 24, 2..64))
-            field(Value::threadWidth, floatParam(R.string.thread_width, 0.12f, 0.05f..0.25f))
-            field(Value::lightAngle, intParam(R.string.light_angle, 35, 0..360))
-            field(Value::relief, floatParam(R.string.relief_strength, 0.7f, 0f..1f))
-            field(Value::seed, intParam(R.string.seed, 0, 0..10000))
-            field(Value::strength, floatParam(R.string.strength, 1f, 0f..1f))
+        override val parameters = structuredParameters {
+            Value::size.int(R.string.just_size, 11, 4..38)
+            Value::threadColors.int(R.string.thread_colors, 24, 2..64)
+            Value::threadWidth.float(R.string.thread_width, 0.12f, 0.05f..0.25f)
+            Value::lightAngle.int(R.string.light_angle, 35, 0..360)
+            Value::relief.float(R.string.relief_strength, 0.7f, 0f..1f)
+            Value::seed.seed(R.string.seed, 0, 0..10000)
+            Value::strength.float(R.string.strength, 1f, 0f..1f)
         }
     }
 }

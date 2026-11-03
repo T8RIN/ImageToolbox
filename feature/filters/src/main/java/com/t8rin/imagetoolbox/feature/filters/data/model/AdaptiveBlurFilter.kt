@@ -41,9 +41,9 @@ internal class AdaptiveBlurFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.adaptive_blur, R.string.filter_help_adaptive_blur)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::radius, floatParam(R.string.radius, 15f, 1f..100f, roundTo = 0))
-            field(Value::threshold, floatParam(R.string.threshold, 35f, 0f..255f, roundTo = 0))
+        override val parameters = structuredParameters {
+            Value::radius.float(R.string.radius, 15f, 1f..100f, roundTo = 0)
+            Value::threshold.float(R.string.threshold, 35f, 0f..255f, roundTo = 0)
         }
     }
 }

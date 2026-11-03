@@ -46,8 +46,8 @@ internal class AutoRemoveRedEyesFilter(
         override val info =
             FilterInfo(R.string.auto_remove_red_eyes, R.string.filter_help_auto_remove_red_eyes)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::threshold, floatParam(R.string.threshold, 150f, 0f..255f))
+        override val parameters = structuredParameters {
+            Value::threshold.float(R.string.threshold, 150f, 0f..255f)
         }
     }
 }

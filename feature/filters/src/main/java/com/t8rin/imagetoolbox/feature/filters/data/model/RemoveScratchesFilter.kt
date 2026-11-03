@@ -44,14 +44,11 @@ internal class RemoveScratchesFilter(
             R.string.filter_help_gmic_filter_remove_scratches
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.threshold, 72, 0f..100f),
-                    gmicInteger(R.string.texture_erosion, 2, 0f..5f),
-                    gmicInteger(R.string.dilation, 4, 0f..7f)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.threshold, 72, 0f..100f),
+                gmicInteger(R.string.texture_erosion, 2, 0f..5f),
+                gmicInteger(R.string.dilation, 4, 0f..7f)
             )
         }
     }

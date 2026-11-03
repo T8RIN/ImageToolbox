@@ -50,20 +50,11 @@ internal class PaletteRemapFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.palette_remap, R.string.filter_help_palette_remap)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::dithering, floatParam(R.string.dithering, 0.12f, 0f..0.5f))
-            field(
-                Value::shadowColor,
-                colorParam(R.string.shadow_color, ColorModel(0xFF182630.toInt()))
-            )
-            field(
-                Value::midtoneColor,
-                colorParam(R.string.midtone_color, ColorModel(0xFF588C86.toInt()))
-            )
-            field(
-                Value::highlightColor,
-                colorParam(R.string.highlight_color, ColorModel(0xFFF4DDB5.toInt()))
-            )
+        override val parameters = structuredParameters {
+            Value::dithering.float(R.string.dithering, 0.12f, 0f..0.5f)
+            Value::shadowColor.color(R.string.shadow_color, ColorModel(0xFF182630.toInt()))
+            Value::midtoneColor.color(R.string.midtone_color, ColorModel(0xFF588C86.toInt()))
+            Value::highlightColor.color(R.string.highlight_color, ColorModel(0xFFF4DDB5.toInt()))
         }
     }
 }

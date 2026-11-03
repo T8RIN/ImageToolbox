@@ -18,8 +18,7 @@
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import android.graphics.Bitmap
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
+import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.PolkaDot.Value
@@ -27,7 +26,6 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
 import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
 import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.ui.utils.helper.toModel
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 import com.t8rin.trickle.Trickle
 
@@ -39,7 +37,7 @@ internal class PolkaDotFilter(
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
-    ): Bitmap = if (value.backgroundColor.colorInt == Color.Transparent.toArgb()) {
+    ): Bitmap = if (value.backgroundColor.colorInt == 0) {
         Trickle.polkaDot(
             input = input,
             dotRadius = value.radius,
@@ -59,12 +57,13 @@ internal class PolkaDotFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.polka_dot, R.string.filter_help_polka_dot)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::radius, intParam(R.string.radius, 10, 1..40))
-            field(Value::spacing, intParam(R.string.spacing, 8, 1..40))
-            field(
-                Value::backgroundColor,
-                colorParam(R.string.background_color, Color.Black.toModel(), allowAlpha = true)
+        override val parameters = structuredParameters {
+            Value::radius.int(R.string.radius, 10, 1..40)
+            Value::spacing.int(R.string.spacing, 8, 1..40)
+            Value::backgroundColor.color(
+                R.string.background_color,
+                ColorModel(0xFF000000.toInt()),
+                allowAlpha = true
             )
         }
     }

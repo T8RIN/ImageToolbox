@@ -42,17 +42,14 @@ internal class SkeletonFilter(
         override val info =
             FilterInfo(R.string.gmic_filter_skeleton, R.string.filter_help_gmic_filter_skeleton)
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicSelection(
-                        R.string.gmic_param_method,
-                        "Distance",
-                        listOf("Distance", "Thinning")
-                    ),
-                    gmicNumber(R.string.gmic_param_smoothness, 0, 0f..10f)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicSelection(
+                    R.string.gmic_param_method,
+                    "Distance",
+                    listOf("Distance", "Thinning")
+                ),
+                gmicNumber(R.string.gmic_param_smoothness, 0, 0f..10f)
             )
         }
     }

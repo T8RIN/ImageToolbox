@@ -47,19 +47,16 @@ internal class StainedGlassFilter(
         override val info =
             FilterInfo(R.string.texture_stained_glass, R.string.filter_help_texture_stained_glass)
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.texture_edges, 40, 0f..100f),
-                    gmicNumber(R.string.texture_shading, 0.1f, 0f..0.5f),
-                    gmicToggle(R.string.gmic_param_thin_separators, false),
-                    gmicToggle(R.string.equalize, true),
-                    gmicNumber(R.string.color, 1, 0f..3f),
-                    gmicNumber(R.string.brightness, 0, -100f..100f),
-                    gmicNumber(R.string.contrast, 0, -100f..100f),
-                    gmicNumber(R.string.gamma, 0, -100f..100f)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.texture_edges, 40, 0f..100f),
+                gmicNumber(R.string.texture_shading, 0.1f, 0f..0.5f),
+                gmicToggle(R.string.gmic_param_thin_separators, false),
+                gmicToggle(R.string.equalize, true),
+                gmicNumber(R.string.color, 1, 0f..3f),
+                gmicNumber(R.string.brightness, 0, -100f..100f),
+                gmicNumber(R.string.contrast, 0, -100f..100f),
+                gmicNumber(R.string.gamma, 0, -100f..100f)
             )
         }
     }

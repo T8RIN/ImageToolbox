@@ -48,18 +48,12 @@ internal class RubberStampFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.rubber_stmp, R.string.filter_help_rubber_stmp)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::threshold, floatParam(R.string.threshold, 0.3f, 0f..1f))
-            field(Value::softness, floatParam(R.string.brush_softness, 0.1f, 0f..1f))
-            field(Value::radius, floatParam(R.string.radius, 0.05f, 0f..2f))
-            field(
-                Value::firstColor,
-                colorParam(R.string.first_color, ColorModel(0xFF3FA08F.toInt()))
-            )
-            field(
-                Value::secondColor,
-                colorParam(R.string.second_color, ColorModel(0xFF003027.toInt()))
-            )
+        override val parameters = structuredParameters {
+            Value::threshold.float(R.string.threshold, 0.3f, 0f..1f)
+            Value::softness.float(R.string.brush_softness, 0.1f, 0f..1f)
+            Value::radius.float(R.string.radius, 0.05f, 0f..2f)
+            Value::firstColor.color(R.string.first_color, ColorModel(0xFF3FA08F.toInt()))
+            Value::secondColor.color(R.string.second_color, ColorModel(0xFF003027.toInt()))
         }
     }
 }

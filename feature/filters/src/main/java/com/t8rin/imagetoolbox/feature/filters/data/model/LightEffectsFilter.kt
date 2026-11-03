@@ -40,9 +40,9 @@ internal class LightEffectsFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.light_effects, R.string.filter_help_light_effects)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::bumpHeight, floatParam(R.string.bump_height, 1f, 0f..10f))
-            field(Value::bumpSoftness, floatParam(R.string.bump_softness, 5f, 0f..50f))
+        override val parameters = structuredParameters {
+            Value::bumpHeight.float(R.string.bump_height, 1f, 0f..10f)
+            Value::bumpSoftness.float(R.string.bump_softness, 5f, 0f..50f)
         }
     }
 }

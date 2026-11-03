@@ -19,6 +19,7 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import com.t8rin.imagetoolbox.core.domain.model.ImageModel
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
+import com.t8rin.imagetoolbox.feature.filters.data.utils.serialization.StoredParameterValues
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull
@@ -30,7 +31,7 @@ class StructuredParametersTest {
     @Test
     fun nullableDefaultDoesNotMakeAnUnsupportedFieldSerializable() {
         val parameters = structuredParameters<ImageValue> {
-            field(ImageValue::image, editorParam<ImageModel?>({
+            ImageValue::image.parameter(editorParam<ImageModel?>({
                 error("Template eligibility must not evaluate defaults")
             }))
         }
@@ -47,23 +48,29 @@ class StructuredParametersTest {
             decode = { ImageModel(it) }
         )
         val parameters = structuredParameters<ImageValue> {
-            field(ImageValue::image, image)
+            ImageValue::image.parameter(image)
         }
 
         assertTrue(parameters.isSerializable)
-        assertEquals("~", parameters.encode(ImageValue(null)))
-        assertEquals("sample", parameters.encode(ImageValue(ImageModel("sample"))))
+        assertEquals(
+            StoredParameterValues.encode(mapOf("image" to null)),
+            parameters.encode(ImageValue(null))
+        )
+        assertEquals(
+            StoredParameterValues.encode(mapOf("image" to "sample")),
+            parameters.encode(ImageValue(ImageModel("sample")))
+        )
         assertEquals(ImageModel("sample"), image.decodeValue("sample"))
     }
 
     @Test
     fun everyFieldMustSupportSerialization() {
         val numberOnly = structuredParameters<NumberValue> {
-            field(NumberValue::strength, floatParam(default = 1f, range = 0f..1f))
+            NumberValue::strength.parameter(floatParam(default = 1f, range = 0f..1f))
         }
         val withImage = structuredParameters<MixedValue> {
-            field(MixedValue::strength, floatParam(default = 1f, range = 0f..1f))
-            field(MixedValue::image, editorParam<ImageModel?>({ null }))
+            MixedValue::strength.parameter(floatParam(default = 1f, range = 0f..1f))
+            MixedValue::image.parameter(editorParam<ImageModel?>({ null }))
         }
 
         assertTrue(numberOnly.isSerializable)
@@ -83,6 +90,39 @@ class StructuredParametersTest {
 
         assertFalse(encodeOnly.isSerializable)
         assertFalse(decodeOnly.isSerializable)
+    }
+
+    @Test
+    fun customScalarDescriptorsKeepTypedDefaultsAndDecoders() {
+        val parameters = structuredParameters<NumberValue> {
+            NumberValue::strength.parameter(
+                editorParam(
+                    default = { 0.5f },
+                    encode = Float::toString,
+                    decode = String::toFloat
+                )
+            )
+        }
+
+        val field = parameters.field(NumberValue::strength)
+        assertEquals(0.5f, field.default)
+        assertEquals(0.75f, field.decodeValue("0.75"))
+        assertEquals(listOf(NumberValue::strength), parameters.orderedFields(NumberValue::strength))
+    }
+
+    @Test(expected = IllegalArgumentException::class)
+    fun missingFieldsFailSchemaValidation() {
+        structuredParameters<MixedValue> {
+            MixedValue::strength.float(default = 1f, range = 0f..1f)
+        }.orderedFields(MixedValue::strength, MixedValue::image)
+    }
+
+    @Test(expected = IllegalArgumentException::class)
+    fun duplicateFieldsFailAtDeclaration() {
+        structuredParameters<NumberValue> {
+            NumberValue::strength.float(default = 1f, range = 0f..1f)
+            NumberValue::strength.float(default = 0f, range = 0f..1f)
+        }
     }
 
     private data class ImageValue(val image: ImageModel?) : Filter.ParameterValue

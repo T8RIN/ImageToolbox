@@ -50,12 +50,11 @@ internal class FastGaussianBlur2DFilter(
         override val info =
             FilterInfo(R.string.fast_gaussian_blur_2d, R.string.filter_help_fast_gaussian_blur_2d)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::radius, floatParam(R.string.radius, 10f, 1f..300f, roundTo = 0))
-            field(
-                Value::edgeMode,
-                enumParam(R.string.edge_mode, default = { BlurEdgeMode.Reflect101 })
-            )
+        override val parameters = structuredParameters {
+            Value::radius.float(R.string.radius, 10f, 1f..300f, roundTo = 0)
+            Value::edgeMode.enum(
+                R.string.edge_mode,
+                label = { it.label }) { BlurEdgeMode.Reflect101 }
         }
     }
 }

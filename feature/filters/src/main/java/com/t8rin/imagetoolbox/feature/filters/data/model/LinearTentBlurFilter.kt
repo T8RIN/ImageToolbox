@@ -50,15 +50,11 @@ internal class LinearTentBlurFilter(
         override val info =
             FilterInfo(R.string.linear_tent_blur, R.string.filter_help_linear_tent_blur)
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::sigma,
-                floatParam(R.string.sigma, 11f, 1f..300f, roundTo = NEAREST_ODD_ROUNDING)
-            )
-            field(
-                Value::transferFunction,
-                enumParam(R.string.tag_transfer_function, default = { TransferFunc.SRGB })
-            )
+        override val parameters = structuredParameters {
+            Value::sigma.float(R.string.sigma, 11f, 1f..300f, roundTo = NEAREST_ODD_ROUNDING)
+            Value::transferFunction.enum(
+                R.string.tag_transfer_function,
+                label = { it.label }) { TransferFunc.SRGB }
         }
     }
 }

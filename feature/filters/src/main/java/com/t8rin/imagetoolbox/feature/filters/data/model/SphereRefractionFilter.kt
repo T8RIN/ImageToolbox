@@ -42,9 +42,9 @@ internal class SphereRefractionFilter(
         override val info =
             FilterInfo(R.string.sphere_refraction, R.string.filter_help_sphere_refraction)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::radius, floatParam(R.string.radius, 0.25f, 0f..1f))
-            field(Value::refractiveIndex, floatParam(R.string.refractive_index, 0.71f, 0f..1f))
+        override val parameters = structuredParameters {
+            Value::radius.float(R.string.radius, 0.25f, 0f..1f)
+            Value::refractiveIndex.float(R.string.refractive_index, 0.71f, 0f..1f)
         }
     }
 }

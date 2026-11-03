@@ -47,21 +47,18 @@ internal class FlowerFilter(
         override val info =
             FilterInfo(R.string.gmic_filter_flower, R.string.filter_help_gmic_filter_flower)
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.center_x, 50, 0f..100f),
-                    gmicNumber(R.string.center_y, 50, 0f..100f),
-                    gmicNumber(R.string.gmic_param_amplitude_point_x, 75, 0f..100f),
-                    gmicNumber(R.string.gmic_param_amplitude_point_y, 50, 0f..100f),
-                    gmicInteger(R.string.texture_petals, 6, 2f..20f),
-                    gmicNumber(R.string.offset, 0, 0f..100f),
-                    gmicSelection(
-                        R.string.gmic_param_boundary,
-                        "Mirror",
-                        listOf("Transparent", "Nearest", "Periodic", "Mirror")
-                    )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.center_x, 50, 0f..100f),
+                gmicNumber(R.string.center_y, 50, 0f..100f),
+                gmicNumber(R.string.gmic_param_amplitude_point_x, 75, 0f..100f),
+                gmicNumber(R.string.gmic_param_amplitude_point_y, 50, 0f..100f),
+                gmicInteger(R.string.texture_petals, 6, 2f..20f),
+                gmicNumber(R.string.offset, 0, 0f..100f),
+                gmicSelection(
+                    R.string.gmic_param_boundary,
+                    "Mirror",
+                    listOf("Transparent", "Nearest", "Periodic", "Mirror")
                 )
             )
         }

@@ -22,7 +22,6 @@ import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.Dependencies
 import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.processing.Resolver
-import com.google.devtools.ksp.symbol.ClassKind
 import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.google.devtools.ksp.symbol.KSFile
 import com.google.devtools.ksp.symbol.KSType
@@ -47,14 +46,19 @@ internal class FilterDefinitionGenerator(
                 val hasUi = group != FilterGroups.HIDDEN
                 val constructor = declaration.primaryConstructor?.parameters.orEmpty()
                 val value = constructor.singleOrNull { it.name?.asString() == "value" }
+                if (declaration.packageName.asString() != MODEL_PACKAGE || !className.endsWith("Filter")) {
+                    logger.error(
+                        "Filter implementations must be named NameFilter in $MODEL_PACKAGE",
+                        declaration
+                    )
+                    return@mapNotNull null
+                }
                 if (value == null || constructor.any {
                         it.name?.asString() !in setOf(
                             "value",
                             "onError"
                         )
-                    } ||
-                    !className.endsWith("Filter") || declaration.packageName.asString() != MODEL_PACKAGE
-                ) {
+                    }) {
                     logger.error(
                         "A filter must declare a value parameter and optional onError callback",
                         declaration
@@ -117,14 +121,15 @@ internal class FilterDefinitionGenerator(
                         domain.removePrefix("Filter.") + "Params",
                         declaredType,
                         className,
-                        source,
-                        shader
+                        source
                     )
                         ?: return@mapNotNull null
                 } else null
-                if (hasUi && !customEditor && model?.fields?.any { it.kind == FieldKind.Custom } == true) {
+                if (empty && (declaredType.declaration as? KSClassDeclaration)?.getAllProperties()
+                        ?.any() != false
+                ) {
                     logger.error(
-                        "Custom filter parameters require Filter.Schema.Custom and a dedicated editor",
+                        "Filter.Schema.Empty requires a Value without parameters",
                         declaration
                     )
                     return@mapNotNull null
@@ -146,7 +151,6 @@ internal class FilterDefinitionGenerator(
                     name = className,
                     group = group,
                     domain = domain,
-                    domainValueType = typeName,
                     onError = constructor.any { it.name?.asString() == "onError" },
                     customEditor = customEditor,
                     model = model,
@@ -159,8 +163,7 @@ internal class FilterDefinitionGenerator(
         name: String,
         value: KSType,
         owner: String,
-        source: KSFile,
-        shader: Boolean = false
+        source: KSFile
     ): ParameterModel? {
         val declaration = value.declaration as? KSClassDeclaration ?: return null
         val valueType = value.renderType()
@@ -172,7 +175,7 @@ internal class FilterDefinitionGenerator(
             )
             return null
         }
-        return ParameterModel(name, valueType, owner, fields, source, shader)
+        return ParameterModel(name, valueType, owner, fields, source)
     }
 
     private fun parameterFields(
@@ -188,7 +191,6 @@ internal class FilterDefinitionGenerator(
                 val type = resolved.renderType()
                 val kind = when {
                     resolved.isMarkedNullable -> FieldKind.Custom
-                    (resolved.declaration as? KSClassDeclaration)?.classKind == ClassKind.ENUM_CLASS -> FieldKind.Enum
                     else -> FieldKind.entries.firstOrNull { it.qualifiedType == type }
                         ?: FieldKind.Custom
                 }
@@ -267,13 +269,7 @@ internal class FilterDefinitionGenerator(
             return
         }
 
-        val models = specs.mapNotNull(FilterSpec::model)
-        val duplicateModels = models.map(ParameterModel::name).duplicates()
-        if (duplicateModels.isNotEmpty()) {
-            logger.error("Duplicate parameter models: $duplicateModels")
-            return
-        }
-        models.forEach { model ->
+        specs.mapNotNull(FilterSpec::model).forEach { model ->
             write(Dependencies(false, model.source), MODEL_PACKAGE, "${model.owner}Codec") {
                 appendCodec(model)
             }
@@ -291,6 +287,13 @@ internal class FilterDefinitionGenerator(
             "FilterRegistrations"
         ) {
             appendMappings(specs)
+        }
+        write(
+            Dependencies(true, *specs.map(FilterSpec::source).distinct().toTypedArray()),
+            PRESENTATION_PACKAGE,
+            "UiFilterRegistrations"
+        ) {
+            appendUiMappings(specs.filter { it.uiName != null })
         }
     }
 
@@ -349,26 +352,25 @@ internal class FilterDefinitionGenerator(
 
     private fun Appendable.appendCodec(model: ParameterModel) {
         appendLine("import $PARAMS_PACKAGE.${model.name}")
-        appendLine("import $SERIALIZATION_PACKAGE.FILTER_FIELDS_SEPARATOR")
+        appendLine("import $SERIALIZATION_PACKAGE.StoredParameterValues")
+        appendLine("import $SERIALIZATION_PACKAGE.storedFieldOrder")
         appendLine("import $SERIALIZATION_PACKAGE.storedParameterValues")
-        if (model.shader) {
-            appendLine("import $SERIALIZATION_PACKAGE.shaderNumber")
-            appendLine("import $SERIALIZATION_PACKAGE.shaderInteger")
-            appendLine("import $SERIALIZATION_PACKAGE.shaderColor")
-        }
         appendLine()
         appendLine("internal object ${model.owner}Codec {")
         val hasArray = model.fields.any { it.isArray }
         if (hasArray) {
-            appendLine("    val Default get() = ${model.name}(")
+            appendLine("    val Default get(): ${model.name} {")
+            appendLine("        fieldOrder")
+            appendLine("        return ${model.name}(")
         } else {
             appendLine("    val Default by lazy {")
+            appendLine("        fieldOrder")
             appendLine("        ${model.name}(")
         }
-        val indent = if (hasArray) "    " else "        "
+        val indent = "        "
         appendLine(model.fields.joinToString(",\n") { "$indent    ${it.name} = ${it.source}.default" })
         appendLine("$indent)")
-        if (!hasArray) appendLine("    }")
+        appendLine("    }")
         appendLine()
         appendLine("    val fieldOrder by lazy {")
         appendLine("        ${model.owner}.parameters.orderedFields(")
@@ -376,47 +378,39 @@ internal class FilterDefinitionGenerator(
         appendLine("        )")
         appendLine("    }")
         appendLine()
-        appendLine("    fun from(value: ${model.valueType}): ${model.name} =")
-        appendLine("        value as? ${model.name} ?: ${model.name}(")
+        appendLine("    private val storedFieldOrder by lazy {")
+        appendLine("        ${model.valueType.removeSuffix(".Value")}::class.storedFieldOrder()")
+        appendLine("    }")
+        appendLine()
+        appendLine("    fun from(value: ${model.valueType}): ${model.name} {")
+        appendLine("        fieldOrder")
+        appendLine("        return value as? ${model.name} ?: ${model.name}(")
         appendLine(model.fields.joinToString(",\n") { "            ${it.name} = value.${it.name}" })
         appendLine("        )")
+        appendLine("    }")
         appendLine()
         appendLine("    fun readStoredValue(value: Any?): ${model.name}? {")
-        appendLine("        val stored = storedParameterValues(value, ${model.fields.size}) ?: return null")
+        appendLine("        val stored = storedParameterValues(value, storedFieldOrder.size) ?: return null")
         appendLine("        return ${model.name}(")
         appendLine(model.fields.joinToString(",\n") { field ->
-            val storedValue = "stored[fieldOrder.indexOf(${field.reference})]"
+            val storedValue = "stored[storedFieldOrder.indexOf(${field.reference})]"
             val decoded = if (field.nullable) {
                 "$storedValue?.let { it as? ${field.type.removeSuffix("?")} ?: return null }"
             } else "$storedValue as? ${field.type} ?: return null"
-            "            ${field.name} = $decoded"
+            "            ${field.name} = if (${field.reference} !in storedFieldOrder) ${field.source}.default else $decoded"
         })
         appendLine("        )")
         appendLine("    }")
         appendLine()
         appendLine("    fun decode(value: String): ${model.name} {")
-        appendLine("        val fields = value.split(FILTER_FIELDS_SEPARATOR)")
-        appendLine("        require(fields.size <= ${model.fields.size})")
+        appendLine("        val fields = StoredParameterValues(value, fieldOrder, storedFieldOrder)")
         appendLine("        return ${model.name}(")
         appendLine(model.fields.joinToString(",\n") { field ->
-            val fieldValue = "fields.getOrNull(fieldOrder.indexOf(${field.reference}))"
-            val decoded = "$fieldValue?.let { ${field.source}.decodeValue(it) }"
-            val result = if (field.nullable) {
-                "$fieldValue.let { if (it == null) ${field.source}.default else if (it == \"~\") null else ${field.source}.decodeValue(it) }"
-            } else "$decoded ?: ${field.source}.default"
-            "            ${field.name} = $result"
+            val nullable = if (field.nullable) ", nullable = true" else ""
+            "            ${field.name} = fields.read(${field.reference}, ${field.source}$nullable)"
         })
         appendLine("        )")
         appendLine("    }")
-        if (model.shader) {
-            appendLine()
-            appendLine("    fun decodeShaderTemplate(values: Map<String, String>): ${model.name} = ${model.name}(")
-            appendLine(model.fields.joinToString(",\n") {
-                val reader = it.kind.name
-                "        ${it.name} = values.shader$reader(\"${it.name}\", ${it.source})"
-            })
-            appendLine("    )")
-        }
         appendLine("}")
     }
 
@@ -435,8 +429,9 @@ internal class FilterDefinitionGenerator(
             appendLine("import androidx.compose.runtime.Composable")
             appendLine("import androidx.compose.ui.Modifier")
             appendLine("import androidx.compose.ui.unit.dp")
-            appendLine("import $UI_WIDGET_PACKAGE.*")
-            if (spec.fields.any { it.kind == FieldKind.Integer }) appendLine("import kotlin.math.roundToInt")
+            appendLine("import $PACKAGE.feature.filters.presentation.components.FilterFieldItem")
+            appendLine("import $PACKAGE.feature.filters.presentation.components.requireFieldEditors")
+
         }
         appendLine()
         if (spec.model == null) {
@@ -451,14 +446,20 @@ internal class FilterDefinitionGenerator(
         appendLine(if (spec.empty) "    value = ${spec.defaultValue}" else "    value = value")
         val interfaces = listOfNotNull(
             spec.domain,
-            "FilterParameterEditor".takeIf { spec.hasGeneratedEditor },
-            "GmicUiFilter".takeIf { spec.gmic != null }
+            "FilterParameterEditor".takeIf { spec.hasGeneratedEditor }
         )
         append(")")
         interfaces.forEach { append(", $it") }
         appendLine(" {")
         val create =
             if (spec.empty) "$name()" else "$name(${spec.typedValue("value")} ?: ${spec.defaultValue})"
+        if (spec.hasGeneratedEditor) {
+            appendLine("    init {")
+            appendLine("        ${spec.codecType}.fieldOrder")
+            appendLine("        requireFieldEditors(${spec.name}.parameters)")
+            appendLine("    }")
+            appendLine()
+        }
         appendLine("    override fun recreate(value: Any?): $name = $create")
         if (spec.domain == "Filter.RawGmic") {
             appendLine()
@@ -468,12 +469,6 @@ internal class FilterDefinitionGenerator(
             appendLine()
             appendLine("    override val singleNumber get() = value.${it.name}")
             appendLine("    override fun withSingleNumber(value: Float) = this.value.copy(${it.name} = value)")
-        }
-        spec.gmic?.let {
-            appendLine()
-            appendLine("    override val gmicValue get() = value.${it.name}")
-            appendLine("    override val gmicParamsInfo get() = ${it.source}.fields")
-            appendLine("    override fun withGmicValue(value: $PARAMS_PACKAGE.GmicFilterParams) = this.value.copy(${it.name} = value)")
         }
         if (spec.hasGeneratedEditor) appendEditor(spec)
         appendLine("}")
@@ -487,40 +482,13 @@ internal class FilterDefinitionGenerator(
         appendLine("            ${spec.codecType}.fieldOrder.forEach { property ->")
         appendLine("                when (property) {")
         spec.fields.forEach { field ->
-            val name = "value.${field.name}"
-            val control = when (field.kind) {
-                FieldKind.Color -> "FilterColorParamItem"
-                FieldKind.Text -> "StringItem"
-                FieldKind.Array -> "FloatArrayItem"
-                FieldKind.Enum -> "FilterEnumParamItem"
-                FieldKind.Palette -> "FilterPaletteParamItem"
-                FieldKind.Image -> "FilterImageParamItem"
-                FieldKind.File -> "FilterFileParamItem"
-                FieldKind.Toggle -> "FilterBooleanParamItem"
-                else -> "FilterParamItem"
-            }
-            val argument = if (field.kind == FieldKind.Integer) "$name.toFloat()" else name
-            val result = if (field.kind == FieldKind.Integer) "it.roundToInt()" else "it"
-            appendLine("                    ${field.reference} -> $control(")
-            appendLine("                        value = $argument,")
-            if (field.kind !in setOf(
-                    FieldKind.Palette,
-                    FieldKind.Array
-                )
-            ) appendLine("                        info = ${field.source}.info,")
-            when (field.kind) {
-                FieldKind.Color -> appendLine("                        allowAlpha = ${field.source}.allowAlpha,")
-                FieldKind.Text -> appendLine("                        filter = this@${spec.uiName},")
-                FieldKind.Array -> {
-                    appendLine("                        columns = ${field.source}.columns,")
-                    appendLine("                        default = { ${field.source}.default },")
-                }
-
-                FieldKind.Enum -> appendLine("                        entries = ${field.type}.entries,")
-                else -> Unit
-            }
+            appendLine("                    ${field.reference} -> FilterFieldItem(")
+            appendLine("                        property = ${field.reference},")
+            appendLine("                        field = ${field.source},")
+            appendLine("                        value = value.${field.name},")
+            appendLine("                        filter = this@${spec.uiName},")
             appendLine("                        previewOnly = previewOnly")
-            appendLine("                    ) { onFilterChange(value.copy(${field.name} = $result)) }")
+            appendLine("                    ) { onFilterChange(value.copy(${field.name} = it)) }")
         }
         appendLine("                }")
         appendLine("            }")
@@ -530,7 +498,6 @@ internal class FilterDefinitionGenerator(
 
     private fun Appendable.appendMappings(specs: List<FilterSpec>) {
         appendLine("import $DOMAIN_PACKAGE.Filter")
-        appendLine("import $UI_PACKAGE.*")
         appendLine()
         val chunks = specs.chunked(64)
         appendLine("internal fun filterRegistrations(): List<FilterRegistration<*>> = buildList {")
@@ -549,21 +516,14 @@ internal class FilterDefinitionGenerator(
         appendLine("        type = ${spec.domain}::class,")
         appendLine("        implementation = ${spec.name}::class,")
         appendLine("""        transformationKey = "$MODEL_PACKAGE.${spec.name}",""")
-        if (spec.uiName != null) {
-            appendLine("""        group = "${spec.group}",""")
-            appendLine("""        uiKey = "${spec.uiKey}",""")
-            val create = if (spec.empty) "${spec.uiName}()"
-            else "${spec.uiName}(${spec.typedValue("value")} ?: ${spec.defaultValue})"
-            val parameter = if (spec.empty) "_" else "value"
-            appendLine("        createUi = { $parameter -> $create },")
-        }
+        if (spec.uiName != null) appendLine("""        storedKey = "${spec.uiKey}",""")
         if (spec.model != null) {
             appendLine("""        paramsKey = "${spec.model.name}",""")
-            appendLine("        decodeParams = { ${spec.codecType}.decode(it) },")
-            appendLine("        readStoredParams = { ${spec.codecType}.readStoredValue(it) },")
-            appendLine("        encodeParams = { (it as? ${spec.domainValueType})?.let(${spec.name}.parameters::encode) },")
+            appendLine("        decodeParams = ${spec.codecType}::decode,")
+            appendLine("        readStoredParams = ${spec.codecType}::readStoredValue,")
+            appendLine("        encodeParams = { ${spec.typedValue("it")}?.let(${spec.name}.parameters::encode) },")
             appendLine("        normalizeParams = { ${spec.typedValue("it")} },")
-            if (spec.model.shader) appendLine("        decodeShaderTemplate = { ${spec.codecType}.decodeShaderTemplate(it) },")
+            appendLine("        cacheParams = { ${spec.typedValue("it")}?.let(${spec.name}.parameters::cacheKey) },")
         }
         val callback = "onError = { error -> owner?.pushError(error) }"
         val args = if (spec.onError) ", $callback" else ""
@@ -582,25 +542,48 @@ internal class FilterDefinitionGenerator(
         appendLine("    ),")
     }
 
+    private fun Appendable.appendUiMappings(specs: List<FilterSpec>) {
+        appendLine("import $DOMAIN_PACKAGE.Filter")
+        appendLine("import $UI_PACKAGE.*")
+        appendLine()
+        val chunks = specs.chunked(64)
+        appendLine("internal fun uiFilterRegistrations(): List<UiFilterRegistration> = buildList {")
+        chunks.indices.forEach { appendLine("    addAll(uiFilterRegistrations$it())") }
+        appendLine("}")
+        chunks.forEachIndexed { index, chunk ->
+            appendLine()
+            appendLine("private fun uiFilterRegistrations$index(): List<UiFilterRegistration> = listOf(")
+            chunk.forEach { spec ->
+                appendLine("    UiFilterRegistration(")
+                appendLine("        type = ${spec.domain}::class,")
+                appendLine("""        group = "${spec.group}",""")
+                appendLine("""        key = "${spec.uiKey}",""")
+                val create = if (spec.empty) "${spec.uiName}()"
+                else "${spec.uiName}(${spec.typedValue("value")} ?: ${spec.defaultValue})"
+                val parameter = if (spec.empty) "_" else "value"
+                appendLine("        create = { $parameter -> $create }")
+                appendLine("    ),")
+            }
+            appendLine(")")
+        }
+    }
+
     internal data class FilterSpec(
         val name: String,
         val group: String,
         val domain: String,
-        val domainValueType: String,
         val onError: Boolean,
         val customEditor: Boolean,
         val model: ParameterModel?,
         val source: KSFile
     ) {
+        val domainValueType get() = "$DOMAIN_PACKAGE.$domain.Value"
         val uiName get() = if (group == FilterGroups.HIDDEN) null else "Ui$name"
         val empty get() = model == null
         val valueType get() = "$PARAMS_PACKAGE.${requireNotNull(model).name}"
         val fields get() = model?.fields.orEmpty()
-        val gmic get() = fields.singleOrNull { it.kind == FieldKind.Gmic }
         val hasGeneratedEditor
-            get() = !customEditor && fields.isNotEmpty() && fields.none {
-                it.kind == FieldKind.Gmic
-            }
+            get() = group != FilterGroups.HIDDEN && !customEditor && fields.isNotEmpty()
         val codecType get() = "$MODEL_PACKAGE.${name}Codec"
         val defaultValue
             get() = if (empty) {
@@ -610,7 +593,7 @@ internal class FilterDefinitionGenerator(
             } else "$codecType.Default"
 
         fun typedValue(value: String): String =
-            "($value as? $domainValueType)?.let { $codecType.from(it) }"
+            "($value as? $domainValueType)?.let($codecType::from)"
 
         val uiKey get() = "$UI_PACKAGE.$uiName"
     }
@@ -620,8 +603,7 @@ internal class FilterDefinitionGenerator(
         val valueType: String,
         val owner: String,
         val fields: List<Field>,
-        val source: KSFile,
-        val shader: Boolean
+        val source: KSFile
     )
 
     internal data class Field(
@@ -632,23 +614,15 @@ internal class FilterDefinitionGenerator(
         val owner: String,
         val nullable: Boolean
     ) {
-        val source get() = "$owner.parameters.${kind.accessor}($reference)"
+        val source get() = "$owner.parameters.field($reference)"
         val isArray get() = type.removeSuffix("?") == "kotlin.FloatArray"
     }
 
-    internal enum class FieldKind(val qualifiedType: String?, val accessor: String) {
-        Number("kotlin.Float", "number"),
-        Integer("kotlin.Int", "integer"),
-        Toggle("kotlin.Boolean", "toggle"),
-        Color("$PACKAGE.core.domain.model.ColorModel", "color"),
-        Text("kotlin.String", "custom"),
-        Array("kotlin.FloatArray", "array"),
-        Palette("$PACKAGE.core.domain.model.GradientPalette", "custom"),
-        Image("$PACKAGE.core.domain.model.ImageModel", "custom"),
-        File("$PACKAGE.core.domain.model.FileModel", "custom"),
-        Gmic("$PARAMS_PACKAGE.GmicFilterParams", "gmic"),
-        Enum(null, "custom"),
-        Custom(null, "custom")
+    internal enum class FieldKind(val qualifiedType: String?) {
+        Number("kotlin.Float"),
+        Integer("kotlin.Int"),
+        Color("$PACKAGE.core.domain.model.ColorModel"),
+        Custom(null)
     }
 
     private companion object {
@@ -659,7 +633,7 @@ internal class FilterDefinitionGenerator(
         private const val MODEL_PACKAGE = "$PACKAGE.feature.filters.data.model"
         private const val PARAMS_PACKAGE = "$DOMAIN_PACKAGE.params"
         private const val UI_PACKAGE = "$PACKAGE.core.filters.presentation.model"
-        private const val UI_WIDGET_PACKAGE = "$PACKAGE.core.filters.presentation.widget.filterItem"
+        private const val PRESENTATION_PACKAGE = "$PACKAGE.feature.filters.presentation.model"
         private const val SERIALIZATION_PACKAGE =
             "$PACKAGE.feature.filters.data.utils.serialization"
         private const val SHADER_PACKAGE = "$PACKAGE.feature.filters.data.utils.gpu"

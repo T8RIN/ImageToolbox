@@ -133,14 +133,11 @@ internal class DropShadowFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.drop_shadow, R.string.filter_help_drop_shadow)
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::color,
-                colorParam(R.string.color, ColorModel(0xFF000000.toInt()), allowAlpha = true)
-            )
-            field(Value::offsetX, floatParam(R.string.offset_x, 0f, -150f..150f))
-            field(Value::offsetY, floatParam(R.string.offset_y, 8f, -150f..150f))
-            field(Value::blurRadius, floatParam(R.string.blur_radius, 18f, 0f..200f))
+        override val parameters = structuredParameters {
+            Value::color.color(R.string.color, ColorModel(0xFF000000.toInt()), allowAlpha = true)
+            Value::offsetX.float(R.string.offset_x, 0f, -150f..150f)
+            Value::offsetY.float(R.string.offset_y, 8f, -150f..150f)
+            Value::blurRadius.float(R.string.blur_radius, 18f, 0f..200f)
         }
     }
 }

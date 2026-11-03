@@ -28,28 +28,25 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.utils.roundTo
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.filters.presentation.model.GmicParameterInfo
-import com.t8rin.imagetoolbox.core.filters.presentation.model.GmicUiFilter
+import com.t8rin.imagetoolbox.core.filters.domain.model.GmicParameterInfo
 import com.t8rin.imagetoolbox.core.ui.widget.color_picker.ColorSelectionRowDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ColorRowSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.DataSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.SeedSelector
-import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.isSeedString
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 
 @Composable
-internal fun GmicFilterParamsItem(
+fun GmicFilterParamsItem(
     value: GmicFilterParams,
-    filter: GmicUiFilter,
+    paramsInfo: List<GmicParameterInfo>,
     onFilterChange: (GmicFilterParams) -> Unit,
     previewOnly: Boolean
 ) {
     Column(
-        modifier = Modifier.padding(8.dp),
         verticalArrangement = Arrangement.spacedBy(4.dp)
     ) {
-        filter.gmicParamsInfo.forEachIndexed { index, info ->
+        paramsInfo.forEachIndexed { index, info ->
             val currentValue = value[index]
 
             when (info) {
@@ -59,7 +56,7 @@ internal fun GmicFilterParamsItem(
                         onFilterChange(value.withValue(index, updated))
                     }
 
-                    if (isSeedString(info.title)) {
+                    if (info.isSeed) {
                         SeedSelector(
                             value = currentValue.toFloat(),
                             title = stringResource(info.title),
@@ -114,7 +111,8 @@ internal fun GmicFilterParamsItem(
                     itemContentText = { it.toReadableName() },
                     spanCount = 1,
                     containerColor = Color.Unspecified,
-                    behaveAsContainer = false
+                    behaveAsContainer = false,
+                    enabled = !previewOnly
                 )
 
                 is GmicParameterInfo.Color -> ColorRowSelector(
@@ -124,6 +122,7 @@ internal fun GmicFilterParamsItem(
                     },
                     title = stringResource(info.title),
                     allowScroll = !previewOnly,
+                    allowCustom = !previewOnly,
                     icon = null,
                     defaultColors = ColorSelectionRowDefaults.colorList,
                     contentHorizontalPadding = 0.dp,

@@ -47,19 +47,16 @@ internal class BandingDenoiseFilter(
             R.string.filter_help_gmic_filter_banding_denoise
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.gmic_param_v_cutoff, 5, 0f..50f),
-                    gmicNumber(R.string.gmic_param_h_cutoff, 5, 0f..50f),
-                    gmicNumber(R.string.texture_category_space, 5, 0f..20f),
-                    gmicNumber(R.string.gmic_param_value, 10, 0f..100f),
-                    gmicSelection(
-                        R.string.gmic_param_size_of_tiles,
-                        "NoTiling",
-                        listOf("NoTiling", "Px64", "Px128", "Px256", "Px512", "Px1024", "Px2048")
-                    )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.gmic_param_v_cutoff, 5, 0f..50f),
+                gmicNumber(R.string.gmic_param_h_cutoff, 5, 0f..50f),
+                gmicNumber(R.string.texture_category_space, 5, 0f..20f),
+                gmicNumber(R.string.gmic_param_value, 10, 0f..100f),
+                gmicSelection(
+                    R.string.gmic_param_size_of_tiles,
+                    "NoTiling",
+                    listOf("NoTiling", "Px64", "Px128", "Px256", "Px512", "Px1024", "Px2048")
                 )
             )
         }

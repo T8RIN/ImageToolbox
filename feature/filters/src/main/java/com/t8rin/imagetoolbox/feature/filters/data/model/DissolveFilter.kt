@@ -40,9 +40,9 @@ internal class DissolveFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.dissolve, R.string.filter_help_dissolve)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::density, floatParam(R.string.density, 0.75f, 0f..1f))
-            field(Value::softness, floatParam(R.string.softness, 0.1f, 0f..1f))
+        override val parameters = structuredParameters {
+            Value::density.float(R.string.density, 0.75f, 0f..1f)
+            Value::softness.float(R.string.softness, 0.1f, 0f..1f)
         }
     }
 }

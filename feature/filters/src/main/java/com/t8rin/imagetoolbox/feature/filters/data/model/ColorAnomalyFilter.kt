@@ -45,8 +45,8 @@ internal class ColorAnomalyFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.color_anomaly, R.string.filter_help_color_anomaly)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::amount, floatParam(default = 0.56f, range = 0.56f..0.8f, roundTo = 3))
+        override val parameters = structuredParameters {
+            Value::amount.float(default = 0.56f, range = 0.56f..0.8f, roundTo = 3)
         }
     }
 }

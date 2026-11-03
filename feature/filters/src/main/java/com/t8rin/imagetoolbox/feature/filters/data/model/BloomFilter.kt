@@ -49,13 +49,13 @@ internal class BloomFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.bloom, R.string.filter_help_bloom)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::threshold, floatParam(R.string.threshold, 0.6f, 0f..1f))
-            field(Value::intensity, floatParam(R.string.strength, 1.5f, 0f..3f))
-            field(Value::radius, intParam(R.string.radius, 25, 1..100))
-            field(Value::softKnee, floatParam(R.string.soft_knee, 0.5f, 0f..1f))
-            field(Value::exposure, floatParam(R.string.exposure, 0.02f, 0f..1f))
-            field(Value::gamma, floatParam(R.string.gamma, 1.1f, 0f..2f))
+        override val parameters = structuredParameters {
+            Value::threshold.float(R.string.threshold, 0.6f, 0f..1f)
+            Value::intensity.float(R.string.strength, 1.5f, 0f..3f)
+            Value::radius.int(R.string.radius, 25, 1..100)
+            Value::softKnee.float(R.string.soft_knee, 0.5f, 0f..1f)
+            Value::exposure.float(R.string.exposure, 0.02f, 0f..1f)
+            Value::gamma.float(R.string.gamma, 1.1f, 0f..2f)
         }
     }
 }

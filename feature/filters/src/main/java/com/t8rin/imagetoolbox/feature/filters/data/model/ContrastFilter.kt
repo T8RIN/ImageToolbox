@@ -44,8 +44,8 @@ internal class ContrastFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.contrast, R.string.filter_help_contrast)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::gain, floatParam(default = 2f, range = 0f..2f))
+        override val parameters = structuredParameters {
+            Value::gain.float(default = 2f, range = 0f..2f)
         }
     }
 }

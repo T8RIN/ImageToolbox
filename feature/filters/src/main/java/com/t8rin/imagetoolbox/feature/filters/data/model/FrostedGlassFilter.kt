@@ -48,18 +48,15 @@ internal class FrostedGlassFilter(
             R.string.filter_help_gmic_filter_frosted_glass
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.x_amplitude, 40, 0f..400f),
-                    gmicNumber(R.string.y_amplitude, 40, 0f..400f),
-                    gmicNumber(R.string.gmic_param_x_smoothness, 1, 0f..5f),
-                    gmicNumber(R.string.gmic_param_y_smoothness, 1, 0f..5f),
-                    gmicNumber(R.string.gmic_param_edge_attenuation, 0, 0f..1f),
-                    gmicNumber(R.string.gmic_param_edge_influence, 2, 0f..10f),
-                    gmicInteger(R.string.scale, 0, 0f..16f)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.x_amplitude, 40, 0f..400f),
+                gmicNumber(R.string.y_amplitude, 40, 0f..400f),
+                gmicNumber(R.string.gmic_param_x_smoothness, 1, 0f..5f),
+                gmicNumber(R.string.gmic_param_y_smoothness, 1, 0f..5f),
+                gmicNumber(R.string.gmic_param_edge_attenuation, 0, 0f..1f),
+                gmicNumber(R.string.gmic_param_edge_influence, 2, 0f..10f),
+                gmicInteger(R.string.scale, 0, 0f..16f)
             )
         }
     }

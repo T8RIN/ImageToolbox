@@ -45,8 +45,8 @@ internal class DistortionFilter(
         override val info =
             FilterInfo(R.string.distortion_filter, R.string.filter_help_distortion_filter)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::strength, floatParam(R.string.strength, 50f, 0f..95f, roundTo = 0))
+        override val parameters = structuredParameters {
+            Value::strength.float(R.string.strength, 50f, 0f..95f, roundTo = 0)
         }
     }
 }

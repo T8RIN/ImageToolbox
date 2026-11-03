@@ -42,14 +42,11 @@ internal class DescreenFilter(
         override val info =
             FilterInfo(R.string.gmic_filter_descreen, R.string.filter_help_gmic_filter_descreen)
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.gmic_param_circle_radius_percent, 7, 0f..100f),
-                    gmicNumber(R.string.gmic_param_cross_length_percent, 40, 0f..100f),
-                    gmicNumber(R.string.gmic_param_cross_width_percent, 1, 0f..100f)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.gmic_param_circle_radius_percent, 7, 0f..100f),
+                gmicNumber(R.string.gmic_param_cross_length_percent, 40, 0f..100f),
+                gmicNumber(R.string.gmic_param_cross_width_percent, 1, 0f..100f)
             )
         }
     }

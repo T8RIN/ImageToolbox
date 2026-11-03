@@ -19,8 +19,7 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 
 
 import android.graphics.Bitmap
-import androidx.compose.ui.graphics.Color
-import com.t8rin.imagetoolbox.core.data.image.utils.ColorUtils.toModel
+import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.ColorOverlay.Value
@@ -47,11 +46,8 @@ internal class ColorOverlayFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.color_filter, R.string.filter_help_color_filter)
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::color,
-                colorParam(R.string.color, Color.Yellow.copy(0.3f).toModel(), allowAlpha = true)
-            )
+        override val parameters = structuredParameters {
+            Value::color.color(R.string.color, ColorModel(0x4DFFFF00), allowAlpha = true)
         }
     }
 }

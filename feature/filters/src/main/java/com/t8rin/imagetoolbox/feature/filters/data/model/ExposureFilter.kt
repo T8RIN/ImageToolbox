@@ -37,8 +37,8 @@ internal class ExposureFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.exposure, R.string.filter_help_exposure)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::amount, floatParam(default = 1f, range = -4f..4f))
+        override val parameters = structuredParameters {
+            Value::amount.float(default = 1f, range = -4f..4f)
         }
     }
 }

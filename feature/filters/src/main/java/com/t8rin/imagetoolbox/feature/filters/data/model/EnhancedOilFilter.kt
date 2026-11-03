@@ -44,8 +44,8 @@ internal class EnhancedOilFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.enhanced_oil, R.string.filter_help_enhanced_oil)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::strength, floatParam(R.string.strength, 10f, 1f..25f, roundTo = 0))
+        override val parameters = structuredParameters {
+            Value::strength.float(R.string.strength, 10f, 1f..25f, roundTo = 0)
         }
     }
 }

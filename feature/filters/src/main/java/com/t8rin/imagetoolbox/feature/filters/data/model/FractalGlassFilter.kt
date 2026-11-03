@@ -45,9 +45,9 @@ internal class FractalGlassFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.fractal_glass, R.string.filter_help_fractal_glass)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::strength, floatParam(R.string.strength, 0.02f, 0f..1f))
-            field(Value::amplitude, floatParam(R.string.amplitude, 0.02f, 0f..1f))
+        override val parameters = structuredParameters {
+            Value::strength.float(R.string.strength, 0.02f, 0f..1f)
+            Value::amplitude.float(R.string.amplitude, 0.02f, 0f..1f)
         }
     }
 }

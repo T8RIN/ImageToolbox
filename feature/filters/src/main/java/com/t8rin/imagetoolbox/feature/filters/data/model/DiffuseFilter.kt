@@ -39,8 +39,8 @@ internal class DiffuseFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.diffuse, R.string.filter_help_diffuse)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::scale, floatParam(R.string.scale, 50f, 0f..500f))
+        override val parameters = structuredParameters {
+            Value::scale.float(R.string.scale, 50f, 0f..500f)
         }
     }
 }

@@ -46,9 +46,9 @@ internal class PixelMeltFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.pixel_melt, R.string.filter_help_pixel_melt)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::maxDrop, floatParam(R.string.max_drop, 20f, 0f..250f, roundTo = 0))
-            field(Value::strength, floatParam(R.string.strength, 0.5f, 0f..1f, roundTo = 3))
+        override val parameters = structuredParameters {
+            Value::maxDrop.float(R.string.max_drop, 20f, 0f..250f, roundTo = 0)
+            Value::strength.float(R.string.strength, 0.5f, 0f..1f, roundTo = 3)
         }
     }
 }

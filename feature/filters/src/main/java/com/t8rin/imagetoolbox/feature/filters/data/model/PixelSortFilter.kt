@@ -50,43 +50,40 @@ internal class PixelSortFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.pixel_sort, R.string.filter_help_pixel_sort)
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicSelection(R.string.order, "Increasing", listOf("Decreasing", "Increasing")),
-                    gmicSelection(
-                        R.string.gmic_param_axis,
-                        "X",
-                        listOf("X", "Y", "XThenY", "YThenX")
-                    ),
-                    gmicSelection(
-                        R.string.gmic_param_criterion,
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicSelection(R.string.order, "Increasing", listOf("Decreasing", "Increasing")),
+                gmicSelection(
+                    R.string.gmic_param_axis,
+                    "X",
+                    listOf("X", "Y", "XThenY", "YThenX")
+                ),
+                gmicSelection(
+                    R.string.gmic_param_criterion,
+                    "Red",
+                    listOf(
                         "Red",
-                        listOf(
-                            "Red",
-                            "Green",
-                            "Blue",
-                            "Intensity",
-                            "Luminance",
-                            "Lightness",
-                            "Hue",
-                            "Saturation",
-                            "Minimum",
-                            "Maximum",
-                            "Random"
-                        )
-                    ),
-                    gmicSelection(
-                        R.string.mask,
-                        "Criterion",
-                        listOf("Criterion", "Contours", "Random")
-                    ),
-                    gmicNumber(R.string.gmic_param_lower_threshold, 0, 0f..100f),
-                    gmicNumber(R.string.gmic_param_upper_threshold, 100, 0f..100f),
-                    gmicNumber(R.string.softness, 0, 0f..5f),
-                    gmicToggle(R.string.gmic_param_invert_mask, false)
-                )
+                        "Green",
+                        "Blue",
+                        "Intensity",
+                        "Luminance",
+                        "Lightness",
+                        "Hue",
+                        "Saturation",
+                        "Minimum",
+                        "Maximum",
+                        "Random"
+                    )
+                ),
+                gmicSelection(
+                    R.string.mask,
+                    "Criterion",
+                    listOf("Criterion", "Contours", "Random")
+                ),
+                gmicNumber(R.string.gmic_param_lower_threshold, 0, 0f..100f),
+                gmicNumber(R.string.gmic_param_upper_threshold, 100, 0f..100f),
+                gmicNumber(R.string.softness, 0, 0f..5f),
+                gmicToggle(R.string.gmic_param_invert_mask, false)
             )
         }
     }

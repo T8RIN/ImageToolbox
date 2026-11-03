@@ -48,18 +48,15 @@ internal class GuidedSmoothingFilter(
         override val info =
             FilterInfo(R.string.guided_smoothing, R.string.filter_help_guided_smoothing)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::radius, floatParam(R.string.radius, 13f, 1f..80f, roundTo = 1))
-            field(Value::epsilon, floatParam(R.string.epsilon, 0.045f, 0.001f..0.2f, roundTo = 3))
-            field(
-                Value::guide,
-                choiceParam(
-                    R.string.guide, 0,
-                    R.string.luminance,
-                    R.string.per_channel
-                )
+        override val parameters = structuredParameters {
+            Value::radius.float(R.string.radius, 13f, 1f..80f, roundTo = 1)
+            Value::epsilon.float(R.string.epsilon, 0.045f, 0.001f..0.2f, roundTo = 3)
+            Value::guide.choice(
+                R.string.guide, 0,
+                R.string.luminance,
+                R.string.per_channel
             )
-            field(Value::strength, floatParam(R.string.strength, 1f, 0f..1f))
+            Value::strength.float(R.string.strength, 1f, 0f..1f)
         }
     }
 }

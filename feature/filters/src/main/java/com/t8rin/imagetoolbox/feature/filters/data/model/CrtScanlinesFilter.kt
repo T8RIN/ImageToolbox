@@ -52,26 +52,23 @@ internal class CrtScanlinesFilter(
             R.string.filter_help_gmic_filter_crt_scanlines
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicInteger(R.string.gmic_param_upscale_factor, 4, 1f..16f),
-                    gmicInteger(R.string.gmic_param_neighborhood_size, 16, 8f..64f),
-                    gmicSelection(
-                        R.string.gmic_param_bloom_shape,
-                        "Triangular",
-                        listOf("Square", "Triangular", "Sine", "Gaussian")
-                    ),
-                    gmicNumber(R.string.threshold, 0, -1f..1f),
-                    gmicToggle(R.string.gmic_param_use_luma_for_bloom, true),
-                    gmicSelection(
-                        R.string.gmic_param_fuzz_shape,
-                        "Triangular",
-                        listOf("Square", "Triangular", "Sine", "Gaussian")
-                    ),
-                    gmicToggle(R.string.gmic_param_normalize_image, false)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicInteger(R.string.gmic_param_upscale_factor, 4, 1f..16f),
+                gmicInteger(R.string.gmic_param_neighborhood_size, 16, 8f..64f),
+                gmicSelection(
+                    R.string.gmic_param_bloom_shape,
+                    "Triangular",
+                    listOf("Square", "Triangular", "Sine", "Gaussian")
+                ),
+                gmicNumber(R.string.threshold, 0, -1f..1f),
+                gmicToggle(R.string.gmic_param_use_luma_for_bloom, true),
+                gmicSelection(
+                    R.string.gmic_param_fuzz_shape,
+                    "Triangular",
+                    listOf("Square", "Triangular", "Sine", "Gaussian")
+                ),
+                gmicToggle(R.string.gmic_param_normalize_image, false)
             )
         }
     }

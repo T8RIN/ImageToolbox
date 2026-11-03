@@ -51,26 +51,23 @@ internal class FadedArrayFilter(
             R.string.filter_help_gmic_filter_faded_array
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicInteger(R.string.gmic_param_x_tiles, 2, 1f..10f),
-                    gmicInteger(R.string.gmic_param_y_tiles, 2, 1f..10f),
-                    gmicNumber(R.string.gmic_param_x_offset, 0, 0f..100f),
-                    gmicNumber(R.string.gmic_param_y_offset, 0, 0f..100f),
-                    gmicNumber(R.string.gmic_param_fade_start, 80, 1f..100f),
-                    gmicNumber(R.string.gmic_param_fade_end, 90, 1f..100f),
-                    gmicSelection(
-                        R.string.tile_mode_mirror,
-                        "None",
-                        listOf("None", "XAxis", "YAxis", "BothAxes")
-                    ),
-                    gmicSelection(
-                        R.string.gmic_param_sizing,
-                        "Shrink",
-                        listOf("Shrink", "Expand", "Repeat")
-                    )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicInteger(R.string.gmic_param_x_tiles, 2, 1f..10f),
+                gmicInteger(R.string.gmic_param_y_tiles, 2, 1f..10f),
+                gmicNumber(R.string.gmic_param_x_offset, 0, 0f..100f),
+                gmicNumber(R.string.gmic_param_y_offset, 0, 0f..100f),
+                gmicNumber(R.string.gmic_param_fade_start, 80, 1f..100f),
+                gmicNumber(R.string.gmic_param_fade_end, 90, 1f..100f),
+                gmicSelection(
+                    R.string.tile_mode_mirror,
+                    "None",
+                    listOf("None", "XAxis", "YAxis", "BothAxes")
+                ),
+                gmicSelection(
+                    R.string.gmic_param_sizing,
+                    "Shrink",
+                    listOf("Shrink", "Expand", "Repeat")
                 )
             )
         }

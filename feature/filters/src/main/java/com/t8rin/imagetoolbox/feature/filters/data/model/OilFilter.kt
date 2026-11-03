@@ -46,9 +46,9 @@ internal class OilFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.oil, R.string.filter_help_oil)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::radius, floatParam(R.string.radius, 4f, 1f..20f, roundTo = 0))
-            field(Value::strength, floatParam(R.string.strength, 1f, 0f..4f, roundTo = 1))
+        override val parameters = structuredParameters {
+            Value::radius.float(R.string.radius, 4f, 1f..20f, roundTo = 0)
+            Value::strength.float(R.string.strength, 1f, 0f..4f, roundTo = 1)
         }
     }
 }

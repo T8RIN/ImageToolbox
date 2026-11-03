@@ -53,15 +53,15 @@ internal class FlareFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.flare, R.string.filter_help_flare)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::radius, floatParam(R.string.radius, 0.3f, 0.01f..1f))
-            field(Value::baseAmount, floatParam(R.string.base_amount, 1f, 0f..2f))
-            field(Value::ringAmount, floatParam(R.string.ring_amount, 0.2f, 0f..2f))
-            field(Value::rayAmount, floatParam(R.string.ray_amount, 0.1f, 0f..2f))
-            field(Value::ringWidth, floatParam(R.string.ring_width, 1.6f, 0.01f..5f))
-            field(Value::centreX, floatParam(R.string.center_x, 0.5f, 0f..1f))
-            field(Value::centreY, floatParam(R.string.center_y, 0.5f, 0f..1f))
-            field(Value::color, colorParam(R.string.color, ColorModel(0xFFFFFFFF.toInt())))
+        override val parameters = structuredParameters {
+            Value::radius.float(R.string.radius, 0.3f, 0.01f..1f)
+            Value::baseAmount.float(R.string.base_amount, 1f, 0f..2f)
+            Value::ringAmount.float(R.string.ring_amount, 0.2f, 0f..2f)
+            Value::rayAmount.float(R.string.ray_amount, 0.1f, 0f..2f)
+            Value::ringWidth.float(R.string.ring_width, 1.6f, 0.01f..5f)
+            Value::centreX.float(R.string.center_x, 0.5f, 0f..1f)
+            Value::centreY.float(R.string.center_y, 0.5f, 0f..1f)
+            Value::color.color(R.string.color, ColorModel(0xFFFFFFFF.toInt()))
         }
     }
 }

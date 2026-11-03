@@ -48,23 +48,20 @@ internal class QuadtreeFilter(
         override val info =
             FilterInfo(R.string.gmic_filter_quadtree, R.string.filter_help_gmic_filter_quadtree)
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicSelection(
-                        R.string.gmic_param_mode,
-                        "Squares",
-                        listOf("Squares", "Sierpinski", "EllipsePainting")
-                    ),
-                    gmicInteger(R.string.gmic_param_precision, 1024, 2f..4096f),
-                    gmicNumber(R.string.gmic_param_homogeneity, 0.5f, 0f..2f),
-                    gmicInteger(R.string.gmic_param_outline, 0, 0f..4f),
-                    gmicNumber(R.string.gmic_param_primary_radius, 3, 0f..5f),
-                    gmicNumber(R.string.second_radius, 1.5f, 0f..5f),
-                    gmicNumber(R.string.texture_anisotropy, 1, 0f..4f),
-                    gmicToggle(R.string.gmic_param_only_leafs, true)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicSelection(
+                    R.string.gmic_param_mode,
+                    "Squares",
+                    listOf("Squares", "Sierpinski", "EllipsePainting")
+                ),
+                gmicInteger(R.string.gmic_param_precision, 1024, 2f..4096f),
+                gmicNumber(R.string.gmic_param_homogeneity, 0.5f, 0f..2f),
+                gmicInteger(R.string.gmic_param_outline, 0, 0f..4f),
+                gmicNumber(R.string.gmic_param_primary_radius, 3, 0f..5f),
+                gmicNumber(R.string.second_radius, 1.5f, 0f..5f),
+                gmicNumber(R.string.texture_anisotropy, 1, 0f..4f),
+                gmicToggle(R.string.gmic_param_only_leafs, true)
             )
         }
     }

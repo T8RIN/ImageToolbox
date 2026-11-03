@@ -44,8 +44,8 @@ internal class OrbitalPixelationFilter(
         override val info =
             FilterInfo(R.string.orbital_pixelization, R.string.filter_help_orbital_pixelization)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::layers, floatParam(default = 25f, range = 5f..200f))
+        override val parameters = structuredParameters {
+            Value::layers.float(default = 25f, range = 5f..200f)
         }
     }
 }

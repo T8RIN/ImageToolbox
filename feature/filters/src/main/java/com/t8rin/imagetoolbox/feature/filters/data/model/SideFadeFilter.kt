@@ -61,10 +61,10 @@ internal class SideFadeFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.side_fade, R.string.filter_help_side_fade)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::side, enumParam(R.string.side) { FadeSide.End })
-            field(Value::scale, floatParam(R.string.size, 0.5f, 0f..1f))
-            field(Value::strength, floatParam(R.string.strength, 1f, 0f..1f))
+        override val parameters = structuredParameters {
+            Value::side.enum(R.string.side, label = { it.label }) { FadeSide.End }
+            Value::scale.float(R.string.size, 0.5f, 0f..1f)
+            Value::strength.float(R.string.strength, 1f, 0f..1f)
         }
     }
 }

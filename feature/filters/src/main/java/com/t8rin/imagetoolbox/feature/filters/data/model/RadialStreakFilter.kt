@@ -34,17 +34,14 @@ internal class RadialStreakFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.radial_streak, R.string.filter_help_radial_streak)
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::intensity,
-                floatParam(R.string.texture_intensity, 0.5f, 0f..1f, roundTo = 3)
-            )
-            field(Value::count, intParam(R.string.procedural_count, 8, 1..64))
-            field(Value::radius, floatParam(R.string.radius, 0.3f, 0.01f..1f, roundTo = 3))
-            field(Value::offsetX, floatParam(R.string.offset_x, 0f, -1f..1f, roundTo = 3))
-            field(Value::offsetY, floatParam(R.string.offset_y, 0f, -1f..1f, roundTo = 3))
-            field(Value::scale, floatParam(R.string.scale, 1f, 0.05f..8f, roundTo = 3))
-            field(Value::rotation, floatParam(R.string.rotation, 0f, -180f..180f, roundTo = 3))
+        override val parameters = structuredParameters {
+            Value::intensity.float(R.string.texture_intensity, 0.5f, 0f..1f, roundTo = 3)
+            Value::count.int(R.string.procedural_count, 8, 1..64)
+            Value::radius.float(R.string.radius, 0.3f, 0.01f..1f, roundTo = 3)
+            Value::offsetX.float(R.string.offset_x, 0f, -1f..1f, roundTo = 3)
+            Value::offsetY.float(R.string.offset_y, 0f, -1f..1f, roundTo = 3)
+            Value::scale.float(R.string.scale, 1f, 0.05f..8f, roundTo = 3)
+            Value::rotation.float(R.string.rotation, 0f, -180f..180f, roundTo = 3)
         }
 
         private val SHADER = """

@@ -44,8 +44,8 @@ internal class DiamondPixelationFilter(
         override val info =
             FilterInfo(R.string.diamond_pixelation, R.string.filter_help_diamond_pixelation)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::layers, floatParam(default = 24f, range = 10f..200f))
+        override val parameters = structuredParameters {
+            Value::layers.float(default = 24f, range = 10f..200f)
         }
     }
 }

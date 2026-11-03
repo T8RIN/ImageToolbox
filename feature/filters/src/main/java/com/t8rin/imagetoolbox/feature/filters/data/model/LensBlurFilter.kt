@@ -43,11 +43,11 @@ internal class LensBlurFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.lens_blur, R.string.filter_help_lens_blur)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::radius, floatParam(R.string.radius, 10f, 0f..50f, roundTo = 0))
-            field(Value::sides, floatParam(R.string.sides, 5f, 3f..12f, roundTo = 0))
-            field(Value::bloom, floatParam(R.string.bloom, 2f, 0f..10f))
-            field(Value::threshold, floatParam(R.string.threshold, 255f, 0f..255f, roundTo = 0))
+        override val parameters = structuredParameters {
+            Value::radius.float(R.string.radius, 10f, 0f..50f, roundTo = 0)
+            Value::sides.float(R.string.sides, 5f, 3f..12f, roundTo = 0)
+            Value::bloom.float(R.string.bloom, 2f, 0f..10f)
+            Value::threshold.float(R.string.threshold, 255f, 0f..255f, roundTo = 0)
         }
     }
 }

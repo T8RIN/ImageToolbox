@@ -45,8 +45,8 @@ internal class AutoCropFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.auto_crop, R.string.filter_help_auto_crop)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::tolerance, floatParam(R.string.tolerance, 5f, 0f..10f, roundTo = 0))
+        override val parameters = structuredParameters {
+            Value::tolerance.float(R.string.tolerance, 5f, 0f..10f, roundTo = 0)
         }
     }
 }

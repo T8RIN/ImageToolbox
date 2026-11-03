@@ -47,18 +47,15 @@ internal class RetroHardwareFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.retro_hardware, R.string.filter_help_retro_hardware)
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::system,
-                choiceParam(
-                    R.string.system, 0,
-                    R.string.zx_spectrum,
-                    R.string.game_boy
-                )
+        override val parameters = structuredParameters {
+            Value::system.choice(
+                R.string.system, 0,
+                R.string.zx_spectrum,
+                R.string.game_boy
             )
-            field(Value::scale, floatParam(R.string.scale, 1f, 1f..4f, roundTo = 1))
-            field(Value::dithering, floatParam(R.string.dithering, 0.25f, 0f..1f))
-            field(Value::strength, floatParam(R.string.strength, 1f, 0f..1f))
+            Value::scale.float(R.string.scale, 1f, 1f..4f, roundTo = 1)
+            Value::dithering.float(R.string.dithering, 0.25f, 0f..1f)
+            Value::strength.float(R.string.strength, 1f, 0f..1f)
         }
     }
 }

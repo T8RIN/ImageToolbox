@@ -53,14 +53,14 @@ internal class SparkleFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.sparkle, R.string.filter_help_sparkle)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::amount, intParam(R.string.amount, 50, 0..200))
-            field(Value::rays, intParam(R.string.rays, 50, 0..200))
-            field(Value::radius, floatParam(R.string.radius, 0.3f, 0f..1f))
-            field(Value::randomness, intParam(R.string.randomness, 25, 0..100))
-            field(Value::centreX, floatParam(R.string.center_x, 0.5f, 0f..1f))
-            field(Value::centreY, floatParam(R.string.center_y, 0.5f, 0f..1f))
-            field(Value::color, colorParam(R.string.color, ColorModel(0xFFFFFFFF.toInt())))
+        override val parameters = structuredParameters {
+            Value::amount.int(R.string.amount, 50, 0..200)
+            Value::rays.int(R.string.rays, 50, 0..200)
+            Value::radius.float(R.string.radius, 0.3f, 0f..1f)
+            Value::randomness.int(R.string.randomness, 25, 0..100)
+            Value::centreX.float(R.string.center_x, 0.5f, 0f..1f)
+            Value::centreY.float(R.string.center_y, 0.5f, 0f..1f)
+            Value::color.color(R.string.color, ColorModel(0xFFFFFFFF.toInt()))
         }
     }
 }

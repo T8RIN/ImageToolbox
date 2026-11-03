@@ -60,30 +60,27 @@ internal class SaturationEqualizerFilter(
             R.string.filter_help_gmic_filter_saturation_equalizer
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.gmic_param_black, -12, -128f..128f),
-                    gmicNumber(R.string.gmic_param_near_black, -6, -128f..128f),
-                    gmicNumber(R.string.gmic_param_dark_gray, 4, -128f..128f),
-                    gmicNumber(R.string.gmic_param_mid_dark_gray, 8, -128f..128f),
-                    gmicNumber(R.string.gmic_param_middle_gray, 12, -128f..128f),
-                    gmicNumber(R.string.gmic_param_mid_light_gray, 8, -128f..128f),
-                    gmicNumber(R.string.gmic_param_light_gray, 4, -128f..128f),
-                    gmicNumber(R.string.highlights, -2, -128f..128f),
-                    gmicNumber(R.string.gmic_param_white, -8, -128f..128f),
-                    gmicNumber(R.string.gmic_param_hue_0, 8, -128f..128f),
-                    gmicNumber(R.string.gmic_param_hue_45, 14, -128f..128f),
-                    gmicNumber(R.string.gmic_param_hue_90, 6, -128f..128f),
-                    gmicNumber(R.string.gmic_param_hue_135, -4, -128f..128f),
-                    gmicNumber(R.string.gmic_param_hue_180, -8, -128f..128f),
-                    gmicNumber(R.string.gmic_param_hue_225, 4, -128f..128f),
-                    gmicNumber(R.string.gmic_param_hue_270, 10, -128f..128f),
-                    gmicNumber(R.string.gmic_param_hue_315, 12, -128f..128f),
-                    gmicNumber(R.string.gmic_param_hue_360, 8, -128f..128f),
-                    gmicNumber(R.string.gmic_param_rotate_hue_bands, 0, -45f..45f)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.gmic_param_black, -12, -128f..128f),
+                gmicNumber(R.string.gmic_param_near_black, -6, -128f..128f),
+                gmicNumber(R.string.gmic_param_dark_gray, 4, -128f..128f),
+                gmicNumber(R.string.gmic_param_mid_dark_gray, 8, -128f..128f),
+                gmicNumber(R.string.gmic_param_middle_gray, 12, -128f..128f),
+                gmicNumber(R.string.gmic_param_mid_light_gray, 8, -128f..128f),
+                gmicNumber(R.string.gmic_param_light_gray, 4, -128f..128f),
+                gmicNumber(R.string.highlights, -2, -128f..128f),
+                gmicNumber(R.string.gmic_param_white, -8, -128f..128f),
+                gmicNumber(R.string.gmic_param_hue_0, 8, -128f..128f),
+                gmicNumber(R.string.gmic_param_hue_45, 14, -128f..128f),
+                gmicNumber(R.string.gmic_param_hue_90, 6, -128f..128f),
+                gmicNumber(R.string.gmic_param_hue_135, -4, -128f..128f),
+                gmicNumber(R.string.gmic_param_hue_180, -8, -128f..128f),
+                gmicNumber(R.string.gmic_param_hue_225, 4, -128f..128f),
+                gmicNumber(R.string.gmic_param_hue_270, 10, -128f..128f),
+                gmicNumber(R.string.gmic_param_hue_315, 12, -128f..128f),
+                gmicNumber(R.string.gmic_param_hue_360, 8, -128f..128f),
+                gmicNumber(R.string.gmic_param_rotate_hue_bands, 0, -45f..45f)
             )
         }
     }

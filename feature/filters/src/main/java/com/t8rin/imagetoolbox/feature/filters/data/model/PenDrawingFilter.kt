@@ -42,12 +42,9 @@ internal class PenDrawingFilter(
             R.string.filter_help_gmic_filter_pen_drawing
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.amplitude, 10, 0f..30f)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.amplitude, 10, 0f..30f)
             )
         }
     }

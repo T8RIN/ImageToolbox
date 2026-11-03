@@ -44,14 +44,11 @@ internal class RandomColorArrayFilter(
             R.string.filter_help_gmic_filter_random_color_array
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicInteger(R.string.gmic_param_x_tiles, 5, 1f..20f),
-                    gmicInteger(R.string.gmic_param_y_tiles, 5, 1f..20f),
-                    gmicNumber(R.string.opacity, 0.5f, 0f..1f)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicInteger(R.string.gmic_param_x_tiles, 5, 1f..20f),
+                gmicInteger(R.string.gmic_param_y_tiles, 5, 1f..20f),
+                gmicNumber(R.string.opacity, 0.5f, 0f..1f)
             )
         }
     }

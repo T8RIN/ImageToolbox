@@ -43,14 +43,11 @@ internal class IsophotesFilter(
         override val info =
             FilterInfo(R.string.gmic_filter_isophotes, R.string.filter_help_gmic_filter_isophotes)
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicInteger(R.string.levels, 8, 1f..256f),
-                    gmicNumber(R.string.gmic_param_smoothness, 4, 0f..10f),
-                    gmicSelection(R.string.fill, "Colors", listOf("Transparent", "Colors"))
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicInteger(R.string.levels, 8, 1f..256f),
+                gmicNumber(R.string.gmic_param_smoothness, 4, 0f..10f),
+                gmicSelection(R.string.fill, "Colors", listOf("Transparent", "Colors"))
             )
         }
     }

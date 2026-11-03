@@ -46,18 +46,15 @@ internal class GhostFilter(
         override val info =
             FilterInfo(R.string.gmic_filter_ghost, R.string.filter_help_gmic_filter_ghost)
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.amplitude, 200, 0f..1000f),
-                    gmicNumber(R.string.gmic_param_smoothness, 2, 0f..10f),
-                    gmicNumber(R.string.gmic_param_coherence, 2, 0f..10f),
-                    gmicNumber(R.string.gamma, 1, -3f..3f),
-                    gmicNumber(R.string.gmic_param_normalization_amplitude, 3, 0f..10f),
-                    gmicNumber(R.string.radius, 16, 1f..64f),
-                    gmicToggle(R.string.gmic_param_invert, false)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.amplitude, 200, 0f..1000f),
+                gmicNumber(R.string.gmic_param_smoothness, 2, 0f..10f),
+                gmicNumber(R.string.gmic_param_coherence, 2, 0f..10f),
+                gmicNumber(R.string.gamma, 1, -3f..3f),
+                gmicNumber(R.string.gmic_param_normalization_amplitude, 3, 0f..10f),
+                gmicNumber(R.string.radius, 16, 1f..64f),
+                gmicToggle(R.string.gmic_param_invert, false)
             )
         }
     }

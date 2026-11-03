@@ -49,8 +49,8 @@ internal class Clustered4x4DitheringFilter(
             R.string.filter_help_clustered_4x4_dithering
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::grayscale, booleanParam(R.string.gray_scale, false))
+        override val parameters = structuredParameters {
+            Value::grayscale.boolean(R.string.gray_scale, false)
         }
     }
 }

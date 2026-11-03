@@ -48,11 +48,11 @@ internal class ExpandImageFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.expand_image, R.string.filter_help_expand_image)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::top, floatParam(R.string.top, 64f, 0f..1024f, roundTo = 0))
-            field(Value::start, floatParam(R.string.start, 64f, 0f..1024f, roundTo = 0))
-            field(Value::end, floatParam(R.string.end, 64f, 0f..1024f, roundTo = 0))
-            field(Value::bottom, floatParam(R.string.bottom, 64f, 0f..1024f, roundTo = 0))
+        override val parameters = structuredParameters {
+            Value::top.float(R.string.top, 64f, 0f..1024f, roundTo = 0)
+            Value::start.float(R.string.start, 64f, 0f..1024f, roundTo = 0)
+            Value::end.float(R.string.end, 64f, 0f..1024f, roundTo = 0)
+            Value::bottom.float(R.string.bottom, 64f, 0f..1024f, roundTo = 0)
         }
     }
 }

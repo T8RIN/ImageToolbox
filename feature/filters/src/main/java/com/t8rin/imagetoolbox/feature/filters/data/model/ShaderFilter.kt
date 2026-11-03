@@ -25,7 +25,6 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
 import com.t8rin.imagetoolbox.core.filters.domain.model.shader.ShaderPreset
 import com.t8rin.imagetoolbox.core.filters.domain.model.shader.ShaderValidationError
 import com.t8rin.imagetoolbox.core.filters.domain.model.shader.ShaderValidator
-import com.t8rin.imagetoolbox.core.filters.domain.model.shader.ShaderValue
 import com.t8rin.imagetoolbox.core.filters.domain.model.shader.resolvedValues
 import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
 import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
@@ -67,9 +66,9 @@ internal class ShaderFilter(
     companion object : Filter.Schema.Custom<Value> {
         override val info = FilterInfo(R.string.shader, R.string.filter_help_shader)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::preset, editorParam<ShaderPreset?>({ null }))
-            field(Value::values, editorParam<Map<String, ShaderValue>>({ emptyMap() }))
+        override val parameters = structuredParameters {
+            Value::preset.editor { null }
+            Value::values.editor { emptyMap() }
         }
     }
 }

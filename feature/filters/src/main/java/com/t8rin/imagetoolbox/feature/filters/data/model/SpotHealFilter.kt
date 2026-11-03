@@ -99,9 +99,9 @@ internal class SpotHealFilter(
     )
 
     companion object : Filter.Schema.HiddenValue<Value> {
-        override val parameters = structuredParameters<Value> {
-            field(Value::mask, editorParam({ ImageModel("") }))
-            field(Value::mode, enumParam(default = { SpotHealMode.OpenCV }))
+        override val parameters = structuredParameters {
+            Value::mask.editor { ImageModel("") }
+            Value::mode.enum(label = { it.label }) { SpotHealMode.OpenCV }
         }
     }
 }

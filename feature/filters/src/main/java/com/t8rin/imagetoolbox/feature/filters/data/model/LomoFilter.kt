@@ -40,12 +40,9 @@ internal class LomoFilter(
         override val info =
             FilterInfo(R.string.gmic_filter_lomo, R.string.filter_help_gmic_filter_lomo)
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.gmic_param_vignette_size, 20, 0f..100f)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.gmic_param_vignette_size, 20, 0f..100f)
             )
         }
     }

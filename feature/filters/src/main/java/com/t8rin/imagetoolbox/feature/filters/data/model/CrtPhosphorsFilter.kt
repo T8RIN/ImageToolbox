@@ -57,22 +57,19 @@ internal class CrtPhosphorsFilter(
             R.string.filter_help_gmic_filter_crt_phosphors
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicSelection(R.string.type, "Stripes", listOf("Stripes", "Triad", "SlotMask")),
-                    gmicInteger(R.string.gmic_param_upscale_factor, 4, 1f..8f),
-                    gmicSelection(R.string.gmic_param_precision, "Low", listOf("Low", "High")),
-                    gmicNumber(R.string.gmic_param_smoothness, 0, 0f..10f),
-                    gmicInteger(R.string.gmic_param_neighborhood_size, 4, 1f..16f),
-                    gmicNumber(R.string.gmic_param_stride, 50, 0f..100f),
-                    gmicToggle(R.string.gmic_param_adaptive_pattern, true),
-                    gmicToggle(R.string.gmic_param_use_luma, false),
-                    gmicToggle(R.string.gmic_param_transpose_pattern, false),
-                    gmicToggle(R.string.gmic_param_average_over_pattern, false),
-                    gmicToggle(R.string.gmic_param_normalize_image, true)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicSelection(R.string.type, "Stripes", listOf("Stripes", "Triad", "SlotMask")),
+                gmicInteger(R.string.gmic_param_upscale_factor, 4, 1f..8f),
+                gmicSelection(R.string.gmic_param_precision, "Low", listOf("Low", "High")),
+                gmicNumber(R.string.gmic_param_smoothness, 0, 0f..10f),
+                gmicInteger(R.string.gmic_param_neighborhood_size, 4, 1f..16f),
+                gmicNumber(R.string.gmic_param_stride, 50, 0f..100f),
+                gmicToggle(R.string.gmic_param_adaptive_pattern, true),
+                gmicToggle(R.string.gmic_param_use_luma, false),
+                gmicToggle(R.string.gmic_param_transpose_pattern, false),
+                gmicToggle(R.string.gmic_param_average_over_pattern, false),
+                gmicToggle(R.string.gmic_param_normalize_image, true)
             )
         }
     }

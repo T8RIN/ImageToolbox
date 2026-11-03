@@ -18,8 +18,7 @@
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import android.graphics.Bitmap
-import androidx.compose.ui.graphics.Color
-import com.t8rin.imagetoolbox.core.data.image.utils.ColorUtils.toModel
+import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.SandPainting.Value
@@ -50,12 +49,13 @@ internal class SandPaintingFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.sand_painting, R.string.filter_help_sand_painting)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::strength, intParam(R.string.strength, 5000, 50..75000))
-            field(Value::threshold, intParam(R.string.threshold, 50, 30..90))
-            field(
-                Value::backgroundColor,
-                colorParam(R.string.background_color, Color.Black.toModel(), allowAlpha = true)
+        override val parameters = structuredParameters {
+            Value::strength.int(R.string.strength, 5000, 50..75000)
+            Value::threshold.int(R.string.threshold, 50, 30..90)
+            Value::backgroundColor.color(
+                R.string.background_color,
+                ColorModel(0xFF000000.toInt()),
+                allowAlpha = true
             )
         }
     }

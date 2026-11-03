@@ -44,8 +44,8 @@ internal class BoxBlurFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.box_blur, R.string.filter_help_box_blur)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::kernelSize, floatParam(default = 10f, range = 0f..100f, roundTo = 0))
+        override val parameters = structuredParameters {
+            Value::kernelSize.float(default = 10f, range = 0f..100f, roundTo = 0)
         }
     }
 }

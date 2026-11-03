@@ -59,32 +59,29 @@ internal class BlurredFrameFilter(
             R.string.filter_help_gmic_filter_blurred_frame
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.gmic_param_horizontal_size, 30, 0f..100f),
-                    gmicNumber(R.string.gmic_param_vertical_size, 30, 0f..100f),
-                    gmicNumber(R.string.crop, 0, 0f..100f),
-                    gmicNumber(R.string.blur, 5, 0f..10f),
-                    gmicNumber(R.string.gmic_param_roundness, 0, 0f..1f),
-                    gmicToggle(R.string.color_balance, false),
-                    gmicColor(R.string.gmic_param_balance_color, -8355712),
-                    gmicSelection(
-                        R.string.gmic_param_normalization,
-                        "None",
-                        listOf("None", "Stretch", "Equalize")
-                    ),
-                    gmicNumber(R.string.outline_size, 5, 0f..50f),
-                    gmicColor(R.string.outline_color, -1),
-                    gmicNumber(R.string.gmic_param_x_shadow, 2, -10f..10f),
-                    gmicNumber(R.string.gmic_param_y_shadow, 2, -10f..10f),
-                    gmicNumber(R.string.softness, 1, 0f..5f),
-                    gmicNumber(R.string.contrast, 0, 0f..100f),
-                    gmicNumber(R.string.gmic_param_x_centering, 0.5f, 0f..1f),
-                    gmicNumber(R.string.gmic_param_y_centering, 0.5f, 0f..1f),
-                    gmicNumber(R.string.angle, 0, -180f..180f)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.gmic_param_horizontal_size, 30, 0f..100f),
+                gmicNumber(R.string.gmic_param_vertical_size, 30, 0f..100f),
+                gmicNumber(R.string.crop, 0, 0f..100f),
+                gmicNumber(R.string.blur, 5, 0f..10f),
+                gmicNumber(R.string.gmic_param_roundness, 0, 0f..1f),
+                gmicToggle(R.string.color_balance, false),
+                gmicColor(R.string.gmic_param_balance_color, -8355712),
+                gmicSelection(
+                    R.string.gmic_param_normalization,
+                    "None",
+                    listOf("None", "Stretch", "Equalize")
+                ),
+                gmicNumber(R.string.outline_size, 5, 0f..50f),
+                gmicColor(R.string.outline_color, -1),
+                gmicNumber(R.string.gmic_param_x_shadow, 2, -10f..10f),
+                gmicNumber(R.string.gmic_param_y_shadow, 2, -10f..10f),
+                gmicNumber(R.string.softness, 1, 0f..5f),
+                gmicNumber(R.string.contrast, 0, 0f..100f),
+                gmicNumber(R.string.gmic_param_x_centering, 0.5f, 0f..1f),
+                gmicNumber(R.string.gmic_param_y_centering, 0.5f, 0f..1f),
+                gmicNumber(R.string.angle, 0, -180f..180f)
             )
         }
     }

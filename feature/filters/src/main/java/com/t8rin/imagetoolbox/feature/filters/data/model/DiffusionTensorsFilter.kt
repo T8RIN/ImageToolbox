@@ -50,23 +50,20 @@ internal class DiffusionTensorsFilter(
             R.string.filter_help_gmic_filter_diffusion_tensors
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.resolution, 10, 0f..20f),
-                    gmicNumber(R.string.just_size, 5, 0f..16f),
-                    gmicSelection(
-                        R.string.gmic_param_color_mode,
-                        "Color",
-                        listOf("Monochrome", "Grayscale", "Orientation", "Color")
-                    ),
-                    gmicInteger(R.string.gmic_param_outline, 1, 0f..16f),
-                    gmicNumber(R.string.tag_sharpness, 0.15f, 0f..1f),
-                    gmicNumber(R.string.texture_anisotropy, 1, 0f..1f),
-                    gmicNumber(R.string.gmic_param_gradient_smoothness, 0, 0f..10f),
-                    gmicNumber(R.string.gmic_param_tensor_smoothness, 3, 0f..10f)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.resolution, 10, 0f..20f),
+                gmicNumber(R.string.just_size, 5, 0f..16f),
+                gmicSelection(
+                    R.string.gmic_param_color_mode,
+                    "Color",
+                    listOf("Monochrome", "Grayscale", "Orientation", "Color")
+                ),
+                gmicInteger(R.string.gmic_param_outline, 1, 0f..16f),
+                gmicNumber(R.string.tag_sharpness, 0.15f, 0f..1f),
+                gmicNumber(R.string.texture_anisotropy, 1, 0f..1f),
+                gmicNumber(R.string.gmic_param_gradient_smoothness, 0, 0f..10f),
+                gmicNumber(R.string.gmic_param_tensor_smoothness, 3, 0f..10f)
             )
         }
     }

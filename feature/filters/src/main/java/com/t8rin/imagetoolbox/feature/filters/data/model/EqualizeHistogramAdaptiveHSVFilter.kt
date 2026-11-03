@@ -50,10 +50,10 @@ internal class EqualizeHistogramAdaptiveHSVFilter(
             R.string.filter_help_equalize_histogram_adaptive_hsv
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::gridSizeX, floatParam(R.string.grid_size_x, 3f, 1f..100f, roundTo = 0))
-            field(Value::gridSizeY, floatParam(R.string.grid_size_y, 3f, 1f..100f, roundTo = 0))
-            field(Value::binsCount, floatParam(R.string.bins_count, 128f, 2f..256f, roundTo = 0))
+        override val parameters = structuredParameters {
+            Value::gridSizeX.float(R.string.grid_size_x, 3f, 1f..100f, roundTo = 0)
+            Value::gridSizeY.float(R.string.grid_size_y, 3f, 1f..100f, roundTo = 0)
+            Value::binsCount.float(R.string.bins_count, 128f, 2f..256f, roundTo = 0)
         }
     }
 }

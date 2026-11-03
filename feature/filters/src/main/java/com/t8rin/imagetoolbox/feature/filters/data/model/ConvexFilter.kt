@@ -44,8 +44,8 @@ internal class ConvexFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.spline, R.string.filter_help_spline)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::strength, floatParam(default = 3f, range = 0f..30f))
+        override val parameters = structuredParameters {
+            Value::strength.float(default = 3f, range = 0f..30f)
         }
     }
 }

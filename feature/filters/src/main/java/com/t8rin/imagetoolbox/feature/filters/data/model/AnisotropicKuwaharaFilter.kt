@@ -48,11 +48,11 @@ internal class AnisotropicKuwaharaFilter(
         override val info =
             FilterInfo(R.string.anisotropic_kuwahara, R.string.filter_help_anisotropic_kuwahara)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::radius, floatParam(R.string.radius, 5.5f, 1f..24f, roundTo = 1))
-            field(Value::anisotropy, floatParam(R.string.anisotropy, 0.82f, 0f..1f))
-            field(Value::selectivity, floatParam(R.string.selectivity, 10f, 1f..24f, roundTo = 1))
-            field(Value::strength, floatParam(R.string.strength, 1f, 0f..1f))
+        override val parameters = structuredParameters {
+            Value::radius.float(R.string.radius, 5.5f, 1f..24f, roundTo = 1)
+            Value::anisotropy.float(R.string.anisotropy, 0.82f, 0f..1f)
+            Value::selectivity.float(R.string.selectivity, 10f, 1f..24f, roundTo = 1)
+            Value::strength.float(R.string.strength, 1f, 0f..1f)
         }
     }
 }

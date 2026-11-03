@@ -39,8 +39,8 @@ internal class GlowFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.glow, R.string.filter_help_glow)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::amount, floatParam(R.string.amount, 0.5f, 0f..1f))
+        override val parameters = structuredParameters {
+            Value::amount.float(R.string.amount, 0.5f, 0f..1f)
         }
     }
 }

@@ -35,31 +35,24 @@ internal class BokehLightsFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.bokeh_lights, R.string.filter_help_bokeh_lights)
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::lightColor,
-                colorParam(R.string.color, ColorModel(-675749), allowAlpha = true)
+        override val parameters = structuredParameters {
+            Value::lightColor.color(R.string.color, ColorModel(-675749), allowAlpha = true)
+            Value::intensity.float(R.string.texture_intensity, 0.4f, 0f..2f, roundTo = 3)
+            Value::count.int(R.string.procedural_count, 24, 1..64)
+            Value::blades.int(R.string.procedural_blades, 6, 3..12)
+            Value::radius.float(R.string.radius, 0.07f, 0.005f..0.3f, roundTo = 3)
+            Value::variability.float(R.string.procedural_variability, 0.5f, 0f..1f, roundTo = 3)
+            Value::colorVariation.float(
+                R.string.procedural_color_variation,
+                0.3f,
+                0f..1f,
+                roundTo = 3
             )
-            field(
-                Value::intensity,
-                floatParam(R.string.texture_intensity, 0.4f, 0f..2f, roundTo = 3)
-            )
-            field(Value::count, intParam(R.string.procedural_count, 24, 1..64))
-            field(Value::blades, intParam(R.string.procedural_blades, 6, 3..12))
-            field(Value::radius, floatParam(R.string.radius, 0.07f, 0.005f..0.3f, roundTo = 3))
-            field(
-                Value::variability,
-                floatParam(R.string.procedural_variability, 0.5f, 0f..1f, roundTo = 3)
-            )
-            field(
-                Value::colorVariation,
-                floatParam(R.string.procedural_color_variation, 0.3f, 0f..1f, roundTo = 3)
-            )
-            field(Value::seed, intParam(R.string.procedural_seed, 0, 0..1000))
-            field(Value::offsetX, floatParam(R.string.offset_x, 0f, -1f..1f, roundTo = 3))
-            field(Value::offsetY, floatParam(R.string.offset_y, 0f, -1f..1f, roundTo = 3))
-            field(Value::scale, floatParam(R.string.scale, 1f, 0.05f..8f, roundTo = 3))
-            field(Value::rotation, floatParam(R.string.rotation, 0f, -180f..180f, roundTo = 3))
+            Value::seed.seed(R.string.procedural_seed, 0, 0..1000)
+            Value::offsetX.float(R.string.offset_x, 0f, -1f..1f, roundTo = 3)
+            Value::offsetY.float(R.string.offset_y, 0f, -1f..1f, roundTo = 3)
+            Value::scale.float(R.string.scale, 1f, 0.05f..8f, roundTo = 3)
+            Value::rotation.float(R.string.rotation, 0f, -180f..180f, roundTo = 3)
         }
 
         private val SHADER = """

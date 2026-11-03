@@ -43,13 +43,10 @@ internal class WhitenSharpenFilter(
             R.string.filter_help_gmic_filter_whiten_sharpen
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.alpha, 50, 0f..100f),
-                    gmicToggle(R.string.cut, false)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.alpha, 50, 0f..100f),
+                gmicToggle(R.string.cut, false)
             )
         }
     }

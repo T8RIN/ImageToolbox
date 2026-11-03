@@ -44,8 +44,8 @@ internal class GrainFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.grain, R.string.filter_help_grain)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::intensity, floatParam(default = 0.75f, range = 0f..2f))
+        override val parameters = structuredParameters {
+            Value::intensity.float(default = 0.75f, range = 0f..2f)
         }
     }
 }

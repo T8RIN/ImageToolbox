@@ -50,13 +50,13 @@ internal class EnhancedZoomBlurFilter(
         override val info =
             FilterInfo(R.string.enhanced_zoom_blur, R.string.filter_help_enhanced_zoom_blur)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::radius, intParam(R.string.radius, 25, 1..100))
-            field(Value::sigma, floatParam(R.string.sigma, 5f, 1f..100f))
-            field(Value::centerX, floatParam(R.string.blur_center_x, 0.5f, 0f..1f))
-            field(Value::centerY, floatParam(R.string.blur_center_y, 0.5f, 0f..1f))
-            field(Value::strength, floatParam(R.string.strength, 1f, 0f..3f))
-            field(Value::angle, floatParam(R.string.angle, 135f, 0f..360f, 0))
+        override val parameters = structuredParameters {
+            Value::radius.int(R.string.radius, 25, 1..100)
+            Value::sigma.float(R.string.sigma, 5f, 1f..100f)
+            Value::centerX.float(R.string.blur_center_x, 0.5f, 0f..1f)
+            Value::centerY.float(R.string.blur_center_y, 0.5f, 0f..1f)
+            Value::strength.float(R.string.strength, 1f, 0f..3f)
+            Value::angle.float(R.string.angle, 135f, 0f..360f, 0)
         }
     }
 }

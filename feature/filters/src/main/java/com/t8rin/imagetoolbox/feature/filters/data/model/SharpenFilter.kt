@@ -37,8 +37,8 @@ internal class SharpenFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.sharpen, R.string.filter_help_sharpen)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::sharpness, floatParam(default = 1f, range = -1f..1f))
+        override val parameters = structuredParameters {
+            Value::sharpness.float(default = 1f, range = -1f..1f)
         }
     }
 }

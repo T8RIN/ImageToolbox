@@ -34,17 +34,14 @@ internal class ColumnStreakFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.column_streak, R.string.filter_help_column_streak)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::intensity, floatParam(R.string.texture_intensity, 1f, 0f..1f, roundTo = 3))
-            field(
-                Value::variability,
-                floatParam(R.string.procedural_variability, 0.6f, 0f..1f, roundTo = 3)
-            )
-            field(Value::count, intParam(R.string.procedural_count, 16, 1..128))
-            field(Value::offsetX, floatParam(R.string.offset_x, 0f, -1f..1f, roundTo = 3))
-            field(Value::offsetY, floatParam(R.string.offset_y, 0f, -1f..1f, roundTo = 3))
-            field(Value::scale, floatParam(R.string.scale, 1f, 0.05f..8f, roundTo = 3))
-            field(Value::rotation, floatParam(R.string.rotation, 0f, -180f..180f, roundTo = 3))
+        override val parameters = structuredParameters {
+            Value::intensity.float(R.string.texture_intensity, 1f, 0f..1f, roundTo = 3)
+            Value::variability.float(R.string.procedural_variability, 0.6f, 0f..1f, roundTo = 3)
+            Value::count.int(R.string.procedural_count, 16, 1..128)
+            Value::offsetX.float(R.string.offset_x, 0f, -1f..1f, roundTo = 3)
+            Value::offsetY.float(R.string.offset_y, 0f, -1f..1f, roundTo = 3)
+            Value::scale.float(R.string.scale, 1f, 0.05f..8f, roundTo = 3)
+            Value::rotation.float(R.string.rotation, 0f, -180f..180f, roundTo = 3)
         }
 
         private val SHADER = """

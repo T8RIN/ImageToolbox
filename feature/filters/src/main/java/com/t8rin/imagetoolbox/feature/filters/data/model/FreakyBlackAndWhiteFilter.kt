@@ -46,16 +46,13 @@ internal class FreakyBlackAndWhiteFilter(
             R.string.filter_help_gmic_filter_freaky_black_and_white
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.strength, 90, 0f..100f),
-                    gmicNumber(R.string.gmic_param_oddness_percent, 20, 0f..100f),
-                    gmicNumber(R.string.brightness, 0, -100f..100f),
-                    gmicNumber(R.string.contrast, 0, -100f..100f),
-                    gmicNumber(R.string.gamma, 0, -100f..100f)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.strength, 90, 0f..100f),
+                gmicNumber(R.string.gmic_param_oddness_percent, 20, 0f..100f),
+                gmicNumber(R.string.brightness, 0, -100f..100f),
+                gmicNumber(R.string.contrast, 0, -100f..100f),
+                gmicNumber(R.string.gamma, 0, -100f..100f)
             )
         }
     }

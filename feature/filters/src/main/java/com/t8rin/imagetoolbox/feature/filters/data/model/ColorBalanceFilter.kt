@@ -41,17 +41,14 @@ internal class ColorBalanceFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.color_balance, R.string.filter_help_color_balance)
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::adjustments,
-                floatArrayParam(columns = 3, default = {
-                    floatArrayOf(
-                        0.0f, 0.0f, 0.0f,
-                        0.0f, 0.0f, 0.0f,
-                        0.0f, 0.0f, 0.0f
-                    )
-                })
-            )
+        override val parameters = structuredParameters {
+            Value::adjustments.array(columns = 3) {
+                floatArrayOf(
+                    0.0f, 0.0f, 0.0f,
+                    0.0f, 0.0f, 0.0f,
+                    0.0f, 0.0f, 0.0f
+                )
+            }
         }
     }
 }

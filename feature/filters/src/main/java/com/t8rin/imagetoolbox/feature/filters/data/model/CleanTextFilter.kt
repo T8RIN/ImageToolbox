@@ -43,15 +43,12 @@ internal class CleanTextFilter(
         override val info =
             FilterInfo(R.string.gmic_filter_clean_text, R.string.filter_help_gmic_filter_clean_text)
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicInteger(R.string.gmic_param_clean, 8, 0f..10f),
-                    gmicNumber(R.string.gmic_param_range, 1, 0.2f..1f),
-                    gmicInteger(R.string.gmic_param_black, 80, 0f..100f),
-                    gmicInteger(R.string.gmic_param_white, 95, 0f..100f)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicInteger(R.string.gmic_param_clean, 8, 0f..10f),
+                gmicNumber(R.string.gmic_param_range, 1, 0.2f..1f),
+                gmicInteger(R.string.gmic_param_black, 80, 0f..100f),
+                gmicInteger(R.string.gmic_param_white, 95, 0f..100f)
             )
         }
     }

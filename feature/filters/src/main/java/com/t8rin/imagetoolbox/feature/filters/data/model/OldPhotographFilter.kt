@@ -44,14 +44,11 @@ internal class OldPhotographFilter(
             R.string.filter_help_gmic_filter_old_photograph
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.gmic_param_vignette_strength, 200, 0f..255f),
-                    gmicNumber(R.string.gmic_param_vignette_min_radius, 50, 0f..100f),
-                    gmicNumber(R.string.gmic_param_vignette_max_radius, 85, 0f..100f)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.gmic_param_vignette_strength, 200, 0f..255f),
+                gmicNumber(R.string.gmic_param_vignette_min_radius, 50, 0f..100f),
+                gmicNumber(R.string.gmic_param_vignette_max_radius, 85, 0f..100f)
             )
         }
     }

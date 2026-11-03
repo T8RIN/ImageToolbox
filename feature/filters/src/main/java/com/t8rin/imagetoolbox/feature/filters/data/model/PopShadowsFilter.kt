@@ -44,14 +44,11 @@ internal class PopShadowsFilter(
             R.string.filter_help_gmic_filter_pop_shadows
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.strength, 0.75f, 0f..1f),
-                    gmicNumber(R.string.scale, 5, 0f..20f),
-                    gmicToggle(R.string.gmic_param_post_normalize, true)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.strength, 0.75f, 0f..1f),
+                gmicNumber(R.string.scale, 5, 0f..20f),
+                gmicToggle(R.string.gmic_param_post_normalize, true)
             )
         }
     }

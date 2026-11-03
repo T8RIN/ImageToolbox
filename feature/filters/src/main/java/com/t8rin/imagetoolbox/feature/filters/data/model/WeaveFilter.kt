@@ -42,11 +42,11 @@ internal class WeaveFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.weave, R.string.filter_help_weave)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::xWidth, floatParam(R.string.x_width, 16f, 0f..100f))
-            field(Value::yWdth, floatParam(R.string.y_wdth, 16f, 0f..100f))
-            field(Value::xGap, floatParam(R.string.x_gap, 6f, 0f..100f))
-            field(Value::yGap, floatParam(R.string.y_gap, 6f, 0f..100f))
+        override val parameters = structuredParameters {
+            Value::xWidth.float(R.string.x_width, 16f, 0f..100f)
+            Value::yWdth.float(R.string.y_wdth, 16f, 0f..100f)
+            Value::xGap.float(R.string.x_gap, 6f, 0f..100f)
+            Value::yGap.float(R.string.y_gap, 6f, 0f..100f)
         }
     }
 }

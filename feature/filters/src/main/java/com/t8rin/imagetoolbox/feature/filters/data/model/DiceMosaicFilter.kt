@@ -45,17 +45,14 @@ internal class DiceMosaicFilter(
             R.string.filter_help_gmic_filter_dice_mosaic
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.resolution, 2, 1f..10f),
-                    gmicInteger(R.string.just_size, 24, 8f..64f),
-                    gmicSelection(
-                        R.string.gmic_param_color_model,
-                        "WhiteDice",
-                        listOf("BlackDice", "WhiteDice", "ColoredNumbers", "ColoredSides")
-                    )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.resolution, 2, 1f..10f),
+                gmicInteger(R.string.just_size, 24, 8f..64f),
+                gmicSelection(
+                    R.string.gmic_param_color_model,
+                    "WhiteDice",
+                    listOf("BlackDice", "WhiteDice", "ColoredNumbers", "ColoredSides")
                 )
             )
         }

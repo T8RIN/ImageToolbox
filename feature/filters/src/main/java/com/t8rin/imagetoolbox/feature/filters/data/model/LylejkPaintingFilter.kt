@@ -45,15 +45,12 @@ internal class LylejkPaintingFilter(
             R.string.filter_help_gmic_filter_lylejk_painting
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicInteger(R.string.iterations, 10, 1f..20f),
-                    gmicInteger(R.string.gmic_param_abstraction, 2, 1f..20f),
-                    gmicInteger(R.string.radius, 4, 1f..30f),
-                    gmicNumber(R.string.gmic_param_canvas, 10, 0f..100f)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicInteger(R.string.iterations, 10, 1f..20f),
+                gmicInteger(R.string.gmic_param_abstraction, 2, 1f..20f),
+                gmicInteger(R.string.radius, 4, 1f..30f),
+                gmicNumber(R.string.gmic_param_canvas, 10, 0f..100f)
             )
         }
     }

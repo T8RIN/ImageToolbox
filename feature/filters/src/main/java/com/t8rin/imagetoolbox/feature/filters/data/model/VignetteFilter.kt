@@ -18,11 +18,10 @@
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import android.graphics.PointF
-import androidx.compose.ui.graphics.Color
+import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.data.image.utils.ColorUtils.blue
 import com.t8rin.imagetoolbox.core.data.image.utils.ColorUtils.green
 import com.t8rin.imagetoolbox.core.data.image.utils.ColorUtils.red
-import com.t8rin.imagetoolbox.core.data.image.utils.ColorUtils.toModel
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.Vignette.Value
 import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
@@ -48,13 +47,10 @@ internal class VignetteFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.vignette, R.string.filter_help_vignette)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::start, floatParam(R.string.start, 0.3f, -2f..2f))
-            field(Value::end, floatParam(R.string.end, 0.75f, -2f..2f))
-            field(
-                Value::color,
-                colorParam(R.string.color, Color.Black.toModel(), allowAlpha = true)
-            )
+        override val parameters = structuredParameters {
+            Value::start.float(R.string.start, 0.3f, -2f..2f)
+            Value::end.float(R.string.end, 0.75f, -2f..2f)
+            Value::color.color(R.string.color, ColorModel(0xFF000000.toInt()), allowAlpha = true)
         }
     }
 }

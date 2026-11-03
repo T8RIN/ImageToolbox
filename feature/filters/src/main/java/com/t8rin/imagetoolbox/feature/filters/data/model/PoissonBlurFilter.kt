@@ -44,8 +44,8 @@ internal class PoissonBlurFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.poisson_blur, R.string.filter_help_poisson_blur)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::kernelSize, floatParam(default = 10f, range = 3f..200f, roundTo = 0))
+        override val parameters = structuredParameters {
+            Value::kernelSize.float(default = 10f, range = 3f..200f, roundTo = 0)
         }
     }
 }

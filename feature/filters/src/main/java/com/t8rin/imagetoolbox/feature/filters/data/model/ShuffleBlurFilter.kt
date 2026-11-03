@@ -54,9 +54,9 @@ internal class ShuffleBlurFilter(
 
         override val info = FilterInfo(R.string.shuffle_blur, R.string.filter_help_shuffle_blur)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::radius, floatParam(R.string.radius, 35f, 0f..70f, roundTo = 0))
-            field(Value::threshold, floatParam(R.string.threshold, 1f, -1f..1f))
+        override val parameters = structuredParameters {
+            Value::radius.float(R.string.radius, 35f, 0f..70f, roundTo = 0)
+            Value::threshold.float(R.string.threshold, 1f, -1f..1f)
         }
     }
 }

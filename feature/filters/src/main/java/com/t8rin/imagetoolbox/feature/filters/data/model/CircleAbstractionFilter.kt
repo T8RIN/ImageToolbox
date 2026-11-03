@@ -48,18 +48,15 @@ internal class CircleAbstractionFilter(
             R.string.filter_help_gmic_filter_circle_abstraction
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicInteger(R.string.gmic_param_number_of_colors, 8, 2f..16f),
-                    gmicInteger(R.string.density, 5, 1f..100f),
-                    gmicNumber(R.string.opacity, 0.8f, 0f..1f),
-                    gmicNumber(R.string.gmic_param_smoothness, 0, 0f..4f),
-                    gmicToggle(R.string.gmic_param_filled_circles, true),
-                    gmicToggle(R.string.gmic_param_fill_transparent_holes, true),
-                    gmicToggle(R.string.gmic_param_normalize_colors, true)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicInteger(R.string.gmic_param_number_of_colors, 8, 2f..16f),
+                gmicInteger(R.string.density, 5, 1f..100f),
+                gmicNumber(R.string.opacity, 0.8f, 0f..1f),
+                gmicNumber(R.string.gmic_param_smoothness, 0, 0f..4f),
+                gmicToggle(R.string.gmic_param_filled_circles, true),
+                gmicToggle(R.string.gmic_param_fill_transparent_holes, true),
+                gmicToggle(R.string.gmic_param_normalize_colors, true)
             )
         }
     }

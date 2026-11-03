@@ -50,25 +50,22 @@ internal class StringifyFilter(
         override val info =
             FilterInfo(R.string.gmic_filter_stringify, R.string.filter_help_gmic_filter_stringify)
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicInteger(R.string.gmic_param_smoothness, 2, 0f..10f),
-                    gmicInteger(R.string.levels, 32, 2f..64f),
-                    gmicNumber(R.string.gmic_param_sampling_rate, 20, 0f..100f),
-                    gmicSelection(
-                        R.string.gmic_param_link,
-                        "ThreePoints",
-                        listOf("TwoPoints", "ThreePoints", "FourPoints", "AllPoints")
-                    ),
-                    gmicNumber(R.string.offset, 100, 0f..100f),
-                    gmicInteger(R.string.threshold, 32, 0f..1024f),
-                    gmicNumber(R.string.opacity, 20, 0f..100f),
-                    gmicNumber(R.string.gmic_param_normalization, 25, 0f..100f),
-                    gmicToggle(R.string.gmic_param_fill_holes, false),
-                    gmicColor(R.string.background_color, -16777216)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicInteger(R.string.gmic_param_smoothness, 2, 0f..10f),
+                gmicInteger(R.string.levels, 32, 2f..64f),
+                gmicNumber(R.string.gmic_param_sampling_rate, 20, 0f..100f),
+                gmicSelection(
+                    R.string.gmic_param_link,
+                    "ThreePoints",
+                    listOf("TwoPoints", "ThreePoints", "FourPoints", "AllPoints")
+                ),
+                gmicNumber(R.string.offset, 100, 0f..100f),
+                gmicInteger(R.string.threshold, 32, 0f..1024f),
+                gmicNumber(R.string.opacity, 20, 0f..100f),
+                gmicNumber(R.string.gmic_param_normalization, 25, 0f..100f),
+                gmicToggle(R.string.gmic_param_fill_holes, false),
+                gmicColor(R.string.background_color, -16777216)
             )
         }
     }

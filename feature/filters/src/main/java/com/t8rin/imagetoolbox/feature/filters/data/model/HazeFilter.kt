@@ -37,9 +37,9 @@ internal class HazeFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.haze, R.string.filter_help_haze)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::distance, floatParam(R.string.distance, 0.2f, -0.3f..0.3f))
-            field(Value::slope, floatParam(R.string.slope, 0f, -0.3f..0.3f))
+        override val parameters = structuredParameters {
+            Value::distance.float(R.string.distance, 0.2f, -0.3f..0.3f)
+            Value::slope.float(R.string.slope, 0f, -0.3f..0.3f)
         }
     }
 }

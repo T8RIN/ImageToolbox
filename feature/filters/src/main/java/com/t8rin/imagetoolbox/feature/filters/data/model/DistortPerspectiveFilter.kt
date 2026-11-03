@@ -54,24 +54,12 @@ internal class DistortPerspectiveFilter(
         override val info =
             FilterInfo(R.string.distort_perspective, R.string.filter_help_distort_perspective)
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::topLeft,
-                pointParam({ OffsetModel(0.2f, 0f) }, control(R.string.top_left, 0f..1f))
-            )
-            field(
-                Value::topRight,
-                pointParam({ OffsetModel(0.8f, 0f) }, control(R.string.top_right, 0f..1f))
-            )
-            field(
-                Value::bottomLeft,
-                pointParam({ OffsetModel(0f, 1f) }, control(R.string.bottom_left, 0f..1f))
-            )
-            field(
-                Value::bottomRight,
-                pointParam({ OffsetModel(1f, 1f) }, control(R.string.bottom_right, 0f..1f))
-            )
-            field(Value::clip, booleanParam(R.string.clip, false))
+        override val parameters = structuredParameters {
+            Value::topLeft.point(control(R.string.top_left, 0f..1f)) { OffsetModel(0.2f, 0f) }
+            Value::topRight.point(control(R.string.top_right, 0f..1f)) { OffsetModel(0.8f, 0f) }
+            Value::bottomLeft.point(control(R.string.bottom_left, 0f..1f)) { OffsetModel(0f, 1f) }
+            Value::bottomRight.point(control(R.string.bottom_right, 0f..1f)) { OffsetModel(1f, 1f) }
+            Value::clip.boolean(R.string.clip, false)
         }
     }
 }

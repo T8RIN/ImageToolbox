@@ -46,11 +46,11 @@ internal class TwirlFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.twirl, R.string.filter_help_twirl)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::angle, floatParam(R.string.angle, 45f, -360f..360f))
-            field(Value::centerX, floatParam(R.string.center_x, 0.5f, 0f..1f))
-            field(Value::centerY, floatParam(R.string.center_y, 0.5f, 0f..1f))
-            field(Value::radius, floatParam(R.string.radius, 0.5f, 0f..1f))
+        override val parameters = structuredParameters {
+            Value::angle.float(R.string.angle, 45f, -360f..360f)
+            Value::centerX.float(R.string.center_x, 0.5f, 0f..1f)
+            Value::centerY.float(R.string.center_y, 0.5f, 0f..1f)
+            Value::radius.float(R.string.radius, 0.5f, 0f..1f)
         }
     }
 }

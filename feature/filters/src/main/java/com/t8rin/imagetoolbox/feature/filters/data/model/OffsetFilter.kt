@@ -44,9 +44,9 @@ internal class OffsetFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.offset, R.string.filter_help_offset)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::offsetX, floatParam(R.string.offset_x, 0.25f, 0f..1f))
-            field(Value::offsetY, floatParam(R.string.offset_y, 0.25f, 0f..1f))
+        override val parameters = structuredParameters {
+            Value::offsetX.float(R.string.offset_x, 0.25f, 0f..1f)
+            Value::offsetY.float(R.string.offset_y, 0.25f, 0f..1f)
         }
     }
 }

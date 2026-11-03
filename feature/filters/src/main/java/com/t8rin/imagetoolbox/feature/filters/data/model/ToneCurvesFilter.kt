@@ -38,11 +38,8 @@ internal class ToneCurvesFilter(
     companion object : Filter.Schema.Custom<Value> {
         override val info = FilterInfo(R.string.tone_curves, R.string.filter_help_tone_curves)
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::controlPoints,
-                curvesParam { ImageCurvesEditorState.Default.controlPoints }
-            )
+        override val parameters = structuredParameters {
+            Value::controlPoints.curves { ImageCurvesEditorState.Default.controlPoints }
         }
     }
 }

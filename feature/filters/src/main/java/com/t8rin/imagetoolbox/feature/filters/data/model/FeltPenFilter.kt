@@ -45,17 +45,14 @@ internal class FeltPenFilter(
         override val info =
             FilterInfo(R.string.gmic_filter_felt_pen, R.string.filter_help_gmic_filter_felt_pen)
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.amplitude, 300, 0f..4000f),
-                    gmicNumber(R.string.density, 50, 0f..100f),
-                    gmicNumber(R.string.gmic_param_smoothness, 1, 0f..10f),
-                    gmicNumber(R.string.opacity, 0.1f, 0f..1f),
-                    gmicNumber(R.string.texture_edges, 20, 0f..100f),
-                    gmicInteger(R.string.texture_thickness, 5, 2f..32f)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.amplitude, 300, 0f..4000f),
+                gmicNumber(R.string.density, 50, 0f..100f),
+                gmicNumber(R.string.gmic_param_smoothness, 1, 0f..10f),
+                gmicNumber(R.string.opacity, 0.1f, 0f..1f),
+                gmicNumber(R.string.texture_edges, 20, 0f..100f),
+                gmicInteger(R.string.texture_thickness, 5, 2f..32f)
             )
         }
     }

@@ -39,11 +39,11 @@ internal class SwirlDistortionFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.swirl, R.string.filter_help_swirl)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::radius, floatParam(R.string.radius, 0.5f, 0f..1f))
-            field(Value::angle, floatParam(R.string.angle, 1f, -1f..1f))
-            field(Value::centerX, floatParam(R.string.center_x, 0.5f, 0.01f..1f))
-            field(Value::centerY, floatParam(R.string.center_y, 0.5f, 0.01f..1f))
+        override val parameters = structuredParameters {
+            Value::radius.float(R.string.radius, 0.5f, 0f..1f)
+            Value::angle.float(R.string.angle, 1f, -1f..1f)
+            Value::centerX.float(R.string.center_x, 0.5f, 0.01f..1f)
+            Value::centerY.float(R.string.center_y, 0.5f, 0.01f..1f)
         }
     }
 }

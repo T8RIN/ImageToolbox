@@ -48,9 +48,9 @@ internal class ContrastPreservingGrayscaleFilter(
             R.string.filter_help_contrast_preserving_grayscale
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::colorContrast, floatParam(R.string.color_contrast, 0.85f, 0f..1f))
-            field(Value::contrast, floatParam(R.string.contrast, 1f, 0.4f..2.5f))
+        override val parameters = structuredParameters {
+            Value::colorContrast.float(R.string.color_contrast, 0.85f, 0f..1f)
+            Value::contrast.float(R.string.contrast, 1f, 0.4f..2.5f)
         }
     }
 }

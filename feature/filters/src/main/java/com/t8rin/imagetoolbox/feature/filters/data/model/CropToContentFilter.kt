@@ -18,8 +18,7 @@
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import android.graphics.Bitmap
-import androidx.compose.ui.graphics.Color
-import com.t8rin.imagetoolbox.core.data.image.utils.ColorUtils.toModel
+import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.CropToContent.Value
@@ -48,11 +47,12 @@ internal class CropToContentFilter(
         override val info =
             FilterInfo(R.string.crop_to_content, R.string.filter_help_crop_to_content)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::tolerance, floatParam(R.string.tolerance, 0f, 0f..1f))
-            field(
-                Value::colorToIgnore,
-                colorParam(R.string.color_to_ignore, Color.Black.toModel(), allowAlpha = true)
+        override val parameters = structuredParameters {
+            Value::tolerance.float(R.string.tolerance, 0f, 0f..1f)
+            Value::colorToIgnore.color(
+                R.string.color_to_ignore,
+                ColorModel(0xFF000000.toInt()),
+                allowAlpha = true
             )
         }
     }

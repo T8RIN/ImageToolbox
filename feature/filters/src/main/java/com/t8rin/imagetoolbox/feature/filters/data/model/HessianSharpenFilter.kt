@@ -45,15 +45,12 @@ internal class HessianSharpenFilter(
             R.string.filter_help_gmic_filter_hessian_sharpen
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicInteger(R.string.gmic_param_number_of_scales, 3, 2f..10f),
-                    gmicNumber(R.string.strength, 1, 0f..10f),
-                    gmicNumber(R.string.gmic_param_repeat, 1, 1f..5f),
-                    gmicToggle(R.string.cut, false)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicInteger(R.string.gmic_param_number_of_scales, 3, 2f..10f),
+                gmicNumber(R.string.strength, 1, 0f..10f),
+                gmicNumber(R.string.gmic_param_repeat, 1, 1f..5f),
+                gmicToggle(R.string.cut, false)
             )
         }
     }

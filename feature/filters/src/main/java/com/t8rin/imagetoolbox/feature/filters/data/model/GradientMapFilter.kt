@@ -72,8 +72,8 @@ internal class GradientMapFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.gradient_map, R.string.filter_help_gradient_map)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::palette, paletteParam(default = { GradientPalette.Spectral }))
+        override val parameters = structuredParameters {
+            Value::palette.palette { GradientPalette.Spectral }
         }
     }
 }

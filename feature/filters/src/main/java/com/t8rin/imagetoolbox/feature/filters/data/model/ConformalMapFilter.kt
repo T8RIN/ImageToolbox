@@ -53,39 +53,36 @@ internal class ConformalMapFilter(
             R.string.filter_help_gmic_filter_conformal_map
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicSelection(
-                        R.string.gmic_param_mapping,
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicSelection(
+                    R.string.gmic_param_mapping,
+                    "Dipole",
+                    listOf(
+                        "Identity",
+                        "Mobius",
+                        "Cosine",
+                        "Sine",
+                        "Tangent",
+                        "Exponential",
+                        "Logarithm",
                         "Dipole",
-                        listOf(
-                            "Identity",
-                            "Mobius",
-                            "Cosine",
-                            "Sine",
-                            "Tangent",
-                            "Exponential",
-                            "Logarithm",
-                            "Dipole",
-                            "Star"
-                        )
-                    ),
-                    gmicNumber(R.string.gmic_param_exponent_real, 1, -16f..16f),
-                    gmicNumber(R.string.gmic_param_exponent_imaginary, 0, -16f..16f),
-                    gmicNumber(R.string.zoom, 0, -4f..4f),
-                    gmicNumber(R.string.angle, 0, -180f..180f),
-                    gmicNumber(R.string.aspect_ratio, 0, -1f..1f),
-                    gmicNumber(R.string.gmic_param_x_shift, 0, -5f..5f),
-                    gmicNumber(R.string.gmic_param_y_shift, 0, -5f..5f),
-                    gmicSelection(
-                        R.string.gmic_param_boundary,
-                        "Mirror",
-                        listOf("Transparent", "Nearest", "Periodic", "Mirror")
-                    ),
-                    gmicInteger(R.string.antialias, 0, 0f..3f)
-                )
+                        "Star"
+                    )
+                ),
+                gmicNumber(R.string.gmic_param_exponent_real, 1, -16f..16f),
+                gmicNumber(R.string.gmic_param_exponent_imaginary, 0, -16f..16f),
+                gmicNumber(R.string.zoom, 0, -4f..4f),
+                gmicNumber(R.string.angle, 0, -180f..180f),
+                gmicNumber(R.string.aspect_ratio, 0, -1f..1f),
+                gmicNumber(R.string.gmic_param_x_shift, 0, -5f..5f),
+                gmicNumber(R.string.gmic_param_y_shift, 0, -5f..5f),
+                gmicSelection(
+                    R.string.gmic_param_boundary,
+                    "Mirror",
+                    listOf("Transparent", "Nearest", "Periodic", "Mirror")
+                ),
+                gmicInteger(R.string.antialias, 0, 0f..3f)
             )
         }
     }

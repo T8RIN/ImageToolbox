@@ -45,15 +45,12 @@ internal class HighlightSynthesisFilter(
             R.string.filter_help_gmic_filter_highlight_synthesis
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.color_red, 1.1f, 0f..2f),
-                    gmicNumber(R.string.color_green, 0.7f, 0f..2f),
-                    gmicNumber(R.string.color_blue, 1.15f, 0f..2f),
-                    gmicToggle(R.string.gmic_param_rgb_to_srgb, true)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.color_red, 1.1f, 0f..2f),
+                gmicNumber(R.string.color_green, 0.7f, 0f..2f),
+                gmicNumber(R.string.color_blue, 1.15f, 0f..2f),
+                gmicToggle(R.string.gmic_param_rgb_to_srgb, true)
             )
         }
     }

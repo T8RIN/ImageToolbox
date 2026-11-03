@@ -47,13 +47,10 @@ internal class GlitchVariantFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.glitch_variant, R.string.filter_help_glitch_variant)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::repeatCount, floatParam(R.string.repeat_count, 30f, 0f..100f, roundTo = 0))
-            field(Value::maxOffset, floatParam(R.string.max_offset, 0.25f, 0f..1f, roundTo = 3))
-            field(
-                Value::channelShift,
-                floatParam(R.string.channel_shift, 0.3f, 0f..1f, roundTo = 3)
-            )
+        override val parameters = structuredParameters {
+            Value::repeatCount.float(R.string.repeat_count, 30f, 0f..100f, roundTo = 0)
+            Value::maxOffset.float(R.string.max_offset, 0.25f, 0f..1f, roundTo = 3)
+            Value::channelShift.float(R.string.channel_shift, 0.3f, 0f..1f, roundTo = 3)
         }
     }
 }

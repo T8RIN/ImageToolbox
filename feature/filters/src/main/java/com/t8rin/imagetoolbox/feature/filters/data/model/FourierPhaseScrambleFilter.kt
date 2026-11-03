@@ -49,18 +49,12 @@ internal class FourierPhaseScrambleFilter(
         override val info =
             FilterInfo(R.string.fourier_phase_scramble, R.string.filter_help_fourier_phase_scramble)
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::minFrequency,
-                floatParam(R.string.min_frequency, 0.014f, 0f..0.7f, roundTo = 3)
-            )
-            field(
-                Value::maxFrequency,
-                floatParam(R.string.max_frequency, 0.5f, 0f..0.71f, roundTo = 3)
-            )
-            field(Value::phase, floatParam(R.string.phase, 0.85f, 0f..1f))
-            field(Value::seed, intParam(R.string.seed, 0, 0..10000))
-            field(Value::strength, floatParam(R.string.strength, 1f, 0f..1f))
+        override val parameters = structuredParameters {
+            Value::minFrequency.float(R.string.min_frequency, 0.014f, 0f..0.7f, roundTo = 3)
+            Value::maxFrequency.float(R.string.max_frequency, 0.5f, 0f..0.71f, roundTo = 3)
+            Value::phase.float(R.string.phase, 0.85f, 0f..1f)
+            Value::seed.seed(R.string.seed, 0, 0..10000)
+            Value::strength.float(R.string.strength, 1f, 0f..1f)
         }
     }
 }

@@ -48,20 +48,17 @@ internal class LensDistortionFilter(
             R.string.filter_help_gmic_filter_lens_distortion
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.amplitude, 0.1f, -1f..1f),
-                    gmicNumber(R.string.aspect_ratio, 0, -2f..2f),
-                    gmicNumber(R.string.gmic_param_zoom, 0, -4f..4f),
-                    gmicNumber(R.string.center_x, 50, 0f..100f),
-                    gmicNumber(R.string.center_y, 50, 0f..100f),
-                    gmicSelection(
-                        R.string.gmic_param_boundary,
-                        "Transparent",
-                        listOf("Transparent", "Nearest", "Periodic", "Mirror")
-                    )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.amplitude, 0.1f, -1f..1f),
+                gmicNumber(R.string.aspect_ratio, 0, -2f..2f),
+                gmicNumber(R.string.gmic_param_zoom, 0, -4f..4f),
+                gmicNumber(R.string.center_x, 50, 0f..100f),
+                gmicNumber(R.string.center_y, 50, 0f..100f),
+                gmicSelection(
+                    R.string.gmic_param_boundary,
+                    "Transparent",
+                    listOf("Transparent", "Nearest", "Periodic", "Mirror")
                 )
             )
         }

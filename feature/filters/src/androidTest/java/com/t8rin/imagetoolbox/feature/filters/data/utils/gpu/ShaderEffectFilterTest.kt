@@ -19,14 +19,17 @@ package com.t8rin.imagetoolbox.feature.filters.data.utils.gpu
 
 import com.t8rin.imagetoolbox.feature.filters.data.AndroidFilterProvider
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.feature.filters.data.model.GeneratedFilterCatalog
+import com.t8rin.imagetoolbox.feature.filters.data.model.GeneratedFilterRegistry
+import com.t8rin.imagetoolbox.feature.filters.data.model.FilterField
+import com.t8rin.imagetoolbox.feature.filters.data.model.StructuredParameters
+import com.t8rin.imagetoolbox.feature.filters.presentation.model.GeneratedFilterCatalog
+import com.t8rin.imagetoolbox.feature.filters.data.utils.serialization.StoredParameterValues
 import android.graphics.Bitmap
 import android.graphics.Color
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
-import kotlin.io.encoding.Base64
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
@@ -100,7 +103,7 @@ class ShaderEffectFilterTest {
         val settings = "intensity=0;displacement=0;distortion=0;lighting=0;" +
                 "offsetX=0.23;offsetY=-0.17;rotation=37;scale=1.7"
         for (filter in shaders.filter { it.javaClass.simpleName !in coordinateMappings }) {
-            val result = render(source, filter, fromLegacy(filter, settings))
+            val result = render(source, filter, withFields(filter, settings))
             assertPixels(source, result, filter.javaClass.simpleName)
             result.recycle()
         }
@@ -111,9 +114,9 @@ class ShaderEffectFilterTest {
     fun seededDistortionIsRepeatableAndRespondsToSeed() = runBlocking {
         val source = source()
         val filter = shaders.single { it.javaClass.simpleName == "UiBrokenGlassFilter" }
-        val first = render(source, filter, fromLegacy(filter, "seed=17"))
-        val repeat = render(source, filter, fromLegacy(filter, "seed=17"))
-        val changed = render(source, filter, fromLegacy(filter, "seed=91"))
+        val first = render(source, filter, withFields(filter, "seed=17"))
+        val repeat = render(source, filter, withFields(filter, "seed=17"))
+        val changed = render(source, filter, withFields(filter, "seed=91"))
         assertPixels(first, repeat, "same seed")
         assertTrue((0 until source.height).any { y ->
             (0 until source.width).any { x -> first.getPixel(x, y) != changed.getPixel(x, y) }
@@ -126,7 +129,7 @@ class ShaderEffectFilterTest {
         val source = source(33, 31)
         val settings = "intensity=0;displacement=0;distortion=0;lighting=0"
         for (filter in shaders.filter { it.javaClass.simpleName !in coordinateMappings }) {
-            val result = render(source, filter, fromLegacy(filter, settings))
+            val result = render(source, filter, withFields(filter, settings))
             assertPixels(source, result, "odd width: ${filter.javaClass.simpleName}")
             result.recycle()
         }
@@ -146,33 +149,54 @@ class ShaderEffectFilterTest {
     )
 
     private fun extreme(filter: UiFilter<*>, upper: Boolean): Filter.ParameterValue {
-        val (name, encoded) = requireNotNull(GeneratedFilterCatalog.encodeParams(filter))
-        val parameters = encoded.split('$').zip(filter.schema.parameters?.controls.orEmpty())
-            .joinToString("$") { (value, info) ->
-                val range = info.valueRange
-                val end = if (upper) range.endInclusive else range.start
-                when {
-                    range.start == range.endInclusive -> value
-                    value.toIntOrNull() != null -> end.toInt().toString()
-                    else -> end.toString()
-                }
+        val parameters = parameters(filter)
+        val values = encodedFields(filter).toMutableMap()
+        parameters.fields.forEach { (property, field) ->
+            val range = field.info.valueRange
+            val end = if (upper) range.endInclusive else range.start
+            when (field) {
+                is FilterField.Number -> values[property.name] = end.toString()
+                is FilterField.Integer -> values[property.name] = end.toInt().toString()
+                else -> Unit
             }
-        return restoreParams(filter, name to parameters)
+        }
+        return restoreParams(filter, values)
     }
 
-    private fun fromLegacy(filter: UiFilter<*>, settings: String): Filter.ParameterValue =
-        restoreParams(filter, "ProceduralParams" to Base64.encode(settings.encodeToByteArray()))
+    private fun withFields(filter: UiFilter<*>, settings: String): Filter.ParameterValue {
+        val fields = encodedFields(filter).toMutableMap()
+        settings.split(';').forEach { setting ->
+            val (name, value) = setting.split('=', limit = 2)
+            if (name in fields) fields[name] = value
+        }
+        return restoreParams(filter, fields)
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    private fun parameters(filter: UiFilter<*>): StructuredParameters<Filter.ParameterValue> =
+        filter.schema.parameters as StructuredParameters<Filter.ParameterValue>
+
+    @Suppress("UNCHECKED_CAST")
+    private fun encodedFields(filter: UiFilter<*>): Map<String, String?> =
+        parameters(filter).fields.map { (property, field) ->
+            property.name to (field as FilterField<Any?>).encodeValue(
+                property.get(filter.value as Filter.ParameterValue)
+            )
+        }.toMap()
 
     private fun restoreParams(
         filter: UiFilter<*>,
-        params: Pair<String, String>
-    ): Filter.ParameterValue =
-        requireNotNull(
-            GeneratedFilterCatalog.restoreStored(
+        fields: Map<String, String?>
+    ): Filter.ParameterValue {
+        val name = requireNotNull(GeneratedFilterRegistry.encodeParams(filter)).first
+        return requireNotNull(
+            GeneratedFilterRegistry.restoreStored(
                 filter.serializationKey,
-                params
+                name to StoredParameterValues.encode(fields),
+                GeneratedFilterCatalog
             )?.value as? Filter.ParameterValue
         )
+    }
 
     private fun source(width: Int = 48, height: Int = 32) =
         Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888).apply {

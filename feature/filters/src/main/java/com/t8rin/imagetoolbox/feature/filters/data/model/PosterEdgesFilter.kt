@@ -48,18 +48,15 @@ internal class PosterEdgesFilter(
             R.string.filter_help_gmic_filter_poster_edges
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.softness, 20, 0f..100f),
-                    gmicNumber(R.string.threshold, 60, 0f..100f),
-                    gmicNumber(R.string.gmic_param_edge_shade, 5, 0f..30f),
-                    gmicNumber(R.string.gmic_param_edge_thickness, 0, 0f..5f),
-                    gmicNumber(R.string.gmic_param_edge_antialiasing, 10, 0f..100f),
-                    gmicInteger(R.string.levels, 0, 0f..15f),
-                    gmicNumber(R.string.gmic_param_posterization_antialiasing, 0, 0f..100f)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.softness, 20, 0f..100f),
+                gmicNumber(R.string.threshold, 60, 0f..100f),
+                gmicNumber(R.string.gmic_param_edge_shade, 5, 0f..30f),
+                gmicNumber(R.string.gmic_param_edge_thickness, 0, 0f..5f),
+                gmicNumber(R.string.gmic_param_edge_antialiasing, 10, 0f..100f),
+                gmicInteger(R.string.levels, 0, 0f..15f),
+                gmicNumber(R.string.gmic_param_posterization_antialiasing, 0, 0f..100f)
             )
         }
     }

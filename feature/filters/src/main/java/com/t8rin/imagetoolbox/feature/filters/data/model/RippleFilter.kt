@@ -42,11 +42,11 @@ internal class RippleFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.ripple, R.string.filter_help_ripple)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::xAmplitude, floatParam(R.string.x_amplitude, 5f, 0f..100f, roundTo = 1))
-            field(Value::xWavelength, floatParam(R.string.x_wavelength, 16f, 1f..200f, roundTo = 1))
-            field(Value::yAmplitude, floatParam(R.string.y_amplitude, 5f, 0f..100f, roundTo = 1))
-            field(Value::yWavelength, floatParam(R.string.y_wavelength, 16f, 1f..200f, roundTo = 1))
+        override val parameters = structuredParameters {
+            Value::xAmplitude.float(R.string.x_amplitude, 5f, 0f..100f, roundTo = 1)
+            Value::xWavelength.float(R.string.x_wavelength, 16f, 1f..200f, roundTo = 1)
+            Value::yAmplitude.float(R.string.y_amplitude, 5f, 0f..100f, roundTo = 1)
+            Value::yWavelength.float(R.string.y_wavelength, 16f, 1f..200f, roundTo = 1)
         }
     }
 }

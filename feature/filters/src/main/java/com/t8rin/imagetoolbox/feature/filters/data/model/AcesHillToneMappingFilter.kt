@@ -45,8 +45,8 @@ internal class AcesHillToneMappingFilter(
         override val info =
             FilterInfo(R.string.aces_hill_tone_mapping, R.string.filter_help_aces_hill_tone_mapping)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::exposure, floatParam(default = 1f, range = -4f..4f))
+        override val parameters = structuredParameters {
+            Value::exposure.float(default = 1f, range = -4f..4f)
         }
     }
 }

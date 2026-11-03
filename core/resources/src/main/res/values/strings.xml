@@ -7829,4 +7829,19 @@
     <string name="demosaicing">Demosaicing</string>
     <string name="edge_aware">Edge-aware</string>
     <string name="mask_source">Mask source</string>
+    <string name="blend_multiply" translatable="false">Multiply</string>
+    <string name="blend_color_burn" translatable="false">Color Burn</string>
+    <string name="blend_soft_light" translatable="false">Soft Light</string>
+    <string name="blend_hsl_color" translatable="false">HSL Color</string>
+    <string name="blend_hsl_hue" translatable="false">HSL Hue</string>
+    <string name="color_space_lalphabeta" translatable="false">Lαβ</string>
+    <string name="color_space_lab" translatable="false">LAB</string>
+    <string name="color_space_oklab" translatable="false">OKLAB</string>
+    <string name="color_space_luv" translatable="false">LUV</string>
+    <string name="transfer_srgb" translatable="false">sRGB</string>
+    <string name="transfer_rec709" translatable="false">Rec.709</string>
+    <string name="transfer_gamma_2_2" translatable="false">Gamma 2.2</string>
+    <string name="transfer_gamma_2_8" translatable="false">Gamma 2.8</string>
+    <string name="opencv" translatable="false">OpenCV</string>
+    <string name="lama" translatable="false">LaMa</string>
 </resources>

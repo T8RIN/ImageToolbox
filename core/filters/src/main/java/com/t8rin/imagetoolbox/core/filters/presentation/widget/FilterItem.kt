@@ -58,7 +58,6 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.utils.roundTo
 import com.t8rin.imagetoolbox.core.filters.domain.model.shader.ShaderPreset
-import com.t8rin.imagetoolbox.core.filters.presentation.model.GmicUiFilter
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
 import com.t8rin.imagetoolbox.core.resources.Icons
@@ -119,9 +118,7 @@ fun <T : Any> FilterItem(
 
     val controls = filter.schema.parameters?.controls.orEmpty()
     val hasSeedSelector = remember(filter) {
-        controls.any {
-            it.title == R.string.seed || it.title == R.string.procedural_seed
-        } || (filter as? GmicUiFilter)?.gmicParamsInfo?.any { it.title == R.string.seed } == true
+        controls.any { it.isSeed }
     }
     val keepSeedSelector =
         !previewOnly && LocalSettingsState.current.randomizeSeedAfterSave && hasSeedSelector

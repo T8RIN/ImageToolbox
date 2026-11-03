@@ -201,17 +201,14 @@ internal class TornEdgeFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.torn_edge, R.string.filter_help_torn_edge)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::toothHeight, intParam(R.string.tooth_height, 16, 1..96))
-            field(
-                Value::horizontalToothRange,
-                intParam(R.string.horizontal_tooth_range, 22, 2..128)
-            )
-            field(Value::verticalToothRange, intParam(R.string.vertical_tooth_range, 22, 2..128))
-            field(Value::top, booleanParam(R.string.top_edge, true))
-            field(Value::right, booleanParam(R.string.right_edge, true))
-            field(Value::bottom, booleanParam(R.string.bottom_edge, true))
-            field(Value::left, booleanParam(R.string.left_edge, true))
+        override val parameters = structuredParameters {
+            Value::toothHeight.int(R.string.tooth_height, 16, 1..96)
+            Value::horizontalToothRange.int(R.string.horizontal_tooth_range, 22, 2..128)
+            Value::verticalToothRange.int(R.string.vertical_tooth_range, 22, 2..128)
+            Value::top.boolean(R.string.top_edge, true)
+            Value::right.boolean(R.string.right_edge, true)
+            Value::bottom.boolean(R.string.bottom_edge, true)
+            Value::left.boolean(R.string.left_edge, true)
         }
     }
 }

@@ -48,9 +48,9 @@ internal class DeskewFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.deskew, R.string.filter_help_deskew)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::max, floatParam(R.string.max, 15f, 0f..89f, roundTo = 0))
-            field(Value::allowCrop, booleanParam(R.string.allow_crop, true))
+        override val parameters = structuredParameters {
+            Value::max.float(R.string.max, 15f, 0f..89f, roundTo = 0)
+            Value::allowCrop.boolean(R.string.allow_crop, true)
         }
     }
 }

@@ -42,14 +42,11 @@ internal class RetroFadeFilter(
         override val info =
             FilterInfo(R.string.gmic_filter_retro_fade, R.string.filter_help_gmic_filter_retro_fade)
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicInteger(R.string.iterations, 20, 1f..64f),
-                    gmicInteger(R.string.gmic_param_colors, 6, 2f..32f),
-                    gmicNumber(R.string.grain, 40, 1f..100f)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicInteger(R.string.iterations, 20, 1f..64f),
+                gmicInteger(R.string.gmic_param_colors, 6, 2f..32f),
+                gmicNumber(R.string.grain, 40, 1f..100f)
             )
         }
     }

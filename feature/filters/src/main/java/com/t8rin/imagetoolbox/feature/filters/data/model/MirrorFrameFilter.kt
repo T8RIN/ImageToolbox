@@ -49,19 +49,16 @@ internal class MirrorFrameFilter(
             R.string.filter_help_gmic_filter_mirror_frame
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.gmic_param_horizontal_size, 10, 0f..100f),
-                    gmicNumber(R.string.gmic_param_vertical_size, 10, 0f..100f),
-                    gmicNumber(R.string.gmic_param_horizontal_alignment, 50, 0f..100f),
-                    gmicNumber(R.string.gmic_param_vertical_alignment, 50, 0f..100f),
-                    gmicNumber(R.string.gmic_param_left_dilation, 0, -5f..5f),
-                    gmicNumber(R.string.gmic_param_right_dilation, 0, -5f..5f),
-                    gmicNumber(R.string.gmic_param_upper_dilation, 0, -5f..5f),
-                    gmicNumber(R.string.gmic_param_lower_dilation, 0, -5f..5f)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.gmic_param_horizontal_size, 10, 0f..100f),
+                gmicNumber(R.string.gmic_param_vertical_size, 10, 0f..100f),
+                gmicNumber(R.string.gmic_param_horizontal_alignment, 50, 0f..100f),
+                gmicNumber(R.string.gmic_param_vertical_alignment, 50, 0f..100f),
+                gmicNumber(R.string.gmic_param_left_dilation, 0, -5f..5f),
+                gmicNumber(R.string.gmic_param_right_dilation, 0, -5f..5f),
+                gmicNumber(R.string.gmic_param_upper_dilation, 0, -5f..5f),
+                gmicNumber(R.string.gmic_param_lower_dilation, 0, -5f..5f)
             )
         }
     }

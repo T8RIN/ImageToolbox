@@ -39,8 +39,8 @@ internal class PolarCoordinatesFilter(
         override val info =
             FilterInfo(R.string.polar_coordinates, R.string.filter_help_polar_coordinates)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::type, enumParam(default = { PolarCoordinatesType.RECT_TO_POLAR }))
+        override val parameters = structuredParameters {
+            Value::type.enum(label = { it.label }) { PolarCoordinatesType.RECT_TO_POLAR }
         }
     }
 }

@@ -44,8 +44,8 @@ internal class EmbossFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.emboss, R.string.filter_help_emboss)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::intensity, floatParam(default = 1f, range = 0f..4f))
+        override val parameters = structuredParameters {
+            Value::intensity.float(default = 1f, range = 0f..4f)
         }
     }
 }

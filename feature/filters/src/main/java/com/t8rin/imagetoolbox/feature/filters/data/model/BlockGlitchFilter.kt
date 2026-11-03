@@ -45,9 +45,9 @@ internal class BlockGlitchFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.block_glitch, R.string.filter_help_block_glitch)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::blockSize, floatParam(R.string.block_size, 0.02f, 0f..1f, roundTo = 3))
-            field(Value::strength, floatParam(R.string.strength, 0.5f, 0f..1f, roundTo = 3))
+        override val parameters = structuredParameters {
+            Value::blockSize.float(R.string.block_size, 0.02f, 0f..1f, roundTo = 3)
+            Value::strength.float(R.string.strength, 0.5f, 0f..1f, roundTo = 3)
         }
     }
 }

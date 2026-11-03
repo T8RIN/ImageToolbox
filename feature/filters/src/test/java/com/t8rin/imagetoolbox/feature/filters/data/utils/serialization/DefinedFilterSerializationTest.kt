@@ -27,11 +27,11 @@ import com.t8rin.imagetoolbox.core.filters.presentation.model.UiHelixWavesFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiPalCompositeFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.AgxToneMappingFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.BokehLightsFilter
-import com.t8rin.imagetoolbox.feature.filters.data.model.GeneratedFilterCatalog
-import kotlin.io.encoding.Base64
+import com.t8rin.imagetoolbox.feature.filters.presentation.model.GeneratedFilterCatalog
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
+import org.junit.Assert.assertThrows
 import org.junit.Test
 
 class DefinedFilterSerializationTest {
@@ -53,7 +53,14 @@ class DefinedFilterSerializationTest {
                 "$uiPrefix.Ui${name}Filter:$value,$transformationPrefix.${name}Filter:$value"
             val restored = template.toFiltersList(includeValue = true)
             val encoded = restored.toDatastoreString(includeValue = true)
-            val params = name + "Params:0.65\$12\$16\$160"
+            val params = name + "Params:" + StoredParameterValues.encode(
+                mapOf(
+                    "threshold" to "0.65",
+                    "gridSizeHorizontal" to "12",
+                    "gridSizeVertical" to "16",
+                    "binsCount" to "160"
+                )
+            )
             assertEquals(2, restored.size)
             assertEquals(
                 "$uiPrefix.Ui${name}Filter:$params,$transformationPrefix.${name}Filter:$params",
@@ -64,11 +71,23 @@ class DefinedFilterSerializationTest {
     }
 
     @Test
-    fun migratesTemplatesWithUiAndTransformationKeys() {
+    fun namedTemplatesKeepUiAndTransformationKeys() {
         val color = 0x804492cc.toInt()
         val saved = "Analog+" +
-                "$uiPrefix.UiHelixWavesFilter:${legacy("frequency=17.5;mode=2.0;offsetX=-0.4")}," +
-                "$transformationPrefix.BokehLightsFilter:${legacy("count=12.0;color:lightColor=$color")}," +
+                "$uiPrefix.UiHelixWavesFilter:HelixWavesParams:${
+                    StoredParameterValues.encode(
+                        mapOf(
+                            "frequency" to "17.5",
+                            "mode" to "2",
+                            "offsetX" to "-0.4"
+                        )
+                    )
+                }," +
+                "$transformationPrefix.BokehLightsFilter:BokehLightsParams:${
+                    StoredParameterValues.encode(
+                        mapOf("count" to "12", "lightColor" to color.toString())
+                    )
+                }," +
                 "$uiPrefix.UiBrightnessFilter:Float:0.3"
 
         val template = saved.toTemplateFiltersList().single()
@@ -130,8 +149,9 @@ class DefinedFilterSerializationTest {
             )
         }
 
-        val old = "$uiPrefix.UiSimpleWeavePixelizationFilter:SimpleWeavePixelationParams:37.0"
-        val expected = "$uiPrefix.UiSimpleWeavePixelationFilter:SimpleWeavePixelationParams:37.0"
+        val old = "$uiPrefix.UiSimpleWeavePixelizationFilter:Float:37.0"
+        val expected = "$uiPrefix.UiSimpleWeavePixelationFilter:SimpleWeavePixelationParams:" +
+                StoredParameterValues.encode(mapOf("layers" to "37.0"))
         assertEquals(expected, old.toFiltersList(true).toDatastoreString(true))
     }
 
@@ -144,15 +164,14 @@ class DefinedFilterSerializationTest {
             "$transformationPrefix.ClaheFilter:$triple:0.65\$12.0\$16.0",
             "$uiPrefix.UiWaterEffectFilter:WaterParams:0.3\$2.0\$1.0\$0.4\$0.5"
         ).joinToString(",")
-        val expected = listOf(
-            "$uiPrefix.UiEnhancedGlitchFilter:EnhancedGlitchParams:-0.12\$0.15\$0.2\$8\$0.1\$0.2",
-            "$transformationPrefix.GlitchFilter:GlitchParams:23.0\$17.0\$11.0",
-            "$transformationPrefix.ClaheFilter:ClaheParams:0.65\$12.0\$16.0",
-            "$uiPrefix.UiWaterEffectFilter:WaterEffectParams:0.3\$2.0\$1.0\$0.4\$0.5"
-        ).joinToString(",")
-
-        assertEquals(expected, saved.toFiltersList(true).toDatastoreString(true))
-        assertEquals(expected, expected.toFiltersList(true).toDatastoreString(true))
+        val restored = saved.toFiltersList(true)
+        assertEquals(-0.12f, (restored[0] as Filter.EnhancedGlitch).value.channelsShiftX)
+        assertEquals(23f, (restored[1] as Filter.Glitch).value.amount)
+        assertEquals(12f, (restored[2] as Filter.Clahe).value.gridSizeX)
+        assertEquals(2f, (restored[3] as Filter.WaterEffect).value.frequencyX)
+        val encoded = restored.toDatastoreString(true)
+        assertEquals(restored.map { it.value }, encoded.toFiltersList(true).map { it.value })
+        assertEquals(encoded, encoded.toFiltersList(true).toDatastoreString(true))
     }
 
     @Test
@@ -182,24 +201,26 @@ class DefinedFilterSerializationTest {
         for ((name, oldParams, payload) in samples) {
             val keys = listOf("$uiPrefix.Ui${name}Filter", "$transformationPrefix.${name}Filter")
             val saved = keys.joinToString(",") { "$it:$oldParams:$payload" }
-            val expected = keys.joinToString(",") { "$it:${name}Params:$payload" }
             val restored = saved.toFiltersList(includeValue = true)
 
             assertEquals(name, 2, restored.size)
             assertEquals(name, restored[0].value, restored[1].value)
-            assertEquals(name, expected, restored.toDatastoreString(includeValue = true))
-            assertEquals(name, expected, expected.toFiltersList(true).toDatastoreString(true))
+            val encoded = restored.toDatastoreString(includeValue = true)
+            assertEquals(
+                name,
+                restored.map { it.value },
+                encoded.toFiltersList(true).map { it.value })
+            assertEquals(name, encoded, encoded.toFiltersList(true).toDatastoreString(true))
         }
     }
 
     @Test
-    fun migrationPreservesDefaultsBoundsAndIntegerRounding() {
-        val saved =
-            "$uiPrefix.UiHelixWavesFilter:${legacy("frequency=NaN;intensity=5.0;mode=1.5;scale=bad;unknown=10")}"
+    fun namedTemplatesUseDefaultsForMissingFieldsAndCopiesKeepVisibility() {
+        val saved = "$uiPrefix.UiHelixWavesFilter:HelixWavesParams:" +
+                StoredParameterValues.encode(mapOf("frequency" to "17.5", "mode" to "2"))
         val filter = saved.toFiltersList(includeValue = true).single() as UiHelixWavesFilter
-        assertEquals(UiHelixWavesFilter().value.copy(intensity = 1f, mode = 2), filter.value)
+        assertEquals(UiHelixWavesFilter().value.copy(frequency = 17.5f, mode = 2), filter.value)
         assertEquals(UiHelixWavesFilter().value, filter.newInstance().value)
-
         filter.isVisible = false
         val copied = filter.copy(filter.value.copy(frequency = 10f))
         assertFalse(copied.isVisible)
@@ -207,7 +228,7 @@ class DefinedFilterSerializationTest {
     }
 
     @Test
-    fun generatedCodecPreservesExistingTypedTemplateLayout() {
+    fun generatedCodecRestoresPublishedTypedValuesAndWritesNamedFields() {
         val saved = "$uiPrefix.UiPalCompositeFilter:PalCompositeParams:" +
                 "0.42\$5\$0.04\$-20\$640\$0.7\$9\$0.95"
         val filter = saved.toFiltersList(includeValue = true).single() as UiPalCompositeFilter
@@ -224,14 +245,19 @@ class DefinedFilterSerializationTest {
             ),
             filter.value
         )
-        assertEquals(saved, listOf(filter).toDatastoreString(includeValue = true))
+        val encoded = listOf(filter).toDatastoreString(includeValue = true)
+        assertTrue(encoded.contains("PalCompositeParams:v1|"))
+        assertEquals(filter.value, encoded.toFiltersList(true).single().value)
     }
 
     @Test
-    fun malformedPayloadKeepsFilterWithDefaults() {
-        val filter = "$uiPrefix.UiHelixWavesFilter:ProceduralParams:invalid!"
-            .toFiltersList(includeValue = true).single()
-        assertEquals(UiHelixWavesFilter().value, filter.value)
+    fun unpublishedProceduralPayloadIsNotAcceptedAsACompatibilityFormat() {
+        assertThrows(IllegalArgumentException::class.java) {
+            "$uiPrefix.UiHelixWavesFilter:ProceduralParams:invalid!".toFiltersList(true)
+        }
+        assertThrows(IllegalArgumentException::class.java) {
+            "$uiPrefix.UiBrightnessFilter:BrightnessParams:0.5".toFiltersList(true)
+        }
     }
 
     @Test
@@ -262,9 +288,6 @@ class DefinedFilterSerializationTest {
         )
         assertEquals(AgxToneMappingFilter(params).cacheKey, filter.cacheKey)
     }
-
-    private fun legacy(params: String): String =
-        "ProceduralParams:${Base64.encode(params.encodeToByteArray())}"
 
     private companion object {
         const val uiPrefix = "^^.core.filters.presentation.model"

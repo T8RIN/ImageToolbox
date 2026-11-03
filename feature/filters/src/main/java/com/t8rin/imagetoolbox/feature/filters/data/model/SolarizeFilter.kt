@@ -37,8 +37,8 @@ internal class SolarizeFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.solarize, R.string.filter_help_solarize)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::amount, floatParam(default = 0.5f, range = 0f..1f))
+        override val parameters = structuredParameters {
+            Value::amount.float(default = 0.5f, range = 0f..1f)
         }
     }
 }

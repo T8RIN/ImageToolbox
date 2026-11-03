@@ -42,12 +42,9 @@ internal class MakeSeamlessFilter(
             R.string.filter_help_gmic_filter_make_seamless
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.equalize, 0, 0f..100f)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.equalize, 0, 0f..100f)
             )
         }
     }

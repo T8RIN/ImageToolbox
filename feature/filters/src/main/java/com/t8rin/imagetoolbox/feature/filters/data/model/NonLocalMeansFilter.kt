@@ -49,20 +49,11 @@ internal class NonLocalMeansFilter(
         override val info =
             FilterInfo(R.string.non_local_means, R.string.filter_help_non_local_means)
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::luminanceNoise,
-                floatParam(R.string.luminance_noise, 7f, 0f..25f, roundTo = 1)
-            )
-            field(
-                Value::ntscChromaNoise,
-                floatParam(R.string.ntsc_chroma_noise, 9f, 0f..25f, roundTo = 1)
-            )
-            field(
-                Value::searchWindow,
-                floatParam(R.string.search_window, 15f, 7f..23f, roundTo = 0)
-            )
-            field(Value::strength, floatParam(R.string.strength, 1f, 0f..1f))
+        override val parameters = structuredParameters {
+            Value::luminanceNoise.float(R.string.luminance_noise, 7f, 0f..25f, roundTo = 1)
+            Value::ntscChromaNoise.float(R.string.ntsc_chroma_noise, 9f, 0f..25f, roundTo = 1)
+            Value::searchWindow.float(R.string.search_window, 15f, 7f..23f, roundTo = 0)
+            Value::strength.float(R.string.strength, 1f, 0f..1f)
         }
     }
 }

@@ -49,16 +49,16 @@ internal class VoronoiCrystallizeFilter(
         override val info =
             FilterInfo(R.string.voronoi_crystallize, R.string.filter_help_voronoi_crystallize)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::borderThickness, floatParam(R.string.border_thickness, 0.4f, 0f..5f))
-            field(Value::scale, floatParam(R.string.scale, 32f, 1f..300f))
-            field(Value::randomness, floatParam(R.string.randomness, 5f, 0f..10f))
-            field(Value::shape, intParam(R.string.shape, 0, 0..4))
-            field(Value::turbulence, floatParam(R.string.turbulence, 1f, 0f..1f))
-            field(Value::angle, floatParam(R.string.angle, 0f, 0f..360f, 0))
-            field(Value::stretch, floatParam(R.string.stretch, 1f, 1f..6f))
-            field(Value::amount, floatParam(R.string.amount, 1f, 0f..1f))
-            field(Value::color, colorParam(R.string.border_color, ColorModel(0xFF000000.toInt())))
+        override val parameters = structuredParameters {
+            Value::borderThickness.float(R.string.border_thickness, 0.4f, 0f..5f)
+            Value::scale.float(R.string.scale, 32f, 1f..300f)
+            Value::randomness.float(R.string.randomness, 5f, 0f..10f)
+            Value::shape.int(R.string.shape, 0, 0..4)
+            Value::turbulence.float(R.string.turbulence, 1f, 0f..1f)
+            Value::angle.float(R.string.angle, 0f, 0f..360f, 0)
+            Value::stretch.float(R.string.stretch, 1f, 1f..6f)
+            Value::amount.float(R.string.amount, 1f, 0f..1f)
+            Value::color.color(R.string.border_color, ColorModel(0xFF000000.toInt()))
         }
     }
 }

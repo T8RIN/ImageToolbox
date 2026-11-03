@@ -48,13 +48,13 @@ internal class ArcFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.arc, R.string.filter_help_arc)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::radius, floatParam(R.string.radius, 0.2f, 0f..1f))
-            field(Value::height, floatParam(R.string.just_size, 0.3f, 0f..1f))
-            field(Value::angle, floatParam(R.string.angle, 0f, 0f..360f))
-            field(Value::spreadAngle, floatParam(R.string.spread_angle, 360f, 0f..360f))
-            field(Value::centreX, floatParam(R.string.center_x, 0.5f, 0f..1f))
-            field(Value::centreY, floatParam(R.string.center_y, 0.5f, 0f..1f))
+        override val parameters = structuredParameters {
+            Value::radius.float(R.string.radius, 0.2f, 0f..1f)
+            Value::height.float(R.string.just_size, 0.3f, 0f..1f)
+            Value::angle.float(R.string.angle, 0f, 0f..360f)
+            Value::spreadAngle.float(R.string.spread_angle, 360f, 0f..360f)
+            Value::centreX.float(R.string.center_x, 0.5f, 0f..1f)
+            Value::centreY.float(R.string.center_y, 0.5f, 0f..1f)
         }
     }
 }

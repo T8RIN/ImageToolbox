@@ -48,25 +48,22 @@ internal class HoughSketchFilter(
             R.string.filter_help_gmic_filter_hough_sketch
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.gmic_param_smoothness, 1.25f, 0f..10f),
-                    gmicNumber(R.string.density, 18, 0f..100f),
-                    gmicInteger(R.string.radius, 5, 0f..30f),
-                    gmicNumber(R.string.threshold, 70, 0f..100f),
-                    gmicNumber(R.string.opacity, 0.35f, 0f..1f),
-                    gmicSelection(
-                        R.string.gmic_param_color_model,
-                        "ColorOnWhite",
-                        listOf(
-                            "BlackOnWhite",
-                            "WhiteOnBlack",
-                            "BlackOnTransparentWhite",
-                            "WhiteOnTransparentBlack",
-                            "ColorOnWhite"
-                        )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.gmic_param_smoothness, 1.25f, 0f..10f),
+                gmicNumber(R.string.density, 18, 0f..100f),
+                gmicInteger(R.string.radius, 5, 0f..30f),
+                gmicNumber(R.string.threshold, 70, 0f..100f),
+                gmicNumber(R.string.opacity, 0.35f, 0f..1f),
+                gmicSelection(
+                    R.string.gmic_param_color_model,
+                    "ColorOnWhite",
+                    listOf(
+                        "BlackOnWhite",
+                        "WhiteOnBlack",
+                        "BlackOnTransparentWhite",
+                        "WhiteOnTransparentBlack",
+                        "ColorOnWhite"
                     )
                 )
             )

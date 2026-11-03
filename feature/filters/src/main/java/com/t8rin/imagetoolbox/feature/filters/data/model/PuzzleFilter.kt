@@ -54,26 +54,23 @@ internal class PuzzleFilter(
         override val info =
             FilterInfo(R.string.gmic_filter_puzzle, R.string.filter_help_gmic_filter_puzzle)
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicInteger(R.string.gmic_param_x_tiles, 5, 2f..32f),
-                    gmicInteger(R.string.gmic_param_y_tiles, 5, 2f..32f),
-                    gmicNumber(R.string.curvature, 0.5f, 0f..1.5f),
-                    gmicNumber(R.string.gmic_param_connector_centering, 0, 0f..1f),
-                    gmicNumber(R.string.gmic_param_connector_variability, 0, 0f..2f),
-                    gmicNumber(R.string.gmic_param_relief_smoothness, 0.3f, 0f..3f),
-                    gmicNumber(R.string.gmic_param_relief_contrast, 100, 0f..255f),
-                    gmicNumber(R.string.gmic_param_outline_smoothness, 0.2f, 0f..3f),
-                    gmicNumber(R.string.gmic_param_outline_contrast, 255, 0f..255f),
-                    gmicNumber(R.string.scale, 100, 0f..150f),
-                    gmicNumber(R.string.gmic_param_scale_variation, 0, 0f..100f),
-                    gmicNumber(R.string.angle, 0, -180f..180f),
-                    gmicNumber(R.string.variation, 0, 0f..180f),
-                    gmicToggle(R.string.gmic_param_shuffle_pieces, false),
-                    gmicToggle(R.string.add_outline, false)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicInteger(R.string.gmic_param_x_tiles, 5, 2f..32f),
+                gmicInteger(R.string.gmic_param_y_tiles, 5, 2f..32f),
+                gmicNumber(R.string.curvature, 0.5f, 0f..1.5f),
+                gmicNumber(R.string.gmic_param_connector_centering, 0, 0f..1f),
+                gmicNumber(R.string.gmic_param_connector_variability, 0, 0f..2f),
+                gmicNumber(R.string.gmic_param_relief_smoothness, 0.3f, 0f..3f),
+                gmicNumber(R.string.gmic_param_relief_contrast, 100, 0f..255f),
+                gmicNumber(R.string.gmic_param_outline_smoothness, 0.2f, 0f..3f),
+                gmicNumber(R.string.gmic_param_outline_contrast, 255, 0f..255f),
+                gmicNumber(R.string.scale, 100, 0f..150f),
+                gmicNumber(R.string.gmic_param_scale_variation, 0, 0f..100f),
+                gmicNumber(R.string.angle, 0, -180f..180f),
+                gmicNumber(R.string.variation, 0, 0f..180f),
+                gmicToggle(R.string.gmic_param_shuffle_pieces, false),
+                gmicToggle(R.string.add_outline, false)
             )
         }
     }

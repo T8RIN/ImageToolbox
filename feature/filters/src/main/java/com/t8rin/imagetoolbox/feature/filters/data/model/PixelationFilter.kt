@@ -43,8 +43,8 @@ internal class PixelationFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.pixelation, R.string.filter_help_pixelation)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::size, floatParam(default = 25f, range = 5f..200f))
+        override val parameters = structuredParameters {
+            Value::size.float(default = 25f, range = 5f..200f)
         }
     }
 }

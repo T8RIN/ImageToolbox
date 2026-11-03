@@ -44,8 +44,8 @@ internal class VibranceFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.vibrance, R.string.filter_help_vibrance)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::vibrance, floatParam(default = 3f, range = -5f..5f))
+        override val parameters = structuredParameters {
+            Value::vibrance.float(default = 3f, range = -5f..5f)
         }
     }
 }

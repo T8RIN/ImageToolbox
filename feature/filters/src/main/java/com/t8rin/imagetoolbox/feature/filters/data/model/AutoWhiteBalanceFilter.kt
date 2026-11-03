@@ -46,9 +46,9 @@ internal class AutoWhiteBalanceFilter(
         override val info =
             FilterInfo(R.string.auto_white_balance, R.string.filter_help_auto_white_balance)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::strength, floatParam(R.string.strength, 1f, 0f..1f))
-            field(Value::clipping, floatParam(R.string.clipping, 0.05f, 0f..2f))
+        override val parameters = structuredParameters {
+            Value::strength.float(R.string.strength, 1f, 0f..1f)
+            Value::clipping.float(R.string.clipping, 0.05f, 0f..2f)
         }
     }
 }

@@ -51,26 +51,23 @@ internal class InkWashFilter(
         override val info =
             FilterInfo(R.string.gmic_filter_ink_wash, R.string.filter_help_gmic_filter_ink_wash)
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.just_size, 0.14f, 0f..4f),
-                    gmicNumber(R.string.amplitude, 23, 0f..200f),
-                    gmicToggle(R.string.gmic_param_skip_other_steps, false),
-                    gmicNumber(R.string.gmic_param_smoother_sharpness, 0.5f, 0f..2f),
-                    gmicNumber(R.string.gmic_param_edge_protection, 0.54f, 0f..1f),
-                    gmicNumber(R.string.softness, 2.25f, 0f..10f),
-                    gmicSelection(
-                        R.string.contrast,
-                        "None",
-                        listOf("None", "Automatic", "AutomaticWithContrastMask", "Manual")
-                    ),
-                    gmicNumber(R.string.gmic_param_local_normalization_amplitude, 2, 0f..60f),
-                    gmicNumber(R.string.gmic_param_local_normalization_size, 6, 0f..64f),
-                    gmicNumber(R.string.gmic_param_neighborhood_smoothness, 5, 0f..40f),
-                    gmicNumber(R.string.gmic_param_average_smoothness, 20, 0f..40f)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.just_size, 0.14f, 0f..4f),
+                gmicNumber(R.string.amplitude, 23, 0f..200f),
+                gmicToggle(R.string.gmic_param_skip_other_steps, false),
+                gmicNumber(R.string.gmic_param_smoother_sharpness, 0.5f, 0f..2f),
+                gmicNumber(R.string.gmic_param_edge_protection, 0.54f, 0f..1f),
+                gmicNumber(R.string.softness, 2.25f, 0f..10f),
+                gmicSelection(
+                    R.string.contrast,
+                    "None",
+                    listOf("None", "Automatic", "AutomaticWithContrastMask", "Manual")
+                ),
+                gmicNumber(R.string.gmic_param_local_normalization_amplitude, 2, 0f..60f),
+                gmicNumber(R.string.gmic_param_local_normalization_size, 6, 0f..64f),
+                gmicNumber(R.string.gmic_param_neighborhood_smoothness, 5, 0f..40f),
+                gmicNumber(R.string.gmic_param_average_smoothness, 20, 0f..40f)
             )
         }
     }

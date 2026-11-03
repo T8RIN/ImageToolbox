@@ -43,13 +43,10 @@ internal class DenoiseSmoothFilter(
             R.string.filter_help_gmic_filter_denoise_smooth
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicInteger(R.string.radius, 3, 1f..10f),
-                    gmicInteger(R.string.amount, 10, 1f..1000f)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicInteger(R.string.radius, 3, 1f..10f),
+                gmicInteger(R.string.amount, 10, 1f..1000f)
             )
         }
     }

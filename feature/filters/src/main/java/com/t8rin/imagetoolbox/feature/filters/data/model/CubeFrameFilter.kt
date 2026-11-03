@@ -47,33 +47,30 @@ internal class CubeFrameFilter(
         override val info =
             FilterInfo(R.string.gmic_filter_cube_frame, R.string.filter_help_gmic_filter_cube_frame)
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.texture_depth, 3, 0f..30f),
-                    gmicNumber(R.string.center_x, 50, 0f..100f),
-                    gmicNumber(R.string.center_y, 50, 0f..100f),
-                    gmicSelection(
-                        R.string.gmic_param_left_orientation,
-                        "Normal",
-                        listOf("Normal", "MirrorX", "MirrorY", "MirrorXY")
-                    ),
-                    gmicSelection(
-                        R.string.gmic_param_right_orientation,
-                        "Normal",
-                        listOf("Normal", "MirrorX", "MirrorY", "MirrorXY")
-                    ),
-                    gmicSelection(
-                        R.string.gmic_param_upper_orientation,
-                        "Normal",
-                        listOf("Normal", "MirrorX", "MirrorY", "MirrorXY")
-                    ),
-                    gmicSelection(
-                        R.string.gmic_param_lower_orientation,
-                        "Normal",
-                        listOf("Normal", "MirrorX", "MirrorY", "MirrorXY")
-                    )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.texture_depth, 3, 0f..30f),
+                gmicNumber(R.string.center_x, 50, 0f..100f),
+                gmicNumber(R.string.center_y, 50, 0f..100f),
+                gmicSelection(
+                    R.string.gmic_param_left_orientation,
+                    "Normal",
+                    listOf("Normal", "MirrorX", "MirrorY", "MirrorXY")
+                ),
+                gmicSelection(
+                    R.string.gmic_param_right_orientation,
+                    "Normal",
+                    listOf("Normal", "MirrorX", "MirrorY", "MirrorXY")
+                ),
+                gmicSelection(
+                    R.string.gmic_param_upper_orientation,
+                    "Normal",
+                    listOf("Normal", "MirrorX", "MirrorY", "MirrorXY")
+                ),
+                gmicSelection(
+                    R.string.gmic_param_lower_orientation,
+                    "Normal",
+                    listOf("Normal", "MirrorX", "MirrorY", "MirrorXY")
                 )
             )
         }

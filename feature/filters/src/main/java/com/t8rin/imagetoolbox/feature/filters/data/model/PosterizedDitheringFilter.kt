@@ -50,30 +50,27 @@ internal class PosterizedDitheringFilter(
             R.string.filter_help_gmic_filter_posterized_dithering
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.gamma, 1, 0.01f..5f),
-                    gmicNumber(R.string.contrast, 1, 0f..4f),
-                    gmicNumber(R.string.brightness, 0, -255f..255f),
-                    gmicNumber(R.string.gmic_param_smoothness, 0, 0f..10f),
-                    gmicInteger(R.string.gmic_param_quantize_colors, 20, 2f..255f),
-                    gmicNumber(R.string.gmic_param_smooth_colors, 1, 0f..30f),
-                    gmicSelection(
-                        R.string.gmic_param_mixer_mode,
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.gamma, 1, 0.01f..5f),
+                gmicNumber(R.string.contrast, 1, 0f..4f),
+                gmicNumber(R.string.brightness, 0, -255f..255f),
+                gmicNumber(R.string.gmic_param_smoothness, 0, 0f..10f),
+                gmicInteger(R.string.gmic_param_quantize_colors, 20, 2f..255f),
+                gmicNumber(R.string.gmic_param_smooth_colors, 1, 0f..30f),
+                gmicSelection(
+                    R.string.gmic_param_mixer_mode,
+                    "ColorDoping",
+                    listOf(
                         "ColorDoping",
-                        listOf(
-                            "ColorDoping",
-                            "Darken",
-                            "SoftLight",
-                            "GrainMerge",
-                            "Multiply",
-                            "Value"
-                        )
-                    ),
-                    gmicNumber(R.string.gmic_param_color_intensity, 1, 0f..1f)
-                )
+                        "Darken",
+                        "SoftLight",
+                        "GrainMerge",
+                        "Multiply",
+                        "Value"
+                    )
+                ),
+                gmicNumber(R.string.gmic_param_color_intensity, 1, 0f..1f)
             )
         }
     }

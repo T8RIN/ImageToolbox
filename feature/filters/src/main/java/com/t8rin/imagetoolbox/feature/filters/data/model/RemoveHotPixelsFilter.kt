@@ -43,13 +43,10 @@ internal class RemoveHotPixelsFilter(
             R.string.filter_help_gmic_filter_remove_hot_pixels
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicInteger(R.string.gmic_param_mask_size, 3, 3f..20f),
-                    gmicNumber(R.string.threshold, 10, 0f..200f)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicInteger(R.string.gmic_param_mask_size, 3, 3f..20f),
+                gmicNumber(R.string.threshold, 10, 0f..200f)
             )
         }
     }

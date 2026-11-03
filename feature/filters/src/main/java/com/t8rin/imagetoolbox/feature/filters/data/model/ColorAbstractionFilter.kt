@@ -44,14 +44,11 @@ internal class ColorAbstractionFilter(
             R.string.filter_help_gmic_filter_color_abstraction
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.gmic_param_smoothness, 1, 0f..10f),
-                    gmicInteger(R.string.levels, 10, 2f..100f),
-                    gmicNumber(R.string.contrast, 0.2f, 0.01f..1f)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.gmic_param_smoothness, 1, 0f..10f),
+                gmicInteger(R.string.levels, 10, 2f..100f),
+                gmicNumber(R.string.contrast, 0.2f, 0.01f..1f)
             )
         }
     }

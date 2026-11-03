@@ -41,13 +41,10 @@ internal class FishEyeFilter(
         override val info =
             FilterInfo(R.string.gmic_filter_fish_eye, R.string.filter_help_gmic_filter_fish_eye)
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.radius, 70, 0f..100f),
-                    gmicNumber(R.string.amplitude, 1, 0f..2f)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.radius, 70, 0f..100f),
+                gmicNumber(R.string.amplitude, 1, 0f..2f)
             )
         }
     }

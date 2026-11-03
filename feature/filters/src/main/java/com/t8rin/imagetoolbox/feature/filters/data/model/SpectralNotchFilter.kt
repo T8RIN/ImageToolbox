@@ -47,17 +47,11 @@ internal class SpectralNotchFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.spectral_notch, R.string.filter_help_spectral_notch)
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::frequencyX,
-                floatParam(R.string.frequency_x, 0.12f, -0.5f..0.5f, roundTo = 3)
-            )
-            field(Value::frequencyY, floatParam(R.string.frequency_y, 0f, -0.5f..0.5f, roundTo = 3))
-            field(
-                Value::bandwidth,
-                floatParam(R.string.bandwidth, 0.018f, 0.0005f..0.12f, roundTo = 4)
-            )
-            field(Value::strength, floatParam(R.string.strength, 1f, 0f..1f))
+        override val parameters = structuredParameters {
+            Value::frequencyX.float(R.string.frequency_x, 0.12f, -0.5f..0.5f, roundTo = 3)
+            Value::frequencyY.float(R.string.frequency_y, 0f, -0.5f..0.5f, roundTo = 3)
+            Value::bandwidth.float(R.string.bandwidth, 0.018f, 0.0005f..0.12f, roundTo = 4)
+            Value::strength.float(R.string.strength, 1f, 0f..1f)
         }
     }
 }

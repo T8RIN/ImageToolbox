@@ -18,8 +18,7 @@
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import android.graphics.Bitmap
-import androidx.compose.ui.graphics.Color
-import com.t8rin.imagetoolbox.core.data.image.utils.ColorUtils.toModel
+import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.FilterValues
@@ -41,18 +40,19 @@ internal class RemoveColorFilter(
         value = FilterValues.replaceColor(
             tolerance = value.tolerance,
             colorToReplace = value.colorToRemove,
-            targetColor = Color.Transparent.toModel()
+            targetColor = ColorModel(0)
         )
     ).transform(input, size)
 
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.remove_color, R.string.filter_help_remove_color)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::tolerance, floatParam(R.string.tolerance, 0f, 0f..1f))
-            field(
-                Value::colorToRemove,
-                colorParam(R.string.color_to_remove, Color(0xFF000000).toModel(), allowAlpha = true)
+        override val parameters = structuredParameters {
+            Value::tolerance.float(R.string.tolerance, 0f, 0f..1f)
+            Value::colorToRemove.color(
+                R.string.color_to_remove,
+                ColorModel(0xFF000000.toInt()),
+                allowAlpha = true
             )
         }
     }

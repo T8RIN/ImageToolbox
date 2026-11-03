@@ -43,17 +43,14 @@ internal class CreaseFilter(
         override val info =
             FilterInfo(R.string.gmic_filter_crease, R.string.filter_help_gmic_filter_crease)
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.amplitude, 30, 0f..300f),
-                    gmicNumber(R.string.frequency, 10, 0f..100f),
-                    gmicSelection(
-                        R.string.gmic_param_boundary,
-                        "Mirror",
-                        listOf("Transparent", "Nearest", "Periodic", "Mirror")
-                    )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.amplitude, 30, 0f..300f),
+                gmicNumber(R.string.frequency, 10, 0f..100f),
+                gmicSelection(
+                    R.string.gmic_param_boundary,
+                    "Mirror",
+                    listOf("Transparent", "Nearest", "Periodic", "Mirror")
                 )
             )
         }

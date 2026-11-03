@@ -21,66 +21,60 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 import android.graphics.Bitmap
 import com.t8rin.imagetoolbox.core.domain.model.ErrorOwner
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
+import com.t8rin.imagetoolbox.core.filters.domain.FilterFactory
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.presentation.model.FilterCatalog
-import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
-import com.t8rin.imagetoolbox.feature.filters.data.utils.serialization.acceptsOldParamsKey
+import com.t8rin.imagetoolbox.feature.filters.data.utils.serialization.StoredParameterValues
 import com.t8rin.imagetoolbox.feature.filters.data.utils.serialization.fromPair
-import com.t8rin.imagetoolbox.feature.filters.data.utils.serialization.parseShaderTemplate
 import com.t8rin.imagetoolbox.feature.filters.data.utils.serialization.pixelationKey
 import com.t8rin.imagetoolbox.feature.filters.data.utils.serialization.readOldParams
+import com.t8rin.imagetoolbox.feature.filters.data.utils.serialization.storedParameters
 import kotlin.reflect.KClass
 
 internal class FilterRegistration<F>(
     val type: KClass<out Filter<*>>,
     val implementation: KClass<F>,
     val transformationKey: String,
-    val group: String? = null,
-    val uiKey: String? = null,
-    val createUi: ((Any?) -> UiFilter<*>)? = null,
+    val storedKey: String? = null,
     val paramsKey: String? = null,
     val encodeParams: ((Any) -> String?)? = null,
+    val cacheParams: ((Any) -> String?)? = null,
     val decodeParams: ((String) -> Filter.ParameterValue)? = null,
     val readStoredParams: ((Any?) -> Filter.ParameterValue?)? = null,
     val normalizeParams: ((Any) -> Filter.ParameterValue?)? = null,
-    val decodeShaderTemplate: ((Map<String, String>) -> Filter.ParameterValue)? = null,
     val createTransformation: (Any?, ErrorOwner?) -> F?
 ) where F : Filter<*>, F : FilterTransformation
 
-internal object GeneratedFilterCatalog : FilterCatalog {
+internal object GeneratedFilterRegistry {
     private val registrations = filterRegistrations()
-    private val byGroup = registrations.filter { it.group != null }.groupBy { it.group }
-    private val byUiKey =
-        registrations.mapNotNull { entry -> entry.uiKey?.let { it to entry } }.toMap()
+    private val byStoredKey =
+        registrations.mapNotNull { entry -> entry.storedKey?.let { it to entry } }.toMap()
     private val byTransformationKey = registrations.associateBy { it.transformationKey }
     private val byImplementation = registrations.associateBy { it.implementation }
-    private val byType = registrations.associateBy { it.type }
 
-    override fun filters(group: String): List<UiFilter<*>> =
-        byGroup[group].orEmpty().mapNotNull { it.createUi?.invoke(null) }
+    fun restoreStored(
+        key: String,
+        params: Pair<String, String>?,
+        factory: FilterFactory
+    ): Filter<*>? {
+        val entry = storedRegistration(key) ?: byTransformationKey[key] ?: return null
+        val value = when {
+            params == null -> null
+            params == ("null" to "") && entry.type.storedParameters()?.type == "null" -> null
+            entry.paramsKey == null -> {
+                require(params == ("Unit" to "Unit")) { "Invalid empty filter parameters for $key" }
+                null
+            }
 
-    override fun restore(key: String, value: Any?): UiFilter<*>? =
-        uiRegistration(key)?.createUi?.invoke(value)
-
-    fun restoreStored(key: String, params: Pair<String, String>?): Filter<*>? {
-        val ui = uiRegistration(key)
-        val entry = ui ?: byTransformationKey[key] ?: return null
-        val value = params?.let { runCatching { entry.decodeStoredParams(it) }.getOrNull() }
-        return if (ui != null) entry.createUi?.invoke(value) else entry.createTransformation(
-            value,
-            null
-        )
+            else -> requireNotNull(entry.decodeStoredParams(params)) {
+                "Cannot restore parameters for $key"
+            }
+        }
+        return factory.restore(key, value) ?: entry.createTransformation(value, null)
     }
 
-    private fun uiRegistration(key: String): FilterRegistration<*>? =
-        byUiKey[key] ?: key.pixelationKey()?.let(byUiKey::get)
-
-    override fun toUiFilter(filter: Filter<*>): UiFilter<*>? =
-        registrationFor(filter)?.createUi?.invoke(filter.value)
-
-    override fun create(type: KClass<out Filter<*>>, value: Any?): UiFilter<*>? =
-        byType[type]?.createUi?.invoke(value)
+    private fun storedRegistration(key: String): FilterRegistration<*>? =
+        byStoredKey[key] ?: key.pixelationKey()?.let(byStoredKey::get)
 
     fun transformationKey(filter: Filter<*>): String? =
         byImplementation[filter::class]?.transformationKey
@@ -95,11 +89,15 @@ internal object GeneratedFilterCatalog : FilterCatalog {
 
     fun cacheKey(filter: FilterTransformation): String {
         val entry = byImplementation[filter::class]
-        val value = entry?.normalizeParams?.invoke(filter.value) ?: filter.value
         val type = entry?.transformationKey ?: filter.javaClass.name
-        val key = if (value is Filter.EmptyValue) type else "$type:${value.hashCode()}"
+        val key = if (filter.value is Filter.EmptyValue) type else {
+            val parameters = requireNotNull(entry?.cacheParams?.invoke(filter.value)) {
+                "Missing cache parameters for $type"
+            }
+            "$type:$parameters"
+        }
         val extra = filter.cacheKeyExtra
-        return if (extra == null) key else "$key:${extra.hashCode()}"
+        return if (extra == null) key else "$key:${filterCacheKey(extra)}"
     }
 
     fun transform(filter: Filter<*>): Transformation<Bitmap> =
@@ -113,22 +111,25 @@ internal object GeneratedFilterCatalog : FilterCatalog {
         }
 
     private fun FilterRegistration<*>.decodeStoredParams(params: Pair<String, String>): Filter.ParameterValue? {
-        val (name, payload) = params
-        val key = name.trim()
+        val key = params.first.trim()
+        val payload = params.second.trim()
         return when {
-            key == "ProceduralParams" -> decodeShaderTemplate?.invoke(parseShaderTemplate(payload))
-            key == paramsKey || type.acceptsOldParamsKey(key) -> {
-                runCatching { decodeParams?.invoke(payload.trim()) }.getOrNull()
-                    ?: type.readOldParams(key, payload.trim())?.let { normalizeParams?.invoke(it) }
+            StoredParameterValues.isNamed(payload) -> {
+                require(key == paramsKey) { "Unexpected filter parameter type $key" }
+                decodeParams?.invoke(payload)
             }
 
-            else -> readStoredParams?.invoke(params.fromPair())
+            key == type.storedParameters()?.type -> {
+                type.readOldParams(key, payload)?.let { normalizeParams?.invoke(it) }
+                    ?: if (key.endsWith("Params") && key != "GmicFilterParams") {
+                        decodeParams?.invoke(payload)
+                    } else readStoredParams?.invoke((key to payload).fromPair())
+            }
+
+            else -> null
         }
     }
 
-    private fun registrationFor(filter: Filter<*>): FilterRegistration<*>? = when (filter) {
-        is UiFilter<*> -> byUiKey[filter.serializationKey]
-        else -> byImplementation[filter::class]
-            ?: registrations.firstOrNull { it.type.isInstance(filter) }
-    }
+    private fun registrationFor(filter: Filter<*>): FilterRegistration<*>? =
+        byImplementation[filter::class] ?: registrations.firstOrNull { it.type.isInstance(filter) }
 }

@@ -44,14 +44,11 @@ internal class DynamicContrastFilter(
             R.string.filter_help_gmic_filter_dynamic_contrast
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.amount, 12, -64f..64f),
-                    gmicNumber(R.string.threshold, 128, 0f..255f),
-                    gmicNumber(R.string.texture_intensity, 220, 0f..255f)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.amount, 12, -64f..64f),
+                gmicNumber(R.string.threshold, 128, 0f..255f),
+                gmicNumber(R.string.texture_intensity, 220, 0f..255f)
             )
         }
     }

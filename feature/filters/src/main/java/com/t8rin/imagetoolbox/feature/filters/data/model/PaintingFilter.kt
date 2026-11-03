@@ -44,16 +44,13 @@ internal class PaintingFilter(
         override val info =
             FilterInfo(R.string.gmic_filter_painting, R.string.filter_help_gmic_filter_painting)
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicInteger(R.string.gmic_param_abstraction, 5, 1f..10f),
-                    gmicNumber(R.string.scale, 2.5f, 0f..5f),
-                    gmicNumber(R.string.color, 1.5f, 0f..4f),
-                    gmicNumber(R.string.gmic_param_smoothness, 50, 0f..1000f),
-                    gmicToggle(R.string.gmic_param_sharpen_shades, true)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicInteger(R.string.gmic_param_abstraction, 5, 1f..10f),
+                gmicNumber(R.string.scale, 2.5f, 0f..5f),
+                gmicNumber(R.string.color, 1.5f, 0f..4f),
+                gmicNumber(R.string.gmic_param_smoothness, 50, 0f..1000f),
+                gmicToggle(R.string.gmic_param_sharpen_shades, true)
             )
         }
     }

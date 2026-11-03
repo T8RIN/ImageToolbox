@@ -57,15 +57,12 @@ internal class PaletteTransferVariantFilter(
             R.string.filter_help_palette_transfer_variant
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::intensity, floatParam(R.string.strength, 1f, 0f..1f))
-            field(
-                Value::colorSpace,
-                enumParam(R.string.tag_color_space, default = { PaletteTransferSpace.OKLAB })
-            )
-            field(
-                Value::image,
-                imageParam(R.string.target_image) { ImageModel(R.drawable.filter_preview_source_2) })
+        override val parameters = structuredParameters {
+            Value::intensity.float(R.string.strength, 1f, 0f..1f)
+            Value::colorSpace.enum(
+                R.string.tag_color_space,
+                label = { it.label }) { PaletteTransferSpace.OKLAB }
+            Value::image.image(R.string.target_image) { ImageModel(R.drawable.filter_preview_source_2) }
         }
     }
 }

@@ -35,15 +35,15 @@ internal class HexKaleidoscopeFilter(
         override val info =
             FilterInfo(R.string.hex_kaleidoscope, R.string.filter_help_hex_kaleidoscope)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::count, intParam(R.string.procedural_count, 6, 1..32))
-            field(Value::frequency, floatParam(R.string.frequency, 4f, 1f..16f, roundTo = 3))
-            field(Value::offset, floatParam(R.string.offset, 0f, -1f..1f, roundTo = 3))
-            field(Value::mode, intParam(R.string.gmic_param_mode, 0, 0..2))
-            field(Value::offsetX, floatParam(R.string.offset_x, 0f, -1f..1f, roundTo = 3))
-            field(Value::offsetY, floatParam(R.string.offset_y, 0f, -1f..1f, roundTo = 3))
-            field(Value::scale, floatParam(R.string.scale, 1f, 0.05f..8f, roundTo = 3))
-            field(Value::rotation, floatParam(R.string.rotation, 0f, -180f..180f, roundTo = 3))
+        override val parameters = structuredParameters {
+            Value::count.int(R.string.procedural_count, 6, 1..32)
+            Value::frequency.float(R.string.frequency, 4f, 1f..16f, roundTo = 3)
+            Value::offset.float(R.string.offset, 0f, -1f..1f, roundTo = 3)
+            Value::mode.int(R.string.gmic_param_mode, 0, 0..2)
+            Value::offsetX.float(R.string.offset_x, 0f, -1f..1f, roundTo = 3)
+            Value::offsetY.float(R.string.offset_y, 0f, -1f..1f, roundTo = 3)
+            Value::scale.float(R.string.scale, 1f, 0.05f..8f, roundTo = 3)
+            Value::rotation.float(R.string.rotation, 0f, -180f..180f, roundTo = 3)
         }
 
         private val SHADER = """

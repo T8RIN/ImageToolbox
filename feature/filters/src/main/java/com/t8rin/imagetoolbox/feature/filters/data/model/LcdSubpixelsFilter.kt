@@ -48,19 +48,16 @@ internal class LcdSubpixelsFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.lcd_subpixels, R.string.filter_help_lcd_subpixels)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::size, intParam(R.string.just_size, 10, 3..36))
-            field(Value::blackMatrix, floatParam(R.string.black_matrix, 0.17f, 0.02f..0.6f))
-            field(
-                Value::subpixelOrder,
-                choiceParam(
-                    R.string.subpixel_order, 0,
-                    R.string.rgb,
-                    R.string.bgr
-                )
+        override val parameters = structuredParameters {
+            Value::size.int(R.string.just_size, 10, 3..36)
+            Value::blackMatrix.float(R.string.black_matrix, 0.17f, 0.02f..0.6f)
+            Value::subpixelOrder.choice(
+                R.string.subpixel_order, 0,
+                R.string.rgb,
+                R.string.bgr
             )
-            field(Value::viewAngle, intParam(R.string.viewing_angle, 0, -70..70))
-            field(Value::strength, floatParam(R.string.strength, 0.9f, 0f..1f))
+            Value::viewAngle.int(R.string.viewing_angle, 0, -70..70)
+            Value::strength.float(R.string.strength, 0.9f, 0f..1f)
         }
     }
 }

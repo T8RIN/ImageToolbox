@@ -45,9 +45,9 @@ internal class CannyFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.canny, R.string.filter_help_canny)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::thresholdOne, floatParam(R.string.threshold_one, 100f, 0f..1000f))
-            field(Value::thresholdTwo, floatParam(R.string.threshold_two, 200f, 0f..1000f))
+        override val parameters = structuredParameters {
+            Value::thresholdOne.float(R.string.threshold_one, 100f, 0f..1000f)
+            Value::thresholdTwo.float(R.string.threshold_two, 200f, 0f..1000f)
         }
     }
 }

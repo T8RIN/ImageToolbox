@@ -25,16 +25,18 @@ import com.t8rin.imagetoolbox.core.filters.presentation.model.UiBlackAndWhiteFil
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiBrightnessFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.BrightnessFilter
+import com.t8rin.imagetoolbox.feature.filters.data.model.BulgeDistortionFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.BlackAndWhiteFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.ColorMatrix3x3Filter
 import com.t8rin.imagetoolbox.feature.filters.data.model.ContrastFilter
-import com.t8rin.imagetoolbox.feature.filters.data.model.GeneratedFilterCatalog
+import com.t8rin.imagetoolbox.feature.filters.presentation.model.GeneratedFilterCatalog
 import org.junit.Assert.assertArrayEquals
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertSame
 import org.junit.Assert.assertTrue
+import org.junit.Assert.assertThrows
 import org.junit.Test
 
 class FilterRegistryTest {
@@ -72,6 +74,75 @@ class FilterRegistryTest {
 
         matrix[0] = 0.5f
         assertNotEquals(filter.cacheKey, copy.cacheKey)
+    }
+
+    @Test
+    fun differentValuesWithTheSameHashCodeHaveDifferentCacheKeys() {
+        val first = FilterValues.bulgeDistortion(radius = 0.5f, scale = 0.5f)
+        val second = FilterValues.bulgeDistortion(radius = 0.50390625f, scale = 0.439453125f)
+        assertEquals(first.hashCode(), second.hashCode())
+        assertNotEquals(
+            BulgeDistortionFilter(first).cacheKey,
+            BulgeDistortionFilter(second).cacheKey
+        )
+    }
+
+    @Test
+    fun malformedKnownParametersRejectTheWholeTemplate() {
+        val prefix = "^^.core.filters.presentation.model"
+        val template = "Broken+$prefix.UiContrastFilter:Float:0.5," +
+                "$prefix.UiBrightnessFilter:BrightnessParams:v1|bias=YmFk"
+        assertThrows(IllegalArgumentException::class.java) {
+            template.toTemplateFiltersList()
+        }
+        assertThrows(IllegalArgumentException::class.java) {
+            "$prefix.UiBrightnessFilter:UnknownParams:0.5".toFiltersList(true)
+        }
+        assertThrows(IllegalArgumentException::class.java) {
+            "$prefix.UiBrightnessFilter:null".toFiltersList(true)
+        }
+    }
+
+    @Test
+    fun corruptBooleanDoesNotBecomeAValidFalseParameter() {
+        assertThrows(IllegalArgumentException::class.java) {
+            ("Boolean" to "broken").fromPair()
+        }
+        assertThrows(IllegalArgumentException::class.java) {
+            ("Pair{Float\$Boolean}" to "0.5\$broken").fromPair()
+        }
+    }
+
+    @Test
+    fun onlyPublishedMissingPayloadsRestoreTheirOriginalDefaults() {
+        listOf(
+            "Clustered2x2Dithering",
+            "Clustered4x4Dithering",
+            "Clustered8x8Dithering",
+            "YililomaDithering"
+        )
+            .forEach { name ->
+                val key = "^^.core.filters.presentation.model.Ui${name}Filter"
+                val restored = "$key:null".toFiltersList(true).single()
+                assertEquals(key.toFiltersList(false).single().value, restored.value)
+                assertRoundTrip(listOf(restored))
+            }
+        assertThrows(IllegalArgumentException::class.java) {
+            "^^.core.filters.presentation.model.UiBrightnessFilter:null".toFiltersList(true)
+        }
+    }
+
+    @Test
+    fun corruptPublishedNumericPayloadsAreRejected() {
+        listOf("NaN", "Infinity", "-Infinity").forEach { value ->
+            assertThrows(IllegalArgumentException::class.java) { ("Float" to value).fromPair() }
+            assertThrows(IllegalArgumentException::class.java) {
+                ("Pair{Float\$Float}" to "0.5\$$value").fromPair()
+            }
+        }
+        assertThrows(IllegalArgumentException::class.java) {
+            ("Pair{Float\$Float}" to "0.5\$0.75\$1.0").fromPair()
+        }
     }
 
     @Test
@@ -178,5 +249,13 @@ class FilterRegistryTest {
     fun unknownFilterKeysAreIgnored() {
         assertNull(UiFilter.fromSerializationKey("missing.Filter"))
         assertTrue("missing.Filter".toFiltersList(includeValue = false).isEmpty())
+    }
+
+    @Test
+    fun templatesCannotSilentlyLoseUnknownFilters() {
+        val known = "^^.core.filters.presentation.model.UiBrightnessFilter:Float:0.5"
+        assertThrows(IllegalArgumentException::class.java) {
+            "Template+$known,missing.Filter:Float:0.5".toTemplateFiltersList()
+        }
     }
 }

@@ -46,16 +46,13 @@ internal class FuzzyFrameFilter(
             R.string.filter_help_gmic_filter_fuzzy_frame
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.gmic_param_horizontal_size, 5, 0f..100f),
-                    gmicNumber(R.string.gmic_param_vertical_size, 5, 0f..100f),
-                    gmicNumber(R.string.fuzziness, 10, 0f..40f),
-                    gmicNumber(R.string.gmic_param_smoothness, 1, 0f..5f),
-                    gmicColor(R.string.color, -1)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.gmic_param_horizontal_size, 5, 0f..100f),
+                gmicNumber(R.string.gmic_param_vertical_size, 5, 0f..100f),
+                gmicNumber(R.string.fuzziness, 10, 0f..40f),
+                gmicNumber(R.string.gmic_param_smoothness, 1, 0f..5f),
+                gmicColor(R.string.color, -1)
             )
         }
     }

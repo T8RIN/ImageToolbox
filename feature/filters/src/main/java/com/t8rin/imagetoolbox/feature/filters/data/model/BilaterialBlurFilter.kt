@@ -52,11 +52,13 @@ internal class BilaterialBlurFilter(
         override val info =
             FilterInfo(R.string.bilaterial_blur, R.string.filter_help_bilaterial_blur)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::radius, intParam(R.string.radius, 12, 1..50))
-            field(Value::spatialSigma, floatParam(R.string.sigma, 10f, 1f..100f, 1))
-            field(Value::rangeSigma, floatParam(R.string.spatial_sigma, 3f, 1f..100f, 1))
-            field(Value::edgeMode, enumParam(R.string.edge_mode) { BlurEdgeMode.Reflect101 })
+        override val parameters = structuredParameters {
+            Value::radius.int(R.string.radius, 12, 1..50)
+            Value::spatialSigma.float(R.string.sigma, 10f, 1f..100f, 1)
+            Value::rangeSigma.float(R.string.spatial_sigma, 3f, 1f..100f, 1)
+            Value::edgeMode.enum(
+                R.string.edge_mode,
+                label = { it.label }) { BlurEdgeMode.Reflect101 }
         }
     }
 }

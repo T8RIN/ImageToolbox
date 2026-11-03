@@ -47,17 +47,14 @@ internal class AnalogDamageFilter(
             R.string.filter_help_gmic_filter_analog_damage
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.texture_dirt, 18, 0f..100f),
-                    gmicToggle(R.string.gmic_param_monochrome_dirt, true),
-                    gmicNumber(R.string.gmic_param_aberration_x, 3, -32f..32f),
-                    gmicNumber(R.string.gmic_param_aberration_y, 1, -32f..32f),
-                    gmicNumber(R.string.softness, 0.6f, 0f..10f),
-                    gmicInteger(R.string.quality, 38, 1f..100f)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.texture_dirt, 18, 0f..100f),
+                gmicToggle(R.string.gmic_param_monochrome_dirt, true),
+                gmicNumber(R.string.gmic_param_aberration_x, 3, -32f..32f),
+                gmicNumber(R.string.gmic_param_aberration_y, 1, -32f..32f),
+                gmicNumber(R.string.softness, 0.6f, 0f..10f),
+                gmicInteger(R.string.quality, 38, 1f..100f)
             )
         }
     }

@@ -50,22 +50,19 @@ internal class PowerTwirlFilter(
             R.string.filter_help_gmic_filter_power_twirl
         )
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicNumber(R.string.amplitude, 1, -20f..20f),
-                    gmicNumber(R.string.offset, 0, -180f..180f),
-                    gmicNumber(R.string.center_x, 50, 0f..100f),
-                    gmicNumber(R.string.center_y, 50, 0f..100f),
-                    gmicNumber(R.string.gmic_param_power, 1, -20f..20f),
-                    gmicSelection(
-                        R.string.gmic_param_boundary,
-                        "Mirror",
-                        listOf("Transparent", "Nearest", "Periodic", "Mirror")
-                    ),
-                    gmicSelection(R.string.gmic_param_mode, "Polar", listOf("Polar", "Cartesian"))
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicNumber(R.string.amplitude, 1, -20f..20f),
+                gmicNumber(R.string.offset, 0, -180f..180f),
+                gmicNumber(R.string.center_x, 50, 0f..100f),
+                gmicNumber(R.string.center_y, 50, 0f..100f),
+                gmicNumber(R.string.gmic_param_power, 1, -20f..20f),
+                gmicSelection(
+                    R.string.gmic_param_boundary,
+                    "Mirror",
+                    listOf("Transparent", "Nearest", "Periodic", "Mirror")
+                ),
+                gmicSelection(R.string.gmic_param_mode, "Polar", listOf("Polar", "Cartesian"))
             )
         }
     }

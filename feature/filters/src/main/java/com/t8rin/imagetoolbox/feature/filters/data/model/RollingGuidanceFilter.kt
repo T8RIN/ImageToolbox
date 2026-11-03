@@ -49,11 +49,11 @@ internal class RollingGuidanceFilter(
         override val info =
             FilterInfo(R.string.rolling_guidance, R.string.filter_help_rolling_guidance)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::radius, floatParam(R.string.radius, 8f, 1f..30f, roundTo = 1))
-            field(Value::sensitivity, floatParam(R.string.sensitivity, 0.12f, 0.01f..0.5f))
-            field(Value::iterations, floatParam(R.string.iterations, 3f, 1f..6f, roundTo = 0))
-            field(Value::strength, floatParam(R.string.strength, 1f, 0f..1f))
+        override val parameters = structuredParameters {
+            Value::radius.float(R.string.radius, 8f, 1f..30f, roundTo = 1)
+            Value::sensitivity.float(R.string.sensitivity, 0.12f, 0.01f..0.5f)
+            Value::iterations.float(R.string.iterations, 3f, 1f..6f, roundTo = 0)
+            Value::strength.float(R.string.strength, 1f, 0f..1f)
         }
     }
 }

@@ -50,22 +50,19 @@ internal class CharcoalFilter(
         override val info =
             FilterInfo(R.string.gmic_filter_charcoal, R.string.filter_help_gmic_filter_charcoal)
 
-        override val parameters = structuredParameters<Value> {
-            field(
-                Value::settings,
-                gmicParam(
-                    gmicInteger(R.string.gmic_param_granularity, 65, 0f..800f),
-                    gmicInteger(R.string.gmic_param_lowlight_crossover, 70, 0f..255f),
-                    gmicInteger(R.string.gmic_param_highlight_crossover, 170, 0f..255f),
-                    gmicToggle(R.string.contrast, false),
-                    gmicToggle(R.string.gmic_param_optimize_size, true),
-                    gmicToggle(R.string.gmic_param_chalk_highlights, false),
-                    gmicInteger(R.string.gmic_param_minimum_highlight, 50, 0f..255f),
-                    gmicInteger(R.string.gmic_param_maximum_highlight, 70, 0f..255f),
-                    gmicColor(R.string.background_color, -1),
-                    gmicColor(R.string.gmic_param_foreground_color, -16777216),
-                    gmicToggle(R.string.invert_colors, false)
-                )
+        override val parameters = structuredParameters {
+            Value::settings.gmic(
+                gmicInteger(R.string.gmic_param_granularity, 65, 0f..800f),
+                gmicInteger(R.string.gmic_param_lowlight_crossover, 70, 0f..255f),
+                gmicInteger(R.string.gmic_param_highlight_crossover, 170, 0f..255f),
+                gmicToggle(R.string.contrast, false),
+                gmicToggle(R.string.gmic_param_optimize_size, true),
+                gmicToggle(R.string.gmic_param_chalk_highlights, false),
+                gmicInteger(R.string.gmic_param_minimum_highlight, 50, 0f..255f),
+                gmicInteger(R.string.gmic_param_maximum_highlight, 70, 0f..255f),
+                gmicColor(R.string.background_color, -1),
+                gmicColor(R.string.gmic_param_foreground_color, -16777216),
+                gmicToggle(R.string.invert_colors, false)
             )
         }
     }

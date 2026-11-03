@@ -50,17 +50,19 @@ internal class AutostereogramFilter(
     companion object : Filter.Schema.Structured<Value> {
         override val info = FilterInfo(R.string.autostereogram, R.string.filter_help_autostereogram)
 
-        override val parameters = structuredParameters<Value> {
-            field(Value::repeatDistance, floatParam(R.string.repeat_distance, 0.15f, 0.06f..0.3f))
-            field(Value::depth, floatParam(R.string.texture_depth, 0.34f, 0.02f..0.65f))
-            field(Value::gamma, floatParam(R.string.gamma, 1f, 0.4f..2.5f))
-            field(Value::size, intParam(R.string.just_size, 2, 1..7))
-            field(Value::softness, floatParam(R.string.softness, 3f, 0f..16f, roundTo = 1))
-            field(
-                Value::invert,
-                toggleParam(R.string.gmic_param_invert, false, R.string.normal, R.string.inverted)
+        override val parameters = structuredParameters {
+            Value::repeatDistance.float(R.string.repeat_distance, 0.15f, 0.06f..0.3f)
+            Value::depth.float(R.string.texture_depth, 0.34f, 0.02f..0.65f)
+            Value::gamma.float(R.string.gamma, 1f, 0.4f..2.5f)
+            Value::size.int(R.string.just_size, 2, 1..7)
+            Value::softness.float(R.string.softness, 3f, 0f..16f, roundTo = 1)
+            Value::invert.toggle(
+                R.string.gmic_param_invert,
+                false,
+                R.string.normal,
+                R.string.inverted
             )
-            field(Value::seed, intParam(R.string.seed, 0, 0..10000))
+            Value::seed.seed(R.string.seed, 0, 0..10000)
         }
     }
 }
