@@ -7492,7 +7492,6 @@
     <string name="assistant_gallery_no_search">Пачніце пошук фатаграфій, перш чым звужаць яго ці запытваць больш вынікаў.</string>
     <string name="assistant_gallery_parse_error">Калі ласка, удакладніце, якія фатаграфіі шукаць: апішыце змест, імёны людзей, даты, альбом ці назву файла. Я таксама магу дапамагчы з інструментамі і наладамі ImageToolbox.</string>
     <string name="assistant_gallery_open">Адкрыць галерэю</string>
-    <string name="assistant_gallery_more">Паказаць больш</string>
     <string name="assistant_gallery_invalid_date">Калі ласка, удакладніце дату або дыяпазон, напрыклад, «ліпень 2026» або «2026-07-01 да 2026-07-31». Праверце, ці існуюць даты і што дыяпазон заканчваецца пасля яго пачатку.</string>
     <string name="assistant_gallery_missing_literal">Укажыце назву альбома або файла пасля назвы фільтра. Put names containing spaces in quotes.</string>
     <string name="assistant_gallery_unsupported_condition">Гэты пошук падтрымлівае бачны кантэнт, імёны людзей, даты, адзін альбом і назву файла. Выключэнні, дакладнае супадзенне тэксту або GPS, некалькі фарматаў файлаў і колькасць запытаных вынікаў пакуль не падтрымліваюцца. Please adjust these conditions.</string>

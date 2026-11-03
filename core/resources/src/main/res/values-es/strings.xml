@@ -7497,7 +7497,6 @@
     <string name="assistant_gallery_no_search">Inicie una búsqueda de fotografías antes de limitarla o solicitar más resultados.</string>
     <string name="assistant_gallery_parse_error">Aclare qué fotos encontrar: describa el contenido, nombre de personas, fechas, un álbum o un nombre de archivo. También puedo ayudar con las herramientas y configuraciones de ImageToolbox.</string>
     <string name="assistant_gallery_open">Abrir galería</string>
-    <string name="assistant_gallery_more">Mostrar más</string>
     <string name="assistant_gallery_invalid_date">Aclare la fecha o el rango, por ejemplo, “julio de 2026” o “2026-07-01 a 2026-07-31”. Verifique que las fechas existan y que el rango finalice después de comenzar.</string>
     <string name="assistant_gallery_missing_literal">Especifique un álbum o nombre de archivo después del nombre del filtro. Coloque los nombres que contengan espacios entre comillas.</string>
     <string name="assistant_gallery_unsupported_condition">Esta búsqueda admite contenido visible, personas nombradas, fechas, un álbum y un nombre de archivo. Aún no se admiten exclusiones, texto exacto o coincidencia de GPS, múltiples formatos de archivo y un recuento de resultados solicitado. Por favor ajuste estas condiciones.</string>

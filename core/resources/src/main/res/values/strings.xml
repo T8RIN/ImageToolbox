@@ -7585,7 +7585,6 @@
     <string name="assistant_gallery_no_search">Start a photo search before narrowing it or asking for more results.</string>
     <string name="assistant_gallery_parse_error">Please clarify what photos to find: describe the content, name people, dates, an album or a filename. I can also help with ImageToolbox tools and settings.</string>
     <string name="assistant_gallery_open">Open gallery</string>
-    <string name="assistant_gallery_more">Show more</string>
     <string name="assistant_gallery_invalid_date">Please clarify the date or range, for example “July 2026” or “2026-07-01 to 2026-07-31”. Check that the dates exist and the range ends after it starts.</string>
     <string name="assistant_gallery_missing_literal">Specify an album or filename after the filter name. Put names containing spaces in quotes.</string>
     <string name="assistant_gallery_unsupported_condition">This search supports visible content, named people, dates, one album and a filename. Exclusions, exact text or GPS matching, multiple file formats and a requested result count are not supported yet. Please adjust these conditions.</string>

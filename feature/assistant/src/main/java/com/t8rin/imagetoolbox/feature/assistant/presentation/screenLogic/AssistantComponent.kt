@@ -245,11 +245,6 @@ class AssistantComponent @AssistedInject internal constructor(
     fun canContinueGallery(message: AssistantMessage): Boolean =
         repository.canContinueGallery(message)
 
-    fun moreGalleryPhotos(message: AssistantMessage) {
-        if (isBusy || !repository.canContinueGallery(message)) return
-        repository.moreGalleryPhotos(message)
-    }
-
     fun chooseGalleryPerson(message: AssistantMessage, personId: Long) {
         if (!componentScope.isActive) return
         repository.chooseGalleryPerson(message, personId)

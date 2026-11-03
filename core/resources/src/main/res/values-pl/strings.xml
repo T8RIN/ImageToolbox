@@ -7494,7 +7494,6 @@
     <string name="assistant_gallery_no_search">Rozpocznij wyszukiwanie zdjęć, zanim je zawęzisz lub poprosisz o więcej wyników.</string>
     <string name="assistant_gallery_parse_error">Wyjaśnij, jakie zdjęcia chcesz znaleźć: opisz zawartość, podaj nazwiska osób, daty, album lub nazwę pliku. Mogę również pomóc w zakresie narzędzi i ustawień ImageToolbox.</string>
     <string name="assistant_gallery_open">Otwórz galerię</string>
-    <string name="assistant_gallery_more">Pokaż więcej</string>
     <string name="assistant_gallery_invalid_date">Proszę wyjaśnić datę lub zakres, na przykład „lipiec 2026 r.” lub „2026-07-01 do 2026-07-31”. Sprawdź, czy daty istnieją i czy zakres kończy się po jego rozpoczęciu.</string>
     <string name="assistant_gallery_missing_literal">Określ nazwę albumu lub pliku po nazwie filtra. Nazwy zawierające spacje należy umieścić w cudzysłowie.</string>
     <string name="assistant_gallery_unsupported_condition">To wyszukiwanie uwzględnia widoczną treść, nazwane osoby, daty, jeden album i nazwę pliku. Wykluczenia, dopasowanie dokładnego tekstu lub GPS, wiele formatów plików i żądana liczba wyników nie są jeszcze obsługiwane. Proszę dostosować te warunki.</string>

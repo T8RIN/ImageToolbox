@@ -7491,7 +7491,6 @@
     <string name="assistant_gallery_no_search">Bắt đầu tìm kiếm ảnh trước khi thu hẹp hoặc yêu cầu thêm kết quả.</string>
     <string name="assistant_gallery_parse_error">Vui lòng làm rõ những ảnh cần tìm: mô tả nội dung, nêu tên người, ngày tháng, album hoặc tên tệp. Tôi cũng có thể trợ giúp về các công cụ và cài đặt của ImageToolbox.</string>
     <string name="assistant_gallery_open">Mở thư viện</string>
-    <string name="assistant_gallery_more">Hiển thị thêm</string>
     <string name="assistant_gallery_invalid_date">Vui lòng làm rõ ngày hoặc phạm vi, ví dụ: “Tháng 7 năm 2026” hoặc “2026-07-01 đến 2026-07-31”. Kiểm tra xem ngày có tồn tại không và phạm vi kết thúc sau khi nó bắt đầu.</string>
     <string name="assistant_gallery_missing_literal">Chỉ định album hoặc tên tệp sau tên bộ lọc. Đặt tên chứa dấu cách trong dấu ngoặc kép.</string>
     <string name="assistant_gallery_unsupported_condition">Tìm kiếm này hỗ trợ nội dung hiển thị, người được đặt tên, ngày tháng, một album và tên tệp. Các loại trừ, kết hợp văn bản hoặc GPS chính xác, nhiều định dạng tệp và số kết quả được yêu cầu chưa được hỗ trợ. Hãy điều chỉnh các điều kiện này.</string>

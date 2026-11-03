@@ -7492,7 +7492,6 @@
     <string name="assistant_gallery_no_search">Inicieu una cerca de fotos abans de limitar-la o demanar més resultats.</string>
     <string name="assistant_gallery_parse_error">Si us plau, aclareix quines fotos trobaràs: descriu el contingut, anomena persones, dates, un àlbum o un nom de fitxer. També puc ajudar amb les eines i la configuració d\'ImageToolbox.</string>
     <string name="assistant_gallery_open">Galeria oberta</string>
-    <string name="assistant_gallery_more">Mostra\'n més</string>
     <string name="assistant_gallery_invalid_date">Aclariu la data o l\'interval, per exemple, \"juliol de 2026\" o \"2026-07-01 a 2026-07-31\". Comproveu que existeixin les dates i que l\'interval s\'acabi un cop comenci.</string>
     <string name="assistant_gallery_missing_literal">Especifiqueu un àlbum o un nom de fitxer després del nom del filtre. Posa els noms que continguin espais entre cometes.</string>
     <string name="assistant_gallery_unsupported_condition">Aquesta cerca admet contingut visible, persones amb nom, dates, un àlbum i un nom de fitxer. Encara no s\'admeten les exclusions, el text exacte o la concordança GPS, diversos formats de fitxer i un recompte de resultats sol·licitats. Si us plau, ajusteu aquestes condicions.</string>

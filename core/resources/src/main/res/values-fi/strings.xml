@@ -7474,7 +7474,6 @@
     <string name="assistant_gallery_no_search">Aloita valokuvahaku ennen kuin rajaat sitä tai pyydät lisää tuloksia.</string>
     <string name="assistant_gallery_parse_error">Selvennä, mitä kuvia löytää: kuvaile sisältöä, nimeä ihmisiä, päivämäärät, albumi tai tiedostonimi. Voin myös auttaa ImageToolboxin työkalujen ja asetusten kanssa.</string>
     <string name="assistant_gallery_open">Avaa galleria</string>
-    <string name="assistant_gallery_more">Näytä lisää</string>
     <string name="assistant_gallery_invalid_date">Selvennä päivämäärä tai ajanjakso, esimerkiksi \"heinäkuu 2026\" tai \"2026-07-01 - 2026-07-31\". Tarkista, että päivämäärät ovat olemassa ja että ajanjakso päättyy sen alkamisen jälkeen.</string>
     <string name="assistant_gallery_missing_literal">Määritä albumin tai tiedoston nimi suodattimen nimen jälkeen. Laita välilyönnit sisältävät nimet lainausmerkkeihin.</string>
     <string name="assistant_gallery_unsupported_condition">Tämä haku tukee näkyvää sisältöä, nimettyjä ihmisiä, päivämääriä, yhtä albumia ja tiedostonimeä. Poissulkemisia, tarkkaa teksti- tai GPS-vastaavuutta, useita tiedostomuotoja ja pyydettyä tulosten määrää ei vielä tueta. Muokkaa näitä ehtoja.</string>

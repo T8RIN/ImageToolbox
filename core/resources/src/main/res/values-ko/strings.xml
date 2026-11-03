@@ -7491,7 +7491,6 @@
     <string name="assistant_gallery_no_search">범위를 좁히거나 더 많은 결과를 요청하기 전에 사진 검색을 시작하세요.</string>
     <string name="assistant_gallery_parse_error">콘텐츠 설명, 사람 이름, 날짜, 앨범 또는 파일 이름 등 어떤 사진을 찾을지 명확히 하세요. ImageToolbox 도구 및 설정에도 도움을 드릴 수 있습니다.</string>
     <string name="assistant_gallery_open">갤러리 열기</string>
-    <string name="assistant_gallery_more">더 보기</string>
     <string name="assistant_gallery_invalid_date">날짜나 범위를 명시하세요(예: \'2026년 7월\' 또는 \'2026-07-01~2026-07-31\'). 날짜가 존재하는지, 범위가 시작된 후 끝나는지 확인하세요.</string>
     <string name="assistant_gallery_missing_literal">필터 이름 뒤에 앨범이나 파일 이름을 지정하세요. 공백이 포함된 이름을 따옴표로 묶습니다.</string>
     <string name="assistant_gallery_unsupported_condition">이 검색은 표시되는 콘텐츠, 이름이 지정된 사람, 날짜, 앨범 1개 및 파일 이름을 지원합니다. 제외, 정확한 텍스트 또는 GPS 일치, 여러 파일 형식 및 요청된 결과 개수는 아직 지원되지 않습니다. 이러한 조건을 조정하십시오.</string>

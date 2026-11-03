@@ -42,7 +42,6 @@ import com.t8rin.imagetoolbox.core.settings.presentation.model.key
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.feature.assistant.data.AndroidAssistantGallerySearch
 import com.t8rin.imagetoolbox.feature.assistant.di.AssistantEntryPoint
-import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGalleryPhoto
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGalleryQuery
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGalleryResult.Companion.PREVIEW_COUNT
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGallerySearch.Mode
@@ -486,11 +485,16 @@ class AssistantGalleryInstrumentedTest {
                     onNavigate = { destinations.trySend(it) }
                 )
             }
-            val previews = photos.map { AssistantGalleryPhoto(it.uri, it.label) }
+            photos = (1..125).map(::photo)
+            enablePeople()
+            state.value = state.value.copy(indexedImages = photos.size)
+            val result = search().search(AssistantGalleryQuery("a beach"), Mode.New, 1).gallery!!
+            assertEquals(photos.size, result.total)
+            val previews = result.photos
             val uri = previews[PREVIEW_COUNT].uri
             withContext(Dispatchers.Main) { component.openGalleryPhoto(uri, previews) }
             assertEquals(uri, component.galleryPreviewUri)
-            assertEquals(previews.map { it.uri }, component.galleryPreviewUris)
+            assertEquals(photos.map { it.uri }, component.galleryPreviewUris)
             assertTrue(destinations.tryReceive().isFailure)
             withContext(Dispatchers.Main) {
                 component.updateGalleryPreviewUri(previews.last().uri)

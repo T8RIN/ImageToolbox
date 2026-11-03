@@ -7488,7 +7488,6 @@
     <string name="assistant_gallery_no_search">Starta en fotosökning innan du begränsar den eller ber om fler resultat.</string>
     <string name="assistant_gallery_parse_error">Förklara vilka bilder du ska hitta: beskriv innehållet, namn på personer, datum, ett album eller ett filnamn. Jag kan också hjälpa till med ImageToolbox-verktyg och inställningar.</string>
     <string name="assistant_gallery_open">Öppna galleriet</string>
-    <string name="assistant_gallery_more">Visa mer</string>
     <string name="assistant_gallery_invalid_date">Förtydliga datum eller intervall, till exempel \"juli 2026\" eller \"2026-07-01 till 2026-07-31\". Kontrollera att datumen finns och att intervallet slutar efter att det har börjat.</string>
     <string name="assistant_gallery_missing_literal">Ange ett album eller filnamn efter filternamnet. Sätt namn som innehåller mellanslag inom citattecken.</string>
     <string name="assistant_gallery_unsupported_condition">Denna sökning stöder synligt innehåll, namngivna personer, datum, ett album och ett filnamn. Uteslutningar, exakt text- eller GPS-matchning, flera filformat och ett begärt resultaträkning stöds inte ännu. Justera dessa villkor.</string>

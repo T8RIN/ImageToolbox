@@ -7492,7 +7492,6 @@
     <string name="assistant_gallery_no_search">इसे सीमित करने या अधिक परिणाम मांगने से पहले फ़ोटो खोज प्रारंभ करें।</string>
     <string name="assistant_gallery_parse_error">कृपया स्पष्ट करें कि कौन सी तस्वीरें ढूंढनी हैं: सामग्री का वर्णन करें, लोगों का नाम, दिनांक, एक एल्बम या फ़ाइल नाम। मैं ImageToolbox टूल और सेटिंग्स में भी मदद कर सकता हूं।</string>
     <string name="assistant_gallery_open">गैलरी खोलें</string>
-    <string name="assistant_gallery_more">और दिखाएँ</string>
     <string name="assistant_gallery_invalid_date">कृपया तिथि या सीमा स्पष्ट करें, उदाहरण के लिए \"जुलाई 2026\" या \"2026-07-01 से 2026-07-31\"। जांचें कि तारीखें मौजूद हैं और सीमा शुरू होने के बाद समाप्त हो जाती है।</string>
     <string name="assistant_gallery_missing_literal">फ़िल्टर नाम के बाद एक एल्बम या फ़ाइल नाम निर्दिष्ट करें। रिक्त स्थान वाले नामों को उद्धरण चिह्नों में रखें।</string>
     <string name="assistant_gallery_unsupported_condition">यह खोज दृश्यमान सामग्री, नामित लोगों, तिथियों, एक एल्बम और एक फ़ाइल नाम का समर्थन करती है। बहिष्करण, सटीक पाठ या जीपीएस मिलान, एकाधिक फ़ाइल प्रारूप और अनुरोधित परिणाम गणना अभी तक समर्थित नहीं हैं। कृपया इन शर्तों को समायोजित करें.</string>

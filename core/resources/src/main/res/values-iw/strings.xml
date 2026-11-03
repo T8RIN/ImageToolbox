@@ -7494,7 +7494,6 @@
     <string name="assistant_gallery_no_search">התחל חיפוש תמונות לפני שאתה מצמצם אותו או מבקש תוצאות נוספות.</string>
     <string name="assistant_gallery_parse_error">נא להבהיר אילו תמונות למצוא: תאר את התוכן, שם אנשים, תאריכים, אלבום או שם קובץ. אני יכול לעזור גם בכלים והגדרות של ImageToolbox.</string>
     <string name="assistant_gallery_open">פתח גלריה</string>
-    <string name="assistant_gallery_more">הצג עוד</string>
     <string name="assistant_gallery_invalid_date">נא להבהיר את התאריך או הטווח, לדוגמה \"יולי 2026\" או \"2026-07-01 עד 2026-07-31\". בדוק שהתאריכים קיימים והטווח מסתיים לאחר תחילתו.</string>
     <string name="assistant_gallery_missing_literal">ציין אלבום או שם קובץ אחרי שם המסנן. שים שמות המכילים רווחים במרכאות.</string>
     <string name="assistant_gallery_unsupported_condition">חיפוש זה תומך בתוכן גלוי, אנשים עם שמות, תאריכים, אלבום אחד ושם קובץ. אי הכללות, התאמה מדויקת של טקסט או GPS, פורמטים מרובים של קבצים וספירת תוצאות מבוקשת אינם נתמכים עדיין. נא להתאים את התנאים הללו.</string>

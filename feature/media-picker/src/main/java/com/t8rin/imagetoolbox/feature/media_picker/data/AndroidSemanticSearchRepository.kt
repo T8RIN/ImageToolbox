@@ -320,10 +320,10 @@ internal class AndroidSemanticSearchRepository @Inject constructor(
                 }
                 currentCoroutineContext().ensureActive()
                 result = index.search(
-                    embeddings = listOf(embedding),
+                    embedding = embedding,
                     media = candidates,
                     minimumSimilarity = minimumSimilarity
-                ).single()
+                )
             }
             if (groupPeople && _state.value.faceModelsReady) {
                 SemanticFaceIndex(context).use { index ->

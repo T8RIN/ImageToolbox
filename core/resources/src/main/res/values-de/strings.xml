@@ -7497,7 +7497,6 @@
     <string name="assistant_gallery_no_search">Starten Sie eine Fotosuche, bevor Sie sie eingrenzen oder nach weiteren Ergebnissen fragen.</string>
     <string name="assistant_gallery_parse_error">Bitte klären Sie, welche Fotos gefunden werden sollen: Beschreiben Sie den Inhalt, benennen Sie Personen, Daten, ein Album oder einen Dateinamen. Ich kann auch mit ImageToolbox-Tools und -Einstellungen helfen.</string>
     <string name="assistant_gallery_open">Galerie öffnen</string>
-    <string name="assistant_gallery_more">Mehr anzeigen</string>
     <string name="assistant_gallery_invalid_date">Bitte geben Sie das Datum oder den Zeitraum an, zum Beispiel „Juli 2026“ oder „01.07.2026 bis 31.07.2026“. Überprüfen Sie, ob die Daten vorhanden sind und der Bereich endet, nachdem er begonnen hat.</string>
     <string name="assistant_gallery_missing_literal">Geben Sie nach dem Filternamen einen Album- oder Dateinamen an. Setzen Sie Namen, die Leerzeichen enthalten, in Anführungszeichen.</string>
     <string name="assistant_gallery_unsupported_condition">Diese Suche unterstützt sichtbare Inhalte, benannte Personen, Daten, ein Album und einen Dateinamen. Ausschlüsse, exakter Text- oder GPS-Abgleich, mehrere Dateiformate und eine angeforderte Ergebniszählung werden noch nicht unterstützt. Bitte passen Sie diese Bedingungen an.</string>

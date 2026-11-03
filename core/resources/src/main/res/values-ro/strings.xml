@@ -7493,7 +7493,6 @@
     <string name="assistant_gallery_no_search">Începeți o căutare de fotografii înainte de a o restrânge sau de a cere mai multe rezultate.</string>
     <string name="assistant_gallery_parse_error">Vă rugăm să clarificați ce fotografii să găsiți: descrieți conținutul, numiți persoane, date, un album sau un nume de fișier. De asemenea, pot ajuta cu instrumentele și setările ImageToolbox.</string>
     <string name="assistant_gallery_open">Deschide galeria</string>
-    <string name="assistant_gallery_more">Arată mai multe</string>
     <string name="assistant_gallery_invalid_date">Vă rugăm să clarificați data sau intervalul, de exemplu „iulie 2026” sau „2026-07-01 până la 2026-07-31”. Verificați dacă datele există și intervalul se termină după ce începe.</string>
     <string name="assistant_gallery_missing_literal">Specificați un album sau un nume de fișier după numele filtrului. Puneți nume care conțin spații între ghilimele.</string>
     <string name="assistant_gallery_unsupported_condition">Această căutare acceptă conținut vizibil, persoane numite, date, un album și un nume de fișier. Excluderile, textul exact sau potrivirea GPS, formatele multiple de fișiere și numărul de rezultate solicitate nu sunt încă acceptate. Vă rugăm să ajustați aceste condiții.</string>

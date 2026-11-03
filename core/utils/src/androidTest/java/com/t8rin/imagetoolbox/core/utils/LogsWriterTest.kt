@@ -123,7 +123,6 @@ class LogsWriterTest {
 
     private fun writer(limit: Int? = LIMIT) = LogsWriter(
         context = context,
-        fileProvider = "unused",
         logsFilename = "${directory.name}/${file.name}",
         isSyncCreate = true,
         startupLog = log("startup"),

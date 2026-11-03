@@ -7492,7 +7492,6 @@
     <string name="assistant_gallery_no_search">Bir fotoğraf aramasını daraltmadan veya daha fazla sonuç istemeden önce başlatın.</string>
     <string name="assistant_gallery_parse_error">Lütfen hangi fotoğrafları bulacağınızı açıklayın: içeriği tanımlayın, kişileri, tarihleri, albümü veya dosya adını belirtin. ImageToolbox araçları ve ayarları konusunda da yardımcı olabilirim.</string>
     <string name="assistant_gallery_open">Galeriyi aç</string>
-    <string name="assistant_gallery_more">Daha fazlasını göster</string>
     <string name="assistant_gallery_invalid_date">Lütfen tarihi veya aralığı netleştirin; örneğin \"Temmuz 2026\" veya \"01.07.2026 - 31.07.2026\". Tarihlerin mevcut olup olmadığını ve aralığın başladıktan sonra bitip bitmediğini kontrol edin.</string>
     <string name="assistant_gallery_missing_literal">Filtre adından sonra bir albüm veya dosya adı belirtin. Boşluk içeren adları tırnak içine alın.</string>
     <string name="assistant_gallery_unsupported_condition">Bu arama görünür içeriği, adlandırılmış kişileri, tarihleri, bir albümü ve bir dosya adını destekler. İstisnalar, tam metin veya GPS eşleştirme, birden fazla dosya formatı ve istenen sonuç sayısı henüz desteklenmemektedir. Lütfen bu koşulları ayarlayın.</string>

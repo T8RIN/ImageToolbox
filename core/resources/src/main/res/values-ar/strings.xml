@@ -7501,7 +7501,6 @@
     <string name="assistant_gallery_no_search">ابدأ البحث عن الصور قبل تضييق نطاقه أو طلب المزيد من النتائج.</string>
     <string name="assistant_gallery_parse_error">يرجى توضيح الصور التي يجب العثور عليها: وصف المحتوى، أو تسمية الأشخاص، أو التواريخ، أو الألبوم، أو اسم الملف. يمكنني أيضًا المساعدة في أدوات وإعدادات ImageToolbox.</string>
     <string name="assistant_gallery_open">افتح المعرض</string>
-    <string name="assistant_gallery_more">عرض المزيد</string>
     <string name="assistant_gallery_invalid_date">يرجى توضيح التاريخ أو النطاق، على سبيل المثال \"يوليو 2026\" أو \"01-07-2026 إلى 31-07-2026\". تأكد من وجود التواريخ وأن النطاق ينتهي بعد أن يبدأ.</string>
     <string name="assistant_gallery_missing_literal">حدد الألبوم أو اسم الملف بعد اسم الفلتر. ضع الأسماء التي تحتوي على مسافات بين علامتي الاقتباس.</string>
     <string name="assistant_gallery_unsupported_condition">يدعم هذا البحث المحتوى المرئي والأشخاص المحددين والتواريخ وألبومًا واحدًا واسم ملف. الاستثناءات والنص الدقيق أو مطابقة نظام تحديد المواقع العالمي (GPS) وتنسيقات الملفات المتعددة وعدد النتائج المطلوبة غير مدعومة حتى الآن. يرجى تعديل هذه الشروط.</string>

@@ -7491,7 +7491,6 @@
     <string name="assistant_gallery_no_search">Mulai pencarian foto sebelum mempersempitnya atau meminta hasil lebih banyak.</string>
     <string name="assistant_gallery_parse_error">Harap jelaskan foto apa yang akan ditemukan: jelaskan kontennya, sebutkan nama orang, tanggal, album, atau nama file. Saya juga dapat membantu dengan alat dan pengaturan ImageToolbox.</string>
     <string name="assistant_gallery_open">Buka galeri</string>
-    <string name="assistant_gallery_more">Tampilkan lebih banyak</string>
     <string name="assistant_gallery_invalid_date">Harap klarifikasi tanggal atau rentangnya, misalnya “Juli 2026” atau “01-07-2026 hingga 31-07-2026”. Periksa apakah tanggalnya ada dan rentangnya berakhir setelah dimulai.</string>
     <string name="assistant_gallery_missing_literal">Tentukan album atau nama file setelah nama filter. Masukkan nama yang mengandung spasi dalam tanda petik.</string>
     <string name="assistant_gallery_unsupported_condition">Pencarian ini mendukung konten yang terlihat, nama orang, tanggal, satu album dan nama file. Pengecualian, pencocokan teks atau GPS, berbagai format file, dan jumlah hasil yang diminta belum didukung. Silakan sesuaikan kondisi ini.</string>

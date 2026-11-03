@@ -29,7 +29,6 @@ import kotlinx.coroutines.yield
 import java.io.File
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
-import java.util.PriorityQueue
 
 internal class SemanticSearchIndex(
     context: Context,
@@ -85,36 +84,21 @@ internal class SemanticSearchIndex(
         embedding: FloatArray,
         media: List<Media>,
         minimumSimilarity: Float = SIMILARITY_THRESHOLD
-    ): List<Media> = search(listOf(embedding), media, minimumSimilarity).single()
-
-    suspend fun search(
-        embeddings: List<FloatArray>,
-        media: List<Media>,
-        minimumSimilarity: Float = SIMILARITY_THRESHOLD,
-        limit: Int = RESULT_LIMIT
-    ): List<List<Media>> {
-        require(embeddings.all { it.size == EMBEDDING_SIZE && it.all(Float::isFinite) })
-        require(limit > 0 && minimumSimilarity.isFinite())
-        currentCoroutineContext().ensureActive()
-        val bestFirst = compareByDescending<Match> { it.score }.thenBy { it.order }
-        val matches = embeddings.map {
-            PriorityQueue(minOf(limit, RESULT_LIMIT), bestFirst.reversed())
-        }
+    ): List<Media> {
+        require(embedding.size == EMBEDDING_SIZE && embedding.all(Float::isFinite))
+        require(minimumSimilarity.isFinite())
+        val matches = mutableListOf<Match>()
 
         forEachEmbedding(media) { item, vector ->
-            embeddings.forEachIndexed { position, embedding ->
-                var score = 0f
-                for (index in embedding.indices) score += embedding[index] * vector[index]
-                if (score >= minimumSimilarity) {
-                    matches[position].apply {
-                        add(Match(item.value, score, item.index))
-                        if (size > limit) poll()
-                    }
-                }
+            var score = 0f
+            for (index in embedding.indices) score += embedding[index] * vector[index]
+            if (score >= minimumSimilarity) {
+                matches.add(Match(item.value, score, item.index))
             }
         }
 
-        return matches.map { category -> category.sortedWith(bestFirst).map(Match::media) }
+        matches.sortWith(compareByDescending<Match> { it.score }.thenBy { it.order })
+        return matches.map(Match::media)
     }
 
     suspend fun categories(
@@ -170,7 +154,6 @@ internal class SemanticSearchIndex(
 
     private companion object {
         const val EMBEDDING_SIZE = 512
-        const val RESULT_LIMIT = 100
         const val SIMILARITY_THRESHOLD = 0.26f
     }
 

@@ -7469,7 +7469,6 @@
     <string name="assistant_gallery_no_search">在縮小範圍或詢問更多結果之前開始照片搜尋。</string>
     <string name="assistant_gallery_parse_error">請說明要尋找哪些照片：描述內容、人物姓名、日期、相簿或檔案名稱。我還可以幫助您使用 ImageToolbox 工具和設定。</string>
     <string name="assistant_gallery_open">打開畫廊</string>
-    <string name="assistant_gallery_more">顯示更多</string>
     <string name="assistant_gallery_invalid_date">請說明日期或範圍，例如“2026 年 7 月”或“2026-07-01 至 2026-07-31”。檢查日期是否存在以及範圍在開始後結束。</string>
     <string name="assistant_gallery_missing_literal">在過濾器名稱後指定專輯或檔案名稱。將包含空格的名稱放在引號中。</string>
     <string name="assistant_gallery_unsupported_condition">此搜尋支援可見內容、命名人員、日期、一張專輯和檔案名稱。尚不支援排除、精確文字或 GPS 匹配、多種文件格式和請求的結果計數。請調整這些條件。</string>

@@ -7489,7 +7489,6 @@
     <string name="assistant_gallery_no_search">قبل از محدود کردن عکس یا درخواست نتایج بیشتر، جستجوی عکس را شروع کنید.</string>
     <string name="assistant_gallery_parse_error">لطفاً مشخص کنید چه عکس‌هایی را باید پیدا کنید: محتوا را توصیف کنید، افراد را نام ببرید، تاریخ‌ها، یک آلبوم یا یک نام فایل. من همچنین می توانم در مورد ابزارها و تنظیمات ImageToolbox کمک کنم.</string>
     <string name="assistant_gallery_open">گالری را باز کنید</string>
-    <string name="assistant_gallery_more">نمایش بیشتر</string>
     <string name="assistant_gallery_invalid_date">لطفاً تاریخ یا محدوده را مشخص کنید، برای مثال «ژوئیه 2026» یا «01-07-2026 تا 2026-07-31». بررسی کنید که تاریخ ها وجود داشته باشند و محدوده پس از شروع به پایان برسد.</string>
     <string name="assistant_gallery_missing_literal">بعد از نام فیلتر یک آلبوم یا نام فایل را مشخص کنید. نام های حاوی فاصله را در گیومه قرار دهید.</string>
     <string name="assistant_gallery_unsupported_condition">این جستجو از محتوای قابل مشاهده، افراد با نام، تاریخ ها، یک آلبوم و نام فایل پشتیبانی می کند. موارد استثنا، متن دقیق یا تطبیق GPS، فرمت‌های فایل متعدد و تعداد نتایج درخواستی هنوز پشتیبانی نمی‌شوند. لطفا این شرایط را تنظیم کنید.</string>

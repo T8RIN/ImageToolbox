@@ -7492,7 +7492,6 @@
     <string name="assistant_gallery_no_search">Indítson el egy fotókeresést, mielőtt szűkítené, vagy további találatokat kérne.</string>
     <string name="assistant_gallery_parse_error">Kérjük, pontosítsa, milyen fényképeket talál: írja le a tartalmat, nevezzen meg személyeket, dátumokat, albumot vagy fájlnevet. Az ImageToolbox eszközeivel és beállításaival kapcsolatban is tudok segíteni.</string>
     <string name="assistant_gallery_open">Galéria megnyitása</string>
-    <string name="assistant_gallery_more">Mutasson többet</string>
     <string name="assistant_gallery_invalid_date">Kérjük, pontosítsa a dátumot vagy a tartományt, például „2026. július” vagy „2026-07-01 – 2026-07-31”. Ellenőrizze, hogy a dátumok léteznek-e, és a tartomány a kezdete után ér véget.</string>
     <string name="assistant_gallery_missing_literal">Adjon meg egy album- vagy fájlnevet a szűrő neve után. Tegye idézőjelbe a szóközt tartalmazó neveket.</string>
     <string name="assistant_gallery_unsupported_condition">Ez a keresés támogatja a látható tartalmakat, megnevezett személyeket, dátumokat, egy albumot és egy fájlnevet. A kizárások, a pontos szöveg- vagy GPS-egyeztetés, a több fájlformátum és a kért eredmények száma még nem támogatott. Kérjük, módosítsa ezeket a feltételeket.</string>

@@ -7492,7 +7492,6 @@
     <string name="assistant_gallery_no_search">Start een fotozoekopdracht voordat u deze verfijnt of om meer resultaten vraagt.</string>
     <string name="assistant_gallery_parse_error">Geef duidelijk aan welke foto\'s u kunt vinden: beschrijf de inhoud, noem mensen, data, een album of een bestandsnaam. Ik kan ook helpen met de tools en instellingen van ImageToolbox.</string>
     <string name="assistant_gallery_open">Galerij openen</string>
-    <string name="assistant_gallery_more">Laat meer zien</string>
     <string name="assistant_gallery_invalid_date">Verduidelijk de datum of het bereik, bijvoorbeeld \'juli 2026\' of \'01-07-2026 tot 31-07-2026\'. Controleer of de datums bestaan en of het bereik eindigt nadat het is begonnen.</string>
     <string name="assistant_gallery_missing_literal">Geef een album- of bestandsnaam op na de filternaam. Zet namen met spaties tussen aanhalingstekens.</string>
     <string name="assistant_gallery_unsupported_condition">Deze zoekopdracht ondersteunt zichtbare inhoud, benoemde mensen, datums, één album en een bestandsnaam. Uitsluitingen, exacte tekst- of GPS-matching, meerdere bestandsformaten en een gevraagd resultaattelling worden nog niet ondersteund. Pas deze voorwaarden aan.</string>

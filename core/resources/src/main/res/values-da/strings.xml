@@ -7492,7 +7492,6 @@
     <string name="assistant_gallery_no_search">Start en fotosøgning, før du indsnævrer den eller beder om flere resultater.</string>
     <string name="assistant_gallery_parse_error">Afklar venligst, hvilke billeder du skal finde: beskriv indholdet, navngiv personer, datoer, et album eller et filnavn. Jeg kan også hjælpe med ImageToolbox værktøjer og indstillinger.</string>
     <string name="assistant_gallery_open">Åbn galleri</string>
-    <string name="assistant_gallery_more">Vis mere</string>
     <string name="assistant_gallery_invalid_date">Angiv venligst datoen eller intervallet, for eksempel \"juli 2026\" eller \"2026-07-01 til 2026-07-31\". Tjek, at datoerne findes, og at intervallet slutter, efter det er startet.</string>
     <string name="assistant_gallery_missing_literal">Angiv et album eller et filnavn efter filternavnet. Sæt navne med mellemrum i anførselstegn.</string>
     <string name="assistant_gallery_unsupported_condition">Denne søgning understøtter synligt indhold, navngivne personer, datoer, et album og et filnavn. Ekskluderinger, nøjagtig tekst- eller GPS-matchning, flere filformater og en anmodet resultatoptælling understøttes endnu ikke. Juster venligst disse betingelser.</string>

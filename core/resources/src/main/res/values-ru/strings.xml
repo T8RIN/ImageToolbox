@@ -7557,7 +7557,6 @@
     <string name="assistant_gallery_no_search">Сначала найдите фотографии, затем уточняйте поиск или просите показать ещё.</string>
     <string name="assistant_gallery_parse_error">Уточните, какие фото найти: опишите содержимое, укажите людей, даты, альбом или имя файла. Я также могу помочь с инструментами и настройками ImageToolbox.</string>
     <string name="assistant_gallery_open">Открыть галерею</string>
-    <string name="assistant_gallery_more">Показать ещё</string>
     <string name="assistant_gallery_invalid_date">Уточните дату или диапазон, например «июль 2026» или «с 2026-07-01 по 2026-07-31». Проверьте, что даты существуют, а конец диапазона не раньше начала.</string>
     <string name="assistant_gallery_missing_literal">Укажите альбом или имя файла после названия фильтра. Названия с пробелами можно заключить в кавычки.</string>
     <string name="assistant_gallery_unsupported_condition">Поиск поддерживает содержимое фото, имена людей, даты, один альбом и имя файла. Исключения, точный текст или GPS, несколько форматов файлов и заданное число результатов пока не поддерживаются. Уточните эти условия.</string>

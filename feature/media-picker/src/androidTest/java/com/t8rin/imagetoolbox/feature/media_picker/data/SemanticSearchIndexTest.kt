@@ -150,18 +150,19 @@ class SemanticSearchIndexTest {
     }
 
     @Test
-    fun resultsAreLimitedToTheMostRelevantHundredImagesAcrossQueryChunks() = runBlocking {
+    fun ranksAllMatchesAcrossQueryChunks() = runBlocking {
+        val minimumSimilarity = 0.26f
         val rankedMedia = List(1205) { position ->
             media(position.toLong() + 1) to (position * 37 % 1205)
         }
         rankedMedia.forEach { (item, rank) -> index.put(item, embedding(0.21f + rank / 1600f)) }
 
-        val results = index.search(embedding(1f), rankedMedia.map { it.first })
+        val candidates = rankedMedia.map { it.first }
+        val expected = rankedMedia.filter { 0.21f + it.second / 1600f >= minimumSimilarity }
+            .sortedByDescending { it.second }
+            .map { it.first }
 
-        assertEquals(
-            rankedMedia.sortedByDescending { it.second }.take(100).map { it.first },
-            results
-        )
+        assertEquals(expected, index.search(embedding(1f), candidates, minimumSimilarity))
     }
 
     @Test
@@ -211,7 +212,7 @@ class SemanticSearchIndexTest {
     }
 
     @Test
-    fun categoriesIncludeAllMatchesAcrossDatabaseChunksWithoutTheSearchResultsLimit() =
+    fun categoriesIncludeAllMatchesAcrossDatabaseChunks() =
         runBlocking {
             val media = List(1205) { media(it.toLong() + 1) }
             media.forEach { index.put(it, embedding(1f)) }
@@ -221,7 +222,6 @@ class SemanticSearchIndexTest {
 
             assertEquals(1205, results.media.size)
             assertEquals(media.toSet(), results.media.toSet())
-            assertEquals(100, index.search(embedding(1f), media).size)
         }
 
     @Test
@@ -274,14 +274,12 @@ class SemanticSearchIndexTest {
         index.put(matching, embedding(0.26f))
 
         val results = index.search(
-            embeddings = listOf(embedding(1f)),
+            embedding = embedding(1f),
             media = listOf(weak, matching),
-            minimumSimilarity = 0.26f,
-            limit = Int.MAX_VALUE
+            minimumSimilarity = 0.26f
         )
 
-        assertEquals(listOf(matching), results.single())
-        assertEquals(listOf(matching), index.search(embedding(1f), listOf(weak, matching)))
+        assertEquals(listOf(matching), results)
     }
 
     @Test

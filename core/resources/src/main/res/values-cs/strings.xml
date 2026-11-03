@@ -7468,7 +7468,6 @@
     <string name="assistant_gallery_no_search">Před zúžením nebo dotazem na další výsledky zahajte vyhledávání fotografií.</string>
     <string name="assistant_gallery_parse_error">Upřesněte prosím, jaké fotografie najdete: popište obsah, jména osob, data, album nebo název souboru. Mohu také pomoci s nástroji a nastavením ImageToolbox.</string>
     <string name="assistant_gallery_open">Otevřít galerii</string>
-    <string name="assistant_gallery_more">Zobrazit více</string>
     <string name="assistant_gallery_invalid_date">Upřesněte datum nebo rozsah, například „červenec 2026“ nebo „2026-07-01 až 2026-07-31“. Zkontrolujte, zda data existují a rozsah končí po jeho zahájení.</string>
     <string name="assistant_gallery_missing_literal">Za názvem filtru zadejte album nebo název souboru. Názvy obsahující mezery vložte do uvozovek.</string>
     <string name="assistant_gallery_unsupported_condition">Toto vyhledávání podporuje viditelný obsah, pojmenované osoby, data, jedno album a název souboru. Vyloučení, přesný text nebo shoda GPS, více formátů souborů a požadovaný počet výsledků zatím nejsou podporovány. Upravte prosím tyto podmínky.</string>

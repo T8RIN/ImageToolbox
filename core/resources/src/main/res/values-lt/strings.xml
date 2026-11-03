@@ -7494,7 +7494,6 @@
     <string name="assistant_gallery_no_search">Pradėkite nuotraukų paiešką prieš ją susiaurindami arba prašydami daugiau rezultatų.</string>
     <string name="assistant_gallery_parse_error">Paaiškinkite, kokias nuotraukas rasite: aprašykite turinį, įvardinkite žmones, datas, albumą ar failo pavadinimą. Taip pat galiu padėti su ImageToolbox įrankiais ir nustatymais.</string>
     <string name="assistant_gallery_open">Atidaryti galeriją</string>
-    <string name="assistant_gallery_more">Rodyti daugiau</string>
     <string name="assistant_gallery_invalid_date">Patikslinkite datą arba intervalą, pvz., „2026 m. liepos mėn.“ arba „2026-07-01 iki 2026-07-31“. Patikrinkite, ar datos yra ir diapazonas baigiasi jam prasidėjus.</string>
     <string name="assistant_gallery_missing_literal">Po filtro pavadinimo nurodykite albumo arba failo pavadinimą. Pavadinimus, kuriuose yra tarpų, įrašykite kabutėse.</string>
     <string name="assistant_gallery_unsupported_condition">Ši paieška palaiko matomą turinį, pavadintus žmones, datas, vieną albumą ir failo pavadinimą. Išskyrimai, tiksli teksto arba GPS atitiktis, keli failų formatai ir pageidaujamas rezultatų skaičius dar nepalaikomi. Pakoreguokite šias sąlygas.</string>

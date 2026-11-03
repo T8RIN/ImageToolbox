@@ -7492,7 +7492,6 @@
     <string name="assistant_gallery_no_search">Magsimula ng paghahanap ng larawan bago ito paliitin o humingi ng higit pang mga resulta.</string>
     <string name="assistant_gallery_parse_error">Mangyaring linawin kung anong mga larawan ang hahanapin: ilarawan ang nilalaman, pangalanan ang mga tao, petsa, album o isang filename. Maaari din akong tumulong sa mga tool at setting ng ImageToolbox.</string>
     <string name="assistant_gallery_open">Buksan ang gallery</string>
-    <string name="assistant_gallery_more">Magpakita ng higit pa</string>
     <string name="assistant_gallery_invalid_date">Mangyaring linawin ang petsa o hanay, halimbawa \"Hulyo 2026\" o \"2026-07-01 hanggang 2026-07-31\". Suriin kung ang mga petsa ay umiiral at ang hanay ay nagtatapos pagkatapos ito magsimula.</string>
     <string name="assistant_gallery_missing_literal">Tumukoy ng album o filename pagkatapos ng pangalan ng filter. Maglagay ng mga pangalan na naglalaman ng mga puwang sa mga panipi.</string>
     <string name="assistant_gallery_unsupported_condition">Sinusuportahan ng paghahanap na ito ang nakikitang nilalaman, pinangalanang mga tao, mga petsa, isang album at isang filename. Hindi pa sinusuportahan ang mga pagbubukod, eksaktong teksto o pagtutugma ng GPS, maraming format ng file at isang hiniling na bilang ng resulta. Mangyaring ayusin ang mga kundisyong ito.</string>

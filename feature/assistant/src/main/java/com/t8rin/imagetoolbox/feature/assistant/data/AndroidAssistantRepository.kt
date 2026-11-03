@@ -870,19 +870,6 @@ internal class AndroidAssistantRepository @Inject constructor(
         }
     }
 
-    override fun moreGalleryPhotos(message: AssistantMessage) {
-        val result = message.answer.gallery ?: return
-        if (!canContinueGallery(message)) return
-        send(
-            AssistantRequest(
-                resources.getString(R.string.assistant_gallery_more),
-                message.context
-            ), null
-        ) {
-            gallerySearch.more(result.sessionId)
-        }
-    }
-
     override suspend fun prepareModel(model: AssistantModel) {
         releaseJob?.join()
         if (!enabled || selectedModel != model) return

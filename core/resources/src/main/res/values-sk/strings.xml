@@ -7482,7 +7482,6 @@
     <string name="assistant_gallery_no_search">Pred zúžením alebo požiadaním o ďalšie výsledky spustite vyhľadávanie fotografií.</string>
     <string name="assistant_gallery_parse_error">Ujasnite si, aké fotografie nájdete: popíšte obsah, mená ľudí, dátumy, album alebo názov súboru. Môžem tiež pomôcť s nástrojmi a nastaveniami ImageToolbox.</string>
     <string name="assistant_gallery_open">Otvoriť galériu</string>
-    <string name="assistant_gallery_more">Ukáž viac</string>
     <string name="assistant_gallery_invalid_date">Upresnite dátum alebo rozsah, napríklad „Júl 2026“ alebo „2026-07-01 až 2026-07-31“. Skontrolujte, či existujú dátumy a či rozsah končí po jeho začatí.</string>
     <string name="assistant_gallery_missing_literal">Za názvom filtra zadajte album alebo názov súboru. Názvy obsahujúce medzery vložte do úvodzoviek.</string>
     <string name="assistant_gallery_unsupported_condition">Toto vyhľadávanie podporuje viditeľný obsah, pomenované osoby, dátumy, jeden album a názov súboru. Vylúčenia, presné zhody textu alebo GPS, viaceré formáty súborov a požadovaný počet výsledkov zatiaľ nie sú podporované. Upravte tieto podmienky.</string>

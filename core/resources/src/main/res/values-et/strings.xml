@@ -7492,7 +7492,6 @@
     <string name="assistant_gallery_no_search">Alustage fotootsingut enne selle kitsendamiseks või lisatulemuste küsimist.</string>
     <string name="assistant_gallery_parse_error">Täpsustage, milliseid fotosid leida: kirjeldage sisu, nimetage inimesi, kuupäevi, albumit või failinime. Samuti saan aidata ImageToolboxi tööriistade ja seadistustega.</string>
     <string name="assistant_gallery_open">Ava galerii</string>
-    <string name="assistant_gallery_more">Näita rohkem</string>
     <string name="assistant_gallery_invalid_date">Täpsustage kuupäev või vahemik, näiteks „juuli 2026” või „2026-07-01 kuni 2026-07-31”. Kontrollige, kas kuupäevad on olemas ja vahemik lõpeb pärast selle algust.</string>
     <string name="assistant_gallery_missing_literal">Määrake filtri nime järel albumi või failinimi. Pange tühikuid sisaldavad nimed jutumärkidesse.</string>
     <string name="assistant_gallery_unsupported_condition">See otsing toetab nähtavat sisu, nimega inimesi, kuupäevi, ühte albumit ja failinime. Välistamist, täpset teksti või GPS-i sobitamist, mitut failivormingut ja soovitud tulemuste arvu veel ei toetata. Palun kohandage neid tingimusi.</string>

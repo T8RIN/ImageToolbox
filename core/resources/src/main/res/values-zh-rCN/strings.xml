@@ -7491,7 +7491,6 @@
     <string name="assistant_gallery_no_search">在缩小范围或询问更多结果之前开始照片搜索。</string>
     <string name="assistant_gallery_parse_error">请说明要查找哪些照片：描述内容、人物姓名、日期、相册或文件名。我还可以帮助您使用 ImageToolbox 工具和设置。</string>
     <string name="assistant_gallery_open">打开画廊</string>
-    <string name="assistant_gallery_more">显示更多</string>
     <string name="assistant_gallery_invalid_date">请说明日期或范围，例如“2026 年 7 月”或“2026-07-01 至 2026-07-31”。检查日期是否存在以及范围在开始后结束。</string>
     <string name="assistant_gallery_missing_literal">在过滤器名称后指定专辑或文件名。将包含空格的名称放在引号中。</string>
     <string name="assistant_gallery_unsupported_condition">此搜索支持可见内容、命名人员、日期、一张专辑和文件名。尚不支持排除、精确文本或 GPS 匹配、多种文件格式和请求的结果计数。请调整这些条件。</string>

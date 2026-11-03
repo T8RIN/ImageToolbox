@@ -188,10 +188,6 @@ class AssistantRepositoryInstrumentedTest {
                     }
 
                     override fun isCurrent(sessionId: Long) = true
-                    override suspend fun more(sessionId: Long, language: String?): AssistantAnswer {
-                        started.complete(Unit)
-                        return reply.await()
-                    }
 
                     override suspend fun retry(sessionId: Long): AssistantAnswer {
                         started.complete(Unit)
@@ -879,23 +875,6 @@ class AssistantRepositoryInstrumentedTest {
             File(app.cacheDir, "assistant-multilingual-answers.json").writeText(report.toString(2))
         }
         assertTrue(failures.joinToString("\n"), failures.isEmpty())
-    }
-
-    @Test
-    fun galleryPaginationUsesTheExistingSearchWithoutAModelOrCatalogRead() = runBlocking {
-        val repository = create()
-        val component = component(repository)
-        val original = repository.messages.value.single()
-        withContext(Dispatchers.Main) { component.moreGalleryPhotos(original) }
-        withTimeout(2_000) { started.await() }
-        assertEquals(0, catalogCalls)
-        assertEquals(AssistantRepository.Progress.FindingPhotos, repository.progress.value)
-        reply.complete(AssistantAnswer("Next page", gallery = gallery))
-        withTimeout(5_000) { repository.isGenerating.first { !it } }
-        assertEquals(2, repository.messages.value.size)
-        assertEquals("Next page", repository.messages.value.last().answer.text)
-        assertEquals(null, repository.progress.value)
-        assertFalse(repository.canContinueGallery(original))
     }
 
     @Test
