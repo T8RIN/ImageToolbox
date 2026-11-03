@@ -51,6 +51,9 @@ val appContext: AppContext
         "AppContext not initialized"
     }
 
+val appContextOrNull: AppContext?
+    get() = AppContext.appContext
+
 fun getString(@StringRes resId: Int): String = appContext.getString(resId)
 
 fun getString(

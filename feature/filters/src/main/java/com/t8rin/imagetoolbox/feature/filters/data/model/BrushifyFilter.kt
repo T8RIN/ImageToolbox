@@ -18,62 +18,89 @@
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import com.t8rin.gmic.GmicFilter
-import com.t8rin.gmic.filters.Brushify
 import com.t8rin.gmic.filters.BrushLight
 import com.t8rin.gmic.filters.BrushShape
+import com.t8rin.gmic.filters.Brushify
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.Brushify.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.ARTISTIC)
 internal class BrushifyFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf(
-            "Ellipse",
-            "0.25",
-            "4",
-            "64",
-            "25",
-            "12",
-            "0",
-            "2",
-            "Full",
-            "0.2",
-            "0.5",
-            "30",
-            "1",
-            "1",
-            "1",
-            "5",
-            "0",
-            "0.2"
-        )
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.Brushify {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = Brushify(
-        shape = BrushShape.valueOf(value[0]),
-        ratio = value[1].toFloat(),
-        numberOfSizes = value[2].toInt(),
-        maximalSize = value[3].toInt(),
-        minimalSize = value[4].toFloat(),
-        orientations = value[5].toInt(),
-        fuzziness = value[6].toFloat(),
-        smoothness = value[7].toFloat(),
-        light = BrushLight.valueOf(value[8]),
-        lightStrength = value[9].toFloat(),
-        opacity = value[10].toFloat(),
-        density = value[11].toFloat(),
-        contourCoherence = value[12].toFloat(),
-        orientationCoherence = value[13].toFloat(),
-        gradientSmoothness = value[14].toFloat(),
-        structureSmoothness = value[15].toFloat(),
-        primaryAngle = value[16].toFloat(),
-        angleDispersion = value[17].toFloat()
+        shape = BrushShape.valueOf(value.settings[0]),
+        ratio = value.settings[1].toFloat(),
+        numberOfSizes = value.settings[2].toInt(),
+        maximalSize = value.settings[3].toInt(),
+        minimalSize = value.settings[4].toFloat(),
+        orientations = value.settings[5].toInt(),
+        fuzziness = value.settings[6].toFloat(),
+        smoothness = value.settings[7].toFloat(),
+        light = BrushLight.valueOf(value.settings[8]),
+        lightStrength = value.settings[9].toFloat(),
+        opacity = value.settings[10].toFloat(),
+        density = value.settings[11].toFloat(),
+        contourCoherence = value.settings[12].toFloat(),
+        orientationCoherence = value.settings[13].toFloat(),
+        gradientSmoothness = value.settings[14].toFloat(),
+        structureSmoothness = value.settings[15].toFloat(),
+        primaryAngle = value.settings[16].toFloat(),
+        angleDispersion = value.settings[17].toFloat()
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info =
+            FilterInfo(R.string.gmic_filter_brushify, R.string.filter_help_gmic_filter_brushify)
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicSelection(
+                        R.string.shape,
+                        "Ellipse",
+                        listOf(
+                            "Rectangle",
+                            "Diamond",
+                            "Pentagon",
+                            "Hexagon",
+                            "Octagon",
+                            "Ellipse",
+                            "Gaussian",
+                            "Star",
+                            "Heart"
+                        )
+                    ),
+                    gmicNumber(R.string.gmic_param_ratio, 0.25f, 0f..1f),
+                    gmicInteger(R.string.gmic_param_number_of_sizes, 4, 1f..16f),
+                    gmicInteger(R.string.gmic_param_maximal_size, 64, 1f..128f),
+                    gmicNumber(R.string.gmic_param_minimal_size, 25, 0f..100f),
+                    gmicInteger(R.string.orientation, 12, 1f..24f),
+                    gmicNumber(R.string.fuzziness, 0, 0f..10f),
+                    gmicNumber(R.string.gmic_param_smoothness, 2, 0f..10f),
+                    gmicSelection(
+                        R.string.light,
+                        "Full",
+                        listOf("None", "Flat", "Darken", "Lighten", "Full")
+                    ),
+                    gmicNumber(R.string.strength, 0.2f, 0f..1f),
+                    gmicNumber(R.string.opacity, 0.5f, 0f..1f),
+                    gmicNumber(R.string.density, 30, 0f..100f),
+                    gmicNumber(R.string.gmic_param_contour_coherence, 1, 0f..1f),
+                    gmicNumber(R.string.gmic_param_orientation_coherence, 1, 0f..1f),
+                    gmicNumber(R.string.gmic_param_gradient_smoothness, 1, 0f..10f),
+                    gmicNumber(R.string.gmic_param_structure_smoothness, 5, 0f..10f),
+                    gmicNumber(R.string.gmic_param_primary_angle, 0, -180f..180f),
+                    gmicNumber(R.string.dispersion, 0.2f, 0f..1f)
+                )
+            )
+        }
+    }
 }

@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,18 +19,19 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import android.graphics.Bitmap
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.AutoRemoveRedEyes.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 import com.t8rin.opencv_tools.red_eye.RedEyeRemover
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.ENHANCEMENT)
 internal class AutoRemoveRedEyesFilter(
-    override val value: Float = 150f,
-) : Transformation<Bitmap>, Filter.AutoRemoveRedEyes {
-
-    override val cacheKey: String
-        get() = value.hashCode().toString()
+    override val value: Value,
+) : FilterTransformation, Filter.AutoRemoveRedEyes {
 
     override suspend fun transform(
         input: Bitmap,
@@ -38,7 +39,15 @@ internal class AutoRemoveRedEyesFilter(
     ): Bitmap = RedEyeRemover.removeRedEyes(
         bitmap = input,
         minEyeSize = 35.0,
-        redThreshold = value.toDouble()
+        redThreshold = value.threshold.toDouble()
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info =
+            FilterInfo(R.string.auto_remove_red_eyes, R.string.filter_help_auto_remove_red_eyes)
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::threshold, floatParam(R.string.threshold, 150f, 0f..255f))
+        }
+    }
 }

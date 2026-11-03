@@ -18,30 +18,37 @@
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import android.graphics.Bitmap
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import coil3.size.Size
 import com.t8rin.gmic.Gmic
 import com.t8rin.gmic.GmicFilter
+import com.t8rin.gmic.filters.RawGmicFilter as GmicRawFilter
 import com.t8rin.gmic.model.GmicException
 import com.t8rin.imagetoolbox.core.domain.model.ImageModel
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.RawGmic.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 import com.t8rin.imagetoolbox.feature.filters.data.utils.flexible
 import com.t8rin.imagetoolbox.feature.filters.data.utils.image.loadBitmap
-import com.t8rin.gmic.filters.RawGmicFilter as GmicRawFilter
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.EFFECTS)
 internal class RawGmicFilter(
-    override val value: String = "fx_gmicky 0",
+    override val value: Value,
     private val onError: (String) -> Unit = {}
 ) : GMICFilterTransformation(), Filter.RawGmic {
 
     override var auxiliaryImages: List<ImageModel> = emptyList()
 
-    override val cacheKey: String
-        get() = listOf(value, auxiliaryImages).hashCode().toString()
+    override val cacheKeyExtra: List<ImageModel>
+        get() = auxiliaryImages
 
-    override fun createFilter(): GmicFilter = GmicRawFilter(value)
+    override fun createFilter(): GmicFilter = GmicRawFilter(value.command)
 
     override suspend fun transform(
         input: Bitmap,
@@ -53,7 +60,7 @@ internal class RawGmicFilter(
             val loadedAuxiliaryInputs = auxiliaryImages.map {
                 it.data.loadBitmap() ?: return input
             }
-            val filter = object : GmicRawFilter(value) {
+            val filter = object : GmicRawFilter(value.command) {
                 override val auxiliaryInputs: List<Bitmap> = loadedAuxiliaryInputs
             }
 
@@ -68,4 +75,12 @@ internal class RawGmicFilter(
     }
 
     override fun pushError(error: String) = onError(error)
+
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(R.string.gmic_filter, R.string.filter_help_gmic_filter)
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::command, stringParam(R.string.command, default = { "fx_gmicky 0" }))
+        }
+    }
 }

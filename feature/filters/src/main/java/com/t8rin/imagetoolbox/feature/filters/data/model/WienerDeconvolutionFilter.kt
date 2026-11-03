@@ -19,19 +19,19 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import android.graphics.Bitmap
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.WienerDeconvolutionParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.WienerDeconvolution.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 import com.t8rin.opencv_tools.photo_filters.SpectralFilters
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.ENHANCEMENT)
 internal class WienerDeconvolutionFilter(
-    override val value: WienerDeconvolutionParams = WienerDeconvolutionParams.Default
-) : Transformation<Bitmap>, Filter.WienerDeconvolution {
-
-    override val cacheKey: String
-        get() = "${javaClass.name}:${value.hashCode()}"
+    override val value: Value
+) : FilterTransformation, Filter.WienerDeconvolution {
 
     override suspend fun transform(
         input: Bitmap,
@@ -45,4 +45,27 @@ internal class WienerDeconvolutionFilter(
         strength = value.strength
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info =
+            FilterInfo(R.string.wiener_deconvolution, R.string.filter_help_wiener_deconvolution)
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::psf,
+                choiceParam(
+                    R.string.blur_shape, 0,
+                    R.string.motion_blur,
+                    R.string.defocus,
+                    R.string.gaussian
+                )
+            )
+            field(Value::radius, floatParam(R.string.radius, 5f, 1f..35f, roundTo = 1))
+            field(Value::angle, floatParam(R.string.angle, 0f, -90f..90f, roundTo = 1))
+            field(
+                Value::regularization,
+                floatParam(R.string.regularization, 0.026f, 0.0001f..0.25f, roundTo = 4)
+            )
+            field(Value::strength, floatParam(R.string.strength, 0.8f, 0f..1f))
+        }
+    }
 }

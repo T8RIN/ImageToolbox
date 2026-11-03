@@ -19,19 +19,19 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import android.graphics.Bitmap
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.AutostereogramParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.Autostereogram.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 import com.t8rin.trickle.Trickle
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.ARTISTIC)
 internal class AutostereogramFilter(
-    override val value: AutostereogramParams = AutostereogramParams.Default
-) : Transformation<Bitmap>, Filter.Autostereogram {
-
-    override val cacheKey: String
-        get() = "${javaClass.name}:${value.hashCode()}"
+    override val value: Value
+) : FilterTransformation, Filter.Autostereogram {
 
     override suspend fun transform(
         input: Bitmap,
@@ -47,4 +47,20 @@ internal class AutostereogramFilter(
         seed = value.seed
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(R.string.autostereogram, R.string.filter_help_autostereogram)
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::repeatDistance, floatParam(R.string.repeat_distance, 0.15f, 0.06f..0.3f))
+            field(Value::depth, floatParam(R.string.texture_depth, 0.34f, 0.02f..0.65f))
+            field(Value::gamma, floatParam(R.string.gamma, 1f, 0.4f..2.5f))
+            field(Value::size, intParam(R.string.just_size, 2, 1..7))
+            field(Value::softness, floatParam(R.string.softness, 3f, 0f..16f, roundTo = 1))
+            field(
+                Value::invert,
+                toggleParam(R.string.gmic_param_invert, false, R.string.normal, R.string.inverted)
+            )
+            field(Value::seed, intParam(R.string.seed, 0, 0..10000))
+        }
+    }
 }

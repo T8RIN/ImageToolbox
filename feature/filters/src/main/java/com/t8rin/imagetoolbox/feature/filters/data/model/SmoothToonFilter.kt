@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,22 +18,33 @@
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.SmoothToon.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GPUFilterTransformation
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageSmoothToonFilter
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.ARTISTIC)
 internal class SmoothToonFilter(
-    override val value: Triple<Float, Float, Float> = Triple(0.5f, 0.2f, 10f),
+    override val value: Value,
 ) : GPUFilterTransformation(), Filter.SmoothToon {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GPUImageFilter = GPUImageSmoothToonFilter().apply {
-        setBlurSize(value.first)
-        setThreshold(value.second)
-        setQuantizationLevels(value.third)
+        setBlurSize(value.blurSize)
+        setThreshold(value.threshold)
+        setQuantizationLevels(value.quantizationLevels)
+    }
+
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(R.string.smooth_toon, R.string.filter_help_smooth_toon)
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::blurSize, floatParam(R.string.blur_size, 0.5f, 0f..100f))
+            field(Value::threshold, floatParam(R.string.threshold, 0.2f, 0f..5f))
+            field(Value::quantizationLevels, floatParam(R.string.quantizationLevels, 10f, 0f..100f))
+        }
     }
 }

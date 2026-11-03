@@ -19,19 +19,19 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import android.graphics.Bitmap
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.BloomParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.Bloom.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 import com.t8rin.trickle.Trickle
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.LIGHT)
 internal class BloomFilter(
-    override val value: BloomParams = BloomParams.Default
-) : Transformation<Bitmap>, Filter.Bloom {
-
-    override val cacheKey: String
-        get() = value.hashCode().toString()
+    override val value: Value
+) : FilterTransformation, Filter.Bloom {
 
     override suspend fun transform(
         input: Bitmap,
@@ -46,4 +46,16 @@ internal class BloomFilter(
         gamma = value.gamma
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(R.string.bloom, R.string.filter_help_bloom)
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::threshold, floatParam(R.string.threshold, 0.6f, 0f..1f))
+            field(Value::intensity, floatParam(R.string.strength, 1.5f, 0f..3f))
+            field(Value::radius, intParam(R.string.radius, 25, 1..100))
+            field(Value::softKnee, floatParam(R.string.soft_knee, 0.5f, 0f..1f))
+            field(Value::exposure, floatParam(R.string.exposure, 0.02f, 0f..1f))
+            field(Value::gamma, floatParam(R.string.gamma, 1.1f, 0f..2f))
+        }
+    }
 }

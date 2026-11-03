@@ -21,22 +21,39 @@ import com.t8rin.gmic.GmicFilter
 import com.t8rin.gmic.filters.EquirectangularProjection
 import com.t8rin.gmic.filters.PanoramaProjection
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.EquirectangularProjection.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.GEOMETRY)
 internal class EquirectangularProjectionFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("NadirZenith")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.EquirectangularProjection {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = EquirectangularProjection(
-        mode = PanoramaProjection.valueOf(value[0])
+        mode = PanoramaProjection.valueOf(value.settings[0])
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(
+            R.string.gmic_filter_equirectangular_projection,
+            R.string.filter_help_gmic_filter_equirectangular_projection
+        )
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicSelection(
+                        R.string.gmic_param_mode,
+                        "NadirZenith",
+                        listOf("NadirZenith", "Equirectangular")
+                    )
+                )
+            )
+        }
+    }
 }

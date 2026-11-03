@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,28 +20,40 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 import android.graphics.Bitmap
 import com.jhlabs.JhFilter
 import com.jhlabs.SphereLensDistortionFilter
-import com.t8rin.imagetoolbox.core.domain.utils.Quad
-import com.t8rin.imagetoolbox.core.domain.utils.qto
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.SphereLensDistortion.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.JhFilterTransformation
 import kotlin.math.max
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.DISTORTION)
 internal class SphereLensDistortionFilter(
-    override val value: Quad<Float, Float, Float, Float> = 1.5f to 0.5f qto (0.5f to 0.5f)
+    override val value: Value
 ) : JhFilterTransformation(), Filter.SphereLensDistortion {
-
-    override val cacheKey: String
-        get() = value.hashCode().toString()
 
     override fun createFilter(): JhFilter = SphereLensDistortionFilter()
 
     override fun createFilter(image: Bitmap): JhFilter = SphereLensDistortionFilter().apply {
-        refractionIndex = value.first
-        radius = value.second * (max(image.width, image.height) / 2f)
-        centreX = value.third
-        centreY = value.fourth
+        refractionIndex = value.refractionIndex
+        radius = value.radius * (max(image.width, image.height) / 2f)
+        centreX = value.centerX
+        centreY = value.centerY
     }
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(
+            R.string.sphere_lensh_distortion,
+            R.string.filter_help_sphere_lensh_distortion
+        )
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::refractionIndex, floatParam(R.string.refraction_index, 2.5f, 1f..10f))
+            field(Value::radius, floatParam(R.string.radius, 0.5f, 0f..1f))
+            field(Value::centerX, floatParam(R.string.center_x, 0.5f, 0f..1f))
+            field(Value::centerY, floatParam(R.string.center_y, 0.5f, 0f..1f))
+        }
+    }
 }

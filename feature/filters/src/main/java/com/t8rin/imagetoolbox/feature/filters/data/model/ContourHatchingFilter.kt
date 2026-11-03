@@ -18,20 +18,21 @@
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import android.graphics.Bitmap
+import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.ContourHatchingParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.ContourHatching.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 import com.t8rin.opencv_tools.photo_filters.ArtisticEffects
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.ARTISTIC)
 internal class ContourHatchingFilter(
-    override val value: ContourHatchingParams = ContourHatchingParams.Default
-) : Transformation<Bitmap>, Filter.ContourHatching {
-
-    override val cacheKey: String
-        get() = "${javaClass.name}:${value.hashCode()}"
+    override val value: Value
+) : FilterTransformation, Filter.ContourHatching {
 
     override suspend fun transform(
         input: Bitmap,
@@ -47,4 +48,21 @@ internal class ContourHatchingFilter(
         strength = value.strength
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info =
+            FilterInfo(R.string.contour_hatching, R.string.filter_help_contour_hatching)
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::spacing, floatParam(R.string.spacing, 7f, 2f..32f, roundTo = 1))
+            field(Value::width, floatParam(R.string.gmic_param_width, 0.65f, 0.1f..0.9f))
+            field(Value::angle, floatParam(R.string.angle, 35f, 0f..180f, roundTo = 1))
+            field(Value::contrast, floatParam(R.string.contrast, 1.35f, 0.5f..3f))
+            field(Value::ink, colorParam(R.string.ink_color, ColorModel(0xFF292429.toInt())))
+            field(
+                Value::paper,
+                colorParam(R.string.texture_paper_color, ColorModel(0xFFF7F1DD.toInt()))
+            )
+            field(Value::strength, floatParam(R.string.strength, 1f, 0f..1f))
+        }
+    }
 }

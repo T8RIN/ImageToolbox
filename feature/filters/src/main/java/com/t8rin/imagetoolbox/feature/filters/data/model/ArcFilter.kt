@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,18 +21,18 @@ import android.graphics.Bitmap
 import com.jhlabs.ArcFilter
 import com.jhlabs.JhFilter
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.ArcParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.Arc.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.JhFilterTransformation
 import kotlin.math.max
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.GEOMETRY)
 internal class ArcFilter(
-    override val value: ArcParams = ArcParams.Default
+    override val value: Value
 ) : JhFilterTransformation(), Filter.Arc {
-
-    override val cacheKey: String
-        get() = value.hashCode().toString()
 
     override fun createFilter(): JhFilter = ArcFilter()
 
@@ -45,4 +45,16 @@ internal class ArcFilter(
         centreY = value.centreY
     }
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(R.string.arc, R.string.filter_help_arc)
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::radius, floatParam(R.string.radius, 0.2f, 0f..1f))
+            field(Value::height, floatParam(R.string.just_size, 0.3f, 0f..1f))
+            field(Value::angle, floatParam(R.string.angle, 0f, 0f..360f))
+            field(Value::spreadAngle, floatParam(R.string.spread_angle, 360f, 0f..360f))
+            field(Value::centreX, floatParam(R.string.center_x, 0.5f, 0f..1f))
+            field(Value::centreY, floatParam(R.string.center_y, 0.5f, 0f..1f))
+        }
+    }
 }

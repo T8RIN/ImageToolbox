@@ -19,29 +19,45 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import android.graphics.Bitmap
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
-import com.t8rin.imagetoolbox.core.domain.utils.Quad
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.SpectralNotch.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 import com.t8rin.opencv_tools.photo_filters.SpectralFilters
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.ENHANCEMENT)
 internal class SpectralNotchFilter(
-    override val value: Quad<Float, Float, Float, Float> = Quad(0.12f, 0f, 0.018f, 1f)
-) : Transformation<Bitmap>, Filter.SpectralNotch {
-
-    override val cacheKey: String
-        get() = "${javaClass.name}:${value.hashCode()}"
+    override val value: Value
+) : FilterTransformation, Filter.SpectralNotch {
 
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
     ): Bitmap = SpectralFilters.spectralNotch(
         bitmap = input,
-        frequencyX = value.first,
-        frequencyY = value.second,
-        bandwidth = value.third,
-        strength = value.fourth
+        frequencyX = value.frequencyX,
+        frequencyY = value.frequencyY,
+        bandwidth = value.bandwidth,
+        strength = value.strength
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(R.string.spectral_notch, R.string.filter_help_spectral_notch)
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::frequencyX,
+                floatParam(R.string.frequency_x, 0.12f, -0.5f..0.5f, roundTo = 3)
+            )
+            field(Value::frequencyY, floatParam(R.string.frequency_y, 0f, -0.5f..0.5f, roundTo = 3))
+            field(
+                Value::bandwidth,
+                floatParam(R.string.bandwidth, 0.018f, 0.0005f..0.12f, roundTo = 4)
+            )
+            field(Value::strength, floatParam(R.string.strength, 1f, 0f..1f))
+        }
+    }
 }

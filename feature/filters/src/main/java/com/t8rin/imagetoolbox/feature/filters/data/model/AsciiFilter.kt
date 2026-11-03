@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,20 +22,21 @@ import android.graphics.Typeface
 import com.t8rin.ascii.ASCIIConverter
 import com.t8rin.ascii.Gradient
 import com.t8rin.ascii.toMapper
+import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.AsciiParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.Ascii.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.utils.toTypeface
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.PIXELATION)
 internal class AsciiFilter(
-    override val value: AsciiParams = AsciiParams.Default
-) : Transformation<Bitmap>, Filter.Ascii {
-
-    override val cacheKey: String
-        get() = value.hashCode().toString()
+    override val value: Value
+) : FilterTransformation, Filter.Ascii {
 
     override suspend fun transform(
         input: Bitmap,
@@ -50,4 +51,18 @@ internal class AsciiFilter(
         isGrayscale = value.isGrayscale
     )
 
+    companion object : Filter.Schema.Custom<Value> {
+        override val info = FilterInfo(R.string.ascii, R.string.filter_help_ascii)
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::gradient, stringParam(R.string.gradient) { Gradient.OLD.value })
+            field(Value::fontSize, floatParam(R.string.font_size, 10f, 1f..100f))
+            field(Value::font, fontParam(R.string.font) { null })
+            field(
+                Value::backgroundColor,
+                colorParam(R.string.background_color, ColorModel(0xFF000000.toInt()))
+            )
+            field(Value::isGrayscale, booleanParam(R.string.gray_scale, false))
+        }
+    }
 }

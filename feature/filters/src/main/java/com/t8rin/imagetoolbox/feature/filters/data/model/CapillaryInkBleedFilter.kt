@@ -19,19 +19,19 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import android.graphics.Bitmap
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.CapillaryInkBleedParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.CapillaryInkBleed.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 import com.t8rin.opencv_tools.photo_filters.ArtisticEffects
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.ARTISTIC)
 internal class CapillaryInkBleedFilter(
-    override val value: CapillaryInkBleedParams = CapillaryInkBleedParams.Default
-) : Transformation<Bitmap>, Filter.CapillaryInkBleed {
-
-    override val cacheKey: String
-        get() = "${javaClass.name}:${value.hashCode()}"
+    override val value: Value
+) : FilterTransformation, Filter.CapillaryInkBleed {
 
     override suspend fun transform(
         input: Bitmap,
@@ -47,4 +47,21 @@ internal class CapillaryInkBleedFilter(
         strength = value.strength
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info =
+            FilterInfo(R.string.capillary_ink_bleed, R.string.filter_help_capillary_ink_bleed)
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::wetness, floatParam(R.string.wetness, 0.77f, 0f..1f))
+            field(
+                Value::direction,
+                floatParam(R.string.fiber_direction, 40f, 0f..180f, roundTo = 1)
+            )
+            field(Value::spread, floatParam(R.string.ink_spread, 4f, 1f..16f, roundTo = 1))
+            field(Value::roughness, floatParam(R.string.texture_roughness, 0.65f, 0f..1f))
+            field(Value::steps, intParam(R.string.steps, 5, 1..12))
+            field(Value::seed, intParam(R.string.seed, 0, 0..10000))
+            field(Value::strength, floatParam(R.string.strength, 1f, 0f..1f))
+        }
+    }
 }

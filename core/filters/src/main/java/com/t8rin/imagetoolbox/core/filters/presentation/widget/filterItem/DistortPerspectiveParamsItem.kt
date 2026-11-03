@@ -34,12 +34,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.domain.model.OffsetModel
 import com.t8rin.imagetoolbox.core.domain.utils.roundTo
 import com.t8rin.imagetoolbox.core.domain.utils.trimTrailingZero
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.DistortPerspective.Value
 import com.t8rin.imagetoolbox.core.filters.domain.model.FilterParam
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.DistortPerspectiveParams
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.FloatPair
-import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
+import com.t8rin.imagetoolbox.core.filters.domain.model.copy
+import com.t8rin.imagetoolbox.core.filters.presentation.model.parameterInfo
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextField
@@ -47,9 +49,9 @@ import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
 
 @Composable
 internal fun DistortPerspectiveParamsItem(
-    value: DistortPerspectiveParams,
-    filter: UiFilter<DistortPerspectiveParams>,
-    onFilterChange: (value: DistortPerspectiveParams) -> Unit,
+    value: Value,
+    filter: Filter<Value>,
+    onFilterChange: (value: Value) -> Unit,
     previewOnly: Boolean
 ) {
     Column(
@@ -58,30 +60,30 @@ internal fun DistortPerspectiveParamsItem(
     ) {
         PerspectivePointFields(
             value = value.topLeft,
-            info = filter.paramsInfo[0],
+            info = filter.parameterInfo(Value::topLeft),
             enabled = !previewOnly,
             onValueChange = { onFilterChange(value.copy(topLeft = it)) }
         )
         PerspectivePointFields(
             value = value.topRight,
-            info = filter.paramsInfo[1],
+            info = filter.parameterInfo(Value::topRight),
             enabled = !previewOnly,
             onValueChange = { onFilterChange(value.copy(topRight = it)) }
         )
         PerspectivePointFields(
             value = value.bottomLeft,
-            info = filter.paramsInfo[2],
+            info = filter.parameterInfo(Value::bottomLeft),
             enabled = !previewOnly,
             onValueChange = { onFilterChange(value.copy(bottomLeft = it)) }
         )
         PerspectivePointFields(
             value = value.bottomRight,
-            info = filter.paramsInfo[3],
+            info = filter.parameterInfo(Value::bottomRight),
             enabled = !previewOnly,
             onValueChange = { onFilterChange(value.copy(bottomRight = it)) }
         )
         PreferenceRowSwitch(
-            title = stringResource(filter.paramsInfo[4].title!!),
+            title = stringResource(filter.parameterInfo(Value::clip).title!!),
             checked = value.clip,
             onClick = { onFilterChange(value.copy(clip = it)) },
             modifier = Modifier.padding(
@@ -99,16 +101,16 @@ internal fun DistortPerspectiveParamsItem(
 
 @Composable
 private fun PerspectivePointFields(
-    value: FloatPair,
+    value: OffsetModel,
     info: FilterParam,
     enabled: Boolean,
-    onValueChange: (FloatPair) -> Unit
+    onValueChange: (OffsetModel) -> Unit
 ) {
-    var x by remember(value.first) {
-        mutableStateOf(value.first.toString().trimTrailingZero())
+    var x by remember(value.x) {
+        mutableStateOf(value.x.toString().trimTrailingZero())
     }
-    var y by remember(value.second) {
-        mutableStateOf(value.second.toString().trimTrailingZero())
+    var y by remember(value.y) {
+        mutableStateOf(value.y.toString().trimTrailingZero())
     }
 
     Column {
@@ -135,7 +137,7 @@ private fun PerspectivePointFields(
                 onValueChange = {
                     x = it
                     it.toNormalizedFloatOrNull()?.let { newX ->
-                        onValueChange(newX.roundTo(info.roundTo) to value.second)
+                        onValueChange(value.copy(x = newX.roundTo(info.roundTo)))
                     }
                 }
             )
@@ -156,7 +158,7 @@ private fun PerspectivePointFields(
                 onValueChange = {
                     y = it
                     it.toNormalizedFloatOrNull()?.let { newY ->
-                        onValueChange(value.first to newY.roundTo(info.roundTo))
+                        onValueChange(value.copy(y = newY.roundTo(info.roundTo)))
                     }
                 }
             )

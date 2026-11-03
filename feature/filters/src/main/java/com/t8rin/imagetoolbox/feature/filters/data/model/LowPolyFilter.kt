@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,27 +19,36 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import android.graphics.Bitmap
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.LowPoly.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 import com.t8rin.trickle.Trickle
 import kotlin.math.roundToInt
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.ARTISTIC)
 internal class LowPolyFilter(
-    override val value: Pair<Float, Boolean> = 2000f to true
-) : Transformation<Bitmap>, Filter.LowPoly {
-
-    override val cacheKey: String
-        get() = value.hashCode().toString()
+    override val value: Value
+) : FilterTransformation, Filter.LowPoly {
 
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
     ): Bitmap = Trickle.lowPoly(
         input = input,
-        alphaOrPointCount = value.first.roundToInt().toFloat(),
-        fill = value.second
+        alphaOrPointCount = value.strength.roundToInt().toFloat(),
+        fill = value.fill
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(R.string.low_poly, R.string.filter_help_low_poly)
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::strength, floatParam(R.string.strength, 2000f, 50f..30000f, roundTo = 0))
+            field(Value::fill, booleanParam(R.string.fill, true))
+        }
+    }
 }

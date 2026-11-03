@@ -19,7 +19,6 @@ package com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -31,33 +30,37 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Done
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextField
-import kotlin.math.absoluteValue
 
 @Composable
-internal fun FloatArrayItem(
+fun FloatArrayItem(
     value: FloatArray,
-    filter: UiFilter<FloatArray>,
-    onFilterChange: (value: FloatArray) -> Unit,
-    previewOnly: Boolean
+    columns: Int,
+    default: () -> FloatArray,
+    previewOnly: Boolean,
+    onFilterChange: (FloatArray) -> Unit
 ) {
-    val rows = filter.paramsInfo[0].valueRange.start.toInt().absoluteValue
-    var text by rememberSaveable(value) {
+    var text by rememberSaveable(value, columns) {
         mutableStateOf(
-            value.let {
-                var string = ""
-                it.forEachIndexed { index, float ->
-                    string += "$float, "
-                    if (index % rows == (rows - 1)) string += "\n"
-                }
-                string.dropLast(3)
+            value.asList().chunked(columns).joinToString(",\n") { row ->
+                row.joinToString(", ")
             }
         )
     }
+
+    fun applyText(input: String) {
+        if (previewOnly) return
+        val matrix = default().copyOf()
+        input.split(',').take(matrix.size).forEachIndexed { index, part ->
+            part.trim().toFloatOrNull()?.takeIf(Float::isFinite)?.let { matrix[index] = it }
+        }
+        if (!matrix.contentEquals(value)) onFilterChange(matrix)
+    }
+
     RoundedTextField(
         enabled = !previewOnly,
         modifier = Modifier.padding(16.dp),
@@ -65,27 +68,15 @@ internal fun FloatArrayItem(
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
         onValueChange = { text = it },
         onLoseFocusTransformation = {
-            val matrix = filter.newInstance().value as FloatArray
-            this.trim { it.isWhitespace() }.split(",").mapIndexed { index, num ->
-                num.toFloatOrNull()?.let {
-                    matrix[index] = it
-                }
-            }
-            onFilterChange(matrix)
+            applyText(this)
             this
         },
         endIcon = {
             EnhancedIconButton(
                 onClick = {
-                    val matrix = filter.newInstance().value as FloatArray
-                    text.trim { it.isWhitespace() }.split(",")
-                        .mapIndexed { index, num ->
-                            num.toFloatOrNull()?.let {
-                                matrix[index] = it
-                            }
-                        }
-                    onFilterChange(matrix)
-                }
+                    applyText(text)
+                },
+                enabled = !previewOnly
             ) {
                 Icon(
                     imageVector = Icons.Rounded.Done,

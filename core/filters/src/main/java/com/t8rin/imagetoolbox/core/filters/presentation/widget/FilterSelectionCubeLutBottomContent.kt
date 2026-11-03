@@ -17,6 +17,9 @@
 
 package com.t8rin.imagetoolbox.core.filters.presentation.widget
 
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterValues
+import com.t8rin.imagetoolbox.core.filters.presentation.model.createUiFilter
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
@@ -70,7 +73,6 @@ import coil3.request.transformations
 import coil3.transform.Transformation
 import com.t8rin.imagetoolbox.core.domain.model.FileModel
 import com.t8rin.imagetoolbox.core.domain.remote.RemoteResources
-import com.t8rin.imagetoolbox.core.filters.presentation.model.UiCubeLutFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
@@ -107,7 +109,7 @@ internal fun FilterSelectionCubeLutBottomContent(
         downloadOnlyNewData: Boolean
     ) -> Unit,
     onRequestFilterMapping: ((UiFilter<*>) -> Transformation),
-    onClick: (UiCubeLutFilter) -> Unit
+    onClick: (UiFilter<Filter.CubeLut.Value>) -> Unit
 ) {
     cubeLutRemoteResources?.let { resources ->
         val previewModel = LocalFilterPreviewModelProvider.current.preview
@@ -321,8 +323,12 @@ internal fun FilterSelectionCubeLutBottomContent(
                                                     .error(R.drawable.filter_preview_source)
                                                     .transformations(
                                                         onRequestFilterMapping(
-                                                            UiCubeLutFilter(
-                                                                1f to FileModel(uri)
+                                                            createUiFilter(
+                                                                Filter.CubeLut::class,
+                                                                FilterValues.cubeLut(
+                                                                    intensity = 1f,
+                                                                    file = FileModel(uri)
+                                                                )
                                                             )
                                                         )
                                                     )
@@ -349,7 +355,13 @@ internal fun FilterSelectionCubeLutBottomContent(
                                 onClick = {
                                     showSelection = false
                                     onClick(
-                                        UiCubeLutFilter(1f to FileModel(uri))
+                                        createUiFilter(
+                                            Filter.CubeLut::class,
+                                            FilterValues.cubeLut(
+                                                intensity = 1f,
+                                                file = FileModel(uri)
+                                            )
+                                        )
                                     )
                                 },
                                 shape = ShapeDefaults.byIndex(

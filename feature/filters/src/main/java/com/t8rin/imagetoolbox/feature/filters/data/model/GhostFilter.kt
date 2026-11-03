@@ -20,28 +20,45 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 import com.t8rin.gmic.GmicFilter
 import com.t8rin.gmic.filters.Ghost
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.Ghost.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.EFFECTS)
 internal class GhostFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("200", "2", "2", "1", "3", "16", "false")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.Ghost {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = Ghost(
-        amplitude = value[0].toFloat(),
-        smoothness = value[1].toFloat(),
-        coherence = value[2].toFloat(),
-        gamma = value[3].toFloat(),
-        normalizationAmplitude = value[4].toFloat(),
-        normalizationRadius = value[5].toFloat(),
-        invert = value[6].toBoolean()
+        amplitude = value.settings[0].toFloat(),
+        smoothness = value.settings[1].toFloat(),
+        coherence = value.settings[2].toFloat(),
+        gamma = value.settings[3].toFloat(),
+        normalizationAmplitude = value.settings[4].toFloat(),
+        normalizationRadius = value.settings[5].toFloat(),
+        invert = value.settings[6].toBoolean()
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info =
+            FilterInfo(R.string.gmic_filter_ghost, R.string.filter_help_gmic_filter_ghost)
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicNumber(R.string.amplitude, 200, 0f..1000f),
+                    gmicNumber(R.string.gmic_param_smoothness, 2, 0f..10f),
+                    gmicNumber(R.string.gmic_param_coherence, 2, 0f..10f),
+                    gmicNumber(R.string.gamma, 1, -3f..3f),
+                    gmicNumber(R.string.gmic_param_normalization_amplitude, 3, 0f..10f),
+                    gmicNumber(R.string.radius, 16, 1f..64f),
+                    gmicToggle(R.string.gmic_param_invert, false)
+                )
+            )
+        }
+    }
 }

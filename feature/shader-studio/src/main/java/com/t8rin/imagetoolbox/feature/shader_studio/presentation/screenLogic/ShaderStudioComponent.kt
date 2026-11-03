@@ -17,6 +17,9 @@
 
 package com.t8rin.imagetoolbox.feature.shader_studio.presentation.screenLogic
 
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterValues
+import com.t8rin.imagetoolbox.core.filters.presentation.model.createUiFilter
 import android.graphics.Bitmap
 import android.net.Uri
 import androidx.compose.runtime.MutableState
@@ -33,14 +36,12 @@ import com.t8rin.imagetoolbox.core.domain.saving.io.Writeable
 import com.t8rin.imagetoolbox.core.filters.domain.FilterParamsInteractor
 import com.t8rin.imagetoolbox.core.filters.domain.FilterProvider
 import com.t8rin.imagetoolbox.core.filters.domain.ShaderPresetRepository
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.ShaderParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.shader.ShaderParam
 import com.t8rin.imagetoolbox.core.filters.domain.model.shader.ShaderParamType
 import com.t8rin.imagetoolbox.core.filters.domain.model.shader.ShaderParseException
 import com.t8rin.imagetoolbox.core.filters.domain.model.shader.ShaderPreset
 import com.t8rin.imagetoolbox.core.filters.domain.model.shader.ShaderValidationError
 import com.t8rin.imagetoolbox.core.filters.domain.model.shader.ShaderValidator
-import com.t8rin.imagetoolbox.core.filters.presentation.model.UiShaderFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.utils.localizedMessage
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
@@ -259,8 +260,9 @@ class ShaderStudioComponent @AssistedInject internal constructor(
         if (haveErrors || snapshot.shaderSource.isBlank()) return emptyList()
 
         return listOf(
-            UiShaderFilter(
-                ShaderParams(
+            createUiFilter(
+                Filter.Shader::class,
+                FilterValues.shader(
                     preset = previewPreset,
                     values = previewPreset.defaultValues
                 )

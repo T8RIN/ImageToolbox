@@ -18,16 +18,15 @@
 package com.t8rin.imagetoolbox.core.filters.presentation.model
 
 import androidx.annotation.StringRes
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
 
-sealed class GmicUiFilter(
-    @StringRes title: Int,
-    value: GmicFilterParams,
+interface GmicUiFilter {
+    val gmicValue: GmicFilterParams
     val gmicParamsInfo: List<GmicParameterInfo>
-) : UiFilter<GmicFilterParams>(
-    title = title,
-    value = value
-)
+
+    fun withGmicValue(value: GmicFilterParams): Filter.ParameterValue
+}
 
 sealed interface GmicParameterInfo {
     @get:StringRes

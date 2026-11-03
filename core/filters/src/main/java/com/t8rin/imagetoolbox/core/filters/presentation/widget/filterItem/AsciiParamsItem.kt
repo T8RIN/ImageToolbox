@@ -48,9 +48,11 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.ascii.Gradient
 import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.utils.roundTo
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.AsciiParams
-import com.t8rin.imagetoolbox.core.filters.presentation.model.UiAsciiFilter
-import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.Ascii.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.copy
+import com.t8rin.imagetoolbox.core.filters.presentation.model.createUiFilter
+import com.t8rin.imagetoolbox.core.filters.presentation.model.parameterInfo
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.icons.Delete
 import com.t8rin.imagetoolbox.core.resources.icons.Save
@@ -73,9 +75,9 @@ import kotlinx.coroutines.launch
 
 @Composable
 internal fun AsciiParamsItem(
-    value: AsciiParams,
-    filter: UiFilter<AsciiParams>,
-    onFilterChange: (value: AsciiParams) -> Unit,
+    value: Value,
+    filter: Filter<Value>,
+    onFilterChange: (value: Value) -> Unit,
     previewOnly: Boolean,
     itemShape: @Composable (Int) -> Shape = {
         ShapeDefaults.byIndex(
@@ -109,15 +111,23 @@ internal fun AsciiParamsItem(
         isGrayscale,
         font
     ) {
-        onFilterChange(
-            AsciiParams(
-                gradient = gradientState.value,
-                fontSize = fontSize.value,
-                backgroundColor = backgroundColor.value,
-                isGrayscale = isGrayscale,
-                font = font.type
+        val hasChanges = value.gradient != gradientState.value ||
+                value.fontSize != fontSize.value ||
+                value.backgroundColor != backgroundColor.value ||
+                value.isGrayscale != isGrayscale ||
+                value.font != font.type
+
+        if (!previewOnly && hasChanges) {
+            onFilterChange(
+                value.copy(
+                    gradient = gradientState.value,
+                    fontSize = fontSize.value,
+                    backgroundColor = backgroundColor.value,
+                    isGrayscale = isGrayscale,
+                    font = font.type
+                )
             )
-        )
+        }
     }
 
     Column(
@@ -126,11 +136,17 @@ internal fun AsciiParamsItem(
             if (isForText) 4.dp else 8.dp
         )
     ) {
-        filter.paramsInfo.take(
-            if (isForText) 2 else 5
-        ).forEachIndexed { index, (title, valueRange, roundTo) ->
-            when (index) {
-                0 -> {
+        val properties = listOf(
+            Value::gradient,
+            Value::fontSize,
+            Value::font,
+            Value::backgroundColor,
+            Value::isGrayscale
+        )
+        properties.take(if (isForText) 2 else properties.size).forEachIndexed { index, property ->
+            val (title, valueRange, roundTo) = filter.parameterInfo(property)
+            when (property) {
+                Value::gradient -> {
                     Column(
                         verticalArrangement = Arrangement.spacedBy(8.dp),
                         modifier = if (isForText) {
@@ -155,6 +171,7 @@ internal fun AsciiParamsItem(
                         }
 
                         RoundedTextField(
+                            enabled = !previewOnly,
                             value = gradientState.value,
                             onValueChange = { value ->
                                 gradientState.value =
@@ -177,6 +194,7 @@ internal fun AsciiParamsItem(
                                         val saved = gradient in custom
 
                                         EnhancedIconButton(
+                                            enabled = !previewOnly,
                                             onClick = {
                                                 scope.launch {
                                                     interactor.toggleCustomAsciiGradient(gradient)
@@ -204,6 +222,8 @@ internal fun AsciiParamsItem(
                         )
 
                         EnhancedButtonGroup(
+                            title = null,
+                            enabled = !previewOnly,
                             items = items,
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -219,7 +239,7 @@ internal fun AsciiParamsItem(
                     }
                 }
 
-                1 -> {
+                Value::fontSize -> {
                     EnhancedSliderItem(
                         enabled = !previewOnly,
                         value = fontSize.value,
@@ -238,22 +258,23 @@ internal fun AsciiParamsItem(
                     )
                 }
 
-                2 -> {
+                Value::font -> {
                     FontSelector(
                         value = font,
-                        onValueChange = { font = it },
+                        onValueChange = { if (!previewOnly) font = it },
                         behaveAsContainer = false,
                         modifier = Modifier.fillMaxWidth()
                     )
                 }
 
-                3 -> {
+                Value::backgroundColor -> {
                     ColorRowSelector(
                         title = stringResource(title!!),
                         value = backgroundColor.value.toColor(),
                         onValueChange = {
-                            backgroundColor.value = it.toModel()
+                            if (!previewOnly) backgroundColor.value = it.toModel()
                         },
+                        allowCustom = !previewOnly,
                         allowScroll = !previewOnly,
                         icon = null,
                         defaultColors = ColorSelectionRowDefaults.colorList,
@@ -261,7 +282,7 @@ internal fun AsciiParamsItem(
                     )
                 }
 
-                4 -> {
+                Value::isGrayscale -> {
                     PreferenceRowSwitch(
                         title = stringResource(id = title!!),
                         checked = isGrayscale,
@@ -286,8 +307,8 @@ internal fun AsciiParamsItem(
 
 @Composable
 fun AsciiParamsSelector(
-    value: AsciiParams,
-    onValueChange: (value: AsciiParams) -> Unit,
+    value: Value,
+    onValueChange: (value: Value) -> Unit,
     itemShapes: @Composable (Int) -> Shape = {
         ShapeDefaults.byIndex(
             index = it,
@@ -297,7 +318,7 @@ fun AsciiParamsSelector(
 ) {
     val filter by remember(value) {
         derivedStateOf {
-            UiAsciiFilter(value)
+            createUiFilter(Filter.Ascii::class, value)
         }
     }
 

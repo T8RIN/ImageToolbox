@@ -21,50 +21,63 @@ import com.t8rin.gmic.GmicFilter
 import com.t8rin.gmic.filters.Engrave
 import com.t8rin.gmic.filters.EngraveAntialiasing
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.Engrave.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.ARTISTIC)
 internal class EngraveFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf(
-            "0.5",
-            "50",
-            "0",
-            "8",
-            "40",
-            "0",
-            "0",
-            "true",
-            "10",
-            "1",
-            "0",
-            "0",
-            "0",
-            "X1_5"
-        )
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.Engrave {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = Engrave(
-        radius = value[0].toFloat(),
-        density = value[1].toFloat(),
-        edges = value[2].toFloat(),
-        coherence = value[3].toFloat(),
-        threshold = value[4].toFloat(),
-        minimalArea = value[5].toInt(),
-        flatRegionsRemoval = value[6].toFloat(),
-        addColorBackground = value[7].toBoolean(),
-        quantization = value[8].toFloat(),
-        shading = value[9].toInt(),
-        hue = value[10].toFloat(),
-        saturation = value[11].toFloat(),
-        lightness = value[12].toFloat(),
-        antialiasing = EngraveAntialiasing.valueOf(value[13])
+        radius = value.settings[0].toFloat(),
+        density = value.settings[1].toFloat(),
+        edges = value.settings[2].toFloat(),
+        coherence = value.settings[3].toFloat(),
+        threshold = value.settings[4].toFloat(),
+        minimalArea = value.settings[5].toInt(),
+        flatRegionsRemoval = value.settings[6].toFloat(),
+        addColorBackground = value.settings[7].toBoolean(),
+        quantization = value.settings[8].toFloat(),
+        shading = value.settings[9].toInt(),
+        hue = value.settings[10].toFloat(),
+        saturation = value.settings[11].toFloat(),
+        lightness = value.settings[12].toFloat(),
+        antialiasing = EngraveAntialiasing.valueOf(value.settings[13])
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info =
+            FilterInfo(R.string.gmic_filter_engrave, R.string.filter_help_gmic_filter_engrave)
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicNumber(R.string.radius, 0.5f, 0f..2f),
+                    gmicNumber(R.string.density, 50, 0f..200f),
+                    gmicNumber(R.string.texture_edges, 0, 0f..10f),
+                    gmicNumber(R.string.gmic_param_coherence, 8, 0f..40f),
+                    gmicNumber(R.string.threshold, 40, 0f..100f),
+                    gmicInteger(R.string.gmic_param_minimal_area, 0, -256f..256f),
+                    gmicNumber(R.string.gmic_param_flat_regions_removal, 0, 0f..10f),
+                    gmicToggle(R.string.gmic_param_add_color_background, true),
+                    gmicNumber(R.string.gmic_param_quantization, 10, 0f..40f),
+                    gmicInteger(R.string.texture_shading, 1, 0f..5f),
+                    gmicNumber(R.string.hue, 0, -180f..180f),
+                    gmicNumber(R.string.saturation, 0, -100f..100f),
+                    gmicNumber(R.string.gmic_param_lightness, 0, -100f..100f),
+                    gmicSelection(
+                        R.string.antialias,
+                        "X1_5",
+                        listOf("Disabled", "X1_5", "X2", "X3")
+                    )
+                )
+            )
+        }
+    }
 }

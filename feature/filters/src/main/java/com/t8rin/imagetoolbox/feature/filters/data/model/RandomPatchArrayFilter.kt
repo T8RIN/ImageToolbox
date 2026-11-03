@@ -20,26 +20,43 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 import com.t8rin.gmic.GmicFilter
 import com.t8rin.gmic.filters.RandomPatchArray
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.RandomPatchArray.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.PIXELATION)
 internal class RandomPatchArrayFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("5", "5", "7", "7", "0")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.RandomPatchArray {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = RandomPatchArray(
-        sourceXTiles = value[0].toInt(),
-        sourceYTiles = value[1].toInt(),
-        destinationXTiles = value[2].toInt(),
-        destinationYTiles = value[3].toInt(),
-        randomSeed = value[4].toInt()
+        sourceXTiles = value.settings[0].toInt(),
+        sourceYTiles = value.settings[1].toInt(),
+        destinationXTiles = value.settings[2].toInt(),
+        destinationYTiles = value.settings[3].toInt(),
+        randomSeed = value.settings[4].toInt()
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(
+            R.string.gmic_filter_random_patch_array,
+            R.string.filter_help_gmic_filter_random_patch_array
+        )
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicInteger(R.string.gmic_param_source_x_tiles, 5, 1f..128f),
+                    gmicInteger(R.string.gmic_param_source_y_tiles, 5, 1f..128f),
+                    gmicInteger(R.string.gmic_param_destination_x_tiles, 7, 1f..128f),
+                    gmicInteger(R.string.gmic_param_destination_y_tiles, 7, 1f..128f),
+                    gmicInteger(R.string.seed, 0, 0f..65535f)
+                )
+            )
+        }
+    }
 }

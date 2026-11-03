@@ -21,30 +21,28 @@ import android.graphics.Color
 import com.t8rin.gmic.GmicFilter
 import com.t8rin.gmic.filters.RawGmicFilter
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.Grid.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.EFFECTS)
 internal class GridFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("10", "10", "0", "0", "0.5", "-16777216")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.Grid {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter {
-        val color = value[5].toInt()
+        val color = value.settings[5].toInt()
 
         return RawGmicFilter(
             command = listOf(
-                "${value[0]}%",
-                "${value[1]}%",
-                "${value[2]}%",
-                "${value[3]}%",
-                value[4],
+                "${value.settings[0]}%",
+                "${value.settings[1]}%",
+                "${value.settings[2]}%",
+                "${value.settings[3]}%",
+                value.settings[4],
                 Color.red(color).toString(),
                 Color.green(color).toString(),
                 Color.blue(color).toString(),
@@ -56,4 +54,22 @@ internal class GridFilter(
         )
     }
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info =
+            FilterInfo(R.string.gmic_filter_grid, R.string.filter_help_gmic_filter_grid)
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicNumber(R.string.horizontal_spacing, 10, 0f..100f),
+                    gmicNumber(R.string.vertical_spacing, 10, 0f..100f),
+                    gmicNumber(R.string.offset_x, 0, -100f..100f),
+                    gmicNumber(R.string.offset_y, 0, -100f..100f),
+                    gmicNumber(R.string.opacity, 0.5f, 0f..1f),
+                    gmicColor(R.string.grid_color, -16777216)
+                )
+            )
+        }
+    }
 }

@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,18 +22,33 @@ import com.t8rin.imagetoolbox.core.domain.model.ImageModel
 import com.t8rin.imagetoolbox.core.domain.transformation.ChainTransformation
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterValues
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.GoldenForest.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.LUT)
 internal class GoldenForestFilter(
-    override val value: Float = 1f
-) : ChainTransformation<Bitmap>, Filter.GoldenForest {
+    override val value: Value
+) : ChainTransformation<Bitmap>, FilterTransformation, Filter.GoldenForest {
 
     override fun getTransformations(): List<Transformation<Bitmap>> = listOf(
-        LUT512x512Filter(value to ImageModel(R.drawable.lookup_golden_forest))
+        LUT512x512Filter(
+            FilterValues.lut512x512(
+                intensity = value.strength,
+                image = ImageModel(R.drawable.lookup_golden_forest)
+            )
+        )
     )
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(R.string.golden_forest, R.string.filter_help_golden_forest)
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::strength, floatParam(R.string.strength, 1f, 0f..1f))
+        }
+    }
 }

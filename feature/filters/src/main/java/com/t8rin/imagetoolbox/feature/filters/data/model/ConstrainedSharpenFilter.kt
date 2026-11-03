@@ -22,28 +22,88 @@ import com.t8rin.gmic.filters.ConstrainedSharpen
 import com.t8rin.gmic.filters.ConstrainedSharpenChannel
 import com.t8rin.gmic.filters.ConstrainedSharpenValueAction
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.ConstrainedSharpen.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.ENHANCEMENT)
 internal class ConstrainedSharpenFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("0.75", "2.5", "1", "5", "0", "Luminance", "Cut")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.ConstrainedSharpen {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = ConstrainedSharpen(
-        sharpenRadius = value[0].toFloat(),
-        amount = value[1].toFloat(),
-        threshold = value[2].toFloat(),
-        constraintRadius = value[3].toInt(),
-        overshoot = value[4].toFloat(),
-        channelS = ConstrainedSharpenChannel.valueOf(value[5]),
-        valueAction = ConstrainedSharpenValueAction.valueOf(value[6])
+        sharpenRadius = value.settings[0].toFloat(),
+        amount = value.settings[1].toFloat(),
+        threshold = value.settings[2].toFloat(),
+        constraintRadius = value.settings[3].toInt(),
+        overshoot = value.settings[4].toFloat(),
+        channelS = ConstrainedSharpenChannel.valueOf(value.settings[5]),
+        valueAction = ConstrainedSharpenValueAction.valueOf(value.settings[6])
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(
+            R.string.gmic_filter_constrained_sharpen,
+            R.string.filter_help_gmic_filter_constrained_sharpen
+        )
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicNumber(R.string.gmic_param_sharpen_radius, 0.75f, 0f..10f),
+                    gmicNumber(R.string.amount, 2.5f, 0f..10f),
+                    gmicNumber(R.string.threshold, 1, 0f..50f),
+                    gmicInteger(R.string.gmic_param_constraint_radius, 5, 0f..10f),
+                    gmicNumber(R.string.gmic_param_overshoot, 0, 0f..50f),
+                    gmicSelection(
+                        R.string.gmic_param_channel,
+                        "Luminance",
+                        listOf(
+                            "All",
+                            "Rgba",
+                            "Rgb",
+                            "Red",
+                            "Green",
+                            "Blue",
+                            "Alpha",
+                            "LinearRgb",
+                            "LinearRed",
+                            "LinearGreen",
+                            "LinearBlue",
+                            "Luminance",
+                            "Chrominance",
+                            "BlueChrominance",
+                            "RedChrominance",
+                            "GreenChrominance",
+                            "LabLightness",
+                            "LabChrominance",
+                            "LabA",
+                            "LabB",
+                            "LchChrominance",
+                            "LchChroma",
+                            "LchHue",
+                            "HsvHue",
+                            "HsvSaturation",
+                            "HsvValue",
+                            "HsiIntensity",
+                            "HslLightness",
+                            "Cyan",
+                            "Magenta",
+                            "Yellow",
+                            "Key"
+                        )
+                    ),
+                    gmicSelection(
+                        R.string.gmic_param_value_action,
+                        "Cut",
+                        listOf("NoneOption", "Cut", "Normalize")
+                    )
+                )
+            )
+        }
+    }
 }

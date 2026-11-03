@@ -19,19 +19,19 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import android.graphics.Bitmap
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.PalCompositeParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.PalComposite.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 import com.t8rin.trickle.Trickle
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.GLITCH)
 internal class PalCompositeFilter(
-    override val value: PalCompositeParams = PalCompositeParams.Default
-) : Transformation<Bitmap>, Filter.PalComposite {
-
-    override val cacheKey: String
-        get() = "${javaClass.name}:${value.hashCode()}"
+    override val value: Value
+) : FilterTransformation, Filter.PalComposite {
 
     override suspend fun transform(
         input: Bitmap,
@@ -48,4 +48,18 @@ internal class PalCompositeFilter(
         strength = value.strength
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(R.string.pal_composite, R.string.filter_help_pal_composite)
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::lumaFilter, floatParam(R.string.luminance_filtering, 0.88f, 0f..1f))
+            field(Value::chromaRadius, intParam(R.string.chroma_radius, 2, 1..6))
+            field(Value::noise, floatParam(R.string.noise, 0.035f, 0f..0.3f, roundTo = 3))
+            field(Value::phaseError, intParam(R.string.phase_error, 12, -45..45))
+            field(Value::scanSamples, intParam(R.string.samples_per_line, 720, 160..960))
+            field(Value::lineCompensation, floatParam(R.string.line_compensation, 0.7f, 0f..1f))
+            field(Value::seed, intParam(R.string.seed, 0, 0..10000))
+            field(Value::strength, floatParam(R.string.strength, 1f, 0f..1f))
+        }
+    }
 }

@@ -23,48 +23,119 @@ import com.t8rin.gmic.filters.ChannelProcessingTonesRange
 import com.t8rin.gmic.filters.ChannelProcessingValueAction
 import com.t8rin.gmic.filters.GmicChannel
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.ChannelProcessing.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.COLOR)
 internal class ChannelProcessingFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf(
-            "5",
-            "12",
-            "0",
-            "0",
-            "NoneOption",
-            "0",
-            "100",
-            "256",
-            "false",
-            "false",
-            "Midtones",
-            "2",
-            "Luminance"
-        )
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.ChannelProcessing {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = ChannelProcessing(
-        brightness = value[0].toFloat(),
-        contrast = value[1].toFloat(),
-        gamma = value[2].toFloat(),
-        smoothness = value[3].toFloat(),
-        valueAction = ChannelProcessingValueAction.valueOf(value[4]),
-        lowValue = value[5].toFloat(),
-        highValue = value[6].toFloat(),
-        quantization = value[7].toInt(),
-        equalization = value[8].toBoolean(),
-        negation = value[9].toBoolean(),
-        tonesRange = ChannelProcessingTonesRange.valueOf(value[10]),
-        tonesSmoothness = value[11].toFloat(),
-        channelS = GmicChannel.valueOf(value[12])
+        brightness = value.settings[0].toFloat(),
+        contrast = value.settings[1].toFloat(),
+        gamma = value.settings[2].toFloat(),
+        smoothness = value.settings[3].toFloat(),
+        valueAction = ChannelProcessingValueAction.valueOf(value.settings[4]),
+        lowValue = value.settings[5].toFloat(),
+        highValue = value.settings[6].toFloat(),
+        quantization = value.settings[7].toInt(),
+        equalization = value.settings[8].toBoolean(),
+        negation = value.settings[9].toBoolean(),
+        tonesRange = ChannelProcessingTonesRange.valueOf(value.settings[10]),
+        tonesSmoothness = value.settings[11].toFloat(),
+        channelS = GmicChannel.valueOf(value.settings[12])
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(
+            R.string.gmic_filter_channel_processing,
+            R.string.filter_help_gmic_filter_channel_processing
+        )
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicNumber(R.string.gmic_param_brightness, 5, -100f..100f),
+                    gmicNumber(R.string.contrast, 12, -100f..100f),
+                    gmicNumber(R.string.gamma, 0, -100f..100f),
+                    gmicNumber(R.string.gmic_param_smoothness, 0, 0f..10f),
+                    gmicSelection(
+                        R.string.gmic_param_value_action,
+                        "NoneOption",
+                        listOf("NoneOption", "Cut", "CutAndNormalize", "Normalize", "Threshold")
+                    ),
+                    gmicNumber(R.string.gmic_param_low_value, 0, 0f..100f),
+                    gmicNumber(R.string.gmic_param_high_value, 100, 0f..100f),
+                    gmicInteger(R.string.gmic_param_quantization, 256, 1f..256f),
+                    gmicToggle(R.string.gmic_param_equalization, false),
+                    gmicToggle(R.string.gmic_param_negation, false),
+                    gmicSelection(
+                        R.string.gmic_param_tones_range,
+                        "Midtones",
+                        listOf("AllTones", "Shadows", "Midtones", "Highlights")
+                    ),
+                    gmicNumber(R.string.gmic_param_tones_smoothness, 2, 0f..10f),
+                    gmicSelection(
+                        R.string.gmic_param_channel,
+                        "Luminance",
+                        listOf(
+                            "All",
+                            "Rgba",
+                            "Rgb",
+                            "Red",
+                            "Green",
+                            "Blue",
+                            "Alpha",
+                            "LinearRgb",
+                            "LinearRed",
+                            "LinearGreen",
+                            "LinearBlue",
+                            "YCbCr",
+                            "Luminance",
+                            "Chrominance",
+                            "BlueChrominance",
+                            "RedChrominance",
+                            "GreenChrominance",
+                            "Lab",
+                            "LabLightness",
+                            "LabChrominance",
+                            "LabA",
+                            "LabB",
+                            "Lch",
+                            "LchChrominance",
+                            "LchChroma",
+                            "LchHue",
+                            "Hsv",
+                            "HsvHue",
+                            "HsvSaturation",
+                            "HsvValue",
+                            "Hsi",
+                            "HsiIntensity",
+                            "Hsl",
+                            "HslLightness",
+                            "Cmyk",
+                            "Cmy",
+                            "Cyan",
+                            "Magenta",
+                            "Yellow",
+                            "Key",
+                            "Yiq",
+                            "YiqLuma",
+                            "YiqChrominance",
+                            "Ryb",
+                            "RybRed",
+                            "RybYellow",
+                            "RybBlue"
+                        )
+                    )
+                )
+            )
+        }
+    }
 }

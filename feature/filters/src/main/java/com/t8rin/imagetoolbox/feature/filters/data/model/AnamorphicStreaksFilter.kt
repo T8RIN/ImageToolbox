@@ -19,19 +19,19 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import android.graphics.Bitmap
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.AnamorphicStreaksParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.AnamorphicStreaks.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 import com.t8rin.opencv_tools.photo_filters.OpticalEffects
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.LIGHT)
 internal class AnamorphicStreaksFilter(
-    override val value: AnamorphicStreaksParams = AnamorphicStreaksParams.Default
-) : Transformation<Bitmap>, Filter.AnamorphicStreaks {
-
-    override val cacheKey: String
-        get() = "${javaClass.name}:${value.hashCode()}"
+    override val value: Value
+) : FilterTransformation, Filter.AnamorphicStreaks {
 
     override suspend fun transform(
         input: Bitmap,
@@ -46,4 +46,17 @@ internal class AnamorphicStreaksFilter(
         intensity = value.intensity
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info =
+            FilterInfo(R.string.anamorphic_streaks, R.string.filter_help_anamorphic_streaks)
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::threshold, floatParam(R.string.threshold, 0.58f, 0.08f..1f))
+            field(Value::angle, floatParam(R.string.angle, 0f, -90f..90f, roundTo = 1))
+            field(Value::length, floatParam(R.string.gmic_param_length, 85f, 2f..180f, roundTo = 1))
+            field(Value::width, floatParam(R.string.gmic_param_width, 1.4f, 0.5f..16f, roundTo = 1))
+            field(Value::falloff, floatParam(R.string.falloff, 2.4f, 0.5f..8f, roundTo = 1))
+            field(Value::intensity, floatParam(R.string.texture_intensity, 2.4f, 0f..5f))
+        }
+    }
 }

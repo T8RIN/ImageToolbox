@@ -20,20 +20,21 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 import android.graphics.Bitmap
 import com.jhlabs.FlareFilter
 import com.jhlabs.JhFilter
+import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.FlareParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.Flare.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.JhFilterTransformation
 import kotlin.math.max
 import kotlin.math.roundToInt
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.LIGHT)
 internal class FlareFilter(
-    override val value: FlareParams = FlareParams.Default
+    override val value: Value
 ) : JhFilterTransformation(), Filter.Flare {
-
-    override val cacheKey: String
-        get() = value.hashCode().toString()
 
     override fun createFilter(): JhFilter = FlareFilter()
 
@@ -47,5 +48,20 @@ internal class FlareFilter(
         rayAmount = value.rayAmount
         ringWidth = value.ringWidth
         color = value.color.colorInt
+    }
+
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(R.string.flare, R.string.filter_help_flare)
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::radius, floatParam(R.string.radius, 0.3f, 0.01f..1f))
+            field(Value::baseAmount, floatParam(R.string.base_amount, 1f, 0f..2f))
+            field(Value::ringAmount, floatParam(R.string.ring_amount, 0.2f, 0f..2f))
+            field(Value::rayAmount, floatParam(R.string.ray_amount, 0.1f, 0f..2f))
+            field(Value::ringWidth, floatParam(R.string.ring_width, 1.6f, 0.01f..5f))
+            field(Value::centreX, floatParam(R.string.center_x, 0.5f, 0f..1f))
+            field(Value::centreY, floatParam(R.string.center_y, 0.5f, 0f..1f))
+            field(Value::color, colorParam(R.string.color, ColorModel(0xFFFFFFFF.toInt())))
+        }
     }
 }

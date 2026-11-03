@@ -85,5 +85,71 @@ git push origin branch_name
 
 If no changes are needed, this means that your Pull Request has been reviewed and will be merged to the original code base by the maintainer.
 
+## Adding a filter
+
+A standard filter needs a domain contract and one implementation file. KSP generates the parameter
+model, UI filter, value factories, `copy` extensions, catalog entries and mappings. The
+transformation bases provide cache keys from the filter's value.
+
+1. Add `Filter.Name` and its nested `Value` interface
+   to [Filter.kt](core/filters/src/main/java/com/t8rin/imagetoolbox/core/filters/domain/model/Filter.kt).
+   Declare named, immutable properties instead of wrapping a `Pair` or another parameter class. For
+   example, the existing brightness filter declares:
+
+   ```kotlin
+   interface Brightness : Filter<Brightness.Value> {
+       interface Value : ParameterValue {
+           val bias: Float
+       }
+   }
+   ```
+
+2. Add `NameFilter.kt` in `feature/filters/data/model`. Implement the domain interface and the
+   appropriate transformation base. The companion defines the title, help, defaults and controls.
+   This is the
+   corresponding [BrightnessFilter](feature/filters/src/main/java/com/t8rin/imagetoolbox/feature/filters/data/model/BrightnessFilter.kt):
+
+   ```kotlin
+   import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.Brightness.Value
+
+   @FilterDefinition(group = FilterGroups.LIGHT)
+   internal class BrightnessFilter(
+       override val value: Value
+   ) : FilterTransformation, Filter.Brightness {
+       override suspend fun transform(input: Bitmap, size: IntegerSize): Bitmap =
+           Aire.brightness(bitmap = input, bias = value.bias)
+
+       companion object : Filter.Schema.Structured<Value> {
+           override val info = FilterInfo(R.string.brightness, R.string.filter_help_brightness)
+
+           override val parameters = structuredParameters<Value> {
+               field(Value::bias, floatParam(default = 0.5f, range = -1f..1f))
+           }
+       }
+   }
+   ```
+
+Add the corresponding title/help resources using the existing resource format. Bind each `Value`
+property once in `parameters`; declaration order determines control and serialized field order. Use
+the existing typed helpers for numbers, choices, colors, strings, arrays, palettes, images and
+files. Source implementations depend on the domain `Value`, so no generated class is needed to
+describe a new filter.
+
+For a filter without parameters, declare `Value : EmptyValue` and have the companion implement
+`Filter.Schema.Empty<Value>`;
+see [BlackAndWhiteFilter](feature/filters/src/main/java/com/t8rin/imagetoolbox/feature/filters/data/model/BlackAndWhiteFilter.kt).
+
+Use `Filter.Schema.Custom<Value>` only when the UI needs a dedicated editor, such as interactive
+curves or grouped NTSC settings. Keep its fields and defaults in the same companion, and dispatch
+the editor by `Filter.Name` in `FilterItemContent`. Editors work with `Value` directly: import
+`com.t8rin.imagetoolbox.core.filters.domain.model.copy` for generated `value.copy(...)`, and
+`com.t8rin.imagetoolbox.core.filters.presentation.model.parameterInfo` for typed metadata such as
+`filter.parameterInfo(Filter.Ascii.Value::fontSize)`. Custom values that must be saved need a typed
+field codec.
+
+Build to run KSP; do not add a handwritten `NameParams`, `UiNameFilter`, mapping entry or
+`cacheKey`. When changing an existing filter, preserve released template payloads through the
+serialization layer and verify restoration with the filter serialization tests. Intermediate
+refactor formats do not need compatibility aliases.
 
 Happy Hacking!

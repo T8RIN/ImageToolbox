@@ -18,31 +18,64 @@
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import com.t8rin.gmic.GmicFilter
-import com.t8rin.gmic.filters.CubeFrame
 import com.t8rin.gmic.filters.CubeFaceOrientation
+import com.t8rin.gmic.filters.CubeFrame
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.CubeFrame.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.FRAMES)
 internal class CubeFrameFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("3", "50", "50", "Normal", "Normal", "Normal", "Normal")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.CubeFrame {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = CubeFrame(
-        depth = value[0].toFloat(),
-        centerX = value[1].toFloat(),
-        centerY = value[2].toFloat(),
-        leftOrientation = CubeFaceOrientation.valueOf(value[3]),
-        rightOrientation = CubeFaceOrientation.valueOf(value[4]),
-        upperOrientation = CubeFaceOrientation.valueOf(value[5]),
-        lowerOrientation = CubeFaceOrientation.valueOf(value[6])
+        depth = value.settings[0].toFloat(),
+        centerX = value.settings[1].toFloat(),
+        centerY = value.settings[2].toFloat(),
+        leftOrientation = CubeFaceOrientation.valueOf(value.settings[3]),
+        rightOrientation = CubeFaceOrientation.valueOf(value.settings[4]),
+        upperOrientation = CubeFaceOrientation.valueOf(value.settings[5]),
+        lowerOrientation = CubeFaceOrientation.valueOf(value.settings[6])
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info =
+            FilterInfo(R.string.gmic_filter_cube_frame, R.string.filter_help_gmic_filter_cube_frame)
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicNumber(R.string.texture_depth, 3, 0f..30f),
+                    gmicNumber(R.string.center_x, 50, 0f..100f),
+                    gmicNumber(R.string.center_y, 50, 0f..100f),
+                    gmicSelection(
+                        R.string.gmic_param_left_orientation,
+                        "Normal",
+                        listOf("Normal", "MirrorX", "MirrorY", "MirrorXY")
+                    ),
+                    gmicSelection(
+                        R.string.gmic_param_right_orientation,
+                        "Normal",
+                        listOf("Normal", "MirrorX", "MirrorY", "MirrorXY")
+                    ),
+                    gmicSelection(
+                        R.string.gmic_param_upper_orientation,
+                        "Normal",
+                        listOf("Normal", "MirrorX", "MirrorY", "MirrorXY")
+                    ),
+                    gmicSelection(
+                        R.string.gmic_param_lower_orientation,
+                        "Normal",
+                        listOf("Normal", "MirrorX", "MirrorY", "MirrorXY")
+                    )
+                )
+            )
+        }
+    }
 }

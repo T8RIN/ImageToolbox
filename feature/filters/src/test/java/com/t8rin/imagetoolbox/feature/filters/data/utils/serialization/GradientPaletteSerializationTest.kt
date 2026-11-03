@@ -20,6 +20,7 @@ package com.t8rin.imagetoolbox.feature.filters.data.utils.serialization
 import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterValues
 import com.t8rin.imagetoolbox.core.filters.domain.model.TemplateFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.GradientMapFilter
 import org.junit.Assert.assertEquals
@@ -34,31 +35,40 @@ class GradientPaletteSerializationTest {
     @Test
     fun customPalettesRoundTripThroughFilterTemplates() {
         val values = listOf(GradientPalette.SoftRainbow, custom, GradientPalette.Classic)
-        val filters: List<Filter<*>> = values.map(::GradientMapFilter)
+        val filters: List<Filter<*>> =
+            values.map { GradientMapFilter(FilterValues.gradientMap(it)) }
         val templates = listOf(
             TemplateFilter("Gradients", filters),
             TemplateFilter("Custom", filters.reversed())
         )
         val restored = templates.toDatastoreString().toTemplateFiltersList()
         assertEquals(templates.map { it.name }, restored.map { it.name })
-        assertEquals(values, restored[0].filters.map { it.value })
-        assertEquals(values.reversed(), restored[1].filters.map { it.value })
+        assertEquals(values, restored[0].filters.map { (it as Filter.GradientMap).value.palette })
+        assertEquals(
+            values.reversed(),
+            restored[1].filters.map { (it as Filter.GradientMap).value.palette })
     }
 
     @Test
     fun oldPresetFilterValuesRemainReadable() {
         val value = "^^.feature.filters.data.model.GradientMapFilter:GradientPalette:SoftRainbow"
-        assertEquals(GradientPalette.SoftRainbow, value.toFiltersList(true).single().value)
+        assertEquals(
+            GradientPalette.SoftRainbow,
+            (value.toFiltersList(true).single() as Filter.GradientMap).value.palette
+        )
     }
 
     @Test
     fun differentCustomPalettesNeverShareTheirFilterCacheKey() {
         val other = GradientPalette.Custom(custom.colors.reversed())
-        assertNotEquals(GradientMapFilter(custom).cacheKey, GradientMapFilter(other).cacheKey)
+        assertNotEquals(
+            GradientMapFilter(FilterValues.gradientMap(custom)).cacheKey,
+            GradientMapFilter(FilterValues.gradientMap(other)).cacheKey
+        )
         assertNotEquals(custom.toString(), other.toString())
         assertEquals(
-            GradientMapFilter(custom).cacheKey,
-            GradientMapFilter(GradientPalette.Custom(custom.colors)).cacheKey
+            GradientMapFilter(FilterValues.gradientMap(custom)).cacheKey,
+            GradientMapFilter(FilterValues.gradientMap(GradientPalette.Custom(custom.colors))).cacheKey
         )
     }
 }

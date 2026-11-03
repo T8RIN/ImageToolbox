@@ -17,31 +17,55 @@
 
 package com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import com.t8rin.imagetoolbox.core.domain.model.ColorModel
+import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
 import com.t8rin.imagetoolbox.core.domain.utils.roundTo
 import com.t8rin.imagetoolbox.core.filters.domain.model.FilterParam
+import com.t8rin.imagetoolbox.core.filters.domain.model.enums.BlurEdgeMode
+import com.t8rin.imagetoolbox.core.filters.domain.model.enums.FadeSide
+import com.t8rin.imagetoolbox.core.filters.domain.model.enums.MirrorSide
+import com.t8rin.imagetoolbox.core.filters.domain.model.enums.PaletteTransferSpace
+import com.t8rin.imagetoolbox.core.filters.domain.model.enums.PolarCoordinatesType
+import com.t8rin.imagetoolbox.core.filters.domain.model.enums.PopArtBlendingMode
+import com.t8rin.imagetoolbox.core.filters.domain.model.enums.TransferFunc
+import com.t8rin.imagetoolbox.core.filters.presentation.utils.translatedName
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toColor
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toModel
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ColorRowSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.DataSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.SeedSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.isSeedString
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButtonGroup
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
+import com.t8rin.imagetoolbox.core.ui.widget.palette_selection.GradientPaletteSelector
 import kotlin.math.roundToInt
 
 @Composable
-internal fun FilterParamItem(
+fun FilterParamItem(
     value: Float,
     info: FilterParam,
     previewOnly: Boolean,
     onValueChange: (Float) -> Unit
 ) {
-    val title = stringResource(requireNotNull(info.title))
+    val title = info.title?.let { stringResource(it) }.orEmpty()
     val current = value.takeIf(Float::isFinite)?.coerceIn(info.valueRange) ?: info.valueRange.start
     when {
+        info.options.size == 2 -> EnhancedButtonGroup(
+            items = info.options.map { stringResource(it) },
+            selectedIndex = current.roundToInt().coerceIn(0, 1),
+            onIndexChange = { onValueChange(it.toFloat()) },
+            title = title,
+            enabled = !previewOnly,
+            isScrollable = false
+        )
+
         info.options.isNotEmpty() -> {
             val labels = info.options.map { stringResource(it) }
             DataSelector(
@@ -58,7 +82,7 @@ internal fun FilterParamItem(
             )
         }
 
-        isSeedString(info.title) -> SeedSelector(
+        info.title == R.string.procedural_seed || info.title?.let { isSeedString(it) } == true -> SeedSelector(
             value = current,
             title = title,
             valueRange = info.valueRange,
@@ -82,10 +106,11 @@ internal fun FilterParamItem(
 }
 
 @Composable
-internal fun FilterColorParamItem(
+fun FilterColorParamItem(
     value: ColorModel,
     info: FilterParam,
     previewOnly: Boolean,
+    allowAlpha: Boolean = false,
     onValueChange: (ColorModel) -> Unit
 ) {
     ColorRowSelector(
@@ -94,6 +119,49 @@ internal fun FilterColorParamItem(
         title = stringResource(requireNotNull(info.title)),
         allowCustom = !previewOnly,
         allowScroll = !previewOnly,
-        allowAlpha = false
+        allowAlpha = allowAlpha
+    )
+}
+
+@Composable
+fun <T : Enum<T>> FilterEnumParamItem(
+    value: T,
+    info: FilterParam,
+    entries: List<T>,
+    previewOnly: Boolean,
+    onValueChange: (T) -> Unit
+) {
+    val title = info.title?.let { stringResource(it) }.orEmpty()
+    val labels = entries.map { entry ->
+        when (entry) {
+            is BlurEdgeMode -> entry.translatedName
+            is FadeSide -> entry.translatedName
+            is MirrorSide -> entry.translatedName
+            is PaletteTransferSpace -> entry.translatedName
+            is PolarCoordinatesType -> entry.translatedName
+            is PopArtBlendingMode -> entry.translatedName
+            is TransferFunc -> entry.translatedName
+            else -> entry.name
+        }
+    }
+    EnhancedButtonGroup(
+        items = labels,
+        selectedIndex = entries.indexOf(value),
+        onIndexChange = { onValueChange(entries[it]) },
+        title = title,
+        enabled = !previewOnly
+    )
+}
+
+@Composable
+fun FilterPaletteParamItem(
+    value: GradientPalette,
+    previewOnly: Boolean,
+    onValueChange: (GradientPalette) -> Unit
+) {
+    GradientPaletteSelector(
+        value = value,
+        onValueChange = { if (!previewOnly) onValueChange(it) },
+        modifier = Modifier.padding(start = 8.dp, end = 8.dp, bottom = 8.dp)
     )
 }

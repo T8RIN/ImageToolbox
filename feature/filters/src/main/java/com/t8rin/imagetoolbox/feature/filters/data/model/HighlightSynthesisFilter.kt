@@ -20,25 +20,41 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 import com.t8rin.gmic.GmicFilter
 import com.t8rin.gmic.filters.HighlightSynthesis
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.HighlightSynthesis.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.LIGHT)
 internal class HighlightSynthesisFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("1.1", "0.7", "1.15", "true")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.HighlightSynthesis {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = HighlightSynthesis(
-        red = value[0].toFloat(),
-        green = value[1].toFloat(),
-        blue = value[2].toFloat(),
-        rgbToSrgb = value[3].toBoolean()
+        red = value.settings[0].toFloat(),
+        green = value.settings[1].toFloat(),
+        blue = value.settings[2].toFloat(),
+        rgbToSrgb = value.settings[3].toBoolean()
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(
+            R.string.gmic_filter_highlight_synthesis,
+            R.string.filter_help_gmic_filter_highlight_synthesis
+        )
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicNumber(R.string.color_red, 1.1f, 0f..2f),
+                    gmicNumber(R.string.color_green, 0.7f, 0f..2f),
+                    gmicNumber(R.string.color_blue, 1.15f, 0f..2f),
+                    gmicToggle(R.string.gmic_param_rgb_to_srgb, true)
+                )
+            )
+        }
+    }
 }

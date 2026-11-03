@@ -21,29 +21,53 @@ import com.t8rin.gmic.GmicFilter
 import com.t8rin.gmic.filters.DiffusionTensors
 import com.t8rin.gmic.filters.TensorColorMode
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.DiffusionTensors.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.PIXELATION)
 internal class DiffusionTensorsFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("10", "5", "Color", "1", "0.15", "1", "0", "3")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.DiffusionTensors {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = DiffusionTensors(
-        resolution = value[0].toFloat(),
-        size = value[1].toFloat(),
-        colorMode = TensorColorMode.valueOf(value[2]),
-        outline = value[3].toInt(),
-        sharpness = value[4].toFloat(),
-        anisotropy = value[5].toFloat(),
-        gradientSmoothness = value[6].toFloat(),
-        tensorSmoothness = value[7].toFloat()
+        resolution = value.settings[0].toFloat(),
+        size = value.settings[1].toFloat(),
+        colorMode = TensorColorMode.valueOf(value.settings[2]),
+        outline = value.settings[3].toInt(),
+        sharpness = value.settings[4].toFloat(),
+        anisotropy = value.settings[5].toFloat(),
+        gradientSmoothness = value.settings[6].toFloat(),
+        tensorSmoothness = value.settings[7].toFloat()
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(
+            R.string.gmic_filter_diffusion_tensors,
+            R.string.filter_help_gmic_filter_diffusion_tensors
+        )
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicNumber(R.string.resolution, 10, 0f..20f),
+                    gmicNumber(R.string.just_size, 5, 0f..16f),
+                    gmicSelection(
+                        R.string.gmic_param_color_mode,
+                        "Color",
+                        listOf("Monochrome", "Grayscale", "Orientation", "Color")
+                    ),
+                    gmicInteger(R.string.gmic_param_outline, 1, 0f..16f),
+                    gmicNumber(R.string.tag_sharpness, 0.15f, 0f..1f),
+                    gmicNumber(R.string.texture_anisotropy, 1, 0f..1f),
+                    gmicNumber(R.string.gmic_param_gradient_smoothness, 0, 0f..10f),
+                    gmicNumber(R.string.gmic_param_tensor_smoothness, 3, 0f..10f)
+                )
+            )
+        }
+    }
 }

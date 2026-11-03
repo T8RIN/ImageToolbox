@@ -20,32 +20,58 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 import android.graphics.Bitmap
 import com.jhlabs.JhFilter
 import com.jhlabs.PerspectiveFilter
+import com.t8rin.imagetoolbox.core.domain.model.OffsetModel
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.DistortPerspectiveParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.DistortPerspective.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.JhFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.GEOMETRY)
 internal class DistortPerspectiveFilter(
-    override val value: DistortPerspectiveParams = DistortPerspectiveParams.Default
+    override val value: Value
 ) : JhFilterTransformation(), Filter.DistortPerspective {
-
-    override val cacheKey: String
-        get() = value.hashCode().toString()
 
     override fun createFilter(): JhFilter = PerspectiveFilter()
 
     override fun createFilter(image: Bitmap): JhFilter = PerspectiveFilter().apply {
         setCorners(
-            value.topLeft.first * image.width,
-            value.topLeft.second * image.height,
-            value.topRight.first * image.width,
-            value.topRight.second * image.height,
-            value.bottomRight.first * image.width,
-            value.bottomRight.second * image.height,
-            value.bottomLeft.first * image.width,
-            value.bottomLeft.second * image.height
+            value.topLeft.x * image.width,
+            value.topLeft.y * image.height,
+            value.topRight.x * image.width,
+            value.topRight.y * image.height,
+            value.bottomRight.x * image.width,
+            value.bottomRight.y * image.height,
+            value.bottomLeft.x * image.width,
+            value.bottomLeft.y * image.height
         )
         clip = value.clip
+    }
+
+    companion object : Filter.Schema.Custom<Value> {
+        override val info =
+            FilterInfo(R.string.distort_perspective, R.string.filter_help_distort_perspective)
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::topLeft,
+                pointParam({ OffsetModel(0.2f, 0f) }, control(R.string.top_left, 0f..1f))
+            )
+            field(
+                Value::topRight,
+                pointParam({ OffsetModel(0.8f, 0f) }, control(R.string.top_right, 0f..1f))
+            )
+            field(
+                Value::bottomLeft,
+                pointParam({ OffsetModel(0f, 1f) }, control(R.string.bottom_left, 0f..1f))
+            )
+            field(
+                Value::bottomRight,
+                pointParam({ OffsetModel(1f, 1f) }, control(R.string.bottom_right, 0f..1f))
+            )
+            field(Value::clip, booleanParam(R.string.clip, false))
+        }
     }
 }

@@ -22,27 +22,61 @@ import com.t8rin.gmic.filters.GmicBoundary
 import com.t8rin.gmic.filters.PolarTransform
 import com.t8rin.gmic.filters.PolarTransformPreset
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.PolarTransform.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.GEOMETRY)
 internal class PolarTransformFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("CustomTransform", "50", "50", "r + R/10*cos(a*5)", "a", "Mirror")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.PolarTransform {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = PolarTransform(
-        preset = PolarTransformPreset.valueOf(value[0]),
-        centerXPercent = value[1].toFloat(),
-        centerYPercent = value[2].toFloat(),
-        radiusExpression = value[3],
-        angleExpression = value[4],
-        boundary = GmicBoundary.valueOf(value[5])
+        preset = PolarTransformPreset.valueOf(value.settings[0]),
+        centerXPercent = value.settings[1].toFloat(),
+        centerYPercent = value.settings[2].toFloat(),
+        radiusExpression = value.settings[3],
+        angleExpression = value.settings[4],
+        boundary = GmicBoundary.valueOf(value.settings[5])
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(
+            R.string.gmic_filter_polar_transform,
+            R.string.filter_help_gmic_filter_polar_transform
+        )
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicSelection(
+                        R.string.gmic_param_preset,
+                        "CustomTransform",
+                        listOf("CustomTransform", "InverseRadius", "SwapRadiusAngle")
+                    ),
+                    gmicNumber(R.string.center_x, 50, 0f..100f),
+                    gmicNumber(R.string.center_y, 50, 0f..100f),
+                    gmicSelection(
+                        R.string.gmic_param_radius_expression,
+                        "r + R/10*cos(a*5)",
+                        listOf("r + R/10*cos(a*5)", "r", "R-r", "a*R/(2*pi)")
+                    ),
+                    gmicSelection(
+                        R.string.gmic_param_angle_expression,
+                        "a",
+                        listOf("a", "-a", "r*2*pi/R", "a + r/R")
+                    ),
+                    gmicSelection(
+                        R.string.gmic_param_boundary,
+                        "Mirror",
+                        listOf("Transparent", "Nearest", "Periodic", "Mirror")
+                    )
+                )
+            )
+        }
+    }
 }

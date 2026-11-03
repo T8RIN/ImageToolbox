@@ -20,29 +20,49 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 import com.t8rin.gmic.GmicFilter
 import com.t8rin.gmic.filters.HslAdjustment
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.HslAdjustment.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.COLOR)
 internal class HslAdjustmentFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("1.1", "0.05", "false", "35", "0.35", "false", "1", "1.05")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.HslAdjustment {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = HslAdjustment(
-        contrast = value[0].toFloat(),
-        level = value[1].toFloat(),
-        autoReduceLevel = value[2].toBoolean(),
-        hue = value[3].toFloat(),
-        amount = value[4].toFloat(),
-        autoSetInverseHue = value[5].toBoolean(),
-        gamma = value[6].toFloat(),
-        outputContrast = value[7].toFloat()
+        contrast = value.settings[0].toFloat(),
+        level = value.settings[1].toFloat(),
+        autoReduceLevel = value.settings[2].toBoolean(),
+        hue = value.settings[3].toFloat(),
+        amount = value.settings[4].toFloat(),
+        autoSetInverseHue = value.settings[5].toBoolean(),
+        gamma = value.settings[6].toFloat(),
+        outputContrast = value.settings[7].toFloat()
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(
+            R.string.gmic_filter_hsl_adjustment,
+            R.string.filter_help_gmic_filter_hsl_adjustment
+        )
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicNumber(R.string.contrast, 1.1f, 0f..2f),
+                    gmicNumber(R.string.gmic_param_level, 0.05f, -1f..1f),
+                    gmicToggle(R.string.gmic_param_auto_reduce_level, false),
+                    gmicNumber(R.string.hue, 35, 0f..360f),
+                    gmicNumber(R.string.amount, 0.35f, 0.2f..1f),
+                    gmicToggle(R.string.gmic_param_auto_set_inverse_hue, false),
+                    gmicNumber(R.string.gamma, 1, 0f..2f),
+                    gmicNumber(R.string.gmic_param_output_contrast, 1.05f, 0f..2f)
+                )
+            )
+        }
+    }
 }

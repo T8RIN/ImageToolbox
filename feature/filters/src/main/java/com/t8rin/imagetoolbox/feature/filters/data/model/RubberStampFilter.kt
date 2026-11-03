@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,19 +20,20 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 import android.graphics.Bitmap
 import com.jhlabs.JhFilter
 import com.jhlabs.StampFilter
+import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.RubberStampParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.RubberStamp.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.JhFilterTransformation
 import kotlin.math.max
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.ARTISTIC)
 internal class RubberStampFilter(
-    override val value: RubberStampParams = RubberStampParams.Default
+    override val value: Value
 ) : JhFilterTransformation(), Filter.RubberStamp {
-
-    override val cacheKey: String
-        get() = value.hashCode().toString()
 
     override fun createFilter(): JhFilter = StampFilter()
 
@@ -42,5 +43,23 @@ internal class RubberStampFilter(
         radius = value.radius * (max(image.width, image.height) / 64f)
         white = value.firstColor.colorInt
         black = value.secondColor.colorInt
+    }
+
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(R.string.rubber_stmp, R.string.filter_help_rubber_stmp)
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::threshold, floatParam(R.string.threshold, 0.3f, 0f..1f))
+            field(Value::softness, floatParam(R.string.brush_softness, 0.1f, 0f..1f))
+            field(Value::radius, floatParam(R.string.radius, 0.05f, 0f..2f))
+            field(
+                Value::firstColor,
+                colorParam(R.string.first_color, ColorModel(0xFF3FA08F.toInt()))
+            )
+            field(
+                Value::secondColor,
+                colorParam(R.string.second_color, ColorModel(0xFF003027.toInt()))
+            )
+        }
     }
 }

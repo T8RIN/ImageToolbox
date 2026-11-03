@@ -28,8 +28,11 @@ import com.t8rin.imagetoolbox.feature.filters.data.AndroidFilterParamsInteractor
 import com.t8rin.imagetoolbox.feature.filters.data.AndroidFilterProvider
 import com.t8rin.imagetoolbox.feature.filters.data.AndroidShaderPresetRepository
 import com.t8rin.imagetoolbox.feature.filters.domain.FilterMaskApplier
+import com.t8rin.imagetoolbox.core.filters.presentation.model.FilterCatalog
+import com.t8rin.imagetoolbox.feature.filters.data.model.GeneratedFilterCatalog
 import dagger.Binds
 import dagger.Module
+import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
@@ -63,4 +66,8 @@ internal interface FilterModule {
         repository: AndroidShaderPresetRepository
     ): ShaderPresetRepository
 
+    companion object {
+        @Provides
+        fun filterCatalog(): FilterCatalog = GeneratedFilterCatalog
+    }
 }

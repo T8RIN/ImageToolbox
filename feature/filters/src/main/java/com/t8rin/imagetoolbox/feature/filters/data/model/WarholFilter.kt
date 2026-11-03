@@ -20,24 +20,39 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 import com.t8rin.gmic.GmicFilter
 import com.t8rin.gmic.filters.Warhol
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.Warhol.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.ARTISTIC)
 internal class WarholFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("2", "2", "2", "45")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.Warhol {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = Warhol(
-        xTiles = value[0].toInt(),
-        yTiles = value[1].toInt(),
-        smoothness = value[2].toFloat(),
-        color = value[3].toFloat()
+        xTiles = value.settings[0].toInt(),
+        yTiles = value.settings[1].toInt(),
+        smoothness = value.settings[2].toFloat(),
+        color = value.settings[3].toFloat()
     )
+
+    companion object : Filter.Schema.Structured<Value> {
+        override val info =
+            FilterInfo(R.string.gmic_filter_warhol, R.string.filter_help_gmic_filter_warhol)
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicInteger(R.string.gmic_param_x_tiles, 2, 1f..10f),
+                    gmicInteger(R.string.gmic_param_y_tiles, 2, 1f..10f),
+                    gmicNumber(R.string.gmic_param_smoothness, 2, 0f..10f),
+                    gmicNumber(R.string.color, 45, 0f..60f)
+                )
+            )
+        }
+    }
 }

@@ -29,14 +29,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
 import com.t8rin.imagetoolbox.core.ui.widget.controls.ResizeImageField
 import kotlinx.coroutines.delay
 
 @Composable
 internal fun IntegerSizeParamsItem(
     value: IntegerSize,
-    filter: UiFilter<*>,
     onFilterChange: (value: IntegerSize) -> Unit,
     previewOnly: Boolean
 ) {
@@ -54,12 +52,14 @@ internal fun IntegerSizeParamsItem(
 
     LaunchedEffect(imageInfo) {
         delay(500)
-        onFilterChange(
-            IntegerSize(
-                width = imageInfo.width,
-                height = imageInfo.height
+        if (!previewOnly && (value.width != imageInfo.width || value.height != imageInfo.height)) {
+            onFilterChange(
+                IntegerSize(
+                    width = imageInfo.width,
+                    height = imageInfo.height
+                )
             )
-        )
+        }
     }
 
     ResizeImageField(

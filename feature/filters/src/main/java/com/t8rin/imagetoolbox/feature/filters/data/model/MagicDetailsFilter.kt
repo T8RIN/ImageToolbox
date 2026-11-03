@@ -18,30 +18,100 @@
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import com.t8rin.gmic.GmicFilter
-import com.t8rin.gmic.filters.MagicDetails
 import com.t8rin.gmic.filters.GmicChannel
+import com.t8rin.gmic.filters.MagicDetails
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.MagicDetails.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.ENHANCEMENT)
 internal class MagicDetailsFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("6", "3", "15", "-0.5", "2", "Luminance")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.MagicDetails {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = MagicDetails(
-        amplitude = value[0].toFloat(),
-        spatialScale = value[1].toFloat(),
-        valueScale = value[2].toFloat(),
-        edges = value[3].toFloat(),
-        smoothness = value[4].toFloat(),
-        channel = GmicChannel.valueOf(value[5])
+        amplitude = value.settings[0].toFloat(),
+        spatialScale = value.settings[1].toFloat(),
+        valueScale = value.settings[2].toFloat(),
+        edges = value.settings[3].toFloat(),
+        smoothness = value.settings[4].toFloat(),
+        channel = GmicChannel.valueOf(value.settings[5])
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(
+            R.string.gmic_filter_magic_details,
+            R.string.filter_help_gmic_filter_magic_details
+        )
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicNumber(R.string.amplitude, 6, 0f..30f),
+                    gmicNumber(R.string.gmic_param_spatial_scale, 3, 0f..10f),
+                    gmicNumber(R.string.gmic_param_value_scale, 15, 0f..20f),
+                    gmicNumber(R.string.texture_edges, -0.5f, -3f..3f),
+                    gmicNumber(R.string.gmic_param_smoothness, 2, 0f..20f),
+                    gmicSelection(
+                        R.string.gmic_param_channel,
+                        "Luminance",
+                        listOf(
+                            "All",
+                            "Rgba",
+                            "Rgb",
+                            "Red",
+                            "Green",
+                            "Blue",
+                            "Alpha",
+                            "LinearRgb",
+                            "LinearRed",
+                            "LinearGreen",
+                            "LinearBlue",
+                            "YCbCr",
+                            "Luminance",
+                            "Chrominance",
+                            "BlueChrominance",
+                            "RedChrominance",
+                            "GreenChrominance",
+                            "Lab",
+                            "LabLightness",
+                            "LabChrominance",
+                            "LabA",
+                            "LabB",
+                            "Lch",
+                            "LchChrominance",
+                            "LchChroma",
+                            "LchHue",
+                            "Hsv",
+                            "HsvHue",
+                            "HsvSaturation",
+                            "HsvValue",
+                            "Hsi",
+                            "HsiIntensity",
+                            "Hsl",
+                            "HslLightness",
+                            "Cmyk",
+                            "Cmy",
+                            "Cyan",
+                            "Magenta",
+                            "Yellow",
+                            "Key",
+                            "Yiq",
+                            "YiqLuma",
+                            "YiqChrominance",
+                            "Ryb",
+                            "RybRed",
+                            "RybYellow",
+                            "RybBlue"
+                        )
+                    )
+                )
+            )
+        }
+    }
 }

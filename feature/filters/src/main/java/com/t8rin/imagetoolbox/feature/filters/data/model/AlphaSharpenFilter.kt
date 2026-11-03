@@ -21,26 +21,95 @@ import com.t8rin.gmic.GmicFilter
 import com.t8rin.gmic.filters.AlphaSharpen
 import com.t8rin.gmic.filters.GmicChannel
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.AlphaSharpen.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.ENHANCEMENT)
 internal class AlphaSharpenFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("100", "5", "50", "100", "All")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.AlphaSharpen {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = AlphaSharpen(
-        amplitude = value[0].toFloat(),
-        scales = value[1].toInt(),
-        anisotropy = value[2].toFloat(),
-        minimizeAlpha = value[3].toFloat(),
-        channel = GmicChannel.valueOf(value[4])
+        amplitude = value.settings[0].toFloat(),
+        scales = value.settings[1].toInt(),
+        anisotropy = value.settings[2].toFloat(),
+        minimizeAlpha = value.settings[3].toFloat(),
+        channel = GmicChannel.valueOf(value.settings[4])
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(
+            R.string.gmic_filter_alpha_sharpen,
+            R.string.filter_help_gmic_filter_alpha_sharpen
+        )
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicNumber(R.string.amplitude, 100, 0f..400f),
+                    gmicInteger(R.string.scale, 5, 1f..10f),
+                    gmicNumber(R.string.texture_anisotropy, 50, 0f..100f),
+                    gmicNumber(R.string.gmic_param_minimize_alpha, 100, 0f..100f),
+                    gmicSelection(
+                        R.string.gmic_param_channel,
+                        "All",
+                        listOf(
+                            "All",
+                            "Rgba",
+                            "Rgb",
+                            "Red",
+                            "Green",
+                            "Blue",
+                            "Alpha",
+                            "LinearRgb",
+                            "LinearRed",
+                            "LinearGreen",
+                            "LinearBlue",
+                            "YCbCr",
+                            "Luminance",
+                            "Chrominance",
+                            "BlueChrominance",
+                            "RedChrominance",
+                            "GreenChrominance",
+                            "Lab",
+                            "LabLightness",
+                            "LabChrominance",
+                            "LabA",
+                            "LabB",
+                            "Lch",
+                            "LchChrominance",
+                            "LchChroma",
+                            "LchHue",
+                            "Hsv",
+                            "HsvHue",
+                            "HsvSaturation",
+                            "HsvValue",
+                            "Hsi",
+                            "HsiIntensity",
+                            "Hsl",
+                            "HslLightness",
+                            "Cmyk",
+                            "Cmy",
+                            "Cyan",
+                            "Magenta",
+                            "Yellow",
+                            "Key",
+                            "Yiq",
+                            "YiqLuma",
+                            "YiqChrominance",
+                            "Ryb",
+                            "RybRed",
+                            "RybYellow",
+                            "RybBlue"
+                        )
+                    )
+                )
+            )
+        }
+    }
 }

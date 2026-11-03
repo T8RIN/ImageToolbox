@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,29 +19,34 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import com.jhlabs.ColorHalftoneFilter
 import com.jhlabs.JhFilter
-import com.t8rin.imagetoolbox.core.domain.utils.Quad
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.ColorHalftone.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.JhFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.DITHERING)
 internal class ColorHalftoneFilter(
-    override val value: Quad<Float, Float, Float, Float> = Quad(
-        first = 2f,
-        second = 108f,
-        third = 162f,
-        fourth = 90f
-    )
+    override val value: Value
 ) : JhFilterTransformation(), Filter.ColorHalftone {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): JhFilter = ColorHalftoneFilter().apply {
-        setdotRadius(value.first)
-        cyanScreenAngle = Math.toRadians(value.second.toDouble()).toFloat()
-        magentaScreenAngle = Math.toRadians(value.third.toDouble()).toFloat()
-        yellowScreenAngle = Math.toRadians(value.fourth.toDouble()).toFloat()
+        setdotRadius(value.radius)
+        cyanScreenAngle = Math.toRadians(value.cyan.toDouble()).toFloat()
+        magentaScreenAngle = Math.toRadians(value.magenta.toDouble()).toFloat()
+        yellowScreenAngle = Math.toRadians(value.yellow.toDouble()).toFloat()
     }
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(R.string.color_halftone, R.string.filter_help_color_halftone)
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::radius, floatParam(R.string.radius, 2f, 0f..50f))
+            field(Value::cyan, floatParam(R.string.cyan, 108f, 0f..360f, roundTo = 0))
+            field(Value::magenta, floatParam(R.string.magenta, 162f, 0f..360f, roundTo = 0))
+            field(Value::yellow, floatParam(R.string.yellow, 90f, 0f..360f, roundTo = 0))
+        }
+    }
 }

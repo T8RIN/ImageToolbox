@@ -46,24 +46,7 @@ data class TemplateFilter(
 
             if (filter1Name != filter2Name) return false
 
-            val v1 = filter1.value
-            val v2 = filter2.value
-
-            when {
-                v1 is FloatArray && v2 is FloatArray -> {
-                    if (!v1.contentEquals(v2)) return false
-                }
-
-                v1 is IntArray && v2 is IntArray -> {
-                    if (!v1.contentEquals(v2)) return false
-                }
-
-                v1 is DoubleArray && v2 is DoubleArray -> {
-                    if (!v1.contentEquals(v2)) return false
-                }
-
-                else -> if (v1 != v2) return false
-            }
+            if (filter1.value != filter2.value) return false
         }
 
         return true
@@ -71,15 +54,9 @@ data class TemplateFilter(
 
     override fun hashCode(): Int {
         var result = name.hashCode()
-        filters.forEach { filter ->
+        filters.sortedBy { it::class.simpleName }.forEach { filter ->
             result = 31 * result + filter::class.simpleName.hashCode()
-            val v = filter.value
-            result = 31 * result + when (v) {
-                is FloatArray -> v.contentHashCode()
-                is IntArray -> v.contentHashCode()
-                is DoubleArray -> v.contentHashCode()
-                else -> v.hashCode()
-            }
+            result = 31 * result + filter.value.hashCode()
         }
         return result
     }

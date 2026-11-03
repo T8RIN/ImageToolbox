@@ -19,19 +19,19 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import android.graphics.Bitmap
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.SecamParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.Secam.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 import com.t8rin.trickle.Trickle
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.GLITCH)
 internal class SecamFilter(
-    override val value: SecamParams = SecamParams.Default
-) : Transformation<Bitmap>, Filter.Secam {
-
-    override val cacheKey: String
-        get() = "${javaClass.name}:${value.hashCode()}"
+    override val value: Value
+) : FilterTransformation, Filter.Secam {
 
     override suspend fun transform(
         input: Bitmap,
@@ -47,4 +47,20 @@ internal class SecamFilter(
         strength = value.strength
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(R.string.secam, R.string.filter_help_secam)
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::chromaRadius, intParam(R.string.chroma_radius, 4, 1..16))
+            field(
+                Value::frequencyDeviation,
+                floatParam(R.string.frequency_deviation, 0.8f, 0.2f..1f)
+            )
+            field(Value::noise, floatParam(R.string.noise, 0.12f, 0f..0.65f))
+            field(Value::preEmphasis, floatParam(R.string.pre_emphasis, 0.55f, 0f..1f))
+            field(Value::lineCrosstalk, floatParam(R.string.line_crosstalk, 0.07f, 0f..0.5f))
+            field(Value::seed, intParam(R.string.seed, 0, 0..10000))
+            field(Value::strength, floatParam(R.string.strength, 1f, 0f..1f))
+        }
+    }
 }

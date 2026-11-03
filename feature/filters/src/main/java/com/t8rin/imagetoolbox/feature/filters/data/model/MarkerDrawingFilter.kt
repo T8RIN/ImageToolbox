@@ -18,36 +18,60 @@
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import com.t8rin.gmic.GmicFilter
-import com.t8rin.gmic.filters.MarkerDrawing
 import com.t8rin.gmic.filters.MarkerBackground
+import com.t8rin.gmic.filters.MarkerDrawing
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.MarkerDrawing.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.ARTISTIC)
 internal class MarkerDrawingFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("70", "4", "10", "15", "100", "85", "0.5", "3", "3", "Color", "20", "-1")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.MarkerDrawing {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = MarkerDrawing(
-        length = value[0].toInt(),
-        radius = value[1].toFloat(),
-        opacity = value[2].toFloat(),
-        inertia = value[3].toFloat(),
-        curviness = value[4].toFloat(),
-        anisotropy = value[5].toFloat(),
-        smoothness = value[6].toFloat(),
-        coherence = value[7].toFloat(),
-        iterations = value[8].toInt(),
-        background = MarkerBackground.valueOf(value[9]),
-        backgroundBlur = value[10].toFloat(),
-        backgroundColor = value[11].toInt()
+        length = value.settings[0].toInt(),
+        radius = value.settings[1].toFloat(),
+        opacity = value.settings[2].toFloat(),
+        inertia = value.settings[3].toFloat(),
+        curviness = value.settings[4].toFloat(),
+        anisotropy = value.settings[5].toFloat(),
+        smoothness = value.settings[6].toFloat(),
+        coherence = value.settings[7].toFloat(),
+        iterations = value.settings[8].toInt(),
+        background = MarkerBackground.valueOf(value.settings[9]),
+        backgroundBlur = value.settings[10].toFloat(),
+        backgroundColor = value.settings[11].toInt()
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(
+            R.string.gmic_filter_marker_drawing,
+            R.string.filter_help_gmic_filter_marker_drawing
+        )
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicInteger(R.string.gmic_param_length, 70, 1f..256f),
+                    gmicNumber(R.string.radius, 4, 1f..32f),
+                    gmicNumber(R.string.opacity, 10, 0f..100f),
+                    gmicNumber(R.string.gmic_param_inertia, 15, 0f..100f),
+                    gmicNumber(R.string.gmic_param_curviness, 100, 0f..200f),
+                    gmicNumber(R.string.texture_anisotropy, 85, 0f..100f),
+                    gmicNumber(R.string.gmic_param_smoothness, 0.5f, 0f..5f),
+                    gmicNumber(R.string.gmic_param_coherence, 3, 0f..16f),
+                    gmicInteger(R.string.iterations, 3, 1f..64f),
+                    gmicSelection(R.string.gmic_param_background, "Color", listOf("Blur", "Color")),
+                    gmicNumber(R.string.gmic_param_background_blur, 20, 0f..128f),
+                    gmicColor(R.string.background_color, -1)
+                )
+            )
+        }
+    }
 }

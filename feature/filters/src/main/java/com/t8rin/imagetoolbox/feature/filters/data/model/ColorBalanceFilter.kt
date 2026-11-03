@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,26 +18,40 @@
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.ColorBalance.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GPUFilterTransformation
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageColorBalanceFilter
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.COLOR)
 internal class ColorBalanceFilter(
-    override val value: FloatArray = floatArrayOf(
-        0.0f, 0.0f, 0.0f,
-        0.0f, 0.0f, 0.0f,
-        0.0f, 0.0f, 0.0f
-    ),
+    override val value: Value,
 ) : GPUFilterTransformation(), Filter.ColorBalance {
 
-    override val cacheKey: String
-        get() = value.contentHashCode().toString()
-
     override fun createFilter(): GPUImageFilter = GPUImageColorBalanceFilter().apply {
-        setHighlights(value.take(3).toFloatArray())
-        setMidtones(floatArrayOf(value[3], value[4], value[6]))
-        setShowdows(value.takeLast(3).toFloatArray())
+        setHighlights(value.adjustments.take(3).toFloatArray())
+        setMidtones(floatArrayOf(value.adjustments[3], value.adjustments[4], value.adjustments[6]))
+        setShowdows(value.adjustments.takeLast(3).toFloatArray())
+    }
+
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(R.string.color_balance, R.string.filter_help_color_balance)
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::adjustments,
+                floatArrayParam(columns = 3, default = {
+                    floatArrayOf(
+                        0.0f, 0.0f, 0.0f,
+                        0.0f, 0.0f, 0.0f,
+                        0.0f, 0.0f, 0.0f
+                    )
+                })
+            )
+        }
     }
 }

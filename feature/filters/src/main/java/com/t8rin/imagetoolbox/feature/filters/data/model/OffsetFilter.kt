@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,23 +21,32 @@ import android.graphics.Bitmap
 import com.jhlabs.JhFilter
 import com.jhlabs.OffsetFilter
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.Offset.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.JhFilterTransformation
 import kotlin.math.roundToInt
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.GEOMETRY)
 internal class OffsetFilter(
-    override val value: Pair<Float, Float> = 0.25f to 0.25f
+    override val value: Value
 ) : JhFilterTransformation(), Filter.Offset {
-
-    override val cacheKey: String
-        get() = value.hashCode().toString()
 
     override fun createFilter(): JhFilter = OffsetFilter()
 
     override fun createFilter(image: Bitmap): JhFilter = OffsetFilter().apply {
-        xOffset = (value.first * image.width).roundToInt()
-        yOffset = (value.second * image.height).roundToInt()
+        xOffset = (value.offsetX * image.width).roundToInt()
+        yOffset = (value.offsetY * image.height).roundToInt()
     }
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(R.string.offset, R.string.filter_help_offset)
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::offsetX, floatParam(R.string.offset_x, 0.25f, 0f..1f))
+            field(Value::offsetY, floatParam(R.string.offset_y, 0.25f, 0f..1f))
+        }
+    }
 }

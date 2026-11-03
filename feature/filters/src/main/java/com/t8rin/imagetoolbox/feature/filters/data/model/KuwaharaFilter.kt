@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,18 +19,27 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 
 
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.Kuwahara.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GPUFilterTransformation
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageKuwaharaFilter
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.ENHANCEMENT)
 internal class KuwaharaFilter(
-    override val value: Float = 9f,
+    override val value: Value,
 ) : GPUFilterTransformation(), Filter.Kuwahara {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
+    override fun createFilter(): GPUImageFilter = GPUImageKuwaharaFilter(value.radius.toInt())
 
-    override fun createFilter(): GPUImageFilter = GPUImageKuwaharaFilter(value.toInt())
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(R.string.kuwahara, R.string.filter_help_kuwahara)
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::radius, floatParam(default = 9f, range = 0f..10f, roundTo = 0))
+        }
+    }
 }

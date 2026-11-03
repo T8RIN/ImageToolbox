@@ -21,23 +21,41 @@ import com.t8rin.gmic.GmicFilter
 import com.t8rin.gmic.filters.BoostChromaticity
 import com.t8rin.gmic.filters.BoostChromaticityColorSpace
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.BoostChromaticity.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.COLOR)
 internal class BoostChromaticityFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("75", "LabMixed")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.BoostChromaticity {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = BoostChromaticity(
-        amplitudePercent = value[0].toFloat(),
-        colorSpace = BoostChromaticityColorSpace.valueOf(value[1])
+        amplitudePercent = value.settings[0].toFloat(),
+        colorSpace = BoostChromaticityColorSpace.valueOf(value.settings[1])
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(
+            R.string.gmic_filter_boost_chromaticity,
+            R.string.filter_help_gmic_filter_boost_chromaticity
+        )
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicNumber(R.string.amplitude, 75, 0f..100f),
+                    gmicSelection(
+                        R.string.gmic_param_color_space,
+                        "LabMixed",
+                        listOf("YCbCrDistinct", "YCbCrMixed", "LabDistinct", "LabMixed")
+                    )
+                )
+            )
+        }
+    }
 }

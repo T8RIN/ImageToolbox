@@ -18,11 +18,44 @@
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.enums.ProceduralEffect
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.ProceduralParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.RandomColorDispersion.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.filters.data.utils.gpu.ShaderEffectFilter
+import com.t8rin.imagetoolbox.feature.filters.data.utils.gpu.uniforms
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.GLITCH)
 internal class RandomColorDispersionFilter(
-    override val value: ProceduralParams = ProceduralParams()
-) : ProceduralFilter(ProceduralEffect.RandomColorDispersion), Filter.RandomColorDispersion
+    override val value: Value
+) : ShaderEffectFilter<Value>(parameters.uniforms(value), SHADER), Filter.RandomColorDispersion {
+
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(
+            R.string.random_color_dispersion,
+            R.string.filter_help_random_color_dispersion
+        )
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::intensity,
+                floatParam(R.string.texture_intensity, 0.15f, -1f..1f, roundTo = 3)
+            )
+            field(Value::seed, intParam(R.string.procedural_seed, 0, 0..1000))
+            field(Value::offsetX, floatParam(R.string.offset_x, 0f, -1f..1f, roundTo = 3))
+            field(Value::offsetY, floatParam(R.string.offset_y, 0f, -1f..1f, roundTo = 3))
+            field(Value::scale, floatParam(R.string.scale, 1f, 0.05f..8f, roundTo = 3))
+            field(Value::rotation, floatParam(R.string.rotation, 0f, -180f..180f, roundTo = 3))
+        }
+
+        private val SHADER = """
+            vec2 delta = (hash2(floor(p * 24.0) + seed) - 0.5) * intensity * 0.15;
+            vec4 red = sampleField(p + delta);
+            vec4 green = sampleField(p);
+            vec4 blue = sampleField(p - delta);
+            gl_FragColor = vec4(red.r, green.g, blue.b, max(red.a, max(green.a, blue.a)));
+            return;
+        """.trimIndent()
+    }
+}

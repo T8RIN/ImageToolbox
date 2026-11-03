@@ -24,19 +24,20 @@ import com.awxkee.aire.MorphOp
 import com.awxkee.aire.MorphOpMode
 import com.awxkee.aire.Scalar
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.Bokeh.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 import com.t8rin.trickle.TrickleUtils.checkHasAlpha
 import kotlin.math.roundToInt
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.BLUR)
 internal class BokehFilter(
-    override val value: Pair<Float, Float> = 6f to 6f
-) : Transformation<Bitmap>, Filter.Bokeh {
-
-    override val cacheKey: String
-        get() = value.hashCode().toString()
+    override val value: Value
+) : FilterTransformation, Filter.Bokeh {
 
     override suspend fun transform(
         input: Bitmap,
@@ -44,16 +45,24 @@ internal class BokehFilter(
     ): Bitmap = Aire.morphology(
         bitmap = input,
         kernel = Aire.getBokehKernel(
-            kernelSize = value.first.roundToInt().coerceAtLeast(3),
-            sides = value.second.roundToInt().coerceAtLeast(3)
+            kernelSize = value.size.roundToInt().coerceAtLeast(3),
+            sides = value.amount.roundToInt().coerceAtLeast(3)
         ),
         morphOp = MorphOp.DILATE,
         morphOpMode = if (input.checkHasAlpha()) MorphOpMode.RGBA
         else MorphOpMode.RGB,
         borderMode = EdgeMode.REFLECT_101,
-        kernelHeight = value.first.roundToInt().coerceAtLeast(3),
-        kernelWidth = value.first.roundToInt().coerceAtLeast(3),
+        kernelHeight = value.size.roundToInt().coerceAtLeast(3),
+        kernelWidth = value.size.roundToInt().coerceAtLeast(3),
         borderScalar = Scalar.ZEROS
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(R.string.bokeh, R.string.filter_help_bokeh)
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::size, floatParam(R.string.just_size, 6f, 1f..150f, roundTo = 0))
+            field(Value::amount, floatParam(R.string.amount, 6f, 3f..40f, roundTo = 0))
+        }
+    }
 }

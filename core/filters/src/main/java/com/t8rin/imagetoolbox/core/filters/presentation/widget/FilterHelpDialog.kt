@@ -25,7 +25,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
-import com.t8rin.imagetoolbox.core.filters.presentation.model.helpDescription
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.helpStringResource

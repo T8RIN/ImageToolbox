@@ -20,27 +20,43 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 import com.t8rin.gmic.GmicFilter
 import com.t8rin.gmic.filters.Cubism
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.Cubism.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.ARTISTIC)
 internal class CubismFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("2", "50", "10", "90", "0.7", "0")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.Cubism {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = Cubism(
-        iterations = value[0].toInt(),
-        density = value[1].toFloat(),
-        thickness = value[2].toFloat(),
-        angle = value[3].toFloat(),
-        opacity = value[4].toFloat(),
-        smoothness = value[5].toFloat()
+        iterations = value.settings[0].toInt(),
+        density = value.settings[1].toFloat(),
+        thickness = value.settings[2].toFloat(),
+        angle = value.settings[3].toFloat(),
+        opacity = value.settings[4].toFloat(),
+        smoothness = value.settings[5].toFloat()
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info =
+            FilterInfo(R.string.gmic_filter_cubism, R.string.filter_help_gmic_filter_cubism)
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicInteger(R.string.iterations, 2, 0f..10f),
+                    gmicNumber(R.string.density, 50, 0f..200f),
+                    gmicNumber(R.string.texture_thickness, 10, 0f..50f),
+                    gmicNumber(R.string.angle, 90, 0f..360f),
+                    gmicNumber(R.string.opacity, 0.7f, 0.01f..1f),
+                    gmicNumber(R.string.gmic_param_smoothness, 0, 0f..5f)
+                )
+            )
+        }
+    }
 }

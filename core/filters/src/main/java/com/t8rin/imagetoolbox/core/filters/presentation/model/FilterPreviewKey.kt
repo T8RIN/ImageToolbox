@@ -28,42 +28,17 @@ data class FilterPreviewKey(
 fun Filter<*>.previewKey(): FilterPreviewKey = FilterPreviewKey(
     filterType = this::class.simpleName,
     value = if (this is Filter.RawGmic) {
-        value.toPreviewKeyValue() to auxiliaryImages.toPreviewKeyValue()
+        value to auxiliaryImages.toList()
     } else {
-        value.toPreviewKeyValue()
+        value
     },
     isVisible = isVisible
 )
 
 fun UiFilter<*>.hasSameValue(value: Any?): Boolean {
-    return this.value.toPreviewKeyValue() == value.toPreviewKeyValue()
+    return this.value == value
 }
 
 fun UiFilter<*>.hasSameState(other: UiFilter<*>): Boolean {
     return previewKey() == other.previewKey()
-}
-
-fun Any?.toPreviewKeyValue(): Any? = when (this) {
-    is FloatArray -> toList()
-    is IntArray -> toList()
-    is DoubleArray -> toList()
-    is LongArray -> toList()
-    is ShortArray -> toList()
-    is ByteArray -> toList()
-    is CharArray -> toList()
-    is BooleanArray -> toList()
-    is Array<*> -> map { it.toPreviewKeyValue() }
-    is Iterable<*> -> map { it.toPreviewKeyValue() }
-    is Map<*, *> -> entries.associate { (key, value) ->
-        key.toPreviewKeyValue() to value.toPreviewKeyValue()
-    }
-
-    is Pair<*, *> -> first.toPreviewKeyValue() to second.toPreviewKeyValue()
-    is Triple<*, *, *> -> Triple(
-        first.toPreviewKeyValue(),
-        second.toPreviewKeyValue(),
-        third.toPreviewKeyValue()
-    )
-
-    else -> this
 }

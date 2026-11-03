@@ -22,28 +22,63 @@ import com.t8rin.gmic.filters.RowShifter
 import com.t8rin.gmic.filters.RowShifterInterpolation
 import com.t8rin.gmic.filters.RowShifterOrder
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.RowShifter.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.GLITCH)
 internal class RowShifterFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("XThenY", "0", "0.5", "0", "0.5", "Bilinear", "false")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.RowShifter {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = RowShifter(
-        order = RowShifterOrder.valueOf(value[0]),
-        xShift = value[1].toFloat(),
-        xCentre = value[2].toFloat(),
-        yShift = value[3].toFloat(),
-        yCentre = value[4].toFloat(),
-        interpolation = RowShifterInterpolation.valueOf(value[5]),
-        invertShifts = value[6].toBoolean()
+        order = RowShifterOrder.valueOf(value.settings[0]),
+        xShift = value.settings[1].toFloat(),
+        xCentre = value.settings[2].toFloat(),
+        yShift = value.settings[3].toFloat(),
+        yCentre = value.settings[4].toFloat(),
+        interpolation = RowShifterInterpolation.valueOf(value.settings[5]),
+        invertShifts = value.settings[6].toBoolean()
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(
+            R.string.gmic_filter_row_shifter,
+            R.string.filter_help_gmic_filter_row_shifter
+        )
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicSelection(
+                        R.string.order,
+                        "XThenY",
+                        listOf("XThenY", "Simultaneous", "YThenX")
+                    ),
+                    gmicNumber(R.string.gmic_param_x_shift, 0, -5f..5f),
+                    gmicNumber(R.string.gmic_param_x_centre, 0.5f, 0f..1f),
+                    gmicNumber(R.string.gmic_param_y_shift, 0, -5f..5f),
+                    gmicNumber(R.string.gmic_param_y_centre, 0.5f, 0f..1f),
+                    gmicSelection(
+                        R.string.gmic_param_interpolation,
+                        "Bilinear",
+                        listOf(
+                            "NoneOption",
+                            "Nearest",
+                            "Average",
+                            "Bilinear",
+                            "Grid",
+                            "Bicubic",
+                            "Lanczos"
+                        )
+                    ),
+                    gmicToggle(R.string.gmic_param_invert_shifts, false)
+                )
+            )
+        }
+    }
 }

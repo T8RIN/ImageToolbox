@@ -21,24 +21,43 @@ import com.t8rin.gmic.GmicFilter
 import com.t8rin.gmic.filters.MetallicLook
 import com.t8rin.gmic.filters.MetallicLookMetal
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.MetallicLook.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.EFFECTS)
 internal class MetallicLookFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("1", "0", "Silver")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.MetallicLook {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = MetallicLook(
-        strength = value[0].toFloat(),
-        smoothness = value[1].toFloat(),
-        metal = MetallicLookMetal.valueOf(value[2])
+        strength = value.settings[0].toFloat(),
+        smoothness = value.settings[1].toFloat(),
+        metal = MetallicLookMetal.valueOf(value.settings[2])
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(
+            R.string.gmic_filter_metallic_look,
+            R.string.filter_help_gmic_filter_metallic_look
+        )
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicNumber(R.string.strength, 1, 0f..1f),
+                    gmicNumber(R.string.gmic_param_smoothness, 0, 0f..20f),
+                    gmicSelection(
+                        R.string.gmic_param_metal,
+                        "Silver",
+                        listOf("Silver", "Gold", "Copper", "Bronze", "BlueSteel")
+                    )
+                )
+            )
+        }
+    }
 }

@@ -22,7 +22,6 @@ package com.t8rin.imagetoolbox.feature.help.data
 import androidx.annotation.StringRes
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
-import com.t8rin.imagetoolbox.core.filters.presentation.model.helpDescription
 import com.t8rin.imagetoolbox.core.resources.Book2
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R

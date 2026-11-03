@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,25 +19,33 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import android.graphics.Bitmap
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.EnhancedOil.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 import com.t8rin.trickle.Trickle
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.ARTISTIC)
 internal class EnhancedOilFilter(
-    override val value: Float = 10f
-) : Transformation<Bitmap>, Filter.EnhancedOil {
-
-    override val cacheKey: String
-        get() = value.hashCode().toString()
+    override val value: Value
+) : FilterTransformation, Filter.EnhancedOil {
 
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
     ): Bitmap = Trickle.oil(
         input = input,
-        oilRange = value.toInt()
+        oilRange = value.strength.toInt()
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(R.string.enhanced_oil, R.string.filter_help_enhanced_oil)
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::strength, floatParam(R.string.strength, 10f, 1f..25f, roundTo = 0))
+        }
+    }
 }

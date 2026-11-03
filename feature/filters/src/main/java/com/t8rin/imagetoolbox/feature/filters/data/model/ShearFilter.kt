@@ -20,21 +20,31 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 import com.jhlabs.JhFilter
 import com.jhlabs.ShearFilter
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.ShearParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.Shear.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.JhFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.GEOMETRY)
 internal class ShearFilter(
-    override val value: ShearParams = ShearParams()
+    override val value: Value
 ) : JhFilterTransformation(), Filter.Shear {
-
-    override val cacheKey: String
-        get() = value.hashCode().toString()
 
     override fun createFilter(): JhFilter = ShearFilter().apply {
         xAngle = Math.toRadians(value.xAngle.toDouble()).toFloat()
         yAngle = Math.toRadians(value.yAngle.toDouble()).toFloat()
         isResize = value.resize
+    }
+
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(R.string.shear, R.string.filter_help_shear)
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::xAngle, floatParam(R.string.x_angle, 15f, -89f..89f, 0))
+            field(Value::yAngle, floatParam(R.string.y_angle, 0f, -89f..89f, 0))
+            field(Value::resize, booleanParam(R.string.resize, true))
+        }
     }
 }

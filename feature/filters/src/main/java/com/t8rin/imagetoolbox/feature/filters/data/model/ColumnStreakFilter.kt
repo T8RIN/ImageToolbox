@@ -18,11 +18,40 @@
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.enums.ProceduralEffect
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.ProceduralParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.ColumnStreak.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.filters.data.utils.gpu.ShaderEffectFilter
+import com.t8rin.imagetoolbox.feature.filters.data.utils.gpu.uniforms
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.GLITCH)
 internal class ColumnStreakFilter(
-    override val value: ProceduralParams = ProceduralParams()
-) : ProceduralFilter(ProceduralEffect.ColumnStreak), Filter.ColumnStreak
+    override val value: Value
+) : ShaderEffectFilter<Value>(parameters.uniforms(value), SHADER), Filter.ColumnStreak {
+
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(R.string.column_streak, R.string.filter_help_column_streak)
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::intensity, floatParam(R.string.texture_intensity, 1f, 0f..1f, roundTo = 3))
+            field(
+                Value::variability,
+                floatParam(R.string.procedural_variability, 0.6f, 0f..1f, roundTo = 3)
+            )
+            field(Value::count, intParam(R.string.procedural_count, 16, 1..128))
+            field(Value::offsetX, floatParam(R.string.offset_x, 0f, -1f..1f, roundTo = 3))
+            field(Value::offsetY, floatParam(R.string.offset_y, 0f, -1f..1f, roundTo = 3))
+            field(Value::scale, floatParam(R.string.scale, 1f, 0.05f..8f, roundTo = 3))
+            field(Value::rotation, floatParam(R.string.rotation, 0f, -180f..180f, roundTo = 3))
+        }
+
+        private val SHADER = """
+
+            float column = floor(p.x * count);
+            float levels = mix(4.0, 64.0, hash(vec2(column, 1.0)) * variability);
+            q.y = mix(p.y, (floor(p.y * levels) + 0.5) / levels, intensity);
+        """.trimIndent()
+    }
+}

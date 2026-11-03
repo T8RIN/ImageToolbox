@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,26 +20,36 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 import android.graphics.Bitmap
 import com.awxkee.aire.Aire
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.Grayscale.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.COLOR)
 internal class GrayscaleFilter(
-    override val value: Triple<Float, Float, Float> = Triple(0.299f, 0.587f, 0.114f)
-) : Transformation<Bitmap>, Filter.Grayscale {
-
-    override val cacheKey: String
-        get() = value.hashCode().toString()
+    override val value: Value
+) : FilterTransformation, Filter.Grayscale {
 
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
     ): Bitmap = Aire.grayscale(
         bitmap = input,
-        rPrimary = value.first,
-        gPrimary = value.second,
-        bPrimary = value.third
+        rPrimary = value.colorRed,
+        gPrimary = value.colorGreen,
+        bPrimary = value.colorBlue
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(R.string.gray_scale, R.string.filter_help_gray_scale)
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::colorRed, floatParam(R.string.color_red, 0.299f, 0f..1f))
+            field(Value::colorGreen, floatParam(R.string.color_green, 0.587f, 0f..1f))
+            field(Value::colorBlue, floatParam(R.string.color_blue, 0.114f, 0f..1f))
+        }
+    }
 }

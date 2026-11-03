@@ -18,27 +18,46 @@
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import com.t8rin.gmic.GmicFilter
-import com.t8rin.gmic.filters.TileableRotation
 import com.t8rin.gmic.filters.TileableArrayMode
+import com.t8rin.gmic.filters.TileableRotation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.TileableRotation.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.PIXELATION)
 internal class TileableRotationFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("45", "8", "None")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.TileableRotation {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = TileableRotation(
-        angle = value[0].toFloat(),
-        maximumSizeFactor = value[1].toInt(),
-        arrayMode = TileableArrayMode.valueOf(value[2])
+        angle = value.settings[0].toFloat(),
+        maximumSizeFactor = value.settings[1].toInt(),
+        arrayMode = TileableArrayMode.valueOf(value.settings[2])
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(
+            R.string.gmic_filter_tileable_rotation,
+            R.string.filter_help_gmic_filter_tileable_rotation
+        )
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicNumber(R.string.angle, 45, 0f..360f),
+                    gmicInteger(R.string.gmic_param_maximum_size_factor, 8, 0f..20f),
+                    gmicSelection(
+                        R.string.gmic_param_array_mode,
+                        "None",
+                        listOf("None", "XAxis", "YAxis", "BothAxes", "DoubleBothAxes")
+                    )
+                )
+            )
+        }
+    }
 }

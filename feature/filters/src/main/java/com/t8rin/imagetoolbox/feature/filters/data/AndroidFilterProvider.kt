@@ -23,7 +23,7 @@ import com.t8rin.imagetoolbox.core.domain.transformation.EmptyTransformation
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.FilterProvider
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.generated.mapFilter
+import com.t8rin.imagetoolbox.feature.filters.data.model.GeneratedFilterCatalog
 import javax.inject.Inject
 
 internal class AndroidFilterProvider @Inject constructor() : FilterProvider<Bitmap> {
@@ -32,7 +32,7 @@ internal class AndroidFilterProvider @Inject constructor() : FilterProvider<Bitm
         filter: Filter<*>,
     ): Transformation<Bitmap> = filter.ifVisible {
         val source = this
-        mapFilter(source).also { transformation ->
+        GeneratedFilterCatalog.transform(source).also { transformation ->
             if (source is Filter.RawGmic && transformation is Filter.RawGmic) {
                 transformation.auxiliaryImages = source.auxiliaryImages
             }

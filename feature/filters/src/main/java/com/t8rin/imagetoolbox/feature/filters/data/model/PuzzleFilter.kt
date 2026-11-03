@@ -20,52 +20,61 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 import com.t8rin.gmic.GmicFilter
 import com.t8rin.gmic.filters.Puzzle
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.Puzzle.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.PIXELATION)
 internal class PuzzleFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf(
-            "5",
-            "5",
-            "0.5",
-            "0",
-            "0",
-            "0.3",
-            "100",
-            "0.2",
-            "255",
-            "100",
-            "0",
-            "0",
-            "0",
-            "false",
-            "false"
-        )
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.Puzzle {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = Puzzle(
-        xTiles = value[0].toInt(),
-        yTiles = value[1].toInt(),
-        curvature = value[2].toFloat(),
-        connectorCentering = value[3].toFloat(),
-        connectorVariability = value[4].toFloat(),
-        reliefSmoothness = value[5].toFloat(),
-        reliefContrast = value[6].toFloat(),
-        outlineSmoothness = value[7].toFloat(),
-        outlineContrast = value[8].toFloat(),
-        scale = value[9].toFloat(),
-        scaleVariation = value[10].toFloat(),
-        angle = value[11].toFloat(),
-        angleVariation = value[12].toFloat(),
-        shufflePieces = value[13].toBoolean(),
-        additionalOutline = value[14].toBoolean()
+        xTiles = value.settings[0].toInt(),
+        yTiles = value.settings[1].toInt(),
+        curvature = value.settings[2].toFloat(),
+        connectorCentering = value.settings[3].toFloat(),
+        connectorVariability = value.settings[4].toFloat(),
+        reliefSmoothness = value.settings[5].toFloat(),
+        reliefContrast = value.settings[6].toFloat(),
+        outlineSmoothness = value.settings[7].toFloat(),
+        outlineContrast = value.settings[8].toFloat(),
+        scale = value.settings[9].toFloat(),
+        scaleVariation = value.settings[10].toFloat(),
+        angle = value.settings[11].toFloat(),
+        angleVariation = value.settings[12].toFloat(),
+        shufflePieces = value.settings[13].toBoolean(),
+        additionalOutline = value.settings[14].toBoolean()
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info =
+            FilterInfo(R.string.gmic_filter_puzzle, R.string.filter_help_gmic_filter_puzzle)
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicInteger(R.string.gmic_param_x_tiles, 5, 2f..32f),
+                    gmicInteger(R.string.gmic_param_y_tiles, 5, 2f..32f),
+                    gmicNumber(R.string.curvature, 0.5f, 0f..1.5f),
+                    gmicNumber(R.string.gmic_param_connector_centering, 0, 0f..1f),
+                    gmicNumber(R.string.gmic_param_connector_variability, 0, 0f..2f),
+                    gmicNumber(R.string.gmic_param_relief_smoothness, 0.3f, 0f..3f),
+                    gmicNumber(R.string.gmic_param_relief_contrast, 100, 0f..255f),
+                    gmicNumber(R.string.gmic_param_outline_smoothness, 0.2f, 0f..3f),
+                    gmicNumber(R.string.gmic_param_outline_contrast, 255, 0f..255f),
+                    gmicNumber(R.string.scale, 100, 0f..150f),
+                    gmicNumber(R.string.gmic_param_scale_variation, 0, 0f..100f),
+                    gmicNumber(R.string.angle, 0, -180f..180f),
+                    gmicNumber(R.string.variation, 0, 0f..180f),
+                    gmicToggle(R.string.gmic_param_shuffle_pieces, false),
+                    gmicToggle(R.string.add_outline, false)
+                )
+            )
+        }
+    }
 }

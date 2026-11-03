@@ -21,25 +21,93 @@ import com.t8rin.gmic.GmicFilter
 import com.t8rin.gmic.filters.GmicChannel
 import com.t8rin.gmic.filters.ShockWaves
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.ShockWaves.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.DISTORTION)
 internal class ShockWavesFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("10", "10", "20", "All")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.ShockWaves {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = ShockWaves(
-        amplitude = value[0].toFloat(),
-        lowFrequency = value[1].toFloat(),
-        frequencyRange = value[2].toFloat(),
-        channelS = GmicChannel.valueOf(value[3])
+        amplitude = value.settings[0].toFloat(),
+        lowFrequency = value.settings[1].toFloat(),
+        frequencyRange = value.settings[2].toFloat(),
+        channelS = GmicChannel.valueOf(value.settings[3])
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(
+            R.string.gmic_filter_shock_waves,
+            R.string.filter_help_gmic_filter_shock_waves
+        )
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicNumber(R.string.amplitude, 10, 0f..100f),
+                    gmicNumber(R.string.gmic_param_low_frequency, 10, 0f..100f),
+                    gmicNumber(R.string.gmic_param_frequency_range, 20, 0f..100f),
+                    gmicSelection(
+                        R.string.gmic_param_channel,
+                        "All",
+                        listOf(
+                            "All",
+                            "Rgba",
+                            "Rgb",
+                            "Red",
+                            "Green",
+                            "Blue",
+                            "Alpha",
+                            "LinearRgb",
+                            "LinearRed",
+                            "LinearGreen",
+                            "LinearBlue",
+                            "YCbCr",
+                            "Luminance",
+                            "Chrominance",
+                            "BlueChrominance",
+                            "RedChrominance",
+                            "GreenChrominance",
+                            "Lab",
+                            "LabLightness",
+                            "LabChrominance",
+                            "LabA",
+                            "LabB",
+                            "Lch",
+                            "LchChrominance",
+                            "LchChroma",
+                            "LchHue",
+                            "Hsv",
+                            "HsvHue",
+                            "HsvSaturation",
+                            "HsvValue",
+                            "Hsi",
+                            "HsiIntensity",
+                            "Hsl",
+                            "HslLightness",
+                            "Cmyk",
+                            "Cmy",
+                            "Cyan",
+                            "Magenta",
+                            "Yellow",
+                            "Key",
+                            "Yiq",
+                            "YiqLuma",
+                            "YiqChrominance",
+                            "Ryb",
+                            "RybRed",
+                            "RybYellow",
+                            "RybBlue"
+                        )
+                    )
+                )
+            )
+        }
+    }
 }

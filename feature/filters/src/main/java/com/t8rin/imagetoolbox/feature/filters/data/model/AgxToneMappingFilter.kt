@@ -19,19 +19,19 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import android.graphics.Bitmap
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.AgxToneMappingParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.AgxToneMapping.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 import com.t8rin.trickle.Trickle
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.LIGHT)
 internal class AgxToneMappingFilter(
-    override val value: AgxToneMappingParams = AgxToneMappingParams.Default
-) : Transformation<Bitmap>, Filter.AgxToneMapping {
-
-    override val cacheKey: String
-        get() = "${javaClass.name}:${value.hashCode()}"
+    override val value: Value
+) : FilterTransformation, Filter.AgxToneMapping {
 
     override suspend fun transform(
         input: Bitmap,
@@ -44,4 +44,23 @@ internal class AgxToneMappingFilter(
         strength = value.strength
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info =
+            FilterInfo(R.string.agx_tone_mapping, R.string.filter_help_agx_tone_mapping)
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::exposure, floatParam(R.string.exposure, 0f, -4f..4f))
+            field(
+                Value::look,
+                choiceParam(
+                    R.string.look, 0,
+                    R.string.neutral,
+                    R.string.golden,
+                    R.string.punchy
+                )
+            )
+            field(Value::saturation, floatParam(R.string.saturation, 1f, 0f..1.75f))
+            field(Value::strength, floatParam(R.string.strength, 1f, 0f..1f))
+        }
+    }
 }

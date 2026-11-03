@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.core.filters.presentation.widget.addFilters
 
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import android.graphics.Bitmap
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.animateFloatAsState
@@ -46,7 +47,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.t8rin.imagetoolbox.core.filters.presentation.model.UiCubeLutFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.FilterSelectionItem
 import com.t8rin.imagetoolbox.core.resources.Icons
@@ -186,10 +186,10 @@ internal fun FavoritesContent(
                                         else 1f
                                     ).value
                                 ),
-                            cubeLutRemoteResources = if (filter is UiCubeLutFilter) {
+                            cubeLutRemoteResources = if (filter is Filter.CubeLut) {
                                 component.cubeLutRemoteResources
                             } else null,
-                            cubeLutDownloadProgress = if (filter is UiCubeLutFilter) {
+                            cubeLutDownloadProgress = if (filter is Filter.CubeLut) {
                                 component.cubeLutDownloadProgress
                             } else null,
                             onCubeLutDownloadRequest = { forceUpdate, downloadOnlyNewData ->

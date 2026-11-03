@@ -21,39 +21,40 @@ import android.graphics.Bitmap
 import com.t8rin.imagetoolbox.core.di.entryPoint
 import com.t8rin.imagetoolbox.core.domain.model.ImageModel
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.SpotHeal.Value
 import com.t8rin.imagetoolbox.core.filters.domain.model.enums.SpotHealMode
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
 import com.t8rin.imagetoolbox.core.settings.di.SettingsStateEntryPoint
 import com.t8rin.imagetoolbox.core.utils.appContext
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 import com.t8rin.imagetoolbox.feature.filters.data.utils.image.loadBitmap
 import com.t8rin.neural_tools.inpaint.LaMaProcessor
 import com.t8rin.neural_tools.withCancellableRunOptions
 import com.t8rin.opencv_tools.spot_heal.SpotHealer
 import com.t8rin.opencv_tools.spot_heal.model.HealType
 
-@FilterInject
+@FilterDefinition
 internal class SpotHealFilter(
-    override val value: Pair<ImageModel, SpotHealMode>,
-) : Transformation<Bitmap>, Filter.SpotHeal {
+    override val value: Value,
+) : FilterTransformation, Filter.SpotHeal {
 
     private val settings by lazy {
         appContext.entryPoint<SettingsStateEntryPoint>().settingsManager.settingsState.value
     }
 
-    override val cacheKey: String
-        get() = if (value.second == SpotHealMode.LaMa) {
-            "${value.hashCode()}-${settings.lamaThreads}-${settings.lamaLimitResolution}"
-        } else value.hashCode().toString()
+    override val cacheKeyExtra: Pair<Int, Boolean>?
+        get() = if (value.mode == SpotHealMode.LaMa) {
+            settings.lamaThreads to settings.lamaLimitResolution
+        } else null
 
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
     ): Bitmap {
-        val mask = value.first.data.loadBitmap() ?: return input
+        val mask = value.mask.data.loadBitmap() ?: return input
 
-        return when (value.second) {
+        return when (value.mode) {
             SpotHealMode.OpenCV -> openCV(
                 input = input,
                 mask = mask
@@ -97,4 +98,10 @@ internal class SpotHealFilter(
         mask = mask
     )
 
+    companion object : Filter.Schema.HiddenValue<Value> {
+        override val parameters = structuredParameters<Value> {
+            field(Value::mask, editorParam({ ImageModel("") }))
+            field(Value::mode, enumParam(default = { SpotHealMode.OpenCV }))
+        }
+    }
 }

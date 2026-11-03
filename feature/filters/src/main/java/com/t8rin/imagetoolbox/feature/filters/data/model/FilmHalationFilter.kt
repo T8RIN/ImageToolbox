@@ -19,19 +19,19 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import android.graphics.Bitmap
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.FilmHalationParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.FilmHalation.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 import com.t8rin.opencv_tools.photo_filters.OpticalEffects
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.LIGHT)
 internal class FilmHalationFilter(
-    override val value: FilmHalationParams = FilmHalationParams.Default
-) : Transformation<Bitmap>, Filter.FilmHalation {
-
-    override val cacheKey: String
-        get() = "${javaClass.name}:${value.hashCode()}"
+    override val value: Value
+) : FilterTransformation, Filter.FilmHalation {
 
     override suspend fun transform(
         input: Bitmap,
@@ -45,4 +45,15 @@ internal class FilmHalationFilter(
         intensity = value.intensity
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(R.string.film_halation, R.string.filter_help_film_halation)
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::threshold, floatParam(R.string.threshold, 0.58f, 0.08f..1f))
+            field(Value::knee, floatParam(R.string.soft_knee, 0.2f, 0.01f..0.5f))
+            field(Value::radius, floatParam(R.string.radius, 15f, 1f..40f, roundTo = 1))
+            field(Value::warmth, floatParam(R.string.warmth, 0.75f, 0f..1f))
+            field(Value::intensity, floatParam(R.string.texture_intensity, 1.35f, 0f..5f))
+        }
+    }
 }

@@ -18,32 +18,54 @@
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import com.t8rin.gmic.GmicFilter
-import com.t8rin.gmic.filters.Taquin
 import com.t8rin.gmic.filters.RemovedTaquinTile
+import com.t8rin.gmic.filters.Taquin
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.Taquin.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.PIXELATION)
 internal class TaquinFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("7", "7", "None", "50", "5", "0", "-16777216", "0")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.Taquin {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = Taquin(
-        xTiles = value[0].toInt(),
-        yTiles = value[1].toInt(),
-        removedTile = RemovedTaquinTile.valueOf(value[2]),
-        relief = value[3].toFloat(),
-        borderThickness = value[4].toFloat(),
-        borderOutline = value[5].toInt(),
-        outlineColor = value[6].toInt(),
-        randomSeed = value[7].toInt()
+        xTiles = value.settings[0].toInt(),
+        yTiles = value.settings[1].toInt(),
+        removedTile = RemovedTaquinTile.valueOf(value.settings[2]),
+        relief = value.settings[3].toFloat(),
+        borderThickness = value.settings[4].toFloat(),
+        borderOutline = value.settings[5].toInt(),
+        outlineColor = value.settings[6].toInt(),
+        randomSeed = value.settings[7].toInt()
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info =
+            FilterInfo(R.string.gmic_filter_taquin, R.string.filter_help_gmic_filter_taquin)
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicInteger(R.string.gmic_param_x_tiles, 7, 1f..20f),
+                    gmicInteger(R.string.gmic_param_y_tiles, 7, 1f..20f),
+                    gmicSelection(
+                        R.string.gmic_param_removed_tile,
+                        "None",
+                        listOf("None", "First", "Last", "Random")
+                    ),
+                    gmicNumber(R.string.gmic_param_relief, 50, 0f..255f),
+                    gmicNumber(R.string.border_thickness, 5, 0f..100f),
+                    gmicInteger(R.string.gmic_param_border_outline, 0, 0f..16f),
+                    gmicColor(R.string.outline_color, -16777216),
+                    gmicInteger(R.string.seed, 0, 0f..65535f)
+                )
+            )
+        }
+    }
 }

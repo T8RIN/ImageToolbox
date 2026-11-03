@@ -19,31 +19,40 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import android.graphics.Bitmap
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
-import com.t8rin.imagetoolbox.core.domain.utils.Quad
-import com.t8rin.imagetoolbox.core.domain.utils.qto
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.ExpandImage.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 import com.t8rin.opencv_tools.expand.ImageExpander
 import kotlin.math.roundToInt
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.GEOMETRY)
 internal class ExpandImageFilter(
-    override val value: Quad<Float, Float, Float, Float> = 64f to 64f qto (64f to 64f)
-) : Transformation<Bitmap>, Filter.ExpandImage {
-
-    override val cacheKey: String
-        get() = value.hashCode().toString()
+    override val value: Value
+) : FilterTransformation, Filter.ExpandImage {
 
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
     ): Bitmap = ImageExpander.expand(
         bitmap = input,
-        top = value.first.roundToInt(),
-        left = value.second.roundToInt(),
-        right = value.third.roundToInt(),
-        bottom = value.fourth.roundToInt(),
+        top = value.top.roundToInt(),
+        left = value.start.roundToInt(),
+        right = value.end.roundToInt(),
+        bottom = value.bottom.roundToInt(),
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(R.string.expand_image, R.string.filter_help_expand_image)
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::top, floatParam(R.string.top, 64f, 0f..1024f, roundTo = 0))
+            field(Value::start, floatParam(R.string.start, 64f, 0f..1024f, roundTo = 0))
+            field(Value::end, floatParam(R.string.end, 64f, 0f..1024f, roundTo = 0))
+            field(Value::bottom, floatParam(R.string.bottom, 64f, 0f..1024f, roundTo = 0))
+        }
+    }
 }

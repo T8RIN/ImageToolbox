@@ -20,32 +20,55 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 import com.t8rin.gmic.GmicFilter
 import com.t8rin.gmic.filters.PolaroidFrame
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.PolaroidFrame.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.FRAMES)
 internal class PolaroidFrameFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("10", "20", "2", "3", "3", "0", "0", "8", "50", "70", "95")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.PolaroidFrame {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = PolaroidFrame(
-        frameSize = value[0].toInt(),
-        bottomSize = value[1].toInt(),
-        shadowX = value[2].toFloat(),
-        shadowY = value[3].toFloat(),
-        shadowSmoothness = value[4].toFloat(),
-        curvatureX = value[5].toFloat(),
-        curvatureY = value[6].toFloat(),
-        angle = value[7].toFloat(),
-        vignetteStrength = value[8].toFloat(),
-        vignetteMinRadius = value[9].toFloat(),
-        vignetteMaxRadius = value[10].toFloat()
+        frameSize = value.settings[0].toInt(),
+        bottomSize = value.settings[1].toInt(),
+        shadowX = value.settings[2].toFloat(),
+        shadowY = value.settings[3].toFloat(),
+        shadowSmoothness = value.settings[4].toFloat(),
+        curvatureX = value.settings[5].toFloat(),
+        curvatureY = value.settings[6].toFloat(),
+        angle = value.settings[7].toFloat(),
+        vignetteStrength = value.settings[8].toFloat(),
+        vignetteMinRadius = value.settings[9].toFloat(),
+        vignetteMaxRadius = value.settings[10].toFloat()
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(
+            R.string.gmic_filter_polaroid_frame,
+            R.string.filter_help_gmic_filter_polaroid_frame
+        )
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicInteger(R.string.gmic_param_frame_size, 10, 0f..400f),
+                    gmicInteger(R.string.gmic_param_bottom_size, 20, 0f..400f),
+                    gmicNumber(R.string.gmic_param_x_shadow, 2, -20f..20f),
+                    gmicNumber(R.string.gmic_param_y_shadow, 3, -20f..20f),
+                    gmicNumber(R.string.gmic_param_smoothness, 3, 0f..5f),
+                    gmicNumber(R.string.gmic_param_x_curvature, 0, 0f..1f),
+                    gmicNumber(R.string.gmic_param_y_curvature, 0, 0f..1f),
+                    gmicNumber(R.string.angle, 8, -180f..180f),
+                    gmicNumber(R.string.gmic_param_vignette_strength, 50, 0f..255f),
+                    gmicNumber(R.string.gmic_param_vignette_min_radius, 70, 0f..100f),
+                    gmicNumber(R.string.gmic_param_vignette_max_radius, 95, 0f..100f)
+                )
+            )
+        }
+    }
 }

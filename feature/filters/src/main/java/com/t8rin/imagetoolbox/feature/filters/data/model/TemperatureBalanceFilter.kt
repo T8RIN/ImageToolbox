@@ -21,25 +21,45 @@ import com.t8rin.gmic.GmicFilter
 import com.t8rin.gmic.filters.TemperatureBalance
 import com.t8rin.gmic.filters.TemperatureBalanceLighting
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.TemperatureBalance.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.COLOR)
 internal class TemperatureBalanceFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("0.2", "0.1", "1.15", "AutomaticScanAllHues")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.TemperatureBalance {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = TemperatureBalance(
-        saturation = value[0].toFloat(),
-        level = value[1].toFloat(),
-        color = value[2].toFloat(),
-        lighting = TemperatureBalanceLighting.valueOf(value[3])
+        saturation = value.settings[0].toFloat(),
+        level = value.settings[1].toFloat(),
+        color = value.settings[2].toFloat(),
+        lighting = TemperatureBalanceLighting.valueOf(value.settings[3])
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(
+            R.string.gmic_filter_temperature_balance,
+            R.string.filter_help_gmic_filter_temperature_balance
+        )
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicNumber(R.string.saturation, 0.2f, -1f..1f),
+                    gmicNumber(R.string.gmic_param_level, 0.1f, -1f..1f),
+                    gmicNumber(R.string.color, 1.15f, 0f..2f),
+                    gmicSelection(
+                        R.string.texture_lighting,
+                        "AutomaticScanAllHues",
+                        listOf("Automatic", "AutomaticScanAllHues", "StandardNoScan")
+                    )
+                )
+            )
+        }
+    }
 }

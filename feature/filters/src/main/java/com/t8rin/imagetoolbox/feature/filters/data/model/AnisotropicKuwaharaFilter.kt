@@ -19,29 +19,40 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import android.graphics.Bitmap
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
-import com.t8rin.imagetoolbox.core.domain.utils.Quad
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.AnisotropicKuwahara.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 import com.t8rin.opencv_tools.photo_filters.ArtisticEffects
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.ARTISTIC)
 internal class AnisotropicKuwaharaFilter(
-    override val value: Quad<Float, Float, Float, Float> = Quad(5.5f, 0.82f, 10f, 1f)
-) : Transformation<Bitmap>, Filter.AnisotropicKuwahara {
-
-    override val cacheKey: String
-        get() = "${javaClass.name}:${value.hashCode()}"
+    override val value: Value
+) : FilterTransformation, Filter.AnisotropicKuwahara {
 
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
     ): Bitmap = ArtisticEffects.anisotropicKuwahara(
         bitmap = input,
-        radius = value.first,
-        anisotropy = value.second,
-        selectivity = value.third,
-        strength = value.fourth
+        radius = value.radius,
+        anisotropy = value.anisotropy,
+        selectivity = value.selectivity,
+        strength = value.strength
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info =
+            FilterInfo(R.string.anisotropic_kuwahara, R.string.filter_help_anisotropic_kuwahara)
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::radius, floatParam(R.string.radius, 5.5f, 1f..24f, roundTo = 1))
+            field(Value::anisotropy, floatParam(R.string.anisotropy, 0.82f, 0f..1f))
+            field(Value::selectivity, floatParam(R.string.selectivity, 10f, 1f..24f, roundTo = 1))
+            field(Value::strength, floatParam(R.string.strength, 1f, 0f..1f))
+        }
+    }
 }

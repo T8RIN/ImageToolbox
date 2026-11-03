@@ -20,26 +20,41 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 import com.t8rin.gmic.GmicFilter
 import com.t8rin.gmic.filters.Painting
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.Painting.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.ARTISTIC)
 internal class PaintingFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("5", "2.5", "1.5", "50", "true")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.Painting {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = Painting(
-        abstraction = value[0].toInt(),
-        detailsScale = value[1].toFloat(),
-        color = value[2].toFloat(),
-        smoothness = value[3].toFloat(),
-        sharpenShades = value[4].toBoolean()
+        abstraction = value.settings[0].toInt(),
+        detailsScale = value.settings[1].toFloat(),
+        color = value.settings[2].toFloat(),
+        smoothness = value.settings[3].toFloat(),
+        sharpenShades = value.settings[4].toBoolean()
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info =
+            FilterInfo(R.string.gmic_filter_painting, R.string.filter_help_gmic_filter_painting)
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicInteger(R.string.gmic_param_abstraction, 5, 1f..10f),
+                    gmicNumber(R.string.scale, 2.5f, 0f..5f),
+                    gmicNumber(R.string.color, 1.5f, 0f..4f),
+                    gmicNumber(R.string.gmic_param_smoothness, 50, 0f..1000f),
+                    gmicToggle(R.string.gmic_param_sharpen_shades, true)
+                )
+            )
+        }
+    }
 }

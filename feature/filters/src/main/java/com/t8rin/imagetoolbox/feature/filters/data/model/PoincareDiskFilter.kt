@@ -22,54 +22,69 @@ import com.t8rin.gmic.filters.PoincareDisk
 import com.t8rin.gmic.filters.PoincareFilling
 import com.t8rin.gmic.filters.PoincareTiling
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.PoincareDisk.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.GEOMETRY)
 internal class PoincareDiskFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf(
-            "5",
-            "6",
-            "100",
-            "20",
-            "0",
-            "Polygonal",
-            "true",
-            "Image",
-            "50",
-            "50",
-            "0",
-            "0",
-            "2",
-            "-16777216",
-            "-16777216",
-            "-1"
-        )
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.PoincareDisk {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = PoincareDisk(
-        pValue = value[0].toInt(),
-        qValue = value[1].toInt(),
-        size = value[2].toFloat(),
-        iterations = value[3].toInt(),
-        angle = value[4].toFloat(),
-        tiling = PoincareTiling.valueOf(value[5]),
-        antialiasing = value[6].toBoolean(),
-        filling = PoincareFilling.valueOf(value[7]),
-        shiftX = value[8].toFloat(),
-        shiftY = value[9].toFloat(),
-        zoom = value[10].toFloat(),
-        imageAngle = value[11].toFloat(),
-        outline = value[12].toInt(),
-        outlineColor = value[13].toInt(),
-        firstColor = value[14].toInt(),
-        secondColor = value[15].toInt()
+        pValue = value.settings[0].toInt(),
+        qValue = value.settings[1].toInt(),
+        size = value.settings[2].toFloat(),
+        iterations = value.settings[3].toInt(),
+        angle = value.settings[4].toFloat(),
+        tiling = PoincareTiling.valueOf(value.settings[5]),
+        antialiasing = value.settings[6].toBoolean(),
+        filling = PoincareFilling.valueOf(value.settings[7]),
+        shiftX = value.settings[8].toFloat(),
+        shiftY = value.settings[9].toFloat(),
+        zoom = value.settings[10].toFloat(),
+        imageAngle = value.settings[11].toFloat(),
+        outline = value.settings[12].toInt(),
+        outlineColor = value.settings[13].toInt(),
+        firstColor = value.settings[14].toInt(),
+        secondColor = value.settings[15].toInt()
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(
+            R.string.gmic_filter_poincare_disk,
+            R.string.filter_help_gmic_filter_poincare_disk
+        )
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicInteger(R.string.gmic_param_p_value, 5, 3f..16f),
+                    gmicInteger(R.string.gmic_param_q_value, 6, 3f..32f),
+                    gmicNumber(R.string.just_size, 100, 0f..200f),
+                    gmicInteger(R.string.iterations, 20, 0f..40f),
+                    gmicNumber(R.string.angle, 0, -180f..180f),
+                    gmicSelection(
+                        R.string.gmic_param_tiling,
+                        "Polygonal",
+                        listOf("Triangular", "Polygonal")
+                    ),
+                    gmicToggle(R.string.antialias, true),
+                    gmicSelection(R.string.fill, "Image", listOf("Binary", "Image")),
+                    gmicNumber(R.string.gmic_param_x_shift, 50, 0f..100f),
+                    gmicNumber(R.string.gmic_param_y_shift, 50, 0f..100f),
+                    gmicNumber(R.string.zoom, 0, -10f..10f),
+                    gmicNumber(R.string.gmic_param_image_angle, 0, -180f..180f),
+                    gmicInteger(R.string.gmic_param_outline, 2, 0f..8f),
+                    gmicColor(R.string.outline_color, -16777216),
+                    gmicColor(R.string.first_color, -16777216),
+                    gmicColor(R.string.second_color, -1)
+                )
+            )
+        }
+    }
 }

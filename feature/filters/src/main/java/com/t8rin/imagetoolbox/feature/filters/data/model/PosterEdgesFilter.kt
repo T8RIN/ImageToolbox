@@ -20,28 +20,47 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 import com.t8rin.gmic.GmicFilter
 import com.t8rin.gmic.filters.PosterEdges
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.PosterEdges.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.ARTISTIC)
 internal class PosterEdgesFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("20", "60", "5", "0", "10", "0", "0")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.PosterEdges {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = PosterEdges(
-        imageSmoothness = value[0].toFloat(),
-        edgeThreshold = value[1].toFloat(),
-        edgeShade = value[2].toFloat(),
-        edgeThickness = value[3].toFloat(),
-        edgeAntialiasing = value[4].toFloat(),
-        posterizationLevel = value[5].toInt(),
-        posterizationAntialiasing = value[6].toFloat()
+        imageSmoothness = value.settings[0].toFloat(),
+        edgeThreshold = value.settings[1].toFloat(),
+        edgeShade = value.settings[2].toFloat(),
+        edgeThickness = value.settings[3].toFloat(),
+        edgeAntialiasing = value.settings[4].toFloat(),
+        posterizationLevel = value.settings[5].toInt(),
+        posterizationAntialiasing = value.settings[6].toFloat()
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(
+            R.string.gmic_filter_poster_edges,
+            R.string.filter_help_gmic_filter_poster_edges
+        )
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicNumber(R.string.softness, 20, 0f..100f),
+                    gmicNumber(R.string.threshold, 60, 0f..100f),
+                    gmicNumber(R.string.gmic_param_edge_shade, 5, 0f..30f),
+                    gmicNumber(R.string.gmic_param_edge_thickness, 0, 0f..5f),
+                    gmicNumber(R.string.gmic_param_edge_antialiasing, 10, 0f..100f),
+                    gmicInteger(R.string.levels, 0, 0f..15f),
+                    gmicNumber(R.string.gmic_param_posterization_antialiasing, 0, 0f..100f)
+                )
+            )
+        }
+    }
 }

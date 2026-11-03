@@ -20,30 +20,51 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 import com.t8rin.gmic.GmicFilter
 import com.t8rin.gmic.filters.WaterReflection
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.WaterReflection.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.DISTORTION)
 internal class WaterReflectionFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("50", "1", "1080991934", "0", "1.5", "0", "-3.3", "7", "1.5")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.WaterReflection {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = WaterReflection(
-        height = value[0].toFloat(),
-        attenuation = value[1].toFloat(),
-        color = value[2].toInt(),
-        wavesAmplitude = value[3].toFloat(),
-        wavesSmoothness = value[4].toFloat(),
-        xAngle = value[5].toFloat(),
-        yAngle = value[6].toFloat(),
-        focalLength = value[7].toFloat(),
-        zoom = value[8].toFloat()
+        height = value.settings[0].toFloat(),
+        attenuation = value.settings[1].toFloat(),
+        color = value.settings[2].toInt(),
+        wavesAmplitude = value.settings[3].toFloat(),
+        wavesSmoothness = value.settings[4].toFloat(),
+        xAngle = value.settings[5].toFloat(),
+        yAngle = value.settings[6].toFloat(),
+        focalLength = value.settings[7].toFloat(),
+        zoom = value.settings[8].toFloat()
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(
+            R.string.gmic_filter_water_reflection,
+            R.string.filter_help_gmic_filter_water_reflection
+        )
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicNumber(R.string.gmic_param_height, 50, 0f..100f),
+                    gmicNumber(R.string.gmic_param_attenuation, 1, 0.1f..4f),
+                    gmicColor(R.string.color, 1080991934),
+                    gmicNumber(R.string.amplitude, 0, 0f..100f),
+                    gmicNumber(R.string.softness, 1.5f, 0f..4f),
+                    gmicNumber(R.string.x_angle, 0, -10f..10f),
+                    gmicNumber(R.string.y_angle, -3.3f, -10f..10f),
+                    gmicNumber(R.string.tag_focal_length, 7, 0f..10f),
+                    gmicNumber(R.string.zoom, 1.5f, 1f..5f)
+                )
+            )
+        }
+    }
 }

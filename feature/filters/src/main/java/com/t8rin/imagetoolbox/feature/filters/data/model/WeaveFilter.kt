@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,25 +19,34 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import com.jhlabs.JhFilter
 import com.jhlabs.WeaveFilter
-import com.t8rin.imagetoolbox.core.domain.utils.Quad
-import com.t8rin.imagetoolbox.core.domain.utils.qto
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.Weave.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.JhFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.PIXELATION)
 internal class WeaveFilter(
-    override val value: Quad<Float, Float, Float, Float> = 16f to 16f qto (6f to 6f)
+    override val value: Value
 ) : JhFilterTransformation(), Filter.Weave {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): JhFilter = WeaveFilter().apply {
-        xWidth = value.first
-        yWidth = value.second
-        xGap = value.third
-        yGap = value.fourth
+        xWidth = value.xWidth
+        yWidth = value.yWdth
+        xGap = value.xGap
+        yGap = value.yGap
     }
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(R.string.weave, R.string.filter_help_weave)
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::xWidth, floatParam(R.string.x_width, 16f, 0f..100f))
+            field(Value::yWdth, floatParam(R.string.y_wdth, 16f, 0f..100f))
+            field(Value::xGap, floatParam(R.string.x_gap, 6f, 0f..100f))
+            field(Value::yGap, floatParam(R.string.y_gap, 6f, 0f..100f))
+        }
+    }
 }

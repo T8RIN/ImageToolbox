@@ -19,27 +19,40 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import android.graphics.Bitmap
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.RgbChannelRegistration.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 import com.t8rin.opencv_tools.photo_filters.RestorationFilters
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.ENHANCEMENT)
 internal class RgbChannelRegistrationFilter(
-    override val value: Triple<Float, Float, Float> = Triple(15f, 0.24f, 1f)
-) : Transformation<Bitmap>, Filter.RgbChannelRegistration {
-
-    override val cacheKey: String
-        get() = "${javaClass.name}:${value.hashCode()}"
+    override val value: Value
+) : FilterTransformation, Filter.RgbChannelRegistration {
 
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
     ): Bitmap = RestorationFilters.rgbChannelRegistration(
         bitmap = input,
-        maxShift = value.first,
-        confidence = value.second,
-        strength = value.third
+        maxShift = value.maxShift,
+        confidence = value.minConfidence,
+        strength = value.strength
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(
+            R.string.rgb_channel_registration,
+            R.string.filter_help_rgb_channel_registration
+        )
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::maxShift, floatParam(R.string.max_shift, 15f, 1f..80f, roundTo = 1))
+            field(Value::minConfidence, floatParam(R.string.min_confidence, 0.24f, 0.05f..0.95f))
+            field(Value::strength, floatParam(R.string.strength, 1f, 0f..1f))
+        }
+    }
 }

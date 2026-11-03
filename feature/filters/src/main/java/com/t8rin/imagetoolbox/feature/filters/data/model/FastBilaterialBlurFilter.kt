@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,28 +20,45 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 import android.graphics.Bitmap
 import com.awxkee.aire.Aire
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.domain.utils.NEAREST_ODD_ROUNDING
 import com.t8rin.imagetoolbox.core.domain.utils.roundTo
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.FastBilaterialBlur.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.BLUR)
 internal class FastBilaterialBlurFilter(
-    override val value: Triple<Float, Float, Float> = Triple(11f, 10f, 3f),
-) : Transformation<Bitmap>, Filter.FastBilaterialBlur {
-
-    override val cacheKey: String
-        get() = value.hashCode().toString()
+    override val value: Value,
+) : FilterTransformation, Filter.FastBilaterialBlur {
 
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize,
     ): Bitmap = Aire.fastBilateralBlur(
         bitmap = input,
-        spatialSigma = value.second,
-        rangeSigma = value.third,
-        kernelSize = value.first.roundTo(NEAREST_ODD_ROUNDING).toInt()
+        spatialSigma = value.sigma,
+        rangeSigma = value.spatialSigma,
+        kernelSize = value.justSize.roundTo(NEAREST_ODD_ROUNDING).toInt()
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info =
+            FilterInfo(R.string.fast_bilaterial_blur, R.string.filter_help_fast_bilaterial_blur)
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::justSize,
+                floatParam(R.string.just_size, 11f, 1f..200f, roundTo = NEAREST_ODD_ROUNDING)
+            )
+            field(Value::sigma, floatParam(R.string.sigma, 10f, 1f..100f, roundTo = 1))
+            field(
+                Value::spatialSigma,
+                floatParam(R.string.spatial_sigma, 3f, 1f..100f, roundTo = 1)
+            )
+        }
+    }
 }

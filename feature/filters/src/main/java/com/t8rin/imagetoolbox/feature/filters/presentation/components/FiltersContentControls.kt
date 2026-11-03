@@ -48,7 +48,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.TemplateFilter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.SeamCarvingParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.copy
 import com.t8rin.imagetoolbox.core.filters.presentation.model.toUiFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.AddFilterButton
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.FilterItem
@@ -181,7 +181,7 @@ internal fun FiltersContentControls(
                                                 )
                                             }
                                         } else {
-                                            (filter.value as? SeamCarvingParams)?.let { params ->
+                                            (filter.value as? Filter.SeamCarving.Value)?.let { params ->
                                                 {
                                                     SeamCarvingMaskItem(
                                                         maskUri = params.maskFile.uri,
@@ -381,7 +381,7 @@ internal fun FiltersContentControls(
     seamMaskFilterIndex?.let { index ->
         val params = component.basicFilterState.filters
             .getOrNull(index)
-            ?.value as? SeamCarvingParams
+            ?.value as? Filter.SeamCarving.Value
 
         if (params?.maskFile?.uri?.isEmpty() == true) {
             SeamCarvingMaskSheet(

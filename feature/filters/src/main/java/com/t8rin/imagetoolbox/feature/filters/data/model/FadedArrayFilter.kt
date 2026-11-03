@@ -18,33 +18,61 @@
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import com.t8rin.gmic.GmicFilter
-import com.t8rin.gmic.filters.FadedArray
 import com.t8rin.gmic.filters.ArrayMirror
 import com.t8rin.gmic.filters.ArraySizing
+import com.t8rin.gmic.filters.FadedArray
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.FadedArray.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.PIXELATION)
 internal class FadedArrayFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("2", "2", "0", "0", "80", "90", "None", "Shrink")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.FadedArray {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = FadedArray(
-        xTiles = value[0].toInt(),
-        yTiles = value[1].toInt(),
-        xOffset = value[2].toFloat(),
-        yOffset = value[3].toFloat(),
-        fadeStart = value[4].toFloat(),
-        fadeEnd = value[5].toFloat(),
-        mirror = ArrayMirror.valueOf(value[6]),
-        sizing = ArraySizing.valueOf(value[7])
+        xTiles = value.settings[0].toInt(),
+        yTiles = value.settings[1].toInt(),
+        xOffset = value.settings[2].toFloat(),
+        yOffset = value.settings[3].toFloat(),
+        fadeStart = value.settings[4].toFloat(),
+        fadeEnd = value.settings[5].toFloat(),
+        mirror = ArrayMirror.valueOf(value.settings[6]),
+        sizing = ArraySizing.valueOf(value.settings[7])
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(
+            R.string.gmic_filter_faded_array,
+            R.string.filter_help_gmic_filter_faded_array
+        )
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicInteger(R.string.gmic_param_x_tiles, 2, 1f..10f),
+                    gmicInteger(R.string.gmic_param_y_tiles, 2, 1f..10f),
+                    gmicNumber(R.string.gmic_param_x_offset, 0, 0f..100f),
+                    gmicNumber(R.string.gmic_param_y_offset, 0, 0f..100f),
+                    gmicNumber(R.string.gmic_param_fade_start, 80, 1f..100f),
+                    gmicNumber(R.string.gmic_param_fade_end, 90, 1f..100f),
+                    gmicSelection(
+                        R.string.tile_mode_mirror,
+                        "None",
+                        listOf("None", "XAxis", "YAxis", "BothAxes")
+                    ),
+                    gmicSelection(
+                        R.string.gmic_param_sizing,
+                        "Shrink",
+                        listOf("Shrink", "Expand", "Repeat")
+                    )
+                )
+            )
+        }
+    }
 }

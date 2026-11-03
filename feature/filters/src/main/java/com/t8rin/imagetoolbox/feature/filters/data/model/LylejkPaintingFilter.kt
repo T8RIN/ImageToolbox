@@ -20,25 +20,41 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 import com.t8rin.gmic.GmicFilter
 import com.t8rin.gmic.filters.LylejkPainting
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.LylejkPainting.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.ARTISTIC)
 internal class LylejkPaintingFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("10", "2", "4", "10")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.LylejkPainting {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = LylejkPainting(
-        iterations = value[0].toInt(),
-        abstraction = value[1].toInt(),
-        radius = value[2].toInt(),
-        canvas = value[3].toFloat()
+        iterations = value.settings[0].toInt(),
+        abstraction = value.settings[1].toInt(),
+        radius = value.settings[2].toInt(),
+        canvas = value.settings[3].toFloat()
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(
+            R.string.gmic_filter_lylejk_painting,
+            R.string.filter_help_gmic_filter_lylejk_painting
+        )
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicInteger(R.string.iterations, 10, 1f..20f),
+                    gmicInteger(R.string.gmic_param_abstraction, 2, 1f..20f),
+                    gmicInteger(R.string.radius, 4, 1f..30f),
+                    gmicNumber(R.string.gmic_param_canvas, 10, 0f..100f)
+                )
+            )
+        }
+    }
 }

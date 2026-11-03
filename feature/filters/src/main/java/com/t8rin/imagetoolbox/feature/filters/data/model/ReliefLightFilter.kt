@@ -20,32 +20,55 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 import com.t8rin.gmic.GmicFilter
 import com.t8rin.gmic.filters.ReliefLight
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.ReliefLight.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.LIGHT)
 internal class ReliefLightFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("0.3", "0.2", "0.2", "0", "1", "50", "50", "5", "0.5", "false", "0")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.ReliefLight {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = ReliefLight(
-        ambientLightness = value[0].toFloat(),
-        specularLightness = value[1].toFloat(),
-        specularSize = value[2].toFloat(),
-        darkness = value[3].toFloat(),
-        lightSmoothness = value[4].toFloat(),
-        lightX = value[5].toFloat(),
-        lightY = value[6].toFloat(),
-        lightZ = value[7].toFloat(),
-        zScale = value[8].toFloat(),
-        opacityAsHeightmap = value[9].toBoolean(),
-        imageSmoothness = value[10].toFloat()
+        ambientLightness = value.settings[0].toFloat(),
+        specularLightness = value.settings[1].toFloat(),
+        specularSize = value.settings[2].toFloat(),
+        darkness = value.settings[3].toFloat(),
+        lightSmoothness = value.settings[4].toFloat(),
+        lightX = value.settings[5].toFloat(),
+        lightY = value.settings[6].toFloat(),
+        lightZ = value.settings[7].toFloat(),
+        zScale = value.settings[8].toFloat(),
+        opacityAsHeightmap = value.settings[9].toBoolean(),
+        imageSmoothness = value.settings[10].toFloat()
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(
+            R.string.gmic_filter_relief_light,
+            R.string.filter_help_gmic_filter_relief_light
+        )
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicNumber(R.string.gmic_param_ambient_lightness, 0.3f, 0f..5f),
+                    gmicNumber(R.string.gmic_param_specular_lightness, 0.2f, 0f..2f),
+                    gmicNumber(R.string.gmic_param_specular_size, 0.2f, 0f..1f),
+                    gmicNumber(R.string.texture_darkness, 0, 0f..1f),
+                    gmicNumber(R.string.gmic_param_light_smoothness, 1, 0f..5f),
+                    gmicNumber(R.string.gmic_param_light_x, 50, 0f..100f),
+                    gmicNumber(R.string.gmic_param_light_y, 50, 0f..100f),
+                    gmicNumber(R.string.gmic_param_light_z, 5, 0f..20f),
+                    gmicNumber(R.string.scale, 0.5f, 0f..3f),
+                    gmicToggle(R.string.gmic_param_opacity_as_heightmap, false),
+                    gmicNumber(R.string.gmic_param_image_smoothness, 0, 0f..10f)
+                )
+            )
+        }
+    }
 }

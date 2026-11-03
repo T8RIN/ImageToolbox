@@ -18,20 +18,21 @@
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import android.graphics.Bitmap
+import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.FilmNegativeParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.FilmNegative.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 import com.t8rin.trickle.Trickle
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.COLOR)
 internal class FilmNegativeFilter(
-    override val value: FilmNegativeParams = FilmNegativeParams.Default
-) : Transformation<Bitmap>, Filter.FilmNegative {
-
-    override val cacheKey: String
-        get() = "${javaClass.name}:${value.hashCode()}"
+    override val value: Value
+) : FilterTransformation, Filter.FilmNegative {
 
     override suspend fun transform(
         input: Bitmap,
@@ -46,4 +47,19 @@ internal class FilmNegativeFilter(
         strength = value.strength
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(R.string.film_negative, R.string.filter_help_film_negative)
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::exposure, floatParam(R.string.exposure, 0.65f, -3f..3f))
+            field(Value::densityRange, floatParam(R.string.density_range, 3f, 0.2f..6f))
+            field(Value::contrast, floatParam(R.string.contrast, 1f, 0.4f..2.4f))
+            field(Value::toneCurve, floatParam(R.string.tone_curve, 0.35f, 0f..1f))
+            field(
+                Value::filmBase,
+                colorParam(R.string.film_base_color, ColorModel(0xFFFFA352.toInt()))
+            )
+            field(Value::strength, floatParam(R.string.strength, 1f, 0f..1f))
+        }
+    }
 }

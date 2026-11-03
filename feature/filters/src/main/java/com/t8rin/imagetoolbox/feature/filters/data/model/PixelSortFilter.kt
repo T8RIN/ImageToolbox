@@ -24,29 +24,70 @@ import com.t8rin.gmic.filters.PixelSortCriterion
 import com.t8rin.gmic.filters.PixelSortMask
 import com.t8rin.gmic.filters.PixelSortOrder
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.PixelSort.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.GLITCH)
 internal class PixelSortFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("Increasing", "X", "Red", "Criterion", "0", "100", "0", "false")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.PixelSort {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = PixelSort(
-        order = PixelSortOrder.valueOf(value[0]),
-        axis = PixelSortAxis.valueOf(value[1]),
-        criterion = PixelSortCriterion.valueOf(value[2]),
-        mask = PixelSortMask.valueOf(value[3]),
-        lowerThreshold = value[4].toFloat(),
-        upperThreshold = value[5].toFloat(),
-        maskSmoothness = value[6].toFloat(),
-        invertMask = value[7].toBoolean()
+        order = PixelSortOrder.valueOf(value.settings[0]),
+        axis = PixelSortAxis.valueOf(value.settings[1]),
+        criterion = PixelSortCriterion.valueOf(value.settings[2]),
+        mask = PixelSortMask.valueOf(value.settings[3]),
+        lowerThreshold = value.settings[4].toFloat(),
+        upperThreshold = value.settings[5].toFloat(),
+        maskSmoothness = value.settings[6].toFloat(),
+        invertMask = value.settings[7].toBoolean()
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(R.string.pixel_sort, R.string.filter_help_pixel_sort)
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicSelection(R.string.order, "Increasing", listOf("Decreasing", "Increasing")),
+                    gmicSelection(
+                        R.string.gmic_param_axis,
+                        "X",
+                        listOf("X", "Y", "XThenY", "YThenX")
+                    ),
+                    gmicSelection(
+                        R.string.gmic_param_criterion,
+                        "Red",
+                        listOf(
+                            "Red",
+                            "Green",
+                            "Blue",
+                            "Intensity",
+                            "Luminance",
+                            "Lightness",
+                            "Hue",
+                            "Saturation",
+                            "Minimum",
+                            "Maximum",
+                            "Random"
+                        )
+                    ),
+                    gmicSelection(
+                        R.string.mask,
+                        "Criterion",
+                        listOf("Criterion", "Contours", "Random")
+                    ),
+                    gmicNumber(R.string.gmic_param_lower_threshold, 0, 0f..100f),
+                    gmicNumber(R.string.gmic_param_upper_threshold, 100, 0f..100f),
+                    gmicNumber(R.string.softness, 0, 0f..5f),
+                    gmicToggle(R.string.gmic_param_invert_mask, false)
+                )
+            )
+        }
+    }
 }

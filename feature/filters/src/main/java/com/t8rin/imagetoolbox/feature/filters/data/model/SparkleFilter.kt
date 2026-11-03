@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,20 +20,21 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 import android.graphics.Bitmap
 import com.jhlabs.JhFilter
 import com.jhlabs.SparkleFilter
+import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.SparkleParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.Sparkle.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.JhFilterTransformation
 import kotlin.math.max
 import kotlin.math.roundToInt
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.LIGHT)
 internal class SparkleFilter(
-    override val value: SparkleParams = SparkleParams.Default
+    override val value: Value
 ) : JhFilterTransformation(), Filter.Sparkle {
-
-    override val cacheKey: String
-        get() = value.hashCode().toString()
 
     override fun createFilter(): JhFilter = SparkleFilter(1, 1)
 
@@ -49,4 +50,17 @@ internal class SparkleFilter(
             color = value.color.colorInt
         }
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(R.string.sparkle, R.string.filter_help_sparkle)
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::amount, intParam(R.string.amount, 50, 0..200))
+            field(Value::rays, intParam(R.string.rays, 50, 0..200))
+            field(Value::radius, floatParam(R.string.radius, 0.3f, 0f..1f))
+            field(Value::randomness, intParam(R.string.randomness, 25, 0..100))
+            field(Value::centreX, floatParam(R.string.center_x, 0.5f, 0f..1f))
+            field(Value::centreY, floatParam(R.string.center_y, 0.5f, 0f..1f))
+            field(Value::color, colorParam(R.string.color, ColorModel(0xFFFFFFFF.toInt())))
+        }
+    }
 }

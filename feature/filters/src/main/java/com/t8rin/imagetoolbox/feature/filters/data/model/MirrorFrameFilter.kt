@@ -20,29 +20,49 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 import com.t8rin.gmic.GmicFilter
 import com.t8rin.gmic.filters.MirrorFrame
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.MirrorFrame.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.FRAMES)
 internal class MirrorFrameFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("10", "10", "50", "50", "0", "0", "0", "0")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.MirrorFrame {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = MirrorFrame(
-        horizontalSize = value[0].toFloat(),
-        verticalSize = value[1].toFloat(),
-        horizontalAlignment = value[2].toFloat(),
-        verticalAlignment = value[3].toFloat(),
-        leftDilation = value[4].toFloat(),
-        rightDilation = value[5].toFloat(),
-        upperDilation = value[6].toFloat(),
-        lowerDilation = value[7].toFloat()
+        horizontalSize = value.settings[0].toFloat(),
+        verticalSize = value.settings[1].toFloat(),
+        horizontalAlignment = value.settings[2].toFloat(),
+        verticalAlignment = value.settings[3].toFloat(),
+        leftDilation = value.settings[4].toFloat(),
+        rightDilation = value.settings[5].toFloat(),
+        upperDilation = value.settings[6].toFloat(),
+        lowerDilation = value.settings[7].toFloat()
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(
+            R.string.gmic_filter_mirror_frame,
+            R.string.filter_help_gmic_filter_mirror_frame
+        )
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicNumber(R.string.gmic_param_horizontal_size, 10, 0f..100f),
+                    gmicNumber(R.string.gmic_param_vertical_size, 10, 0f..100f),
+                    gmicNumber(R.string.gmic_param_horizontal_alignment, 50, 0f..100f),
+                    gmicNumber(R.string.gmic_param_vertical_alignment, 50, 0f..100f),
+                    gmicNumber(R.string.gmic_param_left_dilation, 0, -5f..5f),
+                    gmicNumber(R.string.gmic_param_right_dilation, 0, -5f..5f),
+                    gmicNumber(R.string.gmic_param_upper_dilation, 0, -5f..5f),
+                    gmicNumber(R.string.gmic_param_lower_dilation, 0, -5f..5f)
+                )
+            )
+        }
+    }
 }

@@ -21,26 +21,47 @@ import com.t8rin.gmic.GmicFilter
 import com.t8rin.gmic.filters.BandingDenoise
 import com.t8rin.gmic.filters.BandingDenoiseSizeOfTiles
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.BandingDenoise.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.ENHANCEMENT)
 internal class BandingDenoiseFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("5", "5", "5", "10", "NoTiling")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.BandingDenoise {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = BandingDenoise(
-        vCutoff = value[0].toFloat(),
-        hCutoff = value[1].toFloat(),
-        space = value[2].toFloat(),
-        value = value[3].toFloat(),
-        sizeOfTiles = BandingDenoiseSizeOfTiles.valueOf(value[4])
+        vCutoff = value.settings[0].toFloat(),
+        hCutoff = value.settings[1].toFloat(),
+        space = value.settings[2].toFloat(),
+        value = value.settings[3].toFloat(),
+        sizeOfTiles = BandingDenoiseSizeOfTiles.valueOf(value.settings[4])
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(
+            R.string.gmic_filter_banding_denoise,
+            R.string.filter_help_gmic_filter_banding_denoise
+        )
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicNumber(R.string.gmic_param_v_cutoff, 5, 0f..50f),
+                    gmicNumber(R.string.gmic_param_h_cutoff, 5, 0f..50f),
+                    gmicNumber(R.string.texture_category_space, 5, 0f..20f),
+                    gmicNumber(R.string.gmic_param_value, 10, 0f..100f),
+                    gmicSelection(
+                        R.string.gmic_param_size_of_tiles,
+                        "NoTiling",
+                        listOf("NoTiling", "Px64", "Px128", "Px256", "Px512", "Px1024", "Px2048")
+                    )
+                )
+            )
+        }
+    }
 }

@@ -19,19 +19,19 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import android.graphics.Bitmap
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.SstvReceptionParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.SstvReception.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 import com.t8rin.trickle.Trickle
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.GLITCH)
 internal class SstvReceptionFilter(
-    override val value: SstvReceptionParams = SstvReceptionParams.Default
-) : Transformation<Bitmap>, Filter.SstvReception {
-
-    override val cacheKey: String
-        get() = "${javaClass.name}:${value.hashCode()}"
+    override val value: Value
+) : FilterTransformation, Filter.SstvReception {
 
     override suspend fun transform(
         input: Bitmap,
@@ -47,4 +47,27 @@ internal class SstvReceptionFilter(
         strength = value.strength
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(R.string.sstv_reception, R.string.filter_help_sstv_reception)
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::transmissionMode,
+                choiceParam(
+                    R.string.transmission_mode, 0,
+                    R.string.sstv_martin,
+                    R.string.sstv_scottie
+                )
+            )
+            field(
+                Value::frequencyDrift,
+                floatParam(R.string.frequency_drift, 0.06f, 0f..0.25f, roundTo = 3)
+            )
+            field(Value::syncError, floatParam(R.string.sync_error, 0.014f, 0f..0.08f, roundTo = 3))
+            field(Value::noise, floatParam(R.string.noise, 0.08f, 0f..0.4f))
+            field(Value::dropout, floatParam(R.string.dropped_lines, 0.035f, 0f..0.2f, roundTo = 3))
+            field(Value::seed, intParam(R.string.seed, 0, 0..10000))
+            field(Value::strength, floatParam(R.string.strength, 1f, 0f..1f))
+        }
+    }
 }

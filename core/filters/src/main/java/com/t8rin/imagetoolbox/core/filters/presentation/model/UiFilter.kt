@@ -22,28 +22,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.vector.ImageVector
-import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.filterIsNotInstance
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.FilterParam
-import com.t8rin.imagetoolbox.core.filters.presentation.model.generated.artisticGroupFilters
-import com.t8rin.imagetoolbox.core.filters.presentation.model.generated.blurGroupFilters
-import com.t8rin.imagetoolbox.core.filters.presentation.model.generated.colorGroupFilters
-import com.t8rin.imagetoolbox.core.filters.presentation.model.generated.copyUiFilterInstance
-import com.t8rin.imagetoolbox.core.filters.presentation.model.generated.createUiFilterFromKey
-import com.t8rin.imagetoolbox.core.filters.presentation.model.generated.distortionGroupFilters
-import com.t8rin.imagetoolbox.core.filters.presentation.model.generated.ditheringGroupFilters
-import com.t8rin.imagetoolbox.core.filters.presentation.model.generated.effectsGroupFilters
-import com.t8rin.imagetoolbox.core.filters.presentation.model.generated.enhancementGroupFilters
-import com.t8rin.imagetoolbox.core.filters.presentation.model.generated.framesGroupFilters
-import com.t8rin.imagetoolbox.core.filters.presentation.model.generated.geometryGroupFilters
-import com.t8rin.imagetoolbox.core.filters.presentation.model.generated.glitchGroupFilters
-import com.t8rin.imagetoolbox.core.filters.presentation.model.generated.lightGroupFilters
-import com.t8rin.imagetoolbox.core.filters.presentation.model.generated.lutGroupFilters
-import com.t8rin.imagetoolbox.core.filters.presentation.model.generated.mapFilterToUiFilter
-import com.t8rin.imagetoolbox.core.filters.presentation.model.generated.newUiFilterInstance
-import com.t8rin.imagetoolbox.core.filters.presentation.model.generated.pixelationGroupFilters
-import com.t8rin.imagetoolbox.core.filters.presentation.model.generated.simpleGroupFilters
-import com.t8rin.imagetoolbox.core.filters.presentation.model.generated.uiFilterSerializationKey
+import com.t8rin.imagetoolbox.core.filters.domain.model.StructuredFilterParameters
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Animation
@@ -64,14 +46,21 @@ import com.t8rin.imagetoolbox.core.resources.icons.Schedule
 import com.t8rin.imagetoolbox.core.resources.icons.StarShine
 import com.t8rin.imagetoolbox.core.resources.icons.TableEye
 import com.t8rin.imagetoolbox.core.utils.appContext
+import kotlin.reflect.KProperty1
 
-sealed class UiFilter<T : Any>(
-    @StringRes val title: Int,
-    val paramsInfo: List<FilterParam> = listOf(),
-    override val value: T,
+abstract class UiFilter<T : Any> protected constructor(
+    val schema: Filter.Schema<T>,
+    val serializationKey: String,
+    override val value: T
 ) : Filter<T> {
 
-    val serializationKey: String get() = uiFilterSerializationKey(this)
+    val info = requireNotNull(schema.info)
+
+    @get:StringRes
+    val title: Int get() = info.title
+
+    @get:StringRes
+    val helpDescription: Int get() = info.help
 
     override var isVisible: Boolean by mutableStateOf(true)
 
@@ -81,49 +70,41 @@ sealed class UiFilter<T : Any>(
         this.error = error
     }
 
-    val canUseTemplate by lazy {
-        listOf(this).filterCanUseTemplate().isNotEmpty()
-    }
+    open val singleNumber: Float? get() = null
 
-    constructor(
-        @StringRes title: Int,
-        valueRange: ClosedFloatingPointRange<Float>,
-        value: T,
-    ) : this(
-        title = title,
-        paramsInfo = listOf(
-            FilterParam(valueRange = valueRange)
-        ),
-        value = value
-    )
+    open fun withSingleNumber(value: Float): T = this.value
 
-    fun <T : Any> copy(
-        value: T
-    ): UiFilter<*> = copyUiFilterInstance(
-        filter = this,
-        newValue = value
-    ).also { copied ->
+    val canUseTemplate: Boolean get() = schema.parameters?.isSerializable != false
+
+    protected abstract fun recreate(value: Any?): UiFilter<T>
+
+    fun copy(value: Any): UiFilter<T> = recreate(value).also { copied ->
+        copied.isVisible = isVisible
         if (this is Filter.RawGmic && copied is Filter.RawGmic) {
             copied.auxiliaryImages = auxiliaryImages
         }
     }
 
-    fun newInstance(): UiFilter<*> = newUiFilterInstance(this)
+    fun newInstance(): UiFilter<T> = recreate(null).also {
+        if (value is Filter.EmptyValue) it.isVisible = isVisible
+    }
 
     sealed class Group(
         val icon: ImageVector,
         val title: Int,
-        data: List<UiFilter<*>>
+        data: List<UiFilter<*>> = emptyList(),
+        group: String? = null
     ) {
         operator fun component1() = icon
         operator fun component2() = title
 
         internal val filters: List<UiFilter<*>> by lazy {
-            data.sortedBy { appContext.getString(it.title) }
+            val generated = group?.let(filterCatalog::filters).orEmpty()
+            (data + generated).sortedBy { appContext.getString(it.title) }
         }
 
         private val filtersForTemplateCreation: List<UiFilter<*>> by lazy {
-            filters.filterCanUseTemplate()
+            filters.filter { it.canUseTemplate }
         }
 
         fun filters(canAddTemplates: Boolean) =
@@ -158,85 +139,85 @@ sealed class UiFilter<T : Any>(
         data object Simple : Group(
             icon = Icons.Rounded.Bolt,
             title = R.string.simple_effects,
-            data = simpleGroupFilters()
+            group = FilterGroups.SIMPLE
         )
 
         data object Color : Group(
             icon = Icons.Rounded.FloodFill,
             title = R.string.color,
-            data = colorGroupFilters()
+            group = FilterGroups.COLOR
         )
 
         data object LUT : Group(
             icon = Icons.Rounded.TableEye,
             title = R.string.lut,
-            data = lutGroupFilters()
+            group = FilterGroups.LUT
         )
 
         data object Light : Group(
             icon = Icons.Rounded.Lightbulb,
             title = R.string.light_aka_illumination,
-            data = lightGroupFilters()
+            group = FilterGroups.LIGHT
         )
 
         data object Enhancement : Group(
             icon = Icons.Rounded.StarShine,
             title = R.string.enhancement,
-            data = enhancementGroupFilters()
+            group = FilterGroups.ENHANCEMENT
         )
 
         data object Artistic : Group(
             icon = Icons.Rounded.FilterVintage,
             title = R.string.artistic,
-            data = artisticGroupFilters()
+            group = FilterGroups.ARTISTIC
         )
 
         data object Frames : Group(
             icon = Icons.Rounded.FilterFrames,
             title = R.string.frames,
-            data = framesGroupFilters()
+            group = FilterGroups.FRAMES
         )
 
         data object Effects : Group(
             icon = Icons.Rounded.FilterHdr,
             title = R.string.effect,
-            data = effectsGroupFilters()
+            group = FilterGroups.EFFECTS
         )
 
         data object Blur : Group(
             icon = Icons.Rounded.BlurCircular,
             title = R.string.blur,
-            data = blurGroupFilters()
+            group = FilterGroups.BLUR
         )
 
         data object Pixelation : Group(
             icon = Icons.Rounded.Cube,
             title = R.string.pixelation,
-            data = pixelationGroupFilters()
+            group = FilterGroups.PIXELATION
         )
 
         data object Distortion : Group(
             icon = Icons.Rounded.Animation,
             title = R.string.distortion,
-            data = distortionGroupFilters()
+            group = FilterGroups.DISTORTION
         )
 
         data object Glitch : Group(
             icon = Icons.Rounded.BrokenImageAlt,
             title = R.string.glitch,
-            data = glitchGroupFilters()
+            group = FilterGroups.GLITCH
         )
 
         data object Geometry : Group(
             icon = Icons.Rounded.DrawAbstract,
             title = R.string.gmic_param_geometry,
-            data = geometryGroupFilters()
+            group = FilterGroups.GEOMETRY
         )
 
         data object Dithering : Group(
             icon = Icons.Rounded.Gradient,
             title = R.string.dithering,
-            data = ditheringGroupFilters()
+            group = FilterGroups.DITHERING
         )
     }
 
@@ -244,18 +225,7 @@ sealed class UiFilter<T : Any>(
         fun fromSerializationKey(
             key: String,
             value: Any? = null
-        ): UiFilter<*>? = createUiFilterFromKey(key, value)
-
-        internal fun <T : Filter<*>> List<T>.filterCanUseTemplate() = filterIsNotInstance(
-            Filter.PaletteTransfer::class,
-            Filter.LUT512x512::class,
-            Filter.PaletteTransferVariant::class,
-            Filter.Displacement::class,
-            Filter.CubeLut::class,
-            Filter.Shader::class,
-            Filter.LensCorrection::class,
-            Filter.SeamCarving::class
-        )
+        ): UiFilter<*>? = restoreCatalogFilter(key, value)
 
         val groups: List<Group> by lazy {
             listOf(
@@ -283,19 +253,28 @@ sealed class UiFilter<T : Any>(
 
 }
 
+@Suppress("UNCHECKED_CAST")
+fun <T : Filter.ParameterValue> Filter<T>.parameterInfo(
+    property: KProperty1<in T, *>
+): FilterParam {
+    require(this is UiFilter<*>) { "Parameter controls are only available on UiFilter" }
+    val parameters = requireNotNull(schema.parameters as? StructuredFilterParameters<T>) {
+        "The filter has no structured parameters"
+    }
+    return parameters[property]
+}
+
 fun Filter<*>.toUiFilter(
     preserveVisibility: Boolean = true
-): UiFilter<*> = mapFilterToUiFilter(
-    filter = this,
-    preserveVisibility = preserveVisibility
-).also { uiFilter ->
+): UiFilter<*> = when (this) {
+    is UiFilter<*> -> copy(value)
+    else -> requireNotNull(filterCatalog.toUiFilter(this)) {
+        "No UiFilter mapping for ${this::class.qualifiedName}"
+    }
+}.also { uiFilter ->
+    uiFilter.isVisible = !preserveVisibility || isVisible
     uiFilter.pushError(error)
     if (this is Filter.RawGmic && uiFilter is Filter.RawGmic) {
         uiFilter.auxiliaryImages = auxiliaryImages
     }
 }
-
-infix fun Int.paramTo(valueRange: ClosedFloatingPointRange<Float>) = FilterParam(
-    title = this,
-    valueRange = valueRange
-)

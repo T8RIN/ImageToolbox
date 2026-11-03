@@ -22,25 +22,49 @@ import com.t8rin.gmic.filters.GraduatedColorAccent
 import com.t8rin.gmic.filters.GraduatedColorAccentChannel
 import com.t8rin.gmic.filters.GraduatedColorAccentMaximumValue
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.GraduatedColorAccent.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.COLOR)
 internal class GraduatedColorAccentFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("-26624", "2.5", "FromInput", "Saturation")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.GraduatedColorAccent {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = GraduatedColorAccent(
-        referenceColor = value[0].toInt(),
-        amplitude = value[1].toFloat(),
-        maximumValue = GraduatedColorAccentMaximumValue.valueOf(value[2]),
-        channel = GraduatedColorAccentChannel.valueOf(value[3])
+        referenceColor = value.settings[0].toInt(),
+        amplitude = value.settings[1].toFloat(),
+        maximumValue = GraduatedColorAccentMaximumValue.valueOf(value.settings[2]),
+        channel = GraduatedColorAccentChannel.valueOf(value.settings[3])
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(
+            R.string.gmic_filter_graduated_color_accent,
+            R.string.filter_help_gmic_filter_graduated_color_accent
+        )
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicColor(R.string.gmic_param_reference_color, -26624),
+                    gmicNumber(R.string.amplitude, 2.5f, 0f..5f),
+                    gmicSelection(
+                        R.string.gmic_param_maximum_value,
+                        "FromInput",
+                        listOf("FromInput", "FromReferenceColor", "MaximumAllowed")
+                    ),
+                    gmicSelection(
+                        R.string.gmic_param_channel,
+                        "Saturation",
+                        listOf("Saturation", "Lightness")
+                    )
+                )
+            )
+        }
+    }
 }

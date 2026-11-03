@@ -22,26 +22,51 @@ import com.t8rin.gmic.filters.SelectiveDesaturation
 import com.t8rin.gmic.filters.SelectiveDesaturationMaximumSaturation
 import com.t8rin.gmic.filters.SelectiveDesaturationMode
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.SelectiveDesaturation.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.COLOR)
 internal class SelectiveDesaturationFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("-1754827", "AllButReferenceColor", "5", "4", "FromInput")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.SelectiveDesaturation {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = SelectiveDesaturation(
-        referenceColor = value[0].toInt(),
-        mode = SelectiveDesaturationMode.valueOf(value[1]),
-        strength = value[2].toFloat(),
-        regularization = value[3].toInt(),
-        maximumSaturation = SelectiveDesaturationMaximumSaturation.valueOf(value[4])
+        referenceColor = value.settings[0].toInt(),
+        mode = SelectiveDesaturationMode.valueOf(value.settings[1]),
+        strength = value.settings[2].toFloat(),
+        regularization = value.settings[3].toInt(),
+        maximumSaturation = SelectiveDesaturationMaximumSaturation.valueOf(value.settings[4])
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(
+            R.string.gmic_filter_selective_desaturation,
+            R.string.filter_help_gmic_filter_selective_desaturation
+        )
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicColor(R.string.gmic_param_reference_color, -1754827),
+                    gmicSelection(
+                        R.string.gmic_param_desaturate,
+                        "AllButReferenceColor",
+                        listOf("ReferenceColor", "AllButReferenceColor")
+                    ),
+                    gmicNumber(R.string.strength, 5, 0f..10f),
+                    gmicInteger(R.string.gmic_param_regularization, 4, 0f..20f),
+                    gmicSelection(
+                        R.string.gmic_param_maximum_saturation,
+                        "FromInput",
+                        listOf("FromInput", "FromReferenceColor", "MaximumValue")
+                    )
+                )
+            )
+        }
+    }
 }

@@ -21,32 +21,57 @@ import com.t8rin.gmic.GmicFilter
 import com.t8rin.gmic.filters.InkWash
 import com.t8rin.gmic.filters.InkWashContrast
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.InkWash.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.ARTISTIC)
 internal class InkWashFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("0.14", "23", "false", "0.5", "0.54", "2.25", "None", "2", "6", "5", "20")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.InkWash {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = InkWash(
-        size = value[0].toFloat(),
-        amplitude = value[1].toFloat(),
-        skipOtherSteps = value[2].toBoolean(),
-        smootherSharpness = value[3].toFloat(),
-        edgeProtection = value[4].toFloat(),
-        softness = value[5].toFloat(),
-        stretchContrast = InkWashContrast.valueOf(value[6]),
-        localNormalizationAmplitude = value[7].toFloat(),
-        localNormalizationSize = value[8].toFloat(),
-        neighborhoodSmoothness = value[9].toFloat(),
-        averageSmoothness = value[10].toFloat()
+        size = value.settings[0].toFloat(),
+        amplitude = value.settings[1].toFloat(),
+        skipOtherSteps = value.settings[2].toBoolean(),
+        smootherSharpness = value.settings[3].toFloat(),
+        edgeProtection = value.settings[4].toFloat(),
+        softness = value.settings[5].toFloat(),
+        stretchContrast = InkWashContrast.valueOf(value.settings[6]),
+        localNormalizationAmplitude = value.settings[7].toFloat(),
+        localNormalizationSize = value.settings[8].toFloat(),
+        neighborhoodSmoothness = value.settings[9].toFloat(),
+        averageSmoothness = value.settings[10].toFloat()
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info =
+            FilterInfo(R.string.gmic_filter_ink_wash, R.string.filter_help_gmic_filter_ink_wash)
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicNumber(R.string.just_size, 0.14f, 0f..4f),
+                    gmicNumber(R.string.amplitude, 23, 0f..200f),
+                    gmicToggle(R.string.gmic_param_skip_other_steps, false),
+                    gmicNumber(R.string.gmic_param_smoother_sharpness, 0.5f, 0f..2f),
+                    gmicNumber(R.string.gmic_param_edge_protection, 0.54f, 0f..1f),
+                    gmicNumber(R.string.softness, 2.25f, 0f..10f),
+                    gmicSelection(
+                        R.string.contrast,
+                        "None",
+                        listOf("None", "Automatic", "AutomaticWithContrastMask", "Manual")
+                    ),
+                    gmicNumber(R.string.gmic_param_local_normalization_amplitude, 2, 0f..60f),
+                    gmicNumber(R.string.gmic_param_local_normalization_size, 6, 0f..64f),
+                    gmicNumber(R.string.gmic_param_neighborhood_smoothness, 5, 0f..40f),
+                    gmicNumber(R.string.gmic_param_average_smoothness, 20, 0f..40f)
+                )
+            )
+        }
+    }
 }

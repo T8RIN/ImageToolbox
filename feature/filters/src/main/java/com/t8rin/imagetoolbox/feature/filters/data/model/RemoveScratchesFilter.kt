@@ -20,24 +20,39 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 import com.t8rin.gmic.GmicFilter
 import com.t8rin.gmic.filters.RemoveScratches
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.RemoveScratches.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.ENHANCEMENT)
 internal class RemoveScratchesFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("72", "2", "4")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.RemoveScratches {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = RemoveScratches(
-        threshold = value[0].toFloat(),
-        erosion = value[1].toInt(),
-        dilation = value[2].toInt()
+        threshold = value.settings[0].toFloat(),
+        erosion = value.settings[1].toInt(),
+        dilation = value.settings[2].toInt()
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(
+            R.string.gmic_filter_remove_scratches,
+            R.string.filter_help_gmic_filter_remove_scratches
+        )
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicNumber(R.string.threshold, 72, 0f..100f),
+                    gmicInteger(R.string.texture_erosion, 2, 0f..5f),
+                    gmicInteger(R.string.dilation, 4, 0f..7f)
+                )
+            )
+        }
+    }
 }

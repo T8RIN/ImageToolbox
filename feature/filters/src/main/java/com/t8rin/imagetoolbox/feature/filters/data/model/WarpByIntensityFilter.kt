@@ -18,34 +18,114 @@
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import com.t8rin.gmic.GmicFilter
-import com.t8rin.gmic.filters.WarpByIntensity
 import com.t8rin.gmic.filters.GmicBoundary
 import com.t8rin.gmic.filters.GmicChannel
 import com.t8rin.gmic.filters.GmicInterpolation
+import com.t8rin.gmic.filters.WarpByIntensity
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.WarpByIntensity.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.DISTORTION)
 internal class WarpByIntensityFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("0.04", "0.04", "128", "128", "false", "Linear", "Mirror", "All")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.WarpByIntensity {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = WarpByIntensity(
-        xFactor = value[0].toFloat(),
-        yFactor = value[1].toFloat(),
-        xOffset = value[2].toFloat(),
-        yOffset = value[3].toFloat(),
-        correlatedChannels = value[4].toBoolean(),
-        interpolation = GmicInterpolation.valueOf(value[5]),
-        boundary = GmicBoundary.valueOf(value[6]),
-        channel = GmicChannel.valueOf(value[7])
+        xFactor = value.settings[0].toFloat(),
+        yFactor = value.settings[1].toFloat(),
+        xOffset = value.settings[2].toFloat(),
+        yOffset = value.settings[3].toFloat(),
+        correlatedChannels = value.settings[4].toBoolean(),
+        interpolation = GmicInterpolation.valueOf(value.settings[5]),
+        boundary = GmicBoundary.valueOf(value.settings[6]),
+        channel = GmicChannel.valueOf(value.settings[7])
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(
+            R.string.gmic_filter_warp_by_intensity,
+            R.string.filter_help_gmic_filter_warp_by_intensity
+        )
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicNumber(R.string.gmic_param_x_factor, 0.04f, -6f..6f),
+                    gmicNumber(R.string.gmic_param_y_factor, 0.04f, -6f..6f),
+                    gmicNumber(R.string.gmic_param_x_offset, 128, 0f..255f),
+                    gmicNumber(R.string.gmic_param_y_offset, 128, 0f..255f),
+                    gmicToggle(R.string.gmic_param_correlated_channels, false),
+                    gmicSelection(
+                        R.string.gmic_param_interpolation,
+                        "Linear",
+                        listOf("NearestNeighbor", "Linear")
+                    ),
+                    gmicSelection(
+                        R.string.gmic_param_boundary,
+                        "Mirror",
+                        listOf("Transparent", "Nearest", "Periodic", "Mirror")
+                    ),
+                    gmicSelection(
+                        R.string.gmic_param_channel,
+                        "All",
+                        listOf(
+                            "All",
+                            "Rgba",
+                            "Rgb",
+                            "Red",
+                            "Green",
+                            "Blue",
+                            "Alpha",
+                            "LinearRgb",
+                            "LinearRed",
+                            "LinearGreen",
+                            "LinearBlue",
+                            "YCbCr",
+                            "Luminance",
+                            "Chrominance",
+                            "BlueChrominance",
+                            "RedChrominance",
+                            "GreenChrominance",
+                            "Lab",
+                            "LabLightness",
+                            "LabChrominance",
+                            "LabA",
+                            "LabB",
+                            "Lch",
+                            "LchChrominance",
+                            "LchChroma",
+                            "LchHue",
+                            "Hsv",
+                            "HsvHue",
+                            "HsvSaturation",
+                            "HsvValue",
+                            "Hsi",
+                            "HsiIntensity",
+                            "Hsl",
+                            "HslLightness",
+                            "Cmyk",
+                            "Cmy",
+                            "Cyan",
+                            "Magenta",
+                            "Yellow",
+                            "Key",
+                            "Yiq",
+                            "YiqLuma",
+                            "YiqChrominance",
+                            "Ryb",
+                            "RybRed",
+                            "RybYellow",
+                            "RybBlue"
+                        )
+                    )
+                )
+            )
+        }
+    }
 }

@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,18 +20,18 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 import android.graphics.Bitmap
 import com.awxkee.aire.Aire
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GlitchParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.EnhancedGlitch.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.GLITCH)
 internal class EnhancedGlitchFilter(
-    override val value: GlitchParams = GlitchParams()
-) : Transformation<Bitmap>, Filter.EnhancedGlitch {
-
-    override val cacheKey: String
-        get() = value.hashCode().toString()
+    override val value: Value
+) : FilterTransformation, Filter.EnhancedGlitch {
 
     override suspend fun transform(
         input: Bitmap,
@@ -46,4 +46,17 @@ internal class EnhancedGlitchFilter(
         corruptionShiftY = value.corruptionShiftY
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info =
+            FilterInfo(R.string.enhanced_glitch, R.string.filter_help_enhanced_glitch)
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::channelsShiftX, floatParam(R.string.channel_shift_x, -0.08f, -1f..1f))
+            field(Value::channelsShiftY, floatParam(R.string.channel_shift_y, -0.08f, -1f..1f))
+            field(Value::corruptionSize, floatParam(R.string.corruption_size, 0.01f, 0f..1f))
+            field(Value::corruptionCount, intParam(R.string.amount, 60, 1..100))
+            field(Value::corruptionShiftX, floatParam(R.string.corruption_shift_x, -0.05f, -1f..1f))
+            field(Value::corruptionShiftY, floatParam(R.string.corruption_shift_y, 0.0f, -1f..1f))
+        }
+    }
 }

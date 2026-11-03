@@ -20,21 +20,22 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 import android.graphics.Bitmap
 import androidx.core.graphics.scale
 import com.t8rin.imagetoolbox.core.data.utils.safeConfig
+import com.t8rin.imagetoolbox.core.domain.model.FileModel
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.SeamCarvingParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.SeamCarving.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 import com.t8rin.imagetoolbox.feature.filters.data.utils.image.loadBitmap
 import com.t8rin.opencv_tools.seam_carving.SeamCarver
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.GEOMETRY)
 internal class SeamCarvingFilter(
-    override val value: SeamCarvingParams = SeamCarvingParams()
-) : Transformation<Bitmap>, Filter.SeamCarving {
-
-    override val cacheKey: String
-        get() = value.hashCode().toString()
+    override val value: Value
+) : FilterTransformation, Filter.SeamCarving {
 
     override suspend fun transform(
         input: Bitmap,
@@ -66,4 +67,24 @@ internal class SeamCarvingFilter(
         )
     }
 
+    companion object : Filter.Schema.Custom<Value> {
+        override val info = FilterInfo(R.string.seam_carving, R.string.filter_help_seam_carving)
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::size,
+                editorParam(
+                    { IntegerSize.Zero },
+                    control(R.string.width, 0f..0f),
+                    control(R.string.height, 0f..0f)
+                )
+            )
+            field(Value::maskFile, editorParam({ FileModel("") }))
+            field(
+                Value::useBackwardEnergy,
+                booleanParam(R.string.seam_carving_backward_energy, false)
+            )
+            field(Value::useMaskAsRemoval, booleanParam(null, false))
+        }
+    }
 }

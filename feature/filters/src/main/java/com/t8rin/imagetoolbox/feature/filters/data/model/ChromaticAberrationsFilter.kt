@@ -18,53 +18,72 @@
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import com.t8rin.gmic.GmicFilter
-import com.t8rin.gmic.filters.ChromaticAberrations
 import com.t8rin.gmic.filters.AberrationType
+import com.t8rin.gmic.filters.ChromaticAberrations
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.ChromaticAberrations.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.GLITCH)
 internal class ChromaticAberrationsFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf(
-            "-65536",
-            "Shift",
-            "2",
-            "2",
-            "0",
-            "50",
-            "1",
-            "-16711936",
-            "Shift",
-            "0",
-            "0",
-            "0",
-            "0",
-            "1"
-        )
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.ChromaticAberrations {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = ChromaticAberrations(
-        primaryColor = value[0].toInt(),
-        primaryType = AberrationType.valueOf(value[1]),
-        primaryXAmplitude = value[2].toFloat(),
-        primaryYAmplitude = value[3].toFloat(),
-        primarySmoothness = value[4].toFloat(),
-        primaryCenterAttenuation = value[5].toFloat(),
-        primaryAttenuationDecay = value[6].toFloat(),
-        secondaryColor = value[7].toInt(),
-        secondaryType = AberrationType.valueOf(value[8]),
-        secondaryXAmplitude = value[9].toFloat(),
-        secondaryYAmplitude = value[10].toFloat(),
-        secondarySmoothness = value[11].toFloat(),
-        secondaryCenterAttenuation = value[12].toFloat(),
-        secondaryAttenuationDecay = value[13].toFloat()
+        primaryColor = value.settings[0].toInt(),
+        primaryType = AberrationType.valueOf(value.settings[1]),
+        primaryXAmplitude = value.settings[2].toFloat(),
+        primaryYAmplitude = value.settings[3].toFloat(),
+        primarySmoothness = value.settings[4].toFloat(),
+        primaryCenterAttenuation = value.settings[5].toFloat(),
+        primaryAttenuationDecay = value.settings[6].toFloat(),
+        secondaryColor = value.settings[7].toInt(),
+        secondaryType = AberrationType.valueOf(value.settings[8]),
+        secondaryXAmplitude = value.settings[9].toFloat(),
+        secondaryYAmplitude = value.settings[10].toFloat(),
+        secondarySmoothness = value.settings[11].toFloat(),
+        secondaryCenterAttenuation = value.settings[12].toFloat(),
+        secondaryAttenuationDecay = value.settings[13].toFloat()
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(
+            R.string.gmic_filter_chromatic_aberrations,
+            R.string.filter_help_gmic_filter_chromatic_aberrations
+        )
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicColor(R.string.texture_primary_color, -65536),
+                    gmicSelection(
+                        R.string.gmic_param_primary_type,
+                        "Shift",
+                        listOf("Shift", "Radial", "Angular", "Random")
+                    ),
+                    gmicNumber(R.string.gmic_param_primary_x_amplitude, 2, -32f..32f),
+                    gmicNumber(R.string.gmic_param_primary_y_amplitude, 2, -32f..32f),
+                    gmicNumber(R.string.gmic_param_primary_smoothness, 0, 0f..10f),
+                    gmicNumber(R.string.gmic_param_primary_center_attenuation, 50, -100f..100f),
+                    gmicNumber(R.string.gmic_param_primary_attenuation_decay, 1, 0f..8f),
+                    gmicColor(R.string.texture_secondary_color, -16711936),
+                    gmicSelection(
+                        R.string.gmic_param_secondary_type,
+                        "Shift",
+                        listOf("Shift", "Radial", "Angular", "Random")
+                    ),
+                    gmicNumber(R.string.gmic_param_secondary_x_amplitude, 0, -32f..32f),
+                    gmicNumber(R.string.gmic_param_secondary_y_amplitude, 0, -32f..32f),
+                    gmicNumber(R.string.gmic_param_secondary_smoothness, 0, 0f..10f),
+                    gmicNumber(R.string.gmic_param_secondary_center_attenuation, 0, -100f..100f),
+                    gmicNumber(R.string.gmic_param_secondary_attenuation_decay, 1, 0f..8f)
+                )
+            )
+        }
+    }
 }

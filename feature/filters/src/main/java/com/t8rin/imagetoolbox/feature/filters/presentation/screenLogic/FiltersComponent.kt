@@ -66,7 +66,7 @@ import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.filters.domain.FilterProvider
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.SeamCarvingParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.copy
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.model.hasSameState
 import com.t8rin.imagetoolbox.core.filters.presentation.model.hasSameValue
@@ -526,7 +526,7 @@ class FiltersComponent @AssistedInject internal constructor(
     ) {
         val bitmap = bitmap ?: return
         val filter = basicFilterState.filters.getOrNull(filterIndex) ?: return
-        val params = filter.value as? SeamCarvingParams ?: return
+        val params = filter.value as? Filter.SeamCarving.Value ?: return
 
         componentScope.launch {
             val uri = withContext(defaultDispatcher) {
@@ -556,7 +556,7 @@ class FiltersComponent @AssistedInject internal constructor(
 
     fun removeSeamCarvingMask(filterIndex: Int) {
         val filter = basicFilterState.filters.getOrNull(filterIndex) ?: return
-        val params = filter.value as? SeamCarvingParams ?: return
+        val params = filter.value as? Filter.SeamCarving.Value ?: return
 
         updateFilter(
             value = params.copy(

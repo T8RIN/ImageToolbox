@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,22 +20,32 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import android.graphics.PointF
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.BulgeDistortion.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GPUFilterTransformation
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageBulgeDistortionFilter
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.DISTORTION)
 internal class BulgeDistortionFilter(
-    override val value: Pair<Float, Float> = 0.25f to 0.5f,
+    override val value: Value,
 ) : GPUFilterTransformation(), Filter.BulgeDistortion {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GPUImageFilter = GPUImageBulgeDistortionFilter(
-        /* radius = */ value.first,
-        /* scale = */value.second,
+        /* radius = */ value.radius,
+        /* scale = */value.scale,
         /* center = */PointF(0.5f, 0.5f)
     )
+
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(R.string.bulge, R.string.filter_help_bulge)
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::radius, floatParam(R.string.radius, 0.25f, 0f..1f))
+            field(Value::scale, floatParam(R.string.scale, 0.5f, -1f..1f))
+        }
+    }
 }

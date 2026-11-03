@@ -20,24 +20,39 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 import com.t8rin.gmic.GmicFilter
 import com.t8rin.gmic.filters.OldSchool8Bit
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.OldSchool8Bit.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.PIXELATION)
 internal class OldSchool8BitFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("25", "800", "16")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.OldSchool8Bit {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = OldSchool8Bit(
-        scale = value[0].toFloat(),
-        dithering = value[1].toFloat(),
-        levels = value[2].toInt()
+        scale = value.settings[0].toFloat(),
+        dithering = value.settings[1].toFloat(),
+        levels = value.settings[2].toInt()
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(
+            R.string.gmic_filter_old_school8_bit,
+            R.string.filter_help_gmic_filter_old_school8_bit
+        )
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicNumber(R.string.scale, 25, 1f..100f),
+                    gmicNumber(R.string.dithering, 800, 0f..10000f),
+                    gmicInteger(R.string.levels, 16, 2f..256f)
+                )
+            )
+        }
+    }
 }

@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,19 +19,27 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 
 
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.Posterize.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GPUFilterTransformation
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
 import jp.co.cyberagent.android.gpuimage.filter.GPUImagePosterizeFilter
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.COLOR)
 internal class PosterizeFilter(
-    override val value: Float = 5f,
+    override val value: Value,
 ) : GPUFilterTransformation(), Filter.Posterize {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
+    override fun createFilter(): GPUImageFilter = GPUImagePosterizeFilter(value.amount.toInt())
 
-    override fun createFilter(): GPUImageFilter = GPUImagePosterizeFilter(value.toInt())
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(R.string.posterize, R.string.filter_help_posterize)
 
+        override val parameters = structuredParameters<Value> {
+            field(Value::amount, floatParam(default = 5f, range = 1f..40f, roundTo = 0))
+        }
+    }
 }

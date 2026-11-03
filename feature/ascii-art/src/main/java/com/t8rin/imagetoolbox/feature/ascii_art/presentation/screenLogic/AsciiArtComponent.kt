@@ -17,6 +17,8 @@
 
 package com.t8rin.imagetoolbox.feature.ascii_art.presentation.screenLogic
 
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
+import com.t8rin.imagetoolbox.core.filters.presentation.model.createUiFilter
 import android.graphics.Bitmap
 import android.net.Uri
 import androidx.compose.runtime.MutableState
@@ -27,9 +29,7 @@ import com.arkivanov.decompose.ComponentContext
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.filters.domain.FilterProvider
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.AsciiParams
-import com.t8rin.imagetoolbox.core.filters.presentation.model.UiAsciiFilter
-import com.t8rin.imagetoolbox.core.filters.presentation.model.UiNegativeFilter
+import com.t8rin.imagetoolbox.core.filters.domain.model.copy
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsProvider
 import com.t8rin.imagetoolbox.core.settings.presentation.model.asFontType
 import com.t8rin.imagetoolbox.core.ui.utils.BaseHistoryComponent
@@ -60,9 +60,9 @@ class AsciiArtComponent @AssistedInject internal constructor(
     private val _uri: MutableState<Uri> = mutableStateOf(Uri.EMPTY)
     val uri: Uri by _uri
 
-    private val _asciiParams: MutableState<AsciiParams> =
-        mutableStateOf(AsciiParams.Default.copy(isGrayscale = true))
-    val asciiParams: AsciiParams by _asciiParams
+    private val _asciiParams: MutableState<Filter.Ascii.Value> =
+        mutableStateOf(createUiFilter(Filter.Ascii::class).value.copy(isGrayscale = true))
+    val asciiParams: Filter.Ascii.Value by _asciiParams
 
     val gradient: String get() = asciiParams.gradient
     val fontSize: Float get() = asciiParams.fontSize
@@ -136,8 +136,8 @@ class AsciiArtComponent @AssistedInject internal constructor(
     }
 
     fun getAsciiTransformations(): List<Transformation> = buildList {
-        if (isInvertImage) add(UiNegativeFilter())
-        add(UiAsciiFilter(asciiParams))
+        if (isInvertImage) add(createUiFilter(Filter.Negative::class))
+        add(createUiFilter(Filter.Ascii::class, asciiParams))
     }.map {
         filterProvider.filterToTransformation(it).toCoil()
     }
@@ -156,7 +156,9 @@ class AsciiArtComponent @AssistedInject internal constructor(
 
     data class HistorySnapshot(
         val uri: Uri = Uri.EMPTY,
-        val asciiParams: AsciiParams = AsciiParams.Default.copy(isGrayscale = true),
+        val asciiParams: Filter.Ascii.Value = createUiFilter(Filter.Ascii::class).value.copy(
+            isGrayscale = true
+        ),
         val isInvertImage: Boolean = false
     )
 

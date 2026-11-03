@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,20 +23,31 @@ import com.t8rin.imagetoolbox.core.data.image.utils.ColorUtils.toModel
 import com.t8rin.imagetoolbox.core.domain.transformation.ChainTransformation
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterValues
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.OldTv.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.SIMPLE)
 internal class OldTvFilter(
-    override val value: Unit
-) : ChainTransformation<Bitmap>, Filter.OldTv {
-
-    override val cacheKey: String
-        get() = value.hashCode().toString()
+    override val value: Value
+) : ChainTransformation<Bitmap>, FilterTransformation, Filter.OldTv {
 
     override fun getTransformations(): List<Transformation<Bitmap>> = listOf(
-        GrainFilter(0.36f),
-        HazeFilter(0f to 0.3f),
-        MonochromeFilter(1f to Color(0xFF1C3A00).toModel())
+        GrainFilter(FilterValues.grain(0.36f)),
+        HazeFilter(FilterValues.haze(distance = 0f, slope = 0.3f)),
+        MonochromeFilter(
+            FilterValues.monochrome(
+                intensity = 1f,
+                color = Color(0xFF1C3A00).toModel()
+            )
+        )
     )
 
+    companion object : Filter.Schema.Empty<Value> {
+        override val info = FilterInfo(R.string.old_tv, R.string.filter_help_old_tv)
+    }
 }

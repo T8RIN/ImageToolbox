@@ -23,37 +23,56 @@ import androidx.core.graphics.applyCanvas
 import androidx.core.graphics.createBitmap
 import com.t8rin.imagetoolbox.core.data.image.utils.ColorUtils.toModel
 import com.t8rin.imagetoolbox.core.data.image.utils.drawBitmap
-import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.model.Position
-import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.BorderFrame.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 import kotlin.math.roundToInt
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.FRAMES)
 internal class BorderFrameFilter(
-    override val value: Triple<Float, Float, ColorModel> = Triple(20f, 40f, Color.White.toModel())
-) : Transformation<Bitmap>, Filter.BorderFrame {
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
+    override val value: Value
+) : FilterTransformation, Filter.BorderFrame {
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
     ): Bitmap {
-        val horizontal = value.first.roundToInt()
-        val vertical = value.second.roundToInt()
+        val horizontal = value.horizontalBorderThickness.roundToInt()
+        val vertical = value.verticalBorderThickness.roundToInt()
 
         return createBitmap(
             width = input.width + horizontal * 2,
             height = input.height + vertical * 2
         ).applyCanvas {
-            drawColor(value.third.colorInt)
+            drawColor(value.borderColor.colorInt)
 
             drawBitmap(
                 bitmap = input,
                 position = Position.Center
+            )
+        }
+    }
+
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(R.string.border_frame, R.string.filter_help_border_frame)
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::horizontalBorderThickness,
+                floatParam(R.string.horizontal_border_thickness, 20f, 0f..500f, roundTo = 0)
+            )
+            field(
+                Value::verticalBorderThickness,
+                floatParam(R.string.vertical_border_thickness, 40f, 0f..500f, roundTo = 0)
+            )
+            field(
+                Value::borderColor,
+                colorParam(R.string.border_color, Color.White.toModel(), allowAlpha = true)
             )
         }
     }

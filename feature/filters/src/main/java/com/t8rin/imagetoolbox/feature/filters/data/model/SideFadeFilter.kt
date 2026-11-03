@@ -21,55 +21,50 @@ import android.graphics.Bitmap
 import androidx.core.graphics.applyCanvas
 import com.t8rin.imagetoolbox.core.data.utils.safeConfig
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.data.getPaint
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.SideFade.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
 import com.t8rin.imagetoolbox.core.filters.domain.model.enums.FadeSide
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.SideFadeParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 import kotlin.math.roundToInt
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.FRAMES)
 internal class SideFadeFilter(
-    override val value: SideFadeParams = SideFadeParams.Relative(FadeSide.Start, 0.5f),
-) : Transformation<Bitmap>, Filter.SideFade {
-
-    override val cacheKey: String
-        get() = value.hashCode().toString()
+    override val value: Value,
+) : FilterTransformation, Filter.SideFade {
 
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
     ): Bitmap {
         val bitmap = input.copy(input.safeConfig, true).apply { setHasAlpha(true) }
-        val fadeSize: Int = when (value) {
-            is SideFadeParams.Absolute -> value.size
-            is SideFadeParams.Relative -> {
-                when (value.side) {
-                    FadeSide.Start, FadeSide.End -> {
-                        bitmap.width * value.scale
-                    }
-
-                    FadeSide.Bottom, FadeSide.Top -> {
-                        bitmap.height * value.scale
-                    }
-                }.roundToInt()
-            }
-        }
-        val strength = when (value) {
-            is SideFadeParams.Absolute -> value.strength
-            is SideFadeParams.Relative -> 1f
-        }
+        val fadeSize = when (value.side) {
+            FadeSide.Start, FadeSide.End -> bitmap.width * value.scale
+            FadeSide.Bottom, FadeSide.Top -> bitmap.height * value.scale
+        }.roundToInt()
 
         return bitmap.applyCanvas {
             drawPaint(
                 value.side.getPaint(
                     bmp = input,
                     length = fadeSize,
-                    strength = strength
+                    strength = value.strength
                 )
             )
         }
     }
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(R.string.side_fade, R.string.filter_help_side_fade)
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::side, enumParam(R.string.side) { FadeSide.End })
+            field(Value::scale, floatParam(R.string.size, 0.5f, 0f..1f))
+            field(Value::strength, floatParam(R.string.strength, 1f, 0f..1f))
+        }
+    }
 }

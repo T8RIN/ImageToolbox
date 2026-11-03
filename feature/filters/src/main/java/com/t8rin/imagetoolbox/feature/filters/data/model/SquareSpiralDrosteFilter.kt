@@ -18,11 +18,48 @@
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.enums.ProceduralEffect
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.ProceduralParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.SquareSpiralDroste.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.filters.data.utils.gpu.ShaderEffectFilter
+import com.t8rin.imagetoolbox.feature.filters.data.utils.gpu.uniforms
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.DISTORTION)
 internal class SquareSpiralDrosteFilter(
-    override val value: ProceduralParams = ProceduralParams()
-) : ProceduralFilter(ProceduralEffect.SquareSpiralDroste), Filter.SquareSpiralDroste
+    override val value: Value
+) : ShaderEffectFilter<Value>(parameters.uniforms(value), SHADER), Filter.SquareSpiralDroste {
+
+    companion object : Filter.Schema.Structured<Value> {
+        override val info =
+            FilterInfo(R.string.square_spiral_droste, R.string.filter_help_square_spiral_droste)
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::intensity,
+                floatParam(R.string.texture_intensity, 2f, 1.1f..8f, roundTo = 3)
+            )
+            field(Value::distortion, floatParam(R.string.distortion, 0.15f, -1f..1f, roundTo = 3))
+            field(
+                Value::shapeAspect,
+                floatParam(R.string.procedural_shape_aspect, 1f, 0.25f..4f, roundTo = 3)
+            )
+            field(Value::offsetX, floatParam(R.string.offset_x, 0f, -1f..1f, roundTo = 3))
+            field(Value::offsetY, floatParam(R.string.offset_y, 0f, -1f..1f, roundTo = 3))
+            field(Value::scale, floatParam(R.string.scale, 1f, 0.05f..8f, roundTo = 3))
+            field(Value::rotation, floatParam(R.string.rotation, 0f, -180f..180f, roundTo = 3))
+        }
+
+        private val SHADER = """
+            vec2 point = p * vec2(1.0, shapeAspect);
+            float r = max(max(abs(point.x), abs(point.y)), 0.00001);
+            float angle = angleOf(point);
+            float period = log(intensity);
+            float logRadius = log(r / 0.5) - distortion * angle;
+            float layer = floor(logRadius / period);
+            float radius = exp(mod(logRadius, period)) * 0.5 / intensity;
+            q = rotatePoint(point / r * radius, distortion * layer * TAU) / vec2(1.0, shapeAspect);
+        """.trimIndent()
+    }
+}

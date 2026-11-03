@@ -21,28 +21,49 @@ import com.t8rin.gmic.GmicFilter
 import com.t8rin.gmic.filters.Flower
 import com.t8rin.gmic.filters.GmicBoundary
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.Flower.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.DISTORTION)
 internal class FlowerFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("50", "50", "75", "50", "6", "0", "Mirror")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.Flower {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = Flower(
-        centerX = value[0].toFloat(),
-        centerY = value[1].toFloat(),
-        amplitudePointX = value[2].toFloat(),
-        amplitudePointY = value[3].toFloat(),
-        petals = value[4].toInt(),
-        offset = value[5].toFloat(),
-        boundary = GmicBoundary.valueOf(value[6])
+        centerX = value.settings[0].toFloat(),
+        centerY = value.settings[1].toFloat(),
+        amplitudePointX = value.settings[2].toFloat(),
+        amplitudePointY = value.settings[3].toFloat(),
+        petals = value.settings[4].toInt(),
+        offset = value.settings[5].toFloat(),
+        boundary = GmicBoundary.valueOf(value.settings[6])
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info =
+            FilterInfo(R.string.gmic_filter_flower, R.string.filter_help_gmic_filter_flower)
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicNumber(R.string.center_x, 50, 0f..100f),
+                    gmicNumber(R.string.center_y, 50, 0f..100f),
+                    gmicNumber(R.string.gmic_param_amplitude_point_x, 75, 0f..100f),
+                    gmicNumber(R.string.gmic_param_amplitude_point_y, 50, 0f..100f),
+                    gmicInteger(R.string.texture_petals, 6, 2f..20f),
+                    gmicNumber(R.string.offset, 0, 0f..100f),
+                    gmicSelection(
+                        R.string.gmic_param_boundary,
+                        "Mirror",
+                        listOf("Transparent", "Nearest", "Periodic", "Mirror")
+                    )
+                )
+            )
+        }
+    }
 }

@@ -20,27 +20,45 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 import com.t8rin.gmic.GmicFilter
 import com.t8rin.gmic.filters.ZoneSystem
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.ZoneSystem.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.LIGHT)
 internal class ZoneSystemFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("2", "9", "1.1", "1.15", "8", "245")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.ZoneSystem {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = ZoneSystem(
-        shadowsZone = value[0].toInt(),
-        highlightsZone = value[1].toInt(),
-        gamma = value[2].toFloat(),
-        contrast = value[3].toFloat(),
-        blackPoint = value[4].toInt(),
-        whitePoint = value[5].toInt()
+        shadowsZone = value.settings[0].toInt(),
+        highlightsZone = value.settings[1].toInt(),
+        gamma = value.settings[2].toFloat(),
+        contrast = value.settings[3].toFloat(),
+        blackPoint = value.settings[4].toInt(),
+        whitePoint = value.settings[5].toInt()
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(
+            R.string.gmic_filter_zone_system,
+            R.string.filter_help_gmic_filter_zone_system
+        )
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicInteger(R.string.gmic_param_shadows_zone, 2, 1f..5f),
+                    gmicInteger(R.string.gmic_param_highlights_zone, 9, 6f..10f),
+                    gmicNumber(R.string.gamma, 1.1f, 0f..5f),
+                    gmicNumber(R.string.contrast, 1.15f, 0f..4f),
+                    gmicInteger(R.string.gmic_param_black_point, 8, 0f..255f),
+                    gmicInteger(R.string.tag_white_point, 245, 0f..255f)
+                )
+            )
+        }
+    }
 }

@@ -28,6 +28,7 @@ import coil3.toBitmap
 import com.t8rin.imagetoolbox.core.domain.model.ImageModel
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterValues
 import com.t8rin.imagetoolbox.core.filters.domain.model.createFilter
 import com.t8rin.imagetoolbox.core.filters.domain.model.enums.SpotHealMode
 import com.t8rin.imagetoolbox.core.ui.utils.helper.scaleToFitCanvas
@@ -71,7 +72,14 @@ internal suspend fun Canvas.drawCommittedPath(
                         xfermode = null
                     })
                 }
-                listOf(createFilter<Pair<ImageModel, SpotHealMode>, Filter.SpotHeal>(mask.toImageModel() to drawMode.mode))
+                listOf(
+                    createFilter<Filter.SpotHeal.Value, Filter.SpotHeal>(
+                        FilterValues.spotHeal(
+                            mask = mask.toImageModel(),
+                            mode = drawMode.mode
+                        )
+                    )
+                )
             } else transformationsForMode(drawMode, canvasSize)
             onRequestFiltering(source(), filters)
         }

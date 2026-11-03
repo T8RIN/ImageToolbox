@@ -19,26 +19,36 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import android.graphics.Bitmap
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.VHS.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 import com.t8rin.trickle.Trickle
+import kotlin.math.PI
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.GLITCH)
 internal class VHSFilter(
-    override val value: Pair<Float, Float> = 2f to 3f,
-) : Transformation<Bitmap>, Filter.VHS {
-
-    override val cacheKey: String
-        get() = value.hashCode().toString()
+    override val value: Value,
+) : FilterTransformation, Filter.VHS {
 
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
     ): Bitmap = Trickle.vhsGlitch(
         src = input,
-        time = value.first,
-        strength = value.second
+        time = value.seed,
+        strength = value.strength
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(R.string.vhs, R.string.filter_help_vhs)
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::seed, floatParam(R.string.seed, 2f, 0f..PI.toFloat(), roundTo = 3))
+            field(Value::strength, floatParam(R.string.strength, 3f, 0f..10f, roundTo = 3))
+        }
+    }
 }

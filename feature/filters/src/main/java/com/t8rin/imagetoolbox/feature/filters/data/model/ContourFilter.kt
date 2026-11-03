@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,30 +21,37 @@ import androidx.compose.ui.graphics.Color
 import com.jhlabs.ContourFilter
 import com.jhlabs.JhFilter
 import com.t8rin.imagetoolbox.core.data.image.utils.ColorUtils.toModel
-import com.t8rin.imagetoolbox.core.domain.model.ColorModel
-import com.t8rin.imagetoolbox.core.domain.utils.Quad
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.Contour.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.JhFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.EFFECTS)
 internal class ContourFilter(
-    override val value: Quad<Float, Float, Float, ColorModel> = Quad(
-        first = 5f,
-        second = 1f,
-        third = 0f,
-        fourth = Color(0xff000000).toModel()
-    )
+    override val value: Value
 ) : JhFilterTransformation(), Filter.Contour {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): JhFilter = ContourFilter().apply {
-        levels = value.first
-        scale = value.second
-        offset = value.third
-        contourColor = value.fourth.colorInt
+        levels = value.levels
+        scale = value.scale
+        offset = value.offset
+        contourColor = value.color.colorInt
     }
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(R.string.contour, R.string.filter_help_contour)
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::levels, floatParam(R.string.levels, 5f, 0f..50f))
+            field(Value::scale, floatParam(R.string.scale, 1f, 0f..1f, roundTo = 0))
+            field(Value::offset, floatParam(R.string.offset, 0f, 0f..255f, roundTo = 0))
+            field(
+                Value::color,
+                colorParam(R.string.color, Color(0xff000000).toModel(), allowAlpha = true)
+            )
+        }
+    }
 }

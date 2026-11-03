@@ -22,26 +22,111 @@ import com.t8rin.gmic.filters.GmicChannel
 import com.t8rin.gmic.filters.LightGlow
 import com.t8rin.gmic.filters.LightGlowMode
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.LightGlow.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.LIGHT)
 internal class LightGlowFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("30", "0.5", "Overlay", "0.8", "Luminance")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.LightGlow {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = LightGlow(
-        density = value[0].toFloat(),
-        amplitude = value[1].toFloat(),
-        mode = LightGlowMode.valueOf(value[2]),
-        opacity = value[3].toFloat(),
-        channelS = GmicChannel.valueOf(value[4])
+        density = value.settings[0].toFloat(),
+        amplitude = value.settings[1].toFloat(),
+        mode = LightGlowMode.valueOf(value.settings[2]),
+        opacity = value.settings[3].toFloat(),
+        channelS = GmicChannel.valueOf(value.settings[4])
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info =
+            FilterInfo(R.string.gmic_filter_light_glow, R.string.filter_help_gmic_filter_light_glow)
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicNumber(R.string.density, 30, 0f..100f),
+                    gmicNumber(R.string.amplitude, 0.5f, 0f..2f),
+                    gmicSelection(
+                        R.string.gmic_param_mode,
+                        "Overlay",
+                        listOf(
+                            "Burn",
+                            "Dodge",
+                            "Freeze",
+                            "GrainMerge",
+                            "HardLight",
+                            "Interpolation",
+                            "Lighten",
+                            "Multiply",
+                            "Overlay",
+                            "Reflect",
+                            "SoftLight",
+                            "Stamp",
+                            "Value"
+                        )
+                    ),
+                    gmicNumber(R.string.opacity, 0.8f, 0f..1f),
+                    gmicSelection(
+                        R.string.gmic_param_channel,
+                        "Luminance",
+                        listOf(
+                            "All",
+                            "Rgba",
+                            "Rgb",
+                            "Red",
+                            "Green",
+                            "Blue",
+                            "Alpha",
+                            "LinearRgb",
+                            "LinearRed",
+                            "LinearGreen",
+                            "LinearBlue",
+                            "YCbCr",
+                            "Luminance",
+                            "Chrominance",
+                            "BlueChrominance",
+                            "RedChrominance",
+                            "GreenChrominance",
+                            "Lab",
+                            "LabLightness",
+                            "LabChrominance",
+                            "LabA",
+                            "LabB",
+                            "Lch",
+                            "LchChrominance",
+                            "LchChroma",
+                            "LchHue",
+                            "Hsv",
+                            "HsvHue",
+                            "HsvSaturation",
+                            "HsvValue",
+                            "Hsi",
+                            "HsiIntensity",
+                            "Hsl",
+                            "HslLightness",
+                            "Cmyk",
+                            "Cmy",
+                            "Cyan",
+                            "Magenta",
+                            "Yellow",
+                            "Key",
+                            "Yiq",
+                            "YiqLuma",
+                            "YiqChrominance",
+                            "Ryb",
+                            "RybRed",
+                            "RybYellow",
+                            "RybBlue"
+                        )
+                    )
+                )
+            )
+        }
+    }
 }

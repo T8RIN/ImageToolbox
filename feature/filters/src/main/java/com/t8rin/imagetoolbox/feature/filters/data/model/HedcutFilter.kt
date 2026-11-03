@@ -20,28 +20,45 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 import com.t8rin.gmic.GmicFilter
 import com.t8rin.gmic.filters.Hedcut
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.Hedcut.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.ARTISTIC)
 internal class HedcutFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("0.5", "0.5", "0.5", "0.0", "0.5", "false", "true")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.Hedcut {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = Hedcut(
-        contrast = value[0].toFloat(),
-        luminanceLevel = value[1].toFloat(),
-        smoothing = value[2].toFloat(),
-        size = value[3].toFloat(),
-        step = value[4].toFloat(),
-        quality = value[5].toBoolean(),
-        forceGray = value[6].toBoolean()
+        contrast = value.settings[0].toFloat(),
+        luminanceLevel = value.settings[1].toFloat(),
+        smoothing = value.settings[2].toFloat(),
+        size = value.settings[3].toFloat(),
+        step = value.settings[4].toFloat(),
+        quality = value.settings[5].toBoolean(),
+        forceGray = value.settings[6].toBoolean()
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info =
+            FilterInfo(R.string.gmic_filter_hedcut, R.string.filter_help_gmic_filter_hedcut)
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicNumber(R.string.contrast, 0.5f, 0f..1f),
+                    gmicNumber(R.string.gmic_param_luminance_level, 0.5f, 0f..1f),
+                    gmicNumber(R.string.gmic_param_smoothing, 0.5f, 0f..1f),
+                    gmicNumber(R.string.just_size, 0.0f, 0f..1f),
+                    gmicNumber(R.string.gmic_param_step, 0.5f, 0f..1f),
+                    gmicToggle(R.string.quality, false),
+                    gmicToggle(R.string.gmic_param_force_gray, true)
+                )
+            )
+        }
+    }
 }

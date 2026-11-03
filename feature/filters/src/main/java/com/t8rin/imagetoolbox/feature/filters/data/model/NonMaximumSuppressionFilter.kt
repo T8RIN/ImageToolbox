@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,18 +18,26 @@
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.NonMaximumSuppression.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GPUFilterTransformation
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageNonMaximumSuppressionFilter
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.SIMPLE)
 internal class NonMaximumSuppressionFilter(
-    override val value: Unit = Unit,
+    override val value: Value,
 ) : GPUFilterTransformation(), Filter.NonMaximumSuppression {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GPUImageFilter = GPUImageNonMaximumSuppressionFilter()
+
+    companion object : Filter.Schema.Empty<Value> {
+        override val info = FilterInfo(
+            R.string.non_maximum_suppression,
+            R.string.filter_help_non_maximum_suppression
+        )
+    }
 }

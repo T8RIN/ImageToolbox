@@ -20,27 +20,45 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 import com.t8rin.gmic.GmicFilter
 import com.t8rin.gmic.filters.BufferError
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.BufferError.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.GLITCH)
 internal class BufferErrorFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("50", "50", "0", "100", "0", "true")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.BufferError {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = BufferError(
-        width = value[0].toFloat(),
-        height = value[1].toFloat(),
-        bufferSelectionStartPercent = value[2].toFloat(),
-        bufferSelectionLengthPercent = value[3].toFloat(),
-        bufferSelectionShiftPercent = value[4].toFloat(),
-        repeatBuffer = value[5].toBoolean()
+        width = value.settings[0].toFloat(),
+        height = value.settings[1].toFloat(),
+        bufferSelectionStartPercent = value.settings[2].toFloat(),
+        bufferSelectionLengthPercent = value.settings[3].toFloat(),
+        bufferSelectionShiftPercent = value.settings[4].toFloat(),
+        repeatBuffer = value.settings[5].toBoolean()
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(
+            R.string.gmic_filter_buffer_error,
+            R.string.filter_help_gmic_filter_buffer_error
+        )
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicNumber(R.string.gmic_param_width, 50, 0f..200f),
+                    gmicNumber(R.string.gmic_param_height, 50, 0f..200f),
+                    gmicNumber(R.string.gmic_param_buffer_selection_start_percent, 0, 0f..100f),
+                    gmicNumber(R.string.gmic_param_buffer_selection_length_percent, 100, 0f..400f),
+                    gmicNumber(R.string.gmic_param_buffer_selection_shift_percent, 0, 0f..100f),
+                    gmicToggle(R.string.gmic_param_repeat_buffer, true)
+                )
+            )
+        }
+    }
 }

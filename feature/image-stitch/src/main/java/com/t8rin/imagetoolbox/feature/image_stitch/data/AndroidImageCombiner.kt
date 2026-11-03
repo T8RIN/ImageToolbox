@@ -44,9 +44,9 @@ import com.t8rin.imagetoolbox.core.domain.image.model.withSize
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.filters.domain.FilterProvider
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterValues
 import com.t8rin.imagetoolbox.core.filters.domain.model.createFilter
 import com.t8rin.imagetoolbox.core.filters.domain.model.enums.FadeSide
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.SideFadeParams
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsProvider
 import com.t8rin.imagetoolbox.feature.image_stitch.domain.CombiningParams
 import com.t8rin.imagetoolbox.feature.image_stitch.domain.ImageCombiner
@@ -130,10 +130,10 @@ internal class AndroidImageCombiner @Inject constructor(
                                     when (i) {
                                         0 -> emptyList()
                                         else -> listOf(
-                                            createFilter<SideFadeParams, Filter.SideFade>(
-                                                SideFadeParams.Absolute(
+                                            createFilter<Filter.SideFade.Value, Filter.SideFade>(
+                                                FilterValues.sideFade(
                                                     side = if (isHorizontal) FadeSide.Start else FadeSide.Top,
-                                                    size = fullSpace,
+                                                    scale = fullSpace.toFloat() / if (isHorizontal) bmp.width else bmp.height,
                                                     strength = strength
                                                 )
                                             )
@@ -145,10 +145,10 @@ internal class AndroidImageCombiner @Inject constructor(
                                     when (i) {
                                         images.lastIndex -> emptyList()
                                         else -> listOf(
-                                            createFilter<SideFadeParams, Filter.SideFade>(
-                                                SideFadeParams.Absolute(
+                                            createFilter<Filter.SideFade.Value, Filter.SideFade>(
+                                                FilterValues.sideFade(
                                                     side = if (isHorizontal) FadeSide.End else FadeSide.Bottom,
-                                                    size = fullSpace,
+                                                    scale = fullSpace.toFloat() / if (isHorizontal) bmp.width else bmp.height,
                                                     strength = strength
                                                 )
                                             )
@@ -159,37 +159,37 @@ internal class AndroidImageCombiner @Inject constructor(
                                 StitchFadeSide.Both -> {
                                     when (i) {
                                         0 -> listOf(
-                                            createFilter<SideFadeParams, Filter.SideFade>(
-                                                SideFadeParams.Absolute(
+                                            createFilter<Filter.SideFade.Value, Filter.SideFade>(
+                                                FilterValues.sideFade(
                                                     side = if (isHorizontal) FadeSide.End else FadeSide.Bottom,
-                                                    size = halfSpace,
+                                                    scale = halfSpace.toFloat() / if (isHorizontal) bmp.width else bmp.height,
                                                     strength = strength
                                                 )
                                             )
                                         )
 
                                         images.lastIndex -> listOf(
-                                            createFilter<SideFadeParams, Filter.SideFade>(
-                                                SideFadeParams.Absolute(
+                                            createFilter<Filter.SideFade.Value, Filter.SideFade>(
+                                                FilterValues.sideFade(
                                                     side = if (isHorizontal) FadeSide.Start else FadeSide.Top,
-                                                    size = halfSpace,
+                                                    scale = halfSpace.toFloat() / if (isHorizontal) bmp.width else bmp.height,
                                                     strength = strength
                                                 )
                                             )
                                         )
 
                                         else -> listOf(
-                                            createFilter<SideFadeParams, Filter.SideFade>(
-                                                SideFadeParams.Absolute(
+                                            createFilter<Filter.SideFade.Value, Filter.SideFade>(
+                                                FilterValues.sideFade(
                                                     side = if (isHorizontal) FadeSide.Start else FadeSide.Top,
-                                                    size = halfSpace,
+                                                    scale = halfSpace.toFloat() / if (isHorizontal) bmp.width else bmp.height,
                                                     strength = strength
                                                 )
                                             ),
-                                            createFilter<SideFadeParams, Filter.SideFade>(
-                                                SideFadeParams.Absolute(
+                                            createFilter<Filter.SideFade.Value, Filter.SideFade>(
+                                                FilterValues.sideFade(
                                                     side = if (isHorizontal) FadeSide.End else FadeSide.Bottom,
-                                                    size = halfSpace,
+                                                    scale = halfSpace.toFloat() / if (isHorizontal) bmp.width else bmp.height,
                                                     strength = strength
                                                 )
                                             )

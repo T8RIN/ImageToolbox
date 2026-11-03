@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,30 +23,38 @@ import com.t8rin.imagetoolbox.core.data.image.utils.ColorUtils.blue
 import com.t8rin.imagetoolbox.core.data.image.utils.ColorUtils.green
 import com.t8rin.imagetoolbox.core.data.image.utils.ColorUtils.red
 import com.t8rin.imagetoolbox.core.data.image.utils.ColorUtils.toModel
-import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.Vignette.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GPUFilterTransformation
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageVignetteFilter
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.LIGHT)
 internal class VignetteFilter(
-    override val value: Triple<Float, Float, ColorModel> = Triple(
-        first = 0.3f,
-        second = 0.75f,
-        third = Color.Black.toModel()
-    )
+    override val value: Value
 ) : GPUFilterTransformation(), Filter.Vignette {
-
-    override val cacheKey: String
-        get() = value.hashCode().toString()
 
     override fun createFilter(): GPUImageFilter = GPUImageVignetteFilter(
         PointF(0.5f, 0.5f),
-        floatArrayOf(value.third.red, value.third.green, value.third.blue),
-        value.first,
-        value.second
+        floatArrayOf(value.color.red, value.color.green, value.color.blue),
+        value.start,
+        value.end
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(R.string.vignette, R.string.filter_help_vignette)
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::start, floatParam(R.string.start, 0.3f, -2f..2f))
+            field(Value::end, floatParam(R.string.end, 0.75f, -2f..2f))
+            field(
+                Value::color,
+                colorParam(R.string.color, Color.Black.toModel(), allowAlpha = true)
+            )
+        }
+    }
 }

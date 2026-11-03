@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,27 +22,36 @@ import com.t8rin.imagetoolbox.core.data.image.utils.ColorUtils.blue
 import com.t8rin.imagetoolbox.core.data.image.utils.ColorUtils.green
 import com.t8rin.imagetoolbox.core.data.image.utils.ColorUtils.red
 import com.t8rin.imagetoolbox.core.data.image.utils.ColorUtils.toModel
-import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.FalseColor.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GPUFilterTransformation
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFalseColorFilter
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.COLOR)
 internal class FalseColorFilter(
-    override val value: Pair<ColorModel, ColorModel> = Color.Yellow.toModel() to Color.Magenta.toModel(),
+    override val value: Value,
 ) : GPUFilterTransformation(), Filter.FalseColor {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GPUImageFilter = GPUImageFalseColorFilter(
-        value.first.red,
-        value.first.green,
-        value.first.blue,
-        value.second.red,
-        value.second.green,
-        value.second.blue
+        value.darkColor.red,
+        value.darkColor.green,
+        value.darkColor.blue,
+        value.lightColor.red,
+        value.lightColor.green,
+        value.lightColor.blue
     )
+
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(R.string.false_color, R.string.filter_help_false_color)
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::darkColor, colorParam(R.string.first_color, Color.Yellow.toModel()))
+            field(Value::lightColor, colorParam(R.string.second_color, Color.Magenta.toModel()))
+        }
+    }
 }

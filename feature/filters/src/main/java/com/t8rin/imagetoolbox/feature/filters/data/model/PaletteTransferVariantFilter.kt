@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,38 +21,51 @@ import android.graphics.Bitmap
 import com.awxkee.aire.Aire
 import com.t8rin.imagetoolbox.core.domain.model.ImageModel
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.PaletteTransferVariant.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
 import com.t8rin.imagetoolbox.core.filters.domain.model.enums.PaletteTransferSpace
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 import com.t8rin.imagetoolbox.feature.filters.data.utils.image.loadBitmap
 import com.t8rin.imagetoolbox.feature.filters.data.utils.toSpace
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.COLOR)
 internal class PaletteTransferVariantFilter(
-    override val value: Triple<Float, PaletteTransferSpace, ImageModel> = Triple(
-        first = 1f,
-        second = PaletteTransferSpace.OKLAB,
-        third = ImageModel(R.drawable.filter_preview_source_2)
-    )
-) : Transformation<Bitmap>, Filter.PaletteTransferVariant {
-
-    override val cacheKey: String
-        get() = value.hashCode().toString()
+    override val value: Value
+) : FilterTransformation, Filter.PaletteTransferVariant {
 
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
     ): Bitmap {
-        val reference = value.third.data.loadBitmap(1000) ?: return input
+        val reference = value.image.data.loadBitmap(1000) ?: return input
 
         return Aire.copyPalette(
             source = reference,
             destination = input,
-            colorSpace = value.second.toSpace(),
-            intensity = value.first
+            colorSpace = value.colorSpace.toSpace(),
+            intensity = value.intensity
         )
     }
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(
+            R.string.palette_transfer_variant,
+            R.string.filter_help_palette_transfer_variant
+        )
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::intensity, floatParam(R.string.strength, 1f, 0f..1f))
+            field(
+                Value::colorSpace,
+                enumParam(R.string.tag_color_space, default = { PaletteTransferSpace.OKLAB })
+            )
+            field(
+                Value::image,
+                imageParam(R.string.target_image) { ImageModel(R.drawable.filter_preview_source_2) })
+        }
+    }
 }

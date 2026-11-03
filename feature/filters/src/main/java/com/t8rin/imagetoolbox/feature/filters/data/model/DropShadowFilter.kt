@@ -23,20 +23,21 @@ import android.graphics.Paint
 import android.graphics.PorterDuff
 import androidx.core.graphics.applyCanvas
 import androidx.core.graphics.createBitmap
+import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.DropShadowParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.DropShadow.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 import kotlin.math.ceil
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.FRAMES)
 internal class DropShadowFilter(
-    override val value: DropShadowParams = DropShadowParams.Default
-) : Transformation<Bitmap>, Filter.DropShadow {
-
-    override val cacheKey: String
-        get() = value.hashCode().toString()
+    override val value: Value
+) : FilterTransformation, Filter.DropShadow {
 
     override suspend fun transform(
         input: Bitmap,
@@ -63,7 +64,7 @@ internal class DropShadowFilter(
     }
 
     private fun calculateShadowPadding(
-        shadow: DropShadowParams
+        shadow: Value
     ): ShadowPadding {
         val blurRadius = shadow.blurRadius.coerceAtLeast(0f)
 
@@ -77,7 +78,7 @@ internal class DropShadowFilter(
 
     private fun buildShadowBitmap(
         sourceBitmap: Bitmap,
-        shadow: DropShadowParams
+        shadow: Value
     ): ShadowBitmap {
         val blurRadius = shadow.blurRadius.coerceAtLeast(0f)
         val offset = IntArray(2)
@@ -128,4 +129,18 @@ internal class DropShadowFilter(
         val left: Float,
         val top: Float
     )
+
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(R.string.drop_shadow, R.string.filter_help_drop_shadow)
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::color,
+                colorParam(R.string.color, ColorModel(0xFF000000.toInt()), allowAlpha = true)
+            )
+            field(Value::offsetX, floatParam(R.string.offset_x, 0f, -150f..150f))
+            field(Value::offsetY, floatParam(R.string.offset_y, 8f, -150f..150f))
+            field(Value::blurRadius, floatParam(R.string.blur_radius, 18f, 0f..200f))
+        }
+    }
 }

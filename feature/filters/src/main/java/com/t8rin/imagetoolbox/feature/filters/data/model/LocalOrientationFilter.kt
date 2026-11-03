@@ -18,29 +18,98 @@
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import com.t8rin.gmic.GmicFilter
-import com.t8rin.gmic.filters.LocalOrientation
 import com.t8rin.gmic.filters.GmicChannel
+import com.t8rin.gmic.filters.LocalOrientation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.LocalOrientation.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.EFFECTS)
 internal class LocalOrientationFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("0", "0", "100", "false", "All")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.LocalOrientation {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = LocalOrientation(
-        smoothness = value[0].toFloat(),
-        minimumThreshold = value[1].toFloat(),
-        maximumThreshold = value[2].toFloat(),
-        negativeColors = value[3].toBoolean(),
-        channel = GmicChannel.valueOf(value[4])
+        smoothness = value.settings[0].toFloat(),
+        minimumThreshold = value.settings[1].toFloat(),
+        maximumThreshold = value.settings[2].toFloat(),
+        negativeColors = value.settings[3].toBoolean(),
+        channel = GmicChannel.valueOf(value.settings[4])
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(
+            R.string.gmic_filter_local_orientation,
+            R.string.filter_help_gmic_filter_local_orientation
+        )
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicNumber(R.string.gmic_param_smoothness, 0, 0f..5f),
+                    gmicNumber(R.string.gmic_param_minimum_threshold, 0, 0f..100f),
+                    gmicNumber(R.string.gmic_param_maximum_threshold, 100, 0f..100f),
+                    gmicToggle(R.string.gmic_param_negative_colors, false),
+                    gmicSelection(
+                        R.string.gmic_param_channel,
+                        "All",
+                        listOf(
+                            "All",
+                            "Rgba",
+                            "Rgb",
+                            "Red",
+                            "Green",
+                            "Blue",
+                            "Alpha",
+                            "LinearRgb",
+                            "LinearRed",
+                            "LinearGreen",
+                            "LinearBlue",
+                            "YCbCr",
+                            "Luminance",
+                            "Chrominance",
+                            "BlueChrominance",
+                            "RedChrominance",
+                            "GreenChrominance",
+                            "Lab",
+                            "LabLightness",
+                            "LabChrominance",
+                            "LabA",
+                            "LabB",
+                            "Lch",
+                            "LchChrominance",
+                            "LchChroma",
+                            "LchHue",
+                            "Hsv",
+                            "HsvHue",
+                            "HsvSaturation",
+                            "HsvValue",
+                            "Hsi",
+                            "HsiIntensity",
+                            "Hsl",
+                            "HslLightness",
+                            "Cmyk",
+                            "Cmy",
+                            "Cyan",
+                            "Magenta",
+                            "Yellow",
+                            "Key",
+                            "Yiq",
+                            "YiqLuma",
+                            "YiqChrominance",
+                            "Ryb",
+                            "RybRed",
+                            "RybYellow",
+                            "RybBlue"
+                        )
+                    )
+                )
+            )
+        }
+    }
 }

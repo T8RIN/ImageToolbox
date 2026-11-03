@@ -20,14 +20,10 @@ package com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -36,156 +32,96 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.domain.model.OffsetModel
 import com.t8rin.imagetoolbox.core.domain.utils.trimTrailingZero
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.CropOrPerspectiveParams
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.FloatPair
-import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
-import com.t8rin.imagetoolbox.core.ui.utils.state.update
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.CropOrPerspective.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterParam
+import com.t8rin.imagetoolbox.core.filters.domain.model.copy
+import com.t8rin.imagetoolbox.core.filters.presentation.model.parameterInfo
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
-import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextField
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
 
 @Composable
 internal fun CropOrPerspectiveParamsItem(
-    value: CropOrPerspectiveParams,
-    filter: UiFilter<CropOrPerspectiveParams>,
-    onFilterChange: (value: CropOrPerspectiveParams) -> Unit,
+    value: Value,
+    filter: Filter<Value>,
+    onFilterChange: (Value) -> Unit,
     previewOnly: Boolean
 ) {
-    val topLeft: MutableState<FloatPair> =
-        remember(value) { mutableStateOf(value.topLeft) }
-    val topRight: MutableState<FloatPair> =
-        remember(value) { mutableStateOf(value.topRight) }
-    val bottomLeft: MutableState<FloatPair> =
-        remember(value) { mutableStateOf(value.bottomLeft) }
-    val bottomRight: MutableState<FloatPair> =
-        remember(value) { mutableStateOf(value.bottomRight) }
-    val isAbsolute: MutableState<Boolean> = remember(value) { mutableStateOf(value.isAbsolute) }
-
-    LaunchedEffect(
-        topLeft.value,
-        topRight.value,
-        bottomLeft.value,
-        bottomRight.value,
-        isAbsolute.value,
-    ) {
-        onFilterChange(
-            CropOrPerspectiveParams(
-                topLeft = topLeft.value,
-                topRight = topRight.value,
-                bottomLeft = bottomLeft.value,
-                bottomRight = bottomRight.value,
-                isAbsolute = isAbsolute.value
-            )
-        )
-    }
-
-    fun stateByIndex(index: Int) = when (index) {
-        0 -> topLeft
-        1 -> topRight
-        2 -> bottomLeft
-        else -> bottomRight
-    }
-
     Column(
         modifier = Modifier.padding(8.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        filter.paramsInfo.forEachIndexed { index, (title) ->
-            when (index) {
-                0, 1, 2, 3 -> {
-                    val state = stateByIndex(index)
-                    var x by remember {
-                        mutableStateOf(
-                            state.value.first.toString().trimTrailingZero()
-                        )
-                    }
-                    var y by remember {
-                        mutableStateOf(
-                            state.value.second.toString().trimTrailingZero()
-                        )
-                    }
+        CropPointFields(value.topLeft, filter.parameterInfo(Value::topLeft), previewOnly) {
+            onFilterChange(value.copy(topLeft = it))
+        }
+        CropPointFields(value.topRight, filter.parameterInfo(Value::topRight), previewOnly) {
+            onFilterChange(value.copy(topRight = it))
+        }
+        CropPointFields(value.bottomLeft, filter.parameterInfo(Value::bottomLeft), previewOnly) {
+            onFilterChange(value.copy(bottomLeft = it))
+        }
+        CropPointFields(value.bottomRight, filter.parameterInfo(Value::bottomRight), previewOnly) {
+            onFilterChange(value.copy(bottomRight = it))
+        }
+        FilterBooleanParamItem(
+            value.isAbsolute,
+            filter.parameterInfo(Value::isAbsolute),
+            previewOnly
+        ) {
+            onFilterChange(value.copy(isAbsolute = it))
+        }
+    }
+}
 
-                    LaunchedEffect(x, y) {
-                        state.update {
-                            it.copy(
-                                first = x.toFloatOrNull() ?: it.first,
-                                second = y.toFloatOrNull() ?: it.second,
-                            )
+@Composable
+private fun CropPointFields(
+    value: OffsetModel,
+    info: FilterParam,
+    previewOnly: Boolean,
+    onValueChange: (OffsetModel) -> Unit
+) {
+    var x by remember(value.x) { mutableStateOf(value.x.toString().trimTrailingZero()) }
+    var y by remember(value.y) { mutableStateOf(value.y.toString().trimTrailingZero()) }
+
+    Column {
+        TitleItem(
+            text = stringResource(requireNotNull(info.title)),
+            modifier = Modifier.padding(horizontal = 8.dp)
+        )
+        Row(modifier = Modifier.padding(8.dp)) {
+            RoundedTextField(
+                value = x,
+                onValueChange = {
+                    x = it
+                    it.replace(',', '.').toFloatOrNull()?.takeIf(Float::isFinite)
+                        ?.let { coordinate ->
+                            onValueChange(value.copy(x = coordinate))
                         }
-                    }
-
-                    Column {
-                        TitleItem(
-                            text = stringResource(title!!),
-                            modifier = Modifier.padding(
-                                horizontal = 8.dp
-                            )
-                        )
-                        Spacer(Modifier.height(8.dp))
-                        Row {
-                            RoundedTextField(
-                                value = x,
-                                onValueChange = { x = it },
-                                shape = ShapeDefaults.smallStart,
-                                keyboardOptions = KeyboardOptions(
-                                    keyboardType = KeyboardType.Number
-                                ),
-                                label = {
-                                    Text("X")
-                                },
-                                modifier = Modifier
-                                    .weight(1f)
-                                    .padding(
-                                        start = 8.dp,
-                                        top = 8.dp,
-                                        bottom = 8.dp,
-                                        end = 2.dp
-                                    )
-                            )
-                            RoundedTextField(
-                                value = y,
-                                onValueChange = { y = it },
-                                keyboardOptions = KeyboardOptions(
-                                    keyboardType = KeyboardType.Number
-                                ),
-                                shape = ShapeDefaults.smallEnd,
-                                label = {
-                                    Text("Y")
-                                },
-                                modifier = Modifier
-                                    .weight(1f)
-                                    .padding(
-                                        start = 2.dp,
-                                        top = 8.dp,
-                                        bottom = 8.dp,
-                                        end = 8.dp
-                                    ),
-                            )
+                },
+                enabled = !previewOnly,
+                shape = ShapeDefaults.smallStart,
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
+                label = { Text("X") },
+                modifier = Modifier.weight(1f).padding(end = 2.dp)
+            )
+            RoundedTextField(
+                value = y,
+                onValueChange = {
+                    y = it
+                    it.replace(',', '.').toFloatOrNull()?.takeIf(Float::isFinite)
+                        ?.let { coordinate ->
+                            onValueChange(value.copy(y = coordinate))
                         }
-                    }
-                }
-
-                4 -> {
-                    PreferenceRowSwitch(
-                        title = stringResource(id = title!!),
-                        checked = isAbsolute.value,
-                        onClick = {
-                            isAbsolute.value = it
-                        },
-                        modifier = Modifier.padding(
-                            top = 8.dp,
-                            start = 4.dp,
-                            end = 4.dp
-                        ),
-                        applyHorizontalPadding = false,
-                        startContent = {},
-                        resultModifier = Modifier.padding(16.dp),
-                        enabled = !previewOnly
-                    )
-                }
-            }
+                },
+                enabled = !previewOnly,
+                shape = ShapeDefaults.smallEnd,
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
+                label = { Text("Y") },
+                modifier = Modifier.weight(1f).padding(start = 2.dp)
+            )
         }
     }
 }

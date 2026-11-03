@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,24 +20,32 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 import android.graphics.Bitmap
 import com.awxkee.aire.Aire
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.PoissonBlur.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.BLUR)
 internal class PoissonBlurFilter(
-    override val value: Float = 10f,
-) : Transformation<Bitmap>, Filter.PoissonBlur {
-
-    override val cacheKey: String
-        get() = value.hashCode().toString()
+    override val value: Value,
+) : FilterTransformation, Filter.PoissonBlur {
 
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
     ): Bitmap = Aire.poissonBlur(
         bitmap = input,
-        kernelSize = 2 * value.toInt() + 1
+        kernelSize = 2 * value.kernelSize.toInt() + 1
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(R.string.poisson_blur, R.string.filter_help_poisson_blur)
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::kernelSize, floatParam(default = 10f, range = 3f..200f, roundTo = 0))
+        }
+    }
 }

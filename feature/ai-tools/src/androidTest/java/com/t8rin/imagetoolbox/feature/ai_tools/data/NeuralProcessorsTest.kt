@@ -37,6 +37,7 @@ import com.t8rin.imagetoolbox.core.data.utils.toCoil
 import com.t8rin.imagetoolbox.core.di.entryPoint
 import com.t8rin.imagetoolbox.core.domain.model.ImageModel
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterValues
 import com.t8rin.imagetoolbox.core.filters.domain.model.enums.SpotHealMode
 import com.t8rin.imagetoolbox.core.settings.di.SettingsStateEntryPoint
 import com.t8rin.imagetoolbox.feature.filters.data.model.SpotHealFilter
@@ -181,7 +182,12 @@ class NeuralProcessorsTest {
             drawColor(Color.BLACK)
             drawRect(140f, 100f, 600f, 400f, Paint().apply { color = Color.WHITE })
         }
-        val filter = SpotHealFilter(ImageModel(mask) to SpotHealMode.LaMa).toCoil()
+        val filter = SpotHealFilter(
+            FilterValues.spotHeal(
+                mask = ImageModel(mask),
+                mode = SpotHealMode.LaMa
+            )
+        ).toCoil()
         val preview = context.imageLoader.execute(
             ImageRequest.Builder(context).data(source).size(source.width, source.height)
                 .transformations(filter).build()
@@ -242,7 +248,7 @@ class NeuralProcessorsTest {
         val source = patternedBitmap(1153, 257)
         val mask = Bitmap.createBitmap(source.width, source.height, Bitmap.Config.ARGB_8888)
         Canvas(mask).drawRect(100f, 60f, 1050f, 180f, Paint().apply { color = Color.WHITE })
-        val value = ImageModel(mask) to SpotHealMode.LaMa
+        val value = FilterValues.spotHeal(mask = ImageModel(mask), mode = SpotHealMode.LaMa)
         try {
             settings.setLamaThreads(2)
             settings.setLamaLimitResolution(false)

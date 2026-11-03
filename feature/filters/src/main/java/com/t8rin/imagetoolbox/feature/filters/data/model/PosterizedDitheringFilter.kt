@@ -21,29 +21,60 @@ import com.t8rin.gmic.GmicFilter
 import com.t8rin.gmic.filters.PosterizedDithering
 import com.t8rin.gmic.filters.PosterizedDitheringMixerMode
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.PosterizedDithering.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.DITHERING)
 internal class PosterizedDitheringFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("1", "1", "0", "0", "20", "1", "ColorDoping", "1")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.PosterizedDithering {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = PosterizedDithering(
-        gamma = value[0].toFloat(),
-        contrast = value[1].toFloat(),
-        brightness = value[2].toFloat(),
-        smoothness = value[3].toFloat(),
-        quantizeColors = value[4].toInt(),
-        smoothColors = value[5].toFloat(),
-        mixerMode = PosterizedDitheringMixerMode.valueOf(value[6]),
-        colorIntensity = value[7].toFloat()
+        gamma = value.settings[0].toFloat(),
+        contrast = value.settings[1].toFloat(),
+        brightness = value.settings[2].toFloat(),
+        smoothness = value.settings[3].toFloat(),
+        quantizeColors = value.settings[4].toInt(),
+        smoothColors = value.settings[5].toFloat(),
+        mixerMode = PosterizedDitheringMixerMode.valueOf(value.settings[6]),
+        colorIntensity = value.settings[7].toFloat()
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(
+            R.string.gmic_filter_posterized_dithering,
+            R.string.filter_help_gmic_filter_posterized_dithering
+        )
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicNumber(R.string.gamma, 1, 0.01f..5f),
+                    gmicNumber(R.string.contrast, 1, 0f..4f),
+                    gmicNumber(R.string.brightness, 0, -255f..255f),
+                    gmicNumber(R.string.gmic_param_smoothness, 0, 0f..10f),
+                    gmicInteger(R.string.gmic_param_quantize_colors, 20, 2f..255f),
+                    gmicNumber(R.string.gmic_param_smooth_colors, 1, 0f..30f),
+                    gmicSelection(
+                        R.string.gmic_param_mixer_mode,
+                        "ColorDoping",
+                        listOf(
+                            "ColorDoping",
+                            "Darken",
+                            "SoftLight",
+                            "GrainMerge",
+                            "Multiply",
+                            "Value"
+                        )
+                    ),
+                    gmicNumber(R.string.gmic_param_color_intensity, 1, 0f..1f)
+                )
+            )
+        }
+    }
 }

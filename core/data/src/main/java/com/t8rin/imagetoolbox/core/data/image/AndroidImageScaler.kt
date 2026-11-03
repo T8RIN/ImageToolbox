@@ -42,6 +42,7 @@ import com.t8rin.imagetoolbox.core.domain.model.Position
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.filters.domain.FilterProvider
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterValues
 import com.t8rin.imagetoolbox.core.filters.domain.model.createFilter
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsProvider
 import com.t8rin.imagetoolbox.core.utils.makeLog
@@ -220,8 +221,13 @@ internal class AndroidImageScaler @Inject constructor(
             },
             transformations = listOf(
                 filterProvider.filterToTransformation(
-                    createFilter<Float, Filter.NativeStackBlur>(
-                        blurRadius.toFloat() / 1000 * max(targetWidth, targetHeight)
+                    createFilter<Filter.NativeStackBlur.Value, Filter.NativeStackBlur>(
+                        FilterValues.nativeStackBlur(
+                            blurRadius.toFloat() / 1000 * max(
+                                targetWidth,
+                                targetHeight
+                            )
+                        )
                     )
                 )
             )
@@ -309,8 +315,13 @@ internal class AndroidImageScaler @Inject constructor(
                 },
                 transformations = listOf(
                     filterProvider.filterToTransformation(
-                        createFilter<Float, Filter.NativeStackBlur>(
-                            blurRadius.toFloat() / 1000 * max(targetWidth, targetHeight)
+                        createFilter<Filter.NativeStackBlur.Value, Filter.NativeStackBlur>(
+                            FilterValues.nativeStackBlur(
+                                blurRadius.toFloat() / 1000 * max(
+                                    targetWidth,
+                                    targetHeight
+                                )
+                            )
                         )
                     )
                 )

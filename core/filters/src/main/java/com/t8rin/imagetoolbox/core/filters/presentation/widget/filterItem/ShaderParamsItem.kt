@@ -50,11 +50,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.utils.roundTo
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.ShaderParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
+import com.t8rin.imagetoolbox.core.filters.domain.model.copy
 import com.t8rin.imagetoolbox.core.filters.domain.model.shader.ShaderParam
 import com.t8rin.imagetoolbox.core.filters.domain.model.shader.ShaderParamType
 import com.t8rin.imagetoolbox.core.filters.domain.model.shader.ShaderPreset
 import com.t8rin.imagetoolbox.core.filters.domain.model.shader.ShaderValue
+import com.t8rin.imagetoolbox.core.filters.domain.model.shader.resolvedValues
+import com.t8rin.imagetoolbox.core.filters.domain.model.shader.withPreset
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Code
@@ -75,9 +78,9 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun ShaderParamsItem(
-    value: ShaderParams,
+    value: Filter.Shader.Value,
     presets: List<ShaderPreset>,
-    onValueChange: (ShaderParams) -> Unit,
+    onValueChange: (Filter.Shader.Value) -> Unit,
     onImportPreset: (suspend (Uri) -> ShaderPreset?)? = null,
     modifier: Modifier = Modifier,
     previewOnly: Boolean = false,
@@ -153,6 +156,7 @@ private fun ShaderPresetSelector(
             val hasPresets = presets.isNotEmpty() && onImportPreset != null
 
             FileSelector(
+                enabled = enabled,
                 value = null,
                 title = stringResource(R.string.shader_file),
                 subtitle = selectedPreset?.name ?: stringResource(R.string.no_shader_selected),

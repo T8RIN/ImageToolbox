@@ -20,26 +20,43 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 import com.t8rin.gmic.GmicFilter
 import com.t8rin.gmic.filters.SixtiesCinema
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.SixtiesCinema.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.EFFECTS)
 internal class SixtiesCinemaFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("10", "false", "false", "false", "false")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.SixtiesCinema {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = SixtiesCinema(
-        grain = value[0].toFloat(),
-        noonForMidnight = value[1].toBoolean(),
-        geneKelly = value[2].toBoolean(),
-        rayHarryhausen = value[3].toBoolean(),
-        caryGrant = value[4].toBoolean()
+        grain = value.settings[0].toFloat(),
+        noonForMidnight = value.settings[1].toBoolean(),
+        geneKelly = value.settings[2].toBoolean(),
+        rayHarryhausen = value.settings[3].toBoolean(),
+        caryGrant = value.settings[4].toBoolean()
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(
+            R.string.gmic_filter_sixties_cinema,
+            R.string.filter_help_gmic_filter_sixties_cinema
+        )
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicNumber(R.string.grain, 10, 0f..25f),
+                    gmicToggle(R.string.gmic_param_noon_for_midnight, false),
+                    gmicToggle(R.string.gmic_param_gene_kelly, false),
+                    gmicToggle(R.string.gmic_param_ray_harryhausen, false),
+                    gmicToggle(R.string.gmic_param_cary_grant, false)
+                )
+            )
+        }
+    }
 }

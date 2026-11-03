@@ -19,26 +19,38 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import android.graphics.Bitmap
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.ContrastPreservingGrayscale.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 import com.t8rin.opencv_tools.photo_filters.RestorationFilters
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.COLOR)
 internal class ContrastPreservingGrayscaleFilter(
-    override val value: Pair<Float, Float> = 0.85f to 1f
-) : Transformation<Bitmap>, Filter.ContrastPreservingGrayscale {
-
-    override val cacheKey: String
-        get() = "${javaClass.name}:${value.hashCode()}"
+    override val value: Value
+) : FilterTransformation, Filter.ContrastPreservingGrayscale {
 
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
     ): Bitmap = RestorationFilters.contrastPreservingGrayscale(
         bitmap = input,
-        colorContrast = value.first,
-        contrast = value.second
+        colorContrast = value.colorContrast,
+        contrast = value.contrast
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(
+            R.string.contrast_preserving_grayscale,
+            R.string.filter_help_contrast_preserving_grayscale
+        )
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::colorContrast, floatParam(R.string.color_contrast, 0.85f, 0f..1f))
+            field(Value::contrast, floatParam(R.string.contrast, 1f, 0.4f..2.5f))
+        }
+    }
 }

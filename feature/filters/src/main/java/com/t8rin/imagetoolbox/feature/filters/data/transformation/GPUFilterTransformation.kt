@@ -29,7 +29,9 @@ import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
 import kotlinx.coroutines.runInterruptible
 import coil3.transform.Transformation as CoilTransformation
 
-internal abstract class GPUFilterTransformation : CoilTransformation(), Transformation<Bitmap> {
+internal abstract class GPUFilterTransformation : CoilTransformation(), FilterTransformation {
+
+    override val cacheKey: String get() = super<FilterTransformation>.cacheKey
 
     /**
      * Create the [GPUImageFilter] to apply to this [Transformation]

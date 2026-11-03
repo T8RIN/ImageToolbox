@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,27 +21,38 @@ import android.graphics.Bitmap
 import androidx.compose.ui.graphics.Color
 import com.awxkee.aire.Aire
 import com.t8rin.imagetoolbox.core.data.image.utils.ColorUtils.toModel
-import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.Crystallize.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.PIXELATION)
 internal class CrystallizeFilter(
-    override val value: Pair<Float, ColorModel> = 1f to Color.Transparent.toModel()
-) : Transformation<Bitmap>, Filter.Crystallize {
-
-    override val cacheKey: String
-        get() = value.hashCode().toString()
+    override val value: Value
+) : FilterTransformation, Filter.Crystallize {
 
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
     ): Bitmap = Aire.crystallize(
         bitmap = input,
-        numClusters = (input.width * input.height * 0.01f * value.first).toInt(),
-        strokeColor = value.second.colorInt
+        numClusters = (input.width * input.height * 0.01f * value.amount).toInt(),
+        strokeColor = value.strokeColor.colorInt
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(R.string.crystallize, R.string.filter_help_crystallize)
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::amount, floatParam(R.string.amount, 1f, 0.01f..2f))
+            field(
+                Value::strokeColor,
+                colorParam(R.string.stroke_color, Color.Transparent.toModel(), allowAlpha = true)
+            )
+        }
+    }
 }

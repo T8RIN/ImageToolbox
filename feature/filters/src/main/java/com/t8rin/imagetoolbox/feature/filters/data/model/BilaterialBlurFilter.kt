@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,19 +21,20 @@ import android.graphics.Bitmap
 import com.awxkee.aire.Aire
 import com.awxkee.aire.Scalar
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.BilaterialBlurParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.BilaterialBlur.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.filters.domain.model.enums.BlurEdgeMode
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 import com.t8rin.imagetoolbox.feature.filters.data.utils.toEdgeMode
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.BLUR)
 internal class BilaterialBlurFilter(
-    override val value: BilaterialBlurParams = BilaterialBlurParams.Default
-) : Transformation<Bitmap>, Filter.BilaterialBlur {
-
-    override val cacheKey: String
-        get() = value.hashCode().toString()
+    override val value: Value
+) : FilterTransformation, Filter.BilaterialBlur {
 
     override suspend fun transform(
         input: Bitmap,
@@ -47,4 +48,15 @@ internal class BilaterialBlurFilter(
         kernelSize = 2 * value.radius + 1
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info =
+            FilterInfo(R.string.bilaterial_blur, R.string.filter_help_bilaterial_blur)
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::radius, intParam(R.string.radius, 12, 1..50))
+            field(Value::spatialSigma, floatParam(R.string.sigma, 10f, 1f..100f, 1))
+            field(Value::rangeSigma, floatParam(R.string.spatial_sigma, 3f, 1f..100f, 1))
+            field(Value::edgeMode, enumParam(R.string.edge_mode) { BlurEdgeMode.Reflect101 })
+        }
+    }
 }

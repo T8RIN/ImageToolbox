@@ -20,25 +20,39 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 import com.t8rin.gmic.GmicFilter
 import com.t8rin.gmic.filters.CleanText
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.CleanText.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.ENHANCEMENT)
 internal class CleanTextFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("8", "1", "80", "95")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.CleanText {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = CleanText(
-        clean = value[0].toInt(),
-        range = value[1].toFloat(),
-        black = value[2].toInt(),
-        white = value[3].toInt()
+        clean = value.settings[0].toInt(),
+        range = value.settings[1].toFloat(),
+        black = value.settings[2].toInt(),
+        white = value.settings[3].toInt()
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info =
+            FilterInfo(R.string.gmic_filter_clean_text, R.string.filter_help_gmic_filter_clean_text)
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicInteger(R.string.gmic_param_clean, 8, 0f..10f),
+                    gmicNumber(R.string.gmic_param_range, 1, 0.2f..1f),
+                    gmicInteger(R.string.gmic_param_black, 80, 0f..100f),
+                    gmicInteger(R.string.gmic_param_white, 95, 0f..100f)
+                )
+            )
+        }
+    }
 }

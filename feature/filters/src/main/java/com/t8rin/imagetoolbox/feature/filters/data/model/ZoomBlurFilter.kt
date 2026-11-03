@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,20 +20,31 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import android.graphics.PointF
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.ZoomBlur.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GPUFilterTransformation
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageZoomBlurFilter
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.BLUR)
 internal class ZoomBlurFilter(
-    override val value: Triple<Float, Float, Float> = Triple(0.5f, 0.5f, 5f),
+    override val value: Value,
 ) : GPUFilterTransformation(), Filter.ZoomBlur {
-
-    override val cacheKey: String
-        get() = value.hashCode().toString()
 
 
     override fun createFilter(): GPUImageFilter =
-        GPUImageZoomBlurFilter(PointF(value.first, value.second), value.third)
+        GPUImageZoomBlurFilter(PointF(value.blurCenterX, value.blurCenterY), value.blurSize)
+
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(R.string.zoom_blur, R.string.filter_help_zoom_blur)
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::blurCenterX, floatParam(R.string.blur_center_x, 0.5f, 0f..1f))
+            field(Value::blurCenterY, floatParam(R.string.blur_center_y, 0.5f, 0f..1f))
+            field(Value::blurSize, floatParam(R.string.blur_size, 5f, 0f..10f))
+        }
+    }
 }

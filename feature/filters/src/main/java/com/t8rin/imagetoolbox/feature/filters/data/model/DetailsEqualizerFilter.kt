@@ -18,81 +18,175 @@
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import com.t8rin.gmic.GmicFilter
-import com.t8rin.gmic.filters.DetailsEqualizer
 import com.t8rin.gmic.filters.DetailBand
 import com.t8rin.gmic.filters.DetailSmoothing
+import com.t8rin.gmic.filters.DetailsEqualizer
 import com.t8rin.gmic.filters.GmicChannel
 import com.t8rin.gmic.filters.GmicParallelism
 import com.t8rin.gmic.filters.GmicValueAction
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.DetailsEqualizer.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.ENHANCEMENT)
 internal class DetailsEqualizerFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf(
-            "5",
-            "0.5",
-            "0",
-            "0",
-            "Diffusion",
-            "0",
-            "0",
-            "0",
-            "Diffusion",
-            "0",
-            "0",
-            "0",
-            "Diffusion",
-            "0",
-            "0",
-            "0",
-            "Diffusion",
-            "0",
-            "All",
-            "None",
-            "Auto",
-            "32"
-        )
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.DetailsEqualizer {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = DetailsEqualizer(
-        baseScale = value[0].toFloat(),
-        detailScale = value[1].toFloat(),
+        baseScale = value.settings[0].toFloat(),
+        detailScale = value.settings[1].toFloat(),
         coarse = DetailBand(
-            threshold = value[2].toFloat(),
-            smoothness = value[3].toFloat(),
-            smoothing = DetailSmoothing.valueOf(value[4]),
-            gain = value[5].toFloat()
+            threshold = value.settings[2].toFloat(),
+            smoothness = value.settings[3].toFloat(),
+            smoothing = DetailSmoothing.valueOf(value.settings[4]),
+            gain = value.settings[5].toFloat()
         ),
         medium = DetailBand(
-            threshold = value[6].toFloat(),
-            smoothness = value[7].toFloat(),
-            smoothing = DetailSmoothing.valueOf(value[8]),
-            gain = value[9].toFloat()
+            threshold = value.settings[6].toFloat(),
+            smoothness = value.settings[7].toFloat(),
+            smoothing = DetailSmoothing.valueOf(value.settings[8]),
+            gain = value.settings[9].toFloat()
         ),
         small = DetailBand(
-            threshold = value[10].toFloat(),
-            smoothness = value[11].toFloat(),
-            smoothing = DetailSmoothing.valueOf(value[12]),
-            gain = value[13].toFloat()
+            threshold = value.settings[10].toFloat(),
+            smoothness = value.settings[11].toFloat(),
+            smoothing = DetailSmoothing.valueOf(value.settings[12]),
+            gain = value.settings[13].toFloat()
         ),
         fine = DetailBand(
-            threshold = value[14].toFloat(),
-            smoothness = value[15].toFloat(),
-            smoothing = DetailSmoothing.valueOf(value[16]),
-            gain = value[17].toFloat()
+            threshold = value.settings[14].toFloat(),
+            smoothness = value.settings[15].toFloat(),
+            smoothing = DetailSmoothing.valueOf(value.settings[16]),
+            gain = value.settings[17].toFloat()
         ),
-        channel = GmicChannel.valueOf(value[18]),
-        valueAction = GmicValueAction.valueOf(value[19]),
-        parallelism = GmicParallelism.valueOf(value[20]),
-        spatialOverlap = value[21].toInt()
+        channel = GmicChannel.valueOf(value.settings[18]),
+        valueAction = GmicValueAction.valueOf(value.settings[19]),
+        parallelism = GmicParallelism.valueOf(value.settings[20]),
+        spatialOverlap = value.settings[21].toInt()
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(
+            R.string.gmic_filter_details_equalizer,
+            R.string.filter_help_gmic_filter_details_equalizer
+        )
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicNumber(R.string.gmic_param_base_scale, 5, 0f..15f),
+                    gmicNumber(R.string.gmic_param_detail_scale, 0.5f, 0f..5f),
+                    gmicNumber(R.string.gmic_param_coarse_threshold, 0, 0f..10f),
+                    gmicNumber(R.string.gmic_param_coarse_smoothness, 0, 0f..10f),
+                    gmicSelection(
+                        R.string.gmic_param_coarse_smoothing,
+                        "Diffusion",
+                        listOf("Gaussian", "Bilateral", "Diffusion")
+                    ),
+                    gmicNumber(R.string.gmic_param_coarse_gain, 0, -4f..4f),
+                    gmicNumber(R.string.gmic_param_medium_threshold, 0, 0f..10f),
+                    gmicNumber(R.string.gmic_param_medium_smoothness, 0, 0f..10f),
+                    gmicSelection(
+                        R.string.gmic_param_medium_smoothing,
+                        "Diffusion",
+                        listOf("Gaussian", "Bilateral", "Diffusion")
+                    ),
+                    gmicNumber(R.string.gmic_param_medium_gain, 0, -4f..4f),
+                    gmicNumber(R.string.gmic_param_small_threshold, 0, 0f..10f),
+                    gmicNumber(R.string.gmic_param_small_smoothness, 0, 0f..10f),
+                    gmicSelection(
+                        R.string.gmic_param_small_smoothing,
+                        "Diffusion",
+                        listOf("Gaussian", "Bilateral", "Diffusion")
+                    ),
+                    gmicNumber(R.string.gmic_param_small_gain, 0, -4f..4f),
+                    gmicNumber(R.string.gmic_param_fine_threshold, 0, 0f..10f),
+                    gmicNumber(R.string.gmic_param_fine_smoothness, 0, 0f..10f),
+                    gmicSelection(
+                        R.string.gmic_param_fine_smoothing,
+                        "Diffusion",
+                        listOf("Gaussian", "Bilateral", "Diffusion")
+                    ),
+                    gmicNumber(R.string.gmic_param_fine_gain, 0, -4f..4f),
+                    gmicSelection(
+                        R.string.gmic_param_channel,
+                        "All",
+                        listOf(
+                            "All",
+                            "Rgba",
+                            "Rgb",
+                            "Red",
+                            "Green",
+                            "Blue",
+                            "Alpha",
+                            "LinearRgb",
+                            "LinearRed",
+                            "LinearGreen",
+                            "LinearBlue",
+                            "YCbCr",
+                            "Luminance",
+                            "Chrominance",
+                            "BlueChrominance",
+                            "RedChrominance",
+                            "GreenChrominance",
+                            "Lab",
+                            "LabLightness",
+                            "LabChrominance",
+                            "LabA",
+                            "LabB",
+                            "Lch",
+                            "LchChrominance",
+                            "LchChroma",
+                            "LchHue",
+                            "Hsv",
+                            "HsvHue",
+                            "HsvSaturation",
+                            "HsvValue",
+                            "Hsi",
+                            "HsiIntensity",
+                            "Hsl",
+                            "HslLightness",
+                            "Cmyk",
+                            "Cmy",
+                            "Cyan",
+                            "Magenta",
+                            "Yellow",
+                            "Key",
+                            "Yiq",
+                            "YiqLuma",
+                            "YiqChrominance",
+                            "Ryb",
+                            "RybRed",
+                            "RybYellow",
+                            "RybBlue"
+                        )
+                    ),
+                    gmicSelection(
+                        R.string.gmic_param_value_action,
+                        "None",
+                        listOf("None", "Cut", "Normalize")
+                    ),
+                    gmicSelection(
+                        R.string.gmic_param_parallelism,
+                        "Auto",
+                        listOf(
+                            "Auto",
+                            "OneThread",
+                            "TwoThreads",
+                            "FourThreads",
+                            "EightThreads",
+                            "SixteenThreads"
+                        )
+                    ),
+                    gmicInteger(R.string.gmic_param_spatial_overlap, 32, 0f..256f)
+                )
+            )
+        }
+    }
 }

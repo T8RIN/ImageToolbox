@@ -18,32 +18,110 @@
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import com.t8rin.gmic.GmicFilter
-import com.t8rin.gmic.filters.RandomShadeStripes
 import com.t8rin.gmic.filters.GmicChannel
 import com.t8rin.gmic.filters.GmicValueAction
+import com.t8rin.gmic.filters.RandomShadeStripes
 import com.t8rin.gmic.filters.StripeOrientation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.RandomShadeStripes.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.PIXELATION)
 internal class RandomShadeStripesFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("30", "Vertical", "0.8", "1.3", "All", "None")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.RandomShadeStripes {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = RandomShadeStripes(
-        frequency = value[0].toFloat(),
-        orientation = StripeOrientation.valueOf(value[1]),
-        darkness = value[2].toFloat(),
-        lightness = value[3].toFloat(),
-        channel = GmicChannel.valueOf(value[4]),
-        valueAction = GmicValueAction.valueOf(value[5])
+        frequency = value.settings[0].toFloat(),
+        orientation = StripeOrientation.valueOf(value.settings[1]),
+        darkness = value.settings[2].toFloat(),
+        lightness = value.settings[3].toFloat(),
+        channel = GmicChannel.valueOf(value.settings[4]),
+        valueAction = GmicValueAction.valueOf(value.settings[5])
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(
+            R.string.gmic_filter_random_shade_stripes,
+            R.string.filter_help_gmic_filter_random_shade_stripes
+        )
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicNumber(R.string.frequency, 30, 1f..100f),
+                    gmicSelection(
+                        R.string.orientation,
+                        "Vertical",
+                        listOf("Horizontal", "Vertical")
+                    ),
+                    gmicNumber(R.string.texture_darkness, 0.8f, 0f..3f),
+                    gmicNumber(R.string.gmic_param_lightness, 1.3f, 0f..3f),
+                    gmicSelection(
+                        R.string.gmic_param_channel,
+                        "All",
+                        listOf(
+                            "All",
+                            "Rgba",
+                            "Rgb",
+                            "Red",
+                            "Green",
+                            "Blue",
+                            "Alpha",
+                            "LinearRgb",
+                            "LinearRed",
+                            "LinearGreen",
+                            "LinearBlue",
+                            "YCbCr",
+                            "Luminance",
+                            "Chrominance",
+                            "BlueChrominance",
+                            "RedChrominance",
+                            "GreenChrominance",
+                            "Lab",
+                            "LabLightness",
+                            "LabChrominance",
+                            "LabA",
+                            "LabB",
+                            "Lch",
+                            "LchChrominance",
+                            "LchChroma",
+                            "LchHue",
+                            "Hsv",
+                            "HsvHue",
+                            "HsvSaturation",
+                            "HsvValue",
+                            "Hsi",
+                            "HsiIntensity",
+                            "Hsl",
+                            "HslLightness",
+                            "Cmyk",
+                            "Cmy",
+                            "Cyan",
+                            "Magenta",
+                            "Yellow",
+                            "Key",
+                            "Yiq",
+                            "YiqLuma",
+                            "YiqChrominance",
+                            "Ryb",
+                            "RybRed",
+                            "RybYellow",
+                            "RybBlue"
+                        )
+                    ),
+                    gmicSelection(
+                        R.string.gmic_param_value_action,
+                        "None",
+                        listOf("None", "Cut", "Normalize")
+                    )
+                )
+            )
+        }
+    }
 }

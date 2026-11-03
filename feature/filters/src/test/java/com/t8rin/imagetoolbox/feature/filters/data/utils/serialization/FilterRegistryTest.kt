@@ -17,15 +17,62 @@
 
 package com.t8rin.imagetoolbox.feature.filters.data.utils.serialization
 
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
+import com.t8rin.imagetoolbox.core.filters.domain.model.TemplateFilter
+import com.t8rin.imagetoolbox.core.filters.domain.model.enums.BlurEdgeMode
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterValues
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiBlackAndWhiteFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiBrightnessFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
+import com.t8rin.imagetoolbox.feature.filters.data.model.BrightnessFilter
+import com.t8rin.imagetoolbox.feature.filters.data.model.BlackAndWhiteFilter
+import com.t8rin.imagetoolbox.feature.filters.data.model.ColorMatrix3x3Filter
+import com.t8rin.imagetoolbox.feature.filters.data.model.ContrastFilter
+import com.t8rin.imagetoolbox.feature.filters.data.model.GeneratedFilterCatalog
+import org.junit.Assert.assertArrayEquals
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotEquals
 import org.junit.Assert.assertNull
+import org.junit.Assert.assertSame
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class FilterRegistryTest {
+
+    @Test
+    fun emptyValuesDoNotContributeObjectIdentityToCacheKeys() {
+        val first = BlackAndWhiteFilter(object : Filter.BlackAndWhite.Value {
+            override fun hashCode(): Int = 1
+        })
+        val second = BlackAndWhiteFilter(object : Filter.BlackAndWhite.Value {
+            override fun hashCode(): Int = 2
+        })
+
+        assertEquals(BlackAndWhiteFilter::class.java.name, first.cacheKey)
+        assertEquals(first.cacheKey, second.cacheKey)
+        assertEquals(first.cacheKey, BlackAndWhiteFilter(FilterValues.blackAndWhite()).cacheKey)
+        assertSame(FilterValues.blackAndWhite(), UiBlackAndWhiteFilter().value)
+    }
+
+    @Test
+    fun cacheKeysUseTheFilterTypeAndParameterContents() {
+        assertNotEquals(
+            BrightnessFilter(FilterValues.brightness(0.5f)).cacheKey,
+            ContrastFilter(FilterValues.contrast(0.5f)).cacheKey
+        )
+        assertNotEquals(
+            BrightnessFilter(FilterValues.brightness(0.5f)).cacheKey,
+            BrightnessFilter(FilterValues.brightness(0.6f)).cacheKey
+        )
+
+        val matrix = FloatArray(9) { 1f }
+        val filter = ColorMatrix3x3Filter(FilterValues.colorMatrix3x3(matrix))
+        val copy = ColorMatrix3x3Filter(FilterValues.colorMatrix3x3(matrix.copyOf()))
+        assertEquals(filter.cacheKey, copy.cacheKey)
+
+        matrix[0] = 0.5f
+        assertNotEquals(filter.cacheKey, copy.cacheKey)
+    }
 
     @Test
     fun readsExistingFavoriteAndRecentFilterKeys() {
@@ -45,8 +92,8 @@ class FilterRegistryTest {
         val filter = saved.toFiltersList(includeValue = true).single()
 
         assertTrue(filter is UiBrightnessFilter)
-        assertEquals(0.35f, filter.value)
-        assertEquals(saved, listOf(filter).toDatastoreString(includeValue = true))
+        assertEquals(0.35f, (filter as Filter.Brightness).value.bias)
+        assertRoundTrip(listOf(filter))
     }
 
     @Test
@@ -58,13 +105,67 @@ class FilterRegistryTest {
                 "^^.core.filters.presentation.model.UiAutoPerspectiveFilter:Unit:Unit"
         val filters = saved.toFiltersList(includeValue = true)
 
-        assertEquals(listOf(7f to 3f, Triple(0.2f, 0.4f, 0.6f), Unit), filters.map { it.value })
-        assertEquals(saved, filters.toDatastoreString(includeValue = true))
+        val blur = (filters[0] as Filter.AdaptiveBlur).value
+        assertEquals(7f, blur.radius)
+        assertEquals(3f, blur.threshold)
+
+        val diffusion = (filters[1] as Filter.AnisotropicDiffusion).value
+        assertEquals(0.2f, diffusion.repeatCount)
+        assertEquals(0.4f, diffusion.conduction)
+        assertEquals(0.6f, diffusion.diffusion)
+        assertTrue(filters[2].value is Filter.AutoPerspective.Value)
+        assertRoundTrip(filters)
+    }
+
+    @Test
+    fun readsOldTextAndFloatArrayAndWritesTypedValues() {
+        val prefix = "^^.core.filters.presentation.model"
+        val saved = "$prefix.UiRawGmicFilter:String:ZngsMSsyOlxc," +
+                "$prefix.UiColorMatrix3x3Filter:FloatArray:0.2\$0.1\$0.0\$0.0\$1.0\$0.0\$0.0\$0.0\$1.0"
+        val filters = saved.toFiltersList(includeValue = true)
+        val gmic = (filters[0] as Filter.RawGmic).value
+        val matrix = (filters[1] as Filter.ColorMatrix3x3).value
+        assertEquals("fx,1+2:\\\\", gmic.command)
+        assertArrayEquals(floatArrayOf(0.2f, 0.1f, 0f, 0f, 1f, 0f, 0f, 0f, 1f), matrix.matrix, 0f)
+        assertRoundTrip(filters)
+    }
+
+    @Test
+    fun restoresOldEnumColorAndGmicFieldsWithTheirTypes() {
+        val prefix = "^^.core.filters.presentation.model"
+        val saved = "$prefix.UiMotionBlurFilter:Triple{Int\$Float\$BlurEdgeMode}:12\$45.0\$Clamp," +
+                "$prefix.UiColorMaskFilter:FilterValueWrapper{ColorModel}:2131899478," +
+                "$prefix.UiIsophotesFilter:GmicFilterParams:MTI=\$NS41\$VHJhbnNwYXJlbnQ="
+        val filters = saved.toFiltersList(true)
+        val motion = (filters[0] as Filter.MotionBlur).value
+        val mask = (filters[1] as Filter.ColorMask).value
+        val gmic = (filters[2] as Filter.Isophotes).value
+        assertEquals(12, motion.kernelSize)
+        assertEquals(45f, motion.angle)
+        assertEquals(BlurEdgeMode.Clamp, motion.edgeMode)
+        assertEquals(2131899478, mask.color.colorInt)
+        assertEquals(listOf("12", "5.5", "Transparent"), gmic.settings.values)
+        assertRoundTrip(filters)
+    }
+
+    @Test
+    fun matrixTemplatesCompareByContent() {
+        val value = "Matrix+^^.core.filters.presentation.model.UiColorMatrix3x3Filter:" +
+                "FloatArray:1.0\$0.0\$0.0\$0.0\$1.0\$0.0\$0.0\$0.0\$1.0"
+        val template: TemplateFilter = value.toTemplateFiltersList().single()
+        val restored = listOf(template).toDatastoreString().toTemplateFiltersList().single()
+        assertEquals(template, restored)
+        assertEquals(template.hashCode(), restored.hashCode())
+    }
+
+    private fun assertRoundTrip(filters: List<Filter<*>>) {
+        val serialized = filters.toDatastoreString(includeValue = true)
+        assertEquals(serialized, serialized.toFiltersList(true).toDatastoreString(true))
     }
 
     @Test
     fun invalidParameterTypesUseConstructorDefaults() {
-        val filter = UiFilter.fromSerializationKey(
+        val filter = GeneratedFilterCatalog.restore(
             key = "com.t8rin.imagetoolbox.core.filters.presentation.model.UiBrightnessFilter",
             value = "invalid"
         )

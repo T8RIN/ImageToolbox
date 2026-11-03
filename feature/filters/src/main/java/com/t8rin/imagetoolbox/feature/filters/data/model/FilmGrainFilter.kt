@@ -19,19 +19,19 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import android.graphics.Bitmap
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.FilmGrainParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.FilmGrain.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 import com.t8rin.trickle.Trickle
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.EFFECTS)
 internal class FilmGrainFilter(
-    override val value: FilmGrainParams = FilmGrainParams.Default
-) : Transformation<Bitmap>, Filter.FilmGrain {
-
-    override val cacheKey: String
-        get() = "${javaClass.name}:${value.hashCode()}"
+    override val value: Value
+) : FilterTransformation, Filter.FilmGrain {
 
     override suspend fun transform(
         input: Bitmap,
@@ -46,4 +46,19 @@ internal class FilmGrainFilter(
         seed = value.seed
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(R.string.film_grain, R.string.filter_help_film_grain)
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::size, floatParam(R.string.just_size, 2.1f, 0.65f..12f))
+            field(Value::intensity, floatParam(R.string.texture_intensity, 0.23f, 0f..0.7f))
+            field(Value::sizeVariation, floatParam(R.string.size_variation, 0.6f, 0f..1f))
+            field(
+                Value::exposureDependence,
+                floatParam(R.string.exposure_dependence, 0.72f, 0f..1f)
+            )
+            field(Value::colorGrain, floatParam(R.string.color_grain, 0.13f, 0f..1f))
+            field(Value::seed, intParam(R.string.seed, 0, 0..10000))
+        }
+    }
 }

@@ -20,26 +20,41 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 import com.t8rin.gmic.GmicFilter
 import com.t8rin.gmic.filters.Unstrip
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.Unstrip.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.ENHANCEMENT)
 internal class UnstripFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("1", "20", "4", "true", "false")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.Unstrip {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = Unstrip(
-        smoothness = value[0].toFloat(),
-        size = value[1].toFloat(),
-        sensitivity = value[2].toFloat(),
-        normalize = value[3].toBoolean(),
-        fftPreview = value[4].toBoolean()
+        smoothness = value.settings[0].toFloat(),
+        size = value.settings[1].toFloat(),
+        sensitivity = value.settings[2].toFloat(),
+        normalize = value.settings[3].toBoolean(),
+        fftPreview = value.settings[4].toBoolean()
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info =
+            FilterInfo(R.string.gmic_filter_unstrip, R.string.filter_help_gmic_filter_unstrip)
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicNumber(R.string.gmic_param_smoothness, 1, 0f..10f),
+                    gmicNumber(R.string.just_size, 20, 1f..50f),
+                    gmicNumber(R.string.gmic_param_sensitivity, 4, 1f..10f),
+                    gmicToggle(R.string.gmic_param_normalize, true),
+                    gmicToggle(R.string.gmic_param_fft_preview, false)
+                )
+            )
+        }
+    }
 }

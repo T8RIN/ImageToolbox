@@ -20,18 +20,17 @@ package com.t8rin.imagetoolbox.feature.filters.data.utils.serialization
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.TemplateFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
-import com.t8rin.imagetoolbox.generated.createTransformationFilterFromKey
-import com.t8rin.imagetoolbox.generated.transformationFilterSerializationKey
+import com.t8rin.imagetoolbox.feature.filters.data.model.GeneratedFilterCatalog
 
 internal fun List<Filter<*>>.toDatastoreString(
     includeValue: Boolean = false
 ): String = joinToString(separator = FILTERS_SEPARATOR) { filter ->
     ((filter as? UiFilter<*>)?.serializationKey
-        ?: requireNotNull(transformationFilterSerializationKey(filter))).replace(
+        ?: requireNotNull(GeneratedFilterCatalog.transformationKey(filter))).replace(
         REAL_PACKAGE,
         PACKAGE_ALIAS
     ) + if (includeValue) {
-        VALUE_SEPARATOR + filter.value.toPair()
+        VALUE_SEPARATOR + GeneratedFilterCatalog.encodeParams(filter)
             ?.let { it.first + VALUE_SEPARATOR + it.second }
     } else ""
 }.trim()
@@ -42,24 +41,15 @@ internal fun String.toFiltersList(
 ): List<Filter<*>> = split(FILTERS_SEPARATOR).mapNotNull { line ->
     if (line.trim().isEmpty()) return@mapNotNull null
 
-    val (name, value) = if (includeValue) {
-        runCatching {
-            val splitData = line.split(VALUE_SEPARATOR)
-            val className = splitData[1]
-            val valueString = splitData[2]
-
-            splitData[0].trim() to (className to valueString).fromPair()
-        }.getOrElse { line.trim() to Unit }
-    } else line.trim() to Unit
-    val key = name.replace(PACKAGE_ALIAS, REAL_PACKAGE)
-    val parameter = value.takeIf { includeValue }
-    UiFilter.fromSerializationKey(key, parameter)
-        ?: createTransformationFilterFromKey(key, parameter)
+    val parts = line.split(VALUE_SEPARATOR, limit = 3)
+    val key = parts[0].trim().replace(PACKAGE_ALIAS, REAL_PACKAGE)
+    val params = if (includeValue && parts.size == 3) parts[1] to parts[2] else null
+    GeneratedFilterCatalog.restoreStored(key, params)
 }
 
 internal fun String.toTemplateFiltersList(): List<TemplateFilter> =
     split(TEMPLATES_SEPARATOR).map {
-        val splitData = it.split(TEMPLATE_CONTENT_SEPARATOR)
+        val splitData = it.split(TEMPLATE_CONTENT_SEPARATOR, limit = 2)
         val name = splitData[0]
         val filters = splitData[1].toFiltersList(true)
 
@@ -79,5 +69,6 @@ private const val TEMPLATES_SEPARATOR = "\\"
 private const val TEMPLATE_CONTENT_SEPARATOR = "+"
 private const val VALUE_SEPARATOR = ":"
 
+internal const val FILTER_FIELDS_SEPARATOR = "$"
 internal const val REAL_PACKAGE = "com.t8rin.imagetoolbox"
 internal const val PACKAGE_ALIAS = "^^"

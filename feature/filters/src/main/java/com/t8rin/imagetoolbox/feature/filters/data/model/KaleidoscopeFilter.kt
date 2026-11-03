@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,17 +20,17 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 import com.jhlabs.JhFilter
 import com.jhlabs.KaleidoscopeFilter
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.KaleidoscopeParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.Kaleidoscope.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.JhFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.GEOMETRY)
 internal class KaleidoscopeFilter(
-    override val value: KaleidoscopeParams = KaleidoscopeParams.Default
+    override val value: Value
 ) : JhFilterTransformation(), Filter.Kaleidoscope {
-
-    override val cacheKey: String
-        get() = value.hashCode().toString()
 
     override fun createFilter(): JhFilter = KaleidoscopeFilter().apply {
         angle = value.angle
@@ -41,4 +41,16 @@ internal class KaleidoscopeFilter(
         radius = value.radius
     }
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(R.string.kaleidoscope, R.string.filter_help_kaleidoscope)
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::angle, floatParam(R.string.angle, 0f, 0f..360f, roundTo = 0))
+            field(Value::angle2, floatParam(R.string.secondary_angle, 0f, 0f..360f, roundTo = 0))
+            field(Value::centreX, floatParam(R.string.center_x, 0.5f, 0f..1f))
+            field(Value::centreY, floatParam(R.string.center_y, 0.5f, 0f..1f))
+            field(Value::sides, intParam(R.string.sides, 5, 2..12))
+            field(Value::radius, floatParam(R.string.radius, 0f, 0f..100f))
+        }
+    }
 }

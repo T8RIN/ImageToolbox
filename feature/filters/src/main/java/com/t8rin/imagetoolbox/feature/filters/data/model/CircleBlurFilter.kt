@@ -21,20 +21,21 @@ import android.graphics.Bitmap
 import com.awxkee.aire.Aire
 import com.awxkee.aire.ConvolveKernels
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.domain.utils.NEAREST_ODD_ROUNDING
 import com.t8rin.imagetoolbox.core.domain.utils.roundTo
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.CircleBlur.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 import com.t8rin.imagetoolbox.feature.filters.data.utils.convolution.convolve2D
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.BLUR)
 internal class CircleBlurFilter(
-    override val value: Float = 25f,
-) : Transformation<Bitmap>, Filter.CircleBlur {
-
-    override val cacheKey: String
-        get() = value.hashCode().toString()
+    override val value: Value,
+) : FilterTransformation, Filter.CircleBlur {
 
     override suspend fun transform(
         input: Bitmap,
@@ -42,7 +43,17 @@ internal class CircleBlurFilter(
     ): Bitmap = Aire.convolve2D(
         input = input,
         kernelProducer = ConvolveKernels::circle,
-        size = value.roundTo(NEAREST_ODD_ROUNDING).toInt().coerceAtLeast(5)
+        size = value.size.roundTo(NEAREST_ODD_ROUNDING).toInt().coerceAtLeast(5)
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(R.string.circle_blur, R.string.filter_help_circle_blur)
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::size,
+                floatParam(default = 25f, range = 3f..200f, roundTo = NEAREST_ODD_ROUNDING)
+            )
+        }
+    }
 }

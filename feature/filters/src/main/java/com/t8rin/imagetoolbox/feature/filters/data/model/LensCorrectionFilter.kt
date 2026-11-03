@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,37 +21,47 @@ import android.graphics.Bitmap
 import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.domain.model.FileModel
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.LensCorrection.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 import com.t8rin.opencv_tools.lens_correction.LensCorrection
 import com.t8rin.opencv_tools.lens_correction.model.SAMPLE_LENS_PROFILE
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.GEOMETRY)
 internal class LensCorrectionFilter(
-    override val value: Pair<Float, FileModel> = 1f to FileModel(""),
-) : Transformation<Bitmap>, Filter.LensCorrection {
-
-    override val cacheKey: String
-        get() = value.hashCode().toString()
+    override val value: Value,
+) : FilterTransformation, Filter.LensCorrection {
 
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
-    ): Bitmap = value.second.uri.let { uri ->
+    ): Bitmap = value.profile.uri.let { uri ->
         if (uri.isEmpty()) {
             LensCorrection.undistort(
                 bitmap = input,
                 lensDataJson = LensCorrection.SAMPLE_LENS_PROFILE,
-                intensity = value.first.toDouble()
+                intensity = value.strength.toDouble()
             )
         } else {
             LensCorrection.undistort(
                 bitmap = input,
                 lensDataUri = uri.toUri(),
-                intensity = value.first.toDouble()
+                intensity = value.strength.toDouble()
             )
         }
     }
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info =
+            FilterInfo(R.string.lens_correction, R.string.filter_help_lens_correction)
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::strength, floatParam(R.string.strength, 1f, -1f..3f))
+            field(Value::profile, fileParam(R.string.target_lens_profile) { FileModel("") })
+        }
+    }
 }

@@ -20,24 +20,39 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 import com.t8rin.gmic.GmicFilter
 import com.t8rin.gmic.filters.SmoothFrame
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.SmoothFrame.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.FRAMES)
 internal class SmoothFrameFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("5", "5", "0.25")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.SmoothFrame {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = SmoothFrame(
-        width = value[0].toInt(),
-        height = value[1].toInt(),
-        roundness = value[2].toFloat()
+        width = value.settings[0].toInt(),
+        height = value.settings[1].toInt(),
+        roundness = value.settings[2].toFloat()
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(
+            R.string.gmic_filter_smooth_frame,
+            R.string.filter_help_gmic_filter_smooth_frame
+        )
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicInteger(R.string.gmic_param_width, 5, 0f..100f),
+                    gmicInteger(R.string.gmic_param_height, 5, 0f..100f),
+                    gmicNumber(R.string.gmic_param_roundness, 0.25f, 0f..1f)
+                )
+            )
+        }
+    }
 }

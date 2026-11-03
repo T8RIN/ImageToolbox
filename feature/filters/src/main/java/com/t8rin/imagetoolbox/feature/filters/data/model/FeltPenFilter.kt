@@ -20,27 +20,43 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 import com.t8rin.gmic.GmicFilter
 import com.t8rin.gmic.filters.FeltPen
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.FeltPen.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.ARTISTIC)
 internal class FeltPenFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("300", "50", "1", "0.1", "20", "5")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.FeltPen {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = FeltPen(
-        amplitude = value[0].toFloat(),
-        density = value[1].toFloat(),
-        smoothness = value[2].toFloat(),
-        opacity = value[3].toFloat(),
-        edge = value[4].toFloat(),
-        thickness = value[5].toInt()
+        amplitude = value.settings[0].toFloat(),
+        density = value.settings[1].toFloat(),
+        smoothness = value.settings[2].toFloat(),
+        opacity = value.settings[3].toFloat(),
+        edge = value.settings[4].toFloat(),
+        thickness = value.settings[5].toInt()
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info =
+            FilterInfo(R.string.gmic_filter_felt_pen, R.string.filter_help_gmic_filter_felt_pen)
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicNumber(R.string.amplitude, 300, 0f..4000f),
+                    gmicNumber(R.string.density, 50, 0f..100f),
+                    gmicNumber(R.string.gmic_param_smoothness, 1, 0f..10f),
+                    gmicNumber(R.string.opacity, 0.1f, 0f..1f),
+                    gmicNumber(R.string.texture_edges, 20, 0f..100f),
+                    gmicInteger(R.string.texture_thickness, 5, 2f..32f)
+                )
+            )
+        }
+    }
 }

@@ -18,34 +18,117 @@
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import com.t8rin.gmic.GmicFilter
-import com.t8rin.gmic.filters.GoldMeinelSharpen
 import com.t8rin.gmic.filters.DeconvolutionBlur
 import com.t8rin.gmic.filters.GmicChannel
 import com.t8rin.gmic.filters.GmicParallelism
+import com.t8rin.gmic.filters.GoldMeinelSharpen
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.GoldMeinelSharpen.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.ENHANCEMENT)
 internal class GoldMeinelSharpenFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("1", "5", "1", "Gaussian", "true", "All", "Auto", "24")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.GoldMeinelSharpen {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = GoldMeinelSharpen(
-        sigma = value[0].toFloat(),
-        iterations = value[1].toInt(),
-        acceleration = value[2].toFloat(),
-        blur = DeconvolutionBlur.valueOf(value[3]),
-        cutValues = value[4].toBoolean(),
-        channel = GmicChannel.valueOf(value[5]),
-        parallelism = GmicParallelism.valueOf(value[6]),
-        spatialOverlap = value[7].toInt()
+        sigma = value.settings[0].toFloat(),
+        iterations = value.settings[1].toInt(),
+        acceleration = value.settings[2].toFloat(),
+        blur = DeconvolutionBlur.valueOf(value.settings[3]),
+        cutValues = value.settings[4].toBoolean(),
+        channel = GmicChannel.valueOf(value.settings[5]),
+        parallelism = GmicParallelism.valueOf(value.settings[6]),
+        spatialOverlap = value.settings[7].toInt()
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(
+            R.string.gmic_filter_gold_meinel_sharpen,
+            R.string.filter_help_gmic_filter_gold_meinel_sharpen
+        )
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicNumber(R.string.sigma, 1, 0.5f..10f),
+                    gmicInteger(R.string.iterations, 5, 1f..15f),
+                    gmicNumber(R.string.gmic_param_acceleration, 1, 1f..3f),
+                    gmicSelection(R.string.blur, "Gaussian", listOf("Exponential", "Gaussian")),
+                    gmicToggle(R.string.gmic_param_cut_values, true),
+                    gmicSelection(
+                        R.string.gmic_param_channel,
+                        "All",
+                        listOf(
+                            "All",
+                            "Rgba",
+                            "Rgb",
+                            "Red",
+                            "Green",
+                            "Blue",
+                            "Alpha",
+                            "LinearRgb",
+                            "LinearRed",
+                            "LinearGreen",
+                            "LinearBlue",
+                            "YCbCr",
+                            "Luminance",
+                            "Chrominance",
+                            "BlueChrominance",
+                            "RedChrominance",
+                            "GreenChrominance",
+                            "Lab",
+                            "LabLightness",
+                            "LabChrominance",
+                            "LabA",
+                            "LabB",
+                            "Lch",
+                            "LchChrominance",
+                            "LchChroma",
+                            "LchHue",
+                            "Hsv",
+                            "HsvHue",
+                            "HsvSaturation",
+                            "HsvValue",
+                            "Hsi",
+                            "HsiIntensity",
+                            "Hsl",
+                            "HslLightness",
+                            "Cmyk",
+                            "Cmy",
+                            "Cyan",
+                            "Magenta",
+                            "Yellow",
+                            "Key",
+                            "Yiq",
+                            "YiqLuma",
+                            "YiqChrominance",
+                            "Ryb",
+                            "RybRed",
+                            "RybYellow",
+                            "RybBlue"
+                        )
+                    ),
+                    gmicSelection(
+                        R.string.gmic_param_parallelism,
+                        "Auto",
+                        listOf(
+                            "Auto",
+                            "OneThread",
+                            "TwoThreads",
+                            "FourThreads",
+                            "EightThreads",
+                            "SixteenThreads"
+                        )
+                    ),
+                    gmicInteger(R.string.gmic_param_spatial_overlap, 24, 0f..256f)
+                )
+            )
+        }
+    }
 }

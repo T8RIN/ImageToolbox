@@ -19,30 +19,51 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import com.t8rin.gmic.GmicFilter
 import com.t8rin.gmic.filters.CinematicDream
+import com.t8rin.gmic.model.GmicExecutionOptions
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.CinematicDream.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.LIGHT)
 internal class CinematicDreamFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("75", "45", "55", "28", "18", "0.55", "6", "true")
-    )
-) : GMICFilterTransformation(), Filter.CinematicDream {
-
-    override val cacheKey: String
-        get() = value.hashCode().toString()
+    override val value: Value
+) : GMICFilterTransformation(GmicExecutionOptions(disableSmooth = false)), Filter.CinematicDream {
 
     override fun createFilter(): GmicFilter = CinematicDream(
-        detailsStrength = value[0].toFloat(),
-        detailsScale = value[1].toFloat(),
-        bloomSmoothness = value[2].toFloat(),
-        highlight = value[3].toInt(),
-        localContrast = value[4].toFloat(),
-        shadowStrength = value[5].toFloat(),
-        shadowScale = value[6].toFloat(),
-        normalize = value[7].toBoolean()
+        detailsStrength = value.settings[0].toFloat(),
+        detailsScale = value.settings[1].toFloat(),
+        bloomSmoothness = value.settings[2].toFloat(),
+        highlight = value.settings[3].toInt(),
+        localContrast = value.settings[4].toFloat(),
+        shadowStrength = value.settings[5].toFloat(),
+        shadowScale = value.settings[6].toFloat(),
+        normalize = value.settings[7].toBoolean()
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(
+            R.string.gmic_filter_cinematic_dream,
+            R.string.filter_help_gmic_filter_cinematic_dream
+        )
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicNumber(R.string.gmic_param_details_strength, 75, 0f..400f),
+                    gmicNumber(R.string.gmic_param_details_scale, 45, 0f..255f),
+                    gmicNumber(R.string.softness, 55, 0f..255f),
+                    gmicInteger(R.string.highlights, 28, 0f..100f),
+                    gmicNumber(R.string.contrast, 18, 0f..100f),
+                    gmicNumber(R.string.gmic_param_shadow_strength, 0.55f, 0f..1f),
+                    gmicNumber(R.string.gmic_param_shadow_scale, 6, 0f..20f),
+                    gmicToggle(R.string.gmic_param_normalize, true)
+                )
+            )
+        }
+    }
 }

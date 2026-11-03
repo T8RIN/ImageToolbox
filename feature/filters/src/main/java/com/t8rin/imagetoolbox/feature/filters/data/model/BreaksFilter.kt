@@ -22,26 +22,45 @@ import com.t8rin.gmic.filters.Breaks
 import com.t8rin.gmic.filters.BreaksType
 import com.t8rin.gmic.filters.GmicBoundary
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.Breaks.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.GLITCH)
 internal class BreaksFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("Flat", "30", "30", "0.5", "Mirror")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.Breaks {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = Breaks(
-        type = BreaksType.valueOf(value[0]),
-        amplitude = value[1].toFloat(),
-        frequency = value[2].toFloat(),
-        smoothness = value[3].toFloat(),
-        boundary = GmicBoundary.valueOf(value[4])
+        type = BreaksType.valueOf(value.settings[0]),
+        amplitude = value.settings[1].toFloat(),
+        frequency = value.settings[2].toFloat(),
+        smoothness = value.settings[3].toFloat(),
+        boundary = GmicBoundary.valueOf(value.settings[4])
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info =
+            FilterInfo(R.string.gmic_filter_breaks, R.string.filter_help_gmic_filter_breaks)
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicSelection(R.string.type, "Flat", listOf("Flat", "Relief")),
+                    gmicNumber(R.string.amplitude, 30, 0f..300f),
+                    gmicNumber(R.string.frequency, 30, 0f..100f),
+                    gmicNumber(R.string.gmic_param_smoothness, 0.5f, 0f..10f),
+                    gmicSelection(
+                        R.string.gmic_param_boundary,
+                        "Mirror",
+                        listOf("Transparent", "Nearest", "Periodic", "Mirror")
+                    )
+                )
+            )
+        }
+    }
 }

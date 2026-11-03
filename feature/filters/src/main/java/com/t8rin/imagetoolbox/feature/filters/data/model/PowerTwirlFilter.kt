@@ -22,28 +22,51 @@ import com.t8rin.gmic.filters.GmicBoundary
 import com.t8rin.gmic.filters.PowerTwirl
 import com.t8rin.gmic.filters.PowerTwirlMode
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.PowerTwirl.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.DISTORTION)
 internal class PowerTwirlFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("1", "0", "50", "50", "1", "Mirror", "Polar")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.PowerTwirl {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = PowerTwirl(
-        amplitude = value[0].toFloat(),
-        offset = value[1].toFloat(),
-        centerXPercent = value[2].toFloat(),
-        centerYPercent = value[3].toFloat(),
-        power = value[4].toFloat(),
-        boundary = GmicBoundary.valueOf(value[5]),
-        mode = PowerTwirlMode.valueOf(value[6])
+        amplitude = value.settings[0].toFloat(),
+        offset = value.settings[1].toFloat(),
+        centerXPercent = value.settings[2].toFloat(),
+        centerYPercent = value.settings[3].toFloat(),
+        power = value.settings[4].toFloat(),
+        boundary = GmicBoundary.valueOf(value.settings[5]),
+        mode = PowerTwirlMode.valueOf(value.settings[6])
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(
+            R.string.gmic_filter_power_twirl,
+            R.string.filter_help_gmic_filter_power_twirl
+        )
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicNumber(R.string.amplitude, 1, -20f..20f),
+                    gmicNumber(R.string.offset, 0, -180f..180f),
+                    gmicNumber(R.string.center_x, 50, 0f..100f),
+                    gmicNumber(R.string.center_y, 50, 0f..100f),
+                    gmicNumber(R.string.gmic_param_power, 1, -20f..20f),
+                    gmicSelection(
+                        R.string.gmic_param_boundary,
+                        "Mirror",
+                        listOf("Transparent", "Nearest", "Periodic", "Mirror")
+                    ),
+                    gmicSelection(R.string.gmic_param_mode, "Polar", listOf("Polar", "Cartesian"))
+                )
+            )
+        }
+    }
 }

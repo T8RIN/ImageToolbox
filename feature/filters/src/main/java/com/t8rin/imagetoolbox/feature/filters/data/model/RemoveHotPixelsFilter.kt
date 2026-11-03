@@ -20,23 +20,37 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 import com.t8rin.gmic.GmicFilter
 import com.t8rin.gmic.filters.RemoveHotPixels
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.RemoveHotPixels.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.ENHANCEMENT)
 internal class RemoveHotPixelsFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("3", "10")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.RemoveHotPixels {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = RemoveHotPixels(
-        maskSize = value[0].toInt(),
-        threshold = value[1].toFloat()
+        maskSize = value.settings[0].toInt(),
+        threshold = value.settings[1].toFloat()
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(
+            R.string.gmic_filter_remove_hot_pixels,
+            R.string.filter_help_gmic_filter_remove_hot_pixels
+        )
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicInteger(R.string.gmic_param_mask_size, 3, 3f..20f),
+                    gmicNumber(R.string.threshold, 10, 0f..200f)
+                )
+            )
+        }
+    }
 }

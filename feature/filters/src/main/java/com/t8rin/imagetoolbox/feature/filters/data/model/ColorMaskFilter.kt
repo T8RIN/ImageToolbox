@@ -21,20 +21,26 @@ import androidx.compose.ui.graphics.Color
 import com.jhlabs.JhFilter
 import com.jhlabs.MaskFilter
 import com.t8rin.imagetoolbox.core.data.image.utils.ColorUtils.toModel
-import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.FilterValueWrapper
-import com.t8rin.imagetoolbox.core.filters.domain.model.wrap
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.ColorMask.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.JhFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.COLOR)
 internal class ColorMaskFilter(
-    override val value: FilterValueWrapper<ColorModel> = Color.Cyan.toModel().wrap()
+    override val value: Value
 ) : JhFilterTransformation(), Filter.ColorMask {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
+    override fun createFilter(): JhFilter = MaskFilter(value.color.colorInt)
 
-    override fun createFilter(): JhFilter = MaskFilter(value.wrapped.colorInt)
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(R.string.color_mask, R.string.filter_help_color_mask)
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::color, colorParam(R.string.color, Color.Cyan.toModel(), allowAlpha = true))
+        }
+    }
 }

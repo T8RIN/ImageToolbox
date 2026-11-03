@@ -21,13 +21,17 @@ import android.graphics.Bitmap
 import coil3.size.Size
 import com.t8rin.gmic.Gmic
 import com.t8rin.gmic.GmicFilter
+import com.t8rin.gmic.model.GmicExecutionOptions
 import com.t8rin.imagetoolbox.core.data.utils.asCoil
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.feature.filters.data.utils.flexible
 import coil3.transform.Transformation as CoilTransformation
 
-internal abstract class GMICFilterTransformation : CoilTransformation(), Transformation<Bitmap> {
+internal abstract class GMICFilterTransformation(
+    private val executionOptions: GmicExecutionOptions = GmicExecutionOptions()
+) : CoilTransformation(), FilterTransformation {
+
+    override val cacheKey: String get() = super<FilterTransformation>.cacheKey
 
     protected open val upscaleFactor: Int = 1
 
@@ -41,7 +45,8 @@ internal abstract class GMICFilterTransformation : CoilTransformation(), Transfo
     ): Bitmap = input.flexible(size, upscaleFactor).let {
         Gmic.runCancellable(
             input = it,
-            filter = createFilter(it)
+            filter = createFilter(it),
+            executionOptions = executionOptions
         )
     }
 

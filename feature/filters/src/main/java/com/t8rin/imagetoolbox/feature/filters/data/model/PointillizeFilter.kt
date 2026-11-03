@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,18 +19,19 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import com.jhlabs.JhFilter
 import com.jhlabs.PointillizeFilter
+import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.VoronoiCrystallizeParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.Pointillize.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.JhFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.ARTISTIC)
 internal class PointillizeFilter(
-    override val value: VoronoiCrystallizeParams = VoronoiCrystallizeParams.Companion.Default
+    override val value: Value
 ) : JhFilterTransformation(), Filter.Pointillize {
-
-    override val cacheKey: String
-        get() = value.hashCode().toString()
 
     override fun createFilter(): JhFilter = PointillizeFilter().apply {
         edgeThickness = value.borderThickness
@@ -44,4 +45,19 @@ internal class PointillizeFilter(
         amount = value.amount
     }
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(R.string.pointillize, R.string.filter_help_pointillize)
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::borderThickness, floatParam(R.string.border_thickness, 0.4f, 0f..5f))
+            field(Value::scale, floatParam(R.string.scale, 32f, 1f..300f))
+            field(Value::randomness, floatParam(R.string.randomness, 5f, 0f..10f))
+            field(Value::shape, intParam(R.string.shape, 0, 0..4))
+            field(Value::turbulence, floatParam(R.string.turbulence, 1f, 0f..1f))
+            field(Value::angle, floatParam(R.string.angle, 0f, 0f..360f, 0))
+            field(Value::stretch, floatParam(R.string.stretch, 1f, 1f..6f))
+            field(Value::amount, floatParam(R.string.amount, 1f, 0f..1f))
+            field(Value::color, colorParam(R.string.border_color, ColorModel(0xFF000000.toInt())))
+        }
+    }
 }

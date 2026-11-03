@@ -23,54 +23,75 @@ import com.t8rin.gmic.filters.DrosteDrawingMode
 import com.t8rin.gmic.filters.DrosteMirror
 import com.t8rin.gmic.filters.GmicBoundary
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.Droste.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.GEOMETRY)
 internal class DrosteFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf(
-            "20",
-            "20",
-            "80",
-            "20",
-            "80",
-            "80",
-            "20",
-            "80",
-            "1",
-            "0",
-            "0",
-            "0",
-            "1",
-            "None",
-            "Nearest",
-            "Replace"
-        )
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.Droste {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = Droste(
-        upperLeftX = value[0].toFloat(),
-        upperLeftY = value[1].toFloat(),
-        upperRightX = value[2].toFloat(),
-        upperRightY = value[3].toFloat(),
-        lowerRightX = value[4].toFloat(),
-        lowerRightY = value[5].toFloat(),
-        lowerLeftX = value[6].toFloat(),
-        lowerLeftY = value[7].toFloat(),
-        iterations = value[8].toInt(),
-        xShift = value[9].toFloat(),
-        yShift = value[10].toFloat(),
-        angle = value[11].toFloat(),
-        zoom = value[12].toFloat(),
-        mirror = DrosteMirror.valueOf(value[13]),
-        boundary = GmicBoundary.valueOf(value[14]),
-        drawingMode = DrosteDrawingMode.valueOf(value[15])
+        upperLeftX = value.settings[0].toFloat(),
+        upperLeftY = value.settings[1].toFloat(),
+        upperRightX = value.settings[2].toFloat(),
+        upperRightY = value.settings[3].toFloat(),
+        lowerRightX = value.settings[4].toFloat(),
+        lowerRightY = value.settings[5].toFloat(),
+        lowerLeftX = value.settings[6].toFloat(),
+        lowerLeftY = value.settings[7].toFloat(),
+        iterations = value.settings[8].toInt(),
+        xShift = value.settings[9].toFloat(),
+        yShift = value.settings[10].toFloat(),
+        angle = value.settings[11].toFloat(),
+        zoom = value.settings[12].toFloat(),
+        mirror = DrosteMirror.valueOf(value.settings[13]),
+        boundary = GmicBoundary.valueOf(value.settings[14]),
+        drawingMode = DrosteDrawingMode.valueOf(value.settings[15])
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info =
+            FilterInfo(R.string.gmic_filter_droste, R.string.filter_help_gmic_filter_droste)
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicNumber(R.string.gmic_param_upper_left_x, 20, 0f..100f),
+                    gmicNumber(R.string.gmic_param_upper_left_y, 20, 0f..100f),
+                    gmicNumber(R.string.gmic_param_upper_right_x, 80, 0f..100f),
+                    gmicNumber(R.string.gmic_param_upper_right_y, 20, 0f..100f),
+                    gmicNumber(R.string.gmic_param_lower_right_x, 80, 0f..100f),
+                    gmicNumber(R.string.gmic_param_lower_right_y, 80, 0f..100f),
+                    gmicNumber(R.string.gmic_param_lower_left_x, 20, 0f..100f),
+                    gmicNumber(R.string.gmic_param_lower_left_y, 80, 0f..100f),
+                    gmicInteger(R.string.iterations, 1, 1f..10f),
+                    gmicNumber(R.string.gmic_param_x_shift, 0, -100f..100f),
+                    gmicNumber(R.string.gmic_param_y_shift, 0, -100f..100f),
+                    gmicNumber(R.string.angle, 0, 0f..360f),
+                    gmicNumber(R.string.zoom, 1, 0.1f..5f),
+                    gmicSelection(
+                        R.string.tile_mode_mirror,
+                        "None",
+                        listOf("None", "XAxis", "YAxis", "BothAxes")
+                    ),
+                    gmicSelection(
+                        R.string.gmic_param_boundary,
+                        "Nearest",
+                        listOf("Transparent", "Nearest", "Periodic", "Mirror")
+                    ),
+                    gmicSelection(
+                        R.string.draw_mode,
+                        "Replace",
+                        listOf("Replace", "ReplaceSharpest", "Behind", "Below")
+                    )
+                )
+            )
+        }
+    }
 }

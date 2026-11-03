@@ -4,40 +4,49 @@
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * You should have received a copy of the Apache License
+ * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import com.jhlabs.JhFilter
 import com.jhlabs.RippleFilter
-import com.t8rin.imagetoolbox.core.domain.utils.Quad
-import com.t8rin.imagetoolbox.core.domain.utils.qto
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.Ripple.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.JhFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.DISTORTION)
 internal class RippleFilter(
-    override val value: Quad<Float, Float, Float, Float> = 5f to 16f qto (5f to 16f)
+    override val value: Value
 ) : JhFilterTransformation(), Filter.Ripple {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): JhFilter = RippleFilter().apply {
-        xAmplitude = value.first
-        xWavelength = value.second
-        yAmplitude = value.third
-        yWavelength = value.fourth
+        xAmplitude = value.xAmplitude
+        xWavelength = value.xWavelength
+        yAmplitude = value.yAmplitude
+        yWavelength = value.yWavelength
     }
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(R.string.ripple, R.string.filter_help_ripple)
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::xAmplitude, floatParam(R.string.x_amplitude, 5f, 0f..100f, roundTo = 1))
+            field(Value::xWavelength, floatParam(R.string.x_wavelength, 16f, 1f..200f, roundTo = 1))
+            field(Value::yAmplitude, floatParam(R.string.y_amplitude, 5f, 0f..100f, roundTo = 1))
+            field(Value::yWavelength, floatParam(R.string.y_wavelength, 16f, 1f..200f, roundTo = 1))
+        }
+    }
 }

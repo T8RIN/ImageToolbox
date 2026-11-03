@@ -18,28 +18,44 @@
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import com.t8rin.gmic.GmicFilter
-import com.t8rin.gmic.filters.RichardsonLucySharpen
 import com.t8rin.gmic.filters.DeconvolutionBlur
+import com.t8rin.gmic.filters.RichardsonLucySharpen
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.RichardsonLucySharpen.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.ENHANCEMENT)
 internal class RichardsonLucySharpenFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("1", "10", "Gaussian", "true")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.RichardsonLucySharpen {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = RichardsonLucySharpen(
-        sigma = value[0].toFloat(),
-        iterations = value[1].toInt(),
-        blur = DeconvolutionBlur.valueOf(value[2]),
-        cutValues = value[3].toBoolean()
+        sigma = value.settings[0].toFloat(),
+        iterations = value.settings[1].toInt(),
+        blur = DeconvolutionBlur.valueOf(value.settings[2]),
+        cutValues = value.settings[3].toBoolean()
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(
+            R.string.gmic_filter_richardson_lucy_sharpen,
+            R.string.filter_help_gmic_filter_richardson_lucy_sharpen
+        )
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicNumber(R.string.sigma, 1, 0.5f..10f),
+                    gmicInteger(R.string.iterations, 10, 1f..100f),
+                    gmicSelection(R.string.blur, "Gaussian", listOf("Exponential", "Gaussian")),
+                    gmicToggle(R.string.gmic_param_cut_values, true)
+                )
+            )
+        }
+    }
 }

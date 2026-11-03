@@ -18,11 +18,38 @@
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.enums.ProceduralEffect
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.ProceduralParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.GridSineDistortion2.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.filters.data.utils.gpu.ShaderEffectFilter
+import com.t8rin.imagetoolbox.feature.filters.data.utils.gpu.uniforms
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.DISTORTION)
 internal class GridSineDistortion2Filter(
-    override val value: ProceduralParams = ProceduralParams()
-) : ProceduralFilter(ProceduralEffect.GridSineDistortion2), Filter.GridSineDistortion2
+    override val value: Value
+) : ShaderEffectFilter<Value>(parameters.uniforms(value), SHADER), Filter.GridSineDistortion2 {
+
+    companion object : Filter.Schema.Structured<Value> {
+        override val info =
+            FilterInfo(R.string.grid_sine_distortion2, R.string.filter_help_grid_sine_distortion2)
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::intensity,
+                floatParam(R.string.texture_intensity, 0.2f, -1f..1f, roundTo = 3)
+            )
+            field(Value::frequency, floatParam(R.string.frequency, 8f, 1f..40f, roundTo = 3))
+            field(Value::offsetX, floatParam(R.string.offset_x, 0f, -1f..1f, roundTo = 3))
+            field(Value::offsetY, floatParam(R.string.offset_y, 0f, -1f..1f, roundTo = 3))
+            field(Value::scale, floatParam(R.string.scale, 1f, 0.05f..8f, roundTo = 3))
+            field(Value::rotation, floatParam(R.string.rotation, 0f, -180f..180f, roundTo = 3))
+        }
+
+        private val SHADER = """
+            vec2 wave = sin(p * frequency * TAU);
+            q += vec2(wave.x * cos(p.y * frequency * TAU), wave.y * cos(p.x * frequency * TAU)) * intensity * 0.1;
+        """.trimIndent()
+    }
+}

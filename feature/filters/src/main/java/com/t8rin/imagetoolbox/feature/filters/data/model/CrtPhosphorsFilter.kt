@@ -22,47 +22,58 @@ import com.t8rin.gmic.filters.CrtPhosphorType
 import com.t8rin.gmic.filters.CrtPhosphors
 import com.t8rin.gmic.filters.CrtPrecision
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.CrtPhosphors.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.EFFECTS)
 internal class CrtPhosphorsFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf(
-            "Stripes",
-            "4",
-            "Low",
-            "0",
-            "4",
-            "50",
-            "true",
-            "false",
-            "false",
-            "false",
-            "true"
-        )
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.CrtPhosphors {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override val upscaleFactor: Int
-        get() = value[1].toInt()
+        get() = value.settings[1].toInt()
 
     override fun createFilter(): GmicFilter = CrtPhosphors(
-        type = CrtPhosphorType.valueOf(value[0]),
+        type = CrtPhosphorType.valueOf(value.settings[0]),
         upscaleFactor = upscaleFactor,
-        precision = CrtPrecision.valueOf(value[2]),
-        smoothness = value[3].toFloat(),
-        neighborhoodSize = value[4].toInt(),
-        stride = value[5].toFloat(),
-        adaptivePattern = value[6].toBoolean(),
-        useLuma = value[7].toBoolean(),
-        transposePattern = value[8].toBoolean(),
-        averageOverPattern = value[9].toBoolean(),
-        normalizeImage = value[10].toBoolean()
+        precision = CrtPrecision.valueOf(value.settings[2]),
+        smoothness = value.settings[3].toFloat(),
+        neighborhoodSize = value.settings[4].toInt(),
+        stride = value.settings[5].toFloat(),
+        adaptivePattern = value.settings[6].toBoolean(),
+        useLuma = value.settings[7].toBoolean(),
+        transposePattern = value.settings[8].toBoolean(),
+        averageOverPattern = value.settings[9].toBoolean(),
+        normalizeImage = value.settings[10].toBoolean()
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(
+            R.string.gmic_filter_crt_phosphors,
+            R.string.filter_help_gmic_filter_crt_phosphors
+        )
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicSelection(R.string.type, "Stripes", listOf("Stripes", "Triad", "SlotMask")),
+                    gmicInteger(R.string.gmic_param_upscale_factor, 4, 1f..8f),
+                    gmicSelection(R.string.gmic_param_precision, "Low", listOf("Low", "High")),
+                    gmicNumber(R.string.gmic_param_smoothness, 0, 0f..10f),
+                    gmicInteger(R.string.gmic_param_neighborhood_size, 4, 1f..16f),
+                    gmicNumber(R.string.gmic_param_stride, 50, 0f..100f),
+                    gmicToggle(R.string.gmic_param_adaptive_pattern, true),
+                    gmicToggle(R.string.gmic_param_use_luma, false),
+                    gmicToggle(R.string.gmic_param_transpose_pattern, false),
+                    gmicToggle(R.string.gmic_param_average_over_pattern, false),
+                    gmicToggle(R.string.gmic_param_normalize_image, true)
+                )
+            )
+        }
+    }
 }

@@ -21,30 +21,53 @@ import com.t8rin.gmic.GmicFilter
 import com.t8rin.gmic.filters.Retinex
 import com.t8rin.gmic.filters.RetinexColorSpace
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.Retinex.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.LIGHT)
 internal class RetinexFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("75", "16", "Hsv", "1", "1", "5", "15", "80", "250")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.Retinex {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = Retinex(
-        strength = value[0].toFloat(),
-        valueOffset = value[1].toFloat(),
-        colorSpace = RetinexColorSpace.valueOf(value[2]),
-        minCut = value[3].toFloat(),
-        maxCut = value[4].toFloat(),
-        regularization = value[5].toFloat(),
-        lowScale = value[6].toFloat(),
-        middleScale = value[7].toFloat(),
-        highScale = value[8].toFloat()
+        strength = value.settings[0].toFloat(),
+        valueOffset = value.settings[1].toFloat(),
+        colorSpace = RetinexColorSpace.valueOf(value.settings[2]),
+        minCut = value.settings[3].toFloat(),
+        maxCut = value.settings[4].toFloat(),
+        regularization = value.settings[5].toFloat(),
+        lowScale = value.settings[6].toFloat(),
+        middleScale = value.settings[7].toFloat(),
+        highScale = value.settings[8].toFloat()
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info =
+            FilterInfo(R.string.gmic_filter_retinex, R.string.filter_help_gmic_filter_retinex)
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicNumber(R.string.strength, 75, 0f..100f),
+                    gmicNumber(R.string.offset, 16, 1f..256f),
+                    gmicSelection(
+                        R.string.tag_color_space,
+                        "Hsv",
+                        listOf("Hsi", "Hsv", "Lab", "LinearRgb", "Rgb", "YCbCr")
+                    ),
+                    gmicNumber(R.string.gmic_param_min_cut, 1, 0f..100f),
+                    gmicNumber(R.string.gmic_param_max_cut, 1, 0f..100f),
+                    gmicNumber(R.string.gmic_param_regularization, 5, 0f..32f),
+                    gmicNumber(R.string.gmic_param_low_scale, 15, 1f..512f),
+                    gmicNumber(R.string.gmic_param_middle_scale, 80, 1f..512f),
+                    gmicNumber(R.string.gmic_param_high_scale, 250, 1f..512f)
+                )
+            )
+        }
+    }
 }

@@ -20,26 +20,43 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 import com.t8rin.gmic.GmicFilter
 import com.t8rin.gmic.filters.PencilPortrait
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.PencilPortrait.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.ARTISTIC)
 internal class PencilPortraitFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("30", "120", "1", "0.5", "-7319787")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.PencilPortrait {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = PencilPortrait(
-        strokeLength = value[0].toFloat(),
-        strokeAngle = value[1].toFloat(),
-        contourThreshold = value[2].toFloat(),
-        opacity = value[3].toFloat(),
-        color = value[4].toInt()
+        strokeLength = value.settings[0].toFloat(),
+        strokeAngle = value.settings[1].toFloat(),
+        contourThreshold = value.settings[2].toFloat(),
+        opacity = value.settings[3].toFloat(),
+        color = value.settings[4].toInt()
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(
+            R.string.gmic_filter_pencil_portrait,
+            R.string.filter_help_gmic_filter_pencil_portrait
+        )
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicNumber(R.string.gmic_param_stroke_length, 30, 0f..500f),
+                    gmicNumber(R.string.angle, 120, 0f..180f),
+                    gmicNumber(R.string.threshold, 1, 0f..10f),
+                    gmicNumber(R.string.opacity, 0.5f, 0f..1f),
+                    gmicColor(R.string.color, -7319787)
+                )
+            )
+        }
+    }
 }

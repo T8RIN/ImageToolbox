@@ -19,25 +19,34 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import android.graphics.Bitmap
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.Distortion.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 import com.t8rin.opencv_tools.seam_carving.SeamCarver
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.DISTORTION)
 internal class DistortionFilter(
-    override val value: Float = 50f
-) : Transformation<Bitmap>, Filter.Distortion {
-
-    override val cacheKey: String
-        get() = value.toString()
+    override val value: Value
+) : FilterTransformation, Filter.Distortion {
 
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
     ): Bitmap = SeamCarver.distort(
         bitmap = input,
-        distortionPercent = value
+        distortionPercent = value.strength
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info =
+            FilterInfo(R.string.distortion_filter, R.string.filter_help_distortion_filter)
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::strength, floatParam(R.string.strength, 50f, 0f..95f, roundTo = 0))
+        }
+    }
 }

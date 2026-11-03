@@ -19,19 +19,19 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import android.graphics.Bitmap
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GuidedSmoothingParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.GuidedSmoothing.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 import com.t8rin.opencv_tools.photo_filters.RestorationFilters
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.ENHANCEMENT)
 internal class GuidedSmoothingFilter(
-    override val value: GuidedSmoothingParams = GuidedSmoothingParams.Default
-) : Transformation<Bitmap>, Filter.GuidedSmoothing {
-
-    override val cacheKey: String
-        get() = "${javaClass.name}:${value.hashCode()}"
+    override val value: Value
+) : FilterTransformation, Filter.GuidedSmoothing {
 
     override suspend fun transform(
         input: Bitmap,
@@ -44,4 +44,22 @@ internal class GuidedSmoothingFilter(
         strength = value.strength
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info =
+            FilterInfo(R.string.guided_smoothing, R.string.filter_help_guided_smoothing)
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::radius, floatParam(R.string.radius, 13f, 1f..80f, roundTo = 1))
+            field(Value::epsilon, floatParam(R.string.epsilon, 0.045f, 0.001f..0.2f, roundTo = 3))
+            field(
+                Value::guide,
+                choiceParam(
+                    R.string.guide, 0,
+                    R.string.luminance,
+                    R.string.per_channel
+                )
+            )
+            field(Value::strength, floatParam(R.string.strength, 1f, 0f..1f))
+        }
+    }
 }

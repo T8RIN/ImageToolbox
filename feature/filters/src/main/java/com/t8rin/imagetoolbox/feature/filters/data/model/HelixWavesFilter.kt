@@ -18,11 +18,45 @@
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.enums.ProceduralEffect
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.ProceduralParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.HelixWaves.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.filters.data.utils.gpu.ShaderEffectFilter
+import com.t8rin.imagetoolbox.feature.filters.data.utils.gpu.uniforms
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.DISTORTION)
 internal class HelixWavesFilter(
-    override val value: ProceduralParams = ProceduralParams()
-) : ProceduralFilter(ProceduralEffect.HelixWaves), Filter.HelixWaves
+    override val value: Value
+) : ShaderEffectFilter<Value>(parameters.uniforms(value), SHADER), Filter.HelixWaves {
+
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(R.string.helix_waves, R.string.filter_help_helix_waves)
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::frequency, floatParam(R.string.frequency, 8f, 1f..40f, roundTo = 3))
+            field(
+                Value::intensity,
+                floatParam(R.string.texture_intensity, 0.2f, -1f..1f, roundTo = 3)
+            )
+            field(Value::mode, intParam(R.string.gmic_param_mode, 0, 0..2))
+            field(Value::lighting, floatParam(R.string.texture_lighting, 0f, 0f..1f, roundTo = 3))
+            field(Value::offsetX, floatParam(R.string.offset_x, 0f, -1f..1f, roundTo = 3))
+            field(Value::offsetY, floatParam(R.string.offset_y, 0f, -1f..1f, roundTo = 3))
+            field(Value::scale, floatParam(R.string.scale, 1f, 0.05f..8f, roundTo = 3))
+            field(Value::rotation, floatParam(R.string.rotation, 0f, -180f..180f, roundTo = 3))
+        }
+
+        private val SHADER = """
+            float r = length(p);
+            float a = angleOf(p);
+            float phase = a * max(1.0, floor(frequency * 0.25)) + r * frequency * TAU;
+            float wave = sin(phase);
+            if (mode < 0.5) q *= 1.0 + wave * intensity * 0.2;
+            else if (mode < 1.5) q = rotatePoint(p, wave * intensity * 0.3);
+            else q += vec2(cos(phase), sin(phase)) * intensity * 0.06;
+            shade = 1.0 + lighting * cos(phase) * 0.3;
+        """.trimIndent()
+    }
+}

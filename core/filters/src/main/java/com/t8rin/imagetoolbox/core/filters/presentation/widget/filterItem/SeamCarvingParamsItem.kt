@@ -23,29 +23,30 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.SeamCarvingParams
-import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.SeamCarving.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.copy
+import com.t8rin.imagetoolbox.core.filters.presentation.model.parameterInfo
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 
 @Composable
 internal fun SeamCarvingParamsItem(
-    value: SeamCarvingParams,
-    filter: UiFilter<SeamCarvingParams>,
-    onFilterChange: (value: SeamCarvingParams) -> Unit,
+    value: Value,
+    filter: Filter<Value>,
+    onFilterChange: (value: Value) -> Unit,
     previewOnly: Boolean
 ) {
     IntegerSizeParamsItem(
         value = value.size,
-        filter = filter,
         onFilterChange = { size ->
             onFilterChange(value.copy(size = size))
         },
         previewOnly = previewOnly
     )
     PreferenceRowSwitch(
-        title = stringResource(R.string.seam_carving_backward_energy),
+        title = stringResource(requireNotNull(filter.parameterInfo(Value::useBackwardEnergy).title)),
         subtitle = stringResource(R.string.seam_carving_backward_energy_sub),
         checked = value.useBackwardEnergy,
         onClick = {

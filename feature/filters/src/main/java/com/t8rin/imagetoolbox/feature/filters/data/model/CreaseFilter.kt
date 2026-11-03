@@ -21,24 +21,41 @@ import com.t8rin.gmic.GmicFilter
 import com.t8rin.gmic.filters.Crease
 import com.t8rin.gmic.filters.GmicBoundary
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.Crease.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.DISTORTION)
 internal class CreaseFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("30", "10", "Mirror")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.Crease {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = Crease(
-        amplitude = value[0].toFloat(),
-        frequency = value[1].toFloat(),
-        boundary = GmicBoundary.valueOf(value[2])
+        amplitude = value.settings[0].toFloat(),
+        frequency = value.settings[1].toFloat(),
+        boundary = GmicBoundary.valueOf(value.settings[2])
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info =
+            FilterInfo(R.string.gmic_filter_crease, R.string.filter_help_gmic_filter_crease)
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicNumber(R.string.amplitude, 30, 0f..300f),
+                    gmicNumber(R.string.frequency, 10, 0f..100f),
+                    gmicSelection(
+                        R.string.gmic_param_boundary,
+                        "Mirror",
+                        listOf("Transparent", "Nearest", "Periodic", "Mirror")
+                    )
+                )
+            )
+        }
+    }
 }

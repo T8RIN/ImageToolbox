@@ -21,25 +21,41 @@ import com.t8rin.gmic.GmicFilter
 import com.t8rin.gmic.filters.RebuildFromSimilarBlocks
 import com.t8rin.gmic.filters.SimilarBlockNorm
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.RebuildFromSimilarBlocks.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.PIXELATION)
 internal class RebuildFromSimilarBlocksFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("5", "10", "0.75", "L2")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.RebuildFromSimilarBlocks {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = RebuildFromSimilarBlocks(
-        blockSize = value[0].toFloat(),
-        regularization = value[1].toFloat(),
-        luminance = value[2].toFloat(),
-        norm = SimilarBlockNorm.valueOf(value[3])
+        blockSize = value.settings[0].toFloat(),
+        regularization = value.settings[1].toFloat(),
+        luminance = value.settings[2].toFloat(),
+        norm = SimilarBlockNorm.valueOf(value.settings[3])
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(
+            R.string.gmic_filter_rebuild_from_similar_blocks,
+            R.string.filter_help_gmic_filter_rebuild_from_similar_blocks
+        )
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicNumber(R.string.block_size, 5, 2f..50f),
+                    gmicNumber(R.string.gmic_param_regularization, 10, 0f..20f),
+                    gmicNumber(R.string.gmic_param_luminance, 0.75f, 0f..3f),
+                    gmicSelection(R.string.gmic_param_norm, "L2", listOf("L1", "L2"))
+                )
+            )
+        }
+    }
 }

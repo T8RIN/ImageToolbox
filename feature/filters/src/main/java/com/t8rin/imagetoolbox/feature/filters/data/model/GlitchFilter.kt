@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,27 +19,37 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import android.graphics.Bitmap
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.Glitch.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 import com.t8rin.imagetoolbox.feature.filters.data.utils.glitch.GlitchTool
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.GLITCH)
 internal class GlitchFilter(
-    override val value: Triple<Float, Float, Float> = Triple(20f, 15f, 9f),
-) : Transformation<Bitmap>, Filter.Glitch {
-
-    override val cacheKey: String
-        get() = value.hashCode().toString()
+    override val value: Value,
+) : FilterTransformation, Filter.Glitch {
 
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
     ): Bitmap = GlitchTool.jpegGlitch(
         input = input,
-        amount = value.first.toInt(),
-        seed = value.second.toInt(),
-        iterations = value.third.toInt()
+        amount = value.amount.toInt(),
+        seed = value.seed.toInt(),
+        iterations = value.repeatCount.toInt()
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(R.string.glitch, R.string.filter_help_glitch)
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::amount, floatParam(R.string.amount, 20f, 0f..100f, roundTo = 0))
+            field(Value::seed, floatParam(R.string.seed, 15f, 0f..100f, roundTo = 0))
+            field(Value::repeatCount, floatParam(R.string.repeat_count, 9f, 0f..100f, roundTo = 0))
+        }
+    }
 }

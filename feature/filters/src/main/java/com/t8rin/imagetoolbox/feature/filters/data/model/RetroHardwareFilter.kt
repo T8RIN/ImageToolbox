@@ -19,19 +19,19 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import android.graphics.Bitmap
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.RetroHardwareParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.RetroHardware.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 import com.t8rin.trickle.Trickle
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.PIXELATION)
 internal class RetroHardwareFilter(
-    override val value: RetroHardwareParams = RetroHardwareParams.Default
-) : Transformation<Bitmap>, Filter.RetroHardware {
-
-    override val cacheKey: String
-        get() = "${javaClass.name}:${value.hashCode()}"
+    override val value: Value
+) : FilterTransformation, Filter.RetroHardware {
 
     override suspend fun transform(
         input: Bitmap,
@@ -44,4 +44,21 @@ internal class RetroHardwareFilter(
         strength = value.strength
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(R.string.retro_hardware, R.string.filter_help_retro_hardware)
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::system,
+                choiceParam(
+                    R.string.system, 0,
+                    R.string.zx_spectrum,
+                    R.string.game_boy
+                )
+            )
+            field(Value::scale, floatParam(R.string.scale, 1f, 1f..4f, roundTo = 1))
+            field(Value::dithering, floatParam(R.string.dithering, 0.25f, 0f..1f))
+            field(Value::strength, floatParam(R.string.strength, 1f, 0f..1f))
+        }
+    }
 }

@@ -20,24 +20,39 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 import com.t8rin.gmic.GmicFilter
 import com.t8rin.gmic.filters.DesaturateNorm
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.DesaturateNorm.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.COLOR)
 internal class DesaturateNormFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("0.6", "0.4", "2.2")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.DesaturateNorm {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = DesaturateNorm(
-        red = value[0].toFloat(),
-        blue = value[1].toFloat(),
-        exponent = value[2].toFloat()
+        red = value.settings[0].toFloat(),
+        blue = value.settings[1].toFloat(),
+        exponent = value.settings[2].toFloat()
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(
+            R.string.gmic_filter_desaturate_norm,
+            R.string.filter_help_gmic_filter_desaturate_norm
+        )
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicNumber(R.string.color_red, 0.6f, 0f..1f),
+                    gmicNumber(R.string.color_blue, 0.4f, 0f..1f),
+                    gmicNumber(R.string.gmic_param_exponent, 2.2f, 1f..3f)
+                )
+            )
+        }
+    }
 }

@@ -20,15 +20,22 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 import com.jhlabs.JavaLnFFilter
 import com.jhlabs.JhFilter
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.JavaLookAndFeel.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.JhFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.SIMPLE)
 internal class JavaLookAndFeelFilter(
-    override val value: Unit = Unit
+    override val value: Value
 ) : JhFilterTransformation(), Filter.JavaLookAndFeel {
 
-    override val cacheKey: String = "JavaLookAndFeelFilter"
-
     override fun createFilter(): JhFilter = JavaLnFFilter()
+
+    companion object : Filter.Schema.Empty<Value> {
+        override val info =
+            FilterInfo(R.string.java_look_and_feel, R.string.filter_help_java_look_and_feel)
+    }
 }

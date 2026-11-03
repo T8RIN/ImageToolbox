@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,36 +25,45 @@ import com.awxkee.aire.MorphOp
 import com.awxkee.aire.MorphOpMode
 import com.awxkee.aire.Scalar
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.BlackHat.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 import com.t8rin.trickle.TrickleUtils.checkHasAlpha
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.EFFECTS)
 internal class BlackHatFilter(
-    override val value: Pair<Float, Boolean> = 25f to true
-) : Transformation<Bitmap>, Filter.BlackHat {
-
-    override val cacheKey: String
-        get() = value.hashCode().toString()
+    override val value: Value
+) : FilterTransformation, Filter.BlackHat {
 
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
     ): Bitmap = Aire.morphology(
         bitmap = input,
-        kernel = if (value.second) {
-            MorphKernels.circle(value.first.toInt())
+        kernel = if (value.useCircleKernel) {
+            MorphKernels.circle(value.justSize.toInt())
         } else {
-            MorphKernels.box(value.first.toInt())
+            MorphKernels.box(value.justSize.toInt())
         },
         morphOp = MorphOp.BLACKHAT,
         morphOpMode = if (input.checkHasAlpha()) MorphOpMode.RGBA
         else MorphOpMode.RGB,
         borderMode = EdgeMode.REFLECT_101,
-        kernelHeight = value.first.toInt(),
-        kernelWidth = value.first.toInt(),
+        kernelHeight = value.justSize.toInt(),
+        kernelWidth = value.justSize.toInt(),
         borderScalar = Scalar.ZEROS
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(R.string.black_hat, R.string.filter_help_black_hat)
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::justSize, floatParam(R.string.just_size, 25f, 1f..150f, roundTo = 0))
+            field(Value::useCircleKernel, booleanParam(R.string.use_circle_kernel, true))
+        }
+    }
 }

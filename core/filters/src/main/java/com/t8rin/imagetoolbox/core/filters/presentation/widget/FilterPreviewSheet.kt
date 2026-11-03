@@ -48,6 +48,7 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.addFilters.AddFiltersSheetComponent
 import com.t8rin.imagetoolbox.core.resources.Icons
@@ -187,7 +188,7 @@ internal fun FilterPreviewSheet(
                     horizontalArrangement = Arrangement.Center,
                 ) {
                     val isUnit =
-                        previewSheetData?.size == 1 && previewSheetData.firstOrNull()?.value is Unit
+                        previewSheetData?.size == 1 && previewSheetData.firstOrNull()?.value is Filter.EmptyValue
                     if (!isPortrait) {
                         Box(
                             modifier = Modifier

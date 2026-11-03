@@ -25,21 +25,21 @@ import android.graphics.PorterDuffXfermode
 import androidx.core.graphics.applyCanvas
 import androidx.core.graphics.createBitmap
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.TornEdgeParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.TornEdge.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 import java.util.Random
 import kotlin.math.ceil
 import kotlin.math.min
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.FRAMES)
 internal class TornEdgeFilter(
-    override val value: TornEdgeParams = TornEdgeParams.Default
-) : Transformation<Bitmap>, Filter.TornEdge {
-
-    override val cacheKey: String
-        get() = value.hashCode().toString()
+    override val value: Value
+) : FilterTransformation, Filter.TornEdge {
 
     override suspend fun transform(
         input: Bitmap,
@@ -77,9 +77,19 @@ internal class TornEdgeFilter(
     private fun createTornPaths(
         width: Int,
         height: Int,
-        params: TornEdgeParams
+        params: Value
     ): List<Path> {
-        val random = Random((31L * width + height) * 31L + params.hashCode())
+        // Keep the seed independent of the generated Value implementation.
+        val seed = with(params) {
+            var hash = toothHeight
+            hash = 31 * hash + horizontalToothRange
+            hash = 31 * hash + verticalToothRange
+            hash = 31 * hash + top.hashCode()
+            hash = 31 * hash + right.hashCode()
+            hash = 31 * hash + bottom.hashCode()
+            31 * hash + left.hashCode()
+        }
+        val random = Random((31L * width + height) * 31L + seed)
         val toothHeight = params.toothHeight.coerceIn(1, min(width, height).coerceAtLeast(1))
         val horizontalToothRange = params.horizontalToothRange.coerceAtLeast(2)
         val verticalToothRange = params.verticalToothRange.coerceAtLeast(2)
@@ -187,4 +197,21 @@ internal class TornEdgeFilter(
     private fun Random.tooth(
         toothHeight: Int
     ): Float = (nextInt(toothHeight) + 1).toFloat()
+
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(R.string.torn_edge, R.string.filter_help_torn_edge)
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::toothHeight, intParam(R.string.tooth_height, 16, 1..96))
+            field(
+                Value::horizontalToothRange,
+                intParam(R.string.horizontal_tooth_range, 22, 2..128)
+            )
+            field(Value::verticalToothRange, intParam(R.string.vertical_tooth_range, 22, 2..128))
+            field(Value::top, booleanParam(R.string.top_edge, true))
+            field(Value::right, booleanParam(R.string.right_edge, true))
+            field(Value::bottom, booleanParam(R.string.bottom_edge, true))
+            field(Value::left, booleanParam(R.string.left_edge, true))
+        }
+    }
 }

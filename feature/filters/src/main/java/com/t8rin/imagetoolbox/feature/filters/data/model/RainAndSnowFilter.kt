@@ -20,27 +20,45 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 import com.t8rin.gmic.GmicFilter
 import com.t8rin.gmic.filters.RainAndSnow
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.RainAndSnow.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.EFFECTS)
 internal class RainAndSnowFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("65", "10", "50", "0.1", "1", "1")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.RainAndSnow {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = RainAndSnow(
-        angle = value[0].toFloat(),
-        speed = value[1].toFloat(),
-        density = value[2].toFloat(),
-        radius = value[3].toFloat(),
-        gamma = value[4].toFloat(),
-        opacity = value[5].toFloat()
+        angle = value.settings[0].toFloat(),
+        speed = value.settings[1].toFloat(),
+        density = value.settings[2].toFloat(),
+        radius = value.settings[3].toFloat(),
+        gamma = value.settings[4].toFloat(),
+        opacity = value.settings[5].toFloat()
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(
+            R.string.gmic_filter_rain_and_snow,
+            R.string.filter_help_gmic_filter_rain_and_snow
+        )
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicNumber(R.string.angle, 65, -180f..180f),
+                    gmicNumber(R.string.speed, 10, 0f..50f),
+                    gmicNumber(R.string.density, 50, 0f..100f),
+                    gmicNumber(R.string.radius, 0.1f, 0f..3f),
+                    gmicNumber(R.string.gamma, 1, 0f..2f),
+                    gmicNumber(R.string.opacity, 1, 0f..1f)
+                )
+            )
+        }
+    }
 }

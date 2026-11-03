@@ -21,56 +21,71 @@ import com.t8rin.gmic.GmicFilter
 import com.t8rin.gmic.filters.BlurredFrame
 import com.t8rin.gmic.filters.FrameNormalization
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.BlurredFrame.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.FRAMES)
 internal class BlurredFrameFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf(
-            "30",
-            "30",
-            "0",
-            "5",
-            "0",
-            "false",
-            "-8355712",
-            "None",
-            "5",
-            "-1",
-            "2",
-            "2",
-            "1",
-            "0",
-            "0.5",
-            "0.5",
-            "0"
-        )
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.BlurredFrame {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = BlurredFrame(
-        horizontalSize = value[0].toFloat(),
-        verticalSize = value[1].toFloat(),
-        crop = value[2].toFloat(),
-        blur = value[3].toFloat(),
-        roundness = value[4].toFloat(),
-        applyColorBalance = value[5].toBoolean(),
-        balanceColor = value[6].toInt(),
-        normalization = FrameNormalization.valueOf(value[7]),
-        outlineSize = value[8].toFloat(),
-        outlineColor = value[9].toInt(),
-        xShadow = value[10].toFloat(),
-        yShadow = value[11].toFloat(),
-        shadowSmoothness = value[12].toFloat(),
-        shadowContrast = value[13].toFloat(),
-        xCentering = value[14].toFloat(),
-        yCentering = value[15].toFloat(),
-        angle = value[16].toFloat()
+        horizontalSize = value.settings[0].toFloat(),
+        verticalSize = value.settings[1].toFloat(),
+        crop = value.settings[2].toFloat(),
+        blur = value.settings[3].toFloat(),
+        roundness = value.settings[4].toFloat(),
+        applyColorBalance = value.settings[5].toBoolean(),
+        balanceColor = value.settings[6].toInt(),
+        normalization = FrameNormalization.valueOf(value.settings[7]),
+        outlineSize = value.settings[8].toFloat(),
+        outlineColor = value.settings[9].toInt(),
+        xShadow = value.settings[10].toFloat(),
+        yShadow = value.settings[11].toFloat(),
+        shadowSmoothness = value.settings[12].toFloat(),
+        shadowContrast = value.settings[13].toFloat(),
+        xCentering = value.settings[14].toFloat(),
+        yCentering = value.settings[15].toFloat(),
+        angle = value.settings[16].toFloat()
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(
+            R.string.gmic_filter_blurred_frame,
+            R.string.filter_help_gmic_filter_blurred_frame
+        )
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicNumber(R.string.gmic_param_horizontal_size, 30, 0f..100f),
+                    gmicNumber(R.string.gmic_param_vertical_size, 30, 0f..100f),
+                    gmicNumber(R.string.crop, 0, 0f..100f),
+                    gmicNumber(R.string.blur, 5, 0f..10f),
+                    gmicNumber(R.string.gmic_param_roundness, 0, 0f..1f),
+                    gmicToggle(R.string.color_balance, false),
+                    gmicColor(R.string.gmic_param_balance_color, -8355712),
+                    gmicSelection(
+                        R.string.gmic_param_normalization,
+                        "None",
+                        listOf("None", "Stretch", "Equalize")
+                    ),
+                    gmicNumber(R.string.outline_size, 5, 0f..50f),
+                    gmicColor(R.string.outline_color, -1),
+                    gmicNumber(R.string.gmic_param_x_shadow, 2, -10f..10f),
+                    gmicNumber(R.string.gmic_param_y_shadow, 2, -10f..10f),
+                    gmicNumber(R.string.softness, 1, 0f..5f),
+                    gmicNumber(R.string.contrast, 0, 0f..100f),
+                    gmicNumber(R.string.gmic_param_x_centering, 0.5f, 0f..1f),
+                    gmicNumber(R.string.gmic_param_y_centering, 0.5f, 0f..1f),
+                    gmicNumber(R.string.angle, 0, -180f..180f)
+                )
+            )
+        }
+    }
 }

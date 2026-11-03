@@ -20,24 +20,39 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 import com.t8rin.gmic.GmicFilter
 import com.t8rin.gmic.filters.ColorAbstraction
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.ColorAbstraction.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.ARTISTIC)
 internal class ColorAbstractionFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("1", "10", "0.2")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.ColorAbstraction {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = ColorAbstraction(
-        smoothness = value[0].toFloat(),
-        levels = value[1].toInt(),
-        contrast = value[2].toFloat()
+        smoothness = value.settings[0].toFloat(),
+        levels = value.settings[1].toInt(),
+        contrast = value.settings[2].toFloat()
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(
+            R.string.gmic_filter_color_abstraction,
+            R.string.filter_help_gmic_filter_color_abstraction
+        )
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicNumber(R.string.gmic_param_smoothness, 1, 0f..10f),
+                    gmicInteger(R.string.levels, 10, 2f..100f),
+                    gmicNumber(R.string.contrast, 0.2f, 0.01f..1f)
+                )
+            )
+        }
+    }
 }

@@ -19,30 +19,41 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import android.graphics.Bitmap
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
-import com.t8rin.imagetoolbox.core.domain.utils.Quad
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.DomainTransform.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 import com.t8rin.opencv_tools.photo_filters.RestorationFilters
 import kotlin.math.roundToInt
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.ENHANCEMENT)
 internal class DomainTransformFilter(
-    override val value: Quad<Float, Float, Float, Float> = Quad(21f, 0.18f, 3f, 1f)
-) : Transformation<Bitmap>, Filter.DomainTransform {
-
-    override val cacheKey: String
-        get() = "${javaClass.name}:${value.hashCode()}"
+    override val value: Value
+) : FilterTransformation, Filter.DomainTransform {
 
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
     ): Bitmap = RestorationFilters.domainTransform(
         bitmap = input,
-        radius = value.first,
-        sensitivity = value.second,
-        iterations = value.third.roundToInt(),
-        strength = value.fourth
+        radius = value.radius,
+        sensitivity = value.sensitivity,
+        iterations = value.iterations.roundToInt(),
+        strength = value.strength
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info =
+            FilterInfo(R.string.domain_transform, R.string.filter_help_domain_transform)
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::radius, floatParam(R.string.radius, 21f, 1f..100f, roundTo = 1))
+            field(Value::sensitivity, floatParam(R.string.sensitivity, 0.18f, 0.01f..0.6f))
+            field(Value::iterations, floatParam(R.string.iterations, 3f, 1f..5f, roundTo = 0))
+            field(Value::strength, floatParam(R.string.strength, 1f, 0f..1f))
+        }
+    }
 }

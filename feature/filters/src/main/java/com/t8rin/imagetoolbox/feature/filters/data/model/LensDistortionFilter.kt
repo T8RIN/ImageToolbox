@@ -21,27 +21,49 @@ import com.t8rin.gmic.GmicFilter
 import com.t8rin.gmic.filters.GmicBoundary
 import com.t8rin.gmic.filters.LensDistortion
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.LensDistortion.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.DISTORTION)
 internal class LensDistortionFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("0.1", "0", "0", "50", "50", "Transparent")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.LensDistortion {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = LensDistortion(
-        amplitude = value[0].toFloat(),
-        aspectRatio = value[1].toFloat(),
-        zoom = value[2].toFloat(),
-        centerXPercent = value[3].toFloat(),
-        centerYPercent = value[4].toFloat(),
-        boundary = GmicBoundary.valueOf(value[5])
+        amplitude = value.settings[0].toFloat(),
+        aspectRatio = value.settings[1].toFloat(),
+        zoom = value.settings[2].toFloat(),
+        centerXPercent = value.settings[3].toFloat(),
+        centerYPercent = value.settings[4].toFloat(),
+        boundary = GmicBoundary.valueOf(value.settings[5])
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(
+            R.string.gmic_filter_lens_distortion,
+            R.string.filter_help_gmic_filter_lens_distortion
+        )
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicNumber(R.string.amplitude, 0.1f, -1f..1f),
+                    gmicNumber(R.string.aspect_ratio, 0, -2f..2f),
+                    gmicNumber(R.string.gmic_param_zoom, 0, -4f..4f),
+                    gmicNumber(R.string.center_x, 50, 0f..100f),
+                    gmicNumber(R.string.center_y, 50, 0f..100f),
+                    gmicSelection(
+                        R.string.gmic_param_boundary,
+                        "Transparent",
+                        listOf("Transparent", "Nearest", "Periodic", "Mirror")
+                    )
+                )
+            )
+        }
+    }
 }

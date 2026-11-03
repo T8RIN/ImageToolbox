@@ -21,26 +21,95 @@ import com.t8rin.gmic.GmicFilter
 import com.t8rin.gmic.filters.GmicChannel
 import com.t8rin.gmic.filters.LocalVarianceNormalization
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.LocalVarianceNormalization.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.ENHANCEMENT)
 internal class LocalVarianceNormalizationFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("60", "6", "10", "1", "All")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.LocalVarianceNormalization {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = LocalVarianceNormalization(
-        amplitude = value[0].toFloat(),
-        smoothness = value[1].toFloat(),
-        threshold = value[2].toFloat(),
-        repeat = value[3].toInt(),
-        channelS = GmicChannel.valueOf(value[4])
+        amplitude = value.settings[0].toFloat(),
+        smoothness = value.settings[1].toFloat(),
+        threshold = value.settings[2].toFloat(),
+        repeat = value.settings[3].toInt(),
+        channelS = GmicChannel.valueOf(value.settings[4])
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(
+            R.string.gmic_filter_local_variance_normalization,
+            R.string.filter_help_gmic_filter_local_variance_normalization
+        )
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicNumber(R.string.amplitude, 60, 0f..100f),
+                    gmicNumber(R.string.gmic_param_smoothness, 6, 0f..20f),
+                    gmicNumber(R.string.threshold, 10, 0f..100f),
+                    gmicInteger(R.string.gmic_param_repeat, 1, 1f..4f),
+                    gmicSelection(
+                        R.string.gmic_param_channel,
+                        "All",
+                        listOf(
+                            "All",
+                            "Rgba",
+                            "Rgb",
+                            "Red",
+                            "Green",
+                            "Blue",
+                            "Alpha",
+                            "LinearRgb",
+                            "LinearRed",
+                            "LinearGreen",
+                            "LinearBlue",
+                            "YCbCr",
+                            "Luminance",
+                            "Chrominance",
+                            "BlueChrominance",
+                            "RedChrominance",
+                            "GreenChrominance",
+                            "Lab",
+                            "LabLightness",
+                            "LabChrominance",
+                            "LabA",
+                            "LabB",
+                            "Lch",
+                            "LchChrominance",
+                            "LchChroma",
+                            "LchHue",
+                            "Hsv",
+                            "HsvHue",
+                            "HsvSaturation",
+                            "HsvValue",
+                            "Hsi",
+                            "HsiIntensity",
+                            "Hsl",
+                            "HslLightness",
+                            "Cmyk",
+                            "Cmy",
+                            "Cyan",
+                            "Magenta",
+                            "Yellow",
+                            "Key",
+                            "Yiq",
+                            "YiqLuma",
+                            "YiqChrominance",
+                            "Ryb",
+                            "RybRed",
+                            "RybYellow",
+                            "RybBlue"
+                        )
+                    )
+                )
+            )
+        }
+    }
 }

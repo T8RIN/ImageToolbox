@@ -19,19 +19,19 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import android.graphics.Bitmap
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.DctGlitchParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.DctGlitch.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 import com.t8rin.opencv_tools.photo_filters.SpectralFilters
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.GLITCH)
 internal class DctGlitchFilter(
-    override val value: DctGlitchParams = DctGlitchParams.Default
-) : Transformation<Bitmap>, Filter.DctGlitch {
-
-    override val cacheKey: String
-        get() = "${javaClass.name}:${value.hashCode()}"
+    override val value: Value
+) : FilterTransformation, Filter.DctGlitch {
 
     override suspend fun transform(
         input: Bitmap,
@@ -47,4 +47,32 @@ internal class DctGlitchFilter(
         strength = value.strength
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(R.string.dct_glitch, R.string.filter_help_dct_glitch)
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::blockSize,
+                choiceParam(
+                    R.string.block_size, 1,
+                    R.string.dct_block_8_8,
+                    R.string.dct_block_16_16
+                )
+            )
+            field(Value::minimumFrequency, floatParam(R.string.min_frequency, 0.07f, 0f..1f))
+            field(Value::maximumFrequency, floatParam(R.string.max_frequency, 0.55f, 0f..1f))
+            field(
+                Value::operation,
+                choiceParam(
+                    R.string.operation, 2,
+                    R.string.zero_ac,
+                    R.string.flip_sign,
+                    R.string.chroma_distortion
+                )
+            )
+            field(Value::probability, floatParam(R.string.probability, 0.58f, 0f..1f))
+            field(Value::seed, intParam(R.string.seed, 0, 0..10000))
+            field(Value::strength, floatParam(R.string.strength, 1f, 0f..1f))
+        }
+    }
 }

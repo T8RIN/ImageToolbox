@@ -20,27 +20,45 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 import com.t8rin.gmic.GmicFilter
 import com.t8rin.gmic.filters.AnalogDamage
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.AnalogDamage.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.GLITCH)
 internal class AnalogDamageFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("18", "true", "3", "1", "0.6", "38")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.AnalogDamage {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = AnalogDamage(
-        dirt = value[0].toFloat(),
-        monochromeDirt = value[1].toBoolean(),
-        aberrationX = value[2].toFloat(),
-        aberrationY = value[3].toFloat(),
-        aberrationSmoothness = value[4].toFloat(),
-        jpegQuality = value[5].toInt()
+        dirt = value.settings[0].toFloat(),
+        monochromeDirt = value.settings[1].toBoolean(),
+        aberrationX = value.settings[2].toFloat(),
+        aberrationY = value.settings[3].toFloat(),
+        aberrationSmoothness = value.settings[4].toFloat(),
+        jpegQuality = value.settings[5].toInt()
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(
+            R.string.gmic_filter_analog_damage,
+            R.string.filter_help_gmic_filter_analog_damage
+        )
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicNumber(R.string.texture_dirt, 18, 0f..100f),
+                    gmicToggle(R.string.gmic_param_monochrome_dirt, true),
+                    gmicNumber(R.string.gmic_param_aberration_x, 3, -32f..32f),
+                    gmicNumber(R.string.gmic_param_aberration_y, 1, -32f..32f),
+                    gmicNumber(R.string.softness, 0.6f, 0f..10f),
+                    gmicInteger(R.string.quality, 38, 1f..100f)
+                )
+            )
+        }
+    }
 }

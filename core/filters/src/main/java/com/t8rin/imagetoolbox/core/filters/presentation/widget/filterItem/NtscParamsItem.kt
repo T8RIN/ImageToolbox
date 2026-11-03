@@ -38,9 +38,11 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.utils.roundTo
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.VHSNtsc.Value
 import com.t8rin.imagetoolbox.core.filters.domain.model.FilterParam
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.NtscParams
-import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
+import com.t8rin.imagetoolbox.core.filters.domain.model.copy
+import com.t8rin.imagetoolbox.core.filters.presentation.model.parameterInfo
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Tune
@@ -59,15 +61,15 @@ import kotlin.math.roundToInt
 
 @Composable
 internal fun NtscParamsItem(
-    value: NtscParams,
-    filter: UiFilter<NtscParams>,
-    onFilterChange: (value: NtscParams) -> Unit,
+    value: Value,
+    filter: Filter<Value>,
+    onFilterChange: (value: Value) -> Unit,
     previewOnly: Boolean
 ) {
     var params by remember(value) { mutableStateOf(value) }
 
     LaunchedEffect(params) {
-        onFilterChange(params)
+        if (params != value) onFilterChange(params)
     }
 
     Column(
@@ -76,7 +78,7 @@ internal fun NtscParamsItem(
     ) {
         NtscParamSlider(
             value = params.amount,
-            info = filter.paramsInfo[0],
+            info = filter.parameterInfo(Value::amount),
             previewOnly = previewOnly,
             onValueChange = {
                 params = params.copy(amount = it)
@@ -84,7 +86,7 @@ internal fun NtscParamsItem(
         )
         NtscParamSlider(
             value = params.tapeWear,
-            info = filter.paramsInfo[1],
+            info = filter.parameterInfo(Value::tapeWear),
             previewOnly = previewOnly,
             onValueChange = {
                 params = params.copy(tapeWear = it)
@@ -92,7 +94,7 @@ internal fun NtscParamsItem(
         )
         NtscParamSlider(
             value = params.chromaBleed,
-            info = filter.paramsInfo[2],
+            info = filter.parameterInfo(Value::chromaBleed),
             previewOnly = previewOnly,
             onValueChange = {
                 params = params.copy(chromaBleed = it)
@@ -100,7 +102,7 @@ internal fun NtscParamsItem(
         )
         NtscParamSlider(
             value = params.tracking,
-            info = filter.paramsInfo[3],
+            info = filter.parameterInfo(Value::tracking),
             previewOnly = previewOnly,
             onValueChange = {
                 params = params.copy(tracking = it)
@@ -108,7 +110,7 @@ internal fun NtscParamsItem(
         )
         NtscParamSlider(
             value = params.noise,
-            info = filter.paramsInfo[4],
+            info = filter.parameterInfo(Value::noise),
             previewOnly = previewOnly,
             onValueChange = {
                 params = params.copy(noise = it)
@@ -116,7 +118,7 @@ internal fun NtscParamsItem(
         )
         NtscParamSlider(
             value = params.snow,
-            info = filter.paramsInfo[5],
+            info = filter.parameterInfo(Value::snow),
             previewOnly = previewOnly,
             onValueChange = {
                 params = params.copy(snow = it)
@@ -124,7 +126,7 @@ internal fun NtscParamsItem(
         )
         NtscParamSlider(
             value = params.lumaSmear,
-            info = filter.paramsInfo[6],
+            info = filter.parameterInfo(Value::lumaSmear),
             previewOnly = previewOnly,
             onValueChange = {
                 params = params.copy(lumaSmear = it)
@@ -132,7 +134,7 @@ internal fun NtscParamsItem(
         )
         NtscParamSlider(
             value = params.compositeSharpening,
-            info = filter.paramsInfo[7],
+            info = filter.parameterInfo(Value::compositeSharpening),
             previewOnly = previewOnly,
             onValueChange = {
                 params = params.copy(compositeSharpening = it)
@@ -140,7 +142,7 @@ internal fun NtscParamsItem(
         )
         NtscParamSlider(
             value = params.ringing,
-            info = filter.paramsInfo[8],
+            info = filter.parameterInfo(Value::ringing),
             previewOnly = previewOnly,
             onValueChange = {
                 params = params.copy(ringing = it)
@@ -164,7 +166,7 @@ internal fun NtscParamsItem(
                     modifier = Modifier.padding(horizontal = 8.dp),
                     verticalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
-                    filter.paramsInfo[9].let { info ->
+                    filter.parameterInfo(Value::seed).let { info ->
                         SeedSelector(
                             value = params.seed,
                             title = stringResource(info.title!!),
@@ -243,7 +245,7 @@ internal fun NtscParamsItem(
                     )
                     NtscIntSlider(
                         value = params.videoScanlinePhaseShiftOffset,
-                        info = filter.paramsInfo[10],
+                        info = filter.parameterInfo(Value::videoScanlinePhaseShiftOffset),
                         previewOnly = previewOnly,
                         onValueChange = {
                             params = params.copy(videoScanlinePhaseShiftOffset = it)
@@ -259,7 +261,7 @@ internal fun NtscParamsItem(
                         content = {
                             NtscIntSlider(
                                 value = params.headSwitchingHeight,
-                                info = filter.paramsInfo[11],
+                                info = filter.parameterInfo(Value::headSwitchingHeight),
                                 previewOnly = previewOnly,
                                 shape = ShapeDefaults.top,
                                 containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
@@ -269,7 +271,7 @@ internal fun NtscParamsItem(
                             )
                             NtscIntSlider(
                                 value = params.headSwitchingOffset,
-                                info = filter.paramsInfo[12],
+                                info = filter.parameterInfo(Value::headSwitchingOffset),
                                 previewOnly = previewOnly,
                                 shape = ShapeDefaults.center,
                                 containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
@@ -279,7 +281,7 @@ internal fun NtscParamsItem(
                             )
                             NtscParamSlider(
                                 value = params.headSwitchingHorizontalShift,
-                                info = filter.paramsInfo[13],
+                                info = filter.parameterInfo(Value::headSwitchingHorizontalShift),
                                 previewOnly = previewOnly,
                                 shape = ShapeDefaults.center,
                                 containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
@@ -289,7 +291,7 @@ internal fun NtscParamsItem(
                             )
                             NtscParamSlider(
                                 value = params.headSwitchingMidLinePosition,
-                                info = filter.paramsInfo[14],
+                                info = filter.parameterInfo(Value::headSwitchingMidLinePosition),
                                 previewOnly = previewOnly,
                                 shape = ShapeDefaults.center,
                                 containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
@@ -299,7 +301,7 @@ internal fun NtscParamsItem(
                             )
                             NtscParamSlider(
                                 value = params.headSwitchingMidLineJitter,
-                                info = filter.paramsInfo[15],
+                                info = filter.parameterInfo(Value::headSwitchingMidLineJitter),
                                 previewOnly = previewOnly,
                                 shape = ShapeDefaults.bottom,
                                 containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
@@ -319,7 +321,7 @@ internal fun NtscParamsItem(
                         content = {
                             NtscIntSlider(
                                 value = params.trackingNoiseHeight,
-                                info = filter.paramsInfo[16],
+                                info = filter.parameterInfo(Value::trackingNoiseHeight),
                                 previewOnly = previewOnly,
                                 shape = ShapeDefaults.top,
                                 containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
@@ -329,7 +331,7 @@ internal fun NtscParamsItem(
                             )
                             NtscParamSlider(
                                 value = params.trackingNoiseWaveIntensity,
-                                info = filter.paramsInfo[17],
+                                info = filter.parameterInfo(Value::trackingNoiseWaveIntensity),
                                 previewOnly = previewOnly,
                                 shape = ShapeDefaults.center,
                                 containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
@@ -339,7 +341,7 @@ internal fun NtscParamsItem(
                             )
                             NtscParamSlider(
                                 value = params.trackingNoiseSnowIntensity,
-                                info = filter.paramsInfo[18],
+                                info = filter.parameterInfo(Value::trackingNoiseSnowIntensity),
                                 previewOnly = previewOnly,
                                 shape = ShapeDefaults.center,
                                 containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
@@ -349,7 +351,7 @@ internal fun NtscParamsItem(
                             )
                             NtscParamSlider(
                                 value = params.trackingNoiseSnowAnisotropy,
-                                info = filter.paramsInfo[19],
+                                info = filter.parameterInfo(Value::trackingNoiseSnowAnisotropy),
                                 previewOnly = previewOnly,
                                 shape = ShapeDefaults.center,
                                 containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
@@ -359,7 +361,7 @@ internal fun NtscParamsItem(
                             )
                             NtscParamSlider(
                                 value = params.trackingNoiseNoiseIntensity,
-                                info = filter.paramsInfo[20],
+                                info = filter.parameterInfo(Value::trackingNoiseNoiseIntensity),
                                 previewOnly = previewOnly,
                                 shape = ShapeDefaults.bottom,
                                 containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
@@ -379,7 +381,7 @@ internal fun NtscParamsItem(
                         content = {
                             NtscParamSlider(
                                 value = params.compositeNoiseFrequency,
-                                info = filter.paramsInfo[21],
+                                info = filter.parameterInfo(Value::compositeNoiseFrequency),
                                 previewOnly = previewOnly,
                                 shape = ShapeDefaults.top,
                                 containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
@@ -389,7 +391,7 @@ internal fun NtscParamsItem(
                             )
                             NtscParamSlider(
                                 value = params.compositeNoiseIntensity,
-                                info = filter.paramsInfo[22],
+                                info = filter.parameterInfo(Value::compositeNoiseIntensity),
                                 previewOnly = previewOnly,
                                 shape = ShapeDefaults.center,
                                 containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
@@ -399,7 +401,7 @@ internal fun NtscParamsItem(
                             )
                             NtscIntSlider(
                                 value = params.compositeNoiseDetail,
-                                info = filter.paramsInfo[23],
+                                info = filter.parameterInfo(Value::compositeNoiseDetail),
                                 previewOnly = previewOnly,
                                 shape = ShapeDefaults.bottom,
                                 containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
@@ -419,7 +421,7 @@ internal fun NtscParamsItem(
                         content = {
                             NtscParamSlider(
                                 value = params.ringingFrequency,
-                                info = filter.paramsInfo[24],
+                                info = filter.parameterInfo(Value::ringingFrequency),
                                 previewOnly = previewOnly,
                                 shape = ShapeDefaults.top,
                                 containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
@@ -429,7 +431,7 @@ internal fun NtscParamsItem(
                             )
                             NtscParamSlider(
                                 value = params.ringingPower,
-                                info = filter.paramsInfo[25],
+                                info = filter.parameterInfo(Value::ringingPower),
                                 previewOnly = previewOnly,
                                 shape = ShapeDefaults.bottom,
                                 containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
@@ -449,7 +451,7 @@ internal fun NtscParamsItem(
                         content = {
                             NtscParamSlider(
                                 value = params.lumaNoiseFrequency,
-                                info = filter.paramsInfo[26],
+                                info = filter.parameterInfo(Value::lumaNoiseFrequency),
                                 previewOnly = previewOnly,
                                 shape = ShapeDefaults.top,
                                 containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
@@ -459,7 +461,7 @@ internal fun NtscParamsItem(
                             )
                             NtscParamSlider(
                                 value = params.lumaNoiseIntensity,
-                                info = filter.paramsInfo[27],
+                                info = filter.parameterInfo(Value::lumaNoiseIntensity),
                                 previewOnly = previewOnly,
                                 shape = ShapeDefaults.center,
                                 containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
@@ -469,7 +471,7 @@ internal fun NtscParamsItem(
                             )
                             NtscIntSlider(
                                 value = params.lumaNoiseDetail,
-                                info = filter.paramsInfo[28],
+                                info = filter.parameterInfo(Value::lumaNoiseDetail),
                                 previewOnly = previewOnly,
                                 shape = ShapeDefaults.bottom,
                                 containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
@@ -489,7 +491,7 @@ internal fun NtscParamsItem(
                         content = {
                             NtscParamSlider(
                                 value = params.chromaNoiseFrequency,
-                                info = filter.paramsInfo[29],
+                                info = filter.parameterInfo(Value::chromaNoiseFrequency),
                                 previewOnly = previewOnly,
                                 shape = ShapeDefaults.top,
                                 containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
@@ -499,7 +501,7 @@ internal fun NtscParamsItem(
                             )
                             NtscParamSlider(
                                 value = params.chromaNoiseIntensity,
-                                info = filter.paramsInfo[30],
+                                info = filter.parameterInfo(Value::chromaNoiseIntensity),
                                 previewOnly = previewOnly,
                                 shape = ShapeDefaults.center,
                                 containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
@@ -509,7 +511,7 @@ internal fun NtscParamsItem(
                             )
                             NtscIntSlider(
                                 value = params.chromaNoiseDetail,
-                                info = filter.paramsInfo[31],
+                                info = filter.parameterInfo(Value::chromaNoiseDetail),
                                 previewOnly = previewOnly,
                                 shape = ShapeDefaults.bottom,
                                 containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
@@ -521,7 +523,7 @@ internal fun NtscParamsItem(
                     )
                     NtscParamSlider(
                         value = params.snowIntensity,
-                        info = filter.paramsInfo[32],
+                        info = filter.parameterInfo(Value::snowIntensity),
                         previewOnly = previewOnly,
                         onValueChange = {
                             params = params.copy(snowIntensity = it)
@@ -529,7 +531,7 @@ internal fun NtscParamsItem(
                     )
                     NtscParamSlider(
                         value = params.snowAnisotropy,
-                        info = filter.paramsInfo[33],
+                        info = filter.parameterInfo(Value::snowAnisotropy),
                         previewOnly = previewOnly,
                         onValueChange = {
                             params = params.copy(snowAnisotropy = it)
@@ -537,7 +539,7 @@ internal fun NtscParamsItem(
                     )
                     NtscParamSlider(
                         value = params.chromaPhaseNoiseIntensity,
-                        info = filter.paramsInfo[34],
+                        info = filter.parameterInfo(Value::chromaPhaseNoiseIntensity),
                         previewOnly = previewOnly,
                         onValueChange = {
                             params = params.copy(chromaPhaseNoiseIntensity = it)
@@ -545,7 +547,7 @@ internal fun NtscParamsItem(
                     )
                     NtscParamSlider(
                         value = params.chromaPhaseError,
-                        info = filter.paramsInfo[35],
+                        info = filter.parameterInfo(Value::chromaPhaseError),
                         previewOnly = previewOnly,
                         onValueChange = {
                             params = params.copy(chromaPhaseError = it)
@@ -553,7 +555,7 @@ internal fun NtscParamsItem(
                     )
                     NtscParamSlider(
                         value = params.chromaDelayHorizontal,
-                        info = filter.paramsInfo[36],
+                        info = filter.parameterInfo(Value::chromaDelayHorizontal),
                         previewOnly = previewOnly,
                         onValueChange = {
                             params = params.copy(chromaDelayHorizontal = it)
@@ -561,7 +563,7 @@ internal fun NtscParamsItem(
                     )
                     NtscIntSlider(
                         value = params.chromaDelayVertical,
-                        info = filter.paramsInfo[37],
+                        info = filter.parameterInfo(Value::chromaDelayVertical),
                         previewOnly = previewOnly,
                         onValueChange = {
                             params = params.copy(chromaDelayVertical = it)
@@ -588,7 +590,7 @@ internal fun NtscParamsItem(
                             )
                             NtscParamSlider(
                                 value = params.vhsChromaLoss,
-                                info = filter.paramsInfo[38],
+                                info = filter.parameterInfo(Value::vhsChromaLoss),
                                 previewOnly = previewOnly,
                                 shape = ShapeDefaults.center,
                                 containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
@@ -598,7 +600,7 @@ internal fun NtscParamsItem(
                             )
                             NtscParamSlider(
                                 value = params.vhsSharpenIntensity,
-                                info = filter.paramsInfo[39],
+                                info = filter.parameterInfo(Value::vhsSharpenIntensity),
                                 previewOnly = previewOnly,
                                 shape = ShapeDefaults.center,
                                 containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
@@ -608,7 +610,7 @@ internal fun NtscParamsItem(
                             )
                             NtscParamSlider(
                                 value = params.vhsSharpenFrequency,
-                                info = filter.paramsInfo[40],
+                                info = filter.parameterInfo(Value::vhsSharpenFrequency),
                                 previewOnly = previewOnly,
                                 shape = ShapeDefaults.center,
                                 containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
@@ -618,7 +620,7 @@ internal fun NtscParamsItem(
                             )
                             NtscParamSlider(
                                 value = params.vhsEdgeWaveIntensity,
-                                info = filter.paramsInfo[41],
+                                info = filter.parameterInfo(Value::vhsEdgeWaveIntensity),
                                 previewOnly = previewOnly,
                                 shape = ShapeDefaults.center,
                                 containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
@@ -628,7 +630,7 @@ internal fun NtscParamsItem(
                             )
                             NtscParamSlider(
                                 value = params.vhsEdgeWaveSpeed,
-                                info = filter.paramsInfo[42],
+                                info = filter.parameterInfo(Value::vhsEdgeWaveSpeed),
                                 previewOnly = previewOnly,
                                 shape = ShapeDefaults.center,
                                 containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
@@ -638,7 +640,7 @@ internal fun NtscParamsItem(
                             )
                             NtscParamSlider(
                                 value = params.vhsEdgeWaveFrequency,
-                                info = filter.paramsInfo[43],
+                                info = filter.parameterInfo(Value::vhsEdgeWaveFrequency),
                                 previewOnly = previewOnly,
                                 shape = ShapeDefaults.center,
                                 containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
@@ -648,7 +650,7 @@ internal fun NtscParamsItem(
                             )
                             NtscIntSlider(
                                 value = params.vhsEdgeWaveDetail,
-                                info = filter.paramsInfo[44],
+                                info = filter.parameterInfo(Value::vhsEdgeWaveDetail),
                                 previewOnly = previewOnly,
                                 shape = ShapeDefaults.bottom,
                                 containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
@@ -668,7 +670,7 @@ internal fun NtscParamsItem(
                         content = {
                             NtscParamSlider(
                                 value = params.scaleHorizontal,
-                                info = filter.paramsInfo[45],
+                                info = filter.parameterInfo(Value::scaleHorizontal),
                                 previewOnly = previewOnly,
                                 shape = ShapeDefaults.top,
                                 containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
@@ -678,7 +680,7 @@ internal fun NtscParamsItem(
                             )
                             NtscParamSlider(
                                 value = params.scaleVertical,
-                                info = filter.paramsInfo[46],
+                                info = filter.parameterInfo(Value::scaleVertical),
                                 previewOnly = previewOnly,
                                 shape = ShapeDefaults.bottom,
                                 containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
@@ -690,7 +692,7 @@ internal fun NtscParamsItem(
                     )
                     NtscParamSlider(
                         value = params.scaleFactorX,
-                        info = filter.paramsInfo[47],
+                        info = filter.parameterInfo(Value::scaleFactorX),
                         previewOnly = previewOnly,
                         onValueChange = {
                             params = params.copy(scaleFactorX = it)
@@ -698,7 +700,7 @@ internal fun NtscParamsItem(
                     )
                     NtscParamSlider(
                         value = params.scaleFactorY,
-                        info = filter.paramsInfo[48],
+                        info = filter.parameterInfo(Value::scaleFactorY),
                         previewOnly = previewOnly,
                         onValueChange = {
                             params = params.copy(scaleFactorY = it)

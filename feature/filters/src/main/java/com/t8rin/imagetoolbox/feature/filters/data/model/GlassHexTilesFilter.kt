@@ -18,11 +18,43 @@
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.enums.ProceduralEffect
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.ProceduralParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.GlassHexTiles.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.filters.data.utils.gpu.ShaderEffectFilter
+import com.t8rin.imagetoolbox.feature.filters.data.utils.gpu.uniforms
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.DISTORTION)
 internal class GlassHexTilesFilter(
-    override val value: ProceduralParams = ProceduralParams()
-) : ProceduralFilter(ProceduralEffect.GlassHexTiles), Filter.GlassHexTiles
+    override val value: Value
+) : ShaderEffectFilter<Value>(parameters.uniforms(value), SHADER), Filter.GlassHexTiles {
+
+    companion object : Filter.Schema.Structured<Value> {
+        override val info =
+            FilterInfo(R.string.glass_hex_tiles, R.string.filter_help_glass_hex_tiles)
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::intensity,
+                floatParam(R.string.texture_intensity, 0.2f, -1f..1f, roundTo = 3)
+            )
+            field(Value::distortion, floatParam(R.string.distortion, 0.25f, -1f..1f, roundTo = 3))
+            field(Value::frequency, floatParam(R.string.frequency, 8f, 1f..40f, roundTo = 3))
+            field(Value::offsetX, floatParam(R.string.offset_x, 0f, -1f..1f, roundTo = 3))
+            field(Value::offsetY, floatParam(R.string.offset_y, 0f, -1f..1f, roundTo = 3))
+            field(Value::scale, floatParam(R.string.scale, 1f, 0.05f..8f, roundTo = 3))
+            field(Value::rotation, floatParam(R.string.rotation, 0f, -180f..180f, roundTo = 3))
+        }
+
+        private val SHADER = """
+            vec2 grid = p * frequency;
+            vec2 stepSize = vec2(1.7320508, 3.0);
+            vec2 a = mod(grid, stepSize) - stepSize * 0.5;
+            vec2 b = mod(grid - stepSize * 0.5, stepSize) - stepSize * 0.5;
+            vec2 local = dot(a, a) < dot(b, b) ? a : b;
+            q += local * (intensity + distortion * dot(local, local)) / frequency;
+        """.trimIndent()
+    }
+}

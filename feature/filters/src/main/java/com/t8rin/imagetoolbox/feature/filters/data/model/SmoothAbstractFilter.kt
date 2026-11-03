@@ -18,29 +18,50 @@
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import com.t8rin.gmic.GmicFilter
-import com.t8rin.gmic.filters.SmoothAbstract
 import com.t8rin.gmic.filters.AbstractRegularization
+import com.t8rin.gmic.filters.SmoothAbstract
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.SmoothAbstract.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.ARTISTIC)
 internal class SmoothAbstractFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("75", "Isotropic", "20", "1", "30")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.SmoothAbstract {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = SmoothAbstract(
-        smoothness = value[0].toFloat(),
-        regularization = AbstractRegularization.valueOf(value[1]),
-        regularizationIterations = value[2].toInt(),
-        geometry = value[3].toFloat(),
-        details = value[4].toFloat()
+        smoothness = value.settings[0].toFloat(),
+        regularization = AbstractRegularization.valueOf(value.settings[1]),
+        regularizationIterations = value.settings[2].toInt(),
+        geometry = value.settings[3].toFloat(),
+        details = value.settings[4].toFloat()
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(
+            R.string.gmic_filter_smooth_abstract,
+            R.string.filter_help_gmic_filter_smooth_abstract
+        )
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicNumber(R.string.gmic_param_smoothness, 75, 0f..100f),
+                    gmicSelection(
+                        R.string.gmic_param_regularization,
+                        "Isotropic",
+                        listOf("Isotropic", "DelaunayGuided", "EdgeOriented")
+                    ),
+                    gmicInteger(R.string.iterations, 20, 0f..100f),
+                    gmicNumber(R.string.gmic_param_geometry, 1, 0f..5f),
+                    gmicNumber(R.string.texture_detail, 30, 0f..50f)
+                )
+            )
+        }
+    }
 }

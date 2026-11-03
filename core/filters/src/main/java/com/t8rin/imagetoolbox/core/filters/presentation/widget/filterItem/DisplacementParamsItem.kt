@@ -30,10 +30,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.model.ImageModel
 import com.t8rin.imagetoolbox.core.domain.utils.roundTo
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.Displacement.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterParam
+import com.t8rin.imagetoolbox.core.filters.domain.model.copy
 import com.t8rin.imagetoolbox.core.filters.domain.model.enums.DisplacementBoundary
 import com.t8rin.imagetoolbox.core.filters.domain.model.enums.DisplacementInterpolation
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.DisplacementParams
-import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
+import com.t8rin.imagetoolbox.core.filters.presentation.model.parameterInfo
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageSelector
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButtonGroup
@@ -42,9 +45,9 @@ import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 
 @Composable
 internal fun DisplacementParamsItem(
-    value: DisplacementParams,
-    filter: UiFilter<DisplacementParams>,
-    onFilterChange: (value: DisplacementParams) -> Unit,
+    value: Value,
+    filter: Filter<Value>,
+    onFilterChange: (value: Value) -> Unit,
     previewOnly: Boolean
 ) {
     var useSeparateVerticalMap by remember(value.verticalMap) {
@@ -53,8 +56,9 @@ internal fun DisplacementParamsItem(
 
     Column(modifier = Modifier.padding(8.dp)) {
         ImageSelector(
+            enabled = !previewOnly,
             value = value.horizontalMap.data,
-            title = stringResource(R.string.horizontal_displacement_map),
+            title = stringResource(requireNotNull(filter.parameterInfo(Value::horizontalMap).title)),
             subtitle = null,
             onValueChange = {
                 onFilterChange(value.copy(horizontalMap = ImageModel(it.toString())))
@@ -76,8 +80,9 @@ internal fun DisplacementParamsItem(
         )
         if (useSeparateVerticalMap) {
             ImageSelector(
+                enabled = !previewOnly,
                 value = value.verticalMap?.data,
-                title = stringResource(R.string.vertical_displacement_map),
+                title = stringResource(requireNotNull(filter.parameterInfo(Value::verticalMap).title)),
                 subtitle = null,
                 onValueChange = {
                     onFilterChange(value.copy(verticalMap = ImageModel(it.toString())))
@@ -87,18 +92,18 @@ internal fun DisplacementParamsItem(
         }
         DisplacementSlider(
             value = value.strengthX,
-            title = stringResource(filter.paramsInfo[0].title!!),
+            info = filter.parameterInfo(Value::strengthX),
             enabled = !previewOnly,
             onValueChange = { onFilterChange(value.copy(strengthX = it)) }
         )
         DisplacementSlider(
             value = value.strengthY,
-            title = stringResource(filter.paramsInfo[1].title!!),
+            info = filter.parameterInfo(Value::strengthY),
             enabled = !previewOnly,
             onValueChange = { onFilterChange(value.copy(strengthY = it)) }
         )
         DisplacementSelection(
-            title = stringResource(R.string.gmic_param_interpolation),
+            title = stringResource(requireNotNull(filter.parameterInfo(Value::interpolation).title)),
             items = listOf(
                 stringResource(R.string.nearest),
                 stringResource(R.string.linear),
@@ -111,7 +116,7 @@ internal fun DisplacementParamsItem(
             }
         )
         DisplacementSelection(
-            title = stringResource(R.string.gmic_param_boundary),
+            title = stringResource(requireNotNull(filter.parameterInfo(Value::boundary).title)),
             items = listOf(
                 stringResource(R.string.displacement_boundary_transparent),
                 stringResource(R.string.tile_mode_clamp),
@@ -130,17 +135,17 @@ internal fun DisplacementParamsItem(
 @Composable
 private fun DisplacementSlider(
     value: Float,
-    title: String,
+    info: FilterParam,
     enabled: Boolean,
     onValueChange: (Float) -> Unit
 ) {
     EnhancedSliderItem(
         value = value,
-        title = title,
-        valueRange = -1f..1f,
+        title = stringResource(requireNotNull(info.title)),
+        valueRange = info.valueRange,
         enabled = enabled,
         onValueChange = onValueChange,
-        internalStateTransformation = { it.roundTo(3) },
+        internalStateTransformation = { it.roundTo(info.roundTo) },
         behaveAsContainer = false,
         modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
     )

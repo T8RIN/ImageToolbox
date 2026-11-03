@@ -20,23 +20,37 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 import com.t8rin.gmic.GmicFilter
 import com.t8rin.gmic.filters.HopePoster
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.HopePoster.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.ARTISTIC)
 internal class HopePosterFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("0", "3")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.HopePoster {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = HopePoster(
-        gamma = value[0].toFloat(),
-        smoothness = value[1].toFloat()
+        gamma = value.settings[0].toFloat(),
+        smoothness = value.settings[1].toFloat()
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(
+            R.string.gmic_filter_hope_poster,
+            R.string.filter_help_gmic_filter_hope_poster
+        )
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicNumber(R.string.gamma, 0, -3f..3f),
+                    gmicNumber(R.string.gmic_param_smoothness, 3, 0f..20f)
+                )
+            )
+        }
+    }
 }

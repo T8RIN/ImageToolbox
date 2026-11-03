@@ -22,31 +22,71 @@ import com.t8rin.gmic.filters.ConformalMap
 import com.t8rin.gmic.filters.ConformalMapping
 import com.t8rin.gmic.filters.GmicBoundary
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.ConformalMap.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.GEOMETRY)
 internal class ConformalMapFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("Dipole", "1", "0", "0", "0", "0", "0", "0", "Mirror", "0")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.ConformalMap {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = ConformalMap(
-        mapping = ConformalMapping.valueOf(value[0]),
-        exponentReal = value[1].toFloat(),
-        exponentImaginary = value[2].toFloat(),
-        zoom = value[3].toFloat(),
-        angle = value[4].toFloat(),
-        aspectRatio = value[5].toFloat(),
-        xShift = value[6].toFloat(),
-        yShift = value[7].toFloat(),
-        boundary = GmicBoundary.valueOf(value[8]),
-        antialiasing = value[9].toInt()
+        mapping = ConformalMapping.valueOf(value.settings[0]),
+        exponentReal = value.settings[1].toFloat(),
+        exponentImaginary = value.settings[2].toFloat(),
+        zoom = value.settings[3].toFloat(),
+        angle = value.settings[4].toFloat(),
+        aspectRatio = value.settings[5].toFloat(),
+        xShift = value.settings[6].toFloat(),
+        yShift = value.settings[7].toFloat(),
+        boundary = GmicBoundary.valueOf(value.settings[8]),
+        antialiasing = value.settings[9].toInt()
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(
+            R.string.gmic_filter_conformal_map,
+            R.string.filter_help_gmic_filter_conformal_map
+        )
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicSelection(
+                        R.string.gmic_param_mapping,
+                        "Dipole",
+                        listOf(
+                            "Identity",
+                            "Mobius",
+                            "Cosine",
+                            "Sine",
+                            "Tangent",
+                            "Exponential",
+                            "Logarithm",
+                            "Dipole",
+                            "Star"
+                        )
+                    ),
+                    gmicNumber(R.string.gmic_param_exponent_real, 1, -16f..16f),
+                    gmicNumber(R.string.gmic_param_exponent_imaginary, 0, -16f..16f),
+                    gmicNumber(R.string.zoom, 0, -4f..4f),
+                    gmicNumber(R.string.angle, 0, -180f..180f),
+                    gmicNumber(R.string.aspect_ratio, 0, -1f..1f),
+                    gmicNumber(R.string.gmic_param_x_shift, 0, -5f..5f),
+                    gmicNumber(R.string.gmic_param_y_shift, 0, -5f..5f),
+                    gmicSelection(
+                        R.string.gmic_param_boundary,
+                        "Mirror",
+                        listOf("Transparent", "Nearest", "Periodic", "Mirror")
+                    ),
+                    gmicInteger(R.string.antialias, 0, 0f..3f)
+                )
+            )
+        }
+    }
 }

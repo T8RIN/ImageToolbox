@@ -19,27 +19,36 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import android.graphics.Bitmap
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.PixelMelt.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 import com.t8rin.trickle.Trickle
 import kotlin.math.roundToInt
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.GLITCH)
 internal class PixelMeltFilter(
-    override val value: Pair<Float, Float> = 20f to 0.5f,
-) : Transformation<Bitmap>, Filter.PixelMelt {
-
-    override val cacheKey: String
-        get() = value.hashCode().toString()
+    override val value: Value,
+) : FilterTransformation, Filter.PixelMelt {
 
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
     ): Bitmap = Trickle.pixelMelt(
         src = input,
-        maxDrop = value.first.roundToInt(),
-        strength = value.second
+        maxDrop = value.maxDrop.roundToInt(),
+        strength = value.strength
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(R.string.pixel_melt, R.string.filter_help_pixel_melt)
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::maxDrop, floatParam(R.string.max_drop, 20f, 0f..250f, roundTo = 0))
+            field(Value::strength, floatParam(R.string.strength, 0.5f, 0f..1f, roundTo = 3))
+        }
+    }
 }

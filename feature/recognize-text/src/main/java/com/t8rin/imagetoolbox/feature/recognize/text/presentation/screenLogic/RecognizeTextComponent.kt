@@ -19,6 +19,7 @@
 
 package com.t8rin.imagetoolbox.feature.recognize.text.presentation.screenLogic
 
+import com.t8rin.imagetoolbox.core.filters.presentation.model.createUiFilter
 import android.graphics.Bitmap
 import android.net.Uri
 import androidx.compose.runtime.MutableState
@@ -60,9 +61,6 @@ import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.domain.utils.timestamp
 import com.t8rin.imagetoolbox.core.filters.domain.FilterProvider
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.presentation.model.UiContrastFilter
-import com.t8rin.imagetoolbox.core.filters.presentation.model.UiSharpenFilter
-import com.t8rin.imagetoolbox.core.filters.presentation.model.UiThresholdFilter
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Language
@@ -189,11 +187,11 @@ class RecognizeTextComponent @AssistedInject internal constructor(
     private val _languages: MutableState<List<OCRLanguage>> = mutableStateOf(emptyList())
     val languages by _languages
 
-    private val contrastFilterInstance = UiContrastFilter()
+    private val contrastFilterInstance = createUiFilter(Filter.Contrast::class)
 
-    private val sharpenFilterInstance = UiSharpenFilter()
+    private val sharpenFilterInstance = createUiFilter(Filter.Sharpen::class)
 
-    private val thresholdFilterInstance = UiThresholdFilter()
+    private val thresholdFilterInstance = createUiFilter(Filter.Threshold::class)
 
     private val filtersOrder = listOf(
         contrastFilterInstance,

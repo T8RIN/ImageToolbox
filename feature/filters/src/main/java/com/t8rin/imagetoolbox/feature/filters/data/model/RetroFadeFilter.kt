@@ -20,24 +20,37 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 import com.t8rin.gmic.GmicFilter
 import com.t8rin.gmic.filters.RetroFade
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.RetroFade.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.EFFECTS)
 internal class RetroFadeFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("20", "6", "40")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.RetroFade {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = RetroFade(
-        iterations = value[0].toInt(),
-        colors = value[1].toInt(),
-        grain = value[2].toFloat()
+        iterations = value.settings[0].toInt(),
+        colors = value.settings[1].toInt(),
+        grain = value.settings[2].toFloat()
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info =
+            FilterInfo(R.string.gmic_filter_retro_fade, R.string.filter_help_gmic_filter_retro_fade)
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicInteger(R.string.iterations, 20, 1f..64f),
+                    gmicInteger(R.string.gmic_param_colors, 6, 2f..32f),
+                    gmicNumber(R.string.grain, 40, 1f..100f)
+                )
+            )
+        }
+    }
 }

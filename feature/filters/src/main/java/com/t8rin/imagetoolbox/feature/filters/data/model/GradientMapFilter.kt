@@ -20,19 +20,20 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 import android.graphics.Bitmap
 import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.GradientMap.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.ensureActive
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.COLOR)
 internal class GradientMapFilter(
-    override val value: GradientPalette = GradientPalette.Spectral
-) : Transformation<Bitmap>, Filter.GradientMap {
-
-    override val cacheKey: String
-        get() = value.toSerializedString()
+    override val value: Value
+) : FilterTransformation, Filter.GradientMap {
 
     override suspend fun transform(
         input: Bitmap,
@@ -41,7 +42,7 @@ internal class GradientMapFilter(
         val width = input.width
         val height = input.height
         val output = input.copy(Bitmap.Config.ARGB_8888, true)
-        val colorMap = value.sampleColors(COLOR_MAP_SIZE).map { it.colorInt }
+        val colorMap = value.palette.sampleColors(COLOR_MAP_SIZE).map { it.colorInt }
         val pixels = IntArray(width * ROW_BLOCK_SIZE.coerceAtMost(height))
 
         var top = 0
@@ -66,6 +67,14 @@ internal class GradientMapFilter(
         }
 
         return output
+    }
+
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(R.string.gradient_map, R.string.filter_help_gradient_map)
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::palette, paletteParam(default = { GradientPalette.Spectral }))
+        }
     }
 }
 

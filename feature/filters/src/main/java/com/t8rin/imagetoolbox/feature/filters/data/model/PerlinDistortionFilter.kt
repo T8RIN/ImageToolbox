@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,27 +20,37 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 import android.graphics.Bitmap
 import com.awxkee.aire.Aire
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.PerlinDistortion.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
-
-@FilterInject
+@FilterDefinition(group = FilterGroups.DISTORTION)
 internal class PerlinDistortionFilter(
-    override val value: Triple<Float, Float, Float> = Triple(0.02f, 1f, 1f)
-) : Transformation<Bitmap>, Filter.PerlinDistortion {
-
-    override val cacheKey: String
-        get() = value.hashCode().toString()
+    override val value: Value
+) : FilterTransformation, Filter.PerlinDistortion {
 
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
     ): Bitmap = Aire.perlinDistortion(
         bitmap = input,
-        intensity = value.first,
-        turbulence = value.second,
-        amplitude = value.third
+        intensity = value.strength,
+        turbulence = value.turbulence,
+        amplitude = value.amplitude
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info =
+            FilterInfo(R.string.perlin_distortion, R.string.filter_help_perlin_distortion)
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::strength, floatParam(R.string.strength, 0.02f, 0f..1f))
+            field(Value::turbulence, floatParam(R.string.turbulence, 1f, 0f..1f))
+            field(Value::amplitude, floatParam(R.string.amplitude, 1f, 0f..1f))
+        }
+    }
 }

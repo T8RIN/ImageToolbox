@@ -18,45 +18,68 @@
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import com.t8rin.gmic.GmicFilter
-import com.t8rin.gmic.filters.SquareToCircle
 import com.t8rin.gmic.filters.GmicBoundary
 import com.t8rin.gmic.filters.GmicInterpolation
 import com.t8rin.gmic.filters.SquareCircleMode
+import com.t8rin.gmic.filters.SquareToCircle
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.SquareToCircle.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.GEOMETRY)
 internal class SquareToCircleFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf(
-            "SquareToCircle",
-            "50",
-            "50",
-            "100",
-            "0",
-            "0",
-            "Linear",
-            "Transparent",
-            "true"
-        )
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.SquareToCircle {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = SquareToCircle(
-        mode = SquareCircleMode.valueOf(value[0]),
-        centerX = value[1].toFloat(),
-        centerY = value[2].toFloat(),
-        strength = value[3].toFloat(),
-        zoom = value[4].toFloat(),
-        angle = value[5].toFloat(),
-        interpolation = GmicInterpolation.valueOf(value[6]),
-        boundary = GmicBoundary.valueOf(value[7]),
-        adaptToImageRatio = value[8].toBoolean()
+        mode = SquareCircleMode.valueOf(value.settings[0]),
+        centerX = value.settings[1].toFloat(),
+        centerY = value.settings[2].toFloat(),
+        strength = value.settings[3].toFloat(),
+        zoom = value.settings[4].toFloat(),
+        angle = value.settings[5].toFloat(),
+        interpolation = GmicInterpolation.valueOf(value.settings[6]),
+        boundary = GmicBoundary.valueOf(value.settings[7]),
+        adaptToImageRatio = value.settings[8].toBoolean()
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(
+            R.string.gmic_filter_square_to_circle,
+            R.string.filter_help_gmic_filter_square_to_circle
+        )
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicSelection(
+                        R.string.gmic_param_mode,
+                        "SquareToCircle",
+                        listOf("SquareToCircle", "CircleToSquare")
+                    ),
+                    gmicNumber(R.string.center_x, 50, 0f..100f),
+                    gmicNumber(R.string.center_y, 50, 0f..100f),
+                    gmicNumber(R.string.strength, 100, 0f..100f),
+                    gmicNumber(R.string.zoom, 0, -100f..100f),
+                    gmicNumber(R.string.angle, 0, -180f..180f),
+                    gmicSelection(
+                        R.string.gmic_param_interpolation,
+                        "Linear",
+                        listOf("NearestNeighbor", "Linear")
+                    ),
+                    gmicSelection(
+                        R.string.gmic_param_boundary,
+                        "Transparent",
+                        listOf("Transparent", "Nearest", "Periodic", "Mirror")
+                    ),
+                    gmicToggle(R.string.gmic_param_adapt_to_image_ratio, true)
+                )
+            )
+        }
+    }
 }

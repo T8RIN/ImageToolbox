@@ -19,30 +19,43 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import android.graphics.Bitmap
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
-import com.t8rin.imagetoolbox.core.domain.utils.Quad
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.L0Smoothing.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 import com.t8rin.opencv_tools.photo_filters.SpectralFilters
 import kotlin.math.roundToInt
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.ENHANCEMENT)
 internal class L0SmoothingFilter(
-    override val value: Quad<Float, Float, Float, Float> = Quad(0.016f, 2.2f, 9f, 1f)
-) : Transformation<Bitmap>, Filter.L0Smoothing {
-
-    override val cacheKey: String
-        get() = "${javaClass.name}:${value.hashCode()}"
+    override val value: Value
+) : FilterTransformation, Filter.L0Smoothing {
 
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
     ): Bitmap = SpectralFilters.l0Smoothing(
         bitmap = input,
-        lambda = value.first,
-        penaltyGrowth = value.second,
-        iterations = value.third.roundToInt(),
-        strength = value.fourth
+        lambda = value.lambda,
+        penaltyGrowth = value.penaltyGrowth,
+        iterations = value.iterations.roundToInt(),
+        strength = value.strength
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(R.string.l0_smoothing, R.string.filter_help_l0_smoothing)
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::lambda, floatParam(R.string.lambda, 0.016f, 0.0001f..0.2f, roundTo = 4))
+            field(
+                Value::penaltyGrowth,
+                floatParam(R.string.penalty_growth, 2.2f, 1.3f..4f, roundTo = 1)
+            )
+            field(Value::iterations, floatParam(R.string.iterations, 9f, 1f..14f, roundTo = 0))
+            field(Value::strength, floatParam(R.string.strength, 1f, 0f..1f))
+        }
+    }
 }

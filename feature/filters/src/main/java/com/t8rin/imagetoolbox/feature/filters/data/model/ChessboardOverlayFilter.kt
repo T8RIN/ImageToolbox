@@ -20,29 +20,49 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 import com.t8rin.gmic.GmicFilter
 import com.t8rin.gmic.filters.ChessboardOverlay
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.ChessboardOverlay.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.PIXELATION)
 internal class ChessboardOverlayFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("64", "64", "0", "0", "0", "0.25", "-16777216", "-1")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.ChessboardOverlay {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = ChessboardOverlay(
-        firstSize = value[0].toInt(),
-        secondSize = value[1].toInt(),
-        firstOffset = value[2].toInt(),
-        secondOffset = value[3].toInt(),
-        angle = value[4].toFloat(),
-        opacity = value[5].toFloat(),
-        firstColor = value[6].toInt(),
-        secondColor = value[7].toInt()
+        firstSize = value.settings[0].toInt(),
+        secondSize = value.settings[1].toInt(),
+        firstOffset = value.settings[2].toInt(),
+        secondOffset = value.settings[3].toInt(),
+        angle = value.settings[4].toFloat(),
+        opacity = value.settings[5].toFloat(),
+        firstColor = value.settings[6].toInt(),
+        secondColor = value.settings[7].toInt()
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(
+            R.string.gmic_filter_chessboard_overlay,
+            R.string.filter_help_gmic_filter_chessboard_overlay
+        )
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicInteger(R.string.gmic_param_first_size, 64, 1f..512f),
+                    gmicInteger(R.string.gmic_param_second_size, 64, 1f..512f),
+                    gmicInteger(R.string.gmic_param_first_offset, 0, 0f..512f),
+                    gmicInteger(R.string.gmic_param_second_offset, 0, 0f..512f),
+                    gmicNumber(R.string.angle, 0, 0f..180f),
+                    gmicNumber(R.string.opacity, 0.25f, 0f..1f),
+                    gmicColor(R.string.first_color, -16777216),
+                    gmicColor(R.string.second_color, -1)
+                )
+            )
+        }
+    }
 }

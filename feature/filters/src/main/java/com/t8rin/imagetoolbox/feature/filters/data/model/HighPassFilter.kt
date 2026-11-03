@@ -20,18 +20,27 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 import com.jhlabs.HighPassFilter
 import com.jhlabs.JhFilter
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.HighPass.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.JhFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.ENHANCEMENT)
 internal class HighPassFilter(
-    override val value: Float = 10f
+    override val value: Value
 ) : JhFilterTransformation(), Filter.HighPass {
 
-    override val cacheKey: String
-        get() = value.toString()
-
     override fun createFilter(): JhFilter = HighPassFilter().apply {
-        radius = value
+        radius = value.radius
+    }
+
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(R.string.high_pass, R.string.filter_help_high_pass)
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::radius, floatParam(default = 10f, range = 1f..100f))
+        }
     }
 }

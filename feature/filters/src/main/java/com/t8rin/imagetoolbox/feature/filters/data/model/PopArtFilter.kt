@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,35 +20,43 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 import android.graphics.Bitmap
 import androidx.compose.ui.graphics.Color
 import com.t8rin.imagetoolbox.core.data.image.utils.ColorUtils.toModel
-import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.PopArt.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
 import com.t8rin.imagetoolbox.core.filters.domain.model.enums.PopArtBlendingMode
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 import com.t8rin.imagetoolbox.feature.filters.data.utils.toMode
 import com.t8rin.trickle.Trickle
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.ARTISTIC)
 internal class PopArtFilter(
-    override val value: Triple<Float, ColorModel, PopArtBlendingMode> = Triple(
-        first = 1f,
-        second = Color.Red.toModel(),
-        third = PopArtBlendingMode.MULTIPLY
-    )
-) : Transformation<Bitmap>, Filter.PopArt {
-
-    override val cacheKey: String
-        get() = value.hashCode().toString()
+    override val value: Value
+) : FilterTransformation, Filter.PopArt {
 
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
     ): Bitmap = Trickle.popArt(
         input = input,
-        color = value.second.colorInt,
-        strength = value.first,
-        blendMode = value.third.toMode()
+        color = value.color.colorInt,
+        strength = value.strength,
+        blendMode = value.overlayMode.toMode()
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(R.string.pop_art, R.string.filter_help_pop_art)
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::strength, floatParam(R.string.strength, 1f, 0f..1f))
+            field(Value::color, colorParam(R.string.color, Color.Red.toModel(), allowAlpha = true))
+            field(
+                Value::overlayMode,
+                enumParam(R.string.overlay_mode, default = { PopArtBlendingMode.MULTIPLY })
+            )
+        }
+    }
 }

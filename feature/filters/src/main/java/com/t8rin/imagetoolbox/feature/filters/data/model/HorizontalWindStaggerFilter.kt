@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,33 +22,44 @@ import androidx.compose.ui.graphics.Color
 import com.awxkee.aire.Aire
 import com.t8rin.imagetoolbox.core.data.image.utils.ColorUtils.toAbgr
 import com.t8rin.imagetoolbox.core.data.image.utils.ColorUtils.toModel
-import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.HorizontalWindStagger.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.theme.toColor
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.GLITCH)
 internal class HorizontalWindStaggerFilter(
-    override val value: Triple<Float, Int, ColorModel> = Triple(
-        first = 0.2f,
-        second = 90,
-        third = Color.Transparent.toModel()
-    )
-) : Transformation<Bitmap>, Filter.HorizontalWindStagger {
-
-    override val cacheKey: String
-        get() = value.hashCode().toString()
+    override val value: Value
+) : FilterTransformation, Filter.HorizontalWindStagger {
 
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
     ): Bitmap = Aire.horizontalWindStagger(
         bitmap = input,
-        windStrength = value.first,
-        streamsCount = value.second,
-        clearColor = value.third.colorInt.toColor().toAbgr()
+        windStrength = value.strength,
+        streamsCount = value.amount,
+        clearColor = value.color.colorInt.toColor().toAbgr()
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(
+            R.string.horizontal_wind_stagger,
+            R.string.filter_help_horizontal_wind_stagger
+        )
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::strength, floatParam(R.string.strength, 0.2f, 0f..100f, roundTo = 1))
+            field(Value::amount, intParam(R.string.amount, 90, 10..200))
+            field(
+                Value::color,
+                colorParam(R.string.color, Color.Transparent.toModel(), allowAlpha = true)
+            )
+        }
+    }
 }

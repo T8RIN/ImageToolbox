@@ -18,27 +18,46 @@
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import com.t8rin.gmic.GmicFilter
-import com.t8rin.gmic.filters.DiceMosaic
 import com.t8rin.gmic.filters.DiceColorModel
+import com.t8rin.gmic.filters.DiceMosaic
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.DiceMosaic.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.PIXELATION)
 internal class DiceMosaicFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("2", "24", "WhiteDice")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.DiceMosaic {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = DiceMosaic(
-        resolution = value[0].toFloat(),
-        size = value[1].toInt(),
-        colorModel = DiceColorModel.valueOf(value[2])
+        resolution = value.settings[0].toFloat(),
+        size = value.settings[1].toInt(),
+        colorModel = DiceColorModel.valueOf(value.settings[2])
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(
+            R.string.gmic_filter_dice_mosaic,
+            R.string.filter_help_gmic_filter_dice_mosaic
+        )
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicNumber(R.string.resolution, 2, 1f..10f),
+                    gmicInteger(R.string.just_size, 24, 8f..64f),
+                    gmicSelection(
+                        R.string.gmic_param_color_model,
+                        "WhiteDice",
+                        listOf("BlackDice", "WhiteDice", "ColoredNumbers", "ColoredSides")
+                    )
+                )
+            )
+        }
+    }
 }

@@ -19,30 +19,50 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import android.graphics.Bitmap
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
-import com.t8rin.imagetoolbox.core.domain.utils.Quad
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.NonLocalMeans.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 import com.t8rin.opencv_tools.photo_filters.RestorationFilters
 import kotlin.math.roundToInt
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.ENHANCEMENT)
 internal class NonLocalMeansFilter(
-    override val value: Quad<Float, Float, Float, Float> = Quad(7f, 9f, 15f, 1f)
-) : Transformation<Bitmap>, Filter.NonLocalMeans {
-
-    override val cacheKey: String
-        get() = "${javaClass.name}:${value.hashCode()}"
+    override val value: Value
+) : FilterTransformation, Filter.NonLocalMeans {
 
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
     ): Bitmap = RestorationFilters.nonLocalMeans(
         bitmap = input,
-        luminanceNoise = value.first,
-        chromaNoise = value.second,
-        searchWindow = value.third.roundToInt(),
-        strength = value.fourth
+        luminanceNoise = value.luminanceNoise,
+        chromaNoise = value.ntscChromaNoise,
+        searchWindow = value.searchWindow.roundToInt(),
+        strength = value.strength
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info =
+            FilterInfo(R.string.non_local_means, R.string.filter_help_non_local_means)
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::luminanceNoise,
+                floatParam(R.string.luminance_noise, 7f, 0f..25f, roundTo = 1)
+            )
+            field(
+                Value::ntscChromaNoise,
+                floatParam(R.string.ntsc_chroma_noise, 9f, 0f..25f, roundTo = 1)
+            )
+            field(
+                Value::searchWindow,
+                floatParam(R.string.search_window, 15f, 7f..23f, roundTo = 0)
+            )
+            field(Value::strength, floatParam(R.string.strength, 1f, 0f..1f))
+        }
+    }
 }

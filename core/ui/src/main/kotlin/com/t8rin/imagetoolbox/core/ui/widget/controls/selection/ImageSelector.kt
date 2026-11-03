@@ -64,7 +64,8 @@ fun ImageSelector(
     autoShadowElevation: Dp = 1.dp,
     color: Color = MaterialTheme.colorScheme.surfaceContainerLow,
     shape: Shape = ShapeDefaults.large,
-    contentScale: ContentScale = ContentScale.Crop
+    contentScale: ContentScale = ContentScale.Crop,
+    enabled: Boolean = true
 ) {
     val imagePicker = rememberImagePicker(onSuccess = onValueChange)
 
@@ -73,6 +74,7 @@ fun ImageSelector(
     }
 
     PreferenceItemOverload(
+        enabled = enabled,
         title = title,
         subtitle = subtitle,
         onClick = imagePicker::pickImage,
@@ -132,11 +134,13 @@ fun FileSelector(
     modifier: Modifier = Modifier,
     autoShadowElevation: Dp = 1.dp,
     color: Color = MaterialTheme.colorScheme.surfaceContainerLow,
-    shape: Shape = ShapeDefaults.large
+    shape: Shape = ShapeDefaults.large,
+    enabled: Boolean = true
 ) {
     val pickFileLauncher = rememberFilePicker(onSuccess = onValueChange)
 
     PreferenceItemOverload(
+        enabled = enabled,
         title = title,
         subtitle = if (subtitle == null && value != null) {
             rememberFilename(value.toUri())

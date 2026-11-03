@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,20 +20,20 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 import android.graphics.Bitmap
 import androidx.compose.ui.graphics.Color
 import com.t8rin.imagetoolbox.core.data.image.utils.ColorUtils.toModel
-import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.SandPainting.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 import com.t8rin.trickle.Trickle
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.ARTISTIC)
 internal class SandPaintingFilter(
-    override val value: Triple<Int, Int, ColorModel> = Triple(5000, 50, Color.Black.toModel())
-) : Transformation<Bitmap>, Filter.SandPainting {
-
-    override val cacheKey: String
-        get() = value.hashCode().toString()
+    override val value: Value
+) : FilterTransformation, Filter.SandPainting {
 
     override suspend fun transform(
         input: Bitmap,
@@ -41,10 +41,22 @@ internal class SandPaintingFilter(
     ): Bitmap = Trickle.drawColorBehind(
         input = Trickle.sandPainting(
             input = input,
-            alphaOrPointCount = value.first.toFloat(),
-            threshold = value.second
+            alphaOrPointCount = value.strength.toFloat(),
+            threshold = value.threshold
         ),
-        color = value.third.colorInt
+        color = value.backgroundColor.colorInt
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(R.string.sand_painting, R.string.filter_help_sand_painting)
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::strength, intParam(R.string.strength, 5000, 50..75000))
+            field(Value::threshold, intParam(R.string.threshold, 50, 30..90))
+            field(
+                Value::backgroundColor,
+                colorParam(R.string.background_color, Color.Black.toModel(), allowAlpha = true)
+            )
+        }
+    }
 }

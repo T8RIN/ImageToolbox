@@ -19,19 +19,19 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import android.graphics.Bitmap
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.RisographParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.Risograph.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 import com.t8rin.trickle.Trickle
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.ARTISTIC)
 internal class RisographFilter(
-    override val value: RisographParams = RisographParams.Default
-) : Transformation<Bitmap>, Filter.Risograph {
-
-    override val cacheKey: String
-        get() = "${javaClass.name}:${value.hashCode()}"
+    override val value: Value
+) : FilterTransformation, Filter.Risograph {
 
     override suspend fun transform(
         input: Bitmap,
@@ -47,4 +47,28 @@ internal class RisographFilter(
         strength = value.strength
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(R.string.risograph, R.string.filter_help_risograph)
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::spacing, intParam(R.string.spacing, 8, 2..30))
+            field(
+                Value::misregistration,
+                floatParam(R.string.misregistration, 2.5f, 0f..20f, roundTo = 1)
+            )
+            field(Value::dotGain, floatParam(R.string.dot_gain, 0.32f, 0f..1f))
+            field(
+                Value::inks,
+                choiceParam(
+                    R.string.inks, 0,
+                    R.string.blue_and_pink,
+                    R.string.blue_and_green,
+                    R.string.green_and_pink
+                )
+            )
+            field(Value::paperGrain, floatParam(R.string.paper_grain, 0.4f, 0f..1f))
+            field(Value::seed, intParam(R.string.seed, 0, 0..10000))
+            field(Value::strength, floatParam(R.string.strength, 1f, 0f..1f))
+        }
+    }
 }

@@ -21,25 +21,43 @@ import com.t8rin.gmic.GmicFilter
 import com.t8rin.gmic.filters.Streak
 import com.t8rin.gmic.filters.StreakPropagation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.Streak.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.GLITCH)
 internal class StreakFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("-65536", "0", "0", "BidirectionalSmooth")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.Streak {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = Streak(
-        maskColor = value[0].toInt(),
-        step = value[1].toFloat(),
-        angle = value[2].toFloat(),
-        propagation = StreakPropagation.valueOf(value[3])
+        maskColor = value.settings[0].toInt(),
+        step = value.settings[1].toFloat(),
+        angle = value.settings[2].toFloat(),
+        propagation = StreakPropagation.valueOf(value.settings[3])
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info =
+            FilterInfo(R.string.gmic_filter_streak, R.string.filter_help_gmic_filter_streak)
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicColor(R.string.mask_color, -65536),
+                    gmicNumber(R.string.gmic_param_step, 0, 0f..30f),
+                    gmicNumber(R.string.angle, 0, 0f..360f),
+                    gmicSelection(
+                        R.string.gmic_param_propagation,
+                        "BidirectionalSmooth",
+                        listOf("Backward", "Forward", "BidirectionalSharp", "BidirectionalSmooth")
+                    )
+                )
+            )
+        }
+    }
 }

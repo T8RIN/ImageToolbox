@@ -20,24 +20,34 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 import android.graphics.Bitmap
 import com.awxkee.aire.Aire
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.NativeStackBlur.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.BLUR)
 internal class NativeStackBlurFilter(
-    override val value: Float = 25f,
-) : Transformation<Bitmap>, Filter.NativeStackBlur {
-
-    override val cacheKey: String
-        get() = value.hashCode().toString()
+    override val value: Value,
+) : FilterTransformation, Filter.NativeStackBlur {
 
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
     ): Bitmap = Aire.stackBlur(
         bitmap = input,
-        verticalRadius = value.toInt().coerceAtLeast(1),
-        horizontalRadius = value.toInt().coerceAtLeast(1)
+        verticalRadius = value.radius.toInt().coerceAtLeast(1),
+        horizontalRadius = value.radius.toInt().coerceAtLeast(1)
     )
+
+    companion object : Filter.Schema.Structured<Value> {
+        override val info =
+            FilterInfo(R.string.native_stack_blur, R.string.filter_help_native_stack_blur)
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::radius, floatParam(default = 25f, range = 3f..250f, roundTo = 0))
+        }
+    }
 }

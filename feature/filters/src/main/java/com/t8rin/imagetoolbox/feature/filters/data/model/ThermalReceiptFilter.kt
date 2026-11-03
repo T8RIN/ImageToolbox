@@ -19,19 +19,19 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import android.graphics.Bitmap
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.ThermalReceiptParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.ThermalReceipt.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 import com.t8rin.trickle.Trickle
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.ARTISTIC)
 internal class ThermalReceiptFilter(
-    override val value: ThermalReceiptParams = ThermalReceiptParams.Default
-) : Transformation<Bitmap>, Filter.ThermalReceipt {
-
-    override val cacheKey: String
-        get() = "${javaClass.name}:${value.hashCode()}"
+    override val value: Value
+) : FilterTransformation, Filter.ThermalReceipt {
 
     override suspend fun transform(
         input: Bitmap,
@@ -47,4 +47,18 @@ internal class ThermalReceiptFilter(
         strength = value.strength
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info =
+            FilterInfo(R.string.thermal_receipt, R.string.filter_help_thermal_receipt)
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::size, intParam(R.string.just_size, 4, 1..22))
+            field(Value::heat, floatParam(R.string.heat, 1.35f, 0.4f..2.5f))
+            field(Value::heatRetention, floatParam(R.string.heat_retention, 0.32f, 0f..0.9f))
+            field(Value::defects, floatParam(R.string.defects, 0.015f, 0f..0.15f, roundTo = 3))
+            field(Value::fading, floatParam(R.string.fading, 0.1f, 0f..0.8f))
+            field(Value::seed, intParam(R.string.seed, 0, 0..10000))
+            field(Value::strength, floatParam(R.string.strength, 1f, 0f..1f))
+        }
+    }
 }

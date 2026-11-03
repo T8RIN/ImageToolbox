@@ -21,23 +21,39 @@ import com.t8rin.gmic.GmicFilter
 import com.t8rin.gmic.filters.Skeleton
 import com.t8rin.gmic.filters.SkeletonMethod
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.Skeleton.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.EFFECTS)
 internal class SkeletonFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("Distance", "0")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.Skeleton {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = Skeleton(
-        method = SkeletonMethod.valueOf(value[0]),
-        smoothness = value[1].toFloat()
+        method = SkeletonMethod.valueOf(value.settings[0]),
+        smoothness = value.settings[1].toFloat()
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info =
+            FilterInfo(R.string.gmic_filter_skeleton, R.string.filter_help_gmic_filter_skeleton)
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicSelection(
+                        R.string.gmic_param_method,
+                        "Distance",
+                        listOf("Distance", "Thinning")
+                    ),
+                    gmicNumber(R.string.gmic_param_smoothness, 0, 0f..10f)
+                )
+            )
+        }
+    }
 }

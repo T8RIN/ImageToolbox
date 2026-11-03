@@ -18,32 +18,72 @@
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import com.t8rin.gmic.GmicFilter
-import com.t8rin.gmic.filters.HuffmanGlitch
 import com.t8rin.gmic.filters.HuffmanColorSpace
+import com.t8rin.gmic.filters.HuffmanGlitch
 import com.t8rin.gmic.filters.HuffmanSplitMode
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.HuffmanGlitch.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.GLITCH)
 internal class HuffmanGlitchFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("30", "None", "25", "0", "Rgb", "0", "0")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.HuffmanGlitch {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = HuffmanGlitch(
-        noiseLevel = value[0].toFloat(),
-        splitMode = HuffmanSplitMode.valueOf(value[1]),
-        blockSize = value[2].toInt(),
-        patchOverlap = value[3].toFloat(),
-        colorSpace = HuffmanColorSpace.valueOf(value[4]),
-        quantization = value[5].toInt(),
-        randomSeed = value[6].toInt()
+        noiseLevel = value.settings[0].toFloat(),
+        splitMode = HuffmanSplitMode.valueOf(value.settings[1]),
+        blockSize = value.settings[2].toInt(),
+        patchOverlap = value.settings[3].toFloat(),
+        colorSpace = HuffmanColorSpace.valueOf(value.settings[4]),
+        quantization = value.settings[5].toInt(),
+        randomSeed = value.settings[6].toInt()
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(
+            R.string.gmic_filter_huffman_glitch,
+            R.string.filter_help_gmic_filter_huffman_glitch
+        )
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicNumber(R.string.gmic_param_noise_level, 30, 0f..100f),
+                    gmicSelection(
+                        R.string.gmic_param_split_mode,
+                        "None",
+                        listOf("None", "HorizontalBlocks", "VerticalBlocks", "Patches")
+                    ),
+                    gmicInteger(R.string.block_size, 25, 0f..100f),
+                    gmicNumber(R.string.gmic_param_patch_overlap, 0, 0f..50f),
+                    gmicSelection(
+                        R.string.tag_color_space,
+                        "Rgb",
+                        listOf(
+                            "Rgb",
+                            "Cmyk",
+                            "Hcy",
+                            "Hsi",
+                            "Hsl",
+                            "Hsv",
+                            "Jzazbz",
+                            "Lab",
+                            "Lch",
+                            "OkLab",
+                            "YCbCr",
+                            "Yiq"
+                        )
+                    ),
+                    gmicInteger(R.string.gmic_param_quantization, 0, 0f..64f),
+                    gmicInteger(R.string.seed, 0, 0f..65536f)
+                )
+            )
+        }
+    }
 }

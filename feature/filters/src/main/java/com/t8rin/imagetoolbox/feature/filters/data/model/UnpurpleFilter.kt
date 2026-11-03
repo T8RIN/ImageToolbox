@@ -20,28 +20,52 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 import com.t8rin.gmic.GmicFilter
 import com.t8rin.gmic.filters.Unpurple
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.Unpurple.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.COLOR)
 internal class UnpurpleFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("1", "0", "0", "0.33", "5", "false", "0")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.Unpurple {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = Unpurple(
-        intensityOfPurpleFringe = value[0].toFloat(),
-        minimumBrightness = value[1].toFloat(),
-        minimumRedBlueRatioInTheFringe = value[2].toFloat(),
-        maximumRedBlueRatioInTheFringe = value[3].toFloat(),
-        blurStandardDeviation = value[4].toInt(),
-        gentleModeOverridesMinimumBrightnessAndMinimunRedBlueRatio = value[5].toBoolean(),
-        bitDepth = value[6].toInt()
+        intensityOfPurpleFringe = value.settings[0].toFloat(),
+        minimumBrightness = value.settings[1].toFloat(),
+        minimumRedBlueRatioInTheFringe = value.settings[2].toFloat(),
+        maximumRedBlueRatioInTheFringe = value.settings[3].toFloat(),
+        blurStandardDeviation = value.settings[4].toInt(),
+        gentleModeOverridesMinimumBrightnessAndMinimunRedBlueRatio = value.settings[5].toBoolean(),
+        bitDepth = value.settings[6].toInt()
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info =
+            FilterInfo(R.string.gmic_filter_unpurple, R.string.filter_help_gmic_filter_unpurple)
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicNumber(R.string.gmic_param_intensity_of_purple_fringe, 1, 0f..1f),
+                    gmicNumber(R.string.gmic_param_minimum_brightness, 0, 0f..1f),
+                    gmicNumber(R.string.gmic_param_minimum_red_blue_ratio_in_the_fringe, 0, 0f..1f),
+                    gmicNumber(
+                        R.string.gmic_param_maximum_red_blue_ratio_in_the_fringe,
+                        0.33f,
+                        0f..1f
+                    ),
+                    gmicInteger(R.string.gmic_param_blur_standard_deviation, 5, 1f..10f),
+                    gmicToggle(
+                        R.string.gmic_param_gentle_mode_overrides_minimum_brightness_and_minimun_red_blue_ratio,
+                        false
+                    ),
+                    gmicInteger(R.string.bit_depth, 0, 0f..32f)
+                )
+            )
+        }
+    }
 }

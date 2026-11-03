@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.feature.draw.presentation.components.utils
 
+import com.t8rin.imagetoolbox.core.filters.presentation.model.createUiFilter
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BlurMaskFilter
@@ -61,8 +62,7 @@ import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.model.Pt
 import com.t8rin.imagetoolbox.core.domain.model.max
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.presentation.model.UiNativeStackBlurFilter
-import com.t8rin.imagetoolbox.core.filters.presentation.model.UiPixelationFilter
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterValues
 import com.t8rin.imagetoolbox.core.filters.presentation.model.toUiFilter
 import com.t8rin.imagetoolbox.core.resources.shapes.MaterialStarShape
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.density
@@ -502,19 +502,26 @@ internal fun transformationsForMode(
 ): List<Filter<*>> = when (drawMode) {
     is DrawMode.PathEffect.PrivacyBlur -> {
         listOf(
-            UiNativeStackBlurFilter(
-                value = drawMode.blurRadius.toFloat() / 1000 * max(canvasSize)
+            createUiFilter(
+                Filter.NativeStackBlur::class,
+                value = FilterValues.nativeStackBlur(
+                    drawMode.blurRadius.toFloat() / 1000 * max(
+                        canvasSize
+                    )
+                )
             )
         )
     }
 
     is DrawMode.PathEffect.Pixelation -> {
         listOf(
-            UiNativeStackBlurFilter(
-                value = 20f / 1000 * max(canvasSize)
+            createUiFilter(
+                Filter.NativeStackBlur::class,
+                value = FilterValues.nativeStackBlur(20f / 1000 * max(canvasSize))
             ),
-            UiPixelationFilter(
-                value = drawMode.pixelSize / 1000 * max(canvasSize)
+            createUiFilter(
+                Filter.Pixelation::class,
+                value = FilterValues.pixelation(drawMode.pixelSize / 1000 * max(canvasSize))
             )
         )
     }

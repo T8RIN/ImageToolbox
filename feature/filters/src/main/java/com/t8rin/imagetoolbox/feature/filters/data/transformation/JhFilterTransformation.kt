@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,11 +22,12 @@ import coil3.size.Size
 import com.jhlabs.JhFilter
 import com.t8rin.imagetoolbox.core.data.utils.asCoil
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.feature.filters.data.utils.flexible
 import coil3.transform.Transformation as CoilTransformation
 
-internal abstract class JhFilterTransformation : CoilTransformation(), Transformation<Bitmap> {
+internal abstract class JhFilterTransformation : CoilTransformation(), FilterTransformation {
+
+    override val cacheKey: String get() = super<FilterTransformation>.cacheKey
 
     abstract fun createFilter(): JhFilter
 

@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.core.filters.presentation.widget.addFilters
 
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import android.graphics.Bitmap
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -54,7 +55,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.t8rin.imagetoolbox.core.filters.presentation.model.UiCubeLutFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.FilterSelectionItem
 import com.t8rin.imagetoolbox.core.resources.HistoryToggleOff
@@ -138,8 +138,8 @@ internal fun OtherContent(
                 },
                 isFavoritePage = false,
                 modifier = Modifier.animateItem(),
-                cubeLutRemoteResources = component.cubeLutRemoteResources.takeIf { filter is UiCubeLutFilter },
-                cubeLutDownloadProgress = component.cubeLutDownloadProgress.takeIf { filter is UiCubeLutFilter },
+                cubeLutRemoteResources = component.cubeLutRemoteResources.takeIf { filter is Filter.CubeLut },
+                cubeLutDownloadProgress = component.cubeLutDownloadProgress.takeIf { filter is Filter.CubeLut },
                 onCubeLutDownloadRequest = { forceUpdate, downloadOnlyNewData ->
                     component.updateCubeLuts(
                         startDownloadIfNeeded = true,

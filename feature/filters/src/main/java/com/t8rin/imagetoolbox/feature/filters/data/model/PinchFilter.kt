@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,18 +21,18 @@ import android.graphics.Bitmap
 import com.jhlabs.JhFilter
 import com.jhlabs.PinchFilter
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.PinchParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.Pinch.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.JhFilterTransformation
 import kotlin.math.max
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.DISTORTION)
 internal class PinchFilter(
-    override val value: PinchParams = PinchParams.Default
+    override val value: Value
 ) : JhFilterTransformation(), Filter.Pinch {
-
-    override val cacheKey: String
-        get() = value.hashCode().toString()
 
     override fun createFilter(): JhFilter = PinchFilter()
 
@@ -44,4 +44,16 @@ internal class PinchFilter(
         amount = value.amount
     }
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info =
+            FilterInfo(R.string.whirl_and_pinch, R.string.filter_help_whirl_and_pinch)
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::angle, floatParam(R.string.angle, 15f, 0f..360f, roundTo = 0))
+            field(Value::centreX, floatParam(R.string.center_x, 0.5f, 0f..1f))
+            field(Value::centreY, floatParam(R.string.center_y, 0.5f, 0f..1f))
+            field(Value::radius, floatParam(R.string.radius, 1f, 0f..2f))
+            field(Value::amount, floatParam(R.string.amount, 0.5f, -1f..1f))
+        }
+    }
 }

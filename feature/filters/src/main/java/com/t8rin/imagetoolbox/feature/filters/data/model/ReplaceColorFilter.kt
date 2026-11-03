@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,31 +20,51 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 import android.graphics.Bitmap
 import androidx.compose.ui.graphics.Color
 import com.t8rin.imagetoolbox.core.data.image.utils.ColorUtils.toModel
-import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.ReplaceColor.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 import com.t8rin.trickle.Trickle
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.COLOR)
 internal class ReplaceColorFilter(
-    override val value: Triple<Float, ColorModel, ColorModel> = Triple(
-        first = 0f,
-        second = Color(red = 0.0f, green = 0.0f, blue = 0.0f, alpha = 1.0f).toModel(),
-        third = Color(red = 1.0f, green = 1.0f, blue = 1.0f, alpha = 1.0f).toModel()
-    ),
-) : Transformation<Bitmap>, Filter.ReplaceColor {
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
+    override val value: Value,
+) : FilterTransformation, Filter.ReplaceColor {
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
     ): Bitmap = Trickle.replaceColor(
         input = input,
-        sourceColor = value.second.colorInt,
-        targetColor = value.third.colorInt,
-        tolerance = value.first
+        sourceColor = value.colorToReplace.colorInt,
+        targetColor = value.targetColor.colorInt,
+        tolerance = value.tolerance
     )
+
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(R.string.replace_color, R.string.filter_help_replace_color)
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::tolerance, floatParam(R.string.tolerance, 0f, 0f..1f))
+            field(
+                Value::colorToReplace,
+                colorParam(
+                    R.string.color_to_replace,
+                    Color(red = 0.0f, green = 0.0f, blue = 0.0f, alpha = 1.0f).toModel(),
+                    allowAlpha = true
+                )
+            )
+            field(
+                Value::targetColor,
+                colorParam(
+                    R.string.target_color,
+                    Color(red = 1.0f, green = 1.0f, blue = 1.0f, alpha = 1.0f).toModel(),
+                    allowAlpha = true
+                )
+            )
+        }
+    }
 }

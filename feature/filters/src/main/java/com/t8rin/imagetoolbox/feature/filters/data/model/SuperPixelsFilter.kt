@@ -18,31 +18,50 @@
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import com.t8rin.gmic.GmicFilter
-import com.t8rin.gmic.filters.SuperPixels
 import com.t8rin.gmic.filters.SuperPixelColors
+import com.t8rin.gmic.filters.SuperPixels
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.SuperPixels.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.PIXELATION)
 internal class SuperPixelsFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("16", "10", "5", "Average", "1", "1", "-16777216")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.SuperPixels {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = SuperPixels(
-        size = value[0].toInt(),
-        regularity = value[1].toFloat(),
-        iterations = value[2].toInt(),
-        colors = SuperPixelColors.valueOf(value[3]),
-        borderOpacity = value[4].toFloat(),
-        borderThickness = value[5].toInt(),
-        borderColor = value[6].toInt()
+        size = value.settings[0].toInt(),
+        regularity = value.settings[1].toFloat(),
+        iterations = value.settings[2].toInt(),
+        colors = SuperPixelColors.valueOf(value.settings[3]),
+        borderOpacity = value.settings[4].toFloat(),
+        borderThickness = value.settings[5].toInt(),
+        borderColor = value.settings[6].toInt()
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(
+            R.string.gmic_filter_super_pixels,
+            R.string.filter_help_gmic_filter_super_pixels
+        )
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicInteger(R.string.just_size, 16, 4f..64f),
+                    gmicNumber(R.string.gmic_param_regularity, 10, 0f..128f),
+                    gmicInteger(R.string.iterations, 5, 1f..16f),
+                    gmicSelection(R.string.color, "Average", listOf("Random", "Average")),
+                    gmicNumber(R.string.gmic_param_border_opacity, 1, 0f..1f),
+                    gmicInteger(R.string.border_thickness, 1, 1f..16f),
+                    gmicColor(R.string.border_color, -16777216)
+                )
+            )
+        }
+    }
 }

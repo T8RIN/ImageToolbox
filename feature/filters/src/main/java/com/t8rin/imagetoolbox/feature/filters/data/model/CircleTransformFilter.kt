@@ -23,30 +23,63 @@ import com.t8rin.gmic.filters.CircleTransformSymmetry
 import com.t8rin.gmic.filters.GmicBoundary
 import com.t8rin.gmic.filters.GmicInterpolation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.CircleTransform.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.GEOMETRY)
 internal class CircleTransformFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("50", "50", "75", "50", "-2", "-2", "None", "Linear", "Mirror")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.CircleTransform {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = CircleTransform(
-        centerX = value[0].toFloat(),
-        centerY = value[1].toFloat(),
-        radiusPointX = value[2].toFloat(),
-        radiusPointY = value[3].toFloat(),
-        xScale = value[4].toFloat(),
-        yScale = value[5].toFloat(),
-        symmetry = CircleTransformSymmetry.valueOf(value[6]),
-        interpolation = GmicInterpolation.valueOf(value[7]),
-        boundary = GmicBoundary.valueOf(value[8])
+        centerX = value.settings[0].toFloat(),
+        centerY = value.settings[1].toFloat(),
+        radiusPointX = value.settings[2].toFloat(),
+        radiusPointY = value.settings[3].toFloat(),
+        xScale = value.settings[4].toFloat(),
+        yScale = value.settings[5].toFloat(),
+        symmetry = CircleTransformSymmetry.valueOf(value.settings[6]),
+        interpolation = GmicInterpolation.valueOf(value.settings[7]),
+        boundary = GmicBoundary.valueOf(value.settings[8])
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(
+            R.string.gmic_filter_circle_transform,
+            R.string.filter_help_gmic_filter_circle_transform
+        )
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicNumber(R.string.center_x, 50, 0f..100f),
+                    gmicNumber(R.string.center_y, 50, 0f..100f),
+                    gmicNumber(R.string.gmic_param_radius_point_x, 75, 0f..100f),
+                    gmicNumber(R.string.gmic_param_radius_point_y, 50, 0f..100f),
+                    gmicNumber(R.string.gmic_param_x_scale, -2, -16f..16f),
+                    gmicNumber(R.string.gmic_param_y_scale, -2, -16f..16f),
+                    gmicSelection(
+                        R.string.texture_symmetry,
+                        "None",
+                        listOf("None", "Inside", "Outside")
+                    ),
+                    gmicSelection(
+                        R.string.gmic_param_interpolation,
+                        "Linear",
+                        listOf("NearestNeighbor", "Linear")
+                    ),
+                    gmicSelection(
+                        R.string.gmic_param_boundary,
+                        "Mirror",
+                        listOf("Transparent", "Nearest", "Periodic", "Mirror")
+                    )
+                )
+            )
+        }
+    }
 }

@@ -20,27 +20,45 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 import com.t8rin.gmic.GmicFilter
 import com.t8rin.gmic.filters.RoundedFrame
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.RoundedFrame.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.FRAMES)
 internal class RoundedFrameFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("10", "10", "20", "0.1", "-16777216", "true")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.RoundedFrame {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = RoundedFrame(
-        xSize = value[0].toFloat(),
-        ySize = value[1].toFloat(),
-        radius = value[2].toFloat(),
-        smoothness = value[3].toFloat(),
-        color = value[4].toInt(),
-        antialias = value[5].toBoolean()
+        xSize = value.settings[0].toFloat(),
+        ySize = value.settings[1].toFloat(),
+        radius = value.settings[2].toFloat(),
+        smoothness = value.settings[3].toFloat(),
+        color = value.settings[4].toInt(),
+        antialias = value.settings[5].toBoolean()
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(
+            R.string.gmic_filter_rounded_frame,
+            R.string.filter_help_gmic_filter_rounded_frame
+        )
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicNumber(R.string.gmic_param_x_size, 10, 0f..100f),
+                    gmicNumber(R.string.gmic_param_y_size, 10, 0f..100f),
+                    gmicNumber(R.string.radius, 20, 0f..100f),
+                    gmicNumber(R.string.gmic_param_smoothness, 0.1f, 0f..15f),
+                    gmicColor(R.string.color, -16777216),
+                    gmicToggle(R.string.antialias, true)
+                )
+            )
+        }
+    }
 }

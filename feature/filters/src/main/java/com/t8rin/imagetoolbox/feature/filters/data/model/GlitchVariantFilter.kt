@@ -19,28 +19,41 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import android.graphics.Bitmap
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.GlitchVariant.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 import com.t8rin.trickle.Trickle
 import kotlin.math.roundToInt
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.GLITCH)
 internal class GlitchVariantFilter(
-    override val value: Triple<Float, Float, Float> = Triple(30f, 0.25f, 0.3f),
-) : Transformation<Bitmap>, Filter.GlitchVariant {
-
-    override val cacheKey: String
-        get() = value.hashCode().toString()
+    override val value: Value,
+) : FilterTransformation, Filter.GlitchVariant {
 
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
     ): Bitmap = Trickle.glitchVariant(
         src = input,
-        iterations = value.first.roundToInt(),
-        maxOffsetFraction = value.second,
-        channelShiftFraction = value.third
+        iterations = value.repeatCount.roundToInt(),
+        maxOffsetFraction = value.maxOffset,
+        channelShiftFraction = value.channelShift
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(R.string.glitch_variant, R.string.filter_help_glitch_variant)
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::repeatCount, floatParam(R.string.repeat_count, 30f, 0f..100f, roundTo = 0))
+            field(Value::maxOffset, floatParam(R.string.max_offset, 0.25f, 0f..1f, roundTo = 3))
+            field(
+                Value::channelShift,
+                floatParam(R.string.channel_shift, 0.3f, 0f..1f, roundTo = 3)
+            )
+        }
+    }
 }

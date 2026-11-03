@@ -42,6 +42,8 @@ private fun flexibleResize(
     image: Bitmap,
     max: Int
 ): Bitmap {
+    if (max == maxOf(image.width, image.height)) return image
+
     return runCatching {
         if (image.height >= image.width) {
             val aspectRatio = image.aspectRatio

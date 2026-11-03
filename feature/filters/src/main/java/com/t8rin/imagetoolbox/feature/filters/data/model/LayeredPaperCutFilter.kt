@@ -19,19 +19,19 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import android.graphics.Bitmap
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.LayeredPaperCutParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.LayeredPaperCut.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 import com.t8rin.opencv_tools.photo_filters.ArtisticEffects
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.ARTISTIC)
 internal class LayeredPaperCutFilter(
-    override val value: LayeredPaperCutParams = LayeredPaperCutParams.Default
-) : Transformation<Bitmap>, Filter.LayeredPaperCut {
-
-    override val cacheKey: String
-        get() = "${javaClass.name}:${value.hashCode()}"
+    override val value: Value
+) : FilterTransformation, Filter.LayeredPaperCut {
 
     override suspend fun transform(
         input: Bitmap,
@@ -46,4 +46,17 @@ internal class LayeredPaperCutFilter(
         strength = value.strength
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info =
+            FilterInfo(R.string.layered_paper_cut, R.string.filter_help_layered_paper_cut)
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::layers, intParam(R.string.texture_layers, 6, 2..12))
+            field(Value::smoothness, floatParam(R.string.smoothness, 3f, 0.2f..12f, roundTo = 1))
+            field(Value::depth, floatParam(R.string.texture_depth, 5f, 1f..22f, roundTo = 1))
+            field(Value::lightAngle, floatParam(R.string.light_angle, 45f, 0f..360f, roundTo = 1))
+            field(Value::grain, floatParam(R.string.grain, 0.3f, 0f..1f))
+            field(Value::strength, floatParam(R.string.strength, 1f, 0f..1f))
+        }
+    }
 }

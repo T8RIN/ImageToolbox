@@ -57,6 +57,7 @@ import com.t8rin.imagetoolbox.core.domain.model.max
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.FilterProvider
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterValues
 import com.t8rin.imagetoolbox.core.filters.domain.model.createFilter
 import com.t8rin.imagetoolbox.core.filters.domain.model.enums.SpotHealMode
 import com.t8rin.imagetoolbox.core.resources.shapes.MaterialStarShape
@@ -189,9 +190,9 @@ internal class AndroidImageDrawApplier @Inject constructor(
                         }
 
                         val filter = filterProvider.filterToTransformation(
-                            createFilter<Pair<ImageModel, SpotHealMode>, Filter.SpotHeal>(
-                                Pair(
-                                    createBitmap(
+                            createFilter<Filter.SpotHeal.Value, Filter.SpotHeal>(
+                                FilterValues.spotHeal(
+                                    mask = createBitmap(
                                         canvasSize.width,
                                         canvasSize.height
                                     ).applyCanvas {
@@ -201,7 +202,7 @@ internal class AndroidImageDrawApplier @Inject constructor(
                                             paint.nativePaint
                                         )
                                     }.toImageModel(),
-                                    drawMode.mode
+                                    mode = drawMode.mode
                                 )
                             )
                         )
@@ -438,19 +439,23 @@ internal class AndroidImageDrawApplier @Inject constructor(
     ): List<Transformation<Bitmap>> = when (drawMode) {
         is DrawMode.PathEffect.PrivacyBlur -> {
             listOf(
-                createFilter<Float, Filter.NativeStackBlur>(
-                    drawMode.blurRadius.toFloat() / 1000 * max(canvasSize)
+                createFilter<Filter.NativeStackBlur.Value, Filter.NativeStackBlur>(
+                    FilterValues.nativeStackBlur(
+                        drawMode.blurRadius.toFloat() / 1000 * max(
+                            canvasSize
+                        )
+                    )
                 )
             )
         }
 
         is DrawMode.PathEffect.Pixelation -> {
             listOf(
-                createFilter<Float, Filter.NativeStackBlur>(
-                    20.toFloat() / 1000 * max(canvasSize)
+                createFilter<Filter.NativeStackBlur.Value, Filter.NativeStackBlur>(
+                    FilterValues.nativeStackBlur(20.toFloat() / 1000 * max(canvasSize))
                 ),
-                createFilter<Float, Filter.Pixelation>(
-                    drawMode.pixelSize / 1000 * max(canvasSize)
+                createFilter<Filter.Pixelation.Value, Filter.Pixelation>(
+                    FilterValues.pixelation(drawMode.pixelSize / 1000 * max(canvasSize))
                 )
             )
         }

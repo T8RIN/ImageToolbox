@@ -19,19 +19,19 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import android.graphics.Bitmap
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.LcdSubpixelsParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.LcdSubpixels.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 import com.t8rin.trickle.Trickle
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.PIXELATION)
 internal class LcdSubpixelsFilter(
-    override val value: LcdSubpixelsParams = LcdSubpixelsParams.Default
-) : Transformation<Bitmap>, Filter.LcdSubpixels {
-
-    override val cacheKey: String
-        get() = "${javaClass.name}:${value.hashCode()}"
+    override val value: Value
+) : FilterTransformation, Filter.LcdSubpixels {
 
     override suspend fun transform(
         input: Bitmap,
@@ -45,4 +45,22 @@ internal class LcdSubpixelsFilter(
         strength = value.strength
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(R.string.lcd_subpixels, R.string.filter_help_lcd_subpixels)
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::size, intParam(R.string.just_size, 10, 3..36))
+            field(Value::blackMatrix, floatParam(R.string.black_matrix, 0.17f, 0.02f..0.6f))
+            field(
+                Value::subpixelOrder,
+                choiceParam(
+                    R.string.subpixel_order, 0,
+                    R.string.rgb,
+                    R.string.bgr
+                )
+            )
+            field(Value::viewAngle, intParam(R.string.viewing_angle, 0, -70..70))
+            field(Value::strength, floatParam(R.string.strength, 0.9f, 0f..1f))
+        }
+    }
 }

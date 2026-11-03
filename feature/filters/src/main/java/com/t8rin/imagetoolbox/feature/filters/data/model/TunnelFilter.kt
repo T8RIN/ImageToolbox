@@ -20,27 +20,43 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 import com.t8rin.gmic.GmicFilter
 import com.t8rin.gmic.filters.Tunnel
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.Tunnel.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.GEOMETRY)
 internal class TunnelFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("4", "80", "50", "50", "0.2", "0")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.Tunnel {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = Tunnel(
-        depth = value[0].toInt(),
-        factor = value[1].toFloat(),
-        centerX = value[2].toFloat(),
-        centerY = value[3].toFloat(),
-        opacity = value[4].toFloat(),
-        angle = value[5].toFloat()
+        depth = value.settings[0].toInt(),
+        factor = value.settings[1].toFloat(),
+        centerX = value.settings[2].toFloat(),
+        centerY = value.settings[3].toFloat(),
+        opacity = value.settings[4].toFloat(),
+        angle = value.settings[5].toFloat()
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info =
+            FilterInfo(R.string.gmic_filter_tunnel, R.string.filter_help_gmic_filter_tunnel)
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicInteger(R.string.texture_depth, 4, 1f..100f),
+                    gmicNumber(R.string.gmic_param_factor, 80, 1f..99f),
+                    gmicNumber(R.string.center_x, 50, 0f..100f),
+                    gmicNumber(R.string.center_y, 50, 0f..100f),
+                    gmicNumber(R.string.opacity, 0.2f, 0f..1f),
+                    gmicNumber(R.string.angle, 0, -90f..90f)
+                )
+            )
+        }
+    }
 }

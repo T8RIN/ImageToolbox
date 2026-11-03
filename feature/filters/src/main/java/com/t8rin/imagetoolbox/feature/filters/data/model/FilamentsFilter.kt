@@ -18,51 +18,69 @@
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import com.t8rin.gmic.GmicFilter
-import com.t8rin.gmic.filters.Filaments
 import com.t8rin.gmic.filters.FilamentColorMode
+import com.t8rin.gmic.filters.Filaments
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.Filaments.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.EFFECTS)
 internal class FilamentsFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf(
-            "50",
-            "50",
-            "75",
-            "30",
-            "10",
-            "0",
-            "true",
-            "true",
-            "true",
-            "true",
-            "true",
-            "50",
-            "WhiteOnBlack"
-        )
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.Filaments {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = Filaments(
-        density = value[0].toFloat(),
-        length = value[1].toFloat(),
-        contour = value[2].toFloat(),
-        distortion = value[3].toFloat(),
-        smoothness = value[4].toFloat(),
-        rotation = value[5].toFloat(),
-        localNormalization = value[6].toBoolean(),
-        throwFromLeft = value[7].toBoolean(),
-        throwFromRight = value[8].toBoolean(),
-        throwFromAbove = value[9].toBoolean(),
-        throwFromBelow = value[10].toBoolean(),
-        opacity = value[11].toFloat(),
-        colorMode = FilamentColorMode.valueOf(value[12])
+        density = value.settings[0].toFloat(),
+        length = value.settings[1].toFloat(),
+        contour = value.settings[2].toFloat(),
+        distortion = value.settings[3].toFloat(),
+        smoothness = value.settings[4].toFloat(),
+        rotation = value.settings[5].toFloat(),
+        localNormalization = value.settings[6].toBoolean(),
+        throwFromLeft = value.settings[7].toBoolean(),
+        throwFromRight = value.settings[8].toBoolean(),
+        throwFromAbove = value.settings[9].toBoolean(),
+        throwFromBelow = value.settings[10].toBoolean(),
+        opacity = value.settings[11].toFloat(),
+        colorMode = FilamentColorMode.valueOf(value.settings[12])
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info =
+            FilterInfo(R.string.gmic_filter_filaments, R.string.filter_help_gmic_filter_filaments)
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicNumber(R.string.density, 50, 0f..100f),
+                    gmicNumber(R.string.gmic_param_length, 50, 0f..100f),
+                    gmicNumber(R.string.contour, 75, 0f..100f),
+                    gmicNumber(R.string.distortion, 30, 0f..100f),
+                    gmicNumber(R.string.gmic_param_smoothness, 10, 0f..100f),
+                    gmicNumber(R.string.rotation, 0, -180f..180f),
+                    gmicToggle(R.string.gmic_param_local_normalization, true),
+                    gmicToggle(R.string.gmic_param_throw_from_left, true),
+                    gmicToggle(R.string.gmic_param_throw_from_right, true),
+                    gmicToggle(R.string.gmic_param_throw_from_above, true),
+                    gmicToggle(R.string.gmic_param_throw_from_below, true),
+                    gmicNumber(R.string.opacity, 50, 0f..100f),
+                    gmicSelection(
+                        R.string.gmic_param_color_mode,
+                        "WhiteOnBlack",
+                        listOf(
+                            "WhiteOnBlack",
+                            "BlackOnWhite",
+                            "WhiteOnTransparent",
+                            "BlackOnTransparent"
+                        )
+                    )
+                )
+            )
+        }
+    }
 }

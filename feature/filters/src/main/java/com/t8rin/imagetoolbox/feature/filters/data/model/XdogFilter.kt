@@ -18,20 +18,21 @@
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import android.graphics.Bitmap
+import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.XdogParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.Xdog.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 import com.t8rin.opencv_tools.photo_filters.ArtisticEffects
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.ARTISTIC)
 internal class XdogFilter(
-    override val value: XdogParams = XdogParams.Default
-) : Transformation<Bitmap>, Filter.Xdog {
-
-    override val cacheKey: String
-        get() = "${javaClass.name}:${value.hashCode()}"
+    override val value: Value
+) : FilterTransformation, Filter.Xdog {
 
     override suspend fun transform(
         input: Bitmap,
@@ -48,4 +49,21 @@ internal class XdogFilter(
         strength = value.strength
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(R.string.xdog, R.string.filter_help_xdog)
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::sigma, floatParam(R.string.sigma, 2.5f, 0.5f..12f, roundTo = 1))
+            field(Value::ratio, floatParam(R.string.gmic_param_ratio, 1.6f, 1.1f..4f))
+            field(Value::weight, floatParam(R.string.weight, 12f, 1f..30f, roundTo = 1))
+            field(Value::threshold, floatParam(R.string.threshold, 0.42f, -0.5f..1f))
+            field(Value::sharpness, floatParam(R.string.tag_sharpness, 14f, 1f..60f, roundTo = 1))
+            field(Value::ink, colorParam(R.string.ink_color, ColorModel(0xFF251E1B.toInt())))
+            field(
+                Value::paper,
+                colorParam(R.string.texture_paper_color, ColorModel(0xFFFAF0DF.toInt()))
+            )
+            field(Value::strength, floatParam(R.string.strength, 1f, 0f..1f))
+        }
+    }
 }

@@ -19,19 +19,19 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import android.graphics.Bitmap
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.BayerSensorParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.BayerSensor.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 import com.t8rin.opencv_tools.photo_filters.OpticalEffects
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.EFFECTS)
 internal class BayerSensorFilter(
-    override val value: BayerSensorParams = BayerSensorParams.Default
-) : Transformation<Bitmap>, Filter.BayerSensor {
-
-    override val cacheKey: String
-        get() = "${javaClass.name}:${value.hashCode()}"
+    override val value: Value
+) : FilterTransformation, Filter.BayerSensor {
 
     override suspend fun transform(
         input: Bitmap,
@@ -47,4 +47,29 @@ internal class BayerSensorFilter(
         edgeAware = value.edgeAware
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(R.string.bayer_sensor, R.string.filter_help_bayer_sensor)
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::pattern,
+                choiceParam(
+                    R.string.bayer_pattern, 0,
+                    R.string.rggb,
+                    R.string.bggr,
+                    R.string.grbg,
+                    R.string.gbrg
+                )
+            )
+            field(Value::scale, floatParam(R.string.scale, 0.55f, 0.1f..1f))
+            field(Value::shotNoise, floatParam(R.string.shot_noise, 0.045f, 0f..0.25f, roundTo = 3))
+            field(Value::readNoise, floatParam(R.string.read_noise, 0.006f, 0f..0.15f, roundTo = 3))
+            field(Value::seed, intParam(R.string.seed, 0, 0..10000))
+            field(Value::strength, floatParam(R.string.strength, 1f, 0f..1f))
+            field(
+                Value::edgeAware,
+                toggleParam(R.string.demosaicing, false, R.string.bilinear, R.string.edge_aware)
+            )
+        }
+    }
 }

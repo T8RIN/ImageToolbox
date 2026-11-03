@@ -19,27 +19,36 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import android.graphics.Bitmap
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.FastBlur.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 import com.t8rin.trickle.Trickle
 import kotlin.math.roundToInt
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.BLUR)
 internal class FastBlurFilter(
-    override val value: Pair<Float, Float> = 0.5f to 5f,
-) : Transformation<Bitmap>, Filter.FastBlur {
-
-    override val cacheKey: String
-        get() = value.hashCode().toString()
+    override val value: Value,
+) : FilterTransformation, Filter.FastBlur {
 
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
     ): Bitmap = Trickle.fastBlur(
         bitmap = input,
-        scale = value.first,
-        radius = value.second.roundToInt()
+        scale = value.scale,
+        radius = value.radius.roundToInt()
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(R.string.fast_blur, R.string.filter_help_fast_blur)
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::scale, floatParam(R.string.scale, 0.5f, 0.1f..1f))
+            field(Value::radius, floatParam(R.string.radius, 5f, 0f..100f, roundTo = 0))
+        }
+    }
 }

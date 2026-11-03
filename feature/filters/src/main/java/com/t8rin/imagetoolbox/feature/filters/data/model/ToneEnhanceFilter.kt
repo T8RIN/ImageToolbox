@@ -22,48 +22,63 @@ import com.t8rin.gmic.filters.ToneEnhance
 import com.t8rin.gmic.filters.ToneEnhanceChannel
 import com.t8rin.gmic.filters.ToneEnhanceValues
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.ToneEnhance.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.LIGHT)
 internal class ToneEnhanceFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf(
-            "0.6",
-            "0.9",
-            "0.5",
-            "1.1",
-            "128",
-            "0.4",
-            "1",
-            "0.6",
-            "0.2",
-            "3",
-            "YCbCr",
-            "Cut",
-            "false"
-        )
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.ToneEnhance {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = ToneEnhance(
-        shadowsDetail = value[0].toFloat(),
-        shadowsGamma = value[1].toFloat(),
-        highlightsDetail = value[2].toFloat(),
-        highlightsGamma = value[3].toFloat(),
-        center = value[4].toInt(),
-        midpointDetail = value[5].toFloat(),
-        midpointGamma = value[6].toFloat(),
-        recoveryBoost = value[7].toFloat(),
-        recoverySmoothness = value[8].toFloat(),
-        detailMaskSmoothness = value[9].toInt(),
-        channel = ToneEnhanceChannel.valueOf(value[10]),
-        values = ToneEnhanceValues.valueOf(value[11]),
-        colorMedian = value[12].toBoolean()
+        shadowsDetail = value.settings[0].toFloat(),
+        shadowsGamma = value.settings[1].toFloat(),
+        highlightsDetail = value.settings[2].toFloat(),
+        highlightsGamma = value.settings[3].toFloat(),
+        center = value.settings[4].toInt(),
+        midpointDetail = value.settings[5].toFloat(),
+        midpointGamma = value.settings[6].toFloat(),
+        recoveryBoost = value.settings[7].toFloat(),
+        recoverySmoothness = value.settings[8].toFloat(),
+        detailMaskSmoothness = value.settings[9].toInt(),
+        channel = ToneEnhanceChannel.valueOf(value.settings[10]),
+        values = ToneEnhanceValues.valueOf(value.settings[11]),
+        colorMedian = value.settings[12].toBoolean()
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(
+            R.string.gmic_filter_tone_enhance,
+            R.string.filter_help_gmic_filter_tone_enhance
+        )
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicNumber(R.string.gmic_param_shadows_detail, 0.6f, 0f..2f),
+                    gmicNumber(R.string.gmic_param_shadows_gamma, 0.9f, 0.2f..1.8f),
+                    gmicNumber(R.string.gmic_param_highlights_detail, 0.5f, 0f..2f),
+                    gmicNumber(R.string.gmic_param_highlights_gamma, 1.1f, 0.2f..1.8f),
+                    gmicInteger(R.string.center, 128, 0f..255f),
+                    gmicNumber(R.string.gmic_param_midpoint_detail, 0.4f, 0f..2f),
+                    gmicNumber(R.string.gmic_param_midpoint_gamma, 1, 0.2f..1.8f),
+                    gmicNumber(R.string.gmic_param_recovery_boost, 0.6f, 0f..1f),
+                    gmicNumber(R.string.gmic_param_recovery_smoothness, 0.2f, 0f..2f),
+                    gmicInteger(R.string.gmic_param_detail_mask_smoothness, 3, 0f..20f),
+                    gmicSelection(
+                        R.string.gmic_param_channel,
+                        "YCbCr",
+                        listOf("Hsi", "Hsv", "Lab", "LinearRgb", "Rgb", "YCbCr")
+                    ),
+                    gmicSelection(R.string.values, "Cut", listOf("Cut", "Normalize")),
+                    gmicToggle(R.string.gmic_param_color_median, false)
+                )
+            )
+        }
+    }
 }

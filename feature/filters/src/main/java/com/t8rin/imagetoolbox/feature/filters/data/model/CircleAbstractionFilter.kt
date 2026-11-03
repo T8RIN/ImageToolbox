@@ -20,28 +20,47 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 import com.t8rin.gmic.GmicFilter
 import com.t8rin.gmic.filters.CircleAbstraction
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.CircleAbstraction.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.PIXELATION)
 internal class CircleAbstractionFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("8", "5", "0.8", "0", "true", "true", "true")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.CircleAbstraction {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = CircleAbstraction(
-        numberOfColors = value[0].toInt(),
-        density = value[1].toInt(),
-        opacity = value[2].toFloat(),
-        smoothness = value[3].toFloat(),
-        filledCircles = value[4].toBoolean(),
-        fillTransparentHoles = value[5].toBoolean(),
-        normalizeColors = value[6].toBoolean()
+        numberOfColors = value.settings[0].toInt(),
+        density = value.settings[1].toInt(),
+        opacity = value.settings[2].toFloat(),
+        smoothness = value.settings[3].toFloat(),
+        filledCircles = value.settings[4].toBoolean(),
+        fillTransparentHoles = value.settings[5].toBoolean(),
+        normalizeColors = value.settings[6].toBoolean()
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(
+            R.string.gmic_filter_circle_abstraction,
+            R.string.filter_help_gmic_filter_circle_abstraction
+        )
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicInteger(R.string.gmic_param_number_of_colors, 8, 2f..16f),
+                    gmicInteger(R.string.density, 5, 1f..100f),
+                    gmicNumber(R.string.opacity, 0.8f, 0f..1f),
+                    gmicNumber(R.string.gmic_param_smoothness, 0, 0f..4f),
+                    gmicToggle(R.string.gmic_param_filled_circles, true),
+                    gmicToggle(R.string.gmic_param_fill_transparent_holes, true),
+                    gmicToggle(R.string.gmic_param_normalize_colors, true)
+                )
+            )
+        }
+    }
 }

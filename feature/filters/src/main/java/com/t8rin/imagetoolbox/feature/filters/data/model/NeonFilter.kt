@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,29 +20,38 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 import android.graphics.Bitmap
 import androidx.compose.ui.graphics.Color
 import com.t8rin.imagetoolbox.core.data.image.utils.ColorUtils.toModel
-import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.transformation.ChainTransformation
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.wrap
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterValues
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.Neon.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.COLOR)
 internal class NeonFilter(
-    override val value: Triple<Float, Float, ColorModel> = Triple(
-        first = 1f,
-        second = 0.26f,
-        third = Color.Magenta.toModel()
-    )
-) : ChainTransformation<Bitmap>, Filter.Neon {
-
-    override val cacheKey: String
-        get() = value.hashCode().toString()
+    override val value: Value
+) : ChainTransformation<Bitmap>, FilterTransformation, Filter.Neon {
 
     override fun getTransformations(): List<Transformation<Bitmap>> = listOf(
-        SharpenFilter(value.second),
-        SobelEdgeDetectionFilter(value.first),
-        RGBFilter(value.third.wrap())
+        SharpenFilter(FilterValues.sharpen(value.strength)),
+        SobelEdgeDetectionFilter(FilterValues.sobelEdgeDetection(value.amount)),
+        RGBFilter(FilterValues.rgb(value.color))
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(R.string.neon, R.string.filter_help_neon)
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::amount, floatParam(R.string.amount, 1f, 1f..25f, roundTo = 0))
+            field(Value::strength, floatParam(R.string.strength, 0.26f, 0f..1f))
+            field(
+                Value::color,
+                colorParam(R.string.color, Color.Magenta.toModel(), allowAlpha = true)
+            )
+        }
+    }
 }

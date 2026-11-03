@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,44 +20,52 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 import android.graphics.Bitmap
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
-import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.PolkaDot.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toModel
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 import com.t8rin.trickle.Trickle
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.PIXELATION)
 internal class PolkaDotFilter(
-    override val value: Triple<Int, Int, ColorModel> = Triple(
-        first = 10,
-        second = 8,
-        third = Color.Black.toModel()
-    )
-) : Transformation<Bitmap>, Filter.PolkaDot {
-
-    override val cacheKey: String
-        get() = value.hashCode().toString()
+    override val value: Value
+) : FilterTransformation, Filter.PolkaDot {
 
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
-    ): Bitmap = if (value.third.colorInt == Color.Transparent.toArgb()) {
+    ): Bitmap = if (value.backgroundColor.colorInt == Color.Transparent.toArgb()) {
         Trickle.polkaDot(
             input = input,
-            dotRadius = value.first,
-            spacing = value.second
+            dotRadius = value.radius,
+            spacing = value.spacing
         )
     } else {
         Trickle.drawColorBehind(
             input = Trickle.polkaDot(
                 input = input,
-                dotRadius = value.first,
-                spacing = value.second
+                dotRadius = value.radius,
+                spacing = value.spacing
             ),
-            color = value.third.colorInt
+            color = value.backgroundColor.colorInt
         )
     }
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(R.string.polka_dot, R.string.filter_help_polka_dot)
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::radius, intParam(R.string.radius, 10, 1..40))
+            field(Value::spacing, intParam(R.string.spacing, 8, 1..40))
+            field(
+                Value::backgroundColor,
+                colorParam(R.string.background_color, Color.Black.toModel(), allowAlpha = true)
+            )
+        }
+    }
 }

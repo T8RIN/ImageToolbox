@@ -21,26 +21,55 @@ import com.t8rin.gmic.GmicFilter
 import com.t8rin.gmic.filters.HoughSketch
 import com.t8rin.gmic.filters.HoughSketchColorModel
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.HoughSketch.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.ARTISTIC)
 internal class HoughSketchFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("1.25", "18", "5", "70", "0.35", "ColorOnWhite")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.HoughSketch {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = HoughSketch(
-        smoothness = value[0].toFloat(),
-        density = value[1].toFloat(),
-        radius = value[2].toInt(),
-        threshold = value[3].toFloat(),
-        opacity = value[4].toFloat(),
-        colorModel = HoughSketchColorModel.valueOf(value[5])
+        smoothness = value.settings[0].toFloat(),
+        density = value.settings[1].toFloat(),
+        radius = value.settings[2].toInt(),
+        threshold = value.settings[3].toFloat(),
+        opacity = value.settings[4].toFloat(),
+        colorModel = HoughSketchColorModel.valueOf(value.settings[5])
     )
+
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(
+            R.string.gmic_filter_hough_sketch,
+            R.string.filter_help_gmic_filter_hough_sketch
+        )
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicNumber(R.string.gmic_param_smoothness, 1.25f, 0f..10f),
+                    gmicNumber(R.string.density, 18, 0f..100f),
+                    gmicInteger(R.string.radius, 5, 0f..30f),
+                    gmicNumber(R.string.threshold, 70, 0f..100f),
+                    gmicNumber(R.string.opacity, 0.35f, 0f..1f),
+                    gmicSelection(
+                        R.string.gmic_param_color_model,
+                        "ColorOnWhite",
+                        listOf(
+                            "BlackOnWhite",
+                            "WhiteOnBlack",
+                            "BlackOnTransparentWhite",
+                            "WhiteOnTransparentBlack",
+                            "ColorOnWhite"
+                        )
+                    )
+                )
+            )
+        }
+    }
 }

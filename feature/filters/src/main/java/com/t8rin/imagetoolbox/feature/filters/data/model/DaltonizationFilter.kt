@@ -19,19 +19,19 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import android.graphics.Bitmap
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.DaltonizationParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.Daltonization.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 import com.t8rin.trickle.Trickle
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.COLOR)
 internal class DaltonizationFilter(
-    override val value: DaltonizationParams = DaltonizationParams.Default
-) : Transformation<Bitmap>, Filter.Daltonization {
-
-    override val cacheKey: String
-        get() = "${javaClass.name}:${value.hashCode()}"
+    override val value: Value
+) : FilterTransformation, Filter.Daltonization {
 
     override suspend fun transform(
         input: Bitmap,
@@ -45,4 +45,23 @@ internal class DaltonizationFilter(
         strength = value.strength
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(R.string.daltonization, R.string.filter_help_daltonization)
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::visionType,
+                choiceParam(
+                    R.string.vision_type, 1,
+                    R.string.protan,
+                    R.string.deutan,
+                    R.string.tritan
+                )
+            )
+            field(Value::severity, floatParam(R.string.severity, 1f, 0f..1f))
+            field(Value::correction, floatParam(R.string.correction, 0.8f, 0f..1.5f))
+            field(Value::preserveLuminance, floatParam(R.string.preserve_luminance, 0.8f, 0f..1f))
+            field(Value::strength, floatParam(R.string.strength, 1f, 0f..1f))
+        }
+    }
 }

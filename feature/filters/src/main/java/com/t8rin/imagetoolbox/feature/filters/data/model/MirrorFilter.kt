@@ -24,25 +24,26 @@ import androidx.core.graphics.createBitmap
 import com.t8rin.imagetoolbox.core.data.image.utils.drawBitmap
 import com.t8rin.imagetoolbox.core.data.utils.safeConfig
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.Mirror.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
 import com.t8rin.imagetoolbox.core.filters.domain.model.enums.MirrorSide
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.GEOMETRY)
 internal class MirrorFilter(
-    override val value: Pair<Float, MirrorSide> = 0.5f to MirrorSide.LeftToRight,
-) : Transformation<Bitmap>, Filter.Mirror {
-
-    override val cacheKey: String
-        get() = value.hashCode().toString()
+    override val value: Value,
+) : FilterTransformation, Filter.Mirror {
 
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
     ): Bitmap = input.mirror(
-        value = value.first,
-        side = value.second
+        value = value.center,
+        side = value.side
     )
 
     private fun Bitmap.mirror(
@@ -130,4 +131,13 @@ internal class MirrorFilter(
         }
     }
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info =
+            FilterInfo(R.string.tile_mode_mirror, R.string.filter_help_tile_mode_mirror)
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::center, floatParam(R.string.center, 0.5f, 0f..1f))
+            field(Value::side, enumParam(R.string.side, default = { MirrorSide.LeftToRight }))
+        }
+    }
 }

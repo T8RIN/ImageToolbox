@@ -20,29 +20,47 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 import com.t8rin.gmic.GmicFilter
 import com.t8rin.gmic.filters.DcpDehaze
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.DcpDehaze.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.ENHANCEMENT)
 internal class DcpDehazeFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("5", "1", "0.2", "1", "0", "0", "0", "false")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.DcpDehaze {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = DcpDehaze(
-        scale = value[0].toInt(),
-        strength = value[1].toFloat(),
-        min = value[2].toFloat(),
-        max = value[3].toFloat(),
-        brightness = value[4].toFloat(),
-        contrast = value[5].toFloat(),
-        gamma = value[6].toFloat(),
-        transmittanceMap = value[7].toBoolean()
+        scale = value.settings[0].toInt(),
+        strength = value.settings[1].toFloat(),
+        min = value.settings[2].toFloat(),
+        max = value.settings[3].toFloat(),
+        brightness = value.settings[4].toFloat(),
+        contrast = value.settings[5].toFloat(),
+        gamma = value.settings[6].toFloat(),
+        transmittanceMap = value.settings[7].toBoolean()
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info =
+            FilterInfo(R.string.gmic_filter_dcp_dehaze, R.string.filter_help_gmic_filter_dcp_dehaze)
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicInteger(R.string.scale, 5, 1f..20f),
+                    gmicNumber(R.string.strength, 1, 0f..2f),
+                    gmicNumber(R.string.min, 0.2f, 0f..1f),
+                    gmicNumber(R.string.max, 1, 0f..1f),
+                    gmicNumber(R.string.gmic_param_brightness, 0, -100f..100f),
+                    gmicNumber(R.string.contrast, 0, -100f..100f),
+                    gmicNumber(R.string.gamma, 0, -100f..100f),
+                    gmicToggle(R.string.gmic_param_transmittance_map, false)
+                )
+            )
+        }
+    }
 }

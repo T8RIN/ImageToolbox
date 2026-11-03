@@ -20,26 +20,43 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 import com.t8rin.gmic.GmicFilter
 import com.t8rin.gmic.filters.FuzzyFrame
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.FuzzyFrame.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.FRAMES)
 internal class FuzzyFrameFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("5", "5", "10", "1", "-1")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.FuzzyFrame {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = FuzzyFrame(
-        horizontalSize = value[0].toFloat(),
-        verticalSize = value[1].toFloat(),
-        fuzziness = value[2].toFloat(),
-        smoothness = value[3].toFloat(),
-        color = value[4].toInt()
+        horizontalSize = value.settings[0].toFloat(),
+        verticalSize = value.settings[1].toFloat(),
+        fuzziness = value.settings[2].toFloat(),
+        smoothness = value.settings[3].toFloat(),
+        color = value.settings[4].toInt()
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(
+            R.string.gmic_filter_fuzzy_frame,
+            R.string.filter_help_gmic_filter_fuzzy_frame
+        )
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicNumber(R.string.gmic_param_horizontal_size, 5, 0f..100f),
+                    gmicNumber(R.string.gmic_param_vertical_size, 5, 0f..100f),
+                    gmicNumber(R.string.fuzziness, 10, 0f..40f),
+                    gmicNumber(R.string.gmic_param_smoothness, 1, 0f..5f),
+                    gmicColor(R.string.color, -1)
+                )
+            )
+        }
+    }
 }

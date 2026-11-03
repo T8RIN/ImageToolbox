@@ -20,24 +20,37 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 import com.t8rin.gmic.GmicFilter
 import com.t8rin.gmic.filters.Descreen
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.Descreen.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.ENHANCEMENT)
 internal class DescreenFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("7", "40", "1")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.Descreen {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = Descreen(
-        circleRadiusPercent = value[0].toFloat(),
-        crossLengthPercent = value[1].toFloat(),
-        crossWidthPercent = value[2].toFloat()
+        circleRadiusPercent = value.settings[0].toFloat(),
+        crossLengthPercent = value.settings[1].toFloat(),
+        crossWidthPercent = value.settings[2].toFloat()
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info =
+            FilterInfo(R.string.gmic_filter_descreen, R.string.filter_help_gmic_filter_descreen)
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicNumber(R.string.gmic_param_circle_radius_percent, 7, 0f..100f),
+                    gmicNumber(R.string.gmic_param_cross_length_percent, 40, 0f..100f),
+                    gmicNumber(R.string.gmic_param_cross_width_percent, 1, 0f..100f)
+                )
+            )
+        }
+    }
 }

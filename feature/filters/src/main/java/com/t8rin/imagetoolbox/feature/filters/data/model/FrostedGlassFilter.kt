@@ -20,28 +20,47 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 import com.t8rin.gmic.GmicFilter
 import com.t8rin.gmic.filters.FrostedGlass
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.FrostedGlass.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.BLUR)
 internal class FrostedGlassFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("40", "40", "1", "1", "0", "2", "0")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.FrostedGlass {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = FrostedGlass(
-        xAmplitude = value[0].toFloat(),
-        yAmplitude = value[1].toFloat(),
-        xSmoothness = value[2].toFloat(),
-        ySmoothness = value[3].toFloat(),
-        edgeAttenuation = value[4].toFloat(),
-        edgeInfluence = value[5].toFloat(),
-        noiseScale = value[6].toInt()
+        xAmplitude = value.settings[0].toFloat(),
+        yAmplitude = value.settings[1].toFloat(),
+        xSmoothness = value.settings[2].toFloat(),
+        ySmoothness = value.settings[3].toFloat(),
+        edgeAttenuation = value.settings[4].toFloat(),
+        edgeInfluence = value.settings[5].toFloat(),
+        noiseScale = value.settings[6].toInt()
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(
+            R.string.gmic_filter_frosted_glass,
+            R.string.filter_help_gmic_filter_frosted_glass
+        )
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicNumber(R.string.x_amplitude, 40, 0f..400f),
+                    gmicNumber(R.string.y_amplitude, 40, 0f..400f),
+                    gmicNumber(R.string.gmic_param_x_smoothness, 1, 0f..5f),
+                    gmicNumber(R.string.gmic_param_y_smoothness, 1, 0f..5f),
+                    gmicNumber(R.string.gmic_param_edge_attenuation, 0, 0f..1f),
+                    gmicNumber(R.string.gmic_param_edge_influence, 2, 0f..10f),
+                    gmicInteger(R.string.scale, 0, 0f..16f)
+                )
+            )
+        }
+    }
 }

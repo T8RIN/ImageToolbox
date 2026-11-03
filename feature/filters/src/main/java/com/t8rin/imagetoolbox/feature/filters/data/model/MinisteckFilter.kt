@@ -20,28 +20,45 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 import com.t8rin.gmic.GmicFilter
 import com.t8rin.gmic.filters.Ministeck
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.Ministeck.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.PIXELATION)
 internal class MinisteckFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("8", "64", "8", "2", "100", "0.3", "false")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.Ministeck {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = Ministeck(
-        colors = value[0].toInt(),
-        resolution = value[1].toInt(),
-        pieceSize = value[2].toInt(),
-        pieceComplexity = value[3].toInt(),
-        reliefAmplitude = value[4].toFloat(),
-        reliefSize = value[5].toFloat(),
-        outline = value[6].toBoolean()
+        colors = value.settings[0].toInt(),
+        resolution = value.settings[1].toInt(),
+        pieceSize = value.settings[2].toInt(),
+        pieceComplexity = value.settings[3].toInt(),
+        reliefAmplitude = value.settings[4].toFloat(),
+        reliefSize = value.settings[5].toFloat(),
+        outline = value.settings[6].toBoolean()
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info =
+            FilterInfo(R.string.gmic_filter_ministeck, R.string.filter_help_gmic_filter_ministeck)
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicInteger(R.string.color, 8, 2f..24f),
+                    gmicInteger(R.string.resolution, 64, 16f..256f),
+                    gmicInteger(R.string.gmic_param_piece_size, 8, 1f..64f),
+                    gmicInteger(R.string.gmic_param_piece_complexity, 2, 1f..10f),
+                    gmicNumber(R.string.amplitude, 100, 0f..256f),
+                    gmicNumber(R.string.gmic_param_relief_size, 0.3f, 0f..1f),
+                    gmicToggle(R.string.gmic_param_outline, false)
+                )
+            )
+        }
+    }
 }

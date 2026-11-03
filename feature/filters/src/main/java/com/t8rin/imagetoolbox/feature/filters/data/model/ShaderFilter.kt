@@ -20,22 +20,24 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 import android.graphics.Bitmap
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.ShaderParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.Shader.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
 import com.t8rin.imagetoolbox.core.filters.domain.model.shader.ShaderPreset
 import com.t8rin.imagetoolbox.core.filters.domain.model.shader.ShaderValidationError
 import com.t8rin.imagetoolbox.core.filters.domain.model.shader.ShaderValidator
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.shader.ShaderValue
+import com.t8rin.imagetoolbox.core.filters.domain.model.shader.resolvedValues
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GPUFilterTransformation
 import com.t8rin.imagetoolbox.feature.filters.data.utils.gpu.ShaderGpuImageFilter
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.EFFECTS)
 internal class ShaderFilter(
-    override val value: ShaderParams = ShaderParams()
+    override val value: Value
 ) : GPUFilterTransformation(), Filter.Shader {
-
-    override val cacheKey: String
-        get() = value.hashCode().toString()
 
     override fun createFilter(): GPUImageFilter {
         val preset = value.preset
@@ -62,4 +64,12 @@ internal class ShaderFilter(
             it !is ShaderValidationError.BlankName
         }
 
+    companion object : Filter.Schema.Custom<Value> {
+        override val info = FilterInfo(R.string.shader, R.string.filter_help_shader)
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::preset, editorParam<ShaderPreset?>({ null }))
+            field(Value::values, editorParam<Map<String, ShaderValue>>({ emptyMap() }))
+        }
+    }
 }

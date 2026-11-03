@@ -21,28 +21,28 @@ import android.graphics.Bitmap
 import android.util.LruCache
 import com.t8rin.gmic.Gmic
 import com.t8rin.gmic.filters.Displacement
+import com.t8rin.gmic.filters.DisplacementBoundary as GmicDisplacementBoundary
+import com.t8rin.gmic.filters.DisplacementInterpolation as GmicDisplacementInterpolation
 import com.t8rin.imagetoolbox.core.domain.model.ImageModel
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.Displacement.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
 import com.t8rin.imagetoolbox.core.filters.domain.model.enums.DisplacementBoundary
 import com.t8rin.imagetoolbox.core.filters.domain.model.enums.DisplacementInterpolation
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.DisplacementParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 import com.t8rin.imagetoolbox.feature.filters.data.utils.image.loadBitmap
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import com.t8rin.gmic.filters.DisplacementBoundary as GmicDisplacementBoundary
-import com.t8rin.gmic.filters.DisplacementInterpolation as GmicDisplacementInterpolation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.DISTORTION)
 internal class DisplacementFilter(
-    override val value: DisplacementParams = DisplacementParams.Default
-) : Transformation<Bitmap>, Filter.Displacement {
-
-    override val cacheKey: String
-        get() = value.hashCode().toString()
+    override val value: Value
+) : FilterTransformation, Filter.Displacement {
 
     override suspend fun transform(
         input: Bitmap,
@@ -66,6 +66,37 @@ internal class DisplacementFilter(
                 boundary = value.boundary.toGmicBoundary()
             )
         )
+    }
+
+    companion object : Filter.Schema.Custom<Value> {
+        override val info = FilterInfo(R.string.displacement, R.string.filter_help_displacement)
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::strengthX,
+                floatParam(R.string.displacement_strength_x, 0.1f, -1f..1f, roundTo = 3)
+            )
+            field(
+                Value::strengthY,
+                floatParam(R.string.displacement_strength_y, 0.1f, -1f..1f, roundTo = 3)
+            )
+            field(
+                Value::horizontalMap,
+                imageParam(R.string.horizontal_displacement_map) { ImageModel("") })
+            field(
+                Value::verticalMap,
+                editorParam<ImageModel?>(
+                    { null },
+                    control(R.string.vertical_displacement_map, 0f..0f)
+                )
+            )
+            field(
+                Value::interpolation,
+                enumParam(R.string.gmic_param_interpolation) { DisplacementInterpolation.Linear })
+            field(
+                Value::boundary,
+                enumParam(R.string.gmic_param_boundary) { DisplacementBoundary.Clamp })
+        }
     }
 }
 

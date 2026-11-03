@@ -20,25 +20,39 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 import com.t8rin.gmic.GmicFilter
 import com.t8rin.gmic.filters.Cutout
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.Cutout.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.ARTISTIC)
 internal class CutoutFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("4", "0.5", "4", "true")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.Cutout {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = Cutout(
-        levels = value[0].toInt(),
-        edgeSimplicity = value[1].toFloat(),
-        edgeFidelity = value[2].toInt(),
-        normalize = value[3].toBoolean()
+        levels = value.settings[0].toInt(),
+        edgeSimplicity = value.settings[1].toFloat(),
+        edgeFidelity = value.settings[2].toInt(),
+        normalize = value.settings[3].toBoolean()
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info =
+            FilterInfo(R.string.gmic_filter_cutout, R.string.filter_help_gmic_filter_cutout)
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicInteger(R.string.levels, 4, 2f..32f),
+                    gmicNumber(R.string.gmic_param_edge_simplicity, 0.5f, 0f..3f),
+                    gmicInteger(R.string.gmic_param_edge_fidelity, 4, 0f..10f),
+                    gmicToggle(R.string.gmic_param_normalize, true)
+                )
+            )
+        }
+    }
 }

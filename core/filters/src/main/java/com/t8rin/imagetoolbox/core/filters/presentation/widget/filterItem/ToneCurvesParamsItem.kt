@@ -35,14 +35,13 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.curves.ImageCurvesEditor
 import com.t8rin.curves.ImageCurvesEditorLayout
 import com.t8rin.curves.ImageCurvesEditorState
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.ToneCurvesParams
-import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
+import com.t8rin.imagetoolbox.core.filters.domain.model.copy
 
 @Composable
 internal fun ToneCurvesParamsItem(
-    value: ToneCurvesParams,
-    filter: UiFilter<ToneCurvesParams>,
-    onFilterChange: (value: ToneCurvesParams) -> Unit,
+    value: Filter.ToneCurves.Value,
+    onFilterChange: (value: Filter.ToneCurves.Value) -> Unit,
     previewOnly: Boolean
 ) {
     var editorState by remember {
@@ -69,7 +68,7 @@ internal fun ToneCurvesParamsItem(
             onStateChange = {
                 editorState = it
                 onFilterChange(
-                    ToneCurvesParams(
+                    value.copy(
                         controlPoints = it.controlPoints
                     )
                 )

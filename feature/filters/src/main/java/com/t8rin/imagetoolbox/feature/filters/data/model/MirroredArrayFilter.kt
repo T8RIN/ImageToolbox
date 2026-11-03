@@ -18,32 +18,66 @@
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import com.t8rin.gmic.GmicFilter
-import com.t8rin.gmic.filters.MirroredArray
 import com.t8rin.gmic.filters.ArrayInitialization
+import com.t8rin.gmic.filters.MirroredArray
 import com.t8rin.gmic.filters.MirroredArrayMode
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.MirroredArray.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.PIXELATION)
 internal class MirroredArrayFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("1", "0", "0", "BothAxes", "Original", "false", "0")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.MirroredArray {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = MirroredArray(
-        iterations = value[0].toInt(),
-        xOffset = value[1].toFloat(),
-        yOffset = value[2].toFloat(),
-        mode = MirroredArrayMode.valueOf(value[3]),
-        initialization = ArrayInitialization.valueOf(value[4]),
-        expandSize = value[5].toBoolean(),
-        crop = value[6].toInt()
+        iterations = value.settings[0].toInt(),
+        xOffset = value.settings[1].toFloat(),
+        yOffset = value.settings[2].toFloat(),
+        mode = MirroredArrayMode.valueOf(value.settings[3]),
+        initialization = ArrayInitialization.valueOf(value.settings[4]),
+        expandSize = value.settings[5].toBoolean(),
+        crop = value.settings[6].toInt()
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(
+            R.string.gmic_filter_mirrored_array,
+            R.string.filter_help_gmic_filter_mirrored_array
+        )
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicInteger(R.string.iterations, 1, 1f..10f),
+                    gmicNumber(R.string.gmic_param_x_offset, 0, 0f..100f),
+                    gmicNumber(R.string.gmic_param_y_offset, 0, 0f..100f),
+                    gmicSelection(
+                        R.string.gmic_param_mode,
+                        "BothAxes",
+                        listOf("XAxis", "YAxis", "BothAxes", "DoubleBothAxes")
+                    ),
+                    gmicSelection(
+                        R.string.gmic_param_initialization,
+                        "Original",
+                        listOf(
+                            "Original",
+                            "MirrorX",
+                            "MirrorY",
+                            "Rotate90",
+                            "Rotate180",
+                            "Rotate270"
+                        )
+                    ),
+                    gmicToggle(R.string.gmic_param_expand_size, false),
+                    gmicInteger(R.string.crop, 0, 0f..100f)
+                )
+            )
+        }
+    }
 }

@@ -147,7 +147,7 @@ class DrawExportTest {
         ) { _, method, args ->
             assertEquals("filterToTransformation", method.name)
             val filter = args!![0] as Filter.SpotHeal
-            val mask = filter.value.first.data as Bitmap
+            val mask = filter.value.mask.data as Bitmap
             assertEquals(400, mask.width)
             assertEquals(android.graphics.Color.WHITE, mask.getPixel(200, 100))
             assertEquals(android.graphics.Color.WHITE, mask.getPixel(200, 300))

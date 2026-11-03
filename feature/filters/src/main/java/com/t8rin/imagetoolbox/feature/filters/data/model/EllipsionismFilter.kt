@@ -20,27 +20,45 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 import com.t8rin.gmic.GmicFilter
 import com.t8rin.gmic.filters.Ellipsionism
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.Ellipsionism.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.PIXELATION)
 internal class EllipsionismFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("20", "10", "0.5", "0.7", "3", "0.5")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.Ellipsionism {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override fun createFilter(): GmicFilter = Ellipsionism(
-        primaryRadius = value[0].toFloat(),
-        secondaryRadius = value[1].toFloat(),
-        smoothness = value[2].toFloat(),
-        opacity = value[3].toFloat(),
-        outline = value[4].toFloat(),
-        density = value[5].toFloat()
+        primaryRadius = value.settings[0].toFloat(),
+        secondaryRadius = value.settings[1].toFloat(),
+        smoothness = value.settings[2].toFloat(),
+        opacity = value.settings[3].toFloat(),
+        outline = value.settings[4].toFloat(),
+        density = value.settings[5].toFloat()
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(
+            R.string.gmic_filter_ellipsionism,
+            R.string.filter_help_gmic_filter_ellipsionism
+        )
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicNumber(R.string.gmic_param_primary_radius, 20, 1f..100f),
+                    gmicNumber(R.string.second_radius, 10, 1f..100f),
+                    gmicNumber(R.string.gmic_param_smoothness, 0.5f, 0f..10f),
+                    gmicNumber(R.string.opacity, 0.7f, 0f..1f),
+                    gmicNumber(R.string.gmic_param_outline, 3, 1f..3f),
+                    gmicNumber(R.string.density, 0.5f, 0.1f..2f)
+                )
+            )
+        }
+    }
 }

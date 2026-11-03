@@ -132,8 +132,8 @@ class SpotHealMaskTest {
                 calls++
                 assertTrue(input.sameAs(source))
                 val filter = filters.single() as Filter.SpotHeal
-                assertEquals(SpotHealMode.LaMa, filter.value.second)
-                val mask = filter.value.first.data as Bitmap
+                assertEquals(SpotHealMode.LaMa, filter.value.mode)
+                val mask = filter.value.mask.data as Bitmap
                 assertEquals(NativeColor.WHITE, mask.getPixel(100, 50))
                 assertEquals(NativeColor.WHITE, mask.getPixel(100, 150))
                 assertEquals(NativeColor.BLACK, mask.getPixel(100, 100))

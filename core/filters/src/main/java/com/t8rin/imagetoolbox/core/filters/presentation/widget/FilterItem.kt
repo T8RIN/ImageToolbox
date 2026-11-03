@@ -59,6 +59,7 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.utils.roundTo
 import com.t8rin.imagetoolbox.core.filters.domain.model.shader.ShaderPreset
 import com.t8rin.imagetoolbox.core.filters.presentation.model.GmicUiFilter
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
@@ -116,8 +117,9 @@ fun <T : Any> FilterItem(
         mutableStateOf(true)
     }
 
+    val controls = filter.schema.parameters?.controls.orEmpty()
     val hasSeedSelector = remember(filter) {
-        filter.paramsInfo.any {
+        controls.any {
             it.title == R.string.seed || it.title == R.string.procedural_seed
         } || (filter as? GmicUiFilter)?.gmicParamsInfo?.any { it.title == R.string.seed } == true
     }
@@ -168,9 +170,11 @@ fun <T : Any> FilterItem(
                         } else Modifier
                     )
             ) {
+                val hasInlineControls =
+                    filter.singleNumber != null || filter.value is Filter.EmptyValue
                 var sliderValue by remember(filter) {
                     mutableFloatStateOf(
-                        ((filter.value as? Number)?.toFloat()) ?: 0f
+                        filter.singleNumber ?: 0f
                     )
                 }
                 Row(verticalAlignment = Alignment.CenterVertically) {
@@ -350,7 +354,7 @@ fun <T : Any> FilterItem(
                             } else null
                         )
                     }
-                    if (!filter.value.isSingle() && !previewOnly) {
+                    if (!hasInlineControls && !previewOnly) {
                         EnhancedIconButton(
                             onClick = {
                                 isControlsExpanded = !isControlsExpanded
@@ -368,7 +372,7 @@ fun <T : Any> FilterItem(
                             )
                         }
                     }
-                    if (filter.value is Number) {
+                    if (filter.singleNumber != null) {
                         var showValueDialog by remember { mutableStateOf(false) }
                         val initialValue = rememberSaveable { sliderValue }
                         ValueText(
@@ -376,28 +380,28 @@ fun <T : Any> FilterItem(
                             onClick = { showValueDialog = true },
                             onLongClick = {
                                 sliderValue = initialValue
-                                onFilterChange(initialValue)
+                                onFilterChange(filter.withSingleNumber(initialValue))
                             }
                         )
                         ValueDialog(
-                            title = filter.paramsInfo[0].title?.let { stringResource(it) }
+                            title = controls.single().title?.let { stringResource(it) }
                                 ?: stringResource(filter.title),
-                            valueRange = filter.paramsInfo[0].valueRange,
+                            valueRange = controls.single().valueRange,
                             valueState = sliderValue.toString(),
                             expanded = showValueDialog && !previewOnly,
                             onDismiss = { showValueDialog = false },
                             onValueUpdate = {
                                 sliderValue = it
-                                onFilterChange(it)
+                                onFilterChange(filter.withSingleNumber(it))
                             },
                             valueTransformation = {
-                                it.roundTo(filter.paramsInfo[0].roundTo)
+                                it.roundTo(controls.single().roundTo)
                             }
                         )
                     }
                 }
                 BoxAnimatedVisibility(
-                    visible = isControlsExpanded || filter.value.isSingle() || previewOnly,
+                    visible = isControlsExpanded || hasInlineControls || previewOnly,
                     keepContentOnCollapse = keepSeedSelector
                 ) {
                     Column {
@@ -415,7 +419,7 @@ fun <T : Any> FilterItem(
             if (showDragHandle) {
                 Box(
                     modifier = Modifier
-                        .height(if (filter.value is Unit) 32.dp else 64.dp)
+                        .height(if (filter.value is Filter.EmptyValue) 32.dp else 64.dp)
                         .width(1.dp)
                         .background(MaterialTheme.colorScheme.outlineVariant())
                         .padding(start = 20.dp)
@@ -439,5 +443,3 @@ fun <T : Any> FilterItem(
         }
     }
 }
-
-private fun Any?.isSingle(): Boolean = this is Number || this is Unit

@@ -19,19 +19,19 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import android.graphics.Bitmap
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.FourierPhaseScrambleParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.FourierPhaseScramble.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 import com.t8rin.opencv_tools.photo_filters.SpectralFilters
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.GLITCH)
 internal class FourierPhaseScrambleFilter(
-    override val value: FourierPhaseScrambleParams = FourierPhaseScrambleParams.Default
-) : Transformation<Bitmap>, Filter.FourierPhaseScramble {
-
-    override val cacheKey: String
-        get() = "${javaClass.name}:${value.hashCode()}"
+    override val value: Value
+) : FilterTransformation, Filter.FourierPhaseScramble {
 
     override suspend fun transform(
         input: Bitmap,
@@ -45,4 +45,22 @@ internal class FourierPhaseScrambleFilter(
         strength = value.strength
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info =
+            FilterInfo(R.string.fourier_phase_scramble, R.string.filter_help_fourier_phase_scramble)
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::minFrequency,
+                floatParam(R.string.min_frequency, 0.014f, 0f..0.7f, roundTo = 3)
+            )
+            field(
+                Value::maxFrequency,
+                floatParam(R.string.max_frequency, 0.5f, 0f..0.71f, roundTo = 3)
+            )
+            field(Value::phase, floatParam(R.string.phase, 0.85f, 0f..1f))
+            field(Value::seed, intParam(R.string.seed, 0, 0..10000))
+            field(Value::strength, floatParam(R.string.strength, 1f, 0f..1f))
+        }
+    }
 }

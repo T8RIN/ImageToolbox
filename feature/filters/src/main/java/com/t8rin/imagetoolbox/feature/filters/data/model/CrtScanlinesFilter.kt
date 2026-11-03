@@ -21,31 +21,58 @@ import com.t8rin.gmic.GmicFilter
 import com.t8rin.gmic.filters.CrtScanlines
 import com.t8rin.gmic.filters.CrtWindowShape
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.CrtScanlines.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.EFFECTS)
 internal class CrtScanlinesFilter(
-    override val value: GmicFilterParams = GmicFilterParams(
-        values = listOf("4", "16", "Triangular", "0", "true", "Triangular", "false")
-    )
+    override val value: Value
 ) : GMICFilterTransformation(), Filter.CrtScanlines {
 
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
     override val upscaleFactor: Int
-        get() = value[0].toInt()
+        get() = value.settings[0].toInt()
 
     override fun createFilter(): GmicFilter = CrtScanlines(
         upscaleFactor = upscaleFactor,
-        neighborhoodSize = value[1].toInt(),
-        bloomShape = CrtWindowShape.valueOf(value[2]),
-        bloomThreshold = value[3].toFloat(),
-        useLumaForBloom = value[4].toBoolean(),
-        fuzzShape = CrtWindowShape.valueOf(value[5]),
-        normalizeImage = value[6].toBoolean()
+        neighborhoodSize = value.settings[1].toInt(),
+        bloomShape = CrtWindowShape.valueOf(value.settings[2]),
+        bloomThreshold = value.settings[3].toFloat(),
+        useLumaForBloom = value.settings[4].toBoolean(),
+        fuzzShape = CrtWindowShape.valueOf(value.settings[5]),
+        normalizeImage = value.settings[6].toBoolean()
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info = FilterInfo(
+            R.string.gmic_filter_crt_scanlines,
+            R.string.filter_help_gmic_filter_crt_scanlines
+        )
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::settings,
+                gmicParam(
+                    gmicInteger(R.string.gmic_param_upscale_factor, 4, 1f..16f),
+                    gmicInteger(R.string.gmic_param_neighborhood_size, 16, 8f..64f),
+                    gmicSelection(
+                        R.string.gmic_param_bloom_shape,
+                        "Triangular",
+                        listOf("Square", "Triangular", "Sine", "Gaussian")
+                    ),
+                    gmicNumber(R.string.threshold, 0, -1f..1f),
+                    gmicToggle(R.string.gmic_param_use_luma_for_bloom, true),
+                    gmicSelection(
+                        R.string.gmic_param_fuzz_shape,
+                        "Triangular",
+                        listOf("Square", "Triangular", "Sine", "Gaussian")
+                    ),
+                    gmicToggle(R.string.gmic_param_normalize_image, false)
+                )
+            )
+        }
+    }
 }

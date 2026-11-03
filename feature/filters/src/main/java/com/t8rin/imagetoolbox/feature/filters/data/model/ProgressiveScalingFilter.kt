@@ -18,11 +18,41 @@
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.enums.ProceduralEffect
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.ProceduralParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.ProgressiveScaling.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.filters.data.utils.gpu.ShaderEffectFilter
+import com.t8rin.imagetoolbox.feature.filters.data.utils.gpu.uniforms
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.GEOMETRY)
 internal class ProgressiveScalingFilter(
-    override val value: ProceduralParams = ProceduralParams()
-) : ProceduralFilter(ProceduralEffect.ProgressiveScaling), Filter.ProgressiveScaling
+    override val value: Value
+) : ShaderEffectFilter<Value>(parameters.uniforms(value), SHADER), Filter.ProgressiveScaling {
+
+    companion object : Filter.Schema.Structured<Value> {
+        override val info =
+            FilterInfo(R.string.progressive_scaling, R.string.filter_help_progressive_scaling)
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::intensity, floatParam(R.string.texture_intensity, 1f, 0f..1f, roundTo = 3))
+            field(
+                Value::ratio,
+                floatParam(R.string.procedural_scale_ratio, 1.5f, 1.05f..4f, roundTo = 3)
+            )
+            field(Value::radius, floatParam(R.string.radius, 0.3f, 0.01f..1f, roundTo = 3))
+            field(Value::offsetX, floatParam(R.string.offset_x, 0f, -1f..1f, roundTo = 3))
+            field(Value::offsetY, floatParam(R.string.offset_y, 0f, -1f..1f, roundTo = 3))
+            field(Value::scale, floatParam(R.string.scale, 1f, 0.05f..8f, roundTo = 3))
+            field(Value::rotation, floatParam(R.string.rotation, 0f, -180f..180f, roundTo = 3))
+        }
+
+        private val SHADER = """
+
+            float r = max(length(p), 0.00001);
+            float level = floor(log(r / radius) / log(ratio));
+            q = mix(p, p * pow(ratio, -level), intensity);
+        """.trimIndent()
+    }
+}

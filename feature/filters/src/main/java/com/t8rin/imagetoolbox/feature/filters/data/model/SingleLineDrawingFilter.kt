@@ -18,20 +18,21 @@
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import android.graphics.Bitmap
+import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.SingleLineDrawingParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.SingleLineDrawing.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 import com.t8rin.opencv_tools.photo_filters.DrawingEffects
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.ARTISTIC)
 internal class SingleLineDrawingFilter(
-    override val value: SingleLineDrawingParams = SingleLineDrawingParams.Default
-) : Transformation<Bitmap>, Filter.SingleLineDrawing {
-
-    override val cacheKey: String
-        get() = "${javaClass.name}:${value.hashCode()}"
+    override val value: Value
+) : FilterTransformation, Filter.SingleLineDrawing {
 
     override suspend fun transform(
         input: Bitmap,
@@ -48,4 +49,22 @@ internal class SingleLineDrawingFilter(
         strength = value.strength
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info =
+            FilterInfo(R.string.single_line_drawing, R.string.filter_help_single_line_drawing)
+
+        override val parameters = structuredParameters<Value> {
+            field(Value::pointCount, intParam(R.string.point_count, 1500, 60..3500))
+            field(Value::densityCurve, floatParam(R.string.density_curve, 1.5f, 0.35f..4f))
+            field(Value::lineWidth, floatParam(R.string.line_width, 1.1f, 0.4f..5f, roundTo = 1))
+            field(Value::ink, colorParam(R.string.ink_color, ColorModel(0xFF282229.toInt())))
+            field(
+                Value::paper,
+                colorParam(R.string.texture_paper_color, ColorModel(0xFFFAF5E7.toInt()))
+            )
+            field(Value::optimization, intParam(R.string.optimization, 2, 0..4))
+            field(Value::seed, intParam(R.string.seed, 0, 0..10000))
+            field(Value::strength, floatParam(R.string.strength, 1f, 0f..1f))
+        }
+    }
 }

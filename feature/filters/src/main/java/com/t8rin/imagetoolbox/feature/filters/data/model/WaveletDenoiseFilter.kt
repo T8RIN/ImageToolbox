@@ -19,30 +19,47 @@ package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import android.graphics.Bitmap
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
-import com.t8rin.imagetoolbox.core.domain.utils.Quad
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.WaveletDenoise.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 import com.t8rin.trickle.Trickle
 import kotlin.math.roundToInt
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.ENHANCEMENT)
 internal class WaveletDenoiseFilter(
-    override val value: Quad<Float, Float, Float, Float> = Quad(0.018f, 0.03f, 3f, 1f)
-) : Transformation<Bitmap>, Filter.WaveletDenoise {
-
-    override val cacheKey: String
-        get() = "${javaClass.name}:${value.hashCode()}"
+    override val value: Value
+) : FilterTransformation, Filter.WaveletDenoise {
 
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
     ): Bitmap = Trickle.waveletDenoise(
         input = input,
-        lumaNoise = value.first,
-        chromaNoise = value.second,
-        levels = value.third.roundToInt(),
-        strength = value.fourth
+        lumaNoise = value.luminanceNoise,
+        chromaNoise = value.ntscChromaNoise,
+        levels = value.levels.roundToInt(),
+        strength = value.strength
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info =
+            FilterInfo(R.string.wavelet_denoise, R.string.filter_help_wavelet_denoise)
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::luminanceNoise,
+                floatParam(R.string.luminance_noise, 0.018f, 0f..0.15f, roundTo = 3)
+            )
+            field(
+                Value::ntscChromaNoise,
+                floatParam(R.string.ntsc_chroma_noise, 0.03f, 0f..0.15f, roundTo = 3)
+            )
+            field(Value::levels, floatParam(R.string.levels, 3f, 1f..4f, roundTo = 0))
+            field(Value::strength, floatParam(R.string.strength, 1f, 0f..1f))
+        }
+    }
 }

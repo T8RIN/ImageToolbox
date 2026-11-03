@@ -18,20 +18,21 @@
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import android.graphics.Bitmap
+import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.AdaptiveBinarizationParams
-import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.AdaptiveBinarization.Value
+import com.t8rin.imagetoolbox.core.filters.domain.model.FilterInfo
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterDefinition
+import com.t8rin.imagetoolbox.core.ksp.annotations.FilterGroups
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 import com.t8rin.opencv_tools.photo_filters.RestorationFilters
 
-@FilterInject
+@FilterDefinition(group = FilterGroups.ENHANCEMENT)
 internal class AdaptiveBinarizationFilter(
-    override val value: AdaptiveBinarizationParams = AdaptiveBinarizationParams.Default
-) : Transformation<Bitmap>, Filter.AdaptiveBinarization {
-
-    override val cacheKey: String
-        get() = "${javaClass.name}:${value.hashCode()}"
+    override val value: Value
+) : FilterTransformation, Filter.AdaptiveBinarization {
 
     override suspend fun transform(
         input: Bitmap,
@@ -47,4 +48,33 @@ internal class AdaptiveBinarizationFilter(
         invert = value.invert
     )
 
+    companion object : Filter.Schema.Structured<Value> {
+        override val info =
+            FilterInfo(R.string.adaptive_binarization, R.string.filter_help_adaptive_binarization)
+
+        override val parameters = structuredParameters<Value> {
+            field(
+                Value::algorithm,
+                choiceParam(
+                    R.string.algorithm, 0,
+                    R.string.sauvola,
+                    R.string.niblack,
+                    R.string.wolf,
+                    R.string.nick
+                )
+            )
+            field(Value::radius, floatParam(R.string.radius, 20f, 1f..80f, roundTo = 1))
+            field(Value::coefficient, floatParam(R.string.threshold_coefficient, 0.22f, -1f..1f))
+            field(Value::dynamicRange, floatParam(R.string.dynamic_range, 0.5f, 0.02f..1f))
+            field(Value::ink, colorParam(R.string.ink_color, ColorModel(0xFF151515.toInt())))
+            field(
+                Value::paper,
+                colorParam(R.string.texture_paper_color, ColorModel(0xFFFFFFFF.toInt()))
+            )
+            field(
+                Value::invert,
+                toggleParam(R.string.gmic_param_invert, false, R.string.normal, R.string.inverted)
+            )
+        }
+    }
 }
