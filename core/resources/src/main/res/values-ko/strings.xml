@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -14,7 +13,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="pick_image">이미지 선택</string>
     <string name="width">너비 %1$s</string>
     <string name="height">높이 %1$s</string>
@@ -7551,4 +7552,44 @@
     <string name="gallery_trash_expires">삭제 예정: %1$s</string>
     <string name="gallery_media_action_failed">파일을 변경하지 못했습니다. 파일에 대한 접근 권한을 확인하세요.</string>
     <string name="media_picker_selection_too_large">파일을 너무 많이 선택했습니다. 파일을 더 적게 선택한 뒤 다시 시도하세요.</string>
+    <string name="riemersma_dithering">리메르마 디더링</string>
+    <string name="ostromoukhov_dithering">오스트로무코프 디더링</string>
+    <string name="shiau_fan_dithering">시아우-팬 디더링</string>
+    <string name="serpentine_floyd_steinberg_dithering">서펜타인 플로이드-스타인버그 디더링</string>
+    <string name="serpentine_atkinson_dithering">서펜타인 앳킨슨 디더링</string>
+    <string name="serpentine_burkes_dithering">서펜타인 버크스 디더링</string>
+    <string name="bayer_sixteen_dithering">바이엘 16×16 디더링</string>
+    <string name="blue_noise_dithering">블루 노이즈 디더링</string>
+    <string name="interleaved_gradient_noise_dithering">인터리브 그라데이션 노이즈 디더링</string>
+    <string name="spiral_halftone_dithering">나선형 하프톤 디더링</string>
+    <string name="hexagonal_dot_dithering">육각형 도트 디더링</string>
+    <string name="wave_lines_dithering">웨이브 라인 디더링</string>
+    <string name="clustered_dot_dithering">클러스터된 도트 디더링</string>
+    <string name="diamond_dithering">다이아몬드 디더링</string>
+    <string name="horizontal_lines_dithering">수평선 디더링</string>
+    <string name="vertical_lines_dithering">수직선 디더링</string>
+    <string name="diagonal_lines_dithering">대각선 디더링</string>
+    <string name="crosshatch_matrix_dithering">크로스해칭 행렬 디더링</string>
+    <string name="jhm17_progressive">프로그레시브 JPEG</string>
+    <string name="jhm17_progressive_sub">이미지가 로드될 때 대략적인 미리 보기부터 전체 세부 사항까지 점차적으로 표시되도록 여러 단계로 이미지를 저장합니다.</string>
+    <string name="jhm17_polish">계수 폴란드어</string>
+    <string name="jhm17_polish_sub">파일 크기를 줄일 수 있지만 큰 이미지에서는 인코딩 시간이 훨씬 더 오래 걸리고 메모리가 부족해질 수 있습니다.</string>
+    <string name="filter_help_bayer_sixteen_dithering">반복되는 16 × 16 베이어 임계값 행렬을 사용하여 정렬된 픽셀 패턴을 형성합니다.</string>
+    <string name="filter_help_blue_noise_dithering">블루 노이즈 임계값 패턴을 사용하여 눈에 띄는 그리드 없이 점을 분산시킵니다.</string>
+    <string name="filter_help_clustered_dot_dithering">픽셀을 톤에 따라 크기가 달라지는 점으로 그룹화하는 반복 행렬을 사용합니다.</string>
+    <string name="filter_help_crosshatch_matrix_dithering">반복되는 임계값 행렬을 사용하여 톤을 교차하는 해치 선으로 렌더링합니다.</string>
+    <string name="filter_help_diagonal_lines_dithering">톤에 따라 두께가 달라지는 대각선으로 픽셀을 집중시킵니다.</string>
+    <string name="filter_help_diamond_dithering">톤이 변경됨에 따라 반복되는 다이아몬드 모양을 늘리는 임계값 매트릭스를 사용합니다.</string>
+    <string name="filter_help_hexagonal_dot_dithering">엇갈린 육각형 격자로 점들을 그룹화하여 하프톤 패턴을 형성합니다.</string>
+    <string name="filter_help_horizontal_lines_dithering">톤에 따라 두께가 달라지는 수평선으로 픽셀을 집중시킵니다.</string>
+    <string name="filter_help_interleaved_gradient_noise_dithering">각 픽셀 위치에서 노이즈 임계값을 계산하여 미세한 입자 패턴을 생성합니다.</string>
+    <string name="filter_help_ostromoukhov_dithering">오류 확산 가중치를 각 픽셀의 톤에 맞춰 반복적인 아티팩트를 줄입니다.</string>
+    <string name="filter_help_riemersma_dithering">근처 픽셀을 통과하는 연속 경로를 따라 힐베르트 곡선을 따라 양자화 오류를 확산시킵니다.</string>
+    <string name="filter_help_serpentine_atkinson_dithering">Atkinson 커널을 사용하여 양자화 오류의 일부를 확산시키고 각 행의 방향을 바꿉니다.</string>
+    <string name="filter_help_serpentine_burkes_dithering">스캔 방향을 번갈아 가며 Burkes 커널을 사용하여 두 행에 걸쳐 양자화 오류를 확산시킵니다.</string>
+    <string name="filter_help_serpentine_floyd_steinberg_dithering">행 방향을 교대로 사용하여 플로이드-스타인버그 오류 확산을 적용하여 방향 아티팩트를 줄입니다.</string>
+    <string name="filter_help_shiau_fan_dithering">Shiau-Fan 커널을 사용하여 다음 픽셀과 아래 행의 4개 픽셀에 양자화 오류를 확산시킵니다.</string>
+    <string name="filter_help_spiral_halftone_dithering">반복되는 나선형 타일의 픽셀을 배열하여 톤을 하프톤 패턴으로 렌더링합니다.</string>
+    <string name="filter_help_vertical_lines_dithering">톤에 따라 두께가 달라지는 수직선으로 픽셀을 집중시킵니다.</string>
+    <string name="filter_help_wave_lines_dithering">반복되는 임계값 패턴을 사용하여 톤을 물결선으로 렌더링합니다.</string>
 </resources>
