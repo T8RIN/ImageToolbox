@@ -34,36 +34,68 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.enums.MirrorSide
 import com.t8rin.imagetoolbox.core.filters.domain.model.enums.PolarCoordinatesType
 import com.t8rin.imagetoolbox.core.filters.domain.model.enums.PopArtBlendingMode
 import com.t8rin.imagetoolbox.core.filters.domain.model.enums.TransferFunc
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.AdaptiveBinarizationParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.AgxToneMappingParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.AnamorphicStreaksParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.ArcParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.AsciiParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.AutostereogramParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.BayerSensorParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.BilaterialBlurParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.BloomParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.CapillaryInkBleedParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.ChannelMixParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.ClaheParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.CmykPressParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.ContourHatchingParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.CropOrPerspectiveParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.DaltonizationParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.DctGlitchParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.DiffractionPsfParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.DirectionalEmbroideryParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.DistortPerspectiveParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.DropShadowParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.EnhancedZoomBlurParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.FilmGrainParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.FilmHalationParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.FilmNegativeParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.FlareParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.FourierPhaseScrambleParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.GlitchParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.GuidedSmoothingParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.KaleidoscopeParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.LayeredPaperCutParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.LcdSubpixelsParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.LinearGaussianParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.LinearTiltShiftParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.NtscParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.PalCompositeParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.PaletteRemapParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.PhotoCrossStitchParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.PinchParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.ProceduralParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.RadialTiltShiftParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.RetroHardwareParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.RfReceptionParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.RisographParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.RubberStampParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.SecamParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.ShearParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.SideFadeParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.SignedDistanceFieldParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.SingleLineDrawingParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.SmearParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.SparkleParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.SstvReceptionParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.ThermalReceiptParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.ToneCurvesParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.TornEdgeParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.VoronoiCrystallizeParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.WaterDropParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.WaterParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.WienerDeconvolutionParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.XdogParams
 import com.t8rin.imagetoolbox.core.settings.domain.model.DomainFontFamily
 import com.t8rin.imagetoolbox.core.settings.presentation.model.asDomain
 import com.t8rin.imagetoolbox.core.settings.presentation.model.asFontType
@@ -276,6 +308,367 @@ internal fun Any.toPair(): Pair<String, String>? {
                 (values.map { "${it.key}=${it.value}" } + colors.map { "color:${it.key}=${it.value}" })
                     .joinToString(";").toByteArray(Charsets.UTF_8)
             )
+        }
+
+        is AdaptiveBinarizationParams -> {
+            AdaptiveBinarizationParams::class.simpleName() to listOf(
+                algorithm,
+                radius,
+                coefficient,
+                dynamicRange,
+                ink.colorInt,
+                paper.colorInt,
+                invert
+            ).joinToString(PROPERTIES_SEPARATOR)
+        }
+
+        is AgxToneMappingParams -> {
+            AgxToneMappingParams::class.simpleName() to listOf(
+                exposure,
+                look,
+                saturation,
+                strength
+            ).joinToString(PROPERTIES_SEPARATOR)
+        }
+
+        is AnamorphicStreaksParams -> {
+            AnamorphicStreaksParams::class.simpleName() to listOf(
+                threshold,
+                angle,
+                length,
+                width,
+                falloff,
+                intensity
+            ).joinToString(PROPERTIES_SEPARATOR)
+        }
+
+        is AutostereogramParams -> {
+            AutostereogramParams::class.simpleName() to listOf(
+                repeatDistance,
+                depth,
+                gamma,
+                size,
+                softness,
+                invert,
+                seed
+            ).joinToString(PROPERTIES_SEPARATOR)
+        }
+
+        is BayerSensorParams -> {
+            BayerSensorParams::class.simpleName() to listOf(
+                pattern,
+                scale,
+                shotNoise,
+                readNoise,
+                seed,
+                strength,
+                edgeAware
+            ).joinToString(PROPERTIES_SEPARATOR)
+        }
+
+        is CapillaryInkBleedParams -> {
+            CapillaryInkBleedParams::class.simpleName() to listOf(
+                wetness,
+                direction,
+                spread,
+                roughness,
+                steps,
+                seed,
+                strength
+            ).joinToString(PROPERTIES_SEPARATOR)
+        }
+
+        is CmykPressParams -> {
+            CmykPressParams::class.simpleName() to listOf(
+                spacing,
+                blackGeneration,
+                dotGain,
+                misregistration,
+                inkLimit,
+                paperGrain,
+                seed,
+                strength
+            ).joinToString(PROPERTIES_SEPARATOR)
+        }
+
+        is ContourHatchingParams -> {
+            ContourHatchingParams::class.simpleName() to listOf(
+                spacing,
+                width,
+                angle,
+                contrast,
+                ink.colorInt,
+                paper.colorInt,
+                strength
+            ).joinToString(PROPERTIES_SEPARATOR)
+        }
+
+        is DaltonizationParams -> {
+            DaltonizationParams::class.simpleName() to listOf(
+                visionType,
+                severity,
+                correction,
+                preserveLuminance,
+                strength
+            ).joinToString(PROPERTIES_SEPARATOR)
+        }
+
+        is DctGlitchParams -> {
+            DctGlitchParams::class.simpleName() to listOf(
+                blockSize,
+                minimumFrequency,
+                maximumFrequency,
+                operation,
+                probability,
+                seed,
+                strength
+            ).joinToString(PROPERTIES_SEPARATOR)
+        }
+
+        is DiffractionPsfParams -> {
+            DiffractionPsfParams::class.simpleName() to listOf(
+                blades,
+                rotation,
+                radius,
+                spectralSpread,
+                threshold,
+                intensity
+            ).joinToString(PROPERTIES_SEPARATOR)
+        }
+
+        is DirectionalEmbroideryParams -> {
+            DirectionalEmbroideryParams::class.simpleName() to listOf(
+                stitchLength,
+                density,
+                thickness,
+                relief,
+                colorLevels,
+                seed,
+                strength
+            ).joinToString(PROPERTIES_SEPARATOR)
+        }
+
+        is FilmGrainParams -> {
+            FilmGrainParams::class.simpleName() to listOf(
+                size,
+                intensity,
+                sizeVariation,
+                exposureDependence,
+                colorGrain,
+                seed
+            ).joinToString(PROPERTIES_SEPARATOR)
+        }
+
+        is FilmHalationParams -> {
+            FilmHalationParams::class.simpleName() to listOf(
+                threshold,
+                knee,
+                radius,
+                warmth,
+                intensity
+            ).joinToString(PROPERTIES_SEPARATOR)
+        }
+
+        is FilmNegativeParams -> {
+            FilmNegativeParams::class.simpleName() to listOf(
+                exposure,
+                densityRange,
+                contrast,
+                toneCurve,
+                filmBase.colorInt,
+                strength
+            ).joinToString(PROPERTIES_SEPARATOR)
+        }
+
+        is FourierPhaseScrambleParams -> {
+            FourierPhaseScrambleParams::class.simpleName() to listOf(
+                minFrequency,
+                maxFrequency,
+                phase,
+                seed,
+                strength
+            ).joinToString(PROPERTIES_SEPARATOR)
+        }
+
+        is GuidedSmoothingParams -> {
+            GuidedSmoothingParams::class.simpleName() to listOf(
+                radius,
+                epsilon,
+                guide,
+                strength
+            ).joinToString(PROPERTIES_SEPARATOR)
+        }
+
+        is LayeredPaperCutParams -> {
+            LayeredPaperCutParams::class.simpleName() to listOf(
+                layers,
+                smoothness,
+                depth,
+                lightAngle,
+                grain,
+                strength
+            ).joinToString(PROPERTIES_SEPARATOR)
+        }
+
+        is LcdSubpixelsParams -> {
+            LcdSubpixelsParams::class.simpleName() to listOf(
+                size,
+                blackMatrix,
+                subpixelOrder,
+                viewAngle,
+                strength
+            ).joinToString(PROPERTIES_SEPARATOR)
+        }
+
+        is PalCompositeParams -> {
+            PalCompositeParams::class.simpleName() to listOf(
+                lumaFilter,
+                chromaRadius,
+                noise,
+                phaseError,
+                scanSamples,
+                lineCompensation,
+                seed,
+                strength
+            ).joinToString(PROPERTIES_SEPARATOR)
+        }
+
+        is PaletteRemapParams -> {
+            PaletteRemapParams::class.simpleName() to listOf(
+                dithering,
+                shadowColor.colorInt,
+                midtoneColor.colorInt,
+                highlightColor.colorInt
+            ).joinToString(PROPERTIES_SEPARATOR)
+        }
+
+        is PhotoCrossStitchParams -> {
+            PhotoCrossStitchParams::class.simpleName() to listOf(
+                size,
+                threadColors,
+                threadWidth,
+                lightAngle,
+                relief,
+                seed,
+                strength
+            ).joinToString(PROPERTIES_SEPARATOR)
+        }
+
+        is RetroHardwareParams -> {
+            RetroHardwareParams::class.simpleName() to listOf(
+                system,
+                scale,
+                dithering,
+                strength
+            ).joinToString(PROPERTIES_SEPARATOR)
+        }
+
+        is RfReceptionParams -> {
+            RfReceptionParams::class.simpleName() to listOf(
+                delay,
+                reflection,
+                noise,
+                frequency,
+                seed,
+                strength
+            ).joinToString(PROPERTIES_SEPARATOR)
+        }
+
+        is RisographParams -> {
+            RisographParams::class.simpleName() to listOf(
+                spacing,
+                misregistration,
+                dotGain,
+                inks,
+                paperGrain,
+                seed,
+                strength
+            ).joinToString(PROPERTIES_SEPARATOR)
+        }
+
+        is SecamParams -> {
+            SecamParams::class.simpleName() to listOf(
+                chromaRadius,
+                frequencyDeviation,
+                noise,
+                preEmphasis,
+                lineCrosstalk,
+                seed,
+                strength
+            ).joinToString(PROPERTIES_SEPARATOR)
+        }
+
+        is SignedDistanceFieldParams -> {
+            SignedDistanceFieldParams::class.simpleName() to listOf(
+                alphaMask,
+                threshold,
+                distance,
+                mode,
+                spacing,
+                insideColor.colorInt,
+                outsideColor.colorInt,
+                invert
+            ).joinToString(PROPERTIES_SEPARATOR)
+        }
+
+        is SingleLineDrawingParams -> {
+            SingleLineDrawingParams::class.simpleName() to listOf(
+                pointCount,
+                densityCurve,
+                lineWidth,
+                ink.colorInt,
+                paper.colorInt,
+                optimization,
+                seed,
+                strength
+            ).joinToString(PROPERTIES_SEPARATOR)
+        }
+
+        is SstvReceptionParams -> {
+            SstvReceptionParams::class.simpleName() to listOf(
+                transmissionMode,
+                frequencyDrift,
+                syncError,
+                noise,
+                dropout,
+                seed,
+                strength
+            ).joinToString(PROPERTIES_SEPARATOR)
+        }
+
+        is ThermalReceiptParams -> {
+            ThermalReceiptParams::class.simpleName() to listOf(
+                size,
+                heat,
+                heatRetention,
+                defects,
+                fading,
+                seed,
+                strength
+            ).joinToString(PROPERTIES_SEPARATOR)
+        }
+
+        is WienerDeconvolutionParams -> {
+            WienerDeconvolutionParams::class.simpleName() to listOf(
+                psf,
+                radius,
+                angle,
+                regularization,
+                strength
+            ).joinToString(PROPERTIES_SEPARATOR)
+        }
+
+        is XdogParams -> {
+            XdogParams::class.simpleName() to listOf(
+                sigma,
+                ratio,
+                weight,
+                threshold,
+                sharpness,
+                ink.colorInt,
+                paper.colorInt,
+                strength
+            ).joinToString(PROPERTIES_SEPARATOR)
         }
 
         is ChannelMixParams -> {
@@ -773,6 +1166,495 @@ internal fun Pair<String, String>.fromPair(): Any? {
                 values = entries.filterKeys { !it.contains(":") }.mapValues { it.value.toFloat() },
                 colors = entries.filterKeys { it.startsWith("color:") }
                     .mapKeys { it.key.removePrefix("color:") }.mapValues { it.value.toInt() }
+            )
+        }
+
+        name == AdaptiveBinarizationParams::class.simpleName -> {
+            val (algorithm, radius, coefficient, dynamicRange, ink, paper, invert) = value.split(
+                PROPERTIES_SEPARATOR
+            )
+
+            AdaptiveBinarizationParams(
+                algorithm = algorithm.toInt(),
+                radius = radius.toFloat(),
+                coefficient = coefficient.toFloat(),
+                dynamicRange = dynamicRange.toFloat(),
+                ink = ink.toInt().toColorModel(),
+                paper = paper.toInt().toColorModel(),
+                invert = invert.toBoolean()
+            )
+        }
+
+        name == AgxToneMappingParams::class.simpleName -> {
+            val (exposure, look, saturation, strength) = value.split(
+                PROPERTIES_SEPARATOR
+            )
+
+            AgxToneMappingParams(
+                exposure = exposure.toFloat(),
+                look = look.toInt(),
+                saturation = saturation.toFloat(),
+                strength = strength.toFloat()
+            )
+        }
+
+        name == AnamorphicStreaksParams::class.simpleName -> {
+            val (threshold, angle, length, width, falloff, intensity) = value.split(
+                PROPERTIES_SEPARATOR
+            )
+
+            AnamorphicStreaksParams(
+                threshold = threshold.toFloat(),
+                angle = angle.toFloat(),
+                length = length.toFloat(),
+                width = width.toFloat(),
+                falloff = falloff.toFloat(),
+                intensity = intensity.toFloat()
+            )
+        }
+
+        name == AutostereogramParams::class.simpleName -> {
+            val (repeatDistance, depth, gamma, size, softness, invert, seed) = value.split(
+                PROPERTIES_SEPARATOR
+            )
+
+            AutostereogramParams(
+                repeatDistance = repeatDistance.toFloat(),
+                depth = depth.toFloat(),
+                gamma = gamma.toFloat(),
+                size = size.toInt(),
+                softness = softness.toFloat(),
+                invert = invert.toBoolean(),
+                seed = seed.toInt()
+            )
+        }
+
+        name == BayerSensorParams::class.simpleName -> {
+            val (pattern, scale, shotNoise, readNoise, seed, strength, edgeAware) = value.split(
+                PROPERTIES_SEPARATOR
+            )
+
+            BayerSensorParams(
+                pattern = pattern.toInt(),
+                scale = scale.toFloat(),
+                shotNoise = shotNoise.toFloat(),
+                readNoise = readNoise.toFloat(),
+                seed = seed.toInt(),
+                strength = strength.toFloat(),
+                edgeAware = edgeAware.toBoolean()
+            )
+        }
+
+        name == CapillaryInkBleedParams::class.simpleName -> {
+            val (wetness, direction, spread, roughness, steps, seed, strength) = value.split(
+                PROPERTIES_SEPARATOR
+            )
+
+            CapillaryInkBleedParams(
+                wetness = wetness.toFloat(),
+                direction = direction.toFloat(),
+                spread = spread.toFloat(),
+                roughness = roughness.toFloat(),
+                steps = steps.toInt(),
+                seed = seed.toInt(),
+                strength = strength.toFloat()
+            )
+        }
+
+        name == CmykPressParams::class.simpleName -> {
+            val (spacing, blackGeneration, dotGain, misregistration, inkLimit, paperGrain, seed, strength) = value.split(
+                PROPERTIES_SEPARATOR
+            )
+
+            CmykPressParams(
+                spacing = spacing.toInt(),
+                blackGeneration = blackGeneration.toFloat(),
+                dotGain = dotGain.toFloat(),
+                misregistration = misregistration.toFloat(),
+                inkLimit = inkLimit.toFloat(),
+                paperGrain = paperGrain.toFloat(),
+                seed = seed.toInt(),
+                strength = strength.toFloat()
+            )
+        }
+
+        name == ContourHatchingParams::class.simpleName -> {
+            val (spacing, width, angle, contrast, ink, paper, strength) = value.split(
+                PROPERTIES_SEPARATOR
+            )
+
+            ContourHatchingParams(
+                spacing = spacing.toFloat(),
+                width = width.toFloat(),
+                angle = angle.toFloat(),
+                contrast = contrast.toFloat(),
+                ink = ink.toInt().toColorModel(),
+                paper = paper.toInt().toColorModel(),
+                strength = strength.toFloat()
+            )
+        }
+
+        name == DaltonizationParams::class.simpleName -> {
+            val (visionType, severity, correction, preserveLuminance, strength) = value.split(
+                PROPERTIES_SEPARATOR
+            )
+
+            DaltonizationParams(
+                visionType = visionType.toInt(),
+                severity = severity.toFloat(),
+                correction = correction.toFloat(),
+                preserveLuminance = preserveLuminance.toFloat(),
+                strength = strength.toFloat()
+            )
+        }
+
+        name == DctGlitchParams::class.simpleName -> {
+            val (blockSize, minimumFrequency, maximumFrequency, operation, probability, seed, strength) = value.split(
+                PROPERTIES_SEPARATOR
+            )
+
+            DctGlitchParams(
+                blockSize = blockSize.toInt(),
+                minimumFrequency = minimumFrequency.toFloat(),
+                maximumFrequency = maximumFrequency.toFloat(),
+                operation = operation.toInt(),
+                probability = probability.toFloat(),
+                seed = seed.toInt(),
+                strength = strength.toFloat()
+            )
+        }
+
+        name == DiffractionPsfParams::class.simpleName -> {
+            val (blades, rotation, radius, spectralSpread, threshold, intensity) = value.split(
+                PROPERTIES_SEPARATOR
+            )
+
+            DiffractionPsfParams(
+                blades = blades.toInt(),
+                rotation = rotation.toFloat(),
+                radius = radius.toFloat(),
+                spectralSpread = spectralSpread.toFloat(),
+                threshold = threshold.toFloat(),
+                intensity = intensity.toFloat()
+            )
+        }
+
+        name == DirectionalEmbroideryParams::class.simpleName -> {
+            val (stitchLength, density, thickness, relief, colorLevels, seed, strength) = value.split(
+                PROPERTIES_SEPARATOR
+            )
+
+            DirectionalEmbroideryParams(
+                stitchLength = stitchLength.toFloat(),
+                density = density.toFloat(),
+                thickness = thickness.toFloat(),
+                relief = relief.toFloat(),
+                colorLevels = colorLevels.toInt(),
+                seed = seed.toInt(),
+                strength = strength.toFloat()
+            )
+        }
+
+        name == FilmGrainParams::class.simpleName -> {
+            val (size, intensity, sizeVariation, exposureDependence, colorGrain, seed) = value.split(
+                PROPERTIES_SEPARATOR
+            )
+
+            FilmGrainParams(
+                size = size.toFloat(),
+                intensity = intensity.toFloat(),
+                sizeVariation = sizeVariation.toFloat(),
+                exposureDependence = exposureDependence.toFloat(),
+                colorGrain = colorGrain.toFloat(),
+                seed = seed.toInt()
+            )
+        }
+
+        name == FilmHalationParams::class.simpleName -> {
+            val (threshold, knee, radius, warmth, intensity) = value.split(
+                PROPERTIES_SEPARATOR
+            )
+
+            FilmHalationParams(
+                threshold = threshold.toFloat(),
+                knee = knee.toFloat(),
+                radius = radius.toFloat(),
+                warmth = warmth.toFloat(),
+                intensity = intensity.toFloat()
+            )
+        }
+
+        name == FilmNegativeParams::class.simpleName -> {
+            val (exposure, densityRange, contrast, toneCurve, filmBase, strength) = value.split(
+                PROPERTIES_SEPARATOR
+            )
+
+            FilmNegativeParams(
+                exposure = exposure.toFloat(),
+                densityRange = densityRange.toFloat(),
+                contrast = contrast.toFloat(),
+                toneCurve = toneCurve.toFloat(),
+                filmBase = filmBase.toInt().toColorModel(),
+                strength = strength.toFloat()
+            )
+        }
+
+        name == FourierPhaseScrambleParams::class.simpleName -> {
+            val (minFrequency, maxFrequency, phase, seed, strength) = value.split(
+                PROPERTIES_SEPARATOR
+            )
+
+            FourierPhaseScrambleParams(
+                minFrequency = minFrequency.toFloat(),
+                maxFrequency = maxFrequency.toFloat(),
+                phase = phase.toFloat(),
+                seed = seed.toInt(),
+                strength = strength.toFloat()
+            )
+        }
+
+        name == GuidedSmoothingParams::class.simpleName -> {
+            val (radius, epsilon, guide, strength) = value.split(
+                PROPERTIES_SEPARATOR
+            )
+
+            GuidedSmoothingParams(
+                radius = radius.toFloat(),
+                epsilon = epsilon.toFloat(),
+                guide = guide.toInt(),
+                strength = strength.toFloat()
+            )
+        }
+
+        name == LayeredPaperCutParams::class.simpleName -> {
+            val (layers, smoothness, depth, lightAngle, grain, strength) = value.split(
+                PROPERTIES_SEPARATOR
+            )
+
+            LayeredPaperCutParams(
+                layers = layers.toInt(),
+                smoothness = smoothness.toFloat(),
+                depth = depth.toFloat(),
+                lightAngle = lightAngle.toFloat(),
+                grain = grain.toFloat(),
+                strength = strength.toFloat()
+            )
+        }
+
+        name == LcdSubpixelsParams::class.simpleName -> {
+            val (size, blackMatrix, subpixelOrder, viewAngle, strength) = value.split(
+                PROPERTIES_SEPARATOR
+            )
+
+            LcdSubpixelsParams(
+                size = size.toInt(),
+                blackMatrix = blackMatrix.toFloat(),
+                subpixelOrder = subpixelOrder.toInt(),
+                viewAngle = viewAngle.toInt(),
+                strength = strength.toFloat()
+            )
+        }
+
+        name == PalCompositeParams::class.simpleName -> {
+            val (lumaFilter, chromaRadius, noise, phaseError, scanSamples, lineCompensation, seed, strength) = value.split(
+                PROPERTIES_SEPARATOR
+            )
+
+            PalCompositeParams(
+                lumaFilter = lumaFilter.toFloat(),
+                chromaRadius = chromaRadius.toInt(),
+                noise = noise.toFloat(),
+                phaseError = phaseError.toInt(),
+                scanSamples = scanSamples.toInt(),
+                lineCompensation = lineCompensation.toFloat(),
+                seed = seed.toInt(),
+                strength = strength.toFloat()
+            )
+        }
+
+        name == PaletteRemapParams::class.simpleName -> {
+            val (dithering, shadowColor, midtoneColor, highlightColor) = value.split(
+                PROPERTIES_SEPARATOR
+            )
+
+            PaletteRemapParams(
+                dithering = dithering.toFloat(),
+                shadowColor = shadowColor.toInt().toColorModel(),
+                midtoneColor = midtoneColor.toInt().toColorModel(),
+                highlightColor = highlightColor.toInt().toColorModel()
+            )
+        }
+
+        name == PhotoCrossStitchParams::class.simpleName -> {
+            val (size, threadColors, threadWidth, lightAngle, relief, seed, strength) = value.split(
+                PROPERTIES_SEPARATOR
+            )
+
+            PhotoCrossStitchParams(
+                size = size.toInt(),
+                threadColors = threadColors.toInt(),
+                threadWidth = threadWidth.toFloat(),
+                lightAngle = lightAngle.toInt(),
+                relief = relief.toFloat(),
+                seed = seed.toInt(),
+                strength = strength.toFloat()
+            )
+        }
+
+        name == RetroHardwareParams::class.simpleName -> {
+            val (system, scale, dithering, strength) = value.split(
+                PROPERTIES_SEPARATOR
+            )
+
+            RetroHardwareParams(
+                system = system.toInt(),
+                scale = scale.toFloat(),
+                dithering = dithering.toFloat(),
+                strength = strength.toFloat()
+            )
+        }
+
+        name == RfReceptionParams::class.simpleName -> {
+            val (delay, reflection, noise, frequency, seed, strength) = value.split(
+                PROPERTIES_SEPARATOR
+            )
+
+            RfReceptionParams(
+                delay = delay.toInt(),
+                reflection = reflection.toFloat(),
+                noise = noise.toFloat(),
+                frequency = frequency.toInt(),
+                seed = seed.toInt(),
+                strength = strength.toFloat()
+            )
+        }
+
+        name == RisographParams::class.simpleName -> {
+            val (spacing, misregistration, dotGain, inks, paperGrain, seed, strength) = value.split(
+                PROPERTIES_SEPARATOR
+            )
+
+            RisographParams(
+                spacing = spacing.toInt(),
+                misregistration = misregistration.toFloat(),
+                dotGain = dotGain.toFloat(),
+                inks = inks.toInt(),
+                paperGrain = paperGrain.toFloat(),
+                seed = seed.toInt(),
+                strength = strength.toFloat()
+            )
+        }
+
+        name == SecamParams::class.simpleName -> {
+            val (chromaRadius, frequencyDeviation, noise, preEmphasis, lineCrosstalk, seed, strength) = value.split(
+                PROPERTIES_SEPARATOR
+            )
+
+            SecamParams(
+                chromaRadius = chromaRadius.toInt(),
+                frequencyDeviation = frequencyDeviation.toFloat(),
+                noise = noise.toFloat(),
+                preEmphasis = preEmphasis.toFloat(),
+                lineCrosstalk = lineCrosstalk.toFloat(),
+                seed = seed.toInt(),
+                strength = strength.toFloat()
+            )
+        }
+
+        name == SignedDistanceFieldParams::class.simpleName -> {
+            val (alphaMask, threshold, distance, mode, spacing, insideColor, outsideColor, invert) = value.split(
+                PROPERTIES_SEPARATOR
+            )
+
+            SignedDistanceFieldParams(
+                alphaMask = alphaMask.toBoolean(),
+                threshold = threshold.toFloat(),
+                distance = distance.toFloat(),
+                mode = mode.toInt(),
+                spacing = spacing.toFloat(),
+                insideColor = insideColor.toInt().toColorModel(),
+                outsideColor = outsideColor.toInt().toColorModel(),
+                invert = invert.toBoolean()
+            )
+        }
+
+        name == SingleLineDrawingParams::class.simpleName -> {
+            val (pointCount, densityCurve, lineWidth, ink, paper, optimization, seed, strength) = value.split(
+                PROPERTIES_SEPARATOR
+            )
+
+            SingleLineDrawingParams(
+                pointCount = pointCount.toInt(),
+                densityCurve = densityCurve.toFloat(),
+                lineWidth = lineWidth.toFloat(),
+                ink = ink.toInt().toColorModel(),
+                paper = paper.toInt().toColorModel(),
+                optimization = optimization.toInt(),
+                seed = seed.toInt(),
+                strength = strength.toFloat()
+            )
+        }
+
+        name == SstvReceptionParams::class.simpleName -> {
+            val (transmissionMode, frequencyDrift, syncError, noise, dropout, seed, strength) = value.split(
+                PROPERTIES_SEPARATOR
+            )
+
+            SstvReceptionParams(
+                transmissionMode = transmissionMode.toInt(),
+                frequencyDrift = frequencyDrift.toFloat(),
+                syncError = syncError.toFloat(),
+                noise = noise.toFloat(),
+                dropout = dropout.toFloat(),
+                seed = seed.toInt(),
+                strength = strength.toFloat()
+            )
+        }
+
+        name == ThermalReceiptParams::class.simpleName -> {
+            val (size, heat, heatRetention, defects, fading, seed, strength) = value.split(
+                PROPERTIES_SEPARATOR
+            )
+
+            ThermalReceiptParams(
+                size = size.toInt(),
+                heat = heat.toFloat(),
+                heatRetention = heatRetention.toFloat(),
+                defects = defects.toFloat(),
+                fading = fading.toFloat(),
+                seed = seed.toInt(),
+                strength = strength.toFloat()
+            )
+        }
+
+        name == WienerDeconvolutionParams::class.simpleName -> {
+            val (psf, radius, angle, regularization, strength) = value.split(
+                PROPERTIES_SEPARATOR
+            )
+
+            WienerDeconvolutionParams(
+                psf = psf.toInt(),
+                radius = radius.toFloat(),
+                angle = angle.toFloat(),
+                regularization = regularization.toFloat(),
+                strength = strength.toFloat()
+            )
+        }
+
+        name == XdogParams::class.simpleName -> {
+            val (sigma, ratio, weight, threshold, sharpness, ink, paper, strength) = value.split(
+                PROPERTIES_SEPARATOR
+            )
+
+            XdogParams(
+                sigma = sigma.toFloat(),
+                ratio = ratio.toFloat(),
+                weight = weight.toFloat(),
+                threshold = threshold.toFloat(),
+                sharpness = sharpness.toFloat(),
+                ink = ink.toInt().toColorModel(),
+                paper = paper.toInt().toColorModel(),
+                strength = strength.toFloat()
             )
         }
 

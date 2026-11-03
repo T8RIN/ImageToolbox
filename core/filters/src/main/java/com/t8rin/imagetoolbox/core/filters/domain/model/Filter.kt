@@ -31,39 +31,71 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.enums.PolarCoordinatesTy
 import com.t8rin.imagetoolbox.core.filters.domain.model.enums.PopArtBlendingMode
 import com.t8rin.imagetoolbox.core.filters.domain.model.enums.SpotHealMode
 import com.t8rin.imagetoolbox.core.filters.domain.model.enums.TransferFunc
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.AdaptiveBinarizationParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.AgxToneMappingParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.AnamorphicStreaksParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.ArcParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.AsciiParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.AutostereogramParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.BayerSensorParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.BilaterialBlurParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.BloomParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.CapillaryInkBleedParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.ChannelMixParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.ClaheParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.CmykPressParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.ContourHatchingParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.CropOrPerspectiveParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.DaltonizationParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.DctGlitchParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.DiffractionPsfParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.DirectionalEmbroideryParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.DisplacementParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.DistortPerspectiveParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.DropShadowParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.EnhancedZoomBlurParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.FilmGrainParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.FilmHalationParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.FilmNegativeParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.FlareParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.FourierPhaseScrambleParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.GlitchParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.GuidedSmoothingParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.KaleidoscopeParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.LayeredPaperCutParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.LcdSubpixelsParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.LinearGaussianParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.LinearTiltShiftParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.NtscParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.PalCompositeParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.PaletteRemapParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.PhotoCrossStitchParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.PinchParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.ProceduralParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.RadialTiltShiftParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.RetroHardwareParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.RfReceptionParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.RisographParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.RubberStampParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.SeamCarvingParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.SecamParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.ShaderParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.ShearParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.SideFadeParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.SignedDistanceFieldParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.SingleLineDrawingParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.SmearParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.SparkleParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.SstvReceptionParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.ThermalReceiptParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.ToneCurvesParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.TornEdgeParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.VoronoiCrystallizeParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.WaterDropParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.WaterParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.WienerDeconvolutionParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.XdogParams
 
 
 interface Filter<Value : Any> : VisibilityOwner, ErrorOwner {
@@ -462,6 +494,47 @@ interface Filter<Value : Any> : VisibilityOwner, ErrorOwner {
     interface Ripple : QuadFloatFilter
     interface AdaptiveBlur : PairFloatFilter
     interface AutoWhiteBalance : PairFloatFilter
+    interface PalComposite : Filter<PalCompositeParams>
+    interface Secam : Filter<SecamParams>
+    interface RfReception : Filter<RfReceptionParams>
+    interface SstvReception : Filter<SstvReceptionParams>
+    interface LcdSubpixels : Filter<LcdSubpixelsParams>
+    interface FilmGrain : Filter<FilmGrainParams>
+    interface FilmNegative : Filter<FilmNegativeParams>
+    interface AgxToneMapping : Filter<AgxToneMappingParams>
+    interface WaveletDenoise : QuadFloatFilter
+    interface Daltonization : Filter<DaltonizationParams>
+    interface RetroHardware : Filter<RetroHardwareParams>
+    interface Risograph : Filter<RisographParams>
+    interface CmykPress : Filter<CmykPressParams>
+    interface ThermalReceipt : Filter<ThermalReceiptParams>
+    interface PhotoCrossStitch : Filter<PhotoCrossStitchParams>
+    interface Autostereogram : Filter<AutostereogramParams>
+    interface PaletteRemap : Filter<PaletteRemapParams>
+    interface ContrastPreservingGrayscale : PairFloatFilter
+    interface FilmHalation : Filter<FilmHalationParams>
+    interface AnamorphicStreaks : Filter<AnamorphicStreaksParams>
+    interface DiffractionPsf : Filter<DiffractionPsfParams>
+    interface BayerSensor : Filter<BayerSensorParams>
+    interface GuidedSmoothing : Filter<GuidedSmoothingParams>
+    interface RollingGuidance : QuadFloatFilter
+    interface L0Smoothing : QuadFloatFilter
+    interface NonLocalMeans : QuadFloatFilter
+    interface WienerDeconvolution : Filter<WienerDeconvolutionParams>
+    interface SpectralNotch : QuadFloatFilter
+    interface AdaptiveBinarization : Filter<AdaptiveBinarizationParams>
+    interface RgbChannelRegistration : TripleFloatFilter
+    interface CapillaryInkBleed : Filter<CapillaryInkBleedParams>
+    interface DirectionalEmbroidery : Filter<DirectionalEmbroideryParams>
+    interface LayeredPaperCut : Filter<LayeredPaperCutParams>
+    interface AnisotropicKuwahara : QuadFloatFilter
+    interface Xdog : Filter<XdogParams>
+    interface ContourHatching : Filter<ContourHatchingParams>
+    interface SingleLineDrawing : Filter<SingleLineDrawingParams>
+    interface DctGlitch : Filter<DctGlitchParams>
+    interface FourierPhaseScramble : Filter<FourierPhaseScrambleParams>
+    interface SignedDistanceField : Filter<SignedDistanceFieldParams>
+    interface DomainTransform : QuadFloatFilter
     interface Isophotes : GmicFilter
     interface LocalOrientation : GmicFilter
     interface Skeleton : GmicFilter

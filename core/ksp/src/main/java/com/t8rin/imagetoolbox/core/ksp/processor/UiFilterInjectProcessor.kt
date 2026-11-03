@@ -115,34 +115,38 @@ private class UiFilterInjectProcessorImpl(
         appendLine("internal fun copyUiFilterInstance(")
         appendLine("    filter: UiFilter<*>,")
         appendLine("    newValue: Any")
-        appendLine("): UiFilter<*> = when (filter) {")
+        appendLine("): UiFilter<*> {")
+        appendLine("    val copied: UiFilter<*> = when (filter) {")
 
         entries.forEach { entry ->
             val fallback = entry.defaultConstructorCall(receiverName = "filter")
             val line = if (entry.valueType != null) {
-                "    is ${entry.uiClassName} -> runCatching { ${entry.uiClassName}(newValue as ${entry.valueType}) }.getOrElse { $fallback }"
+                "        is ${entry.uiClassName} -> runCatching { ${entry.uiClassName}(newValue as ${entry.valueType}) }.getOrElse { $fallback }"
             } else {
-                "    is ${entry.uiClassName} -> $fallback"
+                "        is ${entry.uiClassName} -> $fallback"
             }
             appendLine(line)
         }
 
-        appendLine("}.also { copied ->")
+        appendLine("    }")
         appendLine("    copied.isVisible = filter.isVisible")
+        appendLine("    return copied")
         appendLine("}")
     }
 
     private fun Appendable.appendNewInstanceFunction(entries: List<UiFilterEntry>) {
-        appendLine("internal fun newUiFilterInstance(filter: UiFilter<*>): UiFilter<*> = when (filter) {")
+        appendLine("internal fun newUiFilterInstance(filter: UiFilter<*>): UiFilter<*> {")
+        appendLine("    val instance: UiFilter<*> = when (filter) {")
 
         entries.forEach { entry ->
-            appendLine("    is ${entry.uiClassName} -> ${entry.defaultConstructorCall(receiverName = "filter")}")
+            appendLine("        is ${entry.uiClassName} -> ${entry.defaultConstructorCall(receiverName = "filter")}")
         }
 
-        appendLine("}.also { instance ->")
+        appendLine("    }")
         appendLine("    if (filter.value is Unit) {")
         appendLine("        instance.isVisible = filter.isVisible")
         appendLine("    }")
+        appendLine("    return instance")
         appendLine("}")
     }
 
@@ -150,7 +154,8 @@ private class UiFilterInjectProcessorImpl(
         appendLine("internal fun mapFilterToUiFilter(")
         appendLine("    filter: Filter<*>,")
         appendLine("    preserveVisibility: Boolean = true")
-        appendLine("): UiFilter<*> = when (filter) {")
+        appendLine("): UiFilter<*> {")
+        appendLine("    val uiFilter: UiFilter<*> = when (filter) {")
 
         entries.forEach { entry ->
             val constructorCall = if (entry.valueType != null) {
@@ -158,14 +163,15 @@ private class UiFilterInjectProcessorImpl(
             } else {
                 "${entry.uiClassName}()"
             }
-            appendLine("    is ${entry.filterInterface} -> $constructorCall")
+            appendLine("        is ${entry.filterInterface} -> $constructorCall")
         }
 
-        appendLine($$"    else -> error(\"No UiFilter mapping for ${filter::class.qualifiedName}\")")
-        appendLine("}.also { uiFilter ->")
+        appendLine($$"        else -> error(\"No UiFilter mapping for ${filter::class.qualifiedName}\")")
+        appendLine("    }")
         appendLine("    if (preserveVisibility) {")
         appendLine("        uiFilter.isVisible = filter.isVisible")
         appendLine("    }")
+        appendLine("    return uiFilter")
         appendLine("}")
     }
 
