@@ -64,6 +64,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalMetadataProvider
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalResourceManager
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalWindowSizeClass
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
+import com.t8rin.imagetoolbox.core.utils.Logger
 import com.t8rin.imagetoolbox.core.utils.makeLog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -195,7 +196,10 @@ abstract class ComposeActivity : AppCompatActivity() {
                     .build()
             )
         }.onFailure {
-            it.makeLog("applyDynamicColors")
+            it.makeLog(
+                tag = "applyDynamicColors",
+                level = Logger.Level.Warn
+            )
         }
     }
 
