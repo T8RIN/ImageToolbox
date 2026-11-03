@@ -198,7 +198,7 @@ internal class AndroidWebpConverter @Inject constructor(
             onProgress()
         }
 
-        runCatching {
+        runSuspendCatching {
             encoder.encode()
         }.onFailure(onFailure).getOrNull()
     }

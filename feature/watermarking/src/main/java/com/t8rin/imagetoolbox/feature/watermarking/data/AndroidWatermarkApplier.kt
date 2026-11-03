@@ -190,7 +190,7 @@ internal class AndroidWatermarkApplier @Inject constructor(
         image: Bitmap
     ): HiddenWatermark? = runSuspendCatching {
         val returnValue = suspendCancellableCoroutine<DetectionReturnValue?> { continuation ->
-            WatermarkDetector
+            val task = WatermarkDetector
                 .create(image)
                 .detect(
                     object : DetectFinishListener {
@@ -200,6 +200,7 @@ internal class AndroidWatermarkApplier @Inject constructor(
                         override fun onFailure(message: String?) = continuation.resume(null)
                     }
                 )
+            continuation.invokeOnCancellation { task.cancel(true) }
         } ?: return@runSuspendCatching null
 
         returnValue.watermarkBitmap?.let { watermark ->
@@ -222,7 +223,7 @@ internal class AndroidWatermarkApplier @Inject constructor(
     ): Bitmap? = runSuspendCatching {
         if (params.isInvisible) {
             suspendCancellableCoroutine { continuation ->
-                setInvisibleWMListener(
+                val cancel = setInvisibleWMListener(
                     params.isLSB,
                     object : BuildFinishListener<Bitmap> {
                         override fun onSuccess(image: Bitmap) = continuation.resume(image)
@@ -231,6 +232,7 @@ internal class AndroidWatermarkApplier @Inject constructor(
                             .run { continuation.resume(null) }
                     }
                 )
+                continuation.invokeOnCancellation { cancel.run() }
             }
         } else {
             watermark?.outputImage

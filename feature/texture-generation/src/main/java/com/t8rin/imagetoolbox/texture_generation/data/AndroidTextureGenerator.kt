@@ -19,12 +19,11 @@ package com.t8rin.imagetoolbox.texture_generation.data
 
 import android.graphics.Bitmap
 import android.graphics.Color
+import androidx.core.graphics.createBitmap
 import coil3.imageLoader
 import coil3.request.ImageRequest
 import coil3.request.allowHardware
 import coil3.toBitmap
-import com.t8rin.imagetoolbox.core.utils.appContext
-import androidx.core.graphics.createBitmap
 import com.jhlabs.BrushedMetalFilter
 import com.jhlabs.CausticsFilter
 import com.jhlabs.CellularFilter
@@ -45,9 +44,12 @@ import com.t8rin.gmic.filters.Truchet
 import com.t8rin.gmic.filters.TruchetColorMode
 import com.t8rin.gmic.filters.TruchetType
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
+import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
+import com.t8rin.imagetoolbox.core.utils.appContext
 import com.t8rin.imagetoolbox.texture_generation.domain.TextureGenerator
 import com.t8rin.imagetoolbox.texture_generation.domain.model.TextureFilterType
 import com.t8rin.imagetoolbox.texture_generation.domain.model.TextureParams
+import kotlinx.coroutines.runInterruptible
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -61,9 +63,9 @@ internal class AndroidTextureGenerator @Inject constructor(
         textureParams: TextureParams,
         onFailure: (Throwable) -> Unit
     ): Bitmap? = withContext(defaultDispatcher) {
-        runCatching {
+        runSuspendCatching {
             if (textureParams.textureFilterType.pattern != null) {
-                generatePatternTexture(width, height, textureParams)
+                runInterruptible { generatePatternTexture(width, height, textureParams) }
             } else if (textureParams.textureFilterType.isRaymarch) {
                 val environment = textureParams.raymarchParams.environment
                     ?.takeIf(String::isNotBlank)?.let { data ->
@@ -75,14 +77,23 @@ internal class AndroidTextureGenerator @Inject constructor(
                                 .build()
                         ).image?.toBitmap() ?: error("Unable to load environment image")
                     }
-                generateRaymarchTexture(width, height, textureParams, environment = environment)
+                runInterruptible {
+                    generateRaymarchTexture(
+                        width,
+                        height,
+                        textureParams,
+                        environment = environment
+                    )
+                }
             } else if (textureParams.textureFilterType.isFastNoise) {
-                createFastNoiseTexture(
-                    width = width,
-                    height = height,
-                    type = textureParams.textureFilterType,
-                    params = requireNotNull(textureParams.fastNoiseParams)
-                )
+                runInterruptible {
+                    createFastNoiseTexture(
+                        width = width,
+                        height = height,
+                        type = textureParams.textureFilterType,
+                        params = requireNotNull(textureParams.fastNoiseParams)
+                    )
+                }
             } else if (textureParams.textureFilterType.isGmic) {
                 Gmic.runCancellable(
                     input = createBitmap(width, height).apply {

@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,6 +26,7 @@ import com.t8rin.imagetoolbox.core.utils.appContext
 import com.t8rin.imagetoolbox.feature.filters.data.utils.flexible
 import jp.co.cyberagent.android.gpuimage.GPUImage
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
+import kotlinx.coroutines.runInterruptible
 import coil3.transform.Transformation as CoilTransformation
 
 internal abstract class GPUFilterTransformation : CoilTransformation(), Transformation<Bitmap> {
@@ -38,10 +39,12 @@ internal abstract class GPUFilterTransformation : CoilTransformation(), Transfor
     override suspend fun transform(
         input: Bitmap,
         size: Size
-    ): Bitmap = GPUImage(appContext).apply {
-        setImage(input.flexible(size))
-        setFilter(createFilter())
-    }.bitmapWithFilterApplied
+    ): Bitmap = runInterruptible {
+        GPUImage(appContext).apply {
+            setImage(input.flexible(size))
+            setFilter(createFilter())
+        }.bitmapWithFilterApplied
+    }
 
     override suspend fun transform(
         input: Bitmap,

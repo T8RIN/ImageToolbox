@@ -94,6 +94,7 @@ internal class AndroidImageCompressor @Inject constructor(
                     image = transformedImage,
                     quality = coercedQuality
                 )
+                .also { ensureActive() }
         } finally {
             if (transformedImage !== image) transformedImage.recycle()
             if (softwareImage !== image && softwareImage !== transformedImage) {

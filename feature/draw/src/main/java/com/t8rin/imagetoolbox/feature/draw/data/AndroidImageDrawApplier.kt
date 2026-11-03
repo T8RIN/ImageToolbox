@@ -78,6 +78,9 @@ import com.t8rin.trickle.WarpBrush
 import com.t8rin.trickle.WarpEngine
 import com.t8rin.trickle.WarpMode
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.currentCoroutineContext
+import kotlinx.coroutines.ensureActive
+import kotlinx.coroutines.runInterruptible
 import javax.inject.Inject
 import kotlin.math.roundToInt
 import android.graphics.Path as NativePath
@@ -221,6 +224,7 @@ internal class AndroidImageDrawApplier @Inject constructor(
 
                         try {
                             drawMode.strokes.forEach { warpStroke ->
+                                currentCoroutineContext().ensureActive()
                                 val warp = warpStroke.scaleToFitCanvas(
                                     currentSize = canvasSize,
                                     oldSize = size
@@ -239,7 +243,7 @@ internal class AndroidImageDrawApplier @Inject constructor(
                                 )
                             }
 
-                            drawBitmap(engine.render())
+                            drawBitmap(runInterruptible { engine.render() })
                         } finally {
                             engine.release()
                         }

@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,8 +20,10 @@ package com.t8rin.imagetoolbox.noise_generation.data
 import android.graphics.Bitmap
 import com.t8rin.fast_noise.FastNoise
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
+import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.noise_generation.domain.NoiseGenerator
 import com.t8rin.imagetoolbox.noise_generation.domain.model.NoiseParams
+import kotlinx.coroutines.runInterruptible
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -35,27 +37,29 @@ internal class AndroidNoiseGenerator @Inject constructor(
         noiseParams: NoiseParams,
         onFailure: (Throwable) -> Unit
     ): Bitmap? = withContext(defaultDispatcher) {
-        runCatching {
+        runSuspendCatching {
             with(noiseParams) {
-                FastNoise.generateNoiseImage(
-                    width = width,
-                    height = height,
-                    seed = seed,
-                    frequency = frequency,
-                    noiseType = noiseType.ordinal,
-                    rotationType3D = rotationType3D.ordinal,
-                    fractalType = fractalType.ordinal,
-                    fractalOctaves = fractalOctaves,
-                    fractalLacunarity = fractalLacunarity,
-                    fractalGain = fractalGain,
-                    fractalWeightedStrength = fractalWeightedStrength,
-                    fractalPingPongStrength = fractalPingPongStrength,
-                    cellularDistanceFunction = cellularDistanceFunction.ordinal,
-                    cellularReturnType = cellularReturnType.ordinal,
-                    cellularJitter = cellularJitter,
-                    domainWarpType = domainWarpType.ordinal,
-                    domainWarpAmp = domainWarpAmp,
-                )
+                runInterruptible {
+                    FastNoise.generateNoiseImage(
+                        width = width,
+                        height = height,
+                        seed = seed,
+                        frequency = frequency,
+                        noiseType = noiseType.ordinal,
+                        rotationType3D = rotationType3D.ordinal,
+                        fractalType = fractalType.ordinal,
+                        fractalOctaves = fractalOctaves,
+                        fractalLacunarity = fractalLacunarity,
+                        fractalGain = fractalGain,
+                        fractalWeightedStrength = fractalWeightedStrength,
+                        fractalPingPongStrength = fractalPingPongStrength,
+                        cellularDistanceFunction = cellularDistanceFunction.ordinal,
+                        cellularReturnType = cellularReturnType.ordinal,
+                        cellularJitter = cellularJitter,
+                        domainWarpType = domainWarpType.ordinal,
+                        domainWarpAmp = domainWarpAmp,
+                    )
+                }
             }
         }.onFailure(onFailure).getOrNull()
     }

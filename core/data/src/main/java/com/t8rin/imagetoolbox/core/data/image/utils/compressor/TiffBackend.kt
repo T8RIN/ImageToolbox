@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import com.t8rin.imagetoolbox.core.data.image.utils.ImageCompressorBackend
 import com.t8rin.imagetoolbox.core.domain.image.model.Quality
+import kotlinx.coroutines.runInterruptible
 import org.beyka.tiffbitmapfactory.CompressionScheme
 import org.beyka.tiffbitmapfactory.Orientation
 import org.beyka.tiffbitmapfactory.TiffSaver
@@ -33,7 +34,7 @@ internal data class TiffBackend(
     override suspend fun compress(
         image: Bitmap,
         quality: Quality
-    ): ByteArray {
+    ): ByteArray = runInterruptible {
         val tiffQuality = quality as? Quality.Tiff ?: Quality.Tiff()
 
         val file = File(context.cacheDir, "temp.tiff").apply { createNewFile() }
@@ -41,9 +42,10 @@ internal data class TiffBackend(
             compressionScheme = CompressionScheme.entries[tiffQuality.compressionScheme]
             orientation = Orientation.TOP_LEFT
         }
-        TiffSaver.saveBitmap(file, image, options)
-
-        return file.readBytes().also {
+        try {
+            TiffSaver.saveBitmap(file, image, options)
+            file.readBytes()
+        } finally {
             file.delete()
         }
     }

@@ -67,6 +67,8 @@ class VVCDecoder(
                 ).asImage(),
                 isSampled = true
             )
+        } catch (e: InterruptedException) {
+            throw e
         } catch (e: Exception) {
             e.makeLog("VVCDecoder", Logger.Level.Warn)
             exceptionLogger?.invoke(e)
