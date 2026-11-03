@@ -5191,6 +5191,7 @@
     <string name="code_preview_style">Оформление</string>
     <string name="code_preview_syntax_theme">Тема подсветки</string>
     <string name="code_preview_background">Фон холста</string>
+    <string name="code_preview_transparent_background">Прозрачный фон</string>
     <string name="code_preview_background_sub">Добавляет градиент за окном с кодом; отключите для прозрачного экспорта</string>
     <string name="code_preview_gradient_start">Начало градиента</string>
     <string name="code_preview_gradient_end">Конец градиента</string>

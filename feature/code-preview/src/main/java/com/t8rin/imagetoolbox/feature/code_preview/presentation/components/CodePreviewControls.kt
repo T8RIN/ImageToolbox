@@ -58,6 +58,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextField
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
 import com.t8rin.imagetoolbox.feature.code_preview.presentation.model.CodeLanguage
+import com.t8rin.imagetoolbox.feature.code_preview.presentation.model.CodePreviewStyle
 import com.t8rin.imagetoolbox.feature.code_preview.presentation.model.CodePreviewTheme
 import com.t8rin.imagetoolbox.feature.code_preview.presentation.model.toStyle
 import com.t8rin.imagetoolbox.feature.code_preview.presentation.screenLogic.CodePreviewComponent
@@ -141,12 +142,7 @@ internal fun CodePreviewControls(component: CodePreviewComponent) {
                         currentStyle = params.toStyle(),
                         styles = component.styles,
                         listStateKey = "CODE_PREVIEW_STYLES",
-                        summary = { style ->
-                            val theme = CodePreviewTheme.entries
-                                .firstOrNull { it.assetName == style.themeAssetName }
-                                ?: CodePreviewTheme.Dracula
-                            "${theme.title} / ${style.fontSize} sp"
-                        },
+                        summary = { it.summary() },
                         onApply = component::applyStyle,
                         onSave = component::saveStyle,
                         onDelete = component::deleteStyle,
@@ -362,4 +358,23 @@ internal fun CodePreviewControls(component: CodePreviewComponent) {
 
         Spacer(Modifier.size(4.dp))
     }
+}
+
+@Composable
+private fun CodePreviewStyle.summary(): String {
+    val theme = CodePreviewTheme.entries.firstOrNull { it.assetName == themeAssetName }
+        ?: CodePreviewTheme.Dracula
+    val background = stringResource(
+        if (showCanvasBackground) backgroundPreset.title
+        else R.string.code_preview_transparent_background
+    )
+    val padding = stringResource(R.string.code_preview_outer_padding)
+
+    return listOfNotNull(
+        theme.title,
+        background,
+        "$fontSize sp",
+        "$padding $outerPadding dp",
+        stringResource(R.string.code_preview_line_numbers).takeIf { showLineNumbers }
+    ).joinToString(" / ")
 }

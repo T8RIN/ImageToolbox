@@ -28,14 +28,17 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.image.model.Quality
 import com.t8rin.imagetoolbox.core.domain.model.DomainAspectRatio
+import com.t8rin.imagetoolbox.core.domain.utils.trimTrailingZero
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.AspectRatio
 import com.t8rin.imagetoolbox.core.resources.icons.Palette
+import com.t8rin.imagetoolbox.core.ui.utils.helper.toHex
 import com.t8rin.imagetoolbox.core.ui.utils.provider.ProvideContainerDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ColorRowSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageFormatSelector
@@ -44,9 +47,11 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.image.AspectRatioSelector
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
+import com.t8rin.imagetoolbox.core.ui.widget.palette_selection.GradientBackgroundPreset
 import com.t8rin.imagetoolbox.core.ui.widget.palette_selection.GradientBackgroundSelector
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
+import com.t8rin.imagetoolbox.feature.screenshot_framing.presentation.model.ScreenshotFramingStyle
 import com.t8rin.imagetoolbox.feature.screenshot_framing.presentation.model.toStyle
 import com.t8rin.imagetoolbox.feature.screenshot_framing.presentation.screenLogic.ScreenshotFramingComponent
 import kotlin.math.roundToInt
@@ -60,11 +65,7 @@ internal fun ScreenshotFramingControls(component: ScreenshotFramingComponent) {
             currentStyle = params.toStyle(),
             styles = component.styles,
             listStateKey = "SCREENSHOT_FRAMING_STYLES",
-            summary = { style ->
-                val padding = stringResource(R.string.padding)
-                val corners = stringResource(R.string.screenshot_framing_corners)
-                "$padding ${style.padding}% / $corners ${style.cornerRadius}%"
-            },
+            summary = { it.summary() },
             onApply = component::applyStyle,
             onSave = component::saveStyle,
             onDelete = component::deleteStyle
@@ -196,4 +197,34 @@ internal fun ScreenshotFramingControls(component: ScreenshotFramingComponent) {
 
         Spacer(Modifier.size(4.dp))
     }
+}
+
+@Composable
+private fun ScreenshotFramingStyle.summary(): String {
+    val ratio = when (aspectRatioWidth) {
+        DomainAspectRatio.Free.widthProportion -> stringResource(R.string.free)
+        DomainAspectRatio.Original.widthProportion -> stringResource(R.string.original)
+        else -> {
+            val width = aspectRatioWidth.toString().trimTrailingZero()
+            val height = aspectRatioHeight.toString().trimTrailingZero()
+            "$width:$height"
+        }
+    }
+    val backgroundColor = backgroundColors.firstOrNull()?.let { Color(it).toHex() }
+    val background = when {
+        !useGradient -> backgroundColor ?: stringResource(R.string.background_color)
+        preset == GradientBackgroundPreset.Custom -> {
+            listOfNotNull(stringResource(R.string.gradient), backgroundColor).joinToString(" ")
+        }
+
+        else -> stringResource(preset.title)
+    }
+
+    return listOfNotNull(
+        ratio,
+        background,
+        "${stringResource(R.string.padding)} $padding%",
+        "${stringResource(R.string.corners)} $cornerRadius%",
+        "${stringResource(R.string.screenshot_framing_shadow)} $shadowOpacity%".takeIf { showShadow }
+    ).joinToString(" / ")
 }

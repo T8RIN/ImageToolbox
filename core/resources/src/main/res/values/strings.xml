@@ -5230,6 +5230,7 @@
     <string name="code_preview_style">Appearance</string>
     <string name="code_preview_syntax_theme">Syntax theme</string>
     <string name="code_preview_background">Canvas background</string>
+    <string name="code_preview_transparent_background">Transparent background</string>
     <string name="code_preview_background_sub">Draw a gradient behind the code window, or turn it off for transparent export</string>
     <string name="code_preview_gradient_start">Gradient start</string>
     <string name="code_preview_gradient_end">Gradient end</string>
