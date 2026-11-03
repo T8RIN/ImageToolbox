@@ -201,8 +201,22 @@ private class UiFilterInjectProcessorImpl(
         }
         appendLine("}")
         appendLine()
+
+        // Keep the generated factories below the JVM bytecode size limit per method.
+        val groups = entries.chunked(100)
+        appendLine("internal fun createUiFilterFromKey(key: String, value: Any?): UiFilter<*>? =")
+        appendLine(groups.indices.joinToString(separator = "\n        ?: ", prefix = "    ") {
+            "restoreUiFilter$it(key, value)"
+        })
+        groups.forEachIndexed { index, group ->
+            appendLine()
+            appendUiFilterFactory(index, group)
+        }
+    }
+
+    private fun Appendable.appendUiFilterFactory(index: Int, entries: List<UiFilterEntry>) {
         appendLine("@Suppress(\"UNCHECKED_CAST\")")
-        appendLine("internal fun createUiFilterFromKey(key: String, value: Any?): UiFilter<*>? = when (key) {")
+        appendLine("private fun restoreUiFilter$index(key: String, value: Any?): UiFilter<*>? = when (key) {")
         entries.forEach { entry ->
             val fallback = if (entry.valueType == null || entry.valueParamHasDefault) {
                 "${entry.uiClassName}()"
