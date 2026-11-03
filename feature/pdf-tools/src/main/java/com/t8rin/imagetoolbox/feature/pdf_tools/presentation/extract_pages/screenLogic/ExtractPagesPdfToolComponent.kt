@@ -134,6 +134,7 @@ class ExtractPagesPdfToolComponent @AssistedInject internal constructor(
                     quality = when (val q = it.quality) {
                         is Quality.Base -> q.copy(qualityValue = quality)
                         is Quality.Jxl -> q.copy(qualityValue = quality)
+                        is Quality.Jhm17 -> q.copy(qualityValue = quality).coerceIn(it.imageFormat)
                         else -> q
                     }
                 )

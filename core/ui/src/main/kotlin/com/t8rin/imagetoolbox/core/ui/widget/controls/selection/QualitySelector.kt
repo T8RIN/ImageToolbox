@@ -57,6 +57,7 @@ import androidx.compose.ui.unit.sp
 import com.t8rin.imagetoolbox.core.domain.image.model.AvifChromaSubsampling
 import com.t8rin.imagetoolbox.core.domain.image.model.HeicChromaSubsampling
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
+import com.t8rin.imagetoolbox.core.domain.image.model.Jhm17Chroma
 import com.t8rin.imagetoolbox.core.domain.image.model.Quality
 import com.t8rin.imagetoolbox.core.domain.image.model.TiffCompressionScheme
 import com.t8rin.imagetoolbox.core.domain.image.model.VvcBitDepth
@@ -171,6 +172,7 @@ fun QualitySelector(
                                     is Quality.Avif -> quality.effort
                                     is Quality.Heic -> quality.qualityValue
                                     is Quality.Vvc -> quality.qualityValue
+                                    is Quality.Jhm17 -> quality.qualityValue
                                     is Quality.Tiff -> quality.qualityValue
                                     is Quality.PngQuant -> quality.qualityValue
                                 }
@@ -198,6 +200,7 @@ fun QualitySelector(
                                             is Quality.Avif -> quality.copy(effort = it.toInt())
                                             is Quality.Heic -> quality.copy(qualityValue = it.toInt())
                                             is Quality.Vvc -> quality.copy(qualityValue = it.toInt())
+                                            is Quality.Jhm17 -> quality.copy(qualityValue = it.toInt())
                                             is Quality.Tiff -> quality.copy(compressionScheme = it.toInt())
                                             is Quality.PngQuant -> quality.copy(quality = it.toInt())
                                         }.coerceIn(actualImageFormat)
@@ -213,6 +216,7 @@ fun QualitySelector(
                                             is Quality.Avif -> quality.copy(qualityValue = it.toInt())
                                             is Quality.Heic -> quality.copy(qualityValue = it.toInt())
                                             is Quality.Vvc -> quality.copy(qualityValue = it.toInt())
+                                            is Quality.Jhm17 -> quality.copy(qualityValue = it.toInt())
                                             is Quality.Tiff -> quality.copy(compressionScheme = it.toInt())
                                             is Quality.PngQuant -> quality.copy(quality = it.toInt())
                                         }.coerceIn(actualImageFormat)
@@ -247,6 +251,56 @@ fun QualitySelector(
                     }
                 }
                 when (actualImageFormat) {
+                    ImageFormat.Jhm17 -> {
+                        val jhm17Quality = quality as? Quality.Jhm17
+                            ?: Quality.Jhm17(qualityValue = quality.qualityValue)
+                        PreferenceRowSwitch(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(4.dp),
+                            title = stringResource(R.string.jhm17_progressive),
+                            checked = jhm17Quality.progressive,
+                            containerColor = MaterialTheme.colorScheme.surface,
+                            shape = ShapeDefaults.large,
+                            autoShadowElevation = 0.dp,
+                            applyHorizontalPadding = false,
+                            resultModifier = Modifier.padding(16.dp),
+                            onClick = {
+                                onQualityChange(
+                                    jhm17Quality.copy(progressive = it).coerceIn(actualImageFormat)
+                                )
+                            }
+                        )
+                        QualityOptionSelector(
+                            entries = Jhm17Chroma.entries,
+                            value = jhm17Quality.chroma,
+                            title = stringResource(R.string.chroma_subsampling),
+                            itemTitle = { it.title },
+                            onValueChange = {
+                                onQualityChange(
+                                    jhm17Quality.copy(chroma = it).coerceIn(actualImageFormat)
+                                )
+                            },
+                            inactiveButtonColor = inactiveButtonColor,
+                            activeButtonColor = activeButtonColor
+                        )
+                        AnimatedVisibility(visible = jhm17Quality.chroma.supportsPolish) {
+                            QualityOptionSelector(
+                                entries = Quality.Jhm17.Polish.entries,
+                                value = jhm17Quality.polish,
+                                title = stringResource(R.string.jhm17_polish),
+                                itemTitle = { it.title },
+                                onValueChange = {
+                                    onQualityChange(
+                                        jhm17Quality.copy(polish = it).coerceIn(actualImageFormat)
+                                    )
+                                },
+                                inactiveButtonColor = inactiveButtonColor,
+                                activeButtonColor = activeButtonColor
+                            )
+                        }
+                    }
+
                     ImageFormat.Heic.VvcLossless,
                     ImageFormat.Heic.VvcLossy -> {
                         val vvcQuality = quality as? Quality.Vvc
@@ -610,6 +664,7 @@ private val ImageFormat.qualitySelectorContentKey: QualitySelectorContentKey
             ImageFormat.Heic.VvcLossy -> AdditionalQualityControls.Vvc
             is ImageFormat.Heic -> AdditionalQualityControls.Heic
             is ImageFormat.Avif -> AdditionalQualityControls.Avif
+            ImageFormat.Jhm17 -> AdditionalQualityControls.Jhm17
             is ImageFormat.Jxl -> AdditionalQualityControls.Jxl
             ImageFormat.Png.Lossy -> AdditionalQualityControls.PngLossy
             ImageFormat.Tiff,
@@ -630,6 +685,7 @@ private enum class AdditionalQualityControls {
     Vvc,
     Heic,
     Avif,
+    Jhm17,
     Jxl,
     PngLossy,
     Tiff,
@@ -726,6 +782,29 @@ private val HeicChromaSubsampling.title: String
         HeicChromaSubsampling.Yuv420 -> "4:2:0"
         HeicChromaSubsampling.Yuv422 -> "4:2:2"
         HeicChromaSubsampling.Yuv444 -> "4:4:4"
+    }
+
+private val Jhm17Chroma.title: String
+    @Composable
+    get() = when (this) {
+        Jhm17Chroma.AUTO -> stringResource(R.string.auto)
+        Jhm17Chroma.YUV_420 -> "4:2:0"
+        Jhm17Chroma.YUV_422 -> "4:2:2"
+        Jhm17Chroma.YUV_444 -> "4:4:4"
+        Jhm17Chroma.YUV_440 -> "4:4:0"
+        Jhm17Chroma.YUV_441 -> "4:4:1"
+        Jhm17Chroma.YUV_421 -> "4:2:1"
+        Jhm17Chroma.YUV_411 -> "4:1:1"
+        Jhm17Chroma.YUV_410 -> "4:1:0"
+    }
+
+private val Quality.Jhm17.Polish.title: String
+    @Composable
+    get() = when (this) {
+        Quality.Jhm17.Polish.OFF -> stringResource(R.string.disabled)
+        Quality.Jhm17.Polish.GREEDY -> "Greedy"
+        Quality.Jhm17.Polish.TRELLIS -> "Trellis"
+        Quality.Jhm17.Polish.TRELLIS_GREEDY -> "Trellis + Greedy"
     }
 
 private val VvcChroma.title: String

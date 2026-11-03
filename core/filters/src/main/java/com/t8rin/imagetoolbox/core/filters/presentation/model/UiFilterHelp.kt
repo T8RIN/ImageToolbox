@@ -47,6 +47,7 @@ val UiFilter<*>.helpDescription: Int
         is UiBandingDenoiseFilter -> R.string.filter_help_gmic_filter_banding_denoise
         is UiBayerEightDitheringFilter -> R.string.filter_help_bayer_eight_dithering
         is UiBayerFourDitheringFilter -> R.string.filter_help_bayer_four_dithering
+        is UiBayerSixteenDitheringFilter -> R.string.filter_help_bayer_sixteen_dithering
         is UiBayerThreeDitheringFilter -> R.string.filter_help_bayer_three_dithering
         is UiBayerTwoDitheringFilter -> R.string.filter_help_bayer_two_dithering
         is UiBilaterialBlurFilter -> R.string.filter_help_bilaterial_blur
@@ -57,6 +58,7 @@ val UiFilter<*>.helpDescription: Int
         is UiBlockGlitchFilter -> R.string.filter_help_block_glitch
         is UiBlocks3DFilter -> R.string.filter_help_gmic_filter_blocks_3d
         is UiBloomFilter -> R.string.filter_help_bloom
+        is UiBlueNoiseDitheringFilter -> R.string.filter_help_blue_noise_dithering
         is UiBlurredFrameFilter -> R.string.filter_help_gmic_filter_blurred_frame
         is UiBokehFilter -> R.string.filter_help_bokeh
         is UiBokehLightsFilter -> R.string.filter_help_bokeh_lights
@@ -104,6 +106,7 @@ val UiFilter<*>.helpDescription: Int
         is UiClustered2x2DitheringFilter -> R.string.filter_help_clustered_2x2_dithering
         is UiClustered4x4DitheringFilter -> R.string.filter_help_clustered_4x4_dithering
         is UiClustered8x8DitheringFilter -> R.string.filter_help_clustered_8x8_dithering
+        is UiClusteredDotDitheringFilter -> R.string.filter_help_clustered_dot_dithering
         is UiCodaChromeFilter -> R.string.filter_help_coda_chrome
         is UiCoffeeFilter -> R.string.filter_help_coffee
         is UiColorAbstractionFilter -> R.string.filter_help_gmic_filter_color_abstraction
@@ -137,6 +140,7 @@ val UiFilter<*>.helpDescription: Int
         is UiCrossBlurFilter -> R.string.filter_help_cross_blur
         is UiCrossPixelizationFilter -> R.string.filter_help_cross_pixelization
         is UiCrosshatchFilter -> R.string.filter_help_crosshatch
+        is UiCrosshatchMatrixDitheringFilter -> R.string.filter_help_crosshatch_matrix_dithering
         is UiCrtCurvatureFilter -> R.string.filter_help_crt_curvature
         is UiCrtPhosphorsFilter -> R.string.filter_help_gmic_filter_crt_phosphors
         is UiCrtScanlinesFilter -> R.string.filter_help_gmic_filter_crt_scanlines
@@ -159,6 +163,8 @@ val UiFilter<*>.helpDescription: Int
         is UiDetailsEqualizerFilter -> R.string.filter_help_gmic_filter_details_equalizer
         is UiDeutaromalyFilter -> R.string.filter_help_deutaromaly
         is UiDeuteranopiaFilter -> R.string.filter_help_deuteranopia
+        is UiDiagonalLinesDitheringFilter -> R.string.filter_help_diagonal_lines_dithering
+        is UiDiamondDitheringFilter -> R.string.filter_help_diamond_dithering
         is UiDiamondPixelationFilter -> R.string.filter_help_diamond_pixelation
         is UiDiceMosaicFilter -> R.string.filter_help_gmic_filter_dice_mosaic
         is UiDiffuseFilter -> R.string.filter_help_diffuse
@@ -270,10 +276,12 @@ val UiFilter<*>.helpDescription: Int
         is UiHelixWavesFilter -> R.string.filter_help_helix_waves
         is UiHessianSharpenFilter -> R.string.filter_help_gmic_filter_hessian_sharpen
         is UiHexKaleidoscopeFilter -> R.string.filter_help_hex_kaleidoscope
+        is UiHexagonalDotDitheringFilter -> R.string.filter_help_hexagonal_dot_dithering
         is UiHighPassFilter -> R.string.filter_help_high_pass
         is UiHighlightSynthesisFilter -> R.string.filter_help_gmic_filter_highlight_synthesis
         is UiHighlightsAndShadowsFilter -> R.string.filter_help_highlights_shadows
         is UiHopePosterFilter -> R.string.filter_help_gmic_filter_hope_poster
+        is UiHorizontalLinesDitheringFilter -> R.string.filter_help_horizontal_lines_dithering
         is UiHorizontalWindStaggerFilter -> R.string.filter_help_horizontal_wind_stagger
         is UiHotFilter -> R.string.filter_help_hot
         is UiHotSummerFilter -> R.string.filter_help_hot_summer
@@ -289,6 +297,7 @@ val UiFilter<*>.helpDescription: Int
         is UiInfernoFilter -> R.string.filter_help_inferno
         is UiInkWashFilter -> R.string.filter_help_gmic_filter_ink_wash
         is UiInlineBreaksFilter -> R.string.filter_help_inline_breaks
+        is UiInterleavedGradientNoiseDitheringFilter -> R.string.filter_help_interleaved_gradient_noise_dithering
         is UiInversionFractalFilter -> R.string.filter_help_inversion_fractal
         is UiIsophotesFilter -> R.string.filter_help_gmic_filter_isophotes
         is UiJarvisJudiceNinkeDitheringFilter -> R.string.filter_help_jarvis_judice_ninke_dithering
@@ -372,6 +381,7 @@ val UiFilter<*>.helpDescription: Int
         is UiOpeningFilter -> R.string.filter_help_opening
         is UiOrangeHazeFilter -> R.string.filter_help_orange_haze
         is UiOrbitalPixelizationFilter -> R.string.filter_help_orbital_pixelization
+        is UiOstromoukhovDitheringFilter -> R.string.filter_help_ostromoukhov_dithering
         is UiPaintingFilter -> R.string.filter_help_gmic_filter_painting
         is UiPaintingFrameFilter -> R.string.filter_help_gmic_filter_painting_frame
         is UiPaletteTransferFilter -> R.string.filter_help_palette_transfer
@@ -441,6 +451,7 @@ val UiFilter<*>.helpDescription: Int
         is UiRetroFadeFilter -> R.string.filter_help_gmic_filter_retro_fade
         is UiRetroYellowFilter -> R.string.filter_help_retro_yellow
         is UiRichardsonLucySharpenFilter -> R.string.filter_help_gmic_filter_richardson_lucy_sharpen
+        is UiRiemersmaDitheringFilter -> R.string.filter_help_riemersma_dithering
         is UiRingBlurFilter -> R.string.filter_help_ring_blur
         is UiRippleFilter -> R.string.filter_help_ripple
         is UiRodiliusFilter -> R.string.filter_help_gmic_filter_rodilius
@@ -454,12 +465,16 @@ val UiFilter<*>.helpDescription: Int
         is UiSeamCarvingFilter -> R.string.filter_help_seam_carving
         is UiSelectiveDesaturationFilter -> R.string.filter_help_gmic_filter_selective_desaturation
         is UiSepiaFilter -> R.string.filter_help_sepia
+        is UiSerpentineAtkinsonDitheringFilter -> R.string.filter_help_serpentine_atkinson_dithering
+        is UiSerpentineBurkesDitheringFilter -> R.string.filter_help_serpentine_burkes_dithering
+        is UiSerpentineFloydSteinbergDitheringFilter -> R.string.filter_help_serpentine_floyd_steinberg_dithering
         is UiShaderFilter -> R.string.filter_help_shader
         is UiShadowPatchFilter -> R.string.filter_help_gmic_filter_shadow_patch
         is UiShapeismFilter -> R.string.filter_help_gmic_filter_shapeism
         is UiSharpAbstractFilter -> R.string.filter_help_gmic_filter_sharp_abstract
         is UiSharpenFilter -> R.string.filter_help_sharpen
         is UiShearFilter -> R.string.filter_help_shear
+        is UiShiauFanDitheringFilter -> R.string.filter_help_shiau_fan_dithering
         is UiShockWavesFilter -> R.string.filter_help_gmic_filter_shock_waves
         is UiShuffleBlurFilter -> R.string.filter_help_shuffle_blur
         is UiShufflePatchesFilter -> R.string.filter_help_gmic_filter_shuffle_patches
@@ -495,6 +510,7 @@ val UiFilter<*>.helpDescription: Int
         is UiSpiralArmsFilter -> R.string.filter_help_spiral_arms
         is UiSpiralBreaksFilter -> R.string.filter_help_spiral_breaks
         is UiSpiralDrosteFilter -> R.string.filter_help_spiral_droste
+        is UiSpiralHalftoneDitheringFilter -> R.string.filter_help_spiral_halftone_dithering
         is UiSpringFilter -> R.string.filter_help_spring
         is UiSquareFresnelFilter -> R.string.filter_help_square_fresnel
         is UiSquareSpiralDrosteFilter -> R.string.filter_help_square_spiral_droste
@@ -544,6 +560,7 @@ val UiFilter<*>.helpDescription: Int
         is UiVHSFilter -> R.string.filter_help_vhs
         is UiVHSNtscFilter -> R.string.filter_help_vhs_ntsc
         is UiVectorPaintingFilter -> R.string.filter_help_gmic_filter_vector_painting
+        is UiVerticalLinesDitheringFilter -> R.string.filter_help_vertical_lines_dithering
         is UiVibranceFilter -> R.string.filter_help_vibrance
         is UiVignetteFilter -> R.string.filter_help_vignette
         is UiVintageFilter -> R.string.filter_help_vintage
@@ -556,6 +573,7 @@ val UiFilter<*>.helpDescription: Int
         is UiWaterDropFilter -> R.string.filter_help_water_drop
         is UiWaterEffectFilter -> R.string.filter_help_water_effect
         is UiWaterReflectionFilter -> R.string.filter_help_gmic_filter_water_reflection
+        is UiWaveLinesDitheringFilter -> R.string.filter_help_wave_lines_dithering
         is UiWeakPixelFilter -> R.string.filter_help_weak_pixel_inclusion
         is UiWeaveFilter -> R.string.filter_help_weave
         is UiWhiteBalanceFilter -> R.string.filter_help_white_balance

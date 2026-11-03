@@ -32,6 +32,21 @@ enum class HeicChromaSubsampling {
     Yuv444
 }
 
+enum class Jhm17Chroma {
+    AUTO,
+    YUV_420,
+    YUV_422,
+    YUV_444,
+    YUV_440,
+    YUV_441,
+    YUV_421,
+    YUV_411,
+    YUV_410;
+
+    val supportsPolish: Boolean
+        get() = this == AUTO || this == YUV_420 || this == YUV_444
+}
+
 enum class VvcChroma {
     MONOCHROME,
     YUV_420,

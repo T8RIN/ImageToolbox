@@ -144,6 +144,24 @@ interface Filter<Value : Any> : VisibilityOwner, ErrorOwner {
     interface FalseFloydSteinbergDithering : FloatBooleanFilter
     interface LeftToRightDithering : FloatBooleanFilter
     interface SimpleThresholdDithering : FloatBooleanFilter
+    interface RiemersmaDithering : FloatBooleanFilter
+    interface OstromoukhovDithering : FloatBooleanFilter
+    interface ShiauFanDithering : FloatBooleanFilter
+    interface SerpentineFloydSteinbergDithering : FloatBooleanFilter
+    interface SerpentineAtkinsonDithering : FloatBooleanFilter
+    interface SerpentineBurkesDithering : FloatBooleanFilter
+    interface BayerSixteenDithering : FloatBooleanFilter
+    interface BlueNoiseDithering : FloatBooleanFilter
+    interface InterleavedGradientNoiseDithering : FloatBooleanFilter
+    interface SpiralHalftoneDithering : FloatBooleanFilter
+    interface HexagonalDotDithering : FloatBooleanFilter
+    interface WaveLinesDithering : FloatBooleanFilter
+    interface ClusteredDotDithering : FloatBooleanFilter
+    interface DiamondDithering : FloatBooleanFilter
+    interface HorizontalLinesDithering : FloatBooleanFilter
+    interface VerticalLinesDithering : FloatBooleanFilter
+    interface DiagonalLinesDithering : FloatBooleanFilter
+    interface CrosshatchMatrixDithering : FloatBooleanFilter
     interface MedianBlur : FloatFilter
     interface NativeStackBlur : FloatFilter
     interface RadialTiltShift : Filter<RadialTiltShiftParams>

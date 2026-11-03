@@ -25,6 +25,7 @@ import com.t8rin.imagetoolbox.core.data.image.utils.compressor.HeicBackend
 import com.t8rin.imagetoolbox.core.data.image.utils.compressor.IcoBackend
 import com.t8rin.imagetoolbox.core.data.image.utils.compressor.Jpeg2000Backend
 import com.t8rin.imagetoolbox.core.data.image.utils.compressor.JpegliBackend
+import com.t8rin.imagetoolbox.core.data.image.utils.compressor.Jhm17Backend
 import com.t8rin.imagetoolbox.core.data.image.utils.compressor.JpgBackend
 import com.t8rin.imagetoolbox.core.data.image.utils.compressor.JxlBackend
 import com.t8rin.imagetoolbox.core.data.image.utils.compressor.MozJpegBackend
@@ -63,6 +64,7 @@ internal interface ImageCompressorBackend {
 
             ImageFormat.Jpegli -> JpegliBackend
             ImageFormat.MozJpeg -> MozJpegBackend
+            ImageFormat.Jhm17 -> Jhm17Backend
 
             ImageFormat.Png.Lossless -> PngLosslessBackend
             ImageFormat.Png.Lossy -> PngLossyBackend

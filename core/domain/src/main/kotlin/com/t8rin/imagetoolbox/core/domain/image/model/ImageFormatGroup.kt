@@ -27,7 +27,8 @@ sealed class ImageFormatGroup(
             ImageFormat.Jpg,
             ImageFormat.Jpeg,
             ImageFormat.MozJpeg,
-            ImageFormat.Jpegli
+            ImageFormat.Jpegli,
+            ImageFormat.Jhm17
         )
     )
 

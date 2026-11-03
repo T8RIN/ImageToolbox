@@ -1647,6 +1647,24 @@
     <string name="left_to_right_dithering">Left To Right Dithering</string>
     <string name="random_dithering">Random Dithering</string>
     <string name="simple_threshold_dithering">Simple Threshold Dithering</string>
+    <string name="riemersma_dithering">Riemersma Dithering</string>
+    <string name="ostromoukhov_dithering">Ostromoukhov Dithering</string>
+    <string name="shiau_fan_dithering">Shiau–Fan Dithering</string>
+    <string name="serpentine_floyd_steinberg_dithering">Serpentine Floyd–Steinberg Dithering</string>
+    <string name="serpentine_atkinson_dithering">Serpentine Atkinson Dithering</string>
+    <string name="serpentine_burkes_dithering">Serpentine Burkes Dithering</string>
+    <string name="bayer_sixteen_dithering">Bayer 16×16 Dithering</string>
+    <string name="blue_noise_dithering">Blue Noise Dithering</string>
+    <string name="interleaved_gradient_noise_dithering">Interleaved Gradient Noise Dithering</string>
+    <string name="spiral_halftone_dithering">Spiral Halftone Dithering</string>
+    <string name="hexagonal_dot_dithering">Hexagonal Dot Dithering</string>
+    <string name="wave_lines_dithering">Wave Lines Dithering</string>
+    <string name="clustered_dot_dithering">Clustered Dot Dithering</string>
+    <string name="diamond_dithering">Diamond Dithering</string>
+    <string name="horizontal_lines_dithering">Horizontal Lines Dithering</string>
+    <string name="vertical_lines_dithering">Vertical Lines Dithering</string>
+    <string name="diagonal_lines_dithering">Diagonal Lines Dithering</string>
+    <string name="crosshatch_matrix_dithering">Crosshatch Matrix Dithering</string>
     <string name="sigma">Sigma</string>
     <string name="spatial_sigma">Spatial Sigma</string>
     <string name="median_blur">Median Blur</string>
@@ -4235,6 +4253,8 @@
     <string name="sheet_nested_scroll">Sheet nested scroll</string>
     <string name="sheet_nested_scroll_sub">Allow gestures in sheet content to drag and dismiss the sheet</string>
     <string name="chroma_subsampling">Chroma subsampling</string>
+    <string name="jhm17_progressive">Progressive JPEG</string>
+    <string name="jhm17_polish">Coefficient Polish</string>
     <string name="screen_content_coding">Screen content coding</string>
     <string name="screen_content_coding_sub">Optimizes encoding for screenshots, text, and graphics</string>
     <string name="screen_content_coding_heic_sub">Optimizes encoding for screenshots, text, and graphics. Most HEVC decoders do not support the RExt SCC extension</string>
@@ -6698,6 +6718,7 @@
     <string name="filter_help_average_distance">Shows the difference between each pixel and the average of its four neighbors. Useful for inspecting fine detail and noise; bright regions alone do not prove that a photo was edited.</string>
     <string name="filter_help_bayer_eight_dithering">Uses a repeating 8 × 8 Bayer threshold matrix to form ordered pixel patterns. Threshold controls the tonal split and grayscale switches to monochrome output.</string>
     <string name="filter_help_bayer_four_dithering">Uses a repeating 4 × 4 Bayer threshold matrix to form ordered pixel patterns. Threshold controls the tonal split and grayscale switches to monochrome output.</string>
+    <string name="filter_help_bayer_sixteen_dithering">Uses a repeating 16 × 16 Bayer threshold matrix to form an ordered pixel pattern.</string>
     <string name="filter_help_bayer_three_dithering">Uses a repeating 3 × 3 Bayer threshold matrix to form ordered pixel patterns. Threshold controls the tonal split and grayscale switches to monochrome output.</string>
     <string name="filter_help_bayer_two_dithering">Uses a repeating 2 × 2 Bayer threshold matrix to form ordered pixel patterns. Threshold controls the tonal split and grayscale switches to monochrome output.</string>
     <string name="filter_help_bilaterial_blur">Smooths noise while keeping color boundaries. Radius sets the neighborhood, sigma controls the allowed color difference, and spatial sigma controls the influence of distant pixels. Large values can erase fine texture.</string>
@@ -6706,6 +6727,7 @@
     <string name="filter_help_bleach_bypass">Applies a built-in LUT with strong brightening and high tonal contrast. Strength blends between the original colors at zero and the full color grade at one.</string>
     <string name="filter_help_block_glitch">Breaks the image into displaced blocks for a digital corruption effect. Block size controls the size of the fragments, while strength controls the distortion.</string>
     <string name="filter_help_bloom">Spreads a glow from bright areas. Threshold selects the highlights, radius sets the spread, strength sets its intensity, and soft knee smooths the transition around the threshold.</string>
+    <string name="filter_help_blue_noise_dithering">Uses a blue noise threshold pattern to spread dots without a prominent grid.</string>
     <string name="filter_help_bokeh">Expands bright details with a polygon-shaped kernel to create bokeh-like spots. Size controls the spot size and amount controls the number of polygon sides; this does not detect a subject or a background.</string>
     <string name="filter_help_bokeh_lights">Adds generated bokeh lights over the image. Adjust their count, radius, aperture blades and color; seed changes their arrangement. These lights are added decoratively rather than detected in the photo.</string>
     <string name="filter_help_bone">Maps image brightness to black through cool gray to white. This false-color palette replaces the original colors; useful for making tonal differences visible or creating a graphic effect.</string>
@@ -6740,6 +6762,7 @@
     <string name="filter_help_clustered_2x2_dithering">Uses a 2 × 2 clustered-dot pattern to represent tones, similar to a small printing screen. Adjust threshold for the tonal split and enable grayscale for a monochrome result.</string>
     <string name="filter_help_clustered_4x4_dithering">Uses a 4 × 4 clustered-dot pattern to represent tones, similar to a small printing screen. Adjust threshold for the tonal split and enable grayscale for a monochrome result.</string>
     <string name="filter_help_clustered_8x8_dithering">Uses a 8 × 8 clustered-dot pattern to represent tones, similar to a small printing screen. Adjust threshold for the tonal split and enable grayscale for a monochrome result.</string>
+    <string name="filter_help_clustered_dot_dithering">Uses a repeating matrix that groups pixels into dots whose size varies with tone.</string>
     <string name="filter_help_coda_chrome">Separates color channels more strongly for a saturated film-like palette.</string>
     <string name="filter_help_coffee">Applies a built-in LUT with warm brown middle tones and subdued whites. Strength blends between the original colors at zero and the full color grade at one.</string>
     <string name="filter_help_color_anomaly">Applies a strong nonlinear colour transformation for unnatural colour shifts. Strength changes the colour cutoff used by the effect; use it for stylisation rather than colour correction.</string>
@@ -6766,6 +6789,7 @@
     <string name="filter_help_cross_blur">Blends neighboring pixels using a cross-shaped kernel. Increasing the size spreads the effect farther and changes how small bright details are smeared.</string>
     <string name="filter_help_cross_pixelization">Replaces fine detail with a cross-shaped cell pattern. Cell size determines the scale of the mosaic; increasing it makes the crosses more prominent and reduces recognizable detail.</string>
     <string name="filter_help_crosshatch">Turns tonal differences into crossed black lines on a light background. Spacing sets the distance between lines and line width controls their thickness.</string>
+    <string name="filter_help_crosshatch_matrix_dithering">Uses a repeating threshold matrix to render tones as crossing hatch lines.</string>
     <string name="filter_help_crt_curvature">Imitates a curved CRT screen with darkened edges and colour-channel separation. Curvature bends the image, vignette darkens the perimeter, and chroma adjusts the coloured fringes.</string>
     <string name="filter_help_crystallize">Divides the image into irregular colored crystal-like regions. Cluster density controls detail, and the stroke color makes the boundaries between regions visible.</string>
     <string name="filter_help_cube_lut">Applies color grading from a .cube LUT file. Select a file or an installed LUT, then adjust strength from the original colors at zero to the full transformation at one. A LUT changes colors, not image geometry.</string>
@@ -6777,6 +6801,8 @@
     <string name="filter_help_despeckle">Removes small isolated specks by comparing neighboring pixels. Useful for scattered noise; inspect thin lines and tiny details because they may also be smoothed.</string>
     <string name="filter_help_deutaromaly">Approximates the color appearance of reduced green-color discrimination using a fixed color matrix. Useful when checking whether a design relies only on color; it is not an individual vision assessment.</string>
     <string name="filter_help_deuteranopia">Approximates the color appearance of absence of green-color discrimination using a fixed color matrix. Useful when checking whether a design relies only on color; it is not an individual vision assessment.</string>
+    <string name="filter_help_diagonal_lines_dithering">Concentrates pixels into diagonal lines whose thickness varies with tone.</string>
+    <string name="filter_help_diamond_dithering">Uses a threshold matrix that grows repeating diamond shapes as the tone changes.</string>
     <string name="filter_help_diamond_pixelation">Rebuilds detail as diamond-shaped cells. Cell size controls mosaic coarseness; use a small size when recognizable contours matter.</string>
     <string name="filter_help_diffuse">Randomly displaces nearby pixels for a frosted-glass texture. Scale controls how far pixels can move; it scatters detail rather than simply softening it.</string>
     <string name="filter_help_digital_code">Remaps green strongly into red and blue, creating unusual color separation. It does not add text or symbols.</string>
@@ -7018,8 +7044,10 @@
     <string name="filter_help_heji_burgess_tone_mapping">Compresses the tonal range with the Hejl–Burgess curve. Exposure controls the brightness entering the curve; compare highlights and shadow detail. This cannot recover clipped source data.</string>
     <string name="filter_help_helix_waves">Adds spiral waves around a centre point. Mode switches between radial stretching, rotation and directional displacement; frequency sets wave density, intensity sets deformation and lighting adds relief-like shading.</string>
     <string name="filter_help_hex_kaleidoscope">Repeats mirrored image sectors in a hexagonal grid. Count sets sectors per cell, frequency controls grid density, offset selects the sampled region and mode changes the sector reflection.</string>
+    <string name="filter_help_hexagonal_dot_dithering">Groups dots on a staggered hexagonal grid to form a halftone pattern.</string>
     <string name="filter_help_high_pass">Suppresses broad tonal variation and retains edges and texture. Radius selects the detail scale; the output is a detail layer rather than a normally colored photograph.</string>
     <string name="filter_help_highlights_shadows">Adjusts dark tones using the highlight-and-shadow correction curve. Use the slider to reveal or deepen shadows, checking noise and the balance with bright regions.</string>
+    <string name="filter_help_horizontal_lines_dithering">Concentrates pixels into horizontal lines whose thickness varies with tone.</string>
     <string name="filter_help_horizontal_wind_stagger">Pulls image details sideways into staggered wind-like streaks. Strength controls the displacement, amount controls the number of streams, and the selected colour fills cleared areas.</string>
     <string name="filter_help_hot">Maps image brightness to black through red and yellow to white. This false-color palette replaces the original colors; useful for making tonal differences visible or creating a graphic effect.</string>
     <string name="filter_help_hot_summer">Brightens warm red and green tones for a summery color grade.</string>
@@ -7030,6 +7058,7 @@
     <string name="filter_help_hue_shift_tunnel">Shifts hue with distance from the center, producing concentric color changes. Intensity controls the rate of change, while hue offset and saturation set the palette.</string>
     <string name="filter_help_inferno">Maps image brightness to black-purple through orange to bright yellow. This false-color palette replaces the original colors; useful for making tonal differences visible or creating a graphic effect.</string>
     <string name="filter_help_inline_breaks">Shifts horizontal strips sideways and bends their contents to imitate a broken video signal. Frequency sets strip density, intensity controls the horizontal shift and distortion adds waviness within the strips.</string>
+    <string name="filter_help_interleaved_gradient_noise_dithering">Computes a noise threshold from each pixel position to produce a fine grain pattern.</string>
     <string name="filter_help_inversion_fractal">Repeatedly folds and inverts image coordinates to build a fractal pattern from the photo. Mode changes the folding rule, iterations control repetition depth and intensity changes the scale of each inversion.</string>
     <string name="filter_help_jarvis_judice_ninke_dithering">Uses Jarvis–Judice–Ninke error diffusion to represent intermediate tones with a pattern of pixels. Threshold changes the tonal split; grayscale removes color before dithering. Compare the grain pattern at full size.</string>
     <string name="filter_help_java_look_and_feel">Applies the muted, dithered appearance used by classic Java interface graphics. It is a fixed stylization without adjustable parameters.</string>
@@ -7087,6 +7116,7 @@
     <string name="filter_help_opening">Erodes then dilates the image to remove small bright structures. Kernel size and shape set which details disappear; thin lines may be removed along with noise.</string>
     <string name="filter_help_orange_haze">Blends the color channels into a muted palette with reduced blue intensity. It does not add a spatial fog layer.</string>
     <string name="filter_help_orbital_pixelization">Arranges pixelated detail into an orbital-style pattern. Size controls the pattern scale; larger values favor the decorative arrangement over the source texture.</string>
+    <string name="filter_help_ostromoukhov_dithering">Adapts the error diffusion weights to the tone of each pixel to reduce repetitive artifacts.</string>
     <string name="filter_help_palette_transfer">Transfers colors from another photo to the current image without copying its objects or layout. Select a reference picture and adjust strength to blend its palette with the original colors.</string>
     <string name="filter_help_palette_transfer_variant">Transfers a reference image’s color palette using a selected color space. Choose the source picture, color space and intensity; different spaces can produce different tonal and color matches.</string>
     <string name="filter_help_parula">Maps image brightness to blue through green to yellow. This false-color palette replaces the original colors; useful for making tonal differences visible or creating a graphic effect.</string>
@@ -7128,6 +7158,7 @@
     <string name="filter_help_replace_color">Replaces a selected source color with another color. Tolerance expands the match to neighboring colors; check edges and repeated colors elsewhere in the image.</string>
     <string name="filter_help_retro_yellow">Applies a built-in LUT with cool shadows and yellow highlights. Strength blends between the original colors at zero and the full color grade at one.</string>
     <string name="filter_help_rgb_filter">Scales the red, green and blue channels using the chosen color components. White retains all channels; lowering a component reduces that color throughout the image.</string>
+    <string name="filter_help_riemersma_dithering">Diffuses quantization error along a Hilbert curve, following a continuous path through nearby pixels.</string>
     <string name="filter_help_ring_blur">Blends neighboring pixels using a ring-shaped kernel. Increasing the size spreads the effect farther and changes how small bright details are smeared.</string>
     <string name="filter_help_ripple">Displaces the image with horizontal and vertical waves. Each axis has its own amplitude and wavelength: amplitude controls the displacement, while a shorter wavelength produces more closely spaced ripples.</string>
     <string name="filter_help_rubber_stmp">Reduces the picture to a two-color rubber-stamp design. Threshold separates the colors, softness controls transitions and radius smooths details before the separation.</string>
@@ -7136,9 +7167,13 @@
     <string name="filter_help_saturation">Changes overall color intensity. Lower values move toward grayscale and higher values strengthen color; the tone-mapping option changes how the resulting color values are handled.</string>
     <string name="filter_help_seam_carving">Resizes by removing or adding low-detail seams instead of scaling every pixel equally. Set the target width and height; an optional mask can protect a region or mark it for removal, but large changes may deform important objects.</string>
     <string name="filter_help_sepia">Converts the photo to warm brown tones for an aged monochrome look.</string>
+    <string name="filter_help_serpentine_atkinson_dithering">Diffuses part of the quantization error using the Atkinson kernel and reverses direction on each row.</string>
+    <string name="filter_help_serpentine_burkes_dithering">Spreads quantization error using the Burkes kernel across two rows, alternating the scan direction.</string>
+    <string name="filter_help_serpentine_floyd_steinberg_dithering">Applies Floyd–Steinberg error diffusion with alternating row directions to reduce directional artifacts.</string>
     <string name="filter_help_shader">Applies a selected shader preset and its exposed parameters. Choose a valid preset first; missing, invalid or failed shaders leave the image unchanged, so verify the preview before export.</string>
     <string name="filter_help_sharpen">Increases contrast around edges to make them appear sharper. Strength controls the effect; too much sharpening emphasizes noise and creates bright or dark halos.</string>
     <string name="filter_help_shear">Slants the image along the horizontal and vertical axes without applying a perspective projection. Set each shear angle separately; resizing expands the output bounds to retain the transformed image.</string>
+    <string name="filter_help_shiau_fan_dithering">Spreads quantization error to the next pixel and four pixels in the row below using the Shiau–Fan kernel.</string>
     <string name="filter_help_shuffle_blur">Blurs by shuffling samples around nearby pixels. Radius changes the spread and threshold changes which samples contribute, giving a more irregular texture than Gaussian blur.</string>
     <string name="filter_help_side_fade">Fades one chosen edge toward transparency. Set the fade width in pixels or relative to the image; absolute mode also offers strength control.</string>
     <string name="filter_help_sierra_dithering">Uses Sierra error diffusion to represent intermediate tones with a pattern of pixels. Threshold changes the tonal split; grayscale removes color before dithering. Compare the grain pattern at full size.</string>
@@ -7166,6 +7201,7 @@
     <string name="filter_help_spiral_arms">Arranges repeated image sectors into spiral arms around the centre. Count sets the number of arms and intensity controls their twist, with negative values reversing the winding direction.</string>
     <string name="filter_help_spiral_breaks">Breaks the image into spiral sectors and offsets them separately. Count sets the number of sectors, intensity controls the displacement and distortion adds rotation to the fragments.</string>
     <string name="filter_help_spiral_droste">Repeats the image inside itself as a receding spiral. Intensity controls the scale ratio between repetitions and distortion controls the rotation of successive layers.</string>
+    <string name="filter_help_spiral_halftone_dithering">Arranges pixels in repeating spiral tiles to render tones as a halftone pattern.</string>
     <string name="filter_help_spline">Warps the image into a convex shape, stretching details for a curved-surface effect. Strength increases the deformation; this is a creative distortion rather than lens-profile correction.</string>
     <string name="filter_help_spring">Maps image brightness to magenta to yellow. This false-color palette replaces the original colors; useful for making tonal differences visible or creating a graphic effect.</string>
     <string name="filter_help_square_fresnel">Repeats progressively scaled image regions in concentric square bands, resembling a stepped lens. Intensity controls the density of the square bands.</string>
@@ -7200,6 +7236,7 @@
     <string name="filter_help_two_row_sierra_dithering">Uses two-row Sierra error diffusion to represent intermediate tones with a pattern of pixels. Threshold changes the tonal split; grayscale removes color before dithering. Compare the grain pattern at full size.</string>
     <string name="filter_help_uchimura">Compresses the tonal range with the Uchimura curve. Exposure controls the brightness entering the curve; compare highlights and shadow detail. This cannot recover clipped source data.</string>
     <string name="filter_help_unsharp">Increases edge contrast using an unsharp-mask-style correction. Intensity controls sharpening; strong settings can amplify noise and create halos instead of restoring true detail.</string>
+    <string name="filter_help_vertical_lines_dithering">Concentrates pixels into vertical lines whose thickness varies with tone.</string>
     <string name="filter_help_vhs">Adds analogue-video-style distortion and colour misalignment for a VHS appearance. Strength controls the disruption and seed selects a different frozen phase of the pattern; the filter produces a still image.</string>
     <string name="filter_help_vhs_ntsc">Simulates NTSC and VHS signal damage, including colour bleed, tracking faults, tape wear, noise and ringing around edges. Start with amount and the main defect controls, then tune the detailed signal settings; amount zero bypasses the effect.</string>
     <string name="filter_help_vibrance">Changes color vividness with a vibrance adjustment. Tune the strength while comparing muted and already colorful areas; it is a global correction rather than a selected-color replacement.</string>
@@ -7211,6 +7248,7 @@
     <string name="filter_help_warm">Boosts red and slightly reduces blue for a warmer overall tone.</string>
     <string name="filter_help_water_drop">Creates concentric ripples spreading from a selected point, as after a drop hits water. Radius limits the effect, wavelength controls ring spacing, amplitude controls distortion and phase shifts the wave pattern.</string>
     <string name="filter_help_water_effect">Warps the image with waves along both axes, as if viewed through moving water. Size sets the scale of the effect, while horizontal and vertical frequency and amplitude independently control wave spacing and displacement.</string>
+    <string name="filter_help_wave_lines_dithering">Uses a repeating threshold pattern to render tones as wavy lines.</string>
     <string name="filter_help_weak_pixel_inclusion">Connects weak edge pixels near stronger ones in an edge-processing chain. Use it with edge-detection filters; it is not a dead-pixel repair tool.</string>
     <string name="filter_help_weave">Interlaces horizontal and vertical strips into a woven texture. Separate strip widths and gaps determine the proportions and spacing of the weave.</string>
     <string name="filter_help_whirl_and_pinch">Combines a whirl with inward or outward deformation around a selected centre. Angle controls rotation, radius sets the affected area and the sign of amount changes between pinching and bulging.</string>

@@ -114,8 +114,25 @@ private class FilterInjectProcessorImpl(
         appendLine("    else -> null")
         appendLine("}")
         appendLine()
+
+        // Keep the generated factories below the JVM bytecode size limit per method.
+        val groups = filters.chunked(100)
+        appendLine("internal fun createTransformationFilterFromKey(key: String, value: Any?): Filter<*>? =")
+        appendLine(groups.indices.joinToString(separator = "\n        ?: ", prefix = "    ") {
+            "restoreTransformationFilter$it(key, value)"
+        })
+        groups.forEachIndexed { index, group ->
+            appendLine()
+            appendTransformationFilterFactory(index, group)
+        }
+    }
+
+    private fun Appendable.appendTransformationFilterFactory(
+        index: Int,
+        filters: List<KSClassDeclaration>
+    ) {
         appendLine("@Suppress(\"UNCHECKED_CAST\")")
-        appendLine("internal fun createTransformationFilterFromKey(key: String, value: Any?): Filter<*>? = when (key) {")
+        appendLine("private fun restoreTransformationFilter$index(key: String, value: Any?): Filter<*>? = when (key) {")
         filters.forEach { filter ->
             val parameters = filter.primaryConstructor?.parameters.orEmpty()
             val valueParameter = parameters.firstOrNull { it.name?.asString() == "value" }

@@ -103,6 +103,17 @@ sealed class ImageFormat(
         canWriteExif = true
     )
 
+    data object Jhm17 : ImageFormat(
+        title = "Jhm17",
+        extension = "jpg",
+        mimeType = MimeType.Jpeg,
+        canChangeCompressionValue = true,
+        canWriteExif = true,
+        compressionTypes = listOf(
+            CompressionType.Quality(1..100)
+        )
+    )
+
     sealed class Webp(
         title: String,
         compressionTypes: List<CompressionType>
@@ -390,6 +401,7 @@ sealed class ImageFormat(
                 Jpeg,
                 MozJpeg,
                 Jpegli,
+                Jhm17,
                 Png.Lossless,
                 Png.Lossy,
                 Png.OxiPNG,

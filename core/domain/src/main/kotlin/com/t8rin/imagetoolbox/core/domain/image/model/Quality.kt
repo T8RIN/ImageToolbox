@@ -89,6 +89,14 @@ sealed interface Quality {
                 )
             }
 
+            ImageFormat.Jhm17 -> {
+                val value = this as? Jhm17 ?: Jhm17(qualityValue = qualityValue)
+                value.copy(
+                    qualityValue = value.qualityValue.coerceIn(1..100),
+                    polish = if (value.chroma.supportsPolish) value.polish else Jhm17.Polish.OFF
+                )
+            }
+
             is ImageFormat.Jpeg2000 -> Base(this@Quality.qualityValue.coerceIn(20..100))
 
             else -> {
@@ -104,6 +112,7 @@ sealed interface Quality {
         is Avif -> this == Avif()
         is Heic -> this == Heic()
         is Vvc -> this == Vvc()
+        is Jhm17 -> this == Jhm17()
         is Jxl -> this == Jxl()
         is PngLossy -> this == PngLossy()
         is Tiff -> this == Tiff()
@@ -143,6 +152,21 @@ sealed interface Quality {
         val chroma: VvcChroma = VvcChroma.YUV_420,
         val bitDepth: VvcBitDepth = VvcBitDepth.EIGHT
     ) : Quality
+
+    data class Jhm17(
+        @IntRange(from = 1, to = 100)
+        override val qualityValue: Int = 90,
+        val progressive: Boolean = false,
+        val chroma: Jhm17Chroma = Jhm17Chroma.AUTO,
+        val polish: Polish = Polish.OFF
+    ) : Quality {
+        enum class Polish {
+            OFF,
+            GREEDY,
+            TRELLIS,
+            TRELLIS_GREEDY
+        }
+    }
 
     data class PngLossy(
         @IntRange(from = 2, to = 1024)

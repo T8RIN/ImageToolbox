@@ -265,7 +265,7 @@ data class SettingsState(
                 skipImagePicking = false,
                 generatePreviews = true,
                 imageHeaderState = ImageHeaderState(),
-                rememberImageHeaderState = true,
+                rememberImageHeaderState = false,
                 enableSheetGestures = false,
                 sheetNestedScrollEnabled = false,
                 showSettingsInLandscape = true,
