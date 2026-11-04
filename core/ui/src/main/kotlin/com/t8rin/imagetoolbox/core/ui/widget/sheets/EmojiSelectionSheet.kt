@@ -72,11 +72,9 @@ import com.t8rin.imagetoolbox.core.resources.icons.Face6
 import com.t8rin.imagetoolbox.core.resources.icons.KeyboardArrowDown
 import com.t8rin.imagetoolbox.core.resources.icons.MotionMode
 import com.t8rin.imagetoolbox.core.resources.icons.Shuffle
-import com.t8rin.imagetoolbox.core.resources.shapes.CloverShape
 import com.t8rin.imagetoolbox.core.resources.shapes.SquircleShape
 import com.t8rin.imagetoolbox.core.resources.utils.animation.animateColorAsState
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
-import com.t8rin.imagetoolbox.core.ui.utils.provider.SafeLocalContainerColor
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBottomSheetDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
@@ -325,28 +323,22 @@ fun EmojiSelectionSheet(
                                 key = { it }
                             ) { emoji ->
                                 val index = emojiIndices[emoji] ?: -1
-                                val selected = index == selectedEmojiIndex
 
-                                val color by animateColorAsState(
-                                    if (selected) MaterialTheme.colorScheme.primaryContainer
-                                    else SafeLocalContainerColor
-                                )
-                                val borderColor by animateColorAsState(
-                                    if (selected) {
-                                        MaterialTheme.colorScheme.onPrimaryContainer.copy(0.7f)
-                                    } else MaterialTheme.colorScheme.onSecondaryContainer.copy(
-                                        alpha = 0.1f
-                                    )
-                                )
                                 Box(
                                     modifier = Modifier
                                         .animateItem()
                                         .aspectRatio(1f)
-                                        .container(
-                                            color = color,
-                                            shape = CloverShape,
-                                            borderColor = borderColor,
-                                            resultPadding = 0.dp
+                                        .then(
+                                            if (index == selectedEmojiIndex) {
+                                                Modifier.container(
+                                                    color = MaterialTheme.colorScheme.primaryContainer,
+                                                    shape = ShapeDefaults.default,
+                                                    borderColor = MaterialTheme.colorScheme.onPrimaryContainer.copy(
+                                                        0.7f
+                                                    ),
+                                                    resultPadding = 0.dp
+                                                )
+                                            } else Modifier
                                         )
                                         .hapticsClickable(enabled = emojiEnabled) {
                                             onEmojiPicked(index)
