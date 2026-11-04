@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="language">اللغة</string>
     <string name="amoled_mode">وضع Amoled</string>
     <string name="amoled_mode_sub">إذا فُعّل لون الأسطح فسيتم ضبطه على الظلام المطلق في الوضع الليلي</string>
@@ -7917,7 +7916,7 @@
     <string name="filter_help_underwater_restoration">قم باستعادة التباين في الصور الفوتوغرافية تحت الماء باستخدام إرسال القناة الحمراء المسبق واستعادة اللون الأحمر الخاضعة للتحكم.</string>
     <string name="restoration">استعادة</string>
     <string name="red_recovery">الانتعاش الأحمر</string>
-    <string name="assistant_model_low_ram">ذاكرة وصول عشوائي منخفضة. قد يتعطل التطبيق مع هذا النموذج.</string>
+    <string name="assistant_model_low_ram">ذاكرة وصول عشوائي منخفضة. قد يتعطل التطبيق مع هذا الموديل.</string>
     <string name="emoji_kitchen">مطبخ الرموز التعبيرية</string>
     <string name="emoji_kitchen_description">قم بدمج اثنين من الرموز التعبيرية في ملصق Google Emoji Kitchen</string>
     <string name="emoji_kitchen_search_keywords">مطبخ الرموز التعبيرية، الرموز التعبيرية، الملصقات، المزيج، المزج، الجمع، جوجل، الوجوه الضاحكة</string>
