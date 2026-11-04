@@ -97,7 +97,7 @@ internal fun EmojiKitchenExploreSheet(
     LaunchedEffect(visible) {
         if (visible) {
             showPicker = false
-            component.openExplore()
+            if (component.exploreEmoji == null) component.openExplore()
         }
     }
 
@@ -157,13 +157,15 @@ internal fun EmojiKitchenExploreSheet(
                     title = stringResource(R.string.emoji_kitchen_choose),
                     startIcon = {
                         component.exploreEmoji?.let { emoji ->
-                            Picture(
-                                model = emoji.imageUri,
-                                contentScale = ContentScale.Fit,
-                                modifier = Modifier.size(40.dp),
-                                showTransparencyChecker = false,
-                                shape = ShapeDefaults.extraSmall
-                            )
+                            key(emoji.id) {
+                                Picture(
+                                    model = emoji.imageUri,
+                                    contentScale = ContentScale.Fit,
+                                    modifier = Modifier.size(40.dp),
+                                    showTransparencyChecker = false,
+                                    shape = ShapeDefaults.extraSmall
+                                )
+                            }
                         }
                     },
                     drawStartIconContainer = false,

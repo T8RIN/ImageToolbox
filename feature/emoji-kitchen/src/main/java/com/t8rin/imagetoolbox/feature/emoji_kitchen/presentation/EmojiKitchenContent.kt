@@ -128,7 +128,10 @@ fun EmojiKitchenContent(
                     )
                 }
                 EnhancedIconButton(
-                    onClick = { showExplore = true },
+                    onClick = {
+                        component.openExplore()
+                        showExplore = true
+                    },
                     enabled = state.progress == null && !component.isSaving
                 ) {
                     Icon(

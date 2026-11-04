@@ -29,13 +29,13 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -189,8 +189,10 @@ fun EmojiSelectionSheet(
 
         BoxWithConstraints {
             val horizontalPadding = 16.dp
-            val spacing = 6.dp
-            val columns = ((maxWidth - horizontalPadding * 2 + spacing) / (55.dp + spacing))
+            val buttonSize = 52.dp
+            val horizontalSpacing = 4.dp
+            val availableWidth = maxWidth - horizontalPadding * 2
+            val columns = ((availableWidth + horizontalSpacing) / (buttonSize + horizontalSpacing))
                 .toInt().coerceAtLeast(1)
             val emojiRows = remember(emojiWithCategories, columns) {
                 emojiWithCategories.associate { (title, _, emojis) ->
@@ -246,7 +248,7 @@ fun EmojiSelectionSheet(
                         ),
                     userScrollEnabled = emojiEnabled,
                     verticalArrangement = Arrangement.spacedBy(
-                        spacing,
+                        8.dp,
                         Alignment.CenterVertically
                     ),
                     horizontalAlignment = Alignment.CenterHorizontally,
@@ -314,7 +316,7 @@ fun EmojiSelectionSheet(
                                     modifier = Modifier
                                         .fillMaxWidth()
                                         .animateItem(),
-                                    horizontalArrangement = Arrangement.spacedBy(spacing)
+                                    horizontalArrangement = Arrangement.spacedBy(horizontalSpacing)
                                 ) {
                                     row.forEach { emoji ->
                                         val index = emojiIndices[emoji] ?: -1
@@ -323,7 +325,8 @@ fun EmojiSelectionSheet(
                                             onClick = { onEmojiPicked(index) },
                                             modifier = Modifier
                                                 .weight(1f)
-                                                .aspectRatio(1f),
+                                                .wrapContentSize()
+                                                .size(buttonSize),
                                             enabled = emojiEnabled,
                                             containerColor = if (index == selectedEmojiIndex) {
                                                 MaterialTheme.colorScheme.primaryContainer

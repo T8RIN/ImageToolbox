@@ -95,8 +95,9 @@ class EmojiKitchenComponent @AssistedInject internal constructor(
     private val _isExploringLoading = mutableStateOf(false)
     val isExploringLoading: Boolean by _isExploringLoading
 
-    private val _combinations = mutableStateOf(emptyList<EmojiKitchenCombination>())
-    val combinations: List<EmojiKitchenCombination> by _combinations
+    private val _combinations = mutableStateOf<List<EmojiKitchenCombination>?>(null)
+    val combinations: List<EmojiKitchenCombination>
+        get() = _combinations.value.orEmpty()
 
     private val _favorites = mutableStateOf(repository.favorites.value)
     val favorites: Set<EmojiKitchenFavorite> by _favorites
@@ -152,7 +153,7 @@ class EmojiKitchenComponent @AssistedInject internal constructor(
                     clearHistory()
                     exploreJob = null
                     _exploreEmoji.value = null
-                    _combinations.value = emptyList()
+                    _combinations.value = null
                     _isExploringLoading.value = false
                     initializeSelection = state.collection != null
                     _favoriteCombinations.value = emptyList()
@@ -178,14 +179,14 @@ class EmojiKitchenComponent @AssistedInject internal constructor(
     }
 
     fun selectExploreEmoji(emoji: EmojiKitchenEmoji) {
-        if (emoji == exploreEmoji && !isExploringLoading) return
+        if (emoji == exploreEmoji && (isExploringLoading || _combinations.value != null)) return
+        _exploreEmoji.value = emoji
+        _combinations.value = null
         _isExploringLoading.value = true
         exploreJob = componentScope.launch {
             try {
                 runSuspendCatching {
-                    val combinations = repository.explore(emoji.id)
-                    _exploreEmoji.value = emoji
-                    _combinations.value = combinations
+                    _combinations.value = repository.explore(emoji.id)
                 }.onFailure(AppToastHost::showFailureToast)
             } finally {
                 if (currentCoroutineContext().isActive) {
