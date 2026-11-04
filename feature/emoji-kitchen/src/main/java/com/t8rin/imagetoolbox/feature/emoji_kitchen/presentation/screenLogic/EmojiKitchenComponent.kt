@@ -82,8 +82,12 @@ class EmojiKitchenComponent @AssistedInject internal constructor(
     private val _selectedVariant = mutableStateOf<EmojiKitchenVariant?>(null)
     val selectedVariant: EmojiKitchenVariant? by _selectedVariant
 
-    private val _compatibleEmojis = mutableStateOf(emptySet<String>())
-    val compatibleEmojis: Set<String> by _compatibleEmojis
+    private val compatibility = mutableStateOf<Pair<String, Set<String>>?>(null)
+    val compatibleEmojis: Set<String>
+        get() = compatibility.value?.second.orEmpty()
+
+    private val otherEmojiId: String?
+        get() = if (activeSlot == 0) second?.id else first?.id
 
     private val _exploreEmoji = mutableStateOf<EmojiKitchenEmoji?>(null)
     val exploreEmoji: EmojiKitchenEmoji? by _exploreEmoji
@@ -193,6 +197,9 @@ class EmojiKitchenComponent @AssistedInject internal constructor(
 
     fun selectEmoji(emoji: EmojiKitchenEmoji) {
         if (emoji == if (activeSlot == 0) first else second) return
+        val otherId = otherEmojiId
+        if (otherId != null && (compatibility.value?.first != otherId || emoji.id !in compatibleEmojis)) return
+
         val before = currentHistorySnapshot()
         if (activeSlot == 0) {
             _first.value = emoji
@@ -324,11 +331,9 @@ class EmojiKitchenComponent @AssistedInject internal constructor(
 
     override fun applyHistorySnapshot(snapshot: Pair<EmojiKitchenEmoji?, EmojiKitchenEmoji?>) {
         queryJob = null
-        compatibleJob = null
         _first.value = snapshot.first
         _second.value = snapshot.second
         _activeSlot.intValue = if (first == null) 0 else 1
-        _compatibleEmojis.value = emptySet()
         updateCombinations()
     }
 
@@ -366,13 +371,20 @@ class EmojiKitchenComponent @AssistedInject internal constructor(
     }
 
     private fun updateCompatibleEmojis() {
-        val otherId = if (activeSlot == 0) second?.id else first?.id
+        val otherId = otherEmojiId
+        if (otherId == null || otherId == compatibility.value?.first) {
+            compatibleJob = null
+            if (otherId == null) compatibility.value = null
+            return
+        }
+
         compatibleJob = componentScope.launch {
             runSuspendCatching {
-                _compatibleEmojis.value = if (otherId != null) {
-                    repository.compatibleEmojis(otherId)
-                } else emptySet()
-            }.onFailure(AppToastHost::showFailureToast)
+                compatibility.value = otherId to repository.compatibleEmojis(otherId)
+            }.onFailure {
+                compatibility.value = null
+                AppToastHost.showFailureToast(it)
+            }
         }
     }
 
