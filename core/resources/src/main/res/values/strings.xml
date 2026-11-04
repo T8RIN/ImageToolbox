@@ -186,7 +186,7 @@
     <string name="help_tip_gallery_search_subtitle">Find photos by their contents and browse automatic categories. File name search is always available</string>
     <string name="help_tip_gallery_search_page_title">Turn on Semantic photo search</string>
     <string name="help_tip_gallery_search_description">Semantic photo search finds photos by what is in them: describe objects, people, or a scene. You do not need to add captions or tags. It also groups photos into automatic categories. Available on Android 8 and later in the Gallery tool and when Image source is set to Embedded Picker.</string>
-    <string name="help_tip_gallery_search_step_1">Open Settings → Image source and turn on Semantic photo search. You can also turn it on using the Search settings button beside the search field in Gallery or Embedded Picker.</string>
+    <string name="help_tip_gallery_search_step_1">Open Settings → Gallery and turn on Semantic photo search. You can also turn it on using the Search settings button beside the search field in Gallery or Embedded Picker.</string>
     <string name="help_tip_gallery_search_step_2">Allow access to the photos you want to search. On Android 14 and later, you can allow access to selected photos only. To find more photos, give the app access to them too.</string>
     <string name="help_tip_gallery_search_step_3">The first setup downloads about 227 MB of files for recognizing photo contents. After that, preparation and search work on your device without internet. Your photos and search queries are not sent to a server.</string>
     <string name="help_tip_gallery_search_page_2_title">Search by name or description</string>
@@ -5592,6 +5592,8 @@
     <string name="gallery_ascending">Ascending</string>
     <string name="gallery_descending">Descending</string>
     <string name="gallery_display_options">Grouping and sorting</string>
+    <string name="gallery_show_file_size">Show file size</string>
+    <string name="gallery_show_file_extension">Show file format</string>
     <string name="gallery_search_similar">Find similar photos</string>
     <string name="gallery_search_similar_description">Choose a photo to find others with similar contents.</string>
     <string name="gallery_search_similar_enable">Turn on Semantic photo search first.</string>

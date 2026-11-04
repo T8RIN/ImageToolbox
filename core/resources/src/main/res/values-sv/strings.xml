@@ -5510,7 +5510,7 @@
     <string name="help_tip_gallery_search_subtitle">Hitta foton efter deras innehåll och bläddra bland automatiska kategorier. Filnamnsökning är alltid tillgänglig</string>
     <string name="help_tip_gallery_search_page_title">Aktivera Semantisk fotosökning</string>
     <string name="help_tip_gallery_search_description">Semantisk fotosökning hittar foton efter vad som finns i dem: beskriv objekt, människor eller en scen. Du behöver inte lägga till bildtexter eller taggar. Den grupperar också foton i automatiska kategorier. Tillgängligt på Android 8 och senare i Galleriverktyget och när Bildkälla är inställd på Embedded Picker.</string>
-    <string name="help_tip_gallery_search_step_1">Öppna Inställningar → Bildkälla och aktivera Semantisk fotosökning. Du kan också aktivera den med knappen Sökinställningar bredvid sökfältet i Galleri eller inbäddad väljare.</string>
+    <string name="help_tip_gallery_search_step_1">Öppna Inställningar → Galleri och aktivera Semantisk fotosökning. Du kan också aktivera den med knappen Sökinställningar bredvid sökfältet i Galleri eller inbäddad väljare.</string>
     <string name="help_tip_gallery_search_step_2">Tillåt åtkomst till de foton du vill söka efter. På Android 14 och senare kan du endast tillåta åtkomst till utvalda foton. För att hitta fler bilder, ge appen tillgång till dem också.</string>
     <string name="help_tip_gallery_search_step_3">Den första installationen laddar ner cirka 227 MB filer för att känna igen fotoinnehåll. Efter det fungerar förberedelser och sökning på din enhet utan internet. Dina foton och sökfrågor skickas inte till en server.</string>
     <string name="help_tip_gallery_search_page_2_title">Sök på namn eller beskrivning</string>

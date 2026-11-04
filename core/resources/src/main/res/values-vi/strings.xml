@@ -5509,7 +5509,7 @@
     <string name="help_tip_gallery_search_subtitle">Tìm ảnh theo nội dung của chúng và duyệt các danh mục tự động. Tìm kiếm tên tập tin luôn có sẵn</string>
     <string name="help_tip_gallery_search_page_title">Bật tìm kiếm ảnh theo ngữ nghĩa</string>
     <string name="help_tip_gallery_search_description">Tìm kiếm ảnh ngữ nghĩa tìm thấy ảnh theo nội dung trong đó: mô tả đồ vật, con người hoặc cảnh. Bạn không cần thêm chú thích hoặc thẻ. Nó cũng nhóm ảnh thành các danh mục tự động. Có sẵn trên Android 8 trở lên trong công cụ Thư viện và khi Nguồn hình ảnh được đặt thành Bộ chọn nhúng.</string>
-    <string name="help_tip_gallery_search_step_1">Mở Cài đặt → Nguồn hình ảnh và bật Tìm kiếm ảnh theo ngữ nghĩa. Bạn cũng có thể bật tính năng này bằng nút Cài đặt tìm kiếm bên cạnh trường tìm kiếm trong Thư viện hoặc Bộ chọn nhúng.</string>
+    <string name="help_tip_gallery_search_step_1">Mở Cài đặt → Thư viện và bật Tìm kiếm ảnh theo ngữ nghĩa. Bạn cũng có thể bật tính năng này bằng nút Cài đặt tìm kiếm bên cạnh trường tìm kiếm trong Thư viện hoặc Bộ chọn nhúng.</string>
     <string name="help_tip_gallery_search_step_2">Cho phép truy cập vào những bức ảnh bạn muốn tìm kiếm. Trên Android 14 trở lên, bạn chỉ có thể cho phép truy cập vào những ảnh đã chọn. Để tìm thêm ảnh, hãy cấp cho ứng dụng quyền truy cập vào chúng.</string>
     <string name="help_tip_gallery_search_step_3">Thiết lập đầu tiên tải xuống khoảng 227 MB tệp để nhận dạng nội dung ảnh. Sau đó, quá trình chuẩn bị và tìm kiếm sẽ diễn ra trên thiết bị của bạn mà không cần internet. Ảnh và truy vấn tìm kiếm của bạn không được gửi đến máy chủ.</string>
     <string name="help_tip_gallery_search_page_2_title">Tìm kiếm theo tên hoặc mô tả</string>

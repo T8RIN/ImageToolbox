@@ -5510,7 +5510,7 @@
     <string name="help_tip_gallery_search_subtitle">Otsige fotosid nende sisu järgi ja sirvige automaatseid kategooriaid. Failinime otsing on alati saadaval</string>
     <string name="help_tip_gallery_search_page_title">Lülitage sisse semantiline fotootsing</string>
     <string name="help_tip_gallery_search_description">Semantiline fotootsing otsib fotosid nendes sisalduva järgi: kirjeldage objekte, inimesi või stseeni. Te ei pea pealkirju ega silte lisama. Samuti rühmitab see fotod automaatsetesse kategooriatesse. Saadaval Android 8 ja uuemates versioonides tööriistas Galerii ja kui pildiallikaks on seatud sisseehitatud valija.</string>
-    <string name="help_tip_gallery_search_step_1">Avage Seaded → Pildiallikas ja lülitage sisse semantiline fotootsing. Saate selle sisse lülitada ka galeriis või sisseehitatud valijas otsinguvälja kõrval asuva nupu Otsinguseaded abil.</string>
+    <string name="help_tip_gallery_search_step_1">Avage Seaded → Galerii ja lülitage sisse semantiline fotootsing. Saate selle sisse lülitada ka galeriis või sisseehitatud valijas otsinguvälja kõrval asuva nupu Otsinguseaded abil.</string>
     <string name="help_tip_gallery_search_step_2">Lubage juurdepääs fotodele, mida soovite otsida. Android 14 ja uuemates versioonides saate lubada juurdepääsu ainult valitud fotodele. Rohkemate fotode leidmiseks andke rakendusele neile juurdepääs.</string>
     <string name="help_tip_gallery_search_step_3">Esimesel seadistusel laaditakse foto sisu tuvastamiseks alla umbes 227 MB faile. Pärast seda töötavad teie seadmes ettevalmistus- ja otsimistoimingud ilma Internetita. Teie fotosid ja otsingupäringuid ei saadeta serverisse.</string>
     <string name="help_tip_gallery_search_page_2_title">Otsige nime või kirjelduse järgi</string>

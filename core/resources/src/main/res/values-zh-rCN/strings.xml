@@ -5509,7 +5509,7 @@
     <string name="help_tip_gallery_search_subtitle">按内容查找照片并浏览自动类别。文件名搜索始终可用</string>
     <string name="help_tip_gallery_search_page_title">开启语义照片搜索</string>
     <string name="help_tip_gallery_search_description">语义照片搜索根据照片中的内容查找照片：描述物体、人物或场景。您不需要添加标题或标签。它还将照片自动分类。在 Android 8 及更高版本的图库工具中以及当图像源设置为嵌入式选取器时可用。</string>
-    <string name="help_tip_gallery_search_step_1">打开设置 → 图片源并开启语义照片搜索。您还可以使用图库或嵌入式选取器中搜索字段旁边的搜索设置按钮将其打开。</string>
+    <string name="help_tip_gallery_search_step_1">打开设置 → 图库并开启语义照片搜索。您还可以使用图库或嵌入式选取器中搜索字段旁边的搜索设置按钮将其打开。</string>
     <string name="help_tip_gallery_search_step_2">允许访问您要搜索的照片。在 Android 14 及更高版本上，您只能允许访问选定的照片。要查找更多照片，请同时授予应用程序访问这些照片的权限。</string>
     <string name="help_tip_gallery_search_step_3">第一个设置下载约 227 MB 的文件来识别照片内容。之后，无需互联网即可在您的设备上进行准备和搜索。您的照片和搜索查询不会发送到服务器。</string>
     <string name="help_tip_gallery_search_page_2_title">按名称或描述搜索</string>

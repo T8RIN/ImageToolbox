@@ -5509,7 +5509,7 @@
     <string name="help_tip_gallery_search_subtitle">내용별로 사진을 찾고 자동 카테고리를 찾아보세요. 파일 이름 검색은 항상 가능합니다.</string>
     <string name="help_tip_gallery_search_page_title">의미론적 사진 검색 켜기</string>
     <string name="help_tip_gallery_search_description">의미론적 사진 검색은 사물, 사람 또는 장면을 설명하는 내용에 따라 사진을 찾습니다. 캡션이나 태그를 추가할 필요가 없습니다. 또한 사진을 자동 카테고리로 그룹화합니다. 갤러리 도구에서 Android 8 이상 및 이미지 소스가 Embedded Picker로 설정된 경우 사용할 수 있습니다.</string>
-    <string name="help_tip_gallery_search_step_1">설정 → 이미지 소스를 열고 의미 있는 사진 검색을 켜세요. 갤러리 또는 내장 선택기의 검색 필드 옆에 있는 검색 설정 버튼을 사용하여 켤 수도 있습니다.</string>
+    <string name="help_tip_gallery_search_step_1">설정 → 갤러리를 열고 의미 있는 사진 검색을 켜세요. 갤러리 또는 내장 선택기의 검색 필드 옆에 있는 검색 설정 버튼을 사용하여 켤 수도 있습니다.</string>
     <string name="help_tip_gallery_search_step_2">검색하려는 사진에 대한 접근을 허용하세요. Android 14 이상에서는 선택한 사진에만 액세스하도록 허용할 수 있습니다. 더 많은 사진을 찾으려면 앱에도 해당 사진에 대한 액세스 권한을 부여하세요.</string>
     <string name="help_tip_gallery_search_step_3">첫 번째 설정에서는 사진 콘텐츠 인식을 위해 약 227MB의 파일을 다운로드합니다. 그 후에는 인터넷 없이도 귀하의 장치에서 준비 및 검색 작업이 수행됩니다. 귀하의 사진과 검색어는 서버로 전송되지 않습니다.</string>
     <string name="help_tip_gallery_search_page_2_title">이름이나 설명으로 검색</string>

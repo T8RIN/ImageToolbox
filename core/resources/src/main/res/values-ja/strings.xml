@@ -5509,7 +5509,7 @@
     <string name="help_tip_gallery_search_subtitle">内容によって写真を検索し、自動カテゴリを参照します。ファイル名検索はいつでも利用可能</string>
     <string name="help_tip_gallery_search_page_title">セマンティック写真検索をオンにする</string>
     <string name="help_tip_gallery_search_description">セマンティック写真検索では、物体、人物、またはシーンの説明など、写真に含まれる内容によって写真が検索されます。キャプションやタグを追加する必要はありません。また、写真を自動カテゴリにグループ化します。 Android 8 以降のギャラリー ツールで、画像ソースが埋め込みピッカーに設定されている場合に利用できます。</string>
-    <string name="help_tip_gallery_search_step_1">「設定」→「画像ソース」を開き、セマンティック写真検索をオンにします。ギャラリーまたは埋め込みピッカーの検索フィールドの横にある検索設定ボタンを使用してオンにすることもできます。</string>
+    <string name="help_tip_gallery_search_step_1">「設定」→「ギャラリー」を開き、セマンティック写真検索をオンにします。ギャラリーまたは埋め込みピッカーの検索フィールドの横にある検索設定ボタンを使用してオンにすることもできます。</string>
     <string name="help_tip_gallery_search_step_2">検索したい写真へのアクセスを許可します。 Android 14 以降では、選択した写真のみへのアクセスを許可できます。さらに多くの写真を見つけるには、アプリに写真へのアクセスも許可します。</string>
     <string name="help_tip_gallery_search_step_3">最初のセットアップでは、写真の内容を認識するために約 227 MB のファイルがダウンロードされます。その後、準備と検索はインターネットなしでデバイス上で動作します。写真や検索クエリはサーバーに送信されません。</string>
     <string name="help_tip_gallery_search_page_2_title">名前または説明で検索</string>
