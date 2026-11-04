@@ -52,6 +52,7 @@ import org.junit.Assert.assertArrayEquals
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertSame
 import org.junit.Assert.assertTrue
 import org.junit.Assert.fail
 import org.junit.Assume.assumeNotNull
@@ -119,6 +120,9 @@ class EmojiKitchenCollectionTest {
                 assertEquals(listOf("happy", "joy"), collection.emojis.first().keywords)
                 assertEquals(1, collection.combinationCount)
                 assertEquals(2, collection.imageCount)
+                collection.emojis.forEach { emoji ->
+                    assertTrue(File(requireNotNull(emoji.imageUri.toUri().path)).isFile)
+                }
                 val variants = index.variants("1f431", "1f600")
                 assertEquals(listOf("20260429", "20201001"), variants.map { it.date })
                 assertEquals(variants, index.variants("1f600", "1f431"))
@@ -166,7 +170,10 @@ class EmojiKitchenCollectionTest {
             "size",
             "unknownEmoji",
             "unknownCategory",
-            "schema",
+            "missingGlyphImage",
+            "emptyGlyphImage",
+            "missingGlyphHash",
+            "missingGlyphSize",
             "hugePng",
             "truncatedPng",
             "damagedCrc"
@@ -192,32 +199,33 @@ class EmojiKitchenCollectionTest {
         withTimeout(10_000) {
             repository.state.first { !it.isLoading }
         }
-        val initial = fixture(File(root, "first.zip"), version = "first")
+        val initial = fixture(File(root, "first.zip"))
         repository.importCollection(initial.toUri().toString())
         withTimeout(10_000) {
-            repository.state.first { it.collection?.version == "first" && it.progress == null }
+            repository.state.first { it.collection != null && it.progress == null }
         }
+        val installed = checkNotNull(repository.state.value.collection)
 
-        val invalid = fixture(File(root, "invalid.zip"), version = "invalid", fault = "hash")
+        val invalid = fixture(File(root, "invalid.zip"), fault = "hash")
         repository.importCollection(invalid.toUri().toString())
         withTimeout(10_000) {
             repository.state.first { it.progress == null }
         }
         assertEquals(1, failures.size)
-        assertEquals("first", repository.state.value.collection?.version)
+        assertSame(installed, repository.state.value.collection)
         assertEquals(2, repository.variants("1f600", "1f431").size)
 
         val reopened = repository()
         withTimeout(10_000) {
             reopened.state.first { !it.isLoading }
         }
-        assertEquals("first", reopened.state.value.collection?.version)
+        assertEquals(1, reopened.state.value.collection?.combinationCount)
         assertNotNull(reopened.randomPair())
 
-        val replacement = fixture(File(root, "second.zip"), version = "second")
+        val replacement = fixture(File(root, "second.zip"), additionalPair = true)
         reopened.importCollection(replacement.toUri().toString())
         withTimeout(10_000) {
-            reopened.state.first { it.collection?.version == "second" && it.progress == null }
+            reopened.state.first { it.collection?.combinationCount == 2 && it.progress == null }
         }
         assertEquals(
             1,
@@ -246,18 +254,19 @@ class EmojiKitchenCollectionTest {
         withTimeout(10_000) {
             repository.state.first { !it.isLoading }
         }
-        val initial = fixture(File(root, "first.zip"), version = "first")
+        val initial = fixture(File(root, "first.zip"))
         repository.importCollection(initial.toUri().toString())
         withTimeout(10_000) {
-            repository.state.first { it.collection?.version == "first" && it.progress == null }
+            repository.state.first { it.collection != null && it.progress == null }
         }
+        val installed = checkNotNull(repository.state.value.collection)
         repository.downloadCollection()
         withTimeout(10_000) { started.await() }
         repository.cancel()
         withTimeout(10_000) {
             repository.state.first { it.progress == null }
         }
-        assertEquals("first", repository.state.value.collection?.version)
+        assertSame(installed, repository.state.value.collection)
         assertTrue(failures.isEmpty())
         assertEquals(
             1,
@@ -269,7 +278,7 @@ class EmojiKitchenCollectionTest {
         withTimeout(10_000) {
             repository.state.first { it.progress == null }
         }
-        assertEquals("first", repository.state.value.collection?.version)
+        assertSame(installed, repository.state.value.collection)
         assertTrue(failures.isEmpty())
     }
 
@@ -287,12 +296,13 @@ class EmojiKitchenCollectionTest {
         withTimeout(10_000) {
             repository.state.first { it.collection != null && it.progress == null }
         }
+        val installed = checkNotNull(repository.state.value.collection)
 
         repository.downloadCollection()
         withTimeout(10_000) {
             repository.state.first { it.progress == null }
         }
-        assertEquals("test", repository.state.value.collection?.version)
+        assertSame(installed, repository.state.value.collection)
         assertEquals("Download failed", failures.single().message)
         assertEquals(2, repository.variants("1f600", "1f431").size)
         assertEquals(
@@ -355,7 +365,7 @@ class EmojiKitchenCollectionTest {
             withTimeout(10_000) {
                 reopened.state.first { !it.isLoading }
             }
-            assertEquals("test", reopened.state.value.collection?.version)
+            assertNotNull(reopened.state.value.collection)
             assertTrue(failures.isEmpty())
             assertEquals(collectionDirectory.name, dataStore.data.first()[currentCollection])
             assertTrue(File(collectionDirectory, "collection.zip").isFile)
@@ -379,7 +389,7 @@ class EmojiKitchenCollectionTest {
             repository.state.first { it.collection != null && it.progress == null }
         }
         val emoji = requireNotNull(repository.state.value.collection).emojis.first()
-        val glyph = File(requireNotNull(emoji.imageUri?.toUri()?.path))
+        val glyph = File(requireNotNull(emoji.imageUri.toUri().path))
         val selected = repository.variants("1f600", "1f431").last()
         val image = File(requireNotNull(selected.uri.toUri().path))
         val original = image.readBytes()
@@ -427,10 +437,10 @@ class EmojiKitchenCollectionTest {
         withTimeout(10_000) {
             repository.state.first { !it.isLoading }
         }
-        val initial = fixture(File(root, "first.zip"), version = "first")
+        val initial = fixture(File(root, "first.zip"))
         repository.importCollection(initial.toUri().toString())
         withTimeout(10_000) {
-            repository.state.first { it.collection?.version == "first" && it.progress == null }
+            repository.state.first { it.collection != null && it.progress == null }
         }
         val historical = repository.variants("1f600", "1f431").last()
         repository.toggleFavorite("1f600", "1f431", historical)
@@ -460,10 +470,10 @@ class EmojiKitchenCollectionTest {
         assertEquals(repository.favorites.value, reopened.favorites.value)
         assertEquals("20260429", reopened.favoriteCombinations().single().variant.date)
 
-        val replacement = fixture(File(root, "second.zip"), version = "second")
+        val replacement = fixture(File(root, "second.zip"), additionalPair = true)
         reopened.importCollection(replacement.toUri().toString())
         withTimeout(10_000) {
-            reopened.state.first { it.collection?.version == "second" && it.progress == null }
+            reopened.state.first { it.collection?.combinationCount == 2 && it.progress == null }
         }
         assertEquals("20260429", reopened.favoriteCombinations().single().variant.date)
         reopened.deleteCollection()
@@ -475,7 +485,7 @@ class EmojiKitchenCollectionTest {
 
         reopened.importCollection(initial.toUri().toString())
         withTimeout(10_000) {
-            reopened.state.first { it.collection?.version == "first" && it.progress == null }
+            reopened.state.first { it.collection != null && it.progress == null }
         }
         val restored = reopened.favoriteCombinations().single()
         assertEquals("20260429", restored.variant.date)
@@ -539,7 +549,6 @@ class EmojiKitchenCollectionTest {
 
     private fun fixture(
         file: File,
-        version: String = "test",
         fault: String? = null,
         additionalPair: Boolean = false
     ): File {
@@ -573,8 +582,8 @@ class EmojiKitchenCollectionTest {
             }
         }
         val manifest = JSONObject().apply {
-            put("schemaVersion", if (fault == "schema") 2 else 1)
-            put("version", version)
+            put("schemaVersion", 1)
+            put("version", "test")
             put(
                 "emojis",
                 JSONArray().apply {
@@ -586,9 +595,20 @@ class EmojiKitchenCollectionTest {
                                 put("name", if (id == "1f600") "grinning_face" else value)
                                 if (id == "1f600") {
                                     put("keywords", JSONArray(listOf("happy", "joy")))
-                                    put("image", paths[0])
-                                    put("sha256", hashes[0])
-                                    put("size", images[0].size)
+                                }
+                                val imageIndex = if (id == "1f600") 0 else 1
+                                if (imageIndex == 0 || fault != "missingGlyphImage") {
+                                    put(
+                                        "image",
+                                        if (imageIndex == 1 && fault == "emptyGlyphImage") ""
+                                        else paths[imageIndex]
+                                    )
+                                }
+                                if (imageIndex == 0 || fault != "missingGlyphHash") {
+                                    put("sha256", hashes[imageIndex])
+                                }
+                                if (imageIndex == 0 || fault != "missingGlyphSize") {
+                                    put("size", images[imageIndex].size)
                                 }
                                 put(
                                     "category",

@@ -212,9 +212,12 @@ private fun EmojiKitchenSlot(
                     contentAlignment = Alignment.Center
                 ) {
                     if (it != null) {
-                        EmojiKitchenEmojiItem(
-                            emoji = it,
-                            modifier = Modifier.size(60.dp)
+                        Picture(
+                            model = it.imageUri,
+                            contentScale = ContentScale.Fit,
+                            modifier = Modifier.size(60.dp),
+                            showTransparencyChecker = false,
+                            shimmerEnabled = false
                         )
                     } else {
                         Icon(
