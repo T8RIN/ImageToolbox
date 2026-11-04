@@ -39,6 +39,7 @@ const val RES_BASE_URL = "$RES_HOST/raw/refs/heads/main/*"
 const val HF_BASE_URL = "https://huggingface.co/T8RIN/imagetoolbox-models/resolve/main/*"
 const val EMOJI_KITCHEN_HOME_URL = "https://huggingface.co/datasets/T8RIN/emoji-kitchen"
 
+const val EMOJI_KITCHEN_COLLECTION_SIZE = 2_248_752_546L
 
 const val GLOBAL_STORAGE_NAME = "image_resizer"
 const val BACKUP_FILE_EXT = "imtbx_backup"

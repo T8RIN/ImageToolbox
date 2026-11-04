@@ -120,8 +120,7 @@ class EmojiKitchenComponent @AssistedInject internal constructor(
     val isSaving: Boolean by _isSaving
 
     val canExport: Boolean
-        get() = selectedVariant != null && !isQuerying &&
-                !isSaving && collectionState.progress == null
+        get() = selectedVariant != null && collectionState.progress == null
 
     private var queryJob: Job? by smartJob()
     private var compatibleJob: Job? by smartJob()

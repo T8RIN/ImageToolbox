@@ -427,9 +427,6 @@ internal class AndroidEmojiKitchenRepository @Inject constructor(
     private fun EmojiKitchenFavorite.toPreference(): String = "$first|$second|$path|$date"
 
     private suspend fun verifyDownload(file: File) {
-        require(file.length() == EMOJI_KITCHEN_COLLECTION_SIZE) {
-            "Downloaded archive size does not match the collection"
-        }
         val digest = MessageDigest.getInstance("SHA-256")
         val buffer = ByteArray(256 * 1024)
         var completed = 0L
@@ -496,7 +493,6 @@ internal class AndroidEmojiKitchenRepository @Inject constructor(
 
         const val EMOJI_KITCHEN_COLLECTION_URL =
             "$EMOJI_KITCHEN_HOME_URL/resolve/2ea4c4b87e7ee7223b58fe5bb3403e753b535b1c/emoji-kitchen.zip"
-        const val EMOJI_KITCHEN_COLLECTION_SIZE = 2_248_752_546L
         const val EMOJI_KITCHEN_COLLECTION_SHA256 =
             "d0c2d555f85f094473df6401dc5857acda0490a453ae271afa90447559776390"
     }
