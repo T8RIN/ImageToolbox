@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="pick_image">이미지 선택</string>
     <string name="width">너비 %1$s</string>
     <string name="height">높이 %1$s</string>
@@ -7912,6 +7911,7 @@
     <string name="filter_help_underwater_restoration">사전 적색 채널 전송 및 제어된 적색 복구를 사용하여 수중 사진의 대비를 복원합니다.</string>
     <string name="restoration">복구</string>
     <string name="red_recovery">적색회복</string>
+    <string name="assistant_model_low_ram">RAM이 부족합니다. 이 모델을 이용하면 앱이 꺼질 수 있습니다.</string>
     <string name="assistant_model_low_ram">RAM이 부족합니다. 이 모델에서는 앱이 충돌할 수 있습니다.</string>
     <string name="emoji_kitchen">Emoji Kitchen</string>
     <string name="emoji_kitchen_description">두 개의 이모티콘을 결합하여 Google Emoji Kitchen 스티커로 만들기</string>
