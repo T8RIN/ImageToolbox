@@ -126,29 +126,26 @@ internal fun EmojiKitchenExploreSheet(
             val resultColumns = ((maxWidth - 24.dp) / 104.dp).toInt().coerceAtLeast(1)
             val density = LocalDensity.current
             var topPadding by remember { mutableStateOf(0.dp) }
-            val listState = rememberLazyListState()
 
-            LaunchedEffect(component.exploreEmoji?.id) {
-                listState.scrollToItem(0)
-            }
-
-            LazyColumn(
-                state = listState,
-                modifier = Modifier.fillMaxWidth(),
-                contentPadding = PaddingValues(
-                    start = 16.dp,
-                    end = 16.dp,
-                    bottom = 16.dp,
-                    top = topPadding
-                ),
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-                flingBehavior = enhancedFlingBehavior()
-            ) {
-                emojiKitchenCombinations(
-                    component = component,
-                    columns = resultColumns,
-                    onDismiss = onDismiss
-                )
+            key(component.exploreEmoji?.id) {
+                LazyColumn(
+                    state = rememberLazyListState(),
+                    modifier = Modifier.fillMaxWidth(),
+                    contentPadding = PaddingValues(
+                        start = 16.dp,
+                        end = 16.dp,
+                        bottom = 16.dp,
+                        top = topPadding
+                    ),
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                    flingBehavior = enhancedFlingBehavior()
+                ) {
+                    emojiKitchenCombinations(
+                        component = component,
+                        columns = resultColumns,
+                        onDismiss = onDismiss
+                    )
+                }
             }
 
             Column(
@@ -180,7 +177,7 @@ internal fun EmojiKitchenExploreSheet(
                     modifier = Modifier
                         .fillMaxWidth()
                         .background(EnhancedBottomSheetDefaults.containerColor)
-                        .padding(start = 16.dp, top = 20.dp, bottom = 8.dp, end = 16.dp),
+                        .padding(start = 16.dp, top = 20.dp, end = 16.dp),
                     shape = ShapeDefaults.large
                 )
                 GradientEdge(
@@ -345,9 +342,7 @@ private fun LazyListScope.emojiKitchenCombinations(
                                 },
                                 modifier = Modifier.size(96.dp),
                                 containerColor = EnhancedBottomSheetDefaults.contentContainerColor,
-                                shape = ShapeDefaults.large,
-                                enabled = !component.isExploringLoading &&
-                                        component.collectionState.progress == null
+                                shape = ShapeDefaults.large
                             ) {
                                 Picture(
                                     model = imageRequest,
