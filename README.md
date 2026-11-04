@@ -1457,6 +1457,9 @@ or click one of the badges below.
   - People groups with names, face covers, matching thresholds, merging and photo exclusions
 - AI Assistant
   - On-device answers grounded in Help & Tips, with tool navigation and contextual settings help
+- Emoji Kitchen
+  - Combine two emoji using Google's original Emoji Kitchen images
+  - Browse categories, explore combinations and bookmark favorites
 - Shader Studio
     - Creating, editing and validating custom fragment shaders with GLSL syntax highlighting
     - Live preview with configurable shader parameters
