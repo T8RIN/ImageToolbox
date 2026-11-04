@@ -41,7 +41,7 @@ import com.t8rin.imagetoolbox.core.domain.utils.humanFileSize
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Delete
-import com.t8rin.imagetoolbox.core.resources.icons.FolderZip
+import com.t8rin.imagetoolbox.core.resources.icons.FamilyStar
 import com.t8rin.imagetoolbox.core.resources.icons.Link
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAlertDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAutoCircularProgressIndicator
@@ -145,7 +145,7 @@ internal fun EmojiKitchenCollectionInfoCard(
                 modifier = Modifier.fillMaxWidth(),
                 startIcon = {
                     Icon(
-                        imageVector = Icons.Rounded.FolderZip,
+                        imageVector = Icons.TwoTone.FamilyStar,
                         contentDescription = null
                     )
                 },
