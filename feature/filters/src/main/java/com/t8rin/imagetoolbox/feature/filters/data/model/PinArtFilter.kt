@@ -28,7 +28,7 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 import com.t8rin.trickle.Trickle
 
-@FilterDefinition(group = FilterGroups.ARTISTIC)
+@FilterDefinition(group = FilterGroups.PIXELATION)
 internal class PinArtFilter(
     override val value: Value
 ) : FilterTransformation, Filter.PinArt {
@@ -53,7 +53,7 @@ internal class PinArtFilter(
 
         override val parameters = structuredParameters {
             Value::spacing.float(R.string.spacing, 18f, 5f..40f)
-            Value::height.float(R.string.height, 0.065f, 0.005f..0.2f, roundTo = 3)
+            Value::height.float(R.string.gmic_param_height, 0.065f, 0.005f..0.2f, roundTo = 3)
             Value::angle.float(R.string.angle, 35f, 0f..70f)
             Value::gloss.float(R.string.gloss, 0.65f, 0f..1f)
             Value::strength.float(R.string.strength, 1f, 0f..1f)

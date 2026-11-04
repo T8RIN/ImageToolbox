@@ -28,7 +28,7 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 import com.t8rin.trickle.Trickle
 
-@FilterDefinition(group = FilterGroups.ARTISTIC)
+@FilterDefinition(group = FilterGroups.PIXELATION)
 internal class CeramicGlazeFilter(
     override val value: Value
 ) : FilterTransformation, Filter.CeramicGlaze {
@@ -53,7 +53,7 @@ internal class CeramicGlazeFilter(
         )
 
         override val parameters = structuredParameters {
-            Value::size.float(R.string.size, 32f, 12f..96f)
+            Value::size.float(R.string.cell_size, 32f, 12f..96f)
             Value::pooling.float(R.string.pooling, 0.55f, 0f..1f)
             Value::gloss.float(R.string.gloss, 0.7f, 0f..1f)
             Value::crackle.float(R.string.crackle, 0.5f, 0f..1f)

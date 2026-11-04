@@ -53,7 +53,7 @@ internal class CondensationFilter(
         )
 
         override val parameters = structuredParameters {
-            Value::size.float(R.string.size, 48f, 8f..80f)
+            Value::size.float(R.string.just_size, 48f, 8f..80f)
             Value::coverage.float(R.string.coverage, 0.65f, 0f..1f)
             Value::refraction.float(R.string.refraction_distance, 0.7f, 0f..1.5f)
             Value::haze.float(R.string.haze, 0.18f, 0f..0.6f, roundTo = 3)

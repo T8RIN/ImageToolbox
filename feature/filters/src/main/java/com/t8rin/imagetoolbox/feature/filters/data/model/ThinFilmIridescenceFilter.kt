@@ -28,7 +28,7 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 import com.t8rin.trickle.Trickle
 
-@FilterDefinition(group = FilterGroups.COLOR)
+@FilterDefinition(group = FilterGroups.LIGHT)
 internal class ThinFilmIridescenceFilter(
     override val value: Value
 ) : FilterTransformation, Filter.ThinFilmIridescence {

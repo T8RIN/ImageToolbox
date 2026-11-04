@@ -28,7 +28,7 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 import com.t8rin.opencv_tools.photo_filters.OpticalEffects
 
-@FilterDefinition(group = FilterGroups.EFFECTS)
+@FilterDefinition(group = FilterGroups.GLITCH)
 internal class BayerSensorFilter(
     override val value: Value
 ) : FilterTransformation, Filter.BayerSensor {

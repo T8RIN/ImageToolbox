@@ -28,7 +28,7 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 import com.t8rin.opencv_tools.photo_filters.MorphologicalReconstruction
 
-@FilterDefinition(group = FilterGroups.ENHANCEMENT)
+@FilterDefinition(group = FilterGroups.EFFECTS)
 internal class MorphologicalReconstructionFilter(
     override val value: Value
 ) : FilterTransformation, Filter.MorphologicalReconstruction {

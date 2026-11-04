@@ -28,7 +28,7 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 import com.t8rin.trickle.Trickle
 
-@FilterDefinition(group = FilterGroups.ARTISTIC)
+@FilterDefinition(group = FilterGroups.PIXELATION)
 internal class MarquetryFilter(
     override val value: Value
 ) : FilterTransformation, Filter.Marquetry {
@@ -52,7 +52,7 @@ internal class MarquetryFilter(
         )
 
         override val parameters = structuredParameters {
-            Value::size.float(R.string.size, 42f, 12f..96f)
+            Value::size.float(R.string.cell_size, 42f, 12f..96f)
             Value::grain.float(R.string.grain, 0.7f, 0f..1f)
             Value::bevel.float(R.string.bevel, 0.65f, 0f..1f)
             Value::seed.seed(R.string.seed, 0, 0..10000)

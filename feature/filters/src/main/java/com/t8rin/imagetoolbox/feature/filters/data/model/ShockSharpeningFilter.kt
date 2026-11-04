@@ -28,7 +28,7 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.FilterTransformation
 import com.t8rin.opencv_tools.photo_filters.ShockSharpening
 
-@FilterDefinition(group = FilterGroups.ARTISTIC)
+@FilterDefinition(group = FilterGroups.ENHANCEMENT)
 internal class ShockSharpeningFilter(
     override val value: Value
 ) : FilterTransformation, Filter.ShockSharpening {
