@@ -142,6 +142,7 @@ internal fun EmojiKitchenCollectionInfoCard(
                 ),
                 enabled = enabled,
                 shape = ShapeDefaults.large,
+                containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
                 modifier = Modifier.fillMaxWidth(),
                 startIcon = {
                     Icon(
