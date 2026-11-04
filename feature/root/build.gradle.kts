@@ -92,4 +92,5 @@ dependencies {
     implementation(projects.feature.codePreview)
     implementation(projects.feature.screenshotFraming)
     implementation(projects.feature.fractalGeneration)
+    implementation(projects.feature.emojiKitchen)
 }

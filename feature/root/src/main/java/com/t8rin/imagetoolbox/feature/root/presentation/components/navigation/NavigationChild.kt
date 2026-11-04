@@ -73,6 +73,8 @@ import com.t8rin.imagetoolbox.feature.easter_egg.presentation.EasterEggContent
 import com.t8rin.imagetoolbox.feature.easter_egg.presentation.screenLogic.EasterEggComponent
 import com.t8rin.imagetoolbox.feature.edit_exif.presentation.EditExifContent
 import com.t8rin.imagetoolbox.feature.edit_exif.presentation.screenLogic.EditExifComponent
+import com.t8rin.imagetoolbox.feature.emoji_kitchen.presentation.EmojiKitchenContent
+import com.t8rin.imagetoolbox.feature.emoji_kitchen.presentation.screenLogic.EmojiKitchenComponent
 import com.t8rin.imagetoolbox.feature.erase_background.presentation.EraseBackgroundContent
 import com.t8rin.imagetoolbox.feature.erase_background.presentation.screenLogic.EraseBackgroundComponent
 import com.t8rin.imagetoolbox.feature.filters.presentation.FiltersContent
@@ -569,6 +571,11 @@ internal sealed interface NavigationChild {
 
         @Composable
         override fun Content() = ScreenshotFramingContent(component)
+    }
+
+    class EmojiKitchen(private val component: EmojiKitchenComponent) : NavigationChild {
+        @Composable
+        override fun Content() = EmojiKitchenContent(component)
     }
 
     class Gallery(private val component: MediaPickerComponent) : NavigationChild {

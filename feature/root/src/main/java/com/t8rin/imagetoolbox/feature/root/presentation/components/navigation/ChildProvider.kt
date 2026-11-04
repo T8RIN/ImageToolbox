@@ -43,6 +43,7 @@ import com.t8rin.imagetoolbox.feature.draw.presentation.screenLogic.DrawComponen
 import com.t8rin.imagetoolbox.feature.duplicate_finder.presentation.screenLogic.DuplicateFinderComponent
 import com.t8rin.imagetoolbox.feature.easter_egg.presentation.screenLogic.EasterEggComponent
 import com.t8rin.imagetoolbox.feature.edit_exif.presentation.screenLogic.EditExifComponent
+import com.t8rin.imagetoolbox.feature.emoji_kitchen.presentation.screenLogic.EmojiKitchenComponent
 import com.t8rin.imagetoolbox.feature.erase_background.presentation.screenLogic.EraseBackgroundComponent
 import com.t8rin.imagetoolbox.feature.filters.presentation.screenLogic.FiltersComponent
 import com.t8rin.imagetoolbox.feature.format_conversion.presentation.screenLogic.FormatConversionComponent
@@ -224,6 +225,7 @@ internal class ChildProvider @Inject constructor(
     private val compressionLabComponentFactory: CompressionLabComponent.Factory,
     private val codePreviewComponentFactory: CodePreviewComponent.Factory,
     private val screenshotFramingComponentFactory: ScreenshotFramingComponent.Factory,
+    private val emojiKitchenComponentFactory: EmojiKitchenComponent.Factory,
     private val cropComponentFactory: CropComponent.Factory,
     private val curvesComponentFactory: CurvesComponent.Factory,
     private val deleteExifComponentFactory: DeleteExifComponent.Factory,
@@ -563,6 +565,14 @@ internal class ChildProvider @Inject constructor(
             screenshotFramingComponentFactory(
                 componentContext = componentContext,
                 initialUri = config.uri,
+                onGoBack = ::navigateBack,
+                onNavigate = ::navigateTo
+            )
+        )
+
+        Screen.EmojiKitchen -> NavigationChild.EmojiKitchen(
+            emojiKitchenComponentFactory(
+                componentContext = componentContext,
                 onGoBack = ::navigateBack,
                 onNavigate = ::navigateTo
             )

@@ -152,6 +152,7 @@ private fun Screen.searchKeywordsRes(): Int? = when (this) {
     is CompressionLab -> R.string.search_keywords_compression_lab
     is CodePreview -> R.string.search_keywords_code_preview
     is ScreenshotFraming -> R.string.screenshot_framing_search
+    is Screen.EmojiKitchen -> R.string.emoji_kitchen_search_keywords
     is LimitResize -> R.string.search_keywords_limit_resize
     is PdfTools -> R.string.search_keywords_pdf_tools
     is RecognizeText -> R.string.search_keywords_recognize_text

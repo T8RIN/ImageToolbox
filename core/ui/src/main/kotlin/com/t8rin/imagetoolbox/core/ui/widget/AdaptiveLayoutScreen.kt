@@ -131,14 +131,15 @@ fun AdaptiveLayoutScreen(
     val settingsState = LocalSettingsState.current
 
     val imageState = settingsState.imageHeaderState
+    val isImagePreviewExpanded = imageState.isExpanded() && !useRegularStickyHeader
 
     val topAppBarState = rememberTopAppBarState()
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
-        state = topAppBarState, canScroll = { !imageState.isExpanded() && !forceImagePreviewToMax }
+        state = topAppBarState, canScroll = { !isImagePreviewExpanded && !forceImagePreviewToMax }
     )
 
-    LaunchedEffect(imageState, forceImagePreviewToMax) {
-        if (imageState.isExpanded() || forceImagePreviewToMax) {
+    LaunchedEffect(isImagePreviewExpanded, forceImagePreviewToMax) {
+        if (isImagePreviewExpanded || forceImagePreviewToMax) {
             while (topAppBarState.heightOffset > topAppBarState.heightOffsetLimit) {
                 topAppBarState.heightOffset -= 5f
                 delay(1)
