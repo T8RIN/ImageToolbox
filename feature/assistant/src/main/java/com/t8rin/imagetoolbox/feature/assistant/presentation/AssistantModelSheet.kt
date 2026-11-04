@@ -17,16 +17,18 @@
 
 package com.t8rin.imagetoolbox.feature.assistant.presentation
 
+import android.app.ActivityManager
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsDraggedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -42,9 +44,12 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.core.content.getSystemService
 import com.t8rin.imagetoolbox.core.domain.model.AssistantModel
 import com.t8rin.imagetoolbox.core.domain.utils.humanFileSize
 import com.t8rin.imagetoolbox.core.resources.Icons
@@ -56,6 +61,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.DownloadDone
 import com.t8rin.imagetoolbox.core.resources.icons.DownloadForOffline
 import com.t8rin.imagetoolbox.core.resources.icons.File
 import com.t8rin.imagetoolbox.core.resources.icons.Link
+import com.t8rin.imagetoolbox.core.resources.icons.Memory
 import com.t8rin.imagetoolbox.core.resources.icons.Neurology
 import com.t8rin.imagetoolbox.core.resources.icons.RadioButtonChecked
 import com.t8rin.imagetoolbox.core.resources.icons.RadioButtonUnchecked
@@ -89,6 +95,12 @@ internal fun AssistantModelSheet(
     onDismiss: (Boolean) -> Unit
 ) {
     var deleteModel by remember { mutableStateOf<AssistantModel?>(null) }
+    val context = LocalContext.current
+    val totalRam = remember(context) {
+        ActivityManager.MemoryInfo().apply {
+            context.getSystemService<ActivityManager>()?.getMemoryInfo(this)
+        }.totalMem
+    }
     val (downloaded, available) = AssistantModel.entries.partition { variant ->
         component.installations.any { it.variant == variant && it.installed }
     }
@@ -135,6 +147,7 @@ internal fun AssistantModelSheet(
                 AssistantModelItem(
                     component = component,
                     variant = variant,
+                    totalRam = totalRam,
                     index = index,
                     count = downloaded.size,
                     onDismiss = onDismiss,
@@ -153,6 +166,7 @@ internal fun AssistantModelSheet(
                 AssistantModelItem(
                     component = component,
                     variant = variant,
+                    totalRam = totalRam,
                     index = index,
                     count = available.size,
                     onDismiss = onDismiss,
@@ -196,6 +210,7 @@ internal fun AssistantModelSheet(
 private fun AssistantModelItem(
     component: AssistantComponent,
     variant: AssistantModel,
+    totalRam: Long,
     index: Int,
     count: Int,
     onDismiss: (Boolean) -> Unit,
@@ -213,6 +228,7 @@ private fun AssistantModelItem(
             !installed && progress == null && AssistantModels.isSupported()
     val canDelete = installed && !busy && !checking && progress == null
     val selected = installed && component.selectedModel == variant
+    val lowRam = totalRam > 0 && totalRam < variant.recommendedRamGb * 1_000_000_000L
     val revealState = rememberRevealState()
     val scope = rememberCoroutineScope()
     val interactionSource = remember { MutableInteractionSource() }
@@ -353,13 +369,37 @@ private fun AssistantModelItem(
                 },
                 placeBottomContentInside = true,
                 bottomContent = {
-                    FlowRow(
+                    Column(
                         modifier = Modifier.padding(top = 8.dp),
-                        horizontalArrangement = Arrangement.spacedBy(4.dp),
                         verticalArrangement = Arrangement.spacedBy(4.dp)
                     ) {
-                        state?.downloadSize?.let { size ->
-                            AssistantModelSizeBadge(size, installed, selected)
+                        FlowRow(
+                            horizontalArrangement = Arrangement.spacedBy(4.dp),
+                            verticalArrangement = Arrangement.spacedBy(4.dp)
+                        ) {
+                            state?.downloadSize?.let { size ->
+                                AssistantModelBadge(
+                                    text = humanFileSize(size),
+                                    icon = if (installed) Icons.Rounded.File else Icons.Rounded.Cloud,
+                                    selected = selected
+                                )
+                            }
+                            AssistantModelBadge(
+                                text = stringResource(
+                                    R.string.assistant_model_ram,
+                                    variant.recommendedRamGb
+                                ),
+                                icon = Icons.Rounded.Memory,
+                                selected = selected,
+                                warning = lowRam
+                            )
+                        }
+                        if (lowRam) {
+                            Text(
+                                text = stringResource(R.string.assistant_model_low_ram),
+                                color = MaterialTheme.colorScheme.error,
+                                style = MaterialTheme.typography.bodySmall
+                            )
                         }
                     }
                 }
@@ -369,12 +409,29 @@ private fun AssistantModelItem(
 }
 
 @Composable
-private fun AssistantModelSizeBadge(size: Long, installed: Boolean, selected: Boolean) {
+private fun AssistantModelBadge(
+    text: String,
+    icon: ImageVector,
+    selected: Boolean,
+    warning: Boolean = false
+) {
+    val colors = MaterialTheme.colorScheme
+    val containerColor = when {
+        warning -> colors.errorContainer
+        selected -> colors.surface
+        else -> colors.surfaceVariant
+    }
+    val contentColor = when {
+        warning -> colors.onErrorContainer
+        selected -> colors.onSurface
+        else -> colors.onSurfaceVariant
+    }
+
     Row(
         modifier = Modifier
-            .height(22.dp)
+            .heightIn(min = 22.dp)
             .container(
-                color = if (selected) MaterialTheme.colorScheme.surface else MaterialTheme.colorScheme.surfaceVariant,
+                color = containerColor,
                 shape = ShapeDefaults.circle,
                 resultPadding = 0.dp
             )
@@ -382,16 +439,14 @@ private fun AssistantModelSizeBadge(size: Long, installed: Boolean, selected: Bo
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(2.dp)
     ) {
-        val color =
-            if (selected) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurfaceVariant
         Box(modifier = Modifier.size(20.dp), contentAlignment = Alignment.Center) {
             Icon(
-                imageVector = if (installed) Icons.Rounded.File else Icons.Rounded.Cloud,
+                imageVector = icon,
                 contentDescription = null,
-                tint = color,
+                tint = contentColor,
                 modifier = Modifier.size(16.dp)
             )
         }
-        Text(text = humanFileSize(size), color = color, style = MaterialTheme.typography.labelSmall)
+        Text(text = text, color = contentColor, style = MaterialTheme.typography.labelSmall)
     }
 }

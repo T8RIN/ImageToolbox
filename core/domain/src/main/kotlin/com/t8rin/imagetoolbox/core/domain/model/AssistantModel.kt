@@ -21,14 +21,15 @@ enum class AssistantModel(
     val id: String,
     val displayName: String,
     val sourceUrl: String,
+    val recommendedRamGb: Int,
     val supportsVision: Boolean = false
 ) {
-    Lite("lite", "Qwen3 0.6B", "https://huggingface.co/Qwen/Qwen3-0.6B"),
-    Advanced("advanced", "Qwen3 1.7B", "https://huggingface.co/Qwen/Qwen3-1.7B"),
-    Max("max", "Qwen3 8B", "https://huggingface.co/Qwen/Qwen3-8B"),
-    VisionLite("vision_lite", "Qwen3.5 0.8B", "https://huggingface.co/Qwen/Qwen3.5-0.8B", true),
-    VisionAdvanced("vision_advanced", "Qwen3.5 2B", "https://huggingface.co/Qwen/Qwen3.5-2B", true),
-    VisionMax("vision_max", "Qwen3.5 9B", "https://huggingface.co/Qwen/Qwen3.5-9B", true);
+    Lite("lite", "Qwen3 0.6B", "https://huggingface.co/Qwen/Qwen3-0.6B", 3),
+    Advanced("advanced", "Qwen3 1.7B", "https://huggingface.co/Qwen/Qwen3-1.7B", 4),
+    Max("max", "Qwen3 8B", "https://huggingface.co/Qwen/Qwen3-8B", 8),
+    VisionLite("vision_lite", "Qwen3.5 0.8B", "https://huggingface.co/Qwen/Qwen3.5-0.8B", 4, true),
+    VisionAdvanced("vision_advanced", "Qwen3.5 2B", "https://huggingface.co/Qwen/Qwen3.5-2B", 6, true),
+    VisionMax("vision_max", "Qwen3.5 9B", "https://huggingface.co/Qwen/Qwen3.5-9B", 12, true);
 
     companion object {
         fun fromOrdinal(ordinal: Int?): AssistantModel? = ordinal?.let(entries::getOrNull)
