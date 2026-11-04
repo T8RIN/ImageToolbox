@@ -18,6 +18,7 @@
 package com.t8rin.imagetoolbox.feature.emoji_kitchen.presentation
 
 import android.net.Uri
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -41,6 +42,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.BottomButtonsBlock
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ShareButton
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ZoomButton
+import com.t8rin.imagetoolbox.core.ui.widget.controls.UndoRedoButtons
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.LoadingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
@@ -107,6 +109,15 @@ fun EmojiKitchenContent(
                 }
             )
             if (state.collection != null) {
+                if (!isPortrait) {
+                    UndoRedoButtons(
+                        canUndo = component.canUndo,
+                        canRedo = component.canRedo,
+                        onUndo = component::undo,
+                        onRedo = component::redo,
+                        modifier = Modifier.padding(2.dp)
+                    )
+                }
                 EnhancedIconButton(
                     onClick = { showFavorites = true },
                     enabled = state.progress == null && !component.isSaving
@@ -123,6 +134,15 @@ fun EmojiKitchenContent(
                     Icon(
                         imageVector = Icons.Outlined.Explore,
                         contentDescription = null
+                    )
+                }
+                if (isPortrait) {
+                    UndoRedoButtons(
+                        canUndo = component.canUndo,
+                        canRedo = component.canRedo,
+                        onUndo = component::undo,
+                        onRedo = component::redo,
+                        modifier = Modifier.padding(2.dp)
                     )
                 }
             }

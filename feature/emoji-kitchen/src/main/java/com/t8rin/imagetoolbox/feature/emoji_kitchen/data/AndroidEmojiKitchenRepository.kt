@@ -183,7 +183,6 @@ internal class AndroidEmojiKitchenRepository @Inject constructor(
             }.getOrNull()?.coerceAtLeast(0L) ?: 0L
             val buffer = ByteArray(256 * 1024)
             var completed = 0L
-            var lastProgress = 0L
             requireNotNull(context.contentResolver.openInputStream(source)) {
                 "Cannot open the collection archive"
             }.use { input ->
@@ -194,15 +193,11 @@ internal class AndroidEmojiKitchenRepository @Inject constructor(
                         if (count < 0) break
                         completed += count
                         output.write(buffer, 0, count)
-                        val now = System.currentTimeMillis()
-                        if (now - lastProgress >= 100) {
-                            updateProgress(
-                                stage = EmojiKitchenProgress.Stage.Importing,
-                                completed = completed,
-                                total = total
-                            )
-                            lastProgress = now
-                        }
+                        updateProgress(
+                            stage = EmojiKitchenProgress.Stage.Importing,
+                            completed = completed,
+                            total = total
+                        )
                     }
                 }
             }
@@ -410,7 +405,8 @@ internal class AndroidEmojiKitchenRepository @Inject constructor(
     }
 
     private fun Preferences.favoriteKeys(first: String, second: String): Set<String> =
-        readFavorites().filter { it.matches(first, second) }.map { it.toPreference() }.toSet()
+        readFavorites().filter { it.matches(first, second) }
+            .mapTo(mutableSetOf()) { it.toPreference() }
 
     private fun Preferences.readFavorites(): Set<EmojiKitchenFavorite> =
         this[FAVORITE_COMBINATIONS].orEmpty().mapNotNullTo(mutableSetOf()) { value ->
@@ -427,6 +423,7 @@ internal class AndroidEmojiKitchenRepository @Inject constructor(
     private fun EmojiKitchenFavorite.toPreference(): String = "$first|$second|$path|$date"
 
     private suspend fun verifyDownload(file: File) {
+        val total = file.length()
         val digest = MessageDigest.getInstance("SHA-256")
         val buffer = ByteArray(256 * 1024)
         var completed = 0L
@@ -440,7 +437,7 @@ internal class AndroidEmojiKitchenRepository @Inject constructor(
                 updateProgress(
                     stage = EmojiKitchenProgress.Stage.Installing,
                     completed = completed,
-                    total = file.length()
+                    total = total
                 )
             }
         }

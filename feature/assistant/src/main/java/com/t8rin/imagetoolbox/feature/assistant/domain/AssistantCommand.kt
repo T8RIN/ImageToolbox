@@ -27,6 +27,7 @@ import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.booleanOrNull
 import kotlinx.serialization.json.contentOrNull
+import kotlinx.serialization.json.encodeToJsonElement
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
 import java.time.DayOfWeek
@@ -37,6 +38,7 @@ import java.time.temporal.TemporalAdjusters
 
 internal object AssistantCommand {
     private const val MAX_SCENE_LENGTH = ClipImageSearch.TEXT_CONTEXT_LENGTH - 2
+    private val queryJson = Json { encodeDefaults = true }
 
     sealed interface Action {
         data class SearchPhotos(
@@ -268,8 +270,7 @@ internal object AssistantCommand {
         (matching(catalog.albums, question, language) + listOfNotNull(current?.album)).distinct()
 
     fun encodeQuery(query: AssistantGalleryQuery): String {
-        val fields =
-            Json.parseToJsonElement(Json { encodeDefaults = true }.encodeToString(query)).jsonObject
+        val fields = queryJson.encodeToJsonElement(query).jsonObject
         return JsonObject(
             listOf("scene", "people", "excludedPeople", "from", "to", "album", "filename")
                 .associateWith { fields.getValue(if (it == "scene") "semantic" else it) }

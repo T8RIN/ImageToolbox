@@ -19,6 +19,7 @@ package com.t8rin.imagetoolbox.feature.emoji_kitchen.data
 
 import android.database.sqlite.SQLiteDatabase
 import android.util.JsonReader
+import androidx.core.database.sqlite.transaction
 import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.feature.emoji_kitchen.domain.EmojiKitchenCategory
 import com.t8rin.imagetoolbox.feature.emoji_kitchen.domain.EmojiKitchenCollection
@@ -284,8 +285,7 @@ internal class EmojiKitchenIndex private constructor(
                             )
                         """.trimIndent()
                     )
-                    db.beginTransaction()
-                    try {
+                    db.transaction {
                         val imageInsert = db.compileStatement(
                             "INSERT OR IGNORE INTO images VALUES (?, ?, ?)"
                         )
@@ -583,9 +583,6 @@ internal class EmojiKitchenIndex private constructor(
                                 )
                             }
                         }
-                        db.setTransactionSuccessful()
-                    } finally {
-                        db.endTransaction()
                     }
                 }
             }

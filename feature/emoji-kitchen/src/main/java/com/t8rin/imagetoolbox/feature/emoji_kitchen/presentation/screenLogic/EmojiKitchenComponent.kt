@@ -33,7 +33,7 @@ import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
+import com.t8rin.imagetoolbox.core.ui.utils.BaseHistoryComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.utils.getString
@@ -51,7 +51,6 @@ import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.ensureActive
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.withContext
 
@@ -63,7 +62,10 @@ class EmojiKitchenComponent @AssistedInject internal constructor(
     private val fileController: FileController,
     private val shareProvider: ShareProvider,
     dispatchersHolder: DispatchersHolder
-) : BaseComponent(dispatchersHolder, componentContext) {
+) : BaseHistoryComponent<Pair<EmojiKitchenEmoji?, EmojiKitchenEmoji?>>(
+    dispatchersHolder,
+    componentContext
+) {
 
     private val _collectionState = mutableStateOf(repository.state.value)
     val collectionState: EmojiKitchenState by _collectionState
@@ -131,18 +133,23 @@ class EmojiKitchenComponent @AssistedInject internal constructor(
 
     init {
         componentScope.launch {
-            repository.favorites.collectLatest { favorites ->
+            repository.favorites.collect { favorites ->
                 _favorites.value = favorites
                 updateFavorites()
             }
         }
         componentScope.launch {
             var initializeSelection = collectionState.collection != null
-            repository.state.collectLatest { state ->
+            repository.state.collect { state ->
                 val previous = collectionState.collection
                 _collectionState.value = state
                 if (state.collection !== previous) {
-                    clearSelection()
+                    applyHistorySnapshot(null to null)
+                    clearHistory()
+                    exploreJob = null
+                    _exploreEmoji.value = null
+                    _combinations.value = emptyList()
+                    _isExploringLoading.value = false
                     initializeSelection = state.collection != null
                     _favoriteCombinations.value = emptyList()
                     updateFavorites()
@@ -185,6 +192,7 @@ class EmojiKitchenComponent @AssistedInject internal constructor(
 
     fun selectEmoji(emoji: EmojiKitchenEmoji) {
         if (emoji == if (activeSlot == 0) first else second) return
+        val before = currentHistorySnapshot()
         if (activeSlot == 0) {
             _first.value = emoji
             if (second == null) {
@@ -193,15 +201,18 @@ class EmojiKitchenComponent @AssistedInject internal constructor(
         } else {
             _second.value = emoji
         }
+        commitHistoryFrom(before)
         updateCombinations()
     }
 
     fun selectCombination(combination: EmojiKitchenCombination) {
+        val before = currentHistorySnapshot()
         _first.value = exploreEmoji ?: return
         _second.value = collectionState.collection?.emojis?.find {
             it.id == combination.otherEmojiId
         }
         _activeSlot.intValue = 1
+        commitHistoryFrom(before)
         updateCombinations()
     }
 
@@ -222,10 +233,12 @@ class EmojiKitchenComponent @AssistedInject internal constructor(
     fun selectFavorite(
         combination: EmojiKitchenFavoriteCombination
     ) {
+        val before = currentHistorySnapshot()
         val emojis = collectionState.collection?.emojis.orEmpty()
         _first.value = emojis.find { it.id == combination.firstEmojiId }
         _second.value = emojis.find { it.id == combination.secondEmojiId }
         _activeSlot.intValue = 1
+        commitHistoryFrom(before)
         updateCombinations()
     }
 
@@ -264,6 +277,7 @@ class EmojiKitchenComponent @AssistedInject internal constructor(
         queryJob = componentScope.launch {
             try {
                 runSuspendCatching {
+                    val before = currentHistorySnapshot()
                     if (slot == null) {
                         val pair = repository.randomPair() ?: return@runSuspendCatching
                         val emojis = collectionState.collection?.emojis.orEmpty()
@@ -282,6 +296,8 @@ class EmojiKitchenComponent @AssistedInject internal constructor(
                             _second.value = emoji
                         }
                     }
+                    if (history.isEmpty()) resetHistory()
+                    else commitHistoryFrom(before)
                     updateCompatibleEmojis()
                     loadPair()
                 }.onFailure {
@@ -297,18 +313,22 @@ class EmojiKitchenComponent @AssistedInject internal constructor(
     }
 
     fun clearSelection() {
+        val before = currentHistorySnapshot()
+        applyHistorySnapshot(null to null)
+        commitHistoryFrom(before)
+    }
+
+    override fun currentHistorySnapshot(): Pair<EmojiKitchenEmoji?, EmojiKitchenEmoji?> =
+        first to second
+
+    override fun applyHistorySnapshot(snapshot: Pair<EmojiKitchenEmoji?, EmojiKitchenEmoji?>) {
         queryJob = null
         compatibleJob = null
-        exploreJob = null
-        _first.value = null
-        _second.value = null
-        _activeSlot.intValue = 0
-        _selectedVariant.value = null
+        _first.value = snapshot.first
+        _second.value = snapshot.second
+        _activeSlot.intValue = if (first == null) 0 else 1
         _compatibleEmojis.value = emptySet()
-        _exploreEmoji.value = null
-        _combinations.value = emptyList()
-        _isQuerying.value = false
-        _isExploringLoading.value = false
+        updateCombinations()
     }
 
     private fun updateCombinations() {
