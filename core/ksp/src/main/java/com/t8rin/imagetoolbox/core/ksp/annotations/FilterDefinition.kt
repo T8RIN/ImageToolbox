@@ -20,7 +20,7 @@ package com.t8rin.imagetoolbox.core.ksp.annotations
 /**
  * Registers a transformation and generates its UI from the companion's metadata.
  * A structured value is declared in the domain filter and bound in the companion's parameters.
- * Templates store values in binding order. Append new bindings to preserve existing templates.
+ * Templates store values by property name, independently of control order.
  */
 @Target(AnnotationTarget.CLASS)
 @Retention(AnnotationRetention.SOURCE)

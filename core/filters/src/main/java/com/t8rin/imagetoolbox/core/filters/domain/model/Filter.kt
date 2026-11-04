@@ -4340,6 +4340,325 @@ interface Filter<Value : Any> : VisibilityOwner, ErrorOwner {
             val settings: GmicFilterParams
         }
     }
+
+    interface HeightAmbientOcclusion : Filter<HeightAmbientOcclusion.Value> {
+        interface Value : ParameterValue {
+            val radius: Float
+            val depth: Float
+            val directions: Int
+            val strength: Float
+        }
+    }
+
+    interface HeightCastShadows : Filter<HeightCastShadows.Value> {
+        interface Value : ParameterValue {
+            val azimuth: Float
+            val elevation: Float
+            val depth: Float
+            val softness: Float
+            val strength: Float
+        }
+    }
+
+    interface RefractiveCaustics : Filter<RefractiveCaustics.Value> {
+        interface Value : ParameterValue {
+            val scale: Float
+            val refraction: Float
+            val dispersion: Float
+            val focus: Float
+            val strength: Float
+        }
+    }
+
+    interface ThinFilmIridescence : Filter<ThinFilmIridescence.Value> {
+        interface Value : ParameterValue {
+            val thickness: Float
+            val variation: Float
+            val angle: Float
+            val saturation: Float
+            val strength: Float
+        }
+    }
+
+    interface DiffractionGrating : Filter<DiffractionGrating.Value> {
+        interface Value : ParameterValue {
+            val spacing: Float
+            val angle: Float
+            val relief: Float
+            val bandwidth: Float
+            val strength: Float
+        }
+    }
+
+    interface FlowTexture : Filter<FlowTexture.Value> {
+        interface Value : ParameterValue {
+            val length: Float
+            val detail: Float
+            val contrast: Float
+            val seed: Int
+            val strength: Float
+        }
+    }
+
+    interface HilbertRibbon : Filter<HilbertRibbon.Value> {
+        interface Value : ParameterValue {
+            val order: Int
+            val lineWidth: Float
+            val contrast: Float
+            val ink: Color
+            val paper: Color
+            val strength: Float
+        }
+    }
+
+    interface MazePortrait : Filter<MazePortrait.Value> {
+        interface Value : ParameterValue {
+            val cellSize: Float
+            val wallWidth: Float
+            val bias: Float
+            val seed: Int
+            val ink: Color
+            val paper: Color
+            val strength: Float
+        }
+    }
+
+    interface KnittedFabric : Filter<KnittedFabric.Value> {
+        interface Value : ParameterValue {
+            val stitchSize: Float
+            val yarnWidth: Float
+            val relief: Float
+            val twist: Float
+            val strength: Float
+        }
+    }
+
+    interface OrigamiRelief : Filter<OrigamiRelief.Value> {
+        interface Value : ParameterValue {
+            val cellSize: Float
+            val foldHeight: Float
+            val lightAngle: Float
+            val crease: Float
+            val strength: Float
+        }
+    }
+
+    interface PageCurl : Filter<PageCurl.Value> {
+        interface Value : ParameterValue {
+            val amount: Float
+            val radius: Float
+            val angle: Float
+            val shadow: Float
+            val backside: Color
+            val strength: Float
+        }
+    }
+
+    interface CurlAdvection : Filter<CurlAdvection.Value> {
+        interface Value : ParameterValue {
+            val scale: Float
+            val distance: Float
+            val steps: Int
+            val seed: Int
+            val strength: Float
+        }
+    }
+
+    interface HistogramMosaic : Filter<HistogramMosaic.Value> {
+        interface Value : ParameterValue {
+            val cells: Int
+            val bins: Int
+            val gap: Float
+            val strength: Float
+        }
+    }
+
+    interface LocalBinaryPattern : Filter<LocalBinaryPattern.Value> {
+        interface Value : ParameterValue {
+            val radius: Float
+            val tolerance: Float
+            val strength: Float
+        }
+    }
+
+    interface LocalEntropyMap : Filter<LocalEntropyMap.Value> {
+        interface Value : ParameterValue {
+            val radius: Float
+            val bins: Int
+            val gain: Float
+            val strength: Float
+        }
+    }
+
+    interface FourierSpectrum : Filter<FourierSpectrum.Value> {
+        interface Value : ParameterValue {
+            val windowing: Float
+            val contrast: Float
+            val strength: Float
+        }
+    }
+
+    interface PhaseOnlyReconstruction : Filter<PhaseOnlyReconstruction.Value> {
+        interface Value : ParameterValue {
+            val contrast: Float
+            val strength: Float
+        }
+    }
+
+    interface SpectralSaliency : Filter<SpectralSaliency.Value> {
+        interface Value : ParameterValue {
+            val spectralRadius: Int
+            val smoothing: Float
+            val overlay: Float
+            val strength: Float
+        }
+    }
+
+    interface MorphologicalReconstruction : Filter<MorphologicalReconstruction.Value> {
+        interface Value : ParameterValue {
+            val radius: Float
+            val mode: Int
+            val strength: Float
+        }
+    }
+
+    interface NailStringArt : Filter<NailStringArt.Value> {
+        interface Value : ParameterValue {
+            val nails: Int
+            val threads: Int
+            val threadWidth: Float
+            val contrast: Float
+            val ink: Color
+            val paper: Color
+            val strength: Float
+        }
+    }
+
+    interface FoldedBook : Filter<FoldedBook.Value> {
+        interface Value : ParameterValue {
+            val pages: Int
+            val depth: Float
+            val viewAngle: Float
+            val paper: Color
+            val strength: Float
+        }
+    }
+
+    interface PaperQuilling : Filter<PaperQuilling.Value> {
+        interface Value : ParameterValue {
+            val cellSize: Float
+            val turns: Float
+            val stripWidth: Float
+            val relief: Float
+            val background: Color
+            val strength: Float
+        }
+    }
+
+    interface LenticularPrint : Filter<LenticularPrint.Value> {
+        interface Value : ParameterValue {
+            val lensWidth: Float
+            val viewAngle: Float
+            val refraction: Float
+            val gloss: Float
+            val rotation: Float
+            val strength: Float
+        }
+    }
+
+    interface PinArt : Filter<PinArt.Value> {
+        interface Value : ParameterValue {
+            val spacing: Float
+            val height: Float
+            val angle: Float
+            val gloss: Float
+            val strength: Float
+        }
+    }
+
+    interface CeramicGlaze : Filter<CeramicGlaze.Value> {
+        interface Value : ParameterValue {
+            val size: Float
+            val pooling: Float
+            val gloss: Float
+            val crackle: Float
+            val seed: Int
+            val strength: Float
+        }
+    }
+
+    interface Marquetry : Filter<Marquetry.Value> {
+        interface Value : ParameterValue {
+            val size: Float
+            val grain: Float
+            val bevel: Float
+            val seed: Int
+            val strength: Float
+        }
+    }
+
+    interface PhotoelasticStress : Filter<PhotoelasticStress.Value> {
+        interface Value : ParameterValue {
+            val load: Float
+            val smoothing: Float
+            val angle: Float
+            val ambient: Float
+            val strength: Float
+        }
+    }
+
+    interface Condensation : Filter<Condensation.Value> {
+        interface Value : ParameterValue {
+            val size: Float
+            val coverage: Float
+            val refraction: Float
+            val haze: Float
+            val seed: Int
+            val strength: Float
+        }
+    }
+
+    interface SpecularHighlightSuppression : Filter<SpecularHighlightSuppression.Value> {
+        interface Value : ParameterValue {
+            val radius: Float
+            val threshold: Float
+            val strength: Float
+        }
+    }
+
+    interface GradientDomainToneMapping : Filter<GradientDomainToneMapping.Value> {
+        interface Value : ParameterValue {
+            val compression: Float
+            val detail: Float
+            val strength: Float
+        }
+    }
+
+    interface ShockSharpening : Filter<ShockSharpening.Value> {
+        interface Value : ParameterValue {
+            val iterations: Int
+            val smoothing: Float
+            val strength: Float
+        }
+    }
+
+    interface ColorSpillSuppression : Filter<ColorSpillSuppression.Value> {
+        interface Value : ParameterValue {
+            val color: Int
+            val tolerance: Float
+            val recovery: Float
+            val strength: Float
+        }
+    }
+
+    interface UnderwaterRestoration : Filter<UnderwaterRestoration.Value> {
+        interface Value : ParameterValue {
+            val radius: Float
+            val restoration: Float
+            val redRecovery: Float
+            val strength: Float
+        }
+    }
 }
 
 private typealias Color = ColorModel

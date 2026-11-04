@@ -49,13 +49,13 @@ class FilterCatalogAuditTest {
         val args = InstrumentationRegistry.getArguments()
         val phase = args.getString("phase") ?: "candidate"
         val start = args.getString("start")?.toInt() ?: 0
-        val stop = args.getString("stop")?.toInt() ?: 600
+        val stop = args.getString("stop")?.toInt() ?: 633
         val skip = args.getString("skip")?.split(',').orEmpty()
         val groups = UiFilter.groups.flatMap { group ->
             group.filters(canAddTemplates = true).map { group.title to it }
         }.sortedBy { it.second.serializationKey }
-        assertEquals(600, groups.size)
-        assertEquals(592, groups.count { it.second.canUseTemplate })
+        assertEquals(633, groups.size)
+        assertEquals(625, groups.count { it.second.canUseTemplate })
         assertEquals(groups.size, groups.map { it.second.serializationKey }.toSet().size)
         val cacheKeys = mutableSetOf<String>()
         val legacy = instrumentation.context.assets.open("filter-values-before.jsonl")
@@ -68,6 +68,11 @@ class FilterCatalogAuditTest {
                     }
                 }.associateBy { it.getString("transformTemplate").substringBefore(':') }
             }
+        val currentKeys = groups.map { (_, ui) ->
+            listOf(provider.filterToTransformation(ui) as Filter<*>)
+                .toDatastoreString(true).substringBefore(':')
+        }.toSet()
+        assertTrue("A released filter disappeared", currentKeys.containsAll(legacy.keys))
         val snapshot = File(context.cacheDir, "filters-$phase.jsonl")
         java.io.FileOutputStream(snapshot, start > 0).bufferedWriter().use { writer ->
             groups.subList(start, stop).forEachIndexed { localIndex, (group, ui) ->
@@ -114,24 +119,28 @@ class FilterCatalogAuditTest {
                         "coreRestore",
                         UiFilter.fromSerializationKey(ui.serializationKey)?.serializationKey
                     )
-                val saved = legacy.getValue(transformTemplate.substringBefore(':'))
+                val saved = legacy[transformTemplate.substringBefore(':')]
                 assertEquals(
                     ui.serializationKey,
-                    saved.getBoolean("canUseTemplate"),
+                    saved?.getBoolean("canUseTemplate") ?: ui.canUseTemplate,
                     ui.canUseTemplate
                 )
                 assertEquals(
                     ui.serializationKey, listOf(ui).toDatastoreString(),
-                    saved.getString("favorite").toFiltersList(false).toDatastoreString()
+                    (saved?.getString("favorite") ?: listOf(ui).toDatastoreString())
+                        .toFiltersList(false).toDatastoreString()
                 )
                 if (ui.canUseTemplate) {
                     assertEquals(
                         ui.serializationKey, uiTemplate,
-                        saved.getString("uiTemplate").toFiltersList(true).toDatastoreString(true)
+                        (saved?.getString("uiTemplate") ?: uiTemplate)
+                            .toFiltersList(true).toDatastoreString(true)
                     )
                     assertEquals(
                         ui.serializationKey, transformTemplate,
-                        saved.getString("transformTemplate").toFiltersList(true)
+                        (saved?.getString("transformTemplate") ?: transformTemplate).toFiltersList(
+                            true
+                        )
                             .toDatastoreString(true)
                     )
                     data.put("uiRestored", uiTemplate.toFiltersList(true).toDatastoreString(true))
@@ -150,7 +159,12 @@ class FilterCatalogAuditTest {
                 if (index % 30 == 0) {
                     instrumentation.sendStatus(
                         2,
-                        Bundle().apply { putString("stream", "$phase ${index + 1}/600\n") })
+                        Bundle().apply {
+                            putString(
+                                "stream",
+                                "$phase ${index + 1}/${groups.size}\n"
+                            )
+                        })
                 }
             }
         }
