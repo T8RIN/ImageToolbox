@@ -280,7 +280,8 @@ private fun EmojiKitchenResult(
                             .fillMaxWidth(),
                         textAlign = TextAlign.Center,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        style = MaterialTheme.typography.labelSmall
+                        style = MaterialTheme.typography.labelSmall,
+                        maxLines = 2
                     )
                 }
             }
