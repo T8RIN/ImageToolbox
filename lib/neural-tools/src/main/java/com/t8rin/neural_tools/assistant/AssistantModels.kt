@@ -58,7 +58,11 @@ import java.util.concurrent.ConcurrentHashMap
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
-class AssistantModels : NeuralTool() {
+class AssistantModels internal constructor(
+    private val standaloneFiles: ModelFiles?
+) : NeuralTool() {
+
+    constructor() : this(null)
 
     class InputTooLongException(val tokenCount: Int) : IllegalArgumentException(
         "Assistant input exceeds $MAX_PROMPT_TOKENS tokens: $tokenCount"
@@ -81,6 +85,7 @@ class AssistantModels : NeuralTool() {
     val states: StateFlow<List<ModelState>> = _states.asStateFlow()
 
     private val runtimeLock = Mutex()
+    private val standaloneLock = standaloneFiles?.let { Mutex() }
     private val nativeLock = Any()
 
     @Volatile
@@ -271,8 +276,16 @@ class AssistantModels : NeuralTool() {
 
     private suspend fun loadModel(variant: AssistantModel) {
         val verificationStarted = System.nanoTime()
+        val folder =
+            standaloneFiles?.file("genai_config.json")?.parentFile ?: directory.resolve(variant.id)
         withContext(Dispatchers.IO) {
-            verify(directory.resolve(variant.id), AssistantModelFiles[variant])
+            if (standaloneFiles != null) {
+                check(standaloneFiles.isDownloaded(currentCoroutineContext()::ensureActive)) {
+                    "Local model files are missing or invalid"
+                }
+            } else {
+                verify(folder, AssistantModelFiles[variant])
+            }
         }
         val verificationMs = (System.nanoTime() - verificationStarted) / 1_000_000
         currentCoroutineContext().ensureActive()
@@ -281,7 +294,6 @@ class AssistantModels : NeuralTool() {
             OrtEnvironment.getEnvironment().setTelemetry(false)
             GenAI.setTelemetry(false)
             val threads = Runtime.getRuntime().availableProcessors().coerceIn(1, 4)
-            val folder = directory.resolve(variant.id)
             val configuration = JSONObject(folder.resolve("genai_config.json").readText())
             val components = if (variant.supportsVision) listOf(
                 "decoder",
@@ -339,7 +351,7 @@ class AssistantModels : NeuralTool() {
             generationJob = job
         }
         try {
-            packageLocks.getValue(variant).withLock {
+            (standaloneLock ?: packageLocks.getValue(variant)).withLock {
                 runtimeLock.withLock {
                     try {
                         val loadStarted = System.nanoTime()

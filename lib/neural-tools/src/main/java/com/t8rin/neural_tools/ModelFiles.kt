@@ -41,9 +41,11 @@ internal class ModelFiles(
 
     fun file(name: String) = File(directory, name)
 
-    fun isDownloaded(): Boolean = models.all { isValid(it, file(it.name)) }
+    fun isDownloaded(checkCancellation: () -> Unit = {}): Boolean =
+        models.all { isValid(it, file(it.name), checkCancellation) }
 
-    private fun isValid(model: Model, file: File): Boolean {
+    private fun isValid(model: Model, file: File, checkCancellation: () -> Unit): Boolean {
+        checkCancellation()
         if (!file.isFile || file.length() != model.size) return false
         val signature = file.length() to file.lastModified()
         synchronized(verified) {
@@ -54,6 +56,7 @@ internal class ModelFiles(
             val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
             var count = input.read(buffer)
             while (count >= 0) {
+                checkCancellation()
                 digest.update(buffer, 0, count)
                 count = input.read(buffer)
             }
@@ -66,6 +69,7 @@ internal class ModelFiles(
     suspend fun download(
         onProgress: suspend (Float) -> Unit
     ) = withContext(Dispatchers.IO) {
+        val context = currentCoroutineContext()
         check(directory.mkdirs() || directory.isDirectory)
         val totalSize = models.sumOf(Model::size)
         var completedSize = 0L
@@ -73,7 +77,7 @@ internal class ModelFiles(
         models.forEach { model ->
             currentCoroutineContext().ensureActive()
             val destination = file(model.name)
-            if (!isValid(model, destination)) {
+            if (!isValid(model, destination, context::ensureActive)) {
                 val temporary = File.createTempFile(model.name, ".download", directory)
                 try {
                     downloader.download(
@@ -86,7 +90,13 @@ internal class ModelFiles(
                         }
                     )
                     currentCoroutineContext().ensureActive()
-                    check(isValid(model, temporary)) { "Invalid model: ${model.name}" }
+                    check(
+                        isValid(
+                            model,
+                            temporary,
+                            context::ensureActive
+                        )
+                    ) { "Invalid model: ${model.name}" }
                     currentCoroutineContext().ensureActive()
                     check(temporary.renameTo(destination)) { "Cannot install model: ${model.name}" }
                 } finally {
