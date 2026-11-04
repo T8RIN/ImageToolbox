@@ -20,16 +20,16 @@ package com.t8rin.imagetoolbox.feature.root.presentation.components
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.VisibilityThreshold
+import androidx.compose.animation.core.animateDp
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.updateTransition
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.indication
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
@@ -46,7 +46,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.BackdropScaffoldState
 import androidx.compose.material.Icon
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -63,8 +62,8 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
-import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Neurology
 import com.t8rin.imagetoolbox.core.resources.icons.Settings
@@ -268,27 +267,41 @@ internal fun BoxScope.SettingsOpenButton(
     }
 
     val isStart = fastSettingsSide == FastSettingsSide.CenterStart
-    val isLeft = isStart != (direction == LayoutDirection.Rtl)
+    val assistantSize = 48.dp
+    val assistantInset = 56.dp
+    val assistantVisible = onOpenAssistant != null && !isAssistantTab && isWantOpenSettings
+    val assistantTransition = updateTransition(assistantVisible)
+    val assistantOffset by assistantTransition.animateDp(
+        transitionSpec = { springySpec() }
+    ) { visible ->
+        if (visible) 0.dp else assistantSize * 2
+    }
+    val assistantCenterPastSettings by remember {
+        derivedStateOf {
+            assistantInset - assistantOffset + assistantSize / 2 >= width
+        }
+    }
 
-    AnimatedVisibility(
-        visible = onOpenAssistant != null && !isAssistantTab && isWantOpenSettings,
+    assistantTransition.AnimatedVisibility(
+        visible = { it },
         modifier = Modifier
             .align(alignment)
             .padding(start = startPadding, end = endPadding)
-            .offset(x = if (isStart) 56.dp else -56.dp),
-        enter = fadeIn() + slideInHorizontally(
-            animationSpec = springySpec(),
-            initialOffsetX = { if (isLeft) -it * 2 else it * 2 }
-        ),
-        exit = fadeOut() + slideOutHorizontally(
-            animationSpec = springySpec(),
-            targetOffsetX = { if (isLeft) -it * 2 else it * 2 }
-        )
+            .offset {
+                val offset = (assistantInset - assistantOffset).roundToPx()
+                IntOffset(x = if (isStart) offset else -offset, y = 0)
+            },
+        enter = fadeIn(),
+        exit = fadeOut()
     ) {
+        val containerColor = MaterialTheme.colorScheme.tertiaryContainer
+
         EnhancedIconButton(
             onClick = { onOpenAssistant?.invoke() },
-            modifier = Modifier.size(48.dp),
-            containerColor = MaterialTheme.colorScheme.tertiaryContainer
+            modifier = Modifier.size(assistantSize),
+            enabled = assistantVisible && assistantCenterPastSettings,
+            containerColor = containerColor,
+            disabledContainerColor = containerColor
         ) {
             Icon(
                 imageVector = Icons.Outlined.Neurology,
