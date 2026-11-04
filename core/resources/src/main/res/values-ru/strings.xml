@@ -6092,7 +6092,6 @@
     <string name="assistant_cancelled">Отменено</string>
     <string name="assistant_send">Отправить</string>
     <string name="assistant_model_unavailable">Модель недоступна на этом устройстве</string>
-    <string name="assistant_model_ram">RAM %1$d ГБ</string>
     <string name="assistant_model_low_ram">Мало оперативной памяти. С этой моделью приложение может вылететь.</string>
     <string name="assistant_generation_error">Не удалось получить ответ</string>
     <string name="assistant_generation_timeout">Ответ занял слишком много времени. Попробуйте модель поменьше или более короткий вопрос.</string>
