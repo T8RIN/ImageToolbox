@@ -6120,6 +6120,8 @@
     <string name="assistant_cancelled">Cancelled</string>
     <string name="assistant_send">Send</string>
     <string name="assistant_model_unavailable">Model unavailable on this device</string>
+    <string name="assistant_model_ram" translatable="false">RAM %1$d GB</string>
+    <string name="assistant_model_low_ram">Low RAM. The app may crash with this model.</string>
     <string name="assistant_generation_error">Could not generate an answer</string>
     <string name="assistant_generation_timeout">The answer took too long. Try a smaller model or a shorter question.</string>
     <string name="assistant_file_size_already_fits">The file is %1$s bytes and already fits the %2$s limit (%3$s bytes). Compression is unnecessary.</string>
