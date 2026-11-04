@@ -169,7 +169,8 @@ class EmojiKitchenComponent @AssistedInject internal constructor(
     }
 
     fun openExplore() {
-        (first ?: collectionState.collection?.emojis?.firstOrNull())?.let(::selectExploreEmoji)
+        val emoji = if (activeSlot == 0) first ?: second else second ?: first
+        (emoji ?: collectionState.collection?.emojis?.firstOrNull())?.let(::selectExploreEmoji)
     }
 
     fun selectExploreEmoji(emoji: EmojiKitchenEmoji) {
