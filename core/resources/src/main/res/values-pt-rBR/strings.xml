@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Algo deu errado: %1$s</string>
     <string name="size">Tamanho %1$s</string>
     <string name="loading">Carregando…</string>
@@ -3127,7 +3126,7 @@
     <string name="help_tip_clipboard_privacy_description">A automação da área de transferência é conveniente, mas o texto copiado pode conter senhas, links, endereços, tokens ou notas privadas. Trate a entrada baseada na área de transferência como um recurso de velocidade que deve corresponder aos seus hábitos e expectativas de privacidade.</string>
     <string name="help_tip_clipboard_privacy_step_1">Desative o uso automático da área de transferência se texto privado aparecer inesperadamente nas ferramentas.</string>
     <string name="help_tip_clipboard_privacy_step_2">Use o salvamento somente na área de transferência somente quando desejar deliberadamente que o resultado evite o armazenamento.</string>
-    <string name="help_tip_clipboard_privacy_step_3">Limpe ou substitua a área de transferência após lidar com texto confidencial, dados QR ou cargas Base64.</string>
+    <string name="help_tip_clipboard_privacy_step_3">Desative a opção “Colar automaticamente” para impedir que resultados futuros sejam copiados. Para evitar inserções automáticas indesejadas, use a configuração separada “Permitir colagem automática da área de transferência”.</string>
     <string name="help_tip_color_formats_title">Formatos de cores</string>
     <string name="help_tip_color_formats_subtitle">Entenda os valores HEX, RGB, HSV, alfa e de cores copiadas antes de colar em outro lugar</string>
     <string name="help_tip_color_formats_page_title">Copie o formato que o destino espera</string>
@@ -4505,7 +4504,7 @@
     <string name="help_tip_raw_development_page_title">Escolha um ponto de partida confiável</string>
     <string name="help_tip_raw_development_description">Os arquivos RAW contêm dados do sensor em vez de uma fotografia finalizada, portanto a primeira renderização depende das configurações de revelação. O equilíbrio de branco, a orientação, o brilho e a visualização incorporada da câmera podem fazer com que o mesmo arquivo pareça muito diferente. Comece com configurações que revelem a imagem fielmente e, em seguida, faça correções criativas no editor após a conversão.</string>
     <string name="help_tip_raw_development_step_1">Mantenha o equilíbrio de branco e a orientação automática da câmera ativados quando desejar o ponto inicial mais próximo da renderização pretendida da câmera.</string>
-    <string name="help_tip_raw_development_step_2">Use a visualização incorporada quando a navegação rápida for mais importante do que inspecionar o resultado desenvolvido completo; desative-o ao avaliar a conversão RAW real.</string>
+    <string name="help_tip_raw_development_step_2">Escolha “Personalizado” para definir multiplicadores independentes para vermelho, verde, azul e o segundo verde, cada um na faixa de 0,1 a 4. Faça pequenos ajustes e compare com o mesmo arquivo de origem.</string>
     <string name="help_tip_raw_development_step_3">Deixe o brilho automático ativado para uma primeira passagem neutra e, em seguida, use a compensação de exposição quando toda a imagem precisar de uma mudança deliberada.</string>
     <string name="help_tip_raw_development_page_2_title">Proteja detalhes e cores brilhantes</string>
     <string name="help_tip_raw_development_page_2_description">Um arquivo RAW geralmente contém informações de destaque que uma renderização simples corta muito cedo. A recuperação de realces pode preservar céus claros, janelas, metal e tecidos, enquanto o espaço de cores de saída determina a amplitude com que essas cores são representadas na imagem convertida. A recuperação forte pode alterar cores ou criar artefatos, portanto, inspecione destaques importantes com um zoom útil.</string>
@@ -6895,7 +6894,7 @@
     <string name="filter_help_gmic_filter_retro_fade">Cria uma renderização retrô desbotada com paleta e granulação reduzidas. As iterações controlam o processamento repetido, a contagem de cores limita a paleta e a granulação adiciona textura.</string>
     <string name="filter_help_gmic_filter_richardson_lucy_sharpen">Usa a deconvolução Richardson-Lucy para reduzir um desfoque presumido. O tipo de desfoque e o sigma descrevem esse desfoque; mais iterações podem aumentar os detalhes, mas também o toque e o ruído.</string>
     <string name="filter_help_gmic_filter_rodilius">Cria uma textura ornamental e radiante a partir dos detalhes da imagem. Amplitude, espessura, nitidez e número de orientações controlam os traços estilizados; os modos de cor e canal mudam sua aparência.</string>
-    <string name="filter_help_gmic_filter_rounded_frame">Adiciona uma moldura colorida com cantos arredondados. Os tamanhos horizontal e vertical definem sua extensão, o raio define a curvatura do canto e a suavização/suavização suaviza as bordas.</string>
+    <string name="filter_help_gmic_filter_rounded_frame">Adiciona uma moldura colorida com cantos arredondados. As dimensões horizontais e verticais definem sua extensão, o raio define a curvatura dos cantos e o suavização/antialiasing suaviza as bordas.</string>
     <string name="filter_help_gmic_filter_row_shifter">Desloca linhas e colunas em torno de centros configuráveis. Os valores de deslocamento e a ordem de processamento determinam a distorção; a interpolação suaviza a amostragem e a inversão reverte as mudanças.</string>
     <string name="filter_help_gmic_filter_saturation_equalizer">Ajusta a saturação separadamente nas zonas de brilho e nas faixas de matiz. Use os controles de tons para sombras ou realces e gire as faixas de matiz para atingir uma gama de cores diferente.</string>
     <string name="filter_help_gmic_filter_selective_desaturation">Remove a cor seletivamente em relação a uma cor de referência. Modo, força e regularização controlam a faixa retida; isso pode manter um destaque de cor enquanto dessatura a paleta circundante.</string>
@@ -7914,4 +7913,5 @@
     <string name="filter_help_underwater_restoration">Restaure o contraste em fotografias subaquáticas usando uma transmissão de canal vermelho antes e com recuperação controlada do vermelho.</string>
     <string name="restoration">Restauração</string>
     <string name="red_recovery">Recuperação vermelha</string>
+    <string name="assistant_model_low_ram">Pouca memória RAM. O aplicativo pode travar neste modelo.</string>
 </resources>
