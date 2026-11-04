@@ -788,6 +788,39 @@ or click one of the badges below.
     - [x] Signed Distance Field
     - [x] Directional Embroidery
     - [x] TSP Single-line Drawing
+    - [x] Height Ambient Occlusion
+    - [x] Height Cast Shadows
+    - [x] Refractive Caustics
+    - [x] Thin Film Iridescence
+    - [x] Diffraction Grating
+    - [x] Flow Texture
+    - [x] Hilbert Ribbon
+    - [x] Maze Portrait
+    - [x] Knitted Fabric
+    - [x] Origami Relief
+    - [x] Page Curl
+    - [x] Curl Advection
+    - [x] Histogram Mosaic
+    - [x] Local Binary Pattern
+    - [x] Local Entropy Map
+    - [x] Fourier Spectrum
+    - [x] Phase Only Reconstruction
+    - [x] Spectral Saliency
+    - [x] Morphological Reconstruction
+    - [x] Nail String Art
+    - [x] Folded Book
+    - [x] Paper Quilling
+    - [x] Lenticular Print
+    - [x] Pin Art
+    - [x] Ceramic Glaze
+    - [x] Marquetry
+    - [x] Photoelastic Stress
+    - [x] Condensation
+    - [x] Specular Highlight Suppression
+    - [x] Gradient Domain Tone Mapping
+    - [x] Shock Sharpening
+    - [x] Color Spill Suppression
+    - [x] Underwater Restoration
 
   </details>
 

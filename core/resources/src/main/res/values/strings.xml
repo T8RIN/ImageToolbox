@@ -7844,7 +7844,6 @@
     <string name="transfer_gamma_2_8" translatable="false">Gamma 2.8</string>
     <string name="opencv" translatable="false">OpenCV</string>
     <string name="lama" translatable="false">LaMa</string>
-
     <string name="height_ambient_occlusion">Height Ambient Occlusion</string>
     <string name="filter_help_height_ambient_occlusion">Treat luminance as a height field and darken recesses according to their visible horizon.</string>
     <string name="relief_depth">Relief depth</string>
@@ -7912,7 +7911,6 @@
     <string name="morphological_reconstruction">Morphological Reconstruction</string>
     <string name="filter_help_morphological_reconstruction">Remove small bright or dark structures while reconstructing the shapes of the surviving components.</string>
     <string name="mode">Mode</string>
-
     <string name="nail_string_art">Nail String Art</string>
     <string name="filter_help_nail_string_art">Rebuild the image with one continuous thread joining circularly arranged nails, choosing each chord to reduce the remaining tonal error.</string>
     <string name="nails">Nails</string>
