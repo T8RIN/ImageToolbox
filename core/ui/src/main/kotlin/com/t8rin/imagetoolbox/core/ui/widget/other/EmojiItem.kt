@@ -30,11 +30,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -68,16 +66,18 @@ fun EmojiItem(
     containerColor: Color? = null,
     shape: Shape? = null,
     contentPadding: Dp? = null,
+    shimmerEnabled: Boolean = true,
     onNoEmoji: (@Composable () -> Unit)? = null
 ) {
     key(animatedEmoji) {
         val content: @Composable (emoji: String?) -> Unit = { currentEmoji ->
             currentEmoji?.let {
-                var shimmering by remember(currentEmoji) {
-                    mutableStateOf(true)
-                }
+                val shimmering = if (shimmerEnabled) {
+                    remember(currentEmoji) { mutableStateOf(true) }
+                } else null
+                val shimmerVisible = shimmering?.value
 
-                val emojiModifier = remember(shimmering) {
+                val emojiModifier = remember(shimmerVisible) {
                     Modifier
                         .then(
                             if (fontSize > 0.sp) {
@@ -109,17 +109,19 @@ fun EmojiItem(
                                 Modifier
                             }
                         )
-                        .shimmer(shimmering)
+                        .then(if (shimmerVisible != null) Modifier.shimmer(shimmerVisible) else Modifier)
                         .padding(2.dp + (contentPadding ?: 0.dp))
                 }
 
                 if (animatedEmoji != null) {
                     val controller = remember { DotLottieController() }
 
-                    LaunchedEffect(controller) {
-                        withContext(Dispatchers.Default) {
-                            controller.currentState.throttleLatest(100).collectLatest {
-                                shimmering = it != DotLottiePlayerState.PLAYING
+                    if (shimmering != null) {
+                        LaunchedEffect(controller, shimmering) {
+                            withContext(Dispatchers.Default) {
+                                controller.currentState.throttleLatest(100).collectLatest {
+                                    shimmering.value = it != DotLottiePlayerState.PLAYING
+                                }
                             }
                         }
                     }
@@ -136,11 +138,11 @@ fun EmojiItem(
                 } else {
                     AsyncImage(
                         model = currentEmoji,
-                        onLoading = {
-                            shimmering = true
+                        onLoading = shimmering?.let { state ->
+                            { _ -> state.value = true }
                         },
-                        onSuccess = {
-                            shimmering = false
+                        onSuccess = shimmering?.let { state ->
+                            { _ -> state.value = false }
                         },
                         filterQuality = filterQuality,
                         contentDescription = null,

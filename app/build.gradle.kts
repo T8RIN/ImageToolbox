@@ -145,6 +145,7 @@ aboutLibraries {
 }
 
 dependencies {
+    debugImplementation(libs.compose.ui.test.manifest)
     baselineProfile(project(":benchmark"))
 
     implementation(projects.feature.root)

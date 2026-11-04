@@ -813,8 +813,7 @@ private fun EditorPane(
                         durationMillis = EditorModeTransitionDuration
                     )
                 ) using SizeTransform(clip = false)
-            },
-            label = "CurvesEditorMode"
+            }
         ) { editorType ->
             val editorState = if (editorType == activeEditorType) {
                 state

@@ -198,7 +198,15 @@ internal class FilterDefinitionGenerator(
                     logger.error("Filter parameter $name must be immutable", property)
                     return null
                 }
-                Field(name, kind, type, "$valueType::$name", owner, resolved.isMarkedNullable)
+                Field(
+                    name = name,
+                    kind = kind,
+                    type = type,
+                    reference = "$valueType::$name",
+                    owner = owner,
+                    nullable = resolved.isMarkedNullable,
+                    hasConcreteTypeArguments = resolved.arguments.any { it.variance != Variance.STAR }
+                )
             }
     }
 
@@ -389,6 +397,9 @@ internal class FilterDefinitionGenerator(
         appendLine("        )")
         appendLine("    }")
         appendLine()
+        if (model.fields.any { it.hasConcreteTypeArguments }) {
+            appendLine("    @Suppress(\"UNCHECKED_CAST\")")
+        }
         appendLine("    fun readStoredValue(value: Any?): ${model.name}? {")
         appendLine("        val stored = storedParameterValues(value, storedFieldOrder.size) ?: return null")
         appendLine("        return ${model.name}(")
@@ -612,7 +623,8 @@ internal class FilterDefinitionGenerator(
         val type: String,
         val reference: String,
         val owner: String,
-        val nullable: Boolean
+        val nullable: Boolean,
+        val hasConcreteTypeArguments: Boolean
     ) {
         val source get() = "$owner.parameters.field($reference)"
         val isArray get() = type.removeSuffix("?") == "kotlin.FloatArray"

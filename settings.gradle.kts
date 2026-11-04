@@ -131,6 +131,7 @@ include(":feature:compression-lab")
 include(":feature:code-preview")
 include(":feature:screenshot-framing")
 include(":feature:fractal-generation")
+include(":feature:emoji-kitchen")
 
 include(":feature:root")
 
