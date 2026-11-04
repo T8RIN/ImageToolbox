@@ -57,8 +57,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.utils.roundTo
-import com.t8rin.imagetoolbox.core.filters.domain.model.shader.ShaderPreset
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
+import com.t8rin.imagetoolbox.core.filters.domain.model.shader.ShaderPreset
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
@@ -399,7 +399,8 @@ fun <T : Any> FilterItem(
                 }
                 BoxAnimatedVisibility(
                     visible = isControlsExpanded || hasInlineControls || previewOnly,
-                    keepContentOnCollapse = keepSeedSelector
+                    keepContentOnCollapse = keepSeedSelector,
+                    modifier = Modifier.fillMaxWidth()
                 ) {
                     Column {
                         FilterItemContent(
