@@ -1399,6 +1399,13 @@ sealed class Screen(
         subtitle = R.string.screenshot_framing_sub
     )
 
+    @Serializable
+    data object EmojiKitchen : Screen(
+        id = 84,
+        title = R.string.emoji_kitchen,
+        subtitle = R.string.emoji_kitchen_description
+    )
+
     companion object : ScreenConstants by ScreenConstants
 
 }

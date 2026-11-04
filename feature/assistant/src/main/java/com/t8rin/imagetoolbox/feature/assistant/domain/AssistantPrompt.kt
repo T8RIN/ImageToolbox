@@ -469,12 +469,7 @@ private fun assistantDetailedInterpretationPrompt(
     val demonstrations = if (compact) {
         (samples.distinctBy { Json.parseToJsonElement(it.answer.text).jsonObject.getValue("action").jsonPrimitive.content } +
                 samples.filter {
-                    it.id in setOf(3L, 5L, 6L, 14L, 18L, 21L) ||
-                            current != null && it.id in setOf(
-                        22L,
-                        23L,
-                        24L
-                    ) || documentationTopic != null && it.id == 15L
+                    it.id in setOf(3L, 5L, 6L, 14L, 18L, 21L, 22L, 23L, 24L)
                 } + privacy + fileConcept + animation + ocr + searchablePdf + photoContent + contrasts).distinctBy { it.id }
     } else samples.filterNot {
         current == null && it.id in setOf(4L, 7L, 22L, 23L, 24L) ||

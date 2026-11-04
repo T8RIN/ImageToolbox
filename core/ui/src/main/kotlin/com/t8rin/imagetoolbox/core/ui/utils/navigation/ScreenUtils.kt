@@ -47,6 +47,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.EvShadow
 import com.t8rin.imagetoolbox.core.resources.icons.Exif
 import com.t8rin.imagetoolbox.core.resources.icons.ExifEdit
 import com.t8rin.imagetoolbox.core.resources.icons.Eyedropper
+import com.t8rin.imagetoolbox.core.resources.icons.FamilyStar
 import com.t8rin.imagetoolbox.core.resources.icons.FileImage
 import com.t8rin.imagetoolbox.core.resources.icons.FileRename
 import com.t8rin.imagetoolbox.core.resources.icons.FilterBAndW
@@ -130,6 +131,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Draw
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.DuplicateFinder
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.EasterEgg
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.EditExif
+import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.EmojiKitchen
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.EraseBackground
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Filter
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.FormatConversion
@@ -198,6 +200,7 @@ internal fun Screen.simpleName(): String = when (this) {
     is CompressionLab -> "Compression_Lab"
     is CodePreview -> "Code_Preview"
     is ScreenshotFraming -> "Screenshot_Framing"
+    is EmojiKitchen -> "Emoji_Kitchen"
     is Crop -> "Crop"
     is Curves -> "Tone_Curves"
     is DeleteExif -> "Delete_Exif"
@@ -311,6 +314,7 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is CompressionLab -> Icons.Rounded.Labs
     is CodePreview -> Icons.Outlined.Terminal
     is ScreenshotFraming -> Icons.Outlined.WallArt
+    is EmojiKitchen -> Icons.Outlined.FamilyStar
     is Crop -> Icons.Rounded.CropSmall
     is Curves -> Icons.Outlined.Curve
     is DeleteExif -> Icons.Outlined.Exif
@@ -413,6 +417,7 @@ internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
     is CompressionLab -> Icons.TwoTone.Labs
     is CodePreview -> Icons.TwoTone.Terminal
     is ScreenshotFraming -> Icons.TwoTone.WallArt
+    is EmojiKitchen -> Icons.TwoTone.FamilyStar
     is Crop -> Icons.TwoTone.CropSmall
     is Curves -> Icons.TwoTone.Curve
     is DeleteExif -> Icons.TwoTone.Exif
@@ -593,6 +598,7 @@ private object ScreenConstantsImpl : ScreenConstants {
                     ScanQrCode(),
                     ColorTools,
                     ColorLibrary,
+                    EmojiKitchen,
                     GifTools(),
                     Cipher(),
                     ChecksumTools(),
@@ -617,5 +623,5 @@ private object ScreenConstantsImpl : ScreenConstants {
             .sortedBy { it.id }
     }
 
-    override val FEATURES_COUNT = 110 + PdfTools.options.size
+    override val FEATURES_COUNT = 111 + PdfTools.options.size
 }

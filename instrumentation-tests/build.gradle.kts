@@ -36,6 +36,7 @@ val testedProjects = listOf(
     "feature/compare",
     "feature/draw",
     "feature/edit-exif",
+    "feature/emoji-kitchen",
     "feature/filters",
     "feature/fractal-generation",
     "feature/gradient-maker",
@@ -166,6 +167,7 @@ dependencies {
     implementation(libs.junit)
     implementation(libs.androidx.test.ext.junit)
     implementation(libs.androidx.runner)
+    implementation(libs.compose.ui.test.junit4)
     implementation(libs.moshi)
     implementation(libs.bouncycastle.provider)
     compileOnly(libs.onnx.genai)

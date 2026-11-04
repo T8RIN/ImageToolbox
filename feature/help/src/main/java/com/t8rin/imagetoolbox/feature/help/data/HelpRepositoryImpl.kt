@@ -86,6 +86,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.Exif
 import com.t8rin.imagetoolbox.core.resources.icons.ExifEdit
 import com.t8rin.imagetoolbox.core.resources.icons.Eyedropper
 import com.t8rin.imagetoolbox.core.resources.icons.FabCorner
+import com.t8rin.imagetoolbox.core.resources.icons.FamilyStar
 import com.t8rin.imagetoolbox.core.resources.icons.File
 import com.t8rin.imagetoolbox.core.resources.icons.FileRename
 import com.t8rin.imagetoolbox.core.resources.icons.FileReplace
@@ -259,6 +260,7 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
         const val Photomosaic = "photomosaic"
         const val CompressionLab = "compression-lab"
         const val ScreenshotFraming = "screenshot-framing"
+        const val EmojiKitchen = "emoji-kitchen"
         const val CodePreview = "code-preview"
         const val FractalGeneration = "fractal-generation"
         const val ColorTools = "color-tools"
@@ -3045,6 +3047,26 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
                         R.string.help_tip_screenshot_framing_step_2,
                         R.string.help_tip_screenshot_framing_step_3,
                         R.string.help_tip_screenshot_framing_step_4
+                    )
+                )
+            )
+        ),
+        pagesTip(
+            id = TipIds.EmojiKitchen,
+            title = R.string.emoji_kitchen,
+            subtitle = R.string.emoji_kitchen_description,
+            icon = Icons.Outlined.FamilyStar,
+            category = creativeTools,
+            deepLink = Screen.EmojiKitchen,
+            pages = listOf(
+                page(
+                    title = R.string.emoji_kitchen_setup_title,
+                    description = R.string.emoji_kitchen_setup_description,
+                    steps = listOf(
+                        R.string.help_tip_emoji_kitchen_step_1,
+                        R.string.help_tip_emoji_kitchen_step_2,
+                        R.string.help_tip_emoji_kitchen_step_3,
+                        R.string.help_tip_emoji_kitchen_step_4
                     )
                 )
             )

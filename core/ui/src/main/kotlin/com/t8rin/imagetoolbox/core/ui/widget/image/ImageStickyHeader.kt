@@ -60,6 +60,7 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.isSpecified
 import com.gigamole.composefadingedges.FadingEdgesGravity
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.icons.FitScreen
@@ -90,6 +91,7 @@ fun LazyListScope.imageStickyHeader(
     backgroundColor: Color = Color.Unspecified,
     padding: Dp = 20.dp,
     isControlsVisibleIndefinitely: Boolean = false,
+    allowStateChanges: Boolean = true,
     onGloballyPositioned: (LayoutCoordinates) -> Unit = {},
     imageModifier: Modifier = Modifier,
     imageBlock: @Composable () -> Unit,
@@ -99,13 +101,13 @@ fun LazyListScope.imageStickyHeader(
         val imageState = settingsState.imageHeaderState
         val settingsInteractor = LocalSimpleSettingsInteractor.current
         val scope = rememberCoroutineScope()
-        var controlsVisible by rememberSaveable {
-            mutableStateOf(true)
+        var controlsVisible by rememberSaveable(allowStateChanges) {
+            mutableStateOf(allowStateChanges)
         }
         var isHeaderTouched by remember { mutableStateOf(false) }
 
-        LaunchedEffect(controlsVisible, isHeaderTouched, imageState) {
-            if (controlsVisible && !isHeaderTouched) {
+        LaunchedEffect(allowStateChanges, controlsVisible, isHeaderTouched, imageState) {
+            if (allowStateChanges && controlsVisible && !isHeaderTouched) {
                 delay(2500)
                 controlsVisible = isControlsVisibleIndefinitely
             }
@@ -128,22 +130,27 @@ fun LazyListScope.imageStickyHeader(
                         result.place(0, 0)
                     }
                 }
-                .pointerInput(Unit) {
-                    awaitEachGesture {
-                        awaitFirstDown(requireUnconsumed = false)
-                        isHeaderTouched = true
-                        try {
-                            do {
-                                val event = awaitPointerEvent(PointerEventPass.Final)
-                            } while (event.changes.any { it.pressed })
-                        } finally {
-                            isHeaderTouched = false
-                        }
-                    }
-                }
-                .tappable(!isControlsVisibleIndefinitely) {
-                    controlsVisible = true
-                }
+                .then(
+                    if (allowStateChanges) {
+                        Modifier
+                            .pointerInput(Unit) {
+                                awaitEachGesture {
+                                    awaitFirstDown(requireUnconsumed = false)
+                                    isHeaderTouched = true
+                                    try {
+                                        do {
+                                            val event = awaitPointerEvent(PointerEventPass.Final)
+                                        } while (event.changes.any { it.pressed })
+                                    } finally {
+                                        isHeaderTouched = false
+                                    }
+                                }
+                            }
+                            .tappable(!isControlsVisibleIndefinitely) {
+                                controlsVisible = true
+                            }
+                    } else Modifier
+                )
                 .onGloballyPositioned(onGloballyPositioned)
                 .animateContentSizeNoClip()
         ) {
@@ -154,12 +161,15 @@ fun LazyListScope.imageStickyHeader(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(internalHeight)
+                    .then(
+                        if (internalHeight.isSpecified) Modifier.height(internalHeight)
+                        else Modifier
+                    )
                     .fadingEdges(
                         scrollableState = null,
                         isVertical = true,
                         length = animateDpAsState(
-                            if (imageState.position == 4) 0.dp
+                            if (allowStateChanges && imageState.position == 4) 0.dp
                             else 16.dp
                         ).value,
                         gravity = FadingEdgesGravity.End
@@ -170,30 +180,28 @@ fun LazyListScope.imageStickyHeader(
                         end = padding,
                         top = padding,
                         bottom = animateDpAsState(
-                            if (controlsVisible) padding / 2
+                            if (allowStateChanges && controlsVisible) padding / 2
                             else padding
                         ).value
                     ),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                val zoomState = rememberZoomState()
-                var previousPosition by remember { mutableIntStateOf(imageState.position) }
-                LaunchedEffect(imageState.position, imageState.isZoomResetEnabled) {
-                    val shouldReset =
-                        imageState.isZoomResetEnabled || previousPosition != imageState.position
-                    previousPosition = imageState.position
-                    if (shouldReset && (zoomState.scale != 1f || zoomState.offsetX != 0f || zoomState.offsetY != 0f)) {
-                        zoomState.changeScale(
-                            targetScale = 1f,
-                            position = Offset.Zero
-                        )
+                val zoomModifier = if (allowStateChanges) {
+                    val zoomState = rememberZoomState()
+                    var previousPosition by remember { mutableIntStateOf(imageState.position) }
+                    LaunchedEffect(imageState.position, imageState.isZoomResetEnabled) {
+                        val shouldReset =
+                            imageState.isZoomResetEnabled || previousPosition != imageState.position
+                        previousPosition = imageState.position
+                        if (shouldReset && (zoomState.scale != 1f || zoomState.offsetX != 0f || zoomState.offsetY != 0f)) {
+                            zoomState.changeScale(
+                                targetScale = 1f,
+                                position = Offset.Zero
+                            )
+                        }
                     }
-                }
-                Box(
-                    modifier = Modifier
-                        .weight(1f, false)
-                        .then(imageModifier)
+                    Modifier
                         .pointerInput(Unit) {
                             awaitEachGesture {
                                 awaitFirstDown(requireUnconsumed = false).consume()
@@ -212,11 +220,21 @@ fun LazyListScope.imageStickyHeader(
                                 )
                             }
                         )
+                } else Modifier
+
+                Box(
+                    modifier = Modifier
+                        .then(
+                            if (internalHeight.isSpecified) Modifier.weight(1f, false)
+                            else Modifier
+                        )
+                        .then(imageModifier)
+                        .then(zoomModifier)
                 ) {
                     imageBlock()
                 }
                 BoxAnimatedVisibility(
-                    visible = controlsVisible,
+                    visible = allowStateChanges && controlsVisible,
                     enter = fadeIn() + expandVertically(),
                     exit = fadeOut() + shrinkVertically()
                 ) {
