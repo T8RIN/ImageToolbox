@@ -38,11 +38,6 @@ const val LENS_PROFILES_LINK = "$RES_HOST/tree/main/lens_profile"
 const val RES_BASE_URL = "$RES_HOST/raw/refs/heads/main/*"
 const val HF_BASE_URL = "https://huggingface.co/T8RIN/imagetoolbox-models/resolve/main/*"
 const val EMOJI_KITCHEN_HOME_URL = "https://huggingface.co/datasets/T8RIN/emoji-kitchen"
-const val EMOJI_KITCHEN_COLLECTION_URL =
-    "$EMOJI_KITCHEN_HOME_URL/resolve/2ea4c4b87e7ee7223b58fe5bb3403e753b535b1c/emoji-kitchen.zip"
-const val EMOJI_KITCHEN_COLLECTION_SIZE = 2_248_752_546L
-const val EMOJI_KITCHEN_COLLECTION_SHA256 =
-    "d0c2d555f85f094473df6401dc5857acda0490a453ae271afa90447559776390"
 
 
 const val GLOBAL_STORAGE_NAME = "image_resizer"
