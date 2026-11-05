@@ -18,6 +18,9 @@
 package com.t8rin.imagetoolbox.core.ui.widget.buttons
 
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.animateColor
+import androidx.compose.animation.core.MutableTransitionState
+import androidx.compose.animation.core.rememberTransition
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
@@ -32,11 +35,14 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -59,18 +65,16 @@ fun MediaCheckBox(
     checkedColor: Color = MaterialTheme.colorScheme.primary,
     uncheckedColor: Color = MaterialTheme.colorScheme.onSurface,
     addContainer: Boolean = false,
-    numberSize: Dp = 24.dp
+    numberSize: Dp = 24.dp,
+    uncheckedIcon: Painter? = null
 ) {
     val image = if (isChecked) {
         checkedIcon
     } else {
         Icons.Outlined.Circle
     }
-    val color by animateColorAsState(
-        if (isChecked) checkedColor
-        else uncheckedColor
-    )
     if (onCheck != null) {
+        val color by animateColorAsState(if (isChecked) checkedColor else uncheckedColor)
         EnhancedIconButton(
             onClick = onCheck,
             modifier = modifier,
@@ -93,52 +97,83 @@ fun MediaCheckBox(
             }
         }
     } else {
-        AnimatedContent(
-            targetState = Triple(isChecked, image, selectionIndex),
-            transitionSpec = {
-                if (initialState.third >= 0 && targetState.third >= 0) {
-                    fadeIn() + scaleIn(initialScale = 0.85f) togetherWith fadeOut() + scaleOut(
-                        targetScale = 0.85f
-                    )
-                } else {
-                    fadeIn() + scaleIn() togetherWith fadeOut() + scaleOut()
-                }
+        val target = Triple(isChecked, image, selectionIndex)
+        val state = remember { MutableTransitionState(target) }
+        state.targetState = target
+
+        if (state.isIdle) {
+            MediaCheckBoxContent(
+                modifier = modifier,
+                isChecked = isChecked,
+                image = image,
+                selectionIndex = selectionIndex,
+                color = if (isChecked) checkedColor else uncheckedColor,
+                numberSize = numberSize,
+                uncheckedIcon = uncheckedIcon
+            )
+        } else {
+            val transition = rememberTransition(state)
+            val color by transition.animateColor {
+                if (it.first) checkedColor else uncheckedColor
             }
-        ) { (isChecked, image, selectionIndex) ->
-            if (selectionIndex >= 0) {
-                if (isChecked) {
-                    Box(
-                        modifier = modifier
-                            .size(numberSize)
-                            .padding(2.dp)
-                            .clip(ShapeDefaults.circle)
-                            .background(color),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        AutoSizeText(
-                            text = (selectionIndex + 1).toString(),
-                            color = contentColorFor(color),
-                            style = MaterialTheme.typography.bodySmall,
-                            fontWeight = FontWeight.Bold,
-                            key = { it.length to numberSize }
+            transition.AnimatedContent(
+                transitionSpec = {
+                    if (initialState.third >= 0 && targetState.third >= 0) {
+                        fadeIn() + scaleIn(initialScale = 0.85f) togetherWith fadeOut() + scaleOut(
+                            targetScale = 0.85f
                         )
+                    } else {
+                        fadeIn() + scaleIn() togetherWith fadeOut() + scaleOut()
                     }
-                } else {
-                    Icon(
-                        imageVector = image,
-                        modifier = modifier,
-                        contentDescription = null,
-                        tint = color
-                    )
                 }
-            } else {
-                Icon(
-                    imageVector = image,
+            ) { (checked, icon, index) ->
+                MediaCheckBoxContent(
                     modifier = modifier,
-                    contentDescription = null,
-                    tint = color
+                    isChecked = checked,
+                    image = icon,
+                    selectionIndex = index,
+                    color = color,
+                    numberSize = numberSize,
+                    uncheckedIcon = uncheckedIcon
                 )
             }
         }
+    }
+}
+
+@Composable
+private fun MediaCheckBoxContent(
+    modifier: Modifier,
+    isChecked: Boolean,
+    image: ImageVector,
+    selectionIndex: Int,
+    color: Color,
+    numberSize: Dp,
+    uncheckedIcon: Painter?
+) {
+    if (isChecked && selectionIndex >= 0) {
+        Box(
+            modifier = modifier
+                .size(numberSize)
+                .padding(2.dp)
+                .clip(ShapeDefaults.circle)
+                .background(color),
+            contentAlignment = Alignment.Center
+        ) {
+            AutoSizeText(
+                text = (selectionIndex + 1).toString(),
+                color = contentColorFor(color),
+                style = MaterialTheme.typography.bodySmall,
+                fontWeight = FontWeight.Bold,
+                key = { it.length to numberSize }
+            )
+        }
+    } else {
+        Icon(
+            painter = uncheckedIcon?.takeUnless { isChecked } ?: rememberVectorPainter(image),
+            modifier = modifier,
+            contentDescription = null,
+            tint = color
+        )
     }
 }

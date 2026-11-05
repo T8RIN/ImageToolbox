@@ -93,11 +93,9 @@ fun VerticalFastScroller(
     trackColor: Color = Color.Transparent,
     scrollByItemIndex: Boolean = false,
     autoHide: Boolean = false,
-    previewIntervalMillis: Long = 0,
 ) {
     val density = LocalDensity.current
     val adapter = remember(state, scrollByItemIndex) { LazyGridAdapter(state, scrollByItemIndex) }
-    val currentPreviewIntervalMillis by rememberUpdatedState(previewIntervalMillis)
     LaunchedEffect(adapter, fastScrollerState) {
         if (scrollByItemIndex) {
             var lastRequestedIndex = -1
@@ -108,7 +106,6 @@ fun VerticalFastScroller(
                     } else if (index >= 0 && index != lastRequestedIndex) {
                         state.requestScrollToItem(index)
                         lastRequestedIndex = index
-                        if (dragging) delay(currentPreviewIntervalMillis)
                     }
                     if (!dragging) lastRequestedIndex = -1
                 }
@@ -245,10 +242,14 @@ private class LazyGridAdapter(
     private val isVertical get() = layoutInfo.orientation == Orientation.Vertical
     private val visibleItems get() = layoutInfo.visibleItemsInfo
     private val slotsPerLine: Int
-        get() = visibleItems.mapNotNull { item ->
-            val slot = if (isVertical) item.column else item.row
-            slot.takeIf { it >= 0 }
-        }.distinct().size.coerceAtLeast(1)
+        get() {
+            val vertical = isVertical
+            var slots = 1
+            for (item in visibleItems) {
+                slots = maxOf(slots, (if (vertical) item.column else item.row) + 1)
+            }
+            return slots
+        }
     private val firstVisibleItem: LazyGridItemInfo?
         get() = visibleItems.firstOrNull { if (isVertical) it.row >= 0 else it.column >= 0 }
     private val lineCount: Int
@@ -284,8 +285,10 @@ private class LazyGridAdapter(
     val lastStartIndex: Int
         get() = (layoutInfo.totalItemsCount - visibleItems.size).coerceAtLeast(1)
     val visibleFraction: Float
-        get() = if (contentSize == 0.0) 1f else (viewportSize / contentSize).coerceAtMost(1.0)
-            .toFloat()
+        get() {
+            val content = contentSize
+            return if (content == 0.0) 1f else (viewportSize / content).coerceAtMost(1.0).toFloat()
+        }
     val scrollFraction: Float
         get() = when {
             !state.canScrollBackward -> 0f

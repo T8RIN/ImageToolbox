@@ -61,7 +61,6 @@ internal fun BoxScope.MediaGridFastScroller(
     media: List<MediaItem>,
     firstMediaIndex: Int,
     useDateTaken: Boolean,
-    compactGrid: Boolean,
     rightPadding: Dp,
     bottomPadding: Dp
 ) {
@@ -74,7 +73,6 @@ internal fun BoxScope.MediaGridFastScroller(
         thumbColor = MaterialTheme.colorScheme.primary,
         scrollByItemIndex = true,
         autoHide = true,
-        previewIntervalMillis = if (compactGrid) 64L else 0L,
         modifier = Modifier
             .align(AbsoluteAlignment.TopRight)
             .fillMaxHeight()

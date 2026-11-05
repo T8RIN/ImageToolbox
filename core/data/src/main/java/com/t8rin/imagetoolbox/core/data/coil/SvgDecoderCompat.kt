@@ -50,20 +50,11 @@ internal class SvgDecoderCompat(
     private val isEmojiAsset = (source.metadata as? AssetMetadata)
         ?.filePath?.startsWith("svg/") == true
 
-    private fun source() = if (isEmojiAsset) {
-        // Each decoder can read from the start without consuming the original asset stream.
-        ImageSource(
-            source = source.source().peek(),
-            fileSystem = source.fileSystem,
-            metadata = source.metadata
-        )
-    } else {
-        ImageSource(
-            file = source.file(),
-            fileSystem = source.fileSystem,
-            metadata = source.metadata
-        )
-    }
+    private fun source() = ImageSource(
+        source = source.source().peek(),
+        fileSystem = source.fileSystem,
+        metadata = source.metadata
+    )
 
     override suspend fun decode(): DecodeResult = if (isEmojiAsset) {
         emojiDecodePermits.withPermit { decodeSvg() }
@@ -79,15 +70,13 @@ internal class SvgDecoderCompat(
         }.getOrNull() ?: decodeDefault()
     }
 
-    private suspend fun decodeNative() = ResvgDecoder(
-        source = source(),
-        options = options
-    ).decode()
+    private suspend fun decodeNative() = source().use {
+        ResvgDecoder(source = it, options = options).decode()
+    }
 
-    private suspend fun decodeDefault() = SvgDecoder(
-        source = source(),
-        options = options
-    ).decode().also {
+    private suspend fun decodeDefault() = source().use {
+        SvgDecoder(source = it, options = options).decode()
+    }.also {
         "fallback coil-svg decoder".makeLog()
     }
 

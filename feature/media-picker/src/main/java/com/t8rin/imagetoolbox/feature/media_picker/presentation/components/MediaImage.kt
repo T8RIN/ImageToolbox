@@ -22,8 +22,10 @@ import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.animation.core.animateDp
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.rememberTransition
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -51,7 +53,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
@@ -74,7 +78,7 @@ import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsS
 import com.t8rin.imagetoolbox.core.ui.theme.White
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.MediaCheckBox
-import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsCombinedClickable
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.longPress
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.AutoCornersShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
@@ -98,8 +102,11 @@ fun MediaImage(
     onItemLongClick: (Media) -> Unit,
     showFileSize: Boolean = true,
     showFileExtension: Boolean = true,
+    uncheckedIcon: Painter? = null,
 ) {
     val compact = cellSize < CompactMediaCellSize
+    val haptics = LocalHapticFeedback.current
+    val indication = LocalIndication.current
 
     val selection = remember { MutableTransitionState(isSelected) }
 
@@ -130,7 +137,7 @@ fun MediaImage(
     val rawDevelopSettings =
         if (media.isRaw) LocalSettingsState.current.rawDevelopSettings else null
 
-    val model = remember(media, thumbnailSize, compact, rawDevelopSettings) {
+    val model = remember(media.uri, media.timestamp, thumbnailSize, compact, rawDevelopSettings) {
         ImageRequest.Builder(appContext)
             .data(media.uri)
             .size(thumbnailSize)
@@ -155,13 +162,18 @@ fun MediaImage(
             .background(MaterialTheme.colorScheme.surfaceContainer)
             .then(
                 if (canClick) {
-                    Modifier.hapticsCombinedClickable(
+                    Modifier.combinedClickable(
+                        interactionSource = null,
+                        indication = indication,
+                        hapticFeedbackEnabled = false,
                         onClick = {
+                            haptics.longPress()
                             onItemClick(media)
                         },
                         onLongClick = {
+                            haptics.longPress()
                             onItemLongClick(media)
-                        },
+                        }
                     )
                 } else Modifier
             )
@@ -170,7 +182,7 @@ fun MediaImage(
         if (compact) {
             AsyncImage(
                 model = model,
-                contentDescription = media.label,
+                contentDescription = null,
                 modifier = Modifier
                     .matchParentSize()
                     .padding(selectedSize)
@@ -191,7 +203,7 @@ fun MediaImage(
             )
             Picture(
                 model = model,
-                contentDescription = media.label,
+                contentDescription = null,
                 modifier = Modifier
                     .matchParentSize()
                     .padding(selectedSize)
@@ -302,6 +314,7 @@ fun MediaImage(
                 checkedIcon = checkedIcon,
                 selectionIndex = selectionIndex,
                 numberSize = checkboxSize,
+                uncheckedIcon = uncheckedIcon,
                 modifier = selectionModifier
                     .clip(ShapeDefaults.circle)
                     .background(background)
