@@ -25,11 +25,11 @@ import com.t8rin.imagetoolbox.core.data.utils.computeFromReadable
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.model.HashingType
 import com.t8rin.imagetoolbox.core.domain.saving.io.Readable
+import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.feature.checksum_tools.domain.ChecksumManager
 import com.t8rin.imagetoolbox.feature.checksum_tools.domain.ChecksumSource
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.runInterruptible
 import javax.inject.Inject
 
 internal class AndroidChecksumManager @Inject constructor(
@@ -40,19 +40,11 @@ internal class AndroidChecksumManager @Inject constructor(
     override suspend fun calculateChecksum(
         type: HashingType,
         source: ChecksumSource
-    ): String = withContext(defaultDispatcher) {
-        runCatching {
+    ): String = runSuspendCatching {
+        runInterruptible(ioDispatcher) {
             type.computeFromReadable(source.toReadable())
-        }.getOrDefault("")
-    }
-
-    override suspend fun compareChecksum(
-        checksum: String,
-        type: HashingType,
-        source: ChecksumSource
-    ): Boolean = coroutineScope {
-        calculateChecksum(type, source) == checksum
-    }
+        }
+    }.getOrDefault("")
 
     private fun ChecksumSource.toReadable(): Readable = when (this) {
         is ChecksumSource.Text -> StringReadable(data)

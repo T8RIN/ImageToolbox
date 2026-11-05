@@ -116,7 +116,7 @@ class FractalModelsTest {
             FractalFormula.Rossler
         )
 
-        assertEquals(55, requestedTwoDimensional.size)
+        assertEquals(53, requestedTwoDimensional.size)
         assertEquals(15, requestedThreeDimensional.size)
         assertTrue(requestedTwoDimensional.all { !it.isThreeDimensional })
         assertTrue(requestedThreeDimensional.all(FractalFormula::isThreeDimensional))

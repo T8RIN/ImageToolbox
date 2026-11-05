@@ -20,7 +20,7 @@ package com.t8rin.imagetoolbox.feature.settings.data
 import com.t8rin.imagetoolbox.core.domain.GLOBAL_STORAGE_NAME
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.domain.model.BackupProgress
-import com.t8rin.imagetoolbox.core.utils.appContext
+import com.t8rin.imagetoolbox.core.utils.appContextOrNull
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.ensureActive
@@ -145,7 +145,8 @@ internal object SettingsBackup {
         return@coroutineScope settingsFile(directory).also {
             if (!it.isFile) {
                 throw IllegalArgumentException(
-                    appContext.getString(R.string.corrupted_file_or_not_a_backup)
+                    appContextOrNull?.getString(R.string.corrupted_file_or_not_a_backup)
+                        ?: "Backup does not contain settings"
                 )
             }
 

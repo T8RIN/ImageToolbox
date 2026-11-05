@@ -48,7 +48,7 @@ internal class CopyMoveDetectionFilter(
             FilterInfo(R.string.copy_move_detection, R.string.filter_help_copy_move_detection)
 
         override val parameters = structuredParameters {
-            Value::retain.float(R.string.retain, 4f, 1f..40f)
+            Value::retain.float(R.string.retain, 4f, 1f..16f)
             Value::coefficent.float(R.string.coefficent, 0f, 0f..1f)
         }
     }

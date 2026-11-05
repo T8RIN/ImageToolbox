@@ -17,139 +17,49 @@
 
 package com.t8rin.imagetoolbox.feature.ai_tools.data.utils
 
-import com.t8rin.imagetoolbox.core.utils.makeLog
-import com.t8rin.imagetoolbox.feature.ai_tools.data.utils.AiExtensions.LOG_TAG
-import kotlinx.coroutines.coroutineScope
+import ai.onnxruntime.OnnxTensor
+import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.ensureActive
 
 internal suspend fun extractOutputArray(
-    outputValue: Any,
+    output: OnnxTensor,
     channels: Int,
     h: Int,
     w: Int
-): Pair<FloatArray, Int> = coroutineScope {
-    ensureActive()
-    "ONNX output payload: ${outputValue.javaClass.name}".makeLog(LOG_TAG)
-
-    when (outputValue) {
-        is FloatArray -> outputValue to channels
-        is ShortArray -> FloatArray(outputValue.size) { index ->
-            float16ToFloat(outputValue[index])
-        } to channels
-
-        is Array<*> -> readNestedOutput(
-            outputValue = outputValue,
-            channels = channels,
-            height = h,
-            width = w
-        )
-
-        else -> throw IllegalArgumentException(
-            "Unsupported ONNX output: ${outputValue.javaClass}"
-        )
-    }
-}
-
-@Suppress("UNCHECKED_CAST")
-private suspend fun readNestedOutput(
-    outputValue: Array<*>,
-    channels: Int,
-    height: Int,
-    width: Int
 ): Pair<FloatArray, Int> {
-    val firstError = runCatching {
-        copyNestedFloatOutput(
-            tensor = outputValue as Array<Array<Array<FloatArray>>>,
-            requestedChannels = channels,
-            height = height,
-            width = width
-        )
+    val context = currentCoroutineContext()
+    context.ensureActive()
+    val shape = output.info.shape
+    val actualChannels = if (shape.size == 4) {
+        require(shape[0] >= 1L && shape[2] >= h && shape[3] >= w) {
+            "Unexpected ONNX output shape: ${shape.contentToString()}"
+        }
+        shape[1].toInt()
+    } else channels
+    val buffer = requireNotNull(output.floatBuffer) {
+        "Unsupported ONNX output: ${output.info.type}"
     }
-
-    if (firstError.isSuccess) {
-        return firstError.getOrThrow()
-    }
-
-    return runCatching {
-        copyNestedHalfOutput(
-            tensor = outputValue as Array<Array<Array<ShortArray>>>,
-            requestedChannels = channels,
-            height = height,
-            width = width
-        )
-    }.getOrElse { secondError ->
-        throw IllegalStateException(
-            "Unable to unpack ONNX result: " +
-                    "${firstError.exceptionOrNull()?.message}, ${secondError.message}"
-        )
-    }
-}
-
-private suspend fun copyNestedFloatOutput(
-    tensor: Array<Array<Array<FloatArray>>>,
-    requestedChannels: Int,
-    height: Int,
-    width: Int
-): Pair<FloatArray, Int> = coroutineScope {
-    val batchCount = tensor.size
-    val actualChannels = tensor[0].size
-    val actualHeight = tensor[0][0].size
-    val actualWidth = tensor[0][0][0].size
-    val channelsToCopy = maxOf(requestedChannels, actualChannels)
-
-    logNestedShape(
-        precision = "FP32",
-        batchCount = batchCount,
-        channels = actualChannels,
-        height = actualHeight,
-        width = actualWidth,
-        copiedChannels = channelsToCopy
-    )
-
-    val flattened = FloatArray(channelsToCopy * height * width)
-    for (channel in 0 until channelsToCopy) {
-        for (y in 0 until height) {
-            for (x in 0 until width) {
-                ensureActive()
-                flattened[channel * height * width + y * width + x] = tensor[0][channel][y][x]
+    if (shape.size == 4 && (shape[0] > 1 || shape[2] != h.toLong() || shape[3] != w.toLong())) {
+        val height = shape[2].toInt()
+        val width = shape[3].toInt()
+        val values = FloatArray(actualChannels * h * w)
+        for (channel in 0 until actualChannels) {
+            for (y in 0 until h) {
+                context.ensureActive()
+                buffer.position((channel * height + y) * width)
+                buffer.get(values, (channel * h + y) * w, w)
             }
         }
+        return values to actualChannels
     }
-
-    flattened to channelsToCopy
-}
-
-private suspend fun copyNestedHalfOutput(
-    tensor: Array<Array<Array<ShortArray>>>,
-    requestedChannels: Int,
-    height: Int,
-    width: Int
-): Pair<FloatArray, Int> = coroutineScope {
-    val batchCount = tensor.size
-    val actualChannels = tensor[0].size
-    val actualHeight = tensor[0][0].size
-    val actualWidth = tensor[0][0][0].size
-    val channelsToCopy = maxOf(requestedChannels, actualChannels)
-
-    logNestedShape(
-        precision = "FP16",
-        batchCount = batchCount,
-        channels = actualChannels,
-        height = actualHeight,
-        width = actualWidth,
-        copiedChannels = channelsToCopy
-    )
-
-    val flattened = FloatArray(channelsToCopy * height * width)
-    for (channel in 0 until channelsToCopy) {
-        for (y in 0 until height) {
-            for (x in 0 until width) {
-                ensureActive()
-                flattened[channel * height * width + y * width + x] =
-                    float16ToFloat(tensor[0][channel][y][x])
-            }
-        }
+    require(actualChannels > 0 && buffer.remaining().toLong() == actualChannels.toLong() * h * w) {
+        "Unexpected ONNX output size: ${buffer.remaining()}"
     }
-
-    flattened to channelsToCopy
+    val values = if (buffer.hasArray() && buffer.arrayOffset() == 0 &&
+        buffer.position() == 0 && buffer.remaining() == buffer.array().size
+    ) {
+        buffer.array()
+    } else FloatArray(buffer.remaining()).also(buffer::get)
+    context.ensureActive()
+    return values to actualChannels
 }

@@ -31,12 +31,31 @@ import org.opencv.core.Scalar
 import org.opencv.core.Size
 import org.opencv.imgproc.Imgproc
 
-fun Bitmap.toMat(): Mat = Mat().apply {
-    Utils.bitmapToMat(copy(Bitmap.Config.ARGB_8888, false), this)
+fun Bitmap.toMat(): Mat {
+    val bitmap = if (config == Bitmap.Config.ARGB_8888) this
+    else requireNotNull(copy(Bitmap.Config.ARGB_8888, false))
+    val mat = Mat()
+    try {
+        Utils.bitmapToMat(bitmap, mat)
+        return mat
+    } catch (t: Throwable) {
+        mat.release()
+        throw t
+    } finally {
+        if (bitmap !== this) bitmap.recycle()
+    }
 }
 
-fun Mat.toBitmap(): Bitmap = createBitmap(cols(), rows()).apply {
-    Utils.matToBitmap(this@toBitmap, this)
+fun Mat.toBitmap(): Bitmap = try {
+    createBitmap(cols(), rows()).also { bitmap ->
+        try {
+            Utils.matToBitmap(this, bitmap)
+        } catch (t: Throwable) {
+            bitmap.recycle()
+            throw t
+        }
+    }
+} finally {
     release()
 }
 
@@ -72,19 +91,28 @@ fun Mat.resizeAndPad(targetSize: Size): Mat {
     val targetAspectRatio = targetSize.width / targetSize.height
 
     val resizedMat = Mat()
-    if (aspectRatio > targetAspectRatio) {
-        val newHeight = (targetSize.width / aspectRatio).toInt()
-        Imgproc.resize(this, resizedMat, Size(targetSize.width, newHeight.toDouble()))
-    } else {
-        val newWidth = (targetSize.height * aspectRatio).toInt()
-        Imgproc.resize(this, resizedMat, Size(newWidth.toDouble(), targetSize.height))
+    val paddedMat = Mat()
+    try {
+        if (aspectRatio > targetAspectRatio) {
+            val newHeight = (targetSize.width / aspectRatio).toInt().coerceAtLeast(1)
+            Imgproc.resize(this, resizedMat, Size(targetSize.width, newHeight.toDouble()))
+        } else {
+            val newWidth = (targetSize.height * aspectRatio).toInt().coerceAtLeast(1)
+            Imgproc.resize(this, resizedMat, Size(newWidth.toDouble(), targetSize.height))
+        }
+        Core.copyMakeBorder(
+            resizedMat, paddedMat,
+            0, targetSize.height.toInt() - resizedMat.rows(),
+            0, targetSize.width.toInt() - resizedMat.cols(),
+            Core.BORDER_CONSTANT, Scalar.all(0.0)
+        )
+        return paddedMat
+    } catch (t: Throwable) {
+        paddedMat.release()
+        throw t
+    } finally {
+        resizedMat.release()
     }
-
-    val paddedMat = Mat(targetSize, this.type(), Scalar(0.0, 0.0, 0.0))
-
-    resizedMat.copyTo(paddedMat.submat(Rect(0, 0, resizedMat.width(), resizedMat.height())))
-
-    return paddedMat
 }
 
 fun Int.toScalar(): Scalar {

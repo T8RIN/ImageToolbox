@@ -21,9 +21,8 @@ import com.t8rin.imagetoolbox.core.data.saving.io.StreamReadable
 import com.t8rin.imagetoolbox.core.domain.model.HashingType
 import com.t8rin.imagetoolbox.core.domain.saving.io.Readable
 import java.io.InputStream
+import java.io.InterruptedIOException
 import java.security.MessageDigest
-
-private const val STREAM_BUFFER_LENGTH = 1024
 
 fun HashingType.computeBytesFromReadable(
     readable: Readable
@@ -35,115 +34,30 @@ fun HashingType.computeBytesFromReadable(
 
 fun HashingType.computeFromReadable(
     readable: Readable
-): String = if (readable is StreamReadable) {
-    computeFromInputStream(readable.stream)
-} else {
-    computeFromByteArray(readable.readBytes())
-}
+): String = computeBytesFromReadable(readable).toHexString()
 
 internal fun HashingType.computeFromByteArray(
     byteArray: ByteArray
-): String = computeFromInputStream(byteArray.inputStream())
-
-internal fun HashingType.computeFromInputStream(
-    inputStream: InputStream
-): String = inputStream.buffered().use {
-    val byteArray = updateDigest(it).digest()
-    val hexCode = encodeHex(byteArray, true)
-
-    return@use String(hexCode)
-}
+): String = computeBytesFromByteArray(byteArray).toHexString()
 
 internal fun HashingType.computeBytesFromByteArray(
     byteArray: ByteArray
-): ByteArray = computeBytesFromInputStream(byteArray.inputStream())
+): ByteArray = MessageDigest.getInstance(digest).digest(byteArray)
+
+internal fun HashingType.computeFromInputStream(
+    inputStream: InputStream
+): String = computeBytesFromInputStream(inputStream).toHexString()
 
 internal fun HashingType.computeBytesFromInputStream(
     inputStream: InputStream
-): ByteArray = inputStream.buffered().use {
-    return@use updateDigest(it).digest()
-}
-
-/**
- * Converts an array of bytes into an array of characters representing the hexadecimal values of each byte in order.
- * The returned array will be double the length of the passed array, as it takes two characters to represent any
- * given byte.
- *
- * @param data a byte[] to convert to Hex characters
- * @param toLowerCase `true` converts to lowercase, `false` to uppercase
- * @return A char[] containing hexadecimal characters in the selected case
- */
-internal fun encodeHex(
-    data: ByteArray,
-    toLowerCase: Boolean
-): CharArray = encodeHex(
-    data = data,
-    toDigits = if (toLowerCase) {
-        DIGITS_LOWER
-    } else {
-        DIGITS_UPPER
-    }
-)
-
-/**
- * Converts an array of bytes into an array of characters representing the hexadecimal values of each byte in order.
- * The returned array will be double the length of the passed array, as it takes two characters to represent any
- * given byte.
- *
- * @param data a byte[] to convert to Hex characters
- * @param toDigits the output alphabet (must contain at least 16 chars)
- * @return A char[] containing the appropriate characters from the alphabet
- *         For best results, this should be either upper- or lower-case hex.
- */
-internal fun encodeHex(
-    data: ByteArray,
-    toDigits: CharArray
-): CharArray {
-    val l = data.size
-    val out = CharArray(l shl 1)
-    // two characters form the hex value.
-    var i = 0
-    var j = 0
-    while (i < l) {
-        out[j++] = toDigits[0xF0 and data[i].toInt() ushr 4]
-        out[j++] = toDigits[0x0F and data[i].toInt()]
-        i++
-    }
-    return out
-}
-
-/**
- * Reads through an InputStream and updates the digest for the data
- *
- * @param HashingType The ChecksumType to use (e.g. MD5)
- * @param data Data to digest
- * @return the digest
- */
-private fun HashingType.updateDigest(
-    data: InputStream
-): MessageDigest {
-    val digest = toDigest()
-
-    val buffer = ByteArray(STREAM_BUFFER_LENGTH)
-    var read = data.read(buffer, 0, STREAM_BUFFER_LENGTH)
-    while (read > -1) {
+): ByteArray = inputStream.use {
+    val digest = MessageDigest.getInstance(digest)
+    val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
+    while (true) {
+        if (Thread.currentThread().isInterrupted) throw InterruptedIOException()
+        val read = it.read(buffer)
+        if (read < 0) break
         digest.update(buffer, 0, read)
-        read = data.read(buffer, 0, STREAM_BUFFER_LENGTH)
     }
-    return digest
+    digest.digest()
 }
-
-/**
- * Used to build output as Hex
- */
-private val DIGITS_LOWER =
-    charArrayOf('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f')
-
-/**
- * Used to build output as Hex
- */
-private val DIGITS_UPPER =
-    charArrayOf('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F')
-
-
-private fun HashingType.toDigest(): MessageDigest = MessageDigest.getInstance(digest)

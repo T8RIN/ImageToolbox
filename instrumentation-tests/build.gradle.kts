@@ -27,11 +27,13 @@ plugins {
 
 val testedProjects = listOf(
     "core/data",
+    "core/ui",
     "core/utils",
     "feature/ai-tools",
     "feature/assistant",
     "feature/apng-tools",
     "feature/cipher",
+    "feature/checksum-tools",
     "feature/code-preview",
     "feature/compare",
     "feature/draw",
@@ -51,8 +53,10 @@ val testedProjects = listOf(
     "feature/webp-tools",
     "lib/archive",
     "lib/collages",
+    "lib/colors",
     "lib/curves",
-    "lib/documentscanner"
+    "lib/documentscanner",
+    "lib/opencv-tools"
 )
 
 android {
