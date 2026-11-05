@@ -18,6 +18,7 @@
 package com.t8rin.imagetoolbox.core.data.coil
 
 import coil3.ImageLoader
+import coil3.decode.AssetMetadata
 import coil3.decode.DecodeResult
 import coil3.decode.DecodeUtils
 import coil3.decode.Decoder
@@ -31,6 +32,8 @@ import coil3.svg.isSvg
 import com.hashsequence.coilresvg.ResvgDecoder
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.utils.makeLog
+import kotlinx.coroutines.sync.Semaphore
+import kotlinx.coroutines.sync.withPermit
 
 internal class SvgDecoderCompat(
     private val source: ImageSource,
@@ -44,13 +47,29 @@ internal class SvgDecoderCompat(
         )
     } ?: options
 
-    private fun source() = ImageSource(
-        file = source.file(),
-        fileSystem = source.fileSystem,
-        metadata = source.metadata
-    )
+    private val isEmojiAsset = (source.metadata as? AssetMetadata)
+        ?.filePath?.startsWith("svg/") == true
 
-    override suspend fun decode(): DecodeResult {
+    private fun source() = if (isEmojiAsset) {
+        // Each decoder can read from the start without consuming the original asset stream.
+        ImageSource(
+            source = source.source().peek(),
+            fileSystem = source.fileSystem,
+            metadata = source.metadata
+        )
+    } else {
+        ImageSource(
+            file = source.file(),
+            fileSystem = source.fileSystem,
+            metadata = source.metadata
+        )
+    }
+
+    override suspend fun decode(): DecodeResult = if (isEmojiAsset) {
+        emojiDecodePermits.withPermit { decodeSvg() }
+    } else decodeSvg()
+
+    private suspend fun decodeSvg(): DecodeResult {
         if (!isResvgAvailable) return decodeDefault()
 
         return runSuspendCatching {
@@ -108,6 +127,8 @@ internal class SvgDecoderCompat(
     }
 
     private companion object {
+        val emojiDecodePermits = Semaphore(2)
+
         @Volatile
         private var isResvgAvailable = true
     }
