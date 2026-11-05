@@ -59,11 +59,15 @@ object AutoCropper : OpenCV() {
     ): CropParameters? = coroutineScope {
         ensureActive()
         val matRGBA = toMat()
-        getEdgeCandidates(matRGBA, sensitivity)?.let {
-            CropParameters(
-                edges = getMaxScoreCropEdges(candidates = it, matRGBA = matRGBA),
-                candidates = it
-            )
+        try {
+            getEdgeCandidates(matRGBA, sensitivity)?.let {
+                CropParameters(
+                    edges = getMaxScoreCropEdges(candidates = it, matRGBA = matRGBA),
+                    candidates = it
+                )
+            }
+        } finally {
+            matRGBA.release()
         }
     }
 
@@ -71,24 +75,31 @@ object AutoCropper : OpenCV() {
         matRGBA: Mat,
         @CropSensitivity sensitivity: Int
     ): List<Int>? = coroutineScope {
-        // Convert to gray scale
         val matGrayScale = Mat()
-        Imgproc.cvtColor(matRGBA, matGrayScale, Imgproc.COLOR_RGBA2GRAY)
-        Imgproc.medianBlur(matGrayScale, matGrayScale, 3)
-
-        // Get canny edge detected matrix
         val matCanny = Mat()
-        Imgproc.Canny(matGrayScale, matCanny, 100.0, 200.0)
+        try {
+            Imgproc.cvtColor(matRGBA, matGrayScale, Imgproc.COLOR_RGBA2GRAY)
+            Imgproc.medianBlur(matGrayScale, matGrayScale, 3)
 
-        // Convert sensitivity to threshold
-        val threshold = edgeCandidateThreshold(sensitivity)
+            Imgproc.Canny(matGrayScale, matCanny, 100.0, 200.0)
 
-        return@coroutineScope (0 until matCanny.rows()).filter { i ->
-            ensureActive()
-            matCanny.row(i).singleChannelMean() > threshold
-        }.run {
-            if (isEmpty()) null
-            else listOf(0) + this + listOf(matCanny.rows())
+            val threshold = edgeCandidateThreshold(sensitivity)
+
+            return@coroutineScope (0 until matCanny.rows()).filter { i ->
+                ensureActive()
+                val row = matCanny.row(i)
+                try {
+                    row.singleChannelMean() > threshold
+                } finally {
+                    row.release()
+                }
+            }.run {
+                if (isEmpty()) null
+                else listOf(0) + this + listOf(matCanny.rows())
+            }
+        } finally {
+            matGrayScale.release()
+            matCanny.release()
         }
     }
 
@@ -97,27 +108,35 @@ object AutoCropper : OpenCV() {
         matRGBA: Mat
     ): CropEdges = coroutineScope {
         val matSobel = Mat()
-        Imgproc.Sobel(matRGBA, matSobel, CvType.CV_16U, 2, 2, 5)
+        try {
+            Imgproc.Sobel(matRGBA, matSobel, CvType.CV_16U, 2, 2, 5)
 
-        var maxScore = 0f
-        var maxScoreEdges: CropEdges? = null
+            var maxScore = 0f
+            var maxScoreEdges: CropEdges? = null
 
-        candidates.windowed(2)
-            .map { CropEdges(it) }
-            .forEach { edges ->
-                ensureActive()
-                val cropAreaMean: Float =
-                    matSobel.rowRange(edges.top, edges.bottom).multiChannelMean().toFloat()
-                val heightPortion: Float = edges.height.toFloat() / matSobel.rows().toFloat()
-                val score: Float = cropAreaMean * heightPortion
+            candidates.windowed(2)
+                .map { CropEdges(it) }
+                .forEach { edges ->
+                    ensureActive()
+                    val area = matSobel.rowRange(edges.top, edges.bottom)
+                    val cropAreaMean = try {
+                        area.multiChannelMean().toFloat()
+                    } finally {
+                        area.release()
+                    }
+                    val heightPortion: Float = edges.height.toFloat() / matSobel.rows().toFloat()
+                    val score: Float = cropAreaMean * heightPortion
 
-                if (score > maxScore) {
-                    maxScore = score
-                    maxScoreEdges = edges
+                    if (score > maxScore) {
+                        maxScore = score
+                        maxScoreEdges = edges
+                    }
                 }
-            }
 
-        maxScoreEdges!!
+            maxScoreEdges!!
+        } finally {
+            matSobel.release()
+        }
     }
 
 }

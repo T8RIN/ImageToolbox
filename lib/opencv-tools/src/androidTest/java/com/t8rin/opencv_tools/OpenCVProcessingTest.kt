@@ -18,9 +18,14 @@
 package com.t8rin.opencv_tools
 
 import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import com.t8rin.opencv_tools.expand.ImageExpander
 import com.t8rin.opencv_tools.forensics.ImageForensics
 import com.t8rin.opencv_tools.moire.Moire
 import com.t8rin.opencv_tools.moire.model.MoireType
+import com.t8rin.opencv_tools.seam_carving.SeamCarver
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.delay
@@ -100,7 +105,11 @@ class OpenCVProcessingTest {
         try {
             val filters: List<suspend (Bitmap) -> Bitmap> = listOf(
                 { Moire.remove(it) },
-                { ImageForensics.detectCopyMove(it) }
+                { ImageForensics.detectCopyMove(it) },
+                { ImageForensics.luminanceGradient(it) },
+                { SeamCarver.carve(it, 512, 384) },
+                { SeamCarver.carve(it, 512, 384, useBackwardEnergy = true) },
+                { ImageExpander.expand(it, 128, 128, 128, 128) }
             )
             for (filter in filters) {
                 val job = launch(Dispatchers.Default) { filter(source).recycle() }
@@ -111,6 +120,61 @@ class OpenCVProcessingTest {
             }
         } finally {
             source.recycle()
+        }
+    }
+
+    @Test
+    fun seamCarvingPreservesConstantImagesAtThinAndExpandedSizes() = runBlocking {
+        val source = Bitmap.createBitmap(17, 23, Bitmap.Config.ARGB_8888).apply {
+            eraseColor(Color.rgb(37, 90, 156))
+        }
+        try {
+            for (backward in listOf(false, true)) {
+                for ((width, height) in listOf(1 to 1, 1 to 27, 29 to 1, 43 to 37)) {
+                    val result =
+                        SeamCarver.carve(source, width, height, useBackwardEnergy = backward)
+                    try {
+                        assertEquals(width, result.width)
+                        assertEquals(height, result.height)
+                        assertTrue(pixels(result).all { it == source.getPixel(0, 0) })
+                    } finally {
+                        result.recycle()
+                    }
+                }
+            }
+        } finally {
+            source.recycle()
+        }
+    }
+
+    @Test
+    fun seamMasksProtectAndRemoveTheMarkedStripe() = runBlocking {
+        val source = Bitmap.createBitmap(21, 17, Bitmap.Config.ARGB_8888).apply {
+            eraseColor(Color.RED)
+            Canvas(this).drawRect(9f, 0f, 12f, 17f, Paint().apply { color = Color.GREEN })
+        }
+        val mask = Bitmap.createBitmap(21, 17, Bitmap.Config.ARGB_8888).apply {
+            eraseColor(Color.BLACK)
+            Canvas(this).drawRect(9f, 0f, 12f, 17f, Paint().apply { color = Color.WHITE })
+        }
+        try {
+            for (backward in listOf(false, true)) {
+                val protected = SeamCarver.carve(source, 14, 17, mask, backward)
+                val removed = SeamCarver.carve(source, 21, 17, mask, backward, true)
+                try {
+                    assertEquals(3 * 17, pixels(protected).count { it == Color.GREEN })
+                    assertTrue(pixels(removed).all { it == Color.RED })
+                    assertEquals(3 * 17, pixels(source).count { it == Color.GREEN })
+                    assertFalse(source.isRecycled)
+                    assertFalse(mask.isRecycled)
+                } finally {
+                    protected.recycle()
+                    removed.recycle()
+                }
+            }
+        } finally {
+            source.recycle()
+            mask.recycle()
         }
     }
 

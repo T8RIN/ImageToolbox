@@ -34,18 +34,16 @@ object ColorMap : OpenCV() {
         map: ColorMapType = ColorMapType.JET
     ): Bitmap {
         val grayMat = bitmap.toMat()
-
-        Imgproc.cvtColor(grayMat, grayMat, Imgproc.COLOR_RGBA2BGR)
-        Imgproc.cvtColor(grayMat, grayMat, Imgproc.COLOR_BGR2GRAY)
-
         val colorMat = Mat()
-
-        Imgproc.applyColorMap(grayMat, colorMat, map.ordinal)
-
-        Imgproc.cvtColor(colorMat, colorMat, Imgproc.COLOR_BGR2RGBA)
-
-        grayMat.release()
-        return colorMat.toBitmap()
+        try {
+            Imgproc.cvtColor(grayMat, grayMat, Imgproc.COLOR_RGBA2GRAY)
+            Imgproc.applyColorMap(grayMat, colorMat, map.ordinal)
+            Imgproc.cvtColor(colorMat, colorMat, Imgproc.COLOR_BGR2RGBA)
+            return colorMat.toBitmap()
+        } finally {
+            grayMat.release()
+            colorMat.release()
+        }
     }
 
 }
