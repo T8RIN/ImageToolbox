@@ -35,7 +35,9 @@ data class CipherType private constructor(
             listOf(
                 "IES",
                 "SM2",
+                "SM9",
                 "ML-KEM",
+                "MLKEM",
                 "1.2.840.113533.7.66.10",
                 "CAST5",
                 "ElGAMAL",

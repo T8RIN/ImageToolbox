@@ -31,10 +31,7 @@ private class StreamWriteableImpl(
 
     override fun writeBytes(byteArray: ByteArray) = stream.write(byteArray)
 
-    override fun close() {
-        stream.flush()
-        stream.close()
-    }
+    override fun close() = stream.use { it.flush() }
 
 }
 

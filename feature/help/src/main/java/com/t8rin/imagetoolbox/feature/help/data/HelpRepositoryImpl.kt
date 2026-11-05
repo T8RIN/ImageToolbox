@@ -120,6 +120,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.History
 import com.t8rin.imagetoolbox.core.resources.icons.HorizontalSplit
 import com.t8rin.imagetoolbox.core.resources.icons.HouseholdSupplies
 import com.t8rin.imagetoolbox.core.resources.icons.Hub
+import com.t8rin.imagetoolbox.core.resources.icons.Image
 import com.t8rin.imagetoolbox.core.resources.icons.ImageCombine
 import com.t8rin.imagetoolbox.core.resources.icons.ImageConvert
 import com.t8rin.imagetoolbox.core.resources.icons.ImageDownload
@@ -228,6 +229,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.Unarchive
 import com.t8rin.imagetoolbox.core.resources.icons.UploadFile
 import com.t8rin.imagetoolbox.core.resources.icons.VectorPolyline
 import com.t8rin.imagetoolbox.core.resources.icons.Verified
+import com.t8rin.imagetoolbox.core.resources.icons.ViewColumn
 import com.t8rin.imagetoolbox.core.resources.icons.ViewComfy
 import com.t8rin.imagetoolbox.core.resources.icons.ViewQuilt
 import com.t8rin.imagetoolbox.core.resources.icons.Visibility
@@ -5685,6 +5687,50 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
                 R.string.help_tip_setting_return_to_external_app_after_save_step_1,
                 R.string.help_tip_setting_return_to_external_app_after_save_step_2
             )
+        ),
+        tip(
+            id = "setting-gallery-columns",
+            title = R.string.columns_count,
+            subtitle = R.string.help_tip_setting_gallery_columns_description,
+            icon = Icons.Outlined.ViewColumn,
+            category = customization,
+            deepLink = Screen.Settings(targetSetting = Setting.GalleryColumns),
+            pageTitle = R.string.columns_count,
+            description = R.string.help_tip_setting_gallery_columns_description,
+            steps = listOf(R.string.help_tip_setting_gallery_columns_step)
+        ),
+        tip(
+            id = "setting-gallery-file-size",
+            title = R.string.gallery_show_file_size,
+            subtitle = R.string.gallery_show_file_size_sub,
+            icon = Icons.Outlined.Description,
+            category = customization,
+            deepLink = Screen.Settings(targetSetting = Setting.ShowGalleryFileSize),
+            pageTitle = R.string.gallery_show_file_size,
+            description = R.string.gallery_show_file_size_sub,
+            steps = listOf(R.string.help_tip_setting_gallery_file_size_step)
+        ),
+        tip(
+            id = "setting-gallery-file-extension",
+            title = R.string.gallery_show_file_extension,
+            subtitle = R.string.gallery_show_file_extension_sub,
+            icon = Icons.Outlined.Description,
+            category = customization,
+            deepLink = Screen.Settings(targetSetting = Setting.ShowGalleryFileExtension),
+            pageTitle = R.string.gallery_show_file_extension,
+            description = R.string.gallery_show_file_extension_sub,
+            steps = listOf(R.string.help_tip_setting_gallery_file_extension_step)
+        ),
+        tip(
+            id = "setting-remember-preview-layout",
+            title = R.string.remember_image_header_state,
+            subtitle = R.string.remember_image_header_state_sub,
+            icon = Icons.Outlined.Image,
+            category = customization,
+            deepLink = Screen.Settings(targetSetting = Setting.RememberImageHeaderState),
+            pageTitle = R.string.remember_image_header_state,
+            description = R.string.remember_image_header_state_sub,
+            steps = listOf(R.string.help_tip_setting_remember_preview_layout_step)
         ),
         tip(
             id = "setting-show-settings-in-landscape",

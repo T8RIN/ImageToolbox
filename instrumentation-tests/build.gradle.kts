@@ -51,6 +51,7 @@ val testedProjects = listOf(
     "feature/image-cutting",
     "feature/image-splitting",
     "feature/image-stitch",
+    "feature/image-stacking",
     "feature/jxl-tools",
     "feature/markup-layers",
     "feature/media-picker",

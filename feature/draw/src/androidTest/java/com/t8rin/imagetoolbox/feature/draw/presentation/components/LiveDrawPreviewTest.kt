@@ -61,8 +61,10 @@ class LiveDrawPreviewTest {
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         ) as LiveDrawTestActivity
         try {
-            await("Drawer did not initialize") { activity.ready && activity.bounds.width > 0 && activity.frame != null }
-            SystemClock.sleep(300)
+            await("Drawer did not initialize") {
+                activity.hasWindowFocus() && activity.ready && activity.bounds.width > 0 && activity.frame != null
+            }
+            instrumentation.waitForIdleSync()
             test(activity)
         } finally {
             instrumentation.runOnMainSync { LiveDrawTestActivity.current?.finish() }
@@ -335,6 +337,51 @@ class LiveDrawPreviewTest {
     }
 
     @Test
+    fun aQuickFirstMoveKeepsTheInitialContactPoint() = withDrawer { activity ->
+        for (moveDelay in listOf(5L, 21L, 23L, 25L, 29L)) {
+            instrumentation.runOnMainSync { activity.paths = emptyList() }
+            await("Previous stroke did not clear") {
+                activity.ready && activity.readyPaths?.isEmpty() == true
+            }
+            val moved = CountDownLatch(1)
+            var down = 0L
+            fun dispatch(action: Int, x: Float) {
+                val bounds = activity.bounds
+                val event = MotionEvent.obtain(
+                    down, SystemClock.uptimeMillis(), action,
+                    bounds.left + bounds.width * x, bounds.top + bounds.height * .5f, 0
+                )
+                activity.dispatchTouchEvent(event)
+                event.recycle()
+            }
+            instrumentation.runOnMainSync {
+                android.view.Choreographer.getInstance().postFrameCallback {
+                    down = SystemClock.uptimeMillis()
+                    dispatch(MotionEvent.ACTION_DOWN, .15f)
+                    android.os.Handler(android.os.Looper.getMainLooper()).postDelayed({
+                        dispatch(MotionEvent.ACTION_MOVE, .75f)
+                        moved.countDown()
+                    }, moveDelay)
+                }
+            }
+            try {
+                assertTrue(moved.await(5, TimeUnit.SECONDS))
+                await("Initial contact was lost with a ${moveDelay}ms first move") {
+                    activity.frame!!.let {
+                        it.getPixel(
+                            (it.width * .2f).toInt(),
+                            it.height / 2
+                        ) == android.graphics.Color.RED
+                    }
+                }
+            } finally {
+                instrumentation.runOnMainSync { dispatch(MotionEvent.ACTION_UP, .75f) }
+            }
+            await("Quick stroke did not commit") { activity.ready && activity.readyPaths?.size == 1 }
+        }
+    }
+
+    @Test
     fun effectFollowsTheFingerAndRemainsVisibleWhileHeld() = withDrawer { activity ->
         val modes = listOf(
             DrawMode.PathEffect.PrivacyBlur(),
@@ -346,8 +393,15 @@ class LiveDrawPreviewTest {
             )
         )
         for (mode in modes) {
-            instrumentation.runOnMainSync { activity.paths = emptyList(); activity.mode = mode }
-            SystemClock.sleep(500)
+            instrumentation.runOnMainSync {
+                activity.ready = false
+                activity.paths = emptyList()
+                activity.mode = mode
+            }
+            await("Drawer did not switch to $mode") {
+                activity.ready && activity.readyPaths?.isEmpty() == true
+            }
+            instrumentation.waitForIdleSync()
             val sampleOffset = if (mode is DrawMode.Image) .02f else 0f
             val down = SystemClock.uptimeMillis()
             event(activity, MotionEvent.ACTION_DOWN, .15f, .5f, down)
@@ -557,12 +611,14 @@ class LiveDrawPreviewTest {
                 healed.getPixel(healed.width / 2, (healed.height * y).toInt())
             )
         }
-        instrumentation.runOnMainSync { activity.ready = false; activity.paths = emptyList() }
-        await("Undo did not finish") { activity.ready && activity.readyPaths?.isEmpty() == true }
-        instrumentation.runOnMainSync { activity.ready = false; activity.paths = listOf(batch) }
-        await("Redo did not finish") { activity.ready && activity.readyPaths == listOf(batch) }
-        assertEquals("Redo recalculated the batch", 1, activity.filterCalls)
-        assertTrue("Redo changed the healed image", healed.sameAs(activity.frame))
+        repeat(10) {
+            instrumentation.runOnMainSync { activity.ready = false; activity.paths = emptyList() }
+            await("Undo did not finish") { activity.ready && activity.readyPaths?.isEmpty() == true }
+            instrumentation.runOnMainSync { activity.ready = false; activity.paths = listOf(batch) }
+            await("Redo did not finish") { activity.ready && activity.readyPaths == listOf(batch) }
+            assertEquals("Redo recalculated the batch", 1, activity.filterCalls)
+            assertTrue("Redo changed the healed image", healed.sameAs(activity.frame))
+        }
         healed.recycle()
     }
 

@@ -28,7 +28,9 @@ import com.t8rin.imagetoolbox.core.utils.initAppContext
 import com.t8rin.imagetoolbox.core.utils.isEncrypted
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
+import org.bouncycastle.asn1.ASN1ObjectIdentifier
 import org.bouncycastle.jce.provider.BouncyCastleProvider
+import org.bouncycastle.operator.DefaultAlgorithmNameFinder
 import org.junit.Assert.assertArrayEquals
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -154,7 +156,7 @@ class AndroidCryptographyManagerTest {
         val manager = AndroidCryptographyManager(TestDispatchersHolder)
         val unsupported = CipherType.entries
             .filterNot(::isExtraExcluded)
-            .filterNot { type ->
+            .mapNotNull { type ->
                 runCatching {
                     val encrypted = runBlocking {
                         manager.encrypt(TEST_DATA, TEST_PASSWORD, type)
@@ -163,13 +165,18 @@ class AndroidCryptographyManagerTest {
                         manager.decrypt(encrypted, TEST_PASSWORD, type)
                     }
                     check(decrypted.contentEquals(TEST_DATA))
-                }.isSuccess
+                }.exceptionOrNull()?.let { error ->
+                    "${type.cipher} (${type.name}): ${
+                        generateSequence(error) { it.cause }.joinToString(
+                            " -> "
+                        )
+                    }"
+                }
             }
-            .map { it.cipher }
             .sorted()
 
         assertTrue(
-            "Add unsupported ciphers to CipherType.BROKEN:\n${unsupported.joinToString("\n")}",
+            "Cipher round-trip failures:\n${unsupported.joinToString("\n")}",
             unsupported.isEmpty()
         )
     }
@@ -185,11 +192,20 @@ class AndroidCryptographyManagerTest {
         fun registerBouncyCastleProvider() {
             InstrumentationRegistry.getInstrumentation().targetContext.initAppContext()
             Security.addProvider(BouncyCastleWorkaroundProvider())
+            val finder = DefaultAlgorithmNameFinder()
             runCatching {
                 CipherType.registerSecurityCiphers(
                     Security.getAlgorithms("Cipher")
                         .filterNot { cipher -> CipherType.BROKEN.any { cipher.contains(it, true) } }
-                        .map(CipherType::getInstance)
+                        .map { cipher ->
+                            val oid = cipher.removePrefix("OID.")
+                            CipherType.getInstance(
+                                cipher = cipher,
+                                name = if (oid.all { it.isDigit() || it.isWhitespace() || it == '.' }) {
+                                    finder.getAlgorithmName(ASN1ObjectIdentifier(oid))
+                                } else cipher
+                            )
+                        }
                 )
             }.onFailure {
                 require(it.message == "SecurityCiphers already registered")

@@ -21,8 +21,6 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.RectF
-import androidx.core.graphics.get
-import androidx.core.graphics.set
 import com.t8rin.imagetoolbox.core.domain.model.Position
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.ensureActive
@@ -77,19 +75,26 @@ suspend fun Bitmap.healAlpha(
 ): Bitmap = coroutineScope {
     val processed = this@healAlpha
 
-    copy(Bitmap.Config.ARGB_8888, true).also { result ->
+    val originalRow = IntArray(original.width)
+    val processedRow = IntArray(original.width)
+    val result = copy(Bitmap.Config.ARGB_8888, true)
+    try {
         for (y in 0 until original.height) {
-            for (x in 0 until original.width) {
-                ensureActive()
-                val origPixel = original[x, y]
-                val procPixel = processed[x, y]
-
-                val origAlpha = origPixel ushr 24
-                if (origAlpha >= 255) continue
-                val newPixel = (origAlpha shl 24) or (procPixel and 0x00FFFFFF)
-
-                result[x, y] = newPixel
+            ensureActive()
+            original.getPixels(originalRow, 0, original.width, 0, y, original.width, 1)
+            if (originalRow.all { it ushr 24 == 255 }) continue
+            processed.getPixels(processedRow, 0, original.width, 0, y, original.width, 1)
+            for (x in originalRow.indices) {
+                val alpha = originalRow[x] ushr 24
+                if (alpha < 255) {
+                    processedRow[x] = (alpha shl 24) or (processedRow[x] and 0x00FFFFFF)
+                }
             }
+            result.setPixels(processedRow, 0, original.width, 0, y, original.width, 1)
         }
+        result
+    } catch (throwable: Throwable) {
+        result.recycle()
+        throw throwable
     }
 }

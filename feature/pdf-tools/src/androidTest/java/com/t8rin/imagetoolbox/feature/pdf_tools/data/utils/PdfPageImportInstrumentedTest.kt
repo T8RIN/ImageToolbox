@@ -17,12 +17,19 @@
 package com.t8rin.imagetoolbox.feature.pdf_tools.data.utils
 
 import android.graphics.Color
+import android.system.Os
+import androidx.core.net.toUri
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.tom_roush.pdfbox.cos.COSName
 import com.tom_roush.pdfbox.pdmodel.PDDocument
 import com.tom_roush.pdfbox.pdmodel.PDPage
 import com.tom_roush.pdfbox.pdmodel.PDResources
+import com.tom_roush.pdfbox.pdmodel.encryption.AccessPermission
+import com.tom_roush.pdfbox.pdmodel.encryption.InvalidPasswordException
+import com.tom_roush.pdfbox.pdmodel.encryption.StandardProtectionPolicy
+import com.tom_roush.pdfbox.pdmodel.interactive.action.PDActionGoTo
+import com.tom_roush.pdfbox.pdmodel.interactive.action.PDActionURI
 import com.tom_roush.pdfbox.pdmodel.interactive.annotation.PDAnnotationLink
 import com.tom_roush.pdfbox.pdmodel.interactive.documentnavigation.destination.PDPageDestination
 import com.tom_roush.pdfbox.pdmodel.interactive.documentnavigation.destination.PDPageFitDestination
@@ -32,13 +39,62 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
+import org.junit.Assert.assertSame
+import org.junit.Assert.assertThrows
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.IOException
 
 @RunWith(AndroidJUnit4::class)
 class PdfPageImportInstrumentedTest {
+
+    @Test
+    fun openingPdfClosesInputOnSuccessAndIncorrectPassword() {
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        val file = File.createTempFile("pdf-open-", ".pdf", context.cacheDir)
+        try {
+            PDDocument().use { document ->
+                document.addPage(PDPage())
+                document.protect(StandardProtectionPolicy("owner", "reader", AccessPermission()))
+                document.save(file)
+            }
+            safeOpenPdf(file.toUri().toString(), "reader").use { document ->
+                assertEquals(1, document.numberOfPages)
+                assertInputClosed(file)
+            }
+            assertThrows(InvalidPasswordException::class.java) {
+                safeOpenPdf(file.toUri().toString(), "wrong")
+            }
+            assertInputClosed(file)
+        } finally {
+            file.delete()
+        }
+    }
+
+    @Test
+    fun failedPdfRetryClosesBothInputs() {
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        val file = File.createTempFile("pdf-invalid-", ".pdf", context.cacheDir)
+        try {
+            file.writeText("Not a PDF")
+            assertThrows(IOException::class.java) {
+                safeOpenPdf(file.toUri().toString(), null)
+            }
+            assertInputClosed(file)
+        } finally {
+            file.delete()
+        }
+    }
+
+    private fun assertInputClosed(file: File) {
+        val openInputs = File("/proc/self/fd").listFiles().orEmpty().count {
+            runCatching { Os.readlink(it.path) }.getOrNull() == file.canonicalPath
+        }
+        assertEquals("Input stream was not closed", 0, openInputs)
+    }
 
     @Test
     fun importedPageKeepsInheritedResourcesAndDropsSourcePageReferences() {
@@ -72,7 +128,7 @@ class PdfPageImportInstrumentedTest {
 
             PDDocument().use { target ->
                 target.document.version = source.version
-                val importedPage = target.importPageForCopy(firstPage)
+                val importedPage = target.importPagesForCopy(listOf(firstPage)).single()
 
                 assertTrue(importedPage.cosObject.containsKey(COSName.RESOURCES))
                 assertNotNull(importedPage.resources)
@@ -80,6 +136,8 @@ class PdfPageImportInstrumentedTest {
                 val importedLink = importedPage.annotations.single() as PDAnnotationLink
                 assertNull(importedLink.page)
                 assertNull((importedLink.destination as PDPageDestination).page)
+                assertSame(firstPage.cosObject, firstPage.annotations.single().page.cosObject)
+                assertSame(linkedPage.cosObject, destination.page.cosObject)
 
                 target.save(output)
             }
@@ -93,6 +151,56 @@ class PdfPageImportInstrumentedTest {
     }
 
     @Test
+    fun reorderedPagesKeepInternalAndExternalLinksWithoutMutatingTheSource() {
+        val output = ByteArrayOutputStream()
+        PDDocument().use { source ->
+            val first = PDPage().also(source::addPage)
+            val second = PDPage().also(source::addPage)
+            val destination = PDPageFitDestination().apply { page = second }
+            first.annotations = listOf(
+                PDAnnotationLink().apply {
+                    this.destination = destination
+                    page = first
+                },
+                PDAnnotationLink().apply {
+                    action = PDActionGoTo().apply { this.destination = destination }
+                },
+                PDAnnotationLink().apply {
+                    action = PDActionURI().apply { uri = "https://example.com" }
+                }
+            )
+            PDDocument().use { target ->
+                val pages = target.importPagesForCopy(listOf(second, first))
+                val links = pages[1].annotations.map { it as PDAnnotationLink }
+                assertSame(
+                    pages[0].cosObject,
+                    (links[0].destination as PDPageDestination).page.cosObject
+                )
+                assertSame(
+                    pages[0].cosObject,
+                    ((links[1].action as PDActionGoTo).destination as PDPageDestination).page.cosObject
+                )
+                assertEquals("https://example.com", (links[2].action as PDActionURI).uri)
+                assertSame(second.cosObject, destination.page.cosObject)
+                assertSame(first.cosObject, first.annotations.first().page.cosObject)
+                target.save(output)
+            }
+        }
+        PDDocument.load(output.toByteArray()).use { document ->
+            assertEquals(2, document.numberOfPages)
+            val links = document.getPage(1).annotations.map { it as PDAnnotationLink }
+            assertSame(
+                document.getPage(0).cosObject,
+                (links[0].destination as PDPageDestination).page.cosObject
+            )
+            assertSame(
+                document.getPage(0).cosObject,
+                ((links[1].action as PDActionGoTo).destination as PDPageDestination).page.cosObject
+            )
+        }
+    }
+
+    @Test
     fun pdf20Utf8PageStaysRenderableAfterSourceDocumentIsClosed() {
         val context = InstrumentationRegistry.getInstrumentation().context
         val output = ByteArrayOutputStream()
@@ -101,7 +209,7 @@ class PdfPageImportInstrumentedTest {
             PDDocument.load(input).use { source ->
                 PDDocument().use { target ->
                     target.document.version = source.version
-                    target.importPageForCopy(source.getPageSafe(0))
+                    target.importPagesForCopy(listOf(source.getPageSafe(0)))
                     target.save(output)
                 }
             }

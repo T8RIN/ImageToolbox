@@ -739,7 +739,7 @@ class AssistantKnowledgeInstrumentedTest {
                     )
                 )
             )
-            val prompt = knowledge.grounding(AssistantRequest(title), answer)
+            val prompt = knowledge.grounding(AssistantRequest(title, language = "en"), answer)
             assertTrue(prompt, prompt.contains("Help:\n$title\n"))
             assertTrue(prompt, prompt.contains(description))
         }
@@ -918,13 +918,13 @@ class AssistantKnowledgeInstrumentedTest {
     @Test
     fun assistantFindsGuidesForItsModelsAndRecentAiTools() = runBlocking {
         listOf(
-            "Which Assistant model uses Qwen3.5 9B?" to "assistant-models",
-            "Как восстановить лицо через GFPGAN?" to "ai-face-restoration",
-            "How do I remove haze with DehazeFormer-T?" to "ai-dehaze",
-            "Как убрать тени с документа через DocShadow?" to "ai-document-cleanup",
-            "How do I use VGG19 style transfer?" to "ai-style-transfer"
-        ).forEach { (query, tipId) ->
-            val answer = knowledge.retrieve(AssistantRequest(query))
+            Triple("Which Assistant model uses Qwen3.5 9B?", "assistant-models", "en"),
+            Triple("Как восстановить лицо через GFPGAN?", "ai-face-restoration", "ru"),
+            Triple("How do I remove haze with DehazeFormer-T?", "ai-dehaze", "en"),
+            Triple("Как убрать тени с документа через DocShadow?", "ai-document-cleanup", "ru"),
+            Triple("How do I use VGG19 style transfer?", "ai-style-transfer", "en")
+        ).forEach { (query, tipId, language) ->
+            val answer = knowledge.retrieve(AssistantRequest(query, language = language))
             assertTrue(
                 "$query: ${answer.references.map { it.tipId }}",
                 answer.references.any { it.tipId == tipId }

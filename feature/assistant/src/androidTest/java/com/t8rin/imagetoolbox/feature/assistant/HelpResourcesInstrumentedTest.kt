@@ -125,7 +125,7 @@ class HelpResourcesInstrumentedTest {
     fun formatHelpCoversEveryExportFormatAndResolvesBothLanguages() {
         val repository = context.entryPoint<AssistantEntryPoint>().helpRepository
         val formats = mapOf(
-            "jpeg" to listOf(ImageFormat.Jpg, ImageFormat.Jpeg),
+            "jpeg" to listOf(ImageFormat.Jpg, ImageFormat.Jpeg, ImageFormat.Jhm17),
             "mozjpeg" to listOf(ImageFormat.MozJpeg),
             "jpegli" to listOf(ImageFormat.Jpegli),
             "png" to listOf(ImageFormat.Png.Lossless),

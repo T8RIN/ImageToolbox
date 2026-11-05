@@ -34,11 +34,13 @@ import androidx.compose.ui.Modifier
 import coil3.size.Size
 import coil3.transform.Transformation
 import com.t8rin.imagetoolbox.core.domain.resource.ResourceManager
+import com.t8rin.imagetoolbox.core.domain.saving.KeepAliveService
 import com.t8rin.imagetoolbox.core.settings.domain.SimpleSettingsInteractor
 import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
 import com.t8rin.imagetoolbox.core.settings.presentation.model.toUiState
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSimpleSettingsInteractor
+import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalKeepAliveService
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalResourceManager
 import com.t8rin.imagetoolbox.core.utils.initAppContext
 import com.t8rin.imagetoolbox.texture_generation.domain.model.TextureFilterType
@@ -71,6 +73,7 @@ class TextureParamsTestActivity : ComponentActivity() {
         setContent {
             CompositionLocalProvider(
                 LocalSettingsState provides SettingsState.Default.toUiState(),
+                LocalKeepAliveService provides KeepAliveService.EMPTY,
                 LocalResourceManager provides resourceManager,
                 LocalSimpleSettingsInteractor provides settingsInteractor
             ) {

@@ -27,13 +27,11 @@ import androidx.core.graphics.createBitmap
 import com.t8rin.imagetoolbox.core.data.image.utils.drawBackground
 import com.t8rin.imagetoolbox.core.data.image.utils.drawBitmap
 import com.t8rin.imagetoolbox.core.data.image.utils.toPaint
-import com.t8rin.imagetoolbox.core.data.utils.aspectRatio
 import com.t8rin.imagetoolbox.core.data.utils.getSuitableConfig
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.domain.image.ImagePreviewCreator
 import com.t8rin.imagetoolbox.core.domain.image.ImageScaler
-import com.t8rin.imagetoolbox.core.domain.image.ImageShareProvider
 import com.t8rin.imagetoolbox.core.domain.image.ImageTransformer
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
@@ -53,10 +51,12 @@ import com.t8rin.imagetoolbox.feature.image_stitch.domain.ImageCombiner
 import com.t8rin.imagetoolbox.feature.image_stitch.domain.StitchAlignment
 import com.t8rin.imagetoolbox.feature.image_stitch.domain.StitchFadeSide
 import com.t8rin.imagetoolbox.feature.image_stitch.domain.StitchMode
+import com.t8rin.trickle.Trickle
+import kotlinx.coroutines.currentCoroutineContext
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import kotlin.math.absoluteValue
-import kotlin.math.max
 import kotlin.math.roundToInt
 import kotlin.math.roundToLong
 
@@ -64,7 +64,6 @@ internal class AndroidImageCombiner @Inject constructor(
     private val imageScaler: ImageScaler<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap>,
     private val imageTransformer: ImageTransformer<Bitmap>,
-    private val shareProvider: ImageShareProvider<Bitmap>,
     private val filterProvider: FilterProvider<Bitmap>,
     private val imagePreviewCreator: ImagePreviewCreator<Bitmap>,
     private val cvStitchHelper: CvStitchHelper,
@@ -87,8 +86,16 @@ internal class AndroidImageCombiner @Inject constructor(
             )
         }
 
+        combine(imageUris, combiningParams, onProgress)
+    }
+
+    private suspend fun combine(
+        imageSources: List<Any>,
+        combiningParams: CombiningParams,
+        onProgress: (Int) -> Unit
+    ): Pair<Bitmap, ImageInfo> = withContext(defaultDispatcher) {
         suspend fun getImageData(
-            imagesUris: List<String>,
+            imagesUris: List<Any>,
             isHorizontal: Boolean,
             includeBackground: Boolean = true
         ): Pair<Bitmap, ImageInfo> {
@@ -121,6 +128,7 @@ internal class AndroidImageCombiner @Inject constructor(
                 val strength = combiningParams.fadeStrength
 
                 for (i in images.indices) {
+                    currentCoroutineContext().ensureActive()
                     var bmp = images[i]
 
                     imageSpacing.takeIf { it < 0 && combiningParams.fadingEdgesMode != StitchFadeSide.None }
@@ -237,44 +245,51 @@ internal class AndroidImageCombiner @Inject constructor(
                 }
             }
 
-            return bitmap.createScaledBitmap(
-                width = size.width,
-                height = size.height
-            ) to ImageInfo(
+            return bitmap to ImageInfo(
                 width = size.width,
                 height = size.height,
                 imageFormat = ImageFormat.Png.Lossless
             )
         }
 
-        if (combiningParams.stitchMode.gridCellsCount().let { !(it == 0 || it > imageUris.size) }) {
-            combineImages(
-                imageUris = distributeImages(
-                    images = imageUris,
-                    cellCount = combiningParams.stitchMode.gridCellsCount()
-                ).mapNotNull { images ->
-                    val data = getImageData(
-                        imagesUris = images,
+        val gridCells = combiningParams.stitchMode.gridCellsCount()
+        if (gridCells in 1..imageSources.size) {
+            val gridImages = mutableListOf<Bitmap>()
+            try {
+                for (sources in distributeImages(imageSources, gridCells)) {
+                    ensureActive()
+                    val image = getImageData(
+                        imagesUris = sources,
                         isHorizontal = combiningParams.stitchMode.isHorizontal(),
                         includeBackground = combiningParams.backgroundGradient == null
-                    )
-                    shareProvider.cacheImage(
-                        image = data.first,
-                        imageInfo = data.second
-                    )
-                },
-                combiningParams = combiningParams.copy(
-                    stitchMode = when (combiningParams.stitchMode) {
-                        is StitchMode.Grid.Horizontal -> StitchMode.Vertical
-                        else -> StitchMode.Horizontal
-                    },
-                    outputScale = 1f
-                ),
-                onProgress = onProgress
-            )
+                    ).first
+                    gridImages += image
+                    if (settingsState.enableBackgroundColorForAlphaFormats) {
+                        val flattened = Trickle.drawColorBehind(
+                            color = settingsState.backgroundForNoAlphaImageFormats.colorInt,
+                            input = image
+                        )
+                        gridImages[gridImages.lastIndex] = flattened
+                        if (flattened !== image) image.recycle()
+                    }
+                }
+                combine(
+                    imageSources = gridImages,
+                    combiningParams = combiningParams.copy(
+                        stitchMode = when (combiningParams.stitchMode) {
+                            is StitchMode.Grid.Horizontal -> StitchMode.Vertical
+                            else -> StitchMode.Horizontal
+                        },
+                        outputScale = 1f
+                    ),
+                    onProgress = onProgress
+                )
+            } finally {
+                gridImages.forEach(Bitmap::recycle)
+            }
         } else {
             getImageData(
-                imagesUris = imageUris,
+                imagesUris = imageSources,
                 isHorizontal = combiningParams.stitchMode.isHorizontal()
             )
         }
@@ -283,86 +298,102 @@ internal class AndroidImageCombiner @Inject constructor(
     override suspend fun calculateCombinedImageDimensions(
         imageUris: List<String>,
         combiningParams: CombiningParams
-    ): IntegerSize {
+    ): IntegerSize = withContext(defaultDispatcher) {
         val isHorizontal = combiningParams.stitchMode.isHorizontal()
-        return if (combiningParams.stitchMode.gridCellsCount()
-                .let { it == 0 || it > imageUris.size }
-        ) {
-            calculateCombinedImageDimensionsAndBitmaps(
-                imageUris = imageUris,
-                isHorizontal = isHorizontal,
-                scaleDirection = combiningParams.scaleDirection,
-                imageSpacing = combiningParams.spacingFor(isHorizontal),
-                imageScale = combiningParams.outputScale
-            ).first
-        } else {
-            val outerIsHorizontal = !isHorizontal
-            val outerSpacing = combiningParams.spacingFor(outerIsHorizontal)
-            var size = IntegerSize(0, 0)
-            val gridImages = distributeImages(
-                images = imageUris,
-                cellCount = combiningParams.stitchMode.gridCellsCount()
-            )
-            val gridSizes = gridImages.map { images ->
-                calculateCombinedImageDimensionsAndBitmaps(
-                    imageUris = images,
-                    isHorizontal = isHorizontal,
-                    scaleDirection = combiningParams.scaleDirection,
-                    imageSpacing = combiningParams.spacingFor(isHorizontal),
-                    imageScale = combiningParams.outputScale
-                ).first
+        suspend fun sizeOf(uris: List<String>): IntegerSize {
+            val sizes = uris.mapNotNull { uri ->
+                ensureActive()
+                imageGetter.getImage(data = uri, originalSize = true)?.let {
+                    IntegerSize(it.width, it.height)
+                }
             }
-            val targetDimension = combiningParams.scaleDirection.targetDimension(
-                gridSizes.map { if (outerIsHorizontal) it.height else it.width }
+            return scaledSizes(
+                sizes,
+                isHorizontal,
+                combiningParams.scaleDirection,
+                combiningParams.outputScale
             )
-            gridSizes.forEachIndexed { index, gridSize ->
-                val aspectRatio = gridSize.width.toFloat() / gridSize.height
-                val dimension = if (outerIsHorizontal) gridSize.height else gridSize.width
-                val newSize = when {
-                    targetDimension == null || targetDimension == dimension -> gridSize
-                    outerIsHorizontal -> IntegerSize(
-                        width = (targetDimension * aspectRatio).toInt().coerceAtLeast(1),
-                        height = targetDimension
-                    )
+                .combinedSize(isHorizontal, combiningParams.spacingFor(isHorizontal))
+        }
 
-                    else -> IntegerSize(
-                        width = targetDimension,
-                        height = (targetDimension / aspectRatio).toInt().coerceAtLeast(1)
-                    )
-                }
-                val spacing = if (index != gridSizes.lastIndex) outerSpacing else 0
-                size = if (outerIsHorizontal) {
-                    size.copy(
-                        width = size.width + (newSize.width + spacing).coerceAtLeast(1),
-                        height = max(newSize.height, size.height)
-                    )
-                } else {
-                    size.copy(
-                        width = max(newSize.width, size.width),
-                        height = size.height + (newSize.height + spacing).coerceAtLeast(1)
-                    )
-                }
-            }
-            IntegerSize(
-                width = size.width.coerceAtLeast(1),
-                height = size.height.coerceAtLeast(1)
-            )
+        val gridCells = combiningParams.stitchMode.gridCellsCount()
+        if (gridCells in 1..imageUris.size) {
+            val sizes = distributeImages(imageUris, gridCells).map { sizeOf(it) }
+            scaledSizes(sizes, !isHorizontal, combiningParams.scaleDirection, 1f)
+                .combinedSize(!isHorizontal, combiningParams.spacingFor(!isHorizontal))
+        } else {
+            sizeOf(imageUris)
         }
     }
 
+    private fun scaledSizes(
+        sizes: List<IntegerSize>,
+        isHorizontal: Boolean,
+        scaleDirection: ImageScaleDirection,
+        imageScale: Float
+    ): List<IntegerSize> {
+        val targetWidth = scaleDirection.targetDimension(
+            sizes.map { (it.width * imageScale).roundToInt().coerceAtLeast(1) }
+        )
+        val targetHeight = scaleDirection.targetDimension(
+            sizes.map { (it.height * imageScale).roundToInt().coerceAtLeast(1) }
+        )
+        return sizes.map { size ->
+            size.scaledSize(isHorizontal, imageScale, targetWidth, targetHeight)
+        }
+    }
+
+    private fun IntegerSize.scaledSize(
+        isHorizontal: Boolean,
+        imageScale: Float,
+        targetWidth: Int?,
+        targetHeight: Int?
+    ): IntegerSize {
+        val scaledWidth = (width * imageScale).roundToInt().coerceAtLeast(1)
+        val scaledHeight = (height * imageScale).roundToInt().coerceAtLeast(1)
+        val aspectRatio = width.toFloat() / height
+        return when {
+            isHorizontal && targetHeight != null && scaledHeight != targetHeight -> IntegerSize(
+                (targetHeight * aspectRatio).toInt().coerceAtLeast(1), targetHeight
+            )
+
+            !isHorizontal && targetWidth != null && scaledWidth != targetWidth -> IntegerSize(
+                targetWidth, (targetWidth / aspectRatio).toInt().coerceAtLeast(1)
+            )
+
+            else -> IntegerSize(scaledWidth, scaledHeight)
+        }
+    }
+
+    private fun List<IntegerSize>.combinedSize(
+        isHorizontal: Boolean,
+        imageSpacing: Int
+    ): IntegerSize {
+        var length = 0
+        var crossSize = 1
+        forEachIndexed { index, size ->
+            val dimension = if (isHorizontal) size.width else size.height
+            length += (dimension + if (index == lastIndex) 0 else imageSpacing).coerceAtLeast(1)
+            crossSize = maxOf(crossSize, if (isHorizontal) size.height else size.width)
+        }
+        return if (isHorizontal) {
+            IntegerSize(length.coerceAtLeast(1), crossSize)
+        } else IntegerSize(crossSize, length.coerceAtLeast(1))
+    }
+
     private suspend fun calculateCombinedImageDimensionsAndBitmaps(
-        imageUris: List<String>,
+        imageUris: List<Any>,
         isHorizontal: Boolean,
         scaleDirection: ImageScaleDirection,
         imageSpacing: Int,
         imageScale: Float
     ): Pair<IntegerSize, List<Bitmap>> = withContext(defaultDispatcher) {
-        var w = 0
-        var h = 0
-        val imageSizes =
-            if (scaleDirection != ImageScaleDirection.None) imageUris.mapNotNull { uri ->
-            imageGetter.getImage(data = uri, originalSize = true)?.let { image ->
-                IntegerSize(image.width, image.height)
+        val imageSizes = if (scaleDirection != ImageScaleDirection.None) {
+            imageUris.mapNotNull { uri ->
+                ensureActive()
+                imageGetter.getImage(data = uri, originalSize = true)?.let { image ->
+                    IntegerSize(image.width, image.height)
+                }
             }
         } else emptyList()
         val targetWidth = scaleDirection.targetDimension(
@@ -374,25 +405,10 @@ internal class AndroidImageCombiner @Inject constructor(
         val drawables = imageUris.mapNotNull { uri ->
             val image = imageGetter.getImage(data = uri, originalSize = true)
                 ?: return@mapNotNull null
-            val scaledWidth = (image.width * imageScale).roundToInt().coerceAtLeast(1)
-            val scaledHeight = (image.height * imageScale).roundToInt().coerceAtLeast(1)
-            val targetSize = when {
-                isHorizontal && targetHeight != null && scaledHeight != targetHeight -> {
-                    IntegerSize(
-                        (targetHeight * image.aspectRatio).toInt().coerceAtLeast(1),
-                        targetHeight
-                    )
-                }
-
-                !isHorizontal && targetWidth != null && scaledWidth != targetWidth -> {
-                    IntegerSize(
-                        targetWidth,
-                        (targetWidth / image.aspectRatio).toInt().coerceAtLeast(1)
-                    )
-                }
-
-                else -> IntegerSize(scaledWidth, scaledHeight)
-            }
+            ensureActive()
+            val targetSize = IntegerSize(image.width, image.height).scaledSize(
+                isHorizontal, imageScale, targetWidth, targetHeight
+            )
 
             image.createScaledBitmap(
                 width = targetSize.width,
@@ -400,35 +416,14 @@ internal class AndroidImageCombiner @Inject constructor(
             )
         }
 
-        drawables.forEachIndexed { index, image ->
-            val width = image.width
-            val height = image.height
-
-            val spacing = if (index != drawables.lastIndex) imageSpacing else 0
-
-            if (isHorizontal) {
-                w += (width + spacing).coerceAtLeast(1)
-            } else {
-                h += (height + spacing).coerceAtLeast(1)
-            }
-        }
-
-        if (isHorizontal) {
-            h = drawables.maxOfOrNull { it.height } ?: 0
-        } else {
-            w = drawables.maxOfOrNull { it.width } ?: 0
-        }
-
-        IntegerSize(
-            width = w.coerceAtLeast(1),
-            height = h.coerceAtLeast(1)
-        ) to drawables
+        drawables.map { IntegerSize(it.width, it.height) }
+            .combinedSize(isHorizontal, imageSpacing) to drawables
     }
 
-    private fun distributeImages(
-        images: List<String>,
+    private fun <T> distributeImages(
+        images: List<T>,
         cellCount: Int
-    ): List<List<String>> {
+    ): List<List<T>> {
         val imageCount = images.size
         val imagesPerRow = imageCount / cellCount
         val remainingImages = imageCount % cellCount

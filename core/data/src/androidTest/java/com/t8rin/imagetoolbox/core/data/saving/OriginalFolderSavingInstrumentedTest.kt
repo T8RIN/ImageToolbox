@@ -57,6 +57,7 @@ import org.junit.Assert.assertArrayEquals
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
+import org.junit.Assume.assumeFalse
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.io.ByteArrayOutputStream
@@ -72,6 +73,10 @@ class OriginalFolderSavingInstrumentedTest {
     @Test
     @SdkSuppress(minSdkVersion = 26)
     fun savesNestedImagesAndDeletesOriginalsOnlyAfterSuccessfulSave() {
+        assumeFalse(
+            "Disable MANAGE_EXTERNAL_STORAGE before starting instrumentation; changing it kills the test process",
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.R && Environment.isExternalStorageManager()
+        )
         val folderName = "!ImageToolbox-saving-${System.nanoTime()}"
         val treeUri = DocumentsContract.buildTreeDocumentUri(
             "com.android.externalstorage.documents",
@@ -80,12 +85,7 @@ class OriginalFolderSavingInstrumentedTest {
         val activity = startActivity()
         val settings = context.entryPoint<SettingsStateEntryPoint>().settingsManager
         val originalSettings = runBlocking { settings.getSettingsState() }
-        val hadAllFilesAccess = Build.VERSION.SDK_INT >= Build.VERSION_CODES.R &&
-                Environment.isExternalStorageManager()
         try {
-            if (hadAllFilesAccess) {
-                shell("appops set --uid ${context.packageName} MANAGE_EXTERNAL_STORAGE deny")
-            }
             shell("mkdir /sdcard/$folderName")
             selectFolder(activity, treeUri)
             val root = checkNotNull(DocumentFile.fromTreeUri(context, treeUri))
@@ -276,9 +276,6 @@ class OriginalFolderSavingInstrumentedTest {
                 settings.setSaveFolderUri(originalSettings.saveFolderUri)
             }
             shell("rm -r /sdcard/$folderName")
-            if (hadAllFilesAccess) {
-                shell("appops set --uid ${context.packageName} MANAGE_EXTERNAL_STORAGE allow")
-            }
             context.revokeUriPermission(
                 treeUri,
                 Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION

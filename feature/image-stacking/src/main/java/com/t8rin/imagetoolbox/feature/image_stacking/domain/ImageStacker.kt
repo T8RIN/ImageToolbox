@@ -17,9 +17,6 @@
 
 package com.t8rin.imagetoolbox.feature.image_stacking.domain
 
-import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
-import com.t8rin.imagetoolbox.core.domain.image.model.Quality
-
 interface ImageStacker<I> {
 
     suspend fun stackImages(
@@ -28,14 +25,5 @@ interface ImageStacker<I> {
         onFailure: (Throwable) -> Unit,
         onProgress: (Int) -> Unit
     ): I?
-
-    suspend fun stackImagesPreview(
-        stackImages: List<StackImage>,
-        stackingParams: StackingParams,
-        imageFormat: ImageFormat,
-        quality: Quality,
-        onGetByteCount: (Int) -> Unit,
-        onGetPreview: (I?) -> Unit
-    )
 
 }

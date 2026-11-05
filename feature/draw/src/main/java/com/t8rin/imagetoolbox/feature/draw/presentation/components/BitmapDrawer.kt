@@ -455,34 +455,40 @@ fun BitmapDrawer(
                     drawMode = drawMode
                 )
 
+                fun startStroke() {
+                    if (drawMode is DrawMode.Warp && !isEraserOn) {
+                        warpPreviewToken++
+                        warpRuntimeStrokes = emptyList()
+                        drawPath = Path()
+                        pathWithoutTransformations = Path()
+                    } else {
+                        warpClearTrigger++
+                        warpRuntimeStrokes = emptyList()
+                    }
+
+                    val start = drawDownPosition.takeOrElse { currentDrawPosition }
+                    if (start.isSpecified) {
+                        onDrawStart?.invoke()
+                        drawPath.moveTo(start.x, start.y)
+                        if (gradientPalette != null && drawPathMode == DrawPathMode.Free) {
+                            drawPath.lineTo(start.x, start.y)
+                        }
+                        previousDrawPosition = start
+                        pathWithoutTransformations = drawPath.copy()
+                    } else {
+                        drawPath = Path()
+                        pathWithoutTransformations = Path()
+                    }
+                }
+
                 motionEvent.value.handle(
                     onDown = {
-                        if (drawMode is DrawMode.Warp && !isEraserOn) {
-                            warpPreviewToken++
-                            warpRuntimeStrokes = emptyList()
-                            drawPath = Path()
-                            pathWithoutTransformations = Path()
-                        } else {
-                            warpClearTrigger++
-                            warpRuntimeStrokes = emptyList()
-                        }
-
-                        if (currentDrawPosition.isSpecified) {
-                            onDrawStart?.invoke()
-                            drawPath.moveTo(currentDrawPosition.x, currentDrawPosition.y)
-                            if (gradientPalette != null && drawPathMode == DrawPathMode.Free) {
-                                drawPath.lineTo(currentDrawPosition.x, currentDrawPosition.y)
-                            }
-                            previousDrawPosition = currentDrawPosition
-                            pathWithoutTransformations = drawPath.copy()
-                        } else {
-                            drawPath = Path()
-                            pathWithoutTransformations = Path()
-                        }
-
+                        startStroke()
                         motionEvent.value = MotionEvent.Idle
                     },
                     onMove = {
+                        // MOVE can replace DOWN before the next composition.
+                        if (previousDrawPosition.isUnspecified) startStroke()
                         if (drawMode is DrawMode.Warp && !isEraserOn) {
                             if (
                                 previousDrawPosition.isSpecified &&
@@ -500,16 +506,6 @@ fun BitmapDrawer(
                         drawHelper.drawPath(
                             currentDrawPath = drawPath,
                             onDrawFreeArrow = {
-                                if (previousDrawPosition.isUnspecified && currentDrawPosition.isSpecified) {
-                                    drawPath = Path().apply {
-                                        moveTo(
-                                            currentDrawPosition.x,
-                                            currentDrawPosition.y
-                                        )
-                                    }
-                                    pathWithoutTransformations = drawPath.copy()
-                                    previousDrawPosition = currentDrawPosition
-                                }
                                 if (previousDrawPosition.isSpecified && currentDrawPosition.isSpecified) {
                                     drawPath = pathWithoutTransformations
                                     drawPath.quadraticTo(
@@ -526,11 +522,6 @@ fun BitmapDrawer(
                                 }
                             },
                             onBaseDraw = {
-                                if (previousDrawPosition.isUnspecified && currentDrawPosition.isSpecified) {
-                                    drawPath.moveTo(currentDrawPosition.x, currentDrawPosition.y)
-                                    previousDrawPosition = currentDrawPosition
-                                }
-
                                 if (currentDrawPosition.isSpecified && previousDrawPosition.isSpecified) {
                                     drawPath.quadraticTo(
                                         previousDrawPosition.x,
@@ -909,6 +900,8 @@ fun BitmapDrawer(
                 }
             }
 
+            val isRenderReady = drawImageBitmap != null && paths == renderedPaths &&
+                    pendingCommit == null && pendingPreview == null
             LaunchedEffect(
                 previewBitmap,
                 paths,
@@ -916,13 +909,11 @@ fun BitmapDrawer(
                 renderedPaths,
                 pendingCommit,
                 pendingPreview,
-                historyBitmap
+                historyBitmap,
+                isRenderReady
             ) {
                 onDraw?.invoke(previewBitmap.asAndroidBitmap())
-                onRenderReady?.invoke(
-                    drawImageBitmap != null && paths == renderedPaths &&
-                            pendingCommit == null && pendingPreview == null
-                )
+                onRenderReady?.invoke(isRenderReady)
             }
 
             BitmapDrawerPreview(

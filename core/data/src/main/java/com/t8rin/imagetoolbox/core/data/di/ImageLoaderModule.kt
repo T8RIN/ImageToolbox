@@ -40,6 +40,7 @@ import com.gemalto.jp2.coil.Jpeg2000Decoder
 import com.t8rin.awebp.coil.AnimatedWebPDecoder
 import com.t8rin.djvu_coder.coil.DjvuDecoder
 import com.t8rin.imagetoolbox.core.data.coil.AnimatedJxlDecoder
+import com.t8rin.imagetoolbox.core.data.coil.AnimatedPngDecoderFactory
 import com.t8rin.imagetoolbox.core.data.coil.Base64Fetcher
 import com.t8rin.imagetoolbox.core.data.coil.CoilLogger
 import com.t8rin.imagetoolbox.core.data.coil.HeifDecoder
@@ -62,7 +63,6 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import io.ktor.client.HttpClient
-import oupson.apng.coil.AnimatedPngDecoder
 import java.io.File
 import javax.inject.Singleton
 
@@ -125,7 +125,7 @@ internal object ImageLoaderModule {
                 }
             )
             add(TiffDecoder.Factory())
-            add(AnimatedPngDecoder.Factory())
+            add(AnimatedPngDecoderFactory)
             if (Build.VERSION.SDK_INT >= 28) add(AnimatedImageDecoder.Factory())
             else {
                 add(GifDecoder.Factory())

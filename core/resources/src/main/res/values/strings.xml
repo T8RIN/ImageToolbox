@@ -7995,4 +7995,9 @@
     <string name="emoji_kitchen_download_size">Archive size: %1$s</string>
     <string name="emoji_kitchen_favorites">Bookmarks</string>
     <string name="emoji_kitchen_favorites_empty">No bookmarks</string>
+    <string name="help_tip_setting_gallery_columns_description">Choose how many columns appear in Gallery and Embedded Picker. More columns show smaller thumbnails.</string>
+    <string name="help_tip_setting_gallery_columns_step">Open Settings → Gallery → Columns Count. Choose Auto to fit the screen or a fixed count from 1 to 20.</string>
+    <string name="help_tip_setting_gallery_file_size_step">Open Settings → Gallery and toggle Show file size. This changes thumbnail labels without changing or compressing the files.</string>
+    <string name="help_tip_setting_gallery_file_extension_step">Open Settings → Gallery and toggle Show file format. This changes thumbnail labels without renaming or converting the files.</string>
+    <string name="help_tip_setting_remember_preview_layout_step">Open Settings → Behavior and turn on Remember Preview Layout. Adjust the preview height or pin it in a tool; the next tool will reuse that layout.</string>
 </resources>

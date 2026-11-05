@@ -7951,4 +7951,9 @@
     <string name="emoji_kitchen_download_size">Размер архива: %1$s</string>
     <string name="emoji_kitchen_favorites">Закладки</string>
     <string name="emoji_kitchen_favorites_empty">Нет закладок</string>
+    <string name="help_tip_setting_gallery_columns_description">Выберите число колонок в галерее и встроенном выборе изображений. Чем больше колонок, тем меньше миниатюры.</string>
+    <string name="help_tip_setting_gallery_columns_step">Откройте Настройки → Галерея → Количество столбцов. Выберите Авто для подстройки под экран или задайте число от 1 до 20.</string>
+    <string name="help_tip_setting_gallery_file_size_step">Откройте Настройки → Галерея и переключите «Показывать размер файла». Меняются только подписи миниатюр, файлы не изменяются и не сжимаются.</string>
+    <string name="help_tip_setting_gallery_file_extension_step">Откройте Настройки → Галерея и переключите «Показывать формат файла». Меняются только подписи миниатюр, файлы не переименовываются и не конвертируются.</string>
+    <string name="help_tip_setting_remember_preview_layout_step">Откройте Настройки → Поведение и включите «Запоминать вид превью». Измените высоту превью или закрепите его в инструменте; следующий инструмент откроется с таким же видом.</string>
 </resources>

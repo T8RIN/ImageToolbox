@@ -24,7 +24,6 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.domain.image.ImageScaler
-import com.t8rin.imagetoolbox.core.domain.image.ImageShareProvider
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageScaleDirection
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsProvider
@@ -54,7 +53,7 @@ class ImageScalingTest {
         val images = mapOf("large" to large, "small" to small)
         val getter = dependency<ImageGetter<Bitmap>> { name, args ->
             check(name == "getImage")
-            images[args[0]]
+            (args[0] as? Bitmap) ?: images[args[0]]
         }
         val scaler = dependency<ImageScaler<Bitmap>> { name, args ->
             check(name == "scaleImage")
@@ -136,19 +135,13 @@ class ImageScalingTest {
         )
         val getter = dependency<ImageGetter<Bitmap>> { name, args ->
             check(name == "getImage")
-            images[args[0]]
+            (args[0] as? Bitmap) ?: images[args[0]]
         }
         val scaler = dependency<ImageScaler<Bitmap>> { name, args ->
             check(name == "scaleImage")
             Bitmap.createScaledBitmap(args[0] as Bitmap, args[1] as Int, args[2] as Int, false)
         }
-        val shareProvider = dependency<ImageShareProvider<Bitmap>> { name, args ->
-            check(name == "cacheImage")
-            val uri = "cached-${images.size}"
-            images[uri] = args[0] as Bitmap
-            uri
-        }
-        val combiner = combiner(getter, scaler, shareProvider)
+        val combiner = combiner(getter, scaler)
         val expectedSizes = mapOf(
             StitchMode.Horizontal to listOf(
                 IntegerSize(90, 20),
@@ -191,6 +184,37 @@ class ImageScalingTest {
     }
 
     @Test
+    fun dimensionQueriesDoNotResizeImagesOrLoadThemRepeatedly() = runBlocking {
+        val image = createBitmap(40, 20)
+        var reads = 0
+        val getter = dependency<ImageGetter<Bitmap>> { _, _ ->
+            reads++
+            image
+        }
+        val scaler = dependency<ImageScaler<Bitmap>>()
+        val combiner = combiner(getter, scaler)
+        for (mode in listOf(
+            StitchMode.Horizontal,
+            StitchMode.Vertical,
+            StitchMode.Grid.Horizontal(2)
+        )) {
+            for (direction in ImageScaleDirection.entries) {
+                reads = 0
+                combiner.calculateCombinedImageDimensions(
+                    List(5) { "image-$it" },
+                    CombiningParams(
+                        stitchMode = mode,
+                        scaleDirection = direction,
+                        outputScale = 0.5f
+                    )
+                )
+                assertEquals(5, reads)
+            }
+        }
+        image.recycle()
+    }
+
+    @Test
     fun scaleDirectionRestoresOldSettingsAndSurvivesSaving() {
         for (direction in ImageScaleDirection.entries) {
             val params = CombiningParams(scaleDirection = direction)
@@ -206,8 +230,7 @@ class ImageScalingTest {
 
     private fun combiner(
         getter: ImageGetter<Bitmap>,
-        scaler: ImageScaler<Bitmap>,
-        shareProvider: ImageShareProvider<Bitmap> = dependency()
+        scaler: ImageScaler<Bitmap>
     ): AndroidImageCombiner {
         val settings = dependency<SettingsProvider> { name, _ ->
             check(name == "getSettingsState")
@@ -218,7 +241,6 @@ class ImageScalingTest {
             imageScaler = scaler,
             imageGetter = getter,
             imageTransformer = dependency(),
-            shareProvider = shareProvider,
             filterProvider = dependency(),
             imagePreviewCreator = dependency(),
             cvStitchHelper = CvStitchHelper(getter, scaler),
