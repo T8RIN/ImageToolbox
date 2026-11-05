@@ -290,8 +290,7 @@ class CompressionLabComponent @AssistedInject internal constructor(
                         saveTarget = output.saveTarget(
                             uri = uri,
                             profile = profile,
-                            sequenceNumber = index + 1,
-                            data = fileController.readBytes(output.uri.toString())
+                            sequenceNumber = index + 1
                         ),
                         keepOriginalMetadata = false,
                         oneTimeSaveLocationUri = oneTimeSaveLocationUri
@@ -321,7 +320,7 @@ class CompressionLabComponent @AssistedInject internal constructor(
 
             inputUris.forEachIndexed { index, uri ->
                 runSuspendCatching {
-                    encodeWithProfile(uri, profile).uri.toString()
+                    cacheWithProfile(uri, profile).toString()
                 }.onSuccess { cachedUri ->
                     cachedUris += cachedUri
                 }.onFailure {
@@ -353,7 +352,7 @@ class CompressionLabComponent @AssistedInject internal constructor(
 
             inputUris.forEachIndexed { index, uri ->
                 runSuspendCatching {
-                    encodeWithProfile(uri, profile).uri
+                    cacheWithProfile(uri, profile)
                 }.onSuccess(cachedUris::add).onFailure {
                     if (firstFailure == null) firstFailure = it
                 }
@@ -474,10 +473,10 @@ class CompressionLabComponent @AssistedInject internal constructor(
             }
         }
 
-        val cache = mutableMapOf<Int, Candidate>()
+        var lastCandidate: Candidate? = null
 
         suspend fun at(quality: Int, withSsim: Boolean = false): Candidate {
-            val cached = cache[quality]
+            val cached = lastCandidate?.takeIf { it.qualityValue == quality }
             if (cached != null && (!withSsim || cached.ssim != null)) return cached
 
             return encode(
@@ -486,7 +485,7 @@ class CompressionLabComponent @AssistedInject internal constructor(
                 format = format,
                 qualityValue = quality,
                 withSsim = withSsim
-            ).also { cache[quality] = it }
+            ).also { lastCandidate = it }
         }
 
         return when (searchMode) {
@@ -558,8 +557,7 @@ class CompressionLabComponent @AssistedInject internal constructor(
         return Candidate(
             qualityValue = qualityValue,
             quality = quality,
-            uri = cacheEncoded(data, format),
-            sizeBytes = data.size.toLong(),
+            data = data,
             encodingTimeMillis = encodingTimeMillis,
             ssim = ssim
         )
@@ -571,21 +569,23 @@ class CompressionLabComponent @AssistedInject internal constructor(
         format: ImageFormat
     ): CompressionLabResult {
         val bitmap = imageGetter.getImage(
-            data = uri,
+            data = data,
             size = MetricMaxSize
         ) ?: error("Unable to decode ${format.title} result")
 
+        val ssim = ssim ?: metric(metricSource, bitmap, ComparisonType.SSIM)
+        val psnr = metric(metricSource, bitmap, ComparisonType.PSNR)
         return CompressionLabResult(
             format = format,
             qualityValue = qualityValue,
             quality = quality,
-            uri = uri,
+            uri = cacheEncoded(data, format),
             width = source.width,
             height = source.height,
             sizeBytes = sizeBytes,
             encodingTimeMillis = encodingTimeMillis,
-            ssim = ssim ?: metric(metricSource, bitmap, ComparisonType.SSIM),
-            psnr = metric(metricSource, bitmap, ComparisonType.PSNR),
+            ssim = ssim,
+            psnr = psnr,
             targetSatisfied = targetSatisfied
         )
     }
@@ -596,7 +596,7 @@ class CompressionLabComponent @AssistedInject internal constructor(
     ): EncodedOutput {
         if (uri == benchmarkUri) {
             return EncodedOutput(
-                uri = profile.uri,
+                data = fileController.readBytes(profile.uri.toString()),
                 width = profile.width,
                 height = profile.height
             )
@@ -616,17 +616,25 @@ class CompressionLabComponent @AssistedInject internal constructor(
         )
 
         return EncodedOutput(
-            uri = cacheEncoded(data, profile.format),
+            data = data,
             width = width,
             height = height
         )
     }
 
+    private suspend fun cacheWithProfile(
+        uri: Uri,
+        profile: CompressionLabResult
+    ): Uri = if (uri == benchmarkUri) {
+        profile.uri
+    } else {
+        cacheEncoded(encodeWithProfile(uri, profile).data, profile.format)
+    }
+
     private fun EncodedOutput.saveTarget(
         uri: Uri,
         profile: CompressionLabResult,
-        sequenceNumber: Int,
-        data: ByteArray
+        sequenceNumber: Int
     ) = ImageSaveTarget(
         imageInfo = ImageInfo(
             width = width,
@@ -732,15 +740,16 @@ class CompressionLabComponent @AssistedInject internal constructor(
     private data class Candidate(
         val qualityValue: Int?,
         val quality: Quality,
-        val uri: Uri,
-        val sizeBytes: Long,
+        val data: ByteArray,
         val encodingTimeMillis: Long,
         val ssim: Double? = null,
         val targetSatisfied: Boolean = true
-    )
+    ) {
+        val sizeBytes: Long get() = data.size.toLong()
+    }
 
     private data class EncodedOutput(
-        val uri: Uri,
+        val data: ByteArray,
         val width: Int,
         val height: Int
     )

@@ -25,7 +25,6 @@ import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageScaleMode
 import com.t8rin.imagetoolbox.core.domain.image.model.Quality
-import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.feature.weight_resize.domain.WeightImageScaler
 import kotlinx.coroutines.ensureActive
@@ -49,82 +48,49 @@ internal class AndroidWeightImageScaler @Inject constructor(
         saveIfSmaller: Boolean
     ): Pair<ByteArray, ImageInfo>? = withContext(defaultDispatcher) {
         runSuspendCatching {
-            val initialSize = imageCompressor.calculateImageSize(
-                image = image,
-                imageInfo = ImageInfo(
-                    width = image.width,
-                    height = image.height,
-                    imageFormat = imageFormat
-                )
+            var imageInfo = ImageInfo(
+                width = image.width,
+                height = image.height,
+                imageFormat = imageFormat,
+                imageScaleMode = imageScaleMode,
+                quality = Quality.Base().coerceIn(imageFormat)
             )
-            val normalization = 2048 * (initialSize / (5 * 1024 * 1024)).coerceAtLeast(1)
-
+            var data = imageCompressor.compressAndTransform(image, imageInfo)
+            val normalization = 2048 * (data.size.toLong() / (5 * 1024 * 1024)).coerceAtLeast(1)
             val targetSize = (maxBytes - normalization).coerceAtLeast(1024)
 
-            if (initialSize > targetSize) {
-                var outArray = ByteArray(initialSize.toInt())
-                var compressQuality = 100
-                var newSize = image.size()
+            if (data.size <= targetSize) {
+                return@runSuspendCatching if (saveIfSmaller) data to imageInfo else null
+            }
 
-                if (imageFormat.canChangeCompressionValue) {
-                    while (outArray.size > targetSize) {
-                        ensureActive()
-                        outArray = imageCompressor.compressAndTransform(
-                            image = image,
-                            imageInfo = ImageInfo(
-                                width = newSize.width,
-                                height = newSize.height,
-                                quality = Quality.Base(compressQuality),
-                                imageFormat = imageFormat
-                            )
-                        )
-                        compressQuality -= 1
-
-                        if (compressQuality < 15) break
-                    }
-
-                    compressQuality = 15
-                }
-
-                while (outArray.size > targetSize) {
+            if (imageFormat.canChangeCompressionValue) {
+                for (quality in 99 downTo 15) {
+                    val nextQuality = Quality.Base(quality).coerceIn(imageFormat)
+                    if (nextQuality == imageInfo.quality) continue
                     ensureActive()
-
-                    newSize = scaleImage(
-                        image = image,
-                        width = (newSize.width * 0.93f).roundToInt(),
-                        height = (newSize.height * 0.93f).roundToInt(),
-                        imageScaleMode = imageScaleMode
-                    ).size()
-
-                    outArray = imageCompressor.compressAndTransform(
-                        image = image,
-                        imageInfo = ImageInfo(
-                            quality = Quality.Base(compressQuality),
-                            imageFormat = imageFormat,
-                            width = newSize.width,
-                            height = newSize.height
-                        )
-                    )
+                    imageInfo = imageInfo.copy(quality = nextQuality)
+                    data = imageCompressor.compressAndTransform(image, imageInfo)
+                    if (data.size <= targetSize) return@runSuspendCatching data to imageInfo
                 }
+            }
 
-                outArray to ImageInfo(
-                    width = newSize.width,
-                    height = newSize.height,
-                    imageFormat = imageFormat
+            while (data.size > targetSize) {
+                ensureActive()
+                if (imageInfo.width == 1 && imageInfo.height == 1) {
+                    return@runSuspendCatching null
+                }
+                imageInfo = imageInfo.copy(
+                    width = imageInfo.width.shrink(),
+                    height = imageInfo.height.shrink()
                 )
-            } else if (saveIfSmaller) {
-                val imageInfo = ImageInfo(
-                    width = image.width,
-                    height = image.height,
-                    imageFormat = imageFormat
-                )
-                imageCompressor.compressAndTransform(
-                    image = image,
-                    imageInfo = imageInfo
-                ) to imageInfo
-            } else null
+                data = imageCompressor.compressAndTransform(image, imageInfo)
+            }
+
+            data to imageInfo
         }.getOrNull()
     }
 
-    private fun Bitmap.size(): IntegerSize = IntegerSize(width, height)
+    private fun Int.shrink(): Int = (this * 0.93f).roundToInt()
+        .coerceAtMost(this - 1)
+        .coerceAtLeast(1)
 }

@@ -49,6 +49,7 @@ import com.t8rin.imagetoolbox.feature.batchrename.domain.model.RenameResult
 import com.t8rin.imagetoolbox.feature.batchrename.domain.model.RenameTarget
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.withContext
 import java.io.File
 import java.nio.file.Files
@@ -70,6 +71,7 @@ internal class AndroidRenameManager @Inject constructor(
     override suspend fun readFiles(uris: Iterable<String>): List<RenameFile> =
         withContext(ioDispatcher) {
             uris.distinct().map { it.toUri() }.mapNotNull { uri ->
+                ensureActive()
                 val name = uri.filename(context)
                     ?.takeIf(String::isNotBlank)
                     ?: uri.lastPathSegment?.substringAfterLast('/')?.takeIf(String::isNotBlank)
@@ -356,9 +358,7 @@ internal class AndroidRenameManager @Inject constructor(
             Process.myUid(),
             Intent.FLAG_GRANT_WRITE_URI_PERMISSION
         ) == PackageManager.PERMISSION_GRANTED
-        if (hasGrant) return true
-
-        return runCatching {
+        return hasGrant || runCatching {
             contentResolver.query(
                 uri,
                 arrayOf(MediaStore.MediaColumns.OWNER_PACKAGE_NAME),

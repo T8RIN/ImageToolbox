@@ -49,10 +49,12 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.isActive
 
 class BatchRenameComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
@@ -90,6 +92,9 @@ class BatchRenameComponent @AssistedInject internal constructor(
 
     private var pendingPermissionUris: Set<Uri> = emptySet()
     private val writableUris = mutableSetOf<Uri>()
+
+    private var loadingJob: Job? by smartJob()
+    private var loadingUris: List<Uri>? = null
 
     private var renameJob: Job? by smartJob {
         _isLoading.value = false
@@ -138,27 +143,47 @@ class BatchRenameComponent @AssistedInject internal constructor(
     }
 
     fun setUris(uris: List<Uri>) {
-        componentScope.launch {
-            _isLoading.value = true
-            val loadedFiles = manager.readFiles(uris.map { it.toString() })
-            finalizePendingHistoryTransaction()
-            val beforeSnapshot = currentHistorySnapshot()
-            _files.value = loadedFiles
-            writableUris.clear()
-            commitHistoryFrom(beforeSnapshot)
-            _isLoading.value = false
-        }
+        loadFiles(uris, emptyList())
     }
 
     fun addUris(uris: List<Uri>) {
-        setUris((files.map { it.uri.toUri() } + uris).distinct())
+        loadFiles((loadingUris ?: files.map { it.uri.toUri() }) + uris, files)
+    }
+
+    private fun loadFiles(uris: List<Uri>, existingFiles: List<RenameFile>) {
+        val requestedUris = uris.distinct()
+        loadingUris = requestedUris
+        loadingJob = componentScope.launch {
+            _isLoading.value = true
+            try {
+                val existing = existingFiles.associateBy { it.uri }
+                val missing = requestedUris.map { it.toString() }.filterNot(existing::containsKey)
+                val loaded = if (missing.isEmpty()) emptyList() else manager.readFiles(missing)
+                ensureActive()
+                val byUri = existing + loaded.associateBy { it.uri }
+                finalizePendingHistoryTransaction()
+                val beforeSnapshot = currentHistorySnapshot()
+                _files.value = requestedUris.mapNotNull { byUri[it.toString()] }
+                writableUris.clear()
+                commitHistoryFrom(beforeSnapshot)
+            } finally {
+                if (isActive) {
+                    loadingUris = null
+                    _isLoading.value = false
+                }
+            }
+        }
     }
 
     fun removeFile(uri: Uri) {
+        loadingUris = loadingUris?.filterNot { it == uri }
+        loadingJob = null
+        _isLoading.value = false
         finalizePendingHistoryTransaction()
         val beforeSnapshot = currentHistorySnapshot()
         _files.update { current -> current.filterNot { it.uri.toUri() == uri } }
         commitHistoryFrom(beforeSnapshot)
+        loadingUris?.let { loadFiles(it, files) }
     }
 
     fun updatePattern(value: String) {
@@ -192,6 +217,9 @@ class BatchRenameComponent @AssistedInject internal constructor(
     )
 
     override fun applyHistorySnapshot(snapshot: HistorySnapshot) {
+        loadingJob = null
+        loadingUris = null
+        _isLoading.value = false
         _files.value = snapshot.files
         _pattern.value = snapshot.pattern
         _dateSource.value = snapshot.dateSource

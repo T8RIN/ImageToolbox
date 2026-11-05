@@ -50,8 +50,9 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.ensureActive
-import kotlinx.coroutines.sync.Mutex
-import kotlinx.coroutines.sync.withLock
+import kotlinx.coroutines.job
+import kotlinx.coroutines.sync.Semaphore
+import kotlinx.coroutines.sync.withPermit
 
 class AudioCoverExtractorComponent @AssistedInject constructor(
     @Assisted componentContext: ComponentContext,
@@ -94,7 +95,8 @@ class AudioCoverExtractorComponent @AssistedInject constructor(
         _isSaving.update { false }
     }
 
-    private val mutex = Mutex()
+    private val loadingJobs = mutableMapOf<Uri, Job>()
+    private val loadingPermits = Semaphore(2)
 
     private fun Bitmap.imageInfo() = ImageInfo(
         width = width,
@@ -104,95 +106,47 @@ class AudioCoverExtractorComponent @AssistedInject constructor(
     )
 
     fun updateCovers(uris: List<Uri>) {
-        componentScope.launch {
-            val audioUris = uris.distinct()
-
-            mutex.withLock {
-                _covers.value = audioUris.map {
-                    AudioWithCover(
-                        audioUri = it,
-                        imageCoverUri = null,
-                        isLoading = true
-                    )
-                }
-            }
-
-            audioUris.forEach { audioUri ->
-                launch {
-                    val result = audioCoverRetriever.loadCover(audioUri.toString())
-
-                    val success = result as? AudioCoverResult.Success
-
-                    ensureActive()
-
-                    val newCover = AudioWithCover(
-                        audioUri = audioUri,
-                        imageCoverUri = success?.coverUri?.toUri(),
-                        isLoading = false
-                    )
-
-                    mutex.withLock {
-                        _covers.update { covers ->
-                            covers.toMutableList().apply {
-                                val index =
-                                    indexOfFirst { it.audioUri == audioUri }.takeIf { it >= 0 }
-                                        ?: return@update covers + newCover
-
-                                set(index, newCover)
-                            }
-                        }
-                    }
-                }
-            }
-        }
+        loadingJobs.values.toList().forEach(Job::cancel)
+        loadingJobs.clear()
+        _covers.value = emptyList()
+        addCovers(uris)
     }
 
     fun addCovers(uris: List<Uri>) {
-        componentScope.launch {
-            val audioUris = uris.distinct()
-
-            mutex.withLock {
-                _covers.update { covers ->
-                    val newList = covers + audioUris.map {
-                        AudioWithCover(
-                            audioUri = it,
-                            imageCoverUri = null,
-                            isLoading = true
-                        )
+        _covers.update { covers ->
+            val existingUris = covers.mapTo(mutableSetOf()) { it.audioUri }
+            covers.map { if (it.imageCoverUri == null) it.copy(isLoading = true) else it } +
+                    uris.filter(existingUris::add).map { uri ->
+                        AudioWithCover(audioUri = uri, imageCoverUri = null, isLoading = true)
                     }
+        }
 
-                    newList.distinctBy { it.audioUri }
-                }
-            }
-
-            covers.filter { it.imageCoverUri == null }.forEach { (audioUri) ->
-                launch {
-                    val result = audioCoverRetriever.loadCover(audioUri.toString())
-
-                    val success = result as? AudioCoverResult.Success
-
-                    ensureActive()
-
-                    val newCover = AudioWithCover(
-                        audioUri = audioUri,
-                        imageCoverUri = success?.coverUri?.toUri(),
-                        isLoading = false
-                    )
-
-                    mutex.withLock {
+        covers.filter { it.imageCoverUri == null && it.audioUri !in loadingJobs }
+            .forEach { cover ->
+                val audioUri = cover.audioUri
+                loadingJobs[audioUri] = componentScope.launch(uiDispatcher) {
+                    try {
+                        val result = runSuspendCatching {
+                            loadingPermits.withPermit {
+                                audioCoverRetriever.loadCover(audioUri.toString())
+                            }
+                        }.getOrNull() as? AudioCoverResult.Success
+                        ensureActive()
                         _covers.update { covers ->
-                            covers.toMutableList().apply {
-                                val index =
-                                    indexOfFirst { it.audioUri == audioUri }.takeIf { it >= 0 }
-                                        ?: return@update covers + newCover
-
-                                set(index, newCover)
+                            covers.map {
+                                if (it.audioUri == audioUri) {
+                                    it.copy(
+                                        imageCoverUri = result?.coverUri?.toUri(),
+                                        isLoading = false
+                                    )
+                                } else it
                             }
                         }
+                    } finally {
+                        loadingJobs.remove(audioUri, coroutineContext.job)
                     }
                 }
             }
-        }
     }
 
     fun performSharing(onComplete: () -> Unit) {
@@ -238,8 +192,10 @@ class AudioCoverExtractorComponent @AssistedInject constructor(
 
     fun removeCover(coverUri: Uri) {
         _covers.update { list ->
-            list.filter {
-                it.imageCoverUri != coverUri && it.audioUri != coverUri
+            list.filter { cover ->
+                val remove = cover.imageCoverUri == coverUri || cover.audioUri == coverUri
+                if (remove) loadingJobs.remove(cover.audioUri)?.cancel()
+                !remove
             }
         }
     }

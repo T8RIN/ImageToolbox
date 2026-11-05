@@ -53,12 +53,12 @@ internal class AndroidAudioCoverRetriever @Inject constructor(
     ): AudioCoverResult = withContext(defaultDispatcher) {
         val pictureData = runCatching {
             MediaMetadataRetriever().run {
-                setDataSource(
-                    context,
-                    audioUri.toUri()
-                )
-
-                embeddedPicture ?: frameAtTime
+                try {
+                    setDataSource(context, audioUri.toUri())
+                    embeddedPicture ?: frameAtTime
+                } finally {
+                    release()
+                }
             }
         }.onFailure {
             return@withContext AudioCoverResult.Failure(it.message.orEmpty())
