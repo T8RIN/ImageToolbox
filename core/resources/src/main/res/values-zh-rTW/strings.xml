@@ -7942,4 +7942,10 @@
     <string name="emoji_kitchen_download_size">存檔大小：%1$s</string>
     <string name="emoji_kitchen_favorites">書籤</string>
     <string name="emoji_kitchen_favorites_empty">沒有書籤</string>
+    <string name="gallery_show_file_size">顯示檔案大小</string>
+    <string name="gallery_show_file_extension">顯示文件格式</string>
+    <string name="gallery_show_file_size_sub">在圖像縮圖上顯示檔案大小。</string>
+    <string name="gallery_show_file_extension_sub">在圖像縮圖上顯示文件格式。</string>
+    <string name="help_tip_gallery_workflow_grid_settings">開啟設定 → 圖庫將網格設定為自動或選擇 1–20 列。用兩根手指捏合以調整網格大小，直到關閉。檔案大小和格式標籤可以單獨關閉。</string>
+    <string name="help_tip_gallery_workflow_fast_scroll">捲動以顯示右側的手把。拖曳它可以按日期和時間在圖庫中移動。</string>
 </resources>

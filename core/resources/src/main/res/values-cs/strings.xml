@@ -7945,4 +7945,10 @@
     <string name="emoji_kitchen_download_size">Velikost archivu: %1$s</string>
     <string name="emoji_kitchen_favorites">Záložky</string>
     <string name="emoji_kitchen_favorites_empty">Žádné záložky</string>
+    <string name="gallery_show_file_size">Zobrazit velikost souboru</string>
+    <string name="gallery_show_file_extension">Zobrazit formát souboru</string>
+    <string name="gallery_show_file_size_sub">Zobrazit velikost souboru na miniaturách obrázků.</string>
+    <string name="gallery_show_file_extension_sub">Zobrazit formát souboru na miniaturách obrázků.</string>
+    <string name="help_tip_gallery_workflow_grid_settings">Otevřete Nastavení → Galerie a nastavte mřížku na Automaticky nebo vyberte 1–20 sloupců. Sevřením dvěma prsty změníte velikost mřížky, dokud ji nezavřete. Velikost souboru a štítky formátu lze vypnout samostatně.</string>
+    <string name="help_tip_gallery_workflow_fast_scroll">Posunutím odkryjte rukojeť napravo. Přetažením můžete procházet galerií podle data a času.</string>
 </resources>

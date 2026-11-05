@@ -7943,4 +7943,10 @@
     <string name="emoji_kitchen_download_size">Laki ng archive: %1$s</string>
     <string name="emoji_kitchen_favorites">Mga bookmark</string>
     <string name="emoji_kitchen_favorites_empty">Walang mga bookmark</string>
+    <string name="gallery_show_file_size">Ipakita ang laki ng file</string>
+    <string name="gallery_show_file_extension">Ipakita ang format ng file</string>
+    <string name="gallery_show_file_size_sub">Ipakita ang laki ng file sa mga thumbnail ng larawan.</string>
+    <string name="gallery_show_file_extension_sub">Ipakita ang format ng file sa mga thumbnail ng larawan.</string>
+    <string name="help_tip_gallery_workflow_grid_settings">Buksan ang Mga Setting → Gallery upang itakda ang grid sa Auto o pumili ng 1–20 column. Kurutin gamit ang dalawang daliri upang baguhin ang laki ng grid hanggang sa isara mo ito. Ang laki ng file at mga label ng format ay maaaring i-off nang hiwalay.</string>
+    <string name="help_tip_gallery_workflow_fast_scroll">Mag-scroll upang ipakita ang hawakan sa kanan. I-drag ito upang lumipat sa gallery ayon sa petsa at oras.</string>
 </resources>

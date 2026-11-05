@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -14,7 +13,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Algo deu errado: %1$s</string>
     <string name="size">Tamanho %1$s</string>
     <string name="loading">Carregando…</string>
@@ -7914,7 +7915,6 @@
     <string name="restoration">Restauração</string>
     <string name="red_recovery">Recuperação vermelha</string>
     <string name="assistant_model_low_ram">Pouca memória RAM. O aplicativo pode travar neste modelo.</string>
-    <string name="assistant_model_low_ram">RAM baixa. O aplicativo pode travar com este modelo.</string>
     <string name="emoji_kitchen">Cozinha Emoji</string>
     <string name="emoji_kitchen_description">Combine dois emojis em um adesivo Google Emoji Kitchen</string>
     <string name="emoji_kitchen_search_keywords">cozinha emoji, emojis, adesivos, mix, mashup, combinar, google, smileys</string>
@@ -7944,4 +7944,10 @@
     <string name="emoji_kitchen_download_size">Tamanho do arquivo: %1$s</string>
     <string name="emoji_kitchen_favorites">Favoritos</string>
     <string name="emoji_kitchen_favorites_empty">Sem favoritos</string>
+    <string name="gallery_show_file_size">Mostrar tamanho do arquivo</string>
+    <string name="gallery_show_file_extension">Mostrar formato de arquivo</string>
+    <string name="gallery_show_file_size_sub">Mostre o tamanho do arquivo nas miniaturas das imagens.</string>
+    <string name="gallery_show_file_extension_sub">Mostre o formato do arquivo nas miniaturas das imagens.</string>
+    <string name="help_tip_gallery_workflow_grid_settings">Abra Configurações → Galeria para definir a grade como Automática ou escolha de 1 a 20 colunas. Aperte com dois dedos para redimensionar a grade até fechá-la. Os rótulos de tamanho e formato do arquivo podem ser desativados separadamente.</string>
+    <string name="help_tip_gallery_workflow_fast_scroll">Role para revelar a alça à direita. Arraste-o para percorrer a galeria por data e hora.</string>
 </resources>

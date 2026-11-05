@@ -7945,4 +7945,10 @@
     <string name="emoji_kitchen_download_size">גודל ארכיון: %1$s</string>
     <string name="emoji_kitchen_favorites">סימניות</string>
     <string name="emoji_kitchen_favorites_empty">אין סימניות</string>
+    <string name="gallery_show_file_size">הצג את גודל הקובץ</string>
+    <string name="gallery_show_file_extension">הצג פורמט קובץ</string>
+    <string name="gallery_show_file_size_sub">הצג את גודל הקובץ בתמונות ממוזערות.</string>
+    <string name="gallery_show_file_extension_sub">הצג את פורמט הקובץ בתמונות ממוזערות.</string>
+    <string name="help_tip_gallery_workflow_grid_settings">פתח את הגדרות ← גלריה כדי להגדיר את הרשת ל-Auto או בחר 1-20 עמודות. צבט בשתי אצבעות כדי לשנות את גודל הרשת עד שתסגור אותה. ניתן לכבות את תוויות גודל הקובץ והפורמט בנפרד.</string>
+    <string name="help_tip_gallery_workflow_fast_scroll">גלול כדי לחשוף את הידית בצד ימין. גרור אותו כדי לעבור בגלריה לפי תאריך ושעה.</string>
 </resources>

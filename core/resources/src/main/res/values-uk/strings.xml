@@ -7945,4 +7945,10 @@
     <string name="emoji_kitchen_download_size">Розмір архіву: %1$s</string>
     <string name="emoji_kitchen_favorites">Закладки</string>
     <string name="emoji_kitchen_favorites_empty">Закладок немає</string>
+    <string name="gallery_show_file_size">Показати розмір файлу</string>
+    <string name="gallery_show_file_extension">Показати формат файлу</string>
+    <string name="gallery_show_file_size_sub">Показувати розмір файлу на ескізах зображень.</string>
+    <string name="gallery_show_file_extension_sub">Показати формат файлу на ескізах зображень.</string>
+    <string name="help_tip_gallery_workflow_grid_settings">Відкрийте «Параметри» → «Галерея», щоб встановити для сітки значення «Авто» або виберіть 1–20 стовпців. Зведіть двома пальцями, щоб змінити розмір сітки, доки не закриєте її. Мітки розміру файлу та формату можна вимкнути окремо.</string>
+    <string name="help_tip_gallery_workflow_fast_scroll">Прокрутіть, щоб відкрити ручку праворуч. Перетягніть його, щоб переміщатися галереєю за датою та часом.</string>
 </resources>

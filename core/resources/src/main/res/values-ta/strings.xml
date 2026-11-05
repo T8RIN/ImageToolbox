@@ -7943,4 +7943,10 @@
     <string name="emoji_kitchen_download_size">காப்பக அளவு: %1$s</string>
     <string name="emoji_kitchen_favorites">புக்மார்க்குகள்</string>
     <string name="emoji_kitchen_favorites_empty">புக்மார்க்குகள் இல்லை</string>
+    <string name="gallery_show_file_size">கோப்பு அளவைக் காட்டு</string>
+    <string name="gallery_show_file_extension">கோப்பு வடிவத்தைக் காட்டு</string>
+    <string name="gallery_show_file_size_sub">படத்தின் சிறுபடங்களில் கோப்பு அளவைக் காட்டு.</string>
+    <string name="gallery_show_file_extension_sub">படத்தின் சிறுபடங்களில் கோப்பு வடிவத்தைக் காட்டு.</string>
+    <string name="help_tip_gallery_workflow_grid_settings">கட்டத்தை தானாக அமைக்க அமைப்புகள் → கேலரியைத் திறக்கவும் அல்லது 1-20 நெடுவரிசைகளைத் தேர்வு செய்யவும். கட்டத்தை மூடும் வரை அதன் அளவை மாற்ற இரண்டு விரல்களால் பிஞ்ச் செய்யவும். கோப்பு அளவு மற்றும் வடிவமைப்பு லேபிள்களை தனித்தனியாக முடக்கலாம்.</string>
+    <string name="help_tip_gallery_workflow_fast_scroll">வலதுபுறத்தில் கைப்பிடியை வெளிப்படுத்த உருட்டவும். தேதி மற்றும் நேரத்தின்படி கேலரியில் செல்ல அதை இழுக்கவும்.</string>
 </resources>

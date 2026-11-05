@@ -7943,4 +7943,10 @@
     <string name="emoji_kitchen_download_size">اندازه آرشیو: %1$s</string>
     <string name="emoji_kitchen_favorites">نشانک ها</string>
     <string name="emoji_kitchen_favorites_empty">بدون نشانک</string>
+    <string name="gallery_show_file_size">نمایش اندازه فایل</string>
+    <string name="gallery_show_file_extension">نمایش فرمت فایل</string>
+    <string name="gallery_show_file_size_sub">اندازه فایل را روی ریز عکسها نشان دهید.</string>
+    <string name="gallery_show_file_extension_sub">فرمت فایل را روی ریز عکسها نشان دهید.</string>
+    <string name="help_tip_gallery_workflow_grid_settings">تنظیمات ← گالری را باز کنید تا شبکه روی خودکار تنظیم شود یا ۱ تا ۲۰ ستون را انتخاب کنید. با دو انگشت فشار دهید تا اندازه شبکه را تغییر دهید تا زمانی که آن را ببندید. برچسب های اندازه و قالب فایل را می توان به طور جداگانه خاموش کرد.</string>
+    <string name="help_tip_gallery_workflow_fast_scroll">اسکرول کنید تا دستگیره سمت راست نمایان شود. آن را بکشید تا در گالری بر اساس تاریخ و زمان حرکت کنید.</string>
 </resources>

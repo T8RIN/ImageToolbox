@@ -7947,4 +7947,10 @@
     <string name="emoji_kitchen_download_size">حجم الأرشيف: %1$s</string>
     <string name="emoji_kitchen_favorites">الإشارات المرجعية</string>
     <string name="emoji_kitchen_favorites_empty">لا الإشارات المرجعية</string>
+    <string name="gallery_show_file_size">إظهار حجم الملف</string>
+    <string name="gallery_show_file_extension">إظهار تنسيق الملف</string>
+    <string name="gallery_show_file_size_sub">إظهار حجم الملف على الصور المصغرة للصور.</string>
+    <string name="gallery_show_file_extension_sub">إظهار تنسيق الملف على الصور المصغرة للصور.</string>
+    <string name="help_tip_gallery_workflow_grid_settings">افتح الإعدادات → المعرض لتعيين الشبكة على تلقائي أو اختر من 1 إلى 20 عمودًا. قم بالضغط بإصبعين لتغيير حجم الشبكة حتى تقوم بإغلاقها. يمكن إيقاف تشغيل تسميات حجم الملف وتنسيقه بشكل منفصل.</string>
+    <string name="help_tip_gallery_workflow_fast_scroll">قم بالتمرير للكشف عن المقبض الموجود على اليمين. اسحبه للتنقل عبر المعرض حسب التاريخ والوقت.</string>
 </resources>

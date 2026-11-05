@@ -7943,4 +7943,10 @@
     <string name="emoji_kitchen_download_size">Tamaño del archivo: %1$s</string>
     <string name="emoji_kitchen_favorites">Marcadores</string>
     <string name="emoji_kitchen_favorites_empty">Sin marcadores</string>
+    <string name="gallery_show_file_size">Mostrar tamaño de archivo</string>
+    <string name="gallery_show_file_extension">Mostrar formato de archivo</string>
+    <string name="gallery_show_file_size_sub">Muestra el tamaño del archivo en miniaturas de imágenes.</string>
+    <string name="gallery_show_file_extension_sub">Muestra el formato de archivo en miniaturas de imágenes.</string>
+    <string name="help_tip_gallery_workflow_grid_settings">Abra Configuración → Galería para configurar la cuadrícula en Automático o elija entre 1 y 20 columnas. Pellizca con dos dedos para cambiar el tamaño de la cuadrícula hasta cerrarla. Las etiquetas de tamaño y formato de archivo se pueden desactivar por separado.</string>
+    <string name="help_tip_gallery_workflow_fast_scroll">Desplácese para revelar el identificador de la derecha. Arrástralo para moverte por la galería por fecha y hora.</string>
 </resources>

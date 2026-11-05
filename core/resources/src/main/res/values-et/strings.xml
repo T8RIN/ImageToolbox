@@ -7943,4 +7943,10 @@
     <string name="emoji_kitchen_download_size">Arhiivi suurus: %1$s</string>
     <string name="emoji_kitchen_favorites">Järjehoidjad</string>
     <string name="emoji_kitchen_favorites_empty">Järjehoidjaid pole</string>
+    <string name="gallery_show_file_size">Näita faili suurust</string>
+    <string name="gallery_show_file_extension">Näita failivormingut</string>
+    <string name="gallery_show_file_size_sub">Kuva faili suurus piltide pisipiltidel.</string>
+    <string name="gallery_show_file_extension_sub">Näita pildi pisipiltidel failivormingut.</string>
+    <string name="help_tip_gallery_workflow_grid_settings">Avage Seaded → Galerii, et määrata ruudustikuks Automaatne või valida 1–20 veergu. Suruge kahe sõrmega ruudustiku suuruse muutmiseks, kuni selle sulgete. Faili suuruse ja vormingu silte saab eraldi välja lülitada.</string>
+    <string name="help_tip_gallery_workflow_fast_scroll">Kerige paremal asuva käepideme kuvamiseks. Lohistage seda, et liikuda galeriis kuupäeva ja kellaaja järgi.</string>
 </resources>

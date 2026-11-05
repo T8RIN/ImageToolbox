@@ -7943,4 +7943,10 @@
     <string name="emoji_kitchen_download_size">पुरालेख का आकार: %1$s</string>
     <string name="emoji_kitchen_favorites">बुकमार्क</string>
     <string name="emoji_kitchen_favorites_empty">कोई बुकमार्क नहीं</string>
+    <string name="gallery_show_file_size">फ़ाइल का आकार दिखाएँ</string>
+    <string name="gallery_show_file_extension">फ़ाइल स्वरूप दिखाएँ</string>
+    <string name="gallery_show_file_size_sub">छवि थंबनेल पर फ़ाइल का आकार दिखाएँ।</string>
+    <string name="gallery_show_file_extension_sub">छवि थंबनेल पर फ़ाइल स्वरूप दिखाएँ।</string>
+    <string name="help_tip_gallery_workflow_grid_settings">ग्रिड को ऑटो पर सेट करने के लिए सेटिंग्स → गैलरी खोलें या 1-20 कॉलम चुनें। ग्रिड का आकार बदलने के लिए उसे बंद करने तक दो अंगुलियों से पिंच करें। फ़ाइल आकार और प्रारूप लेबल को अलग से बंद किया जा सकता है।</string>
+    <string name="help_tip_gallery_workflow_fast_scroll">दाईं ओर के हैंडल को प्रकट करने के लिए स्क्रॉल करें। दिनांक और समय के अनुसार गैलरी में जाने के लिए इसे खींचें।</string>
 </resources>

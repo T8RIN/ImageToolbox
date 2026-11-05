@@ -7943,4 +7943,10 @@
     <string name="emoji_kitchen_download_size">Мұрағат өлшемі: %1$s</string>
     <string name="emoji_kitchen_favorites">Бетбелгілер</string>
     <string name="emoji_kitchen_favorites_empty">Бетбелгілер жоқ</string>
+    <string name="gallery_show_file_size">Файл өлшемін көрсету</string>
+    <string name="gallery_show_file_extension">Файл пішімін көрсету</string>
+    <string name="gallery_show_file_size_sub">Файл өлшемін кескін нобайларында көрсетіңіз.</string>
+    <string name="gallery_show_file_extension_sub">Файл пішімін кескін нобайларында көрсетіңіз.</string>
+    <string name="help_tip_gallery_workflow_grid_settings">Торды Авто күйіне орнату немесе 1–20 бағандарды таңдау үшін Параметрлер → Галерея тармағын ашыңыз. Торды жапқанша өлшемін өзгерту үшін екі саусақпен қысыңыз. Файл өлшемі мен пішім белгілерін бөлек өшіруге болады.</string>
+    <string name="help_tip_gallery_workflow_fast_scroll">Оң жақтағы тұтқаны ашу үшін айналдырыңыз. Галереяда күн мен уақыт бойынша жылжу үшін оны сүйреңіз.</string>
 </resources>

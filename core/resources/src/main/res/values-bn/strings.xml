@@ -7943,4 +7943,10 @@
     <string name="emoji_kitchen_download_size">সংরক্ষণাগার আকার: %1$s</string>
     <string name="emoji_kitchen_favorites">বুকমার্ক</string>
     <string name="emoji_kitchen_favorites_empty">কোন বুকমার্ক নেই</string>
+    <string name="gallery_show_file_size">ফাইলের আকার দেখান</string>
+    <string name="gallery_show_file_extension">ফাইল ফরম্যাট দেখান</string>
+    <string name="gallery_show_file_size_sub">ছবির থাম্বনেইলে ফাইলের আকার দেখান।</string>
+    <string name="gallery_show_file_extension_sub">ছবির থাম্বনেইলে ফাইল ফরম্যাট দেখান।</string>
+    <string name="help_tip_gallery_workflow_grid_settings">গ্রিডটিকে অটোতে সেট করতে সেটিংস → গ্যালারি খুলুন বা 1-20টি কলাম বেছে নিন। আপনি এটি বন্ধ না করা পর্যন্ত গ্রিডের আকার পরিবর্তন করতে দুটি আঙ্গুল দিয়ে চিমটি করুন। ফাইলের আকার এবং বিন্যাস লেবেলগুলি আলাদাভাবে বন্ধ করা যেতে পারে।</string>
+    <string name="help_tip_gallery_workflow_fast_scroll">ডানদিকে হ্যান্ডেলটি প্রকাশ করতে স্ক্রোল করুন। তারিখ এবং সময় অনুসারে গ্যালারির মধ্য দিয়ে যেতে এটি টেনে আনুন।</string>
 </resources>

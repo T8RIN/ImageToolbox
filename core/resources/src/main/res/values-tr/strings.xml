@@ -7943,4 +7943,10 @@
     <string name="emoji_kitchen_download_size">Arşiv boyutu: %1$s</string>
     <string name="emoji_kitchen_favorites">Yer imleri</string>
     <string name="emoji_kitchen_favorites_empty">Yer imi yok</string>
+    <string name="gallery_show_file_size">Dosya boyutunu göster</string>
+    <string name="gallery_show_file_extension">Dosya formatını göster</string>
+    <string name="gallery_show_file_size_sub">Dosya boyutunu görsel küçük resimlerinde gösterin.</string>
+    <string name="gallery_show_file_extension_sub">Dosya formatını görsel küçük resimlerinde gösterin.</string>
+    <string name="help_tip_gallery_workflow_grid_settings">Izgarayı Otomatik olarak ayarlamak veya 1-20 sütun seçmek için Ayarlar → Galeri\'yi açın. Izgarayı kapatana kadar yeniden boyutlandırmak için iki parmağınızla sıkıştırın. Dosya boyutu ve format etiketleri ayrı ayrı kapatılabilir.</string>
+    <string name="help_tip_gallery_workflow_fast_scroll">Sağdaki tutamacı ortaya çıkarmak için kaydırın. Galeride tarih ve saate göre gezinmek için sürükleyin.</string>
 </resources>

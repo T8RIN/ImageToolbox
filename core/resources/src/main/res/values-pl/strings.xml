@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -14,7 +13,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">Rozmiar %1$s</string>
     <string name="width">Szerokość %1$s</string>
     <string name="loading">Ładowanie…</string>
@@ -7915,7 +7916,6 @@
     <string name="restoration">Przywrócenie</string>
     <string name="red_recovery">Powrót do zdrowia czerwony</string>
     <string name="assistant_model_low_ram">Niewielka ilość pamięci RAM. W tym modelu aplikacja może się zawieszać.</string>
-    <string name="assistant_model_low_ram">Niska pamięć RAM. Aplikacja może ulec awarii w przypadku tego modelu.</string>
     <string name="emoji_kitchen">Kuchnia Emoji</string>
     <string name="emoji_kitchen_description">Połącz dwa emoji w naklejkę Google Emoji Kitchen</string>
     <string name="emoji_kitchen_search_keywords">kuchnia emoji, emoji, naklejki, miksowanie, mashup, łączenie, google, emotikony</string>
@@ -7945,4 +7945,10 @@
     <string name="emoji_kitchen_download_size">Rozmiar archiwum: %1$s</string>
     <string name="emoji_kitchen_favorites">Zakładki</string>
     <string name="emoji_kitchen_favorites_empty">Brak zakładek</string>
+    <string name="gallery_show_file_size">Pokaż rozmiar pliku</string>
+    <string name="gallery_show_file_extension">Pokaż format pliku</string>
+    <string name="gallery_show_file_size_sub">Pokaż rozmiar pliku na miniaturach obrazów.</string>
+    <string name="gallery_show_file_extension_sub">Pokaż format pliku na miniaturach obrazów.</string>
+    <string name="help_tip_gallery_workflow_grid_settings">Otwórz Ustawienia → Galeria, aby ustawić siatkę na Auto lub wybierz 1–20 kolumn. Ściśnij dwoma palcami, aby zmienić rozmiar siatki, aż ją zamkniesz. Etykiety rozmiaru i formatu pliku można wyłączyć osobno.</string>
+    <string name="help_tip_gallery_workflow_fast_scroll">Przewiń, aby odsłonić uchwyt po prawej stronie. Przeciągnij go, aby poruszać się po galerii według daty i godziny.</string>
 </resources>

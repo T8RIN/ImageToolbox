@@ -7943,4 +7943,10 @@
     <string name="emoji_kitchen_download_size">Arkivstørrelse: %1$s</string>
     <string name="emoji_kitchen_favorites">Bogmærker</string>
     <string name="emoji_kitchen_favorites_empty">Ingen bogmærker</string>
+    <string name="gallery_show_file_size">Vis filstørrelse</string>
+    <string name="gallery_show_file_extension">Vis filformat</string>
+    <string name="gallery_show_file_size_sub">Vis filstørrelsen på miniaturebilleder.</string>
+    <string name="gallery_show_file_extension_sub">Vis filformatet på miniaturebilleder.</string>
+    <string name="help_tip_gallery_workflow_grid_settings">Åbn Indstillinger → Galleri for at indstille gitteret til Auto, eller vælg 1-20 kolonner. Klem sammen med to fingre for at ændre størrelsen på gitteret, indtil du lukker det. Filstørrelsen og formatetiketterne kan slås fra separat.</string>
+    <string name="help_tip_gallery_workflow_fast_scroll">Rul for at få vist håndtaget til højre. Træk den for at flytte gennem galleriet efter dato og klokkeslæt.</string>
 </resources>

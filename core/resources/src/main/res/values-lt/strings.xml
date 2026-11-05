@@ -7945,4 +7945,10 @@
     <string name="emoji_kitchen_download_size">Archyvo dydis: %1$s</string>
     <string name="emoji_kitchen_favorites">Žymės</string>
     <string name="emoji_kitchen_favorites_empty">Nėra žymių</string>
+    <string name="gallery_show_file_size">Rodyti failo dydį</string>
+    <string name="gallery_show_file_extension">Rodyti failo formatą</string>
+    <string name="gallery_show_file_size_sub">Rodyti failo dydį vaizdų miniatiūrose.</string>
+    <string name="gallery_show_file_extension_sub">Rodyti failo formatą vaizdų miniatiūrose.</string>
+    <string name="help_tip_gallery_workflow_grid_settings">Atidarykite Nustatymai → Galerija, kad nustatytumėte tinklelį į Automatinis arba pasirinkite 1–20 stulpelių. Suimkite dviem pirštais, kad pakeistumėte tinklelio dydį, kol jį uždarysite. Failo dydžio ir formato etiketes galima išjungti atskirai.</string>
+    <string name="help_tip_gallery_workflow_fast_scroll">Slinkite, kad atidarytumėte rankeną dešinėje. Vilkite jį, kad galėtumėte judėti galerijoje pagal datą ir laiką.</string>
 </resources>

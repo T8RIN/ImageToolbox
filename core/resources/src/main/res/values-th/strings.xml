@@ -7942,4 +7942,10 @@
     <string name="emoji_kitchen_download_size">ขนาดไฟล์เก็บถาวร: %1$s</string>
     <string name="emoji_kitchen_favorites">บุ๊กมาร์ก</string>
     <string name="emoji_kitchen_favorites_empty">ไม่มีบุ๊กมาร์ก</string>
+    <string name="gallery_show_file_size">แสดงขนาดไฟล์</string>
+    <string name="gallery_show_file_extension">แสดงรูปแบบไฟล์</string>
+    <string name="gallery_show_file_size_sub">แสดงขนาดไฟล์ในภาพขนาดย่อของภาพ</string>
+    <string name="gallery_show_file_extension_sub">แสดงรูปแบบไฟล์บนภาพขนาดย่อ</string>
+    <string name="help_tip_gallery_workflow_grid_settings">เปิดการตั้งค่า → คลังภาพ เพื่อตั้งค่าตารางเป็นอัตโนมัติหรือเลือก 1–20 คอลัมน์ บีบด้วยสองนิ้วเพื่อปรับขนาดตารางจนกว่าคุณจะปิด ขนาดไฟล์และป้ายกำกับรูปแบบสามารถปิดแยกกันได้</string>
+    <string name="help_tip_gallery_workflow_fast_scroll">เลื่อนเพื่อแสดงที่จับทางด้านขวา ลากเพื่อเลื่อนไปตามแกลเลอรีตามวันที่และเวลา</string>
 </resources>

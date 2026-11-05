@@ -7942,4 +7942,10 @@
     <string name="emoji_kitchen_download_size">Ukuran arsip: %1$s</string>
     <string name="emoji_kitchen_favorites">Bookmark</string>
     <string name="emoji_kitchen_favorites_empty">Tidak ada bookmark</string>
+    <string name="gallery_show_file_size">Tampilkan ukuran file</string>
+    <string name="gallery_show_file_extension">Tampilkan format file</string>
+    <string name="gallery_show_file_size_sub">Tampilkan ukuran file pada thumbnail gambar.</string>
+    <string name="gallery_show_file_extension_sub">Tampilkan format file pada thumbnail gambar.</string>
+    <string name="help_tip_gallery_workflow_grid_settings">Buka Pengaturan → Galeri untuk mengatur kisi ke Otomatis atau pilih 1–20 kolom. Jepit dengan dua jari untuk mengubah ukuran kisi hingga Anda menutupnya. Label ukuran dan format file dapat dimatikan secara terpisah.</string>
+    <string name="help_tip_gallery_workflow_fast_scroll">Gulir untuk membuka pegangan di sebelah kanan. Seret untuk menelusuri galeri berdasarkan tanggal dan waktu.</string>
 </resources>

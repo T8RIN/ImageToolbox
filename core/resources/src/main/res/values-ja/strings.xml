@@ -7942,4 +7942,10 @@
     <string name="emoji_kitchen_download_size">アーカイブのサイズ: %1$s</string>
     <string name="emoji_kitchen_favorites">ブックマーク</string>
     <string name="emoji_kitchen_favorites_empty">ブックマークはありません</string>
+    <string name="gallery_show_file_size">ファイルサイズを表示</string>
+    <string name="gallery_show_file_extension">ファイル形式を表示</string>
+    <string name="gallery_show_file_size_sub">画像のサムネイルにファイルサイズを表示します。</string>
+    <string name="gallery_show_file_extension_sub">画像のサムネイルにファイル形式を表示します。</string>
+    <string name="help_tip_gallery_workflow_grid_settings">[設定] → [ギャラリー] を開き、グリッドを [自動] に設定するか、1 ～ 20 列を選択します。グリッドを閉じるまで 2 本の指でピンチしてグリッドのサイズを変更します。ファイル サイズと形式ラベルは個別にオフにできます。</string>
+    <string name="help_tip_gallery_workflow_fast_scroll">スクロールして右側にハンドルを表示します。ドラッグすると、日付と時刻ごとにギャラリー内を移動できます。</string>
 </resources>

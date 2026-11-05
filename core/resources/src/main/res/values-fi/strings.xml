@@ -7943,4 +7943,10 @@
     <string name="emoji_kitchen_download_size">Arkiston koko: %1$s</string>
     <string name="emoji_kitchen_favorites">Kirjanmerkit</string>
     <string name="emoji_kitchen_favorites_empty">Ei kirjanmerkkejä</string>
+    <string name="gallery_show_file_size">Näytä tiedostokoko</string>
+    <string name="gallery_show_file_extension">Näytä tiedostomuoto</string>
+    <string name="gallery_show_file_size_sub">Näytä tiedostokoko kuvien pikkukuvissa.</string>
+    <string name="gallery_show_file_extension_sub">Näytä tiedostomuoto kuvien pikkukuvissa.</string>
+    <string name="help_tip_gallery_workflow_grid_settings">Avaa Asetukset → Galleria asettaaksesi ruudukon asetukseksi Auto tai valitse 1–20 saraketta. Muuta ruudukon kokoa nipistämällä kahdella sormella, kunnes suljet sen. Tiedoston koko- ja muototarrat voidaan kytkeä pois päältä erikseen.</string>
+    <string name="help_tip_gallery_workflow_fast_scroll">Vieritä paljastaaksesi oikealla olevan kahvan. Vedä sitä siirtyäksesi galleriassa päivämäärän ja ajan mukaan.</string>
 </resources>

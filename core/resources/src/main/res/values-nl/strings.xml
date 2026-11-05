@@ -7943,4 +7943,10 @@
     <string name="emoji_kitchen_download_size">Archiefgrootte: %1$s</string>
     <string name="emoji_kitchen_favorites">Bladwijzers</string>
     <string name="emoji_kitchen_favorites_empty">Geen bladwijzers</string>
+    <string name="gallery_show_file_size">Toon bestandsgrootte</string>
+    <string name="gallery_show_file_extension">Bestandsformaat weergeven</string>
+    <string name="gallery_show_file_size_sub">Toon de bestandsgrootte op afbeeldingsminiaturen.</string>
+    <string name="gallery_show_file_extension_sub">Toon het bestandsformaat op miniatuurafbeeldingen.</string>
+    <string name="help_tip_gallery_workflow_grid_settings">Open Instellingen → Galerij om het raster in te stellen op Auto of kies 1–20 kolommen. Knijp met twee vingers om het formaat van het raster te wijzigen totdat u het sluit. De bestandsgrootte en formaatlabels kunnen afzonderlijk worden uitgeschakeld.</string>
+    <string name="help_tip_gallery_workflow_fast_scroll">Scroll om de hendel aan de rechterkant weer te geven. Sleep het om op datum en tijd door de galerij te bladeren.</string>
 </resources>

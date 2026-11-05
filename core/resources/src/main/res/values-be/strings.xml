@@ -7945,4 +7945,10 @@
     <string name="emoji_kitchen_download_size">Памер архіва: %1$s</string>
     <string name="emoji_kitchen_favorites">Закладкі</string>
     <string name="emoji_kitchen_favorites_empty">Няма закладак</string>
+    <string name="gallery_show_file_size">Паказаць памер файла</string>
+    <string name="gallery_show_file_extension">Паказаць фармат файла</string>
+    <string name="gallery_show_file_size_sub">Паказаць памер файла на мініяцюрах малюнкаў.</string>
+    <string name="gallery_show_file_extension_sub">Паказаць фармат файла на мініяцюрах малюнкаў.</string>
+    <string name="help_tip_gallery_workflow_grid_settings">Адкрыйце «Настройкі» → «Галерэя», каб усталяваць сетку ў рэжым «Аўта» або выбраць 1–20 слупкоў. Сцісніце двума пальцамі, каб змяніць памер сеткі, пакуль вы не закрыеце яе. Меткі памеру файла і фармату можна адключыць асобна.</string>
+    <string name="help_tip_gallery_workflow_fast_scroll">Пракруціце, каб адкрыць ручку справа. Перацягніце яго, каб перамяшчацца па галерэі па даце і часу.</string>
 </resources>

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -14,7 +13,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="something_went_wrong">发生错误</string>
     <string name="pick_image">选择图片以开始</string>
     <string name="close">关闭</string>
@@ -7912,7 +7913,6 @@
     <string name="restoration">恢复</string>
     <string name="red_recovery">红色恢复</string>
     <string name="assistant_model_low_ram">内存不足。使用此模型时应用可能会崩溃。</string>
-    <string name="assistant_model_low_ram">内存低。应用程序可能会因该模型而崩溃。</string>
     <string name="emoji_kitchen">表情符号厨房</string>
     <string name="emoji_kitchen_description">将两个表情符号组合成 Google 表情符号厨房贴纸</string>
     <string name="emoji_kitchen_search_keywords">表情符号厨房、表情符号、贴纸、混合、混搭、组合、谷歌、笑脸</string>
@@ -7942,4 +7942,10 @@
     <string name="emoji_kitchen_download_size">存档大小：%1$s</string>
     <string name="emoji_kitchen_favorites">书签</string>
     <string name="emoji_kitchen_favorites_empty">没有书签</string>
+    <string name="gallery_show_file_size">显示文件大小</string>
+    <string name="gallery_show_file_extension">显示文件格式</string>
+    <string name="gallery_show_file_size_sub">在图像缩略图上显示文件大小。</string>
+    <string name="gallery_show_file_extension_sub">在图像缩略图上显示文件格式。</string>
+    <string name="help_tip_gallery_workflow_grid_settings">打开设置 → 图库将网格设置为自动或选择 1–20 列。用两根手指捏合以调整网格大小，直到将其关闭。文件大小和格式标签可以单独关闭。</string>
+    <string name="help_tip_gallery_workflow_fast_scroll">滚动以显示右侧的手柄。拖动它可以按日期和时间在图库中移动。</string>
 </resources>

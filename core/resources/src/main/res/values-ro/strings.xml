@@ -7944,4 +7944,10 @@
     <string name="emoji_kitchen_download_size">Dimensiunea arhivei: %1$s</string>
     <string name="emoji_kitchen_favorites">Marcaje</string>
     <string name="emoji_kitchen_favorites_empty">Fără marcaje</string>
+    <string name="gallery_show_file_size">Afișați dimensiunea fișierului</string>
+    <string name="gallery_show_file_extension">Afișați formatul fișierului</string>
+    <string name="gallery_show_file_size_sub">Afișați dimensiunea fișierului pe miniaturile imaginii.</string>
+    <string name="gallery_show_file_extension_sub">Afișați formatul fișierului pe miniaturile imaginii.</string>
+    <string name="help_tip_gallery_workflow_grid_settings">Deschideți Setări → Galerie pentru a seta grila la Auto sau alegeți 1–20 de coloane. Ciupiți cu două degete pentru a redimensiona grila până când o închideți. Dimensiunea fișierului și etichetele de format pot fi dezactivate separat.</string>
+    <string name="help_tip_gallery_workflow_fast_scroll">Derulați pentru a dezvălui mânerul din dreapta. Trageți-l pentru a vă deplasa prin galerie după dată și oră.</string>
 </resources>

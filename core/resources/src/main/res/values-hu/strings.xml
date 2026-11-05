@@ -7943,4 +7943,10 @@
     <string name="emoji_kitchen_download_size">Archívum mérete: %1$s</string>
     <string name="emoji_kitchen_favorites">Könyvjelzők</string>
     <string name="emoji_kitchen_favorites_empty">Nincsenek könyvjelzők</string>
+    <string name="gallery_show_file_size">Fájlméret megjelenítése</string>
+    <string name="gallery_show_file_extension">Fájlformátum megjelenítése</string>
+    <string name="gallery_show_file_size_sub">A fájl méretének megjelenítése a miniatűrökön.</string>
+    <string name="gallery_show_file_extension_sub">A fájlformátum megjelenítése a miniatűrökön.</string>
+    <string name="help_tip_gallery_workflow_grid_settings">Nyissa meg a Beállítások → Galéria menüpontot a rács automatikus beállításához, vagy válasszon 1–20 oszlopot. Csípje össze két ujját a rács átméretezéséhez, amíg be nem zárja. A fájlméret- és formátumcímkék külön kikapcsolhatók.</string>
+    <string name="help_tip_gallery_workflow_fast_scroll">Görgessen a jobb oldali fogantyú megjelenítéséhez. Húzza el a galériában való mozgáshoz dátum és idő szerint.</string>
 </resources>

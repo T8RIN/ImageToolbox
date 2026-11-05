@@ -7943,4 +7943,10 @@
     <string name="emoji_kitchen_download_size">Arkivstorlek: %1$s</string>
     <string name="emoji_kitchen_favorites">Bokmärken</string>
     <string name="emoji_kitchen_favorites_empty">Inga bokmärken</string>
+    <string name="gallery_show_file_size">Visa filstorlek</string>
+    <string name="gallery_show_file_extension">Visa filformat</string>
+    <string name="gallery_show_file_size_sub">Visa filstorleken på bildminiatyrer.</string>
+    <string name="gallery_show_file_extension_sub">Visa filformatet på bildminiatyrer.</string>
+    <string name="help_tip_gallery_workflow_grid_settings">Öppna Inställningar → Galleri för att ställa in rutnätet till Auto eller välj 1–20 kolumner. Nyp med två fingrar för att ändra storlek på rutnätet tills du stänger det. Filstorlek och formatetiketter kan stängas av separat.</string>
+    <string name="help_tip_gallery_workflow_fast_scroll">Bläddra för att visa handtaget till höger. Dra den för att flytta genom galleriet efter datum och tid.</string>
 </resources>

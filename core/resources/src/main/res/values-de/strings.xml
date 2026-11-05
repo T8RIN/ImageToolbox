@@ -7943,4 +7943,10 @@
     <string name="emoji_kitchen_download_size">Archivgröße: %1$s</string>
     <string name="emoji_kitchen_favorites">Lesezeichen</string>
     <string name="emoji_kitchen_favorites_empty">Keine Lesezeichen</string>
+    <string name="gallery_show_file_size">Dateigröße anzeigen</string>
+    <string name="gallery_show_file_extension">Dateiformat anzeigen</string>
+    <string name="gallery_show_file_size_sub">Zeigt die Dateigröße auf den Vorschaubildern an.</string>
+    <string name="gallery_show_file_extension_sub">Zeigt das Dateiformat auf den Vorschaubildern an.</string>
+    <string name="help_tip_gallery_workflow_grid_settings">Öffnen Sie „Einstellungen“ → „Galerie“, um das Raster auf „Automatisch“ einzustellen, oder wählen Sie 1–20 Spalten aus. Drücken Sie mit zwei Fingern zusammen, um die Größe des Rasters zu ändern, bis Sie es schließen. Die Dateigrößen- und Formatbezeichnungen können separat deaktiviert werden.</string>
+    <string name="help_tip_gallery_workflow_fast_scroll">Scrollen Sie, um den Schieberegler am rechten Rand einzublenden. Ziehen Sie ihn, um durch die Galerie nach Datum und Uhrzeit zu navigieren.</string>
 </resources>

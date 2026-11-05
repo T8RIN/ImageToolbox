@@ -7943,4 +7943,10 @@
     <string name="emoji_kitchen_download_size">Dimensioni archivio: %1$s</string>
     <string name="emoji_kitchen_favorites">Segnalibri</string>
     <string name="emoji_kitchen_favorites_empty">Nessun segnalibro</string>
+    <string name="gallery_show_file_size">Mostra la dimensione del file</string>
+    <string name="gallery_show_file_extension">Mostra il formato del file</string>
+    <string name="gallery_show_file_size_sub">Mostra la dimensione del file sulle miniature delle immagini.</string>
+    <string name="gallery_show_file_extension_sub">Mostra il formato del file sulle miniature delle immagini.</string>
+    <string name="help_tip_gallery_workflow_grid_settings">Apri Impostazioni → Galleria per impostare la griglia su Automatico o scegli da 1 a 20 colonne. Pizzica con due dita per ridimensionare la griglia fino a chiuderla. Le dimensioni del file e le etichette del formato possono essere disattivate separatamente.</string>
+    <string name="help_tip_gallery_workflow_fast_scroll">Scorri per rivelare la maniglia a destra. Trascinalo per spostarti nella galleria per data e ora.</string>
 </resources>
