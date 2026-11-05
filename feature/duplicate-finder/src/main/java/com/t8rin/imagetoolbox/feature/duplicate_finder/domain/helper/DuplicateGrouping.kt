@@ -22,6 +22,8 @@ import com.t8rin.imagetoolbox.feature.duplicate_finder.domain.model.DuplicateIte
 import com.t8rin.imagetoolbox.feature.duplicate_finder.domain.model.DuplicateKeepStrategy
 import com.t8rin.imagetoolbox.feature.duplicate_finder.domain.model.DuplicateScanMode
 import com.t8rin.imagetoolbox.feature.duplicate_finder.domain.model.DuplicateType
+import kotlinx.coroutines.ensureActive
+import kotlin.coroutines.coroutineContext
 import kotlin.math.abs
 import kotlin.math.max
 
@@ -41,12 +43,13 @@ data object DuplicateGrouping {
     fun normalizeSensitivity(sensitivity: Int): Int =
         sensitivity.coerceIn(MIN_SENSITIVITY, MAX_SENSITIVITY)
 
-    fun regroup(
+    suspend fun regroup(
         items: List<DuplicateItem>,
         sensitivity: Int = DEFAULT_SENSITIVITY,
         keepStrategy: DuplicateKeepStrategy = DuplicateKeepStrategy.BestQuality,
         scanMode: DuplicateScanMode = DuplicateScanMode.ExactAndSimilar
     ): List<DuplicateGroup> {
+        coroutineContext.ensureActive()
         val orderedItems = items.sortedWith(
             compareBy<DuplicateItem> { it.sourceIndex }.thenBy { it.uri }
         )
@@ -66,6 +69,13 @@ data object DuplicateGrouping {
         } else emptyList()
 
         return exactGroups + similarGroups
+    }
+
+    fun updateRecommendations(
+        groups: List<DuplicateGroup>,
+        keepStrategy: DuplicateKeepStrategy
+    ): List<DuplicateGroup> = groups.map { group ->
+        createGroup(group.type, group.items, keepStrategy)
     }
 
     fun recommendedItem(
@@ -89,7 +99,7 @@ data object DuplicateGrouping {
 
     fun clearSelection(): Set<String> = emptySet()
 
-    private fun groupSimilar(
+    private suspend fun groupSimilar(
         items: List<DuplicateItem>,
         sensitivity: Int,
         keepStrategy: DuplicateKeepStrategy
@@ -97,6 +107,7 @@ data object DuplicateGrouping {
         val clusters = mutableListOf<MutableList<DuplicateItem>>()
 
         items.forEach { candidate ->
+            coroutineContext.ensureActive()
             val target = clusters.firstOrNull { cluster ->
                 cluster.all { existing ->
                     aspectRatiosAreCompatible(candidate, existing) &&
@@ -143,9 +154,7 @@ data object DuplicateGrouping {
     ): Boolean {
         val firstRatio = first.aspectRatio
         val secondRatio = second.aspectRatio
-        if (firstRatio <= 0.0 || secondRatio <= 0.0) return true
-
-        return abs(firstRatio - secondRatio) / max(firstRatio, secondRatio) <= RATIO_TOLERANCE
+        return firstRatio <= 0.0 || secondRatio <= 0.0 || abs(firstRatio - secondRatio) / max(firstRatio, secondRatio) <= RATIO_TOLERANCE
     }
 
     private fun DuplicateKeepStrategy.comparator(): Comparator<DuplicateItem> = when (this) {

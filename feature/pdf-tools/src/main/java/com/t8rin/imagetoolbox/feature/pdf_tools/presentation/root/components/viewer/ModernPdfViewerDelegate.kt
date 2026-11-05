@@ -39,6 +39,7 @@ import androidx.core.graphics.withScale
 import androidx.core.graphics.withTranslation
 import androidx.core.view.updateLayoutParams
 import androidx.core.widget.ImageViewCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.pdf.ExperimentalPdfApi
 import androidx.pdf.PdfDocument
 import androidx.pdf.R
@@ -47,8 +48,7 @@ import androidx.pdf.view.ToolBoxView
 import androidx.pdf.viewer.fragment.PdfViewerFragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.t8rin.imagetoolbox.core.utils.makeLog
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -65,6 +65,7 @@ internal class ModernPdfViewerDelegate : PdfViewerFragment() {
     override fun onLoadDocumentSuccess(document: PdfDocument) {
         super.onLoadDocumentSuccess(document)
         _loadingState.value = false
+        currentScheme?.let(::setScheme)
     }
 
     override fun onPdfViewCreated(pdfView: PdfView) {
@@ -80,7 +81,11 @@ internal class ModernPdfViewerDelegate : PdfViewerFragment() {
         _loadingState.value = null
     }
 
+    private var schemeJob: Job? = null
+    private var currentScheme: ColorScheme? = null
+
     fun setScheme(colorScheme: ColorScheme) {
+        currentScheme = colorScheme
         toolboxView.getEditFab()?.let { fab ->
             fab.backgroundTintList = ColorStateList.valueOf(colorScheme.tertiaryContainer.toArgb())
             fab.imageTintList = ColorStateList.valueOf(colorScheme.onTertiaryContainer.toArgb())
@@ -153,26 +158,23 @@ internal class ModernPdfViewerDelegate : PdfViewerFragment() {
                 pdfView.fastScrollPageIndicatorBackgroundDrawable = pageIndicatorDrawable
             }
 
-        CoroutineScope(Dispatchers.Main.immediate).launch {
-            repeat(20) { i ->
-                pdfView.fastScroller?.fastScrollDrawer?.let {
+        schemeJob?.cancel()
+        schemeJob = viewLifecycleOwner.lifecycleScope.launch {
+            pdfView.fastScrollVisibility = PdfView.FastScrollVisibility.ALWAYS_SHOW
+            repeat(20) {
+                val drawer = pdfView.fastScroller?.fastScrollDrawer
+                if (drawer != null) {
                     try {
-                        it.javaClass.getDeclaredField("textPaint").apply {
+                        val field = drawer.javaClass.getDeclaredField("textPaint").apply {
                             isAccessible = true
-                            set(
-                                it,
-                                TextPaint(get(it) as TextPaint).apply {
-                                    color = colorScheme.onSurface.toArgb()
-                                }
-                            )
                         }
-                    } catch (t: Throwable) {
-                        if (i == 0) t.makeLog("textPaint")
+                        (field.get(drawer) as TextPaint).color = colorScheme.onSurface.toArgb()
+                        pdfView.invalidate()
+                    } catch (throwable: Throwable) {
+                        throwable.makeLog("textPaint")
                     }
+                    return@launch
                 }
-                pdfView.fastScrollVisibility = PdfView.FastScrollVisibility.ALWAYS_SHOW
-
-                pdfView.invalidate()
                 delay(100)
             }
         }

@@ -156,10 +156,7 @@ fun ColorWithNameItem(
                 style = LocalTextStyle.current.copy(
                     fontSize = 12.sp,
                     lineHeight = 12.5.sp
-                ),
-                key = {
-                    color to colorName
-                }
+                )
             )
 
             Icon(

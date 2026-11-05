@@ -180,7 +180,6 @@ fun SourceNotPickedWidget(
                 style = if (isLarge) MaterialTheme.typography.bodyLarge else LocalTextStyle.current,
                 textAlign = TextAlign.Center,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
-                key = { it.length },
                 maxLines = maxLines
             )
         }

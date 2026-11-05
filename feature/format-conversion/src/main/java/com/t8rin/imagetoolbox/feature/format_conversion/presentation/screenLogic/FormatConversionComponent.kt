@@ -195,24 +195,21 @@ class FormatConversionComponent @AssistedInject internal constructor(
         clearPreview: Boolean = true
     ) {
         _bitmap.value?.let { bmp ->
-            val preview = updatePreview(bmp)
-            if (clearPreview) {
-                _previewBitmap.value = null
-            }
-            _shouldShowPreview.value = imagePreviewCreator.canShow(preview)
-            if (shouldShowPreview) _previewBitmap.value = preview
+            imagePreviewCreator.createPreview(
+                image = bmp,
+                imageInfo = imageInfo,
+                onGetByteCount = { size ->
+                    _imageInfo.update { it.copy(sizeInBytes = size) }
+                },
+                onGetPreview = { preview ->
+                    if (clearPreview) _previewBitmap.value = null
+                    _shouldShowPreview.value = imagePreviewCreator.canShow(preview)
+                    if (shouldShowPreview) _previewBitmap.value = preview
+                    _isImageLoading.update { false }
+                }
+            )
         }
     }
-
-    private suspend fun updatePreview(
-        bitmap: Bitmap
-    ): Bitmap? = imagePreviewCreator.createPreview(
-        image = bitmap,
-        imageInfo = imageInfo,
-        onGetByteCount = { size ->
-            _imageInfo.update { it.copy(sizeInBytes = size) }
-        }
-    )
 
     private fun resetValues() {
         _imageInfo.value = ImageInfo(

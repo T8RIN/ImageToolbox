@@ -455,8 +455,9 @@ internal class AndroidImageCombiner @Inject constructor(
         combiningParams: CombiningParams,
         imageFormat: ImageFormat,
         quality: Quality,
-        onGetByteCount: (Long) -> Unit
-    ): ImageWithSize<Bitmap?> = withContext(defaultDispatcher) {
+        onGetByteCount: (Long) -> Unit,
+        onGetPreview: (ImageWithSize<Bitmap?>) -> Unit
+    ): Unit = withContext(defaultDispatcher) {
         suspend fun calculateImageSize(): IntegerSize {
             return calculateCombinedImageDimensions(
                 imageUris = imageUris,
@@ -470,7 +471,8 @@ internal class AndroidImageCombiner @Inject constructor(
         }
 
         if (!settingsState.generatePreviews) {
-            return@withContext null withSize calculateImageSize()
+            onGetPreview(null withSize calculateImageSize())
+            return@withContext
         }
 
         val isAutoStitch = combiningParams.stitchMode.isAuto()
@@ -490,7 +492,7 @@ internal class AndroidImageCombiner @Inject constructor(
                 )
             } else calculateImageSize()
 
-            return@let imagePreviewCreator.createPreview(
+            imagePreviewCreator.createPreview(
                 image = image,
                 imageInfo = imageInfo.copy(
                     imageFormat = imageFormat,
@@ -500,8 +502,9 @@ internal class AndroidImageCombiner @Inject constructor(
                 onGetByteCount = {
                     val original = it / (scale * scale)
                     onGetByteCount(original.roundToLong())
-                }
-            ) withSize imageSize
+                },
+                onGetPreview = { onGetPreview(it withSize imageSize) }
+            )
         }
     }
 

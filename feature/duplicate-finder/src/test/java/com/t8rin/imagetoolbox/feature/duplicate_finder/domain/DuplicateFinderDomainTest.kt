@@ -38,7 +38,7 @@ import java.io.ByteArrayInputStream
 class DuplicateFinderDomainTest {
 
     @Test
-    fun exactOnlyModeDoesNotCreateSimilarGroups() {
+    fun exactOnlyModeDoesNotCreateSimilarGroups() = runBlocking {
         val first = item(
             uri = "first",
             sha256 = "first-sha",
@@ -84,7 +84,7 @@ class DuplicateFinderDomainTest {
     }
 
     @Test
-    fun completelyDifferentImagesAreNotGroupedAtDefaultSensitivity() {
+    fun completelyDifferentImagesAreNotGroupedAtDefaultSensitivity() = runBlocking {
         val first = item(uri = "first", sha256 = "a", dHash = 0L)
         val second = item(uri = "second", sha256 = "b", dHash = -1L)
 
@@ -197,7 +197,7 @@ class DuplicateFinderDomainTest {
     }
 
     @Test
-    fun regroupAppliesKeepStrategyToGroups() {
+    fun regroupAppliesKeepStrategyToGroups() = runBlocking {
         val group = DuplicateGrouping.regroup(
             items = listOf(
                 item(uri = "large", sha256 = "same", dHash = 0L, sizeBytes = 2_000),
@@ -210,7 +210,7 @@ class DuplicateFinderDomainTest {
     }
 
     @Test
-    fun selectAllNeverSelectsRecommendedItem() {
+    fun selectAllNeverSelectsRecommendedItem() = runBlocking {
         val group = DuplicateGrouping.regroup(
             listOf(
                 item(uri = "best", sha256 = "same", dHash = 0L, sourceIndex = 0),
@@ -225,7 +225,7 @@ class DuplicateFinderDomainTest {
     }
 
     @Test
-    fun sensitivityIsClampedAndInclusiveAtBoundary() {
+    fun sensitivityIsClampedAndInclusiveAtBoundary() = runBlocking {
         assertEquals(0, DuplicateGrouping.normalizeSensitivity(-1))
         assertEquals(
             DuplicateGrouping.MAX_SENSITIVITY,
@@ -254,7 +254,7 @@ class DuplicateFinderDomainTest {
     }
 
     @Test
-    fun sensitivityZeroDoesNotTurnVisualMatchIntoExactCopy() {
+    fun sensitivityZeroDoesNotTurnVisualMatchIntoExactCopy() = runBlocking {
         val groups = DuplicateGrouping.regroup(
             listOf(
                 item(uri = "first", sha256 = "a", dHash = 42L),
@@ -267,7 +267,7 @@ class DuplicateFinderDomainTest {
     }
 
     @Test
-    fun completeLinkGroupingPreventsTransitiveMerge() {
+    fun completeLinkGroupingPreventsTransitiveMerge() = runBlocking {
         val first = item(uri = "a", sha256 = "a", dHash = 0L)
         val bridge = item(uri = "b", sha256 = "b", dHash = 0b11_1111L)
         val distant = item(uri = "c", sha256 = "c", dHash = 0b11_1111_1111_11L)
@@ -279,6 +279,34 @@ class DuplicateFinderDomainTest {
 
         assertEquals(setOf("a", "b"), groups.single().items.mapTo(mutableSetOf()) { it.uri })
         assertFalse(groups.single().items.any { it.uri == "c" })
+    }
+
+    @Test
+    fun changingKeepStrategyPreservesGroupsAndMatchesFullRegrouping() = runBlocking {
+        val items = List(120) { index ->
+            item(
+                uri = "image-$index",
+                sha256 = "sha-${index / 2}",
+                dHash = index.toLong(),
+                sourceIndex = index,
+                sizeBytes = (index + 1) * 100L,
+                lastModified = index.toLong()
+            )
+        } + List(80) { index ->
+            item(
+                uri = "similar-$index",
+                sha256 = "unique-$index",
+                dHash = index.toLong(),
+                sourceIndex = index + 120
+            )
+        }
+        val groups = DuplicateGrouping.regroup(items)
+        DuplicateKeepStrategy.entries.forEach { strategy ->
+            assertEquals(
+                DuplicateGrouping.regroup(items, keepStrategy = strategy),
+                DuplicateGrouping.updateRecommendations(groups, strategy)
+            )
+        }
     }
 
     private fun ascendingPixels(): IntArray = IntArray(DHash.PIXEL_COUNT) { index ->

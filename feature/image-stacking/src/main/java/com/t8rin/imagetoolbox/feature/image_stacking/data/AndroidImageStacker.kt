@@ -124,19 +124,23 @@ internal class AndroidImageStacker @Inject constructor(
         stackingParams: StackingParams,
         imageFormat: ImageFormat,
         quality: Quality,
-        onGetByteCount: (Int) -> Unit
-    ): Bitmap? = withContext(defaultDispatcher) {
-        stackImages(
+        onGetByteCount: (Int) -> Unit,
+        onGetPreview: (Bitmap?) -> Unit
+    ): Unit = withContext(defaultDispatcher) {
+        val image = stackImages(
             stackImages = stackImages,
             stackingParams = stackingParams,
             onProgress = {},
             onFailure = {}
-        )?.let { image ->
+        )
+        if (image == null) {
+            onGetPreview(null)
+        } else {
             val imageSize = IntegerSize(
                 width = image.width,
                 height = image.height
             )
-            return@let imagePreviewCreator.createPreview(
+            imagePreviewCreator.createPreview(
                 image = image,
                 imageInfo = ImageInfo(
                     width = imageSize.width,
@@ -145,7 +149,8 @@ internal class AndroidImageStacker @Inject constructor(
                     quality = quality
                 ),
                 transformations = emptyList(),
-                onGetByteCount = onGetByteCount
+                onGetByteCount = onGetByteCount,
+                onGetPreview = onGetPreview
             )
         }
     }

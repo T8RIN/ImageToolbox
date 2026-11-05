@@ -41,7 +41,8 @@ interface ImageCombiner<I> {
         combiningParams: CombiningParams,
         imageFormat: ImageFormat,
         quality: Quality,
-        onGetByteCount: (Long) -> Unit
-    ): ImageWithSize<I?>
+        onGetByteCount: (Long) -> Unit,
+        onGetPreview: (ImageWithSize<I?>) -> Unit
+    )
 
 }

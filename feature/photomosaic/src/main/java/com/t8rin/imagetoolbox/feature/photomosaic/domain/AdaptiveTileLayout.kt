@@ -116,22 +116,21 @@ internal object AdaptiveTileLayout {
         placementIndex: Int,
         repeatDistance: Int
     ): Int {
-        val distance = repeatDistance.coerceAtLeast(0)
-        val available = tiles.indices.filter { index ->
-            placementIndex.toLong() - lastUsedAt[index].toLong() > distance
-        }
-        val candidates = available.ifEmpty {
-            val safestDistance = tiles.indices.maxOf { index ->
-                placementIndex.toLong() - lastUsedAt[index].toLong()
+        val distance = repeatDistance.coerceAtLeast(0).toLong()
+        val oldest = lastUsedAt.maxOf { placementIndex.toLong() - it.toLong() }
+        val minimumAge = if (oldest > distance) distance + 1 else oldest
+        var bestIndex = -1
+        var bestDistance = Double.POSITIVE_INFINITY
+        tiles.forEachIndexed { index, tile ->
+            if (placementIndex.toLong() - lastUsedAt[index].toLong() >= minimumAge) {
+                val colorDistance = target.distanceSquared(tile.color)
+                if (bestIndex == -1 || colorDistance.compareTo(bestDistance) < 0) {
+                    bestIndex = index
+                    bestDistance = colorDistance
+                }
             }
-            tiles.indices.filter { index ->
-                placementIndex.toLong() - lastUsedAt[index].toLong() == safestDistance
-            }
         }
-
-        return candidates.minBy { index ->
-            target.distanceSquared(tiles[index].color)
-        }
+        return bestIndex
     }
 
     private const val MIN_ROW_SCALE = 0.65f

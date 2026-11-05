@@ -25,7 +25,6 @@ import android.graphics.PorterDuff
 import android.graphics.RectF
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
-import androidx.core.graphics.applyCanvas
 import androidx.core.graphics.createBitmap
 import androidx.core.net.toUri
 import com.awxkee.jxlcoderlibjxl.JxlCoder
@@ -63,6 +62,7 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.withContext
 import oupson.apng.encoder.ApngEncoder
 import java.io.ByteArrayOutputStream
+import java.io.DataInputStream
 import javax.inject.Inject
 
 private const val MIN_FRAME_DELAY_MILLIS = 10
@@ -129,53 +129,63 @@ internal class AndroidGifConverter @Inject constructor(
                         }
                         start(writeable.outputStream())
                 }
-                imageUris.forEachIndexed { index, uri ->
-                    imageGetter.getImage(
-                        data = uri,
-                        size = params.size
-                    )!!.apply { setHasAlpha(true) }.let { frame ->
+                val alphas = if (params.crossfadeCount > 1) {
+                    (0..255 step (255 / params.crossfadeCount).coerceAtLeast(1))
+                        .plus(255)
+                        .distinct()
+                        .sortedDescending()
+                } else emptyList()
+                var nextFrame: Bitmap? = null
+                try {
+                    imageUris.forEachIndexed { index, uri ->
+                        currentCoroutineContext().ensureActive()
+                        val frame =
+                            (nextFrame ?: imageGetter.getImage(data = uri, size = params.size))!!
+                                .apply { setHasAlpha(true) }
+                        nextFrame = null
                         encoder.addFrame(frame)
-                        if (params.crossfadeCount > 1) {
-                            val list = mutableSetOf(0, 255)
-                            for (a in 0..255 step (255 / params.crossfadeCount)) {
-                                list.add(a)
+                        if (alphas.isNotEmpty()) {
+                            nextFrame = imageUris.getOrNull(index + 1)?.let {
+                                imageGetter.getImage(data = it, size = params.size)
                             }
-                            val alphas = list.sortedDescending()
-
-
-                            imageGetter.getImage(
-                                data = imageUris.getOrNull(index + 1) ?: Unit,
-                                size = params.size
-                            )?.let { next ->
-                                alphas.forEach { alpha ->
-                                    encoder.addFrame(
-                                        next.overlay(
-                                            frame.copy(frame.safeConfig, true).applyCanvas {
-                                                drawColor(
-                                                    Color.Black.copy(alpha / 255f).toArgb(),
-                                                    PorterDuff.Mode.DST_IN
-                                                )
-                                            }
+                            nextFrame?.let { next ->
+                                val faded = frame.copy(frame.safeConfig, true)
+                                val combined = createBitmap(
+                                    next.width,
+                                    next.height,
+                                    next.safeConfig.toSoftware()
+                                )
+                                try {
+                                    val fadedCanvas = Canvas(faded)
+                                    val combinedCanvas = Canvas(combined)
+                                    alphas.forEach { alpha ->
+                                        currentCoroutineContext().ensureActive()
+                                        faded.eraseColor(android.graphics.Color.TRANSPARENT)
+                                        fadedCanvas.drawBitmap(frame)
+                                        fadedCanvas.drawColor(
+                                            Color.Black.copy(alpha / 255f).toArgb(),
+                                            PorterDuff.Mode.DST_IN
                                         )
-                                    )
+                                        combined.eraseColor(android.graphics.Color.TRANSPARENT)
+                                        combinedCanvas.drawBitmap(next)
+                                        combinedCanvas.drawBitmap(faded)
+                                        encoder.addFrame(combined)
+                                    }
+                                } finally {
+                                    faded.recycle()
+                                    combined.recycle()
                                 }
                             }
                         }
+                        onProgress()
                     }
-                    onProgress()
+                } finally {
+                    encoder.finish()
                 }
-                encoder.finish()
             }
         }.onFailure {
             onFailure(it)
         }.getOrNull()
-    }
-
-    private fun Bitmap.overlay(overlay: Bitmap): Bitmap {
-        return createBitmap(width, height, safeConfig.toSoftware()).applyCanvas {
-            drawBitmap(this@overlay)
-            drawBitmap(overlay.toSoftware())
-        }
     }
 
     override suspend fun mergeGifs(
@@ -186,13 +196,19 @@ internal class AndroidGifConverter @Inject constructor(
     ): String? = withContext(defaultDispatcher) {
         runSuspendCatching {
             require(items.size >= 2)
-            val outputSize = items.map { item ->
-                val decoder = GifDecoder().apply {
-                    read(requireNotNull(item.uri.bytes))
+            val outputSize = withContext(ioDispatcher) {
+                items.map { item ->
+                    val header = ByteArray(10)
+                    requireNotNull(context.contentResolver.openInputStream(item.uri.toUri())).use {
+                        DataInputStream(it).readFully(header)
+                    }
+                    require(header.copyOfRange(0, 3).decodeToString() == "GIF")
+                    val width = (header[6].toInt() and 0xff) or ((header[7].toInt() and 0xff) shl 8)
+                    val height =
+                        (header[8].toInt() and 0xff) or ((header[9].toInt() and 0xff) shl 8)
+                    require(width > 0 && height > 0)
+                    width to height
                 }
-                require(decoder.frameCount > 0)
-                decoder.advance()
-                requireNotNull(decoder.nextFrame).let { it.width to it.height }
             }
             val outputWidth = outputSize.maxOf { it.first }
             val outputHeight = outputSize.maxOf { it.second }
@@ -206,45 +222,73 @@ internal class AndroidGifConverter @Inject constructor(
                     .setSize(outputWidth, outputHeight)
                 encoder.start(writeable.outputStream())
 
-                items.forEachIndexed { clipIndex, item ->
-                    currentCoroutineContext().ensureActive()
-                    val decoder = GifDecoder().apply {
-                        read(requireNotNull(item.uri.bytes))
-                    }
-                    val frames = buildList {
-                        repeat(decoder.frameCount) {
-                            decoder.advance()
-                            decoder.nextFrame?.let { frame ->
-                                add(
-                                    GifFrame(
-                                        frame.toSoftware(),
-                                        decoder.nextDelay.coerceAtLeast(10)
-                                    )
-                                )
+                try {
+                    items.forEachIndexed { clipIndex, item ->
+                        currentCoroutineContext().ensureActive()
+                        val decoder = GifDecoder().apply {
+                            read(requireNotNull(item.uri.bytes))
+                        }
+                        require(decoder.frameCount > 0)
+                        suspend fun writeFrame(frame: Bitmap, duration: Int, isLast: Boolean) {
+                            currentCoroutineContext().ensureActive()
+                            val placed = frame.placeOnCanvas(
+                                width = outputWidth,
+                                height = outputHeight,
+                                scaleToFit = params.normalizeFrameSizes
+                            )
+                            try {
+                                encoder.setDelay(
+                                    duration + if (isLast && clipIndex < items.lastIndex) {
+                                        params.transitionDelayMillis.coerceAtLeast(0)
+                                    } else 0
+                                ).addFrame(placed)
+                            } finally {
+                                if (placed !== frame) placed.recycle()
                             }
                         }
-                    }.transform(item)
-                    frames.forEachIndexed { frameIndex, frame ->
-                        currentCoroutineContext().ensureActive()
-                        val isClipEnd =
-                            frameIndex == frames.lastIndex && clipIndex < items.lastIndex
-                        encoder
-                            .setDelay(
-                                frame.durationMillis + if (isClipEnd) {
-                                    params.transitionDelayMillis.coerceAtLeast(0)
-                                } else 0
-                            )
-                            .addFrame(
-                                frame.bitmap.placeOnCanvas(
-                                    width = outputWidth,
-                                    height = outputHeight,
-                                    scaleToFit = params.normalizeFrameSizes
-                                )
-                            )
+                        if (!item.reverse && !item.boomerang) {
+                            repeat(decoder.frameCount) { index ->
+                                decoder.advance()
+                                decoder.nextFrame?.let { frame ->
+                                    writeFrame(
+                                        frame = frame,
+                                        duration = decoder.nextDelay.coerceAtLeast(
+                                            MIN_FRAME_DELAY_MILLIS
+                                        ),
+                                        isLast = index == decoder.frameCount - 1
+                                    )
+                                }
+                            }
+                        } else {
+                            val frames = mutableListOf<GifFrame>()
+                            try {
+                                repeat(decoder.frameCount) {
+                                    currentCoroutineContext().ensureActive()
+                                    decoder.advance()
+                                    decoder.nextFrame?.let { frame ->
+                                        frames += GifFrame(
+                                            frame.toSoftware(),
+                                            decoder.nextDelay.coerceAtLeast(MIN_FRAME_DELAY_MILLIS)
+                                        )
+                                    }
+                                }
+                                val ordered = frames.transform(item)
+                                ordered.forEachIndexed { index, frame ->
+                                    writeFrame(
+                                        frame.bitmap,
+                                        frame.durationMillis,
+                                        index == ordered.lastIndex
+                                    )
+                                }
+                            } finally {
+                                frames.forEach { it.bitmap.recycle() }
+                            }
+                        }
+                        onProgress()
                     }
-                    onProgress()
+                } finally {
+                    encoder.finish()
                 }
-                encoder.finish()
             }
         }.onFailure(onFailure).getOrNull()
     }

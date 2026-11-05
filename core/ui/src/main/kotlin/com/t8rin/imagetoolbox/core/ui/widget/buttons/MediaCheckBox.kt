@@ -30,8 +30,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.text.BasicText
-import androidx.compose.foundation.text.TextAutoSize
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.contentColorFor
@@ -49,7 +47,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.icons.CheckCircle
 import com.t8rin.imagetoolbox.core.resources.icons.Circle
@@ -57,6 +54,7 @@ import com.t8rin.imagetoolbox.core.resources.utils.animation.animateColorAsState
 import com.t8rin.imagetoolbox.core.ui.theme.suggestContainerColorBy
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
 
 @Composable
 fun MediaCheckBox(
@@ -165,7 +163,7 @@ private fun MediaCheckBoxContent(
             contentAlignment = Alignment.Center
         ) {
             val style = MaterialTheme.typography.bodySmall
-            BasicText(
+            AutoSizeText(
                 text = (selectionIndex + 1).toString(),
                 style = style.copy(
                     color = contentColorFor(color),
@@ -173,12 +171,7 @@ private fun MediaCheckBoxContent(
                     lineHeight = TextUnit.Unspecified
                 ),
                 maxLines = 1,
-                softWrap = false,
-                autoSize = TextAutoSize.StepBased(
-                    minFontSize = 1.sp,
-                    maxFontSize = style.fontSize,
-                    stepSize = 0.25.sp
-                )
+                softWrap = false
             )
         }
     } else {

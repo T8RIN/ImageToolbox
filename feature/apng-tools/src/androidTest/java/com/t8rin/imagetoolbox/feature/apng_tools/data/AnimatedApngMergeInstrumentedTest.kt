@@ -30,6 +30,7 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
+import oupson.apng.decoder.ApngDecoder
 import oupson.apng.encoder.ApngEncoder
 import java.io.ByteArrayOutputStream
 import java.io.File
@@ -95,6 +96,33 @@ class AnimatedApngMergeInstrumentedTest {
             listOf(120, 230, 390, 340, 230, 120, 230, 340),
             info.durations
         )
+        val mergedFile =
+            File(context.cacheDir, "apng_merge_pixels.png").apply { writeBytes(merged) }
+        try {
+            val colors = mutableListOf<Int>()
+            ApngDecoder(
+                context = context,
+                uri = mergedFile.toUri()
+            ).decodeAsync(Dispatchers.Default) {
+                colors += it.getPixel(8, 8)
+            }
+            assertEquals(
+                listOf(
+                    Color.RED,
+                    Color.GREEN,
+                    Color.BLUE,
+                    Color.BLUE,
+                    Color.GREEN,
+                    Color.RED,
+                    Color.GREEN,
+                    Color.BLUE
+                ),
+                colors
+            )
+        } finally {
+            source.delete()
+            mergedFile.delete()
+        }
     }
 
     private fun parseApng(data: ByteArray): AnimationInfo {

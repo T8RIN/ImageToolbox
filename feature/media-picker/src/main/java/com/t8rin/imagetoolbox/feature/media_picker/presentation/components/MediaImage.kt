@@ -36,8 +36,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.text.BasicText
-import androidx.compose.foundation.text.TextAutoSize
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -89,6 +87,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.AutoCornersShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.advancedShadow
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateShape
+import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
 import com.t8rin.imagetoolbox.core.utils.appContext
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.Media
 import kotlinx.coroutines.Dispatchers
@@ -291,7 +290,7 @@ fun MediaImage(
                 if (showSize) {
                     val style = MaterialTheme.typography.labelMedium
                     val fontSize = style.fontSize * badgeScale
-                    BasicText(
+                    AutoSizeText(
                         text = media.humanFileSize,
                         style = style.copy(
                             color = White,
@@ -300,10 +299,7 @@ fun MediaImage(
                         ),
                         maxLines = 1,
                         softWrap = false,
-                        autoSize = TextAutoSize.StepBased(
-                            minFontSize = minOf(6f, fontSize.value).sp,
-                            maxFontSize = fontSize
-                        ),
+                        minFontSize = minOf(6f, fontSize.value).sp,
                         modifier = Modifier
                             .weight(1f, fill = false)
                             .graphicsLayer {

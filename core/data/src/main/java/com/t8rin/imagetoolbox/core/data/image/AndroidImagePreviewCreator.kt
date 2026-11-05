@@ -29,6 +29,7 @@ import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
 import com.t8rin.imagetoolbox.core.domain.image.model.ResizeType
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsProvider
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -51,8 +52,9 @@ internal class AndroidImagePreviewCreator @Inject constructor(
         image: Bitmap,
         imageInfo: ImageInfo,
         transformations: List<Transformation<Bitmap>>,
-        onGetByteCount: (Int) -> Unit
-    ): Bitmap? = withContext(defaultDispatcher) {
+        onGetByteCount: (Int) -> Unit,
+        onGetPreview: (Bitmap?) -> Unit
+    ): Unit = coroutineScope {
         launch(encodingDispatcher) {
             onGetByteCount(0)
             ensureActive()
@@ -64,6 +66,16 @@ internal class AndroidImagePreviewCreator @Inject constructor(
             onGetByteCount(sizeInBytes)
         }
 
+        val preview = createPreview(image, imageInfo, transformations)
+        ensureActive()
+        onGetPreview(preview)
+    }
+
+    override suspend fun createPreview(
+        image: Bitmap,
+        imageInfo: ImageInfo,
+        transformations: List<Transformation<Bitmap>>
+    ): Bitmap? = withContext(defaultDispatcher) {
         if (!settingsState.generatePreviews) return@withContext null
 
         if (imageInfo.height == 0 || imageInfo.width == 0) return@withContext image
@@ -81,9 +93,9 @@ internal class AndroidImagePreviewCreator @Inject constructor(
             var height = imageInfo.height
 
             var scaleFactor = 1f
-            while (height * width * 4 > SMALL_SIZE) {
-                height = (height * 0.85f).roundToInt()
-                width = (width * 0.85f).roundToInt()
+            while (height.toLong() * width > SMALL_SIZE / 4) {
+                height = (height * 0.85f).roundToInt().coerceAtLeast(1)
+                width = (width * 0.85f).roundToInt().coerceAtLeast(1)
                 scaleFactor *= 0.85f
             }
             ensureActive()
@@ -127,7 +139,7 @@ internal class AndroidImagePreviewCreator @Inject constructor(
             }
         }
 
-    private fun Bitmap.size(): Int = width * height * configSize
+    private fun Bitmap.size(): Long = width.toLong() * height * configSize
 
 }
 

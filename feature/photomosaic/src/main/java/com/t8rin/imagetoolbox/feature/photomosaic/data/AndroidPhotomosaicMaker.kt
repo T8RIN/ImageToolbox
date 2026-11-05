@@ -123,6 +123,7 @@ internal class AndroidPhotomosaicMaker @Inject constructor(
 
         val colorSampleRadius = (minOf(target.width, target.height) / COLOR_SAMPLE_DIVISOR)
             .coerceAtLeast(1)
+        val samplePixels = IntArray((colorSampleRadius * 2 + 1).let { it * it })
         val placements = AdaptiveTileLayout.create(
             width = target.width,
             height = target.height,
@@ -138,7 +139,8 @@ internal class AndroidPhotomosaicMaker @Inject constructor(
                 target.averageLabColorAt(
                     x = x,
                     y = y,
-                    radius = colorSampleRadius
+                    radius = colorSampleRadius,
+                    pixels = samplePixels
                 )
             },
             detailAt = { y -> target.detailAt(y) }
@@ -200,21 +202,23 @@ internal class AndroidPhotomosaicMaker @Inject constructor(
     private fun Bitmap.averageLabColorAt(
         x: Int,
         y: Int,
-        radius: Int
+        radius: Int,
+        pixels: IntArray
     ): LabColor {
         var red = 0L
         var green = 0L
         var blue = 0L
-        var count = 0L
-
-        for (sampleY in (y - radius).coerceAtLeast(0)..(y + radius).coerceAtMost(height - 1)) {
-            for (sampleX in (x - radius).coerceAtLeast(0)..(x + radius).coerceAtMost(width - 1)) {
-                val color = getPixel(sampleX, sampleY)
-                red += Color.red(color)
-                green += Color.green(color)
-                blue += Color.blue(color)
-                count++
-            }
+        val left = (x - radius).coerceAtLeast(0)
+        val top = (y - radius).coerceAtLeast(0)
+        val sampleWidth = (x + radius).coerceAtMost(width - 1) - left + 1
+        val sampleHeight = (y + radius).coerceAtMost(height - 1) - top + 1
+        val count = sampleWidth * sampleHeight
+        getPixels(pixels, 0, sampleWidth, left, top, sampleWidth, sampleHeight)
+        for (index in 0 until count) {
+            val color = pixels[index]
+            red += Color.red(color)
+            green += Color.green(color)
+            blue += Color.blue(color)
         }
 
         return rgbToLab(

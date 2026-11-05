@@ -142,10 +142,12 @@ class ImageStackingComponent @AssistedInject internal constructor(
                     quality = imageInfo.quality,
                     onGetByteCount = {
                         _imageByteSize.update { it }
+                    },
+                    onGetPreview = {
+                        _previewBitmap.value = it
+                        _isImageLoading.value = false
                     }
-                ).let { image ->
-                    _previewBitmap.value = image
-                }
+                )
             }
             _isImageLoading.value = false
         }

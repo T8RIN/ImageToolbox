@@ -295,27 +295,33 @@ private class OcrProcessor(
     private val ortEnv: OrtEnvironment
 ) {
 
-    private val sessionOptions = OrtSession.SessionOptions().apply {
-        setOptimizationLevel(OrtSession.SessionOptions.OptLevel.BASIC_OPT)
-    }
-
-    private val detectionSession = ortEnv.createSession(
-        modelFiles.detectionModel.absolutePath,
-        sessionOptions
-    )
-    private val recognitionSession = ortEnv.createSession(
-        modelFiles.recognitionModel.absolutePath,
-        sessionOptions
-    )
-    private val classificationSession = ortEnv.createSession(
-        modelFiles.classificationModel.absolutePath,
-        sessionOptions
-    )
     private val characterDict = modelFiles.dictionaryFile.inputStream().use { stream ->
         stream.bufferedReader().readLines().toMutableList().apply {
             add(" ")
         }.let { listOf("blank") + it }
     }
+
+    private val sessions = OrtSession.SessionOptions().use { options ->
+        options.setOptimizationLevel(OrtSession.SessionOptions.OptLevel.BASIC_OPT)
+        val sessions = mutableListOf<OrtSession>()
+        try {
+            listOf(
+                modelFiles.detectionModel,
+                modelFiles.recognitionModel,
+                modelFiles.classificationModel
+            ).forEach { file ->
+                sessions += ortEnv.createSession(file.absolutePath, options)
+            }
+            sessions
+        } catch (throwable: Throwable) {
+            sessions.forEach(OrtSession::close)
+            throw throwable
+        }
+    }
+
+    private val detectionSession get() = sessions[0]
+    private val recognitionSession get() = sessions[1]
+    private val classificationSession get() = sessions[2]
 
     fun processImage(bitmap: Bitmap): OcrResult {
         val detectionResult = TextDetector(detectionSession, ortEnv).detect(bitmap)
@@ -410,9 +416,7 @@ private class OcrProcessor(
     }
 
     fun close() {
-        detectionSession.close()
-        recognitionSession.close()
-        classificationSession.close()
+        sessions.forEach(OrtSession::close)
     }
 }
 
@@ -437,21 +441,17 @@ private class TextDetector(
         val originalWidth = bitmap.width
         val originalHeight = bitmap.height
         val (inputTensor, resizedWidth, resizedHeight) = preprocessImage(bitmap)
-        var output: OnnxTensor? = null
-
-        try {
-            output = session.run(mapOf("x" to inputTensor))[0] as OnnxTensor
-            postprocessDetection(
-                output = output,
-                originalWidth = originalWidth,
-                originalHeight = originalHeight,
-                resizedWidth = resizedWidth,
-                resizedHeight = resizedHeight,
-                handler = handler
-            )
-        } finally {
-            output?.close()
-            inputTensor.close()
+        inputTensor.use {
+            session.run(mapOf("x" to inputTensor)).use { output ->
+                postprocessDetection(
+                    output = output[0] as OnnxTensor,
+                    originalWidth = originalWidth,
+                    originalHeight = originalHeight,
+                    resizedWidth = resizedWidth,
+                    resizedHeight = resizedHeight,
+                    handler = handler
+                )
+            }
         }
     }
 
@@ -862,21 +862,19 @@ private class TextClassifier(
             preprocessImage(image, inputArray, index)
         }
 
-        val inputTensor = OnnxTensor.createTensor(
+        return OnnxTensor.createTensor(
             ortEnv,
             FloatBuffer.wrap(inputArray),
             longArrayOf(batchImages.size.toLong(), 3, 48, 192)
-        )
-        val output = session.run(mapOf(session.inputNames.first() to inputTensor))[0] as OnnxTensor
-        val outputArray = ImageUtils.toFloatArray(output.floatBuffer)
-        val result = List(batchImages.size) { index ->
-            val baseOffset = index * 2
-            outputArray[baseOffset + 1] > outputArray[baseOffset] && outputArray[baseOffset + 1] > 0.9f
+        ).use { input ->
+            session.run(mapOf(session.inputNames.first() to input)).use { output ->
+                val outputArray = ImageUtils.toFloatArray((output[0] as OnnxTensor).floatBuffer)
+                List(batchImages.size) { index ->
+                    val baseOffset = index * 2
+                    outputArray[baseOffset + 1] > outputArray[baseOffset] && outputArray[baseOffset + 1] > 0.9f
+                }
+            }
         }
-
-        output.close()
-        inputTensor.close()
-        return result
     }
 
     private fun preprocessImage(bitmap: Bitmap, outputArray: FloatArray, batchIndex: Int) {
@@ -950,17 +948,15 @@ private class TextRecognizer(
             preprocessImage(image, inputArray, index, targetWidth)
         }
 
-        val inputTensor = OnnxTensor.createTensor(
+        return OnnxTensor.createTensor(
             ortEnv,
             FloatBuffer.wrap(inputArray),
             longArrayOf(batchImages.size.toLong(), 3, 48, targetWidth.toLong())
-        )
-        val output = session.run(mapOf(session.inputNames.first() to inputTensor))[0] as OnnxTensor
-        val results = decodeOutput(output, batchImages.size)
-
-        output.close()
-        inputTensor.close()
-        return results
+        ).use { input ->
+            session.run(mapOf(session.inputNames.first() to input)).use { output ->
+                decodeOutput(output[0] as OnnxTensor, batchImages.size)
+            }
+        }
     }
 
     private fun preprocessImage(

@@ -136,8 +136,7 @@ class AddMaskSheetComponent @AssistedInject internal constructor(
                                 width = it.width,
                                 height = it.height,
                                 imageFormat = ImageFormat.Png.Lossless
-                            ),
-                            onGetByteCount = {}
+                            )
                         )
                     }
                 }
