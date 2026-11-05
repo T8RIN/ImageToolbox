@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="something_went_wrong">发生错误</string>
     <string name="pick_image">选择图片以开始</string>
     <string name="close">关闭</string>
@@ -3691,7 +3690,7 @@
     <string name="auto_white_balance">自动白平衡</string>
     <string name="clipping">剪裁</string>
     <string name="checking_for_hidden_watermarks">检查隐藏水印</string>
-    <string name="storage">贮存</string>
+    <string name="storage">存储</string>
     <string name="cache_auto_clear_limit">缓存限制</string>
     <string name="cache_auto_clear_limit_sub">当缓存超过此大小时自动清除缓存</string>
     <string name="cache_auto_clear_interval">清理间隔</string>
@@ -7912,6 +7911,7 @@
     <string name="filter_help_underwater_restoration">使用优先的红色通道传输和受控的红色恢复来恢复水下照片的对比度。</string>
     <string name="restoration">恢复</string>
     <string name="red_recovery">红色恢复</string>
+    <string name="assistant_model_low_ram">内存不足。使用此模型时应用可能会崩溃。</string>
     <string name="assistant_model_low_ram">内存低。应用程序可能会因该模型而崩溃。</string>
     <string name="emoji_kitchen">表情符号厨房</string>
     <string name="emoji_kitchen_description">将两个表情符号组合成 Google 表情符号厨房贴纸</string>
