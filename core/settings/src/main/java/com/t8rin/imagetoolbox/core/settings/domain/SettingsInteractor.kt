@@ -54,6 +54,12 @@ interface SettingsInteractor : SimpleSettingsInteractor {
 
     suspend fun setSemanticSearchEnabled(enabled: Boolean)
 
+    suspend fun setGalleryColumns(value: Int)
+
+    suspend fun setShowGalleryFileSize(value: Boolean)
+
+    suspend fun setShowGalleryFileExtension(value: Boolean)
+
     suspend fun setSemanticSearchSettings(value: SemanticSearchSettings)
 
     suspend fun setAiAssistantEnabled(enabled: Boolean)

@@ -3330,7 +3330,9 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
                     steps = listOf(
                         R.string.help_tip_gallery_workflow_step_1,
                         R.string.help_tip_gallery_workflow_step_2,
-                        R.string.help_tip_gallery_workflow_step_3
+                        R.string.help_tip_gallery_workflow_step_3,
+                        R.string.help_tip_gallery_workflow_grid_settings,
+                        R.string.help_tip_gallery_workflow_fast_scroll
                     )
                 )
             )

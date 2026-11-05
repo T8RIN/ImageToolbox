@@ -51,7 +51,7 @@ import com.t8rin.imagetoolbox.feature.media_picker.domain.model.SemanticSearchSt
 internal fun SemanticSearchSettingItem(
     state: SemanticSearchState,
     onValueChange: (Boolean) -> Unit,
-    shape: Shape = ShapeDefaults.default,
+    shape: Shape = ShapeDefaults.bottom,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp)
 ) {
     val settingsState = LocalSettingsState.current

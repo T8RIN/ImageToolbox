@@ -38,6 +38,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.icons.CheckCircle
@@ -57,7 +58,8 @@ fun MediaCheckBox(
     checkedIcon: ImageVector = Icons.Rounded.CheckCircle,
     checkedColor: Color = MaterialTheme.colorScheme.primary,
     uncheckedColor: Color = MaterialTheme.colorScheme.onSurface,
-    addContainer: Boolean = false
+    addContainer: Boolean = false,
+    numberSize: Dp = 24.dp
 ) {
     val image = if (isChecked) {
         checkedIcon
@@ -107,7 +109,7 @@ fun MediaCheckBox(
                 if (isChecked) {
                     Box(
                         modifier = modifier
-                            .size(24.dp)
+                            .size(numberSize)
                             .padding(2.dp)
                             .clip(ShapeDefaults.circle)
                             .background(color),
@@ -117,7 +119,8 @@ fun MediaCheckBox(
                             text = (selectionIndex + 1).toString(),
                             color = contentColorFor(color),
                             style = MaterialTheme.typography.bodySmall,
-                            fontWeight = FontWeight.Bold
+                            fontWeight = FontWeight.Bold,
+                            key = { it.length to numberSize }
                         )
                     }
                 } else {

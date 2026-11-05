@@ -5659,6 +5659,8 @@
     <string name="gallery_display_options">Группировка и сортировка</string>
     <string name="gallery_show_file_size">Показывать размер файла</string>
     <string name="gallery_show_file_extension">Показывать формат файла</string>
+    <string name="gallery_show_file_size_sub">Отображает размер файла на миниатюрах.</string>
+    <string name="gallery_show_file_extension_sub">Отображает формат файла на миниатюрах.</string>
     <string name="compare_animation">Анимированное до/после</string>
     <string name="compare_animation_sub">Сохранить зацикленное сравнение в GIF</string>
     <string name="compare_animation_before">До</string>
@@ -5949,6 +5951,8 @@
     <string name="help_tip_gallery_workflow_step_1">Перед выбором большой серии откройте нужный альбом. Выбранный альбом также учитывается при просмотре семантических результатов и групп людей.</string>
     <string name="help_tip_gallery_workflow_step_2">Откройте похожие миниатюры в предпросмотре, чтобы не перепутать версии. Перед переходом к инструменту проверьте число выбранных изображений.</string>
     <string name="help_tip_gallery_workflow_step_3">Если нового файла нет, проверьте папку, разрешения на медиа и завершение сохранения в исходном приложении. Файловый выбор позволяет открыть источники, которых нет в медиатеке.</string>
+    <string name="help_tip_gallery_workflow_grid_settings">В разделе «Настройки → Галерея» можно выбрать от 1 до 20 столбцов или оставить «Авто». Жест двумя пальцами меняет масштаб сетки до закрытия экрана. Подписи размера и формата файла отключаются отдельно.</string>
+    <string name="help_tip_gallery_workflow_fast_scroll">При прокрутке справа появляется бегунок. Перетащите его, чтобы найти снимки по дате и времени.</string>
     <string name="help_tip_archive_workflow_title">Создание и распаковка архивов</string>
     <string name="help_tip_archive_workflow_subtitle">Выбирайте контейнер, метод сжатия, пароль и параметры извлечения</string>
     <string name="help_tip_archive_workflow_page_title">Создать архив или распаковать</string>

@@ -154,6 +154,7 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.FILENAME_PREFIX
 import com.t8rin.imagetoolbox.feature.settings.data.keys.FILENAME_SUFFIX
 import com.t8rin.imagetoolbox.feature.settings.data.keys.FLING_TYPE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.FONT_SCALE
+import com.t8rin.imagetoolbox.feature.settings.data.keys.GALLERY_COLUMNS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.GENERATE_PREVIEWS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.GROUP_OPTIONS_BY_TYPE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.HELP_TIPS_BUTTON_HINT_DISMISSED
@@ -225,6 +226,8 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.SHAPE_BY_INTERACTION_TH
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SHEET_NESTED_SCROLL
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SHOW_FAVORITE_AS_LAST
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SHOW_FAVORITE_TOOLS_IN_GROUPED_MODE
+import com.t8rin.imagetoolbox.feature.settings.data.keys.SHOW_GALLERY_FILE_EXTENSION
+import com.t8rin.imagetoolbox.feature.settings.data.keys.SHOW_GALLERY_FILE_SIZE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SHOW_HELP_TIPS_BUTTON
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SHOW_SETTINGS_IN_LANDSCAPE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SHOW_TOOLS_HISTORY
@@ -418,6 +421,18 @@ internal class AndroidSettingsManager @Inject constructor(
 
     override suspend fun setAiAssistantModel(model: AssistantModel) = edit {
         it[AI_ASSISTANT_MODEL_TYPE] = model.ordinal
+    }
+
+    override suspend fun setGalleryColumns(value: Int) = edit {
+        it[GALLERY_COLUMNS] = value.coerceIn(0, SettingsState.MaxGalleryColumns)
+    }
+
+    override suspend fun setShowGalleryFileSize(value: Boolean) = edit {
+        it[SHOW_GALLERY_FILE_SIZE] = value
+    }
+
+    override suspend fun setShowGalleryFileExtension(value: Boolean) = edit {
+        it[SHOW_GALLERY_FILE_EXTENSION] = value
     }
 
     override suspend fun setSemanticSearchSettings(value: SemanticSearchSettings) = edit {

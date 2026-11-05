@@ -253,6 +253,13 @@ class SettingsComponent @AssistedInject internal constructor(
 
     fun setImagePickerMode(mode: Int) = settingsScope { setImagePickerMode(mode) }
 
+    fun setGalleryColumns(value: Int) = settingsScope { setGalleryColumns(value) }
+
+    fun setShowGalleryFileSize(value: Boolean) = settingsScope { setShowGalleryFileSize(value) }
+
+    fun setShowGalleryFileExtension(value: Boolean) =
+        settingsScope { setShowGalleryFileExtension(value) }
+
     fun setSemanticSearchEnabled(enabled: Boolean) =
         settingsScope { setSemanticSearchEnabled(enabled) }
 

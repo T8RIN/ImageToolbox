@@ -17,13 +17,18 @@
 
 package com.t8rin.fastscroller
 
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.awaitEachGesture
 import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.gestures.drag
 import androidx.compose.foundation.gestures.scrollBy
+import androidx.compose.foundation.gestures.stopScroll
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.width
@@ -31,30 +36,42 @@ import androidx.compose.foundation.lazy.grid.LazyGridItemInfo
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
+import androidx.compose.ui.AbsoluteAlignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.input.pointer.positionChange
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.delay
 import kotlin.math.abs
 import kotlin.math.roundToInt
 
 class FastScrollerState internal constructor() {
-    var thumbCenter by mutableFloatStateOf(0f)
+    var draggedThumbCenter by mutableFloatStateOf(0f)
+        internal set
+
+    internal var scrollThumbCenter by mutableStateOf<() -> Float>({ 0f })
+
+    val thumbCenter: Float
+        get() = if (isDragging) draggedThumbCenter else scrollThumbCenter()
+
+    var targetItemIndex by mutableIntStateOf(-1)
         internal set
     var isDragging by mutableStateOf(false)
         internal set
@@ -74,89 +91,153 @@ fun VerticalFastScroller(
     minThumbHeight: Dp = 52.dp,
     thumbColor: Color,
     trackColor: Color = Color.Transparent,
+    scrollByItemIndex: Boolean = false,
+    autoHide: Boolean = false,
+    previewIntervalMillis: Long = 0,
 ) {
-    val coroutineScope = rememberCoroutineScope()
     val density = LocalDensity.current
-    val adapter = remember(state, coroutineScope) { LazyGridAdapter(state, coroutineScope) }
+    val adapter = remember(state, scrollByItemIndex) { LazyGridAdapter(state, scrollByItemIndex) }
+    val currentPreviewIntervalMillis by rememberUpdatedState(previewIntervalMillis)
+    LaunchedEffect(adapter, fastScrollerState) {
+        if (scrollByItemIndex) {
+            var lastRequestedIndex = -1
+            snapshotFlow { fastScrollerState.targetItemIndex to fastScrollerState.isDragging }
+                .collect { (index, dragging) ->
+                    if (index < 0 && dragging) {
+                        state.stopScroll()
+                    } else if (index >= 0 && index != lastRequestedIndex) {
+                        state.requestScrollToItem(index)
+                        lastRequestedIndex = index
+                        if (dragging) delay(currentPreviewIntervalMillis)
+                    }
+                    if (!dragging) lastRequestedIndex = -1
+                }
+        } else {
+            adapter.collectScrollRequests()
+        }
+    }
     var trackHeight by remember { mutableIntStateOf(0) }
-    var draggedThumbPosition by remember { mutableStateOf<Float?>(null) }
     val minThumbHeightPx = with(density) { minThumbHeight.toPx() }
-    val thumbHeight = (trackHeight * adapter.visibleFraction).coerceAtLeast(minThumbHeightPx)
+    val thumbHeight = if (scrollByItemIndex) {
+        minThumbHeightPx.coerceAtMost(trackHeight / 2f)
+    } else {
+        (trackHeight * adapter.visibleFraction).coerceAtLeast(minThumbHeightPx)
+    }
     val maxThumbPosition = (trackHeight - thumbHeight).coerceAtLeast(0f)
-    val scrollThumbPosition =
-        (maxThumbPosition * adapter.scrollFraction).coerceIn(0f, maxThumbPosition)
-    val thumbPosition = draggedThumbPosition ?: scrollThumbPosition
-    val isVisible = adapter.contentSize > adapter.viewportSize && trackHeight > 0
+    val scrollThumbCenter = remember(adapter, maxThumbPosition, thumbHeight) {
+        { maxThumbPosition * adapter.scrollFraction + thumbHeight / 2f }
+    }
+    val isVisible = trackHeight > 0 && (state.canScrollBackward || state.canScrollForward)
+    var showThumb by remember(autoHide) { mutableStateOf(!autoHide) }
+    val isScrolling = state.isScrollInProgress || fastScrollerState.isDragging
+    LaunchedEffect(autoHide, isScrolling) {
+        if (!autoHide || isScrolling) {
+            showThumb = true
+        } else if (showThumb) {
+            delay(900)
+            showThumb = false
+        }
+    }
+    val alpha by animateFloatAsState(
+        targetValue = if (showThumb) 1f else 0f,
+        animationSpec = tween(160)
+    )
     val currentThumbHeight by rememberUpdatedState(thumbHeight)
     val currentMaxThumbPosition by rememberUpdatedState(maxThumbPosition)
-    fastScrollerState.thumbCenter = thumbPosition + thumbHeight / 2f
-    fastScrollerState.isVisible = isVisible
+    SideEffect {
+        fastScrollerState.scrollThumbCenter = scrollThumbCenter
+        fastScrollerState.isVisible = isVisible && showThumb
+    }
+
+    val dragModifier = Modifier.pointerInput(adapter, autoHide) {
+        awaitEachGesture {
+            val down = awaitFirstDown(requireUnconsumed = autoHide)
+            val gestureThumbHeight = currentThumbHeight
+            val gestureMaxThumbPosition = currentMaxThumbPosition
+            if (gestureMaxThumbPosition == 0f) return@awaitEachGesture
+            if (autoHide) down.consume()
+
+            val lastStartIndex = if (scrollByItemIndex) adapter.lastStartIndex else 0
+            val lastItemIndex = if (scrollByItemIndex) adapter.lastItemIndex else 0
+            val center = fastScrollerState.thumbCenter
+            val isOnThumb = autoHide || abs(down.position.y - center) <= gestureThumbHeight / 2f
+            var position = (if (isOnThumb) center else down.position.y) - gestureThumbHeight / 2f
+
+            fun scrollToPosition() {
+                val target = position.coerceIn(0f, gestureMaxThumbPosition)
+                fastScrollerState.draggedThumbCenter = target + gestureThumbHeight / 2f
+                val fraction = target / gestureMaxThumbPosition
+                if (scrollByItemIndex) {
+                    fastScrollerState.targetItemIndex = if (fraction == 1f) lastItemIndex
+                    else (fraction * lastStartIndex).roundToInt().coerceAtMost(lastItemIndex)
+                } else {
+                    adapter.scrollToFractionOnTrack(fraction)
+                }
+            }
+
+            try {
+                fastScrollerState.targetItemIndex = -1
+                fastScrollerState.draggedThumbCenter = center
+                fastScrollerState.isDragging = true
+                if (!autoHide) scrollToPosition()
+                drag(down.id) { change ->
+                    position += change.positionChange().y
+                    scrollToPosition()
+                    change.consume()
+                }
+            } finally {
+                fastScrollerState.isDragging = false
+            }
+        }
+    }
 
     Box(
         modifier = modifier
-            .width(thickness)
+            .width(if (autoHide) thickness + 3.dp else thickness)
             .onSizeChanged { trackHeight = it.height }
             .then(
-                if (isVisible) Modifier.background(trackColor, MaterialTheme.shapes.extraLarge)
-                else Modifier
+                if (isVisible && !autoHide) {
+                    Modifier
+                        .background(trackColor, MaterialTheme.shapes.extraLarge)
+                        .then(dragModifier)
+                } else Modifier
             )
-            .pointerInput(adapter) {
-                awaitEachGesture {
-                    val down = awaitFirstDown(requireUnconsumed = false)
-                    val gestureThumbHeight = currentThumbHeight
-                    val gestureMaxThumbPosition = currentMaxThumbPosition
-                    val currentThumbCenter = fastScrollerState.thumbCenter
-                    val dragOffset = (down.position.y - currentThumbCenter)
-                        .takeIf { abs(it) <= gestureThumbHeight / 2f }
-                        ?: 0f
-
-                    fun scrollTo(pointerY: Float) {
-                        val position = (pointerY - dragOffset - gestureThumbHeight / 2f)
-                            .coerceIn(0f, gestureMaxThumbPosition)
-                        draggedThumbPosition = position
-                        adapter.scrollToTrackPosition(
-                            position,
-                            gestureMaxThumbPosition,
-                        )
-                    }
-
-                    try {
-                        fastScrollerState.isDragging = true
-                        scrollTo(down.position.y)
-                        drag(down.id) { change ->
-                            scrollTo(change.position.y)
-                            change.consume()
-                        }
-                    } finally {
-                        fastScrollerState.isDragging = false
-                        draggedThumbPosition = null
-                    }
-                }
-            }
     ) {
         if (isVisible) {
             Box(
                 modifier = Modifier
-                    .width(thickness)
+                    .fillMaxWidth()
                     .height(with(density) { thumbHeight.toDp() })
-                    .offset { IntOffset(0, thumbPosition.roundToInt()) }
-                    .background(thumbColor, MaterialTheme.shapes.extraLarge)
-            )
+                    .offset {
+                        IntOffset(
+                            0,
+                            (fastScrollerState.thumbCenter - thumbHeight / 2f).roundToInt()
+                        )
+                    }
+                    .then(if (autoHide && showThumb) dragModifier else Modifier)
+            ) {
+                Box(
+                    modifier = Modifier
+                        .align(AbsoluteAlignment.CenterRight)
+                        .width(thickness)
+                        .fillMaxHeight()
+                        .graphicsLayer { this.alpha = alpha }
+                        .background(thumbColor, MaterialTheme.shapes.extraLarge)
+                )
+            }
         }
     }
 }
 
 private class LazyGridAdapter(
     private val state: LazyGridState,
-    coroutineScope: CoroutineScope,
+    private val scrollByItemIndex: Boolean,
 ) {
     private val scrollRequests = Channel<Float>(Channel.CONFLATED)
 
-    init {
-        coroutineScope.launch {
-            for (fraction in scrollRequests) {
-                scrollToFraction(fraction)
-            }
+    suspend fun collectScrollRequests() {
+        for (fraction in scrollRequests) {
+            scrollToFraction(fraction)
         }
     }
 
@@ -198,21 +279,34 @@ private class LazyGridAdapter(
             val offset = if (isVertical) item.offset.y else item.offset.x
             return line * (averageLineSize + layoutInfo.mainAxisItemSpacing) - offset
         }
+    val lastItemIndex: Int
+        get() = (layoutInfo.totalItemsCount - 1).coerceAtLeast(0)
+    val lastStartIndex: Int
+        get() = (layoutInfo.totalItemsCount - visibleItems.size).coerceAtLeast(1)
     val visibleFraction: Float
         get() = if (contentSize == 0.0) 1f else (viewportSize / contentSize).coerceAtMost(1.0)
             .toFloat()
     val scrollFraction: Float
-        get() = ((scrollOffset / (contentSize - viewportSize).coerceAtLeast(1.0)).coerceIn(
-            0.0,
-            1.0
-        )).toFloat()
+        get() = when {
+            !state.canScrollBackward -> 0f
+            !state.canScrollForward -> 1f
+            scrollByItemIndex -> (state.firstVisibleItemIndex.toFloat() / lastStartIndex)
+                .coerceAtMost(1f)
 
-    fun scrollToTrackPosition(position: Float, maxPosition: Float) {
-        if (maxPosition == 0f) return
-        scrollRequests.trySend((position / maxPosition).coerceIn(0f, 1f))
+            else -> (scrollOffset / (contentSize - viewportSize).coerceAtLeast(1.0))
+                .coerceIn(0.0, 1.0).toFloat()
+        }
+
+    fun scrollToFractionOnTrack(fraction: Float) {
+        scrollRequests.trySend(fraction)
     }
 
     private suspend fun scrollToFraction(fraction: Float) {
+        if (fraction == 0f || fraction == 1f) {
+            state.scrollToItem(if (fraction == 0f) 0 else lastItemIndex)
+            return
+        }
+
         val targetOffset = fraction * (contentSize - viewportSize).coerceAtLeast(0.0)
         val distance = targetOffset - scrollOffset
         if (abs(distance) <= viewportSize) {
@@ -221,7 +315,7 @@ private class LazyGridAdapter(
             val lineSize = (averageLineSize + layoutInfo.mainAxisItemSpacing).coerceAtLeast(1.0)
             state.scrollToItem(
                 index = ((targetOffset / lineSize).toInt() * slotsPerLine)
-                    .coerceIn(0, (layoutInfo.totalItemsCount - 1).coerceAtLeast(0)),
+                    .coerceIn(0, lastItemIndex),
                 scrollOffset = (targetOffset % lineSize).toInt().coerceAtLeast(0),
             )
         }

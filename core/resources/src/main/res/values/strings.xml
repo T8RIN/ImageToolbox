@@ -5594,6 +5594,8 @@
     <string name="gallery_display_options">Grouping and sorting</string>
     <string name="gallery_show_file_size">Show file size</string>
     <string name="gallery_show_file_extension">Show file format</string>
+    <string name="gallery_show_file_size_sub">Show the file size on image thumbnails.</string>
+    <string name="gallery_show_file_extension_sub">Show the file format on image thumbnails.</string>
     <string name="gallery_search_similar">Find similar photos</string>
     <string name="gallery_search_similar_description">Choose a photo to find others with similar contents.</string>
     <string name="gallery_search_similar_enable">Turn on Semantic photo search first.</string>
@@ -5977,6 +5979,8 @@
     <string name="help_tip_gallery_workflow_step_1">Open the relevant album before choosing a large batch. A selected album also matters when browsing semantic results and people groups.</string>
     <string name="help_tip_gallery_workflow_step_2">Inspect similar-looking thumbnails in preview to avoid processing the wrong version. Check the selected count before sending images to a tool.</string>
     <string name="help_tip_gallery_workflow_step_3">If a new file is missing, check its folder, media permissions, and whether the source app has finished saving it. A file picker can reach sources not shown in the media library.</string>
+    <string name="help_tip_gallery_workflow_grid_settings">Open Settings → Gallery to set the grid to Auto or choose 1–20 columns. Pinch with two fingers to resize the grid until you close it. The file size and format labels can be turned off separately.</string>
+    <string name="help_tip_gallery_workflow_fast_scroll">Scroll to reveal the handle on the right. Drag it to move through the gallery by date and time.</string>
     <string name="help_tip_archive_workflow_title">Create and extract archives</string>
     <string name="help_tip_archive_workflow_subtitle">Choose a container, compression method, password, and extraction options</string>
     <string name="help_tip_archive_workflow_page_title">Archive or extract</string>
