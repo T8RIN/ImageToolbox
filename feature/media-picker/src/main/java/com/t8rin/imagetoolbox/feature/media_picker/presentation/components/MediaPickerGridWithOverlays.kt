@@ -52,6 +52,7 @@ import androidx.compose.foundation.layout.union
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.BadgedBox
@@ -109,6 +110,9 @@ import com.t8rin.imagetoolbox.feature.media_picker.domain.model.Album
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.AlbumState
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.AllowedMedia
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.MediaAction
+import com.t8rin.imagetoolbox.feature.media_picker.domain.model.MediaDateGroup
+import com.t8rin.imagetoolbox.feature.media_picker.domain.model.MediaGrouping
+import com.t8rin.imagetoolbox.feature.media_picker.domain.model.MediaOrder
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.MediaState
 import com.t8rin.imagetoolbox.feature.media_picker.presentation.screenLogic.MediaPickerComponent
 
@@ -181,6 +185,25 @@ internal fun MediaPickerGridWithOverlays(
     }
 
     val filteredMediaState by component.filteredMediaState.collectAsState()
+    val displaySettings by component.displaySettings.collectAsStateWithLifecycle()
+    val selectedCategory by component.selectedSemanticCategory.collectAsStateWithLifecycle()
+    val gridState = rememberLazyGridState()
+    LaunchedEffect(
+        selectedAlbumIndex,
+        displaySettings,
+        searchKeyword.trim(),
+        searchImage,
+        selectedCategory
+    ) {
+        gridState.requestScrollToItem(0)
+    }
+    val sortByDateTaken = displaySettings.mediaOrder is MediaOrder.DateTaken
+    val useDateTaken = if (displaySettings.dateGroup == MediaDateGroup.None) sortByDateTaken
+    else when (displaySettings.grouping) {
+        MediaGrouping.DateTaken -> true
+        MediaGrouping.DateModified -> false
+        else -> sortByDateTaken
+    }
     val selectedUris = if (inTrash) selectedMedia.mapTo(hashSetOf()) { it.uri } else emptySet()
     val canSelectAll = inTrash && filteredMediaState.media.any { it.uri !in selectedUris }
 
@@ -195,11 +218,13 @@ internal fun MediaPickerGridWithOverlays(
             MediaPickerGrid(
                 albumId = selectedAlbumIndex,
                 state = filteredMediaState,
+                gridState = gridState,
                 isSelectionOfAll = selectedAlbumIndex == Album.ALL_ID || inTrash,
                 selectedMedia = selectedMedia,
                 allowMultiple = allowMultiple || inTrash,
                 isGalleryMode = isGalleryMode,
                 isButtonVisible = isButtonVisible,
+                useDateTaken = useDateTaken,
                 isManagePermissionAllowed = isManagePermissionAllowed,
                 onRequestManagePermission = onRequestManagePermission,
                 onMediaAction = component::requestMediaAction.takeIf { component.areMediaActionsAvailable },

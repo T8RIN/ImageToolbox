@@ -18,19 +18,27 @@
 package com.t8rin.imagetoolbox.feature.media_picker.presentation.components
 
 import androidx.compose.animation.animateColor
+import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.animation.core.animateDp
 import androidx.compose.animation.core.animateFloat
-import androidx.compose.animation.core.updateTransition
+import androidx.compose.animation.core.rememberTransition
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.text.BasicText
+import androidx.compose.foundation.text.TextAutoSize
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -44,10 +52,18 @@ import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.request.allowHardware
+import coil3.request.crossfade
+import coil3.request.maxBitmapSize
 import coil3.size.Precision
+import coil3.size.Size
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.icons.BrokenImageAlt
 import com.t8rin.imagetoolbox.core.resources.icons.CheckCircle
@@ -66,39 +82,76 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.advancedShadow
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateShape
 import com.t8rin.imagetoolbox.core.utils.appContext
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.Media
+import kotlinx.coroutines.Dispatchers
 
 @Composable
 fun MediaImage(
     modifier: Modifier = Modifier,
     media: Media,
+    cellSize: Dp,
+    thumbnailSize: Int,
     isInSelection: Boolean = true,
     isSelected: Boolean,
     selectionIndex: Int,
     canClick: Boolean,
     onItemClick: (Media) -> Unit,
     onItemLongClick: (Media) -> Unit,
+    showFileSize: Boolean = true,
+    showFileExtension: Boolean = true,
 ) {
-    val transition = updateTransition(isSelected)
+    val compact = cellSize < CompactMediaCellSize
 
-    val selectedSize = transition.animateDp {
-        if (it) 12.dp else 0.dp
-    }
-    val scale = transition.animateFloat {
-        if (it) 0.5f else 1f
-    }
-    var isImageError by remember {
-        mutableStateOf(false)
-    }
-    val strokeColor = takeColorFromScheme {
-        if (isSelected) {
-            if (isImageError) errorContainer
-            else primaryContainer
-        } else Color.Transparent
+    val selection = remember { MutableTransitionState(isSelected) }
+
+    selection.targetState = isSelected
+
+    val transition = if (compact && selection.isIdle) null else rememberTransition(selection)
+
+    val badgeScale = (cellSize / 72.dp).coerceIn(0f, 1f)
+
+    val iconScale = (cellSize / 64.dp).coerceIn(0f, 1f)
+
+    val maxInset = minOf(12.dp, cellSize / 8)
+
+    val selectedSize = transition?.animateDp { if (it) maxInset else 0.dp }?.value
+        ?: if (isSelected) maxInset else 0.dp
+
+    val scale = if (!compact || media.isFavorite) {
+        transition?.animateFloat { if (it) 0.5f else 1f }
+    } else null
+
+    val targetScale = if (isSelected) 0.5f else 1f
+
+    var isImageError by remember(media.uri) { mutableStateOf(false) }
+
+    val strokeColor =
+        if (isImageError) MaterialTheme.colorScheme.errorContainer else MaterialTheme.colorScheme.primaryContainer
+
+    val rawDevelopSettings =
+        if (media.isRaw) LocalSettingsState.current.rawDevelopSettings else null
+
+    val model = remember(media, thumbnailSize, compact, rawDevelopSettings) {
+        ImageRequest.Builder(appContext)
+            .data(media.uri)
+            .size(thumbnailSize)
+            .precision(Precision.INEXACT)
+            .memoryCacheKeyExtra("thumbnail", "$thumbnailSize:${media.timestamp}:$compact")
+            .apply {
+                rawDevelopSettings?.let { memoryCacheKeyExtra("raw", it.toString()) }
+                if (compact) {
+                    fetcherCoroutineContext(ThumbnailDispatcher)
+                    decoderCoroutineContext(ThumbnailDispatcher)
+                }
+            }
+            .maxBitmapSize(if (compact) Size(512, 512) else Size(4096, 4096))
+            .crossfade(false)
+            .allowHardware(!compact)
+            .build()
     }
 
     Box(
         modifier = modifier
-            .clip(ShapeDefaults.extraSmall)
+            .then(if (compact) Modifier else Modifier.clip(ShapeDefaults.extraSmall))
             .background(MaterialTheme.colorScheme.surfaceContainer)
             .then(
                 if (canClick) {
@@ -114,159 +167,202 @@ fun MediaImage(
             )
             .aspectRatio(1f)
     ) {
-        val shape = animateShape(
-            if (isSelected) {
-                AutoCornersShape(16.dp)
-            } else {
-                AutoCornersShape(4.dp)
-            }
-        )
-
-        Box(
-            modifier = Modifier
-                .align(Alignment.Center)
-                .aspectRatio(1f)
-                .padding(selectedSize.value)
-                .clip(shape)
-                .border(
-                    width = if (isSelected) 2.dp else 0.dp,
-                    shape = shape,
-                    color = strokeColor
-                )
-                .background(
-                    color = MaterialTheme.colorScheme.surfaceContainerHigh,
-                    shape = shape
-                )
-        ) {
-            val rawDevelopSettings = LocalSettingsState.current.rawDevelopSettings
-
-            Picture(
-                modifier = Modifier.fillMaxSize(),
-                model = remember(media.uri, rawDevelopSettings) {
-                    ImageRequest.Builder(appContext)
-                        .data(media.uri)
-                        .size(384)
-                        .precision(Precision.INEXACT)
-                        .memoryCacheKey(media.uri + rawDevelopSettings.toString())
-                        .diskCacheKey(media.uri + rawDevelopSettings.toString())
-                        .allowHardware(true)
-                        .build()
-                },
+        if (compact) {
+            AsyncImage(
+                model = model,
                 contentDescription = media.label,
+                modifier = Modifier
+                    .matchParentSize()
+                    .padding(selectedSize)
+                    .then(
+                        if (isSelected) Modifier
+                            .clip(ShapeDefaults.extraSmall)
+                            .border(1.dp, strokeColor, ShapeDefaults.extraSmall)
+                        else Modifier
+                    ),
                 contentScale = ContentScale.Crop,
-                onSuccess = {
-                    isImageError = false
-                },
-                onError = {
-                    isImageError = true
-                },
-                error = {
-                    Box(
-                        contentAlignment = Alignment.Center,
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .background(
-                                takeColorFromScheme { isNightMode ->
-                                    errorContainer.copy(
-                                        if (isNightMode) 0.25f
-                                        else 1f
-                                    ).compositeOverSafe(surface)
-                                }
-                            )
-                    ) {
-                        Icon(
-                            imageVector = Icons.Rounded.BrokenImageAlt,
-                            contentDescription = null,
-                            modifier = Modifier.fillMaxSize(0.5f),
-                            tint = MaterialTheme.colorScheme.onErrorContainer.copy(0.8f)
-                        )
-                    }
-                },
+                onSuccess = { isImageError = false },
+                onError = { isImageError = true }
+            )
+            if (isImageError) MediaThumbnailError()
+        } else {
+            val shape = animateShape(
+                if (isSelected) AutoCornersShape(16.dp) else AutoCornersShape(4.dp)
+            )
+            Picture(
+                model = model,
+                contentDescription = media.label,
+                modifier = Modifier
+                    .matchParentSize()
+                    .padding(selectedSize)
+                    .clip(shape)
+                    .then(
+                        if (isSelected) Modifier.border(2.dp, strokeColor, shape)
+                        else Modifier
+                    )
+                    .background(MaterialTheme.colorScheme.surfaceContainerHigh),
+                contentScale = ContentScale.Crop,
+                onSuccess = { isImageError = false },
+                onError = { isImageError = true },
+                error = { MediaThumbnailError() },
                 filterQuality = FilterQuality.High
             )
         }
 
-        Box(
-            modifier = Modifier.align(Alignment.TopEnd)
-        ) {
-            MediaExtensionHeader(
+        if (!compact && showFileExtension) {
+            MediaBadge(
+                text = media.fileExtension.uppercase(),
+                scale = badgeScale,
                 modifier = Modifier
-                    .padding(selectedSize.value / 2)
+                    .align(Alignment.TopEnd)
+                    .padding(selectedSize / 2)
                     .graphicsLayer {
-                        scaleX = scale.value
-                        scaleY = scale.value
-                    },
-                media = media
-            )
-        }
-
-        if (media.fileSize > 0) {
-            MediaSizeFooter(
-                modifier = Modifier
-                    .align(Alignment.BottomStart)
-                    .padding(selectedSize.value / 2)
-                    .graphicsLayer {
-                        scaleX = scale.value
-                        scaleY = scale.value
-                        transformOrigin = TransformOrigin(0.3f, 0.5f)
-                    },
-                media = media,
-            )
-        }
-
-        if (media.isFavorite) {
-            Icon(
-                imageVector = Icons.Rounded.Star,
-                contentDescription = null,
-                tint = White,
-                modifier = Modifier
-                    .align(Alignment.BottomEnd)
-                    .padding(selectedSize.value / 2)
-                    .graphicsLayer {
-                        scaleX = scale.value
-                        scaleY = scale.value
-                        transformOrigin = TransformOrigin(0.7f, 0.5f)
+                        scaleX = scale?.value ?: targetScale
+                        scaleY = scale?.value ?: targetScale
                     }
-                    .padding(8.dp)
-                    .padding(vertical = 2.dp)
-                    .advancedShadow(
-                        cornersRadius = 4.dp,
-                        shadowBlurRadius = 6.dp,
-                        alpha = 0.4f
-                    )
-                    .padding(horizontal = 2.dp)
-                    .size(16.dp)
             )
+        }
+
+        val showSize = !compact && showFileSize && media.fileSize > 0
+        if (showSize || media.isFavorite) {
+            val footerScale = if (compact) iconScale else badgeScale
+            Row(
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .fillMaxWidth()
+                    .padding(selectedSize / 2)
+                    .padding(horizontal = 8.dp * footerScale, vertical = 10.dp * footerScale),
+                horizontalArrangement = if (showSize) Arrangement.SpaceBetween else Arrangement.End,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                if (showSize) {
+                    val style = MaterialTheme.typography.labelMedium
+                    val fontSize = style.fontSize * badgeScale
+                    BasicText(
+                        text = media.humanFileSize,
+                        style = style.copy(
+                            color = White,
+                            fontSize = fontSize,
+                            lineHeight = TextUnit.Unspecified
+                        ),
+                        maxLines = 1,
+                        softWrap = false,
+                        autoSize = TextAutoSize.StepBased(
+                            minFontSize = minOf(6f, fontSize.value).sp,
+                            maxFontSize = fontSize
+                        ),
+                        modifier = Modifier
+                            .weight(1f, fill = false)
+                            .graphicsLayer {
+                                scaleX = scale?.value ?: targetScale
+                                scaleY = scale?.value ?: targetScale
+                                transformOrigin = TransformOrigin(0f, 0.5f)
+                            }
+                            .mediaBadgeShadow(footerScale)
+                    )
+                }
+                if (media.isFavorite) {
+                    if (showSize) Spacer(Modifier.width(4.dp * footerScale))
+                    Icon(
+                        imageVector = Icons.Rounded.Star,
+                        contentDescription = null,
+                        tint = White,
+                        modifier = Modifier
+                            .graphicsLayer {
+                                scaleX = scale?.value ?: targetScale
+                                scaleY = scale?.value ?: targetScale
+                                transformOrigin = TransformOrigin(1f, 0.5f)
+                            }
+                            .mediaBadgeShadow(footerScale)
+                            .size(16.dp * iconScale)
+                    )
+                }
+            }
         }
 
         if (isInSelection) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(4.dp)
-            ) {
-                MediaCheckBox(
-                    isChecked = isSelected,
-                    uncheckedColor = White.copy(0.8f),
-                    checkedColor = if (isImageError) {
-                        MaterialTheme.colorScheme.error
-                    } else MaterialTheme.colorScheme.primary,
-                    checkedIcon = if (isImageError) {
-                        Icons.Rounded.Error
-                    } else {
-                        Icons.Rounded.CheckCircle
-                    },
-                    selectionIndex = selectionIndex,
-                    modifier = Modifier
-                        .clip(ShapeDefaults.circle)
-                        .background(
-                            transition.animateColor {
-                                if (it) MaterialTheme.colorScheme.surfaceContainer
-                                else Color.Transparent
-                            }.value
-                        )
-                )
-            }
+            val checkboxSize = 24.dp * iconScale
+            val selectionModifier = Modifier
+                .align(Alignment.TopStart)
+                .padding(4.dp * iconScale)
+                .size(checkboxSize)
+            val checkedColor = if (isImageError) MaterialTheme.colorScheme.error
+            else MaterialTheme.colorScheme.primary
+            val checkedIcon = if (isImageError) Icons.Rounded.Error else Icons.Rounded.CheckCircle
+
+            val checkedBackground = MaterialTheme.colorScheme.surfaceContainer
+            val background = transition?.animateColor {
+                if (it) checkedBackground else Color.Transparent
+            }?.value ?: if (isSelected) checkedBackground else Color.Transparent
+
+            MediaCheckBox(
+                isChecked = isSelected,
+                uncheckedColor = White.copy(0.8f),
+                checkedColor = checkedColor,
+                checkedIcon = checkedIcon,
+                selectionIndex = selectionIndex,
+                numberSize = checkboxSize,
+                modifier = selectionModifier
+                    .clip(ShapeDefaults.circle)
+                    .background(background)
+            )
         }
     }
 }
+
+internal val CompactMediaCellSize = 48.dp
+
+private val ThumbnailDispatcher = Dispatchers.IO.limitedParallelism(4)
+
+@Composable
+private fun MediaThumbnailError() {
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = Modifier
+            .fillMaxSize()
+            .background(
+                takeColorFromScheme { isNightMode ->
+                    errorContainer.copy(if (isNightMode) 0.25f else 1f).compositeOverSafe(surface)
+                }
+            )
+    ) {
+        Icon(
+            imageVector = Icons.Rounded.BrokenImageAlt,
+            contentDescription = null,
+            modifier = Modifier.fillMaxSize(0.5f),
+            tint = MaterialTheme.colorScheme.onErrorContainer.copy(0.8f)
+        )
+    }
+}
+
+@Composable
+private fun MediaBadge(
+    text: String,
+    scale: Float,
+    modifier: Modifier = Modifier
+) {
+    val style = MaterialTheme.typography.labelMedium
+    Text(
+        text = text,
+        modifier = modifier.mediaBadge(scale),
+        color = White,
+        style = style,
+        fontSize = style.fontSize * scale,
+        lineHeight = style.lineHeight * scale,
+        maxLines = 1,
+        softWrap = false,
+        overflow = TextOverflow.Ellipsis
+    )
+}
+
+private fun Modifier.mediaBadge(scale: Float): Modifier = this
+    .padding(8.dp * scale)
+    .padding(vertical = 2.dp * scale)
+    .mediaBadgeShadow(scale)
+    .padding(horizontal = 2.dp * scale)
+
+private fun Modifier.mediaBadgeShadow(scale: Float): Modifier = advancedShadow(
+    cornersRadius = 4.dp * scale,
+    shadowBlurRadius = 6.dp * scale,
+    alpha = 0.4f
+)

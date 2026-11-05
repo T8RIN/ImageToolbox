@@ -17,7 +17,11 @@
 package com.t8rin.imagetoolbox.feature.media_picker.presentation.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.awaitEachGesture
+import androidx.compose.foundation.gestures.awaitFirstDown
+import androidx.compose.foundation.gestures.calculateZoom
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
@@ -29,25 +33,32 @@ import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.itemsIndexed
-import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.pointer.PointerEventPass
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.t8rin.imagetoolbox.core.settings.domain.model.FlingType
+import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
+import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.longPress
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.dragHandler
@@ -59,28 +70,27 @@ import com.t8rin.imagetoolbox.feature.media_picker.domain.model.isHeaderKey
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlin.math.roundToInt
 
 @Composable
-internal fun MediaPickerGrid(
+internal fun BoxScope.MediaPickerGrid(
     albumId: Long,
     state: MediaState,
+    gridState: LazyGridState,
     isSelectionOfAll: Boolean,
     selectedMedia: SnapshotStateList<Media>,
     allowMultiple: Boolean,
     isGalleryMode: Boolean,
     isButtonVisible: Boolean,
+    useDateTaken: Boolean,
     onRequestManagePermission: () -> Unit,
     isManagePermissionAllowed: Boolean,
     onMediaAction: ((MediaAction, Media) -> Unit)? = null,
     bottomContentPadding: Dp = 0.dp
 ) {
+    val settingsState = LocalSettingsState.current
     val scope = rememberCoroutineScope()
-    val gridState = rememberLazyGridState()
     val hapticFeedback = LocalHapticFeedback.current
-
-    LaunchedEffect(state.mappedMedia.map { it.key }) {
-        gridState.requestScrollToItem(0)
-    }
 
     var imagePreviewUri by rememberSaveable(albumId) {
         mutableStateOf<String?>(null)
@@ -133,6 +143,33 @@ internal fun MediaPickerGrid(
 
     val cutout = WindowInsets.displayCutout.asPaddingValues()
     val navBar = WindowInsets.navigationBars.asPaddingValues()
+    val bottomPadding = maxOf(
+        (if (isButtonVisible) 80.dp else 0.dp) +
+                (if (selectedMedia.isNotEmpty()) 52.dp else 0.dp),
+        bottomContentPadding
+    ) + navBar.calculateBottomPadding()
+
+    var columns by remember(settingsState.galleryColumns) {
+        mutableIntStateOf(settingsState.galleryColumns)
+    }
+    val adaptiveCellSize = 100.dp
+    val spacing = 1.dp
+    val density = LocalDensity.current
+    var gridWidth by remember { mutableIntStateOf(0) }
+    val spacingPx = with(density) { spacing.roundToPx() }
+    val columnCount = if (columns > 0) columns else with(density) {
+        ((gridWidth + spacingPx) / (adaptiveCellSize.roundToPx() + spacingPx)).coerceAtLeast(1)
+    }
+    val cellSize = if (gridWidth == 0) adaptiveCellSize else with(density) {
+        val width = (gridWidth - spacingPx * (columnCount - 1)).coerceAtLeast(0)
+        (width / columnCount).toDp()
+    }
+    val thumbnailSize = with(density) {
+        val pixels = cellSize.roundToPx().coerceAtLeast(1)
+        val step = if (pixels <= 128) 32 else 128
+        ((pixels + step - 1) / step * step).coerceAtMost(4096)
+    }
+    val currentColumnCount by rememberUpdatedState(columnCount)
 
     LazyVerticalGrid(
         state = gridState,
@@ -143,12 +180,35 @@ internal fun MediaPickerGrid(
                 start = cutout.calculateStartPadding(layoutDirection),
                 end = cutout.calculateEndPadding(layoutDirection)
             )
+            .onSizeChanged { gridWidth = it.width }
+            .pointerInput(Unit) {
+                awaitEachGesture {
+                    awaitFirstDown(requireUnconsumed = false, pass = PointerEventPass.Initial)
+                    val initialColumns = columns
+                    val startColumns =
+                        currentColumnCount.coerceAtMost(SettingsState.MaxGalleryColumns)
+                    var zoomColumns = startColumns.toFloat()
+                    var isPinching = false
+                    do {
+                        val event = awaitPointerEvent(PointerEventPass.Initial)
+                        if (event.changes.count { it.pressed } > 1) {
+                            isPinching = true
+                            zoomColumns = (zoomColumns / event.calculateZoom())
+                                .coerceIn(1f, SettingsState.MaxGalleryColumns.toFloat())
+                            val newColumns = zoomColumns.roundToInt()
+                            columns = if (newColumns == startColumns) initialColumns else newColumns
+                        }
+                        if (isPinching) event.changes.forEach { it.consume() }
+                    } while (event.changes.any { it.pressed })
+                }
+            }
             .dragHandler(
                 enabled = isSelectionOfAll && allowMultiple &&
                         (!isGalleryMode || selectedMedia.isNotEmpty()),
                 key = state.mappedMedia,
                 itemIndex = { item ->
-                    (item.index - if (isManagePermissionAllowed) 0 else 1).takeIf { it >= 0 }
+                    (item.index - if (isManagePermissionAllowed) 0 else 1)
+                        .takeIf { it >= 0 && !item.key.isHeaderKey }
                 },
                 lazyGridState = gridState,
                 isVertical = true,
@@ -168,27 +228,13 @@ internal fun MediaPickerGrid(
                 },
                 shouldHandleLongTap = selectedMedia.isNotEmpty()
             ),
-        columns = GridCells.Adaptive(100.dp),
-        horizontalArrangement = Arrangement.spacedBy(1.dp),
-        verticalArrangement = Arrangement.spacedBy(1.dp),
-        contentPadding = remember(
-            navBar,
-            layoutDirection,
-            isButtonVisible,
-            selectedMedia.isNotEmpty(),
-            bottomContentPadding
-        ) {
-            PaddingValues(
-                bottom = navBar.calculateBottomPadding().plus(
-                    if (isButtonVisible) 80.dp
-                    else 0.dp
-                ).plus(
-                    if (selectedMedia.isNotEmpty()) 52.dp
-                    else 0.dp
-                ).coerceAtLeast(navBar.calculateBottomPadding() + bottomContentPadding)
-            )
-        },
-        flingBehavior = enhancedFlingBehavior(FlingType.IOS_STYLE)
+        columns = if (columns == 0) GridCells.Adaptive(adaptiveCellSize) else GridCells.Fixed(
+            columns
+        ),
+        horizontalArrangement = Arrangement.spacedBy(spacing),
+        verticalArrangement = Arrangement.spacedBy(spacing),
+        contentPadding = PaddingValues(bottom = bottomPadding),
+        flingBehavior = enhancedFlingBehavior()
     ) {
         if (!isManagePermissionAllowed) {
             item(
@@ -199,14 +245,14 @@ internal fun MediaPickerGrid(
                 ManageExternalStorageWarning(onRequestManagePermission)
             }
         }
-        itemsIndexed(
+        items(
             items = state.mappedMedia,
-            key = { _, item -> item.key },
-            contentType = { _, item -> item.key.startsWith("media_") },
-            span = { _, item ->
-                GridItemSpan(if (item.key.isHeaderKey) maxLineSpan else 1)
+            key = MediaItem::key,
+            contentType = { it is MediaItem.MediaViewItem },
+            span = { item ->
+                GridItemSpan(if (item is MediaItem.Header) maxLineSpan else 1)
             }
-        ) { _, item ->
+        ) { item ->
             when (item) {
                 is MediaItem.Header -> {
                     val isChecked = rememberSaveable { mutableStateOf(false) }
@@ -218,6 +264,7 @@ internal fun MediaPickerGrid(
                     }
                     MediaStickyHeader(
                         date = item.text,
+                        scale = 0.75f + 0.25f * (cellSize / adaptiveCellSize).coerceIn(0f, 1f),
                         isChecked = isChecked.value,
                         onChecked = if (
                             allowMultiple && (!isGalleryMode || selectedMedia.isNotEmpty())
@@ -244,6 +291,8 @@ internal fun MediaPickerGrid(
 
                     MediaImage(
                         media = item.media,
+                        cellSize = cellSize,
+                        thumbnailSize = thumbnailSize,
                         isInSelection = !isGalleryMode || selectionIndex >= 0,
                         canClick = if (isGalleryMode) {
                             selectedMedia.isEmpty() || !isSelectionOfAll || !allowMultiple
@@ -266,12 +315,24 @@ internal fun MediaPickerGrid(
                             }
                         },
                         selectionIndex = if (selectedMedia.size > 1) selectionIndex else -1,
-                        isSelected = selectionIndex >= 0
+                        isSelected = selectionIndex >= 0,
+                        showFileSize = settingsState.showGalleryFileSize,
+                        showFileExtension = settingsState.showGalleryFileExtension
                     )
                 }
             }
         }
     }
+
+    MediaGridFastScroller(
+        state = gridState,
+        media = state.mappedMedia,
+        firstMediaIndex = if (isManagePermissionAllowed) 0 else 1,
+        useDateTaken = useDateTaken,
+        compactGrid = cellSize < CompactMediaCellSize,
+        rightPadding = cutout.calculateRightPadding(layoutDirection),
+        bottomPadding = bottomPadding
+    )
 
     MediaImagePager(
         imagePreviewUri = imagePreviewUri,
