@@ -73,6 +73,7 @@ internal fun BoxScope.MediaGridFastScroller(
         thumbColor = MaterialTheme.colorScheme.primary,
         scrollByItemIndex = true,
         autoHide = true,
+        thumbTouchWidth = 48.dp,
         modifier = Modifier
             .align(AbsoluteAlignment.TopRight)
             .fillMaxHeight()

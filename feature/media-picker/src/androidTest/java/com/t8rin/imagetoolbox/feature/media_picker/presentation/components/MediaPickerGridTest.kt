@@ -18,8 +18,14 @@
 package com.t8rin.imagetoolbox.feature.media_picker.presentation.components
 
 import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.LinearGradient
+import android.graphics.Paint
+import android.graphics.Shader
+import android.os.Debug
 import android.os.SystemClock
 import android.util.Log
+import android.view.MotionEvent
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.core.LinearEasing
@@ -29,6 +35,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.withFrameNanos
@@ -110,9 +117,9 @@ class MediaPickerGridTest {
                     y = location[1] + item.offset.y + item.size.height / 2f
                 }
                 val time = SystemClock.uptimeMillis()
-                listOf(android.view.MotionEvent.ACTION_DOWN, android.view.MotionEvent.ACTION_UP)
+                listOf(MotionEvent.ACTION_DOWN, MotionEvent.ACTION_UP)
                     .forEachIndexed { index, action ->
-                        val event = android.view.MotionEvent.obtain(
+                        val event = MotionEvent.obtain(
                             time,
                             time + index * 50L,
                             action,
@@ -143,22 +150,197 @@ class MediaPickerGridTest {
         }
     }
 
+    @Test
+    fun zoomWithVisibleSelectionKeepsCellsSquareAndSelectionStable() {
+        val media = List(1700) { index ->
+            Media(
+                id = index.toLong(), label = "$index", uri = "file:///missing-$index.png",
+                path = "", relativePath = "", albumID = 1, albumLabel = "", timestamp = 1,
+                mimeType = "image/png", size = 0
+            )
+        }
+        val state = MediaState(
+            media = media,
+            mappedMedia = listOf(MediaItem.Header("header_day", "Day", media)) +
+                    media.map { MediaItem.MediaViewItem(it.id.toString(), it) },
+            isLoading = false
+        )
+        val columns = mutableIntStateOf(4)
+        val selected = mutableStateListOf<Media>()
+        lateinit var grid: LazyGridState
+        ActivityScenario.launch(ComponentActivity::class.java).use { scenario ->
+            scenario.onActivity { activity ->
+                activity.setContent {
+                    ImageToolboxThemeForPreview(
+                        false,
+                        mapSettings = { it.copy(galleryColumns = columns.intValue) }
+                    ) {
+                        grid = rememberLazyGridState(initialFirstVisibleItemIndex = 801)
+                        Box(Modifier.fillMaxSize()) {
+                            MediaPickerGrid(
+                                albumId = 1, state = state, gridState = grid,
+                                isSelectionOfAll = true, selectedMedia = selected,
+                                allowMultiple = true, isGalleryMode = true,
+                                isButtonVisible = false, useDateTaken = false,
+                                onRequestManagePermission = {}, isManagePermissionAllowed = true
+                            )
+                        }
+                    }
+                }
+            }
+            SystemClock.sleep(1000)
+            for (selectionSize in listOf(0, 1, 1700)) {
+                scenario.onActivity {
+                    selected.clear()
+                    selected.addAll(
+                        if (selectionSize == 1) listOf(media[800]) else media.take(
+                            selectionSize
+                        )
+                    )
+                    grid.requestScrollToItem(801)
+                }
+                SystemClock.sleep(500)
+                for (count in (0..20) + (19 downTo 0)) {
+                    scenario.onActivity { columns.intValue = count }
+                    SystemClock.sleep(100)
+                    val idleStart = SystemClock.uptimeMillis()
+                    scenario.onActivity {
+                        val visible = grid.layoutInfo.visibleItemsInfo.filter { it.index > 0 }
+                        assertTrue(
+                            "Grid did not settle at $count columns with $selectionSize selected",
+                            SystemClock.uptimeMillis() - idleStart < 5_000
+                        )
+                        visible.forEach {
+                            assertTrue(
+                                "Non-square item ${it.index}: ${it.size}",
+                                kotlin.math.abs(it.size.width - it.size.height) <= 1
+                            )
+                        }
+                        org.junit.Assert.assertEquals(selectionSize, selected.size)
+                    }
+                }
+            }
+            scenario.onActivity {
+                selected.clear()
+                selected.addAll(media.subList(800, 850))
+                grid.requestScrollToItem(801)
+            }
+            SystemClock.sleep(500)
+            var activity: ComponentActivity? = null
+            scenario.onActivity { activity = it }
+            repeat(2) {
+                pinch(checkNotNull(activity), 0.3f, 0.06f)
+                scenario.onActivity {
+                    val columnsAfter = grid.layoutInfo.visibleItemsInfo.maxOf { it.column } + 1
+                    org.junit.Assert.assertEquals(20, columnsAfter)
+                    assertTrue(
+                        "Zoom lost anchor: ${grid.firstVisibleItemIndex}",
+                        grid.firstVisibleItemIndex in 782..801
+                    )
+                    org.junit.Assert.assertEquals(media.subList(800, 850), selected.toList())
+                }
+                pinch(checkNotNull(activity), 0.06f, 0.3f)
+                var position = 0 to 0
+                scenario.onActivity {
+                    val columnsAfter = grid.layoutInfo.visibleItemsInfo.maxOf { it.column } + 1
+                    org.junit.Assert.assertEquals(4, columnsAfter)
+                    assertTrue(
+                        "Zoom lost anchor: ${grid.firstVisibleItemIndex}",
+                        grid.firstVisibleItemIndex in 779..801
+                    )
+                    position = grid.firstVisibleItemIndex to grid.firstVisibleItemScrollOffset
+                    org.junit.Assert.assertEquals(media.subList(800, 850), selected.toList())
+                }
+                SystemClock.sleep(500)
+                scenario.onActivity {
+                    org.junit.Assert.assertEquals(
+                        position,
+                        grid.firstVisibleItemIndex to grid.firstVisibleItemScrollOffset
+                    )
+                }
+            }
+        }
+    }
+
+    private fun pinch(activity: ComponentActivity, start: Float, end: Float) {
+        val instrumentation = InstrumentationRegistry.getInstrumentation()
+        val view = activity.window.decorView
+        val centerX = view.width / 2f
+        val centerY = view.height / 2f
+        val downTime = SystemClock.uptimeMillis()
+        fun send(action: Int, spread: Float, count: Int = 2) {
+            val event = MotionEvent.obtain(
+                downTime, SystemClock.uptimeMillis(), action, count,
+                Array(count) {
+                    MotionEvent.PointerProperties().apply {
+                        id = it
+                        toolType = MotionEvent.TOOL_TYPE_FINGER
+                    }
+                },
+                Array(count) {
+                    MotionEvent.PointerCoords().apply {
+                        x = centerX + (if (it == 0) -1 else 1) * view.width * spread
+                        y = centerY
+                        pressure = 1f
+                        size = 1f
+                    }
+                },
+                0, 0, 1f, 1f, 0, 0, android.view.InputDevice.SOURCE_TOUCHSCREEN, 0
+            )
+            try {
+                instrumentation.runOnMainSync { activity.dispatchTouchEvent(event) }
+            } finally {
+                event.recycle()
+            }
+        }
+        send(MotionEvent.ACTION_DOWN, start, 1)
+        send(
+            MotionEvent.ACTION_POINTER_DOWN or (1 shl MotionEvent.ACTION_POINTER_INDEX_SHIFT),
+            start
+        )
+        repeat(40) { step ->
+            SystemClock.sleep(20)
+            send(MotionEvent.ACTION_MOVE, start + (end - start) * (step + 1) / 40)
+        }
+        send(MotionEvent.ACTION_POINTER_UP or (1 shl MotionEvent.ACTION_POINTER_INDEX_SHIFT), end)
+        send(MotionEvent.ACTION_UP, end, 1)
+        SystemClock.sleep(500)
+    }
+
     private fun scroll(columns: Int) {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
         val loader = coil3.SingletonImageLoader.get(context)
         loader.memoryCache?.clear()
         val directory = File(context.cacheDir, "gallery-scroll-test").apply { mkdirs() }
-        val bitmap = Bitmap.createBitmap(96, 96, Bitmap.Config.ARGB_8888).apply {
-            eraseColor(0xff4488cc.toInt())
+        val bitmap = Bitmap.createBitmap(2048, 1536, Bitmap.Config.ARGB_8888).apply {
+            Canvas(this).drawPaint(Paint().apply {
+                shader = LinearGradient(
+                    0f, 0f, 2048f, 1536f,
+                    0xff4488cc.toInt(), 0xffcc8844.toInt(), Shader.TileMode.CLAMP
+                )
+            })
         }
-        val bytes = java.io.ByteArrayOutputStream().use {
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, it)
+
+        fun encode(format: Bitmap.CompressFormat) = java.io.ByteArrayOutputStream().use {
+            bitmap.compress(format, 90, it)
             it.toByteArray()
+        }
+
+        val fixtures = listOf(
+            Triple("jpg", "image/jpeg", encode(Bitmap.CompressFormat.JPEG)),
+            Triple("png", "image/png", encode(Bitmap.CompressFormat.PNG)),
+            Triple("webp", "image/webp", encode(Bitmap.CompressFormat.WEBP))
+        ) + context.assets.list("svg/emotions").orEmpty().take(40).map { name ->
+            Triple(
+                "svg", "image/svg+xml",
+                context.assets.open("svg/emotions/$name").use { it.readBytes() }
+            )
         }
         bitmap.recycle()
         try {
             val media = List(2400) { index ->
-                val file = File(directory, "$index.png").apply { writeBytes(bytes) }
+                val (extension, mime, bytes) = fixtures[index % fixtures.size]
+                val file = File(directory, "$index.$extension").apply { writeBytes(bytes) }
                 Media(
                     id = index.toLong(),
                     label = file.name,
@@ -168,16 +350,17 @@ class MediaPickerGridTest {
                     albumID = 1,
                     albumLabel = "Test",
                     timestamp = 1,
-                    mimeType = "image/png",
+                    mimeType = mime,
                     size = bytes.size.toLong()
                 )
             }
             val state = MediaState(
                 media = media,
-                mappedMedia = media.chunked(100).flatMapIndexed { index, group ->
-                    listOf(MediaItem.Header("header_$index", "Day $index", group)) +
-                            group.map { MediaItem.MediaViewItem(it.id.toString(), it) }
-                },
+                mappedMedia = (media.take(700).chunked(100) + listOf(media.drop(700)))
+                    .flatMapIndexed { index, group ->
+                        listOf(MediaItem.Header("header_$index", "Day $index", group)) +
+                                group.map { MediaItem.MediaViewItem(it.id.toString(), it) }
+                    },
                 isLoading = false
             )
             lateinit var grid: LazyGridState
@@ -220,7 +403,14 @@ class MediaPickerGridTest {
                     scenario.onActivity {
                         scope.launch {
                             try {
-                                grid.scrollToItem(0)
+                                grid.scrollToItem(707)
+                                withFrameNanos { }
+                                val profile = InstrumentationRegistry.getArguments()
+                                    .getString("profileGallery") == "true"
+                                if (profile) Debug.startMethodTracingSampling(
+                                    File(context.filesDir, "gallery-$columns-$pass.trace").path,
+                                    64 * 1024 * 1024, 1000
+                                )
                                 val sampling = launch {
                                     var previous = withFrameNanos { it }
                                     while (true) {
@@ -230,9 +420,11 @@ class MediaPickerGridTest {
                                     }
                                 }
                                 try {
-                                    grid.animateScrollBy(4500f, tween(3000, easing = LinearEasing))
+                                    grid.animateScrollBy(2400f, tween(2000, easing = LinearEasing))
+                                    grid.animateScrollBy(-2400f, tween(2000, easing = LinearEasing))
                                 } finally {
                                     sampling.cancel()
+                                    if (profile) Debug.stopMethodTracing()
                                 }
                             } finally {
                                 done.countDown()
@@ -259,7 +451,7 @@ class MediaPickerGridTest {
                 thumbnails.forEach { key ->
                     cache[key]?.image?.let { image ->
                         assertTrue(
-                            "Oversized thumbnail: ${image.width}x${image.height}",
+                            "Oversized thumbnail for cell $cell: ${image.width}x${image.height}",
                             image.width <= cell * 2
                         )
                     }

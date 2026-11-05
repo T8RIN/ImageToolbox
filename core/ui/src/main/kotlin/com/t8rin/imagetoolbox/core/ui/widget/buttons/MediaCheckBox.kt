@@ -30,6 +30,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.text.BasicText
+import androidx.compose.foundation.text.TextAutoSize
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.contentColorFor
@@ -45,7 +47,9 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.icons.CheckCircle
 import com.t8rin.imagetoolbox.core.resources.icons.Circle
@@ -53,7 +57,6 @@ import com.t8rin.imagetoolbox.core.resources.utils.animation.animateColorAsState
 import com.t8rin.imagetoolbox.core.ui.theme.suggestContainerColorBy
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
-import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
 
 @Composable
 fun MediaCheckBox(
@@ -66,7 +69,8 @@ fun MediaCheckBox(
     uncheckedColor: Color = MaterialTheme.colorScheme.onSurface,
     addContainer: Boolean = false,
     numberSize: Dp = 24.dp,
-    uncheckedIcon: Painter? = null
+    uncheckedIcon: Painter? = null,
+    transitionState: MutableTransitionState<Triple<Boolean, ImageVector, Int>>? = null
 ) {
     val image = if (isChecked) {
         checkedIcon
@@ -98,7 +102,7 @@ fun MediaCheckBox(
         }
     } else {
         val target = Triple(isChecked, image, selectionIndex)
-        val state = remember { MutableTransitionState(target) }
+        val state = transitionState ?: remember { MutableTransitionState(target) }
         state.targetState = target
 
         if (state.isIdle) {
@@ -160,12 +164,21 @@ private fun MediaCheckBoxContent(
                 .background(color),
             contentAlignment = Alignment.Center
         ) {
-            AutoSizeText(
+            val style = MaterialTheme.typography.bodySmall
+            BasicText(
                 text = (selectionIndex + 1).toString(),
-                color = contentColorFor(color),
-                style = MaterialTheme.typography.bodySmall,
-                fontWeight = FontWeight.Bold,
-                key = { it.length to numberSize }
+                style = style.copy(
+                    color = contentColorFor(color),
+                    fontWeight = FontWeight.Bold,
+                    lineHeight = TextUnit.Unspecified
+                ),
+                maxLines = 1,
+                softWrap = false,
+                autoSize = TextAutoSize.StepBased(
+                    minFontSize = 1.sp,
+                    maxFontSize = style.fontSize,
+                    stepSize = 0.25.sp
+                )
             )
         }
     } else {

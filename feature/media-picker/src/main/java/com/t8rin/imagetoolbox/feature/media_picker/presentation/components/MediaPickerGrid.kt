@@ -171,7 +171,7 @@ internal fun BoxScope.MediaPickerGrid(
         }
         val thumbnailSize = with(density) {
             val pixels = cellSize.roundToPx().coerceAtLeast(1)
-            val step = if (pixels <= 128) 32 else 128
+            val step = if (pixels <= 256) 32 else 128
             ((pixels + step - 1) / step * step).coerceAtMost(4096)
         }
         val currentColumnCount by rememberUpdatedState(columnCount)
@@ -193,6 +193,10 @@ internal fun BoxScope.MediaPickerGrid(
                         val startColumns =
                             currentColumnCount.coerceAtMost(SettingsState.MaxGalleryColumns)
                         var zoomColumns = startColumns.toFloat()
+                        val anchorIndex = gridState.firstVisibleItemIndex
+                        val anchorOffset = gridState.firstVisibleItemScrollOffset
+                        val anchorIsHeader = gridState.layoutInfo.visibleItemsInfo
+                            .firstOrNull { it.index == anchorIndex }?.key?.isHeaderKey == true
                         var isPinching = false
                         do {
                             val event = awaitPointerEvent(PointerEventPass.Initial)
@@ -201,8 +205,16 @@ internal fun BoxScope.MediaPickerGrid(
                                 zoomColumns = (zoomColumns / event.calculateZoom())
                                     .coerceIn(1f, SettingsState.MaxGalleryColumns.toFloat())
                                 val newColumns = zoomColumns.roundToInt()
-                                columns =
+                                val targetColumns =
                                     if (newColumns == startColumns) initialColumns else newColumns
+                                if (columns != targetColumns) {
+                                    columns = targetColumns
+                                    gridState.requestScrollToItem(
+                                        anchorIndex,
+                                        if (anchorIsHeader) anchorOffset else
+                                            (anchorOffset * startColumns.toFloat() / newColumns).roundToInt()
+                                    )
+                                }
                             }
                             if (isPinching) event.changes.forEach { it.consume() }
                         } while (event.changes.any { it.pressed })

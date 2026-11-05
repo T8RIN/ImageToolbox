@@ -93,6 +93,7 @@ fun VerticalFastScroller(
     trackColor: Color = Color.Transparent,
     scrollByItemIndex: Boolean = false,
     autoHide: Boolean = false,
+    thumbTouchWidth: Dp = thickness + 3.dp,
 ) {
     val density = LocalDensity.current
     val adapter = remember(state, scrollByItemIndex) { LazyGridAdapter(state, scrollByItemIndex) }
@@ -190,7 +191,7 @@ fun VerticalFastScroller(
 
     Box(
         modifier = modifier
-            .width(if (autoHide) thickness + 3.dp else thickness)
+            .width(if (autoHide) maxOf(thickness, thumbTouchWidth) else thickness)
             .onSizeChanged { trackHeight = it.height }
             .then(
                 if (isVisible && !autoHide) {

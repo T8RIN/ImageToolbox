@@ -49,15 +49,19 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.graphics.TransformOrigin
+import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -71,6 +75,7 @@ import coil3.size.Size
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.icons.BrokenImageAlt
 import com.t8rin.imagetoolbox.core.resources.icons.CheckCircle
+import com.t8rin.imagetoolbox.core.resources.icons.Circle
 import com.t8rin.imagetoolbox.core.resources.icons.Error
 import com.t8rin.imagetoolbox.core.resources.icons.Star
 import com.t8rin.imagetoolbox.core.resources.utils.compositeOverSafe
@@ -118,6 +123,8 @@ fun MediaImage(
 
     val iconScale = (cellSize / 64.dp).coerceIn(0f, 1f)
 
+    val uncheckedColor = White.copy(0.8f)
+
     val maxInset = minOf(12.dp, cellSize / 8)
 
     val selectedSize = transition?.animateDp { if (it) maxInset else 0.dp }?.value
@@ -130,6 +137,18 @@ fun MediaImage(
     val targetScale = if (isSelected) 0.5f else 1f
 
     var isImageError by remember(media.uri) { mutableStateOf(false) }
+    val checkedIcon = if (isImageError) Icons.Rounded.Error else Icons.Rounded.CheckCircle
+    val checkboxState = remember {
+        MutableTransitionState(
+            Triple(
+                isSelected,
+                if (isSelected) checkedIcon else Icons.Outlined.Circle,
+                selectionIndex
+            )
+        )
+    }
+    val drawUncheckedIcon = compact && isInSelection && !isSelected &&
+            !checkboxState.currentState.first && checkboxState.isIdle && uncheckedIcon != null
 
     val strokeColor =
         if (isImageError) MaterialTheme.colorScheme.errorContainer else MaterialTheme.colorScheme.primaryContainer
@@ -178,6 +197,28 @@ fun MediaImage(
                 } else Modifier
             )
             .aspectRatio(1f)
+            .then(
+                if (drawUncheckedIcon) Modifier.drawWithCache {
+                    val inset = (4.dp * iconScale).roundToPx().toFloat()
+                    val side = (24.dp * iconScale).roundToPx().toFloat()
+                    val tint = ColorFilter.tint(uncheckedColor)
+                    onDrawWithContent {
+                        drawContent()
+                        translate(
+                            left = if (layoutDirection == LayoutDirection.Ltr) inset
+                            else size.width - inset - side,
+                            top = inset
+                        ) {
+                            with(uncheckedIcon) {
+                                draw(
+                                    androidx.compose.ui.geometry.Size(side, side),
+                                    colorFilter = tint
+                                )
+                            }
+                        }
+                    }
+                } else Modifier
+            )
     ) {
         if (compact) {
             AsyncImage(
@@ -292,7 +333,7 @@ fun MediaImage(
             }
         }
 
-        if (isInSelection) {
+        if (isInSelection && !drawUncheckedIcon) {
             val checkboxSize = 24.dp * iconScale
             val selectionModifier = Modifier
                 .align(Alignment.TopStart)
@@ -300,7 +341,6 @@ fun MediaImage(
                 .size(checkboxSize)
             val checkedColor = if (isImageError) MaterialTheme.colorScheme.error
             else MaterialTheme.colorScheme.primary
-            val checkedIcon = if (isImageError) Icons.Rounded.Error else Icons.Rounded.CheckCircle
 
             val checkedBackground = MaterialTheme.colorScheme.surfaceContainer
             val background = transition?.animateColor {
@@ -309,12 +349,13 @@ fun MediaImage(
 
             MediaCheckBox(
                 isChecked = isSelected,
-                uncheckedColor = White.copy(0.8f),
+                uncheckedColor = uncheckedColor,
                 checkedColor = checkedColor,
                 checkedIcon = checkedIcon,
                 selectionIndex = selectionIndex,
                 numberSize = checkboxSize,
                 uncheckedIcon = uncheckedIcon,
+                transitionState = checkboxState,
                 modifier = selectionModifier
                     .clip(ShapeDefaults.circle)
                     .background(background)

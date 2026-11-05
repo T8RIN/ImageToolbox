@@ -25,8 +25,10 @@ import android.graphics.Color
 import android.graphics.LinearGradient
 import android.graphics.Paint
 import android.graphics.Shader
+import android.media.MediaScannerConnection
 import android.net.Uri
 import android.os.Build
+import android.os.Environment
 import android.os.SystemClock
 import android.provider.MediaStore
 import android.util.Log
@@ -47,6 +49,9 @@ import org.junit.After
 import org.junit.Rule
 import org.junit.Test
 import java.io.ByteArrayOutputStream
+import java.io.File
+import java.util.concurrent.CountDownLatch
+import java.util.concurrent.TimeUnit
 
 @OptIn(ExperimentalMetricApi::class)
 @SdkSuppress(minSdkVersion = 29)
@@ -83,7 +88,7 @@ class MediaGridBenchmark {
                 "com.t8rin.imagetoolbox.feature.media_picker.presentation.MediaPickerActivity"
             )
             type = "image/*"
-            putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+            putExtra(Intent.EXTRA_ALLOW_MULTIPLE, false)
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         }
         benchmarkRule.measureRepeated(
@@ -97,18 +102,31 @@ class MediaGridBenchmark {
             setupBlock = {
                 killProcess()
                 startActivityAndWait(intent)
-                check(device.wait(Until.hasObject(By.scrollable(true)), 30_000))
+                checkNotNull(
+                    device.wait(
+                        Until.findObject(By.text("ImageToolboxGridBenchmark")),
+                        30_000
+                    )
+                ).click()
+                var gridIndex = -1
+                val deadline = SystemClock.uptimeMillis() + 30_000
+                while (gridIndex < 0 && SystemClock.uptimeMillis() < deadline) {
+                    gridIndex = device.findObjects(By.scrollable(true)).indexOfFirst {
+                        it.visibleBounds.height() > device.displayHeight / 2
+                    }
+                    if (gridIndex < 0) SystemClock.sleep(100)
+                }
+                check(gridIndex >= 0)
+                val gridSelector = UiSelector().scrollable(true).instance(gridIndex)
+                val grid = device.findObject(gridSelector)
                 device.waitForIdle()
-                // The maximum zoom level is deterministic regardless of the saved column setting.
-                val grid = device.findObject(UiSelector().scrollable(true))
-                check(grid.pinchIn(95, 30))
-                device.waitForIdle()
-                if (columns == 10) {
+                SystemClock.sleep(1_000)
+                fun pinch(start: Float, end: Float) {
                     val bounds = grid.visibleBounds
-                    val span = bounds.width() / 6f
                     fun pointer(direction: Int) = Array(31) { step ->
                         MotionEvent.PointerCoords().apply {
-                            x = bounds.centerX() + direction * span * (1 + step / 30f)
+                            x = bounds.centerX() + direction * bounds.width() *
+                                    (start + (end - start) * step / 30)
                             y = bounds.centerY().toFloat()
                             pressure = 1f
                             size = 1f
@@ -117,13 +135,36 @@ class MediaGridBenchmark {
                     check(grid.performMultiPointerGesture(pointer(-1), pointer(1)))
                     device.waitForIdle()
                 }
+                pinch(0.4f, 0.01f)
+                if (columns == 10) pinch(1 / 6f, 1 / 3f)
+                if (Build.VERSION.SDK_INT >= 34) instrumentation.uiAutomation.clearCache()
+                val bounds = grid.visibleBounds
                 val cells = device.findObjects(By.clickable(true)).map { it.visibleBounds }
-                    .filter { it.width() == it.height() && it.width() < device.displayWidth / 5 }
-                    .groupBy { it.width() }.maxByOrNull { it.value.size }?.value.orEmpty()
-                val actualColumns = cells.distinctBy { it.left }.size
-                check(actualColumns == columns) { "Expected $columns columns, found $actualColumns" }
+                    .filter {
+                        it.width() in 1 until bounds.width() / 5 &&
+                                it.height() in 1 until bounds.width() / 5 &&
+                                it.centerY() in bounds.top + bounds.height() / 4..
+                                bounds.bottom - bounds.height() / 4
+                    }
+                val cellHeight =
+                    cells.groupingBy { it.height() }.eachCount().maxByOrNull { it.value }?.key
+                val thumbnails =
+                    cells.filter { kotlin.math.abs(it.height() - (cellHeight ?: 0)) <= 1 }
+                val actualColumns = thumbnails.maxOfOrNull { cell ->
+                    thumbnails.count { cell.centerY() in it.top until it.bottom }
+                } ?: 0
+                if (actualColumns != columns) {
+                    device.dumpWindowHierarchy(
+                        File(
+                            context.getExternalFilesDir(null),
+                            "grid-setup.xml"
+                        )
+                    )
+                    device.takeScreenshot(File(context.getExternalFilesDir(null), "grid-setup.png"))
+                }
+                check(actualColumns == columns) { "Expected $columns columns, found $actualColumns; grid=$bounds" }
                 Log.i("GalleryBenchmark", "columns=$actualColumns cells=${cells.size}")
-                UiScrollable(UiSelector().scrollable(true)).scrollToEnd(30, 10)
+                UiScrollable(gridSelector).scrollToEnd(30, 10)
                 device.waitForIdle()
                 SystemClock.sleep(1_000)
             }
@@ -166,6 +207,7 @@ class MediaGridBenchmark {
         check(vectors.isNotEmpty())
         val fixtures = raster + vectors
         val today = System.currentTimeMillis() / 86_400_000 * 86_400_000
+        val paths = mutableListOf<String>()
         repeat(2_400) { index ->
             val (extension, mime, bytes) = fixtures[index % fixtures.size]
             val date = today - (if (index < 700) index / 100 else 7) * 86_400_000L
@@ -189,10 +231,19 @@ class MediaGridBenchmark {
             checkNotNull(context.contentResolver.openOutputStream(uri)).use { it.write(bytes) }
             context.contentResolver.update(uri, ContentValues().apply {
                 put(MediaStore.MediaColumns.IS_PENDING, 0)
-                put(MediaStore.MediaColumns.DATE_MODIFIED, date / 1_000)
-                put(MediaStore.MediaColumns.DATE_TAKEN, date)
             }, null, null)
+            val file = File(
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
+                "ImageToolboxGridBenchmark/grid_benchmark_$index.$extension"
+            )
+            check(file.setLastModified(date))
+            paths += file.path
         }
+        val scanned = CountDownLatch(paths.size)
+        MediaScannerConnection.scanFile(context, paths.toTypedArray(), null) { _, _ ->
+            scanned.countDown()
+        }
+        check(scanned.await(60, TimeUnit.SECONDS))
     }
 
 }
