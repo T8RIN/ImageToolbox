@@ -117,8 +117,8 @@ fun EmojiSelectionSheet(
     var expandedCategories by rememberSaveable(visible) {
         mutableStateOf(emptyList<Int>())
     }
-    var scrollToEmojiIndex by remember(visible) {
-        mutableStateOf(selectedEmojiIndex)
+    var scrollToEmoji by remember(visible) {
+        mutableStateOf(selectedEmojiIndex?.let { it to false })
     }
 
     val emojiEnabled = selectedEmojiIndex != -1
@@ -135,7 +135,7 @@ fun EmojiSelectionSheet(
                         onClick = {
                             val index = Random.nextInt(allEmojis.size)
                             onEmojiPicked(index)
-                            scrollToEmojiIndex = index
+                            scrollToEmoji = index to true
                         },
                     ) {
                         Icon(
@@ -200,17 +200,20 @@ fun EmojiSelectionSheet(
                 }
             }
 
-            LaunchedEffect(visible, scrollToEmojiIndex, emojiRows, expandedCategories) {
+            LaunchedEffect(visible, scrollToEmoji, emojiRows, expandedCategories) {
                 if (!visible) return@LaunchedEffect
-                val emoji = allEmojis.getOrNull(scrollToEmojiIndex ?: -1) ?: return@LaunchedEffect
+                val (index, animate) = scrollToEmoji ?: return@LaunchedEffect
+                val emoji = allEmojis.getOrNull(index) ?: return@LaunchedEffect
                 var itemIndex = 0
                 for ((title, _, emojis) in emojiWithCategories) {
                     val expanded = title in expandedCategories
                     val emojiIndex = emojis.indexOf(emoji)
                     if (emojiIndex >= 0) {
                         if (expanded) {
-                            state.animateScrollToItem(itemIndex + 1 + emojiIndex / columns)
-                            scrollToEmojiIndex = null
+                            val rowIndex = itemIndex + 1 + emojiIndex / columns
+                            if (animate) state.animateScrollToItem(rowIndex)
+                            else state.requestScrollToItem(rowIndex)
+                            scrollToEmoji = null
                         } else {
                             expandedCategories = expandedCategories + title
                         }
