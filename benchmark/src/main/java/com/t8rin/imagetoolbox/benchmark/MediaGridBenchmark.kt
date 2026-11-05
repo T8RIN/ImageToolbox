@@ -42,6 +42,7 @@ import androidx.test.filters.SdkSuppress
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.By
 import androidx.test.uiautomator.UiDevice
+import androidx.test.uiautomator.UiObject
 import androidx.test.uiautomator.UiScrollable
 import androidx.test.uiautomator.UiSelector
 import androidx.test.uiautomator.Until
@@ -76,7 +77,10 @@ class MediaGridBenchmark {
     @Test
     fun scrollDenseDayTenColumns() = scroll(10)
 
-    private fun scroll(columns: Int) {
+    @Test
+    fun pinchDenseDay() = scroll(20, zoom = true)
+
+    private fun scroll(columns: Int, zoom: Boolean = false) {
         val permission = if (Build.VERSION.SDK_INT >= 33) "READ_MEDIA_IMAGES"
         else "READ_EXTERNAL_STORAGE"
         device.executeShellCommand("pm grant $PACKAGE_NAME android.permission.$permission")
@@ -121,22 +125,8 @@ class MediaGridBenchmark {
                 val grid = device.findObject(gridSelector)
                 device.waitForIdle()
                 SystemClock.sleep(1_000)
-                fun pinch(start: Float, end: Float) {
-                    val bounds = grid.visibleBounds
-                    fun pointer(direction: Int) = Array(31) { step ->
-                        MotionEvent.PointerCoords().apply {
-                            x = bounds.centerX() + direction * bounds.width() *
-                                    (start + (end - start) * step / 30)
-                            y = bounds.centerY().toFloat()
-                            pressure = 1f
-                            size = 1f
-                        }
-                    }
-                    check(grid.performMultiPointerGesture(pointer(-1), pointer(1)))
-                    device.waitForIdle()
-                }
-                pinch(0.4f, 0.01f)
-                if (columns == 10) pinch(1 / 6f, 1 / 3f)
+                pinch(grid, 0.4f, 0.01f)
+                if (columns == 10) pinch(grid, 1 / 6f, 1 / 3f)
                 if (Build.VERSION.SDK_INT >= 34) instrumentation.uiAutomation.clearCache()
                 val bounds = grid.visibleBounds
                 val cells = device.findObjects(By.clickable(true)).map { it.visibleBounds }
@@ -169,14 +159,41 @@ class MediaGridBenchmark {
                 SystemClock.sleep(1_000)
             }
         ) {
-            val x = device.displayWidth / 2
-            val top = device.displayHeight / 4
-            val bottom = device.displayHeight * 3 / 4
-            repeat(3) {
-                device.swipe(x, top, x, bottom, 60)
-                device.swipe(x, bottom, x, top, 60)
+            if (zoom) {
+                val gridIndex = device.findObjects(By.scrollable(true)).indexOfFirst {
+                    it.visibleBounds.height() > device.displayHeight / 2
+                }
+                check(gridIndex >= 0)
+                val grid = device.findObject(UiSelector().scrollable(true).instance(gridIndex))
+                repeat(3) {
+                    pinch(grid, 0.06f, 0.3f)
+                    pinch(grid, 0.3f, 0.06f)
+                }
+            } else {
+                val x = device.displayWidth / 2
+                val top = device.displayHeight / 4
+                val bottom = device.displayHeight * 3 / 4
+                repeat(3) {
+                    device.swipe(x, top, x, bottom, 60)
+                    device.swipe(x, bottom, x, top, 60)
+                }
             }
         }
+    }
+
+    private fun pinch(grid: UiObject, start: Float, end: Float) {
+        val bounds = grid.visibleBounds
+        fun pointer(direction: Int) = Array(31) { step ->
+            MotionEvent.PointerCoords().apply {
+                x = bounds.centerX() + direction * bounds.width() *
+                        (start + (end - start) * step / 30)
+                y = bounds.centerY().toFloat()
+                pressure = 1f
+                size = 1f
+            }
+        }
+        check(grid.performMultiPointerGesture(pointer(-1), pointer(1)))
+        device.waitForIdle()
     }
 
     private fun createImages() {

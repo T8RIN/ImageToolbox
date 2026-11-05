@@ -64,6 +64,7 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
+import coil3.memory.MemoryCache
 import coil3.request.ImageRequest
 import coil3.request.allowHardware
 import coil3.request.crossfade
@@ -155,12 +156,17 @@ fun MediaImage(
     val rawDevelopSettings =
         if (media.isRaw) LocalSettingsState.current.rawDevelopSettings else null
 
+    var thumbnailCacheKey by remember(media.uri, media.timestamp, rawDevelopSettings) {
+        mutableStateOf<MemoryCache.Key?>(null)
+    }
+
     val model = remember(media.uri, media.timestamp, thumbnailSize, compact, rawDevelopSettings) {
         ImageRequest.Builder(appContext)
             .data(media.uri)
             .size(thumbnailSize)
             .precision(Precision.INEXACT)
-            .memoryCacheKeyExtra("thumbnail", "$thumbnailSize:${media.timestamp}:$compact")
+            .memoryCacheKeyExtra("thumbnail", media.timestamp.toString())
+            .placeholderMemoryCacheKey(thumbnailCacheKey)
             .apply {
                 rawDevelopSettings?.let { memoryCacheKeyExtra("raw", it.toString()) }
                 if (compact) {
@@ -233,7 +239,10 @@ fun MediaImage(
                         else Modifier
                     ),
                 contentScale = ContentScale.Crop,
-                onSuccess = { isImageError = false },
+                onSuccess = {
+                    isImageError = false
+                    thumbnailCacheKey = it.result.memoryCacheKey
+                },
                 onError = { isImageError = true }
             )
             if (isImageError) MediaThumbnailError()
@@ -254,10 +263,14 @@ fun MediaImage(
                     )
                     .background(MaterialTheme.colorScheme.surfaceContainerHigh),
                 contentScale = ContentScale.Crop,
-                onSuccess = { isImageError = false },
+                onSuccess = {
+                    isImageError = false
+                    thumbnailCacheKey = it.result.memoryCacheKey
+                },
                 onError = { isImageError = true },
                 error = { MediaThumbnailError() },
-                filterQuality = FilterQuality.High
+                filterQuality = FilterQuality.High,
+                shimmerEnabled = thumbnailCacheKey == null
             )
         }
 

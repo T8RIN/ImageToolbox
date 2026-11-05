@@ -16,6 +16,9 @@
  */
 package com.t8rin.imagetoolbox.feature.media_picker.presentation.components
 
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.awaitEachGesture
 import androidx.compose.foundation.gestures.awaitFirstDown
@@ -49,6 +52,8 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.TransformOrigin
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.input.pointer.PointerEventPass
 import androidx.compose.ui.input.pointer.pointerInput
@@ -169,6 +174,10 @@ internal fun BoxScope.MediaPickerGrid(
             val width = (gridWidth - spacingPx * (columnCount - 1)).coerceAtLeast(0)
             (width / columnCount).toDp()
         }
+        val animatedCellSize = animateDpAsState(
+            targetValue = cellSize,
+            animationSpec = tween(180)
+        )
         val thumbnailSize = with(density) {
             val pixels = cellSize.roundToPx().coerceAtLeast(1)
             val step = if (pixels <= 256) 32 else 128
@@ -273,12 +282,24 @@ internal fun BoxScope.MediaPickerGrid(
             ) { item ->
                 when (item) {
                     is MediaItem.Header -> {
+                        val headerScale by animateFloatAsState(
+                            targetValue = 0.75f + 0.25f * (cellSize / adaptiveCellSize).coerceIn(
+                                0f,
+                                1f
+                            ),
+                            animationSpec = tween(180)
+                        )
                         val isChecked = allowMultiple && remember(item.data, selectionIndices) {
                             item.data.all { it.uri in selectionIndices }
                         }
                         MediaStickyHeader(
+                            modifier = Modifier.animateItem(
+                                fadeInSpec = null,
+                                placementSpec = tween(180),
+                                fadeOutSpec = null
+                            ),
                             date = item.text,
-                            scale = 0.75f + 0.25f * (cellSize / adaptiveCellSize).coerceIn(0f, 1f),
+                            scale = headerScale,
                             isChecked = isChecked,
                             onChecked = if (
                                 allowMultiple && (!isGalleryMode || selectedMedia.isNotEmpty())
@@ -300,6 +321,20 @@ internal fun BoxScope.MediaPickerGrid(
                         val selectionIndex = selectionIndices[item.media.uri] ?: -1
 
                         MediaImage(
+                            modifier = Modifier
+                                .animateItem(
+                                    fadeInSpec = null,
+                                    placementSpec = tween(180),
+                                    fadeOutSpec = null
+                                )
+                                .graphicsLayer {
+                                    val scale = if (cellSize > 0.dp) {
+                                        animatedCellSize.value / cellSize
+                                    } else 1f
+                                    scaleX = scale
+                                    scaleY = scale
+                                    transformOrigin = TransformOrigin(0f, 0f)
+                                },
                             media = item.media,
                             cellSize = cellSize,
                             thumbnailSize = thumbnailSize,
