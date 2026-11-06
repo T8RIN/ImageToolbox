@@ -74,13 +74,16 @@ import com.t8rin.collages.Collage
 import com.t8rin.collages.CollageTypeSelection
 import com.t8rin.collages.public.CollageConstants
 import com.t8rin.colors.util.roundToTwoDigits
+import com.t8rin.imagetoolbox.collage_maker.presentation.components.CollageMakerNoDataControls
 import com.t8rin.imagetoolbox.collage_maker.presentation.screenLogic.CollageMakerComponent
 import com.t8rin.imagetoolbox.core.data.image.utils.createShader
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormatGroup
 import com.t8rin.imagetoolbox.core.domain.model.DomainAspectRatio
+import com.t8rin.imagetoolbox.core.domain.model.MimeType
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Add
+import com.t8rin.imagetoolbox.core.resources.icons.Archive
 import com.t8rin.imagetoolbox.core.resources.icons.BackgroundColor
 import com.t8rin.imagetoolbox.core.resources.icons.Collage
 import com.t8rin.imagetoolbox.core.resources.icons.Delete
@@ -95,6 +98,8 @@ import com.t8rin.imagetoolbox.core.resources.icons.Tune
 import com.t8rin.imagetoolbox.core.resources.utils.animation.animateColorAsState
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
+import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFileCreator
+import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
@@ -115,8 +120,6 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBadge
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.image.AspectRatioSelector
-import com.t8rin.imagetoolbox.core.ui.widget.image.AutoFilePicker
-import com.t8rin.imagetoolbox.core.ui.widget.image.ImageNotPickedWidget
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
@@ -126,6 +129,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.transparencyChecker
 import com.t8rin.imagetoolbox.core.ui.widget.other.InfoContainer
 import com.t8rin.imagetoolbox.core.ui.widget.other.LockScreenOrientation
 import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
+import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 import com.t8rin.imagetoolbox.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import com.t8rin.imagetoolbox.core.ui.widget.text.TopAppBarTitle
@@ -149,22 +153,6 @@ fun CollageMakerContent(
         outputSize = null
     }
 
-    LaunchedEffect(component.initialUris) {
-        component.initialUris?.takeIf { it.isNotEmpty() }?.let {
-            if (it.size in 1..CollageConstants.MAX_IMAGE_COUNT) {
-                component.updateUris(it)
-            } else {
-                AppToastHost.showToast(
-                    message = getString(
-                        R.string.pick_up_to_n_collage_images,
-                        CollageConstants.MAX_IMAGE_COUNT,
-                    ),
-                    icon = Icons.Outlined.Collage
-                )
-            }
-        }
-    }
-
     val imagePicker = rememberImagePicker { uris: List<Uri> ->
         if (uris.size in 1..CollageConstants.MAX_IMAGE_COUNT) {
             isLoading = true
@@ -185,10 +173,13 @@ fun CollageMakerContent(
     }
 
     val pickImage = imagePicker::pickImage
-
-    AutoFilePicker(
-        onAutoPick = pickImage,
-        isPickedAlready = !component.initialUris.isNullOrEmpty()
+    val projectOpener = rememberFilePicker(
+        mimeType = MimeType.CollageProjectList,
+        onSuccess = component::openProject
+    )
+    val projectSaver = rememberFileCreator(
+        mimeType = MimeType.CollageProject,
+        onSuccess = component::saveProject
     )
 
     val saveBitmaps: (oneTimeSaveLocationUri: String?) -> Unit = {
@@ -287,13 +278,6 @@ fun CollageMakerContent(
                     contentDescription = stringResource(R.string.properties)
                 )
             }
-            UndoRedoButtons(
-                canUndo = component.canUndo,
-                canRedo = component.canRedo,
-                onUndo = component::undo,
-                onRedo = component::redo,
-                modifier = Modifier.padding(2.dp)
-            )
             ShareButton(
                 onShare = component::performSharing,
                 onCopy = {
@@ -304,6 +288,13 @@ fun CollageMakerContent(
                         editSheetData = listOf(it)
                     }
                 }
+            )
+            UndoRedoButtons(
+                canUndo = component.canUndo,
+                canRedo = component.canRedo,
+                onUndo = component::undo,
+                onRedo = component::redo,
+                modifier = Modifier.padding(2.dp)
             )
             ProcessImagesPreferenceSheet(
                 uris = editSheetData,
@@ -508,10 +499,26 @@ fun CollageMakerContent(
         },
         controls = {
             Column(
-                modifier = Modifier.padding(16.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                modifier = Modifier
+                    .padding(16.dp)
+                    .navigationBarsPadding(),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 val canChangeCollage = (component.uris?.size ?: 0) > 1
+
+
+                PreferenceItem(
+                    onClick = {
+                        projectSaver.make(component.createProjectFilename())
+                    },
+                    enabled = component.canSaveProject,
+                    startIcon = Icons.Outlined.Archive,
+                    title = stringResource(R.string.save_markup_project),
+                    subtitle = stringResource(R.string.save_collage_project_sub),
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = ShapeDefaults.large
+                )
 
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
@@ -711,7 +718,6 @@ fun CollageMakerContent(
                     onQualityChange = component::setQuality
                 )
                 ImageFormatSelector(
-                    modifier = Modifier.navigationBarsPadding(),
                     value = component.imageFormat,
                     quality = component.quality,
                     onValueChange = component::setImageFormat,
@@ -745,6 +751,7 @@ fun CollageMakerContent(
                 onSecondaryButtonLongClick = {
                     showOneTimeImagePickingDialog = true
                 },
+                showNullDataButtonAsContainer = true,
                 drawBothStrokes = true
             )
             OneTimeSaveLocationSelectionDialog(
@@ -762,10 +769,12 @@ fun CollageMakerContent(
                 visible = showOneTimeImagePickingDialog
             )
         },
+        enableNoDataScroll = false,
         noDataControls = {
-            if (!component.isImageLoading) {
-                ImageNotPickedWidget(onPickImage = pickImage)
-            }
+            CollageMakerNoDataControls(
+                onPickImages = pickImage,
+                onOpenProject = projectOpener::pickFile
+            )
         },
         canShowScreenData = canShowScreenData
     )
@@ -777,8 +786,8 @@ fun CollageMakerContent(
     )
 
     LoadingDialog(
-        visible = component.isSaving || (component.isImageLoading && canShowScreenData),
-        onCancelLoading = component::cancelSaving
+        visible = component.isSaving || component.isImageLoading,
+        onCancelLoading = component::cancelLoading
     )
 }
 

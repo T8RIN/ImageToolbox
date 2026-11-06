@@ -18,11 +18,11 @@
 package com.t8rin.collages
 
 import com.t8rin.collages.model.CollageLayout
+import com.t8rin.collages.utils.CollageLayoutFactory.createCollageLayouts
 
 @ConsistentCopyVisibility
 data class CollageType internal constructor(
-    internal val layout: CollageLayout?,
-    internal val index: Int?
+    internal val layout: CollageLayout?
 ) {
     val layoutId: String?
         get() = layout?.title
@@ -31,11 +31,22 @@ data class CollageType internal constructor(
         get() = layout?.photoItemList?.size ?: 0
 
     companion object {
-        val Empty by lazy {
-            CollageType(
-                layout = null,
-                index = null
-            )
+        val Empty by lazy { CollageType(layout = null) }
+
+        fun fromLayoutId(
+            layoutId: String,
+            layoutParams: List<Float>? = null
+        ): CollageType? {
+            val layout = createCollageLayouts(layoutId) ?: return null
+            if (layoutParams != null) {
+                val manager = layout.paramsManager
+                if (layoutParams.size != (manager?.snapshotValues()?.size ?: 0) ||
+                    layoutParams.any { !it.isFinite() }
+                ) return null
+
+                if (runCatching { manager?.restoreValues(layoutParams) }.isFailure) return null
+            }
+            return CollageType(layout)
         }
     }
 }
