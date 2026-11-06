@@ -48,6 +48,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.BottomAppBarDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -85,6 +86,7 @@ import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsS
 import com.t8rin.imagetoolbox.core.ui.theme.blend
 import com.t8rin.imagetoolbox.core.ui.theme.onPrimaryContainerFixed
 import com.t8rin.imagetoolbox.core.ui.theme.primaryContainerFixed
+import com.t8rin.imagetoolbox.core.ui.theme.toAmoled
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.ImagePicker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalScreenSize
@@ -354,7 +356,7 @@ internal fun CompareScreenContent(
                                     top = true
                                 )
                                 .container(
-                                    color = MaterialTheme.colorScheme.surfaceContainer,
+                                    color = MaterialTheme.colorScheme.surfaceContainer.toAmoled(),
                                     shape = RectangleShape,
                                     borderColor = Color.Transparent
                                 )
@@ -370,6 +372,7 @@ internal fun CompareScreenContent(
                         }
                     }
                     BottomAppBar(
+                        containerColor = BottomAppBarDefaults.containerColor.toAmoled(),
                         modifier = Modifier
                             .drawHorizontalStroke(
                                 top = true,
