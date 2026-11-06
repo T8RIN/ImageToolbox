@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="smth_went_wrong">Qualcosa non ha funzionato: %1$s</string>
     <string name="size">Dimensione %1$s</string>
     <string name="loading">Caricamento…</string>
@@ -7949,10 +7948,7 @@
     <string name="gallery_show_file_extension_sub">Mostra il formato del file sulle miniature delle immagini.</string>
     <string name="help_tip_gallery_workflow_grid_settings">Apri Impostazioni → Galleria per impostare la griglia su Automatico o scegli da 1 a 20 colonne. Pizzica con due dita per ridimensionare la griglia fino a chiuderla. Le dimensioni del file e le etichette del formato possono essere disattivate separatamente.</string>
     <string name="help_tip_gallery_workflow_fast_scroll">Scorri per rivelare la maniglia a destra. Trascinalo per spostarti nella galleria per data e ora.</string>
-    <string name="save_collage_project_sub" />
     <string name="help_tip_setting_gallery_columns_description">Choose how many columns appear in Gallery and Embedded Picker. Più colonne mostrano miniature più piccole.</string>
     <string name="help_tip_setting_gallery_columns_step">Apri Impostazioni → Galleria → Conteggio colonne. Choose Auto to fit the screen or a fixed count from 1 to 20.</string>
-    <string name="help_tip_setting_gallery_file_size_step" />
-    <string name="help_tip_setting_gallery_file_extension_step" />
     <string name="help_tip_setting_remember_preview_layout_step">Open Settings → Behavior and turn on Remember Preview Layout. Regola l\'altezza dell\'anteprima o fissala in uno strumento; lo strumento successivo riutilizzerà quel layout.</string>
 </resources>
