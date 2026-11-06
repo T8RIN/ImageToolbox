@@ -17,20 +17,31 @@
 
 package com.t8rin.imagetoolbox.collage_maker.presentation.components
 
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -41,8 +52,10 @@ import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Bookmark
 import com.t8rin.imagetoolbox.core.resources.icons.BookmarkRemove
+import com.t8rin.imagetoolbox.core.resources.icons.KeyboardArrowDown
 import com.t8rin.imagetoolbox.core.resources.utils.animation.animateColorAsState
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.scrollAnchor
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
@@ -51,11 +64,17 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
 internal fun CollageLayoutSelector(
     component: CollageMakerComponent
 ) {
-    val canChangeCollage = (component.uris?.size ?: 0) > 1
+    val canChangeCollage = !component.uris.isNullOrEmpty()
+    var expanded by rememberSaveable { mutableStateOf(false) }
+    var layoutCount by remember { mutableIntStateOf(0) }
+    val isExpanded = expanded && layoutCount > 1
+    val height by animateDpAsState(if (isExpanded) 378.dp else 142.dp)
+    val rotation by animateFloatAsState(if (isExpanded) 180f else 0f)
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
+            .scrollAnchor()
             .then(
                 if (canChangeCollage) {
                     Modifier.container(
@@ -66,20 +85,42 @@ internal fun CollageLayoutSelector(
             )
     ) {
         if (canChangeCollage) {
-            Text(
-                fontWeight = FontWeight.Medium,
-                text = stringResource(R.string.collage_type),
-                modifier = Modifier.padding(top = 16.dp),
-                fontSize = 18.sp
-            )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 8.dp, start = 16.dp, end = 8.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    fontWeight = FontWeight.Medium,
+                    text = stringResource(R.string.collage_type),
+                    fontSize = 18.sp
+                )
+                if (layoutCount > 12) {
+                    EnhancedIconButton(
+                        onClick = {
+                            expanded = !expanded
+                        }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Rounded.KeyboardArrowDown,
+                            contentDescription = null,
+                            modifier = Modifier.rotate(rotation)
+                        )
+                    }
+                }
+            }
         }
-        val state = rememberLazyListState()
+        val state = rememberLazyStaggeredGridState()
         CollageTypeSelection(
             state = state,
+            onLayoutCountChange = { layoutCount = it },
             imagesCount = component.uris?.size ?: 0,
             value = component.collageType,
             favorites = component.library.favorites,
             itemSize = 76.dp,
+            rowHeight = 110.dp,
             itemBottomContent = { type ->
                 val isFavorite = type.layoutId in component.library.favorites
                 EnhancedIconButton(
@@ -100,11 +141,17 @@ internal fun CollageLayoutSelector(
                     )
                 }
             },
-            onValueChange = component::setCollageType,
+            onValueChange = {
+                component.setCollageType(it)
+            },
             modifier = Modifier
                 .fillMaxWidth()
-                .height(142.dp)
-                .fadingEdges(state),
+                .height(height)
+                .fadingEdges(
+                    scrollableState = state,
+                    isVertical = false,
+                    spanCount = if (isExpanded) 3 else 1
+                ),
             contentPadding = PaddingValues(16.dp),
             shape = ShapeDefaults.top,
             itemModifierFactory = { isSelected ->

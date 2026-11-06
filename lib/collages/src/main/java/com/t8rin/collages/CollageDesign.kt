@@ -17,6 +17,7 @@
 
 package com.t8rin.collages
 
+import com.t8rin.collages.public.CollageConstants
 import kotlin.math.abs
 
 /** Coordinates are normalized to the canvas, independent of preview and export size. */
@@ -64,15 +65,16 @@ data class CollageSlot(
 data class CollageDesign(
     val slots: List<CollageSlot>
 ) {
-    fun isValid(): Boolean = slots.size in 1..20 && slots.all { slot ->
-        slot.points.size in 3..256 && slot.points.all {
-            it.x.isFinite() && it.y.isFinite() && it.x in 0f..1f && it.y in 0f..1f
-        } && slot.area > 0.00001f && slot.right - slot.left > 0.001f && slot.bottom - slot.top > 0.001f
-    }
+    fun isValid(): Boolean =
+        slots.size in 1..CollageConstants.MAX_IMAGE_COUNT && slots.all { slot ->
+            slot.points.size in 3..256 && slot.points.all {
+                it.x.isFinite() && it.y.isFinite() && it.x in 0f..1f && it.y in 0f..1f
+            } && slot.area > 0.00001f && slot.right - slot.left > 0.001f && slot.bottom - slot.top > 0.001f
+        }
 
     fun split(index: Int, vertical: Boolean, fraction: Float = 0.5f): CollageDesign? {
         val slot = slots.getOrNull(index) ?: return null
-        if (slots.size >= 20 || fraction !in .2f.. .8f) return null
+        if (slots.size >= CollageConstants.MAX_IMAGE_COUNT || fraction !in .2f.. .8f) return null
         val a = if (vertical) 1f else 0f
         val b = if (vertical) 0f else 1f
         val start = if (vertical) slot.left else slot.top

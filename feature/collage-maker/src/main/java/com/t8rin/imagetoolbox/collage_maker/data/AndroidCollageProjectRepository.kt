@@ -20,6 +20,7 @@ package com.t8rin.imagetoolbox.collage_maker.data
 import android.content.Context
 import androidx.core.content.FileProvider
 import androidx.core.net.toUri
+import com.t8rin.collages.CollageType
 import com.t8rin.imagetoolbox.collage_maker.data.project.CollageProjectFile
 import com.t8rin.imagetoolbox.collage_maker.data.project.toFile
 import com.t8rin.imagetoolbox.collage_maker.data.project.toProject
@@ -88,6 +89,7 @@ internal class AndroidCollageProjectRepository @Inject constructor(
         var loaded = false
         try {
             val project = withContext(ioDispatcher) {
+                CollageType.prepareCatalog(context)
                 check(directory.mkdirs())
                 readArchive(uri, directory)
             }

@@ -17,11 +17,14 @@
 
 package com.t8rin.collages
 
+import android.content.Context
 import android.net.Uri
 import com.t8rin.collages.model.CollageLayout
 import com.t8rin.collages.utils.CollageLayoutFactory
 import com.t8rin.collages.utils.CollageLayoutFactory.createCollageLayouts
 import com.t8rin.collages.view.PhotoItem
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 @ConsistentCopyVisibility
 data class CollageType internal constructor(
@@ -36,11 +39,21 @@ data class CollageType internal constructor(
         get() = layout?.photoItemList?.size ?: 0
 
     companion object {
+        suspend fun prepareCatalog(context: Context) = AdditionalCollages.load(context)
+
+        suspend fun catalog(context: Context): List<CollageType> =
+            withContext(Dispatchers.Default) {
+                prepareCatalog(context)
+                catalog()
+            }
+
         fun fromDesign(id: String, design: CollageDesign): CollageType? {
             if (!design.isValid()) return null
             return CollageType(
                 CollageLayout(
-                    preview = if (id.startsWith("creative_")) Uri.parse("file:///android_asset/frame/$id.webp") else Uri.EMPTY,
+                    preview = if (id.startsWith("creative_") || id.startsWith("artistic_")) Uri.parse(
+                        "file:///android_asset/frame/$id.webp"
+                    ) else Uri.EMPTY,
                     title = id, design = design,
                     photoItemList = design.slots.mapIndexed { index, slot ->
                         PhotoItem(index = index, shape = slot.points).apply {
@@ -51,13 +64,10 @@ data class CollageType internal constructor(
             )
         }
 
-        fun catalog(): List<CollageType> = CollageLayoutFactory.COLLAGE_MAP.keys
-            .mapNotNull { fromLayoutId(it) } + CreativeCollages.templates.mapNotNull {
-            fromDesign(
-                it.id,
-                it.design
-            )
-        }
+        fun catalog(): List<CollageType> = (
+                CollageLayoutFactory.COLLAGE_MAP.keys + AdditionalCollages.ids +
+                        CreativeCollages.templates.map { it.id } + ArtisticCollages.templates.map { it.id }
+                ).mapNotNull { fromLayoutId(it) }
 
         val Empty by lazy { CollageType(layout = null) }
 

@@ -26,6 +26,7 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.DashPathEffect
+import android.graphics.Matrix
 import android.graphics.Paint
 import android.graphics.PointF
 import android.graphics.RectF
@@ -45,10 +46,13 @@ import androidx.core.graphics.withTranslation
 import com.t8rin.collages.CollageDesign
 import com.t8rin.collages.CollageSlotStyle
 import com.t8rin.collages.CollageState
+import com.t8rin.collages.utils.CollageHandleBounds
 import com.t8rin.collages.utils.Handle
 import com.t8rin.collages.utils.ImageDecoder
 import com.t8rin.collages.utils.ParamsManager
+import com.t8rin.collages.utils.collageHandleBounds
 import com.t8rin.collages.utils.collageOutputDimensions
+import com.t8rin.collages.utils.collagePreviewSize
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.ensureActive
@@ -99,6 +103,7 @@ internal class FramePhotoLayout(
     )
 
     private var imageDrag: ImageDrag? = null
+    private val handleTouchOffset = PointF()
     private var touchX = 0f
     private var touchY = 0f
 
@@ -109,6 +114,7 @@ internal class FramePhotoLayout(
     private var outlineColor = Color.WHITE
     private var outlineAccent = Color.BLACK
     private var canvasScale = 1f
+    private val touchMatrix = Matrix()
     private var outlinePhase = 0f
     private var outlineAnimator: ValueAnimator? = null
 
@@ -117,6 +123,7 @@ internal class FramePhotoLayout(
         outlineColor = color
         outlineAccent = accent
         canvasScale = scale.coerceAtLeast(0.1f)
+        touchMatrix.setScale(1f / canvasScale, 1f / canvasScale)
         invalidate()
     }
 
@@ -439,7 +446,13 @@ internal class FramePhotoLayout(
         val imageView = FrameImageView(
             context = context,
             photoItem = item,
-            previewSize = if (mPhotoItems.size > 4 || isNotLargeThan1Gb) 1024 else 1600
+            previewSize = collagePreviewSize(
+                imageCount = mPhotoItems.size,
+                relativeArea = item.bound.width() * item.bound.height() /
+                        mPhotoItems.sumOf { (it.bound.width() * it.bound.height()).toDouble() }
+                            .toFloat(),
+                lowMemory = isNotLargeThan1Gb
+            )
         )
         val metrics = computeFrameMetrics(item.bound)
         imageView.setRotationEnabled(!disableRotation)
@@ -739,30 +752,56 @@ internal class FramePhotoLayout(
         }
         mItemImageViews.firstOrNull { it.photoItem.index == selectedItemIndex }
             ?.let { drawOutline(canvas, it, selected = true) }
-        // draw handles for selected item
-        val index = selectedItemIndex ?: return
-        val handles = paramsManager?.getHandles(index) ?: emptyList()
-        if (handles.isEmpty()) return
         val drawable = handleDrawable ?: return
-        for (handle in handles) {
-            val dp = handle.draggablePoint(paramsManager!!)
-            val cx = framePadding + (mViewWidth - framePadding * 2) * dp.x
-            val cy = framePadding + (mViewHeight - framePadding * 2) * dp.y
-            val angle = handle.getAngle() + 90f
-            val diameter = max(
-                drawable.intrinsicWidth,
-                drawable.intrinsicHeight
-            ).takeIf { it > 0 }?.toFloat() ?: 72f
-            val half = diameter / 2f
-            canvas.withTranslation(cx, cy) {
-                canvas.rotate(angle)
-                drawable.setBounds((-half).toInt(), (-half).toInt(), half.toInt(), half.toInt())
+        val diameter = handleDiameter()
+        val half = (diameter / 2f).toInt()
+        drawable.setBounds(-half, -half, half, half)
+        selectedHandles().forEach { (handle, bounds) ->
+            canvas.withTranslation(bounds.centerX, bounds.centerY) {
+                canvas.rotate(handle.getAngle() + 90f)
+                val scale = bounds.diameter / diameter
+                canvas.scale(scale, scale)
                 drawable.draw(canvas)
             }
         }
     }
 
+    private fun handleDiameter(): Float = handleDrawable?.let {
+        max(it.intrinsicWidth, it.intrinsicHeight).takeIf { size -> size > 0 }?.toFloat()
+    } ?: 72f
+
+    private fun selectedHandles(): List<Pair<Handle, CollageHandleBounds>> {
+        val manager = paramsManager ?: return emptyList()
+        val index = selectedItemIndex ?: return emptyList()
+        val handles = manager.getHandles(index)
+        val positions = handles.map { handle ->
+            val point = handle.draggablePoint(manager)
+            (framePadding + (mViewWidth - framePadding * 2) * point.x) to
+                    (framePadding + (mViewHeight - framePadding * 2) * point.y)
+        }
+        return handles.zip(
+            collageHandleBounds(
+                positions = positions,
+                diameter = handleDiameter(),
+                touchRadius = 24f * resources.displayMetrics.density,
+                scale = canvasScale
+            )
+        )
+    }
+
     override fun dispatchTouchEvent(event: MotionEvent): Boolean {
+        if (canvasScale == 1f) return dispatchCollageTouchEvent(event)
+        val localEvent = MotionEvent.obtain(event)
+        return try {
+            // AndroidView offsets native events but does not undo the outer Compose scale.
+            localEvent.transform(touchMatrix)
+            dispatchCollageTouchEvent(localEvent)
+        } finally {
+            localEvent.recycle()
+        }
+    }
+
+    private fun dispatchCollageTouchEvent(event: MotionEvent): Boolean {
         touchX = event.x
         touchY = event.y
         imageDrag?.let { drag ->
@@ -782,64 +821,48 @@ internal class FramePhotoLayout(
         return super.dispatchTouchEvent(event)
     }
 
+    fun startHandleDragAt(x: Float, y: Float): Boolean {
+        val nearest = selectedHandles().filter { (_, bounds) ->
+            kotlin.math.hypot(x - bounds.centerX, y - bounds.centerY) <= bounds.touchRadius
+        }.minByOrNull { (_, bounds) ->
+            kotlin.math.hypot(x - bounds.centerX, y - bounds.centerY)
+        } ?: return false
+        activeHandle = nearest.first
+        handleTouchOffset.set(x - nearest.second.centerX, y - nearest.second.centerY)
+        parent?.requestDisallowInterceptTouchEvent(true)
+        beginUserInteraction()
+        return true
+    }
+
+    fun moveHandleDrag(x: Float, y: Float) {
+        val handle = activeHandle ?: return
+        val manager = paramsManager ?: return
+        val nx = ((x - handleTouchOffset.x - framePadding) / (mViewWidth - framePadding * 2))
+            .coerceIn(0f, 1f)
+        val ny = ((y - handleTouchOffset.y - framePadding) / (mViewHeight - framePadding * 2))
+            .coerceIn(0f, 1f)
+        handle.tryDrag(PointF(nx, ny), manager) ?: return
+        invalidate()
+    }
+
+    fun finishHandleDrag() {
+        if (activeHandle == null) return
+        activeHandle = null
+        parent?.requestDisallowInterceptTouchEvent(false)
+        finishUserInteraction()
+    }
+
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        val index = selectedItemIndex ?: return super.onTouchEvent(event)
-        mItemImageViews.firstOrNull { it.photoItem.index == index } ?: return super.onTouchEvent(
-            event
-        )
-        val manager = paramsManager ?: return super.onTouchEvent(event)
-        val handles = manager.getHandles(index)
-        if (handles.isEmpty()) return super.onTouchEvent(event)
-
-        val globalX = event.x
-        val globalY = event.y
-
-        when (event.action) {
-            MotionEvent.ACTION_DOWN -> {
-                val drawable = handleDrawable
-                if (drawable == null) {
-                    activeHandle = null
-                    return super.onTouchEvent(event)
-                }
-                val diameter = max(
-                    drawable.intrinsicWidth,
-                    drawable.intrinsicHeight
-                ).takeIf { it > 0 }?.toFloat() ?: 72f
-                val radius = diameter / 2f
-                activeHandle = handles.firstOrNull { handle ->
-                    val dp = handle.draggablePoint(manager)
-                    val hx = framePadding + (mViewWidth - framePadding * 2) * dp.x
-                    val hy = framePadding + (mViewHeight - framePadding * 2) * dp.y
-                    val dx = globalX - hx
-                    val dy = globalY - hy
-                    dx * dx + dy * dy <= radius * radius
-                }
-                if (activeHandle != null) {
-                    parent?.requestDisallowInterceptTouchEvent(true)
-                    beginUserInteraction()
-                }
-                return activeHandle != null || super.onTouchEvent(event)
+        if (event.actionMasked == MotionEvent.ACTION_DOWN) {
+            if (startHandleDragAt(event.x, event.y)) return true
+        } else if (activeHandle != null) {
+            when (event.actionMasked) {
+                MotionEvent.ACTION_MOVE -> moveHandleDrag(event.x, event.y)
+                MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL, MotionEvent.ACTION_POINTER_DOWN ->
+                    finishHandleDrag()
             }
-
-            MotionEvent.ACTION_MOVE -> {
-                val handle = activeHandle ?: return super.onTouchEvent(event)
-                val nx =
-                    ((globalX - framePadding) / (mViewWidth - framePadding * 2)).coerceIn(0f, 1f)
-                val ny =
-                    ((globalY - framePadding) / (mViewHeight - framePadding * 2)).coerceIn(0f, 1f)
-                handle.tryDrag(PointF(nx, ny), manager) ?: return true  // Drag failed
-                invalidate()
-                return true
-            }
-
-            MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
-                if (activeHandle == null) return false
-                activeHandle = null
-                parent?.requestDisallowInterceptTouchEvent(false)
-                finishUserInteraction()
-                return true
-            }
+            return true
         }
         return super.onTouchEvent(event)
     }

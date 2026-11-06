@@ -41,6 +41,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.composed
 import androidx.compose.ui.input.pointer.PointerEventPass
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.AlignmentLine
@@ -102,6 +103,8 @@ internal fun rememberScrollAnchor(): ScrollAnchor? {
 
     return anchor
 }
+
+fun Modifier.scrollAnchor(): Modifier = composed { scrollAnchor(rememberScrollAnchor()) }
 
 internal fun Modifier.scrollAnchor(anchor: ScrollAnchor?): Modifier =
     if (anchor == null) this

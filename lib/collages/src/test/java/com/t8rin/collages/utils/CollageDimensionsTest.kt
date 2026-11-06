@@ -36,4 +36,13 @@ class CollageDimensionsTest {
         assertTrue(width.toLong() * height <= 8_000_000)
         assertEquals(2f, width.toFloat() / height, 0.001f)
     }
+
+    @Test
+    fun largeCollagesGiveMoreDetailToLargerSlotsWithinABoundedBudget() {
+        val areas = listOf(.25f) + List(99) { .75f / 99 }
+        val sizes = areas.map { collagePreviewSize(100, it, false) }
+        assertTrue(sizes.first() > sizes.last())
+        assertTrue(sizes.sumOf { it.toLong() * it } <= 20L * 1024 * 1024)
+        assertTrue(sizes.all { it in 256..1600 })
+    }
 }

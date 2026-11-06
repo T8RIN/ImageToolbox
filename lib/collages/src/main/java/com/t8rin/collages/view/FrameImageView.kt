@@ -45,6 +45,7 @@ import com.t8rin.collages.CollageSlotStyle
 import com.t8rin.collages.utils.GeometryUtils
 import com.t8rin.collages.utils.ImageDecoder
 import com.t8rin.collages.utils.ImageTransform
+import com.t8rin.collages.utils.maximumInset
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -735,6 +736,30 @@ internal class FrameImageView(
             pathRect: Rect,
             space: Float, corner: Float, outerPadding: Float = space
         ) {
+            photoItem.normalizedPath?.let { outline ->
+                path.set(outline)
+                path.transform(Matrix().apply { setScale(viewWidth, viewHeight) })
+                if (space > 0f) {
+                    val gap = Path()
+                    val inset = min(space, path.maximumInset())
+                    Paint(Paint.ANTI_ALIAS_FLAG).apply {
+                        style = Paint.Style.STROKE
+                        strokeWidth = inset * 2
+                        strokeJoin = Paint.Join.ROUND
+                    }.getFillPath(path, gap)
+                    val shrunk = Path(path)
+                    if (shrunk.op(gap, Path.Op.DIFFERENCE) && !shrunk.isEmpty) path.set(shrunk)
+                }
+                if (corner > 0f) {
+                    val rounded = Path()
+                    Paint().apply {
+                        pathEffect = CornerPathEffect(min(corner, min(viewWidth, viewHeight) / 2))
+                    }.getFillPath(path, rounded)
+                    path.set(rounded)
+                }
+                path.op(path, path, Path.Op.UNION)
+                return
+            }
             photoItem.shape?.let { points ->
                 path.reset()
                 val local = points.map {

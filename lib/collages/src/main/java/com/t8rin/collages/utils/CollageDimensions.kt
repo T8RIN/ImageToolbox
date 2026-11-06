@@ -36,3 +36,15 @@ internal fun collageOutputDimensions(
     val shortEdge = (longEdge / longToShort).roundToInt().coerceAtLeast(1)
     return if (ratio >= 1.0) longEdge to shortEdge else shortEdge to longEdge
 }
+
+internal fun collagePreviewSize(
+    imageCount: Int,
+    relativeArea: Float,
+    lowMemory: Boolean
+): Int = when {
+    imageCount > 20 -> (1024 * sqrt(20f * relativeArea.coerceIn(0f, 1f)))
+        .toInt().coerceIn(256, 1600)
+
+    imageCount > 4 || lowMemory -> 1024
+    else -> 1600
+}

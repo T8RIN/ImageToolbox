@@ -25,10 +25,11 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.lazy.staggeredgrid.LazyHorizontalStaggeredGrid
+import androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridState
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.lazy.staggeredgrid.items
+import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -52,6 +53,8 @@ import coil3.compose.AsyncImage
 import com.t8rin.collages.model.CollageLayout
 import com.t8rin.collages.utils.CollageLayoutFactory.loadFrameImages
 import com.t8rin.collages.utils.createCollagePreview
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 @Composable
 fun CollageTypeSelection(
@@ -60,11 +63,13 @@ fun CollageTypeSelection(
     favorites: Set<String> = emptySet(),
     itemBottomContent: @Composable (CollageType) -> Unit = {},
     itemSize: Dp = 68.dp,
+    rowHeight: Dp = itemSize,
     onValueChange: (CollageType) -> Unit,
+    onLayoutCountChange: (Int) -> Unit = {},
     modifier: Modifier = Modifier,
     shape: Shape = RectangleShape,
     itemModifierFactory: @Composable (isSelected: Boolean) -> Modifier = { Modifier },
-    state: LazyListState = rememberLazyListState(),
+    state: LazyStaggeredGridState = rememberLazyStaggeredGridState(),
     previewColor: Color = MaterialTheme.colorScheme.secondary,
     contentPadding: PaddingValues = PaddingValues(16.dp)
 ) {
@@ -74,7 +79,7 @@ fun CollageTypeSelection(
     val context = LocalContext.current
 
     LaunchedEffect(context) {
-        allFrames = loadFrameImages(context)
+        allFrames = withContext(Dispatchers.Default) { loadFrameImages(context) }
     }
 
     val availableFrames by remember(allFrames, imagesCount, favorites) {
@@ -86,6 +91,7 @@ fun CollageTypeSelection(
     }
 
     LaunchedEffect(availableFrames) {
+        onLayoutCountChange(availableFrames.size)
         if (
             availableFrames.isNotEmpty() && (value == CollageType.Empty || (value.layout?.photoItemList?.size
                 ?: 0) != imagesCount)
@@ -97,16 +103,19 @@ fun CollageTypeSelection(
     AnimatedVisibility(
         visible = availableFrames.isNotEmpty()
     ) {
-        LazyRow(
+        LazyHorizontalStaggeredGrid(
             state = state,
+            rows = StaggeredGridCells.Adaptive(rowHeight),
             modifier = modifier,
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
+            horizontalItemSpacing = 8.dp,
             contentPadding = contentPadding
         ) {
             items(availableFrames, key = { it.title }) { layout ->
                 Column(
-                    Modifier.animateItem().width(itemSize),
+                    Modifier
+                        .animateItem()
+                        .width(itemSize),
                     verticalArrangement = Arrangement.spacedBy(2.dp)
                 ) {
                     val type = remember(layout) { CollageType(layout) }

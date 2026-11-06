@@ -94,7 +94,7 @@ fun PreviewCollageGeneration(
 
     LaunchedEffect(context) {
         allFrames =
-            CollageType.catalog().mapNotNull { it.layout }
+            CollageType.catalog(context).mapNotNull { it.layout }
                 .filter { it.photoItemList.size >= startFrom }
     }
 

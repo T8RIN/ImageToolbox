@@ -23,6 +23,8 @@ import android.content.Context
 import android.graphics.Path
 import android.graphics.RectF
 import androidx.core.net.toUri
+import com.t8rin.collages.AdditionalCollages
+import com.t8rin.collages.ArtisticCollages
 import com.t8rin.collages.CollagePoint
 import com.t8rin.collages.CollageType
 import com.t8rin.collages.CreativeCollages
@@ -73,14 +75,22 @@ internal object CollageLayoutFactory {
         }
     }
 
-    fun loadFrameImages(context: Context): List<CollageLayout> {
+    suspend fun loadFrameImages(context: Context): List<CollageLayout> {
+        CollageType.prepareCatalog(context)
         return runCatching {
             context.assets.list(FRAME_FOLDER).orEmpty().mapNotNull {
                 createCollageLayouts(it.substringBeforeLast('.'))
             }.sortedWith(
                 compareBy(
                     { it.photoItemList.size },
-                    { it.title.startsWith("creative_") })
+                    {
+                        when {
+                            it.title.startsWith("collage_") -> 0
+                            it.title.startsWith("creative_") -> 1
+                            it.title.startsWith("layout_") -> 2
+                            else -> 3
+                        }
+                    })
             )
         }.onFailure {
             it.printStackTrace()
@@ -156,9 +166,12 @@ internal object CollageLayoutFactory {
     }
 
     internal fun createCollageLayouts(frameName: String): CollageLayout? {
-        val layout = COLLAGE_MAP[frameName]?.invoke() ?: CreativeCollages.templates
-            .firstOrNull { it.id == frameName }
-            ?.let { CollageType.fromDesign(it.id, it.design)?.layout }
+        val layout = COLLAGE_MAP[frameName]?.invoke()
+            ?: CreativeCollages.templates.firstOrNull { it.id == frameName }
+                ?.let { CollageType.fromDesign(it.id, it.design)?.layout }
+            ?: ArtisticCollages.templates.firstOrNull { it.id == frameName }
+                ?.let { CollageType.fromDesign(it.id, it.design)?.layout }
+            ?: AdditionalCollages.create(frameName)
         return layout?.let(::withRectangularHandles)
     }
 
@@ -173,7 +186,7 @@ internal object CollageLayoutFactory {
                 val top = if (item.shape == null) 0f else coordinate(item.bound.top)
                 val right = if (item.shape == null) 1f else coordinate(item.bound.right)
                 val bottom = if (item.shape == null) 1f else coordinate(item.bound.bottom)
-                item.path != null || item.clearPath != null || !item.clearAreaPoints.isNullOrEmpty() ||
+                item.normalizedPath != null || item.path != null || item.clearPath != null || !item.clearAreaPoints.isNullOrEmpty() ||
                         points.toSet() != setOf(
                     left to top,
                     right to top,

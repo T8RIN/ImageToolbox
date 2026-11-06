@@ -198,12 +198,35 @@ fun Collage(
                             .pointerInput(view) {
                                 awaitEachGesture {
                                     val down = awaitFirstDown(requireUnconsumed = false)
+                                    val target = view ?: return@awaitEachGesture
+                                    if (target.startHandleDragAt(
+                                            down.position.x,
+                                            down.position.y
+                                        )
+                                    ) {
+                                        down.consume()
+                                        try {
+                                            drag(down.id) { change ->
+                                                if (currentEvent.changes.count { it.pressed } != 1) {
+                                                    target.finishHandleDrag()
+                                                } else {
+                                                    target.moveHandleDrag(
+                                                        change.position.x,
+                                                        change.position.y
+                                                    )
+                                                }
+                                                change.consume()
+                                            }
+                                        } finally {
+                                            target.finishHandleDrag()
+                                        }
+                                        return@awaitEachGesture
+                                    }
                                     val held = awaitLongPressOrCancellation(down.id)
                                         ?: return@awaitEachGesture
                                     if (currentEvent.changes.count { it.pressed } != 1) {
                                         return@awaitEachGesture
                                     }
-                                    val target = view ?: return@awaitEachGesture
                                     target.startImageDragAt(held.position.x, held.position.y)
                                     try {
                                         val dropped = drag(held.id) { change ->

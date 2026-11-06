@@ -36,6 +36,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.collages.CollageType
@@ -81,6 +82,7 @@ import kotlinx.coroutines.launch
 fun CollageMakerContent(
     component: CollageMakerComponent
 ) {
+    val context = LocalContext.current
     var editSlot by rememberSaveable { mutableIntStateOf(-1) }
     var showSlotSettings by rememberSaveable { mutableStateOf(false) }
     var styleToApplyName by rememberSaveable { mutableStateOf<String?>(null) }
@@ -91,7 +93,7 @@ fun CollageMakerContent(
     LaunchedEffect(component.uris?.size, component.collageType.imageCount) {
         val count = component.uris.orEmpty().size
         if (count > 0 && component.collageType.imageCount != count) {
-            CollageType.catalog().firstOrNull { it.imageCount == count }
+            CollageType.catalog(context).firstOrNull { it.imageCount == count }
                 ?.let(component::setCollageType)
         }
     }

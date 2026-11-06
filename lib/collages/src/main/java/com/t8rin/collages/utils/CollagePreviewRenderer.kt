@@ -48,6 +48,10 @@ internal fun createCollagePreview(type: CollageType, size: Int = 525): Bitmap {
             item, contentSize * item.bound.width(),
             contentSize * item.bound.height()
         )
+        stroke.strokeWidth =
+            if (type.layoutId?.startsWith("layout_") == true || type.imageCount > 20) {
+                minOf(size / 21f, path.maximumInset())
+            } else size / 21f
         val border = Path()
         stroke.getFillPath(path, border)
         path.op(border, Path.Op.DIFFERENCE)

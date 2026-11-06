@@ -18,13 +18,15 @@
 package com.t8rin.collages.public
 
 import coil3.request.ImageRequest
+import com.t8rin.collages.AdditionalCollages
+import com.t8rin.collages.ArtisticCollages
 import com.t8rin.collages.CreativeCollages
 import com.t8rin.collages.utils.CollageLayoutFactory
 
 object CollageConstants {
-    const val MAX_IMAGE_COUNT: Int = 20
+    const val MAX_IMAGE_COUNT: Int = 100
 
-    val layoutCount: Int = CollageLayoutFactory.COLLAGE_MAP.size + CreativeCollages.templates.size
+    val layoutCount: Int get() = CollageLayoutFactory.COLLAGE_MAP.size + CreativeCollages.Family.entries.size * 20 + AdditionalCollages.count + ArtisticCollages.count
 
     internal var requestMapper: ImageRequest.Builder.() -> ImageRequest.Builder = { this }
 
