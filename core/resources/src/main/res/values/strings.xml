@@ -186,7 +186,7 @@
     <string name="help_tip_gallery_search_subtitle">Find photos by their contents and browse automatic categories. File name search is always available</string>
     <string name="help_tip_gallery_search_page_title">Turn on Semantic photo search</string>
     <string name="help_tip_gallery_search_description">Semantic photo search finds photos by what is in them: describe objects, people, or a scene. You do not need to add captions or tags. It also groups photos into automatic categories. Available on Android 8 and later in the Gallery tool and when Image source is set to Embedded Picker.</string>
-    <string name="help_tip_gallery_search_step_1">Open Settings → Image source and turn on Semantic photo search. You can also turn it on using the Search settings button beside the search field in Gallery or Embedded Picker.</string>
+    <string name="help_tip_gallery_search_step_1">Open Settings → Gallery and turn on Semantic photo search. You can also turn it on using the Search settings button beside the search field in Gallery or Embedded Picker.</string>
     <string name="help_tip_gallery_search_step_2">Allow access to the photos you want to search. On Android 14 and later, you can allow access to selected photos only. To find more photos, give the app access to them too.</string>
     <string name="help_tip_gallery_search_step_3">The first setup downloads about 227 MB of files for recognizing photo contents. After that, preparation and search work on your device without internet. Your photos and search queries are not sent to a server.</string>
     <string name="help_tip_gallery_search_page_2_title">Search by name or description</string>
@@ -2196,6 +2196,7 @@
     <string name="save_as_file">Save as file</string>
     <string name="save_markup_project">Save project</string>
     <string name="save_markup_project_sub">Store layers, background and edit history in an editable project file</string>
+    <string name="save_collage_project_sub">Keep the layout, original images and edit history in an editable project file</string>
     <string name="save_as_qr_code_image">Save as QR code image</string>
     <string name="delete_template">Delete Template</string>
     <string name="delete_template_warn">You are about to delete selected template filter. This operation cannot be undone</string>
@@ -5592,6 +5593,10 @@
     <string name="gallery_ascending">Ascending</string>
     <string name="gallery_descending">Descending</string>
     <string name="gallery_display_options">Grouping and sorting</string>
+    <string name="gallery_show_file_size">Show file size</string>
+    <string name="gallery_show_file_extension">Show file format</string>
+    <string name="gallery_show_file_size_sub">Show the file size on image thumbnails.</string>
+    <string name="gallery_show_file_extension_sub">Show the file format on image thumbnails.</string>
     <string name="gallery_search_similar">Find similar photos</string>
     <string name="gallery_search_similar_description">Choose a photo to find others with similar contents.</string>
     <string name="gallery_search_similar_enable">Turn on Semantic photo search first.</string>
@@ -5975,6 +5980,8 @@
     <string name="help_tip_gallery_workflow_step_1">Open the relevant album before choosing a large batch. A selected album also matters when browsing semantic results and people groups.</string>
     <string name="help_tip_gallery_workflow_step_2">Inspect similar-looking thumbnails in preview to avoid processing the wrong version. Check the selected count before sending images to a tool.</string>
     <string name="help_tip_gallery_workflow_step_3">If a new file is missing, check its folder, media permissions, and whether the source app has finished saving it. A file picker can reach sources not shown in the media library.</string>
+    <string name="help_tip_gallery_workflow_grid_settings">Open Settings → Gallery to set the grid to Auto or choose 1–20 columns. Pinch with two fingers to resize the grid until you close it. The file size and format labels can be turned off separately.</string>
+    <string name="help_tip_gallery_workflow_fast_scroll">Scroll to reveal the handle on the right. Drag it to move through the gallery by date and time.</string>
     <string name="help_tip_archive_workflow_title">Create and extract archives</string>
     <string name="help_tip_archive_workflow_subtitle">Choose a container, compression method, password, and extraction options</string>
     <string name="help_tip_archive_workflow_page_title">Archive or extract</string>
@@ -7989,4 +7996,9 @@
     <string name="emoji_kitchen_download_size">Archive size: %1$s</string>
     <string name="emoji_kitchen_favorites">Bookmarks</string>
     <string name="emoji_kitchen_favorites_empty">No bookmarks</string>
+    <string name="help_tip_setting_gallery_columns_description">Choose how many columns appear in Gallery and Embedded Picker. More columns show smaller thumbnails.</string>
+    <string name="help_tip_setting_gallery_columns_step">Open Settings → Gallery → Columns Count. Choose Auto to fit the screen or a fixed count from 1 to 20.</string>
+    <string name="help_tip_setting_gallery_file_size_step">Open Settings → Gallery and toggle Show file size. This changes thumbnail labels without changing or compressing the files.</string>
+    <string name="help_tip_setting_gallery_file_extension_step">Open Settings → Gallery and toggle Show file format. This changes thumbnail labels without renaming or converting the files.</string>
+    <string name="help_tip_setting_remember_preview_layout_step">Open Settings → Behavior and turn on Remember Preview Layout. Adjust the preview height or pin it in a tool; the next tool will reuse that layout.</string>
 </resources>

@@ -5509,7 +5509,7 @@
     <string name="help_tip_gallery_search_subtitle">Temukan foto berdasarkan isinya dan jelajahi kategori otomatis. Pencarian nama file selalu tersedia</string>
     <string name="help_tip_gallery_search_page_title">Aktifkan pencarian foto semantik</string>
     <string name="help_tip_gallery_search_description">Penelusuran foto semantik menemukan foto berdasarkan isinya: mendeskripsikan objek, orang, atau pemandangan. Anda tidak perlu menambahkan keterangan atau tag. Itu juga mengelompokkan foto ke dalam kategori otomatis. Tersedia di Android 8 dan versi lebih baru di alat Galeri dan saat Sumber gambar disetel ke Pemilih Tersemat.</string>
-    <string name="help_tip_gallery_search_step_1">Buka Pengaturan → Sumber gambar dan aktifkan pencarian foto semantik. Anda juga dapat mengaktifkannya menggunakan tombol Pengaturan pencarian di samping kolom pencarian di Galeri atau Pemilih Tersemat.</string>
+    <string name="help_tip_gallery_search_step_1">Buka Pengaturan → Galeri dan aktifkan pencarian foto semantik. Anda juga dapat mengaktifkannya menggunakan tombol Pengaturan pencarian di samping kolom pencarian di Galeri atau Pemilih Tersemat.</string>
     <string name="help_tip_gallery_search_step_2">Izinkan akses ke foto yang ingin Anda cari. Di Android 14 dan lebih baru, Anda hanya dapat mengizinkan akses ke foto yang dipilih. Untuk menemukan lebih banyak foto, berikan akses aplikasi ke foto tersebut juga.</string>
     <string name="help_tip_gallery_search_step_3">Pengaturan pertama mengunduh sekitar 227 MB file untuk mengenali konten foto. Setelah itu, persiapan dan pencarian berfungsi di perangkat Anda tanpa internet. Foto dan permintaan pencarian Anda tidak dikirim ke server.</string>
     <string name="help_tip_gallery_search_page_2_title">Cari berdasarkan nama atau deskripsi</string>
@@ -7942,4 +7942,16 @@
     <string name="emoji_kitchen_download_size">Ukuran arsip: %1$s</string>
     <string name="emoji_kitchen_favorites">Bookmark</string>
     <string name="emoji_kitchen_favorites_empty">Tidak ada bookmark</string>
+    <string name="gallery_show_file_size">Tampilkan ukuran file</string>
+    <string name="gallery_show_file_extension">Tampilkan format file</string>
+    <string name="gallery_show_file_size_sub">Tampilkan ukuran file pada thumbnail gambar.</string>
+    <string name="gallery_show_file_extension_sub">Tampilkan format file pada thumbnail gambar.</string>
+    <string name="help_tip_gallery_workflow_grid_settings">Buka Pengaturan → Galeri untuk mengatur kisi ke Otomatis atau pilih 1–20 kolom. Jepit dengan dua jari untuk mengubah ukuran kisi hingga Anda menutupnya. Label ukuran dan format file dapat dimatikan secara terpisah.</string>
+    <string name="help_tip_gallery_workflow_fast_scroll">Gulir untuk membuka pegangan di sebelah kanan. Seret untuk menelusuri galeri berdasarkan tanggal dan waktu.</string>
+    <string name="save_collage_project_sub">Simpan tata letak, gambar asli, dan riwayat edit dalam file proyek yang dapat diedit</string>
+    <string name="help_tip_setting_gallery_columns_description">Pilih berapa banyak kolom yang muncul di Galeri dan Pemilih Tersemat. Lebih banyak kolom menampilkan thumbnail yang lebih kecil.</string>
+    <string name="help_tip_setting_gallery_columns_step">Buka Pengaturan → Galeri → Jumlah Kolom. Pilih Otomatis agar sesuai dengan layar atau hitungan tetap dari 1 hingga 20.</string>
+    <string name="help_tip_setting_gallery_file_size_step">Buka Pengaturan → Galeri dan aktifkan Tampilkan ukuran file. Ini mengubah label thumbnail tanpa mengubah atau mengompresi file.</string>
+    <string name="help_tip_setting_gallery_file_extension_step">Buka Pengaturan → Galeri dan aktifkan Tampilkan format file. Ini mengubah label thumbnail tanpa mengganti nama atau mengonversi file.</string>
+    <string name="help_tip_setting_remember_preview_layout_step">Buka Pengaturan → Perilaku dan aktifkan Ingat Tata Letak Pratinjau. Sesuaikan tinggi pratinjau atau sematkan di alat; alat berikutnya akan menggunakan kembali tata letak itu.</string>
 </resources>

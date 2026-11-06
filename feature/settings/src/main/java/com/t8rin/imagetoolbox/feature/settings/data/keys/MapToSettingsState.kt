@@ -62,6 +62,11 @@ internal fun Preferences.toSettingsState(
         ?: default.isAiAssistantSetupComplete,
     aiAssistantModel = AssistantModel.fromOrdinal(this[AI_ASSISTANT_MODEL_TYPE])
         ?: default.aiAssistantModel,
+    galleryColumns = this[GALLERY_COLUMNS]?.coerceIn(0, SettingsState.MaxGalleryColumns)
+        ?: default.galleryColumns,
+    showGalleryFileSize = this[SHOW_GALLERY_FILE_SIZE] ?: default.showGalleryFileSize,
+    showGalleryFileExtension = this[SHOW_GALLERY_FILE_EXTENSION]
+        ?: default.showGalleryFileExtension,
     isSemanticSearchEnabled = this[SEMANTIC_SEARCH_ENABLED] ?: default.isSemanticSearchEnabled,
     semanticSearchSettings = this[SEMANTIC_SEARCH_SETTINGS]?.let {
         jsonParser.fromJson<SemanticSearchSettings>(

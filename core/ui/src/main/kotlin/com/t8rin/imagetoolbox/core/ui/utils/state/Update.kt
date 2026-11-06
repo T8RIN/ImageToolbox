@@ -63,7 +63,7 @@ inline fun <T> MutableState<T>.updateIf(
 fun <T> derivedValueOf(
     vararg keys: Any?,
     calculation: () -> T
-): T = remember(keys) {
+): T = remember(*keys) {
     derivedStateOf(calculation)
 }.value
 

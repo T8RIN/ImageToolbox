@@ -27,6 +27,7 @@ import androidx.core.net.toUri
 import com.arkivanov.decompose.ComponentContext
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageCompressor
+import com.t8rin.imagetoolbox.core.domain.image.ImagePreviewCreator
 import com.t8rin.imagetoolbox.core.domain.image.ImageShareProvider
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
@@ -52,6 +53,8 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.ensureActive
+import java.lang.ref.WeakReference
 
 class ImageStackingComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
@@ -62,6 +65,7 @@ class ImageStackingComponent @AssistedInject internal constructor(
     private val imageStacker: ImageStacker<Bitmap>,
     private val fileController: FileController,
     private val imageCompressor: ImageCompressor<Bitmap>,
+    private val imagePreviewCreator: ImagePreviewCreator<Bitmap>,
     private val settingsManager: SettingsManager,
     dispatchersHolder: DispatchersHolder
 ) : BaseHistoryComponent<HistorySnapshot>(
@@ -88,9 +92,7 @@ class ImageStackingComponent @AssistedInject internal constructor(
         if (uris.isNotEmpty()) {
             resetHistory()
         }
-        if (uris.isNotEmpty()) {
-            calculatePreview()
-        }
+        calculatePreview()
     }
 
     private val _previewBitmap: MutableState<Bitmap?> = mutableStateOf(null)
@@ -120,7 +122,7 @@ class ImageStackingComponent @AssistedInject internal constructor(
             )
             _imageInfo.value = _imageInfo.value.copy(imageFormat = imageFormat)
             registerChanges()
-            calculatePreview()
+            calculatePreview(reuseImage = true)
             schedulePendingHistoryCommit()
         }
     }
@@ -129,23 +131,50 @@ class ImageStackingComponent @AssistedInject internal constructor(
         _isImageLoading.update { false }
     }
 
-    private fun calculatePreview() {
+    private var previewSource = WeakReference<Bitmap>(null)
+    private var previewSourceSettings = settingsManager.settingsState.value
+
+    private fun calculatePreview(reuseImage: Boolean = false) {
+        val images = stackImages
+        val params = stackingParams
+        val info = imageInfo
+        val settings = settingsManager.settingsState.value
+        val cached = previewSource.get()?.takeIf {
+            reuseImage && previewSourceSettings === settings && !it.isRecycled
+        }
+        if (!reuseImage) previewSource.clear()
+        if (images.isEmpty()) {
+            calculationPreviewJob = null
+            _previewBitmap.value = null
+            _imageByteSize.value = null
+            return
+        }
         calculationPreviewJob = componentScope.launch {
             delay(300L)
             _isImageLoading.value = true
-            stackImages.takeIf { it.isNotEmpty() }?.let {
-                registerChanges()
-                imageStacker.stackImagesPreview(
-                    stackImages = stackImages,
-                    stackingParams = stackingParams,
-                    imageFormat = imageInfo.imageFormat,
-                    quality = imageInfo.quality,
-                    onGetByteCount = {
-                        _imageByteSize.update { it }
+            registerChanges()
+            val image = cached ?: imageStacker.stackImages(
+                stackImages = images,
+                stackingParams = params,
+                onFailure = {},
+                onProgress = {}
+            )
+            ensureActive()
+            previewSource = WeakReference(image)
+            previewSourceSettings = settings
+            if (image == null) {
+                _previewBitmap.value = null
+                _imageByteSize.value = null
+            } else {
+                imagePreviewCreator.createPreview(
+                    image = image,
+                    imageInfo = info.copy(width = image.width, height = image.height),
+                    onGetByteCount = { _imageByteSize.value = it },
+                    onGetPreview = {
+                        _previewBitmap.value = it
+                        _isImageLoading.value = false
                     }
-                ).let { image ->
-                    _previewBitmap.value = image
-                }
+                )
             }
             _isImageLoading.value = false
         }
@@ -239,7 +268,7 @@ class ImageStackingComponent @AssistedInject internal constructor(
             beginPendingHistoryTransaction()
             _imageInfo.value = _imageInfo.value.copy(quality = quality)
             registerChanges()
-            calculatePreview()
+            calculatePreview(reuseImage = true)
             schedulePendingHistoryCommit()
         }
     }
@@ -324,6 +353,7 @@ class ImageStackingComponent @AssistedInject internal constructor(
         value: StackImage,
         index: Int
     ) {
+        if (stackImages.getOrNull(index) == value) return
         beginPendingHistoryTransaction()
         val list = stackImages.toMutableList()
         runCatching {
@@ -337,13 +367,14 @@ class ImageStackingComponent @AssistedInject internal constructor(
     }
 
     fun reorderUris(uris: List<Uri>) {
-        if (stackImages.map { it.uri } != uris) {
+        val stackOrder = uris.map { it.toString() }
+        if (stackImages.map { it.uri } != stackOrder) {
             finalizePendingHistoryTransaction()
             val beforeSnapshot = currentHistorySnapshot()
             _stackImages.update { stack ->
-                val stackOrder = uris.map { it.toString() }
+                val orderedUris = stackOrder.toSet()
                 val data = stack.associateBy { it.uri }
-                val leftStack = stack.filter { it.uri !in stackOrder }
+                val leftStack = stack.filter { it.uri !in orderedUris }
                 (leftStack + stackOrder.mapNotNull { data[it] }).distinct()
             }
             commitHistoryFrom(beforeSnapshot)

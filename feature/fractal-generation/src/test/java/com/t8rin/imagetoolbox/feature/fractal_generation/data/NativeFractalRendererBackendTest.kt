@@ -49,7 +49,13 @@ class NativeFractalRendererBackendTest {
         }
 
         assertEquals(FractalFormula.entries.size, nativeTypes.distinct().size)
-        assertEquals(NativeFractalType.entries.toSet(), nativeTypes.toSet())
+        assertEquals(
+            NativeFractalType.entries.toSet() - setOf(
+                NativeFractalType.HTree,
+                NativeFractalType.HilbertCurve
+            ),
+            nativeTypes.toSet()
+        )
     }
 
     @Test
@@ -171,7 +177,6 @@ class NativeFractalRendererBackendTest {
     @Test
     fun exposesOnlyAvailableEngineTypes() {
         val backend = backend(
-            available = true,
             types = setOf(
                 NativeFractalType.Mandelbrot,
                 NativeFractalType.BurningShipJulia,
@@ -189,14 +194,12 @@ class NativeFractalRendererBackendTest {
             ),
             backend.supportedFormulas
         )
-        assertTrue(backend(available = false).supportedFormulas.isEmpty())
+        assertTrue(backend(types = emptySet()).supportedFormulas.isEmpty())
     }
 
     private fun backend(
-        available: Boolean,
         types: Set<NativeFractalType> = NativeFractalType.entries.toSet()
     ) = NativeFractalRendererBackend(
-        isEngineAvailable = { available },
         supportedNativeTypes = types,
         nativeRender = { error("Rendering is not expected in unit tests") }
     )

@@ -30,7 +30,7 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class AssistantScopeInstrumentedTest {
     @Test
-    fun unrelatedQuestionsDoNotRetrieveAppInstructions() = runBlocking {
+    fun unrelatedRawQuestionsDoNotRetrieveAppInstructions() = runBlocking {
         val app = InstrumentationRegistry.getInstrumentation().targetContext
         val knowledge = app.entryPoint<AssistantEntryPoint>().knowledge
         listOf(
@@ -38,7 +38,12 @@ class AssistantScopeInstrumentedTest {
             AssistantRequest("Напиши стихотворение про осень.", language = "ru"),
             AssistantRequest("How does file teleportation between galaxies work?", language = "en")
         ).forEach { request ->
-            val retrieved = knowledge.retrieve(request)
+            // Match the repository's raw-question path, before intent classification.
+            val retrieved = knowledge.retrieve(
+                request,
+                queries = listOf(request.query),
+                minimumCoverage = 0.75
+            )
             assertTrue(
                 request.query, retrieved.references.isEmpty() &&
                         retrieved.tools.isEmpty() && retrieved.settings.isEmpty()

@@ -376,8 +376,7 @@ class ImageCutterComponent @AssistedInject internal constructor(
                     quality = quality,
                     imageFormat = imageFormat
                 ),
-                transformations = emptyList(),
-                onGetByteCount = {}
+                transformations = emptyList()
             ) ?: image
         }.toCoil()
     )

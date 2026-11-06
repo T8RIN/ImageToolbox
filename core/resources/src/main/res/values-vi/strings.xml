@@ -5509,7 +5509,7 @@
     <string name="help_tip_gallery_search_subtitle">Tìm ảnh theo nội dung của chúng và duyệt các danh mục tự động. Tìm kiếm tên tập tin luôn có sẵn</string>
     <string name="help_tip_gallery_search_page_title">Bật tìm kiếm ảnh theo ngữ nghĩa</string>
     <string name="help_tip_gallery_search_description">Tìm kiếm ảnh ngữ nghĩa tìm thấy ảnh theo nội dung trong đó: mô tả đồ vật, con người hoặc cảnh. Bạn không cần thêm chú thích hoặc thẻ. Nó cũng nhóm ảnh thành các danh mục tự động. Có sẵn trên Android 8 trở lên trong công cụ Thư viện và khi Nguồn hình ảnh được đặt thành Bộ chọn nhúng.</string>
-    <string name="help_tip_gallery_search_step_1">Mở Cài đặt → Nguồn hình ảnh và bật Tìm kiếm ảnh theo ngữ nghĩa. Bạn cũng có thể bật tính năng này bằng nút Cài đặt tìm kiếm bên cạnh trường tìm kiếm trong Thư viện hoặc Bộ chọn nhúng.</string>
+    <string name="help_tip_gallery_search_step_1">Mở Cài đặt → Thư viện và bật Tìm kiếm ảnh theo ngữ nghĩa. Bạn cũng có thể bật tính năng này bằng nút Cài đặt tìm kiếm bên cạnh trường tìm kiếm trong Thư viện hoặc Bộ chọn nhúng.</string>
     <string name="help_tip_gallery_search_step_2">Cho phép truy cập vào những bức ảnh bạn muốn tìm kiếm. Trên Android 14 trở lên, bạn chỉ có thể cho phép truy cập vào những ảnh đã chọn. Để tìm thêm ảnh, hãy cấp cho ứng dụng quyền truy cập vào chúng.</string>
     <string name="help_tip_gallery_search_step_3">Thiết lập đầu tiên tải xuống khoảng 227 MB tệp để nhận dạng nội dung ảnh. Sau đó, quá trình chuẩn bị và tìm kiếm sẽ diễn ra trên thiết bị của bạn mà không cần internet. Ảnh và truy vấn tìm kiếm của bạn không được gửi đến máy chủ.</string>
     <string name="help_tip_gallery_search_page_2_title">Tìm kiếm theo tên hoặc mô tả</string>
@@ -7942,4 +7942,16 @@
     <string name="emoji_kitchen_download_size">Kích thước lưu trữ: %1$s</string>
     <string name="emoji_kitchen_favorites">Dấu trang</string>
     <string name="emoji_kitchen_favorites_empty">Không có dấu trang</string>
+    <string name="gallery_show_file_size">Hiển thị kích thước tập tin</string>
+    <string name="gallery_show_file_extension">Hiển thị định dạng tệp</string>
+    <string name="gallery_show_file_size_sub">Hiển thị kích thước tệp trên hình thu nhỏ của hình ảnh.</string>
+    <string name="gallery_show_file_extension_sub">Hiển thị định dạng tệp trên hình thu nhỏ của hình ảnh.</string>
+    <string name="help_tip_gallery_workflow_grid_settings">Mở Cài đặt → Thư viện để đặt lưới thành Tự động hoặc chọn 1–20 cột. Chụm hai ngón tay để thay đổi kích thước lưới cho đến khi bạn đóng nó lại. Nhãn kích thước và định dạng tệp có thể được tắt riêng.</string>
+    <string name="help_tip_gallery_workflow_fast_scroll">Cuộn để lộ tay cầm ở bên phải. Kéo nó để di chuyển qua thư viện theo ngày và giờ.</string>
+    <string name="save_collage_project_sub">Giữ bố cục, hình ảnh gốc và lịch sử chỉnh sửa trong tệp dự án có thể chỉnh sửa</string>
+    <string name="help_tip_setting_gallery_columns_description">Chọn số lượng cột xuất hiện trong Thư viện và Bộ chọn nhúng. Nhiều cột hơn hiển thị hình thu nhỏ nhỏ hơn.</string>
+    <string name="help_tip_setting_gallery_columns_step">Mở Cài đặt → Thư viện → Đếm cột. Chọn Tự động để vừa với màn hình hoặc đếm cố định từ 1 đến 20.</string>
+    <string name="help_tip_setting_gallery_file_size_step">Mở Cài đặt → Thư viện và bật tắt Hiển thị kích thước tệp. Điều này thay đổi nhãn hình thu nhỏ mà không thay đổi hoặc nén tệp.</string>
+    <string name="help_tip_setting_gallery_file_extension_step">Mở Cài đặt → Thư viện và bật tắt Hiển thị định dạng tệp. Điều này thay đổi nhãn hình thu nhỏ mà không đổi tên hoặc chuyển đổi tệp.</string>
+    <string name="help_tip_setting_remember_preview_layout_step">Mở Cài đặt → Hành vi và bật Ghi nhớ bố cục xem trước. Điều chỉnh chiều cao xem trước hoặc ghim nó vào một công cụ; công cụ tiếp theo sẽ sử dụng lại bố cục đó.</string>
 </resources>

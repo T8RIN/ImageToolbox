@@ -36,7 +36,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
@@ -71,11 +71,16 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.utils.appContext
 import com.t8rin.imagetoolbox.core.utils.makeLog
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.PdfRenderer
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.NonCancellable
+import kotlinx.coroutines.awaitCancellation
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import kotlinx.coroutines.withContext
 import my.nanihadesuka.compose.LazyColumnScrollbar
 import my.nanihadesuka.compose.ScrollbarSelectionMode
 import my.nanihadesuka.compose.ScrollbarSettings
@@ -101,42 +106,38 @@ internal fun LegacyPdfViewer(
         val width = with(density) { this@BoxWithConstraints.maxWidth.toPx() }.toInt()
         val height = (width * sqrt(2f)).toInt()
 
-        val rendererScope = rememberCoroutineScope()
         val mutex = remember { Mutex() }
-        val pagesSize = remember { mutableStateListOf<IntegerSize>() }
-        val renderer by produceState<PdfRenderer?>(null, uri) {
-            rendererScope.launch(Dispatchers.IO) {
-                runCatching {
-                    mutex.withLock {
-                        pagesSize.clear()
-                        val renderer = PdfRenderer(
-                            uri = uri.toString(),
-                            onFailure = showError
-                        )?.also {
-                            repeat(it.pageCount) { index ->
-                                it.openPage(index).let { page ->
-                                    val size = IntegerSize(
-                                        width = page.width,
-                                        height = page.height
-                                    ).flexibleResize(width, height)
-
-                                    pagesSize.add(size)
+        val document by key(uri) {
+            produceState<Pair<PdfRenderer, List<IntegerSize>>?>(null) {
+                withContext(Dispatchers.IO) {
+                    var renderer: PdfRenderer? = null
+                    try {
+                        renderer = PdfRenderer(uri = uri.toString(), onFailure = showError)
+                        renderer?.let { opened ->
+                            val sizes = List(opened.pageCount) { index ->
+                                ensureActive()
+                                opened.openPage(index).let { page ->
+                                    IntegerSize(page.width, page.height)
                                 }
                             }
+                            ensureActive()
+                            value = opened to sizes
+                            awaitCancellation()
                         }
-                        value = renderer
-                    }
-                }.onFailure(showError)
-            }
-            awaitDispose {
-                val currentRenderer = value
-                rendererScope.launch(Dispatchers.IO) {
-                    mutex.withLock {
-                        currentRenderer?.close()
+                    } catch (cancellation: CancellationException) {
+                        throw cancellation
+                    } catch (throwable: Throwable) {
+                        showError(throwable)
+                    } finally {
+                        withContext(NonCancellable) {
+                            mutex.withLock { renderer?.close() }
+                        }
                     }
                 }
             }
         }
+        val renderer = document?.first
+        val pagesSize = document?.second.orEmpty()
         val pageCount by remember(renderer) {
             derivedStateOf {
                 renderer?.pageCount ?: 0
@@ -208,13 +209,13 @@ internal fun LegacyPdfViewer(
                         Spacer(Modifier.height(16.dp))
                     } else Spacer(Modifier.height(spacing))
 
-                    val cacheKey =
-                        MemoryCache.Key("$uri-${pagesSize[index]}-$index")
+                    val pageSize = pagesSize[index].flexibleResize(width, height)
+                    val cacheKey = MemoryCache.Key("$uri-$pageSize-$index")
 
                     PdfPage(
                         contentScale = ContentScale.Fit,
-                        renderWidth = pagesSize[index].width,
-                        renderHeight = pagesSize[index].height,
+                        renderWidth = pageSize.width,
+                        renderHeight = pageSize.height,
                         index = index,
                         mutex = mutex,
                         renderer = renderer,
@@ -254,7 +255,7 @@ private fun PdfPage(
 
     val cacheValue: Image? = appContext.imageLoader.memoryCache?.get(cacheKey)?.image
 
-    var bitmap: Image? by remember { mutableStateOf(cacheValue) }
+    var bitmap: Image? by remember(cacheKey) { mutableStateOf(cacheValue) }
     if (bitmap == null) {
         DisposableEffect(cacheKey, index) {
             val job = imageLoadingScope.launch(Dispatchers.IO) {

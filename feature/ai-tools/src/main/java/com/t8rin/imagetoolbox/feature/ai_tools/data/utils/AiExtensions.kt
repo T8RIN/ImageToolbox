@@ -34,7 +34,6 @@ import com.t8rin.imagetoolbox.feature.ai_tools.data.utils.AiExtensions.OPAQUE
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.ensureActive
 import java.lang.Float.floatToIntBits
-import java.lang.Float.intBitsToFloat
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import java.nio.FloatBuffer
@@ -44,20 +43,6 @@ internal object AiExtensions {
     const val LOG_TAG = "AiProcessor"
     const val MODEL_ALIGNMENT = 8
     const val OPAQUE = 255
-}
-
-internal fun logNestedShape(
-    precision: String,
-    batchCount: Int,
-    channels: Int,
-    height: Int,
-    width: Int,
-    copiedChannels: Int
-) {
-    val message = "Nested $precision output shape: " +
-            "[$batchCount, $channels, $height, $width], " +
-            "reading $copiedChannels channel(s)"
-    message.makeLog(LOG_TAG)
 }
 
 internal fun LongArray.withResolvedUnknowns(): LongArray = clone().also { shape ->
@@ -110,32 +95,6 @@ internal fun floatToFloat16(value: Float): Short {
     }
 
     return (sign or (exponent shl 10) or (mantissa shr 13)).toShort()
-}
-
-internal fun float16ToFloat(fp16: Short): Float {
-    val bits = fp16.toInt() and 0xFFFF
-    val sign = (bits and 0x8000) shl 16
-    val exponent = (bits and 0x7C00) ushr 10
-    val mantissa = bits and 0x3FF
-    if (exponent == 0) {
-        if (mantissa == 0) {
-            return intBitsToFloat(sign)
-        }
-        var normalizedExponent = -14
-        var normalizedMantissa = mantissa
-        while ((normalizedMantissa and 0x400) == 0) {
-            normalizedMantissa = normalizedMantissa shl 1
-            normalizedExponent--
-        }
-        normalizedMantissa = normalizedMantissa and 0x3FF
-        return intBitsToFloat(
-            sign or ((normalizedExponent + 127) shl 23) or (normalizedMantissa shl 13)
-        )
-    } else if (exponent == 0x1F) {
-        return intBitsToFloat(sign or 0x7F800000 or (mantissa shl 13))
-    }
-
-    return intBitsToFloat(sign or ((exponent - 15 + 127) shl 23) or (mantissa shl 13))
 }
 
 internal fun createStrengthTensor(

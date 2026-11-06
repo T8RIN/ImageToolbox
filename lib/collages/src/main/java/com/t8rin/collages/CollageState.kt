@@ -33,5 +33,7 @@ data class CollageImageState(
     val matrixValues: List<Float>,
     val viewWidth: Float,
     val viewHeight: Float,
-    val userAllowedEmptySpace: Boolean
+    val userAllowedEmptySpace: Boolean,
+    val imageWidth: Int = 0,
+    val imageHeight: Int = 0
 )

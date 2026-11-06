@@ -5511,7 +5511,7 @@
     <string name="help_tip_gallery_search_subtitle">Găsiți fotografii după conținutul lor și răsfoiți categoriile automate. Căutarea numelor de fișier este întotdeauna disponibilă</string>
     <string name="help_tip_gallery_search_page_title">Activați căutarea semantică de fotografii</string>
     <string name="help_tip_gallery_search_description">Căutarea semantică de fotografii găsește fotografii după ceea ce se află în ele: descrieți obiecte, oameni sau o scenă. Nu trebuie să adăugați subtitrări sau etichete. De asemenea, grupează fotografiile în categorii automate. Disponibil pe Android 8 și versiuni ulterioare în instrumentul Galerie și când Sursa imagine este setată la Selector încorporat.</string>
-    <string name="help_tip_gallery_search_step_1">Deschideți Setări → Sursă imagine și activați căutarea semantică de fotografii. De asemenea, îl puteți activa folosind butonul Setări de căutare de lângă câmpul de căutare din Galerie sau Selector încorporat.</string>
+    <string name="help_tip_gallery_search_step_1">Deschideți Setări → Galerie și activați căutarea semantică de fotografii. De asemenea, îl puteți activa folosind butonul Setări de căutare de lângă câmpul de căutare din Galerie sau Selector încorporat.</string>
     <string name="help_tip_gallery_search_step_2">Permiteți accesul la fotografiile pe care doriți să le căutați. Pe Android 14 și versiuni ulterioare, puteți permite accesul numai la fotografiile selectate. Pentru a găsi mai multe fotografii, acordați și aplicației acces la ele.</string>
     <string name="help_tip_gallery_search_step_3">Prima configurare descarcă aproximativ 227 MB de fișiere pentru recunoașterea conținutului foto. După aceea, pregătirea și căutarea funcționează pe dispozitivul dvs. fără internet. Fotografiile și interogările dvs. de căutare nu sunt trimise la un server.</string>
     <string name="help_tip_gallery_search_page_2_title">Căutați după nume sau descriere</string>
@@ -7944,4 +7944,16 @@
     <string name="emoji_kitchen_download_size">Dimensiunea arhivei: %1$s</string>
     <string name="emoji_kitchen_favorites">Marcaje</string>
     <string name="emoji_kitchen_favorites_empty">Fără marcaje</string>
+    <string name="gallery_show_file_size">Afișați dimensiunea fișierului</string>
+    <string name="gallery_show_file_extension">Afișați formatul fișierului</string>
+    <string name="gallery_show_file_size_sub">Afișați dimensiunea fișierului pe miniaturile imaginii.</string>
+    <string name="gallery_show_file_extension_sub">Afișați formatul fișierului pe miniaturile imaginii.</string>
+    <string name="help_tip_gallery_workflow_grid_settings">Deschideți Setări → Galerie pentru a seta grila la Auto sau alegeți 1–20 de coloane. Ciupiți cu două degete pentru a redimensiona grila până când o închideți. Dimensiunea fișierului și etichetele de format pot fi dezactivate separat.</string>
+    <string name="help_tip_gallery_workflow_fast_scroll">Derulați pentru a dezvălui mânerul din dreapta. Trageți-l pentru a vă deplasa prin galerie după dată și oră.</string>
+    <string name="save_collage_project_sub">Păstrați aspectul, imaginile originale și istoricul editării într-un fișier de proiect editabil</string>
+    <string name="help_tip_setting_gallery_columns_description">Alegeți câte coloane apar în Galerie și Selector încorporat. Mai multe coloane arată miniaturi mai mici.</string>
+    <string name="help_tip_setting_gallery_columns_step">Deschideți Setări → Galerie → Număr coloane. Alegeți Auto pentru a se potrivi cu ecranul sau un număr fix de la 1 la 20.</string>
+    <string name="help_tip_setting_gallery_file_size_step">Deschideți Setări → Galerie și comutați Afișare dimensiune fișier. Aceasta modifică etichetele miniaturilor fără a modifica sau comprima fișierele.</string>
+    <string name="help_tip_setting_gallery_file_extension_step">Deschideți Setări → Galerie și comutați Afișare format fișier. Aceasta modifică etichetele miniaturilor fără a redenumirea sau a converti fișierele.</string>
+    <string name="help_tip_setting_remember_preview_layout_step">Deschideți Setări → Comportament și activați Remember Preview Layout. Reglați înălțimea previzualizării sau fixați-o într-un instrument; următorul instrument va reutiliza acel aspect.</string>
 </resources>

@@ -2360,6 +2360,7 @@
     <string name="unsupported_markup_project_version">Неподдерживаемая версия проекта Image Toolbox: %1$d.</string>
     <string name="save_markup_project">Сохранить проект</string>
     <string name="save_markup_project_sub">Храните слои, фон и историю редактирования в редактируемом файле проекта.</string>
+    <string name="save_collage_project_sub">Сохранить раскладку, исходные фото и историю правок для дальнейшего редактирования</string>
     <string name="failed_to_open">Не удалось открыть</string>
     <string name="ocr_write_to_searchable_pdf">Запись в PDF с возможностью поиска</string>
     <string name="ocr_write_to_searchable_pdf_sub">Распознавайте текст из пакета изображений и сохраняйте PDF с возможностью поиска с изображением и выбираемым текстовым слоем.</string>
@@ -2598,7 +2599,7 @@
     <string name="help_tip_gallery_search_subtitle">Находите фото по содержимому и просматривайте автоматические категории. Поиск по имени доступен всегда</string>
     <string name="help_tip_gallery_search_page_title">Включите семантический поиск по фото</string>
     <string name="help_tip_gallery_search_description">Семантический поиск находит фото по тому, что на них изображено: опишите предметы, людей или сцену. Добавлять подписи и теги не нужно. Функция также распределяет снимки по автоматическим категориям и доступна на Android 8 и новее в «Галерее» и при источнике изображений «Встроенное средство выбора».</string>
-    <string name="help_tip_gallery_search_step_1">Откройте «Настройки → Источник изображений» и включите «Семантический поиск по фото». Это также можно сделать кнопкой «Настройки поиска» рядом со строкой поиска в галерее или встроенном средстве выбора.</string>
+    <string name="help_tip_gallery_search_step_1">Откройте «Настройки → Галерея» и включите «Семантический поиск по фото». Это также можно сделать кнопкой «Настройки поиска» рядом со строкой поиска в галерее или встроенном средстве выбора.</string>
     <string name="help_tip_gallery_search_step_2">Разрешите доступ к фотографиям, среди которых хотите искать. На Android 14 и новее можно дать доступ только к выбранным снимкам. Чтобы искать среди других фото, разрешите приложению доступ и к ним.</string>
     <string name="help_tip_gallery_search_step_3">При первом включении приложение загрузит около 227 МБ файлов для распознавания содержимого фото. После этого подготовка и поиск работают на устройстве без интернета. Фотографии и поисковые запросы не отправляются на сервер.</string>
     <string name="help_tip_gallery_search_page_2_title">Ищите по имени или описанию</string>
@@ -5657,6 +5658,10 @@
     <string name="small">Маленький</string>
     <string name="large">Большой</string>
     <string name="gallery_display_options">Группировка и сортировка</string>
+    <string name="gallery_show_file_size">Показывать размер файла</string>
+    <string name="gallery_show_file_extension">Показывать формат файла</string>
+    <string name="gallery_show_file_size_sub">Отображает размер файла на миниатюрах.</string>
+    <string name="gallery_show_file_extension_sub">Отображает формат файла на миниатюрах.</string>
     <string name="compare_animation">Анимированное до/после</string>
     <string name="compare_animation_sub">Сохранить зацикленное сравнение в GIF</string>
     <string name="compare_animation_before">До</string>
@@ -5947,6 +5952,8 @@
     <string name="help_tip_gallery_workflow_step_1">Перед выбором большой серии откройте нужный альбом. Выбранный альбом также учитывается при просмотре семантических результатов и групп людей.</string>
     <string name="help_tip_gallery_workflow_step_2">Откройте похожие миниатюры в предпросмотре, чтобы не перепутать версии. Перед переходом к инструменту проверьте число выбранных изображений.</string>
     <string name="help_tip_gallery_workflow_step_3">Если нового файла нет, проверьте папку, разрешения на медиа и завершение сохранения в исходном приложении. Файловый выбор позволяет открыть источники, которых нет в медиатеке.</string>
+    <string name="help_tip_gallery_workflow_grid_settings">В разделе «Настройки → Галерея» можно выбрать от 1 до 20 столбцов или оставить «Авто». Жест двумя пальцами меняет масштаб сетки до закрытия экрана. Подписи размера и формата файла отключаются отдельно.</string>
+    <string name="help_tip_gallery_workflow_fast_scroll">При прокрутке справа появляется бегунок. Перетащите его, чтобы найти снимки по дате и времени.</string>
     <string name="help_tip_archive_workflow_title">Создание и распаковка архивов</string>
     <string name="help_tip_archive_workflow_subtitle">Выбирайте контейнер, метод сжатия, пароль и параметры извлечения</string>
     <string name="help_tip_archive_workflow_page_title">Создать архив или распаковать</string>
@@ -7945,4 +7952,9 @@
     <string name="emoji_kitchen_download_size">Размер архива: %1$s</string>
     <string name="emoji_kitchen_favorites">Закладки</string>
     <string name="emoji_kitchen_favorites_empty">Нет закладок</string>
+    <string name="help_tip_setting_gallery_columns_description">Выберите число колонок в галерее и встроенном выборе изображений. Чем больше колонок, тем меньше миниатюры.</string>
+    <string name="help_tip_setting_gallery_columns_step">Откройте Настройки → Галерея → Количество столбцов. Выберите Авто для подстройки под экран или задайте число от 1 до 20.</string>
+    <string name="help_tip_setting_gallery_file_size_step">Откройте Настройки → Галерея и переключите «Показывать размер файла». Меняются только подписи миниатюр, файлы не изменяются и не сжимаются.</string>
+    <string name="help_tip_setting_gallery_file_extension_step">Откройте Настройки → Галерея и переключите «Показывать формат файла». Меняются только подписи миниатюр, файлы не переименовываются и не конвертируются.</string>
+    <string name="help_tip_setting_remember_preview_layout_step">Откройте Настройки → Поведение и включите «Запоминать вид превью». Измените высоту превью или закрепите его в инструменте; следующий инструмент откроется с таким же видом.</string>
 </resources>

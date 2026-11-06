@@ -17,7 +17,6 @@
 
 package com.t8rin.imagetoolbox.collage_maker.presentation
 
-import android.content.pm.ActivityInfo
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.LayerDrawable
@@ -25,6 +24,8 @@ import android.net.Uri
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
@@ -59,7 +60,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalContext
@@ -74,13 +77,16 @@ import com.t8rin.collages.Collage
 import com.t8rin.collages.CollageTypeSelection
 import com.t8rin.collages.public.CollageConstants
 import com.t8rin.colors.util.roundToTwoDigits
+import com.t8rin.imagetoolbox.collage_maker.presentation.components.CollageMakerNoDataControls
 import com.t8rin.imagetoolbox.collage_maker.presentation.screenLogic.CollageMakerComponent
 import com.t8rin.imagetoolbox.core.data.image.utils.createShader
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormatGroup
 import com.t8rin.imagetoolbox.core.domain.model.DomainAspectRatio
+import com.t8rin.imagetoolbox.core.domain.model.MimeType
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Add
+import com.t8rin.imagetoolbox.core.resources.icons.Archive
 import com.t8rin.imagetoolbox.core.resources.icons.BackgroundColor
 import com.t8rin.imagetoolbox.core.resources.icons.Collage
 import com.t8rin.imagetoolbox.core.resources.icons.Delete
@@ -95,6 +101,8 @@ import com.t8rin.imagetoolbox.core.resources.icons.Tune
 import com.t8rin.imagetoolbox.core.resources.utils.animation.animateColorAsState
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
+import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFileCreator
+import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
@@ -115,8 +123,6 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBadge
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.image.AspectRatioSelector
-import com.t8rin.imagetoolbox.core.ui.widget.image.AutoFilePicker
-import com.t8rin.imagetoolbox.core.ui.widget.image.ImageNotPickedWidget
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
@@ -124,8 +130,8 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.scaleOnTap
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shimmer
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.transparencyChecker
 import com.t8rin.imagetoolbox.core.ui.widget.other.InfoContainer
-import com.t8rin.imagetoolbox.core.ui.widget.other.LockScreenOrientation
 import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
+import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 import com.t8rin.imagetoolbox.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import com.t8rin.imagetoolbox.core.ui.widget.text.TopAppBarTitle
@@ -140,29 +146,12 @@ import net.engawapg.lib.zoomable.zoomable
 fun CollageMakerContent(
     component: CollageMakerComponent
 ) {
-    LockScreenOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
 
     var isLoading by rememberSaveable { mutableStateOf(true) }
     var outputSize by remember { mutableStateOf<Pair<Int, Int>?>(null) }
 
     LaunchedEffect(component.uris) {
         outputSize = null
-    }
-
-    LaunchedEffect(component.initialUris) {
-        component.initialUris?.takeIf { it.isNotEmpty() }?.let {
-            if (it.size in 1..CollageConstants.MAX_IMAGE_COUNT) {
-                component.updateUris(it)
-            } else {
-                AppToastHost.showToast(
-                    message = getString(
-                        R.string.pick_up_to_n_collage_images,
-                        CollageConstants.MAX_IMAGE_COUNT,
-                    ),
-                    icon = Icons.Outlined.Collage
-                )
-            }
-        }
     }
 
     val imagePicker = rememberImagePicker { uris: List<Uri> ->
@@ -185,10 +174,13 @@ fun CollageMakerContent(
     }
 
     val pickImage = imagePicker::pickImage
-
-    AutoFilePicker(
-        onAutoPick = pickImage,
-        isPickedAlready = !component.initialUris.isNullOrEmpty()
+    val projectOpener = rememberFilePicker(
+        mimeType = MimeType.CollageProjectList,
+        onSuccess = component::openProject
+    )
+    val projectSaver = rememberFileCreator(
+        mimeType = MimeType.CollageProject,
+        onSuccess = component::saveProject
     )
 
     val saveBitmaps: (oneTimeSaveLocationUri: String?) -> Unit = {
@@ -287,13 +279,6 @@ fun CollageMakerContent(
                     contentDescription = stringResource(R.string.properties)
                 )
             }
-            UndoRedoButtons(
-                canUndo = component.canUndo,
-                canRedo = component.canRedo,
-                onUndo = component::undo,
-                onRedo = component::redo,
-                modifier = Modifier.padding(2.dp)
-            )
             ShareButton(
                 onShare = component::performSharing,
                 onCopy = {
@@ -304,6 +289,13 @@ fun CollageMakerContent(
                         editSheetData = listOf(it)
                     }
                 }
+            )
+            UndoRedoButtons(
+                canUndo = component.canUndo,
+                canRedo = component.canRedo,
+                onUndo = component::undo,
+                onRedo = component::redo,
+                modifier = Modifier.padding(2.dp)
             )
             ProcessImagesPreferenceSheet(
                 uris = editSheetData,
@@ -348,14 +340,17 @@ fun CollageMakerContent(
             Box(
                 modifier = Modifier
                     .fillMaxSize()
+                    .clipToBounds()
                     .padding(20.dp)
             ) {
-                var bottomPadding by remember {
+                var infoHeight by remember(isPortrait) {
                     mutableStateOf(0.dp)
                 }
-                var infoHeight by remember {
-                    mutableStateOf(0.dp)
-                }
+                val zoomState = rememberZoomState(maxScale = 10f)
+                val infoAlpha by animateFloatAsState(
+                    targetValue = if (zoomState.scale > 1.01f) 0f else 1f,
+                    animationSpec = tween(200)
+                )
                 var tapIndex by remember { mutableIntStateOf(-1) }
                 var showItemMenu by remember { mutableStateOf(false) }
 
@@ -370,86 +365,100 @@ fun CollageMakerContent(
                     component.addImage(uri)
                 }
 
-                Box(
-                    modifier = Modifier
-                        .align(Alignment.Center)
-                        .padding(
-                            bottom = bottomPadding
-                        )
-                ) {
-                    AnimatedContent(
-                        targetState = resettingTrigger to component.collageResetKey,
-                        transitionSpec = { fadeIn() togetherWith fadeOut() }
-                    ) { trigger ->
-                        key(trigger) {
-                            Box(
-                                modifier = Modifier
-                                    .zoomable(rememberZoomState())
-                                    .container(
-                                        shape = ShapeDefaults.extraSmall,
-                                        resultPadding = 0.dp
-                                    )
-                                    .shimmer(visible = isLoading),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                Collage(
+                LaunchedEffect(resettingTrigger, component.collageResetKey) {
+                    showItemMenu = false
+                    tapIndex = -1
+                    zoomState.reset()
+                }
+
+                Column(Modifier.fillMaxSize()) {
+                    Box(
+                        modifier = Modifier
+                            .weight(1f)
+                            .fillMaxWidth()
+                            .padding(bottom = if (isPortrait) 20.dp else 0.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        AnimatedContent(
+                            targetState = resettingTrigger to component.collageResetKey,
+                            transitionSpec = { fadeIn() togetherWith fadeOut() }
+                        ) { trigger ->
+                            key(trigger) {
+                                Box(
                                     modifier = Modifier
-                                        .padding(4.dp)
-                                        .clip(ShapeDefaults.extraSmall)
-                                        .transparencyChecker(),
-                                    images = component.uris ?: emptyList(),
-                                    collageType = component.collageType,
-                                    collageCreationTrigger = component.collageCreationTrigger,
-                                    onCollageCreated = {
-                                        component.updateCollageBitmap(it)
-                                        isLoading = false
-                                    },
-                                    backgroundColor = component.backgroundColor,
-                                    backgroundShader = remember(component.backgroundGradient) {
-                                        component.backgroundGradient?.let { gradient ->
-                                            { width: Float, height: Float ->
-                                                gradient.createShader(width, height)
+                                        .zoomable(
+                                            zoomState = zoomState,
+                                            zoomEnabled = !showItemMenu
+                                        )
+                                        .container(
+                                            shape = ShapeDefaults.extraSmall,
+                                            resultPadding = 0.dp
+                                        )
+                                        .shimmer(visible = isLoading),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Collage(
+                                        modifier = Modifier
+                                            .padding(4.dp)
+                                            .clip(ShapeDefaults.extraSmall)
+                                            .transparencyChecker(),
+                                        images = component.uris ?: emptyList(),
+                                        collageType = component.collageType,
+                                        collageCreationTrigger = component.collageCreationTrigger,
+                                        onCollageCreated = {
+                                            component.updateCollageBitmap(it)
+                                            isLoading = false
+                                        },
+                                        onCollageCreationFailed = component::onCollageCreationFailed,
+                                        backgroundColor = component.backgroundColor,
+                                        backgroundShader = remember(component.backgroundGradient) {
+                                            component.backgroundGradient?.let { gradient ->
+                                                { width: Float, height: Float ->
+                                                    gradient.createShader(width, height)
+                                                }
                                             }
-                                        }
-                                    },
-                                    spacing = component.params.spacing,
-                                    cornerRadius = component.params.cornerRadius,
-                                    aspectRatio = component.aspectRatio.value,
-                                    outputScaleRatio = component.params.outputScaleRatio,
-                                    onOutputSizeChanged = { width, height ->
-                                        outputSize = width to height
-                                    },
-                                    disableRotation = component.params.disableRotation,
-                                    enableSnapToBorders = component.params.enableSnapToBorders,
-                                    state = component.collageState,
-                                    onStateReady = component::updateCollageState,
-                                    onUserStateChange = component::onCollageStateChange,
-                                    onImageTap = { index ->
-                                        if (index >= 0) {
-                                            tapIndex = index
-                                            showItemMenu = true
-                                        } else {
-                                            showItemMenu = false
-                                        }
-                                    },
-                                    handleDrawable = rememberHandleDrawable()
-                                )
+                                        },
+                                        spacing = component.params.spacing,
+                                        cornerRadius = component.params.cornerRadius,
+                                        aspectRatio = component.aspectRatio.value,
+                                        outputScaleRatio = component.params.outputScaleRatio,
+                                        onOutputSizeChanged = { width, height ->
+                                            outputSize = width to height
+                                        },
+                                        imageGesturesEnabled = showItemMenu,
+                                        canvasScale = zoomState.scale,
+                                        disableRotation = component.params.disableRotation,
+                                        enableSnapToBorders = component.params.enableSnapToBorders,
+                                        state = component.collageState,
+                                        onStateReady = component::updateCollageState,
+                                        onUserStateChange = component::onCollageStateChange,
+                                        onImageTap = { index ->
+                                            if (index >= 0) {
+                                                tapIndex = index
+                                                showItemMenu = true
+                                            } else {
+                                                showItemMenu = false
+                                            }
+                                        },
+                                        handleDrawable = rememberHandleDrawable()
+                                    )
+                                }
                             }
                         }
                     }
+                    if (isPortrait) {
+                        val density = LocalDensity.current
+                        InfoContainer(
+                            modifier = Modifier
+                                .graphicsLayer { alpha = infoAlpha }
+                                .onSizeChanged {
+                                    infoHeight = with(density) { it.height.toDp() }
+                                },
+                            containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+                            text = stringResource(R.string.collages_info)
+                        )
+                    }
                 }
-                val density = LocalDensity.current
-                InfoContainer(
-                    modifier = Modifier
-                        .align(Alignment.BottomCenter)
-                        .onSizeChanged {
-                            val height = with(density) { it.height.toDp() }
-                            infoHeight = height
-                            bottomPadding = height + 20.dp
-                        },
-                    containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
-                    text = stringResource(R.string.collages_info)
-                )
                 AnimatedVisibility(
                     visible = showItemMenu,
                     modifier = Modifier
@@ -508,10 +517,32 @@ fun CollageMakerContent(
         },
         controls = {
             Column(
-                modifier = Modifier.padding(16.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                modifier = Modifier
+                    .padding(16.dp)
+                    .navigationBarsPadding(),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 val canChangeCollage = (component.uris?.size ?: 0) > 1
+
+                if (!isPortrait) {
+                    InfoContainer(
+                        containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+                        text = stringResource(R.string.collages_info)
+                    )
+                }
+
+                PreferenceItem(
+                    onClick = {
+                        projectSaver.make(component.createProjectFilename())
+                    },
+                    enabled = component.canSaveProject,
+                    startIcon = Icons.Outlined.Archive,
+                    title = stringResource(R.string.save_markup_project),
+                    subtitle = stringResource(R.string.save_collage_project_sub),
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = ShapeDefaults.large
+                )
 
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
@@ -711,7 +742,6 @@ fun CollageMakerContent(
                     onQualityChange = component::setQuality
                 )
                 ImageFormatSelector(
-                    modifier = Modifier.navigationBarsPadding(),
                     value = component.imageFormat,
                     quality = component.quality,
                     onValueChange = component::setImageFormat,
@@ -745,6 +775,7 @@ fun CollageMakerContent(
                 onSecondaryButtonLongClick = {
                     showOneTimeImagePickingDialog = true
                 },
+                showNullDataButtonAsContainer = true,
                 drawBothStrokes = true
             )
             OneTimeSaveLocationSelectionDialog(
@@ -762,10 +793,12 @@ fun CollageMakerContent(
                 visible = showOneTimeImagePickingDialog
             )
         },
+        enableNoDataScroll = false,
         noDataControls = {
-            if (!component.isImageLoading) {
-                ImageNotPickedWidget(onPickImage = pickImage)
-            }
+            CollageMakerNoDataControls(
+                onPickImages = pickImage,
+                onOpenProject = projectOpener::pickFile
+            )
         },
         canShowScreenData = canShowScreenData
     )
@@ -777,8 +810,8 @@ fun CollageMakerContent(
     )
 
     LoadingDialog(
-        visible = component.isSaving || (component.isImageLoading && canShowScreenData),
-        onCancelLoading = component::cancelSaving
+        visible = component.isSaving || component.isImageLoading,
+        onCancelLoading = component::cancelLoading
     )
 }
 

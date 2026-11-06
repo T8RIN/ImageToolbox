@@ -34,8 +34,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 internal object ImageDecoder {
-    var SAMPLER_SIZE = 1536
-
     suspend fun sourceMaxDimension(context: Context, pathName: Uri): Int =
         withContext(Dispatchers.IO) {
             val bounds = runCatching {
@@ -61,7 +59,7 @@ internal object ImageDecoder {
     suspend fun decodeFileToBitmap(
         context: Context,
         pathName: Uri,
-        size: Int = SAMPLER_SIZE,
+        size: Int = 1536,
         cache: Boolean = true
     ): Bitmap? = withContext(Dispatchers.IO) {
         val stringKey = pathName.toString() + size + "ImageDecoder"
@@ -79,11 +77,7 @@ internal object ImageDecoder {
                     .size(size)
                     .run(requestMapper)
                     .build()
-            ).image?.toBitmap()?.apply {
-                if (config != Bitmap.Config.ARGB_8888) {
-                    setConfig(Bitmap.Config.ARGB_8888)
-                }
-            }
+            ).image?.toBitmap()
     }
 
 }

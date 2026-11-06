@@ -48,6 +48,7 @@ import androidx.compose.ui.layout.HorizontalAlignmentLine
 import androidx.compose.ui.layout.Placeable
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.layout.onGloballyPositioned
+import java.util.concurrent.CopyOnWriteArraySet
 import kotlin.math.roundToInt
 
 @Composable
@@ -157,7 +158,8 @@ internal class ScrollAnchorGroup(
     val owner: ScrollAnchors,
     val key: Any? = null
 ) {
-    val anchors = mutableSetOf<ScrollAnchor>()
+    // Resolving alignment lines can change which anchors are registered during measurement.
+    val anchors: MutableSet<ScrollAnchor> = CopyOnWriteArraySet()
 
     fun updatePositions(placeable: Placeable) {
         anchors.forEach { it.position = placeable[it.line] }

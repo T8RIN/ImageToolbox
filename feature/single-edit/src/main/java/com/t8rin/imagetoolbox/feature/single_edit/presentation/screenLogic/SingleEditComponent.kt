@@ -289,15 +289,22 @@ class SingleEditComponent @AssistedInject internal constructor(
             _presetSelected.update { Preset.None }
         }
         _bitmap.value?.let { bmp ->
-            val preview = updatePreview(
-                bitmap = bmp,
-                previewImageInfo = previewImageInfo
-            )
-            if (clearPreview) {
-                _previewBitmap.update { null }
+            _showWarning.update {
+                previewImageInfo.width.toLong() * previewImageInfo.height >= 10_000 * 10_000 * 3L / 4
             }
-            _shouldShowPreview.update { imagePreviewCreator.canShow(preview) }
-            if (shouldShowPreview) _previewBitmap.update { preview }
+            imagePreviewCreator.createPreview(
+                image = bmp,
+                imageInfo = previewImageInfo,
+                onGetByteCount = { size ->
+                    _imageInfo.update { it.copy(sizeInBytes = size) }
+                },
+                onGetPreview = { preview ->
+                    if (clearPreview) _previewBitmap.update { null }
+                    _shouldShowPreview.update { imagePreviewCreator.canShow(preview) }
+                    if (shouldShowPreview) _previewBitmap.update { preview }
+                    _isImageLoading.update { false }
+                }
+            )
         }
     }
 
@@ -333,24 +340,6 @@ class SingleEditComponent @AssistedInject internal constructor(
                 )
             }
             _isSaving.update { false }
-        }
-    }
-
-    private suspend fun updatePreview(
-        bitmap: Bitmap,
-        previewImageInfo: ImageInfo = imageInfo
-    ): Bitmap? = withContext(defaultDispatcher) {
-        return@withContext previewImageInfo.run {
-            _showWarning.update {
-                width * height * 4L >= 10_000 * 10_000 * 3L
-            }
-            imagePreviewCreator.createPreview(
-                image = bitmap,
-                imageInfo = this,
-                onGetByteCount = { sizeInBytes ->
-                    _imageInfo.update { it.copy(sizeInBytes = sizeInBytes) }
-                }
-            )
         }
     }
 

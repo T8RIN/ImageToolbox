@@ -17,14 +17,23 @@
 
 package com.t8rin.imagetoolbox.core.ui.widget.modifier
 
+import android.graphics.Matrix
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme.LocalMaterialTheme
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Canvas
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.FilterQuality
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.ImageShader
+import androidx.compose.ui.graphics.Paint
+import androidx.compose.ui.graphics.TileMode
+import androidx.compose.ui.graphics.colorspace.ColorSpaces
 import androidx.compose.ui.graphics.drawscope.ContentDrawScope
+import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.node.CompositionLocalConsumerModifierNode
 import androidx.compose.ui.node.DrawModifierNode
 import androidx.compose.ui.node.ModifierNodeElement
@@ -65,7 +74,7 @@ private data class TransparencyCheckerElement(
         node.colorScheme = colorScheme
         node.checkerWidth = checkerWidth
         node.checkerHeight = checkerHeight
-        node.invalidateCache()
+        node.invalidateDraw()
     }
 
     override fun InspectorInfo.inspectableProperties() {
@@ -98,65 +107,73 @@ private class TransparencyCheckerNode(
 
         val surface = scheme.surface
         val elevatedSurface = scheme.surfaceColorAtElevation(20.dp)
-        val background = elevatedSurface.blend(surface, 0.5f)
         val currentCache = cache?.takeIf {
-            it.size == size &&
-                    it.checkerWidthPx == checkerWidthPx &&
+            it.checkerWidthPx == checkerWidthPx &&
                     it.checkerHeightPx == checkerHeightPx &&
-                    it.surface == surface &&
-                    it.elevatedSurface == elevatedSurface &&
-                    it.background == background
+                    it.surface == surface && it.elevatedSurface == elevatedSurface
         } ?: CheckerCache(
-            size = size,
             checkerWidthPx = checkerWidthPx,
             checkerHeightPx = checkerHeightPx,
-            horizontalSteps = (size.width / checkerWidthPx).toInt(),
-            verticalSteps = (size.height / checkerHeightPx).toInt(),
             surface = surface,
-            elevatedSurface = elevatedSurface,
-            background = background
+            elevatedSurface = elevatedSurface
         ).also {
             cache = it
         }
 
-        drawRect(currentCache.background)
-
-        for (y in 0..currentCache.verticalSteps) {
-            for (x in 0..currentCache.horizontalSteps) {
-                drawRect(
-                    color = if ((x + y) % 2 == 1) {
-                        currentCache.elevatedSurface
-                    } else {
-                        currentCache.surface
-                    },
-                    topLeft = Offset(
-                        x = x * currentCache.checkerWidthPx,
-                        y = y * currentCache.checkerHeightPx
-                    ),
-                    size = Size(
-                        width = currentCache.checkerWidthPx,
-                        height = currentCache.checkerHeightPx
-                    )
+        val paint = currentCache.paint
+        if (paint != null) {
+            drawIntoCanvas {
+                it.drawRect(
+                    left = 0f,
+                    top = 0f,
+                    right = ((size.width / checkerWidthPx).toInt() + 1) * checkerWidthPx,
+                    bottom = ((size.height / checkerHeightPx).toInt() + 1) * checkerHeightPx,
+                    paint = paint
                 )
+            }
+        } else {
+            // Preserve blending, fractional edges and wide-gamut colors.
+            drawRect(elevatedSurface.blend(surface, 0.5f))
+            for (y in 0..(size.height / checkerHeightPx).toInt()) {
+                for (x in 0..(size.width / checkerWidthPx).toInt()) {
+                    drawRect(
+                        color = if ((x + y) % 2 == 1) elevatedSurface else surface,
+                        topLeft = Offset(x * checkerWidthPx, y * checkerHeightPx),
+                        size = Size(checkerWidthPx, checkerHeightPx)
+                    )
+                }
             }
         }
 
         drawContent()
     }
-
-    fun invalidateCache() {
-        cache = null
-        invalidateDraw()
-    }
 }
 
 private data class CheckerCache(
-    val size: Size,
     val checkerWidthPx: Float,
     val checkerHeightPx: Float,
-    val horizontalSteps: Int,
-    val verticalSteps: Int,
     val surface: Color,
-    val elevatedSurface: Color,
-    val background: Color
-)
+    val elevatedSurface: Color
+) {
+    val paint: Paint? = if (
+        surface.alpha == 1f && elevatedSurface.alpha == 1f &&
+        surface.colorSpace == ColorSpaces.Srgb && elevatedSurface.colorSpace == ColorSpaces.Srgb &&
+        checkerWidthPx % 1f == 0f && checkerHeightPx % 1f == 0f
+    ) {
+        val bitmap = ImageBitmap(2, 2)
+        val canvas = Canvas(bitmap)
+        val color = Paint()
+        for (y in 0..1) {
+            for (x in 0..1) {
+                color.color = if ((x + y) % 2 == 1) elevatedSurface else surface
+                canvas.drawRect(x.toFloat(), y.toFloat(), x + 1f, y + 1f, color)
+            }
+        }
+        Paint().apply {
+            filterQuality = FilterQuality.None
+            shader = ImageShader(bitmap, TileMode.Repeated, TileMode.Repeated).apply {
+                setLocalMatrix(Matrix().apply { setScale(checkerWidthPx, checkerHeightPx) })
+            }
+        }
+    } else null
+}

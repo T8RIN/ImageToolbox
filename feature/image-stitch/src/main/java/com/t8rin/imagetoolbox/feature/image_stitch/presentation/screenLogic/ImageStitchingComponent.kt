@@ -169,12 +169,14 @@ class ImageStitchingComponent @AssistedInject internal constructor(
                     quality = imageInfo.quality,
                     onGetByteCount = {
                         _imageByteSize.value = it
+                    },
+                    onGetPreview = { (image, size) ->
+                        _previewBitmap.value = image
+                        _imageSize.value = size
+                        previousParams = combiningParams
+                        _isImageLoading.value = false
                     }
-                ).let { (image, size) ->
-                    _previewBitmap.value = image
-                    _imageSize.value = size
-                    previousParams = combiningParams
-                }
+                )
             }
             _isImageLoading.value = false
         }

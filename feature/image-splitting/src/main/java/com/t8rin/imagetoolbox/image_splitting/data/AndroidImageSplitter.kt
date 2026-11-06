@@ -21,13 +21,10 @@ import android.graphics.Bitmap
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.domain.image.ImageShareProvider
-import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
-import com.t8rin.imagetoolbox.core.domain.image.model.Quality
 import com.t8rin.imagetoolbox.image_splitting.domain.ImageSplitter
 import com.t8rin.imagetoolbox.image_splitting.domain.SplitParams
-import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.async
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -50,129 +47,37 @@ internal class AndroidImageSplitter @Inject constructor(
             originalSize = true
         ) ?: return@withContext emptyList()
 
-        if (params.rowsCount <= 1) {
-            splitForColumns(
-                image = image,
-                count = params.columnsCount,
-                imageFormat = params.imageFormat,
-                quality = params.quality,
-                columnPercentages = params.columnPercentages,
-            )
-        } else if (params.columnsCount <= 1) {
-            splitForRows(
-                image = image,
-                count = params.rowsCount,
-                imageFormat = params.imageFormat,
-                quality = params.quality,
-                rowPercentages = params.rowPercentages
-            )
-        } else {
-            splitBoth(
-                image = image,
-                rowsCount = params.rowsCount,
-                columnsCount = params.columnsCount,
-                imageFormat = params.imageFormat,
-                quality = params.quality,
-                rowPercentages = params.rowPercentages,
-                columnPercentages = params.columnPercentages
-            )
-        }
-    }
+        val rowHeights = calculatePartSizes(image.height, params.rowPercentages, params.rowsCount)
+        val columnWidths =
+            calculatePartSizes(image.width, params.columnPercentages, params.columnsCount)
+        val uris = mutableListOf<String>()
+        val quality = params.quality.coerceIn(params.imageFormat)
+        var y = 0
 
-    private suspend fun splitBoth(
-        image: Bitmap,
-        rowsCount: Int,
-        columnsCount: Int,
-        imageFormat: ImageFormat,
-        quality: Quality,
-        rowPercentages: List<Float> = emptyList(),
-        columnPercentages: List<Float> = emptyList()
-    ): List<String> = withContext(defaultDispatcher) {
-        val rowHeights = calculatePartSizes(image.height, rowPercentages, rowsCount)
-        val uris = mutableListOf<Deferred<List<String>>>()
-
-        var currentY = 0
-        for (row in rowHeights.indices) {
-            val height = rowHeights[row]
-            val rowBitmap = Bitmap.createBitmap(image, 0, currentY, image.width, height)
-
-            val rowUris = async {
-                splitForColumns(
-                    image = rowBitmap,
-                    count = columnsCount,
-                    imageFormat = imageFormat,
-                    quality = quality,
-                    columnPercentages = columnPercentages
-                )
+        for (height in rowHeights) {
+            var x = 0
+            for (width in columnWidths) {
+                ensureActive()
+                val cell = Bitmap.createBitmap(image, x, y, width, height)
+                try {
+                    shareProvider.cacheImage(
+                        image = cell,
+                        imageInfo = ImageInfo(
+                            width = width,
+                            height = height,
+                            imageFormat = params.imageFormat,
+                            quality = quality
+                        )
+                    )?.let(uris::add)
+                } finally {
+                    if (cell !== image) cell.recycle()
+                }
+                x += width
             }
-            uris.add(rowUris)
-            currentY += height
+            y += height
         }
 
-        uris.flatMap { it.await() }
-    }
-
-    private suspend fun splitForRows(
-        image: Bitmap,
-        count: Int,
-        imageFormat: ImageFormat,
-        quality: Quality,
-        rowPercentages: List<Float> = emptyList()
-    ): List<String> = withContext(defaultDispatcher) {
-        val rowHeights = calculatePartSizes(image.height, rowPercentages, count)
-        val uris = mutableListOf<String?>()
-
-        var currentY = 0
-        for (i in rowHeights.indices) {
-            val height = rowHeights[i]
-            val cell = Bitmap.createBitmap(image, 0, currentY, image.width, height)
-
-            uris.add(
-                shareProvider.cacheImage(
-                    image = cell,
-                    imageInfo = ImageInfo(
-                        height = cell.height,
-                        width = cell.width,
-                        imageFormat = imageFormat,
-                        quality = quality.coerceIn(imageFormat)
-                    )
-                )
-            )
-            currentY += height
-        }
-
-        uris.filterNotNull()
-    }
-
-    private suspend fun splitForColumns(
-        image: Bitmap,
-        count: Int,
-        imageFormat: ImageFormat,
-        quality: Quality,
-        columnPercentages: List<Float> = emptyList()
-    ): List<String> = withContext(defaultDispatcher) {
-        val columnWidths = calculatePartSizes(image.width, columnPercentages, count)
-        val uris = mutableListOf<String?>()
-
-        var currentX = 0
-        for (i in columnWidths.indices) {
-            val width = columnWidths[i]
-            val cell = Bitmap.createBitmap(image, currentX, 0, width, image.height)
-
-            uris.add(
-                shareProvider.cacheImage(
-                    image = cell,
-                    imageInfo = ImageInfo(
-                        height = cell.height,
-                        width = cell.width,
-                        imageFormat = imageFormat,
-                        quality = quality.coerceIn(imageFormat)
-                    )
-                )
-            )
-            currentX += width
-        }
-        uris.filterNotNull()
+        uris
     }
 
     private fun calculatePartSizes(

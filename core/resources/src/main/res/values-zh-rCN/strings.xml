@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -14,7 +13,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="something_went_wrong">发生错误</string>
     <string name="pick_image">选择图片以开始</string>
     <string name="close">关闭</string>
@@ -5508,7 +5509,7 @@
     <string name="help_tip_gallery_search_subtitle">按内容查找照片并浏览自动类别。文件名搜索始终可用</string>
     <string name="help_tip_gallery_search_page_title">开启语义照片搜索</string>
     <string name="help_tip_gallery_search_description">语义照片搜索根据照片中的内容查找照片：描述物体、人物或场景。您不需要添加标题或标签。它还将照片自动分类。在 Android 8 及更高版本的图库工具中以及当图像源设置为嵌入式选取器时可用。</string>
-    <string name="help_tip_gallery_search_step_1">打开设置 → 图片源并开启语义照片搜索。您还可以使用图库或嵌入式选取器中搜索字段旁边的搜索设置按钮将其打开。</string>
+    <string name="help_tip_gallery_search_step_1">打开设置 → 图库并开启语义照片搜索。您还可以使用图库或嵌入式选取器中搜索字段旁边的搜索设置按钮将其打开。</string>
     <string name="help_tip_gallery_search_step_2">允许访问您要搜索的照片。在 Android 14 及更高版本上，您只能允许访问选定的照片。要查找更多照片，请同时授予应用程序访问这些照片的权限。</string>
     <string name="help_tip_gallery_search_step_3">第一个设置下载约 227 MB 的文件来识别照片内容。之后，无需互联网即可在您的设备上进行准备和搜索。您的照片和搜索查询不会发送到服务器。</string>
     <string name="help_tip_gallery_search_page_2_title">按名称或描述搜索</string>
@@ -7912,7 +7913,6 @@
     <string name="restoration">恢复</string>
     <string name="red_recovery">红色恢复</string>
     <string name="assistant_model_low_ram">内存不足。使用此模型时应用可能会崩溃。</string>
-    <string name="assistant_model_low_ram">内存低。应用程序可能会因该模型而崩溃。</string>
     <string name="emoji_kitchen">表情符号厨房</string>
     <string name="emoji_kitchen_description">将两个表情符号组合成 Google 表情符号厨房贴纸</string>
     <string name="emoji_kitchen_search_keywords">表情符号厨房、表情符号、贴纸、混合、混搭、组合、谷歌、笑脸</string>
@@ -7942,4 +7942,16 @@
     <string name="emoji_kitchen_download_size">存档大小：%1$s</string>
     <string name="emoji_kitchen_favorites">书签</string>
     <string name="emoji_kitchen_favorites_empty">没有书签</string>
+    <string name="gallery_show_file_size">显示文件大小</string>
+    <string name="gallery_show_file_extension">显示文件格式</string>
+    <string name="gallery_show_file_size_sub">在图像缩略图上显示文件大小。</string>
+    <string name="gallery_show_file_extension_sub">在图像缩略图上显示文件格式。</string>
+    <string name="help_tip_gallery_workflow_grid_settings">打开设置 → 图库将网格设置为自动或选择 1–20 列。用两根手指捏合以调整网格大小，直到将其关闭。文件大小和格式标签可以单独关闭。</string>
+    <string name="help_tip_gallery_workflow_fast_scroll">滚动以显示右侧的手柄。拖动它可以按日期和时间在图库中移动。</string>
+    <string name="save_collage_project_sub">将布局、原始图像和编辑历史记录保存在可编辑的项目文件中</string>
+    <string name="help_tip_setting_gallery_columns_description">选择图库和嵌入式选取器中显示的列数。更多列显示更小的缩略图。</string>
+    <string name="help_tip_setting_gallery_columns_step">打开设置 → 图库 → 列数。选择“自动”以适应屏幕大小或选择 1 到 20 之间的固定计数。</string>
+    <string name="help_tip_setting_gallery_file_size_step">打开设置 → 图库并切换显示文件大小。这会更改缩略图标签，而不更改或压缩文件。</string>
+    <string name="help_tip_setting_gallery_file_extension_step">打开设置 → 图库并切换显示文件格式。这会更改缩略图标签，而无需重命名或转换文件。</string>
+    <string name="help_tip_setting_remember_preview_layout_step">打开“设置”→“行为”并启用“记住预览布局”。调整预览高度或将其固定在工具中；下一个工具将重用该布局。</string>
 </resources>

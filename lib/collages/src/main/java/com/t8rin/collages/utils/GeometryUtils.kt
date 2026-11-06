@@ -372,13 +372,14 @@ object GeometryUtils {
         if (pointList.isEmpty()) {
             return null
         }
+        val radius = fitCornerRadius(pointList, corner, cornerPointList)
         val cornerPointMap =
             HashMap<PointF, Array<PointF>>()
         path.reset()
         var firstPoints = arrayOf(pointList[0], pointList[0], pointList[0])
         val convexHull = jarvis(pointList)
         for (i in pointList.indices) {
-            if (corner == 0f || pointList.size < 3) {
+            if (radius == 0f || pointList.size < 3) {
                 if (i == 0) {
                     path.moveTo(pointList[i].x, pointList[i].y)
                 } else {
@@ -428,7 +429,7 @@ object GeometryUtils {
                         PointF()
                     }
                     val angles = DoubleArray(2)
-                    createArc(center, left, right, corner, angles, pointFs, concave)
+                    createArc(center, left, right, radius, angles, pointFs, concave)
                     if (i == 0) {
                         path.moveTo(pointFs[1].x, pointFs[1].y)
                     } else {
@@ -436,10 +437,10 @@ object GeometryUtils {
                     }
 
                     val oval = RectF(
-                        pointFs[0].x - corner,
-                        pointFs[0].y - corner,
-                        pointFs[0].x + corner,
-                        pointFs[0].y + corner
+                        pointFs[0].x - radius,
+                        pointFs[0].y - radius,
+                        pointFs[0].x + radius,
+                        pointFs[0].y + radius
                     )
                     path.arcTo(oval, angles[0].toFloat(), angles[1].toFloat(), false)
 
@@ -461,10 +462,11 @@ object GeometryUtils {
 
     fun createPathWithCircleCorner(path: Path, pointList: List<PointF>, corner: Float) {
         path.reset()
+        val radius = fitCornerRadius(pointList, corner)
         var firstPoints: Array<PointF>? = null
         val convexHull = jarvis(pointList)
         for (i in pointList.indices) {
-            if (corner == 0f || pointList.size < 3) {
+            if (radius == 0f || pointList.size < 3) {
                 if (i == 0) {
                     path.moveTo(pointList[i].x, pointList[i].y)
                 } else {
@@ -498,7 +500,7 @@ object GeometryUtils {
 
                 val pointFs = Array(3) { PointF() }
                 val angles = DoubleArray(2)
-                createArc(center, left, right, corner, angles, pointFs, concave)
+                createArc(center, left, right, radius, angles, pointFs, concave)
                 if (i == 0) {
                     path.moveTo(pointFs[1].x, pointFs[1].y)
                 } else {
@@ -506,10 +508,10 @@ object GeometryUtils {
                 }
 
                 val oval = RectF(
-                    pointFs[0].x - corner,
-                    pointFs[0].y - corner,
-                    pointFs[0].x + corner,
-                    pointFs[0].y + corner
+                    pointFs[0].x - radius,
+                    pointFs[0].y - radius,
+                    pointFs[0].x + radius,
+                    pointFs[0].y + radius
                 )
                 path.arcTo(oval, angles[0].toFloat(), angles[1].toFloat(), false)
 
@@ -523,6 +525,40 @@ object GeometryUtils {
                 }
             }
         }
+    }
+
+    private fun fitCornerRadius(
+        points: List<PointF>,
+        corner: Float,
+        roundedPoints: List<PointF> = emptyList()
+    ): Float {
+        if (corner <= 0f || points.size < 3) return 0f
+        val tangents = DoubleArray(points.size)
+        for (i in points.indices) {
+            if (roundedPoints.isNotEmpty() && !containPoint(roundedPoints, points[i])) continue
+            val point = points[i]
+            val previous = points[(i + points.size - 1) % points.size]
+            val next = points[(i + 1) % points.size]
+            val ax = (previous.x - point.x).toDouble()
+            val ay = (previous.y - point.y).toDouble()
+            val bx = (next.x - point.x).toDouble()
+            val by = (next.y - point.y).toDouble()
+            val length = sqrt((ax * ax + ay * ay) * (bx * bx + by * by))
+            if (length == 0.0) return 0f
+            val cosine = ((ax * bx + ay * by) / length).coerceIn(-1.0, 1.0)
+            if (cosine == 1.0) return 0f
+            tangents[i] = sqrt((1.0 + cosine) / (1.0 - cosine))
+        }
+        var radius = corner.toDouble()
+        for (i in points.indices) {
+            val next = (i + 1) % points.size
+            val tangent = tangents[i] + tangents[next]
+            if (tangent == 0.0) continue
+            val dx = (points[next].x - points[i].x).toDouble()
+            val dy = (points[next].y - points[i].y).toDouble()
+            radius = minOf(radius, sqrt(dx * dx + dy * dy) / tangent)
+        }
+        return radius.toFloat()
     }
 
     fun findPointOnSegment(A: PointF, B: PointF, dA: Double): PointF {

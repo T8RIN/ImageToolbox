@@ -21,7 +21,6 @@ package com.t8rin.imagetoolbox.core.data.image
 
 import android.content.Context
 import android.graphics.Bitmap
-import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.data.image.utils.ImageCompressorBackend
 import com.t8rin.imagetoolbox.core.data.utils.isHardware
 import com.t8rin.imagetoolbox.core.data.utils.toSoftware
@@ -30,17 +29,15 @@ import com.t8rin.imagetoolbox.core.domain.image.ImageCompressor
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.domain.image.ImageScaler
 import com.t8rin.imagetoolbox.core.domain.image.ImageTransformer
-import com.t8rin.imagetoolbox.core.domain.image.ShareProvider
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
 import com.t8rin.imagetoolbox.core.domain.image.model.Quality
+import com.t8rin.imagetoolbox.core.domain.image.model.ResizeType
 import com.t8rin.imagetoolbox.core.domain.image.model.alphaContainedEntries
 import com.t8rin.imagetoolbox.core.domain.model.sizeTo
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsProvider
 import com.t8rin.imagetoolbox.core.settings.domain.model.FilenameBehavior
-import com.t8rin.imagetoolbox.core.utils.fileSize
 import com.t8rin.trickle.Trickle
-import dagger.Lazy
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.withContext
@@ -51,7 +48,6 @@ internal class AndroidImageCompressor @Inject constructor(
     private val imageTransformer: ImageTransformer<Bitmap>,
     private val imageScaler: ImageScaler<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap>,
-    private val shareProvider: Lazy<ShareProvider>,
     private val settingsProvider: SettingsProvider,
     dispatchersHolder: DispatchersHolder
 ) : DispatchersHolder by dispatchersHolder, ImageCompressor<Bitmap> {
@@ -111,7 +107,9 @@ internal class AndroidImageCompressor @Inject constructor(
         applyImageTransformations: Boolean
     ): ByteArray = withContext(encodingDispatcher) {
         val currentImage = if (applyImageTransformations) {
-            val size = imageInfo.originalUri?.let {
+            val size = imageInfo.originalUri?.takeIf {
+                imageInfo.resizeType is ResizeType.CenterCrop
+            }?.let {
                 imageGetter.getImage(
                     data = it,
                     originalSize = true
@@ -140,10 +138,12 @@ internal class AndroidImageCompressor @Inject constructor(
                 }
         } else onImageReadyToCompressInterceptor(image)
 
-        val extension = imageInfo.originalUri?.let { imageGetter.getExtension(it) }
+        val extension = if (settingsState.filenameBehavior is FilenameBehavior.Overwrite) {
+            imageInfo.originalUri?.let(imageGetter::getExtension)
+        } else null
 
         val imageFormat =
-            if (settingsState.filenameBehavior is FilenameBehavior.Overwrite && extension != null) {
+            if (extension != null) {
                 val target = ImageFormat[extension]
 
                 if (imageInfo.imageFormat.extension == target.extension) {
@@ -176,13 +176,7 @@ internal class AndroidImageCompressor @Inject constructor(
         compressAndTransform(
             image = image,
             imageInfo = newInfo
-        ).let {
-            shareProvider.get().cacheByteArray(
-                byteArray = it,
-                filename = "temp.${newInfo.imageFormat.extension}"
-            )?.toUri()
-                ?.fileSize() ?: it.size.toLong()
-        }
+        ).size.toLong()
     }
 
 }

@@ -246,42 +246,70 @@ internal class CvStitchHelper @Inject constructor(
             )
             val resized0 = Mat()
             val resized1 = Mat()
-            Imgproc.resize(mat0, resized0, targetSize)
-            Imgproc.resize(mat1, resized1, targetSize)
-            return stitchPhaseCorrelate(resized0, resized1, diff)
+            try {
+                Imgproc.resize(mat0, resized0, targetSize)
+                Imgproc.resize(mat1, resized1, targetSize)
+                return stitchPhaseCorrelate(resized0, resized1, diff)
+            } finally {
+                resized0.release()
+                resized1.release()
+            }
         }
 
         val mat0Gray = Mat()
         val mat1Gray = Mat()
-        if (diff) {
-            val grad0 = Mat()
-            val grad1 = Mat()
-            Imgproc.filter2D(mat0, grad0, CvType.CV_8U, kernel)
-            Imgproc.filter2D(mat1, grad1, CvType.CV_8U, kernel)
-            val diffMat = Mat()
-            Core.absdiff(grad0, grad1, diffMat)
-            Core.bitwise_and(grad0, diffMat, grad0)
-            Core.bitwise_and(grad1, diffMat, grad1)
-            Imgproc.cvtColor(grad0, mat0Gray, Imgproc.COLOR_RGBA2GRAY)
-            Imgproc.cvtColor(grad1, mat1Gray, Imgproc.COLOR_RGBA2GRAY)
-        } else {
-            Imgproc.cvtColor(mat0, mat0Gray, Imgproc.COLOR_RGBA2GRAY)
-            Imgproc.cvtColor(mat1, mat1Gray, Imgproc.COLOR_RGBA2GRAY)
-        }
-
         val matchResult = Mat()
-        Imgproc.matchTemplate(mat0Gray, mat1Gray, matchResult, Imgproc.TM_CCORR_NORMED)
-        val mmr = Core.minMaxLoc(matchResult)
-        val dx = mmr.maxLoc.x.toInt()
-        val dy = mmr.maxLoc.y.toInt()
+        val canvas = Mat()
+        try {
+            if (diff) {
+                val grad0 = Mat()
+                val grad1 = Mat()
+                val diffMat = Mat()
+                try {
+                    Imgproc.filter2D(mat0, grad0, CvType.CV_8U, kernel)
+                    Imgproc.filter2D(mat1, grad1, CvType.CV_8U, kernel)
+                    Core.absdiff(grad0, grad1, diffMat)
+                    Core.bitwise_and(grad0, diffMat, grad0)
+                    Core.bitwise_and(grad1, diffMat, grad1)
+                    Imgproc.cvtColor(grad0, mat0Gray, Imgproc.COLOR_RGBA2GRAY)
+                    Imgproc.cvtColor(grad1, mat1Gray, Imgproc.COLOR_RGBA2GRAY)
+                } finally {
+                    grad0.release()
+                    grad1.release()
+                    diffMat.release()
+                }
+            } else {
+                Imgproc.cvtColor(mat0, mat0Gray, Imgproc.COLOR_RGBA2GRAY)
+                Imgproc.cvtColor(mat1, mat1Gray, Imgproc.COLOR_RGBA2GRAY)
+            }
 
-        val width = max(mat0.cols(), mat1.cols() + dx)
-        val height = max(mat0.rows(), mat1.rows() + dy)
-        val canvas = Mat(Size(width.toDouble(), height.toDouble()), mat0.type())
-        canvas.setTo(Scalar.all(0.0))
-        mat0.copyTo(canvas.submat(Rect(0, 0, mat0.cols(), mat0.rows())))
-        mat1.copyTo(canvas.submat(Rect(dx, dy, mat1.cols(), mat1.rows())))
-        return canvas
+            Imgproc.matchTemplate(mat0Gray, mat1Gray, matchResult, Imgproc.TM_CCORR_NORMED)
+            val mmr = Core.minMaxLoc(matchResult)
+            val dx = mmr.maxLoc.x.toInt()
+            val dy = mmr.maxLoc.y.toInt()
+
+            val width = max(mat0.cols(), mat1.cols() + dx)
+            val height = max(mat0.rows(), mat1.rows() + dy)
+            canvas.create(height, width, mat0.type())
+            canvas.setTo(Scalar.all(0.0))
+            val firstRoi = canvas.submat(Rect(0, 0, mat0.cols(), mat0.rows()))
+            val secondRoi = canvas.submat(Rect(dx, dy, mat1.cols(), mat1.rows()))
+            try {
+                mat0.copyTo(firstRoi)
+                mat1.copyTo(secondRoi)
+            } finally {
+                firstRoi.release()
+                secondRoi.release()
+            }
+            return canvas
+        } catch (throwable: Throwable) {
+            canvas.release()
+            throw throwable
+        } finally {
+            mat0Gray.release()
+            mat1Gray.release()
+            matchResult.release()
+        }
     }
 
     suspend fun cvCombine(
@@ -328,48 +356,38 @@ internal class CvStitchHelper @Inject constructor(
     ): Bitmap? {
         if (uris.size < 2) return null
 
-        val images = uris.mapNotNull {
-            it.toBitmap(
-                imageScale = imageScale,
-                stitchMode = stitchMode
-            )?.toMat()
-        }
-        if (
-            images.size != uris.size ||
-            images.any { image ->
-                image.cols() != images.first().cols() ||
-                        image.rows() != images.first().rows()
+        val images = mutableListOf<Mat>()
+        val candidates = mutableListOf<ScreenshotStitchCandidate>()
+        try {
+            for (uri in uris) {
+                images += uri.toBitmap(imageScale, stitchMode)?.toMat() ?: return null
             }
-        ) {
-            images.forEach(Mat::release)
-            return null
-        }
+            if (images.any { it.size() != images.first().size() }) return null
 
-        val candidates = listOfNotNull(
             stitchScreenshots(
                 images = images,
                 transpose = false,
                 safeEndInsetRatio = SCREENSHOT_BOTTOM_SAFE_INSET_RATIO
-            ),
+            )?.let(candidates::add)
             stitchScreenshots(
                 images = images,
                 transpose = true,
                 safeEndInsetRatio = 0.0
-            )
-        )
-        images.forEach(Mat::release)
+            )?.let(candidates::add)
 
-        val best = candidates.maxByOrNull(ScreenshotStitchCandidate::score)
-            ?: return null
-        candidates.filterNot { it === best }.forEach { it.image.release() }
-
-        val result = best.image
-        val output = if (stitchMode.cropToContent) {
-            cropToOpaqueArea(result)
-        } else result
-        return output.toBitmap().also {
-            if (output !== result) output.release()
-            result.release()
+            val result = candidates.maxByOrNull(ScreenshotStitchCandidate::score)?.image
+                ?: return null
+            val output = if (stitchMode.cropToContent) {
+                cropToOpaqueArea(result)
+            } else result
+            try {
+                return output.toBitmap()
+            } finally {
+                if (output !== result) output.release()
+            }
+        } finally {
+            images.forEach(Mat::release)
+            candidates.forEach { it.image.release() }
         }
     }
 
@@ -378,210 +396,211 @@ internal class CvStitchHelper @Inject constructor(
         transpose: Boolean,
         safeEndInsetRatio: Double
     ): ScreenshotStitchCandidate? {
-        val orientedImages = if (transpose) {
-            images.map { image ->
-                Mat().also { transposed -> Core.transpose(image, transposed) }
-            }
-        } else images
-
-        val order = findScreenshotOrder(
-            images = orientedImages,
-            safeEndInsetRatio = safeEndInsetRatio
-        )
-        if (order == null) {
-            if (transpose) orientedImages.forEach(Mat::release)
-            return null
-        }
-
+        val orientedImages = mutableListOf<Mat>()
         val segments = mutableListOf<Mat>()
-        order.indices.forEachIndexed { index, imageIndex ->
-            val image = orientedImages[imageIndex]
-            val start = if (index == 0) {
-                0
-            } else {
-                order.overlaps[index - 1].nextOverlapEnd
-            }
-            val end = if (index == order.indices.lastIndex) {
-                image.rows()
-            } else {
-                order.overlaps[index].previousContentEnd
+        try {
+            for (image in images) {
+                if (transpose) {
+                    val transposed = Mat()
+                    orientedImages += transposed
+                    Core.transpose(image, transposed)
+                } else orientedImages += image
             }
 
-            if (end > start) {
-                segments += image.submat(Rect(0, start, image.cols(), end - start))
+            val order = findScreenshotOrder(
+                images = orientedImages,
+                safeEndInsetRatio = safeEndInsetRatio
+            ) ?: return null
+
+            order.indices.forEachIndexed { index, imageIndex ->
+                val image = orientedImages[imageIndex]
+                val start = if (index == 0) {
+                    0
+                } else {
+                    order.overlaps[index - 1].nextOverlapEnd
+                }
+                val end = if (index == order.indices.lastIndex) {
+                    image.rows()
+                } else {
+                    order.overlaps[index].previousContentEnd
+                }
+
+                if (end > start) {
+                    segments += image.submat(Rect(0, start, image.cols(), end - start))
+                }
             }
-        }
-        if (segments.size < 2) {
+            if (segments.size < 2) return null
+
+            val combined = Mat()
+            val result = if (transpose) Mat() else combined
+            try {
+                Core.vconcat(segments, combined)
+                if (transpose) Core.transpose(combined, result)
+                return ScreenshotStitchCandidate(image = result, score = order.score)
+            } catch (throwable: Throwable) {
+                result.release()
+                throw throwable
+            } finally {
+                if (transpose) combined.release()
+            }
+        } finally {
             segments.forEach(Mat::release)
             if (transpose) orientedImages.forEach(Mat::release)
-            return null
         }
-
-        val combined = Mat()
-        Core.vconcat(segments, combined)
-        segments.forEach(Mat::release)
-        if (transpose) orientedImages.forEach(Mat::release)
-
-        val result = if (transpose) {
-            Mat().also { restored ->
-                Core.transpose(combined, restored)
-                combined.release()
-            }
-        } else combined
-
-        return ScreenshotStitchCandidate(
-            image = result,
-            score = order.score
-        )
     }
 
     private fun findScreenshotOrder(
         images: List<Mat>,
         safeEndInsetRatio: Double
     ): ScreenshotOrder? {
-        val overlaps = Array(images.size) {
-            arrayOfNulls<ScreenshotOverlap>(images.size)
-        }
-        val checked = Array(images.size) { BooleanArray(images.size) }
+        val preparedImages = arrayOfNulls<Mat>(images.size)
+        fun prepared(index: Int): Mat = preparedImages[index]
+            ?: prepareScreenshotForMatching(images[index]).also { preparedImages[index] = it }
 
-        fun overlap(from: Int, to: Int): ScreenshotOverlap? {
-            if (!checked[from][to]) {
-                checked[from][to] = true
-                overlaps[from][to] = findScreenshotOverlap(
-                    previous = images[from],
-                    next = images[to],
-                    safeEndInsetRatio = safeEndInsetRatio
-                )
+        try {
+            val overlaps = Array(images.size) {
+                arrayOfNulls<ScreenshotOverlap>(images.size)
             }
-            return overlaps[from][to]
-        }
+            val checked = Array(images.size) { BooleanArray(images.size) }
 
-        val originalOverlaps = images.indices.zipWithNext { previous, next ->
-            overlap(previous, next)
-        }
-        if (originalOverlaps.all { it != null }) {
-            return ScreenshotOrder(
-                indices = images.indices.toList(),
-                overlaps = originalOverlaps.filterNotNull()
-            )
-        }
-
-        var candidates = images.indices.map { index ->
-            ScreenshotOrder(
-                indices = listOf(index),
-                overlaps = emptyList()
-            )
-        }
-        repeat(images.lastIndex) {
-            candidates = candidates.flatMap { candidate ->
-                images.indices.mapNotNull { next ->
-                    if (next in candidate.indices) return@mapNotNull null
-                    val nextOverlap = overlap(candidate.indices.last(), next)
-                        ?: return@mapNotNull null
-                    ScreenshotOrder(
-                        indices = candidate.indices + next,
-                        overlaps = candidate.overlaps + nextOverlap
+            fun overlap(from: Int, to: Int): ScreenshotOverlap? {
+                if (!checked[from][to]) {
+                    checked[from][to] = true
+                    overlaps[from][to] = findScreenshotOverlap(
+                        previous = images[from],
+                        next = images[to],
+                        previousPrepared = prepared(from),
+                        nextPrepared = prepared(to),
+                        safeEndInsetRatio = safeEndInsetRatio
                     )
                 }
-            }.sortedWith(
-                compareByDescending<ScreenshotOrder> { it.minimumScore }
-                    .thenByDescending { it.score }
-            ).take(MAX_SCREENSHOT_ORDER_CANDIDATES)
+                return overlaps[from][to]
+            }
 
-            if (candidates.isEmpty()) return null
+            val originalOverlaps = images.indices.zipWithNext { previous, next ->
+                overlap(previous, next)
+            }
+            if (originalOverlaps.all { it != null }) {
+                return ScreenshotOrder(
+                    indices = images.indices.toList(),
+                    overlaps = originalOverlaps.filterNotNull()
+                )
+            }
+
+            var candidates = images.indices.map { index ->
+                ScreenshotOrder(
+                    indices = listOf(index),
+                    overlaps = emptyList()
+                )
+            }
+            repeat(images.lastIndex) {
+                candidates = candidates.flatMap { candidate ->
+                    images.indices.mapNotNull { next ->
+                        if (next in candidate.indices) return@mapNotNull null
+                        val nextOverlap = overlap(candidate.indices.last(), next)
+                            ?: return@mapNotNull null
+                        ScreenshotOrder(
+                            indices = candidate.indices + next,
+                            overlaps = candidate.overlaps + nextOverlap
+                        )
+                    }
+                }.sortedWith(
+                    compareByDescending<ScreenshotOrder> { it.minimumScore }
+                        .thenByDescending { it.score }
+                ).take(MAX_SCREENSHOT_ORDER_CANDIDATES)
+
+                if (candidates.isEmpty()) return null
+            }
+
+            return candidates.firstOrNull()
+        } finally {
+            preparedImages.forEach { it?.release() }
         }
-
-        return candidates.firstOrNull()
     }
 
     private fun findScreenshotOverlap(
         previous: Mat,
         next: Mat,
+        previousPrepared: Mat,
+        nextPrepared: Mat,
         safeEndInsetRatio: Double
     ): ScreenshotOverlap? {
-        val previousPrepared = prepareScreenshotForMatching(previous)
-        val nextPrepared = prepareScreenshotForMatching(next)
-        try {
-            if (previousPrepared.size() != nextPrepared.size()) return null
+        if (previousPrepared.size() != nextPrepared.size()) return null
 
-            val fixedTop = detectFixedEdge(
-                previous = previousPrepared,
-                next = nextPrepared,
-                fromTop = true,
-                limit = (previousPrepared.rows() * MAX_FIXED_TOP_RATIO).roundToInt()
-            )
-            val fixedBottom = detectFixedEdge(
-                previous = previousPrepared,
-                next = nextPrepared,
-                fromTop = false,
-                limit = (previousPrepared.rows() * MAX_FIXED_BOTTOM_RATIO).roundToInt()
-            )
-            val contentEnd = previousPrepared.rows() - fixedBottom
-            val contentHeight = contentEnd - fixedTop
-            if (contentHeight < MIN_MATCH_CONTENT_HEIGHT) return null
+        val fixedTop = detectFixedEdge(
+            previous = previousPrepared,
+            next = nextPrepared,
+            fromTop = true,
+            limit = (previousPrepared.rows() * MAX_FIXED_TOP_RATIO).roundToInt()
+        )
+        val fixedBottom = detectFixedEdge(
+            previous = previousPrepared,
+            next = nextPrepared,
+            fromTop = false,
+            limit = (previousPrepared.rows() * MAX_FIXED_BOTTOM_RATIO).roundToInt()
+        )
+        val contentEnd = previousPrepared.rows() - fixedBottom
+        val contentHeight = contentEnd - fixedTop
+        if (contentHeight < MIN_MATCH_CONTENT_HEIGHT) return null
 
-            val minOffset = max(
-                MIN_SCROLL_OFFSET,
-                (contentHeight * MIN_SCROLL_OFFSET_RATIO).roundToInt()
-            )
-            val minOverlap = max(
-                MIN_SCREENSHOT_OVERLAP,
-                (contentHeight * MIN_SCREENSHOT_OVERLAP_RATIO).roundToInt()
-            )
-            val candidates = PROBE_POSITIONS.mapNotNull { position ->
-                findScreenshotOffsetCandidate(
-                    previous = previousPrepared,
-                    next = nextPrepared,
-                    contentStart = fixedTop,
-                    contentEnd = contentEnd,
-                    minOffset = minOffset,
-                    minOverlap = minOverlap,
-                    probePosition = position
-                )
-            }
-            if (candidates.isEmpty()) return null
-
-            val best = candidates.maxWithOrNull(
-                compareBy<OffsetCandidate> { candidate ->
-                    candidates.count { other ->
-                        kotlin.math.abs(candidate.offset - other.offset) <= OFFSET_CLUSTER_RADIUS
-                    }
-                }.thenBy { it.score }
-            )
-                ?: return null
-            if (best.score < MIN_TEMPLATE_SCORE) return null
-
-            val overlapScore = scoreScreenshotOffset(
+        val minOffset = max(
+            MIN_SCROLL_OFFSET,
+            (contentHeight * MIN_SCROLL_OFFSET_RATIO).roundToInt()
+        )
+        val minOverlap = max(
+            MIN_SCREENSHOT_OVERLAP,
+            (contentHeight * MIN_SCREENSHOT_OVERLAP_RATIO).roundToInt()
+        )
+        val candidates = PROBE_POSITIONS.mapNotNull { position ->
+            findScreenshotOffsetCandidate(
                 previous = previousPrepared,
                 next = nextPrepared,
                 contentStart = fixedTop,
                 contentEnd = contentEnd,
-                offset = best.offset
+                minOffset = minOffset,
+                minOverlap = minOverlap,
+                probePosition = position
             )
-            if (overlapScore < MIN_OVERLAP_SCORE) return null
-
-            val scaleY = previous.rows().toDouble() / previousPrepared.rows()
-            val originalOffset = (best.offset * scaleY).roundToInt()
-            val assemblyFixedBottom = if (fixedTop > 0 || fixedBottom > 0) {
-                max(
-                    fixedBottom,
-                    (previousPrepared.rows() * safeEndInsetRatio).roundToInt()
-                )
-            } else 0
-            val originalFixedBottom = (assemblyFixedBottom * scaleY).roundToInt()
-            val previousContentEnd = previous.rows() - originalFixedBottom
-            val nextOverlapEnd = (previousContentEnd - originalOffset)
-                .coerceIn(1, next.rows() - 1)
-
-            return ScreenshotOverlap(
-                previousContentEnd = previousContentEnd,
-                nextOverlapEnd = nextOverlapEnd,
-                score = overlapScore
-            )
-        } finally {
-            previousPrepared.release()
-            nextPrepared.release()
         }
+        if (candidates.isEmpty()) return null
+
+        val best = candidates.maxWithOrNull(
+            compareBy<OffsetCandidate> { candidate ->
+                candidates.count { other ->
+                    kotlin.math.abs(candidate.offset - other.offset) <= OFFSET_CLUSTER_RADIUS
+                }
+            }.thenBy { it.score }
+        )
+            ?: return null
+        if (best.score < MIN_TEMPLATE_SCORE) return null
+
+        val overlapScore = scoreScreenshotOffset(
+            previous = previousPrepared,
+            next = nextPrepared,
+            contentStart = fixedTop,
+            contentEnd = contentEnd,
+            offset = best.offset
+        )
+        if (overlapScore < MIN_OVERLAP_SCORE) return null
+
+        val scaleY = previous.rows().toDouble() / previousPrepared.rows()
+        val originalOffset = (best.offset * scaleY).roundToInt()
+        val assemblyFixedBottom = if (fixedTop > 0 || fixedBottom > 0) {
+            max(
+                fixedBottom,
+                (previousPrepared.rows() * safeEndInsetRatio).roundToInt()
+            )
+        } else 0
+        val originalFixedBottom = (assemblyFixedBottom * scaleY).roundToInt()
+        val previousContentEnd = previous.rows() - originalFixedBottom
+        val nextOverlapEnd = (previousContentEnd - originalOffset)
+            .coerceIn(1, next.rows() - 1)
+
+        return ScreenshotOverlap(
+            previousContentEnd = previousContentEnd,
+            nextOverlapEnd = nextOverlapEnd,
+            score = overlapScore
+        )
     }
 
     private fun prepareScreenshotForMatching(source: Mat): Mat {
@@ -595,25 +614,29 @@ internal class CvStitchHelper @Inject constructor(
             )
         )
         val gray = Mat()
-        Imgproc.cvtColor(sourceRoi, gray, Imgproc.COLOR_RGBA2GRAY)
-        sourceRoi.release()
-
         val resized = Mat()
-        val targetHeight = (gray.rows() * MATCH_WIDTH.toDouble() / gray.cols())
-            .roundToInt()
-            .coerceAtLeast(1)
-        Imgproc.resize(
-            gray,
-            resized,
-            Size(MATCH_WIDTH.toDouble(), targetHeight.toDouble()),
-            0.0,
-            0.0,
-            Imgproc.INTER_AREA
-        )
-        gray.release()
-
-        return Mat().also { edges ->
+        val edges = Mat()
+        try {
+            Imgproc.cvtColor(sourceRoi, gray, Imgproc.COLOR_RGBA2GRAY)
+            val targetHeight = (gray.rows() * MATCH_WIDTH.toDouble() / gray.cols())
+                .roundToInt()
+                .coerceAtLeast(1)
+            Imgproc.resize(
+                gray,
+                resized,
+                Size(MATCH_WIDTH.toDouble(), targetHeight.toDouble()),
+                0.0,
+                0.0,
+                Imgproc.INTER_AREA
+            )
             Imgproc.Sobel(resized, edges, CvType.CV_8U, 0, 1, 3)
+            return edges
+        } catch (throwable: Throwable) {
+            edges.release()
+            throw throwable
+        } finally {
+            sourceRoi.release()
+            gray.release()
             resized.release()
         }
     }

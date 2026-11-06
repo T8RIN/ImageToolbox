@@ -187,7 +187,7 @@ import android.net.Uri as AndroidUri
 internal fun Screen.isBetaFeature(): Boolean = false
 
 internal fun Screen.canExpandSettings(): Boolean = when {
-    this is ColorLibrary -> false
+    this is ColorLibrary || this is Gallery -> false
     id >= 0 -> true
     else -> false
 }

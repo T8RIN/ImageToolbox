@@ -52,7 +52,7 @@ class DefaultPdfFontTest {
                 )
                 val cmap = font.unicodeCmapLookup
 
-                (samples + localizedAppText()).flatMap { (group, text) ->
+                (samples + localizedAppText() + commonCharacters()).flatMap { (group, text) ->
                     text.codePoints()
                         .distinct()
                         .filter { !Character.isWhitespace(it) && !Character.isISOControl(it) }
@@ -74,6 +74,14 @@ class DefaultPdfFontTest {
             missingGlyphs.isEmpty()
         )
     }
+
+    private fun commonCharacters(): Map<String, String> = mapOf(
+        "Common characters" to requireNotNull(
+            javaClass.getResourceAsStream("/pdf-font-common-characters.txt")
+        ).bufferedReader().use { reader ->
+            reader.readLines().filterNot { it.startsWith("#") }.joinToString("")
+        }
+    )
 
     private fun localizedAppText(): Map<String, String> {
         val resources = projectRoot().resolve("core/resources/src/main/res")

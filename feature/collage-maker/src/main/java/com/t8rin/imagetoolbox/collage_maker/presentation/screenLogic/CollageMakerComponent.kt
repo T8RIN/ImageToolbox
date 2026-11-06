@@ -21,15 +21,20 @@ import android.graphics.Bitmap
 import android.net.Uri
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.core.net.toUri
 import com.arkivanov.decompose.ComponentContext
+import com.arkivanov.essenty.lifecycle.doOnDestroy
 import com.t8rin.collages.CollageState
 import com.t8rin.collages.CollageType
 import com.t8rin.collages.public.CollageConstants
-import com.t8rin.imagetoolbox.collage_maker.presentation.components.CollageParams
+import com.t8rin.imagetoolbox.collage_maker.domain.CollageParams
+import com.t8rin.imagetoolbox.collage_maker.domain.CollageProject
+import com.t8rin.imagetoolbox.collage_maker.domain.CollageProjectRepository
+import com.t8rin.imagetoolbox.core.domain.COLLAGE_PROJECT_EXT
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageCompressor
 import com.t8rin.imagetoolbox.core.domain.image.ImageShareProvider
@@ -40,14 +45,17 @@ import com.t8rin.imagetoolbox.core.domain.model.DomainAspectRatio
 import com.t8rin.imagetoolbox.core.domain.model.GradientFill
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
+import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
-import com.t8rin.imagetoolbox.core.domain.utils.update
+import com.t8rin.imagetoolbox.core.domain.utils.timestamp
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
 import com.t8rin.imagetoolbox.core.ui.utils.BaseHistoryComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.savable
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
+import com.t8rin.imagetoolbox.core.utils.getString
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -55,10 +63,12 @@ import kotlinx.coroutines.Job
 
 class CollageMakerComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
-    @Assisted val initialUris: List<Uri>?,
+    @Assisted initialUris: List<Uri>?,
+    @Assisted initialProjectUri: Uri?,
     @Assisted val onGoBack: () -> Unit,
     @Assisted val onNavigate: (Screen) -> Unit,
     private val fileController: FileController,
+    private val projectRepository: CollageProjectRepository,
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val shareProvider: ImageShareProvider<Bitmap>,
     private val settingsManager: SettingsManager,
@@ -67,19 +77,6 @@ class CollageMakerComponent @AssistedInject internal constructor(
     dispatchersHolder = dispatchersHolder,
     componentContext = componentContext
 ) {
-
-    init {
-        debounce {
-            _imageFormat.value =
-                settingsManager.settingsState.value.defaultImageFormat ?: imageFormat
-            if (!uris.isNullOrEmpty()) {
-                resetHistory()
-                registerChangesCleared()
-            }
-
-            initialUris?.let(::updateUris)
-        }
-    }
 
     private val _aspectRatio: MutableState<DomainAspectRatio> =
         mutableStateOf(DomainAspectRatio.Numeric(1f, 1f))
@@ -99,20 +96,24 @@ class CollageMakerComponent @AssistedInject internal constructor(
     private val _collageState: MutableState<CollageState?> = mutableStateOf(null)
     val collageState by _collageState
 
-    private val _collageResetKey = mutableStateOf(0)
+    private val _collageResetKey = mutableIntStateOf(0)
     val collageResetKey by _collageResetKey
 
-    private val _collageBitmap = mutableStateOf<Bitmap?>(null)
-    private val collageBitmap by _collageBitmap
-
-    private val _params = fileController.savable(
+    private val defaultParams = fileController.savable(
         scope = componentScope,
         initial = CollageParams()
     )
+    private var projectParams by mutableStateOf<CollageParams?>(null)
+
     val params: CollageParams
-        get() = _params.get().let { value ->
+        get() = (projectParams ?: defaultParams.get()).let { value ->
             value.copy(outputScaleRatio = value.outputScaleRatio.coerceIn(0.1f, 1f))
         }
+
+    private fun updateParams(value: CollageParams) {
+        if (projectParams != null) projectParams = value
+        else defaultParams.set(value)
+    }
 
     private val _uris = mutableStateOf<List<Uri>?>(null)
     val uris by _uris
@@ -126,12 +127,99 @@ class CollageMakerComponent @AssistedInject internal constructor(
     private val _isSaving: MutableState<Boolean> = mutableStateOf(false)
     val isSaving: Boolean by _isSaving
 
-    private var requestedOperation: () -> Unit = {}
+    private var requestedOperation: (suspend (Bitmap) -> Unit)? = null
     private var pendingLayoutCorrectionImageCount: Int? = null
+
+    private var projectLoadingJob: Job? = null
+
+    init {
+        debounce {
+            _imageFormat.value =
+                settingsManager.settingsState.value.defaultImageFormat ?: imageFormat
+            when {
+                initialProjectUri != null -> openProject(initialProjectUri)
+                initialUris.orEmpty().size > CollageConstants.MAX_IMAGE_COUNT ->
+                    AppToastHost.showFailureToast(
+                        getString(
+                            R.string.pick_up_to_n_collage_images,
+                            CollageConstants.MAX_IMAGE_COUNT
+                        )
+                    )
+
+                else -> initialUris?.let(::updateUris)
+            }
+        }
+
+        lifecycle.doOnDestroy {
+            projectLoadingJob?.let { job ->
+                job.cancel()
+                job.invokeOnCompletion { projectRepository.clearCache() }
+            } ?: projectRepository.clearCache()
+        }
+    }
+
+    val canSaveProject: Boolean
+        get() = !isSaving && !isImageLoading &&
+                collageState?.let { state ->
+                    state.matchesImages(uris.orEmpty()) && state.images.all {
+                        it.matrixValues.size == 9 && it.viewWidth > 0f && it.viewHeight > 0f
+                    }
+                } == true
+
+    fun createProjectFilename(): String = "Collage_${timestamp()}.$COLLAGE_PROJECT_EXT"
+
+    fun saveProject(uri: Uri) {
+        if (!canSaveProject) return
+        finalizePendingHistoryTransaction()
+
+        val project = CollageProject(
+            current = currentHistorySnapshot().toProjectSnapshot(),
+            history = history.dropLast(1).map { it.toProjectSnapshot() },
+            redoHistory = redoHistory.map { it.toProjectSnapshot() }
+        )
+        _isSaving.value = true
+        savingJob = trackProgress {
+            try {
+                fileController.writeBytes(uri.toString()) { output ->
+                    projectRepository.save(output, project)
+                }.onSuccess {
+                    registerSave()
+                    AppToastHost.showConfetti()
+                }.let(::parseSaveResult)
+            } finally {
+                _isSaving.value = false
+            }
+        }
+    }
+
+    fun openProject(uri: Uri) {
+        if (isImageLoading || isSaving) return
+        _isImageLoading.value = true
+        projectLoadingJob = componentScope.launch {
+            try {
+                runSuspendCatching {
+                    val project = projectRepository.open(uri.toString())
+                    val current = project.current.toHistorySnapshot()
+                    val previous = project.history.map { it.toHistorySnapshot() }
+                    val undone = project.redoHistory.map { it.toHistorySnapshot() }
+
+                    projectParams = current.params
+                    applyHistorySnapshot(current)
+                    _collageResetKey.update { it + 1 }
+                    restoreHistory(previous, undone)
+                    registerChangesCleared()
+                }.onFailure {
+                    AppToastHost.showFailureToast(R.string.markup_project_open_failed)
+                }
+            } finally {
+                _isImageLoading.value = false
+            }
+        }
+    }
 
     fun setCollageType(collageType: CollageType) {
         if (collageType.imageCount != (uris?.size ?: 0)) return
-        if (_collageType.value == collageType) return
+        if (_collageType.value.layoutId == collageType.layoutId) return
 
         val isInitialSelection = _collageType.value == CollageType.Empty && !haveChanges
         val isExpectedLayoutCorrection =
@@ -155,9 +243,26 @@ class CollageMakerComponent @AssistedInject internal constructor(
     }
 
     fun updateCollageBitmap(bitmap: Bitmap) {
-        _collageCreationTrigger.update { false }
-        _collageBitmap.update { bitmap }
-        requestedOperation()
+        _collageCreationTrigger.value = false
+        val operation = requestedOperation
+        requestedOperation = null
+        if (operation == null) {
+            bitmap.recycle()
+            return
+        }
+        savingJob = trackProgress {
+            try {
+                operation(bitmap)
+            } finally {
+                bitmap.recycle()
+                _isSaving.value = false
+            }
+        }
+    }
+
+    fun onCollageCreationFailed(throwable: Throwable) {
+        cancelLoading()
+        AppToastHost.showFailureToast(throwable)
     }
 
     fun updateUris(uris: List<Uri>?) {
@@ -271,9 +376,9 @@ class CollageMakerComponent @AssistedInject internal constructor(
     }
 
     fun setOutputScaleRatio(ratio: Float) {
-        if (_params.get().outputScaleRatio == ratio) return
+        if (params.outputScaleRatio == ratio) return
         beginPendingHistoryTransaction()
-        _params.update { it.copy(outputScaleRatio = ratio) }
+        updateParams(params.copy(outputScaleRatio = ratio))
         registerChanges()
         schedulePendingHistoryCommit()
     }
@@ -281,7 +386,7 @@ class CollageMakerComponent @AssistedInject internal constructor(
     fun setDisableRotation(value: Boolean) {
         if (params.disableRotation == value) return
         beginPendingHistoryTransaction()
-        _params.update { it.copy(disableRotation = value) }
+        updateParams(params.copy(disableRotation = value))
         registerChanges()
         schedulePendingHistoryCommit()
     }
@@ -289,106 +394,59 @@ class CollageMakerComponent @AssistedInject internal constructor(
     fun setEnableSnapToBorders(value: Boolean) {
         if (params.enableSnapToBorders == value) return
         beginPendingHistoryTransaction()
-        _params.update { it.copy(enableSnapToBorders = value) }
+        updateParams(params.copy(enableSnapToBorders = value))
         registerChanges()
         schedulePendingHistoryCommit()
     }
 
-    private var savingJob: Job? by smartJob {
-        _isSaving.update { false }
+    private var savingJob: Job? by smartJob()
+
+    private fun requestBitmap(operation: suspend (Bitmap) -> Unit) {
+        if (isSaving || isImageLoading) return
+        requestedOperation = operation
+        _isSaving.value = true
+        _collageCreationTrigger.value = true
     }
 
-    fun saveBitmap(
-        oneTimeSaveLocationUri: String?
-    ) {
-        _isSaving.update { true }
-        _collageCreationTrigger.update { true }
-        requestedOperation = {
-            savingJob = trackProgress {
-                collageBitmap?.let { image ->
-                    _isSaving.update { true }
-                    val imageInfo = ImageInfo(
-                        width = image.width,
-                        height = image.height,
-                        quality = quality,
-                        imageFormat = imageFormat
-                    )
-                    val result = fileController.save(
-                        saveTarget = ImageSaveTarget(
-                            imageInfo = imageInfo,
-                            originalUri = "",
-                            sequenceNumber = null,
-                            data = imageCompressor.compress(
-                                image = image,
-                                imageFormat = imageFormat,
-                                quality = quality
-                            )
-                        ),
-                        keepOriginalMetadata = false,
-                        oneTimeSaveLocationUri = oneTimeSaveLocationUri
-                    )
+    fun saveBitmap(oneTimeSaveLocationUri: String?) = requestBitmap { image ->
+        val result = fileController.save(
+            saveTarget = ImageSaveTarget(
+                imageInfo = image.outputInfo(),
+                originalUri = "",
+                sequenceNumber = null,
+                data = imageCompressor.compress(
+                    image = image,
+                    imageFormat = imageFormat,
+                    quality = quality
+                )
+            ),
+            keepOriginalMetadata = false,
+            oneTimeSaveLocationUri = oneTimeSaveLocationUri
+        )
+        parseSaveResult(result.onSuccess(::registerSave))
+    }
 
-                    parseSaveResult(result.onSuccess(::registerSave))
-                    _isSaving.update { false }
-                }
-            }
+    fun performSharing() = requestBitmap { image ->
+        shareProvider.cacheImage(image, image.outputInfo())?.let { uri ->
+            shareProvider.shareUri(uri, onComplete = AppToastHost::showConfetti)
         }
     }
 
-    fun performSharing() {
-        _isSaving.update { true }
-        _collageCreationTrigger.update { true }
-        requestedOperation = {
-            collageBitmap?.let { image ->
-                savingJob = trackProgress {
-                    _isSaving.update { true }
-                    shareProvider.cacheImage(
-                        image = image,
-                        imageInfo = ImageInfo(
-                            width = image.width,
-                            height = image.height,
-                            quality = quality,
-                            imageFormat = imageFormat
-                        )
-                    )?.let { uri ->
-                        shareProvider.shareUri(
-                            uri = uri,
-                            onComplete = AppToastHost::showConfetti
-                        )
-                    }
-                    _isSaving.update { false }
-                }
-            }
-        }
+    fun cacheImage(onComplete: (Uri) -> Unit) = requestBitmap { image ->
+        shareProvider.cacheImage(image, image.outputInfo())?.let { onComplete(it.toUri()) }
     }
 
-    fun cacheImage(
-        onComplete: (Uri) -> Unit,
-    ) {
-        _isSaving.update { true }
-        _collageCreationTrigger.update { true }
-        requestedOperation = {
-            collageBitmap?.let { image ->
-                savingJob = trackProgress {
-                    _isSaving.update { true }
-                    shareProvider.cacheImage(
-                        image = image,
-                        imageInfo = ImageInfo(
-                            width = image.width,
-                            height = image.height,
-                            quality = quality,
-                            imageFormat = imageFormat
-                        )
-                    )?.let { uri ->
-                        onComplete(uri.toUri())
-                    }
-                    _isSaving.update { false }
-                }
-            }
-        }
-    }
+    private fun Bitmap.outputInfo() = ImageInfo(
+        width = width,
+        height = height,
+        quality = quality,
+        imageFormat = imageFormat
+    )
 
-    fun cancelSaving() {
+    fun cancelLoading() {
+        requestedOperation = null
+        _collageCreationTrigger.value = false
+        projectLoadingJob?.cancel()
         savingJob?.cancel()
         savingJob = null
         _isSaving.update { false }
@@ -414,7 +472,7 @@ class CollageMakerComponent @AssistedInject internal constructor(
     fun setSpacing(value: Float) {
         if (params.spacing == value) return
         beginPendingHistoryTransaction()
-        _params.update { it.copy(spacing = value) }
+        updateParams(params.copy(spacing = value))
         registerChanges()
         schedulePendingHistoryCommit()
     }
@@ -422,7 +480,7 @@ class CollageMakerComponent @AssistedInject internal constructor(
     fun setCornerRadius(value: Float) {
         if (params.cornerRadius == value) return
         beginPendingHistoryTransaction()
-        _params.update { it.copy(cornerRadius = value) }
+        updateParams(params.copy(cornerRadius = value))
         registerChanges()
         schedulePendingHistoryCommit()
     }
@@ -438,7 +496,7 @@ class CollageMakerComponent @AssistedInject internal constructor(
     }
 
     fun updateCollageState(state: CollageState) {
-        if (state.layoutId == collageType.layoutId) {
+        if (state.layoutId == collageType.layoutId && state.matchesImages(uris.orEmpty())) {
             _collageState.update { state }
             val current = currentHistorySnapshot()
             if (
@@ -450,6 +508,12 @@ class CollageMakerComponent @AssistedInject internal constructor(
             }
         }
     }
+
+    private fun CollageState.matchesImages(images: List<Uri>): Boolean =
+        images.isNotEmpty() && this.images.size == images.size &&
+                this.images.all {
+                    it.uri != null && it.uri == images.getOrNull(it.index)?.toString()
+                }
 
     fun onCollageStateChange(
         before: CollageState,
@@ -495,13 +559,16 @@ class CollageMakerComponent @AssistedInject internal constructor(
 
     override fun applyHistorySnapshot(snapshot: HistorySnapshot) {
         pendingLayoutCorrectionImageCount = null
+        val needsReset = snapshot.collageState?.images?.any { it.matrixValues.isEmpty() }
+            ?: (collageState != null)
+        if (needsReset) _collageResetKey.update { it + 1 }
         _uris.update { snapshot.uris }
         _aspectRatio.update { snapshot.aspectRatio }
         _backgroundColor.update { snapshot.backgroundColor }
         backgroundGradient = snapshot.backgroundGradient
         _collageType.update { snapshot.collageType }
         _collageState.update { snapshot.collageState }
-        _params.update { snapshot.params }
+        updateParams(snapshot.params)
         _imageFormat.update { snapshot.imageFormat }
         _quality.update { snapshot.quality }
     }
@@ -528,6 +595,7 @@ class CollageMakerComponent @AssistedInject internal constructor(
         operator fun invoke(
             componentContext: ComponentContext,
             initialUris: List<Uri>?,
+            initialProjectUri: Uri?,
             onGoBack: () -> Unit,
             onNavigate: (Screen) -> Unit,
         ): CollageMakerComponent

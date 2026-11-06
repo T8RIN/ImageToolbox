@@ -788,7 +788,7 @@ class FiltersComponent @AssistedInject internal constructor(
                 _isImageLoading.value = true
                 when (filterType) {
                     is Screen.Filter.Type.Basic -> {
-                        _previewBitmap.value = imagePreviewCreator.createPreview(
+                        imagePreviewCreator.createPreview(
                             image = bitmap,
                             imageInfo = imageInfo,
                             transformations = _basicFilterState.value.filters.map {
@@ -796,20 +796,31 @@ class FiltersComponent @AssistedInject internal constructor(
                             },
                             onGetByteCount = { size ->
                                 _imageInfo.update { it.copy(sizeInBytes = size) }
+                            },
+                            onGetPreview = {
+                                _previewBitmap.value = it
+                                _isImageLoading.value = false
                             }
                         )
                     }
 
                     is Screen.Filter.Type.Masking -> {
-                        _previewBitmap.value = filterMaskApplier.filterByMasks(
+                        val filtered = filterMaskApplier.filterByMasks(
                             filterMasks = _maskingFilterState.value.masks,
                             image = bitmap
-                        )?.let { bmp ->
+                        )
+                        if (filtered == null) {
+                            _previewBitmap.value = null
+                        } else {
                             imagePreviewCreator.createPreview(
-                                image = bmp,
+                                image = filtered,
                                 imageInfo = imageInfo,
                                 onGetByteCount = { size ->
                                     _imageInfo.update { it.copy(sizeInBytes = size) }
+                                },
+                                onGetPreview = {
+                                    _previewBitmap.value = it
+                                    _isImageLoading.value = false
                                 }
                             )
                         }

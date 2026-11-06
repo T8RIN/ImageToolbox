@@ -5510,7 +5510,7 @@
     <string name="help_tip_gallery_search_subtitle">Trova le foto in base al contenuto e sfoglia le categorie automatiche. La ricerca del nome file è sempre disponibile</string>
     <string name="help_tip_gallery_search_page_title">Attiva la ricerca semantica delle foto</string>
     <string name="help_tip_gallery_search_description">La ricerca semantica delle foto trova le foto in base a ciò che contengono: descrivi oggetti, persone o una scena. Non è necessario aggiungere didascalie o tag. Raggruppa anche le foto in categorie automatiche. Disponibile su Android 8 e versioni successive nello strumento Galleria e quando Origine immagine è impostata su Selezione incorporata.</string>
-    <string name="help_tip_gallery_search_step_1">Apri Impostazioni → Sorgente immagine e attiva la ricerca semantica di foto. Puoi anche attivarlo utilizzando il pulsante Impostazioni di ricerca accanto al campo di ricerca nella Galleria o nel selettore incorporato.</string>
+    <string name="help_tip_gallery_search_step_1">Apri Impostazioni → Galleria e attiva la ricerca semantica di foto. Puoi anche attivarlo utilizzando il pulsante Impostazioni di ricerca accanto al campo di ricerca nella Galleria o nel selettore incorporato.</string>
     <string name="help_tip_gallery_search_step_2">Consenti l\'accesso alle foto che desideri cercare. Su Android 14 e versioni successive, puoi consentire l\'accesso solo alle foto selezionate. Per trovare più foto, consenti all\'app di accedere anche ad esse.</string>
     <string name="help_tip_gallery_search_step_3">La prima configurazione scarica circa 227 MB di file per il riconoscimento dei contenuti delle foto. Successivamente, la preparazione e la ricerca funzionano sul tuo dispositivo senza Internet. Le tue foto e le query di ricerca non vengono inviate a un server.</string>
     <string name="help_tip_gallery_search_page_2_title">Cerca per nome o descrizione</string>
@@ -7943,4 +7943,16 @@
     <string name="emoji_kitchen_download_size">Dimensioni archivio: %1$s</string>
     <string name="emoji_kitchen_favorites">Segnalibri</string>
     <string name="emoji_kitchen_favorites_empty">Nessun segnalibro</string>
+    <string name="gallery_show_file_size">Mostra la dimensione del file</string>
+    <string name="gallery_show_file_extension">Mostra il formato del file</string>
+    <string name="gallery_show_file_size_sub">Mostra la dimensione del file sulle miniature delle immagini.</string>
+    <string name="gallery_show_file_extension_sub">Mostra il formato del file sulle miniature delle immagini.</string>
+    <string name="help_tip_gallery_workflow_grid_settings">Apri Impostazioni → Galleria per impostare la griglia su Automatico o scegli da 1 a 20 colonne. Pizzica con due dita per ridimensionare la griglia fino a chiuderla. Le dimensioni del file e le etichette del formato possono essere disattivate separatamente.</string>
+    <string name="help_tip_gallery_workflow_fast_scroll">Scorri per rivelare la maniglia a destra. Trascinalo per spostarti nella galleria per data e ora.</string>
+    <string name="save_collage_project_sub" />
+    <string name="help_tip_setting_gallery_columns_description">Choose how many columns appear in Gallery and Embedded Picker. Più colonne mostrano miniature più piccole.</string>
+    <string name="help_tip_setting_gallery_columns_step">Apri Impostazioni → Galleria → Conteggio colonne. Choose Auto to fit the screen or a fixed count from 1 to 20.</string>
+    <string name="help_tip_setting_gallery_file_size_step" />
+    <string name="help_tip_setting_gallery_file_extension_step" />
+    <string name="help_tip_setting_remember_preview_layout_step">Open Settings → Behavior and turn on Remember Preview Layout. Regola l\'altezza dell\'anteprima o fissala in uno strumento; lo strumento successivo riutilizzerà quel layout.</string>
 </resources>

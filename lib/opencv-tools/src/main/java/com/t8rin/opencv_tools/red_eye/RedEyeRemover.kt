@@ -50,70 +50,64 @@ object RedEyeRemover : OpenCV() {
         ensureActive()
         val srcMat = bitmap.toMat()
 
-        Imgproc.cvtColor(srcMat, srcMat, Imgproc.COLOR_RGBA2BGR)
-        val resultMat = srcMat.clone()
-
-        val eyes = detectEyes(srcMat, minEyeSize)
-
-        for (rect in eyes) {
-            ensureActive()
-            val roi = Rect(rect.x, rect.y, rect.width, rect.height)
-            val eyeMat = srcMat.submat(roi).clone()
-
-            val channels = ArrayList<Mat>()
-            Core.split(eyeMat, channels)
-            val blue = channels[0]
-            val green = channels[1]
-            val red = channels[2]
-
-            val bg = Mat()
-            Core.add(blue, green, bg)
-
-            val maskRed = Mat()
-            Imgproc.threshold(red, maskRed, redThreshold, 255.0, Imgproc.THRESH_BINARY)
-
-            val maskCmp = Mat()
-            Core.compare(red, bg, maskCmp, Core.CMP_GT)
-
-            val redEyeMask = Mat()
-            Core.bitwise_and(maskRed, maskCmp, redEyeMask)
-
-            val filledMask = fillHoles(redEyeMask)
-            val dilatedMask = Mat()
-            Imgproc.dilate(filledMask, dilatedMask, Mat(), Point(-1.0, -1.0), 3)
-
-            val meanMat = Mat()
-            Core.divide(bg, Scalar(2.0), meanMat)
-
-            val mean3 = Mat()
-            Core.merge(listOf(meanMat, meanMat, meanMat), mean3)
-
-            val eyeOut = eyeMat.clone()
-            mean3.copyTo(eyeOut, dilatedMask)
-
-            eyeOut.copyTo(resultMat.submat(roi))
-
-            eyeMat.release()
-            bg.release()
-            maskRed.release()
-            maskCmp.release()
-            redEyeMask.release()
-            filledMask.release()
-            dilatedMask.release()
-            meanMat.release()
-            mean3.release()
-            eyeOut.release()
-            channels.forEach(Mat::release)
+        val resultMat = Mat()
+        val kernel = Mat()
+        try {
+            Imgproc.cvtColor(srcMat, srcMat, Imgproc.COLOR_RGBA2BGR)
+            srcMat.copyTo(resultMat)
+            val eyes = detectEyes(srcMat, minEyeSize)
+            for (rect in eyes) {
+                ensureActive()
+                val eyeMat = srcMat.submat(rect)
+                val resultEye = resultMat.submat(rect)
+                val channels = ArrayList<Mat>()
+                val bg = Mat()
+                val maskRed = Mat()
+                val maskCmp = Mat()
+                val redEyeMask = Mat()
+                val dilatedMask = Mat()
+                val meanMat = Mat()
+                val mean3 = Mat()
+                val eyeOut = Mat()
+                var filledMask: Mat? = null
+                try {
+                    Core.split(eyeMat, channels)
+                    val blue = channels[0]
+                    val green = channels[1]
+                    val red = channels[2]
+                    Core.add(blue, green, bg)
+                    Imgproc.threshold(red, maskRed, redThreshold, 255.0, Imgproc.THRESH_BINARY)
+                    Core.compare(red, bg, maskCmp, Core.CMP_GT)
+                    Core.bitwise_and(maskRed, maskCmp, redEyeMask)
+                    filledMask = fillHoles(redEyeMask)
+                    Imgproc.dilate(filledMask, dilatedMask, kernel, Point(-1.0, -1.0), 3)
+                    Core.divide(bg, Scalar(2.0), meanMat)
+                    Core.merge(listOf(meanMat, meanMat, meanMat), mean3)
+                    eyeMat.copyTo(eyeOut)
+                    mean3.copyTo(eyeOut, dilatedMask)
+                    eyeOut.copyTo(resultEye)
+                } finally {
+                    eyeMat.release()
+                    resultEye.release()
+                    channels.forEach(Mat::release)
+                    bg.release()
+                    maskRed.release()
+                    maskCmp.release()
+                    redEyeMask.release()
+                    filledMask?.release()
+                    dilatedMask.release()
+                    meanMat.release()
+                    mean3.release()
+                    eyeOut.release()
+                }
+            }
+            Imgproc.cvtColor(resultMat, resultMat, Imgproc.COLOR_BGR2RGBA)
+            resultMat.toBitmap()
+        } finally {
+            srcMat.release()
+            resultMat.release()
+            kernel.release()
         }
-
-        Imgproc.cvtColor(resultMat, resultMat, Imgproc.COLOR_BGR2RGBA)
-
-        val result = resultMat.toBitmap()
-
-        srcMat.release()
-        resultMat.release()
-
-        result
     }
 
     private fun detectEyes(
@@ -123,43 +117,44 @@ object RedEyeRemover : OpenCV() {
         val detector = loadFaceDetector(srcMat.size())
         val faces = Mat()
 
-        detector.detect(srcMat, faces)
+        try {
+            detector.detect(srcMat, faces)
 
-        val result = buildList {
-            for (i in 0 until faces.rows()) {
-                val faceWidth = faces.value(i, 2)
-                val faceHeight = faces.value(i, 3)
+            return buildList {
+                for (i in 0 until faces.rows()) {
+                    val faceWidth = faces.value(i, 2)
+                    val faceHeight = faces.value(i, 3)
 
-                val eyeSize = max(
-                    minEyeSize,
-                    min(faceWidth, faceHeight) * 0.16
-                )
+                    val eyeSize = max(
+                        minEyeSize,
+                        min(faceWidth, faceHeight) * 0.16
+                    )
 
-                createEyeRect(
-                    imageWidth = srcMat.cols(),
-                    imageHeight = srcMat.rows(),
-                    center = Point(
-                        faces.value(i, 4),
-                        faces.value(i, 5)
-                    ),
-                    size = eyeSize
-                )?.let(::add)
+                    createEyeRect(
+                        imageWidth = srcMat.cols(),
+                        imageHeight = srcMat.rows(),
+                        center = Point(
+                            faces.value(i, 4),
+                            faces.value(i, 5)
+                        ),
+                        size = eyeSize
+                    )?.let(::add)
 
-                createEyeRect(
-                    imageWidth = srcMat.cols(),
-                    imageHeight = srcMat.rows(),
-                    center = Point(
-                        faces.value(i, 6),
-                        faces.value(i, 7)
-                    ),
-                    size = eyeSize
-                )?.let(::add)
+                    createEyeRect(
+                        imageWidth = srcMat.cols(),
+                        imageHeight = srcMat.rows(),
+                        center = Point(
+                            faces.value(i, 6),
+                            faces.value(i, 7)
+                        ),
+                        size = eyeSize
+                    )?.let(::add)
+                }
             }
+
+        } finally {
+            faces.release()
         }
-
-        faces.release()
-
-        return result
     }
 
     private fun createEyeRect(
@@ -197,17 +192,17 @@ object RedEyeRemover : OpenCV() {
         val rows = maskFloodfill.rows()
         val cols = maskFloodfill.cols()
         val floodfillMask = Mat.zeros(rows + 2, cols + 2, CvType.CV_8UC1)
-        Imgproc.floodFill(maskFloodfill, floodfillMask, Point(0.0, 0.0), Scalar(255.0))
-        val maskInv = Mat()
-        Core.bitwise_not(maskFloodfill, maskInv)
-        val filledMask = Mat()
-        Core.bitwise_or(maskInv, mask, filledMask)
-
-        maskFloodfill.release()
-        floodfillMask.release()
-        maskInv.release()
-
-        return filledMask
+        try {
+            Imgproc.floodFill(maskFloodfill, floodfillMask, Point(0.0, 0.0), Scalar(255.0))
+            Core.bitwise_not(maskFloodfill, maskFloodfill)
+            Core.bitwise_or(maskFloodfill, mask, maskFloodfill)
+            return maskFloodfill
+        } catch (t: Throwable) {
+            maskFloodfill.release()
+            throw t
+        } finally {
+            floodfillMask.release()
+        }
     }
 
     private fun Mat.value(row: Int, col: Int): Double {

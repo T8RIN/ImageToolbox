@@ -55,7 +55,7 @@ import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.crop
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.defaultFont
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.getAllImages
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.getPageSafe
-import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.importPageForCopy
+import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.importPagesForCopy
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.metadata
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.orAll
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.pageIndices
@@ -482,9 +482,7 @@ internal class AndroidPdfManager @Inject constructor(
             createPdf { newDoc ->
                 newDoc.document.version = document.version
 
-                pages.orAll(document).forEach { index ->
-                    newDoc.importPageForCopy(document.getPageSafe(index))
-                }
+                newDoc.importPagesForCopy(pages.orAll(document).map(document::getPageSafe))
 
                 newDoc.save(
                     filename = tempName(
@@ -552,9 +550,7 @@ internal class AndroidPdfManager @Inject constructor(
             createPdf { newDoc ->
                 newDoc.document.version = document.version
 
-                newOrder.forEach { pageIndex ->
-                    newDoc.importPageForCopy(document.getPageSafe(pageIndex))
-                }
+                newDoc.importPagesForCopy(newOrder.map(document::getPageSafe))
 
                 newDoc.save(
                     filename = tempName(
@@ -1171,9 +1167,7 @@ internal class AndroidPdfManager @Inject constructor(
                             createPdf { newDoc ->
                                 newDoc.document.version = document.version
 
-                                pages.forEach { pageIndex ->
-                                    newDoc.importPageForCopy(document.getPageSafe(pageIndex))
-                                }
+                                newDoc.importPagesForCopy(pages.map(document::getPageSafe))
 
                                 zip.putEntry(
                                     name = "${prefix}_${index++}.pdf",

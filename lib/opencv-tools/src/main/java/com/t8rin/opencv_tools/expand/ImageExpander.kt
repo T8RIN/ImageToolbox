@@ -23,6 +23,7 @@ import android.graphics.Bitmap
 import com.t8rin.opencv_tools.utils.OpenCV
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.withContext
 import kotlin.math.max
@@ -49,7 +50,8 @@ object ImageExpander : OpenCV() {
                 return@withContext bitmap.copy(Bitmap.Config.ARGB_8888, false)
             }
 
-            val source = bitmap.copy(Bitmap.Config.ARGB_8888, false)
+            val source = if (bitmap.config == Bitmap.Config.ARGB_8888) bitmap
+            else bitmap.copy(Bitmap.Config.ARGB_8888, false)
             val sourceWidth = source.width
             val sourceHeight = source.height
             val resultWidth = outputWidth.toInt()
@@ -58,15 +60,19 @@ object ImageExpander : OpenCV() {
             val resultPixels = IntArray(resultWidth * resultHeight)
             val knownPixels = BooleanArray(resultPixels.size)
 
-            source.getPixels(
-                sourcePixels,
-                0,
-                sourceWidth,
-                0,
-                0,
-                sourceWidth,
-                sourceHeight
-            )
+            try {
+                source.getPixels(
+                    sourcePixels,
+                    0,
+                    sourceWidth,
+                    0,
+                    0,
+                    sourceWidth,
+                    sourceHeight
+                )
+            } finally {
+                if (source !== bitmap) source.recycle()
+            }
 
             copySourceToResult(
                 sourcePixels = sourcePixels,
@@ -246,10 +252,7 @@ object ImageExpander : OpenCV() {
                 endIndex = sourceIndex + sourceWidth
             )
 
-            for (x in 0 until sourceWidth) {
-                ensureActive()
-                knownPixels[resultIndex + x] = true
-            }
+            knownPixels.fill(true, resultIndex, resultIndex + sourceWidth)
         }
     }
 
@@ -349,6 +352,7 @@ object ImageExpander : OpenCV() {
             sourceHeight = sourceHeight
         )
 
+        val context = currentCoroutineContext()
         var bestPatch = anchor
         var bestError = targetBounds.matchError(
             sourcePatch = anchor,
@@ -361,6 +365,7 @@ object ImageExpander : OpenCV() {
         )
 
         repeat(config.candidateCount) {
+            context.ensureActive()
             val candidate = allowed.randomPatch(
                 random = random
             )
@@ -417,7 +422,6 @@ object ImageExpander : OpenCV() {
             val sourceIndex = (sourcePatch.top + y) * sourceWidth + sourcePatch.left
 
             for (x in 0 until targetBounds.width) {
-                ensureActive()
                 val index = resultIndex + x
                 val resultX = targetBounds.left + x
                 val resultY = targetBounds.top + y
@@ -583,72 +587,66 @@ object ImageExpander : OpenCV() {
         val width: Int get() = right - left
         val height: Int get() = bottom - top
 
-        suspend fun hasUnknown(
+        fun hasUnknown(
             knownPixels: BooleanArray,
             imageWidth: Int
-        ): Boolean = coroutineScope {
+        ): Boolean {
             for (y in top until bottom) {
-                ensureActive()
                 val index = y * imageWidth + left
 
                 for (x in 0 until width) {
-                    ensureActive()
-                    if (!knownPixels[index + x]) return@coroutineScope true
+                    if (!knownPixels[index + x]) return true
                 }
             }
 
-            return@coroutineScope false
+            return false
         }
 
-        suspend fun knownCount(
+        fun knownCount(
             knownPixels: BooleanArray,
             imageWidth: Int,
             sampleStride: Int
-        ): Int = coroutineScope {
+        ): Int {
             var count = 0
 
             for (y in top until bottom step sampleStride) {
-                ensureActive()
                 val index = y * imageWidth + left
 
                 for (x in 0 until width step sampleStride) {
-                    ensureActive()
                     if (knownPixels[index + x]) count++
                 }
             }
 
-            return@coroutineScope count
+            return count
         }
 
-        suspend fun hasKnownColumn(
+        fun hasKnownColumn(
             knownPixels: BooleanArray,
             imageWidth: Int,
             localX: Int
-        ): Boolean = coroutineScope {
+        ): Boolean {
             for (y in top until bottom) {
-                ensureActive()
-                if (knownPixels[y * imageWidth + left + localX]) return@coroutineScope true
+                if (knownPixels[y * imageWidth + left + localX]) return true
             }
 
-            return@coroutineScope false
+            return false
         }
 
-        suspend fun hasKnownRow(
+        fun hasKnownRow(
             knownPixels: BooleanArray,
             imageWidth: Int,
             localY: Int
-        ): Boolean = coroutineScope {
+        ): Boolean {
             val index = (top + localY) * imageWidth + left
 
             for (x in 0 until width) {
-                ensureActive()
-                if (knownPixels[index + x]) return@coroutineScope true
+                if (knownPixels[index + x]) return true
             }
 
-            return@coroutineScope false
+            return false
         }
 
-        suspend fun matchError(
+        fun matchError(
             sourcePatch: SourcePatch,
             sourcePixels: IntArray,
             resultPixels: IntArray,
@@ -656,17 +654,15 @@ object ImageExpander : OpenCV() {
             sourceWidth: Int,
             resultWidth: Int,
             sampleStride: Int
-        ): Long = coroutineScope {
+        ): Long {
             var error = 0L
             var samples = 0
 
             for (y in 0 until height step sampleStride) {
-                ensureActive()
                 val resultIndex = (top + y) * resultWidth + left
                 val sourceIndex = (sourcePatch.top + y) * sourceWidth + sourcePatch.left
 
                 for (x in 0 until width step sampleStride) {
-                    ensureActive()
                     if (knownPixels[resultIndex + x]) {
                         error += colorDistance(
                             resultPixels[resultIndex + x],
@@ -677,7 +673,7 @@ object ImageExpander : OpenCV() {
                 }
             }
 
-            return@coroutineScope if (samples == 0) Long.MAX_VALUE else error / samples
+            return if (samples == 0) Long.MAX_VALUE else error / samples
         }
 
         fun isInsideSource(

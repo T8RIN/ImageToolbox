@@ -5512,7 +5512,7 @@
     <string name="help_tip_gallery_search_subtitle">מצא תמונות לפי תוכנן ודפדף בקטגוריות אוטומטיות. חיפוש שמות קבצים זמין תמיד</string>
     <string name="help_tip_gallery_search_page_title">הפעל את חיפוש התמונות הסמנטי</string>
     <string name="help_tip_gallery_search_description">חיפוש תמונות סמנטי מוצא תמונות לפי מה שיש בהן: תאר אובייקטים, אנשים או סצנה. אין צורך להוסיף כיתובים או תגים. זה גם מקבץ תמונות לקטגוריות אוטומטיות. זמין ב-Android 8 ואילך בכלי הגלריה וכאשר מקור תמונה מוגדר ל- Embedded Picker.</string>
-    <string name="help_tip_gallery_search_step_1">פתח את הגדרות ← מקור תמונה והפעל את חיפוש התמונות הסמנטי. אתה יכול גם להפעיל אותו באמצעות לחצן הגדרות חיפוש לצד שדה החיפוש בגלריה או בבורר המוטבע.</string>
+    <string name="help_tip_gallery_search_step_1">פתח את הגדרות ← גלריה והפעל את חיפוש התמונות הסמנטי. אתה יכול גם להפעיל אותו באמצעות לחצן הגדרות חיפוש לצד שדה החיפוש בגלריה או בבורר המוטבע.</string>
     <string name="help_tip_gallery_search_step_2">אפשר גישה לתמונות שברצונך לחפש. ב-Android 14 ואילך, אתה יכול לאפשר גישה לתמונות נבחרות בלבד. כדי למצוא תמונות נוספות, תן גם לאפליקציה גישה אליהן.</string>
     <string name="help_tip_gallery_search_step_3">ההתקנה הראשונה מורידה כ-227 מגה-בייט של קבצים לזיהוי תוכן התמונות. לאחר מכן, ההכנה והחיפוש פועלים במכשיר שלך ללא אינטרנט. התמונות ושאילתות החיפוש שלך לא נשלחות לשרת.</string>
     <string name="help_tip_gallery_search_page_2_title">חפש לפי שם או תיאור</string>
@@ -7945,4 +7945,16 @@
     <string name="emoji_kitchen_download_size">גודל ארכיון: %1$s</string>
     <string name="emoji_kitchen_favorites">סימניות</string>
     <string name="emoji_kitchen_favorites_empty">אין סימניות</string>
+    <string name="gallery_show_file_size">הצג את גודל הקובץ</string>
+    <string name="gallery_show_file_extension">הצג פורמט קובץ</string>
+    <string name="gallery_show_file_size_sub">הצג את גודל הקובץ בתמונות ממוזערות.</string>
+    <string name="gallery_show_file_extension_sub">הצג את פורמט הקובץ בתמונות ממוזערות.</string>
+    <string name="help_tip_gallery_workflow_grid_settings">פתח את הגדרות ← גלריה כדי להגדיר את הרשת ל-Auto או בחר 1-20 עמודות. צבט בשתי אצבעות כדי לשנות את גודל הרשת עד שתסגור אותה. ניתן לכבות את תוויות גודל הקובץ והפורמט בנפרד.</string>
+    <string name="help_tip_gallery_workflow_fast_scroll">גלול כדי לחשוף את הידית בצד ימין. גרור אותו כדי לעבור בגלריה לפי תאריך ושעה.</string>
+    <string name="save_collage_project_sub">שמור את הפריסה, התמונות המקוריות והיסטוריית העריכה בקובץ פרויקט הניתן לעריכה</string>
+    <string name="help_tip_setting_gallery_columns_description">בחר כמה עמודות יופיעו בגלריה ובבורר המוטבע. עמודות נוספות מציגות תמונות ממוזערות קטנות יותר.</string>
+    <string name="help_tip_setting_gallery_columns_step">פתח את הגדרות ← גלריה ← ספירת עמודות. בחר אוטומטי כדי להתאים למסך או ספירה קבועה מ-1 עד 20.</string>
+    <string name="help_tip_setting_gallery_file_size_step">פתח את הגדרות ← גלריה והחלף את הצג את גודל הקובץ. זה משנה את תוויות התמונות הממוזערות מבלי לשנות או לדחוס את הקבצים.</string>
+    <string name="help_tip_setting_gallery_file_extension_step">פתח את הגדרות ← גלריה והחלף את הצג פורמט קובץ. זה משנה את תוויות התמונות הממוזערות מבלי לשנות את השם או להמיר את הקבצים.</string>
+    <string name="help_tip_setting_remember_preview_layout_step">פתח את הגדרות ← התנהגות והפעל זכור פריסת תצוגה מקדימה. התאם את גובה התצוגה המקדימה או הצמד אותו בכלי; הכלי הבא יעשה שימוש חוזר בפריסה הזו.</string>
 </resources>

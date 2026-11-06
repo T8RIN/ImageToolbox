@@ -5511,7 +5511,7 @@
     <string name="help_tip_gallery_search_subtitle">Пронађите фотографије према њиховом садржају и прегледајте аутоматске категорије. Претрага имена датотеке је увек доступна</string>
     <string name="help_tip_gallery_search_page_title">Укључите семантичку претрагу фотографија</string>
     <string name="help_tip_gallery_search_description">Семантичка претрага фотографија проналази фотографије према ономе што се на њима налази: описују објекте, људе или сцену. Не морате да додајете натписе или ознаке. Такође групише фотографије у аутоматске категорије. Доступно на Андроиду 8 и новијим верзијама у алатки Галерија и када је извор слике подешен на Уграђени бирач.</string>
-    <string name="help_tip_gallery_search_step_1">Отворите Подешавања → Извор слике и укључите семантичку претрагу фотографија. Такође можете да га укључите помоћу дугмета Подешавања претраге поред поља за претрагу у Галерији или Уграђеном бирачу.</string>
+    <string name="help_tip_gallery_search_step_1">Отворите Подешавања → Галерија и укључите семантичку претрагу фотографија. Такође можете да га укључите помоћу дугмета Подешавања претраге поред поља за претрагу у Галерији или Уграђеном бирачу.</string>
     <string name="help_tip_gallery_search_step_2">Дозволите приступ фотографијама које желите да тражите. На Андроиду 14 и новијим верзијама можете дозволити приступ само одабраним фотографијама. Да бисте пронашли још фотографија, дајте апликацији приступ и њима.</string>
     <string name="help_tip_gallery_search_step_3">Прво подешавање преузима око 227 МБ датотека за препознавање садржаја фотографија. Након тога, припрема и претраживање раде на вашем уређају без интернета. Ваше фотографије и упити за претрагу се не шаљу на сервер.</string>
     <string name="help_tip_gallery_search_page_2_title">Претражујте по имену или опису</string>
@@ -7597,7 +7597,7 @@
     <string name="style_presets_sub">Сачувајте или примените стил</string>
     <string name="save_style_preset">Сачувај стил</string>
     <string name="delete_style_preset">Избриши стил</string>
-    <string name="delete_style_preset_sub">Желите ли да избришете стил „__ПХ_0__“?</string>
+    <string name="delete_style_preset_sub">Желите ли да избришете стил „%1$s“?</string>
     <string name="code_preview_transparent_background">Транспарент бацкгроунд</string>
     <string name="filter_help_adaptive_binarization">Одваја мастило и папир при неуједначеном осветљењу користећи статистику локалне осветљености.</string>
     <string name="filter_help_agx_tone_mapping">Уклања светле делове и контролише засићење помоћу аналитичке АгКс тонске криве.</string>
@@ -7923,13 +7923,13 @@
     <string name="emoji_kitchen_collection">Колекција емоџија</string>
     <string name="emoji_kitchen_import">Увези архиву</string>
     <string name="emoji_kitchen_delete_title">Избрисати колекцију?</string>
-    <string name="emoji_kitchen_delete_message">Ово ће ослободити __ПХ_0__. Ваши обележивачи и сачуване слике ће остати.</string>
+    <string name="emoji_kitchen_delete_message">Ово ће ослободити %1$s. Ваши обележивачи и сачуване слике ће остати.</string>
     <string name="emoji_kitchen_choose_first">Изаберите први емоји</string>
     <string name="emoji_kitchen_choose_second">Изаберите други емоји</string>
     <string name="emoji_kitchen_choose">Изаберите емоји</string>
     <string name="emoji_kitchen_shuffle">Рандомизе</string>
     <string name="emoji_kitchen_no_combination">Није доступна комбинација</string>
-    <string name="emoji_kitchen_collection_stats">__ПХ_0__ емоџи · __ПХ_1__ комбинације</string>
+    <string name="emoji_kitchen_collection_stats">%1$d емоџи · %2$d комбинације</string>
     <string name="emoji_kitchen_downloading">Преузимање колекције</string>
     <string name="emoji_kitchen_importing">Увоз архиве</string>
     <string name="emoji_kitchen_installing">Инсталирање колекције</string>
@@ -7941,7 +7941,19 @@
     <string name="help_tip_emoji_kitchen_step_2">Додирните било који слот за емоџије и изаберите замену из проширивих група. Коцкице испод сваког емоџија бирају случајну опцију.</string>
     <string name="help_tip_emoji_kitchen_step_3">Додирните компас поред Дели да бисте истражили комбинације. Изаберите емоџи, а затим додирните резултат да бисте га отворили.</string>
     <string name="help_tip_emoji_kitchen_step_4">Сачувајте ПНГ или користите Схаре да бисте га послали, копирали или уредили. Додајте комбинације у обележиваче и отворите их помоћу дугмета обележивача поред Дели. Превуците картицу колекције удесно да бисте открили њену везу или налево да бисте открили Избриши.</string>
-    <string name="emoji_kitchen_download_size">Величина архиве: __ПХ_0__</string>
+    <string name="emoji_kitchen_download_size">Величина архиве: %1$s</string>
     <string name="emoji_kitchen_favorites">Боокмаркс</string>
     <string name="emoji_kitchen_favorites_empty">Нема обележивача</string>
+    <string name="gallery_show_file_size">Прикажи величину датотеке</string>
+    <string name="gallery_show_file_extension">Прикажи формат датотеке</string>
+    <string name="gallery_show_file_size_sub">Прикажите величину датотеке на сличицама слика.</string>
+    <string name="gallery_show_file_extension_sub">Прикажите формат датотеке на сличицама слика.</string>
+    <string name="help_tip_gallery_workflow_grid_settings">Отворите Подешавања → Галерија да поставите мрежу на Аутоматски или изаберите 1–20 колона. Стисните са два прста да бисте променили величину мреже док је не затворите. Ознаке величине датотеке и формата могу се засебно искључити.</string>
+    <string name="help_tip_gallery_workflow_fast_scroll">Померите се да бисте открили ручку са десне стране. Превуците га да бисте се кретали кроз галерију према датуму и времену.</string>
+    <string name="save_collage_project_sub">Сачувајте изглед, оригиналне слике и историју уређивања у датотеци пројекта који се може уређивати</string>
+    <string name="help_tip_setting_gallery_columns_description">Одаберите колико се колона појављује у галерији и уграђеном бирачу. Више колона приказује мање сличице.</string>
+    <string name="help_tip_setting_gallery_columns_step">Отворите Подешавања → Галерија → Број колона. Изаберите Аутоматски да бисте се уклопили у екран или фиксни број од 1 до 20.</string>
+    <string name="help_tip_setting_gallery_file_size_step">Отворите Подешавања → Галерија и укључите опцију Прикажи величину датотеке. Ово мења ознаке сличица без промене или компримовања датотека.</string>
+    <string name="help_tip_setting_gallery_file_extension_step">Отворите Подешавања → Галерија и укључите Прикажи формат датотеке. Ово мења ознаке сличица без преименовања или конверзије датотека.</string>
+    <string name="help_tip_setting_remember_preview_layout_step">Отворите Подешавања → Понашање и укључите Запамти изглед прегледа. Подесите висину прегледа или је закачите у алатку; следећи алат ће поново користити тај распоред.</string>
 </resources>

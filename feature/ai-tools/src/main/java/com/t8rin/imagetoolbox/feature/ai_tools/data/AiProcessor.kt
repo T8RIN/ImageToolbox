@@ -410,14 +410,12 @@ internal class AiProcessor @Inject constructor(
 
             session.runCancellable(tensors).use { result ->
                 val modelOutputSize = tensorSize.scaledBy(info.scaleFactor)
-                val (outputFloats, actualChannels) = withContext(defaultDispatcher) {
-                    extractOutputArray(
-                        outputValue = result[0].value,
-                        channels = info.outputChannels,
-                        h = modelOutputSize.height,
-                        w = modelOutputSize.width
-                    )
-                }
+                val (outputFloats, actualChannels) = extractOutputArray(
+                    output = result[0] as OnnxTensor,
+                    channels = info.outputChannels,
+                    h = modelOutputSize.height,
+                    w = modelOutputSize.width
+                )
 
                 val rendered = renderModelOutput(
                     values = outputFloats,

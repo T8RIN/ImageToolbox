@@ -17,9 +17,9 @@
 
 package com.t8rin.imagetoolbox.feature.media_picker.presentation.components
 
-import android.net.Uri
 import android.text.format.DateUtils
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -64,15 +64,19 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.CompositingStrategy
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
@@ -109,6 +113,7 @@ import com.t8rin.imagetoolbox.feature.media_picker.domain.model.Media
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.MediaAction
 import com.t8rin.modalsheet.FullscreenPopup
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
 import net.engawapg.lib.zoomable.ScrollGesturePropagation
 import net.engawapg.lib.zoomable.rememberZoomState
 import net.engawapg.lib.zoomable.zoomable
@@ -123,9 +128,12 @@ internal fun MediaImagePager(
     onMediaClick: (Media) -> Unit,
     onMediaAction: ((MediaAction, Media) -> Unit)? = null
 ) {
-    val context = LocalContext.current
     val visible = imagePreviewUri != null
+    val visibility = remember { MutableTransitionState(false) }
+    visibility.targetState = visible
+    if (!visible && visibility.isIdle && !visibility.currentState) return
 
+    val context = LocalContext.current
     val useOpaqueBackground = LocalSettingsState.current.useOpaqueImageViewerBackground
 
     FullscreenPopup {
@@ -133,7 +141,6 @@ internal fun MediaImagePager(
             mutableFloatStateOf(0f)
         }
         val animatedPredictiveBackProgress by animateFloatAsState(predictiveBackProgress)
-        val scale = (1f - animatedPredictiveBackProgress).coerceAtLeast(0.75f)
 
         LaunchedEffect(predictiveBackProgress, visible) {
             if (!visible && predictiveBackProgress != 0f) {
@@ -143,7 +150,7 @@ internal fun MediaImagePager(
         }
 
         AnimatedVisibility(
-            visible = visible,
+            visibleState = visibility,
             modifier = Modifier.fillMaxSize(),
             enter = fadeIn(tween(500)),
             exit = fadeOut(tween(500))
@@ -177,12 +184,8 @@ internal fun MediaImagePager(
             LaunchedEffect(media.isEmpty()) {
                 if (media.isEmpty()) onDismiss()
             }
-            val initialPage by remember(imagePreviewUri, media) {
-                derivedStateOf {
-                    imagePreviewUri?.let {
-                        media.indexOfFirst { it.uri == imagePreviewUri }
-                    }?.takeIf { it >= 0 } ?: 0
-                }
+            val initialPage = remember(imagePreviewUri, media) {
+                media.indexOfFirst { it.uri == imagePreviewUri }.coerceAtLeast(0)
             }
             val pagerState = rememberPagerState(
                 initialPage = initialPage,
@@ -198,33 +201,35 @@ internal fun MediaImagePager(
                     )
                 }
             }
+            val backgroundColor = if (useOpaqueBackground) Color.Black
+            else MaterialTheme.colorScheme.scrim.copy(alpha = 0.6f)
             Box(
                 modifier = Modifier
                     .fillMaxSize()
                     .withLayoutCorners { corners ->
                         graphicsLayer {
+                            val scale = (1f - animatedPredictiveBackProgress).coerceAtLeast(0.75f)
                             scaleX = scale
                             scaleY = scale
                             shape = corners.toShape(animatedPredictiveBackProgress)
                             clip = true
                         }
                     }
-                    .background(
-                        if (useOpaqueBackground) Color.Black.copy(alpha = progress)
-                        else MaterialTheme.colorScheme.scrim.copy(alpha = 0.6f * progress)
-                    )
+                    .drawBehind { drawRect(backgroundColor, alpha = progress) }
             ) {
-                val currentMedia = media.getOrNull(pagerState.currentPage)
+                val currentPageMedia by remember(pagerState, media) {
+                    derivedStateOf { media.getOrNull(pagerState.currentPage) }
+                }
                 val imageErrorPages = remember {
                     mutableStateListOf<String>()
                 }
-                var hideControls by remember(animatedPredictiveBackProgress) {
+                var hideControls by remember {
                     mutableStateOf(false)
                 }
                 HorizontalPager(
                     state = pagerState,
                     modifier = Modifier.fillMaxSize(),
-                    beyondViewportPageCount = 5,
+                    beyondViewportPageCount = 1,
                     key = { media[it].uri },
                     pageSpacing = if (pagerState.pageCount > 1) 16.dp
                     else 0.dp
@@ -294,20 +299,14 @@ internal fun MediaImagePager(
                         )
                     }
                 }
-                val showTopBar by remember(hideControls, draggableState) {
-                    derivedStateOf {
-                        draggableState.offset == 0f && !hideControls
-                    }
-                }
-                val showBottomHist = currentMedia?.uri !in imageErrorPages
-                val showBottomBar by remember(draggableState, hideControls) {
+                val showControls by remember(draggableState) {
                     derivedStateOf {
                         draggableState.offset == 0f && !hideControls
                     }
                 }
 
                 AnimatedVisibility(
-                    visible = showTopBar,
+                    visible = showControls,
                     modifier = Modifier.fillMaxWidth(),
                     enter = fadeIn() + slideInVertically(),
                     exit = fadeOut() + slideOutVertically()
@@ -319,6 +318,7 @@ internal fun MediaImagePager(
                         type = EnhancedTopAppBarType.Center,
                         drawHorizontalStroke = false,
                         title = {
+                            val currentMedia = currentPageMedia
                             MetadataPreviewButton(
                                 uri = currentMedia?.uri?.toUri(),
                                 onShare = { context.shareUris(listOf(it)) },
@@ -362,6 +362,7 @@ internal fun MediaImagePager(
                             )
                         },
                         actions = {
+                            val currentMedia = currentPageMedia
                             val isImageError = imageErrorPages.contains(currentMedia?.uri)
                             AnimatedVisibility(
                                 visible = currentMedia != null,
@@ -404,7 +405,7 @@ internal fun MediaImagePager(
                 }
 
                 AnimatedVisibility(
-                    visible = showBottomBar,
+                    visible = showControls,
                     modifier = Modifier.align(Alignment.BottomEnd),
                     enter = fadeIn() + slideInVertically { it / 2 },
                     exit = fadeOut() + slideOutVertically { it / 2 }
@@ -424,6 +425,7 @@ internal fun MediaImagePager(
                             .padding(16.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
+                        val currentMedia = currentPageMedia
                         Column(Modifier.weight(1f)) {
                             ImageViewerTitle(
                                 uri = currentMedia?.uri?.toUri(),
@@ -450,13 +452,30 @@ internal fun MediaImagePager(
                                     )
                                 }
                         }
-                        if (showBottomHist) {
+                        var histogramPage by remember(pagerState) {
+                            mutableIntStateOf(pagerState.settledPage)
+                        }
+                        LaunchedEffect(pagerState) {
+                            snapshotFlow {
+                                pagerState.settledPage.takeUnless { pagerState.isScrollInProgress }
+                            }.collectLatest { page ->
+                                if (page != null && page != histogramPage) {
+                                    delay(180L)
+                                    histogramPage = page
+                                }
+                            }
+                        }
+                        val histogramUri = media.getOrNull(histogramPage)?.uri
+                        if (histogramUri != null && histogramUri !in imageErrorPages) {
                             Spacer(Modifier.width(16.dp))
                             HistogramChart(
-                                model = currentMedia?.uri ?: Uri.EMPTY,
+                                model = histogramUri,
                                 modifier = Modifier
                                     .height(50.dp)
-                                    .width(90.dp),
+                                    .width(90.dp)
+                                    .graphicsLayer {
+                                        compositingStrategy = CompositingStrategy.Offscreen
+                                    },
                                 bordersColor = MaterialTheme.colorScheme.primaryFixed
                                     .blend(White, 0.5f)
                             )

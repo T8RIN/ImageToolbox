@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,9 +17,6 @@
 
 package com.t8rin.imagetoolbox.feature.image_stacking.domain
 
-import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
-import com.t8rin.imagetoolbox.core.domain.image.model.Quality
-
 interface ImageStacker<I> {
 
     suspend fun stackImages(
@@ -27,14 +24,6 @@ interface ImageStacker<I> {
         stackingParams: StackingParams,
         onFailure: (Throwable) -> Unit,
         onProgress: (Int) -> Unit
-    ): I?
-
-    suspend fun stackImagesPreview(
-        stackImages: List<StackImage>,
-        stackingParams: StackingParams,
-        imageFormat: ImageFormat,
-        quality: Quality,
-        onGetByteCount: (Int) -> Unit
     ): I?
 
 }

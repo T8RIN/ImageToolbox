@@ -49,15 +49,16 @@ fun MediaStickyHeader(
     modifier: Modifier = Modifier,
     date: String,
     isChecked: Boolean,
-    onChecked: (() -> Unit)? = null
+    onChecked: (() -> Unit)? = null,
+    scale: Float = 1f
 ) {
     Row(
         modifier = modifier
             .padding(
                 start = 8.dp,
                 end = 12.dp,
-                top = 14.dp,
-                bottom = 14.dp
+                top = 14.dp * scale,
+                bottom = 14.dp * scale
             )
             .fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -70,9 +71,12 @@ fun MediaStickyHeader(
             interactionSource = interactionSource
         )
 
+        val style = MaterialTheme.typography.titleMedium
         Text(
             text = date,
-            style = MaterialTheme.typography.titleMedium,
+            style = style,
+            fontSize = style.fontSize * scale,
+            lineHeight = style.lineHeight * scale,
             color = MaterialTheme.colorScheme.onSurface,
             modifier = Modifier
                 .container(
@@ -91,8 +95,8 @@ fun MediaStickyHeader(
                     }
                 )
                 .padding(
-                    vertical = 6.dp,
-                    horizontal = 12.dp
+                    vertical = 6.dp * scale,
+                    horizontal = 12.dp * scale
                 )
         )
         AnimatedVisibility(

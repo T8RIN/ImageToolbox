@@ -61,11 +61,7 @@ internal fun ColumnScope.CompareWithUriPage(
 
     ChecksumEnterField(
         value = page.targetChecksum,
-        onValueChange = {
-            component.setDataForComparison(
-                targetChecksum = it
-            )
-        }
+        onValueChange = component::setTargetChecksum
     )
 
     AnimatedVisibility(

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -14,7 +13,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="language">اللغة</string>
     <string name="amoled_mode">وضع Amoled</string>
     <string name="amoled_mode_sub">إذا فُعّل لون الأسطح فسيتم ضبطه على الظلام المطلق في الوضع الليلي</string>
@@ -5513,7 +5514,7 @@
     <string name="help_tip_gallery_search_subtitle">ابحث عن الصور حسب محتوياتها وتصفح الفئات التلقائية. البحث عن اسم الملف متاح دائمًا</string>
     <string name="help_tip_gallery_search_page_title">قم بتشغيل البحث الدلالي عن الصور</string>
     <string name="help_tip_gallery_search_description">يبحث البحث عن الصور الدلالية عن الصور حسب ما تحتويه: وصف الأشياء أو الأشخاص أو المشهد. لا تحتاج إلى إضافة تسميات توضيحية أو علامات. كما يقوم أيضًا بتجميع الصور في فئات تلقائية. متوفر على نظام التشغيل Android 8 والإصدارات الأحدث في أداة المعرض وعند تعيين مصدر الصورة على Embedded Picker.</string>
-    <string name="help_tip_gallery_search_step_1">افتح الإعدادات → مصدر الصورة وقم بتشغيل البحث الدلالي عن الصور. يمكنك أيضًا تشغيله باستخدام زر إعدادات البحث بجوار حقل البحث في المعرض أو المنتقى المضمن.</string>
+    <string name="help_tip_gallery_search_step_1">افتح الإعدادات → معرض الصور وقم بتشغيل البحث الدلالي عن الصور. يمكنك أيضًا تشغيله باستخدام زر إعدادات البحث بجوار حقل البحث في المعرض أو المنتقى المضمن.</string>
     <string name="help_tip_gallery_search_step_2">السماح بالوصول إلى الصور التي تريد البحث عنها. في نظام التشغيل Android 14 والإصدارات الأحدث، يمكنك السماح بالوصول إلى الصور المحددة فقط. للعثور على المزيد من الصور، امنح التطبيق إمكانية الوصول إليها أيضًا.</string>
     <string name="help_tip_gallery_search_step_3">يقوم الإعداد الأول بتنزيل حوالي 227 ميغابايت من الملفات للتعرف على محتويات الصورة. بعد ذلك يتم عمل التحضير والبحث على جهازك بدون انترنت. لا يتم إرسال الصور واستعلامات البحث الخاصة بك إلى الخادم.</string>
     <string name="help_tip_gallery_search_page_2_title">البحث بالاسم أو الوصف</string>
@@ -7946,4 +7947,16 @@
     <string name="emoji_kitchen_download_size">حجم الأرشيف: %1$s</string>
     <string name="emoji_kitchen_favorites">الإشارات المرجعية</string>
     <string name="emoji_kitchen_favorites_empty">لا الإشارات المرجعية</string>
+    <string name="gallery_show_file_size">إظهار حجم الملف</string>
+    <string name="gallery_show_file_extension">إظهار تنسيق الملف</string>
+    <string name="gallery_show_file_size_sub">إظهار حجم الملف على الصور المصغرة للصور.</string>
+    <string name="gallery_show_file_extension_sub">إظهار تنسيق الملف على الصور المصغرة للصور.</string>
+    <string name="help_tip_gallery_workflow_grid_settings">افتح الإعدادات → المعرض لتعيين الشبكة على تلقائي أو اختر من 1 إلى 20 عمودًا. قم بالضغط بإصبعين لتغيير حجم الشبكة حتى تقوم بإغلاقها. يمكن إيقاف تشغيل تسميات حجم الملف وتنسيقه بشكل منفصل.</string>
+    <string name="help_tip_gallery_workflow_fast_scroll">قم بالتمرير للكشف عن المقبض الموجود على اليمين. اسحبه للتنقل عبر المعرض حسب التاريخ والوقت.</string>
+    <string name="save_collage_project_sub">احتفظ بالتخطيط والصور الأصلية وسجل التحرير في ملف مشروع قابل للتحرير</string>
+    <string name="help_tip_setting_gallery_columns_description">اختر عدد الأعمدة التي تظهر في المعرض والمنتقي المضمن. تعرض المزيد من الأعمدة صورًا مصغرة أصغر.</string>
+    <string name="help_tip_setting_gallery_columns_step">افتح الإعدادات ← المعرض ← عدد الأعمدة. اختر تلقائي لملاءمة الشاشة أو اختر عددًا ثابتًا من 1 إلى 20.</string>
+    <string name="help_tip_setting_gallery_file_size_step">افتح الإعدادات → المعرض وقم بتبديل إظهار حجم الملف. يؤدي هذا إلى تغيير تسميات الصور المصغرة دون تغيير الملفات أو ضغطها.</string>
+    <string name="help_tip_setting_gallery_file_extension_step">افتح الإعدادات → المعرض وقم بتبديل عرض تنسيق الملف. يؤدي هذا إلى تغيير تسميات الصور المصغرة دون إعادة تسمية الملفات أو تحويلها.</string>
+    <string name="help_tip_setting_remember_preview_layout_step">افتح الإعدادات → السلوك وقم بتشغيل تذكر تخطيط المعاينة. اضبط ارتفاع المعاينة أو قم بتثبيته في إحدى الأدوات؛ ستعيد الأداة التالية استخدام هذا التخطيط.</string>
 </resources>

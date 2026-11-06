@@ -25,7 +25,6 @@ import com.t8rin.opencv_tools.utils.toBitmap
 import com.t8rin.opencv_tools.utils.toMat
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.ensureActive
-import org.opencv.android.Utils
 import org.opencv.core.Core
 import org.opencv.core.CvType
 import org.opencv.core.CvType.CV_32F
@@ -33,6 +32,7 @@ import org.opencv.core.CvType.CV_8U
 import org.opencv.core.Mat
 import org.opencv.core.MatOfByte
 import org.opencv.core.MatOfInt
+import org.opencv.core.Rect
 import org.opencv.core.Scalar
 import org.opencv.imgcodecs.Imgcodecs
 import org.opencv.imgproc.Imgproc
@@ -51,138 +51,119 @@ object ImageForensics : OpenCV() {
     ): Bitmap = coroutineScope {
         ensureActive()
         val src = input.toMat()
-        Utils.bitmapToMat(input, src)
-        Imgproc.cvtColor(src, src, Imgproc.COLOR_RGBA2BGR)
-
         val buf = MatOfByte()
         val params = MatOfInt(Imgcodecs.IMWRITE_JPEG_QUALITY, quality)
-        Imgcodecs.imencode(".jpg", src, buf, params)
-        ensureActive()
-
-        val resaved = Imgcodecs.imdecode(buf, Imgcodecs.IMREAD_COLOR)
-
         val diff = Mat()
-        Core.absdiff(src, resaved, diff)
-
         val dst = Mat()
-        Core.normalize(diff, dst, 0.0, 255.0, Core.NORM_MINMAX)
-        dst.convertTo(dst, CvType.CV_8UC3)
-
-        Imgproc.cvtColor(dst, dst, Imgproc.COLOR_BGR2RGBA)
-        val outBmp = dst.toBitmap()
-        ensureActive()
-
-        src.release()
-        resaved.release()
-        diff.release()
-        dst.release()
-        buf.release()
-
-        outBmp
+        var resaved: Mat? = null
+        try {
+            Imgproc.cvtColor(src, src, Imgproc.COLOR_RGBA2BGR)
+            Imgcodecs.imencode(".jpg", src, buf, params)
+            ensureActive()
+            resaved = Imgcodecs.imdecode(buf, Imgcodecs.IMREAD_COLOR)
+            Core.absdiff(src, resaved, diff)
+            Core.normalize(diff, dst, 0.0, 255.0, Core.NORM_MINMAX)
+            dst.convertTo(dst, CvType.CV_8UC3)
+            Imgproc.cvtColor(dst, dst, Imgproc.COLOR_BGR2RGBA)
+            ensureActive()
+            dst.toBitmap()
+        } finally {
+            src.release()
+            buf.release()
+            params.release()
+            resaved?.release()
+            diff.release()
+            dst.release()
+        }
     }
 
     suspend fun luminanceGradient(input: Bitmap): Bitmap = coroutineScope {
         ensureActive()
         val src = input.toMat()
-        Imgproc.cvtColor(src, src, Imgproc.COLOR_RGBA2BGR)
-
         val gray = Mat()
-        Imgproc.cvtColor(src, gray, Imgproc.COLOR_BGR2GRAY)
-        gray.convertTo(gray, CV_32F)
-
         val sobelX = Mat()
         val sobelY = Mat()
-        Imgproc.Sobel(gray, sobelX, CV_32F, 1, 0, 3, 1.0, 0.0)
-        Imgproc.Sobel(gray, sobelY, CV_32F, 0, 1, 3, 1.0, 0.0)
-
         val magnitude = Mat()
-        Core.magnitude(sobelX, sobelY, magnitude)
-
-        val rows = magnitude.rows()
-        val cols = magnitude.cols()
-
-        val dst = Mat(rows, cols, CvType.CV_32FC3)
-
-        val sxRow = FloatArray(cols)
-        val syRow = FloatArray(cols)
-        val magRow = FloatArray(cols)
-
-        for (r in 0 until rows) {
-            ensureActive()
-            sobelX.get(r, 0, sxRow)
-            sobelY.get(r, 0, syRow)
-            magnitude.get(r, 0, magRow)
-            val outRow = FloatArray(cols * 3)
-            for (c in 0 until cols) {
-                ensureActive()
-                val angle = atan2(sxRow[c].toDouble(), syRow[c].toDouble()).toFloat()
-                val mag = magRow[c]
-                val g = (-sin(angle.toDouble()) / 2.0 + 0.5).toFloat()
-                val rchan = (-cos(angle.toDouble()) / 2.0 + 0.5).toFloat()
-                outRow[c * 3 + 0] = mag
-                outRow[c * 3 + 1] = g
-                outRow[c * 3 + 2] = rchan
-            }
-            dst.put(r, 0, outRow)
-        }
-
+        val dst = Mat()
         val channels = ArrayList<Mat>(3)
-        Core.split(dst, channels)
-        ensureActive()
-        Core.normalize(channels[0], channels[0], 0.0, 1.0, Core.NORM_MINMAX)
-        Core.merge(channels, dst)
+        try {
+            Imgproc.cvtColor(src, src, Imgproc.COLOR_RGBA2BGR)
+            Imgproc.cvtColor(src, gray, Imgproc.COLOR_BGR2GRAY)
+            gray.convertTo(gray, CV_32F)
+            Imgproc.Sobel(gray, sobelX, CV_32F, 1, 0, 3, 1.0, 0.0)
+            Imgproc.Sobel(gray, sobelY, CV_32F, 0, 1, 3, 1.0, 0.0)
+            Core.magnitude(sobelX, sobelY, magnitude)
 
-        dst.convertTo(dst, CvType.CV_8UC3, 255.0)
-        Imgproc.cvtColor(dst, dst, Imgproc.COLOR_BGR2RGBA)
-        val outBmp = dst.toBitmap()
+            val rows = magnitude.rows()
+            val cols = magnitude.cols()
+            dst.create(rows, cols, CvType.CV_32FC3)
+            val sxRow = FloatArray(cols)
+            val syRow = FloatArray(cols)
+            val magRow = FloatArray(cols)
+            val outRow = FloatArray(cols * 3)
+            for (r in 0 until rows) {
+                ensureActive()
+                sobelX.get(r, 0, sxRow)
+                sobelY.get(r, 0, syRow)
+                magnitude.get(r, 0, magRow)
+                for (c in 0 until cols) {
+                    val angle = atan2(sxRow[c].toDouble(), syRow[c].toDouble()).toFloat()
+                    val mag = magRow[c]
+                    val g = (-sin(angle.toDouble()) / 2.0 + 0.5).toFloat()
+                    val rchan = (-cos(angle.toDouble()) / 2.0 + 0.5).toFloat()
+                    outRow[c * 3] = mag
+                    outRow[c * 3 + 1] = g
+                    outRow[c * 3 + 2] = rchan
+                }
+                dst.put(r, 0, outRow)
+            }
 
-        gray.release()
-        sobelX.release()
-        sobelY.release()
-        magnitude.release()
-
-        for (m in channels) m.release()
-
-        dst.release()
-        src.release()
-
-        outBmp
+            Core.split(dst, channels)
+            ensureActive()
+            Core.normalize(channels[0], channels[0], 0.0, 1.0, Core.NORM_MINMAX)
+            Core.merge(channels, dst)
+            dst.convertTo(dst, CvType.CV_8UC3, 255.0)
+            Imgproc.cvtColor(dst, dst, Imgproc.COLOR_BGR2RGBA)
+            dst.toBitmap()
+        } finally {
+            src.release()
+            gray.release()
+            sobelX.release()
+            sobelY.release()
+            magnitude.release()
+            dst.release()
+            channels.forEach(Mat::release)
+        }
     }
 
     suspend fun averageDistance(input: Bitmap): Bitmap = coroutineScope {
         ensureActive()
         val src = input.toMat()
-        Imgproc.cvtColor(src, src, Imgproc.COLOR_RGBA2BGR)
-
         val src32 = Mat()
-        src.convertTo(src32, CV_32F, 1.0 / 255.0)
-
         val kernel = Mat(3, 3, CV_32F)
-        kernel.put(0, 0, 0.0, 0.25, 0.0)
-        kernel.put(1, 0, 0.25, 0.0, 0.25)
-        kernel.put(2, 0, 0.0, 0.25, 0.0)
-
         val filtered = Mat()
-        Imgproc.filter2D(src32, filtered, -1, kernel)
-        ensureActive()
-
         val diff = Mat()
-        Core.absdiff(src32, filtered, diff)
-        Core.normalize(diff, diff, 0.0, 1.0, Core.NORM_MINMAX)
-
-        diff.convertTo(diff, CvType.CV_8UC3, 255.0)
-        Imgproc.cvtColor(diff, diff, Imgproc.COLOR_BGR2RGBA)
-        val outBmp = diff.toBitmap()
-        ensureActive()
-
-        src.release()
-        src32.release()
-        kernel.release()
-        filtered.release()
-
-        diff.release()
-
-        outBmp
+        try {
+            Imgproc.cvtColor(src, src, Imgproc.COLOR_RGBA2BGR)
+            src.convertTo(src32, CV_32F, 1.0 / 255.0)
+            kernel.put(0, 0, 0.0, 0.25, 0.0)
+            kernel.put(1, 0, 0.25, 0.0, 0.25)
+            kernel.put(2, 0, 0.0, 0.25, 0.0)
+            Imgproc.filter2D(src32, filtered, -1, kernel)
+            ensureActive()
+            Core.absdiff(src32, filtered, diff)
+            Core.normalize(diff, diff, 0.0, 1.0, Core.NORM_MINMAX)
+            diff.convertTo(diff, CvType.CV_8UC3, 255.0)
+            Imgproc.cvtColor(diff, diff, Imgproc.COLOR_BGR2RGBA)
+            ensureActive()
+            diff.toBitmap()
+        } finally {
+            src.release()
+            src32.release()
+            kernel.release()
+            filtered.release()
+            diff.release()
+        }
     }
 
     suspend fun detectCopyMove(
@@ -193,102 +174,123 @@ object ImageForensics : OpenCV() {
         ensureActive()
         val srcColor = input.toMat()
         val srcGray = Mat()
-        Imgproc.cvtColor(srcColor, srcGray, Imgproc.COLOR_BGR2GRAY)
-        srcGray.convertTo(srcGray, CV_32F)
-
-        val blockSize = 16
-        val blocksHeight = srcGray.rows() - blockSize + 1
-        val blocksWidth = srcGray.cols() - blockSize + 1
-        val totalBlocks = blocksHeight * blocksWidth
-        val blocks = ArrayList<Mat>(totalBlocks)
         val tmp = Mat()
+        val quantized = Mat()
+        val rectBuffer = Mat()
+        val dst = Mat()
+        try {
+            Imgproc.cvtColor(srcColor, srcGray, Imgproc.COLOR_BGR2GRAY)
+            srcGray.convertTo(srcGray, CV_32F)
 
-        for (y in 0 until blocksHeight) {
-            ensureActive()
-            for (x in 0 until blocksWidth) {
+            val blockSize = 16
+            val blocksHeight = srcGray.rows() - blockSize + 1
+            val blocksWidth = srcGray.cols() - blockSize + 1
+            if (blocksHeight <= 0 || blocksWidth <= 0) return@coroutineScope srcColor.toBitmap()
+            val totalBlocks = blocksHeight * blocksWidth
+            val retained = retain.coerceIn(1, blockSize)
+            val featureSize = retained * retained
+            val features = ByteArray(Math.multiplyExact(totalBlocks, featureSize))
+            val bytes = ByteArray(blockSize * blockSize)
+            for (y in 0 until blocksHeight) {
                 ensureActive()
-                val roi = srcGray.submat(y, y + blockSize, x, x + blockSize)
-                Core.dct(roi, tmp)
-                Core.divide(tmp, Scalar(qCoefficent), tmp)
-                tmp.convertTo(tmp, CV_8U)
-                blocks.add(tmp.submat(0, retain, 0, retain).clone())
+                for (x in 0 until blocksWidth) {
+                    ensureActive()
+                    val roi = srcGray.submat(y, y + blockSize, x, x + blockSize)
+                    try {
+                        Core.dct(roi, tmp)
+                    } finally {
+                        roi.release()
+                    }
+                    Core.divide(tmp, Scalar(qCoefficent), tmp)
+                    tmp.convertTo(quantized, CV_8U)
+                    quantized.get(0, 0, bytes)
+                    val offset = (y * blocksWidth + x) * featureSize
+                    for (row in 0 until retained) {
+                        bytes.copyInto(
+                            features,
+                            offset + row * retained,
+                            row * blockSize,
+                            row * blockSize + retained
+                        )
+                    }
+                }
             }
-        }
 
-        ensureActive()
-        val index = Array(totalBlocks) { it }
-        index.sortWith { a, b ->
-            ensureActive()
-            val aBytes = ByteArray(retain * retain)
-            val bBytes = ByteArray(retain * retain)
-            blocks[a].get(0, 0, aBytes)
-            blocks[b].get(0, 0, bBytes)
-            for (i in aBytes.indices) {
-                val diff = aBytes[i].toInt() - bBytes[i].toInt()
-                if (diff != 0) return@sortWith diff
+            fun compareBlocks(a: Int, b: Int): Int {
+                val first = a * featureSize
+                val second = b * featureSize
+                for (i in 0 until featureSize) {
+                    val diff = features[first + i].toInt() - features[second + i].toInt()
+                    if (diff != 0) return diff
+                }
+                return 0
             }
-            0
-        }
 
-        val sCount = IntArray(srcGray.rows() * srcGray.cols() * 2)
-        val rectBuffer = srcColor.clone()
-
-        for (i in 0 until totalBlocks - 1) {
             ensureActive()
-            val aBytes = ByteArray(retain * retain)
-            val bBytes = ByteArray(retain * retain)
-            blocks[index[i]].get(0, 0, aBytes)
-            blocks[index[i + 1]].get(0, 0, bBytes)
-            if (aBytes.contentEquals(bBytes)) {
+            val index = Array(totalBlocks) { it }
+            index.sortWith { a, b ->
+                ensureActive()
+                compareBlocks(a, b)
+            }
+
+            val sCount = IntArray(srcGray.rows() * srcGray.cols() * 2)
+            srcColor.copyTo(rectBuffer)
+            for (i in 0 until totalBlocks - 1) {
+                ensureActive()
+                if (compareBlocks(index[i], index[i + 1]) != 0) continue
                 val curX = index[i] % blocksWidth
                 val curY = index[i] / blocksWidth
                 val nextX = index[i + 1] % blocksWidth
                 val nextY = index[i + 1] / blocksWidth
                 val shiftX = abs(curX - nextX)
-                var shiftY = abs(curY - nextY)
-                val magnitude = hypot(shiftX.toDouble(), shiftY.toDouble())
-                shiftY += srcGray.rows()
-                if (magnitude > blockSize) sCount[shiftY * srcGray.cols() + shiftX]++
+                val shiftY = abs(curY - nextY)
+                if (hypot(shiftX.toDouble(), shiftY.toDouble()) > blockSize) {
+                    sCount[(shiftY + srcGray.rows()) * srcGray.cols() + shiftX]++
+                }
             }
-        }
 
-        for (i in 0 until totalBlocks - 1) {
-            ensureActive()
-            val aBytes = ByteArray(retain * retain)
-            val bBytes = ByteArray(retain * retain)
-            blocks[index[i]].get(0, 0, aBytes)
-            blocks[index[i + 1]].get(0, 0, bBytes)
-            if (aBytes.contentEquals(bBytes)) {
+            for (i in 0 until totalBlocks - 1) {
+                ensureActive()
+                if (compareBlocks(index[i], index[i + 1]) != 0) continue
                 val curX = index[i] % blocksWidth
                 val curY = index[i] / blocksWidth
                 val nextX = index[i + 1] % blocksWidth
                 val nextY = index[i + 1] / blocksWidth
                 val shiftX = abs(curX - nextX)
-                var shiftY = abs(curY - nextY)
-                val magnitude = hypot(shiftX.toDouble(), shiftY.toDouble())
-                shiftY += srcGray.rows()
-                if (sCount[shiftY * srcGray.cols() + shiftX] > 10) {
+                val shiftY = abs(curY - nextY)
+                if (sCount[(shiftY + srcGray.rows()) * srcGray.cols() + shiftX] > 10) {
+                    val magnitude = hypot(shiftX.toDouble(), shiftY.toDouble())
                     val rng = Random(magnitude.toLong())
                     val color = Scalar(
                         rng.nextInt(256).toDouble(),
                         rng.nextInt(256).toDouble(),
                         rng.nextInt(256).toDouble()
                     )
-                    for (ii in 0 until blockSize) {
-                        ensureActive()
-                        for (jj in 0 until blockSize) {
-                            rectBuffer.put(curY + ii, curX + jj, *color.`val`)
-                            rectBuffer.put(nextY + ii, nextX + jj, *color.`val`)
-                        }
-                    }
+                    Imgproc.rectangle(
+                        rectBuffer,
+                        Rect(curX, curY, blockSize, blockSize),
+                        color,
+                        Imgproc.FILLED
+                    )
+                    Imgproc.rectangle(
+                        rectBuffer,
+                        Rect(nextX, nextY, blockSize, blockSize),
+                        color,
+                        Imgproc.FILLED
+                    )
                 }
             }
+
+            Core.addWeighted(srcColor, 0.2, rectBuffer, 0.8, 0.0, dst)
+            dst.toBitmap()
+        } finally {
+            srcColor.release()
+            srcGray.release()
+            tmp.release()
+            quantized.release()
+            rectBuffer.release()
+            dst.release()
         }
-
-        val dst = Mat()
-        Core.addWeighted(srcColor, 0.2, rectBuffer, 0.8, 0.0, dst)
-
-        dst.toBitmap()
     }
 
 }

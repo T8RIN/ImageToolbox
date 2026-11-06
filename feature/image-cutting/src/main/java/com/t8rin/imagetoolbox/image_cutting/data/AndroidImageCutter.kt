@@ -18,9 +18,10 @@
 package com.t8rin.imagetoolbox.image_cutting.data
 
 import android.graphics.Bitmap
+import android.graphics.Paint
+import android.graphics.Rect
 import androidx.core.graphics.applyCanvas
 import androidx.core.graphics.createBitmap
-import com.t8rin.imagetoolbox.core.data.image.utils.drawBitmap
 import com.t8rin.imagetoolbox.core.data.utils.safeConfig
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
@@ -28,7 +29,6 @@ import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.image_cutting.domain.CutParams
 import com.t8rin.imagetoolbox.image_cutting.domain.ImageCutter
 import com.t8rin.imagetoolbox.image_cutting.domain.PivotPair
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import kotlin.math.roundToInt
@@ -90,188 +90,50 @@ internal class AndroidImageCutter @Inject constructor(
         }
     }
 
-    private suspend fun Bitmap.cutAndMerge(
-        verticalStart: Int? = null,
-        verticalEnd: Int? = null,
-        horizontalStart: Int? = null,
-        horizontalEnd: Int? = null,
-        inverseVertical: Boolean = false,
-        inverseHorizontal: Boolean = false
-    ): Bitmap = coroutineScope {
-        if (inverseVertical && inverseHorizontal) {
-            Bitmap.createBitmap(
-                this@cutAndMerge,
-                verticalStart ?: 0,
-                horizontalStart ?: 0,
-                (verticalEnd ?: width) - (verticalStart ?: 0),
-                (horizontalEnd ?: height) - (horizontalStart ?: 0)
-            )
-        } else {
-            cutVertically(
-                start = verticalStart,
-                end = verticalEnd,
-                inverse = inverseVertical
-            ).cutHorizontally(
-                start = horizontalStart,
-                end = horizontalEnd,
-                inverse = inverseHorizontal
-            )
+    private fun Bitmap.cutAndMerge(
+        verticalStart: Int?,
+        verticalEnd: Int?,
+        horizontalStart: Int?,
+        horizontalEnd: Int?,
+        inverseVertical: Boolean,
+        inverseHorizontal: Boolean
+    ): Bitmap {
+        val columns = cutRanges(width, verticalStart, verticalEnd, inverseVertical)
+        val rows = cutRanges(height, horizontalStart, horizontalEnd, inverseHorizontal)
+        val outputWidth = columns.sumOf { (start, end) -> end - start }
+        val outputHeight = rows.sumOf { (start, end) -> end - start }
+        if (outputWidth == width && outputHeight == height) return this
+
+        val source = this
+        val sourceRect = Rect()
+        val targetRect = Rect()
+        val paint = Paint(Paint.ANTI_ALIAS_FLAG)
+        return createBitmap(outputWidth, outputHeight, safeConfig).applyCanvas {
+            var y = 0
+            for ((top, bottom) in rows) {
+                var x = 0
+                for ((left, right) in columns) {
+                    sourceRect.set(left, top, right, bottom)
+                    targetRect.set(x, y, x + right - left, y + bottom - top)
+                    drawBitmap(source, sourceRect, targetRect, paint)
+                    x += right - left
+                }
+                y += bottom - top
+            }
         }
     }
 
-    private suspend fun Bitmap.cutHorizontally(
+    private fun cutRanges(
+        size: Int,
         start: Int?,
         end: Int?,
         inverse: Boolean
-    ): Bitmap = coroutineScope {
-        val source = this@cutHorizontally
-
-        if (inverse) {
-            if (start != null && end != null) {
-                return@coroutineScope Bitmap.createBitmap(
-                    source,
-                    0,
-                    start,
-                    source.width,
-                    end - start
-                )
-            } else if (start == null && end != null) {
-                return@coroutineScope Bitmap.createBitmap(
-                    source,
-                    0,
-                    0,
-                    source.width,
-                    end
-                )
-            } else if (start != null) {
-                return@coroutineScope Bitmap.createBitmap(
-                    source,
-                    0,
-                    start,
-                    source.width,
-                    source.height - start
-                )
-            }
+    ): List<Pair<Int, Int>> = when {
+        start == null || end == null -> listOf(0 to size)
+        inverse -> listOf(start to end)
+        else -> buildList {
+            if (start > 0) add(0 to start)
+            if (end < size) add(end to size)
         }
-
-
-        val parts = mutableListOf<Bitmap>()
-        if (start != null || end != null) {
-            if (start != null && start > 0) {
-                parts.add(
-                    Bitmap.createBitmap(
-                        source,
-                        0,
-                        0,
-                        source.width,
-                        start
-                    )
-                )
-            }
-            if (end != null && end < source.height) {
-                parts.add(
-                    Bitmap.createBitmap(
-                        source,
-                        0,
-                        end,
-                        source.width,
-                        source.height - end
-                    )
-                )
-            }
-        } else {
-            parts.add(source.copy(source.safeConfig, true))
-        }
-
-        val mergedWidth = parts.maxOf { it.width }
-        val mergedHeight = parts.sumOf { it.height }
-
-        createBitmap(mergedWidth, mergedHeight, source.safeConfig)
-            .applyCanvas {
-                var offsetY = 0f
-                for (part in parts) {
-                    drawBitmap(part, 0f, offsetY)
-                    offsetY += part.height
-                    part.recycle()
-                }
-            }
     }
-
-    private suspend fun Bitmap.cutVertically(
-        start: Int?,
-        end: Int?,
-        inverse: Boolean
-    ): Bitmap = coroutineScope {
-        val source = this@cutVertically
-
-        if (inverse) {
-            if (start != null && end != null) {
-                return@coroutineScope Bitmap.createBitmap(
-                    source,
-                    start,
-                    0,
-                    end - start,
-                    source.height
-                )
-            } else if (start == null && end != null) {
-                return@coroutineScope Bitmap.createBitmap(
-                    source,
-                    0,
-                    0,
-                    end,
-                    source.height
-                )
-            } else if (start != null) {
-                return@coroutineScope Bitmap.createBitmap(
-                    source,
-                    start,
-                    0,
-                    source.width - start,
-                    source.height
-                )
-            }
-        }
-
-        val parts = mutableListOf<Bitmap>()
-        if (start != null || end != null) {
-            if (start != null && start > 0) {
-                parts.add(
-                    Bitmap.createBitmap(
-                        source,
-                        0,
-                        0,
-                        start,
-                        source.height
-                    )
-                )
-            }
-            if (end != null && end < source.width) {
-                parts.add(
-                    Bitmap.createBitmap(
-                        source,
-                        end,
-                        0,
-                        source.width - end,
-                        source.height
-                    )
-                )
-            }
-        } else {
-            parts.add(source.copy(source.safeConfig, true))
-        }
-
-        val mergedWidth = parts.sumOf { it.width }
-        val mergedHeight = parts.maxOf { it.height }
-
-        createBitmap(mergedWidth, mergedHeight, source.safeConfig)
-            .applyCanvas {
-                var offsetX = 0f
-                for (part in parts) {
-                    drawBitmap(part, offsetX, 0f)
-                    offsetX += part.width
-                    part.recycle()
-                }
-            }
-    }
-
 }

@@ -17,16 +17,14 @@
 
 package com.t8rin.imagetoolbox.core.ui.widget.text
 
+import androidx.compose.foundation.text.BasicText
+import androidx.compose.foundation.text.TextAutoSize
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.LocalTextStyle
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
@@ -35,6 +33,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.em
+import androidx.compose.ui.unit.sp
+import androidx.compose.ui.unit.takeOrElse
 
 @Composable
 fun AutoSizeText(
@@ -53,34 +54,35 @@ fun AutoSizeText(
     maxLines: Int = 1,
     minLines: Int = 1,
     style: TextStyle = LocalTextStyle.current,
-    key: (String) -> Any? = { it.length }
+    minFontSize: TextUnit = 1.sp
 ) {
-    var sizedStyle by remember(style, key(text)) { mutableStateOf(style) }
-    var readyToDraw by remember(minLines, key(text)) { mutableStateOf(false) }
-
-    Text(
-        text = text,
-        color = color,
-        maxLines = maxLines,
+    val textColor = color.takeOrElse { style.color.takeOrElse { LocalContentColor.current } }
+    val textStyle = style.merge(
+        color = textColor,
         fontStyle = fontStyle,
         fontWeight = fontWeight,
         fontFamily = fontFamily,
         letterSpacing = letterSpacing,
         textDecoration = textDecoration,
-        textAlign = textAlign,
-        lineHeight = lineHeight,
+        textAlign = textAlign ?: style.textAlign,
+        lineHeight = lineHeight
+    )
+    val maxFontSize = textStyle.fontSize.takeOrElse { 14.sp }
+
+    BasicText(
+        text = text,
+        modifier = modifier,
+        style = if (textStyle.lineHeight.isSp && maxFontSize.isSp && maxFontSize.value > 0f) {
+            textStyle.copy(lineHeight = (textStyle.lineHeight.value / maxFontSize.value).em)
+        } else textStyle,
         overflow = overflow,
         softWrap = softWrap,
-        style = style,
-        fontSize = sizedStyle.fontSize,
+        maxLines = maxLines,
         minLines = minLines,
-        onTextLayout = {
-            if (it.didOverflowHeight) {
-                sizedStyle = sizedStyle.copy(fontSize = sizedStyle.fontSize * 0.9)
-            } else {
-                readyToDraw = true
-            }
-        },
-        modifier = modifier.drawWithContent { if (readyToDraw) drawContent() }
+        autoSize = TextAutoSize.StepBased(
+            minFontSize = minFontSize,
+            maxFontSize = maxFontSize,
+            stepSize = 0.25.sp
+        )
     )
 }

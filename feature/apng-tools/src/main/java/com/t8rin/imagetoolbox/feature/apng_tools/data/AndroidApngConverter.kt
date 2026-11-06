@@ -108,36 +108,56 @@ internal class AndroidApngConverter @Inject constructor(
 
             items.forEachIndexed { clipIndex, item ->
                 currentCoroutineContext().ensureActive()
-                val frames = mutableListOf<AnimationFrame>()
-                var frameIndex = 0
-                ApngDecoder(context = context, uri = item.uri.toUri())
-                    .decodeAsync(defaultDispatcher) { frame ->
-                        frames += AnimationFrame(
-                            bitmap = frame,
-                            durationMillis = clipInfo[clipIndex].frameDelaysMillis
-                                .getOrElse(frameIndex) { DEFAULT_FRAME_DELAY_MILLIS }
-                        )
-                        frameIndex++
-                    }
-                val transformedFrames = frames.transformForMerge(item)
-                val placedFrames = mutableListOf<Bitmap>()
-                try {
-                    transformedFrames.forEachIndexed { index, frame ->
-                        val placed = frame.bitmap.placeOnAnimationCanvas(
-                            width = outputWidth,
-                            height = outputHeight,
-                            scaleToFit = params.normalizeFrameSizes
-                        )
-                        placedFrames += placed
+                val info = clipInfo[clipIndex]
+                fun writeFrame(frame: Bitmap, duration: Int, isLast: Boolean) {
+                    val placed = frame.placeOnAnimationCanvas(
+                        width = outputWidth,
+                        height = outputHeight,
+                        scaleToFit = params.normalizeFrameSizes
+                    )
+                    try {
                         encoder.writeFrame(
                             btm = placed,
-                            delay = (frame.durationMillis + if (
-                                index == transformedFrames.lastIndex && clipIndex < items.lastIndex
-                            ) params.transitionDelayMillis.coerceAtLeast(0) else 0).toFloat()
+                            delay = (duration + if (isLast && clipIndex < items.lastIndex) {
+                                params.transitionDelayMillis.coerceAtLeast(0)
+                            } else 0).toFloat()
                         )
+                    } finally {
+                        if (placed !== frame) placed.recycle()
+                    }
+                }
+                val frames = mutableListOf<AnimationFrame>()
+                try {
+                    var frameIndex = 0
+                    ApngDecoder(context = context, uri = item.uri.toUri())
+                        .decodeAsync(defaultDispatcher) { frame ->
+                            currentCoroutineContext().ensureActive()
+                            val duration = info.frameDelaysMillis
+                                .getOrElse(frameIndex) { DEFAULT_FRAME_DELAY_MILLIS }
+                            if (item.reverse || item.boomerang) {
+                                frames += AnimationFrame(frame, duration)
+                            } else {
+                                writeFrame(
+                                    frame,
+                                    duration,
+                                    frameIndex == info.frameDelaysMillis.lastIndex
+                                )
+                            }
+                            frameIndex++
+                        }
+                    if (frames.isNotEmpty()) {
+                        val ordered = frames.transformForMerge(item)
+                        ordered.forEachIndexed { index, frame ->
+                            currentCoroutineContext().ensureActive()
+                            writeFrame(
+                                frame.bitmap,
+                                frame.durationMillis,
+                                index == ordered.lastIndex
+                            )
+                        }
                     }
                 } finally {
-                    (frames.map { it.bitmap } + placedFrames).distinct().forEach(Bitmap::recycle)
+                    frames.forEach { it.bitmap.recycle() }
                 }
                 onProgress()
             }

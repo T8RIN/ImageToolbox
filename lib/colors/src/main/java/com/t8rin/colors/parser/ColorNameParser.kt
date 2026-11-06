@@ -23,7 +23,7 @@ import androidx.compose.ui.graphics.Color
 import com.t8rin.colors.util.ColorUtil
 import com.t8rin.colors.util.HexUtil
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.isActive
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.withContext
 import kotlin.math.sqrt
 
@@ -47,7 +47,9 @@ interface ColorNameParser {
  */
 private object ColorNameParserImpl : ColorNameParser {
 
-    override val colorNames: MutableMap<String, ColorWithName> = mutableMapOf()
+    @Volatile
+    override var colorNames: Map<String, ColorWithName> = emptyMap()
+        private set
 
     /**
      * Parse name of [Color]
@@ -105,15 +107,17 @@ private object ColorNameParserImpl : ColorNameParser {
         colorsAsset: String
     ) = withContext(Dispatchers.IO) {
         try {
+            val names = colorNames.toMutableMap()
             JsonReader(context.assets.open(colorsAsset).bufferedReader()).use { reader ->
                 reader.beginObject()
 
-                while (reader.hasNext() && isActive) {
+                while (reader.hasNext()) {
+                    ensureActive()
                     val hex = reader.nextName()
                     val name = reader.nextString()
                     val color = HexUtil.hexToColor(hex)
 
-                    colorNames[hex] = ColorWithName(
+                    names[hex] = ColorWithName(
                         color = color,
                         name = name
                     )
@@ -121,7 +125,10 @@ private object ColorNameParserImpl : ColorNameParser {
 
                 reader.endObject()
             }
+            ensureActive()
+            colorNames = names
         } catch (t: Throwable) {
+            ensureActive()
             t.printStackTrace()
         }
     }

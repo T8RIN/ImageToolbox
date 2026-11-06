@@ -233,7 +233,7 @@ internal object TwoFrameImage {
         photoItemList.add(photoItem1)
         //second frame
         val photoItem2 = PhotoItem()
-        photoItem1.index = 1
+        photoItem2.index = 1
         photoItem2.bound.set(0.333f, 0f, 1f, 1f)
         photoItem2.pointList.add(PointF(0.5f, 0f))
         photoItem2.pointList.add(PointF(1f, 0f))

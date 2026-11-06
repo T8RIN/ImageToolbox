@@ -5510,7 +5510,7 @@
     <string name="help_tip_gallery_search_subtitle">Maghanap ng mga larawan ayon sa kanilang mga nilalaman at mag-browse ng mga awtomatikong kategorya. Palaging available ang paghahanap ng pangalan ng file</string>
     <string name="help_tip_gallery_search_page_title">I-on ang Semantic photo search</string>
     <string name="help_tip_gallery_search_description">Ang paghahanap ng semantic na larawan ay nakakahanap ng mga larawan ayon sa kung ano ang nasa mga ito: ilarawan ang mga bagay, tao, o isang eksena. Hindi mo kailangang magdagdag ng mga caption o tag. Pinagpangkat din nito ang mga larawan sa mga awtomatikong kategorya. Available sa Android 8 at mas bago sa tool na Gallery at kapag naka-set ang Image source sa Embedded Picker.</string>
-    <string name="help_tip_gallery_search_step_1">Buksan ang Mga Setting → Pinagmulan ng larawan at i-on ang Semantic photo search. Maaari mo ring i-on ito gamit ang button ng Mga setting ng paghahanap sa tabi ng field ng paghahanap sa Gallery o Naka-embed na Picker.</string>
+    <string name="help_tip_gallery_search_step_1">Buksan ang Mga Setting → Gallery at i-on ang Semantic photo search. Maaari mo ring i-on ito gamit ang button ng Mga setting ng paghahanap sa tabi ng field ng paghahanap sa Gallery o Naka-embed na Picker.</string>
     <string name="help_tip_gallery_search_step_2">Payagan ang access sa mga larawang gusto mong hanapin. Sa Android 14 at mas bago, maaari mong payagan ang access sa mga napiling larawan lang. Upang makahanap ng higit pang mga larawan, bigyan din ang app ng access sa mga ito.</string>
     <string name="help_tip_gallery_search_step_3">Ang unang setup ay nagda-download ng humigit-kumulang 227 MB ng mga file para sa pagkilala sa mga nilalaman ng larawan. Pagkatapos nito, gagana ang paghahanda at paghahanap sa iyong device nang walang internet. Ang iyong mga larawan at mga query sa paghahanap ay hindi ipinadala sa isang server.</string>
     <string name="help_tip_gallery_search_page_2_title">Maghanap ayon sa pangalan o paglalarawan</string>
@@ -7943,4 +7943,16 @@
     <string name="emoji_kitchen_download_size">Laki ng archive: %1$s</string>
     <string name="emoji_kitchen_favorites">Mga bookmark</string>
     <string name="emoji_kitchen_favorites_empty">Walang mga bookmark</string>
+    <string name="gallery_show_file_size">Ipakita ang laki ng file</string>
+    <string name="gallery_show_file_extension">Ipakita ang format ng file</string>
+    <string name="gallery_show_file_size_sub">Ipakita ang laki ng file sa mga thumbnail ng larawan.</string>
+    <string name="gallery_show_file_extension_sub">Ipakita ang format ng file sa mga thumbnail ng larawan.</string>
+    <string name="help_tip_gallery_workflow_grid_settings">Buksan ang Mga Setting → Gallery upang itakda ang grid sa Auto o pumili ng 1–20 column. Kurutin gamit ang dalawang daliri upang baguhin ang laki ng grid hanggang sa isara mo ito. Ang laki ng file at mga label ng format ay maaaring i-off nang hiwalay.</string>
+    <string name="help_tip_gallery_workflow_fast_scroll">Mag-scroll upang ipakita ang hawakan sa kanan. I-drag ito upang lumipat sa gallery ayon sa petsa at oras.</string>
+    <string name="save_collage_project_sub">Panatilihin ang layout, orihinal na mga larawan at kasaysayan ng pag-edit sa isang nae-edit na file ng proyekto</string>
+    <string name="help_tip_setting_gallery_columns_description">Piliin kung gaano karaming mga column ang lalabas sa Gallery at Naka-embed na Picker. Mas maraming column ang nagpapakita ng mas maliliit na thumbnail.</string>
+    <string name="help_tip_setting_gallery_columns_step">Buksan ang Mga Setting → Gallery → Bilang ng Mga Haligi. Piliin ang Auto upang magkasya sa screen o isang nakapirming bilang mula 1 hanggang 20.</string>
+    <string name="help_tip_setting_gallery_file_size_step">Buksan ang Mga Setting → Gallery at i-toggle ang Ipakita ang laki ng file. Binabago nito ang mga label ng thumbnail nang hindi binabago o kino-compress ang mga file.</string>
+    <string name="help_tip_setting_gallery_file_extension_step">Buksan ang Mga Setting → Gallery at i-toggle ang Ipakita ang format ng file. Binabago nito ang mga label ng thumbnail nang hindi pinapalitan ang pangalan o kino-convert ang mga file.</string>
+    <string name="help_tip_setting_remember_preview_layout_step">Buksan ang Mga Setting → Gawi at i-on ang Remember Preview Layout. Ayusin ang taas ng preview o i-pin ito sa isang tool; ang susunod na tool ay muling gagamitin ang layout na iyon.</string>
 </resources>

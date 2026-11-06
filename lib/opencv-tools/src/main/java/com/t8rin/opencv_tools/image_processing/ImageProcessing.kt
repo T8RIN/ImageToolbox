@@ -33,14 +33,17 @@ object ImageProcessing : OpenCV() {
         thresholdOne: Float,
         thresholdTwo: Float
     ): Bitmap {
-        val matGrayScale = Mat()
-        Imgproc.cvtColor(bitmap.toMat(), matGrayScale, Imgproc.COLOR_RGBA2GRAY)
-        Imgproc.medianBlur(matGrayScale, matGrayScale, 3)
-
+        val matGrayScale = bitmap.toMat()
         val matCanny = Mat()
-        Imgproc.Canny(matGrayScale, matCanny, thresholdOne.toDouble(), thresholdTwo.toDouble())
-
-        return matCanny.toBitmap()
+        try {
+            Imgproc.cvtColor(matGrayScale, matGrayScale, Imgproc.COLOR_RGBA2GRAY)
+            Imgproc.medianBlur(matGrayScale, matGrayScale, 3)
+            Imgproc.Canny(matGrayScale, matCanny, thresholdOne.toDouble(), thresholdTwo.toDouble())
+            return matCanny.toBitmap()
+        } finally {
+            matGrayScale.release()
+            matCanny.release()
+        }
     }
 
 }

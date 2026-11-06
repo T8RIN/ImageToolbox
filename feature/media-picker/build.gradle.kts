@@ -26,6 +26,7 @@ android.namespace = "com.t8rin.imagetoolbox.feature.media_picker"
 
 dependencies {
     implementation(projects.core.crash)
+    implementation(projects.lib.fastScroller)
     implementation(projects.lib.neuralTools)
     implementation(libs.androidx.work.runtime)
 }

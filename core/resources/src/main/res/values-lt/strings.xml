@@ -5512,7 +5512,7 @@
     <string name="help_tip_gallery_search_subtitle">Raskite nuotraukas pagal jų turinį ir naršykite automatines kategorijas. Failų vardų paieška visada pasiekiama</string>
     <string name="help_tip_gallery_search_page_title">Įjunkite semantinę nuotraukų paiešką</string>
     <string name="help_tip_gallery_search_description">Semantinė nuotraukų paieška randa nuotraukas pagal tai, kas jose yra: aprašo objektus, žmones ar sceną. Jums nereikia pridėti antraščių ar žymų. Ji taip pat sugrupuoja nuotraukas į automatines kategorijas. Pasiekiama naudojant „Android 8“ ir naujesnes versijas Galerijos įrankyje ir kai Vaizdo šaltinis nustatytas į Embedded Picker.</string>
-    <string name="help_tip_gallery_search_step_1">Atidarykite Nustatymai → Vaizdo šaltinis ir įjunkite Semantinę nuotraukų paiešką. Taip pat galite jį įjungti naudodami mygtuką Paieškos nustatymai, esantys šalia paieškos lauko Galerijoje arba įterptajame rinkiklyje.</string>
+    <string name="help_tip_gallery_search_step_1">Atidarykite Nustatymai → Galerija ir įjunkite Semantinę nuotraukų paiešką. Taip pat galite jį įjungti naudodami mygtuką Paieškos nustatymai, esantys šalia paieškos lauko Galerijoje arba įterptajame rinkiklyje.</string>
     <string name="help_tip_gallery_search_step_2">Suteikite prieigą prie nuotraukų, kurių norite ieškoti. 14 ir naujesnėse versijose „Android“ galite leisti pasiekti tik pasirinktas nuotraukas. Jei norite rasti daugiau nuotraukų, suteikite programai prieigą prie jų.</string>
     <string name="help_tip_gallery_search_step_3">Pirmosios sąrankos metu atsisiunčiama apie 227 MB failų, skirtų nuotraukų turiniui atpažinti. Po to paruošimas ir paieška dirba jūsų įrenginyje be interneto. Jūsų nuotraukos ir paieškos užklausos nesiunčiamos į serverį.</string>
     <string name="help_tip_gallery_search_page_2_title">Ieškokite pagal pavadinimą arba aprašymą</string>
@@ -7945,4 +7945,16 @@
     <string name="emoji_kitchen_download_size">Archyvo dydis: %1$s</string>
     <string name="emoji_kitchen_favorites">Žymės</string>
     <string name="emoji_kitchen_favorites_empty">Nėra žymių</string>
+    <string name="gallery_show_file_size">Rodyti failo dydį</string>
+    <string name="gallery_show_file_extension">Rodyti failo formatą</string>
+    <string name="gallery_show_file_size_sub">Rodyti failo dydį vaizdų miniatiūrose.</string>
+    <string name="gallery_show_file_extension_sub">Rodyti failo formatą vaizdų miniatiūrose.</string>
+    <string name="help_tip_gallery_workflow_grid_settings">Atidarykite Nustatymai → Galerija, kad nustatytumėte tinklelį į Automatinis arba pasirinkite 1–20 stulpelių. Suimkite dviem pirštais, kad pakeistumėte tinklelio dydį, kol jį uždarysite. Failo dydžio ir formato etiketes galima išjungti atskirai.</string>
+    <string name="help_tip_gallery_workflow_fast_scroll">Slinkite, kad atidarytumėte rankeną dešinėje. Vilkite jį, kad galėtumėte judėti galerijoje pagal datą ir laiką.</string>
+    <string name="save_collage_project_sub">Išsaugokite maketą, originalius vaizdus ir redagavimo istoriją redaguojamame projekto faile</string>
+    <string name="help_tip_setting_gallery_columns_description">Pasirinkite, kiek stulpelių bus rodoma galerijoje ir įterptajame rinkiklyje. Daugiau stulpelių rodo mažesnes miniatiūras.</string>
+    <string name="help_tip_setting_gallery_columns_step">Atidarykite Nustatymai → Galerija → Stulpelių skaičius. Pasirinkite Automatinis, kad tilptų ekrane arba fiksuotas skaičius nuo 1 iki 20.</string>
+    <string name="help_tip_setting_gallery_file_size_step">Atidarykite Nustatymai → Galerija ir perjunkite Rodyti failo dydį. Tai pakeičia miniatiūrų etiketes nekeičiant ir nesuglaudinant failų.</string>
+    <string name="help_tip_setting_gallery_file_extension_step">Atidarykite Nustatymai → Galerija ir perjunkite Rodyti failo formatą. Tai pakeičia miniatiūrų etiketes nepervardijant ir nekonvertuojant failų.</string>
+    <string name="help_tip_setting_remember_preview_layout_step">Atidarykite Nustatymai → Elgsena ir įjunkite Atsiminti peržiūros išdėstymą. Sureguliuokite peržiūros aukštį arba prisekite jį įrankyje; kitas įrankis pakartotinai naudos tą išdėstymą.</string>
 </resources>

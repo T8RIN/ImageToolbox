@@ -93,8 +93,17 @@ internal class AndroidCryptographyManager @Inject constructor(
         type: CipherType
     ): ByteArray = withContext(defaultDispatcher) {
         val salt = randomBytes(SALT_SIZE)
-        val nonce =
-            if (type.isGcm()) randomBytes(GCM_NONCE_SIZE) else randomBytes(ivSize(type.name))
+        val nonce = randomBytes(
+            when {
+                type.isGcm() -> GCM_NONCE_SIZE
+                type.name.contains(
+                    "CBC",
+                    ignoreCase = true
+                ) -> Cipher.getInstance(type.cipher).blockSize
+
+                else -> ivSize(type.name)
+            }
+        )
         val keySize = keySize(type)
         val header = EncryptedFileHeader(
             iterations = PBKDF2_ITERATIONS,
@@ -130,7 +139,7 @@ internal class AndroidCryptographyManager @Inject constructor(
 
         if (type.isAuthenticated()) cipher.updateAAD(data, 0, headerSize)
 
-        cipher.doOrThrow(data.copyOfRange(headerSize, data.size))
+        cipher.doOrThrow(data, headerSize)
     }.getOrElse {
         throw Throwable(
             message = getString(R.string.decrypt_failed),
@@ -272,9 +281,9 @@ internal class AndroidCryptographyManager @Inject constructor(
         }
     }
 
-    private fun Cipher.doOrThrow(data: ByteArray): ByteArray {
+    private fun Cipher.doOrThrow(data: ByteArray, offset: Int = 0): ByteArray {
         return try {
-            doFinal(data)
+            doFinal(data, offset, data.size - offset)
         } catch (e: Throwable) {
             throw if (e.message?.contains("mac") == true && e.message?.contains("failed") == true) {
                 WrongKeyException()

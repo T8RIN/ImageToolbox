@@ -5510,7 +5510,7 @@
     <string name="help_tip_gallery_search_subtitle">Find billeder efter deres indhold, og gennemse automatiske kategorier. Filnavnsøgning er altid tilgængelig</string>
     <string name="help_tip_gallery_search_page_title">Slå semantisk fotosøgning til</string>
     <string name="help_tip_gallery_search_description">Semantisk fotosøgning finder billeder efter, hvad der er i dem: beskriv objekter, mennesker eller en scene. Du behøver ikke tilføje billedtekster eller tags. Det grupperer også billeder i automatiske kategorier. Tilgængelig på Android 8 og nyere i Galleri-værktøjet, og når Billedkilde er indstillet til Embedded Picker.</string>
-    <string name="help_tip_gallery_search_step_1">Åbn Indstillinger → Billedkilde, og slå Semantisk fotosøgning til. Du kan også slå det til ved at bruge knappen Søgeindstillinger ved siden af søgefeltet i Galleri eller Embedded Picker.</string>
+    <string name="help_tip_gallery_search_step_1">Åbn Indstillinger → Galleri, og slå Semantisk fotosøgning til. Du kan også slå det til ved at bruge knappen Søgeindstillinger ved siden af søgefeltet i Galleri eller Embedded Picker.</string>
     <string name="help_tip_gallery_search_step_2">Tillad adgang til de billeder, du vil søge efter. På Android 14 og nyere kan du kun tillade adgang til udvalgte billeder. For at finde flere billeder skal du også give appen adgang til dem.</string>
     <string name="help_tip_gallery_search_step_3">Den første opsætning downloader omkring 227 MB filer til genkendelse af fotoindhold. Derefter fungerer forberedelse og søgning på din enhed uden internet. Dine billeder og søgeforespørgsler sendes ikke til en server.</string>
     <string name="help_tip_gallery_search_page_2_title">Søg efter navn eller beskrivelse</string>
@@ -7943,4 +7943,16 @@
     <string name="emoji_kitchen_download_size">Arkivstørrelse: %1$s</string>
     <string name="emoji_kitchen_favorites">Bogmærker</string>
     <string name="emoji_kitchen_favorites_empty">Ingen bogmærker</string>
+    <string name="gallery_show_file_size">Vis filstørrelse</string>
+    <string name="gallery_show_file_extension">Vis filformat</string>
+    <string name="gallery_show_file_size_sub">Vis filstørrelsen på miniaturebilleder.</string>
+    <string name="gallery_show_file_extension_sub">Vis filformatet på miniaturebilleder.</string>
+    <string name="help_tip_gallery_workflow_grid_settings">Åbn Indstillinger → Galleri for at indstille gitteret til Auto, eller vælg 1-20 kolonner. Klem sammen med to fingre for at ændre størrelsen på gitteret, indtil du lukker det. Filstørrelsen og formatetiketterne kan slås fra separat.</string>
+    <string name="help_tip_gallery_workflow_fast_scroll">Rul for at få vist håndtaget til højre. Træk den for at flytte gennem galleriet efter dato og klokkeslæt.</string>
+    <string name="save_collage_project_sub">Gem layout, originalbilleder og redigeringshistorik i en redigerbar projektfil</string>
+    <string name="help_tip_setting_gallery_columns_description">Vælg, hvor mange kolonner der skal vises i Galleri og Embedded Picker. Flere kolonner viser mindre miniaturebilleder.</string>
+    <string name="help_tip_setting_gallery_columns_step">Åbn Indstillinger → Galleri → Antal kolonner. Vælg Auto for at passe til skærmen eller et fast antal fra 1 til 20.</string>
+    <string name="help_tip_setting_gallery_file_size_step">Åbn Indstillinger → Galleri, og skift Vis filstørrelse. Dette ændrer miniatureetiketter uden at ændre eller komprimere filerne.</string>
+    <string name="help_tip_setting_gallery_file_extension_step">Åbn Indstillinger → Galleri og skift Vis filformat. Dette ændrer miniatureetiketter uden at omdøbe eller konvertere filerne.</string>
+    <string name="help_tip_setting_remember_preview_layout_step">Åbn Indstillinger → Adfærd, og slå Husk forhåndsvisningslayout til. Juster forhåndsvisningshøjden eller fastgør den i et værktøj; det næste værktøj vil genbruge det layout.</string>
 </resources>

@@ -17,15 +17,15 @@
 
 package com.t8rin.collages.view
 
+import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.app.ActivityManager
 import android.app.ActivityManager.MemoryInfo
-import android.content.ClipData
-import android.content.ClipDescription
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
+import android.graphics.DashPathEffect
 import android.graphics.Paint
 import android.graphics.PointF
 import android.graphics.RectF
@@ -33,9 +33,10 @@ import android.graphics.Shader
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.net.Uri
-import android.os.Bundle
-import android.view.DragEvent
+import android.view.HapticFeedbackConstants
 import android.view.MotionEvent
+import android.view.animation.DecelerateInterpolator
+import android.view.animation.LinearInterpolator
 import android.widget.RelativeLayout
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.content.getSystemService
@@ -45,9 +46,14 @@ import com.t8rin.collages.CollageState
 import com.t8rin.collages.utils.Handle
 import com.t8rin.collages.utils.ImageDecoder
 import com.t8rin.collages.utils.ParamsManager
+import com.t8rin.collages.utils.collageOutputDimensions
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.currentCoroutineContext
+import kotlinx.coroutines.ensureActive
+import kotlinx.coroutines.withContext
 import kotlin.math.max
 import kotlin.math.min
-import kotlin.math.sqrt
+import kotlin.math.roundToInt
 import androidx.compose.ui.graphics.Color as ComposeColor
 
 @SuppressLint("ViewConstructor")
@@ -86,40 +92,89 @@ internal class FramePhotoLayout(
         )
     }
 
-    private var mOnDragListener: OnDragListener = OnDragListener { v, event ->
-        when (event.action) {
-            DragEvent.ACTION_DRAG_STARTED -> {
-                if (dragStartState == null) {
-                    dragStartState = snapshotState()
-                }
-            }
+    private class ImageDrag(
+        val source: FrameImageView,
+        val startX: Float,
+        val startY: Float,
+        val before: CollageState,
+        var target: FrameImageView? = null,
+        var settling: Boolean = false
+    )
 
-            DragEvent.ACTION_DROP -> {
-                var target: FrameImageView? = v as FrameImageView
-                val selectedView = getSelectedFrameImageView(target!!, event)
-                if (selectedView != null) {
-                    target = selectedView
-                    val dragged = event.localState as FrameImageView
-                    var targetPath: Uri? = target.photoItem.imagePath
-                    var draggedPath: Uri? = dragged.photoItem.imagePath
-                    if (targetPath == null) targetPath = Uri.EMPTY
-                    if (draggedPath == null) draggedPath = Uri.EMPTY
-                    if (targetPath != draggedPath) target.swapImage(dragged)
-                }
-            }
+    private var imageDrag: ImageDrag? = null
+    private var touchX = 0f
+    private var touchY = 0f
 
-            DragEvent.ACTION_DRAG_ENDED -> {
-                val before = dragStartState
-                dragStartState = null
-                if (before != null) {
-                    dispatchUserStateChange(before)
+    private val outlinePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        style = Paint.Style.STROKE
+        strokeJoin = Paint.Join.ROUND
+    }
+    private var outlineColor = Color.WHITE
+    private var outlineAccent = Color.BLACK
+    private var canvasScale = 1f
+    private var outlinePhase = 0f
+    private var outlineAnimator: ValueAnimator? = null
+
+    fun setOutlineStyle(color: Int, accent: Int, scale: Float) {
+        if (outlineColor == color && outlineAccent == accent && canvasScale == scale) return
+        outlineColor = color
+        outlineAccent = accent
+        canvasScale = scale.coerceAtLeast(0.1f)
+        invalidate()
+    }
+
+    private fun updateOutlineAnimation() {
+        val visible = isAttachedToWindow && hasWindowFocus() &&
+                (selectedItemIndex != null || imageDrag != null)
+        if (!visible) {
+            outlineAnimator?.cancel()
+            outlineAnimator = null
+        } else if (outlineAnimator == null) {
+            outlineAnimator = ValueAnimator.ofFloat(0f, 80f).apply {
+                duration = 1000L
+                repeatCount = ValueAnimator.INFINITE
+                interpolator = LinearInterpolator()
+                addUpdateListener {
+                    outlinePhase = it.animatedValue as Float
+                    invalidate()
                 }
+                start()
             }
         }
-
-        true
     }
+
+    private fun drawOutline(canvas: Canvas, view: FrameImageView, selected: Boolean) {
+        outlinePaint.strokeWidth = 3f * resources.displayMetrics.density / canvasScale
+        canvas.withTranslation(view.left.toFloat(), view.top.toFloat()) {
+            if (selected) {
+                outlinePaint.color = outlineColor
+                outlinePaint.pathEffect = null
+                view.drawOutline(this, outlinePaint)
+            }
+            outlinePaint.color = if (selected) outlineAccent else outlineColor
+            outlinePaint.pathEffect = DashPathEffect(
+                floatArrayOf(20f / canvasScale, 20f / canvasScale),
+                outlinePhase / canvasScale
+            )
+            view.drawOutline(this, outlinePaint)
+        }
+    }
+
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        updateOutlineAnimation()
+    }
+
+    override fun onDetachedFromWindow() {
+        resetImageDrag()
+        outlineAnimator?.cancel()
+        outlineAnimator = null
+        super.onDetachedFromWindow()
+    }
+
     private val mItemImageViews: MutableList<FrameImageView> = ArrayList()
+    var outputAspectRatio: Float = 1f
+
     private var mViewWidth: Int = 0
     private var mViewHeight: Int = 0
     private val sourceDimensions = mutableMapOf<Uri, Int>()
@@ -129,7 +184,6 @@ internal class FramePhotoLayout(
     private var onStateReadyListener: ((CollageState) -> Unit)? = null
     private var onUserStateChangeListener: ((CollageState, CollageState) -> Unit)? = null
     private var interactionStartState: CollageState? = null
-    private var dragStartState: CollageState? = null
     private var isRestoringState: Boolean = false
     private var layoutId: String = ""
 
@@ -149,7 +203,6 @@ internal class FramePhotoLayout(
         }
 
     init {
-        setLayerType(LAYER_TYPE_HARDWARE, null)
         setWillNotDraw(false)
         // Enable focus so we can detect focus loss and clear selection
         isFocusable = true
@@ -180,52 +233,17 @@ internal class FramePhotoLayout(
         onStateReadyListener?.invoke(snapshotState())
     }
 
-    private fun getSelectedFrameImageView(
-        target: FrameImageView,
-        event: DragEvent
-    ): FrameImageView? {
-        val dragged = event.localState as FrameImageView
-        val leftMargin = (mViewWidth * target.photoItem.bound.left).toInt()
-        val topMargin = (mViewHeight * target.photoItem.bound.top).toInt()
-        val globalX = leftMargin + event.x
-        val globalY = topMargin + event.y
-        for (idx in mItemImageViews.indices.reversed()) {
-            val view = mItemImageViews[idx]
-            val x = globalX - mViewWidth * view.photoItem.bound.left
-            val y = globalY - mViewHeight * view.photoItem.bound.top
-            if (view.isSelected(x, y)) {
-                return if (view === dragged) {
-                    null
-                } else {
-                    view
-                }
-            }
-        }
-        return null
-    }
-
-    fun saveInstanceState(outState: Bundle) {
-        paramsManager?.saveInstanceState(outState)
-        for (view in mItemImageViews)
-            view.saveInstanceState(outState)
-    }
-
-    fun restoreInstanceState(savedInstanceState: Bundle) {
-        paramsManager?.restoreInstanceState(savedInstanceState)
-        for (view in mItemImageViews)
-            view.restoreInstanceState(savedInstanceState)
-    }
-
-    @JvmOverloads
     fun build(
         viewWidth: Int,
         viewHeight: Int,
         space: Float = 0f,
         corner: Float = 0f
     ) {
+        resetImageDrag()
         isRestoringState = false
         selectedItemIndex = null
         activeHandle = null
+        mItemImageViews.forEach(FrameImageView::release)
         mItemImageViews.clear()
         removeAllViews()
         if (viewWidth < 1 || viewHeight < 1) {
@@ -239,11 +257,6 @@ internal class FramePhotoLayout(
         mViewHeight = viewHeight
         mItemImageViews.clear()
         //A circle view always is on top
-        if (mPhotoItems.size > 4 || isNotLargeThan1Gb) {
-            ImageDecoder.SAMPLER_SIZE = 1024
-        } else {
-            ImageDecoder.SAMPLER_SIZE = 1600
-        }
         for (item in mPhotoItems) {
             val imageView = addPhotoItemView(item, space, corner)
             mItemImageViews.add(imageView)
@@ -251,11 +264,22 @@ internal class FramePhotoLayout(
     }
 
     fun resize(width: Int, height: Int) {
+        if (mViewWidth == width && mViewHeight == height) return
+        resetImageDrag()
         mViewWidth = width
         mViewHeight = height
         for (i in mItemImageViews.indices) {
             resizeItem(i)
         }
+    }
+
+    fun release() {
+        selectedItemIndex = null
+        resetImageDrag()
+        updateOutlineAnimation()
+        mItemImageViews.forEach(FrameImageView::release)
+        onStateReadyListener = null
+        onUserStateChangeListener = null
     }
 
     private fun resizeItem(index: Int) {
@@ -386,25 +410,21 @@ internal class FramePhotoLayout(
         }
     }
 
-    @SuppressLint("ClickableViewAccessibility")
     private fun addPhotoItemView(
         item: PhotoItem,
         space: Float,
         corner: Float
     ): FrameImageView {
-        val imageView = FrameImageView(context, item)
+        val imageView = FrameImageView(
+            context = context,
+            photoItem = item,
+            previewSize = if (mPhotoItems.size > 4 || isNotLargeThan1Gb) 1024 else 1600
+        )
         val metrics = computeFrameMetrics(item.bound)
         imageView.setRotationEnabled(!disableRotation)
         imageView.setSnapToBordersEnabled(enableSnapToBorders)
         imageView.init(metrics.width.toFloat(), metrics.height.toFloat(), space, corner)
         imageView.setOnImageClickListener(this)
-        imageView.setOnTouchListener { _, event ->
-            // Intercept to support handle dragging overlay
-            onTouchEvent(event)
-        }
-        if (mPhotoItems.size > 1)
-            imageView.setOnDragListener(mOnDragListener)
-
         val params = LayoutParams(metrics.width, metrics.height)
         params.leftMargin = metrics.leftMargin
         params.topMargin = metrics.topMargin
@@ -427,76 +447,170 @@ internal class FramePhotoLayout(
             } ?: 0
         }?.takeIf { it > 0 } ?: mItemImageViews.maxOfOrNull { view ->
             max(view.image?.width ?: 0, view.image?.height ?: 0)
-        }?.takeIf { it > 0 } ?: max(mViewWidth, mViewHeight)
-        val viewMaxDimension = max(mViewWidth, mViewHeight)
-        val sourceScale = sourceMaxDimension.toDouble() / viewMaxDimension
-        val maxPixels = Runtime.getRuntime().maxMemory() / 16
-        val memoryScale = sqrt(maxPixels.toDouble() / (mViewWidth.toLong() * mViewHeight))
-        val maxScale = min(memoryScale, 8192.0 / viewMaxDimension)
-        val outputScale = min(
-            min(sourceScale, maxScale) * outputScaleRatio,
-            maxScale
-        ).toFloat().coerceAtLeast(1f / viewMaxDimension)
-        return (outputScale * mViewWidth).toInt().coerceAtLeast(1) to
-                (outputScale * mViewHeight).toInt().coerceAtLeast(1)
+        }?.takeIf { it > 0 } ?: 1600
+        return collageOutputDimensions(
+            sourceSize = sourceMaxDimension,
+            aspectRatio = outputAspectRatio,
+            scale = outputScaleRatio,
+            maxPixels = Runtime.getRuntime().maxMemory() / 16
+        )
     }
 
-    @Throws(OutOfMemoryError::class)
     suspend fun createImage(outputScaleRatio: Float): Bitmap {
+        mItemImageViews.forEach(FrameImageView::finishTransform)
+        val (outputWidth, outputHeight) = outputDimensions(outputScaleRatio)
+        val decorationScale =
+            min(outputWidth, outputHeight).toFloat() / min(mViewWidth, mViewHeight)
+        val frames = mItemImageViews.mapNotNull { view ->
+            val bounds = view.photoItem.bound
+            val left = (bounds.left * outputWidth).roundToInt()
+            val top = (bounds.top * outputHeight).roundToInt()
+            val width = (bounds.right * outputWidth).roundToInt() - left
+            val height = (bounds.bottom * outputHeight).roundToInt() - top
+            view.prepareOutputImage(width.toFloat(), height.toFloat(), decorationScale)?.let {
+                OutputFrame(
+                    left = left,
+                    top = top,
+                    width = width,
+                    height = height,
+                    sourceSize = sourceDimensions[view.photoItem.imagePath]
+                        ?: max(outputWidth, outputHeight),
+                    image = it
+                )
+            }
+        }
+        val color = backgroundColor.toArgb()
+        val shader = backgroundShader
+        var rendered: Bitmap? = null
         try {
-            val (outputWidth, outputHeight) = outputDimensions(outputScaleRatio)
-            val outputScale = outputWidth.toFloat() / mViewWidth
-            val template = createBitmap(
-                outputWidth,
-                outputHeight
-            )
-            val canvas = Canvas(template)
-            if (backgroundShader == null) canvas.drawColor(backgroundColor.toArgb())
-            else drawBackgroundGradient(canvas, template.width.toFloat(), template.height.toFloat())
-            for (view in mItemImageViews)
-                if (view.image != null && !view.image!!.isRecycled) {
-                    val left = (view.left * outputScale).toInt()
-                    val top = (view.top * outputScale).toInt()
-                    val width = (view.width * outputScale).toInt()
-                    val height = (view.height * outputScale).toInt()
-                    //draw image
-                    canvas.saveLayer(
-                        left.toFloat(),
-                        top.toFloat(),
-                        (left + width).toFloat(),
-                        (top + height).toFloat(),
-                        Paint()
-                    )
-                    canvas.translate(left.toFloat(), top.toFloat())
-                    canvas.clipRect(0, 0, width, height)
-                    view.drawOutputImage(
-                        canvas,
-                        outputScale,
-                        min(
-                            sourceDimensions[view.photoItem.imagePath]
-                                ?: max(template.width, template.height),
-                            max(template.width, template.height) * 2
-                        )
-                    )
-                    canvas.restore()
+            return withContext(Dispatchers.Default) {
+                val output = createBitmap(outputWidth, outputHeight).also { rendered = it }
+                val canvas = Canvas(output)
+                canvas.drawColor(color)
+                shader?.let {
+                    canvas.drawRect(
+                        0f,
+                        0f,
+                        outputWidth.toFloat(),
+                        outputHeight.toFloat(),
+                        Paint().apply {
+                            this.shader = it(outputWidth.toFloat(), outputHeight.toFloat())
+                        })
                 }
-
-            return template
-        } catch (error: OutOfMemoryError) {
-            throw error
+                for (frame in frames) {
+                    currentCoroutineContext().ensureActive()
+                    val save = canvas.save()
+                    try {
+                        canvas.translate(frame.left.toFloat(), frame.top.toFloat())
+                        canvas.clipRect(0, 0, frame.width, frame.height)
+                        frame.image.draw(canvas, frame.sourceSize)
+                    } finally {
+                        canvas.restoreToCount(save)
+                    }
+                }
+                output
+            }
+        } catch (throwable: Throwable) {
+            rendered?.recycle()
+            throw throwable
         }
     }
+
+    private data class OutputFrame(
+        val left: Int,
+        val top: Int,
+        val width: Int,
+        val height: Int,
+        val sourceSize: Int,
+        val image: FrameImageRender
+    )
 
     override fun onLongClickImage(view: FrameImageView) {
-        if (mPhotoItems.size > 1) {
-            view.tag = """x=${0f},y=${0f},path=${view.photoItem.imagePath}"""
-            val item = ClipData.Item(view.tag as CharSequence)
-            val mimeTypes = arrayOf(ClipDescription.MIMETYPE_TEXT_PLAIN)
-            val dragData = ClipData(view.tag.toString(), mimeTypes, item)
-            val myShadow = DragShadowBuilder(view)
-            view.startDragAndDrop(dragData, myShadow, view, 0)
+        startImageDrag(view, touchX, touchY)
+    }
+
+    fun startImageDragAt(x: Float, y: Float) {
+        imageAt(x, y)?.let { startImageDrag(it, x, y) }
+    }
+
+    private fun startImageDrag(source: FrameImageView, x: Float, y: Float) {
+        if (imageDrag != null || mPhotoItems.size < 2 ||
+            source.image == null || !source.isStateReady()
+        ) return
+        source.finishTransform()
+        imageDrag = ImageDrag(source, x, y, snapshotState())
+        updateOutlineAnimation()
+        parent?.requestDisallowInterceptTouchEvent(true)
+        performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
+        source.translationZ = 12f * resources.displayMetrics.density
+        source.animate().scaleX(1.04f).scaleY(1.04f).alpha(0.92f)
+            .setDuration(140L).setInterpolator(DecelerateInterpolator()).start()
+        invalidate()
+    }
+
+    fun moveImageDrag(x: Float, y: Float) {
+        val drag = imageDrag?.takeUnless { it.settling } ?: return
+        drag.source.translationX = x - drag.startX
+        drag.source.translationY = y - drag.startY
+        val target =
+            imageAt(x, y)?.takeIf { it !== drag.source && it.image != null && it.isStateReady() }
+        if (drag.target !== target) {
+            drag.target?.animate()?.alpha(1f)?.setDuration(120L)?.start()
+            drag.target = target
+            target?.animate()?.alpha(0.55f)?.setDuration(120L)?.start()
         }
     }
+
+    fun finishImageDrag(cancelled: Boolean = false) {
+        val drag = imageDrag?.takeUnless { it.settling } ?: return
+        drag.settling = true
+        parent?.requestDisallowInterceptTouchEvent(false)
+        val source = drag.source
+        val target = drag.target.takeUnless { cancelled }
+        if (target == null) {
+            drag.target?.animate()?.alpha(1f)?.setDuration(120L)?.start()
+            source.animate()
+                .translationX(0f).translationY(0f)
+                .scaleX(1f).scaleY(1f).alpha(1f)
+                .setDuration(200L).setInterpolator(DecelerateInterpolator())
+                .withEndAction { if (imageDrag === drag) resetImageDrag() }
+                .start()
+            return
+        }
+
+        val targetAlpha = target.alpha
+        resetImageDrag()
+        target.swapImage(source)
+        target.alpha = targetAlpha
+        target.animate().alpha(1f).setDuration(220L).start()
+        when (selectedItemIndex) {
+            source.photoItem.index -> onSingleTapImage(target)
+            target.photoItem.index -> onSingleTapImage(source)
+        }
+        dispatchUserStateChange(drag.before)
+    }
+
+    private fun resetImageDrag() {
+        val drag = imageDrag ?: return
+        imageDrag = null
+        updateOutlineAnimation()
+        listOfNotNull(drag.source, drag.target).forEach {
+            it.animate().withEndAction(null).cancel()
+            it.translationX = 0f
+            it.translationY = 0f
+            it.translationZ = 0f
+            it.scaleX = 1f
+            it.scaleY = 1f
+            it.alpha = 1f
+        }
+        parent?.requestDisallowInterceptTouchEvent(false)
+        invalidate()
+    }
+
+    private fun imageAt(x: Float, y: Float): FrameImageView? =
+        mItemImageViews.asReversed().firstOrNull {
+            it.isSelected(x - it.left, y - it.top)
+        }
 
     override fun onDoubleClickImage(view: FrameImageView) {
 
@@ -506,7 +620,12 @@ internal class FramePhotoLayout(
         selectedItemIndex = null
         activeHandle = null
         onItemTapListener?.invoke(-1)
+        updateOutlineAnimation()
         invalidate()
+    }
+
+    fun selectImageAt(x: Float, y: Float) {
+        imageAt(x, y)?.let(::onSingleTapImage)
     }
 
     override fun onSingleTapImage(view: FrameImageView) {
@@ -515,6 +634,7 @@ internal class FramePhotoLayout(
         } else {
             onItemTapListener?.invoke(view.photoItem.index)
             selectedItemIndex = view.photoItem.index
+            updateOutlineAnimation()
             requestFocus()
             invalidate()
         }
@@ -545,7 +665,9 @@ internal class FramePhotoLayout(
 
     override fun onWindowFocusChanged(hasWindowFocus: Boolean) {
         super.onWindowFocusChanged(hasWindowFocus)
+        updateOutlineAnimation()
         if (!hasWindowFocus) {
+            resetImageDrag()
             // Clear selection when window focus is lost
             if (selectedItemIndex != null) {
                 clearSelection()
@@ -568,7 +690,14 @@ internal class FramePhotoLayout(
     }
 
     override fun dispatchDraw(canvas: Canvas) {
+        imageDrag?.source?.let { drawOutline(canvas, it, selected = false) }
         super.dispatchDraw(canvas)
+        if (imageDrag != null) {
+            imageDrag?.target?.let { drawOutline(canvas, it, selected = true) }
+            return
+        }
+        mItemImageViews.firstOrNull { it.photoItem.index == selectedItemIndex }
+            ?.let { drawOutline(canvas, it, selected = true) }
         // draw handles for selected item
         val index = selectedItemIndex ?: return
         val handles = paramsManager?.getHandles(index) ?: emptyList()
@@ -592,6 +721,26 @@ internal class FramePhotoLayout(
         }
     }
 
+    override fun dispatchTouchEvent(event: MotionEvent): Boolean {
+        touchX = event.x
+        touchY = event.y
+        imageDrag?.let { drag ->
+            if (!drag.settling) {
+                when (event.actionMasked) {
+                    MotionEvent.ACTION_MOVE -> moveImageDrag(event.x, event.y)
+                    MotionEvent.ACTION_UP -> finishImageDrag()
+                    MotionEvent.ACTION_CANCEL, MotionEvent.ACTION_POINTER_DOWN ->
+                        finishImageDrag(cancelled = true)
+                }
+            }
+            return true
+        }
+        if (activeHandle != null || event.actionMasked == MotionEvent.ACTION_DOWN) {
+            if (onTouchEvent(event)) return true
+        }
+        return super.dispatchTouchEvent(event)
+    }
+
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent): Boolean {
         val index = selectedItemIndex ?: return super.onTouchEvent(event)
@@ -602,11 +751,8 @@ internal class FramePhotoLayout(
         val handles = manager.getHandles(index)
         if (handles.isEmpty()) return super.onTouchEvent(event)
 
-        // Compute coordinates in this layout's local space regardless of source view
-        val screenPos = IntArray(2)
-        getLocationOnScreen(screenPos)
-        val globalX = event.rawX - screenPos[0]
-        val globalY = event.rawY - screenPos[1]
+        val globalX = event.x
+        val globalY = event.y
 
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
@@ -629,6 +775,7 @@ internal class FramePhotoLayout(
                     dx * dx + dy * dy <= radius * radius
                 }
                 if (activeHandle != null) {
+                    parent?.requestDisallowInterceptTouchEvent(true)
                     beginUserInteraction()
                 }
                 return activeHandle != null || super.onTouchEvent(event)
@@ -644,9 +791,11 @@ internal class FramePhotoLayout(
             }
 
             MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
+                if (activeHandle == null) return false
                 activeHandle = null
+                parent?.requestDisallowInterceptTouchEvent(false)
                 finishUserInteraction()
-                return super.onTouchEvent(event)
+                return true
             }
         }
         return super.onTouchEvent(event)

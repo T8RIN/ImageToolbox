@@ -5512,7 +5512,7 @@
     <string name="help_tip_gallery_search_subtitle">Nájdite fotografie podľa ich obsahu a prehliadajte automatické kategórie. Vyhľadávanie názvu súboru je vždy k dispozícii</string>
     <string name="help_tip_gallery_search_page_title">Zapnite sémantické vyhľadávanie fotografií</string>
     <string name="help_tip_gallery_search_description">Sémantické vyhľadávanie fotografií nájde fotografie podľa toho, čo je na nich: popisuje objekty, ľudí alebo scénu. Nemusíte pridávať titulky ani značky. Taktiež zoskupuje fotografie do automatických kategórií. K dispozícii v systéme Android 8 a novšom v nástroji Galéria a keď je Zdroj obrázka nastavený na možnosť Embedded Picker.</string>
-    <string name="help_tip_gallery_search_step_1">Otvorte Nastavenia → Zdroj obrázka a zapnite sémantické vyhľadávanie fotografií. Môžete ho zapnúť aj pomocou tlačidla Nastavenia vyhľadávania vedľa poľa vyhľadávania v Galérii alebo Vnorenom výbere.</string>
+    <string name="help_tip_gallery_search_step_1">Otvorte Nastavenia → Galéria a zapnite sémantické vyhľadávanie fotografií. Môžete ho zapnúť aj pomocou tlačidla Nastavenia vyhľadávania vedľa poľa vyhľadávania v Galérii alebo Vnorenom výbere.</string>
     <string name="help_tip_gallery_search_step_2">Povoľte prístup k fotografiám, ktoré chcete vyhľadať. V systéme Android 14 a novšom môžete povoliť prístup iba k vybraným fotografiám. Ak chcete nájsť viac fotiek, poskytnite aplikácii prístup aj k nim.</string>
     <string name="help_tip_gallery_search_step_3">Prvé nastavenie stiahne približne 227 MB súborov na rozpoznanie obsahu fotografií. Potom bude príprava a vyhľadávanie fungovať na vašom zariadení bez internetu. Vaše fotografie a vyhľadávacie dopyty sa neodosielajú na server.</string>
     <string name="help_tip_gallery_search_page_2_title">Hľadajte podľa názvu alebo popisu</string>
@@ -7945,4 +7945,16 @@
     <string name="emoji_kitchen_download_size">Veľkosť archívu: %1$s</string>
     <string name="emoji_kitchen_favorites">Záložky</string>
     <string name="emoji_kitchen_favorites_empty">Žiadne záložky</string>
+    <string name="gallery_show_file_size">Zobraziť veľkosť súboru</string>
+    <string name="gallery_show_file_extension">Zobraziť formát súboru</string>
+    <string name="gallery_show_file_size_sub">Zobrazte veľkosť súboru na miniatúrach obrázkov.</string>
+    <string name="gallery_show_file_extension_sub">Zobrazte formát súboru na miniatúrach obrázkov.</string>
+    <string name="help_tip_gallery_workflow_grid_settings">Otvorte Nastavenia → Galéria a nastavte mriežku na Automaticky alebo vyberte 1–20 stĺpcov. Veľkosť mriežky zmeníte stlačením dvoch prstov, kým ju nezatvoríte. Označenie veľkosti súboru a formátu je možné vypnúť samostatne.</string>
+    <string name="help_tip_gallery_workflow_fast_scroll">Posúvaním zobrazíte rukoväť na pravej strane. Potiahnutím sa môžete pohybovať v galérii podľa dátumu a času.</string>
+    <string name="save_collage_project_sub">Uchovávajte rozloženie, pôvodné obrázky a históriu úprav v upraviteľnom súbore projektu</string>
+    <string name="help_tip_setting_gallery_columns_description">Vyberte, koľko stĺpcov sa zobrazí v Galérii a Vnorenom výbere. Viac stĺpcov zobrazuje menšie miniatúry.</string>
+    <string name="help_tip_setting_gallery_columns_step">Otvorte Nastavenia → Galéria → Počet stĺpcov. Zvoľte Auto, aby ste sa prispôsobili obrazovke alebo pevný počet od 1 do 20.</string>
+    <string name="help_tip_setting_gallery_file_size_step">Otvorte Nastavenia → Galéria a prepnite možnosť Zobraziť veľkosť súboru. Toto zmení menovky miniatúr bez zmeny alebo kompresie súborov.</string>
+    <string name="help_tip_setting_gallery_file_extension_step">Otvorte Nastavenia → Galéria a prepnite Zobraziť formát súboru. Toto zmení menovky miniatúr bez premenovania alebo konverzie súborov.</string>
+    <string name="help_tip_setting_remember_preview_layout_step">Otvorte Nastavenia → Správanie a zapnite možnosť Zapamätať si rozloženie ukážky. Upravte výšku náhľadu alebo ho pripnite do nástroja; ďalší nástroj znova použije toto rozloženie.</string>
 </resources>

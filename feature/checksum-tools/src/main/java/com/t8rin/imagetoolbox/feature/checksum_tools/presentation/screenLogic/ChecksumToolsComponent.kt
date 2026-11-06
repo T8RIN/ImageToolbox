@@ -80,75 +80,54 @@ class ChecksumToolsComponent @AssistedInject constructor(
         }
     }
 
-    fun setUri(uri: Uri) {
-        _calculateFromUriPage.update {
-            it.copy(
-                uri = uri
-            )
-        }
+    private var uriJob by smartJob()
+    private var textJob by smartJob()
+    private var comparisonJob by smartJob()
 
-        componentScope.launch {
-            _calculateFromUriPage.update {
-                it.copy(
-                    uri = uri,
-                    checksum = checksumManager.calculateChecksum(
-                        type = hashingType,
-                        source = ChecksumSource.Uri(uri.toString())
-                    )
-                )
-            }
+    fun setUri(uri: Uri) {
+        _calculateFromUriPage.update { it.copy(uri = uri, checksum = "") }
+        val type = hashingType
+        uriJob = componentScope.launch {
+            val checksum =
+                checksumManager.calculateChecksum(type, ChecksumSource.Uri(uri.toString()))
+            _calculateFromUriPage.update { it.copy(checksum = checksum) }
         }
     }
 
     fun setText(text: String) {
-        _calculateFromTextPage.update {
-            it.copy(
-                text = text
-            )
+        _calculateFromTextPage.update { it.copy(text = text, checksum = "") }
+        val type = hashingType
+        textJob = componentScope.launch {
+            val checksum = if (text.isEmpty()) "" else {
+                checksumManager.calculateChecksum(type, ChecksumSource.Text(text))
+            }
+            _calculateFromTextPage.update { it.copy(checksum = checksum) }
         }
+    }
 
-        componentScope.launch {
-            _calculateFromTextPage.update {
+    fun setDataForComparison(uri: Uri?) {
+        comparisonJob = null
+        _compareWithUriPage.update { it.copy(uri = uri, checksum = "", isCorrect = false) }
+        if (uri == null) return
+        val type = hashingType
+        comparisonJob = componentScope.launch {
+            val checksum =
+                checksumManager.calculateChecksum(type, ChecksumSource.Uri(uri.toString()))
+            _compareWithUriPage.update {
                 it.copy(
-                    text = text,
-                    checksum = if (text.isNotEmpty()) {
-                        checksumManager.calculateChecksum(
-                            type = hashingType,
-                            source = ChecksumSource.Text(text)
-                        )
-                    } else ""
+                    checksum = checksum,
+                    isCorrect = checksum.isNotEmpty() && checksum == it.targetChecksum
                 )
             }
         }
     }
 
-    fun setDataForComparison(
-        uri: Uri? = compareWithUriPage.uri,
-        targetChecksum: String = compareWithUriPage.targetChecksum
-    ) {
+    fun setTargetChecksum(checksum: String) {
         _compareWithUriPage.update {
             it.copy(
-                uri = uri,
-                targetChecksum = targetChecksum
+                targetChecksum = checksum,
+                isCorrect = it.checksum.isNotEmpty() && it.checksum == checksum
             )
-        }
-
-        componentScope.launch {
-            _compareWithUriPage.update {
-                it.copy(
-                    uri = uri,
-                    targetChecksum = targetChecksum,
-                    checksum = checksumManager.calculateChecksum(
-                        type = hashingType,
-                        source = ChecksumSource.Uri(uri.toString())
-                    ),
-                    isCorrect = checksumManager.compareChecksum(
-                        checksum = targetChecksum,
-                        type = hashingType,
-                        source = ChecksumSource.Uri(uri.toString())
-                    )
-                )
-            }
         }
     }
 
@@ -182,16 +161,14 @@ class ChecksumToolsComponent @AssistedInject constructor(
                 delay(500)
                 _filesLoadingProgress.update { 0f }
 
-                var done = 0
-
-                val urisWithHash = uris.map { uri ->
+                val urisWithHash = uris.mapIndexed { index, uri ->
                     val checksum = checksumManager.calculateChecksum(
                         type = hashingType,
                         source = ChecksumSource.Uri(uri.toString())
                     )
 
                     _filesLoadingProgress.update {
-                        ((done++) / uris.size.toFloat()).takeIf { it.isFinite() } ?: 0f
+                        (index + 1) / uris.size.toFloat()
                     }
 
                     UriWithHash(
@@ -202,8 +179,7 @@ class ChecksumToolsComponent @AssistedInject constructor(
 
                 _compareWithUrisPage.update {
                     it.copy(
-                        uris = urisWithHash,
-                        targetChecksum = targetChecksum
+                        uris = urisWithHash
                     )
                 }
                 _filesLoadingProgress.update { -1f }

@@ -31,7 +31,11 @@ import com.t8rin.imagetoolbox.core.utils.appContext
 import com.t8rin.imagetoolbox.core.utils.makeLog
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfMetadata
 import com.tom_roush.harmony.awt.AWTColor
+import com.tom_roush.pdfbox.cos.COSArray
+import com.tom_roush.pdfbox.cos.COSBase
+import com.tom_roush.pdfbox.cos.COSDictionary
 import com.tom_roush.pdfbox.cos.COSName
+import com.tom_roush.pdfbox.cos.COSNull
 import com.tom_roush.pdfbox.io.MemoryUsageSetting
 import com.tom_roush.pdfbox.pdmodel.PDDocument
 import com.tom_roush.pdfbox.pdmodel.PDDocumentInformation
@@ -48,6 +52,7 @@ import com.tom_roush.pdfbox.pdmodel.graphics.image.JPEGFactory
 import com.tom_roush.pdfbox.pdmodel.graphics.image.LosslessFactory
 import com.tom_roush.pdfbox.pdmodel.graphics.image.PDImageXObject
 import com.tom_roush.pdfbox.pdmodel.graphics.state.PDExtendedGraphicsState
+import com.tom_roush.pdfbox.pdmodel.interactive.annotation.PDAnnotation
 import java.util.Calendar
 import kotlin.math.roundToInt
 
@@ -117,17 +122,47 @@ internal fun PDDocument.getPageSafe(index: Int): PDPage = getPage(
     )
 )
 
-internal fun PDDocument.importPageForCopy(sourcePage: PDPage): PDPage {
-    val importedPage = importPage(sourcePage)
-
-    if (
-        sourcePage.resources != null &&
-        !sourcePage.cosObject.containsKey(COSName.RESOURCES)
-    ) {
-        importedPage.resources = sourcePage.resources
+internal fun PDDocument.importPagesForCopy(sourcePages: List<PDPage>): List<PDPage> {
+    val importedPages = sourcePages.map { source ->
+        importPage(source).apply {
+            if (source.resources != null && !source.cosObject.containsKey(COSName.RESOURCES)) {
+                resources = source.resources
+            }
+        }
+    }
+    val pageMapping = sourcePages.zip(importedPages).associate { (source, imported) ->
+        source.cosObject to imported.cosObject
     }
 
-    return importedPage
+    fun remapDestination(destination: COSBase?): COSBase? {
+        val array = destination as? COSArray ?: return destination
+        if (array.size() == 0) return destination
+        val page = array.getObject(0) as? COSDictionary ?: return destination
+        if (page.getCOSName(COSName.TYPE) != COSName.PAGE) return destination
+        return COSArray().apply {
+            addAll(array)
+            set(0, pageMapping[page] ?: COSNull.NULL)
+        }
+    }
+
+    sourcePages.zip(importedPages).forEach { (source, imported) ->
+        imported.annotations = source.annotations.map { annotation ->
+            val dictionary = COSDictionary(annotation.cosObject).apply {
+                removeItem(COSName.P)
+                getDictionaryObject(COSName.DEST)?.let { destination ->
+                    setItem(COSName.DEST, remapDestination(destination))
+                }
+                val action = getDictionaryObject(COSName.A) as? COSDictionary
+                if (action?.getCOSName(COSName.S) == COSName.getPDFName("GoTo")) {
+                    setItem(COSName.A, COSDictionary(action).apply {
+                        setItem(COSName.D, remapDestination(action.getDictionaryObject(COSName.D)))
+                    })
+                }
+            }
+            PDAnnotation.createAnnotation(dictionary)
+        }
+    }
+    return importedPages
 }
 
 internal val PDDocument.pageIndices: List<Int> get() = List(numberOfPages) { it }
@@ -188,24 +223,19 @@ internal fun safeOpenPdf(
     uri: String,
     password: String?
 ): PDDocument {
-    val stream = UriReadable(uri.toUri(), appContext).stream
+    fun load(memoryUsage: MemoryUsageSetting): PDDocument =
+        UriReadable(uri.toUri(), appContext).stream.use { stream ->
+            PDDocument.load(stream, password.orEmpty(), memoryUsage)
+        }
 
     return try {
-        PDDocument.load(
-            stream,
-            password.orEmpty(),
-            BaseMemoryConfig,
-        )
+        load(BaseMemoryConfig)
     } catch (t: Throwable) {
         if (t is InvalidPasswordException) throw t
 
         "failed to open pdf from $uri - trying again".makeLog("openPdf")
 
-        PDDocument.load(
-            stream,
-            password.orEmpty(),
-            MemoryUsageSetting.setupTempFileOnly()
-        )
+        load(MemoryUsageSetting.setupTempFileOnly())
     }
 }
 

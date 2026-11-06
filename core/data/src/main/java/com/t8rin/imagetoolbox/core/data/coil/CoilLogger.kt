@@ -18,8 +18,8 @@
 package com.t8rin.imagetoolbox.core.data.coil
 
 import coil3.network.HttpException
-import coil3.util.DebugLogger
 import coil3.util.Logger
+import com.t8rin.imagetoolbox.core.resources.BuildConfig
 import com.t8rin.imagetoolbox.core.utils.makeLog
 import io.ktor.http.URLParserException
 import kotlinx.coroutines.CancellationException
@@ -28,13 +28,7 @@ import com.t8rin.imagetoolbox.core.utils.Logger as RealLogger
 
 internal class CoilLogger : Logger {
 
-    private val delegate = DebugLogger()
-
-    override var minLevel: Logger.Level
-        get() = delegate.minLevel
-        set(value) {
-            delegate.minLevel = value
-        }
+    override var minLevel = if (BuildConfig.DEBUG) Logger.Level.Debug else Logger.Level.Warn
 
     override fun log(
         tag: String,
@@ -42,6 +36,8 @@ internal class CoilLogger : Logger {
         message: String?,
         throwable: Throwable?
     ) {
+        if (level < minLevel) return
+
         val logLevel = throwable?.imageLoadLogLevel() ?: level.toLogger()
         message?.takeIf {
             "NullRequestData" !in it && "PDF" !in it
@@ -50,13 +46,6 @@ internal class CoilLogger : Logger {
         throwable?.takeIf {
             "The request's data is null" !in it.message.orEmpty() && "PDF" !in it.message.orEmpty()
         }?.let { it.makeLog(tag, it.imageLoadLogLevel()) }
-
-        delegate.log(
-            tag = tag,
-            level = if (logLevel == RealLogger.Level.Warn) Logger.Level.Warn else level,
-            message = message,
-            throwable = throwable
-        )
     }
 
     private fun Logger.Level.toLogger(): RealLogger.Level = when (this) {

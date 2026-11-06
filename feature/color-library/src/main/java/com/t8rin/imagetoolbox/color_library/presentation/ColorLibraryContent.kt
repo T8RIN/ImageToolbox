@@ -283,7 +283,7 @@ fun ColorLibraryContent(
                             .padding(top = 12.dp)
                     )
 
-                    val label by remember {
+                    val label by remember(colors, gridState) {
                         derivedStateOf {
                             gridState.firstVisibleItemIndex
                                 .let(colors::getOrNull)

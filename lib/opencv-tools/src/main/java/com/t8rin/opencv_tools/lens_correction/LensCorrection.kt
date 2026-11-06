@@ -142,6 +142,7 @@ object LensCorrection : OpenCV() {
             rgbaMat.release()
             K.release()
             D.release()
+            undistorted.release()
         }
     }
 

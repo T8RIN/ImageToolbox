@@ -5510,7 +5510,7 @@
     <string name="help_tip_gallery_search_subtitle">Recherchez des photos par leur contenu et parcourez les catégories automatiques. La recherche de nom de fichier est toujours disponible</string>
     <string name="help_tip_gallery_search_page_title">Activer la recherche sémantique de photos</string>
     <string name="help_tip_gallery_search_description">La recherche sémantique de photos trouve des photos en fonction de ce qu\'elles contiennent : décrire des objets, des personnes ou une scène. Vous n\'avez pas besoin d\'ajouter des légendes ou des balises. Il regroupe également les photos en catégories automatiques. Disponible sur Android 8 et versions ultérieures dans l\'outil Galerie et lorsque la source de l\'image est définie sur Embedded Picker.</string>
-    <string name="help_tip_gallery_search_step_1">Ouvrez Paramètres → Source d\'image et activez la recherche sémantique de photos. Vous pouvez également l\'activer à l\'aide du bouton Paramètres de recherche à côté du champ de recherche dans la Galerie ou le sélecteur intégré.</string>
+    <string name="help_tip_gallery_search_step_1">Ouvrez Paramètres → Galerie et activez la recherche sémantique de photos. Vous pouvez également l\'activer à l\'aide du bouton Paramètres de recherche à côté du champ de recherche dans la Galerie ou le sélecteur intégré.</string>
     <string name="help_tip_gallery_search_step_2">Autorisez l’accès aux photos que vous souhaitez rechercher. Sur Android 14 et versions ultérieures, vous pouvez autoriser l’accès aux photos sélectionnées uniquement. Pour trouver plus de photos, autorisez également l\'application à y accéder.</string>
     <string name="help_tip_gallery_search_step_3">La première configuration télécharge environ 227 Mo de fichiers pour reconnaître le contenu des photos. Après cela, la préparation et la recherche fonctionnent sur votre appareil sans Internet. Vos photos et requêtes de recherche ne sont pas envoyées à un serveur.</string>
     <string name="help_tip_gallery_search_page_2_title">Rechercher par nom ou description</string>
@@ -7943,4 +7943,16 @@
     <string name="emoji_kitchen_download_size">Taille des archives : %1$s</string>
     <string name="emoji_kitchen_favorites">Signets</string>
     <string name="emoji_kitchen_favorites_empty">Aucun favori</string>
+    <string name="gallery_show_file_size">Afficher la taille du fichier</string>
+    <string name="gallery_show_file_extension">Afficher le format du fichier</string>
+    <string name="gallery_show_file_size_sub">Afficher la taille du fichier sur les vignettes des images.</string>
+    <string name="gallery_show_file_extension_sub">Afficher le format de fichier sur les vignettes des images.</string>
+    <string name="help_tip_gallery_workflow_grid_settings">Ouvrez Paramètres → Galerie pour définir la grille sur Auto ou choisissez 1 à 20 colonnes. Pincez avec deux doigts pour redimensionner la grille jusqu\'à la fermer. Les étiquettes de taille et de format de fichier peuvent être désactivées séparément.</string>
+    <string name="help_tip_gallery_workflow_fast_scroll">Faites défiler pour révéler la poignée à droite. Faites-le glisser pour vous déplacer dans la galerie par date et heure.</string>
+    <string name="save_collage_project_sub">Conservez la mise en page, les images originales et l\'historique des modifications dans un fichier de projet modifiable</string>
+    <string name="help_tip_setting_gallery_columns_description">Choisissez le nombre de colonnes qui apparaissent dans la Galerie et le sélecteur intégré. Plus de colonnes affichent des vignettes plus petites.</string>
+    <string name="help_tip_setting_gallery_columns_step">Ouvrez Paramètres → Galerie → Nombre de colonnes. Choisissez Auto pour s\'adapter à l\'écran ou un nombre fixe de 1 à 20.</string>
+    <string name="help_tip_setting_gallery_file_size_step">Ouvrez Paramètres → Galerie et activez Afficher la taille du fichier. Cela modifie les étiquettes des vignettes sans modifier ni compresser les fichiers.</string>
+    <string name="help_tip_setting_gallery_file_extension_step">Ouvrez Paramètres → Galerie et activez Afficher le format de fichier. Cela modifie les étiquettes des vignettes sans renommer ni convertir les fichiers.</string>
+    <string name="help_tip_setting_remember_preview_layout_step">Ouvrez Paramètres → Comportement et activez Mémoriser la mise en page d\'aperçu. Ajustez la hauteur de l\'aperçu ou épinglez-le dans un outil ; le prochain outil réutilisera cette mise en page.</string>
 </resources>

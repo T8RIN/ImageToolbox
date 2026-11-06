@@ -26,5 +26,13 @@ fun Writeable.outputStream(): OutputStream = if (this is StreamWriteable) {
 } else {
     object : OutputStream() {
         override fun write(b: Int) = writeBytes(byteArrayOf(b.toByte()))
+
+        override fun write(b: ByteArray) = write(b, 0, b.size)
+
+        override fun write(b: ByteArray, off: Int, len: Int) {
+            if (off < 0 || len < 0 || off > b.size - len) throw IndexOutOfBoundsException()
+            if (len == 0) return
+            writeBytes(if (off == 0 && len == b.size) b else b.copyOfRange(off, off + len))
+        }
     }
 }

@@ -227,6 +227,10 @@ private suspend fun PointerInputScope.detectDragGesturesAfterLongPressInInitialP
             while (!isFinished) {
                 val event = awaitPointerEvent(PointerEventPass.Initial)
                 var change = event.changes.firstOrNull { it.id == pointerId }
+                if (change?.isConsumed == true) {
+                    onDragCancel()
+                    return@awaitEachGesture
+                }
 
                 if (change?.pressed != true) {
                     change = event.changes.firstOrNull { it.pressed }

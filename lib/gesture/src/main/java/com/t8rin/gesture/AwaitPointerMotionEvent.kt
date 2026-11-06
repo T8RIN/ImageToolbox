@@ -95,10 +95,11 @@ suspend fun PointerInputScope.detectMotionEvents(
             // to prevent it we add delay after first touch
             var waitedAfterDown = false
 
-            launch {
+            val downJob = launch {
                 delay(delayAfterDownInMillis)
                 onDown(down)
                 waitedAfterDown = true
+                if (pointer !== down) onMove(pointer)
             }
 
             while (true) {
@@ -125,6 +126,7 @@ suspend fun PointerInputScope.detectMotionEvents(
                     }
                 } else {
                     // All of the pointers are up
+                    downJob.cancel()
                     onUp(pointer)
                     break
                 }

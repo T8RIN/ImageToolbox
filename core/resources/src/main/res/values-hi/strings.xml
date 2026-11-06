@@ -5510,7 +5510,7 @@
     <string name="help_tip_gallery_search_subtitle">उनकी सामग्री के आधार पर फ़ोटो ढूंढें और स्वचालित श्रेणियां ब्राउज़ करें। फ़ाइल नाम खोज हमेशा उपलब्ध है</string>
     <string name="help_tip_gallery_search_page_title">सिमेंटिक फ़ोटो खोज चालू करें</string>
     <string name="help_tip_gallery_search_description">सिमेंटिक फोटो खोज तस्वीरों को उनमें मौजूद चीज़ों के आधार पर ढूंढती है: वस्तुओं, लोगों या किसी दृश्य का वर्णन करें। आपको कैप्शन या टैग जोड़ने की ज़रूरत नहीं है. यह फ़ोटो को स्वचालित श्रेणियों में भी समूहित करता है। एंड्रॉइड 8 और बाद में गैलरी टूल में उपलब्ध है और जब छवि स्रोत एंबेडेड पिकर पर सेट होता है।</string>
-    <string name="help_tip_gallery_search_step_1">सेटिंग्स → छवि स्रोत खोलें और सिमेंटिक फोटो खोज चालू करें। आप गैलरी या एंबेडेड पिकर में खोज फ़ील्ड के बगल में खोज सेटिंग बटन का उपयोग करके भी इसे चालू कर सकते हैं।</string>
+    <string name="help_tip_gallery_search_step_1">सेटिंग्स → गेलरी खोलें और सिमेंटिक फोटो खोज चालू करें। आप गैलरी या एंबेडेड पिकर में खोज फ़ील्ड के बगल में खोज सेटिंग बटन का उपयोग करके भी इसे चालू कर सकते हैं।</string>
     <string name="help_tip_gallery_search_step_2">उन फ़ोटो तक पहुंच की अनुमति दें जिन्हें आप खोजना चाहते हैं। Android 14 और उसके बाद के संस्करण पर, आप केवल चयनित फ़ोटो तक पहुंच की अनुमति दे सकते हैं। अधिक फ़ोटो ढूंढने के लिए, ऐप को उन तक पहुंच भी दें।</string>
     <string name="help_tip_gallery_search_step_3">पहला सेटअप फोटो सामग्री को पहचानने के लिए लगभग 227 एमबी फ़ाइलें डाउनलोड करता है। उसके बाद, तैयारी और खोज आपके डिवाइस पर बिना इंटरनेट के काम करती है। आपकी फ़ोटो और खोज क्वेरी किसी सर्वर पर नहीं भेजी जाती हैं।</string>
     <string name="help_tip_gallery_search_page_2_title">नाम या विवरण से खोजें</string>
@@ -7943,4 +7943,16 @@
     <string name="emoji_kitchen_download_size">पुरालेख का आकार: %1$s</string>
     <string name="emoji_kitchen_favorites">बुकमार्क</string>
     <string name="emoji_kitchen_favorites_empty">कोई बुकमार्क नहीं</string>
+    <string name="gallery_show_file_size">फ़ाइल का आकार दिखाएँ</string>
+    <string name="gallery_show_file_extension">फ़ाइल स्वरूप दिखाएँ</string>
+    <string name="gallery_show_file_size_sub">छवि थंबनेल पर फ़ाइल का आकार दिखाएँ।</string>
+    <string name="gallery_show_file_extension_sub">छवि थंबनेल पर फ़ाइल स्वरूप दिखाएँ।</string>
+    <string name="help_tip_gallery_workflow_grid_settings">ग्रिड को ऑटो पर सेट करने के लिए सेटिंग्स → गैलरी खोलें या 1-20 कॉलम चुनें। ग्रिड का आकार बदलने के लिए उसे बंद करने तक दो अंगुलियों से पिंच करें। फ़ाइल आकार और प्रारूप लेबल को अलग से बंद किया जा सकता है।</string>
+    <string name="help_tip_gallery_workflow_fast_scroll">दाईं ओर के हैंडल को प्रकट करने के लिए स्क्रॉल करें। दिनांक और समय के अनुसार गैलरी में जाने के लिए इसे खींचें।</string>
+    <string name="save_collage_project_sub">लेआउट, मूल छवियाँ और संपादन इतिहास को एक संपादन योग्य प्रोजेक्ट फ़ाइल में रखें</string>
+    <string name="help_tip_setting_gallery_columns_description">चुनें कि गैलरी और एंबेडेड पिकर में कितने कॉलम दिखाई देंगे। अधिक कॉलम छोटे थंबनेल दिखाते हैं।</string>
+    <string name="help_tip_setting_gallery_columns_step">सेटिंग्स → गैलरी → कॉलम गिनती खोलें। स्क्रीन पर फ़िट होने के लिए ऑटो चुनें या 1 से 20 तक एक निश्चित गिनती चुनें।</string>
+    <string name="help_tip_setting_gallery_file_size_step">सेटिंग्स → गैलरी खोलें और फ़ाइल आकार दिखाएँ टॉगल करें। यह फ़ाइलों को बदले या संपीड़ित किए बिना थंबनेल लेबल बदलता है।</string>
+    <string name="help_tip_setting_gallery_file_extension_step">सेटिंग्स → गैलरी खोलें और फ़ाइल प्रारूप दिखाएँ टॉगल करें। यह फ़ाइलों का नाम बदले या परिवर्तित किए बिना थंबनेल लेबल बदलता है।</string>
+    <string name="help_tip_setting_remember_preview_layout_step">सेटिंग्स → व्यवहार खोलें और पूर्वावलोकन लेआउट याद रखें चालू करें। पूर्वावलोकन ऊंचाई समायोजित करें या इसे किसी टूल में पिन करें; अगला टूल उस लेआउट का पुन: उपयोग करेगा।</string>
 </resources>

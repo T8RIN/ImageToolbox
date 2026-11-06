@@ -254,6 +254,24 @@ sealed class Setting(
     )
 
     @Serializable
+    data object GalleryColumns : Setting(
+        title = R.string.columns_count,
+        subtitle = null
+    )
+
+    @Serializable
+    data object ShowGalleryFileSize : Setting(
+        title = R.string.gallery_show_file_size,
+        subtitle = R.string.gallery_show_file_size_sub
+    )
+
+    @Serializable
+    data object ShowGalleryFileExtension : Setting(
+        title = R.string.gallery_show_file_extension,
+        subtitle = R.string.gallery_show_file_extension_sub
+    )
+
+    @Serializable
     data object SemanticSearch : Setting(
         title = R.string.gallery_search_auto,
         subtitle = R.string.gallery_search_auto_sub

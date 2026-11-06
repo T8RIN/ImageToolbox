@@ -50,6 +50,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.withContext
 
 class DuplicateFinderComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
@@ -103,6 +104,8 @@ class DuplicateFinderComponent @AssistedInject internal constructor(
         _isAnalyzing.value = false
     }
 
+    private var regroupJob: Job? by smartJob()
+
     val selectedSizeBytes: Long
         get() = analysisResult?.items
             ?.asSequence()
@@ -140,15 +143,18 @@ class DuplicateFinderComponent @AssistedInject internal constructor(
     fun analyze() {
         if (sourceUris.isEmpty() || isDeleting) return
 
+        regroupJob = null
         val requestedUris = sourceUris.map(Uri::toString)
+        val requestedSensitivity = sensitivity
+        val requestedScanMode = scanMode
         analysisJob = trackProgress {
             _isAnalyzing.value = true
             _progress.value = null
             try {
                 val result = duplicateFinder.findDuplicates(
                     uris = requestedUris,
-                    sensitivity = sensitivity,
-                    scanMode = scanMode,
+                    sensitivity = requestedSensitivity,
+                    scanMode = requestedScanMode,
                     onProgress = {
                         updateProgress(
                             done = it.processed,
@@ -157,14 +163,11 @@ class DuplicateFinderComponent @AssistedInject internal constructor(
                         _progress.value = it
                     }
                 )
-                val regrouped = DuplicateGrouping.regroup(
-                    items = result.items,
-                    sensitivity = sensitivity,
-                    keepStrategy = keepStrategy,
-                    scanMode = scanMode
-                )
-                _analysisResult.value = result.copy(groups = regrouped)
-                updateGroups(regrouped)
+                regroupJob = null
+                val updated = DuplicateGrouping.updateRecommendations(result.groups, keepStrategy)
+                _analysisResult.value = result.copy(groups = updated)
+                updateGroups(updated)
+                if (sensitivity != requestedSensitivity) regroup()
             } catch (cancellation: CancellationException) {
                 throw cancellation
             } catch (throwable: Throwable) {
@@ -177,6 +180,7 @@ class DuplicateFinderComponent @AssistedInject internal constructor(
 
     fun cancelAnalysis() {
         analysisJob = null
+        regroupJob = null
         _isAnalyzing.value = false
         _progress.value = null
     }
@@ -204,15 +208,24 @@ class DuplicateFinderComponent @AssistedInject internal constructor(
         if (_sensitivity.intValue == normalized) return
 
         _sensitivity.intValue = normalized
-        analysisResult?.let { result ->
-            val regrouped = DuplicateGrouping.regroup(
-                items = result.items,
-                sensitivity = normalized,
-                keepStrategy = keepStrategy,
-                scanMode = scanMode
-            )
-            _analysisResult.value = result.copy(groups = regrouped)
-            updateGroups(regrouped)
+        if (!isDeleting) regroup()
+    }
+
+    private fun regroup() {
+        val result = analysisResult ?: return
+        val requestedSensitivity = sensitivity
+        val requestedScanMode = scanMode
+        regroupJob = componentScope.launch {
+            val groups = withContext(defaultDispatcher) {
+                DuplicateGrouping.regroup(
+                    items = result.items,
+                    sensitivity = requestedSensitivity,
+                    scanMode = requestedScanMode
+                )
+            }
+            val updated = DuplicateGrouping.updateRecommendations(groups, keepStrategy)
+            _analysisResult.value = result.copy(groups = updated)
+            updateGroups(updated)
         }
     }
 
@@ -222,14 +235,9 @@ class DuplicateFinderComponent @AssistedInject internal constructor(
         _keepStrategy.value = value
         _selectedUris.value = emptySet()
         analysisResult?.let { result ->
-            val regrouped = DuplicateGrouping.regroup(
-                items = result.items,
-                sensitivity = sensitivity,
-                keepStrategy = value,
-                scanMode = scanMode
-            )
-            _analysisResult.value = result.copy(groups = regrouped)
-            updateGroups(regrouped)
+            val updated = DuplicateGrouping.updateRecommendations(result.groups, value)
+            _analysisResult.value = result.copy(groups = updated)
+            updateGroups(updated)
         }
     }
 
@@ -283,12 +291,13 @@ class DuplicateFinderComponent @AssistedInject internal constructor(
         _isDeleting.value = true
         componentScope.launch {
             fileControllerEventEmitter.deleteFiles(uris) { result ->
-                handleDeletionResult(result)
+                componentScope.launch { handleDeletionResult(result) }
             }
         }
     }
 
-    private fun handleDeletionResult(result: FileDeletionResult) {
+    private suspend fun handleDeletionResult(result: FileDeletionResult) {
+        regroupJob = null
         val deletedUris = result.deletedUris.toSet()
         if (deletedUris.isNotEmpty()) {
             _sourceUris.update { uris ->
@@ -296,17 +305,23 @@ class DuplicateFinderComponent @AssistedInject internal constructor(
             }
             analysisResult?.let { current ->
                 val remainingItems = current.items.filterNot { it.uri in deletedUris }
-                val regrouped = DuplicateGrouping.regroup(
-                    items = remainingItems,
-                    sensitivity = sensitivity,
-                    keepStrategy = keepStrategy,
-                    scanMode = scanMode
-                )
+                val currentSensitivity = sensitivity
+                val currentScanMode = scanMode
+                val regrouped = withContext(defaultDispatcher) {
+                    DuplicateGrouping.regroup(
+                        items = remainingItems,
+                        sensitivity = currentSensitivity,
+                        scanMode = currentScanMode
+                    )
+                }
+                if (analysisResult?.items !== current.items) return@let
+                val updated = DuplicateGrouping.updateRecommendations(regrouped, keepStrategy)
                 _analysisResult.value = current.copy(
                     items = remainingItems,
-                    groups = regrouped
+                    groups = updated
                 )
-                updateGroups(regrouped)
+                updateGroups(updated)
+                if (sensitivity != currentSensitivity) regroup()
             }
         }
 

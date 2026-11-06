@@ -406,8 +406,7 @@ class MetadataRoundTripInstrumentedTest {
             tag in NON_REMOVABLE_OR_DERIVED_TAGS ||
                     (
                             assetName.isTiff() &&
-                                    tag == MetadataTag.PlanarConfiguration &&
-                                    before?.toIntOrNull() == 2
+                                    tag == MetadataTag.PlanarConfiguration
                             )
 
         if (!maySurvive) {

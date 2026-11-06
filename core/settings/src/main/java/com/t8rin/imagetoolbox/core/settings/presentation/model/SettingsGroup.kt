@@ -37,6 +37,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.Firebase
 import com.t8rin.imagetoolbox.core.resources.icons.FolderOpen
 import com.t8rin.imagetoolbox.core.resources.icons.Glyphs
 import com.t8rin.imagetoolbox.core.resources.icons.HardDrive
+import com.t8rin.imagetoolbox.core.resources.icons.Image
 import com.t8rin.imagetoolbox.core.resources.icons.ImageSearch
 import com.t8rin.imagetoolbox.core.resources.icons.Info
 import com.t8rin.imagetoolbox.core.resources.icons.LabelPercent
@@ -280,10 +281,7 @@ sealed class SettingsGroup(
         id = 15,
         icon = Icons.Rounded.ImageSearch,
         titleId = R.string.image_source,
-        settingsList = listOfNotNull(
-            Setting.ImagePickerMode,
-            Setting.SemanticSearch.takeIf { Build.VERSION.SDK_INT >= Build.VERSION_CODES.O }
-        ),
+        settingsList = listOf(Setting.ImagePickerMode),
         initialState = false
     )
 
@@ -451,6 +449,19 @@ sealed class SettingsGroup(
         initialState = false
     )
 
+    data object Gallery : SettingsGroup(
+        id = 27,
+        icon = Icons.Rounded.Image,
+        titleId = R.string.gallery_picker,
+        settingsList = listOf(
+            Setting.GalleryColumns,
+            Setting.ShowGalleryFileSize,
+            Setting.ShowGalleryFileExtension,
+            Setting.SemanticSearch
+        ),
+        initialState = false
+    )
+
     companion object {
         val entries: List<SettingsGroup> by lazy {
             listOfNotNull(
@@ -477,6 +488,7 @@ sealed class SettingsGroup(
                 Clipboard,
                 Storage,
                 ImageSource,
+                Gallery.takeIf { Build.VERSION.SDK_INT >= Build.VERSION_CODES.O },
                 BackupRestore,
                 Firebase.takeIf { !Flavor.isFoss() },
                 Updates,

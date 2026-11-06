@@ -44,6 +44,7 @@ const val EMOJI_KITCHEN_COLLECTION_SIZE = 2_248_752_546L
 const val GLOBAL_STORAGE_NAME = "image_resizer"
 const val BACKUP_FILE_EXT = "imtbx_backup"
 const val TEMPLATE_EXT = "imtbx_template"
+const val COLLAGE_PROJECT_EXT = "itc"
 const val SHADER_EXT = "itshader"
 const val PDF = "pdf/"
 

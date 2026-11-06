@@ -26,7 +26,6 @@ import com.t8rin.imagetoolbox.core.data.image.utils.drawBackground
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.domain.image.ImageScaler
-import com.t8rin.imagetoolbox.core.domain.image.ImageShareProvider
 import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.GradientFill
 import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
@@ -55,23 +54,20 @@ class GradientBackgroundTest {
         }
         val getter = dependency<ImageGetter<Bitmap>> { name, args ->
             check(name == "getImage")
-            checkNotNull(images[args[0]])
+            (args[0] as? Bitmap) ?: checkNotNull(images[args[0]])
         }
         val scaler = dependency<ImageScaler<Bitmap>> { name, args ->
             check(name == "scaleImage")
             Bitmap.createScaledBitmap(args[0] as Bitmap, args[1] as Int, args[2] as Int, false)
         }
-        val share = dependency<ImageShareProvider<Bitmap>> { name, args ->
-            check(name == "cacheImage")
-            "cache-${images.size}".also { images[it] = args[0] as Bitmap }
-        }
+        val settingsState = MutableStateFlow(SettingsState.Default)
         val settings = dependency<SettingsProvider> { name, _ ->
             check(name == "getSettingsState")
-            MutableStateFlow(SettingsState.Default)
+            settingsState
         }
         val dispatchers = dependency<DispatchersHolder> { _, _ -> Dispatchers.Unconfined }
         val combiner = AndroidImageCombiner(
-            scaler, getter, dependency(), share, dependency(), dependency(),
+            scaler, getter, dependency(), dependency(), dependency(),
             CvStitchHelper(getter, scaler), settings, dispatchers
         )
         val palette = GradientPalette.Custom(
@@ -123,6 +119,31 @@ class GradientBackgroundTest {
             expected.recycle()
             actual.recycle()
         }
+        settingsState.value = SettingsState.Default.copy(
+            enableBackgroundColorForAlphaFormats = true,
+            backgroundForNoAlphaImageFormats = ColorModel(Color.BLUE)
+        )
+        val gradient = GradientFill(palette)
+        val (flattened, _) = combiner.combineImages(
+            uris.take(2),
+            CombiningParams(
+                stitchMode = StitchMode.Grid.Horizontal(2),
+                verticalSpacing = 8,
+                outputScale = 1f,
+                backgroundGradient = gradient
+            ),
+            onProgress = {}
+        )
+        val background = createBitmap(16, 32).applyCanvas { drawBackground(0, gradient) }
+        assertEquals(16, flattened.width)
+        assertEquals(32, flattened.height)
+        assertEquals(Color.BLUE, flattened.getPixel(0, 0))
+        assertEquals(Color.BLUE, flattened.getPixel(0, 31))
+        assertEquals(Color.WHITE, flattened.getPixel(8, 6))
+        assertEquals(Color.WHITE, flattened.getPixel(8, 26))
+        assertEquals(background.getPixel(0, 16), flattened.getPixel(0, 16))
+        flattened.recycle()
+        background.recycle()
         images.values.distinct().filterNot(Bitmap::isRecycled).forEach(Bitmap::recycle)
     }
 

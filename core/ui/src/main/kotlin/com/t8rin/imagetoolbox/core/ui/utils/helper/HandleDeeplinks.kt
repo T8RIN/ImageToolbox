@@ -81,6 +81,9 @@ fun Intent?.handleDeeplinks(
         fun Uri?.isTemplate(): Boolean = this?.toString().isEndsWith(TEMPLATE_EXT) ||
                 this?.filename().isEndsWith(TEMPLATE_EXT)
 
+        fun Uri?.isCollageProject(): Boolean = this?.toString().isEndsWith(".itc") ||
+                this?.filename().isEndsWith(".itc")
+
         val startsWithImage = type?.startsWith("image/") == true
         val hasExtraFormats = clipData?.clipList()
             ?.any {
@@ -93,6 +96,8 @@ fun Intent?.handleDeeplinks(
         }
 
         when {
+            data.isCollageProject() -> onNavigate(Screen.CollageMaker(projectUri = data))
+
             data.isTemplate() -> onHasExtraDataType(ExtraDataType.Template(data.toString()))
 
             data.isMarkupProject() -> onNavigate(Screen.MarkupLayers(data))

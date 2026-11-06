@@ -198,7 +198,6 @@ private fun RowScope.WallpaperItem(
             }
             Spacer(Modifier.height(4.dp))
             AutoSizeText(
-                key = { wallpaper.imageUri },
                 text = stringResource(wallpaper.nameRes),
                 textAlign = TextAlign.Center,
                 color = MaterialTheme.colorScheme.onMixedContainer,
@@ -214,7 +213,6 @@ private fun RowScope.WallpaperItem(
             Spacer(Modifier.height(4.dp))
             if (!wallpaper.imageUri.isNullOrBlank()) {
                 AutoSizeText(
-                    key = { wallpaper.imageUri },
                     text = "${wallpaper.resolution.width}x${wallpaper.resolution.height}",
                     textAlign = TextAlign.Center,
                     color = MaterialTheme.colorScheme.onSecondaryContainer,

@@ -130,10 +130,15 @@ abstract class BaseHistoryComponent<Snapshot>(
         registerChanges()
     }
 
-    protected fun resetHistory() {
+    protected fun resetHistory() = restoreHistory(emptyList(), emptyList())
+
+    protected fun restoreHistory(
+        previous: List<Snapshot>,
+        undone: List<Snapshot>
+    ) {
         cancelPendingHistoryTransaction()
-        _history.value = listOf(currentHistorySnapshot())
-        _redoHistory.value = emptyList()
+        _history.value = (previous + currentHistorySnapshot()).takeLast(maxHistorySize)
+        _redoHistory.value = undone.takeLast(maxHistorySize)
     }
 
     protected fun clearHistory() {

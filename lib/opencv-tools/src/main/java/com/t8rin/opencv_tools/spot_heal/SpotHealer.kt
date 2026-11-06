@@ -38,31 +38,24 @@ object SpotHealer : OpenCV() {
         type: HealType
     ): Bitmap {
         val src = image.toMat()
-        val inpaintMask = Mat()
-
-        Imgproc.resize(
-            mask.toMat(),
-            inpaintMask,
-            Size(image.width.toDouble(), image.height.toDouble())
-        )
-
-        Imgproc.cvtColor(src, src, Imgproc.COLOR_RGB2XYZ)
-        Imgproc.cvtColor(inpaintMask, inpaintMask, Imgproc.COLOR_BGR2GRAY)
-
+        val inpaintMask = mask.toMat()
         val dst = Mat()
-
-        Photo.inpaint(
-            src,
-            inpaintMask,
-            dst,
-            radius.toDouble(),
-            type.ordinal
-        )
-
-        Imgproc.cvtColor(dst, dst, Imgproc.COLOR_XYZ2RGB)
-
-        return dst.toBitmap()
+        try {
+            Imgproc.resize(
+                inpaintMask,
+                inpaintMask,
+                Size(image.width.toDouble(), image.height.toDouble())
+            )
+            Imgproc.cvtColor(src, src, Imgproc.COLOR_RGB2XYZ)
+            Imgproc.cvtColor(inpaintMask, inpaintMask, Imgproc.COLOR_BGR2GRAY)
+            Photo.inpaint(src, inpaintMask, dst, radius.toDouble(), type.ordinal)
+            Imgproc.cvtColor(dst, dst, Imgproc.COLOR_XYZ2RGB)
+            return dst.toBitmap()
+        } finally {
+            src.release()
+            inpaintMask.release()
+            dst.release()
+        }
     }
-
 
 }

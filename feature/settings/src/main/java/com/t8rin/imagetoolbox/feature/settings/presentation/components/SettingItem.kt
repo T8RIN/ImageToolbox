@@ -303,6 +303,18 @@ internal fun SettingItem(
                 )
             }
 
+            Setting.GalleryColumns -> {
+                GalleryColumnsSettingItem(onValueChange = component::setGalleryColumns)
+            }
+
+            Setting.ShowGalleryFileSize -> {
+                ShowGalleryFileSizeSettingItem(onClick = component::setShowGalleryFileSize)
+            }
+
+            Setting.ShowGalleryFileExtension -> {
+                ShowGalleryFileExtensionSettingItem(onClick = component::setShowGalleryFileExtension)
+            }
+
             Setting.SemanticSearch -> {
                 val state by component.semanticSearchState.collectAsStateWithLifecycle()
                 SemanticSearchSettingItem(

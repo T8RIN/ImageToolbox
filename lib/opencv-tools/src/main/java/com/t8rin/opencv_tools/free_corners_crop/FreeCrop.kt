@@ -99,10 +99,6 @@ object FreeCrop : OpenCV() {
             bottomLeftCorner = PointF(points[3].x, points[3].y)
         )
 
-        val image = bitmap.toMat()
-
-        // convert top left, top right, bottom right, and bottom left document corners from
-        // Android points to OpenCV points
         val tLC = corners.topLeftCorner.toOpenCVPoint()
         val tRC = corners.topRightCorner.toOpenCVPoint()
         val bRC = corners.bottomRightCorner.toOpenCVPoint()
@@ -111,7 +107,6 @@ object FreeCrop : OpenCV() {
         val width = min(tLC.distance(tRC), bLC.distance(bRC))
         val height = min(tLC.distance(bLC), tRC.distance(bRC))
 
-        // create empty image matrix with cropped and warped document width and height
         val croppedImage = MatOfPoint2f(
             Point(0.0, 0.0),
             Point(width, 0.0),
@@ -119,18 +114,23 @@ object FreeCrop : OpenCV() {
             Point(0.0, height),
         )
 
+        val image = bitmap.toMat()
+        val sourceCorners = MatOfPoint2f(tLC, tRC, bRC, bLC)
         val output = Mat()
-        Imgproc.warpPerspective(
-            image,
-            output,
-            Geometry.getPerspectiveTransform(
-                MatOfPoint2f(tLC, tRC, bRC, bLC),
-                croppedImage
-            ),
-            Size(width, height)
-        )
-
-        output.toBitmap()
+        try {
+            val transform = Geometry.getPerspectiveTransform(sourceCorners, croppedImage)
+            try {
+                Imgproc.warpPerspective(image, output, transform, Size(width, height))
+                output.toBitmap()
+            } finally {
+                transform.release()
+            }
+        } finally {
+            image.release()
+            sourceCorners.release()
+            croppedImage.release()
+            output.release()
+        }
     }
 
 }

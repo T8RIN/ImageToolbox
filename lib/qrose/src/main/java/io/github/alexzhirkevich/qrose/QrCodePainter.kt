@@ -68,7 +68,7 @@ fun rememberQrCodePainter(
     options: QrOptionsBuilderScope.() -> Unit
 ): QrCodePainter = rememberQrCodePainter(
     data = data,
-    options = remember(keys) { QrOptions(options) },
+    options = remember(*keys) { QrOptions(options) },
     onFailure = onFailure,
     onSuccess = onSuccess
 )

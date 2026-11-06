@@ -15,6 +15,8 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
+@file:Suppress("ConstPropertyName")
+
 package com.t8rin.imagetoolbox.core.settings.domain.model
 
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
@@ -44,6 +46,9 @@ data class SettingsState(
     val fabAlignment: Int,
     val selectedEmoji: Int?,
     val picturePickerModeInt: Int,
+    val galleryColumns: Int,
+    val showGalleryFileSize: Boolean,
+    val showGalleryFileExtension: Boolean,
     val isSemanticSearchEnabled: Boolean,
     val semanticSearchSettings: SemanticSearchSettings,
     val isAiAssistantEnabled: Boolean,
@@ -183,6 +188,8 @@ data class SettingsState(
 ) {
 
     companion object {
+        const val MaxGalleryColumns = 20
+
         val Default by lazy {
             SettingsState(
                 nightMode = NightMode.System,
@@ -197,6 +204,9 @@ data class SettingsState(
                 fabAlignment = 1,
                 selectedEmoji = 0,
                 picturePickerModeInt = 0,
+                galleryColumns = 0,
+                showGalleryFileSize = true,
+                showGalleryFileExtension = true,
                 isSemanticSearchEnabled = false,
                 semanticSearchSettings = SemanticSearchSettings(),
                 isAiAssistantEnabled = true,

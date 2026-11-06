@@ -114,7 +114,7 @@ internal fun EmojiKitchenPreview(
                     component = component,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(80.dp)
+                        .height(96.dp)
                 )
                 Row {
                     EnhancedIconButton(
@@ -203,7 +203,7 @@ private fun EmojiKitchenSlot(
             onClick = onSelect,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(80.dp),
+                .height(96.dp),
             containerColor = if (selected) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surfaceContainer,
             shape = ShapeDefaults.large,
             enabled = enabled

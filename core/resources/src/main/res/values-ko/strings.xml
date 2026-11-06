@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -14,7 +13,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="pick_image">이미지 선택</string>
     <string name="width">너비 %1$s</string>
     <string name="height">높이 %1$s</string>
@@ -5508,7 +5509,7 @@
     <string name="help_tip_gallery_search_subtitle">내용별로 사진을 찾고 자동 카테고리를 찾아보세요. 파일 이름 검색은 항상 가능합니다.</string>
     <string name="help_tip_gallery_search_page_title">의미론적 사진 검색 켜기</string>
     <string name="help_tip_gallery_search_description">의미론적 사진 검색은 사물, 사람 또는 장면을 설명하는 내용에 따라 사진을 찾습니다. 캡션이나 태그를 추가할 필요가 없습니다. 또한 사진을 자동 카테고리로 그룹화합니다. 갤러리 도구에서 Android 8 이상 및 이미지 소스가 Embedded Picker로 설정된 경우 사용할 수 있습니다.</string>
-    <string name="help_tip_gallery_search_step_1">설정 → 이미지 소스를 열고 의미 있는 사진 검색을 켜세요. 갤러리 또는 내장 선택기의 검색 필드 옆에 있는 검색 설정 버튼을 사용하여 켤 수도 있습니다.</string>
+    <string name="help_tip_gallery_search_step_1">설정 → 갤러리를 열고 의미 있는 사진 검색을 켜세요. 갤러리 또는 내장 선택기의 검색 필드 옆에 있는 검색 설정 버튼을 사용하여 켤 수도 있습니다.</string>
     <string name="help_tip_gallery_search_step_2">검색하려는 사진에 대한 접근을 허용하세요. Android 14 이상에서는 선택한 사진에만 액세스하도록 허용할 수 있습니다. 더 많은 사진을 찾으려면 앱에도 해당 사진에 대한 액세스 권한을 부여하세요.</string>
     <string name="help_tip_gallery_search_step_3">첫 번째 설정에서는 사진 콘텐츠 인식을 위해 약 227MB의 파일을 다운로드합니다. 그 후에는 인터넷 없이도 귀하의 장치에서 준비 및 검색 작업이 수행됩니다. 귀하의 사진과 검색어는 서버로 전송되지 않습니다.</string>
     <string name="help_tip_gallery_search_page_2_title">이름이나 설명으로 검색</string>
@@ -7912,7 +7913,6 @@
     <string name="restoration">복구</string>
     <string name="red_recovery">적색회복</string>
     <string name="assistant_model_low_ram">RAM이 부족합니다. 이 모델을 이용하면 앱이 꺼질 수 있습니다.</string>
-    <string name="assistant_model_low_ram">RAM이 부족합니다. 이 모델에서는 앱이 충돌할 수 있습니다.</string>
     <string name="emoji_kitchen">Emoji Kitchen</string>
     <string name="emoji_kitchen_description">두 개의 이모티콘을 결합하여 Google Emoji Kitchen 스티커로 만들기</string>
     <string name="emoji_kitchen_search_keywords">이모티콘 주방, 이모티콘, 스티커, 믹스, 매시업, 결합, Google, 스마일</string>
@@ -7942,4 +7942,16 @@
     <string name="emoji_kitchen_download_size">아카이브 크기: %1$s</string>
     <string name="emoji_kitchen_favorites">북마크</string>
     <string name="emoji_kitchen_favorites_empty">북마크 없음</string>
+    <string name="gallery_show_file_size">파일 크기 표시</string>
+    <string name="gallery_show_file_extension">파일 형식 표시</string>
+    <string name="gallery_show_file_size_sub">이미지 축소판에 파일 크기를 표시합니다.</string>
+    <string name="gallery_show_file_extension_sub">이미지 축소판에 파일 형식을 표시합니다.</string>
+    <string name="help_tip_gallery_workflow_grid_settings">설정 → 갤러리를 열어 그리드를 자동으로 설정하거나 1~20개의 열을 선택하세요. 그리드가 닫힐 때까지 두 손가락을 모아 그리드 크기를 조정합니다. 파일 크기 및 형식 레이블은 별도로 끌 수 있습니다.</string>
+    <string name="help_tip_gallery_workflow_fast_scroll">스크롤하여 오른쪽에 핸들을 표시합니다. 날짜와 시간별로 갤러리를 이동하려면 드래그하세요.</string>
+    <string name="save_collage_project_sub">편집 가능한 프로젝트 파일에 레이아웃, 원본 이미지, 편집 내역을 보관하세요.</string>
+    <string name="help_tip_setting_gallery_columns_description">갤러리 및 포함된 선택기에 표시되는 열 수를 선택합니다. 열이 많을수록 작은 축소판이 표시됩니다.</string>
+    <string name="help_tip_setting_gallery_columns_step">설정 → 갤러리 → 열 수를 엽니다. 화면에 맞게 자동을 선택하거나 1~20 사이의 고정 개수를 선택합니다.</string>
+    <string name="help_tip_setting_gallery_file_size_step">설정 → 갤러리를 열고 파일 크기 표시를 전환합니다. 파일을 변경하거나 압축하지 않고 썸네일 레이블을 변경합니다.</string>
+    <string name="help_tip_setting_gallery_file_extension_step">설정 → 갤러리를 열고 파일 형식 표시를 전환합니다. 파일 이름을 바꾸거나 변환하지 않고 축소판 레이블을 변경합니다.</string>
+    <string name="help_tip_setting_remember_preview_layout_step">설정 → 동작을 열고 미리보기 레이아웃 기억을 켭니다. 미리보기 높이를 조정하거나 도구에 고정하세요. 다음 도구는 해당 레이아웃을 재사용합니다.</string>
 </resources>

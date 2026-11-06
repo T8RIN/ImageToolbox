@@ -5509,7 +5509,7 @@
     <string name="help_tip_gallery_search_subtitle">按內容尋找照片並瀏覽自動類別。檔案名稱搜尋始終可用</string>
     <string name="help_tip_gallery_search_page_title">開啟語意照片搜尋</string>
     <string name="help_tip_gallery_search_description">語意照片搜尋根據照片中的內容尋找照片：描述物件、人物或場景。您不需要添加標題或標籤。它還將照片自動分類。在 Android 8 及更高版本的圖庫工具中以及當圖像來源設定為嵌入式選取器時可用。</string>
-    <string name="help_tip_gallery_search_step_1">開啟設定 → 圖片來源並開啟語意照片搜尋。您也可以使用圖庫或嵌入式選取器中搜尋欄位旁的搜尋設定按鈕將其開啟。</string>
+    <string name="help_tip_gallery_search_step_1">開啟設定 → 圖片庫並開啟語意照片搜尋。您也可以使用圖庫或嵌入式選取器中搜尋欄位旁的搜尋設定按鈕將其開啟。</string>
     <string name="help_tip_gallery_search_step_2">允許存取您要搜尋的照片。在 Android 14 及更高版本上，您只能允許存取選定的照片。要查找更多照片，請同時授予應用程式存取這些照片的權限。</string>
     <string name="help_tip_gallery_search_step_3">第一個設定下載約 227 MB 的檔案來識別照片內容。之後，無需互聯網即可在您的裝置上進行準備和搜尋。您的照片和搜尋查詢不會發送到伺服器。</string>
     <string name="help_tip_gallery_search_page_2_title">按名稱或描述搜尋</string>
@@ -7942,4 +7942,16 @@
     <string name="emoji_kitchen_download_size">存檔大小：%1$s</string>
     <string name="emoji_kitchen_favorites">書籤</string>
     <string name="emoji_kitchen_favorites_empty">沒有書籤</string>
+    <string name="gallery_show_file_size">顯示檔案大小</string>
+    <string name="gallery_show_file_extension">顯示文件格式</string>
+    <string name="gallery_show_file_size_sub">在圖像縮圖上顯示檔案大小。</string>
+    <string name="gallery_show_file_extension_sub">在圖像縮圖上顯示文件格式。</string>
+    <string name="help_tip_gallery_workflow_grid_settings">開啟設定 → 圖庫將網格設定為自動或選擇 1–20 列。用兩根手指捏合以調整網格大小，直到關閉。檔案大小和格式標籤可以單獨關閉。</string>
+    <string name="help_tip_gallery_workflow_fast_scroll">捲動以顯示右側的手把。拖曳它可以按日期和時間在圖庫中移動。</string>
+    <string name="save_collage_project_sub">將版面配置、原始影像和編輯歷史記錄儲存在可編輯的專案文件中</string>
+    <string name="help_tip_setting_gallery_columns_description">選擇圖庫和嵌入式選取器中顯示的列數。更多列顯示較小的縮圖。</string>
+    <string name="help_tip_setting_gallery_columns_step">開啟設定 → 圖庫 → 列數。選擇“自動”以適應螢幕大小或選擇 1 到 20 之間的固定計數。</string>
+    <string name="help_tip_setting_gallery_file_size_step">開啟設定 → 圖庫並切換顯示檔案大小。這會更改縮圖標籤，而不更改或壓縮檔案。</string>
+    <string name="help_tip_setting_gallery_file_extension_step">開啟設定 → 圖庫並切換顯示檔案格式。這會更改縮圖標籤，而無需重新命名或轉換檔案。</string>
+    <string name="help_tip_setting_remember_preview_layout_step">開啟「設定」→「行為」並啟用「記住預覽佈局」。調整預覽高度或將其固定在工具中；下一個工具將重複使用該佈局。</string>
 </resources>

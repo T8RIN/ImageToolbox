@@ -24,7 +24,6 @@ import android.graphics.Bitmap
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.core.domain.saving.RandomStringGenerator
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.feature.svg_maker.data.tracer.ImageTracer
 import com.t8rin.imagetoolbox.feature.svg_maker.data.tracer.ImageTracer.Options
@@ -32,6 +31,7 @@ import com.t8rin.imagetoolbox.feature.svg_maker.data.tracer.ImageTracer.SvgListe
 import com.t8rin.imagetoolbox.feature.svg_maker.domain.SvgManager
 import com.t8rin.imagetoolbox.feature.svg_maker.domain.SvgParams
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.withContext
 import java.io.File
 import javax.inject.Inject
@@ -39,7 +39,6 @@ import javax.inject.Inject
 
 internal class AndroidSvgManager @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val randomStringGenerator: RandomStringGenerator,
     private val imageGetter: ImageGetter<Bitmap>,
     dispatchersHolder: DispatchersHolder
 ) : DispatchersHolder by dispatchersHolder, SvgManager {
@@ -52,26 +51,29 @@ internal class AndroidSvgManager @Inject constructor(
     ) = withContext(defaultDispatcher) {
         imageUris.forEach { uri ->
             runSuspendCatching {
-                val folder = File(context.cacheDir, "svg").apply { mkdirs() }
-                val file = File(folder, "${randomStringGenerator.generate(10)}.svg")
-
+                val bitmap = imageGetter.getImage(
+                    data = uri,
+                    size = if (params.isImageSampled) IntegerSize(1000, 1000) else null
+                ) ?: error("Unable to decode image")
                 withContext(ioDispatcher) {
-                    file.bufferedWriter().use { writer ->
-                        ImageTracer.imageToSVG(
-                            bitmap = imageGetter.getImage(
-                                data = uri,
-                                size = if (params.isImageSampled) {
-                                    IntegerSize(1000, 1000)
-                                } else null
-                            )!!,
-                            options = params.toOptions(),
-                            palette = null,
-                            listener = SvgTracer(writer::write)
-                        )
+                    val file = File.createTempFile("vector_", ".svg", context.cacheDir)
+                    try {
+                        file.bufferedWriter().use { writer ->
+                            ImageTracer.imageToSVG(
+                                bitmap = bitmap,
+                                options = params.toOptions(),
+                                palette = null,
+                                listener = SvgTracer {
+                                    ensureActive()
+                                    writer.write(it)
+                                }
+                            )
+                        }
+                        onProgress(uri, file.readBytes())
+                    } finally {
+                        file.delete()
                     }
                 }
-
-                onProgress(uri, file.readBytes())
             }.onFailure(onFailure)
         }
     }
