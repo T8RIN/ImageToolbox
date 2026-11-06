@@ -22,6 +22,7 @@ import android.graphics.Paint
 import android.graphics.Path
 import android.graphics.PathMeasure
 import android.graphics.RectF
+import android.graphics.Region
 import com.t8rin.collages.model.CollageLayout
 import com.t8rin.collages.view.FrameImageView
 
@@ -29,11 +30,14 @@ internal const val CollagePreviewSize = 1000f
 
 internal fun createCollagePreviewPath(layout: CollageLayout): Path {
     val paths = layout.photoItemList.map { item ->
-        FrameImageView.shapePath(
-            item,
-            CollagePreviewSize * item.bound.width(),
-            CollagePreviewSize * item.bound.height()
-        ).apply {
+        val width = CollagePreviewSize * item.bound.width()
+        val height = CollagePreviewSize * item.bound.height()
+        val path = item.normalizedPath?.let {
+            Path(it).apply {
+                transform(Matrix().apply { setScale(width, height) })
+            }.previewMask()
+        } ?: FrameImageView.shapePath(item, width, height)
+        path.apply {
             op(this, this, Path.Op.UNION)
             offset(CollagePreviewSize * item.bound.left, CollagePreviewSize * item.bound.top)
         }
@@ -45,14 +49,13 @@ internal fun createCollagePreviewPath(layout: CollageLayout): Path {
         postTranslate(gap / 2, gap / 2)
     }
     paths.forEach { it.transform(contentTransform) }
-    val pathBounds = paths.map { path -> RectF().also { path.computeBounds(it, true) } }
-    val intersection = Path()
-    val stacked = paths.indices.any { index ->
-        (0 until index).any { other ->
-            RectF.intersects(pathBounds[index], pathBounds[other]) &&
-                    intersection.op(paths[index], paths[other], Path.Op.INTERSECT) &&
-                    !intersection.isEmpty && intersection.maximumInset() > .01f
-        }
+    val clip = Region(0, 0, CollagePreviewSize.toInt(), CollagePreviewSize.toInt())
+    val occupied = Region()
+    val stacked = paths.any { path ->
+        val region = Region().apply { setPath(path, clip) }
+        val overlaps = Region(region).op(occupied, Region.Op.INTERSECT)
+        occupied.op(region, Region.Op.UNION)
+        overlaps
     }
     val stroke = Paint().apply {
         style = Paint.Style.STROKE
@@ -69,29 +72,18 @@ internal fun createCollagePreviewPath(layout: CollageLayout): Path {
     paths.forEachIndexed { index, path ->
         val outline = if (stacked) Path(path) else null
         val item = layout.photoItemList[index]
-        if (item.normalizedPath != null) {
-            bounds.set(
-                item.bound.left * CollagePreviewSize,
-                item.bound.top * CollagePreviewSize,
-                item.bound.right * CollagePreviewSize,
-                item.bound.bottom * CollagePreviewSize
-            )
-            contentTransform.mapRect(bounds)
-            path.transform(Matrix().apply {
-                setScale(
-                    1f - gap / bounds.width(),
-                    1f - gap / bounds.height(),
-                    bounds.centerX(),
-                    bounds.centerY()
-                )
-            })
-        } else if (path.isRect(bounds)) {
-            bounds.inset(gap / 2, gap / 2)
-            path.reset()
-            path.addRect(bounds, Path.Direction.CW)
-        } else {
-            stroke.getFillPath(path, border)
-            path.op(border, Path.Op.DIFFERENCE)
+        // Imported masks include the gaps between slots in their geometry.
+        if (item.normalizedPath != null && stacked) {
+            path.insetMask(minOf(gap / 2, item.maximumMaskInset * (CollagePreviewSize - gap)))
+        } else if (item.normalizedPath == null) {
+            if (path.isRect(bounds)) {
+                bounds.inset(gap / 2, gap / 2)
+                path.reset()
+                path.addRect(bounds, Path.Direction.CW)
+            } else {
+                stroke.getFillPath(path, border)
+                path.op(border, Path.Op.DIFFERENCE)
+            }
         }
         measure.setPath(path, false)
         if (outline != null) {

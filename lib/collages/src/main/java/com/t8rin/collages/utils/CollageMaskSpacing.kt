@@ -1,0 +1,120 @@
+/*
+ * ImageToolbox is an image editor for android
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * You should have received a copy of the Apache License
+ * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
+ */
+
+package com.t8rin.collages.utils
+
+import android.graphics.Paint
+import android.graphics.Path
+import android.graphics.PathMeasure
+import android.os.Build
+import kotlin.math.abs
+import kotlin.math.ceil
+
+internal fun Path.flattenMask(): Path = Path().also { result ->
+    result.fillType = fillType
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        val points = approximate(.2f)
+        var fraction = -1f
+        for (index in points.indices step 3) {
+            if (index == 0 || points[index] == fraction) {
+                if (index > 0) result.close()
+                result.moveTo(points[index + 1], points[index + 2])
+            } else {
+                result.lineTo(points[index + 1], points[index + 2])
+            }
+            fraction = points[index]
+        }
+        result.close()
+    } else {
+        val measure = PathMeasure(this, true)
+        val point = FloatArray(2)
+        do {
+            val steps = ceil(measure.length * 2).toInt().coerceAtLeast(1)
+            for (step in 0..steps) {
+                measure.getPosTan(measure.length * step / steps, point, null)
+                if (step == 0) result.moveTo(point[0], point[1])
+                else result.lineTo(point[0], point[1])
+            }
+            result.close()
+        } while (measure.nextContour())
+    }
+}
+
+internal fun Path.insetMask(distance: Float) {
+    if (distance <= 0f) return
+    var minimumArea = Double.POSITIVE_INFINITY
+    forEachContour { _, area ->
+        if (area > .0001) minimumArea = minOf(minimumArea, area)
+    }
+    val border = Path()
+    Paint().apply {
+        style = Paint.Style.STROKE
+        strokeWidth = distance * 2
+        strokeJoin = Paint.Join.MITER
+        strokeMiter = 2f
+    }.getFillPath(this, border)
+    op(border, Path.Op.DIFFERENCE)
+    if (minimumArea.isFinite()) {
+        val clean = Path().also { it.fillType = fillType }
+        forEachContour { contour, area ->
+            // Path operations can leave tiny closed loops at nearly tangent edges.
+            if (area >= minimumArea * .0001) clean.addPath(contour)
+        }
+        set(clean)
+    }
+}
+
+private inline fun Path.forEachContour(block: (Path, Double) -> Unit) {
+    val measure = PathMeasure(this, true)
+    val point = FloatArray(2)
+    do {
+        val length = measure.length
+        if (length <= 0f) continue
+        measure.getPosTan(0f, point, null)
+        val firstX = point[0].toDouble()
+        val firstY = point[1].toDouble()
+        var x = firstX
+        var y = firstY
+        var area = 0.0
+        for (step in 1..256) {
+            measure.getPosTan(length * step / 256, point, null)
+            area += x * point[1] - point[0] * y
+            x = point[0].toDouble()
+            y = point[1].toDouble()
+        }
+        area += x * firstY - firstX * y
+        val contour = Path()
+        measure.getSegment(0f, length, contour, true)
+        contour.close()
+        block(contour, abs(area) / 2)
+    } while (measure.nextContour())
+}
+
+internal fun Path.previewMask(): Path = Path().also { result ->
+    result.fillType = fillType
+    val measure = PathMeasure(this, true)
+    val point = FloatArray(2)
+    do {
+        val steps = ceil(measure.length / 2f).toInt().coerceAtLeast(3)
+        for (step in 0..steps) {
+            measure.getPosTan(measure.length * step / steps, point, null)
+            if (step == 0) result.moveTo(point[0], point[1])
+            else result.lineTo(point[0], point[1])
+        }
+        result.close()
+    } while (measure.nextContour())
+}

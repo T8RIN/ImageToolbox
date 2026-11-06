@@ -27,6 +27,7 @@ import com.t8rin.collages.CollagePoint
 import com.t8rin.collages.CollageType
 import com.t8rin.collages.CreativeCollages
 import com.t8rin.collages.DecorativeCollages
+import com.t8rin.collages.PatternCollages
 import com.t8rin.collages.frames.EightFrameImage
 import com.t8rin.collages.frames.ExtendedFrameImage
 import com.t8rin.collages.frames.FiveFrameImage
@@ -147,6 +148,8 @@ internal object CollageLayoutFactory {
             ?: ArtisticCollages.templates.firstOrNull { it.id == frameName }
                 ?.let { CollageType.fromDesign(it.id, it.design)?.layout }
             ?: DecorativeCollages.templates.firstOrNull { it.id == frameName }
+                ?.let { CollageType.fromDesign(it.id, it.design)?.layout }
+            ?: PatternCollages.templates.firstOrNull { it.id == frameName }
                 ?.let { CollageType.fromDesign(it.id, it.design)?.layout }
             ?: AdditionalCollages.create(frameName)
         return layout?.let(::withRectangularHandles)

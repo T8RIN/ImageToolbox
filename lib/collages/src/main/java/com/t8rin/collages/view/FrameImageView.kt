@@ -45,6 +45,7 @@ import com.t8rin.collages.CollageSlotStyle
 import com.t8rin.collages.utils.GeometryUtils
 import com.t8rin.collages.utils.ImageDecoder
 import com.t8rin.collages.utils.ImageTransform
+import com.t8rin.collages.utils.insetMask
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -736,21 +737,16 @@ internal class FrameImageView(
             space: Float, corner: Float, outerPadding: Float = space
         ) {
             photoItem.normalizedPath?.let { outline ->
-                path.set(outline)
+                path.set(if (space > 0f) photoItem.normalizedInsetPath ?: outline else outline)
                 path.transform(Matrix().apply { setScale(viewWidth, viewHeight) })
-                if (space > 0f) {
-                    // Scale the mask instead of cutting off narrow details such as puzzle tabs.
-                    val inset = min(space, min(viewWidth, viewHeight) / 4)
-                    path.transform(Matrix().apply {
-                        setScale(
-                            1f - inset * 2 / viewWidth,
-                            1f - inset * 2 / viewHeight,
-                            viewWidth / 2,
-                            viewHeight / 2
-                        )
-                    })
-                }
                 path.op(path, path, Path.Op.UNION)
+                if (space > 0f) {
+                    val scale = min(
+                        viewWidth / photoItem.bound.width(),
+                        viewHeight / photoItem.bound.height()
+                    )
+                    path.insetMask(min(space, photoItem.maximumMaskInset * scale))
+                }
                 return
             }
             photoItem.shape?.let { points ->

@@ -27,6 +27,8 @@ import com.t8rin.collages.CollagePoint
 internal data class PhotoItem(
     var shape: List<CollagePoint>? = null,
     val normalizedPath: Path? = null,
+    val normalizedInsetPath: Path? = null,
+    val maximumMaskInset: Float = Float.POSITIVE_INFINITY,
     //Primary info
     var index: Int = 0,
     var imagePath: Uri? = null,

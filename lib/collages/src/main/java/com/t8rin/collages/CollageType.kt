@@ -63,7 +63,7 @@ data class CollageType internal constructor(
         fun catalog(imageCount: Int? = null): List<CollageType> = (
                 CollageLayoutFactory.COLLAGE_MAP.keys + AdditionalCollages.ids +
                         CreativeCollages.templates.map { it.id } + ArtisticCollages.templates.map { it.id } +
-                        DecorativeCollages.templates.map { it.id }
+                        DecorativeCollages.templates.map { it.id } + PatternCollages.templates.map { it.id }
                 ).filter { id ->
                 imageCount == null || id.split('_')
                     .firstNotNullOfOrNull { it.toIntOrNull() } == imageCount

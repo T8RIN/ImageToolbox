@@ -22,6 +22,7 @@ import android.graphics.Matrix
 import android.graphics.Path
 import androidx.core.graphics.PathParser
 import com.t8rin.collages.model.CollageLayout
+import com.t8rin.collages.utils.flattenMask
 import com.t8rin.collages.view.PhotoItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.sync.Mutex
@@ -50,20 +51,21 @@ internal object AdditionalCollages {
                 entries = buildMap {
                     repeat(array.length()) {
                         val layout = array.getJSONObject(it)
-                        put(layout.getString("id"), layout.getJSONArray("slots"))
+                        put(layout.getString("id"), layout)
                     }
                 }
             )
         }
     }
 
-    private data class Catalog(val masks: JSONArray, val entries: Map<String, JSONArray>)
+    private data class Catalog(val masks: JSONArray, val entries: Map<String, JSONObject>)
 
     val ids: Set<String> get() = layouts?.entries?.keys.orEmpty()
 
     fun create(id: String): CollageLayout? {
         val catalog = layouts ?: return null
-        val slots = catalog.entries[id] ?: return null
+        val entry = catalog.entries[id] ?: return null
+        val slots = entry.getJSONArray("slots")
         return CollageLayout(
             title = id,
             photoItemList = List(slots.length()) { index ->
@@ -74,11 +76,20 @@ internal object AdditionalCollages {
                     CollagePoint(point.getDouble(0).toFloat(), point.getDouble(1).toFloat())
                 }
                 val bounds = CollageSlot(points)
+                val mask = slot.optInt("mask", -1).takeIf { it >= 0 }
+                    ?.let { catalog.masks.getJSONObject(it).toPath() }
                 PhotoItem(
                     index = index,
                     shape = points,
-                    normalizedPath = slot.optInt("mask", -1).takeIf { it >= 0 }
-                        ?.let { catalog.masks.getJSONObject(it).toPath() }
+                    maximumMaskInset = entry.optDouble("inset", 0.0).toFloat(),
+                    normalizedPath = mask,
+                    normalizedInsetPath = mask?.let {
+                        Path(it).apply {
+                            transform(Matrix().apply { setScale(1000f, 1000f) })
+                        }.flattenMask().apply {
+                            transform(Matrix().apply { setScale(.001f, .001f) })
+                        }
+                    }
                 ).apply {
                     bound.set(bounds.left, bounds.top, bounds.right, bounds.bottom)
                 }
