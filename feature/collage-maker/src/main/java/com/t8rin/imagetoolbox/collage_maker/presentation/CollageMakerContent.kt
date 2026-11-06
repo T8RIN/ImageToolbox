@@ -17,7 +17,6 @@
 
 package com.t8rin.imagetoolbox.collage_maker.presentation
 
-import android.content.pm.ActivityInfo
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.LayerDrawable
@@ -127,7 +126,6 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.scaleOnTap
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shimmer
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.transparencyChecker
 import com.t8rin.imagetoolbox.core.ui.widget.other.InfoContainer
-import com.t8rin.imagetoolbox.core.ui.widget.other.LockScreenOrientation
 import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
@@ -137,14 +135,11 @@ import com.t8rin.imagetoolbox.core.ui.widget.text.marquee
 import com.t8rin.imagetoolbox.core.utils.getString
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import net.engawapg.lib.zoomable.rememberZoomState
-import net.engawapg.lib.zoomable.zoomable
 
 @Composable
 fun CollageMakerContent(
     component: CollageMakerComponent
 ) {
-    LockScreenOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
 
     var isLoading by rememberSaveable { mutableStateOf(true) }
     var outputSize by remember { mutableStateOf<Pair<Int, Int>?>(null) }
@@ -341,10 +336,7 @@ fun CollageMakerContent(
                     .fillMaxSize()
                     .padding(20.dp)
             ) {
-                var bottomPadding by remember {
-                    mutableStateOf(0.dp)
-                }
-                var infoHeight by remember {
+                var infoHeight by remember(isPortrait) {
                     mutableStateOf(0.dp)
                 }
                 var tapIndex by remember { mutableIntStateOf(-1) }
@@ -365,7 +357,7 @@ fun CollageMakerContent(
                     modifier = Modifier
                         .align(Alignment.Center)
                         .padding(
-                            bottom = bottomPadding
+                            bottom = if (isPortrait) infoHeight + 20.dp else 0.dp
                         )
                 ) {
                     AnimatedContent(
@@ -375,7 +367,6 @@ fun CollageMakerContent(
                         key(trigger) {
                             Box(
                                 modifier = Modifier
-                                    .zoomable(rememberZoomState())
                                     .container(
                                         shape = ShapeDefaults.extraSmall,
                                         resultPadding = 0.dp
@@ -429,18 +420,18 @@ fun CollageMakerContent(
                         }
                     }
                 }
-                val density = LocalDensity.current
-                InfoContainer(
-                    modifier = Modifier
-                        .align(Alignment.BottomCenter)
-                        .onSizeChanged {
-                            val height = with(density) { it.height.toDp() }
-                            infoHeight = height
-                            bottomPadding = height + 20.dp
-                        },
-                    containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
-                    text = stringResource(R.string.collages_info)
-                )
+                if (isPortrait) {
+                    val density = LocalDensity.current
+                    InfoContainer(
+                        modifier = Modifier
+                            .align(Alignment.BottomCenter)
+                            .onSizeChanged {
+                                infoHeight = with(density) { it.height.toDp() }
+                            },
+                        containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+                        text = stringResource(R.string.collages_info)
+                    )
+                }
                 AnimatedVisibility(
                     visible = showItemMenu,
                     modifier = Modifier
@@ -507,6 +498,12 @@ fun CollageMakerContent(
             ) {
                 val canChangeCollage = (component.uris?.size ?: 0) > 1
 
+                if (!isPortrait) {
+                    InfoContainer(
+                        containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+                        text = stringResource(R.string.collages_info)
+                    )
+                }
 
                 PreferenceItem(
                     onClick = {

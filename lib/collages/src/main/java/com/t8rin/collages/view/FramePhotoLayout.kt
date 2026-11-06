@@ -33,7 +33,6 @@ import android.graphics.Shader
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.net.Uri
-import android.os.Bundle
 import android.view.DragEvent
 import android.view.MotionEvent
 import android.widget.RelativeLayout
@@ -45,9 +44,10 @@ import com.t8rin.collages.CollageState
 import com.t8rin.collages.utils.Handle
 import com.t8rin.collages.utils.ImageDecoder
 import com.t8rin.collages.utils.ParamsManager
+import com.t8rin.collages.utils.collageOutputDimensions
 import kotlin.math.max
 import kotlin.math.min
-import kotlin.math.sqrt
+import kotlin.math.roundToInt
 import androidx.compose.ui.graphics.Color as ComposeColor
 
 @SuppressLint("ViewConstructor")
@@ -120,6 +120,8 @@ internal class FramePhotoLayout(
         true
     }
     private val mItemImageViews: MutableList<FrameImageView> = ArrayList()
+    var outputAspectRatio: Float = 1f
+
     private var mViewWidth: Int = 0
     private var mViewHeight: Int = 0
     private val sourceDimensions = mutableMapOf<Uri, Int>()
@@ -204,19 +206,6 @@ internal class FramePhotoLayout(
         return null
     }
 
-    fun saveInstanceState(outState: Bundle) {
-        paramsManager?.saveInstanceState(outState)
-        for (view in mItemImageViews)
-            view.saveInstanceState(outState)
-    }
-
-    fun restoreInstanceState(savedInstanceState: Bundle) {
-        paramsManager?.restoreInstanceState(savedInstanceState)
-        for (view in mItemImageViews)
-            view.restoreInstanceState(savedInstanceState)
-    }
-
-    @JvmOverloads
     fun build(
         viewWidth: Int,
         viewHeight: Int,
@@ -226,6 +215,7 @@ internal class FramePhotoLayout(
         isRestoringState = false
         selectedItemIndex = null
         activeHandle = null
+        mItemImageViews.forEach(FrameImageView::release)
         mItemImageViews.clear()
         removeAllViews()
         if (viewWidth < 1 || viewHeight < 1) {
@@ -239,11 +229,6 @@ internal class FramePhotoLayout(
         mViewHeight = viewHeight
         mItemImageViews.clear()
         //A circle view always is on top
-        if (mPhotoItems.size > 4 || isNotLargeThan1Gb) {
-            ImageDecoder.SAMPLER_SIZE = 1024
-        } else {
-            ImageDecoder.SAMPLER_SIZE = 1600
-        }
         for (item in mPhotoItems) {
             val imageView = addPhotoItemView(item, space, corner)
             mItemImageViews.add(imageView)
@@ -251,11 +236,18 @@ internal class FramePhotoLayout(
     }
 
     fun resize(width: Int, height: Int) {
+        if (mViewWidth == width && mViewHeight == height) return
         mViewWidth = width
         mViewHeight = height
         for (i in mItemImageViews.indices) {
             resizeItem(i)
         }
+    }
+
+    fun release() {
+        mItemImageViews.forEach(FrameImageView::release)
+        onStateReadyListener = null
+        onUserStateChangeListener = null
     }
 
     private fun resizeItem(index: Int) {
@@ -392,7 +384,11 @@ internal class FramePhotoLayout(
         space: Float,
         corner: Float
     ): FrameImageView {
-        val imageView = FrameImageView(context, item)
+        val imageView = FrameImageView(
+            context = context,
+            photoItem = item,
+            previewSize = if (mPhotoItems.size > 4 || isNotLargeThan1Gb) 1024 else 1600
+        )
         val metrics = computeFrameMetrics(item.bound)
         imageView.setRotationEnabled(!disableRotation)
         imageView.setSnapToBordersEnabled(enableSnapToBorders)
@@ -427,63 +423,60 @@ internal class FramePhotoLayout(
             } ?: 0
         }?.takeIf { it > 0 } ?: mItemImageViews.maxOfOrNull { view ->
             max(view.image?.width ?: 0, view.image?.height ?: 0)
-        }?.takeIf { it > 0 } ?: max(mViewWidth, mViewHeight)
-        val viewMaxDimension = max(mViewWidth, mViewHeight)
-        val sourceScale = sourceMaxDimension.toDouble() / viewMaxDimension
-        val maxPixels = Runtime.getRuntime().maxMemory() / 16
-        val memoryScale = sqrt(maxPixels.toDouble() / (mViewWidth.toLong() * mViewHeight))
-        val maxScale = min(memoryScale, 8192.0 / viewMaxDimension)
-        val outputScale = min(
-            min(sourceScale, maxScale) * outputScaleRatio,
-            maxScale
-        ).toFloat().coerceAtLeast(1f / viewMaxDimension)
-        return (outputScale * mViewWidth).toInt().coerceAtLeast(1) to
-                (outputScale * mViewHeight).toInt().coerceAtLeast(1)
+        }?.takeIf { it > 0 } ?: 1600
+        return collageOutputDimensions(
+            sourceSize = sourceMaxDimension,
+            aspectRatio = outputAspectRatio,
+            scale = outputScaleRatio,
+            maxPixels = Runtime.getRuntime().maxMemory() / 16
+        )
     }
 
-    @Throws(OutOfMemoryError::class)
     suspend fun createImage(outputScaleRatio: Float): Bitmap {
+        mItemImageViews.forEach(FrameImageView::finishTransform)
+        val (outputWidth, outputHeight) = outputDimensions(outputScaleRatio)
+        val template = createBitmap(outputWidth, outputHeight)
         try {
-            val (outputWidth, outputHeight) = outputDimensions(outputScaleRatio)
-            val outputScale = outputWidth.toFloat() / mViewWidth
-            val template = createBitmap(
-                outputWidth,
-                outputHeight
-            )
             val canvas = Canvas(template)
             if (backgroundShader == null) canvas.drawColor(backgroundColor.toArgb())
-            else drawBackgroundGradient(canvas, template.width.toFloat(), template.height.toFloat())
-            for (view in mItemImageViews)
-                if (view.image != null && !view.image!!.isRecycled) {
-                    val left = (view.left * outputScale).toInt()
-                    val top = (view.top * outputScale).toInt()
-                    val width = (view.width * outputScale).toInt()
-                    val height = (view.height * outputScale).toInt()
-                    //draw image
-                    canvas.saveLayer(
-                        left.toFloat(),
-                        top.toFloat(),
-                        (left + width).toFloat(),
-                        (top + height).toFloat(),
-                        Paint()
-                    )
+            else drawBackgroundGradient(canvas, outputWidth.toFloat(), outputHeight.toFloat())
+            val decorationScale =
+                min(outputWidth, outputHeight).toFloat() / min(mViewWidth, mViewHeight)
+            for (view in mItemImageViews) {
+                if (view.image == null || view.image!!.isRecycled) continue
+                val bounds = view.photoItem.bound
+                val left = (bounds.left * outputWidth).roundToInt()
+                val top = (bounds.top * outputHeight).roundToInt()
+                val width = (bounds.right * outputWidth).roundToInt() - left
+                val height = (bounds.bottom * outputHeight).roundToInt() - top
+                val save = canvas.saveLayer(
+                    left.toFloat(), top.toFloat(),
+                    (left + width).toFloat(), (top + height).toFloat(), null
+                )
+                try {
                     canvas.translate(left.toFloat(), top.toFloat())
                     canvas.clipRect(0, 0, width, height)
                     view.drawOutputImage(
-                        canvas,
-                        outputScale,
-                        min(
-                            sourceDimensions[view.photoItem.imagePath]
-                                ?: max(template.width, template.height),
-                            max(template.width, template.height) * 2
+                        canvas = canvas,
+                        viewWidth = width.toFloat(),
+                        viewHeight = height.toFloat(),
+                        decorationScale = decorationScale,
+                        imageSize = min(
+                            sourceDimensions[view.photoItem.imagePath] ?: max(
+                                outputWidth,
+                                outputHeight
+                            ),
+                            max(outputWidth, outputHeight) * 2
                         )
                     )
-                    canvas.restore()
+                } finally {
+                    canvas.restoreToCount(save)
                 }
-
+            }
             return template
-        } catch (error: OutOfMemoryError) {
-            throw error
+        } catch (throwable: Throwable) {
+            template.recycle()
+            throw throwable
         }
     }
 
@@ -629,6 +622,7 @@ internal class FramePhotoLayout(
                     dx * dx + dy * dy <= radius * radius
                 }
                 if (activeHandle != null) {
+                    parent?.requestDisallowInterceptTouchEvent(true)
                     beginUserInteraction()
                 }
                 return activeHandle != null || super.onTouchEvent(event)
@@ -644,9 +638,11 @@ internal class FramePhotoLayout(
             }
 
             MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
+                if (activeHandle == null) return false
                 activeHandle = null
+                parent?.requestDisallowInterceptTouchEvent(false)
                 finishUserInteraction()
-                return super.onTouchEvent(event)
+                return true
             }
         }
         return super.onTouchEvent(event)

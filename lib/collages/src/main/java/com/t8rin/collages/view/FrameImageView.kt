@@ -17,6 +17,9 @@
 
 package com.t8rin.collages.view
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
@@ -30,9 +33,10 @@ import android.graphics.PorterDuff
 import android.graphics.PorterDuffXfermode
 import android.graphics.Rect
 import android.graphics.RectF
-import android.os.Bundle
+import android.graphics.Region
 import android.view.GestureDetector
 import android.view.MotionEvent
+import android.view.animation.DecelerateInterpolator
 import android.widget.RelativeLayout
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.graphics.withClip
@@ -41,18 +45,21 @@ import androidx.core.net.toUri
 import com.t8rin.collages.CollageImageState
 import com.t8rin.collages.utils.GeometryUtils
 import com.t8rin.collages.utils.ImageDecoder
+import com.t8rin.collages.utils.ImageTransform
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlin.math.abs
+import kotlin.math.max
 import kotlin.math.min
 
 @SuppressLint("ViewConstructor")
 internal class FrameImageView(
     private val context: Context,
-    val photoItem: PhotoItem
+    val photoItem: PhotoItem,
+    private val previewSize: Int
 ) : AppCompatImageView(context) {
 
     private val mGestureDetector: GestureDetector = GestureDetector(
@@ -91,6 +98,7 @@ internal class FrameImageView(
     private var corner = 0f
     private var space = 0f
     private val mPath = Path()
+    private val hitRegion = Region()
     private val mBackgroundPath = Path()
     private val mPolygon = ArrayList<PointF>()
     private val mPathRect = Rect(0, 0, 0, 0)
@@ -118,11 +126,9 @@ internal class FrameImageView(
     }
 
     fun setSnapToBordersEnabled(enabled: Boolean) {
+        if (snapToBordersEnabled == enabled) return
         snapToBordersEnabled = enabled
-        if (enabled) {
-            // Snap immediately
-            snapToBorders()
-        }
+        if (enabled) snapToBorders()
     }
 
     var originalLayoutParams: RelativeLayout.LayoutParams
@@ -160,7 +166,8 @@ internal class FrameImageView(
         fun onImageStateReady()
     }
 
-    private var viewState: Bundle = Bundle.EMPTY
+    private var settleAnimator: ValueAnimator? = null
+    private var transforming = false
     private var pendingState: CollageImageState? = null
 
     init {
@@ -169,39 +176,7 @@ internal class FrameImageView(
         mPaint.isFilterBitmap = true
         mPaint.isAntiAlias = true
         scaleType = ScaleType.MATRIX
-        setLayerType(LAYER_TYPE_SOFTWARE, mPaint)
-    }
-
-    fun saveInstanceState(outState: Bundle) {
-        if (image == null || imageLoadJob?.isActive == true) return
-        val index = photoItem.index
-        val values = FloatArray(9)
-        mImageMatrix.getValues(values)
-        outState.putFloatArray("mImageMatrix_$index", values)
-        outState.putFloat("mViewWidth_$index", viewWidth)
-        outState.putFloat("mViewHeight_$index", viewHeight)
-        outState.putFloat("mCorner_$index", corner)
-        outState.putFloat("mSpace_$index", space)
-        outState.putInt("mBackgroundColor_$index", mBackgroundColor)
-    }
-
-    /**
-     * Called after init() function
-     *
-     * @param savedInstanceState
-     */
-    fun restoreInstanceState(savedInstanceState: Bundle) {
-        val index = photoItem.index
-        val values = savedInstanceState.getFloatArray("mImageMatrix_$index") ?: return
-        viewState = savedInstanceState
-        mImageMatrix.setValues(values)
-        viewWidth = savedInstanceState.getFloat("mViewWidth_$index", 1f)
-        viewHeight = savedInstanceState.getFloat("mViewHeight_$index", 1f)
-        corner = savedInstanceState.getFloat("mCorner_$index", 0f)
-        space = savedInstanceState.getFloat("mSpace_$index", 0f)
-        mBackgroundColor = savedInstanceState.getInt("mBackgroundColor_$index", Color.WHITE)
-        mTouchHandler!!.matrix = mImageMatrix
-        setSpace(space, corner)
+        setLayerType(LAYER_TYPE_HARDWARE, null)
     }
 
     fun swapImage(view: FrameImageView) {
@@ -243,7 +218,8 @@ internal class FrameImageView(
                     runCatching {
                         ImageDecoder.decodeFileToBitmap(
                             context = context,
-                            pathName = t.toUri()
+                            pathName = t.toUri(),
+                            size = previewSize
                         )
                     }.getOrNull()
                 }
@@ -265,9 +241,6 @@ internal class FrameImageView(
                 if (state != null) {
                     pendingState = null
                     applyState(state)
-                } else if (viewState != Bundle.EMPTY) {
-                    restoreInstanceState(viewState)
-                    viewState = Bundle.EMPTY
                 }
             }
 
@@ -290,7 +263,9 @@ internal class FrameImageView(
             matrixValues = matrixValues.toList(),
             viewWidth = viewWidth,
             viewHeight = viewHeight,
-            userAllowedEmptySpace = userAllowedEmptySpace
+            userAllowedEmptySpace = userAllowedEmptySpace,
+            imageWidth = image?.width ?: 0,
+            imageHeight = image?.height ?: 0
         )
     }
 
@@ -313,19 +288,27 @@ internal class FrameImageView(
     }
 
     private fun applyState(state: CollageImageState) {
-        val values = state.matrixValues.toFloatArray()
-        if (values.size != 9) return
-        if (state.viewWidth > 0f && state.viewHeight > 0f) {
-            val scaleX = viewWidth / state.viewWidth
-            val scaleY = viewHeight / state.viewHeight
-            values[Matrix.MSCALE_X] *= scaleX
-            values[Matrix.MSKEW_X] *= scaleX
-            values[Matrix.MTRANS_X] *= scaleX
-            values[Matrix.MSKEW_Y] *= scaleY
-            values[Matrix.MSCALE_Y] *= scaleY
-            values[Matrix.MTRANS_Y] *= scaleY
+        stopSettling()
+        if (state.matrixValues.size != 9) {
+            resetImageMatrix()
+            return
         }
+        val values = ImageTransform.resize(
+            state.matrixValues.toFloatArray(),
+            state.viewWidth,
+            state.viewHeight,
+            viewWidth,
+            viewHeight
+        )
         mImageMatrix.setValues(values)
+        image?.let { bitmap ->
+            if (state.imageWidth > 0 && state.imageHeight > 0) {
+                mImageMatrix.preScale(
+                    state.imageWidth.toFloat() / bitmap.width,
+                    state.imageHeight.toFloat() / bitmap.height
+                )
+            }
+        }
         userAllowedEmptySpace = state.userAllowedEmptySpace
         mTouchHandler?.matrix = mImageMatrix
         invalidate()
@@ -380,53 +363,35 @@ internal class FrameImageView(
             mConvertedPoints, mConvertedClearPoints,
             mPath, mClearPath, mBackgroundPath, mPolygon, mPathRect, space, corner
         )
+        hitRegion.setPath(mPath, Region(0, 0, viewWidth.toInt(), viewHeight.toInt()))
         invalidate()
     }
 
     fun updateFrame(viewWidth: Float, viewHeight: Float) {
-        // --- Save previous state we need once
-        val oldW = this.viewWidth
-        val oldH = this.viewHeight
-
-        // Preserve center point
-        mImageMatrix.postTranslate((viewWidth - oldW) * 0.5f, (viewHeight - oldH) * 0.5f)
-
-        if (oldW > 0 && oldH > 0 && abs(viewWidth / oldW - viewHeight / oldH) < 0.00001f) {
-            // Simple center rescale
-
-            val scale = (viewWidth / oldW + viewHeight / oldH) / 2
-            mImageMatrix.postScale(scale, scale, viewWidth / 2, viewHeight / 2)
-        } else {
-            if (image != null) {
-                val hasEmptyAfter = hasEmptySpace(mImageMatrix, viewWidth, viewHeight)
-
-                // If empty space disappeared naturally due to frame change, clear the pin
-                if (!hasEmptyAfter) {
-                    userAllowedEmptySpace = false
-                }
-
-                // If empty space would appear and the user didn't pin it, zoom just enough to cover.
-                if (hasEmptyAfter && !userAllowedEmptySpace) {
-                    snapToBorders(onlyMatrixUpdate = true)
-                }
-            }
-        }
-
-        mTouchHandler?.matrix = mImageMatrix
-
-        // --- Apply new bounds and rebuild geometry
+        finishTransform()
+        val values = FloatArray(9).also(mImageMatrix::getValues)
+        mImageMatrix.setValues(
+            ImageTransform.resize(values, this.viewWidth, this.viewHeight, viewWidth, viewHeight)
+        )
         this.viewWidth = viewWidth
         this.viewHeight = viewHeight
-
         mConvertedPoints.clear()
         mConvertedClearPoints.clear()
         mPolygon.clear()
         mPath.reset()
         mClearPath.reset()
         mBackgroundPath.reset()
+        setSpace(space, corner)
+        if (!userAllowedEmptySpace) snapToBorders()
+        mTouchHandler?.matrix = mImageMatrix
+        updateScaleRange()
+    }
 
-        // Invalidates the view
-        setSpace(this.space, this.corner)
+    private fun updateScaleRange() {
+        image?.let {
+            val cover = max(viewWidth / it.width, viewHeight / it.height).coerceAtLeast(0.001f)
+            mTouchHandler?.setScaleRange(cover * 0.2f, cover * 16f)
+        }
     }
 
     private fun resetImageMatrix() {
@@ -441,11 +406,12 @@ internal class FrameImageView(
             )
         }
         mTouchHandler?.matrix = mImageMatrix
+        updateScaleRange()
         invalidate()
     }
 
     fun isSelected(x: Float, y: Float): Boolean {
-        return GeometryUtils.contains(mPolygon, PointF(x, y))
+        return hitRegion.contains(x.toInt(), y.toInt())
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -457,9 +423,13 @@ internal class FrameImageView(
         )
     }
 
-    suspend fun drawOutputImage(canvas: Canvas, outputScale: Float, imageSize: Int) {
-        val viewWidth = this.viewWidth * outputScale
-        val viewHeight = this.viewHeight * outputScale
+    suspend fun drawOutputImage(
+        canvas: Canvas,
+        viewWidth: Float,
+        viewHeight: Float,
+        decorationScale: Float,
+        imageSize: Int
+    ) {
         val path = Path()
         val clearPath = Path()
         val backgroundPath = Path()
@@ -468,19 +438,27 @@ internal class FrameImageView(
         setSpace(
             viewWidth, viewHeight, photoItem, ArrayList(),
             ArrayList(), path, clearPath, backgroundPath, polygon, pathRect,
-            space * outputScale, corner * outputScale
+            space * decorationScale, corner * decorationScale
         )
         val previewImage = image ?: return
         val exportImage = photoItem.imagePath?.let { uri ->
             ImageDecoder.decodeFileToBitmap(context, uri, imageSize, cache = false)
         } ?: previewImage
         try {
-            val exportMatrix = Matrix(mImageMatrix).apply {
+            val exportMatrix = Matrix().apply {
+                setValues(
+                    ImageTransform.resize(
+                        FloatArray(9).also(mImageMatrix::getValues),
+                        this@FrameImageView.viewWidth,
+                        this@FrameImageView.viewHeight,
+                        viewWidth,
+                        viewHeight
+                    )
+                )
                 preScale(
                     previewImage.width.toFloat() / exportImage.width,
                     previewImage.height.toFloat() / exportImage.height
                 )
-                postScale(outputScale, outputScale)
             }
             drawImage(
                 canvas, path, mPaint, pathRect, exportImage, exportMatrix,
@@ -493,141 +471,105 @@ internal class FrameImageView(
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        if (!mEnableTouch) {
-            return super.onTouchEvent(event)
-        } else {
-            if (event.action == MotionEvent.ACTION_DOWN) {
-                mSelected = GeometryUtils.contains(mPolygon, PointF(event.x, event.y))
-                if (mSelected) {
-                    mOnImageClickListener?.onImageTransformStart()
-                }
-            }
-
-            if (mSelected) {
-                if (event.action == MotionEvent.ACTION_UP) {
-                    mSelected = false
-                }
-
-                mGestureDetector.onTouchEvent(event)
-                if (mTouchHandler != null && image != null && !image!!.isRecycled) {
-                    mTouchHandler!!.touch(event)
-                    mImageMatrix.set(mTouchHandler!!.matrix)
-
-                    if (event.action == MotionEvent.ACTION_UP) {
-                        if (snapToBordersEnabled) {
-                            snapToBorders()
-                        }
-                        // Update weather user allowed empty space based on current transform
-                        userAllowedEmptySpace = hasEmptySpace(mImageMatrix, viewWidth, viewHeight)
-                    }
-                    invalidate()
-                }
-                if (
-                    event.action == MotionEvent.ACTION_UP ||
-                    event.action == MotionEvent.ACTION_CANCEL
-                ) {
-                    mOnImageClickListener?.onImageTransformEnd()
-                }
-                return true
-            } else {
-                return super.onTouchEvent(event)
-            }
+        if (!mEnableTouch) return false
+        if (event.actionMasked == MotionEvent.ACTION_DOWN) {
+            mSelected = isSelected(event.x, event.y)
+            if (!mSelected) return false
+            finishTransform()
+            transforming = true
+            parent?.requestDisallowInterceptTouchEvent(true)
+            mOnImageClickListener?.onImageTransformStart()
         }
-    }
-
-    private fun snapToBorders(onlyMatrixUpdate: Boolean = false) {
-        val img = image ?: return
-        if (viewWidth <= 0f || viewHeight <= 0f) return
-
-        fun mappedRect(): RectF =
-            RectF(0f, 0f, img.width.toFloat(), img.height.toFloat()).also {
-                mImageMatrix.mapRect(it)
-            }
-
-        var rect = mappedRect()
-        var changed = false
-
-        // 1) Minimal translation to reduce single-edge gaps (always apply if it reduces gap)
-        var dx = 0f
-        var dy = 0f
-        val leftGap = rect.left - space
-        val rightGap = (viewWidth - space) - rect.right
-        val topGap = rect.top - space
-        val bottomGap = (viewHeight - space) - rect.bottom
-
-        val leftNeeds = leftGap > 0f
-        val rightNeeds = rightGap > 0f
-        if (leftNeeds.xor(rightNeeds)) {
-            dx = if (leftNeeds) -leftGap else rightGap
-        }
-
-        val topNeeds = topGap > 0f
-        val bottomNeeds = bottomGap > 0f
-        if (topNeeds.xor(bottomNeeds)) {
-            dy = if (topNeeds) -topGap else bottomGap
-        }
-
-        if (dx != 0f || dy != 0f) {
-            mImageMatrix.postTranslate(dx, dy)
-            rect = mappedRect()
-            changed = true
-        }
-
-        // 2) Minimal uniform scale about view center to cover remaining gaps (capped)
-        val cx = viewWidth * 0.5f
-        val cy = viewHeight * 0.5f
-        var needed = 1f
-        if (rect.left > space) {
-            val denom = (cx - rect.left)
-            if (denom > 0f) needed = kotlin.math.max(needed, (cx - space) / denom)
-        }
-        if (rect.top > space) {
-            val denom = (cy - rect.top)
-            if (denom > 0f) needed = kotlin.math.max(needed, (cy - space) / denom)
-        }
-        if (rect.right < viewWidth - space) {
-            val denom = (rect.right - cx)
-            if (denom > 0f) needed = kotlin.math.max(needed, (cx - space) / denom)
-        }
-        if (rect.bottom < viewHeight - space) {
-            val denom = (rect.bottom - cy)
-            if (denom > 0f) needed = kotlin.math.max(needed, (cy - space) / denom)
-        }
-
-        val maxStep = 4f
-        val scale = min(needed, maxStep)
-        if (scale > 1.0005f) {
-            mImageMatrix.postScale(scale, scale, cx, cy)
-            rect = mappedRect()
-            changed = true
-        }
-
-        // 3) Final clamp to remove any residual tiny gaps
-        var cdx = 0f
-        var cdy = 0f
-        if (rect.left > space) cdx = space - rect.left
-        if (rect.top > space) cdy = space - rect.top
-        if (rect.right < viewWidth - space) cdx = (viewWidth - space) - rect.right
-        if (rect.bottom < viewHeight - space) cdy = (viewHeight - space) - rect.bottom
-        if (cdx != 0f || cdy != 0f) {
-            mImageMatrix.postTranslate(cdx, cdy)
-            changed = true
-        }
-
-        if (onlyMatrixUpdate) return
-
-        if (changed) {
-            mTouchHandler?.matrix = mImageMatrix
+        if (!mSelected) return false
+        mGestureDetector.onTouchEvent(event)
+        if (image?.isRecycled == false) {
+            mTouchHandler?.touch(event)
+            mTouchHandler?.matrix?.let(mImageMatrix::set)
             invalidate()
         }
+        if (event.actionMasked == MotionEvent.ACTION_UP || event.actionMasked == MotionEvent.ACTION_CANCEL) {
+            mSelected = false
+            parent?.requestDisallowInterceptTouchEvent(false)
+            if (snapToBordersEnabled) settleToBorders() else finishTransform()
+        }
+        return true
     }
 
-    private fun hasEmptySpace(matrix: Matrix, vw: Float, vh: Float): Boolean {
-        if (image == null || vw <= 0f || vh <= 0f) return false
-        val rect = RectF(0f, 0f, image!!.width.toFloat(), image!!.height.toFloat())
-        matrix.mapRect(rect)
-        // if image rect does not fully cover the view rect, there is empty space
-        return rect.left > space || rect.top > space || rect.right < vw - space || rect.bottom < vh - space
+    private fun imageBounds(): FloatArray {
+        val bounds = RectF()
+        mPath.computeBounds(bounds, true)
+        if (bounds.isEmpty) bounds.set(0f, 0f, viewWidth, viewHeight)
+        return floatArrayOf(bounds.left, bounds.top, bounds.right, bounds.bottom)
+    }
+
+    private fun fittedMatrix(): FloatArray {
+        val values = FloatArray(9).also(mImageMatrix::getValues)
+        val bitmap = image ?: return values
+        return ImageTransform.fit(
+            values,
+            bitmap.width.toFloat(),
+            bitmap.height.toFloat(),
+            imageBounds()
+        )
+    }
+
+    private fun snapToBorders() {
+        mImageMatrix.setValues(fittedMatrix())
+        mTouchHandler?.matrix = mImageMatrix
+        invalidate()
+    }
+
+    private fun settleToBorders() {
+        val start = FloatArray(9).also(mImageMatrix::getValues)
+        val end = fittedMatrix()
+        if (start.indices.all { abs(start[it] - end[it]) < 0.001f }) {
+            finishTransform()
+            return
+        }
+        settleAnimator = ValueAnimator.ofFloat(0f, 1f).apply {
+            duration = 240L
+            interpolator = DecelerateInterpolator()
+            val values = FloatArray(9)
+            addUpdateListener { animator ->
+                val progress = animator.animatedValue as Float
+                for (i in values.indices) values[i] = start[i] + (end[i] - start[i]) * progress
+                mImageMatrix.setValues(values)
+                mTouchHandler?.matrix = mImageMatrix
+                invalidate()
+            }
+            addListener(object : AnimatorListenerAdapter() {
+                override fun onAnimationEnd(animation: Animator) {
+                    settleAnimator = null
+                    finishTransform()
+                }
+            })
+            start()
+        }
+    }
+
+    private fun stopSettling() {
+        settleAnimator?.removeAllListeners()
+        settleAnimator?.cancel()
+        settleAnimator = null
+    }
+
+    fun finishTransform() {
+        stopSettling()
+        if (!transforming) return
+        transforming = false
+        val bitmap = image
+        userAllowedEmptySpace = bitmap != null && !ImageTransform.covers(
+            FloatArray(9).also(mImageMatrix::getValues),
+            bitmap.width.toFloat(), bitmap.height.toFloat(), imageBounds()
+        )
+        mOnImageClickListener?.onImageTransformEnd()
+    }
+
+    fun release() {
+        finishTransform()
+        imageLoadJob?.cancel()
+        imageLoadJob = null
+        mOnImageClickListener = null
     }
 
     companion object {
