@@ -17,13 +17,11 @@
 
 package com.t8rin.collages.model
 
-import android.net.Uri
 import com.t8rin.collages.CollageDesign
 import com.t8rin.collages.utils.ParamsManager
 import com.t8rin.collages.view.PhotoItem
 
 internal data class CollageLayout(
-    val preview: Uri,
     val design: CollageDesign? = null,
     val title: String,
     val paramsManager: ParamsManager? = null,

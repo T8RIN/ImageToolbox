@@ -21,7 +21,6 @@ import android.content.Context
 import android.graphics.Matrix
 import android.graphics.Path
 import androidx.core.graphics.PathParser
-import androidx.core.net.toUri
 import com.t8rin.collages.model.CollageLayout
 import com.t8rin.collages.view.PhotoItem
 import kotlinx.coroutines.Dispatchers
@@ -67,7 +66,6 @@ internal object AdditionalCollages {
         val slots = catalog.entries[id] ?: return null
         return CollageLayout(
             title = id,
-            preview = "file:///android_asset/frame/$id.webp".toUri(),
             photoItemList = List(slots.length()) { index ->
                 val slot = slots.getJSONObject(index)
                 val vertices = slot.getJSONArray("points")

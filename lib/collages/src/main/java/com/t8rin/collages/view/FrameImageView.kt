@@ -45,7 +45,6 @@ import com.t8rin.collages.CollageSlotStyle
 import com.t8rin.collages.utils.GeometryUtils
 import com.t8rin.collages.utils.ImageDecoder
 import com.t8rin.collages.utils.ImageTransform
-import com.t8rin.collages.utils.maximumInset
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -740,22 +739,16 @@ internal class FrameImageView(
                 path.set(outline)
                 path.transform(Matrix().apply { setScale(viewWidth, viewHeight) })
                 if (space > 0f) {
-                    val gap = Path()
-                    val inset = min(space, path.maximumInset())
-                    Paint(Paint.ANTI_ALIAS_FLAG).apply {
-                        style = Paint.Style.STROKE
-                        strokeWidth = inset * 2
-                        strokeJoin = Paint.Join.ROUND
-                    }.getFillPath(path, gap)
-                    val shrunk = Path(path)
-                    if (shrunk.op(gap, Path.Op.DIFFERENCE) && !shrunk.isEmpty) path.set(shrunk)
-                }
-                if (corner > 0f) {
-                    val rounded = Path()
-                    Paint().apply {
-                        pathEffect = CornerPathEffect(min(corner, min(viewWidth, viewHeight) / 2))
-                    }.getFillPath(path, rounded)
-                    path.set(rounded)
+                    // Scale the mask instead of cutting off narrow details such as puzzle tabs.
+                    val inset = min(space, min(viewWidth, viewHeight) / 4)
+                    path.transform(Matrix().apply {
+                        setScale(
+                            1f - inset * 2 / viewWidth,
+                            1f - inset * 2 / viewHeight,
+                            viewWidth / 2,
+                            viewHeight / 2
+                        )
+                    })
                 }
                 path.op(path, path, Path.Op.UNION)
                 return

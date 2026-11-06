@@ -26,7 +26,6 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.DashPathEffect
-import android.graphics.Matrix
 import android.graphics.Paint
 import android.graphics.PointF
 import android.graphics.RectF
@@ -114,7 +113,6 @@ internal class FramePhotoLayout(
     private var outlineColor = Color.WHITE
     private var outlineAccent = Color.BLACK
     private var canvasScale = 1f
-    private val touchMatrix = Matrix()
     private var outlinePhase = 0f
     private var outlineAnimator: ValueAnimator? = null
 
@@ -123,7 +121,6 @@ internal class FramePhotoLayout(
         outlineColor = color
         outlineAccent = accent
         canvasScale = scale.coerceAtLeast(0.1f)
-        touchMatrix.setScale(1f / canvasScale, 1f / canvasScale)
         invalidate()
     }
 
@@ -199,6 +196,10 @@ internal class FramePhotoLayout(
     private var backgroundColor: ComposeColor = ComposeColor.White
     private var backgroundShader: ((Float, Float) -> Shader)? = null
     private var onItemTapListener: ((index: Int) -> Unit)? = null
+    var onImagesLoaded: (() -> Unit)? = null
+    val imagesReady: Boolean
+        get() = mItemImageViews.size == mPhotoItems.size && mItemImageViews.all(FrameImageView::isStateReady)
+
     private var onStateReadyListener: ((CollageState) -> Unit)? = null
     private var onUserStateChangeListener: ((CollageState, CollageState, Pair<Int, Int>?) -> Unit)? =
         null
@@ -222,6 +223,7 @@ internal class FramePhotoLayout(
         }
 
     init {
+        isMotionEventSplittingEnabled = false
         setWillNotDraw(false)
         // Enable focus so we can detect focus loss and clear selection
         isFocusable = true
@@ -298,6 +300,7 @@ internal class FramePhotoLayout(
         updateOutlineAnimation()
         mItemImageViews.forEach(FrameImageView::release)
         onStateReadyListener = null
+        onImagesLoaded = null
         onUserStateChangeListener = null
     }
 
@@ -697,7 +700,8 @@ internal class FramePhotoLayout(
     }
 
     override fun onImageStateReady() {
-        if (mItemImageViews.all(FrameImageView::isStateReady)) {
+        if (imagesReady) {
+            onImagesLoaded?.invoke()
             if (isRestoringState) {
                 finishStateRestoration()
             } else {
@@ -790,18 +794,6 @@ internal class FramePhotoLayout(
     }
 
     override fun dispatchTouchEvent(event: MotionEvent): Boolean {
-        if (canvasScale == 1f) return dispatchCollageTouchEvent(event)
-        val localEvent = MotionEvent.obtain(event)
-        return try {
-            // AndroidView offsets native events but does not undo the outer Compose scale.
-            localEvent.transform(touchMatrix)
-            dispatchCollageTouchEvent(localEvent)
-        } finally {
-            localEvent.recycle()
-        }
-    }
-
-    private fun dispatchCollageTouchEvent(event: MotionEvent): Boolean {
         touchX = event.x
         touchY = event.y
         imageDrag?.let { drag ->

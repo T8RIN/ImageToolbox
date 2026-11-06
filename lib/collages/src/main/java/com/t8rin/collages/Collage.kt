@@ -52,6 +52,7 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.zIndex
+import com.t8rin.collages.view.CollageTouchDispatcher
 import com.t8rin.collages.view.FramePhotoLayout
 import kotlinx.coroutines.CancellationException
 import kotlin.math.min
@@ -83,6 +84,7 @@ fun Collage(
     backgroundShader: ((Float, Float) -> Shader)? = null,
     state: CollageState? = null,
     onStateReady: ((CollageState) -> Unit)? = null,
+    onImagesLoaded: (() -> Unit)? = null,
     onOutputSizeChanged: ((Int, Int) -> Unit)? = null,
     onUserStateChange: ((before: CollageState, after: CollageState, swappedImages: Pair<Int, Int>?) -> Unit)? = null
 ) {
@@ -96,6 +98,7 @@ fun Collage(
             )?.layout
         }
     }
+    val imagesLoaded by rememberUpdatedState(onImagesLoaded)
     val stateReady by rememberUpdatedState(onStateReady)
     val stateChanged by rememberUpdatedState(onUserStateChange)
     val imageCreated by rememberUpdatedState(onCollageCreated)
@@ -134,6 +137,7 @@ fun Collage(
                         },
                         onRelease = { it.release() },
                         update = { target ->
+                            target.onImagesLoaded = { imagesLoaded?.invoke() }
                             target.setStateListeners(
                                 layoutId = layout?.title.orEmpty(),
                                 onStateReady = {
@@ -185,7 +189,32 @@ fun Collage(
                                     applied.state = it
                                     target.restoreState(it)
                                 }
+                            if (target.imagesReady) imagesLoaded?.invoke()
                         }
+                    )
+                }
+                if (userInteractionEnabled && imageGesturesEnabled) {
+                    Box(
+                        Modifier
+                            .matchParentSize()
+                            .pointerInput(view) {
+                                val target = view ?: return@pointerInput
+                                val dispatcher = CollageTouchDispatcher(target)
+                                awaitEachGesture {
+                                    awaitFirstDown(requireUnconsumed = false)
+                                    try {
+                                        do {
+                                            val event = currentEvent
+                                            dispatcher.dispatch(event)
+                                            event.changes.forEach { it.consume() }
+                                            if (event.changes.none { it.pressed }) break
+                                            awaitPointerEvent()
+                                        } while (true)
+                                    } finally {
+                                        dispatcher.cancel()
+                                    }
+                                }
+                            }
                     )
                 }
                 if (userInteractionEnabled && !imageGesturesEnabled) {

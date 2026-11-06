@@ -93,7 +93,7 @@ fun CollageMakerContent(
     LaunchedEffect(component.uris?.size, component.collageType.imageCount) {
         val count = component.uris.orEmpty().size
         if (count > 0 && component.collageType.imageCount != count) {
-            CollageType.catalog(context).firstOrNull { it.imageCount == count }
+            CollageType.catalog(context, count).firstOrNull()
                 ?.let(component::setCollageType)
         }
     }

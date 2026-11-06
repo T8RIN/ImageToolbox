@@ -18,7 +18,6 @@
 package com.t8rin.collages
 
 import android.content.Context
-import android.net.Uri
 import com.t8rin.collages.model.CollageLayout
 import com.t8rin.collages.utils.CollageLayoutFactory
 import com.t8rin.collages.utils.CollageLayoutFactory.createCollageLayouts
@@ -41,19 +40,16 @@ data class CollageType internal constructor(
     companion object {
         suspend fun prepareCatalog(context: Context) = AdditionalCollages.load(context)
 
-        suspend fun catalog(context: Context): List<CollageType> =
+        suspend fun catalog(context: Context, imageCount: Int? = null): List<CollageType> =
             withContext(Dispatchers.Default) {
                 prepareCatalog(context)
-                catalog()
+                catalog(imageCount)
             }
 
         fun fromDesign(id: String, design: CollageDesign): CollageType? {
             if (!design.isValid()) return null
             return CollageType(
                 CollageLayout(
-                    preview = if (id.startsWith("creative_") || id.startsWith("artistic_")) Uri.parse(
-                        "file:///android_asset/frame/$id.webp"
-                    ) else Uri.EMPTY,
                     title = id, design = design,
                     photoItemList = design.slots.mapIndexed { index, slot ->
                         PhotoItem(index = index, shape = slot.points).apply {
@@ -64,10 +60,14 @@ data class CollageType internal constructor(
             )
         }
 
-        fun catalog(): List<CollageType> = (
+        fun catalog(imageCount: Int? = null): List<CollageType> = (
                 CollageLayoutFactory.COLLAGE_MAP.keys + AdditionalCollages.ids +
-                        CreativeCollages.templates.map { it.id } + ArtisticCollages.templates.map { it.id }
-                ).mapNotNull { fromLayoutId(it) }
+                        CreativeCollages.templates.map { it.id } + ArtisticCollages.templates.map { it.id } +
+                        DecorativeCollages.templates.map { it.id }
+                ).filter { id ->
+                imageCount == null || id.split('_')
+                    .firstNotNullOfOrNull { it.toIntOrNull() } == imageCount
+            }.mapNotNull { fromLayoutId(it) }
 
         val Empty by lazy { CollageType(layout = null) }
 

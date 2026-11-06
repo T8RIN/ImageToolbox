@@ -42,17 +42,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import coil3.compose.AsyncImage
 import com.t8rin.collages.model.CollageLayout
-import com.t8rin.collages.utils.CollageLayoutFactory.loadFrameImages
-import com.t8rin.collages.utils.createCollagePreview
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -73,20 +69,31 @@ fun CollageTypeSelection(
     previewColor: Color = MaterialTheme.colorScheme.secondary,
     contentPadding: PaddingValues = PaddingValues(16.dp)
 ) {
-    var allFrames: List<CollageLayout> by remember {
+    var allFrames: List<Pair<CollageLayout, Path>> by remember {
         mutableStateOf(emptyList())
     }
     val context = LocalContext.current
 
-    LaunchedEffect(context) {
-        allFrames = withContext(Dispatchers.Default) { loadFrameImages(context) }
+    LaunchedEffect(context, imagesCount) {
+        allFrames = withContext(Dispatchers.Default) {
+            CollageType.catalog(context, imagesCount).mapNotNull { it.layout }
+                .sortedWith(compareBy({
+                    when {
+                        it.title.startsWith("collage_") -> 0
+                        it.title.startsWith("creative_") -> 1
+                        it.title.startsWith("layout_") -> 2
+                        else -> 3
+                    }
+                }, { it.title }))
+                .map { it to CollagePreviewCache.get(it) }
+        }
     }
 
     val availableFrames by remember(allFrames, imagesCount, favorites) {
         derivedStateOf {
             allFrames.filter {
-                it.photoItemList.size == imagesCount
-            }.sortedByDescending { it.title in favorites }
+                it.first.photoItemList.size == imagesCount
+            }.sortedByDescending { it.first.title in favorites }
         }
     }
 
@@ -96,7 +103,7 @@ fun CollageTypeSelection(
             availableFrames.isNotEmpty() && (value == CollageType.Empty || (value.layout?.photoItemList?.size
                 ?: 0) != imagesCount)
         ) {
-            onValueChange(CollageType(availableFrames.first()))
+            onValueChange(CollageType(availableFrames.first().first))
         }
     }
 
@@ -111,7 +118,7 @@ fun CollageTypeSelection(
             horizontalItemSpacing = 8.dp,
             contentPadding = contentPadding
         ) {
-            items(availableFrames, key = { it.title }) { layout ->
+            items(availableFrames, key = { it.first.title }) { (layout, preview) ->
                 Column(
                     Modifier
                         .animateItem()
@@ -119,14 +126,9 @@ fun CollageTypeSelection(
                     verticalArrangement = Arrangement.spacedBy(2.dp)
                 ) {
                     val type = remember(layout) { CollageType(layout) }
-                    val preview = remember(layout) {
-                        if (layout.preview == android.net.Uri.EMPTY) createCollagePreview(type) else layout.preview
-                    }
-                    AsyncImage(
-                        model = preview,
-                        contentDescription = null,
-                        contentScale = ContentScale.FillBounds,
-                        colorFilter = ColorFilter.tint(previewColor),
+                    CollagePreview(
+                        path = preview,
+                        color = previewColor,
                         modifier = Modifier
                             .fillMaxWidth()
                             .aspectRatio(1f)

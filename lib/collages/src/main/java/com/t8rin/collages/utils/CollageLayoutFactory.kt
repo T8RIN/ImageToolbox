@@ -19,15 +19,14 @@
 
 package com.t8rin.collages.utils
 
-import android.content.Context
 import android.graphics.Path
 import android.graphics.RectF
-import androidx.core.net.toUri
 import com.t8rin.collages.AdditionalCollages
 import com.t8rin.collages.ArtisticCollages
 import com.t8rin.collages.CollagePoint
 import com.t8rin.collages.CollageType
 import com.t8rin.collages.CreativeCollages
+import com.t8rin.collages.DecorativeCollages
 import com.t8rin.collages.frames.EightFrameImage
 import com.t8rin.collages.frames.ExtendedFrameImage
 import com.t8rin.collages.frames.FiveFrameImage
@@ -43,12 +42,10 @@ import kotlin.math.abs
 import kotlin.math.roundToInt
 
 internal object CollageLayoutFactory {
-    private const val FRAME_FOLDER = "frame"
 
     fun collage(
         frameName: String
     ): CollageLayout = CollageLayout(
-        preview = ("file:///android_asset/$FRAME_FOLDER/$frameName.webp").toUri(),
         title = frameName
     )
 
@@ -73,28 +70,6 @@ internal object CollageLayoutFactory {
             quadTo(top, top + size / 2, top, top + size / 4)
             close()
         }
-    }
-
-    suspend fun loadFrameImages(context: Context): List<CollageLayout> {
-        CollageType.prepareCatalog(context)
-        return runCatching {
-            context.assets.list(FRAME_FOLDER).orEmpty().mapNotNull {
-                createCollageLayouts(it.substringBeforeLast('.'))
-            }.sortedWith(
-                compareBy(
-                    { it.photoItemList.size },
-                    {
-                        when {
-                            it.title.startsWith("collage_") -> 0
-                            it.title.startsWith("creative_") -> 1
-                            it.title.startsWith("layout_") -> 2
-                            else -> 3
-                        }
-                    })
-            )
-        }.onFailure {
-            it.printStackTrace()
-        }.getOrNull().orEmpty()
     }
 
     internal fun collageLinear(
@@ -170,6 +145,8 @@ internal object CollageLayoutFactory {
             ?: CreativeCollages.templates.firstOrNull { it.id == frameName }
                 ?.let { CollageType.fromDesign(it.id, it.design)?.layout }
             ?: ArtisticCollages.templates.firstOrNull { it.id == frameName }
+                ?.let { CollageType.fromDesign(it.id, it.design)?.layout }
+            ?: DecorativeCollages.templates.firstOrNull { it.id == frameName }
                 ?.let { CollageType.fromDesign(it.id, it.design)?.layout }
             ?: AdditionalCollages.create(frameName)
         return layout?.let(::withRectangularHandles)

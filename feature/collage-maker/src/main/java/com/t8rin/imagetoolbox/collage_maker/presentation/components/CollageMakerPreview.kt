@@ -31,11 +31,13 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -75,7 +77,6 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shimmer
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.transparencyChecker
 import com.t8rin.imagetoolbox.core.ui.widget.other.InfoContainer
-import kotlinx.coroutines.delay
 import net.engawapg.lib.zoomable.rememberZoomState
 import net.engawapg.lib.zoomable.zoomable
 
@@ -89,11 +90,13 @@ internal fun CollageMakerPreview(
     onOutputSizeChanged: (Int, Int) -> Unit,
     onEditSlot: (Int) -> Unit
 ) {
-    LaunchedEffect(component.uris) {
-        if (!component.uris.isNullOrEmpty()) {
-            delay(200)
-            onLoadingChange(false)
-        }
+    var imagesReady by remember(
+        component.uris,
+        component.collageType.layoutId,
+        resettingTrigger,
+        component.collageResetKey
+    ) {
+        mutableStateOf(false)
     }
     Box(
         modifier = Modifier
@@ -130,13 +133,15 @@ internal fun CollageMakerPreview(
         }
 
         Column(Modifier.fillMaxSize()) {
-            Box(
+            BoxWithConstraints(
                 modifier = Modifier
                     .weight(1f)
                     .fillMaxWidth()
                     .padding(bottom = if (isPortrait) 20.dp else 0.dp),
                 contentAlignment = Alignment.Center
             ) {
+                val ratio = component.aspectRatio.value
+                val previewWidth = minOf(maxWidth, maxHeight * ratio)
                 AnimatedContent(
                     targetState = resettingTrigger to component.collageResetKey,
                     transitionSpec = { fadeIn() togetherWith fadeOut() }
@@ -144,6 +149,7 @@ internal fun CollageMakerPreview(
                     key(trigger) {
                         Box(
                             modifier = Modifier
+                                .size(previewWidth, previewWidth / ratio)
                                 .zoomable(
                                     zoomState = zoomState,
                                     zoomEnabled = !showItemMenu
@@ -152,7 +158,7 @@ internal fun CollageMakerPreview(
                                     shape = ShapeDefaults.extraSmall,
                                     resultPadding = 0.dp
                                 )
-                                .shimmer(visible = isLoading),
+                                .shimmer(visible = isLoading || !imagesReady),
                             contentAlignment = Alignment.Center
                         ) {
                             Collage(
@@ -203,6 +209,10 @@ internal fun CollageMakerPreview(
                                 enableSnapToBorders = component.params.enableSnapToBorders,
                                 state = component.collageState,
                                 onStateReady = component::updateCollageState,
+                                onImagesLoaded = {
+                                    imagesReady = true
+                                    onLoadingChange(false)
+                                },
                                 onUserStateChange = component::onCollageStateChange,
                                 onImageTap = { index ->
                                     if (index >= 0) {
