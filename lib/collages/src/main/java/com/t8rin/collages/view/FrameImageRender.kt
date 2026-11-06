@@ -23,6 +23,8 @@ import android.graphics.Canvas
 import android.graphics.Matrix
 import android.graphics.Paint
 import android.graphics.Path
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffXfermode
 import android.net.Uri
 import androidx.core.graphics.withClip
 import com.t8rin.collages.utils.ImageDecoder
@@ -72,7 +74,10 @@ internal fun drawCollageImage(
     image: Bitmap?,
     matrix: Matrix,
     backgroundColor: Int,
-    paint: Paint
+    paint: Paint,
+    previousImage: Bitmap? = null,
+    previousMatrix: Matrix? = null,
+    progress: Float = 1f
 ) {
     paint.color = backgroundColor
     canvas.drawPath(backgroundPath, paint)
@@ -80,6 +85,29 @@ internal fun drawCollageImage(
         if (clearPath.isEmpty) path else Path(path).apply { op(clearPath, Path.Op.DIFFERENCE) }
     canvas.withClip(clip) {
         paint.alpha = 255
-        if (image != null && !image.isRecycled) drawBitmap(image, matrix, paint)
+        if (previousImage != null && !previousImage.isRecycled &&
+            previousMatrix != null && progress < 1f
+        ) {
+            val bounds = clipBounds
+            val layer = saveLayer(
+                bounds.left.toFloat(), bounds.top.toFloat(),
+                bounds.right.toFloat(), bounds.bottom.toFloat(), null
+            )
+            try {
+                paint.alpha = ((1f - progress) * 255).toInt()
+                drawBitmap(previousImage, previousMatrix, paint)
+                paint.alpha = (progress * 255).toInt()
+                paint.xfermode = imageBlendMode
+                if (image != null && !image.isRecycled) drawBitmap(image, matrix, paint)
+            } finally {
+                paint.alpha = 255
+                paint.xfermode = null
+                restoreToCount(layer)
+            }
+        } else if (image != null && !image.isRecycled) {
+            drawBitmap(image, matrix, paint)
+        }
     }
 }
+
+private val imageBlendMode = PorterDuffXfermode(PorterDuff.Mode.ADD)

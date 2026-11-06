@@ -426,6 +426,7 @@ fun CollageMakerContent(
                                             outputSize = width to height
                                         },
                                         imageGesturesEnabled = showItemMenu,
+                                        canvasScale = zoomState.scale,
                                         disableRotation = component.params.disableRotation,
                                         enableSnapToBorders = component.params.enableSnapToBorders,
                                         state = component.collageState,

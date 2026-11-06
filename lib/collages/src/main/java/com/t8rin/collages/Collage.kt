@@ -31,6 +31,7 @@ import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.gestures.drag
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -43,6 +44,7 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.LayoutDirection
@@ -67,6 +69,7 @@ fun Collage(
     collageType: CollageType,
     userInteractionEnabled: Boolean = true,
     imageGesturesEnabled: Boolean = true,
+    canvasScale: Float = 1f,
     aspectRatio: Float = 1f,
     outputScaleRatio: Float = 1.5f,
     onImageTap: ((index: Int) -> Unit)? = null,
@@ -79,6 +82,8 @@ fun Collage(
     onOutputSizeChanged: ((Int, Int) -> Unit)? = null,
     onUserStateChange: ((before: CollageState, after: CollageState) -> Unit)? = null
 ) {
+    val outlineColor = MaterialTheme.colorScheme.primary.toArgb()
+    val outlineAccent = MaterialTheme.colorScheme.primaryContainer.toArgb()
     val layout = remember(collageType.layoutId) {
         collageType.layoutId?.let(::createCollageLayouts)
     }
@@ -127,6 +132,7 @@ fun Collage(
                                     )
                                 }
                             )
+                            target.setOutlineStyle(outlineColor, outlineAccent, canvasScale)
                             target.setBackgroundColor(backgroundColor)
                             target.setBackgroundShader(backgroundShader)
                             target.setOnItemTapListener(onImageTap)

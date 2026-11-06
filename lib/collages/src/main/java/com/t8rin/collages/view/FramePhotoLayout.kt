@@ -17,6 +17,7 @@
 
 package com.t8rin.collages.view
 
+import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.app.ActivityManager
 import android.app.ActivityManager.MemoryInfo
@@ -24,6 +25,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
+import android.graphics.DashPathEffect
 import android.graphics.Paint
 import android.graphics.PointF
 import android.graphics.RectF
@@ -34,6 +36,7 @@ import android.net.Uri
 import android.view.HapticFeedbackConstants
 import android.view.MotionEvent
 import android.view.animation.DecelerateInterpolator
+import android.view.animation.LinearInterpolator
 import android.widget.RelativeLayout
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.content.getSystemService
@@ -101,6 +104,73 @@ internal class FramePhotoLayout(
     private var imageDrag: ImageDrag? = null
     private var touchX = 0f
     private var touchY = 0f
+
+    private val outlinePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        style = Paint.Style.STROKE
+        strokeJoin = Paint.Join.ROUND
+    }
+    private var outlineColor = Color.WHITE
+    private var outlineAccent = Color.BLACK
+    private var canvasScale = 1f
+    private var outlinePhase = 0f
+    private var outlineAnimator: ValueAnimator? = null
+
+    fun setOutlineStyle(color: Int, accent: Int, scale: Float) {
+        if (outlineColor == color && outlineAccent == accent && canvasScale == scale) return
+        outlineColor = color
+        outlineAccent = accent
+        canvasScale = scale.coerceAtLeast(0.1f)
+        invalidate()
+    }
+
+    private fun updateOutlineAnimation() {
+        val visible = isAttachedToWindow && hasWindowFocus() &&
+                (selectedItemIndex != null || imageDrag != null)
+        if (!visible) {
+            outlineAnimator?.cancel()
+            outlineAnimator = null
+        } else if (outlineAnimator == null) {
+            outlineAnimator = ValueAnimator.ofFloat(0f, 80f).apply {
+                duration = 1000L
+                repeatCount = ValueAnimator.INFINITE
+                interpolator = LinearInterpolator()
+                addUpdateListener {
+                    outlinePhase = it.animatedValue as Float
+                    invalidate()
+                }
+                start()
+            }
+        }
+    }
+
+    private fun drawOutline(canvas: Canvas, view: FrameImageView, selected: Boolean) {
+        outlinePaint.strokeWidth = 3f * resources.displayMetrics.density / canvasScale
+        canvas.withTranslation(view.left.toFloat(), view.top.toFloat()) {
+            if (selected) {
+                outlinePaint.color = outlineColor
+                outlinePaint.pathEffect = null
+                view.drawOutline(this, outlinePaint)
+            }
+            outlinePaint.color = if (selected) outlineAccent else outlineColor
+            outlinePaint.pathEffect = DashPathEffect(
+                floatArrayOf(20f / canvasScale, 20f / canvasScale),
+                outlinePhase / canvasScale
+            )
+            view.drawOutline(this, outlinePaint)
+        }
+    }
+
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        updateOutlineAnimation()
+    }
+
+    override fun onDetachedFromWindow() {
+        resetImageDrag()
+        outlineAnimator?.cancel()
+        outlineAnimator = null
+        super.onDetachedFromWindow()
+    }
 
     private val mItemImageViews: MutableList<FrameImageView> = ArrayList()
     var outputAspectRatio: Float = 1f
@@ -204,7 +274,9 @@ internal class FramePhotoLayout(
     }
 
     fun release() {
+        selectedItemIndex = null
         resetImageDrag()
+        updateOutlineAnimation()
         mItemImageViews.forEach(FrameImageView::release)
         onStateReadyListener = null
         onUserStateChangeListener = null
@@ -467,6 +539,7 @@ internal class FramePhotoLayout(
         ) return
         source.finishTransform()
         imageDrag = ImageDrag(source, x, y, snapshotState())
+        updateOutlineAnimation()
         parent?.requestDisallowInterceptTouchEvent(true)
         performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
         source.translationZ = 12f * resources.displayMetrics.density
@@ -505,7 +578,7 @@ internal class FramePhotoLayout(
             return
         }
 
-        target.animate().alpha(0f).setDuration(100L).start()
+        target.animate().alpha(1f).setDuration(100L).start()
         source.animate().alpha(0f).setDuration(100L).withEndAction {
             if (imageDrag === drag) {
                 source.translationX = 0f
@@ -513,12 +586,13 @@ internal class FramePhotoLayout(
                 source.translationZ = 0f
                 source.scaleX = 1f
                 source.scaleY = 1f
+                resetImageDrag()
                 target.swapImage(source)
+                when (selectedItemIndex) {
+                    source.photoItem.index -> onSingleTapImage(target)
+                    target.photoItem.index -> onSingleTapImage(source)
+                }
                 dispatchUserStateChange(drag.before)
-                target.animate().alpha(1f).setDuration(160L).start()
-                source.animate().alpha(1f).setDuration(160L)
-                    .withEndAction { if (imageDrag === drag) resetImageDrag() }
-                    .start()
             }
         }.start()
     }
@@ -526,6 +600,7 @@ internal class FramePhotoLayout(
     private fun resetImageDrag() {
         val drag = imageDrag ?: return
         imageDrag = null
+        updateOutlineAnimation()
         listOfNotNull(drag.source, drag.target).forEach {
             it.animate().withEndAction(null).cancel()
             it.translationX = 0f
@@ -552,6 +627,7 @@ internal class FramePhotoLayout(
         selectedItemIndex = null
         activeHandle = null
         onItemTapListener?.invoke(-1)
+        updateOutlineAnimation()
         invalidate()
     }
 
@@ -565,6 +641,7 @@ internal class FramePhotoLayout(
         } else {
             onItemTapListener?.invoke(view.photoItem.index)
             selectedItemIndex = view.photoItem.index
+            updateOutlineAnimation()
             requestFocus()
             invalidate()
         }
@@ -595,6 +672,7 @@ internal class FramePhotoLayout(
 
     override fun onWindowFocusChanged(hasWindowFocus: Boolean) {
         super.onWindowFocusChanged(hasWindowFocus)
+        updateOutlineAnimation()
         if (!hasWindowFocus) {
             resetImageDrag()
             // Clear selection when window focus is lost
@@ -619,8 +697,14 @@ internal class FramePhotoLayout(
     }
 
     override fun dispatchDraw(canvas: Canvas) {
+        imageDrag?.source?.let { drawOutline(canvas, it, selected = false) }
         super.dispatchDraw(canvas)
-        if (imageDrag != null) return
+        if (imageDrag != null) {
+            imageDrag?.target?.let { drawOutline(canvas, it, selected = true) }
+            return
+        }
+        mItemImageViews.firstOrNull { it.photoItem.index == selectedItemIndex }
+            ?.let { drawOutline(canvas, it, selected = true) }
         // draw handles for selected item
         val index = selectedItemIndex ?: return
         val handles = paramsManager?.getHandles(index) ?: emptyList()

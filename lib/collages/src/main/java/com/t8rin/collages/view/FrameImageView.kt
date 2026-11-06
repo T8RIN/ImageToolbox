@@ -95,6 +95,11 @@ internal class FrameImageView(
     private var space = 0f
     private val mPath = Path()
     private val hitRegion = Region()
+    private val outlinePath = Path()
+    private var previousImage: Bitmap? = null
+    private val previousImageMatrix = Matrix()
+    private var imageProgress = 1f
+    private var imageAnimator: ValueAnimator? = null
     private val mBackgroundPath = Path()
     private val mPolygon = ArrayList<PointF>()
     private val mPathRect = Rect(0, 0, 0, 0)
@@ -185,6 +190,12 @@ internal class FrameImageView(
         ) {
             finishTransform()
             view.finishTransform()
+            finishImageTransition()
+            view.finishImageTransition()
+            val oldImage = image
+            val oldMatrix = Matrix(mImageMatrix)
+            val otherImage = view.image
+            val otherMatrix = Matrix(view.mImageMatrix)
             val previousState = snapshotState()
             val otherState = view.snapshotState()
             val temp = view.image
@@ -200,10 +211,13 @@ internal class FrameImageView(
             view.applyState(previousState)
             if (snapToBordersEnabled) snapToBorders()
             if (view.snapToBordersEnabled) view.snapToBorders()
+            animateImageTransition(oldImage, oldMatrix)
+            view.animateImageTransition(otherImage, otherMatrix)
         }
     }
 
     fun reloadImageFromPhotoItem() {
+        finishImageTransition()
         val token = photoItem.imagePath?.toString()?.takeIf { it.isNotEmpty() }
 
         // Skip if we're already loading the same image
@@ -289,6 +303,7 @@ internal class FrameImageView(
     }
 
     private fun applyState(state: CollageImageState) {
+        finishImageTransition()
         stopSettling()
         if (state.matrixValues.size != 9) {
             resetImageMatrix()
@@ -364,15 +379,16 @@ internal class FrameImageView(
             mConvertedPoints, mConvertedClearPoints,
             mPath, mClearPath, mBackgroundPath, mPolygon, mPathRect, space, corner
         )
-        val clip = Region(0, 0, viewWidth.toInt(), viewHeight.toInt())
-        hitRegion.setPath(mPath, clip)
-        if (!mClearPath.isEmpty) {
-            hitRegion.op(Region().apply { setPath(mClearPath, clip) }, Region.Op.DIFFERENCE)
-        }
+        outlinePath.rewind()
+        outlinePath.addRect(0f, 0f, viewWidth, viewHeight, Path.Direction.CW)
+        outlinePath.op(mPath, Path.Op.INTERSECT)
+        if (!mClearPath.isEmpty) outlinePath.op(mClearPath, Path.Op.DIFFERENCE)
+        hitRegion.setPath(outlinePath, Region(0, 0, viewWidth.toInt(), viewHeight.toInt()))
         invalidate()
     }
 
     fun updateFrame(viewWidth: Float, viewHeight: Float) {
+        finishImageTransition()
         finishTransform()
         val values = FloatArray(9).also(mImageMatrix::getValues)
         mImageMatrix.setValues(
@@ -423,8 +439,41 @@ internal class FrameImageView(
         super.onDraw(canvas)
         drawCollageImage(
             canvas, mPath, mBackgroundPath, mClearPath,
-            image, mImageMatrix, mBackgroundColor, mPaint
+            image, mImageMatrix, mBackgroundColor, mPaint,
+            previousImage, previousImageMatrix, imageProgress
         )
+    }
+
+    fun drawOutline(canvas: Canvas, paint: Paint) {
+        canvas.drawPath(outlinePath, paint)
+    }
+
+    private fun animateImageTransition(bitmap: Bitmap?, matrix: Matrix) {
+        previousImage = bitmap
+        previousImageMatrix.set(matrix)
+        imageProgress = 0f
+        imageAnimator = ValueAnimator.ofFloat(0f, 1f).apply {
+            duration = 220L
+            addUpdateListener {
+                imageProgress = it.animatedValue as Float
+                invalidate()
+            }
+            addListener(object : AnimatorListenerAdapter() {
+                override fun onAnimationEnd(animation: Animator) {
+                    finishImageTransition()
+                }
+            })
+            start()
+        }
+    }
+
+    private fun finishImageTransition() {
+        imageAnimator?.removeAllListeners()
+        imageAnimator?.cancel()
+        imageAnimator = null
+        previousImage = null
+        imageProgress = 1f
+        invalidate()
     }
 
     fun prepareOutputImage(
@@ -462,6 +511,7 @@ internal class FrameImageView(
     override fun onTouchEvent(event: MotionEvent): Boolean {
         if (!mEnableTouch) return false
         if (event.actionMasked == MotionEvent.ACTION_DOWN) {
+            finishImageTransition()
             parent?.requestDisallowInterceptTouchEvent(true)
             mSelected = isSelected(event.x, event.y)
             if (!mSelected) return false
@@ -555,6 +605,7 @@ internal class FrameImageView(
     }
 
     fun release() {
+        finishImageTransition()
         finishTransform()
         imageLoadJob?.cancel()
         imageLoadJob = null
