@@ -15,12 +15,22 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.collage_maker.presentation.components
+package com.t8rin.imagetoolbox.collage_maker.di
 
-data class CollageParams(
-    val spacing: Float = 10f,
-    val cornerRadius: Float = 0f,
-    val outputScaleRatio: Float = 0.5f,
-    val disableRotation: Boolean = true,
-    val enableSnapToBorders: Boolean = true
-)
+import com.t8rin.imagetoolbox.collage_maker.data.AndroidCollageProjectRepository
+import com.t8rin.imagetoolbox.collage_maker.domain.CollageProjectRepository
+import dagger.Binds
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+
+@Module
+@InstallIn(SingletonComponent::class)
+internal interface CollageMakerModule {
+
+    @Binds
+    fun projectRepository(
+        impl: AndroidCollageProjectRepository
+    ): CollageProjectRepository
+
+}

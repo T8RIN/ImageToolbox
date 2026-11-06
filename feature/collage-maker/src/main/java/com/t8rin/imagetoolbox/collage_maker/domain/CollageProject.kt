@@ -18,8 +18,6 @@
 package com.t8rin.imagetoolbox.collage_maker.domain
 
 import com.t8rin.collages.CollageState
-import com.t8rin.collages.CollageType
-import com.t8rin.imagetoolbox.collage_maker.presentation.components.CollageParams
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.Quality
 import com.t8rin.imagetoolbox.core.domain.model.DomainAspectRatio
@@ -33,7 +31,7 @@ internal data class CollageProject(
 
 internal data class CollageProjectSnapshot(
     val uris: List<String>?,
-    val collageType: CollageType,
+    val layoutId: String?,
     val collageState: CollageState?,
     val aspectRatio: DomainAspectRatio,
     val backgroundColor: Int,
