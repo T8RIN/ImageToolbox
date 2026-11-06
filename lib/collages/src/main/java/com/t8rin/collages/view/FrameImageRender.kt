@@ -85,17 +85,17 @@ internal fun drawCollageImage(
         if (clearPath.isEmpty) path else Path(path).apply { op(clearPath, Path.Op.DIFFERENCE) }
     canvas.withClip(clip) {
         paint.alpha = 255
-        if (previousImage != null && !previousImage.isRecycled &&
-            previousMatrix != null && progress < 1f
-        ) {
+        if (progress < 1f) {
             val bounds = clipBounds
             val layer = saveLayer(
                 bounds.left.toFloat(), bounds.top.toFloat(),
                 bounds.right.toFloat(), bounds.bottom.toFloat(), null
             )
             try {
-                paint.alpha = ((1f - progress) * 255).toInt()
-                drawBitmap(previousImage, previousMatrix, paint)
+                if (previousImage != null && !previousImage.isRecycled && previousMatrix != null) {
+                    paint.alpha = ((1f - progress) * 255).toInt()
+                    drawBitmap(previousImage, previousMatrix, paint)
+                }
                 paint.alpha = (progress * 255).toInt()
                 paint.xfermode = imageBlendMode
                 if (image != null && !image.isRecycled) drawBitmap(image, matrix, paint)

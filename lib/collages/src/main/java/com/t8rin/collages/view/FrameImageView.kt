@@ -194,8 +194,6 @@ internal class FrameImageView(
             view.finishImageTransition()
             val oldImage = image
             val oldMatrix = Matrix(mImageMatrix)
-            val otherImage = view.image
-            val otherMatrix = Matrix(view.mImageMatrix)
             val previousState = snapshotState()
             val otherState = view.snapshotState()
             val temp = view.image
@@ -212,7 +210,7 @@ internal class FrameImageView(
             if (snapToBordersEnabled) snapToBorders()
             if (view.snapToBordersEnabled) view.snapToBorders()
             animateImageTransition(oldImage, oldMatrix)
-            view.animateImageTransition(otherImage, otherMatrix)
+            view.animateImageTransition(null)
         }
     }
 
@@ -448,9 +446,9 @@ internal class FrameImageView(
         canvas.drawPath(outlinePath, paint)
     }
 
-    private fun animateImageTransition(bitmap: Bitmap?, matrix: Matrix) {
+    private fun animateImageTransition(bitmap: Bitmap?, matrix: Matrix? = null) {
         previousImage = bitmap
-        previousImageMatrix.set(matrix)
+        matrix?.let(previousImageMatrix::set)
         imageProgress = 0f
         imageAnimator = ValueAnimator.ofFloat(0f, 1f).apply {
             duration = 220L

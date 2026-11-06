@@ -578,23 +578,16 @@ internal class FramePhotoLayout(
             return
         }
 
-        target.animate().alpha(1f).setDuration(100L).start()
-        source.animate().alpha(0f).setDuration(100L).withEndAction {
-            if (imageDrag === drag) {
-                source.translationX = 0f
-                source.translationY = 0f
-                source.translationZ = 0f
-                source.scaleX = 1f
-                source.scaleY = 1f
-                resetImageDrag()
-                target.swapImage(source)
-                when (selectedItemIndex) {
-                    source.photoItem.index -> onSingleTapImage(target)
-                    target.photoItem.index -> onSingleTapImage(source)
-                }
-                dispatchUserStateChange(drag.before)
-            }
-        }.start()
+        val targetAlpha = target.alpha
+        resetImageDrag()
+        target.swapImage(source)
+        target.alpha = targetAlpha
+        target.animate().alpha(1f).setDuration(220L).start()
+        when (selectedItemIndex) {
+            source.photoItem.index -> onSingleTapImage(target)
+            target.photoItem.index -> onSingleTapImage(source)
+        }
+        dispatchUserStateChange(drag.before)
     }
 
     private fun resetImageDrag() {
