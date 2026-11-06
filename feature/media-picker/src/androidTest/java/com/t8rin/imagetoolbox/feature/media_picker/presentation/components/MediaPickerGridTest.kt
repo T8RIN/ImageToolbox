@@ -262,6 +262,112 @@ class MediaPickerGridTest {
         }
     }
 
+    @Test
+    fun repeatedPinchLoadsLargePhotosWithoutErrors() {
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        val originalLoader = coil3.SingletonImageLoader.get(context)
+        val failures = java.util.Collections.synchronizedList(mutableListOf<String>())
+        val loader = originalLoader.newBuilder().eventListenerFactory {
+            object : coil3.EventListener() {
+                override fun onError(
+                    request: coil3.request.ImageRequest,
+                    result: coil3.request.ErrorResult
+                ) {
+                    failures.add("${request.data}: ${result.throwable.stackTraceToString()}")
+                }
+            }
+        }.build()
+        val uris = mutableListOf<android.net.Uri>()
+        val bitmap = Bitmap.createBitmap(4080, 3072, Bitmap.Config.ARGB_8888)
+        Canvas(bitmap).drawPaint(Paint().apply {
+            shader = LinearGradient(
+                0f, 0f, 4080f, 3072f,
+                0xff4488cc.toInt(), 0xffcc8844.toInt(), Shader.TileMode.CLAMP
+            )
+        })
+        val bytes = java.io.ByteArrayOutputStream().use {
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 95, it)
+            it.toByteArray()
+        }
+        bitmap.recycle()
+        try {
+            coil3.SingletonImageLoader.setUnsafe(loader)
+            loader.memoryCache?.clear()
+            val media = List(1700) { index ->
+                val values = android.content.ContentValues().apply {
+                    put(android.provider.MediaStore.Images.Media.DISPLAY_NAME, "$index.jpg")
+                    put(android.provider.MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
+                    put(
+                        android.provider.MediaStore.Images.Media.RELATIVE_PATH,
+                        "Pictures/GalleryPinchTest/"
+                    )
+                }
+                val uri = checkNotNull(
+                    context.contentResolver.insert(
+                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values
+                    )
+                ).also(uris::add)
+                checkNotNull(context.contentResolver.openOutputStream(uri)).use { it.write(bytes) }
+                Media(
+                    id = index.toLong(), label = "$index.jpg", uri = uri.toString(),
+                    path = "", relativePath = "", albumID = 1, albumLabel = "Test",
+                    timestamp = 1, mimeType = "image/jpeg", size = bytes.size.toLong()
+                )
+            }
+            val state = MediaState(
+                media = media,
+                mappedMedia = listOf(MediaItem.Header("header_day", "Day", media)) +
+                        media.map { MediaItem.MediaViewItem(it.id.toString(), it) },
+                isLoading = false
+            )
+            lateinit var grid: LazyGridState
+            lateinit var activity: ComponentActivity
+            val selected = mutableStateListOf<Media>()
+            val laidOut = CountDownLatch(1)
+            ActivityScenario.launch(ComponentActivity::class.java).use { scenario ->
+                scenario.onActivity {
+                    activity = it
+                    it.setContent {
+                        ImageToolboxThemeForPreview(
+                            false,
+                            mapSettings = { settings -> settings.copy(galleryColumns = 4) }
+                        ) {
+                            grid = rememberLazyGridState(initialFirstVisibleItemIndex = 801)
+                            Box(
+                                Modifier
+                                    .fillMaxSize()
+                                    .onGloballyPositioned { laidOut.countDown() }) {
+                                MediaPickerGrid(
+                                    albumId = 1, state = state, gridState = grid,
+                                    isSelectionOfAll = true, selectedMedia = selected,
+                                    allowMultiple = true, isGalleryMode = false,
+                                    isButtonVisible = false, useDateTaken = false,
+                                    onRequestManagePermission = {}, isManagePermissionAllowed = true
+                                )
+                            }
+                        }
+                    }
+                }
+                assertTrue(laidOut.await(10, TimeUnit.SECONDS))
+                repeat(6) {
+                    pinch(activity, 0.4f, 0.02f)
+                    pinch(activity, 0.02f, 0.4f)
+                    scenario.onActivity {
+                        assertTrue(
+                            "Grid became empty",
+                            grid.layoutInfo.visibleItemsInfo.isNotEmpty()
+                        )
+                        assertTrue("Zoom lost anchor", grid.firstVisibleItemIndex in 681..801)
+                    }
+                }
+                assertTrue(failures.joinToString("\n"), failures.isEmpty())
+            }
+        } finally {
+            coil3.SingletonImageLoader.setUnsafe(originalLoader)
+            uris.forEach { context.contentResolver.delete(it, null, null) }
+        }
+    }
+
     private fun pinch(activity: ComponentActivity, start: Float, end: Float) {
         val instrumentation = InstrumentationRegistry.getInstrumentation()
         val view = activity.window.decorView

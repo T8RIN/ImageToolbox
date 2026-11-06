@@ -16,7 +16,6 @@
  */
 package com.t8rin.imagetoolbox.feature.media_picker.presentation.components
 
-import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
@@ -24,6 +23,7 @@ import androidx.compose.foundation.gestures.awaitEachGesture
 import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.gestures.calculateZoom
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.PaddingValues
@@ -35,6 +35,8 @@ import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredWidth
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyGridState
@@ -51,16 +53,18 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.TransformOrigin
-import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.input.pointer.PointerEventPass
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.icons.Circle
@@ -76,6 +80,7 @@ import com.t8rin.imagetoolbox.feature.media_picker.domain.model.MediaState
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.isHeaderKey
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import kotlin.math.ceil
 import kotlin.math.roundToInt
 
 @Composable
@@ -170,27 +175,46 @@ internal fun BoxScope.MediaPickerGrid(
         val columnCount = if (columns > 0) columns else with(density) {
             ((gridWidth + spacingPx) / (adaptiveCellSize.roundToPx() + spacingPx)).coerceAtLeast(1)
         }
-        val cellSize = with(density) {
-            val width = (gridWidth - spacingPx * (columnCount - 1)).coerceAtLeast(0)
-            (width / columnCount).toDp()
-        }
-        val animatedCellSize = animateDpAsState(
-            targetValue = cellSize,
+        val animatedColumns by animateFloatAsState(
+            targetValue = columnCount.toFloat(),
             animationSpec = tween(180)
         )
+        val isZooming = animatedColumns != columnCount.toFloat()
+        val cellSize = with(density) {
+            ((gridWidth + spacingPx) / animatedColumns - spacingPx).coerceAtLeast(0f).toDp()
+        }
+        val targetCellSize = with(density) {
+            ((gridWidth - spacingPx * (columnCount - 1)).coerceAtLeast(0) / columnCount).toDp()
+        }
         val thumbnailSize = with(density) {
-            val pixels = cellSize.roundToPx().coerceAtLeast(1)
+            val pixels = targetCellSize.roundToPx().coerceAtLeast(1)
             val step = if (pixels <= 256) 32 else 128
             ((pixels + step - 1) / step * step).coerceAtMost(4096)
         }
-        val currentColumnCount by rememberUpdatedState(columnCount)
+        val currentColumns by rememberUpdatedState(animatedColumns)
+        var pinchAnchor by remember { mutableStateOf<MediaGridAnchor?>(null) }
+        var isPinching by remember { mutableStateOf(false) }
+        LaunchedEffect(animatedColumns, pinchAnchor, isPinching) {
+            pinchAnchor?.let { anchor ->
+                gridState.requestScrollToItem(
+                    anchor.index,
+                    if (anchor.isHeader) anchor.offset else
+                        (anchor.offset * anchor.columns / animatedColumns).roundToInt()
+                )
+                if (!isPinching && !isZooming) pinchAnchor = null
+            }
+        }
         val uncheckedIcon = rememberVectorPainter(Icons.Outlined.Circle)
+        val headerModifier = Modifier
+            .wrapContentWidth(Alignment.Start)
+            .requiredWidth(with(density) { gridWidth.toDp() })
 
         LazyVerticalGrid(
             state = gridState,
             modifier = Modifier
                 .fillMaxSize()
                 .background(MaterialTheme.colorScheme.surface)
+                .clipToBounds()
                 .padding(
                     start = cutout.calculateStartPadding(layoutDirection),
                     end = cutout.calculateEndPadding(layoutDirection)
@@ -199,34 +223,38 @@ internal fun BoxScope.MediaPickerGrid(
                     awaitEachGesture {
                         awaitFirstDown(requireUnconsumed = false, pass = PointerEventPass.Initial)
                         val initialColumns = columns
-                        val startColumns =
-                            currentColumnCount.coerceAtMost(SettingsState.MaxGalleryColumns)
-                        var zoomColumns = startColumns.toFloat()
-                        val anchorIndex = gridState.firstVisibleItemIndex
-                        val anchorOffset = gridState.firstVisibleItemScrollOffset
-                        val anchorIsHeader = gridState.layoutInfo.visibleItemsInfo
-                            .firstOrNull { it.index == anchorIndex }?.key?.isHeaderKey == true
-                        var isPinching = false
-                        do {
-                            val event = awaitPointerEvent(PointerEventPass.Initial)
-                            if (event.changes.count { it.pressed } > 1) {
-                                isPinching = true
-                                zoomColumns = (zoomColumns / event.calculateZoom())
-                                    .coerceIn(1f, SettingsState.MaxGalleryColumns.toFloat())
-                                val newColumns = zoomColumns.roundToInt()
-                                val targetColumns =
-                                    if (newColumns == startColumns) initialColumns else newColumns
-                                if (columns != targetColumns) {
-                                    columns = targetColumns
-                                    gridState.requestScrollToItem(
-                                        anchorIndex,
-                                        if (anchorIsHeader) anchorOffset else
-                                            (anchorOffset * startColumns.toFloat() / newColumns).roundToInt()
-                                    )
+                        pinchAnchor = null
+                        var startColumns = currentColumns
+                        var zoomColumns = startColumns
+                        try {
+                            do {
+                                val event = awaitPointerEvent(PointerEventPass.Initial)
+                                if (event.changes.count { it.pressed } > 1) {
+                                    if (!isPinching) {
+                                        startColumns = currentColumns
+                                        zoomColumns = startColumns
+                                        val index = gridState.firstVisibleItemIndex
+                                        pinchAnchor = MediaGridAnchor(
+                                            index = index,
+                                            offset = gridState.firstVisibleItemScrollOffset,
+                                            columns = currentColumns,
+                                            isHeader = gridState.layoutInfo.visibleItemsInfo
+                                                .firstOrNull { it.index == index }?.key?.isHeaderKey == true
+                                        )
+                                        isPinching = true
+                                    }
+                                    zoomColumns = (zoomColumns / event.calculateZoom())
+                                        .coerceIn(1f, SettingsState.MaxGalleryColumns.toFloat())
+                                    val newColumns = zoomColumns.roundToInt()
+                                    columns = if (
+                                        initialColumns == 0 && newColumns == startColumns.roundToInt()
+                                    ) 0 else newColumns
                                 }
-                            }
-                            if (isPinching) event.changes.forEach { it.consume() }
-                        } while (event.changes.any { it.pressed })
+                                if (isPinching) event.changes.forEach { it.consume() }
+                            } while (event.changes.any { it.pressed })
+                        } finally {
+                            isPinching = false
+                        }
                     }
                 }
                 .dragHandler(
@@ -255,10 +283,8 @@ internal fun BoxScope.MediaPickerGrid(
                     },
                     shouldHandleLongTap = selectedMedia.isNotEmpty()
                 ),
-            columns = if (columns == 0) GridCells.Adaptive(adaptiveCellSize) else GridCells.Fixed(
-                columns
-            ),
-            horizontalArrangement = Arrangement.spacedBy(spacing),
+            columns = MediaGridCells(animatedColumns),
+            horizontalArrangement = MediaGridArrangement,
             verticalArrangement = Arrangement.spacedBy(spacing),
             contentPadding = PaddingValues(bottom = bottomPadding),
             flingBehavior = enhancedFlingBehavior()
@@ -269,7 +295,9 @@ internal fun BoxScope.MediaPickerGrid(
                         GridItemSpan(maxLineSpan)
                     }
                 ) {
-                    ManageExternalStorageWarning(onRequestManagePermission)
+                    Box(headerModifier) {
+                        ManageExternalStorageWarning(onRequestManagePermission)
+                    }
                 }
             }
             items(
@@ -282,20 +310,15 @@ internal fun BoxScope.MediaPickerGrid(
             ) { item ->
                 when (item) {
                     is MediaItem.Header -> {
-                        val headerScale by animateFloatAsState(
-                            targetValue = 0.75f + 0.25f * (cellSize / adaptiveCellSize).coerceIn(
-                                0f,
-                                1f
-                            ),
-                            animationSpec = tween(180)
-                        )
+                        val headerScale = 0.75f + 0.25f *
+                                (cellSize / adaptiveCellSize).coerceIn(0f, 1f)
                         val isChecked = allowMultiple && remember(item.data, selectionIndices) {
                             item.data.all { it.uri in selectionIndices }
                         }
                         MediaStickyHeader(
-                            modifier = Modifier.animateItem(
+                            modifier = headerModifier.animateItem(
                                 fadeInSpec = null,
-                                placementSpec = tween(180),
+                                placementSpec = if (isZooming) null else tween(180),
                                 fadeOutSpec = null
                             ),
                             date = item.text,
@@ -324,17 +347,9 @@ internal fun BoxScope.MediaPickerGrid(
                             modifier = Modifier
                                 .animateItem(
                                     fadeInSpec = null,
-                                    placementSpec = tween(180),
+                                    placementSpec = if (isZooming) null else tween(180),
                                     fadeOutSpec = null
-                                )
-                                .graphicsLayer {
-                                    val scale = if (cellSize > 0.dp) {
-                                        animatedCellSize.value / cellSize
-                                    } else 1f
-                                    scaleX = scale
-                                    scaleY = scale
-                                    transformOrigin = TransformOrigin(0f, 0f)
-                                },
+                                ),
                             media = item.media,
                             cellSize = cellSize,
                             thumbnailSize = thumbnailSize,
@@ -389,3 +404,39 @@ internal fun BoxScope.MediaPickerGrid(
         )
     }
 }
+
+private data class MediaGridCells(val columns: Float) : GridCells {
+    override fun Density.calculateCrossAxisCellSizes(availableSize: Int, spacing: Int): List<Int> {
+        val count = ceil(columns).toInt()
+        val size = ((availableSize + spacing) / columns - spacing).coerceAtLeast(0f)
+        val baseSize = size.toInt()
+        val remainder = ((size - baseSize) * count).roundToInt()
+        return List(count) { baseSize + if (it < remainder) 1 else 0 }
+    }
+}
+
+private object MediaGridArrangement : Arrangement.Horizontal {
+    override val spacing = 1.dp
+
+    override fun Density.arrange(
+        totalSize: Int,
+        sizes: IntArray,
+        layoutDirection: LayoutDirection,
+        outPositions: IntArray
+    ) {
+        var position = 0
+        val gap = spacing.roundToPx()
+        sizes.forEachIndexed { index, size ->
+            outPositions[index] = if (layoutDirection == LayoutDirection.Ltr) position
+            else totalSize - position - size
+            position += size + gap
+        }
+    }
+}
+
+private data class MediaGridAnchor(
+    val index: Int,
+    val offset: Int,
+    val columns: Float,
+    val isHeader: Boolean
+)

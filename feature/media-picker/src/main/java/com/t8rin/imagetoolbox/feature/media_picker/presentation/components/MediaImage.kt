@@ -169,14 +169,12 @@ fun MediaImage(
             .placeholderMemoryCacheKey(thumbnailCacheKey)
             .apply {
                 rawDevelopSettings?.let { memoryCacheKeyExtra("raw", it.toString()) }
-                if (compact) {
-                    fetcherCoroutineContext(ThumbnailDispatcher)
-                    decoderCoroutineContext(ThumbnailDispatcher)
-                }
             }
+            .fetcherCoroutineContext(ThumbnailDispatcher)
+            .decoderCoroutineContext(ThumbnailDispatcher)
             .maxBitmapSize(if (compact) Size(512, 512) else Size(4096, 4096))
             .crossfade(false)
-            .allowHardware(!compact)
+            .allowHardware(false)
             .build()
     }
 
