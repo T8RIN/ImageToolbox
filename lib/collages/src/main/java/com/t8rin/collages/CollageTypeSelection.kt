@@ -25,7 +25,7 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -83,12 +83,7 @@ fun CollageTypeSelection(
             availableFrames.isNotEmpty() && (value == CollageType.Empty || (value.layout?.photoItemList?.size
                 ?: 0) != imagesCount)
         ) {
-            onValueChange(
-                CollageType(
-                    layout = availableFrames.first(),
-                    index = 0
-                )
-            )
+            onValueChange(CollageType(availableFrames.first()))
         }
     }
 
@@ -102,7 +97,7 @@ fun CollageTypeSelection(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             contentPadding = contentPadding
         ) {
-            itemsIndexed(availableFrames) { index, layout ->
+            items(availableFrames) { layout ->
                 AsyncImage(
                     model = layout.preview,
                     contentDescription = null,
@@ -113,14 +108,9 @@ fun CollageTypeSelection(
                         .aspectRatio(1f)
                         .clip(shape)
                         .clickable {
-                            onValueChange(
-                                CollageType(
-                                    layout = layout,
-                                    index = index
-                                )
-                            )
+                            onValueChange(CollageType(layout))
                         }
-                        .then(itemModifierFactory(value.index == index))
+                        .then(itemModifierFactory(value.layoutId == layout.title))
                 )
             }
         }

@@ -170,6 +170,13 @@
 -keep enum com.t8rin.imagetoolbox.feature.markup_layers.data.project.LayerSnapshotType { *; }
 -keep enum com.t8rin.imagetoolbox.feature.markup_layers.data.project.FontSnapshotType { *; }
 
+# Moshi reflects collage project snapshots.
+-keep class com.t8rin.imagetoolbox.collage_maker.data.CollageProject { *; }
+-keep class com.t8rin.imagetoolbox.collage_maker.data.CollageProjectSnapshot { *; }
+-keep class com.t8rin.imagetoolbox.collage_maker.data.CollageProjectAspectRatio { *; }
+-keep class com.t8rin.collages.CollageState { *; }
+-keep class com.t8rin.collages.CollageImageState { *; }
+
 # Shader JSON DTOs are private and read by Moshi.
 -keep class com.t8rin.imagetoolbox.core.filters.domain.model.shader.ShaderPresetJson { *; }
 -keep class com.t8rin.imagetoolbox.core.filters.domain.model.shader.ShaderParamJson { *; }

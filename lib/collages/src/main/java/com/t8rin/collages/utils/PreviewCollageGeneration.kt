@@ -183,10 +183,7 @@ fun PreviewCollageGeneration(
                         },
                         outputScaleRatio = 10f,
                         collageCreationTrigger = trigger,
-                        collageType = CollageType(
-                            layout = template,
-                            index = null
-                        ),
+                        collageType = CollageType(template),
                         userInteractionEnabled = false
                     )
                 }
