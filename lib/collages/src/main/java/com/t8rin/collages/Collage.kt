@@ -24,7 +24,11 @@ import android.net.Uri
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.gestures.awaitEachGesture
+import androidx.compose.foundation.gestures.awaitFirstDown
+import androidx.compose.foundation.gestures.awaitLongPressOrCancellation
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.gestures.drag
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.material3.Surface
@@ -163,16 +167,35 @@ fun Collage(
                         Modifier
                             .matchParentSize()
                             .pointerInput(view) {
-                                detectTapGestures(
-                                    onTap = { view?.selectImageAt(it.x, it.y) },
-                                    onLongPress = {
-                                        view?.selectImageAt(
-                                            it.x,
-                                            it.y,
-                                            longPress = true
-                                        )
+                                detectTapGestures(onTap = { view?.selectImageAt(it.x, it.y) })
+                            }
+                            .pointerInput(view) {
+                                awaitEachGesture {
+                                    val down = awaitFirstDown(requireUnconsumed = false)
+                                    val held = awaitLongPressOrCancellation(down.id)
+                                        ?: return@awaitEachGesture
+                                    if (currentEvent.changes.count { it.pressed } != 1) {
+                                        return@awaitEachGesture
                                     }
-                                )
+                                    val target = view ?: return@awaitEachGesture
+                                    target.startImageDragAt(held.position.x, held.position.y)
+                                    try {
+                                        val dropped = drag(held.id) { change ->
+                                            if (currentEvent.changes.count { it.pressed } != 1) {
+                                                target.finishImageDrag(cancelled = true)
+                                            } else {
+                                                target.moveImageDrag(
+                                                    change.position.x,
+                                                    change.position.y
+                                                )
+                                            }
+                                            change.consume()
+                                        }
+                                        target.finishImageDrag(cancelled = !dropped)
+                                    } finally {
+                                        target.finishImageDrag(cancelled = true)
+                                    }
+                                }
                             }
                     )
                 }

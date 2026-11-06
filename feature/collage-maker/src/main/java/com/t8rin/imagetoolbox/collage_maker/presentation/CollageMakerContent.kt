@@ -24,6 +24,8 @@ import android.net.Uri
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
@@ -58,7 +60,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalContext
@@ -336,11 +340,17 @@ fun CollageMakerContent(
             Box(
                 modifier = Modifier
                     .fillMaxSize()
+                    .clipToBounds()
                     .padding(20.dp)
             ) {
                 var infoHeight by remember(isPortrait) {
                     mutableStateOf(0.dp)
                 }
+                val zoomState = rememberZoomState(maxScale = 10f)
+                val infoAlpha by animateFloatAsState(
+                    targetValue = if (zoomState.scale > 1.01f) 0f else 1f,
+                    animationSpec = tween(200)
+                )
                 var tapIndex by remember { mutableIntStateOf(-1) }
                 var showItemMenu by remember { mutableStateOf(false) }
 
@@ -355,90 +365,98 @@ fun CollageMakerContent(
                     component.addImage(uri)
                 }
 
-                Box(
-                    modifier = Modifier
-                        .align(Alignment.Center)
-                        .padding(
-                            bottom = if (isPortrait) infoHeight + 20.dp else 0.dp
-                        )
-                ) {
-                    AnimatedContent(
-                        targetState = resettingTrigger to component.collageResetKey,
-                        transitionSpec = { fadeIn() togetherWith fadeOut() }
-                    ) { trigger ->
-                        key(trigger) {
-                            Box(
-                                modifier = Modifier
-                                    .zoomable(
-                                        zoomState = rememberZoomState(maxScale = 10f),
-                                        zoomEnabled = !showItemMenu
-                                    )
-                                    .container(
-                                        shape = ShapeDefaults.extraSmall,
-                                        resultPadding = 0.dp
-                                    )
-                                    .shimmer(visible = isLoading),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                Collage(
+                LaunchedEffect(resettingTrigger, component.collageResetKey) {
+                    showItemMenu = false
+                    tapIndex = -1
+                    zoomState.reset()
+                }
+
+                Column(Modifier.fillMaxSize()) {
+                    Box(
+                        modifier = Modifier
+                            .weight(1f)
+                            .fillMaxWidth()
+                            .padding(bottom = if (isPortrait) 20.dp else 0.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        AnimatedContent(
+                            targetState = resettingTrigger to component.collageResetKey,
+                            transitionSpec = { fadeIn() togetherWith fadeOut() }
+                        ) { trigger ->
+                            key(trigger) {
+                                Box(
                                     modifier = Modifier
-                                        .padding(4.dp)
-                                        .clip(ShapeDefaults.extraSmall)
-                                        .transparencyChecker(),
-                                    images = component.uris ?: emptyList(),
-                                    collageType = component.collageType,
-                                    collageCreationTrigger = component.collageCreationTrigger,
-                                    onCollageCreated = {
-                                        component.updateCollageBitmap(it)
-                                        isLoading = false
-                                    },
-                                    onCollageCreationFailed = component::onCollageCreationFailed,
-                                    backgroundColor = component.backgroundColor,
-                                    backgroundShader = remember(component.backgroundGradient) {
-                                        component.backgroundGradient?.let { gradient ->
-                                            { width: Float, height: Float ->
-                                                gradient.createShader(width, height)
+                                        .zoomable(
+                                            zoomState = zoomState,
+                                            zoomEnabled = !showItemMenu
+                                        )
+                                        .container(
+                                            shape = ShapeDefaults.extraSmall,
+                                            resultPadding = 0.dp
+                                        )
+                                        .shimmer(visible = isLoading),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Collage(
+                                        modifier = Modifier
+                                            .padding(4.dp)
+                                            .clip(ShapeDefaults.extraSmall)
+                                            .transparencyChecker(),
+                                        images = component.uris ?: emptyList(),
+                                        collageType = component.collageType,
+                                        collageCreationTrigger = component.collageCreationTrigger,
+                                        onCollageCreated = {
+                                            component.updateCollageBitmap(it)
+                                            isLoading = false
+                                        },
+                                        onCollageCreationFailed = component::onCollageCreationFailed,
+                                        backgroundColor = component.backgroundColor,
+                                        backgroundShader = remember(component.backgroundGradient) {
+                                            component.backgroundGradient?.let { gradient ->
+                                                { width: Float, height: Float ->
+                                                    gradient.createShader(width, height)
+                                                }
                                             }
-                                        }
-                                    },
-                                    spacing = component.params.spacing,
-                                    cornerRadius = component.params.cornerRadius,
-                                    aspectRatio = component.aspectRatio.value,
-                                    outputScaleRatio = component.params.outputScaleRatio,
-                                    onOutputSizeChanged = { width, height ->
-                                        outputSize = width to height
-                                    },
-                                    imageGesturesEnabled = showItemMenu,
-                                    disableRotation = component.params.disableRotation,
-                                    enableSnapToBorders = component.params.enableSnapToBorders,
-                                    state = component.collageState,
-                                    onStateReady = component::updateCollageState,
-                                    onUserStateChange = component::onCollageStateChange,
-                                    onImageTap = { index ->
-                                        if (index >= 0) {
-                                            tapIndex = index
-                                            showItemMenu = true
-                                        } else {
-                                            showItemMenu = false
-                                        }
-                                    },
-                                    handleDrawable = rememberHandleDrawable()
-                                )
+                                        },
+                                        spacing = component.params.spacing,
+                                        cornerRadius = component.params.cornerRadius,
+                                        aspectRatio = component.aspectRatio.value,
+                                        outputScaleRatio = component.params.outputScaleRatio,
+                                        onOutputSizeChanged = { width, height ->
+                                            outputSize = width to height
+                                        },
+                                        imageGesturesEnabled = showItemMenu,
+                                        disableRotation = component.params.disableRotation,
+                                        enableSnapToBorders = component.params.enableSnapToBorders,
+                                        state = component.collageState,
+                                        onStateReady = component::updateCollageState,
+                                        onUserStateChange = component::onCollageStateChange,
+                                        onImageTap = { index ->
+                                            if (index >= 0) {
+                                                tapIndex = index
+                                                showItemMenu = true
+                                            } else {
+                                                showItemMenu = false
+                                            }
+                                        },
+                                        handleDrawable = rememberHandleDrawable()
+                                    )
+                                }
                             }
                         }
                     }
-                }
-                if (isPortrait) {
-                    val density = LocalDensity.current
-                    InfoContainer(
-                        modifier = Modifier
-                            .align(Alignment.BottomCenter)
-                            .onSizeChanged {
-                                infoHeight = with(density) { it.height.toDp() }
-                            },
-                        containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
-                        text = stringResource(R.string.collages_info)
-                    )
+                    if (isPortrait) {
+                        val density = LocalDensity.current
+                        InfoContainer(
+                            modifier = Modifier
+                                .graphicsLayer { alpha = infoAlpha }
+                                .onSizeChanged {
+                                    infoHeight = with(density) { it.height.toDp() }
+                                },
+                            containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+                            text = stringResource(R.string.collages_info)
+                        )
+                    }
                 }
                 AnimatedVisibility(
                     visible = showItemMenu,

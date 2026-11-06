@@ -20,8 +20,6 @@ package com.t8rin.collages.view
 import android.annotation.SuppressLint
 import android.app.ActivityManager
 import android.app.ActivityManager.MemoryInfo
-import android.content.ClipData
-import android.content.ClipDescription
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -33,8 +31,9 @@ import android.graphics.Shader
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.net.Uri
-import android.view.DragEvent
+import android.view.HapticFeedbackConstants
 import android.view.MotionEvent
+import android.view.animation.DecelerateInterpolator
 import android.widget.RelativeLayout
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.content.getSystemService
@@ -90,39 +89,19 @@ internal class FramePhotoLayout(
         )
     }
 
-    private var mOnDragListener: OnDragListener = OnDragListener { v, event ->
-        when (event.action) {
-            DragEvent.ACTION_DRAG_STARTED -> {
-                if (dragStartState == null) {
-                    dragStartState = snapshotState()
-                }
-            }
+    private class ImageDrag(
+        val source: FrameImageView,
+        val startX: Float,
+        val startY: Float,
+        val before: CollageState,
+        var target: FrameImageView? = null,
+        var settling: Boolean = false
+    )
 
-            DragEvent.ACTION_DROP -> {
-                var target: FrameImageView? = v as FrameImageView
-                val selectedView = getSelectedFrameImageView(target!!, event)
-                if (selectedView != null) {
-                    target = selectedView
-                    val dragged = event.localState as FrameImageView
-                    var targetPath: Uri? = target.photoItem.imagePath
-                    var draggedPath: Uri? = dragged.photoItem.imagePath
-                    if (targetPath == null) targetPath = Uri.EMPTY
-                    if (draggedPath == null) draggedPath = Uri.EMPTY
-                    if (targetPath != draggedPath) target.swapImage(dragged)
-                }
-            }
+    private var imageDrag: ImageDrag? = null
+    private var touchX = 0f
+    private var touchY = 0f
 
-            DragEvent.ACTION_DRAG_ENDED -> {
-                val before = dragStartState
-                dragStartState = null
-                if (before != null) {
-                    dispatchUserStateChange(before)
-                }
-            }
-        }
-
-        true
-    }
     private val mItemImageViews: MutableList<FrameImageView> = ArrayList()
     var outputAspectRatio: Float = 1f
 
@@ -135,7 +114,6 @@ internal class FramePhotoLayout(
     private var onStateReadyListener: ((CollageState) -> Unit)? = null
     private var onUserStateChangeListener: ((CollageState, CollageState) -> Unit)? = null
     private var interactionStartState: CollageState? = null
-    private var dragStartState: CollageState? = null
     private var isRestoringState: Boolean = false
     private var layoutId: String = ""
 
@@ -185,36 +163,13 @@ internal class FramePhotoLayout(
         onStateReadyListener?.invoke(snapshotState())
     }
 
-    private fun getSelectedFrameImageView(
-        target: FrameImageView,
-        event: DragEvent
-    ): FrameImageView? {
-        val dragged = event.localState as FrameImageView
-        val leftMargin = (mViewWidth * target.photoItem.bound.left).toInt()
-        val topMargin = (mViewHeight * target.photoItem.bound.top).toInt()
-        val globalX = leftMargin + event.x
-        val globalY = topMargin + event.y
-        for (idx in mItemImageViews.indices.reversed()) {
-            val view = mItemImageViews[idx]
-            val x = globalX - mViewWidth * view.photoItem.bound.left
-            val y = globalY - mViewHeight * view.photoItem.bound.top
-            if (view.isSelected(x, y)) {
-                return if (view === dragged) {
-                    null
-                } else {
-                    view
-                }
-            }
-        }
-        return null
-    }
-
     fun build(
         viewWidth: Int,
         viewHeight: Int,
         space: Float = 0f,
         corner: Float = 0f
     ) {
+        resetImageDrag()
         isRestoringState = false
         selectedItemIndex = null
         activeHandle = null
@@ -240,6 +195,7 @@ internal class FramePhotoLayout(
 
     fun resize(width: Int, height: Int) {
         if (mViewWidth == width && mViewHeight == height) return
+        resetImageDrag()
         mViewWidth = width
         mViewHeight = height
         for (i in mItemImageViews.indices) {
@@ -248,6 +204,7 @@ internal class FramePhotoLayout(
     }
 
     fun release() {
+        resetImageDrag()
         mItemImageViews.forEach(FrameImageView::release)
         onStateReadyListener = null
         onUserStateChangeListener = null
@@ -381,7 +338,6 @@ internal class FramePhotoLayout(
         }
     }
 
-    @SuppressLint("ClickableViewAccessibility")
     private fun addPhotoItemView(
         item: PhotoItem,
         space: Float,
@@ -397,13 +353,6 @@ internal class FramePhotoLayout(
         imageView.setSnapToBordersEnabled(enableSnapToBorders)
         imageView.init(metrics.width.toFloat(), metrics.height.toFloat(), space, corner)
         imageView.setOnImageClickListener(this)
-        imageView.setOnTouchListener { _, event ->
-            // Intercept to support handle dragging overlay
-            onTouchEvent(event)
-        }
-        if (mPhotoItems.size > 1)
-            imageView.setOnDragListener(mOnDragListener)
-
         val params = LayoutParams(metrics.width, metrics.height)
         params.leftMargin = metrics.leftMargin
         params.topMargin = metrics.topMargin
@@ -505,15 +454,95 @@ internal class FramePhotoLayout(
     )
 
     override fun onLongClickImage(view: FrameImageView) {
-        if (mPhotoItems.size > 1) {
-            view.tag = """x=${0f},y=${0f},path=${view.photoItem.imagePath}"""
-            val item = ClipData.Item(view.tag as CharSequence)
-            val mimeTypes = arrayOf(ClipDescription.MIMETYPE_TEXT_PLAIN)
-            val dragData = ClipData(view.tag.toString(), mimeTypes, item)
-            val myShadow = DragShadowBuilder(view)
-            view.startDragAndDrop(dragData, myShadow, view, 0)
+        startImageDrag(view, touchX, touchY)
+    }
+
+    fun startImageDragAt(x: Float, y: Float) {
+        imageAt(x, y)?.let { startImageDrag(it, x, y) }
+    }
+
+    private fun startImageDrag(source: FrameImageView, x: Float, y: Float) {
+        if (imageDrag != null || mPhotoItems.size < 2 ||
+            source.image == null || !source.isStateReady()
+        ) return
+        source.finishTransform()
+        imageDrag = ImageDrag(source, x, y, snapshotState())
+        parent?.requestDisallowInterceptTouchEvent(true)
+        performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
+        source.translationZ = 12f * resources.displayMetrics.density
+        source.animate().scaleX(1.04f).scaleY(1.04f).alpha(0.92f)
+            .setDuration(140L).setInterpolator(DecelerateInterpolator()).start()
+        invalidate()
+    }
+
+    fun moveImageDrag(x: Float, y: Float) {
+        val drag = imageDrag?.takeUnless { it.settling } ?: return
+        drag.source.translationX = x - drag.startX
+        drag.source.translationY = y - drag.startY
+        val target =
+            imageAt(x, y)?.takeIf { it !== drag.source && it.image != null && it.isStateReady() }
+        if (drag.target !== target) {
+            drag.target?.animate()?.alpha(1f)?.setDuration(120L)?.start()
+            drag.target = target
+            target?.animate()?.alpha(0.55f)?.setDuration(120L)?.start()
         }
     }
+
+    fun finishImageDrag(cancelled: Boolean = false) {
+        val drag = imageDrag?.takeUnless { it.settling } ?: return
+        drag.settling = true
+        parent?.requestDisallowInterceptTouchEvent(false)
+        val source = drag.source
+        val target = drag.target.takeUnless { cancelled }
+        if (target == null) {
+            drag.target?.animate()?.alpha(1f)?.setDuration(120L)?.start()
+            source.animate()
+                .translationX(0f).translationY(0f)
+                .scaleX(1f).scaleY(1f).alpha(1f)
+                .setDuration(200L).setInterpolator(DecelerateInterpolator())
+                .withEndAction { if (imageDrag === drag) resetImageDrag() }
+                .start()
+            return
+        }
+
+        target.animate().alpha(0f).setDuration(100L).start()
+        source.animate().alpha(0f).setDuration(100L).withEndAction {
+            if (imageDrag === drag) {
+                source.translationX = 0f
+                source.translationY = 0f
+                source.translationZ = 0f
+                source.scaleX = 1f
+                source.scaleY = 1f
+                target.swapImage(source)
+                dispatchUserStateChange(drag.before)
+                target.animate().alpha(1f).setDuration(160L).start()
+                source.animate().alpha(1f).setDuration(160L)
+                    .withEndAction { if (imageDrag === drag) resetImageDrag() }
+                    .start()
+            }
+        }.start()
+    }
+
+    private fun resetImageDrag() {
+        val drag = imageDrag ?: return
+        imageDrag = null
+        listOfNotNull(drag.source, drag.target).forEach {
+            it.animate().withEndAction(null).cancel()
+            it.translationX = 0f
+            it.translationY = 0f
+            it.translationZ = 0f
+            it.scaleX = 1f
+            it.scaleY = 1f
+            it.alpha = 1f
+        }
+        parent?.requestDisallowInterceptTouchEvent(false)
+        invalidate()
+    }
+
+    private fun imageAt(x: Float, y: Float): FrameImageView? =
+        mItemImageViews.asReversed().firstOrNull {
+            it.isSelected(x - it.left, y - it.top)
+        }
 
     override fun onDoubleClickImage(view: FrameImageView) {
 
@@ -526,11 +555,8 @@ internal class FramePhotoLayout(
         invalidate()
     }
 
-    fun selectImageAt(x: Float, y: Float, longPress: Boolean = false) {
-        val image = mItemImageViews.asReversed().firstOrNull {
-            it.isSelected(x - it.left, y - it.top)
-        } ?: return
-        if (longPress) onLongClickImage(image) else onSingleTapImage(image)
+    fun selectImageAt(x: Float, y: Float) {
+        imageAt(x, y)?.let(::onSingleTapImage)
     }
 
     override fun onSingleTapImage(view: FrameImageView) {
@@ -570,6 +596,7 @@ internal class FramePhotoLayout(
     override fun onWindowFocusChanged(hasWindowFocus: Boolean) {
         super.onWindowFocusChanged(hasWindowFocus)
         if (!hasWindowFocus) {
+            resetImageDrag()
             // Clear selection when window focus is lost
             if (selectedItemIndex != null) {
                 clearSelection()
@@ -593,6 +620,7 @@ internal class FramePhotoLayout(
 
     override fun dispatchDraw(canvas: Canvas) {
         super.dispatchDraw(canvas)
+        if (imageDrag != null) return
         // draw handles for selected item
         val index = selectedItemIndex ?: return
         val handles = paramsManager?.getHandles(index) ?: emptyList()
@@ -616,6 +644,26 @@ internal class FramePhotoLayout(
         }
     }
 
+    override fun dispatchTouchEvent(event: MotionEvent): Boolean {
+        touchX = event.x
+        touchY = event.y
+        imageDrag?.let { drag ->
+            if (!drag.settling) {
+                when (event.actionMasked) {
+                    MotionEvent.ACTION_MOVE -> moveImageDrag(event.x, event.y)
+                    MotionEvent.ACTION_UP -> finishImageDrag()
+                    MotionEvent.ACTION_CANCEL, MotionEvent.ACTION_POINTER_DOWN ->
+                        finishImageDrag(cancelled = true)
+                }
+            }
+            return true
+        }
+        if (activeHandle != null || event.actionMasked == MotionEvent.ACTION_DOWN) {
+            if (onTouchEvent(event)) return true
+        }
+        return super.dispatchTouchEvent(event)
+    }
+
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent): Boolean {
         val index = selectedItemIndex ?: return super.onTouchEvent(event)
@@ -626,11 +674,8 @@ internal class FramePhotoLayout(
         val handles = manager.getHandles(index)
         if (handles.isEmpty()) return super.onTouchEvent(event)
 
-        // Compute coordinates in this layout's local space regardless of source view
-        val screenPos = IntArray(2)
-        getLocationOnScreen(screenPos)
-        val globalX = event.rawX - screenPos[0]
-        val globalY = event.rawY - screenPos[1]
+        val globalX = event.x
+        val globalY = event.y
 
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {

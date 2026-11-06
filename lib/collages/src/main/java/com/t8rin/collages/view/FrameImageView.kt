@@ -183,6 +183,10 @@ internal class FrameImageView(
             pendingState == null &&
             view.pendingState == null
         ) {
+            finishTransform()
+            view.finishTransform()
+            val previousState = snapshotState()
+            val otherState = view.snapshotState()
             val temp = view.image
             view.image = image
             image = temp
@@ -192,8 +196,10 @@ internal class FrameImageView(
             photoItem.imagePath = tmpPath
             imageLoadToken = photoItem.imagePath?.toString()
             view.imageLoadToken = view.photoItem.imagePath?.toString()
-            resetImageMatrix()
-            view.resetImageMatrix()
+            applyState(otherState)
+            view.applyState(previousState)
+            if (snapToBordersEnabled) snapToBorders()
+            if (view.snapToBordersEnabled) view.snapToBorders()
         }
     }
 
@@ -358,7 +364,11 @@ internal class FrameImageView(
             mConvertedPoints, mConvertedClearPoints,
             mPath, mClearPath, mBackgroundPath, mPolygon, mPathRect, space, corner
         )
-        hitRegion.setPath(mPath, Region(0, 0, viewWidth.toInt(), viewHeight.toInt()))
+        val clip = Region(0, 0, viewWidth.toInt(), viewHeight.toInt())
+        hitRegion.setPath(mPath, clip)
+        if (!mClearPath.isEmpty) {
+            hitRegion.op(Region().apply { setPath(mClearPath, clip) }, Region.Op.DIFFERENCE)
+        }
         invalidate()
     }
 
