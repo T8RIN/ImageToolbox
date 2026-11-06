@@ -7951,4 +7951,10 @@
     <string name="gallery_show_file_extension_sub">Pokaż format pliku na miniaturach obrazów.</string>
     <string name="help_tip_gallery_workflow_grid_settings">Otwórz Ustawienia → Galeria, aby ustawić siatkę na Auto lub wybierz 1–20 kolumn. Ściśnij dwoma palcami, aby zmienić rozmiar siatki, aż ją zamkniesz. Etykiety rozmiaru i formatu pliku można wyłączyć osobno.</string>
     <string name="help_tip_gallery_workflow_fast_scroll">Przewiń, aby odsłonić uchwyt po prawej stronie. Przeciągnij go, aby poruszać się po galerii według daty i godziny.</string>
+    <string name="save_collage_project_sub">Zachowaj układ, oryginalne obrazy i historię edycji w edytowalnym pliku projektu</string>
+    <string name="help_tip_setting_gallery_columns_description">Wybierz liczbę kolumn wyświetlanych w Galerii i osadzonym selektorze. Więcej kolumn pokazuje mniejsze miniatury.</string>
+    <string name="help_tip_setting_gallery_columns_step">Otwórz Ustawienia → Galeria → Liczba kolumn. Wybierz opcję Auto, aby dopasować do ekranu lub stałą liczbę od 1 do 20.</string>
+    <string name="help_tip_setting_gallery_file_size_step">Otwórz Ustawienia → Galeria i przełącz opcję Pokaż rozmiar pliku. Spowoduje to zmianę etykiet miniatur bez zmiany lub kompresji plików.</string>
+    <string name="help_tip_setting_gallery_file_extension_step">Otwórz Ustawienia → Galeria i przełącz opcję Pokaż format pliku. Spowoduje to zmianę etykiet miniatur bez zmiany nazwy lub konwersji plików.</string>
+    <string name="help_tip_setting_remember_preview_layout_step">Otwórz Ustawienia → Zachowanie i włącz opcję Zapamiętaj układ podglądu. Dostosuj wysokość podglądu lub przypnij go w narzędziu; następne narzędzie ponownie użyje tego układu.</string>
 </resources>

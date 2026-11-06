@@ -7948,4 +7948,10 @@
     <string name="gallery_show_file_extension_sub">在图像缩略图上显示文件格式。</string>
     <string name="help_tip_gallery_workflow_grid_settings">打开设置 → 图库将网格设置为自动或选择 1–20 列。用两根手指捏合以调整网格大小，直到将其关闭。文件大小和格式标签可以单独关闭。</string>
     <string name="help_tip_gallery_workflow_fast_scroll">滚动以显示右侧的手柄。拖动它可以按日期和时间在图库中移动。</string>
+    <string name="save_collage_project_sub">将布局、原始图像和编辑历史记录保存在可编辑的项目文件中</string>
+    <string name="help_tip_setting_gallery_columns_description">选择图库和嵌入式选取器中显示的列数。更多列显示更小的缩略图。</string>
+    <string name="help_tip_setting_gallery_columns_step">打开设置 → 图库 → 列数。选择“自动”以适应屏幕大小或选择 1 到 20 之间的固定计数。</string>
+    <string name="help_tip_setting_gallery_file_size_step">打开设置 → 图库并切换显示文件大小。这会更改缩略图标签，而不更改或压缩文件。</string>
+    <string name="help_tip_setting_gallery_file_extension_step">打开设置 → 图库并切换显示文件格式。这会更改缩略图标签，而无需重命名或转换文件。</string>
+    <string name="help_tip_setting_remember_preview_layout_step">打开“设置”→“行为”并启用“记住预览布局”。调整预览高度或将其固定在工具中；下一个工具将重用该布局。</string>
 </resources>

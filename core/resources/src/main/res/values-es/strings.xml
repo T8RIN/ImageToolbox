@@ -7949,4 +7949,10 @@
     <string name="gallery_show_file_extension_sub">Muestra el formato de archivo en miniaturas de imágenes.</string>
     <string name="help_tip_gallery_workflow_grid_settings">Abra Configuración → Galería para configurar la cuadrícula en Automático o elija entre 1 y 20 columnas. Pellizca con dos dedos para cambiar el tamaño de la cuadrícula hasta cerrarla. Las etiquetas de tamaño y formato de archivo se pueden desactivar por separado.</string>
     <string name="help_tip_gallery_workflow_fast_scroll">Desplácese para revelar el identificador de la derecha. Arrástralo para moverte por la galería por fecha y hora.</string>
+    <string name="save_collage_project_sub">Mantenga el diseño, las imágenes originales y el historial de edición en un archivo de proyecto editable</string>
+    <string name="help_tip_setting_gallery_columns_description">Elija cuántas columnas aparecen en la Galería y el Selector integrado. Más columnas muestran miniaturas más pequeñas.</string>
+    <string name="help_tip_setting_gallery_columns_step">Abra Configuración → Galería → Recuento de columnas. Elija Auto para ajustarse a la pantalla o un recuento fijo de 1 a 20.</string>
+    <string name="help_tip_setting_gallery_file_size_step">Abra Configuración → Galería y active Mostrar tamaño de archivo. Esto cambia las etiquetas de las miniaturas sin cambiar ni comprimir los archivos.</string>
+    <string name="help_tip_setting_gallery_file_extension_step">Abra Configuración → Galería y active Mostrar formato de archivo. Esto cambia las etiquetas de las miniaturas sin cambiar el nombre ni convertir los archivos.</string>
+    <string name="help_tip_setting_remember_preview_layout_step">Abra Configuración → Comportamiento y active Recordar diseño de vista previa. Ajuste la altura de la vista previa o fíjela en una herramienta; la siguiente herramienta reutilizará ese diseño.</string>
 </resources>

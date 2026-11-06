@@ -7951,4 +7951,10 @@
     <string name="gallery_show_file_extension_sub">Zobrazte formát súboru na miniatúrach obrázkov.</string>
     <string name="help_tip_gallery_workflow_grid_settings">Otvorte Nastavenia → Galéria a nastavte mriežku na Automaticky alebo vyberte 1–20 stĺpcov. Veľkosť mriežky zmeníte stlačením dvoch prstov, kým ju nezatvoríte. Označenie veľkosti súboru a formátu je možné vypnúť samostatne.</string>
     <string name="help_tip_gallery_workflow_fast_scroll">Posúvaním zobrazíte rukoväť na pravej strane. Potiahnutím sa môžete pohybovať v galérii podľa dátumu a času.</string>
+    <string name="save_collage_project_sub">Uchovávajte rozloženie, pôvodné obrázky a históriu úprav v upraviteľnom súbore projektu</string>
+    <string name="help_tip_setting_gallery_columns_description">Vyberte, koľko stĺpcov sa zobrazí v Galérii a Vnorenom výbere. Viac stĺpcov zobrazuje menšie miniatúry.</string>
+    <string name="help_tip_setting_gallery_columns_step">Otvorte Nastavenia → Galéria → Počet stĺpcov. Zvoľte Auto, aby ste sa prispôsobili obrazovke alebo pevný počet od 1 do 20.</string>
+    <string name="help_tip_setting_gallery_file_size_step">Otvorte Nastavenia → Galéria a prepnite možnosť Zobraziť veľkosť súboru. Toto zmení menovky miniatúr bez zmeny alebo kompresie súborov.</string>
+    <string name="help_tip_setting_gallery_file_extension_step">Otvorte Nastavenia → Galéria a prepnite Zobraziť formát súboru. Toto zmení menovky miniatúr bez premenovania alebo konverzie súborov.</string>
+    <string name="help_tip_setting_remember_preview_layout_step">Otvorte Nastavenia → Správanie a zapnite možnosť Zapamätať si rozloženie ukážky. Upravte výšku náhľadu alebo ho pripnite do nástroja; ďalší nástroj znova použije toto rozloženie.</string>
 </resources>

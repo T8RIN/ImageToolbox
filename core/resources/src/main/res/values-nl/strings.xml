@@ -7949,4 +7949,10 @@
     <string name="gallery_show_file_extension_sub">Toon het bestandsformaat op miniatuurafbeeldingen.</string>
     <string name="help_tip_gallery_workflow_grid_settings">Open Instellingen → Galerij om het raster in te stellen op Auto of kies 1–20 kolommen. Knijp met twee vingers om het formaat van het raster te wijzigen totdat u het sluit. De bestandsgrootte en formaatlabels kunnen afzonderlijk worden uitgeschakeld.</string>
     <string name="help_tip_gallery_workflow_fast_scroll">Scroll om de hendel aan de rechterkant weer te geven. Sleep het om op datum en tijd door de galerij te bladeren.</string>
+    <string name="save_collage_project_sub">Bewaar de lay-out, originele afbeeldingen en bewerkingsgeschiedenis in een bewerkbaar projectbestand</string>
+    <string name="help_tip_setting_gallery_columns_description">Kies hoeveel kolommen er in Galerij en Ingebedde kiezer verschijnen. Meer kolommen tonen kleinere miniaturen.</string>
+    <string name="help_tip_setting_gallery_columns_step">Open Instellingen → Galerij → Aantal kolommen. Kies Auto om op het scherm te passen of een vast aantal van 1 tot 20.</string>
+    <string name="help_tip_setting_gallery_file_size_step">Open Instellingen → Galerij en schakel Bestandsgrootte weergeven in. Hiermee worden miniatuurlabels gewijzigd zonder de bestanden te wijzigen of te comprimeren.</string>
+    <string name="help_tip_setting_gallery_file_extension_step">Open Instellingen → Galerij en schakel Bestandsformaat tonen in. Hiermee worden miniatuurlabels gewijzigd zonder de bestanden te hernoemen of te converteren.</string>
+    <string name="help_tip_setting_remember_preview_layout_step">Open Instellingen → Gedrag en schakel Preview-indeling onthouden in. Pas de voorbeeldhoogte aan of zet deze vast in een tool; de volgende tool zal die lay-out opnieuw gebruiken.</string>
 </resources>

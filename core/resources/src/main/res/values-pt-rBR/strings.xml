@@ -7950,4 +7950,10 @@
     <string name="gallery_show_file_extension_sub">Mostre o formato do arquivo nas miniaturas das imagens.</string>
     <string name="help_tip_gallery_workflow_grid_settings">Abra Configurações → Galeria para definir a grade como Automática ou escolha de 1 a 20 colunas. Aperte com dois dedos para redimensionar a grade até fechá-la. Os rótulos de tamanho e formato do arquivo podem ser desativados separadamente.</string>
     <string name="help_tip_gallery_workflow_fast_scroll">Role para revelar a alça à direita. Arraste-o para percorrer a galeria por data e hora.</string>
+    <string name="save_collage_project_sub">Mantenha o layout, as imagens originais e o histórico de edições em um arquivo de projeto editável</string>
+    <string name="help_tip_setting_gallery_columns_description">Escolha quantas colunas aparecem na Galeria e no Seletor incorporado. Mais colunas mostram miniaturas menores.</string>
+    <string name="help_tip_setting_gallery_columns_step">Abra Configurações → Galeria → Contagem de colunas. Escolha Automático para caber na tela ou uma contagem fixa de 1 a 20.</string>
+    <string name="help_tip_setting_gallery_file_size_step">Abra Configurações → Galeria e alterne Mostrar tamanho do arquivo. Isso altera os rótulos das miniaturas sem alterar ou compactar os arquivos.</string>
+    <string name="help_tip_setting_gallery_file_extension_step">Abra Configurações → Galeria e alterne Mostrar formato de arquivo. Isso altera os rótulos das miniaturas sem renomear ou converter os arquivos.</string>
+    <string name="help_tip_setting_remember_preview_layout_step">Abra Configurações → Comportamento e ative Lembrar layout de visualização. Ajuste a altura da visualização ou fixe-a em uma ferramenta; a próxima ferramenta reutilizará esse layout.</string>
 </resources>

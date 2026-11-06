@@ -7948,4 +7948,10 @@
     <string name="gallery_show_file_extension_sub">이미지 축소판에 파일 형식을 표시합니다.</string>
     <string name="help_tip_gallery_workflow_grid_settings">설정 → 갤러리를 열어 그리드를 자동으로 설정하거나 1~20개의 열을 선택하세요. 그리드가 닫힐 때까지 두 손가락을 모아 그리드 크기를 조정합니다. 파일 크기 및 형식 레이블은 별도로 끌 수 있습니다.</string>
     <string name="help_tip_gallery_workflow_fast_scroll">스크롤하여 오른쪽에 핸들을 표시합니다. 날짜와 시간별로 갤러리를 이동하려면 드래그하세요.</string>
+    <string name="save_collage_project_sub">편집 가능한 프로젝트 파일에 레이아웃, 원본 이미지, 편집 내역을 보관하세요.</string>
+    <string name="help_tip_setting_gallery_columns_description">갤러리 및 포함된 선택기에 표시되는 열 수를 선택합니다. 열이 많을수록 작은 축소판이 표시됩니다.</string>
+    <string name="help_tip_setting_gallery_columns_step">설정 → 갤러리 → 열 수를 엽니다. 화면에 맞게 자동을 선택하거나 1~20 사이의 고정 개수를 선택합니다.</string>
+    <string name="help_tip_setting_gallery_file_size_step">설정 → 갤러리를 열고 파일 크기 표시를 전환합니다. 파일을 변경하거나 압축하지 않고 썸네일 레이블을 변경합니다.</string>
+    <string name="help_tip_setting_gallery_file_extension_step">설정 → 갤러리를 열고 파일 형식 표시를 전환합니다. 파일 이름을 바꾸거나 변환하지 않고 축소판 레이블을 변경합니다.</string>
+    <string name="help_tip_setting_remember_preview_layout_step">설정 → 동작을 열고 미리보기 레이아웃 기억을 켭니다. 미리보기 높이를 조정하거나 도구에 고정하세요. 다음 도구는 해당 레이아웃을 재사용합니다.</string>
 </resources>

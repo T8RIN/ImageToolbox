@@ -7951,4 +7951,10 @@
     <string name="gallery_show_file_extension_sub">Zobrazit formát souboru na miniaturách obrázků.</string>
     <string name="help_tip_gallery_workflow_grid_settings">Otevřete Nastavení → Galerie a nastavte mřížku na Automaticky nebo vyberte 1–20 sloupců. Sevřením dvěma prsty změníte velikost mřížky, dokud ji nezavřete. Velikost souboru a štítky formátu lze vypnout samostatně.</string>
     <string name="help_tip_gallery_workflow_fast_scroll">Posunutím odkryjte rukojeť napravo. Přetažením můžete procházet galerií podle data a času.</string>
+    <string name="save_collage_project_sub">Uchovávejte rozvržení, původní obrázky a historii úprav v upravitelném souboru projektu</string>
+    <string name="help_tip_setting_gallery_columns_description">Vyberte, kolik sloupců se zobrazí v Galerii a vloženém výběru. Více sloupců zobrazuje menší miniatury.</string>
+    <string name="help_tip_setting_gallery_columns_step">Otevřete Nastavení → Galerie → Počet sloupců. Chcete-li se přizpůsobit obrazovce, vyberte možnost Auto nebo pevný počet od 1 do 20.</string>
+    <string name="help_tip_setting_gallery_file_size_step">Otevřete Nastavení → Galerie a přepněte volbu Zobrazit velikost souboru. Tím se změní štítky miniatur bez změny nebo komprimace souborů.</string>
+    <string name="help_tip_setting_gallery_file_extension_step">Otevřete Nastavení → Galerie a přepněte Zobrazit formát souboru. Tím se změní štítky miniatur bez přejmenování nebo převodu souborů.</string>
+    <string name="help_tip_setting_remember_preview_layout_step">Otevřete Nastavení → Chování a zapněte Zapamatovat rozložení náhledu. Upravte výšku náhledu nebo jej připněte do nástroje; další nástroj toto rozložení znovu použije.</string>
 </resources>

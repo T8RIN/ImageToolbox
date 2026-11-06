@@ -7949,4 +7949,10 @@
     <string name="gallery_show_file_extension_sub">Näita pildi pisipiltidel failivormingut.</string>
     <string name="help_tip_gallery_workflow_grid_settings">Avage Seaded → Galerii, et määrata ruudustikuks Automaatne või valida 1–20 veergu. Suruge kahe sõrmega ruudustiku suuruse muutmiseks, kuni selle sulgete. Faili suuruse ja vormingu silte saab eraldi välja lülitada.</string>
     <string name="help_tip_gallery_workflow_fast_scroll">Kerige paremal asuva käepideme kuvamiseks. Lohistage seda, et liikuda galeriis kuupäeva ja kellaaja järgi.</string>
+    <string name="save_collage_project_sub">Hoidke paigutust, originaalpilte ja redigeerimisajalugu redigeeritavas projektifailis</string>
+    <string name="help_tip_setting_gallery_columns_description">Valige, mitu veergu galeriis ja manustatud valijas kuvatakse. Rohkem veerge näitab väiksemaid pisipilte.</string>
+    <string name="help_tip_setting_gallery_columns_step">Avage Seaded → Galerii → Veergude arv. Valige Automaatne, et mahutada ekraanile või fikseeritud arv vahemikus 1 kuni 20.</string>
+    <string name="help_tip_setting_gallery_file_size_step">Avage Seaded → Galerii ja lülitage Näita faili suurust. See muudab pisipiltide silte ilma faile muutmata või tihendamata.</string>
+    <string name="help_tip_setting_gallery_file_extension_step">Avage Seaded → Galerii ja lülitage Failivormingu näitamine sisse. See muudab pisipiltide silte ilma faile ümber nimetamata või teisendamata.</string>
+    <string name="help_tip_setting_remember_preview_layout_step">Avage Seaded → Käitumine ja lülitage sisse Eelvaate paigutus meeldejätmine. Reguleerige eelvaate kõrgust või kinnitage see tööriista külge; järgmine tööriist kasutab seda paigutust uuesti.</string>
 </resources>

@@ -7949,4 +7949,10 @@
     <string name="gallery_show_file_extension_sub">Visa filformatet på bildminiatyrer.</string>
     <string name="help_tip_gallery_workflow_grid_settings">Öppna Inställningar → Galleri för att ställa in rutnätet till Auto eller välj 1–20 kolumner. Nyp med två fingrar för att ändra storlek på rutnätet tills du stänger det. Filstorlek och formatetiketter kan stängas av separat.</string>
     <string name="help_tip_gallery_workflow_fast_scroll">Bläddra för att visa handtaget till höger. Dra den för att flytta genom galleriet efter datum och tid.</string>
+    <string name="save_collage_project_sub">Behåll layouten, originalbilderna och redigeringshistoriken i en redigerbar projektfil</string>
+    <string name="help_tip_setting_gallery_columns_description">Välj hur många kolumner som ska visas i Galleri och inbäddad väljare. Fler kolumner visar mindre miniatyrer.</string>
+    <string name="help_tip_setting_gallery_columns_step">Öppna Inställningar → Galleri → Antal kolumner. Välj Auto för att passa skärmen eller ett fast antal från 1 till 20.</string>
+    <string name="help_tip_setting_gallery_file_size_step">Öppna Inställningar → Galleri och växla Visa filstorlek. Detta ändrar miniatyretiketter utan att ändra eller komprimera filerna.</string>
+    <string name="help_tip_setting_gallery_file_extension_step">Öppna Inställningar → Galleri och växla Visa filformat. Detta ändrar miniatyretiketter utan att döpa om eller konvertera filerna.</string>
+    <string name="help_tip_setting_remember_preview_layout_step">Öppna Inställningar → Beteende och aktivera Kom ihåg förhandsgranskningslayout. Justera förhandsgranskningens höjd eller fäst den i ett verktyg; nästa verktyg kommer att återanvända den layouten.</string>
 </resources>

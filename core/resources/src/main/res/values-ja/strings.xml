@@ -7948,4 +7948,10 @@
     <string name="gallery_show_file_extension_sub">画像のサムネイルにファイル形式を表示します。</string>
     <string name="help_tip_gallery_workflow_grid_settings">[設定] → [ギャラリー] を開き、グリッドを [自動] に設定するか、1 ～ 20 列を選択します。グリッドを閉じるまで 2 本の指でピンチしてグリッドのサイズを変更します。ファイル サイズと形式ラベルは個別にオフにできます。</string>
     <string name="help_tip_gallery_workflow_fast_scroll">スクロールして右側にハンドルを表示します。ドラッグすると、日付と時刻ごとにギャラリー内を移動できます。</string>
+    <string name="save_collage_project_sub">レイアウト、元画像、編集履歴を編集可能なプロジェクトファイルに保存</string>
+    <string name="help_tip_setting_gallery_columns_description">ギャラリーと埋め込みピッカーに表示する列の数を選択します。列が増えると、小さなサムネイルが表示されます。</string>
+    <string name="help_tip_setting_gallery_columns_step">「設定」→「ギャラリー」→「列数」を開きます。画面に合わせて [自動] を選択するか、1 ～ 20 の固定カウントを選択します。</string>
+    <string name="help_tip_setting_gallery_file_size_step">[設定] → [ギャラリー] を開き、[ファイル サイズの表示] を切り替えます。これにより、ファイルを変更または圧縮せずに、サムネイルのラベルが変更されます。</string>
+    <string name="help_tip_setting_gallery_file_extension_step">「設定」→「ギャラリー」を開き、「ファイル形式の表示」を切り替えます。これにより、ファイルの名前変更や変換を行わずに、サムネイルのラベルが変更されます。</string>
+    <string name="help_tip_setting_remember_preview_layout_step">「設定」→「動作」を開き、「プレビューレイアウトを記憶する」をオンにします。プレビューの高さを調整するか、ツールに固定します。次のツールはそのレイアウトを再利用します。</string>
 </resources>

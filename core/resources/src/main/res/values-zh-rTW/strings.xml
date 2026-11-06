@@ -7948,4 +7948,10 @@
     <string name="gallery_show_file_extension_sub">在圖像縮圖上顯示文件格式。</string>
     <string name="help_tip_gallery_workflow_grid_settings">開啟設定 → 圖庫將網格設定為自動或選擇 1–20 列。用兩根手指捏合以調整網格大小，直到關閉。檔案大小和格式標籤可以單獨關閉。</string>
     <string name="help_tip_gallery_workflow_fast_scroll">捲動以顯示右側的手把。拖曳它可以按日期和時間在圖庫中移動。</string>
+    <string name="save_collage_project_sub">將版面配置、原始影像和編輯歷史記錄儲存在可編輯的專案文件中</string>
+    <string name="help_tip_setting_gallery_columns_description">選擇圖庫和嵌入式選取器中顯示的列數。更多列顯示較小的縮圖。</string>
+    <string name="help_tip_setting_gallery_columns_step">開啟設定 → 圖庫 → 列數。選擇“自動”以適應螢幕大小或選擇 1 到 20 之間的固定計數。</string>
+    <string name="help_tip_setting_gallery_file_size_step">開啟設定 → 圖庫並切換顯示檔案大小。這會更改縮圖標籤，而不更改或壓縮檔案。</string>
+    <string name="help_tip_setting_gallery_file_extension_step">開啟設定 → 圖庫並切換顯示檔案格式。這會更改縮圖標籤，而無需重新命名或轉換檔案。</string>
+    <string name="help_tip_setting_remember_preview_layout_step">開啟「設定」→「行為」並啟用「記住預覽佈局」。調整預覽高度或將其固定在工具中；下一個工具將重複使用該佈局。</string>
 </resources>

@@ -7949,4 +7949,10 @@
     <string name="gallery_show_file_extension_sub">Zeigt das Dateiformat auf den Vorschaubildern an.</string>
     <string name="help_tip_gallery_workflow_grid_settings">Öffnen Sie „Einstellungen“ → „Galerie“, um das Raster auf „Automatisch“ einzustellen, oder wählen Sie 1–20 Spalten aus. Drücken Sie mit zwei Fingern zusammen, um die Größe des Rasters zu ändern, bis Sie es schließen. Die Dateigrößen- und Formatbezeichnungen können separat deaktiviert werden.</string>
     <string name="help_tip_gallery_workflow_fast_scroll">Scrollen Sie, um den Schieberegler am rechten Rand einzublenden. Ziehen Sie ihn, um durch die Galerie nach Datum und Uhrzeit zu navigieren.</string>
+    <string name="save_collage_project_sub">Bewahren Sie das Layout, die Originalbilder und den Bearbeitungsverlauf in einer bearbeitbaren Projektdatei auf</string>
+    <string name="help_tip_setting_gallery_columns_description">Wählen Sie aus, wie viele Spalten in der Galerie und im eingebetteten Picker angezeigt werden. Weitere Spalten zeigen kleinere Miniaturansichten.</string>
+    <string name="help_tip_setting_gallery_columns_step">Öffnen Sie Einstellungen → Galerie → Spaltenanzahl. Wählen Sie „Automatisch“, um den Bildschirm anzupassen, oder eine feste Anzahl von 1 bis 20.</string>
+    <string name="help_tip_setting_gallery_file_size_step">Öffnen Sie Einstellungen → Galerie und schalten Sie Dateigröße anzeigen um. Dadurch werden Miniaturbildbeschriftungen geändert, ohne die Dateien zu ändern oder zu komprimieren.</string>
+    <string name="help_tip_setting_gallery_file_extension_step">Öffnen Sie Einstellungen → Galerie und schalten Sie Dateiformat anzeigen um. Dadurch werden die Beschriftungen der Miniaturansichten geändert, ohne dass die Dateien umbenannt oder konvertiert werden müssen.</string>
+    <string name="help_tip_setting_remember_preview_layout_step">Öffnen Sie Einstellungen → Verhalten und aktivieren Sie Vorschau-Layout merken. Passen Sie die Vorschauhöhe an oder fixieren Sie sie in einem Tool. Das nächste Tool wird dieses Layout wiederverwenden.</string>
 </resources>

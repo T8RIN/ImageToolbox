@@ -7949,4 +7949,10 @@
     <string name="gallery_show_file_extension_sub">Näytä tiedostomuoto kuvien pikkukuvissa.</string>
     <string name="help_tip_gallery_workflow_grid_settings">Avaa Asetukset → Galleria asettaaksesi ruudukon asetukseksi Auto tai valitse 1–20 saraketta. Muuta ruudukon kokoa nipistämällä kahdella sormella, kunnes suljet sen. Tiedoston koko- ja muototarrat voidaan kytkeä pois päältä erikseen.</string>
     <string name="help_tip_gallery_workflow_fast_scroll">Vieritä paljastaaksesi oikealla olevan kahvan. Vedä sitä siirtyäksesi galleriassa päivämäärän ja ajan mukaan.</string>
+    <string name="save_collage_project_sub">Säilytä asettelu, alkuperäiset kuvat ja muokkaushistoria muokattavassa projektitiedostossa</string>
+    <string name="help_tip_setting_gallery_columns_description">Valitse, kuinka monta saraketta näkyy Galleriassa ja Upotetussa valittimessa. Lisää sarakkeita näyttää pienempiä pikkukuvia.</string>
+    <string name="help_tip_setting_gallery_columns_step">Avaa Asetukset → Galleria → Sarakkeiden määrä. Valitse Automaattinen sovittaaksesi näytölle tai kiinteän määrän 1–20.</string>
+    <string name="help_tip_setting_gallery_file_size_step">Avaa Asetukset → Galleria ja vaihda Näytä tiedostokoko. Tämä muuttaa pikkukuvien otsikot muuttamatta tai pakkaamatta tiedostoja.</string>
+    <string name="help_tip_setting_gallery_file_extension_step">Avaa Asetukset → Galleria ja vaihda Näytä tiedostomuoto. Tämä muuttaa pikkukuvien nimiä ilman tiedostojen uudelleennimeämistä tai muuntamista.</string>
+    <string name="help_tip_setting_remember_preview_layout_step">Avaa Asetukset → Käyttäytyminen ja ota käyttöön Muista esikatseluasettelu. Säädä esikatselun korkeutta tai kiinnitä se työkaluun; seuraava työkalu käyttää tätä asettelua uudelleen.</string>
 </resources>

@@ -7949,4 +7949,10 @@
     <string name="gallery_show_file_extension_sub">A fájlformátum megjelenítése a miniatűrökön.</string>
     <string name="help_tip_gallery_workflow_grid_settings">Nyissa meg a Beállítások → Galéria menüpontot a rács automatikus beállításához, vagy válasszon 1–20 oszlopot. Csípje össze két ujját a rács átméretezéséhez, amíg be nem zárja. A fájlméret- és formátumcímkék külön kikapcsolhatók.</string>
     <string name="help_tip_gallery_workflow_fast_scroll">Görgessen a jobb oldali fogantyú megjelenítéséhez. Húzza el a galériában való mozgáshoz dátum és idő szerint.</string>
+    <string name="save_collage_project_sub">Tartsa meg az elrendezést, az eredeti képeket és a szerkesztési előzményeket egy szerkeszthető projektfájlban</string>
+    <string name="help_tip_setting_gallery_columns_description">Válassza ki, hogy hány oszlop jelenjen meg a Galériában és az Embedded Pickerben. Több oszlop kisebb bélyegképeket jelenít meg.</string>
+    <string name="help_tip_setting_gallery_columns_step">Nyissa meg a Beállítások → Galéria → Oszlopok száma menüpontot. Válassza az Auto lehetőséget, hogy illeszkedjen a képernyőhöz, vagy fix számot állítson be 1 és 20 között.</string>
+    <string name="help_tip_setting_gallery_file_size_step">Nyissa meg a Beállítások → Galéria lehetőséget, és kapcsolja be a Fájlméret megjelenítése lehetőséget. Ez a fájlok módosítása vagy tömörítése nélkül módosítja a bélyegképcímkéket.</string>
+    <string name="help_tip_setting_gallery_file_extension_step">Nyissa meg a Beállítások → Galéria lehetőséget, és kapcsolja be a Fájlformátum megjelenítése lehetőséget. Ez a fájlok átnevezése vagy konvertálása nélkül módosítja a bélyegképcímkéket.</string>
+    <string name="help_tip_setting_remember_preview_layout_step">Nyissa meg a Beállítások → Viselkedés lehetőséget, és kapcsolja be az Előnézeti elrendezés megjegyzése funkciót. Állítsa be az előnézet magasságát, vagy rögzítse egy eszközben; a következő eszköz újra felhasználja ezt az elrendezést.</string>
 </resources>

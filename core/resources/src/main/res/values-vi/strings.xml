@@ -7948,4 +7948,10 @@
     <string name="gallery_show_file_extension_sub">Hiển thị định dạng tệp trên hình thu nhỏ của hình ảnh.</string>
     <string name="help_tip_gallery_workflow_grid_settings">Mở Cài đặt → Thư viện để đặt lưới thành Tự động hoặc chọn 1–20 cột. Chụm hai ngón tay để thay đổi kích thước lưới cho đến khi bạn đóng nó lại. Nhãn kích thước và định dạng tệp có thể được tắt riêng.</string>
     <string name="help_tip_gallery_workflow_fast_scroll">Cuộn để lộ tay cầm ở bên phải. Kéo nó để di chuyển qua thư viện theo ngày và giờ.</string>
+    <string name="save_collage_project_sub">Giữ bố cục, hình ảnh gốc và lịch sử chỉnh sửa trong tệp dự án có thể chỉnh sửa</string>
+    <string name="help_tip_setting_gallery_columns_description">Chọn số lượng cột xuất hiện trong Thư viện và Bộ chọn nhúng. Nhiều cột hơn hiển thị hình thu nhỏ nhỏ hơn.</string>
+    <string name="help_tip_setting_gallery_columns_step">Mở Cài đặt → Thư viện → Đếm cột. Chọn Tự động để vừa với màn hình hoặc đếm cố định từ 1 đến 20.</string>
+    <string name="help_tip_setting_gallery_file_size_step">Mở Cài đặt → Thư viện và bật tắt Hiển thị kích thước tệp. Điều này thay đổi nhãn hình thu nhỏ mà không thay đổi hoặc nén tệp.</string>
+    <string name="help_tip_setting_gallery_file_extension_step">Mở Cài đặt → Thư viện và bật tắt Hiển thị định dạng tệp. Điều này thay đổi nhãn hình thu nhỏ mà không đổi tên hoặc chuyển đổi tệp.</string>
+    <string name="help_tip_setting_remember_preview_layout_step">Mở Cài đặt → Hành vi và bật Ghi nhớ bố cục xem trước. Điều chỉnh chiều cao xem trước hoặc ghim nó vào một công cụ; công cụ tiếp theo sẽ sử dụng lại bố cục đó.</string>
 </resources>

@@ -7949,4 +7949,10 @@
     <string name="gallery_show_file_extension_sub">Ipakita ang format ng file sa mga thumbnail ng larawan.</string>
     <string name="help_tip_gallery_workflow_grid_settings">Buksan ang Mga Setting → Gallery upang itakda ang grid sa Auto o pumili ng 1–20 column. Kurutin gamit ang dalawang daliri upang baguhin ang laki ng grid hanggang sa isara mo ito. Ang laki ng file at mga label ng format ay maaaring i-off nang hiwalay.</string>
     <string name="help_tip_gallery_workflow_fast_scroll">Mag-scroll upang ipakita ang hawakan sa kanan. I-drag ito upang lumipat sa gallery ayon sa petsa at oras.</string>
+    <string name="save_collage_project_sub">Panatilihin ang layout, orihinal na mga larawan at kasaysayan ng pag-edit sa isang nae-edit na file ng proyekto</string>
+    <string name="help_tip_setting_gallery_columns_description">Piliin kung gaano karaming mga column ang lalabas sa Gallery at Naka-embed na Picker. Mas maraming column ang nagpapakita ng mas maliliit na thumbnail.</string>
+    <string name="help_tip_setting_gallery_columns_step">Buksan ang Mga Setting → Gallery → Bilang ng Mga Haligi. Piliin ang Auto upang magkasya sa screen o isang nakapirming bilang mula 1 hanggang 20.</string>
+    <string name="help_tip_setting_gallery_file_size_step">Buksan ang Mga Setting → Gallery at i-toggle ang Ipakita ang laki ng file. Binabago nito ang mga label ng thumbnail nang hindi binabago o kino-compress ang mga file.</string>
+    <string name="help_tip_setting_gallery_file_extension_step">Buksan ang Mga Setting → Gallery at i-toggle ang Ipakita ang format ng file. Binabago nito ang mga label ng thumbnail nang hindi pinapalitan ang pangalan o kino-convert ang mga file.</string>
+    <string name="help_tip_setting_remember_preview_layout_step">Buksan ang Mga Setting → Gawi at i-on ang Remember Preview Layout. Ayusin ang taas ng preview o i-pin ito sa isang tool; ang susunod na tool ay muling gagamitin ang layout na iyon.</string>
 </resources>

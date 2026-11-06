@@ -7949,4 +7949,10 @@
     <string name="gallery_show_file_extension_sub">Afficher le format de fichier sur les vignettes des images.</string>
     <string name="help_tip_gallery_workflow_grid_settings">Ouvrez Paramètres → Galerie pour définir la grille sur Auto ou choisissez 1 à 20 colonnes. Pincez avec deux doigts pour redimensionner la grille jusqu\'à la fermer. Les étiquettes de taille et de format de fichier peuvent être désactivées séparément.</string>
     <string name="help_tip_gallery_workflow_fast_scroll">Faites défiler pour révéler la poignée à droite. Faites-le glisser pour vous déplacer dans la galerie par date et heure.</string>
+    <string name="save_collage_project_sub">Conservez la mise en page, les images originales et l\'historique des modifications dans un fichier de projet modifiable</string>
+    <string name="help_tip_setting_gallery_columns_description">Choisissez le nombre de colonnes qui apparaissent dans la Galerie et le sélecteur intégré. Plus de colonnes affichent des vignettes plus petites.</string>
+    <string name="help_tip_setting_gallery_columns_step">Ouvrez Paramètres → Galerie → Nombre de colonnes. Choisissez Auto pour s\'adapter à l\'écran ou un nombre fixe de 1 à 20.</string>
+    <string name="help_tip_setting_gallery_file_size_step">Ouvrez Paramètres → Galerie et activez Afficher la taille du fichier. Cela modifie les étiquettes des vignettes sans modifier ni compresser les fichiers.</string>
+    <string name="help_tip_setting_gallery_file_extension_step">Ouvrez Paramètres → Galerie et activez Afficher le format de fichier. Cela modifie les étiquettes des vignettes sans renommer ni convertir les fichiers.</string>
+    <string name="help_tip_setting_remember_preview_layout_step">Ouvrez Paramètres → Comportement et activez Mémoriser la mise en page d\'aperçu. Ajustez la hauteur de l\'aperçu ou épinglez-le dans un outil ; le prochain outil réutilisera cette mise en page.</string>
 </resources>

@@ -7949,4 +7949,10 @@
     <string name="gallery_show_file_extension_sub">فرمت فایل را روی ریز عکسها نشان دهید.</string>
     <string name="help_tip_gallery_workflow_grid_settings">تنظیمات ← گالری را باز کنید تا شبکه روی خودکار تنظیم شود یا ۱ تا ۲۰ ستون را انتخاب کنید. با دو انگشت فشار دهید تا اندازه شبکه را تغییر دهید تا زمانی که آن را ببندید. برچسب های اندازه و قالب فایل را می توان به طور جداگانه خاموش کرد.</string>
     <string name="help_tip_gallery_workflow_fast_scroll">اسکرول کنید تا دستگیره سمت راست نمایان شود. آن را بکشید تا در گالری بر اساس تاریخ و زمان حرکت کنید.</string>
+    <string name="save_collage_project_sub">طرح، تصاویر اصلی و تاریخچه ویرایش را در یک فایل پروژه قابل ویرایش نگه دارید</string>
+    <string name="help_tip_setting_gallery_columns_description">انتخاب کنید چند ستون در گالری و انتخابگر جاسازی شده ظاهر شود. ستون های بیشتر تصاویر کوچک تری را نشان می دهند.</string>
+    <string name="help_tip_setting_gallery_columns_step">تنظیمات → گالری → تعداد ستون ها را باز کنید. خودکار را برای مطابقت با صفحه یا تعداد ثابتی از 1 تا 20 انتخاب کنید.</string>
+    <string name="help_tip_setting_gallery_file_size_step">تنظیمات → گالری را باز کنید و نمایش اندازه فایل را تغییر دهید. این کار بدون تغییر یا فشرده‌سازی فایل‌ها، برچسب‌های کوچک را تغییر می‌دهد.</string>
+    <string name="help_tip_setting_gallery_file_extension_step">تنظیمات → گالری را باز کنید و نمایش فرمت فایل را تغییر دهید. این کار برچسب های ریز عکس ها را بدون تغییر نام یا تبدیل فایل ها تغییر می دهد.</string>
+    <string name="help_tip_setting_remember_preview_layout_step">تنظیمات ← رفتار را باز کنید و به یاد داشته باشید طرح بندی پیش نمایش را روشن کنید. ارتفاع پیش نمایش را تنظیم کنید یا آن را در یک ابزار پین کنید. ابزار بعدی از آن طرح استفاده مجدد خواهد کرد.</string>
 </resources>

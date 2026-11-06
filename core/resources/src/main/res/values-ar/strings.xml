@@ -7953,4 +7953,10 @@
     <string name="gallery_show_file_extension_sub">إظهار تنسيق الملف على الصور المصغرة للصور.</string>
     <string name="help_tip_gallery_workflow_grid_settings">افتح الإعدادات → المعرض لتعيين الشبكة على تلقائي أو اختر من 1 إلى 20 عمودًا. قم بالضغط بإصبعين لتغيير حجم الشبكة حتى تقوم بإغلاقها. يمكن إيقاف تشغيل تسميات حجم الملف وتنسيقه بشكل منفصل.</string>
     <string name="help_tip_gallery_workflow_fast_scroll">قم بالتمرير للكشف عن المقبض الموجود على اليمين. اسحبه للتنقل عبر المعرض حسب التاريخ والوقت.</string>
+    <string name="save_collage_project_sub">احتفظ بالتخطيط والصور الأصلية وسجل التحرير في ملف مشروع قابل للتحرير</string>
+    <string name="help_tip_setting_gallery_columns_description">اختر عدد الأعمدة التي تظهر في المعرض والمنتقي المضمن. تعرض المزيد من الأعمدة صورًا مصغرة أصغر.</string>
+    <string name="help_tip_setting_gallery_columns_step">افتح الإعدادات ← المعرض ← عدد الأعمدة. اختر تلقائي لملاءمة الشاشة أو اختر عددًا ثابتًا من 1 إلى 20.</string>
+    <string name="help_tip_setting_gallery_file_size_step">افتح الإعدادات → المعرض وقم بتبديل إظهار حجم الملف. يؤدي هذا إلى تغيير تسميات الصور المصغرة دون تغيير الملفات أو ضغطها.</string>
+    <string name="help_tip_setting_gallery_file_extension_step">افتح الإعدادات → المعرض وقم بتبديل عرض تنسيق الملف. يؤدي هذا إلى تغيير تسميات الصور المصغرة دون إعادة تسمية الملفات أو تحويلها.</string>
+    <string name="help_tip_setting_remember_preview_layout_step">افتح الإعدادات → السلوك وقم بتشغيل تذكر تخطيط المعاينة. اضبط ارتفاع المعاينة أو قم بتثبيته في إحدى الأدوات؛ ستعيد الأداة التالية استخدام هذا التخطيط.</string>
 </resources>

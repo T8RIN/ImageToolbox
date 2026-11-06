@@ -7949,4 +7949,10 @@
     <string name="gallery_show_file_extension_sub">Dosya formatını görsel küçük resimlerinde gösterin.</string>
     <string name="help_tip_gallery_workflow_grid_settings">Izgarayı Otomatik olarak ayarlamak veya 1-20 sütun seçmek için Ayarlar → Galeri\'yi açın. Izgarayı kapatana kadar yeniden boyutlandırmak için iki parmağınızla sıkıştırın. Dosya boyutu ve format etiketleri ayrı ayrı kapatılabilir.</string>
     <string name="help_tip_gallery_workflow_fast_scroll">Sağdaki tutamacı ortaya çıkarmak için kaydırın. Galeride tarih ve saate göre gezinmek için sürükleyin.</string>
+    <string name="save_collage_project_sub">Düzeni, orijinal görselleri ve düzenleme geçmişini düzenlenebilir bir proje dosyasında saklayın</string>
+    <string name="help_tip_setting_gallery_columns_description">Galeri ve Katıştırılmış Seçici\'de kaç sütunun görüneceğini seçin. Daha fazla sütun daha küçük küçük resimleri gösterir.</string>
+    <string name="help_tip_setting_gallery_columns_step">Ayarlar → Galeri → Sütun Sayısı\'nı açın. Ekrana sığdırmak için Otomatik\'i veya 1\'den 20\'ye kadar sabit bir sayıyı seçin.</string>
+    <string name="help_tip_setting_gallery_file_size_step">Ayarlar → Galeri\'yi açın ve Dosya boyutunu göster seçeneğini açın. Bu, dosyaları değiştirmeden veya sıkıştırmadan küçük resim etiketlerini değiştirir.</string>
+    <string name="help_tip_setting_gallery_file_extension_step">Ayarlar → Galeri\'yi açın ve Dosya formatını göster seçeneğini açın. Bu, dosyaları yeniden adlandırmadan veya dönüştürmeden küçük resim etiketlerini değiştirir.</string>
+    <string name="help_tip_setting_remember_preview_layout_step">Ayarlar → Davranış\'ı açın ve Önizleme Düzenini Hatırla\'yı açın. Önizleme yüksekliğini ayarlayın veya bir araca sabitleyin; sonraki araç bu düzeni yeniden kullanacaktır.</string>
 </resources>

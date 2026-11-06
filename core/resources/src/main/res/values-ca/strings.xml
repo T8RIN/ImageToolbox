@@ -7949,4 +7949,10 @@
     <string name="gallery_show_file_extension_sub">Mostra el format del fitxer a les miniatures de les imatges.</string>
     <string name="help_tip_gallery_workflow_grid_settings">Obriu Configuració → Galeria per configurar la quadrícula com a Automàtic o trieu 1-20 columnes. Pessigueu amb dos dits per canviar la mida de la graella fins que la tanqueu. Les etiquetes de mida i format del fitxer es poden desactivar per separat.</string>
     <string name="help_tip_gallery_workflow_fast_scroll">Desplaceu-vos per mostrar el mànec de la dreta. Arrossegueu-lo per desplaçar-vos per la galeria per data i hora.</string>
+    <string name="save_collage_project_sub">Conserveu el disseny, les imatges originals i l\'historial d\'edició en un fitxer de projecte editable</string>
+    <string name="help_tip_setting_gallery_columns_description">Trieu quantes columnes apareixen a la Galeria i al Selector incrustat. Més columnes mostren miniatures més petites.</string>
+    <string name="help_tip_setting_gallery_columns_step">Obriu Configuració → Galeria → Recompte de columnes. Trieu Automàtic per adaptar-se a la pantalla o un recompte fix d\'1 a 20.</string>
+    <string name="help_tip_setting_gallery_file_size_step">Obriu Configuració → Galeria i activeu Mostra la mida del fitxer. Això canvia les etiquetes de les miniatures sense canviar ni comprimir els fitxers.</string>
+    <string name="help_tip_setting_gallery_file_extension_step">Obriu Configuració → Galeria i activeu Mostra el format del fitxer. Això canvia les etiquetes de les miniatures sense canviar el nom ni convertir els fitxers.</string>
+    <string name="help_tip_setting_remember_preview_layout_step">Obriu Configuració → Comportament i activeu Recorda el disseny de la vista prèvia. Ajusteu l\'alçada de la vista prèvia o fixeu-la en una eina; la següent eina reutilitzarà aquest disseny.</string>
 </resources>

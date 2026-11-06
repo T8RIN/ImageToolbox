@@ -7949,4 +7949,10 @@
     <string name="gallery_show_file_extension_sub">Vis filformatet på miniaturebilleder.</string>
     <string name="help_tip_gallery_workflow_grid_settings">Åbn Indstillinger → Galleri for at indstille gitteret til Auto, eller vælg 1-20 kolonner. Klem sammen med to fingre for at ændre størrelsen på gitteret, indtil du lukker det. Filstørrelsen og formatetiketterne kan slås fra separat.</string>
     <string name="help_tip_gallery_workflow_fast_scroll">Rul for at få vist håndtaget til højre. Træk den for at flytte gennem galleriet efter dato og klokkeslæt.</string>
+    <string name="save_collage_project_sub">Gem layout, originalbilleder og redigeringshistorik i en redigerbar projektfil</string>
+    <string name="help_tip_setting_gallery_columns_description">Vælg, hvor mange kolonner der skal vises i Galleri og Embedded Picker. Flere kolonner viser mindre miniaturebilleder.</string>
+    <string name="help_tip_setting_gallery_columns_step">Åbn Indstillinger → Galleri → Antal kolonner. Vælg Auto for at passe til skærmen eller et fast antal fra 1 til 20.</string>
+    <string name="help_tip_setting_gallery_file_size_step">Åbn Indstillinger → Galleri, og skift Vis filstørrelse. Dette ændrer miniatureetiketter uden at ændre eller komprimere filerne.</string>
+    <string name="help_tip_setting_gallery_file_extension_step">Åbn Indstillinger → Galleri og skift Vis filformat. Dette ændrer miniatureetiketter uden at omdøbe eller konvertere filerne.</string>
+    <string name="help_tip_setting_remember_preview_layout_step">Åbn Indstillinger → Adfærd, og slå Husk forhåndsvisningslayout til. Juster forhåndsvisningshøjden eller fastgør den i et værktøj; det næste værktøj vil genbruge det layout.</string>
 </resources>
