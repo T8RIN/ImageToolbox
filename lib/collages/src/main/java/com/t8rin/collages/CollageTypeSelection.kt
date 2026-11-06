@@ -20,9 +20,11 @@ package com.t8rin.collages
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -44,15 +46,20 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.t8rin.collages.model.CollageLayout
 import com.t8rin.collages.utils.CollageLayoutFactory.loadFrameImages
+import com.t8rin.collages.utils.createCollagePreview
 
 @Composable
 fun CollageTypeSelection(
     imagesCount: Int,
     value: CollageType,
+    favorites: Set<String> = emptySet(),
+    itemBottomContent: @Composable (CollageType) -> Unit = {},
+    itemSize: Dp = 68.dp,
     onValueChange: (CollageType) -> Unit,
     modifier: Modifier = Modifier,
     shape: Shape = RectangleShape,
@@ -70,11 +77,11 @@ fun CollageTypeSelection(
         allFrames = loadFrameImages(context)
     }
 
-    val availableFrames by remember(allFrames, imagesCount) {
+    val availableFrames by remember(allFrames, imagesCount, favorites) {
         derivedStateOf {
             allFrames.filter {
                 it.photoItemList.size == imagesCount
-            }
+            }.sortedByDescending { it.title in favorites }
         }
     }
 
@@ -88,7 +95,7 @@ fun CollageTypeSelection(
     }
 
     AnimatedVisibility(
-        visible = availableFrames.size > 1
+        visible = availableFrames.isNotEmpty()
     ) {
         LazyRow(
             state = state,
@@ -97,21 +104,31 @@ fun CollageTypeSelection(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             contentPadding = contentPadding
         ) {
-            items(availableFrames) { layout ->
-                AsyncImage(
-                    model = layout.preview,
-                    contentDescription = null,
-                    contentScale = ContentScale.FillBounds,
-                    colorFilter = ColorFilter.tint(previewColor),
-                    modifier = Modifier
-                        .fillMaxHeight()
-                        .aspectRatio(1f)
-                        .clip(shape)
-                        .clickable {
-                            onValueChange(CollageType(layout))
-                        }
-                        .then(itemModifierFactory(value.layoutId == layout.title))
-                )
+            items(availableFrames, key = { it.title }) { layout ->
+                Column(
+                    Modifier.animateItem().width(itemSize),
+                    verticalArrangement = Arrangement.spacedBy(2.dp)
+                ) {
+                    val type = remember(layout) { CollageType(layout) }
+                    val preview = remember(layout) {
+                        if (layout.preview == android.net.Uri.EMPTY) createCollagePreview(type) else layout.preview
+                    }
+                    AsyncImage(
+                        model = preview,
+                        contentDescription = null,
+                        contentScale = ContentScale.FillBounds,
+                        colorFilter = ColorFilter.tint(previewColor),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .aspectRatio(1f)
+                            .clip(shape)
+                            .clickable {
+                                onValueChange(CollageType(layout))
+                            }
+                            .then(itemModifierFactory(value.layoutId == layout.title))
+                    )
+                    itemBottomContent(type)
+                }
             }
         }
     }

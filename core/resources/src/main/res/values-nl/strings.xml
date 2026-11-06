@@ -7955,4 +7955,17 @@
     <string name="help_tip_setting_gallery_file_size_step">Open Instellingen → Galerij en schakel Bestandsgrootte weergeven in. Hiermee worden miniatuurlabels gewijzigd zonder de bestanden te wijzigen of te comprimeren.</string>
     <string name="help_tip_setting_gallery_file_extension_step">Open Instellingen → Galerij en schakel Bestandsformaat tonen in. Hiermee worden miniatuurlabels gewijzigd zonder de bestanden te hernoemen of te converteren.</string>
     <string name="help_tip_setting_remember_preview_layout_step">Open Instellingen → Gedrag en schakel Preview-indeling onthouden in. Pas de voorbeeldhoogte aan of zet deze vast in een tool; de volgende tool zal die lay-out opnieuw gebruiken.</string>
+    <string name="collage_outer_padding">Buitenste marges</string>
+    <string name="collage_border">Framebreedte</string>
+    <string name="collage_slot">Foto-instellingen</string>
+    <string name="collage_fit">Past op de hele foto</string>
+    <string name="collage_fit_sub">Toon de volledige foto in plaats van deze bij te snijden om de ruimte te vullen</string>
+    <string name="collage_global_corners">Gebruik collagehoeken</string>
+    <string name="collage_shadow">Schaduw</string>
+    <string name="collage_style_summary">Foto\'s: %1$d · Afstand: %2$d · Marges: %3$d · Hoeken: %4$d</string>
+    <string name="collage_style_apply_full">Pas alles toe</string>
+    <string name="collage_style_apply_full_sub">Herstel de lay-out, scheidingsposities en fotostyling.</string>
+    <string name="collage_style_apply_layout_unavailable">Vereist %1$d foto\'s; je collage heeft %2$d. Je kunt onderstaande stijl nog steeds toepassen.</string>
+    <string name="collage_style_apply_appearance">Alleen stijl</string>
+    <string name="collage_style_apply_appearance_sub">Behoud de huidige indeling. Pas de weergave- en foto-instellingen toe per slotvolgorde.</string>
 </resources>

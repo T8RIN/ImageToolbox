@@ -7957,4 +7957,17 @@
     <string name="help_tip_setting_gallery_file_size_step">Otvorte Nastavenia → Galéria a prepnite možnosť Zobraziť veľkosť súboru. Toto zmení menovky miniatúr bez zmeny alebo kompresie súborov.</string>
     <string name="help_tip_setting_gallery_file_extension_step">Otvorte Nastavenia → Galéria a prepnite Zobraziť formát súboru. Toto zmení menovky miniatúr bez premenovania alebo konverzie súborov.</string>
     <string name="help_tip_setting_remember_preview_layout_step">Otvorte Nastavenia → Správanie a zapnite možnosť Zapamätať si rozloženie ukážky. Upravte výšku náhľadu alebo ho pripnite do nástroja; ďalší nástroj znova použije toto rozloženie.</string>
+    <string name="collage_outer_padding">Vonkajšie okraje</string>
+    <string name="collage_border">Šírka rámu</string>
+    <string name="collage_slot">Nastavenia fotografie</string>
+    <string name="collage_fit">Prispôsobiť celú fotografiu</string>
+    <string name="collage_fit_sub">Zobrazte celú fotografiu namiesto orezania, aby ste vyplnili priestor</string>
+    <string name="collage_global_corners">Použite rohy koláže</string>
+    <string name="collage_shadow">Tieň</string>
+    <string name="collage_style_summary">Fotografie: %1$d · Medzery: %2$d · Okraje: %3$d · Rohy: %4$d</string>
+    <string name="collage_style_apply_full">Aplikujte všetko</string>
+    <string name="collage_style_apply_full_sub">Obnovte rozloženie, pozície rozdeľovačov a fotografický štýl.</string>
+    <string name="collage_style_apply_layout_unavailable">Vyžaduje sa %1$d fotografií; vaša koláž má %2$d. Stále môžete použiť štýl uvedený nižšie.</string>
+    <string name="collage_style_apply_appearance">Iba štýl</string>
+    <string name="collage_style_apply_appearance_sub">Ponechajte aktuálne rozloženie. Použite nastavenia vzhľadu a fotografie podľa poradia slotov.</string>
 </resources>

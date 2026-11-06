@@ -25,6 +25,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
+import android.graphics.CornerPathEffect
 import android.graphics.Matrix
 import android.graphics.Paint
 import android.graphics.Path
@@ -32,6 +33,7 @@ import android.graphics.PointF
 import android.graphics.Rect
 import android.graphics.RectF
 import android.graphics.Region
+import android.graphics.Shader
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.animation.DecelerateInterpolator
@@ -39,6 +41,7 @@ import android.widget.RelativeLayout
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.net.toUri
 import com.t8rin.collages.CollageImageState
+import com.t8rin.collages.CollageSlotStyle
 import com.t8rin.collages.utils.GeometryUtils
 import com.t8rin.collages.utils.ImageDecoder
 import com.t8rin.collages.utils.ImageTransform
@@ -91,6 +94,34 @@ internal class FrameImageView(
     private var mOnImageClickListener: OnImageClickListener? = null
     private var mOriginalLayoutParams: RelativeLayout.LayoutParams? = null
     private var mEnableTouch = true
+    private var style = CollageSlotStyle()
+    private var borderShaderFactory: ((Float, Float) -> Shader)? = null
+    private var borderShader: Shader? = null
+    private var borderShaderWidth = 0f
+    private var borderShaderHeight = 0f
+
+    fun setBorderShader(factory: ((Float, Float) -> Shader)?) {
+        if (borderShaderFactory === factory && borderShaderWidth == viewWidth &&
+            borderShaderHeight == viewHeight
+        ) return
+        borderShaderFactory = factory
+        borderShaderWidth = viewWidth
+        borderShaderHeight = viewHeight
+        borderShader = factory?.invoke(viewWidth, viewHeight)
+        invalidate()
+    }
+
+    var outerPadding: Float = 0f
+    fun setStyle(value: CollageSlotStyle) {
+        if (style == value) return
+        val fitChanged = style.fit != value.fit
+        style = value
+        if (fitChanged) {
+            resetImageMatrix()
+            userAllowedEmptySpace = value.fit
+        }
+    }
+
     private var corner = 0f
     private var space = 0f
     private val mPath = Path()
@@ -205,6 +236,14 @@ internal class FrameImageView(
             photoItem.imagePath = tmpPath
             imageLoadToken = photoItem.imagePath?.toString()
             view.imageLoadToken = view.photoItem.imagePath?.toString()
+            val previousStyle = style
+            style = view.style
+            view.style = previousStyle
+            val previousShader = borderShaderFactory
+            setBorderShader(view.borderShaderFactory)
+            view.setBorderShader(previousShader)
+            setSpace(space, corner)
+            view.setSpace(view.space, view.corner)
             applyState(otherState)
             view.applyState(previousState)
             if (snapToBordersEnabled) snapToBorders()
@@ -375,8 +414,15 @@ internal class FrameImageView(
         setSpace(
             viewWidth, viewHeight, photoItem,
             mConvertedPoints, mConvertedClearPoints,
-            mPath, mClearPath, mBackgroundPath, mPolygon, mPathRect, space, corner
+            mPath, mClearPath, mBackgroundPath, mPolygon, mPathRect, space,
+            (style.cornerRadius?.let {
+                it * min(
+                    viewWidth / photoItem.bound.width(),
+                    viewHeight / photoItem.bound.height()
+                ) / 1000f
+            } ?: corner), outerPadding
         )
+        setBorderShader(borderShaderFactory)
         outlinePath.rewind()
         outlinePath.addRect(0f, 0f, viewWidth, viewHeight, Path.Direction.CW)
         outlinePath.op(mPath, Path.Op.INTERSECT)
@@ -424,6 +470,15 @@ internal class FrameImageView(
                 )
             )
         }
+        if (style.fit) image?.let { bitmap ->
+            val scale = min(viewWidth / bitmap.width, viewHeight / bitmap.height)
+            mImageMatrix.setScale(scale, scale)
+            mImageMatrix.postTranslate(
+                (viewWidth - bitmap.width * scale) / 2,
+                (viewHeight - bitmap.height * scale) / 2
+            )
+            userAllowedEmptySpace = true
+        }
         mTouchHandler?.matrix = mImageMatrix
         updateScaleRange()
         invalidate()
@@ -438,7 +493,24 @@ internal class FrameImageView(
         drawCollageImage(
             canvas, mPath, mBackgroundPath, mClearPath,
             image, mImageMatrix, mBackgroundColor, mPaint,
-            previousImage, previousImageMatrix, imageProgress
+            previousImage, previousImageMatrix, imageProgress,
+            style.borderWidth * min(
+                viewWidth / photoItem.bound.width(),
+                viewHeight / photoItem.bound.height()
+            ) / 1000f, style.borderColor, borderShader
+        )
+    }
+
+    fun drawShadow(canvas: Canvas) {
+        drawCollageShadow(
+            canvas, mPath, mClearPath,
+            style.shadowRadius * min(
+                viewWidth / photoItem.bound.width(),
+                viewHeight / photoItem.bound.height()
+            ) / 1000f,
+            style.shadowColor,
+            alpha,
+            mPaint
         )
     }
 
@@ -486,7 +558,14 @@ internal class FrameImageView(
         setSpace(
             viewWidth, viewHeight, photoItem, ArrayList(), ArrayList(),
             path, clearPath, backgroundPath, ArrayList(), Rect(),
-            space * decorationScale, corner * decorationScale
+            space * decorationScale,
+            style.cornerRadius?.let {
+                it * min(
+                    viewWidth / photoItem.bound.width(),
+                    viewHeight / photoItem.bound.height()
+                ) / 1000f
+            } ?: (corner * decorationScale),
+            outerPadding * decorationScale
         )
         val matrix = Matrix().apply {
             setValues(
@@ -501,7 +580,16 @@ internal class FrameImageView(
         }
         return FrameImageRender(
             context, photoItem.imagePath, preview, matrix,
-            path, backgroundPath, clearPath, mBackgroundColor
+            path, backgroundPath, clearPath, mBackgroundColor,
+            style.borderWidth * min(
+                viewWidth / photoItem.bound.width(),
+                viewHeight / photoItem.bound.height()
+            ) / 1000f, style.borderColor,
+            style.shadowRadius * min(
+                viewWidth / photoItem.bound.width(),
+                viewHeight / photoItem.bound.height()
+            ) / 1000f, style.shadowColor,
+            borderShaderFactory?.invoke(viewWidth, viewHeight)
         )
     }
 
@@ -551,12 +639,16 @@ internal class FrameImageView(
     }
 
     private fun snapToBorders() {
+        if (style.fit) return
         mImageMatrix.setValues(fittedMatrix())
         mTouchHandler?.matrix = mImageMatrix
         invalidate()
     }
 
     private fun settleToBorders() {
+        if (style.fit) {
+            finishTransform(); return
+        }
         val start = FloatArray(9).also(mImageMatrix::getValues)
         val end = fittedMatrix()
         if (start.indices.all { abs(start[it] - end[it]) < 0.001f }) {
@@ -611,6 +703,27 @@ internal class FrameImageView(
     }
 
     companion object {
+        fun shapePath(item: PhotoItem, width: Float, height: Float, spacing: Float = 0f): Path {
+            val path = Path()
+            val clear = Path()
+            setSpace(
+                width,
+                height,
+                item,
+                ArrayList(),
+                ArrayList(),
+                path,
+                clear,
+                Path(),
+                ArrayList(),
+                Rect(),
+                spacing,
+                0f
+            )
+            if (!clear.isEmpty) path.op(clear, Path.Op.DIFFERENCE)
+            return path
+        }
+
         private fun setSpace(
             viewWidth: Float, viewHeight: Float, photoItem: PhotoItem,
             convertedPoints: MutableList<PointF>,
@@ -620,8 +733,49 @@ internal class FrameImageView(
             backgroundPath: Path,
             polygon: MutableList<PointF>,
             pathRect: Rect,
-            space: Float, corner: Float
+            space: Float, corner: Float, outerPadding: Float = space
         ) {
+            photoItem.shape?.let { points ->
+                path.reset()
+                val local = points.map {
+                    PointF(
+                        (it.x - photoItem.bound.left) / photoItem.bound.width() * viewWidth,
+                        (it.y - photoItem.bound.top) / photoItem.bound.height() * viewHeight
+                    )
+                }
+                local.forEachIndexed { index, point ->
+                    if (index == 0) path.moveTo(point.x, point.y)
+                    else path.lineTo(point.x, point.y)
+                }
+                path.close()
+                if (space > 0f) {
+                    var doubleArea = 0f
+                    var perimeter = 0f
+                    local.forEachIndexed { index, point ->
+                        val next = local[(index + 1) % local.size]
+                        doubleArea += point.x * next.y - next.x * point.y
+                        perimeter += kotlin.math.hypot(next.x - point.x, next.y - point.y)
+                    }
+                    val maxInset = abs(doubleArea) * .375f / perimeter
+                    val gap = Path()
+                    Paint(Paint.ANTI_ALIAS_FLAG).apply {
+                        style = Paint.Style.STROKE
+                        strokeWidth = min(space, maxInset) * 2
+                        strokeJoin = Paint.Join.ROUND
+                    }.getFillPath(path, gap)
+                    path.op(gap, Path.Op.DIFFERENCE)
+                }
+                if (corner > 0f) {
+                    val rounded = Path()
+                    Paint().apply {
+                        pathEffect = CornerPathEffect(min(corner, min(viewWidth, viewHeight) / 2))
+                    }
+                        .getFillPath(path, rounded)
+                    path.set(rounded)
+                }
+                return
+            }
+
             if (convertedPoints.isEmpty()) {
                 for (p in photoItem.pointList) {
                     val convertedPoint = PointF(p.x * viewWidth, p.y * viewHeight)
@@ -683,7 +837,12 @@ internal class FrameImageView(
                         shrunkPoints = if (photoItem.disableShrink) {
                             GeometryUtils.shrinkPath(convertedPoints, 0f, photoItem.bound)
                         } else {
-                            GeometryUtils.shrinkPath(convertedPoints, space, photoItem.bound)
+                            GeometryUtils.shrinkPath(
+                                convertedPoints,
+                                space,
+                                photoItem.bound,
+                                outerPadding
+                            )
                         }
                     }
                 }

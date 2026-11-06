@@ -7955,4 +7955,17 @@
     <string name="help_tip_setting_gallery_file_size_step">அமைப்புகள் → கேலரியைத் திறந்து கோப்பு அளவைக் காட்டு என்பதை நிலைமாற்றவும். இது கோப்புகளை மாற்றாமல் அல்லது சுருக்காமல் சிறுபட லேபிள்களை மாற்றுகிறது.</string>
     <string name="help_tip_setting_gallery_file_extension_step">அமைப்புகள் → கேலரியைத் திறந்து கோப்பு வடிவத்தைக் காட்டு என்பதை நிலைமாற்றவும். இது கோப்புகளை மறுபெயரிடாமல் அல்லது மாற்றாமல் சிறுபட லேபிள்களை மாற்றுகிறது.</string>
     <string name="help_tip_setting_remember_preview_layout_step">அமைப்புகள் → நடத்தையைத் திறந்து, முன்னோட்ட தளவமைப்பை நினைவூட்டு என்பதை இயக்கவும். முன்னோட்ட உயரத்தை சரிசெய்யவும் அல்லது அதை ஒரு கருவியில் பொருத்தவும்; அடுத்த கருவி அந்த அமைப்பை மீண்டும் பயன்படுத்தும்.</string>
+    <string name="collage_outer_padding">வெளிப்புற விளிம்புகள்</string>
+    <string name="collage_border">சட்ட அகலம்</string>
+    <string name="collage_slot">புகைப்பட அமைப்புகள்</string>
+    <string name="collage_fit">முழு புகைப்படத்தையும் பொருத்தவும்</string>
+    <string name="collage_fit_sub">ஸ்லாட்டை நிரப்ப செதுக்குவதற்குப் பதிலாக முழுப் படத்தையும் காட்டவும்</string>
+    <string name="collage_global_corners">படத்தொகுப்பு மூலைகளைப் பயன்படுத்தவும்</string>
+    <string name="collage_shadow">நிழல்</string>
+    <string name="collage_style_summary">புகைப்படங்கள்: %1$d · இடைவெளி: %2$d · விளிம்புகள்: %3$d · மூலைகள்: %4$d</string>
+    <string name="collage_style_apply_full">அனைத்தையும் விண்ணப்பிக்கவும்</string>
+    <string name="collage_style_apply_full_sub">தளவமைப்பு, பிரிப்பான் நிலைகள் மற்றும் புகைப்பட ஸ்டைலிங் ஆகியவற்றை மீட்டமைக்கவும்.</string>
+    <string name="collage_style_apply_layout_unavailable">%1$d புகைப்படங்கள் தேவை; உங்கள் படத்தொகுப்பில் %2$d உள்ளது. நீங்கள் இன்னும் கீழே உள்ள பாணியைப் பயன்படுத்தலாம்.</string>
+    <string name="collage_style_apply_appearance">உடை மட்டுமே</string>
+    <string name="collage_style_apply_appearance_sub">தற்போதைய அமைப்பை வைத்திருங்கள். ஸ்லாட் வரிசையில் தோற்றம் மற்றும் புகைப்பட அமைப்புகளைப் பயன்படுத்தவும்.</string>
 </resources>

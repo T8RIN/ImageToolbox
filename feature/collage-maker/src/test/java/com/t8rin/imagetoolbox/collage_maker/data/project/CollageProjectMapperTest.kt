@@ -18,19 +18,51 @@
 package com.t8rin.imagetoolbox.collage_maker.data.project
 
 import com.t8rin.collages.CollageImageState
+import com.t8rin.collages.CollageSlotStyle
 import com.t8rin.collages.CollageState
+import com.t8rin.collages.CreativeCollages
 import com.t8rin.imagetoolbox.collage_maker.domain.CollageParams
 import com.t8rin.imagetoolbox.collage_maker.domain.CollageProject
 import com.t8rin.imagetoolbox.collage_maker.domain.CollageProjectSnapshot
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.Quality
 import com.t8rin.imagetoolbox.core.domain.model.DomainAspectRatio
+import com.t8rin.imagetoolbox.core.domain.model.GradientFill
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertThrows
 import org.junit.Test
 
 class CollageProjectMapperTest {
+
+    @Test
+    fun customLayoutAndPhotoStylesSurviveProjectRoundTrip() {
+        val design = CreativeCollages.templates.first { it.design.slots.size == 2 }.design
+        val original = snapshot("first", "second")
+        val current = original.copy(
+            layoutId = "custom_test",
+            collageState = original.collageState!!.copy(layoutId = "custom_test", design = design),
+            params = CollageParams(
+                outerPadding = 24f, borderWidth = 12f, shadowRadius = 8f,
+                shadowColor = 0x88223344.toInt(),
+                borderGradient = GradientFill(angle = 90f),
+                slotBorderGradients = listOf(GradientFill(angle = 45f), null),
+                slotStyles = listOf(
+                    CollageSlotStyle(
+                        cornerRadius = 32f,
+                        borderWidth = 5f,
+                        fit = true,
+                        shadowColor = 0x88775533.toInt()
+                    )
+                )
+            )
+        )
+        val project = CollageProject(current, listOf(original), emptyList())
+        assertEquals(
+            project,
+            project.toFile(linkedMapOf()).toProject(mapOf(0 to "first", 1 to "second"))
+        )
+    }
 
     @Test
     fun historySharesAssetsAndRestoresTheirNewUris() {

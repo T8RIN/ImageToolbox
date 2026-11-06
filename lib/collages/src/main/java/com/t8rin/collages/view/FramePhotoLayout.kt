@@ -42,6 +42,8 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.core.content.getSystemService
 import androidx.core.graphics.createBitmap
 import androidx.core.graphics.withTranslation
+import com.t8rin.collages.CollageDesign
+import com.t8rin.collages.CollageSlotStyle
 import com.t8rin.collages.CollageState
 import com.t8rin.collages.utils.Handle
 import com.t8rin.collages.utils.ImageDecoder
@@ -69,26 +71,21 @@ internal class FramePhotoLayout(
         val height: Int
     )
 
-    private fun computeFrameMetrics(bound: RectF): FrameMetrics {
-        val leftMargin = (mViewWidth * bound.left).toInt()
-        val topMargin = (mViewHeight * bound.top).toInt()
-        val frameWidth: Int = if (bound.right == 1f) {
-            mViewWidth - leftMargin
-        } else {
-            (mViewWidth * bound.width() + 0.5f).toInt()
-        }
-
-        val frameHeight: Int = if (bound.bottom == 1f) {
-            mViewHeight - topMargin
-        } else {
-            (mViewHeight * bound.height() + 0.5f).toInt()
-        }
-
+    private fun computeFrameMetrics(
+        bound: RectF,
+        width: Int = mViewWidth,
+        height: Int = mViewHeight,
+        padding: Float = min(outerPadding * 2, min(width, height) * .24f)
+    ): FrameMetrics {
+        val left = (padding + (width - padding * 2) * bound.left).roundToInt()
+        val top = (padding + (height - padding * 2) * bound.top).roundToInt()
+        val right = (padding + (width - padding * 2) * bound.right).roundToInt()
+        val bottom = (padding + (height - padding * 2) * bound.bottom).roundToInt()
         return FrameMetrics(
-            leftMargin = leftMargin,
-            topMargin = topMargin,
-            width = frameWidth,
-            height = frameHeight
+            left,
+            top,
+            (right - left).coerceAtLeast(1),
+            (bottom - top).coerceAtLeast(1)
         )
     }
 
@@ -175,6 +172,20 @@ internal class FramePhotoLayout(
     private val mItemImageViews: MutableList<FrameImageView> = ArrayList()
     var outputAspectRatio: Float = 1f
 
+    var layoutDesign: CollageDesign? = null
+    var slotStyles: List<CollageSlotStyle> = emptyList()
+    var slotBorderShaders: List<((Float, Float) -> Shader)?> = emptyList()
+    var outerPadding: Float = 0f
+        set(value) {
+            if (field == value) return
+            field = value
+            if (mViewWidth > 0 && mViewHeight > 0) {
+                mItemImageViews.indices.forEach(::resizeItem)
+            }
+        }
+
+    private val framePadding get() = min(outerPadding * 2, min(mViewWidth, mViewHeight) * .24f)
+
     private var mViewWidth: Int = 0
     private var mViewHeight: Int = 0
     private val sourceDimensions = mutableMapOf<Uri, Int>()
@@ -182,7 +193,8 @@ internal class FramePhotoLayout(
     private var backgroundShader: ((Float, Float) -> Shader)? = null
     private var onItemTapListener: ((index: Int) -> Unit)? = null
     private var onStateReadyListener: ((CollageState) -> Unit)? = null
-    private var onUserStateChangeListener: ((CollageState, CollageState) -> Unit)? = null
+    private var onUserStateChangeListener: ((CollageState, CollageState, Pair<Int, Int>?) -> Unit)? =
+        null
     private var interactionStartState: CollageState? = null
     private var isRestoringState: Boolean = false
     private var layoutId: String = ""
@@ -326,7 +338,7 @@ internal class FramePhotoLayout(
     fun setStateListeners(
         layoutId: String,
         onStateReady: ((CollageState) -> Unit)?,
-        onUserStateChange: ((CollageState, CollageState) -> Unit)?
+        onUserStateChange: ((CollageState, CollageState, Pair<Int, Int>?) -> Unit)?
     ) {
         this.layoutId = layoutId
         onStateReadyListener = onStateReady
@@ -336,7 +348,8 @@ internal class FramePhotoLayout(
     fun snapshotState(): CollageState = CollageState(
         layoutId = layoutId,
         images = mItemImageViews.map(FrameImageView::snapshotState),
-        layoutParams = paramsManager?.snapshotValues()?.toList().orEmpty()
+        layoutParams = paramsManager?.snapshotValues()?.toList().orEmpty(),
+        design = layoutDesign
     )
 
     fun restoreState(state: CollageState) {
@@ -367,17 +380,25 @@ internal class FramePhotoLayout(
         dispatchUserStateChange(before)
     }
 
-    private fun dispatchUserStateChange(before: CollageState) {
+    private fun dispatchUserStateChange(
+        before: CollageState,
+        swappedImages: Pair<Int, Int>? = null
+    ) {
         val after = snapshotState()
-        if (before != after) {
-            onUserStateChangeListener?.invoke(before, after)
+        if (before != after || swappedImages != null) {
+            onUserStateChangeListener?.invoke(before, after, swappedImages)
         }
         onStateReadyListener?.invoke(after)
     }
 
     fun setSpace(space: Float, corner: Float) {
-        for (img in mItemImageViews)
+        for (img in mItemImageViews) {
+            img.setStyle(slotStyles.getOrNull(img.photoItem.index) ?: CollageSlotStyle())
+            img.setBorderShader(slotBorderShaders.getOrNull(img.photoItem.index))
+            img.outerPadding = 0f
             img.setSpace(space, corner)
+        }
+        invalidate()
     }
 
     fun setHandleDrawable(drawable: Drawable?) {
@@ -462,11 +483,10 @@ internal class FramePhotoLayout(
         val decorationScale =
             min(outputWidth, outputHeight).toFloat() / min(mViewWidth, mViewHeight)
         val frames = mItemImageViews.mapNotNull { view ->
-            val bounds = view.photoItem.bound
-            val left = (bounds.left * outputWidth).roundToInt()
-            val top = (bounds.top * outputHeight).roundToInt()
-            val width = (bounds.right * outputWidth).roundToInt() - left
-            val height = (bounds.bottom * outputHeight).roundToInt() - top
+            val (left, top, width, height) = computeFrameMetrics(
+                view.photoItem.bound, outputWidth, outputHeight,
+                min(outerPadding * 2 * decorationScale, min(outputWidth, outputHeight) * .24f)
+            )
             view.prepareOutputImage(width.toFloat(), height.toFloat(), decorationScale)?.let {
                 OutputFrame(
                     left = left,
@@ -496,6 +516,12 @@ internal class FramePhotoLayout(
                         Paint().apply {
                             this.shader = it(outputWidth.toFloat(), outputHeight.toFloat())
                         })
+                }
+                for (frame in frames) {
+                    currentCoroutineContext().ensureActive()
+                    canvas.withTranslation(frame.left.toFloat(), frame.top.toFloat()) {
+                        frame.image.drawShadow(this)
+                    }
                 }
                 for (frame in frames) {
                     currentCoroutineContext().ensureActive()
@@ -581,13 +607,22 @@ internal class FramePhotoLayout(
         val targetAlpha = target.alpha
         resetImageDrag()
         target.swapImage(source)
+        val sourceIndex = source.photoItem.index
+        val targetIndex = target.photoItem.index
+        slotStyles = List(mItemImageViews.size) { index ->
+            slotStyles.getOrNull(if (index == sourceIndex) targetIndex else if (index == targetIndex) sourceIndex else index)
+                ?: CollageSlotStyle()
+        }
+        slotBorderShaders = List(mItemImageViews.size) { index ->
+            slotBorderShaders.getOrNull(if (index == sourceIndex) targetIndex else if (index == targetIndex) sourceIndex else index)
+        }
         target.alpha = targetAlpha
         target.animate().alpha(1f).setDuration(220L).start()
         when (selectedItemIndex) {
             source.photoItem.index -> onSingleTapImage(target)
             target.photoItem.index -> onSingleTapImage(source)
         }
-        dispatchUserStateChange(drag.before)
+        dispatchUserStateChange(drag.before, sourceIndex to targetIndex)
     }
 
     private fun resetImageDrag() {
@@ -690,6 +725,12 @@ internal class FramePhotoLayout(
     }
 
     override fun dispatchDraw(canvas: Canvas) {
+        mItemImageViews.forEach { view ->
+            canvas.withTranslation(view.left.toFloat(), view.top.toFloat()) {
+                concat(view.matrix)
+                view.drawShadow(this)
+            }
+        }
         imageDrag?.source?.let { drawOutline(canvas, it, selected = false) }
         super.dispatchDraw(canvas)
         if (imageDrag != null) {
@@ -705,8 +746,8 @@ internal class FramePhotoLayout(
         val drawable = handleDrawable ?: return
         for (handle in handles) {
             val dp = handle.draggablePoint(paramsManager!!)
-            val cx = mViewWidth * dp.x
-            val cy = mViewHeight * dp.y
+            val cx = framePadding + (mViewWidth - framePadding * 2) * dp.x
+            val cy = framePadding + (mViewHeight - framePadding * 2) * dp.y
             val angle = handle.getAngle() + 90f
             val diameter = max(
                 drawable.intrinsicWidth,
@@ -768,8 +809,8 @@ internal class FramePhotoLayout(
                 val radius = diameter / 2f
                 activeHandle = handles.firstOrNull { handle ->
                     val dp = handle.draggablePoint(manager)
-                    val hx = mViewWidth * dp.x
-                    val hy = mViewHeight * dp.y
+                    val hx = framePadding + (mViewWidth - framePadding * 2) * dp.x
+                    val hy = framePadding + (mViewHeight - framePadding * 2) * dp.y
                     val dx = globalX - hx
                     val dy = globalY - hy
                     dx * dx + dy * dy <= radius * radius
@@ -783,8 +824,10 @@ internal class FramePhotoLayout(
 
             MotionEvent.ACTION_MOVE -> {
                 val handle = activeHandle ?: return super.onTouchEvent(event)
-                val nx = (globalX / mViewWidth).coerceIn(0f, 1f)
-                val ny = (globalY / mViewHeight).coerceIn(0f, 1f)
+                val nx =
+                    ((globalX - framePadding) / (mViewWidth - framePadding * 2)).coerceIn(0f, 1f)
+                val ny =
+                    ((globalY - framePadding) / (mViewHeight - framePadding * 2)).coerceIn(0f, 1f)
                 handle.tryDrag(PointF(nx, ny), manager) ?: return true  // Drag failed
                 invalidate()
                 return true

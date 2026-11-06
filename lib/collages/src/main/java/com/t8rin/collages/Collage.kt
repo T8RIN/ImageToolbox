@@ -31,6 +31,7 @@ import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.gestures.drag
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -46,11 +47,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.zIndex
-import com.t8rin.collages.utils.CollageLayoutFactory.createCollageLayouts
 import com.t8rin.collages.view.FramePhotoLayout
 import kotlinx.coroutines.CancellationException
 import kotlin.math.min
@@ -70,6 +71,9 @@ fun Collage(
     userInteractionEnabled: Boolean = true,
     imageGesturesEnabled: Boolean = true,
     canvasScale: Float = 1f,
+    outerPadding: Float = spacing,
+    slotStyles: List<CollageSlotStyle> = emptyList(),
+    slotBorderShaders: List<((Float, Float) -> Shader)?> = emptyList(),
     aspectRatio: Float = 1f,
     outputScaleRatio: Float = 1.5f,
     onImageTap: ((index: Int) -> Unit)? = null,
@@ -80,12 +84,17 @@ fun Collage(
     state: CollageState? = null,
     onStateReady: ((CollageState) -> Unit)? = null,
     onOutputSizeChanged: ((Int, Int) -> Unit)? = null,
-    onUserStateChange: ((before: CollageState, after: CollageState) -> Unit)? = null
+    onUserStateChange: ((before: CollageState, after: CollageState, swappedImages: Pair<Int, Int>?) -> Unit)? = null
 ) {
     val outlineColor = MaterialTheme.colorScheme.primary.toArgb()
     val outlineAccent = MaterialTheme.colorScheme.primaryContainer.toArgb()
-    val layout = remember(collageType.layoutId) {
-        collageType.layoutId?.let(::createCollageLayouts)
+    val layout = remember(collageType.layoutId, collageType.design) {
+        collageType.layoutId?.let {
+            CollageType.fromLayoutId(
+                it,
+                design = collageType.design
+            )?.layout
+        }
     }
     val stateReady by rememberUpdatedState(onStateReady)
     val stateChanged by rememberUpdatedState(onUserStateChange)
@@ -111,6 +120,12 @@ fun Collage(
 
                 CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
                     AndroidView(
+                        modifier = with(LocalDensity.current) {
+                            Modifier.size(
+                                width.toDp(),
+                                height.toDp()
+                            )
+                        },
                         factory = { context ->
                             FramePhotoLayout(context, layout?.photoItemList.orEmpty()).also {
                                 it.setParamsManager(layout?.paramsManager)
@@ -125,13 +140,18 @@ fun Collage(
                                     applied.state = it
                                     stateReady?.invoke(it)
                                 },
-                                onUserStateChange = { before, after ->
+                                onUserStateChange = { before, after, swappedImages ->
                                     stateChanged?.invoke(
                                         before,
-                                        after
+                                        after,
+                                        swappedImages
                                     )
                                 }
                             )
+                            target.layoutDesign = layout?.design
+                            target.slotStyles = slotStyles
+                            target.slotBorderShaders = slotBorderShaders
+                            target.outerPadding = outerPadding * decorationScale
                             target.setOutlineStyle(outlineColor, outlineAccent, canvasScale)
                             target.setBackgroundColor(backgroundColor)
                             target.setBackgroundShader(backgroundShader)

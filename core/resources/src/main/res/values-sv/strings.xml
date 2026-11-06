@@ -7955,4 +7955,17 @@
     <string name="help_tip_setting_gallery_file_size_step">Öppna Inställningar → Galleri och växla Visa filstorlek. Detta ändrar miniatyretiketter utan att ändra eller komprimera filerna.</string>
     <string name="help_tip_setting_gallery_file_extension_step">Öppna Inställningar → Galleri och växla Visa filformat. Detta ändrar miniatyretiketter utan att döpa om eller konvertera filerna.</string>
     <string name="help_tip_setting_remember_preview_layout_step">Öppna Inställningar → Beteende och aktivera Kom ihåg förhandsgranskningslayout. Justera förhandsgranskningens höjd eller fäst den i ett verktyg; nästa verktyg kommer att återanvända den layouten.</string>
+    <string name="collage_outer_padding">Yttre marginaler</string>
+    <string name="collage_border">Ramens bredd</string>
+    <string name="collage_slot">Fotoinställningar</string>
+    <string name="collage_fit">Passar hela fotot</string>
+    <string name="collage_fit_sub">Visa hela bilden istället för att beskära för att fylla facket</string>
+    <string name="collage_global_corners">Använd kollagehörn</string>
+    <string name="collage_shadow">Skugga</string>
+    <string name="collage_style_summary">Foton: %1$d · Avstånd: %2$d · Marginaler: %3$d · Hörn: %4$d</string>
+    <string name="collage_style_apply_full">Applicera allt</string>
+    <string name="collage_style_apply_full_sub">Återställ layouten, avdelarens positioner och fotostilen.</string>
+    <string name="collage_style_apply_layout_unavailable">Kräver %1$d foton; ditt collage har %2$d. Du kan fortfarande använda stilen nedan.</string>
+    <string name="collage_style_apply_appearance">Endast stil</string>
+    <string name="collage_style_apply_appearance_sub">Behåll den nuvarande layouten. Tillämpa inställningarna för utseende och foto efter platsordning.</string>
 </resources>

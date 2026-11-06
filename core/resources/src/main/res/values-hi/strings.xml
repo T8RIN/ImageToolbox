@@ -7955,4 +7955,17 @@
     <string name="help_tip_setting_gallery_file_size_step">सेटिंग्स → गैलरी खोलें और फ़ाइल आकार दिखाएँ टॉगल करें। यह फ़ाइलों को बदले या संपीड़ित किए बिना थंबनेल लेबल बदलता है।</string>
     <string name="help_tip_setting_gallery_file_extension_step">सेटिंग्स → गैलरी खोलें और फ़ाइल प्रारूप दिखाएँ टॉगल करें। यह फ़ाइलों का नाम बदले या परिवर्तित किए बिना थंबनेल लेबल बदलता है।</string>
     <string name="help_tip_setting_remember_preview_layout_step">सेटिंग्स → व्यवहार खोलें और पूर्वावलोकन लेआउट याद रखें चालू करें। पूर्वावलोकन ऊंचाई समायोजित करें या इसे किसी टूल में पिन करें; अगला टूल उस लेआउट का पुन: उपयोग करेगा।</string>
+    <string name="collage_outer_padding">बाहरी हाशिया</string>
+    <string name="collage_border">फ़्रेम चौड़ाई</string>
+    <string name="collage_slot">फ़ोटो सेटिंग</string>
+    <string name="collage_fit">पूरी फोटो फ़िट करें</string>
+    <string name="collage_fit_sub">स्लॉट भरने के लिए क्रॉप करने के बजाय पूरी फोटो दिखाएं</string>
+    <string name="collage_global_corners">कोलाज कोनों का प्रयोग करें</string>
+    <string name="collage_shadow">छाया</string>
+    <string name="collage_style_summary">तस्वीरें: %1$d · रिक्ति: %2$d · मार्जिन: %3$d · कोने: %4$d</string>
+    <string name="collage_style_apply_full">सब कुछ लागू करें</string>
+    <string name="collage_style_apply_full_sub">लेआउट, डिवाइडर स्थिति और फोटो स्टाइल को पुनर्स्थापित करें।</string>
+    <string name="collage_style_apply_layout_unavailable">%1$d फ़ोटो की आवश्यकता है; आपके कोलाज में %2$d है। आप अभी भी नीचे दी गई शैली लागू कर सकते हैं.</string>
+    <string name="collage_style_apply_appearance">केवल स्टाइल</string>
+    <string name="collage_style_apply_appearance_sub">वर्तमान लेआउट रखें. स्लॉट क्रम के अनुसार उपस्थिति और फोटो सेटिंग्स लागू करें।</string>
 </resources>

@@ -7957,4 +7957,17 @@
     <string name="help_tip_setting_gallery_file_size_step">Otwórz Ustawienia → Galeria i przełącz opcję Pokaż rozmiar pliku. Spowoduje to zmianę etykiet miniatur bez zmiany lub kompresji plików.</string>
     <string name="help_tip_setting_gallery_file_extension_step">Otwórz Ustawienia → Galeria i przełącz opcję Pokaż format pliku. Spowoduje to zmianę etykiet miniatur bez zmiany nazwy lub konwersji plików.</string>
     <string name="help_tip_setting_remember_preview_layout_step">Otwórz Ustawienia → Zachowanie i włącz opcję Zapamiętaj układ podglądu. Dostosuj wysokość podglądu lub przypnij go w narzędziu; następne narzędzie ponownie użyje tego układu.</string>
+    <string name="collage_outer_padding">Marginesy zewnętrzne</string>
+    <string name="collage_border">Szerokość ramy</string>
+    <string name="collage_slot">Ustawienia zdjęć</string>
+    <string name="collage_fit">Dopasuj całe zdjęcie</string>
+    <string name="collage_fit_sub">Pokaż całe zdjęcie zamiast przycinać, aby wypełnić miejsce</string>
+    <string name="collage_global_corners">Użyj rogów kolażu</string>
+    <string name="collage_shadow">Cień</string>
+    <string name="collage_style_summary">Zdjęcia: %1$d · Odstępy: %2$d · Marginesy: %3$d · Narożniki: %4$d</string>
+    <string name="collage_style_apply_full">Zastosuj wszystko</string>
+    <string name="collage_style_apply_full_sub">Przywróć układ, pozycje rozdzielaczy i styl zdjęć.</string>
+    <string name="collage_style_apply_layout_unavailable">Wymaga %1$d zdjęć; Twój kolaż zawiera %2$d. Nadal możesz zastosować poniższy styl.</string>
+    <string name="collage_style_apply_appearance">Tylko styl</string>
+    <string name="collage_style_apply_appearance_sub">Zachowaj bieżący układ. Zastosuj ustawienia wyglądu i zdjęć według kolejności gniazd.</string>
 </resources>

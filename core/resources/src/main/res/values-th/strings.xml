@@ -7954,4 +7954,17 @@
     <string name="help_tip_setting_gallery_file_size_step">เปิดการตั้งค่า → คลังภาพ และสลับแสดงขนาดไฟล์ การดำเนินการนี้จะเปลี่ยนป้ายกำกับภาพขนาดย่อโดยไม่ต้องเปลี่ยนหรือบีบอัดไฟล์</string>
     <string name="help_tip_setting_gallery_file_extension_step">เปิดการตั้งค่า → คลังภาพ และสลับแสดงรูปแบบไฟล์ การดำเนินการนี้จะเปลี่ยนป้ายกำกับภาพขนาดย่อโดยไม่ต้องเปลี่ยนชื่อหรือแปลงไฟล์</string>
     <string name="help_tip_setting_remember_preview_layout_step">เปิดการตั้งค่า → พฤติกรรม และเปิดจำเค้าโครงตัวอย่าง ปรับความสูงของการแสดงตัวอย่างหรือปักหมุดไว้ในเครื่องมือ เครื่องมือถัดไปจะนำเค้าโครงนั้นกลับมาใช้ใหม่</string>
+    <string name="collage_outer_padding">ขอบด้านนอก</string>
+    <string name="collage_border">ความกว้างของเฟรม</string>
+    <string name="collage_slot">การตั้งค่าภาพถ่าย</string>
+    <string name="collage_fit">พอดีทั้งภาพ</string>
+    <string name="collage_fit_sub">แสดงรูปภาพเต็มแทนการครอบตัดเพื่อเติมช่อง</string>
+    <string name="collage_global_corners">ใช้มุมภาพต่อกัน</string>
+    <string name="collage_shadow">เงา</string>
+    <string name="collage_style_summary">รูปภาพ: %1$d · ระยะห่าง: %2$d · ขอบ: %3$d · มุม: %4$d</string>
+    <string name="collage_style_apply_full">ประยุกต์ทุกอย่าง</string>
+    <string name="collage_style_apply_full_sub">คืนค่าเค้าโครง ตำแหน่งตัวแบ่ง และการจัดรูปแบบภาพถ่าย</string>
+    <string name="collage_style_apply_layout_unavailable">ต้องใช้รูปภาพ %1$d; ภาพต่อกันของคุณมี %2$d คุณยังคงใช้สไตล์ด้านล่างได้</string>
+    <string name="collage_style_apply_appearance">สไตล์เท่านั้น</string>
+    <string name="collage_style_apply_appearance_sub">คงเค้าโครงปัจจุบันไว้ ใช้การตั้งค่ารูปลักษณ์และภาพถ่ายตามลำดับช่อง</string>
 </resources>

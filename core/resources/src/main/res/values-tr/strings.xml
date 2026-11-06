@@ -7955,4 +7955,17 @@
     <string name="help_tip_setting_gallery_file_size_step">Ayarlar → Galeri\'yi açın ve Dosya boyutunu göster seçeneğini açın. Bu, dosyaları değiştirmeden veya sıkıştırmadan küçük resim etiketlerini değiştirir.</string>
     <string name="help_tip_setting_gallery_file_extension_step">Ayarlar → Galeri\'yi açın ve Dosya formatını göster seçeneğini açın. Bu, dosyaları yeniden adlandırmadan veya dönüştürmeden küçük resim etiketlerini değiştirir.</string>
     <string name="help_tip_setting_remember_preview_layout_step">Ayarlar → Davranış\'ı açın ve Önizleme Düzenini Hatırla\'yı açın. Önizleme yüksekliğini ayarlayın veya bir araca sabitleyin; sonraki araç bu düzeni yeniden kullanacaktır.</string>
+    <string name="collage_outer_padding">Dış kenar boşlukları</string>
+    <string name="collage_border">Çerçeve genişliği</string>
+    <string name="collage_slot">Fotoğraf ayarları</string>
+    <string name="collage_fit">Fotoğrafın tamamını sığdır</string>
+    <string name="collage_fit_sub">Yuvayı doldurmak için kırpmak yerine fotoğrafın tamamını gösterin</string>
+    <string name="collage_global_corners">Kolaj köşelerini kullanın</string>
+    <string name="collage_shadow">Gölge</string>
+    <string name="collage_style_summary">Fotoğraflar: %1$d · Aralık: %2$d · Kenar boşlukları: %3$d · Köşeler: %4$d</string>
+    <string name="collage_style_apply_full">Her şeyi uygula</string>
+    <string name="collage_style_apply_full_sub">Düzeni, ayırıcı konumlarını ve fotoğraf stilini geri yükleyin.</string>
+    <string name="collage_style_apply_layout_unavailable">%1$d fotoğraf gerektirir; kolajınızda %2$d var. Aşağıdaki stili hala uygulayabilirsiniz.</string>
+    <string name="collage_style_apply_appearance">Yalnızca stil</string>
+    <string name="collage_style_apply_appearance_sub">Mevcut düzeni koruyun. Görünüm ve fotoğraf ayarlarını yuva sırasına göre uygulayın.</string>
 </resources>

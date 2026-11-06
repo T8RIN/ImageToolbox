@@ -23,6 +23,9 @@ import android.content.Context
 import android.graphics.Path
 import android.graphics.RectF
 import androidx.core.net.toUri
+import com.t8rin.collages.CollagePoint
+import com.t8rin.collages.CollageType
+import com.t8rin.collages.CreativeCollages
 import com.t8rin.collages.frames.EightFrameImage
 import com.t8rin.collages.frames.ExtendedFrameImage
 import com.t8rin.collages.frames.FiveFrameImage
@@ -34,6 +37,8 @@ import com.t8rin.collages.frames.TenFrameImage
 import com.t8rin.collages.frames.ThreeFrameImage
 import com.t8rin.collages.frames.TwoFrameImage
 import com.t8rin.collages.model.CollageLayout
+import kotlin.math.abs
+import kotlin.math.roundToInt
 
 internal object CollageLayoutFactory {
     private const val FRAME_FOLDER = "frame"
@@ -64,6 +69,7 @@ internal object CollageLayoutFactory {
             lineTo(top + size / 2, top + size)
             lineTo(top + size / 4, top + size * 3 / 4)
             quadTo(top, top + size / 2, top, top + size / 4)
+            close()
         }
     }
 
@@ -71,7 +77,11 @@ internal object CollageLayoutFactory {
         return runCatching {
             context.assets.list(FRAME_FOLDER).orEmpty().mapNotNull {
                 createCollageLayouts(it.substringBeforeLast('.'))
-            }.sortedWith { lhs, rhs -> lhs.photoItemList.size - rhs.photoItemList.size }
+            }.sortedWith(
+                compareBy(
+                    { it.photoItemList.size },
+                    { it.title.startsWith("creative_") })
+            )
         }.onFailure {
             it.printStackTrace()
         }.getOrNull().orEmpty()
@@ -146,7 +156,74 @@ internal object CollageLayoutFactory {
     }
 
     internal fun createCollageLayouts(frameName: String): CollageLayout? {
-        return COLLAGE_MAP[frameName]?.invoke()
+        val layout = COLLAGE_MAP[frameName]?.invoke() ?: CreativeCollages.templates
+            .firstOrNull { it.id == frameName }
+            ?.let { CollageType.fromDesign(it.id, it.design)?.layout }
+        return layout?.let(::withRectangularHandles)
+    }
+
+    internal fun withRectangularHandles(layout: CollageLayout): CollageLayout {
+        if (layout.paramsManager != null || layout.photoItemList.size < 2) return layout
+        val items = layout.photoItemList
+        fun coordinate(value: Float) = (value * 100_000).roundToInt() / 100_000f
+        if (items.any { item ->
+                val points = item.shape?.map { coordinate(it.x) to coordinate(it.y) }
+                    ?: item.pointList.map { coordinate(it.x) to coordinate(it.y) }
+                val left = if (item.shape == null) 0f else coordinate(item.bound.left)
+                val top = if (item.shape == null) 0f else coordinate(item.bound.top)
+                val right = if (item.shape == null) 1f else coordinate(item.bound.right)
+                val bottom = if (item.shape == null) 1f else coordinate(item.bound.bottom)
+                item.path != null || item.clearPath != null || !item.clearAreaPoints.isNullOrEmpty() ||
+                        points.toSet() != setOf(
+                    left to top,
+                    right to top,
+                    right to bottom,
+                    left to bottom
+                ) ||
+                        item.bound.width() < ParamsManager.minSize - .0001f ||
+                        item.bound.height() < ParamsManager.minSize - .0001f
+            }) return layout
+        val area = items.sumOf { (it.bound.width() * it.bound.height()).toDouble() }
+        if (abs(area - 1.0) > .0001) return layout
+        val builder = ParamsManagerBuilder()
+        fun parameters(values: List<Float>) = values.map(::coordinate).distinct().sorted()
+            .filter { it > 0f && it < 1f }.associateWith(builder::param)
+
+        val xParams = parameters(items.flatMap { listOf(it.bound.left, it.bound.right) })
+        val yParams = parameters(items.flatMap { listOf(it.bound.top, it.bound.bottom) })
+        items.forEach { item ->
+            val original = RectF(
+                coordinate(item.bound.left), coordinate(item.bound.top),
+                coordinate(item.bound.right), coordinate(item.bound.bottom)
+            )
+            val left = xParams[original.left]
+            val right = xParams[original.right]
+            val top = yParams[original.top]
+            val bottom = yParams[original.bottom]
+            builder.addBoxedItem(
+                photoItem = item,
+                xParams = listOfNotNull(left, right),
+                yParams = listOfNotNull(top, bottom),
+                boxParams = { values ->
+                    RectF(
+                        left?.let { values[it] } ?: original.left,
+                        top?.let { values[it] } ?: original.top,
+                        right?.let { values[it] } ?: original.right,
+                        bottom?.let { values[it] } ?: original.bottom
+                    )
+                },
+                action = { photo, _, bounds ->
+                    if (photo.shape != null) photo.shape = listOf(
+                        CollagePoint(bounds.left, bounds.top),
+                        CollagePoint(bounds.right, bounds.top),
+                        CollagePoint(bounds.right, bounds.bottom),
+                        CollagePoint(bounds.left, bounds.bottom)
+                    )
+                }
+            )
+        }
+        val (manager, photoItems) = builder.build()
+        return layout.copy(paramsManager = manager, photoItemList = photoItems)
     }
 
     internal val COLLAGE_MAP: Map<String, () -> CollageLayout> = mapOf(

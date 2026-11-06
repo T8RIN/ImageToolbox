@@ -25,6 +25,8 @@ import android.graphics.Paint
 import android.graphics.Path
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffXfermode
+import android.graphics.RectF
+import android.graphics.Shader
 import android.net.Uri
 import androidx.core.graphics.withClip
 import com.t8rin.collages.utils.ImageDecoder
@@ -40,8 +42,19 @@ internal class FrameImageRender(
     private val path: Path,
     private val backgroundPath: Path,
     private val clearPath: Path,
-    private val backgroundColor: Int
+    private val backgroundColor: Int,
+    private val borderWidth: Float = 0f,
+    private val borderColor: Int = -1,
+    private val shadowRadius: Float = 0f,
+    private val shadowColor: Int = 0x55000000,
+    private val borderShader: Shader? = null
 ) {
+    private val paint = Paint(Paint.ANTI_ALIAS_FLAG or Paint.FILTER_BITMAP_FLAG)
+
+    fun drawShadow(canvas: Canvas) = drawCollageShadow(
+        canvas, path, clearPath, shadowRadius, shadowColor, paint = paint
+    )
+
     suspend fun draw(canvas: Canvas, sourceSize: Int) {
         val values = FloatArray(9).also(matrix::getValues)
         val decodeSize = ceil(max(preview.width, preview.height) * hypot(values[0], values[3]))
@@ -58,7 +71,8 @@ internal class FrameImageRender(
             }
             drawCollageImage(
                 canvas, path, backgroundPath, clearPath, image, imageMatrix,
-                backgroundColor, Paint(Paint.ANTI_ALIAS_FLAG or Paint.FILTER_BITMAP_FLAG)
+                backgroundColor, paint,
+                borderWidth = borderWidth, borderColor = borderColor, borderShader = borderShader
             )
         } finally {
             if (image !== preview) image.recycle()
@@ -77,7 +91,10 @@ internal fun drawCollageImage(
     paint: Paint,
     previousImage: Bitmap? = null,
     previousMatrix: Matrix? = null,
-    progress: Float = 1f
+    progress: Float = 1f,
+    borderWidth: Float = 0f,
+    borderColor: Int = -1,
+    borderShader: Shader? = null
 ) {
     paint.color = backgroundColor
     canvas.drawPath(backgroundPath, paint)
@@ -107,7 +124,45 @@ internal fun drawCollageImage(
         } else if (image != null && !image.isRecycled) {
             drawBitmap(image, matrix, paint)
         }
+        if (borderWidth > 0f) {
+            paint.style = Paint.Style.STROKE
+            paint.strokeWidth = borderWidth * 2
+            paint.color = if (borderShader == null) borderColor else android.graphics.Color.WHITE
+            paint.shader = borderShader
+            drawPath(clip, paint)
+            paint.shader = null
+            paint.style = Paint.Style.FILL
+        }
     }
 }
 
+internal fun drawCollageShadow(
+    canvas: Canvas,
+    path: Path,
+    clearPath: Path,
+    radius: Float,
+    color: Int,
+    alpha: Float = 1f,
+    paint: Paint
+) {
+    if (radius <= 0f || android.graphics.Color.alpha(color) == 0 || alpha <= 0f) return
+    val clip = if (clearPath.isEmpty) path else Path(path).apply {
+        op(clearPath, Path.Op.DIFFERENCE)
+    }
+    val bounds = RectF()
+    clip.computeBounds(bounds, true)
+    bounds.inset(-radius * 2, -radius * 2)
+    val layer = canvas.saveLayer(bounds, null)
+    paint.color = android.graphics.Color.BLACK
+    val opacity = (android.graphics.Color.alpha(color) * alpha).toInt().coerceIn(0, 255)
+    paint.setShadowLayer(radius, 0f, radius / 3, (color and 0x00ffffff) or (opacity shl 24))
+    canvas.drawPath(clip, paint)
+    paint.clearShadowLayer()
+    paint.xfermode = shadowCutoutMode
+    canvas.drawPath(clip, paint)
+    paint.xfermode = null
+    canvas.restoreToCount(layer)
+}
+
 private val imageBlendMode = PorterDuffXfermode(PorterDuff.Mode.ADD)
+private val shadowCutoutMode = PorterDuffXfermode(PorterDuff.Mode.CLEAR)

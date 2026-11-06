@@ -7954,4 +7954,17 @@
     <string name="help_tip_setting_gallery_file_size_step">[設定] → [ギャラリー] を開き、[ファイル サイズの表示] を切り替えます。これにより、ファイルを変更または圧縮せずに、サムネイルのラベルが変更されます。</string>
     <string name="help_tip_setting_gallery_file_extension_step">「設定」→「ギャラリー」を開き、「ファイル形式の表示」を切り替えます。これにより、ファイルの名前変更や変換を行わずに、サムネイルのラベルが変更されます。</string>
     <string name="help_tip_setting_remember_preview_layout_step">「設定」→「動作」を開き、「プレビューレイアウトを記憶する」をオンにします。プレビューの高さを調整するか、ツールに固定します。次のツールはそのレイアウトを再利用します。</string>
+    <string name="collage_outer_padding">外側の余白</string>
+    <string name="collage_border">フレーム幅</string>
+    <string name="collage_slot">写真の設定</string>
+    <string name="collage_fit">写真全体をフィットさせる</string>
+    <string name="collage_fit_sub">スロットを埋めるようにトリミングするのではなく、写真全体を表示します</string>
+    <string name="collage_global_corners">コラージュコーナーを使用する</string>
+    <string name="collage_shadow">影</string>
+    <string name="collage_style_summary">写真: %1$d · 間隔: %2$d · 余白: %3$d · コーナー: %4$d</string>
+    <string name="collage_style_apply_full">すべてを適用する</string>
+    <string name="collage_style_apply_full_sub">レイアウト、区切り位置、写真のスタイルを復元します。</string>
+    <string name="collage_style_apply_layout_unavailable">%1$d枚の写真が必要です。あなたのコラージュには%2$dがあります。以下のスタイルは引き続き適用できます。</string>
+    <string name="collage_style_apply_appearance">スタイルのみ</string>
+    <string name="collage_style_apply_appearance_sub">現在のレイアウトを維持します。スロットの順序に従って外観と写真の設定を適用します。</string>
 </resources>

@@ -69,14 +69,17 @@ private fun CollageProjectSnapshotFile.toSnapshot(
     require(layoutId == null || count > 0)
     state?.let { state ->
         require(state.layoutId == layoutId)
+        require(state.design?.let { it.isValid() && it.slots.size == count } != false)
         require(state.images.map { it.index }.sorted() == (0 until count).toList())
         require(state.layoutParams.all(Float::isFinite))
-        require(state.images.all {
-            (it.matrixValues.isEmpty() || it.matrixValues.size == 9) &&
-                    it.matrixValues.all(Float::isFinite) &&
-                    it.viewWidth.isFinite() && it.viewWidth >= 0f &&
-                    it.viewHeight.isFinite() && it.viewHeight >= 0f
-        })
+        require(
+            state.images.all {
+                (it.matrixValues.isEmpty() || it.matrixValues.size == 9) &&
+                        it.matrixValues.all(Float::isFinite) &&
+                        it.viewWidth.isFinite() && it.viewWidth >= 0f &&
+                        it.viewHeight.isFinite() && it.viewHeight >= 0f
+            }
+        )
     }
     val ratio = aspectRatio.toDomain()
     require(
@@ -85,6 +88,14 @@ private fun CollageProjectSnapshotFile.toSnapshot(
                 ratio.heightProportion.isFinite() && ratio.heightProportion > 0f
     )
     require(params.spacing in 0f..50f && params.cornerRadius in 0f..50f)
+    require(params.shadowRadius in 0f..20f)
+    require(params.outerPadding in 0f..50f && params.borderWidth in 0f..30f)
+    require(
+        params.slotStyles.size <= count && params.slotStyles.all {
+            (it.cornerRadius?.let { radius -> radius in 0f..50f } != false) && it.borderWidth in 0f..30f && it.shadowRadius in 0f..20f
+        }
+    )
+    require(params.slotBorderGradients.size <= count)
     require(params.outputScaleRatio in 0.1f..1f)
 
     return CollageProjectSnapshot(

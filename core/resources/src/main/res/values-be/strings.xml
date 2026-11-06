@@ -7957,4 +7957,17 @@
     <string name="help_tip_setting_gallery_file_size_step">Адкрыйце Налады → Галерэя і пераключыце Паказаць памер файла. Гэта змяняе этыкеткі мініяцюр без змены або сціску файлаў.</string>
     <string name="help_tip_setting_gallery_file_extension_step">Адкрыйце Налады → Галерэя і пераключыце Паказаць фармат файла. Гэта змяняе этыкеткі мініяцюр без перайменавання або пераўтварэння файлаў.</string>
     <string name="help_tip_setting_remember_preview_layout_step">Адкрыйце «Настройкі» → «Паводзіны» і ўключыце «Запомніць макет папярэдняга прагляду». Адрэгулюйце вышыню папярэдняга прагляду або замацуеце яго ў інструменце; наступны інструмент будзе паўторна выкарыстоўваць гэты макет.</string>
+    <string name="collage_outer_padding">Вонкавыя палі</string>
+    <string name="collage_border">Шырыня рамы</string>
+    <string name="collage_slot">Налады фота</string>
+    <string name="collage_fit">Падабраць усё фота</string>
+    <string name="collage_fit_sub">Паказаць поўнае фота замест абрэзкі, каб запоўніць месца</string>
+    <string name="collage_global_corners">Выкарыстоўвайце куткі калажа</string>
+    <string name="collage_shadow">Цень</string>
+    <string name="collage_style_summary">Фатаграфіі: %1$d · Інтэрвал: %2$d · Палі: %3$d · Вуглы: %4$d</string>
+    <string name="collage_style_apply_full">Прымяніць усё</string>
+    <string name="collage_style_apply_full_sub">Аднавіць макет, пазіцыі падзельнікаў і стылізацыю фота.</string>
+    <string name="collage_style_apply_layout_unavailable">Патрабуецца %1$d фота; ваш калаж мае %2$d. Вы ўсё яшчэ можаце прымяніць стыль ніжэй.</string>
+    <string name="collage_style_apply_appearance">Толькі стыль</string>
+    <string name="collage_style_apply_appearance_sub">Захаваць бягучы макет. Ужывайце налады знешняга выгляду і фота ў парадку слотаў.</string>
 </resources>

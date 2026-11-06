@@ -7955,4 +7955,17 @@
     <string name="help_tip_setting_gallery_file_size_step">Avaa Asetukset → Galleria ja vaihda Näytä tiedostokoko. Tämä muuttaa pikkukuvien otsikot muuttamatta tai pakkaamatta tiedostoja.</string>
     <string name="help_tip_setting_gallery_file_extension_step">Avaa Asetukset → Galleria ja vaihda Näytä tiedostomuoto. Tämä muuttaa pikkukuvien nimiä ilman tiedostojen uudelleennimeämistä tai muuntamista.</string>
     <string name="help_tip_setting_remember_preview_layout_step">Avaa Asetukset → Käyttäytyminen ja ota käyttöön Muista esikatseluasettelu. Säädä esikatselun korkeutta tai kiinnitä se työkaluun; seuraava työkalu käyttää tätä asettelua uudelleen.</string>
+    <string name="collage_outer_padding">Ulkoreunat</string>
+    <string name="collage_border">Rungon leveys</string>
+    <string name="collage_slot">Valokuva-asetukset</string>
+    <string name="collage_fit">Sovita koko valokuva</string>
+    <string name="collage_fit_sub">Näytä koko valokuva sen sijaan, että rajaat paikan täyteen</string>
+    <string name="collage_global_corners">Käytä kollaasi kulmia</string>
+    <string name="collage_shadow">Varjo</string>
+    <string name="collage_style_summary">Valokuvat: %1$d · Väli: %2$d · Marginaalit: %3$d · Kulmat: %4$d</string>
+    <string name="collage_style_apply_full">Käytä kaikkea</string>
+    <string name="collage_style_apply_full_sub">Palauta asettelu, jakajien sijainnit ja valokuvatyyli.</string>
+    <string name="collage_style_apply_layout_unavailable">Vaatii %1$d valokuvaa; kollaasissasi on %2$d. Voit silti käyttää alla olevaa tyyliä.</string>
+    <string name="collage_style_apply_appearance">Vain tyyli</string>
+    <string name="collage_style_apply_appearance_sub">Säilytä nykyinen asettelu. Käytä ulkoasua ja valokuva-asetuksia paikkajärjestyksessä.</string>
 </resources>

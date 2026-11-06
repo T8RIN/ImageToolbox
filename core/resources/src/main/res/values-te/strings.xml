@@ -7955,4 +7955,17 @@
     <string name="help_tip_setting_gallery_file_size_step">సెట్టింగ్‌లు → గ్యాలరీని తెరిచి, ఫైల్ పరిమాణాన్ని చూపించు టోగుల్ చేయండి. ఇది ఫైల్‌లను మార్చకుండా లేదా కుదించకుండా థంబ్‌నెయిల్ లేబుల్‌లను మారుస్తుంది.</string>
     <string name="help_tip_setting_gallery_file_extension_step">సెట్టింగ్‌లు → గ్యాలరీని తెరిచి, ఫైల్ ఫార్మాట్‌ని చూపించు టోగుల్ చేయండి. ఇది ఫైల్‌ల పేరు మార్చకుండా లేదా మార్చకుండా థంబ్‌నెయిల్ లేబుల్‌లను మారుస్తుంది.</string>
     <string name="help_tip_setting_remember_preview_layout_step">సెట్టింగ్‌లు → బిహేవియర్‌ని తెరిచి, రిమెంబర్ ప్రివ్యూ లేఅవుట్‌ని ఆన్ చేయండి. ప్రివ్యూ ఎత్తును సర్దుబాటు చేయండి లేదా సాధనంలో పిన్ చేయండి; తదుపరి సాధనం ఆ లేఅవుట్‌ను మళ్లీ ఉపయోగిస్తుంది.</string>
+    <string name="collage_outer_padding">బాహ్య అంచులు</string>
+    <string name="collage_border">ఫ్రేమ్ వెడల్పు</string>
+    <string name="collage_slot">ఫోటో సెట్టింగ్‌లు</string>
+    <string name="collage_fit">మొత్తం ఫోటోను అమర్చండి</string>
+    <string name="collage_fit_sub">స్లాట్‌ను పూరించడానికి కత్తిరించడానికి బదులుగా పూర్తి ఫోటోను చూపండి</string>
+    <string name="collage_global_corners">కోల్లెజ్ మూలలను ఉపయోగించండి</string>
+    <string name="collage_shadow">నీడ</string>
+    <string name="collage_style_summary">ఫోటోలు: %1$d · అంతరం: %2$d · అంచులు: %3$d · మూలలు: %4$d</string>
+    <string name="collage_style_apply_full">ప్రతిదీ వర్తించు</string>
+    <string name="collage_style_apply_full_sub">లేఅవుట్, డివైడర్ స్థానాలు మరియు ఫోటో స్టైలింగ్‌ను పునరుద్ధరించండి.</string>
+    <string name="collage_style_apply_layout_unavailable">%1$d ఫోటోలు అవసరం; మీ దృశ్య రూపకల్పనలో %2$d ఉంది. మీరు ఇప్పటికీ దిగువ శైలిని వర్తింపజేయవచ్చు.</string>
+    <string name="collage_style_apply_appearance">శైలి మాత్రమే</string>
+    <string name="collage_style_apply_appearance_sub">ప్రస్తుత లేఅవుట్‌ను ఉంచండి. స్లాట్ ఆర్డర్ ద్వారా ప్రదర్శన మరియు ఫోటో సెట్టింగ్‌లను వర్తింపజేయండి.</string>
 </resources>

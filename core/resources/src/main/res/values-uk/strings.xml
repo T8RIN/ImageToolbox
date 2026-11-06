@@ -7957,4 +7957,17 @@
     <string name="help_tip_setting_gallery_file_size_step">Відкрийте «Налаштування» → «Галерея» та перемкніть «Показати розмір файлу». Це змінює мітки мініатюр без зміни або стиснення файлів.</string>
     <string name="help_tip_setting_gallery_file_extension_step">Відкрийте «Налаштування» → «Галерея» та перемкніть «Показати формат файлу». Це змінює мітки ескізів без перейменування чи конвертації файлів.</string>
     <string name="help_tip_setting_remember_preview_layout_step">Відкрийте «Параметри» → «Поведінка» та ввімкніть «Запам’ятати макет попереднього перегляду». Налаштуйте висоту попереднього перегляду або закріпіть його в інструменті; наступний інструмент повторно використовуватиме цей макет.</string>
+    <string name="collage_outer_padding">Зовнішні поля</string>
+    <string name="collage_border">Ширина рами</string>
+    <string name="collage_slot">Налаштування фото</string>
+    <string name="collage_fit">Розмістити всю фотографію</string>
+    <string name="collage_fit_sub">Показуйте повну фотографію замість обрізання, щоб заповнити слот</string>
+    <string name="collage_global_corners">Використовуйте колажні куточки</string>
+    <string name="collage_shadow">Тінь</string>
+    <string name="collage_style_summary">Фотографії: %1$d · Інтервал: %2$d · Поля: %3$d · Кути: %4$d</string>
+    <string name="collage_style_apply_full">Застосувати все</string>
+    <string name="collage_style_apply_full_sub">Відновіть макет, положення роздільників і стиль фотографій.</string>
+    <string name="collage_style_apply_layout_unavailable">Потрібно %1$d фотографій; ваш колаж має %2$d. Ви все ще можете застосувати наведений нижче стиль.</string>
+    <string name="collage_style_apply_appearance">Тільки стиль</string>
+    <string name="collage_style_apply_appearance_sub">Зберегти поточний макет. Застосуйте налаштування зовнішнього вигляду та фотографій у порядку слотів.</string>
 </resources>

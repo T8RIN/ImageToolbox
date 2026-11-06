@@ -7954,4 +7954,17 @@
     <string name="help_tip_setting_gallery_file_size_step">설정 → 갤러리를 열고 파일 크기 표시를 전환합니다. 파일을 변경하거나 압축하지 않고 썸네일 레이블을 변경합니다.</string>
     <string name="help_tip_setting_gallery_file_extension_step">설정 → 갤러리를 열고 파일 형식 표시를 전환합니다. 파일 이름을 바꾸거나 변환하지 않고 축소판 레이블을 변경합니다.</string>
     <string name="help_tip_setting_remember_preview_layout_step">설정 → 동작을 열고 미리보기 레이아웃 기억을 켭니다. 미리보기 높이를 조정하거나 도구에 고정하세요. 다음 도구는 해당 레이아웃을 재사용합니다.</string>
+    <string name="collage_outer_padding">바깥쪽 여백</string>
+    <string name="collage_border">프레임 폭</string>
+    <string name="collage_slot">사진 설정</string>
+    <string name="collage_fit">전체 사진 맞추기</string>
+    <string name="collage_fit_sub">슬롯을 채우기 위해 자르는 대신 전체 사진을 표시합니다.</string>
+    <string name="collage_global_corners">콜라주 코너 사용</string>
+    <string name="collage_shadow">그림자</string>
+    <string name="collage_style_summary">사진: %1$d · 간격: %2$d · 여백: %3$d · 모서리: %4$d</string>
+    <string name="collage_style_apply_full">모든 것을 적용</string>
+    <string name="collage_style_apply_full_sub">레이아웃, 구분선 위치 및 사진 스타일을 복원합니다.</string>
+    <string name="collage_style_apply_layout_unavailable">%1$d 사진이 필요합니다. 귀하의 콜라주에는 %2$d이 있습니다. 아래 스타일을 계속 적용할 수 있습니다.</string>
+    <string name="collage_style_apply_appearance">스타일만</string>
+    <string name="collage_style_apply_appearance_sub">현재 레이아웃을 유지합니다. 슬롯 순서대로 외모와 사진 설정을 적용합니다.</string>
 </resources>

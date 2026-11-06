@@ -7957,4 +7957,17 @@
     <string name="help_tip_setting_gallery_file_size_step">פתח את הגדרות ← גלריה והחלף את הצג את גודל הקובץ. זה משנה את תוויות התמונות הממוזערות מבלי לשנות או לדחוס את הקבצים.</string>
     <string name="help_tip_setting_gallery_file_extension_step">פתח את הגדרות ← גלריה והחלף את הצג פורמט קובץ. זה משנה את תוויות התמונות הממוזערות מבלי לשנות את השם או להמיר את הקבצים.</string>
     <string name="help_tip_setting_remember_preview_layout_step">פתח את הגדרות ← התנהגות והפעל זכור פריסת תצוגה מקדימה. התאם את גובה התצוגה המקדימה או הצמד אותו בכלי; הכלי הבא יעשה שימוש חוזר בפריסה הזו.</string>
+    <string name="collage_outer_padding">שוליים חיצוניים</string>
+    <string name="collage_border">רוחב מסגרת</string>
+    <string name="collage_slot">הגדרות תמונה</string>
+    <string name="collage_fit">התאם את כל התמונה</string>
+    <string name="collage_fit_sub">הצג את התמונה המלאה במקום לחתוך כדי למלא את המשבצת</string>
+    <string name="collage_global_corners">השתמש בפינות קולאז\'</string>
+    <string name="collage_shadow">צֵל</string>
+    <string name="collage_style_summary">תמונות: %1$d · מרווחים: %2$d · שוליים: %3$d · פינות: %4$d</string>
+    <string name="collage_style_apply_full">ליישם הכל</string>
+    <string name="collage_style_apply_full_sub">שחזר את הפריסה, מיקומי הפרדה וסגנון התמונות.</string>
+    <string name="collage_style_apply_layout_unavailable">דורש %1$d תמונות; בקולאז\' שלך יש %2$d. אתה עדיין יכול ליישם את הסגנון למטה.</string>
+    <string name="collage_style_apply_appearance">סגנון בלבד</string>
+    <string name="collage_style_apply_appearance_sub">שמור על הפריסה הנוכחית. החל את הגדרות המראה והצילום לפי סדר חריץ.</string>
 </resources>

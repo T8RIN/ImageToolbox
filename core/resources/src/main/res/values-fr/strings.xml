@@ -7955,4 +7955,17 @@
     <string name="help_tip_setting_gallery_file_size_step">Ouvrez Paramètres → Galerie et activez Afficher la taille du fichier. Cela modifie les étiquettes des vignettes sans modifier ni compresser les fichiers.</string>
     <string name="help_tip_setting_gallery_file_extension_step">Ouvrez Paramètres → Galerie et activez Afficher le format de fichier. Cela modifie les étiquettes des vignettes sans renommer ni convertir les fichiers.</string>
     <string name="help_tip_setting_remember_preview_layout_step">Ouvrez Paramètres → Comportement et activez Mémoriser la mise en page d\'aperçu. Ajustez la hauteur de l\'aperçu ou épinglez-le dans un outil ; le prochain outil réutilisera cette mise en page.</string>
+    <string name="collage_outer_padding">Marges extérieures</string>
+    <string name="collage_border">Largeur du cadre</string>
+    <string name="collage_slot">Paramètres des photos</string>
+    <string name="collage_fit">Ajuster la photo entière</string>
+    <string name="collage_fit_sub">Afficher la photo complète au lieu de la recadrer pour remplir l\'espace</string>
+    <string name="collage_global_corners">Utiliser des coins de collage</string>
+    <string name="collage_shadow">Ombre</string>
+    <string name="collage_style_summary">Photos : %1$d · Espacement : %2$d · Marges : %3$d · Coins : %4$d</string>
+    <string name="collage_style_apply_full">Appliquer tout</string>
+    <string name="collage_style_apply_full_sub">Restaurez la mise en page, les positions des séparateurs et le style des photos.</string>
+    <string name="collage_style_apply_layout_unavailable">Nécessite %1$d photos ; votre collage contient %2$d. Vous pouvez toujours appliquer le style ci-dessous.</string>
+    <string name="collage_style_apply_appearance">Style uniquement</string>
+    <string name="collage_style_apply_appearance_sub">Conserver la mise en page actuelle. Appliquez les paramètres d\'apparence et de photo par ordre d\'emplacement.</string>
 </resources>

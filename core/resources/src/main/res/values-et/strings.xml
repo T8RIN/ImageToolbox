@@ -7955,4 +7955,17 @@
     <string name="help_tip_setting_gallery_file_size_step">Avage Seaded → Galerii ja lülitage Näita faili suurust. See muudab pisipiltide silte ilma faile muutmata või tihendamata.</string>
     <string name="help_tip_setting_gallery_file_extension_step">Avage Seaded → Galerii ja lülitage Failivormingu näitamine sisse. See muudab pisipiltide silte ilma faile ümber nimetamata või teisendamata.</string>
     <string name="help_tip_setting_remember_preview_layout_step">Avage Seaded → Käitumine ja lülitage sisse Eelvaate paigutus meeldejätmine. Reguleerige eelvaate kõrgust või kinnitage see tööriista külge; järgmine tööriist kasutab seda paigutust uuesti.</string>
+    <string name="collage_outer_padding">Välimised veerised</string>
+    <string name="collage_border">Raami laius</string>
+    <string name="collage_slot">Foto seaded</string>
+    <string name="collage_fit">Mahutage kogu foto</string>
+    <string name="collage_fit_sub">Pilu täitmiseks kärpimise asemel kuvage kogu foto</string>
+    <string name="collage_global_corners">Kasutage kollaažinurki</string>
+    <string name="collage_shadow">Vari</string>
+    <string name="collage_style_summary">Fotod: %1$d · Vahed: %2$d · Veerised: %3$d · Nurgad: %4$d</string>
+    <string name="collage_style_apply_full">Rakenda kõike</string>
+    <string name="collage_style_apply_full_sub">Taastage paigutus, jaoturite asukohad ja foto stiil.</string>
+    <string name="collage_style_apply_layout_unavailable">Nõuab %1$d fotot; teie kollaažil on %2$d. Allolevat stiili saate siiski rakendada.</string>
+    <string name="collage_style_apply_appearance">Ainult stiil</string>
+    <string name="collage_style_apply_appearance_sub">Säilitage praegune paigutus. Rakenda välimus ja foto seaded pesa järjekorras.</string>
 </resources>

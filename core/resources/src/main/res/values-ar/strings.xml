@@ -7959,4 +7959,17 @@
     <string name="help_tip_setting_gallery_file_size_step">افتح الإعدادات → المعرض وقم بتبديل إظهار حجم الملف. يؤدي هذا إلى تغيير تسميات الصور المصغرة دون تغيير الملفات أو ضغطها.</string>
     <string name="help_tip_setting_gallery_file_extension_step">افتح الإعدادات → المعرض وقم بتبديل عرض تنسيق الملف. يؤدي هذا إلى تغيير تسميات الصور المصغرة دون إعادة تسمية الملفات أو تحويلها.</string>
     <string name="help_tip_setting_remember_preview_layout_step">افتح الإعدادات → السلوك وقم بتشغيل تذكر تخطيط المعاينة. اضبط ارتفاع المعاينة أو قم بتثبيته في إحدى الأدوات؛ ستعيد الأداة التالية استخدام هذا التخطيط.</string>
+    <string name="collage_outer_padding">الهوامش الخارجية</string>
+    <string name="collage_border">عرض الإطار</string>
+    <string name="collage_slot">إعدادات الصورة</string>
+    <string name="collage_fit">تناسب الصورة بأكملها</string>
+    <string name="collage_fit_sub">أظهر الصورة كاملة بدلاً من الاقتصاص لملء الفتحة</string>
+    <string name="collage_global_corners">استخدم زوايا الكولاج</string>
+    <string name="collage_shadow">الظل</string>
+    <string name="collage_style_summary">الصور: %1$d · التباعد: %2$d · الهوامش: %3$d · الزوايا: %4$d</string>
+    <string name="collage_style_apply_full">تطبيق كل شيء</string>
+    <string name="collage_style_apply_full_sub">استعادة التخطيط ومواضع المقسم وتصميم الصور.</string>
+    <string name="collage_style_apply_layout_unavailable">يتطلب %1$d الصور؛ تحتوي الصورة المجمعة على %2$d. لا يزال بإمكانك تطبيق النمط أدناه.</string>
+    <string name="collage_style_apply_appearance">النمط فقط</string>
+    <string name="collage_style_apply_appearance_sub">احتفظ بالتخطيط الحالي. قم بتطبيق إعدادات المظهر والصورة حسب ترتيب الفتحة.</string>
 </resources>

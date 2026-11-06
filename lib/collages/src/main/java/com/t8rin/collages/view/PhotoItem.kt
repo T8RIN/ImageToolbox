@@ -21,9 +21,11 @@ import android.graphics.Path
 import android.graphics.PointF
 import android.graphics.RectF
 import android.net.Uri
+import com.t8rin.collages.CollagePoint
 
 
 internal data class PhotoItem(
+    var shape: List<CollagePoint>? = null,
     //Primary info
     var index: Int = 0,
     var imagePath: Uri? = null,

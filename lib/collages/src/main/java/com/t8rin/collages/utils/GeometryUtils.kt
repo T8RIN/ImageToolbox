@@ -207,10 +207,11 @@ object GeometryUtils {
     fun shrinkPath(
         pointList: List<PointF>,
         space: Float,
-        bound: RectF?
+        bound: RectF?,
+        outerPadding: Float = space
     ): List<PointF> {
         val result = ArrayList<PointF>()
-        if (space == 0f) {
+        if (space == 0f && outerPadding == 0f) {
             result.addAll(pointList)
         } else {
             val center = PointF(0f, 0f)
@@ -229,11 +230,11 @@ object GeometryUtils {
                 spaceY = space
                 if (bound != null) {
                     if ((bound.left == 0f && p.x < center.x) || (bound.right == 1f && p.x >= center.x)) {
-                        spaceX = 2 * space
+                        spaceX = 2 * outerPadding
                     }
 
                     if ((bound.top == 0f && p.y < center.y) || (bound.bottom == 1f && p.y >= center.y)) {
-                        spaceY = 2 * space
+                        spaceY = 2 * outerPadding
                     }
                 }
 
@@ -354,6 +355,7 @@ object GeometryUtils {
                 path.cubicTo(middleA.x, middleA.y, middle.x, middle.y, middleB.x, middleB.y)
             }
         }
+        path.close()
     }
 
     private fun containPoint(points: List<PointF>, p: PointF): Boolean {
@@ -457,6 +459,7 @@ object GeometryUtils {
             }
         }
 
+        path.close()
         return cornerPointMap
     }
 
@@ -525,6 +528,7 @@ object GeometryUtils {
                 }
             }
         }
+        path.close()
     }
 
     private fun fitCornerRadius(

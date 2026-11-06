@@ -7955,4 +7955,17 @@
     <string name="help_tip_setting_gallery_file_size_step">Åbn Indstillinger → Galleri, og skift Vis filstørrelse. Dette ændrer miniatureetiketter uden at ændre eller komprimere filerne.</string>
     <string name="help_tip_setting_gallery_file_extension_step">Åbn Indstillinger → Galleri og skift Vis filformat. Dette ændrer miniatureetiketter uden at omdøbe eller konvertere filerne.</string>
     <string name="help_tip_setting_remember_preview_layout_step">Åbn Indstillinger → Adfærd, og slå Husk forhåndsvisningslayout til. Juster forhåndsvisningshøjden eller fastgør den i et værktøj; det næste værktøj vil genbruge det layout.</string>
+    <string name="collage_outer_padding">Ydre marginer</string>
+    <string name="collage_border">Rammebredde</string>
+    <string name="collage_slot">Fotoindstillinger</string>
+    <string name="collage_fit">Tilpas hele billedet</string>
+    <string name="collage_fit_sub">Vis hele billedet i stedet for at beskære for at udfylde pladsen</string>
+    <string name="collage_global_corners">Brug collage hjørner</string>
+    <string name="collage_shadow">Skygge</string>
+    <string name="collage_style_summary">Billeder: %1$d · Afstand: %2$d · Marginer: %3$d · Hjørner: %4$d</string>
+    <string name="collage_style_apply_full">Anvend alt</string>
+    <string name="collage_style_apply_full_sub">Gendan layout, skillevægspositioner og fotostyling.</string>
+    <string name="collage_style_apply_layout_unavailable">Kræver %1$d billeder; din collage har %2$d. Du kan stadig anvende stilen nedenfor.</string>
+    <string name="collage_style_apply_appearance">Kun stil</string>
+    <string name="collage_style_apply_appearance_sub">Behold det nuværende layout. Anvend indstillingerne for udseende og foto efter rækkefølge.</string>
 </resources>

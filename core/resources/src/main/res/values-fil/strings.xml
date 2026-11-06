@@ -7955,4 +7955,17 @@
     <string name="help_tip_setting_gallery_file_size_step">Buksan ang Mga Setting → Gallery at i-toggle ang Ipakita ang laki ng file. Binabago nito ang mga label ng thumbnail nang hindi binabago o kino-compress ang mga file.</string>
     <string name="help_tip_setting_gallery_file_extension_step">Buksan ang Mga Setting → Gallery at i-toggle ang Ipakita ang format ng file. Binabago nito ang mga label ng thumbnail nang hindi pinapalitan ang pangalan o kino-convert ang mga file.</string>
     <string name="help_tip_setting_remember_preview_layout_step">Buksan ang Mga Setting → Gawi at i-on ang Remember Preview Layout. Ayusin ang taas ng preview o i-pin ito sa isang tool; ang susunod na tool ay muling gagamitin ang layout na iyon.</string>
+    <string name="collage_outer_padding">Mga panlabas na margin</string>
+    <string name="collage_border">Lapad ng frame</string>
+    <string name="collage_slot">Mga setting ng larawan</string>
+    <string name="collage_fit">Pagkasyahin ang buong larawan</string>
+    <string name="collage_fit_sub">Ipakita ang buong larawan sa halip na i-crop upang punan ang puwang</string>
+    <string name="collage_global_corners">Gumamit ng mga sulok ng collage</string>
+    <string name="collage_shadow">anino</string>
+    <string name="collage_style_summary">Mga Larawan: %1$d · Spacing: %2$d · Margins: %3$d · Corners: %4$d</string>
+    <string name="collage_style_apply_full">Ilapat ang lahat</string>
+    <string name="collage_style_apply_full_sub">Ibalik ang layout, mga posisyon ng divider at pag-istilo ng larawan.</string>
+    <string name="collage_style_apply_layout_unavailable">Nangangailangan ng %1$d larawan; ang iyong collage ay may %2$d. Maaari mo pa ring ilapat ang istilo sa ibaba.</string>
+    <string name="collage_style_apply_appearance">Style lang</string>
+    <string name="collage_style_apply_appearance_sub">Panatilihin ang kasalukuyang layout. Ilapat ang hitsura at mga setting ng larawan ayon sa pagkakasunud-sunod ng slot.</string>
 </resources>

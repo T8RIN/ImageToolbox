@@ -25,15 +25,21 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.core.net.toUri
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.essenty.lifecycle.doOnDestroy
+import com.t8rin.collages.CollageSlotStyle
 import com.t8rin.collages.CollageState
 import com.t8rin.collages.CollageType
 import com.t8rin.collages.public.CollageConstants
+import com.t8rin.imagetoolbox.collage_maker.domain.CollageLibrary
 import com.t8rin.imagetoolbox.collage_maker.domain.CollageParams
 import com.t8rin.imagetoolbox.collage_maker.domain.CollageProject
 import com.t8rin.imagetoolbox.collage_maker.domain.CollageProjectRepository
+import com.t8rin.imagetoolbox.collage_maker.domain.CollageStyle
+import com.t8rin.imagetoolbox.collage_maker.domain.SavedCollageStyle
+import com.t8rin.imagetoolbox.collage_maker.domain.applyTo
 import com.t8rin.imagetoolbox.core.domain.COLLAGE_PROJECT_EXT
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageCompressor
@@ -78,6 +84,153 @@ class CollageMakerComponent @AssistedInject internal constructor(
     componentContext = componentContext
 ) {
 
+    private val savedLibrary = fileController.savable(componentScope, CollageLibrary())
+    val library get() = savedLibrary.get()
+
+    fun toggleFavorite(id: String) {
+        val favorites = library.favorites
+        savedLibrary.set(library.copy(favorites = if (id in favorites) favorites - id else favorites + id))
+    }
+
+    val currentStyle: CollageStyle
+        get() = CollageStyle(
+            spacing = params.spacing,
+            outerPadding = params.outerPadding,
+            cornerRadius = params.cornerRadius,
+            borderWidth = params.borderWidth,
+            borderColor = params.borderColor,
+            backgroundColor = backgroundColor.toArgb(),
+            gradient = backgroundGradient,
+            shadowRadius = params.shadowRadius,
+            shadowColor = params.shadowColor,
+            borderGradient = params.borderGradient,
+            layoutId = collageType.layoutId,
+            layoutParams = collageState?.layoutParams.orEmpty(),
+            imageCount = uris.orEmpty().size,
+            slotStyles = uris.orEmpty().indices.map(::slotStyle),
+            slotBorderGradients = uris.orEmpty().indices.map(::slotBorderGradient)
+        )
+
+    fun saveStyle(name: String) {
+        val title = name.trim().take(80)
+        if (title.isEmpty()) return
+        savedLibrary.set(library.copy(styles = library.styles.filterNot { it.name == title } +
+                SavedCollageStyle(title, currentStyle)))
+    }
+
+    fun deleteStyle(name: String) {
+        savedLibrary.set(library.copy(styles = library.styles.filterNot { it.name == name }))
+    }
+
+    fun applyStyle(style: CollageStyle, includeLayout: Boolean) {
+        beginPendingHistoryTransaction()
+        if (includeLayout && style.imageCount == uris.orEmpty().size) {
+            style.layoutId?.let { id ->
+                CollageType.fromLayoutId(id, style.layoutParams.takeIf { it.isNotEmpty() })
+                    ?.let { layout ->
+                        _collageType.value = layout
+                        _collageState.value = null
+                        _collageResetKey.update { it + 1 }
+                    }
+            }
+        }
+        val updated = style.applyTo(params, uris.orEmpty().size)
+        resetChangedFit(updated.slotStyles)
+        updateParams(updated)
+        _backgroundColor.value = Color(style.backgroundColor)
+        backgroundGradient = style.gradient
+        registerChanges()
+        schedulePendingHistoryCommit()
+    }
+
+    fun slotStyle(index: Int): CollageSlotStyle = params.slotStyles.getOrNull(index)
+        ?: CollageSlotStyle(
+            borderWidth = params.borderWidth,
+            borderColor = params.borderColor,
+            shadowRadius = params.shadowRadius,
+            shadowColor = params.shadowColor
+        )
+
+    fun slotBorderGradient(index: Int): GradientFill? =
+        if (index in params.slotBorderGradients.indices) params.slotBorderGradients[index]
+        else params.borderGradient
+
+    fun setSlotBorderGradient(index: Int, gradient: GradientFill?) {
+        if (index !in uris.orEmpty().indices) return
+        updateDecoration(
+            params.copy(
+                slotBorderGradients = uris.orEmpty().indices.map {
+                    if (it == index) gradient else slotBorderGradient(it)
+                }
+            )
+        )
+    }
+
+    fun setSlotStyle(index: Int, style: CollageSlotStyle) {
+        if (index !in uris.orEmpty().indices) return
+        beginPendingHistoryTransaction()
+        val styles = uris.orEmpty().indices.map { if (it == index) style else slotStyle(it) }
+        resetChangedFit(styles)
+        updateParams(params.copy(slotStyles = styles))
+        registerChanges()
+        schedulePendingHistoryCommit()
+    }
+
+    private fun resetChangedFit(styles: List<CollageSlotStyle>) {
+        val changed = styles.indices.filter { slotStyle(it).fit != styles[it].fit }
+        if (changed.isEmpty()) return
+        _collageState.value = collageState?.let { state ->
+            state.copy(
+                images = state.images.map {
+                    if (it.index in changed) it.copy(
+                        matrixValues = emptyList(),
+                        userAllowedEmptySpace = styles[it.index].fit
+                    ) else it
+                }
+            )
+        }
+    }
+
+    fun setShadowRadius(value: Float) = updateDecoration(
+        params.copy(
+            shadowRadius = value,
+            slotStyles = params.slotStyles.map { it.copy(shadowRadius = value) })
+    )
+
+    fun setShadowColor(value: Color) = updateDecoration(
+        params.copy(
+            shadowColor = value.toArgb(),
+            slotStyles = params.slotStyles.map { it.copy(shadowColor = value.toArgb()) }
+        )
+    )
+
+    fun setOuterPadding(value: Float) = updateDecoration(params.copy(outerPadding = value))
+    fun setBorderWidth(value: Float) = updateDecoration(
+        params.copy(
+            borderWidth = value,
+            slotStyles = params.slotStyles.map { it.copy(borderWidth = value) })
+    )
+
+    fun setBorderColor(value: Color) = updateDecoration(
+        params.copy(
+            borderColor = value.toArgb(),
+            borderGradient = null,
+            slotBorderGradients = emptyList(),
+            slotStyles = params.slotStyles.map { it.copy(borderColor = value.toArgb()) })
+    )
+
+    fun setBorderGradient(value: GradientFill) = updateDecoration(
+        params.copy(borderGradient = value, slotBorderGradients = emptyList())
+    )
+
+    private fun updateDecoration(value: CollageParams) {
+        if (value == params) return
+        beginPendingHistoryTransaction()
+        updateParams(value)
+        registerChanges()
+        schedulePendingHistoryCommit()
+    }
+
     private val _aspectRatio: MutableState<DomainAspectRatio> =
         mutableStateOf(DomainAspectRatio.Numeric(1f, 1f))
     val aspectRatio by _aspectRatio
@@ -99,20 +252,11 @@ class CollageMakerComponent @AssistedInject internal constructor(
     private val _collageResetKey = mutableIntStateOf(0)
     val collageResetKey by _collageResetKey
 
-    private val defaultParams = fileController.savable(
-        scope = componentScope,
-        initial = CollageParams()
-    )
-    private var projectParams by mutableStateOf<CollageParams?>(null)
-
-    val params: CollageParams
-        get() = (projectParams ?: defaultParams.get()).let { value ->
-            value.copy(outputScaleRatio = value.outputScaleRatio.coerceIn(0.1f, 1f))
-        }
+    var params by mutableStateOf(CollageParams())
+        private set
 
     private fun updateParams(value: CollageParams) {
-        if (projectParams != null) projectParams = value
-        else defaultParams.set(value)
+        params = value.copy(outputScaleRatio = value.outputScaleRatio.coerceIn(0.1f, 1f))
     }
 
     private val _uris = mutableStateOf<List<Uri>?>(null)
@@ -203,7 +347,6 @@ class CollageMakerComponent @AssistedInject internal constructor(
                     val previous = project.history.map { it.toHistorySnapshot() }
                     val undone = project.redoHistory.map { it.toHistorySnapshot() }
 
-                    projectParams = current.params
                     applyHistorySnapshot(current)
                     _collageResetKey.update { it + 1 }
                     restoreHistory(previous, undone)
@@ -228,6 +371,12 @@ class CollageMakerComponent @AssistedInject internal constructor(
         if (!isInitialSelection && !isLayoutCorrection) {
             beginPendingHistoryTransaction()
         }
+        updateParams(
+            params.copy(
+                slotStyles = params.slotStyles.take(collageType.imageCount),
+                slotBorderGradients = params.slotBorderGradients.take(collageType.imageCount)
+            )
+        )
         _collageType.update { collageType }
         _collageState.update { null }
         registerChanges()
@@ -347,6 +496,13 @@ class CollageMakerComponent @AssistedInject internal constructor(
 
         finalizePendingHistoryTransaction()
         beginPendingHistoryTransaction()
+        updateParams(
+            params.copy(
+                slotStyles = current.indices.filter { it != index }.map(::slotStyle),
+                slotBorderGradients = current.indices.filter { it != index }
+                    .map(::slotBorderGradient)
+            )
+        )
         _uris.update { updated }
         _collageState.update { null }
         pendingLayoutCorrectionImageCount = updated.size.takeIf { it > 0 }
@@ -517,24 +673,27 @@ class CollageMakerComponent @AssistedInject internal constructor(
 
     fun onCollageStateChange(
         before: CollageState,
-        after: CollageState
+        after: CollageState,
+        swappedImages: Pair<Int, Int>?
     ) {
-        if (before == after || after.layoutId != collageType.layoutId) return
+        if ((before == after && swappedImages == null) || after.layoutId != collageType.layoutId) return
 
         finalizePendingHistoryTransaction()
         val currentUris = uris
         val beforeUris = before.images.mapNotNull { it.uri?.toUri() }
         val afterUris = after.images.mapNotNull { it.uri?.toUri() }
+        val previous = currentHistorySnapshot().copy(
+            uris = if (beforeUris.size == before.images.size) beforeUris else currentUris,
+            collageState = before
+        )
+        swappedImages?.let { (first, second) ->
+            updateParams(params.swapPhotos(first, second, after.images.size))
+        }
         _collageState.update { after }
         if (afterUris.size == after.images.size) {
             _uris.update { afterUris }
         }
-        commitHistoryFrom(
-            currentHistorySnapshot().copy(
-                uris = if (beforeUris.size == before.images.size) beforeUris else currentUris,
-                collageState = before
-            )
-        )
+        commitHistoryFrom(previous)
     }
 
     fun resetCollage() {

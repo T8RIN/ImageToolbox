@@ -7955,4 +7955,17 @@
     <string name="help_tip_setting_gallery_file_size_step">Abra Configuración → Galería y active Mostrar tamaño de archivo. Esto cambia las etiquetas de las miniaturas sin cambiar ni comprimir los archivos.</string>
     <string name="help_tip_setting_gallery_file_extension_step">Abra Configuración → Galería y active Mostrar formato de archivo. Esto cambia las etiquetas de las miniaturas sin cambiar el nombre ni convertir los archivos.</string>
     <string name="help_tip_setting_remember_preview_layout_step">Abra Configuración → Comportamiento y active Recordar diseño de vista previa. Ajuste la altura de la vista previa o fíjela en una herramienta; la siguiente herramienta reutilizará ese diseño.</string>
+    <string name="collage_outer_padding">Márgenes exteriores</string>
+    <string name="collage_border">Ancho del marco</string>
+    <string name="collage_slot">Configuración de fotos</string>
+    <string name="collage_fit">Ajustar toda la foto</string>
+    <string name="collage_fit_sub">Muestra la foto completa en lugar de recortarla para llenar el espacio.</string>
+    <string name="collage_global_corners">Usa esquinas de collage</string>
+    <string name="collage_shadow">Sombra</string>
+    <string name="collage_style_summary">Fotos: %1$d · Espaciado: %2$d · Márgenes: %3$d · Esquinas: %4$d</string>
+    <string name="collage_style_apply_full">Aplicar todo</string>
+    <string name="collage_style_apply_full_sub">Restaure el diseño, las posiciones de los divisores y el estilo de las fotografías.</string>
+    <string name="collage_style_apply_layout_unavailable">Requiere %1$d fotos; tu collage tiene %2$d. Aún puedes aplicar el estilo a continuación.</string>
+    <string name="collage_style_apply_appearance">Solo estilo</string>
+    <string name="collage_style_apply_appearance_sub">Mantenga el diseño actual. Aplique la configuración de apariencia y fotografía por orden de espacio.</string>
 </resources>

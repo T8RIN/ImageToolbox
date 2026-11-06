@@ -17,13 +17,18 @@
 
 package com.t8rin.collages
 
+import android.net.Uri
 import com.t8rin.collages.model.CollageLayout
+import com.t8rin.collages.utils.CollageLayoutFactory
 import com.t8rin.collages.utils.CollageLayoutFactory.createCollageLayouts
+import com.t8rin.collages.view.PhotoItem
 
 @ConsistentCopyVisibility
 data class CollageType internal constructor(
     internal val layout: CollageLayout?
 ) {
+    val design: CollageDesign? get() = layout?.design
+
     val layoutId: String?
         get() = layout?.title
 
@@ -31,13 +36,39 @@ data class CollageType internal constructor(
         get() = layout?.photoItemList?.size ?: 0
 
     companion object {
+        fun fromDesign(id: String, design: CollageDesign): CollageType? {
+            if (!design.isValid()) return null
+            return CollageType(
+                CollageLayout(
+                    preview = if (id.startsWith("creative_")) Uri.parse("file:///android_asset/frame/$id.webp") else Uri.EMPTY,
+                    title = id, design = design,
+                    photoItemList = design.slots.mapIndexed { index, slot ->
+                        PhotoItem(index = index, shape = slot.points).apply {
+                            bound.set(slot.left, slot.top, slot.right, slot.bottom)
+                        }
+                    }
+                ).let(CollageLayoutFactory::withRectangularHandles)
+            )
+        }
+
+        fun catalog(): List<CollageType> = CollageLayoutFactory.COLLAGE_MAP.keys
+            .mapNotNull { fromLayoutId(it) } + CreativeCollages.templates.mapNotNull {
+            fromDesign(
+                it.id,
+                it.design
+            )
+        }
+
         val Empty by lazy { CollageType(layout = null) }
 
         fun fromLayoutId(
             layoutId: String,
-            layoutParams: List<Float>? = null
+            layoutParams: List<Float>? = null,
+            design: CollageDesign? = null
         ): CollageType? {
-            val layout = createCollageLayouts(layoutId) ?: return null
+            val layout = if (design != null) fromDesign(layoutId, design)?.layout
+            else createCollageLayouts(layoutId)
+            layout ?: return null
             if (layoutParams != null) {
                 val manager = layout.paramsManager
                 if (layoutParams.size != (manager?.snapshotValues()?.size ?: 0) ||

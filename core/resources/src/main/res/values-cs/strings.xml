@@ -7957,4 +7957,17 @@
     <string name="help_tip_setting_gallery_file_size_step">Otevřete Nastavení → Galerie a přepněte volbu Zobrazit velikost souboru. Tím se změní štítky miniatur bez změny nebo komprimace souborů.</string>
     <string name="help_tip_setting_gallery_file_extension_step">Otevřete Nastavení → Galerie a přepněte Zobrazit formát souboru. Tím se změní štítky miniatur bez přejmenování nebo převodu souborů.</string>
     <string name="help_tip_setting_remember_preview_layout_step">Otevřete Nastavení → Chování a zapněte Zapamatovat rozložení náhledu. Upravte výšku náhledu nebo jej připněte do nástroje; další nástroj toto rozložení znovu použije.</string>
+    <string name="collage_outer_padding">Vnější okraje</string>
+    <string name="collage_border">Šířka rámu</string>
+    <string name="collage_slot">Nastavení fotografií</string>
+    <string name="collage_fit">Přizpůsobit celou fotografii</string>
+    <string name="collage_fit_sub">Zobrazit celou fotku místo oříznutí, aby zaplnila mezeru</string>
+    <string name="collage_global_corners">Použijte rohy koláže</string>
+    <string name="collage_shadow">Stín</string>
+    <string name="collage_style_summary">Fotky: %1$d · Mezery: %2$d · Okraje: %3$d · Rohy: %4$d</string>
+    <string name="collage_style_apply_full">Aplikujte vše</string>
+    <string name="collage_style_apply_full_sub">Obnovte rozvržení, pozice rozdělovačů a styl fotografie.</string>
+    <string name="collage_style_apply_layout_unavailable">Vyžaduje %1$d fotografií; vaše koláž má %2$d. Stále můžete použít styl níže.</string>
+    <string name="collage_style_apply_appearance">Pouze styl</string>
+    <string name="collage_style_apply_appearance_sub">Zachovat aktuální rozložení. Použijte nastavení vzhledu a fotografií podle pořadí slotů.</string>
 </resources>

@@ -7955,4 +7955,17 @@
     <string name="help_tip_setting_gallery_file_size_step">সেটিংস → গ্যালারি খুলুন এবং ফাইলের আকার দেখান টগল করুন। এটি ফাইলগুলি পরিবর্তন বা সংকুচিত না করে থাম্বনেইল লেবেলগুলিকে পরিবর্তন করে৷</string>
     <string name="help_tip_setting_gallery_file_extension_step">সেটিংস → গ্যালারি খুলুন এবং ফাইল ফরম্যাট দেখান টগল করুন। এটি ফাইলগুলির নাম পরিবর্তন বা রূপান্তর না করে থাম্বনেইল লেবেলগুলিকে পরিবর্তন করে৷</string>
     <string name="help_tip_setting_remember_preview_layout_step">সেটিংস খুলুন → আচরণ এবং প্রিভিউ লেআউট মনে রাখবেন চালু করুন। পূর্বরূপ উচ্চতা সামঞ্জস্য করুন বা এটি একটি টুলে পিন করুন; পরবর্তী টুল সেই লেআউটটি পুনরায় ব্যবহার করবে।</string>
+    <string name="collage_outer_padding">বাইরের মার্জিন</string>
+    <string name="collage_border">ফ্রেমের প্রস্থ</string>
+    <string name="collage_slot">ফটো সেটিংস</string>
+    <string name="collage_fit">পুরো ছবি মানানসই</string>
+    <string name="collage_fit_sub">স্লট পূরণ করতে ক্রপ করার পরিবর্তে সম্পূর্ণ ফটো দেখান</string>
+    <string name="collage_global_corners">কোলাজ কোণ ব্যবহার করুন</string>
+    <string name="collage_shadow">ছায়া</string>
+    <string name="collage_style_summary">ফটো: %1$d · ব্যবধান: %2$d · মার্জিন: %3$d · কোণ: %4$d</string>
+    <string name="collage_style_apply_full">সবকিছু প্রয়োগ করুন</string>
+    <string name="collage_style_apply_full_sub">লেআউট, বিভাজক অবস্থান এবং ফটো স্টাইলিং পুনরুদ্ধার করুন।</string>
+    <string name="collage_style_apply_layout_unavailable">%1$d ফটোর প্রয়োজন; আপনার কোলাজে আছে %2$d আপনি এখনও নীচের শৈলী প্রয়োগ করতে পারেন.</string>
+    <string name="collage_style_apply_appearance">শুধুমাত্র শৈলী</string>
+    <string name="collage_style_apply_appearance_sub">বর্তমান লেআউট রাখুন। স্লট ক্রম অনুসারে চেহারা এবং ফটো সেটিংস প্রয়োগ করুন।</string>
 </resources>

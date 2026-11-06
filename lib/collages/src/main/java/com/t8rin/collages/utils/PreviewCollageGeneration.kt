@@ -49,7 +49,6 @@ import androidx.core.net.toUri
 import com.t8rin.collages.Collage
 import com.t8rin.collages.CollageType
 import com.t8rin.collages.model.CollageLayout
-import com.t8rin.collages.utils.CollageLayoutFactory.COLLAGE_MAP
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -95,7 +94,8 @@ fun PreviewCollageGeneration(
 
     LaunchedEffect(context) {
         allFrames =
-            COLLAGE_MAP.values.map { it.invoke() }.filter { it.photoItemList.size >= startFrom }
+            CollageType.catalog().mapNotNull { it.layout }
+                .filter { it.photoItemList.size >= startFrom }
     }
 
     var previewImageUri by rememberSaveable {
@@ -145,7 +145,8 @@ fun PreviewCollageGeneration(
                     modifier = Modifier.background(Color.Black)
                 )
                 templates.forEach { template ->
-                    val (_, title, _, photoItemList) = template
+                    val title = template.title
+                    val photoItemList = template.photoItemList
                     val density = LocalDensity.current
                     val spacing = with(density) {
                         1.5.dp.toPx()

@@ -7957,4 +7957,17 @@
     <string name="help_tip_setting_gallery_file_size_step">Atidarykite Nustatymai → Galerija ir perjunkite Rodyti failo dydį. Tai pakeičia miniatiūrų etiketes nekeičiant ir nesuglaudinant failų.</string>
     <string name="help_tip_setting_gallery_file_extension_step">Atidarykite Nustatymai → Galerija ir perjunkite Rodyti failo formatą. Tai pakeičia miniatiūrų etiketes nepervardijant ir nekonvertuojant failų.</string>
     <string name="help_tip_setting_remember_preview_layout_step">Atidarykite Nustatymai → Elgsena ir įjunkite Atsiminti peržiūros išdėstymą. Sureguliuokite peržiūros aukštį arba prisekite jį įrankyje; kitas įrankis pakartotinai naudos tą išdėstymą.</string>
+    <string name="collage_outer_padding">Išorinės paraštės</string>
+    <string name="collage_border">Rėmo plotis</string>
+    <string name="collage_slot">Nuotraukų nustatymai</string>
+    <string name="collage_fit">Talpinti visą nuotrauką</string>
+    <string name="collage_fit_sub">Rodyti visą nuotrauką, o ne apkarpyti, kad užpildytumėte plyšį</string>
+    <string name="collage_global_corners">Naudokite koliažo kampus</string>
+    <string name="collage_shadow">Šešėlis</string>
+    <string name="collage_style_summary">Nuotraukos: %1$d · Tarpai: %2$d · Paraštės: %3$d · Kampai: %4$d</string>
+    <string name="collage_style_apply_full">Taikykite viską</string>
+    <string name="collage_style_apply_full_sub">Atkurkite išdėstymą, skirstytuvų pozicijas ir nuotraukos stilių.</string>
+    <string name="collage_style_apply_layout_unavailable">Reikia %1$d nuotraukų; jūsų koliažas turi %2$d. Vis tiek galite taikyti toliau pateiktą stilių.</string>
+    <string name="collage_style_apply_appearance">Tik stilius</string>
+    <string name="collage_style_apply_appearance_sub">Palikite dabartinį išdėstymą. Taikykite išvaizdos ir nuotraukos nustatymus pagal lizdų tvarką.</string>
 </resources>

@@ -7954,4 +7954,17 @@
     <string name="help_tip_setting_gallery_file_size_step">Mở Cài đặt → Thư viện và bật tắt Hiển thị kích thước tệp. Điều này thay đổi nhãn hình thu nhỏ mà không thay đổi hoặc nén tệp.</string>
     <string name="help_tip_setting_gallery_file_extension_step">Mở Cài đặt → Thư viện và bật tắt Hiển thị định dạng tệp. Điều này thay đổi nhãn hình thu nhỏ mà không đổi tên hoặc chuyển đổi tệp.</string>
     <string name="help_tip_setting_remember_preview_layout_step">Mở Cài đặt → Hành vi và bật Ghi nhớ bố cục xem trước. Điều chỉnh chiều cao xem trước hoặc ghim nó vào một công cụ; công cụ tiếp theo sẽ sử dụng lại bố cục đó.</string>
+    <string name="collage_outer_padding">Lề ngoài</string>
+    <string name="collage_border">Chiều rộng khung</string>
+    <string name="collage_slot">Cài đặt ảnh</string>
+    <string name="collage_fit">Vừa vặn toàn bộ ảnh</string>
+    <string name="collage_fit_sub">Hiển thị ảnh đầy đủ thay vì cắt xén để lấp đầy chỗ trống</string>
+    <string name="collage_global_corners">Sử dụng các góc cắt dán</string>
+    <string name="collage_shadow">Bóng tối</string>
+    <string name="collage_style_summary">Ảnh: %1$d · Khoảng cách: %2$d · Lề: %3$d · Góc: %4$d</string>
+    <string name="collage_style_apply_full">Áp dụng mọi thứ</string>
+    <string name="collage_style_apply_full_sub">Khôi phục bố cục, vị trí phân chia và kiểu ảnh.</string>
+    <string name="collage_style_apply_layout_unavailable">Yêu cầu %1$d ảnh; ảnh ghép của bạn có %2$d. Bạn vẫn có thể áp dụng phong cách dưới đây.</string>
+    <string name="collage_style_apply_appearance">Chỉ phong cách</string>
+    <string name="collage_style_apply_appearance_sub">Giữ nguyên bố cục hiện tại. Áp dụng cài đặt giao diện và ảnh theo thứ tự vị trí.</string>
 </resources>

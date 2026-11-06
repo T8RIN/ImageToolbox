@@ -46,7 +46,13 @@ internal fun HistorySnapshot.toProjectSnapshot(): CollageProjectSnapshot {
 
 internal fun CollageProjectSnapshot.toHistorySnapshot(): HistorySnapshot {
     val layout = layoutId?.let {
-        requireNotNull(CollageType.fromLayoutId(it, collageState?.layoutParams)).also { type ->
+        requireNotNull(
+            CollageType.fromLayoutId(
+                it,
+                collageState?.layoutParams,
+                collageState?.design
+            )
+        ).also { type ->
             require(type.imageCount == uris.orEmpty().size)
         }
     } ?: CollageType.Empty

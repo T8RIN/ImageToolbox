@@ -17,10 +17,44 @@
 
 package com.t8rin.imagetoolbox.collage_maker.domain
 
+import com.t8rin.collages.CollageSlotStyle
+import com.t8rin.imagetoolbox.core.domain.model.GradientFill
+
 data class CollageParams(
     val spacing: Float = 10f,
+    val outerPadding: Float = 10f,
+    val shadowRadius: Float = 0f,
+    val shadowColor: Int = 0x55000000,
+    val borderWidth: Float = 0f,
+    val borderColor: Int = -1,
+    val borderGradient: GradientFill? = null,
+    val slotBorderGradients: List<GradientFill?> = emptyList(),
+    val slotStyles: List<CollageSlotStyle> = emptyList(),
     val cornerRadius: Float = 0f,
     val outputScaleRatio: Float = 0.5f,
     val disableRotation: Boolean = true,
     val enableSnapToBorders: Boolean = true
-)
+) {
+    fun swapPhotos(first: Int, second: Int, imageCount: Int): CollageParams {
+        if (first !in 0 until imageCount || second !in 0 until imageCount || first == second) return this
+        val defaultStyle = CollageSlotStyle(
+            borderWidth = borderWidth,
+            borderColor = borderColor,
+            shadowRadius = shadowRadius,
+            shadowColor = shadowColor
+        )
+        val indices = List(imageCount) { index ->
+            when (index) {
+                first -> second
+                second -> first
+                else -> index
+            }
+        }
+        return copy(
+            slotStyles = indices.map { slotStyles.getOrNull(it) ?: defaultStyle },
+            slotBorderGradients = indices.map {
+                if (it in slotBorderGradients.indices) slotBorderGradients[it] else borderGradient
+            }
+        )
+    }
+}

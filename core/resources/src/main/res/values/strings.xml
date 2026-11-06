@@ -3345,7 +3345,7 @@
     <string name="style_presets_sub">Save or apply a style</string>
     <string name="save_style_preset">Save style</string>
     <string name="delete_style_preset">Delete style</string>
-    <string name="delete_style_preset_sub">Delete the style “%1$s”?</string>
+    <string name="delete_style_preset_sub">Delete the style “%1$s” from saved styles? Your current settings will stay as they are.</string>
     <string name="crop_presets">Crop presets</string>
     <string name="crop_presets_sub">Save or reuse crop bounds</string>
     <string name="save_crop_preset">Save current crop preset</string>
@@ -8001,4 +8001,17 @@
     <string name="help_tip_setting_gallery_file_size_step">Open Settings → Gallery and toggle Show file size. This changes thumbnail labels without changing or compressing the files.</string>
     <string name="help_tip_setting_gallery_file_extension_step">Open Settings → Gallery and toggle Show file format. This changes thumbnail labels without renaming or converting the files.</string>
     <string name="help_tip_setting_remember_preview_layout_step">Open Settings → Behavior and turn on Remember Preview Layout. Adjust the preview height or pin it in a tool; the next tool will reuse that layout.</string>
+    <string name="collage_outer_padding">Outer margins</string>
+    <string name="collage_border">Frame width</string>
+    <string name="collage_slot">Photo settings</string>
+    <string name="collage_fit">Fit whole photo</string>
+    <string name="collage_fit_sub">Show the full photo instead of cropping to fill the slot</string>
+    <string name="collage_global_corners">Use collage corners</string>
+    <string name="collage_shadow">Shadow</string>
+    <string name="collage_style_summary">Photos: %1$d · Spacing: %2$d · Margins: %3$d · Corners: %4$d</string>
+    <string name="collage_style_apply_full">Apply everything</string>
+    <string name="collage_style_apply_full_sub">Restore the layout, divider positions and photo styling.</string>
+    <string name="collage_style_apply_layout_unavailable">Requires %1$d photos; your collage has %2$d. You can still apply the style below.</string>
+    <string name="collage_style_apply_appearance">Style only</string>
+    <string name="collage_style_apply_appearance_sub">Keep the current layout. Apply the appearance and photo settings by slot order.</string>
 </resources>

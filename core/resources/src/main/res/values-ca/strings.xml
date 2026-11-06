@@ -7955,4 +7955,17 @@
     <string name="help_tip_setting_gallery_file_size_step">Obriu Configuració → Galeria i activeu Mostra la mida del fitxer. Això canvia les etiquetes de les miniatures sense canviar ni comprimir els fitxers.</string>
     <string name="help_tip_setting_gallery_file_extension_step">Obriu Configuració → Galeria i activeu Mostra el format del fitxer. Això canvia les etiquetes de les miniatures sense canviar el nom ni convertir els fitxers.</string>
     <string name="help_tip_setting_remember_preview_layout_step">Obriu Configuració → Comportament i activeu Recorda el disseny de la vista prèvia. Ajusteu l\'alçada de la vista prèvia o fixeu-la en una eina; la següent eina reutilitzarà aquest disseny.</string>
+    <string name="collage_outer_padding">Marges exteriors</string>
+    <string name="collage_border">Amplada del marc</string>
+    <string name="collage_slot">Configuració de fotos</string>
+    <string name="collage_fit">Encaixa tota la foto</string>
+    <string name="collage_fit_sub">Mostra la foto completa en lloc de retallar-la per omplir la ranura</string>
+    <string name="collage_global_corners">Utilitzeu racons de collage</string>
+    <string name="collage_shadow">Ombra</string>
+    <string name="collage_style_summary">Fotos: %1$d · Espaiat: %2$d · Marges: %3$d · Cantonades: %4$d</string>
+    <string name="collage_style_apply_full">Aplica-ho tot</string>
+    <string name="collage_style_apply_full_sub">Restaura el disseny, les posicions dels divisors i l\'estil fotogràfic.</string>
+    <string name="collage_style_apply_layout_unavailable">Requereix %1$d fotos; el teu collage té %2$d. Encara podeu aplicar l\'estil següent.</string>
+    <string name="collage_style_apply_appearance">Només estil</string>
+    <string name="collage_style_apply_appearance_sub">Mantingueu el disseny actual. Apliqueu la configuració de l\'aspecte i de la foto per ordre de ranura.</string>
 </resources>

@@ -40,6 +40,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Icon
@@ -74,10 +75,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.drawable.DrawableCompat
 import com.t8rin.collages.Collage
+import com.t8rin.collages.CollageType
 import com.t8rin.collages.CollageTypeSelection
 import com.t8rin.collages.public.CollageConstants
 import com.t8rin.colors.util.roundToTwoDigits
+import com.t8rin.imagetoolbox.collage_maker.presentation.components.CollageBorderSelector
 import com.t8rin.imagetoolbox.collage_maker.presentation.components.CollageMakerNoDataControls
+import com.t8rin.imagetoolbox.collage_maker.presentation.components.CollageShadowSelector
+import com.t8rin.imagetoolbox.collage_maker.presentation.components.CollageSlotSheet
+import com.t8rin.imagetoolbox.collage_maker.presentation.components.CollageStyleApplyDialog
 import com.t8rin.imagetoolbox.collage_maker.presentation.screenLogic.CollageMakerComponent
 import com.t8rin.imagetoolbox.core.data.image.utils.createShader
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormatGroup
@@ -88,10 +94,14 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Add
 import com.t8rin.imagetoolbox.core.resources.icons.Archive
 import com.t8rin.imagetoolbox.core.resources.icons.BackgroundColor
+import com.t8rin.imagetoolbox.core.resources.icons.Bookmark
+import com.t8rin.imagetoolbox.core.resources.icons.BookmarkRemove
+import com.t8rin.imagetoolbox.core.resources.icons.BorderStyle
 import com.t8rin.imagetoolbox.core.resources.icons.Collage
 import com.t8rin.imagetoolbox.core.resources.icons.Delete
 import com.t8rin.imagetoolbox.core.resources.icons.FormatLineSpacing
 import com.t8rin.imagetoolbox.core.resources.icons.ImageReset
+import com.t8rin.imagetoolbox.core.resources.icons.Padding
 import com.t8rin.imagetoolbox.core.resources.icons.PhotoSizeSelectSmall
 import com.t8rin.imagetoolbox.core.resources.icons.PinEnd
 import com.t8rin.imagetoolbox.core.resources.icons.RoundedCorner
@@ -114,6 +124,8 @@ import com.t8rin.imagetoolbox.core.ui.widget.controls.UndoRedoButtons
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.BackgroundColorSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageFormatSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.QualitySelector
+import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.StylePresetSelector
+import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.rememberStylePresetSelectorState
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.LoadingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeImagePickingDialog
@@ -146,6 +158,40 @@ import net.engawapg.lib.zoomable.zoomable
 fun CollageMakerContent(
     component: CollageMakerComponent
 ) {
+
+    var editSlot by rememberSaveable { mutableIntStateOf(-1) }
+    var showSlotSettings by rememberSaveable { mutableStateOf(false) }
+    var styleToApplyName by rememberSaveable { mutableStateOf<String?>(null) }
+    val styleToApply = component.library.styles.firstOrNull { it.name == styleToApplyName }
+    var showStyleApply by rememberSaveable { mutableStateOf(false) }
+    val styleSelectorState = rememberStylePresetSelectorState()
+    var closeControls by remember { mutableStateOf(false) }
+    LaunchedEffect(component.uris?.size, component.collageType.imageCount) {
+        val count = component.uris.orEmpty().size
+        if (count > 0 && component.collageType.imageCount != count) {
+            CollageType.catalog().firstOrNull { it.imageCount == count }
+                ?.let(component::setCollageType)
+        }
+    }
+
+    CollageSlotSheet(
+        component = component,
+        index = editSlot,
+        visible = showSlotSettings,
+        onDismiss = { showSlotSettings = it }
+    )
+
+    CollageStyleApplyDialog(
+        preset = styleToApply,
+        imageCount = component.uris.orEmpty().size,
+        visible = showStyleApply && styleToApply != null,
+        onDismiss = { showStyleApply = false },
+        onApply = { includeLayout ->
+            styleToApply?.style?.let { component.applyStyle(it, includeLayout) }
+            styleSelectorState.hide()
+            closeControls = true
+        }
+    )
 
     var isLoading by rememberSaveable { mutableStateOf(true) }
     var outputSize by remember { mutableStateOf<Pair<Int, Int>?>(null) }
@@ -427,6 +473,22 @@ fun CollageMakerContent(
                                         },
                                         imageGesturesEnabled = showItemMenu,
                                         canvasScale = zoomState.scale,
+                                        outerPadding = component.params.outerPadding,
+                                        slotStyles = component.uris.orEmpty().indices.map(component::slotStyle),
+                                        slotBorderShaders = remember(
+                                            component.params.borderGradient,
+                                            component.params.slotBorderGradients,
+                                            component.uris?.size
+                                        ) {
+                                            component.uris.orEmpty().indices.map { index ->
+                                                component.slotBorderGradient(index)
+                                                    ?.let { gradient ->
+                                                        { width: Float, height: Float ->
+                                                            gradient.createShader(width, height)
+                                                        }
+                                                    }
+                                            }
+                                        },
                                         disableRotation = component.params.disableRotation,
                                         enableSnapToBorders = component.params.enableSnapToBorders,
                                         state = component.collageState,
@@ -476,6 +538,12 @@ fun CollageMakerContent(
                             ),
                         horizontalArrangement = Arrangement.spacedBy(2.dp)
                     ) {
+                        EnhancedIconButton(onClick = {
+                            editSlot = tapIndex
+                            showSlotSettings = true
+                        }) {
+                            Icon(Icons.Rounded.Tune, contentDescription = null)
+                        }
                         EnhancedIconButton(
                             onClick = {
                                 showItemMenu = false
@@ -515,7 +583,13 @@ fun CollageMakerContent(
                 }
             }
         },
-        controls = {
+        controls = { scaffoldState ->
+            LaunchedEffect(closeControls) {
+                if (closeControls) {
+                    scaffoldState.bottomSheetState.partialExpand()
+                    closeControls = false
+                }
+            }
             Column(
                 modifier = Modifier
                     .padding(16.dp)
@@ -569,13 +643,35 @@ fun CollageMakerContent(
                         state = state,
                         imagesCount = component.uris?.size ?: 0,
                         value = component.collageType,
+                        favorites = component.library.favorites,
+                        itemSize = 76.dp,
+                        itemBottomContent = { type ->
+                            val isFavorite = type.layoutId in component.library.favorites
+                            EnhancedIconButton(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(32.dp),
+                                shape = ShapeDefaults.bottom,
+                                pressedShape = ShapeDefaults.bottom,
+                                forceMinimumInteractiveComponentSize = false,
+                                containerColor = MaterialTheme.colorScheme.surfaceContainerLowest,
+                                onClick = { type.layoutId?.let(component::toggleFavorite) }
+                            ) {
+                                Icon(
+                                    imageVector = if (isFavorite) Icons.Rounded.BookmarkRemove else Icons.Outlined.Bookmark,
+                                    contentDescription = null,
+                                    modifier = Modifier.size(18.dp),
+                                    tint = if (isFavorite) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                            }
+                        },
                         onValueChange = component::setCollageType,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(100.dp)
+                            .height(142.dp)
                             .fadingEdges(state),
                         contentPadding = PaddingValues(16.dp),
-                        shape = ShapeDefaults.small,
+                        shape = ShapeDefaults.top,
                         itemModifierFactory = { isSelected ->
                             Modifier
                                 .container(
@@ -585,13 +681,71 @@ fun CollageMakerContent(
                                             MaterialTheme.colorScheme.secondaryContainer
                                         } else MaterialTheme.colorScheme.surfaceContainerLowest,
                                     ).value,
-                                    shape = ShapeDefaults.small
+                                    shape = ShapeDefaults.top
                                 )
                                 .padding(8.dp)
                                 .clip(ShapeDefaults.extremeSmall)
                         }
                     )
                 }
+                StylePresetSelector(
+                    state = styleSelectorState,
+                    showSelection = false,
+                    currentStyle = component.currentStyle,
+                    styles = component.library.styles.map { it.name to it.style },
+                    listStateKey = "COLLAGE_STYLES",
+                    summary = { style ->
+                        stringResource(
+                            R.string.collage_style_summary,
+                            style.imageCount,
+                            style.spacing.toInt(),
+                            style.outerPadding.toInt(),
+                            style.cornerRadius.toInt()
+                        )
+                    },
+                    onApply = { style ->
+                        styleToApplyName =
+                            component.library.styles.firstOrNull { it.style == style }?.name
+                        showStyleApply = styleToApplyName != null
+                    },
+                    onSave = component::saveStyle,
+                    onDelete = component::deleteStyle
+                )
+                EnhancedSliderItem(
+                    value = component.params.outerPadding,
+                    internalStateTransformation = { it.roundToTwoDigits() },
+                    title = stringResource(R.string.collage_outer_padding),
+                    icon = Icons.Outlined.Padding,
+                    valueRange = 0f..50f,
+                    onValueChange = component::setOuterPadding,
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = ShapeDefaults.extraLarge
+                )
+                EnhancedSliderItem(
+                    value = component.params.borderWidth,
+                    internalStateTransformation = { it.roundToTwoDigits() },
+                    title = stringResource(R.string.collage_border),
+                    icon = Icons.Rounded.BorderStyle,
+                    valueRange = 0f..30f,
+                    onValueChange = component::setBorderWidth,
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = ShapeDefaults.extraLarge
+                )
+                AnimatedVisibility(component.params.borderWidth > 0f) {
+                    CollageBorderSelector(
+                        color = Color(component.params.borderColor),
+                        gradient = component.params.borderGradient,
+                        onColorChange = component::setBorderColor,
+                        onGradientChange = component::setBorderGradient
+                    )
+                }
+                CollageShadowSelector(
+                    radius = component.params.shadowRadius,
+                    color = Color(component.params.shadowColor),
+                    onRadiusChange = component::setShadowRadius,
+                    onColorChange = component::setShadowColor
+                )
+
                 BackgroundColorSelector(
                     modifier = Modifier.fillMaxWidth(),
                     shape = ShapeDefaults.extraLarge,
@@ -818,6 +972,7 @@ fun CollageMakerContent(
 @Composable
 private fun rememberHandleDrawable(): Drawable {
     val context = LocalContext.current
+
     val width = with(LocalDensity.current) { 42.dp.roundToPx() }
     val height = width / 2
     val backgroundColor = MaterialTheme.colorScheme.tertiary

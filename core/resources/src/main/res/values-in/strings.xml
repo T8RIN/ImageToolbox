@@ -7954,4 +7954,17 @@
     <string name="help_tip_setting_gallery_file_size_step">Buka Pengaturan → Galeri dan aktifkan Tampilkan ukuran file. Ini mengubah label thumbnail tanpa mengubah atau mengompresi file.</string>
     <string name="help_tip_setting_gallery_file_extension_step">Buka Pengaturan → Galeri dan aktifkan Tampilkan format file. Ini mengubah label thumbnail tanpa mengganti nama atau mengonversi file.</string>
     <string name="help_tip_setting_remember_preview_layout_step">Buka Pengaturan → Perilaku dan aktifkan Ingat Tata Letak Pratinjau. Sesuaikan tinggi pratinjau atau sematkan di alat; alat berikutnya akan menggunakan kembali tata letak itu.</string>
+    <string name="collage_outer_padding">Margin luar</string>
+    <string name="collage_border">Lebar bingkai</string>
+    <string name="collage_slot">Pengaturan foto</string>
+    <string name="collage_fit">Cocokkan seluruh foto</string>
+    <string name="collage_fit_sub">Tampilkan foto lengkap alih-alih memotong untuk mengisi slot</string>
+    <string name="collage_global_corners">Gunakan sudut kolase</string>
+    <string name="collage_shadow">Bayangan</string>
+    <string name="collage_style_summary">Foto: %1$d · Spasi: %2$d · Margin: %3$d · Sudut: %4$d</string>
+    <string name="collage_style_apply_full">Terapkan semuanya</string>
+    <string name="collage_style_apply_full_sub">Kembalikan tata letak, posisi pembagi, dan gaya foto.</string>
+    <string name="collage_style_apply_layout_unavailable">Membutuhkan %1$d foto; kolase Anda memiliki %2$d. Anda masih bisa menerapkan gaya di bawah ini.</string>
+    <string name="collage_style_apply_appearance">Hanya gaya</string>
+    <string name="collage_style_apply_appearance_sub">Pertahankan tata letak saat ini. Terapkan pengaturan tampilan dan foto berdasarkan urutan slot.</string>
 </resources>

@@ -7956,4 +7956,17 @@
     <string name="help_tip_setting_gallery_file_size_step">Abra Configurações → Galeria e alterne Mostrar tamanho do arquivo. Isso altera os rótulos das miniaturas sem alterar ou compactar os arquivos.</string>
     <string name="help_tip_setting_gallery_file_extension_step">Abra Configurações → Galeria e alterne Mostrar formato de arquivo. Isso altera os rótulos das miniaturas sem renomear ou converter os arquivos.</string>
     <string name="help_tip_setting_remember_preview_layout_step">Abra Configurações → Comportamento e ative Lembrar layout de visualização. Ajuste a altura da visualização ou fixe-a em uma ferramenta; a próxima ferramenta reutilizará esse layout.</string>
+    <string name="collage_outer_padding">Margens externas</string>
+    <string name="collage_border">Largura do quadro</string>
+    <string name="collage_slot">Configurações de fotos</string>
+    <string name="collage_fit">Ajustar a foto inteira</string>
+    <string name="collage_fit_sub">Mostrar a foto completa em vez de recortá-la para preencher o espaço</string>
+    <string name="collage_global_corners">Use cantos de colagem</string>
+    <string name="collage_shadow">Sombra</string>
+    <string name="collage_style_summary">Fotos: %1$d · Espaçamento: %2$d · Margens: %3$d · Cantos: %4$d</string>
+    <string name="collage_style_apply_full">Aplique tudo</string>
+    <string name="collage_style_apply_full_sub">Restaure o layout, as posições dos divisores e o estilo das fotos.</string>
+    <string name="collage_style_apply_layout_unavailable">Requer %1$d fotos; sua colagem tem %2$d. Você ainda pode aplicar o estilo abaixo.</string>
+    <string name="collage_style_apply_appearance">Apenas estilo</string>
+    <string name="collage_style_apply_appearance_sub">Mantenha o layout atual. Aplique as configurações de aparência e foto por ordem de slot.</string>
 </resources>

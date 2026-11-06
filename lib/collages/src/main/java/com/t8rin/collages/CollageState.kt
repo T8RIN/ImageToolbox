@@ -23,7 +23,8 @@ import androidx.compose.runtime.Immutable
 data class CollageState(
     val layoutId: String,
     val images: List<CollageImageState>,
-    val layoutParams: List<Float>
+    val layoutParams: List<Float>,
+    val design: CollageDesign? = null
 )
 
 @Immutable

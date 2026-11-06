@@ -7955,4 +7955,17 @@
     <string name="help_tip_setting_gallery_file_size_step">Nyissa meg a Beállítások → Galéria lehetőséget, és kapcsolja be a Fájlméret megjelenítése lehetőséget. Ez a fájlok módosítása vagy tömörítése nélkül módosítja a bélyegképcímkéket.</string>
     <string name="help_tip_setting_gallery_file_extension_step">Nyissa meg a Beállítások → Galéria lehetőséget, és kapcsolja be a Fájlformátum megjelenítése lehetőséget. Ez a fájlok átnevezése vagy konvertálása nélkül módosítja a bélyegképcímkéket.</string>
     <string name="help_tip_setting_remember_preview_layout_step">Nyissa meg a Beállítások → Viselkedés lehetőséget, és kapcsolja be az Előnézeti elrendezés megjegyzése funkciót. Állítsa be az előnézet magasságát, vagy rögzítse egy eszközben; a következő eszköz újra felhasználja ezt az elrendezést.</string>
+    <string name="collage_outer_padding">Külső margók</string>
+    <string name="collage_border">Keret szélessége</string>
+    <string name="collage_slot">Fénykép beállítások</string>
+    <string name="collage_fit">Illeszd a teljes fényképet</string>
+    <string name="collage_fit_sub">Mutassa meg a teljes fényképet ahelyett, hogy levágná a nyílást</string>
+    <string name="collage_global_corners">Használjon kollázs sarkokat</string>
+    <string name="collage_shadow">Árnyék</string>
+    <string name="collage_style_summary">Fotók: %1$d · Térköz: %2$d · Margók: %3$d · Sarkok: %4$d</string>
+    <string name="collage_style_apply_full">Alkalmazzon mindent</string>
+    <string name="collage_style_apply_full_sub">Állítsa vissza az elrendezést, az elválasztó pozíciókat és a fénykép stílusát.</string>
+    <string name="collage_style_apply_layout_unavailable">%1$d fénykép szükséges; a kollázsodban %2$d található. Továbbra is alkalmazhatja az alábbi stílust.</string>
+    <string name="collage_style_apply_appearance">Csak stílus</string>
+    <string name="collage_style_apply_appearance_sub">Tartsa meg a jelenlegi elrendezést. Alkalmazza a megjelenés és a fénykép beállításait slot sorrendben.</string>
 </resources>

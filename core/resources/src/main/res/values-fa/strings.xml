@@ -7955,4 +7955,17 @@
     <string name="help_tip_setting_gallery_file_size_step">تنظیمات → گالری را باز کنید و نمایش اندازه فایل را تغییر دهید. این کار بدون تغییر یا فشرده‌سازی فایل‌ها، برچسب‌های کوچک را تغییر می‌دهد.</string>
     <string name="help_tip_setting_gallery_file_extension_step">تنظیمات → گالری را باز کنید و نمایش فرمت فایل را تغییر دهید. این کار برچسب های ریز عکس ها را بدون تغییر نام یا تبدیل فایل ها تغییر می دهد.</string>
     <string name="help_tip_setting_remember_preview_layout_step">تنظیمات ← رفتار را باز کنید و به یاد داشته باشید طرح بندی پیش نمایش را روشن کنید. ارتفاع پیش نمایش را تنظیم کنید یا آن را در یک ابزار پین کنید. ابزار بعدی از آن طرح استفاده مجدد خواهد کرد.</string>
+    <string name="collage_outer_padding">حاشیه های بیرونی</string>
+    <string name="collage_border">عرض قاب</string>
+    <string name="collage_slot">تنظیمات عکس</string>
+    <string name="collage_fit">متناسب با کل عکس</string>
+    <string name="collage_fit_sub">نمایش عکس کامل به جای برش برای پر کردن شکاف</string>
+    <string name="collage_global_corners">از گوشه های کلاژ استفاده کنید</string>
+    <string name="collage_shadow">سایه</string>
+    <string name="collage_style_summary">عکس ها: %1$d · فاصله: %2$d · حاشیه: %3$d · گوشه ها: %4$d</string>
+    <string name="collage_style_apply_full">همه چیز را اعمال کنید</string>
+    <string name="collage_style_apply_full_sub">طرح‌بندی، موقعیت‌های تقسیم‌کننده و استایل عکس را بازیابی کنید.</string>
+    <string name="collage_style_apply_layout_unavailable">به %1$d عکس نیاز دارد. کلاژ شما %2$d دارد. همچنان می توانید سبک زیر را اعمال کنید.</string>
+    <string name="collage_style_apply_appearance">فقط سبک</string>
+    <string name="collage_style_apply_appearance_sub">طرح فعلی را حفظ کنید. تنظیمات ظاهر و عکس را به ترتیب شکاف اعمال کنید.</string>
 </resources>

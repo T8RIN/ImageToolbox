@@ -7955,4 +7955,17 @@
     <string name="help_tip_setting_gallery_file_size_step">Öffnen Sie Einstellungen → Galerie und schalten Sie Dateigröße anzeigen um. Dadurch werden Miniaturbildbeschriftungen geändert, ohne die Dateien zu ändern oder zu komprimieren.</string>
     <string name="help_tip_setting_gallery_file_extension_step">Öffnen Sie Einstellungen → Galerie und schalten Sie Dateiformat anzeigen um. Dadurch werden die Beschriftungen der Miniaturansichten geändert, ohne dass die Dateien umbenannt oder konvertiert werden müssen.</string>
     <string name="help_tip_setting_remember_preview_layout_step">Öffnen Sie Einstellungen → Verhalten und aktivieren Sie Vorschau-Layout merken. Passen Sie die Vorschauhöhe an oder fixieren Sie sie in einem Tool. Das nächste Tool wird dieses Layout wiederverwenden.</string>
+    <string name="collage_outer_padding">Äußere Ränder</string>
+    <string name="collage_border">Rahmenbreite</string>
+    <string name="collage_slot">Fotoeinstellungen</string>
+    <string name="collage_fit">Ganzes Foto einpassen</string>
+    <string name="collage_fit_sub">Zeigen Sie das gesamte Foto an, anstatt es so zuzuschneiden, dass es den Platz ausfüllt</string>
+    <string name="collage_global_corners">Verwenden Sie Collagenecken</string>
+    <string name="collage_shadow">Schatten</string>
+    <string name="collage_style_summary">Fotos: %1$d · Abstand: %2$d · Ränder: %3$d · Ecken: %4$d</string>
+    <string name="collage_style_apply_full">Alles anwenden</string>
+    <string name="collage_style_apply_full_sub">Stellen Sie das Layout, die Trennlinienpositionen und den Fotostil wieder her.</string>
+    <string name="collage_style_apply_layout_unavailable">Erfordert %1$d Fotos; Ihre Collage hat %2$d. Sie können den folgenden Stil weiterhin anwenden.</string>
+    <string name="collage_style_apply_appearance">Nur Stil</string>
+    <string name="collage_style_apply_appearance_sub">Behalten Sie das aktuelle Layout bei. Wenden Sie die Darstellungs- und Fotoeinstellungen nach Slot-Reihenfolge an.</string>
 </resources>

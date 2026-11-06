@@ -7954,4 +7954,17 @@
     <string name="help_tip_setting_gallery_file_size_step">打开设置 → 图库并切换显示文件大小。这会更改缩略图标签，而不更改或压缩文件。</string>
     <string name="help_tip_setting_gallery_file_extension_step">打开设置 → 图库并切换显示文件格式。这会更改缩略图标签，而无需重命名或转换文件。</string>
     <string name="help_tip_setting_remember_preview_layout_step">打开“设置”→“行为”并启用“记住预览布局”。调整预览高度或将其固定在工具中；下一个工具将重用该布局。</string>
+    <string name="collage_outer_padding">外边距</string>
+    <string name="collage_border">框架宽度</string>
+    <string name="collage_slot">照片设置</string>
+    <string name="collage_fit">适合整张照片</string>
+    <string name="collage_fit_sub">显示完整照片而不是裁剪以填充插槽</string>
+    <string name="collage_global_corners">使用拼贴角</string>
+    <string name="collage_shadow">阴影</string>
+    <string name="collage_style_summary">照片：%1$d · 间距：%2$d · 页边距：%3$d · 角：%4$d</string>
+    <string name="collage_style_apply_full">应用一切</string>
+    <string name="collage_style_apply_full_sub">恢复布局、分隔线位置和照片样式。</string>
+    <string name="collage_style_apply_layout_unavailable">需要 %1$d 照片；您的拼贴画有 %2$d。您仍然可以应用下面的样式。</string>
+    <string name="collage_style_apply_appearance">仅款式</string>
+    <string name="collage_style_apply_appearance_sub">保持当前布局。按插槽顺序应用外观和照片设置。</string>
 </resources>

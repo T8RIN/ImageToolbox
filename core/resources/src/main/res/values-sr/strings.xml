@@ -7956,4 +7956,17 @@
     <string name="help_tip_setting_gallery_file_size_step">Отворите Подешавања → Галерија и укључите опцију Прикажи величину датотеке. Ово мења ознаке сличица без промене или компримовања датотека.</string>
     <string name="help_tip_setting_gallery_file_extension_step">Отворите Подешавања → Галерија и укључите Прикажи формат датотеке. Ово мења ознаке сличица без преименовања или конверзије датотека.</string>
     <string name="help_tip_setting_remember_preview_layout_step">Отворите Подешавања → Понашање и укључите Запамти изглед прегледа. Подесите висину прегледа или је закачите у алатку; следећи алат ће поново користити тај распоред.</string>
+    <string name="collage_outer_padding">Спољне маргине</string>
+    <string name="collage_border">Ширина оквира</string>
+    <string name="collage_slot">Подешавања фотографија</string>
+    <string name="collage_fit">Уклопи целу фотографију</string>
+    <string name="collage_fit_sub">Прикажите целу фотографију уместо исецања да бисте попунили место</string>
+    <string name="collage_global_corners">Користите углове колажа</string>
+    <string name="collage_shadow">Схадов</string>
+    <string name="collage_style_summary">Фотографије: __ПХ_0__ · Размак: __ПХ_1__ · Маргине: __ПХ_2__ · Углови: __ПХ_3__</string>
+    <string name="collage_style_apply_full">Примени све</string>
+    <string name="collage_style_apply_full_sub">Вратите изглед, положаје разделника и стил фотографије.</string>
+    <string name="collage_style_apply_layout_unavailable">Захтева __ПХ_0__ фотографија; ваш колаж има __ПХ_1__. Још увек можете применити стил испод.</string>
+    <string name="collage_style_apply_appearance">Само стил</string>
+    <string name="collage_style_apply_appearance_sub">Задржите тренутни изглед. Примените подешавања изгледа и фотографије према редоследу места.</string>
 </resources>
