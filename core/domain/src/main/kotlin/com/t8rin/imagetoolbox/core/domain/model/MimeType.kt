@@ -68,6 +68,14 @@ sealed class MimeType(
         val Qoi = Single("image/qoi")
         val Ico = Single("image/x-icon")
         val Svg = Single("image/svg+xml")
+        val CollageProject = Single("application/x-imagetoolbox-collage")
+        val CollageProjectList = Multiple(
+            setOf(
+                CollageProject.entry,
+                Zip.entry,
+                "application/octet-stream"
+            )
+        )
         val MarkupProject = Single("application/x-imagetoolbox-project")
         val MarkupProjectList = Multiple(
             setOf(

@@ -1190,7 +1190,8 @@ sealed class Screen(
 
     @Serializable
     data class CollageMaker(
-        val uris: List<Uri>? = null
+        val uris: List<Uri>? = null,
+        val projectUri: Uri? = null
     ) : Screen(
         id = 33,
         title = R.string.collage_maker,

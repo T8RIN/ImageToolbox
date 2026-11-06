@@ -2360,6 +2360,7 @@
     <string name="unsupported_markup_project_version">Неподдерживаемая версия проекта Image Toolbox: %1$d.</string>
     <string name="save_markup_project">Сохранить проект</string>
     <string name="save_markup_project_sub">Храните слои, фон и историю редактирования в редактируемом файле проекта.</string>
+    <string name="save_collage_project_sub">Сохранить раскладку, исходные фото и историю правок для дальнейшего редактирования</string>
     <string name="failed_to_open">Не удалось открыть</string>
     <string name="ocr_write_to_searchable_pdf">Запись в PDF с возможностью поиска</string>
     <string name="ocr_write_to_searchable_pdf_sub">Распознавайте текст из пакета изображений и сохраняйте PDF с возможностью поиска с изображением и выбираемым текстовым слоем.</string>

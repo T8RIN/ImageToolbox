@@ -366,6 +366,7 @@ internal class ChildProvider @Inject constructor(
             collageMakerComponentFactory(
                 componentContext = componentContext,
                 initialUris = config.uris,
+                initialProjectUri = config.projectUri,
                 onGoBack = ::navigateBack,
                 onNavigate = ::navigateTo
             )
