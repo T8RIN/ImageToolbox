@@ -17,41 +17,17 @@
 
 package com.t8rin.imagetoolbox.collage_maker.presentation
 
-import android.graphics.drawable.Drawable
-import android.graphics.drawable.GradientDrawable
-import android.graphics.drawable.LayerDrawable
 import android.net.Uri
-import androidx.appcompat.content.res.AppCompatResources
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.togetherWith
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -60,71 +36,31 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.clipToBounds
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.layout.onSizeChanged
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.core.graphics.drawable.DrawableCompat
-import com.t8rin.collages.Collage
 import com.t8rin.collages.CollageType
-import com.t8rin.collages.CollageTypeSelection
 import com.t8rin.collages.public.CollageConstants
-import com.t8rin.colors.util.roundToTwoDigits
-import com.t8rin.imagetoolbox.collage_maker.presentation.components.CollageBorderSelector
+import com.t8rin.imagetoolbox.collage_maker.presentation.components.CollageMakerActions
+import com.t8rin.imagetoolbox.collage_maker.presentation.components.CollageMakerControls
 import com.t8rin.imagetoolbox.collage_maker.presentation.components.CollageMakerNoDataControls
-import com.t8rin.imagetoolbox.collage_maker.presentation.components.CollageShadowSelector
+import com.t8rin.imagetoolbox.collage_maker.presentation.components.CollageMakerPreview
 import com.t8rin.imagetoolbox.collage_maker.presentation.components.CollageSlotSheet
 import com.t8rin.imagetoolbox.collage_maker.presentation.components.CollageStyleApplyDialog
 import com.t8rin.imagetoolbox.collage_maker.presentation.screenLogic.CollageMakerComponent
-import com.t8rin.imagetoolbox.core.data.image.utils.createShader
-import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormatGroup
-import com.t8rin.imagetoolbox.core.domain.model.DomainAspectRatio
 import com.t8rin.imagetoolbox.core.domain.model.MimeType
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.resources.icons.Add
-import com.t8rin.imagetoolbox.core.resources.icons.Archive
-import com.t8rin.imagetoolbox.core.resources.icons.BackgroundColor
-import com.t8rin.imagetoolbox.core.resources.icons.Bookmark
-import com.t8rin.imagetoolbox.core.resources.icons.BookmarkRemove
-import com.t8rin.imagetoolbox.core.resources.icons.BorderStyle
 import com.t8rin.imagetoolbox.core.resources.icons.Collage
-import com.t8rin.imagetoolbox.core.resources.icons.Delete
-import com.t8rin.imagetoolbox.core.resources.icons.FormatLineSpacing
 import com.t8rin.imagetoolbox.core.resources.icons.ImageReset
-import com.t8rin.imagetoolbox.core.resources.icons.Padding
-import com.t8rin.imagetoolbox.core.resources.icons.PhotoSizeSelectSmall
-import com.t8rin.imagetoolbox.core.resources.icons.PinEnd
-import com.t8rin.imagetoolbox.core.resources.icons.RoundedCorner
-import com.t8rin.imagetoolbox.core.resources.icons.SwapHoriz
-import com.t8rin.imagetoolbox.core.resources.icons.SwipeVertical
-import com.t8rin.imagetoolbox.core.resources.icons.Tune
-import com.t8rin.imagetoolbox.core.resources.utils.animation.animateColorAsState
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFileCreator
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
-import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveBottomScaffoldLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.BottomButtonsBlock
-import com.t8rin.imagetoolbox.core.ui.widget.buttons.ShareButton
-import com.t8rin.imagetoolbox.core.ui.widget.controls.UndoRedoButtons
-import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.BackgroundColorSelector
-import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageFormatSelector
-import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.QualitySelector
-import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.StylePresetSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.rememberStylePresetSelectorState
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.LoadingDialog
@@ -133,32 +69,18 @@ import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeSaveLocationSelectio
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ResetDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBadge
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
-import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
-import com.t8rin.imagetoolbox.core.ui.widget.image.AspectRatioSelector
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.scaleOnTap
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.shimmer
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.transparencyChecker
-import com.t8rin.imagetoolbox.core.ui.widget.other.InfoContainer
 import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
-import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
-import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
-import com.t8rin.imagetoolbox.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import com.t8rin.imagetoolbox.core.ui.widget.text.TopAppBarTitle
 import com.t8rin.imagetoolbox.core.ui.widget.text.marquee
 import com.t8rin.imagetoolbox.core.utils.getString
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import net.engawapg.lib.zoomable.rememberZoomState
-import net.engawapg.lib.zoomable.zoomable
 
 @Composable
 fun CollageMakerContent(
     component: CollageMakerComponent
 ) {
-
     var editSlot by rememberSaveable { mutableIntStateOf(-1) }
     var showSlotSettings by rememberSaveable { mutableStateOf(false) }
     var styleToApplyName by rememberSaveable { mutableStateOf<String?>(null) }
@@ -306,11 +228,9 @@ fun CollageMakerContent(
         onGoBack = onBack,
         shouldDisableBackHandler = !component.haveChanges,
         actions = { scaffoldState ->
-            var editSheetData by remember {
-                mutableStateOf(listOf<Uri>())
-            }
-            EnhancedIconButton(
-                onClick = {
+            CollageMakerActions(
+                component = component,
+                onToggleControls = {
                     scope.launch {
                         if (scaffoldState.bottomSheetState.currentValue == SheetValue.Expanded) {
                             scaffoldState.bottomSheetState.partialExpand()
@@ -318,38 +238,7 @@ fun CollageMakerContent(
                             scaffoldState.bottomSheetState.expand()
                         }
                     }
-                },
-            ) {
-                Icon(
-                    imageVector = Icons.Rounded.Tune,
-                    contentDescription = stringResource(R.string.properties)
-                )
-            }
-            ShareButton(
-                onShare = component::performSharing,
-                onCopy = {
-                    component.cacheImage(Clipboard::copy)
-                },
-                onEdit = {
-                    component.cacheImage {
-                        editSheetData = listOf(it)
-                    }
                 }
-            )
-            UndoRedoButtons(
-                canUndo = component.canUndo,
-                canRedo = component.canRedo,
-                onUndo = component::undo,
-                onRedo = component::redo,
-                modifier = Modifier.padding(2.dp)
-            )
-            ProcessImagesPreferenceSheet(
-                uris = editSheetData,
-                visible = editSheetData.isNotEmpty(),
-                onDismiss = {
-                    editSheetData = emptyList()
-                },
-                onNavigate = component.onNavigate
             )
         },
         topAppBarPersistentActions = {
@@ -377,211 +266,20 @@ fun CollageMakerContent(
             }
         },
         mainContent = {
-            LaunchedEffect(component.uris) {
-                if (!component.uris.isNullOrEmpty()) {
-                    delay(200)
-                    isLoading = false
+            CollageMakerPreview(
+                component = component,
+                isPortrait = isPortrait,
+                isLoading = isLoading,
+                resettingTrigger = resettingTrigger,
+                onLoadingChange = { isLoading = it },
+                onOutputSizeChanged = { width, height ->
+                    outputSize = width to height
+                },
+                onEditSlot = {
+                    editSlot = it
+                    showSlotSettings = true
                 }
-            }
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .clipToBounds()
-                    .padding(20.dp)
-            ) {
-                var infoHeight by remember(isPortrait) {
-                    mutableStateOf(0.dp)
-                }
-                val zoomState = rememberZoomState(maxScale = 10f)
-                val infoAlpha by animateFloatAsState(
-                    targetValue = if (zoomState.scale > 1.01f) 0f else 1f,
-                    animationSpec = tween(200)
-                )
-                var tapIndex by remember { mutableIntStateOf(-1) }
-                var showItemMenu by remember { mutableStateOf(false) }
-
-                val singlePicker = rememberImagePicker { uri: Uri ->
-                    component.replaceImageAt(
-                        index = tapIndex,
-                        uri = uri
-                    )
-                }
-
-                val addPicker = rememberImagePicker { uri: Uri ->
-                    component.addImage(uri)
-                }
-
-                LaunchedEffect(resettingTrigger, component.collageResetKey) {
-                    showItemMenu = false
-                    tapIndex = -1
-                    zoomState.reset()
-                }
-
-                Column(Modifier.fillMaxSize()) {
-                    Box(
-                        modifier = Modifier
-                            .weight(1f)
-                            .fillMaxWidth()
-                            .padding(bottom = if (isPortrait) 20.dp else 0.dp),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        AnimatedContent(
-                            targetState = resettingTrigger to component.collageResetKey,
-                            transitionSpec = { fadeIn() togetherWith fadeOut() }
-                        ) { trigger ->
-                            key(trigger) {
-                                Box(
-                                    modifier = Modifier
-                                        .zoomable(
-                                            zoomState = zoomState,
-                                            zoomEnabled = !showItemMenu
-                                        )
-                                        .container(
-                                            shape = ShapeDefaults.extraSmall,
-                                            resultPadding = 0.dp
-                                        )
-                                        .shimmer(visible = isLoading),
-                                    contentAlignment = Alignment.Center
-                                ) {
-                                    Collage(
-                                        modifier = Modifier
-                                            .padding(4.dp)
-                                            .clip(ShapeDefaults.extraSmall)
-                                            .transparencyChecker(),
-                                        images = component.uris ?: emptyList(),
-                                        collageType = component.collageType,
-                                        collageCreationTrigger = component.collageCreationTrigger,
-                                        onCollageCreated = {
-                                            component.updateCollageBitmap(it)
-                                            isLoading = false
-                                        },
-                                        onCollageCreationFailed = component::onCollageCreationFailed,
-                                        backgroundColor = component.backgroundColor,
-                                        backgroundShader = remember(component.backgroundGradient) {
-                                            component.backgroundGradient?.let { gradient ->
-                                                { width: Float, height: Float ->
-                                                    gradient.createShader(width, height)
-                                                }
-                                            }
-                                        },
-                                        spacing = component.params.spacing,
-                                        cornerRadius = component.params.cornerRadius,
-                                        aspectRatio = component.aspectRatio.value,
-                                        outputScaleRatio = component.params.outputScaleRatio,
-                                        onOutputSizeChanged = { width, height ->
-                                            outputSize = width to height
-                                        },
-                                        imageGesturesEnabled = showItemMenu,
-                                        canvasScale = zoomState.scale,
-                                        outerPadding = component.params.outerPadding,
-                                        slotStyles = component.uris.orEmpty().indices.map(component::slotStyle),
-                                        slotBorderShaders = remember(
-                                            component.params.borderGradient,
-                                            component.params.slotBorderGradients,
-                                            component.uris?.size
-                                        ) {
-                                            component.uris.orEmpty().indices.map { index ->
-                                                component.slotBorderGradient(index)
-                                                    ?.let { gradient ->
-                                                        { width: Float, height: Float ->
-                                                            gradient.createShader(width, height)
-                                                        }
-                                                    }
-                                            }
-                                        },
-                                        disableRotation = component.params.disableRotation,
-                                        enableSnapToBorders = component.params.enableSnapToBorders,
-                                        state = component.collageState,
-                                        onStateReady = component::updateCollageState,
-                                        onUserStateChange = component::onCollageStateChange,
-                                        onImageTap = { index ->
-                                            if (index >= 0) {
-                                                tapIndex = index
-                                                showItemMenu = true
-                                            } else {
-                                                showItemMenu = false
-                                            }
-                                        },
-                                        handleDrawable = rememberHandleDrawable()
-                                    )
-                                }
-                            }
-                        }
-                    }
-                    if (isPortrait) {
-                        val density = LocalDensity.current
-                        InfoContainer(
-                            modifier = Modifier
-                                .graphicsLayer { alpha = infoAlpha }
-                                .onSizeChanged {
-                                    infoHeight = with(density) { it.height.toDp() }
-                                },
-                            containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
-                            text = stringResource(R.string.collages_info)
-                        )
-                    }
-                }
-                AnimatedVisibility(
-                    visible = showItemMenu,
-                    modifier = Modifier
-                        .align(Alignment.BottomCenter)
-                        .padding(bottom = infoHeight + 12.dp),
-                    enter = fadeIn(),
-                    exit = fadeOut()
-                ) {
-                    Row(
-                        modifier = Modifier
-                            .container(
-                                color = MaterialTheme.colorScheme.surfaceContainerHigh,
-                                shape = ShapeDefaults.large,
-                                resultPadding = 0.dp
-                            ),
-                        horizontalArrangement = Arrangement.spacedBy(2.dp)
-                    ) {
-                        EnhancedIconButton(onClick = {
-                            editSlot = tapIndex
-                            showSlotSettings = true
-                        }) {
-                            Icon(Icons.Rounded.Tune, contentDescription = null)
-                        }
-                        EnhancedIconButton(
-                            onClick = {
-                                showItemMenu = false
-                                singlePicker.pickImage()
-                            },
-                            enabled = tapIndex >= 0
-                        ) {
-                            Icon(
-                                imageVector = Icons.Rounded.SwapHoriz,
-                                contentDescription = "Swap"
-                            )
-                        }
-                        EnhancedIconButton(
-                            onClick = {
-                                showItemMenu = false
-                                addPicker.pickImage()
-                            }
-                        ) {
-                            Icon(
-                                imageVector = Icons.Rounded.Add,
-                                contentDescription = "Add"
-                            )
-                        }
-                        EnhancedIconButton(
-                            onClick = {
-                                showItemMenu = false
-                                component.removeImageAt(tapIndex)
-                            },
-                            enabled = tapIndex >= 0
-                        ) {
-                            Icon(
-                                imageVector = Icons.Rounded.Delete,
-                                contentDescription = "Delete"
-                            )
-                        }
-                    }
-                }
-            }
+            )
         },
         controls = { scaffoldState ->
             LaunchedEffect(closeControls) {
@@ -590,322 +288,20 @@ fun CollageMakerContent(
                     closeControls = false
                 }
             }
-            Column(
-                modifier = Modifier
-                    .padding(16.dp)
-                    .navigationBarsPadding(),
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                val canChangeCollage = (component.uris?.size ?: 0) > 1
-
-                if (!isPortrait) {
-                    InfoContainer(
-                        containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
-                        text = stringResource(R.string.collages_info)
-                    )
+            CollageMakerControls(
+                component = component,
+                isPortrait = isPortrait,
+                outputSize = outputSize,
+                styleSelectorState = styleSelectorState,
+                onSaveProject = {
+                    projectSaver.make(component.createProjectFilename())
+                },
+                onApplyStyle = { style ->
+                    styleToApplyName =
+                        component.library.styles.firstOrNull { it.style == style }?.name
+                    showStyleApply = styleToApplyName != null
                 }
-
-                PreferenceItem(
-                    onClick = {
-                        projectSaver.make(component.createProjectFilename())
-                    },
-                    enabled = component.canSaveProject,
-                    startIcon = Icons.Outlined.Archive,
-                    title = stringResource(R.string.save_markup_project),
-                    subtitle = stringResource(R.string.save_collage_project_sub),
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = ShapeDefaults.large
-                )
-
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier
-                        .then(
-                            if (canChangeCollage) {
-                                Modifier.container(
-                                    resultPadding = 0.dp,
-                                    shape = ShapeDefaults.extraLarge
-                                )
-                            } else Modifier
-                        )
-                ) {
-                    if (canChangeCollage) {
-                        Text(
-                            fontWeight = FontWeight.Medium,
-                            text = stringResource(R.string.collage_type),
-                            modifier = Modifier.padding(top = 16.dp),
-                            fontSize = 18.sp
-                        )
-                    }
-                    val state = rememberLazyListState()
-                    CollageTypeSelection(
-                        state = state,
-                        imagesCount = component.uris?.size ?: 0,
-                        value = component.collageType,
-                        favorites = component.library.favorites,
-                        itemSize = 76.dp,
-                        itemBottomContent = { type ->
-                            val isFavorite = type.layoutId in component.library.favorites
-                            EnhancedIconButton(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .height(32.dp),
-                                shape = ShapeDefaults.bottom,
-                                pressedShape = ShapeDefaults.bottom,
-                                forceMinimumInteractiveComponentSize = false,
-                                containerColor = MaterialTheme.colorScheme.surfaceContainerLowest,
-                                onClick = { type.layoutId?.let(component::toggleFavorite) }
-                            ) {
-                                Icon(
-                                    imageVector = if (isFavorite) Icons.Rounded.BookmarkRemove else Icons.Outlined.Bookmark,
-                                    contentDescription = null,
-                                    modifier = Modifier.size(18.dp),
-                                    tint = if (isFavorite) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
-                                )
-                            }
-                        },
-                        onValueChange = component::setCollageType,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(142.dp)
-                            .fadingEdges(state),
-                        contentPadding = PaddingValues(16.dp),
-                        shape = ShapeDefaults.top,
-                        itemModifierFactory = { isSelected ->
-                            Modifier
-                                .container(
-                                    resultPadding = 0.dp,
-                                    color = animateColorAsState(
-                                        targetValue = if (isSelected) {
-                                            MaterialTheme.colorScheme.secondaryContainer
-                                        } else MaterialTheme.colorScheme.surfaceContainerLowest,
-                                    ).value,
-                                    shape = ShapeDefaults.top
-                                )
-                                .padding(8.dp)
-                                .clip(ShapeDefaults.extremeSmall)
-                        }
-                    )
-                }
-                StylePresetSelector(
-                    state = styleSelectorState,
-                    showSelection = false,
-                    currentStyle = component.currentStyle,
-                    styles = component.library.styles.map { it.name to it.style },
-                    listStateKey = "COLLAGE_STYLES",
-                    summary = { style ->
-                        stringResource(
-                            R.string.collage_style_summary,
-                            style.imageCount,
-                            style.spacing.toInt(),
-                            style.outerPadding.toInt(),
-                            style.cornerRadius.toInt()
-                        )
-                    },
-                    onApply = { style ->
-                        styleToApplyName =
-                            component.library.styles.firstOrNull { it.style == style }?.name
-                        showStyleApply = styleToApplyName != null
-                    },
-                    onSave = component::saveStyle,
-                    onDelete = component::deleteStyle
-                )
-                EnhancedSliderItem(
-                    value = component.params.outerPadding,
-                    internalStateTransformation = { it.roundToTwoDigits() },
-                    title = stringResource(R.string.collage_outer_padding),
-                    icon = Icons.Outlined.Padding,
-                    valueRange = 0f..50f,
-                    onValueChange = component::setOuterPadding,
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = ShapeDefaults.extraLarge
-                )
-                EnhancedSliderItem(
-                    value = component.params.borderWidth,
-                    internalStateTransformation = { it.roundToTwoDigits() },
-                    title = stringResource(R.string.collage_border),
-                    icon = Icons.Rounded.BorderStyle,
-                    valueRange = 0f..30f,
-                    onValueChange = component::setBorderWidth,
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = ShapeDefaults.extraLarge
-                )
-                AnimatedVisibility(component.params.borderWidth > 0f) {
-                    CollageBorderSelector(
-                        color = Color(component.params.borderColor),
-                        gradient = component.params.borderGradient,
-                        onColorChange = component::setBorderColor,
-                        onGradientChange = component::setBorderGradient
-                    )
-                }
-                CollageShadowSelector(
-                    radius = component.params.shadowRadius,
-                    color = Color(component.params.shadowColor),
-                    onRadiusChange = component::setShadowRadius,
-                    onColorChange = component::setShadowColor
-                )
-
-                BackgroundColorSelector(
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = ShapeDefaults.extraLarge,
-                    icon = Icons.Outlined.BackgroundColor,
-                    value = component.backgroundColor,
-                    gradient = component.backgroundGradient,
-                    onGradientChange = component::updateBackgroundGradient,
-                    onValueChange = component::setBackgroundColor
-                )
-                AspectRatioSelector(
-                    selectedAspectRatio = component.aspectRatio,
-                    onAspectRatioChange = { aspect, _ ->
-                        component.setAspectRatio(aspect)
-                    },
-                    unselectedCardColor = MaterialTheme.colorScheme.surfaceContainerLowest,
-                    excludedAspectRatios = remember {
-                        setOf(DomainAspectRatio.Original)
-                    }
-                )
-                EnhancedSliderItem(
-                    modifier = Modifier.fillMaxWidth(),
-                    value = component.params.spacing,
-                    title = stringResource(R.string.spacing),
-                    valueRange = 0f..50f,
-                    internalStateTransformation = {
-                        it.roundToTwoDigits()
-                    },
-                    onValueChange = component::setSpacing,
-                    sliderModifier = Modifier
-                        .padding(
-                            top = 14.dp,
-                            start = 12.dp,
-                            end = 12.dp,
-                            bottom = 10.dp
-                        ),
-                    icon = Icons.Rounded.FormatLineSpacing,
-                    shape = ShapeDefaults.extraLarge
-                )
-                EnhancedSliderItem(
-                    modifier = Modifier.fillMaxWidth(),
-                    value = component.params.cornerRadius,
-                    title = stringResource(R.string.corners),
-                    valueRange = 0f..50f,
-                    internalStateTransformation = {
-                        it.roundToTwoDigits()
-                    },
-                    onValueChange = component::setCornerRadius,
-                    sliderModifier = Modifier
-                        .padding(
-                            top = 14.dp,
-                            start = 12.dp,
-                            end = 12.dp,
-                            bottom = 10.dp
-                        ),
-                    icon = Icons.Rounded.RoundedCorner,
-                    shape = ShapeDefaults.extraLarge
-                )
-                EnhancedSliderItem(
-                    modifier = Modifier.fillMaxWidth(),
-                    value = component.params.outputScaleRatio,
-                    title = stringResource(R.string.output_image_scale),
-                    valueRange = 0.1f..1f,
-                    internalStateTransformation = {
-                        it.roundToTwoDigits()
-                    },
-                    onValueChange = component::setOutputScaleRatio,
-                    sliderModifier = Modifier
-                        .padding(
-                            top = 14.dp,
-                            start = 12.dp,
-                            end = 12.dp,
-                            bottom = 10.dp
-                        ),
-                    icon = Icons.Outlined.PhotoSizeSelectSmall,
-                    shape = ShapeDefaults.extraLarge
-                ) {
-                    if (outputSize != null) {
-                        val (width, height) = outputSize!!
-                        Row(
-                            modifier = Modifier
-                                .padding(4.dp)
-                                .container(
-                                    shape = ShapeDefaults.large,
-                                    color = MaterialTheme.colorScheme.surface
-                                )
-                                .padding(4.dp)
-                        ) {
-                            listOf(
-                                stringResource(R.string.width, "") to width,
-                                stringResource(R.string.height, "") to height
-                            ).forEachIndexed { index, (title, value) ->
-                                if (index > 0) Spacer(Modifier.width(8.dp))
-                                Column(
-                                    modifier = Modifier
-                                        .weight(1f)
-                                        .container(
-                                            autoShadowElevation = 0.2.dp,
-                                            color = MaterialTheme.colorScheme.surfaceContainerLow
-                                        )
-                                        .padding(4.dp),
-                                    verticalArrangement = Arrangement.Center,
-                                    horizontalAlignment = Alignment.CenterHorizontally
-                                ) {
-                                    Text(title)
-                                    Spacer(Modifier.height(8.dp))
-                                    Text(
-                                        text = value.toString(),
-                                        fontSize = 16.sp,
-                                        textAlign = TextAlign.Center,
-                                        color = LocalContentColor.current.copy(alpha = 0.5f)
-                                    )
-                                }
-                            }
-                        }
-                    } else {
-                        Text(
-                            text = stringResource(R.string.loading),
-                            modifier = Modifier
-                                .padding(4.dp)
-                                .fillMaxWidth()
-                                .container(
-                                    shape = ShapeDefaults.large,
-                                    color = MaterialTheme.colorScheme.surface
-                                )
-                                .padding(6.dp),
-                            color = LocalContentColor.current.copy(alpha = 0.5f),
-                            textAlign = TextAlign.Center
-                        )
-                    }
-                }
-                PreferenceRowSwitch(
-                    title = stringResource(id = R.string.disable_rotation),
-                    subtitle = stringResource(id = R.string.disable_rotation_sub),
-                    checked = component.params.disableRotation,
-                    startIcon = Icons.Outlined.SwipeVertical,
-                    onClick = component::setDisableRotation
-                )
-                PreferenceRowSwitch(
-                    title = stringResource(id = R.string.enable_snapping_to_borders),
-                    subtitle = stringResource(id = R.string.enable_snapping_to_borders_sub),
-                    checked = component.params.enableSnapToBorders,
-                    startIcon = Icons.Rounded.PinEnd,
-                    onClick = component::setEnableSnapToBorders
-                )
-                QualitySelector(
-                    imageFormat = component.imageFormat,
-                    quality = component.quality,
-                    onQualityChange = component::setQuality
-                )
-                ImageFormatSelector(
-                    value = component.imageFormat,
-                    quality = component.quality,
-                    onValueChange = component::setImageFormat,
-                    entries = if (component.backgroundGradient?.palette?.colors?.any { (it.colorInt ushr 24) != 255 }
-                            ?: (component.backgroundColor.alpha != 1f)) {
-                        ImageFormatGroup.alphaContainedEntries
-                    } else ImageFormatGroup.entries,
-                    forceEnabled = true
-                )
-            }
+            )
         },
         buttons = {
             var showFolderSelectionDialog by rememberSaveable {
@@ -967,46 +363,4 @@ fun CollageMakerContent(
         visible = component.isSaving || component.isImageLoading,
         onCancelLoading = component::cancelLoading
     )
-}
-
-@Composable
-private fun rememberHandleDrawable(): Drawable {
-    val context = LocalContext.current
-
-    val width = with(LocalDensity.current) { 42.dp.roundToPx() }
-    val height = width / 2
-    val backgroundColor = MaterialTheme.colorScheme.tertiary
-    val iconColor = MaterialTheme.colorScheme.onTertiary
-
-    return remember(width, backgroundColor, iconColor, context) {
-        val container = GradientDrawable().apply {
-            shape = GradientDrawable.RECTANGLE
-            setColor(Color.Transparent.toArgb())
-            setSize(width, width)
-        }
-
-        val box = GradientDrawable().apply {
-            mutate()
-            shape = GradientDrawable.RECTANGLE
-            cornerRadius = height / 2f
-            setColor(backgroundColor.toArgb())
-            setSize(width, height)
-        }
-        val icon = AppCompatResources
-            .getDrawable(context, R.drawable.outline_drag_handle_24)!!
-            .mutate()
-
-        DrawableCompat.setTint(icon, iconColor.toArgb())
-
-        LayerDrawable(arrayOf(container, box, icon)).apply {
-            val insetH = 0
-            val insetV = (width - height) / 2
-            val inset = (width * 0.2f).toInt()
-
-            setLayerInset(0, 0, 0, 0, 0)
-            setLayerInset(1, insetH, insetV, insetH, insetV)
-            setLayerInset(2, inset, inset, inset, inset)
-            setBounds(0, 0, width, height)
-        }
-    }
 }
