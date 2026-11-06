@@ -29,8 +29,6 @@ import android.graphics.Matrix
 import android.graphics.Paint
 import android.graphics.Path
 import android.graphics.PointF
-import android.graphics.PorterDuff
-import android.graphics.PorterDuffXfermode
 import android.graphics.Rect
 import android.graphics.RectF
 import android.graphics.Region
@@ -39,8 +37,6 @@ import android.view.MotionEvent
 import android.view.animation.DecelerateInterpolator
 import android.widget.RelativeLayout
 import androidx.appcompat.widget.AppCompatImageView
-import androidx.core.graphics.withClip
-import androidx.core.graphics.withSave
 import androidx.core.net.toUri
 import com.t8rin.collages.CollageImageState
 import com.t8rin.collages.utils.GeometryUtils
@@ -176,7 +172,6 @@ internal class FrameImageView(
         mPaint.isFilterBitmap = true
         mPaint.isAntiAlias = true
         scaleType = ScaleType.MATRIX
-        setLayerType(LAYER_TYPE_HARDWARE, null)
     }
 
     fun swapImage(view: FrameImageView) {
@@ -416,68 +411,52 @@ internal class FrameImageView(
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        drawImage(
-            canvas, mPath, mPaint, mPathRect, image, mImageMatrix,
-            width.toFloat(), height.toFloat(), mBackgroundColor, mBackgroundPath,
-            mClearPath, mPolygon
+        drawCollageImage(
+            canvas, mPath, mBackgroundPath, mClearPath,
+            image, mImageMatrix, mBackgroundColor, mPaint
         )
     }
 
-    suspend fun drawOutputImage(
-        canvas: Canvas,
+    fun prepareOutputImage(
         viewWidth: Float,
         viewHeight: Float,
-        decorationScale: Float,
-        imageSize: Int
-    ) {
+        decorationScale: Float
+    ): FrameImageRender? {
+        val preview = image?.takeUnless(Bitmap::isRecycled) ?: return null
         val path = Path()
         val clearPath = Path()
         val backgroundPath = Path()
-        val pathRect = Rect()
-        val polygon = ArrayList<PointF>()
         setSpace(
-            viewWidth, viewHeight, photoItem, ArrayList(),
-            ArrayList(), path, clearPath, backgroundPath, polygon, pathRect,
+            viewWidth, viewHeight, photoItem, ArrayList(), ArrayList(),
+            path, clearPath, backgroundPath, ArrayList(), Rect(),
             space * decorationScale, corner * decorationScale
         )
-        val previewImage = image ?: return
-        val exportImage = photoItem.imagePath?.let { uri ->
-            ImageDecoder.decodeFileToBitmap(context, uri, imageSize, cache = false)
-        } ?: previewImage
-        try {
-            val exportMatrix = Matrix().apply {
-                setValues(
-                    ImageTransform.resize(
-                        FloatArray(9).also(mImageMatrix::getValues),
-                        this@FrameImageView.viewWidth,
-                        this@FrameImageView.viewHeight,
-                        viewWidth,
-                        viewHeight
-                    )
+        val matrix = Matrix().apply {
+            setValues(
+                ImageTransform.resize(
+                    FloatArray(9).also(mImageMatrix::getValues),
+                    this@FrameImageView.viewWidth,
+                    this@FrameImageView.viewHeight,
+                    viewWidth,
+                    viewHeight
                 )
-                preScale(
-                    previewImage.width.toFloat() / exportImage.width,
-                    previewImage.height.toFloat() / exportImage.height
-                )
-            }
-            drawImage(
-                canvas, path, mPaint, pathRect, exportImage, exportMatrix,
-                viewWidth, viewHeight, mBackgroundColor, backgroundPath, clearPath, polygon
             )
-        } finally {
-            if (exportImage !== previewImage) exportImage.recycle()
         }
+        return FrameImageRender(
+            context, photoItem.imagePath, preview, matrix,
+            path, backgroundPath, clearPath, mBackgroundColor
+        )
     }
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent): Boolean {
         if (!mEnableTouch) return false
         if (event.actionMasked == MotionEvent.ACTION_DOWN) {
+            parent?.requestDisallowInterceptTouchEvent(true)
             mSelected = isSelected(event.x, event.y)
             if (!mSelected) return false
             finishTransform()
             transforming = true
-            parent?.requestDisallowInterceptTouchEvent(true)
             mOnImageClickListener?.onImageTransformStart()
         }
         if (!mSelected) return false
@@ -880,83 +859,6 @@ internal class FrameImageView(
             }
         }
 
-        private fun drawImage(
-            canvas: Canvas,
-            path: Path,
-            paint: Paint,
-            pathRect: Rect,
-            image: Bitmap?,
-            imageMatrix: Matrix,
-            viewWidth: Float,
-            viewHeight: Float,
-            color: Int,
-            backgroundPath: Path?,
-            clearPath: Path?,
-            touchPolygon: MutableList<PointF>?
-        ) {
-            if (image != null && !image.isRecycled) {
-                canvas.drawBitmap(image, imageMatrix, paint)
-            }
-            //clip outside
-            if (pathRect.left == pathRect.right) {
-                canvas.withClip(path) {
-                    pathRect.set(clipBounds)
-                }
-            }
-
-            canvas.save()
-            paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR)
-            canvas.drawARGB(0x00, 0x00, 0x00, 0x00)
-            paint.color = Color.BLACK
-            paint.style = Paint.Style.FILL
-            canvas.drawRect(0f, 0f, viewWidth, pathRect.top.toFloat(), paint)
-            canvas.drawRect(0f, 0f, pathRect.left.toFloat(), viewHeight, paint)
-            canvas.drawRect(pathRect.right.toFloat(), 0f, viewWidth, viewHeight, paint)
-            canvas.drawRect(0f, pathRect.bottom.toFloat(), viewWidth, viewHeight, paint)
-            paint.xfermode = null
-            canvas.restore()
-            //clip inside
-            canvas.save()
-            paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR)
-            canvas.drawARGB(0x00, 0x00, 0x00, 0x00)
-            paint.color = Color.BLACK
-            paint.style = Paint.Style.FILL
-            val currentFillType = path.fillType
-            path.fillType = Path.FillType.INVERSE_WINDING
-            canvas.drawPath(path, paint)
-            paint.xfermode = null
-            canvas.restore()
-            path.fillType = currentFillType
-            //clear area
-            if (clearPath != null) {
-                canvas.withSave {
-                    paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR)
-                    drawARGB(0x00, 0x00, 0x00, 0x00)
-                    paint.color = Color.BLACK
-                    paint.style = Paint.Style.FILL
-                    drawPath(clearPath, paint)
-                    paint.xfermode = null
-                }
-            }
-            //draw out side
-            if (backgroundPath != null) {
-                canvas.withSave {
-                    paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.DST_OVER)
-                    drawARGB(0x00, 0x00, 0x00, 0x00)
-                    paint.color = color
-                    paint.style = Paint.Style.FILL
-                    drawPath(backgroundPath, paint)
-                    paint.xfermode = null
-                }
-            }
-            //touch polygon
-            if (touchPolygon != null && touchPolygon.isEmpty()) {
-                touchPolygon.add(PointF(pathRect.left.toFloat(), pathRect.top.toFloat()))
-                touchPolygon.add(PointF(pathRect.right.toFloat(), pathRect.top.toFloat()))
-                touchPolygon.add(PointF(pathRect.right.toFloat(), pathRect.bottom.toFloat()))
-                touchPolygon.add(PointF(pathRect.left.toFloat(), pathRect.bottom.toFloat()))
-            }
-        }
     }
 
     private fun createMatrixToDrawImageInCenterView(

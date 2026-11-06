@@ -135,6 +135,8 @@ import com.t8rin.imagetoolbox.core.ui.widget.text.marquee
 import com.t8rin.imagetoolbox.core.utils.getString
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import net.engawapg.lib.zoomable.rememberZoomState
+import net.engawapg.lib.zoomable.zoomable
 
 @Composable
 fun CollageMakerContent(
@@ -367,6 +369,10 @@ fun CollageMakerContent(
                         key(trigger) {
                             Box(
                                 modifier = Modifier
+                                    .zoomable(
+                                        zoomState = rememberZoomState(maxScale = 10f),
+                                        zoomEnabled = !showItemMenu
+                                    )
                                     .container(
                                         shape = ShapeDefaults.extraSmall,
                                         resultPadding = 0.dp
@@ -386,6 +392,7 @@ fun CollageMakerContent(
                                         component.updateCollageBitmap(it)
                                         isLoading = false
                                     },
+                                    onCollageCreationFailed = component::onCollageCreationFailed,
                                     backgroundColor = component.backgroundColor,
                                     backgroundShader = remember(component.backgroundGradient) {
                                         component.backgroundGradient?.let { gradient ->
@@ -401,6 +408,7 @@ fun CollageMakerContent(
                                     onOutputSizeChanged = { width, height ->
                                         outputSize = width to height
                                     },
+                                    imageGesturesEnabled = showItemMenu,
                                     disableRotation = component.params.disableRotation,
                                     enableSnapToBorders = component.params.enableSnapToBorders,
                                     state = component.collageState,

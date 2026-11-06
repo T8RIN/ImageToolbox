@@ -24,6 +24,8 @@ import android.net.Uri
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -37,12 +39,14 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.zIndex
 import com.t8rin.collages.utils.CollageLayoutFactory.createCollageLayouts
 import com.t8rin.collages.view.FramePhotoLayout
+import kotlinx.coroutines.CancellationException
 import kotlin.math.min
 import kotlin.math.roundToInt
 
@@ -54,9 +58,11 @@ fun Collage(
     cornerRadius: Float = 0f,
     backgroundColor: Color = Color.White,
     onCollageCreated: (Bitmap) -> Unit,
+    onCollageCreationFailed: (Throwable) -> Unit = {},
     collageCreationTrigger: Boolean,
     collageType: CollageType,
     userInteractionEnabled: Boolean = true,
+    imageGesturesEnabled: Boolean = true,
     aspectRatio: Float = 1f,
     outputScaleRatio: Float = 1.5f,
     onImageTap: ((index: Int) -> Unit)? = null,
@@ -75,6 +81,7 @@ fun Collage(
     val stateReady by rememberUpdatedState(onStateReady)
     val stateChanged by rememberUpdatedState(onUserStateChange)
     val imageCreated by rememberUpdatedState(onCollageCreated)
+    val creationFailed by rememberUpdatedState(onCollageCreationFailed)
     val outputSizeChanged by rememberUpdatedState(onOutputSizeChanged)
     val ratio = aspectRatio.takeIf { it.isFinite() && it > 0f } ?: 1f
 
@@ -151,6 +158,24 @@ fun Collage(
                         }
                     )
                 }
+                if (userInteractionEnabled && !imageGesturesEnabled) {
+                    Box(
+                        Modifier
+                            .matchParentSize()
+                            .pointerInput(view) {
+                                detectTapGestures(
+                                    onTap = { view?.selectImageAt(it.x, it.y) },
+                                    onLongPress = {
+                                        view?.selectImageAt(
+                                            it.x,
+                                            it.y,
+                                            longPress = true
+                                        )
+                                    }
+                                )
+                            }
+                    )
+                }
                 if (!userInteractionEnabled) {
                     Surface(
                         color = Color.Transparent,
@@ -161,7 +186,13 @@ fun Collage(
                 }
                 LaunchedEffect(view, collageCreationTrigger) {
                     if (collageCreationTrigger) view?.takeIf { it.hasValidDimensions }?.let {
-                        imageCreated(it.createImage(outputScaleRatio))
+                        try {
+                            imageCreated(it.createImage(outputScaleRatio))
+                        } catch (cancelled: CancellationException) {
+                            throw cancelled
+                        } catch (throwable: Throwable) {
+                            creationFailed(throwable)
+                        }
                     }
                 }
                 LaunchedEffect(view, images, ratio, outputScaleRatio) {

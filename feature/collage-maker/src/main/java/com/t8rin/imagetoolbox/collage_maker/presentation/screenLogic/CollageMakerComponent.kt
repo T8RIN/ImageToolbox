@@ -99,9 +99,6 @@ class CollageMakerComponent @AssistedInject internal constructor(
     private val _collageResetKey = mutableIntStateOf(0)
     val collageResetKey by _collageResetKey
 
-    private val _collageBitmap = mutableStateOf<Bitmap?>(null)
-    private val collageBitmap by _collageBitmap
-
     private val defaultParams = fileController.savable(
         scope = componentScope,
         initial = CollageParams()
@@ -130,7 +127,7 @@ class CollageMakerComponent @AssistedInject internal constructor(
     private val _isSaving: MutableState<Boolean> = mutableStateOf(false)
     val isSaving: Boolean by _isSaving
 
-    private var requestedOperation: () -> Unit = {}
+    private var requestedOperation: (suspend (Bitmap) -> Unit)? = null
     private var pendingLayoutCorrectionImageCount: Int? = null
 
     private var projectLoadingJob: Job? = null
@@ -246,11 +243,26 @@ class CollageMakerComponent @AssistedInject internal constructor(
     }
 
     fun updateCollageBitmap(bitmap: Bitmap) {
-        _collageCreationTrigger.update { false }
-        _collageBitmap.update { bitmap }
+        _collageCreationTrigger.value = false
         val operation = requestedOperation
-        requestedOperation = {}
-        operation()
+        requestedOperation = null
+        if (operation == null) {
+            bitmap.recycle()
+            return
+        }
+        savingJob = trackProgress {
+            try {
+                operation(bitmap)
+            } finally {
+                bitmap.recycle()
+                _isSaving.value = false
+            }
+        }
+    }
+
+    fun onCollageCreationFailed(throwable: Throwable) {
+        cancelLoading()
+        AppToastHost.showFailureToast(throwable)
     }
 
     fun updateUris(uris: List<Uri>?) {
@@ -389,98 +401,50 @@ class CollageMakerComponent @AssistedInject internal constructor(
 
     private var savingJob: Job? by smartJob()
 
-    fun saveBitmap(
-        oneTimeSaveLocationUri: String?
-    ) {
-        _isSaving.update { true }
-        _collageCreationTrigger.update { true }
-        requestedOperation = {
-            savingJob = trackProgress {
-                collageBitmap?.let { image ->
-                    _isSaving.update { true }
-                    val imageInfo = ImageInfo(
-                        width = image.width,
-                        height = image.height,
-                        quality = quality,
-                        imageFormat = imageFormat
-                    )
-                    val result = fileController.save(
-                        saveTarget = ImageSaveTarget(
-                            imageInfo = imageInfo,
-                            originalUri = "",
-                            sequenceNumber = null,
-                            data = imageCompressor.compress(
-                                image = image,
-                                imageFormat = imageFormat,
-                                quality = quality
-                            )
-                        ),
-                        keepOriginalMetadata = false,
-                        oneTimeSaveLocationUri = oneTimeSaveLocationUri
-                    )
+    private fun requestBitmap(operation: suspend (Bitmap) -> Unit) {
+        if (isSaving || isImageLoading) return
+        requestedOperation = operation
+        _isSaving.value = true
+        _collageCreationTrigger.value = true
+    }
 
-                    parseSaveResult(result.onSuccess(::registerSave))
-                    _isSaving.update { false }
-                }
-            }
+    fun saveBitmap(oneTimeSaveLocationUri: String?) = requestBitmap { image ->
+        val result = fileController.save(
+            saveTarget = ImageSaveTarget(
+                imageInfo = image.outputInfo(),
+                originalUri = "",
+                sequenceNumber = null,
+                data = imageCompressor.compress(
+                    image = image,
+                    imageFormat = imageFormat,
+                    quality = quality
+                )
+            ),
+            keepOriginalMetadata = false,
+            oneTimeSaveLocationUri = oneTimeSaveLocationUri
+        )
+        parseSaveResult(result.onSuccess(::registerSave))
+    }
+
+    fun performSharing() = requestBitmap { image ->
+        shareProvider.cacheImage(image, image.outputInfo())?.let { uri ->
+            shareProvider.shareUri(uri, onComplete = AppToastHost::showConfetti)
         }
     }
 
-    fun performSharing() {
-        _isSaving.update { true }
-        _collageCreationTrigger.update { true }
-        requestedOperation = {
-            collageBitmap?.let { image ->
-                savingJob = trackProgress {
-                    _isSaving.update { true }
-                    shareProvider.cacheImage(
-                        image = image,
-                        imageInfo = ImageInfo(
-                            width = image.width,
-                            height = image.height,
-                            quality = quality,
-                            imageFormat = imageFormat
-                        )
-                    )?.let { uri ->
-                        shareProvider.shareUri(
-                            uri = uri,
-                            onComplete = AppToastHost::showConfetti
-                        )
-                    }
-                    _isSaving.update { false }
-                }
-            }
-        }
+    fun cacheImage(onComplete: (Uri) -> Unit) = requestBitmap { image ->
+        shareProvider.cacheImage(image, image.outputInfo())?.let { onComplete(it.toUri()) }
     }
 
-    fun cacheImage(
-        onComplete: (Uri) -> Unit,
-    ) {
-        _isSaving.update { true }
-        _collageCreationTrigger.update { true }
-        requestedOperation = {
-            collageBitmap?.let { image ->
-                savingJob = trackProgress {
-                    _isSaving.update { true }
-                    shareProvider.cacheImage(
-                        image = image,
-                        imageInfo = ImageInfo(
-                            width = image.width,
-                            height = image.height,
-                            quality = quality,
-                            imageFormat = imageFormat
-                        )
-                    )?.let { uri ->
-                        onComplete(uri.toUri())
-                    }
-                    _isSaving.update { false }
-                }
-            }
-        }
-    }
+    private fun Bitmap.outputInfo() = ImageInfo(
+        width = width,
+        height = height,
+        quality = quality,
+        imageFormat = imageFormat
+    )
 
     fun cancelLoading() {
-        requestedOperation = {}
+        requestedOperation = null
         _collageCreationTrigger.value = false
         projectLoadingJob?.cancel()
         savingJob?.cancel()

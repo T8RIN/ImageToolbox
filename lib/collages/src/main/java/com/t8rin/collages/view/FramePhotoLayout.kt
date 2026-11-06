@@ -45,6 +45,10 @@ import com.t8rin.collages.utils.Handle
 import com.t8rin.collages.utils.ImageDecoder
 import com.t8rin.collages.utils.ParamsManager
 import com.t8rin.collages.utils.collageOutputDimensions
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.currentCoroutineContext
+import kotlinx.coroutines.ensureActive
+import kotlinx.coroutines.withContext
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.roundToInt
@@ -151,7 +155,6 @@ internal class FramePhotoLayout(
         }
 
     init {
-        setLayerType(LAYER_TYPE_HARDWARE, null)
         setWillNotDraw(false)
         // Enable focus so we can detect focus loss and clear selection
         isFocusable = true
@@ -435,50 +438,71 @@ internal class FramePhotoLayout(
     suspend fun createImage(outputScaleRatio: Float): Bitmap {
         mItemImageViews.forEach(FrameImageView::finishTransform)
         val (outputWidth, outputHeight) = outputDimensions(outputScaleRatio)
-        val template = createBitmap(outputWidth, outputHeight)
-        try {
-            val canvas = Canvas(template)
-            if (backgroundShader == null) canvas.drawColor(backgroundColor.toArgb())
-            else drawBackgroundGradient(canvas, outputWidth.toFloat(), outputHeight.toFloat())
-            val decorationScale =
-                min(outputWidth, outputHeight).toFloat() / min(mViewWidth, mViewHeight)
-            for (view in mItemImageViews) {
-                if (view.image == null || view.image!!.isRecycled) continue
-                val bounds = view.photoItem.bound
-                val left = (bounds.left * outputWidth).roundToInt()
-                val top = (bounds.top * outputHeight).roundToInt()
-                val width = (bounds.right * outputWidth).roundToInt() - left
-                val height = (bounds.bottom * outputHeight).roundToInt() - top
-                val save = canvas.saveLayer(
-                    left.toFloat(), top.toFloat(),
-                    (left + width).toFloat(), (top + height).toFloat(), null
+        val decorationScale =
+            min(outputWidth, outputHeight).toFloat() / min(mViewWidth, mViewHeight)
+        val frames = mItemImageViews.mapNotNull { view ->
+            val bounds = view.photoItem.bound
+            val left = (bounds.left * outputWidth).roundToInt()
+            val top = (bounds.top * outputHeight).roundToInt()
+            val width = (bounds.right * outputWidth).roundToInt() - left
+            val height = (bounds.bottom * outputHeight).roundToInt() - top
+            view.prepareOutputImage(width.toFloat(), height.toFloat(), decorationScale)?.let {
+                OutputFrame(
+                    left = left,
+                    top = top,
+                    width = width,
+                    height = height,
+                    sourceSize = sourceDimensions[view.photoItem.imagePath]
+                        ?: max(outputWidth, outputHeight),
+                    image = it
                 )
-                try {
-                    canvas.translate(left.toFloat(), top.toFloat())
-                    canvas.clipRect(0, 0, width, height)
-                    view.drawOutputImage(
-                        canvas = canvas,
-                        viewWidth = width.toFloat(),
-                        viewHeight = height.toFloat(),
-                        decorationScale = decorationScale,
-                        imageSize = min(
-                            sourceDimensions[view.photoItem.imagePath] ?: max(
-                                outputWidth,
-                                outputHeight
-                            ),
-                            max(outputWidth, outputHeight) * 2
-                        )
-                    )
-                } finally {
-                    canvas.restoreToCount(save)
-                }
             }
-            return template
+        }
+        val color = backgroundColor.toArgb()
+        val shader = backgroundShader
+        var rendered: Bitmap? = null
+        try {
+            return withContext(Dispatchers.Default) {
+                val output = createBitmap(outputWidth, outputHeight).also { rendered = it }
+                val canvas = Canvas(output)
+                canvas.drawColor(color)
+                shader?.let {
+                    canvas.drawRect(
+                        0f,
+                        0f,
+                        outputWidth.toFloat(),
+                        outputHeight.toFloat(),
+                        Paint().apply {
+                            this.shader = it(outputWidth.toFloat(), outputHeight.toFloat())
+                        })
+                }
+                for (frame in frames) {
+                    currentCoroutineContext().ensureActive()
+                    val save = canvas.save()
+                    try {
+                        canvas.translate(frame.left.toFloat(), frame.top.toFloat())
+                        canvas.clipRect(0, 0, frame.width, frame.height)
+                        frame.image.draw(canvas, frame.sourceSize)
+                    } finally {
+                        canvas.restoreToCount(save)
+                    }
+                }
+                output
+            }
         } catch (throwable: Throwable) {
-            template.recycle()
+            rendered?.recycle()
             throw throwable
         }
     }
+
+    private data class OutputFrame(
+        val left: Int,
+        val top: Int,
+        val width: Int,
+        val height: Int,
+        val sourceSize: Int,
+        val image: FrameImageRender
+    )
 
     override fun onLongClickImage(view: FrameImageView) {
         if (mPhotoItems.size > 1) {
@@ -500,6 +524,13 @@ internal class FramePhotoLayout(
         activeHandle = null
         onItemTapListener?.invoke(-1)
         invalidate()
+    }
+
+    fun selectImageAt(x: Float, y: Float, longPress: Boolean = false) {
+        val image = mItemImageViews.asReversed().firstOrNull {
+            it.isSelected(x - it.left, y - it.top)
+        } ?: return
+        if (longPress) onLongClickImage(image) else onSingleTapImage(image)
     }
 
     override fun onSingleTapImage(view: FrameImageView) {

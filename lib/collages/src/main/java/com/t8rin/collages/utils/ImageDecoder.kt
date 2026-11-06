@@ -77,11 +77,7 @@ internal object ImageDecoder {
                     .size(size)
                     .run(requestMapper)
                     .build()
-            ).image?.toBitmap()?.apply {
-                if (config != Bitmap.Config.ARGB_8888) {
-                    config = Bitmap.Config.ARGB_8888
-                }
-            }
+            ).image?.toBitmap()
     }
 
 }
