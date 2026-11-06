@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">Rozmiar %1$s</string>
     <string name="width">Szerokość %1$s</string>
     <string name="loading">Ładowanie…</string>
@@ -7598,7 +7597,7 @@
     <string name="style_presets_sub">Zapisz lub zastosuj styl</string>
     <string name="save_style_preset">Zapisz styl</string>
     <string name="delete_style_preset">Usuń styl</string>
-    <string name="delete_style_preset_sub">Usunąć styl „%1$s”?</string>
+    <string name="delete_style_preset_sub">Czy chcesz usunąć styl „%1$s” z zapisanych stylów? Twoje obecne ustawienia pozostaną bez zmian.</string>
     <string name="code_preview_transparent_background">Przezroczyste tło</string>
     <string name="filter_help_adaptive_binarization">Oddziela atrament i papier w przypadku nierównomiernego oświetlenia, korzystając z lokalnych statystyk jasności.</string>
     <string name="filter_help_agx_tone_mapping">Usuwa rozjaśnienia i kontroluje nasycenie za pomocą analitycznej krzywej tonalnej AgX.</string>
