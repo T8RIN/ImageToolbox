@@ -457,6 +457,7 @@ sealed class SettingsGroup(
             Setting.GalleryColumns,
             Setting.ShowGalleryFileSize,
             Setting.ShowGalleryFileExtension,
+            Setting.UseGalleryStyleSelection,
             Setting.SemanticSearch
         ),
         initialState = false

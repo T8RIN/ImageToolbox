@@ -272,6 +272,12 @@ sealed class Setting(
     )
 
     @Serializable
+    data object UseGalleryStyleSelection : Setting(
+        title = R.string.gallery_style_selection,
+        subtitle = R.string.gallery_style_selection_sub
+    )
+
+    @Serializable
     data object SemanticSearch : Setting(
         title = R.string.gallery_search_auto,
         subtitle = R.string.gallery_search_auto_sub

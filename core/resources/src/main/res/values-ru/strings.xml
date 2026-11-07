@@ -5662,6 +5662,8 @@
     <string name="gallery_show_file_extension">Показывать формат файла</string>
     <string name="gallery_show_file_size_sub">Отображает размер файла на миниатюрах.</string>
     <string name="gallery_show_file_extension_sub">Отображает формат файла на миниатюрах.</string>
+    <string name="gallery_style_selection">Выбор как в галерее</string>
+    <string name="gallery_style_selection_sub">Во встроенном средстве выбора короткое нажатие открывает предпросмотр, а долгое включает выделение. В режиме выделения короткое нажатие добавляет или убирает изображение.</string>
     <string name="compare_animation">Анимированное до/после</string>
     <string name="compare_animation_sub">Сохранить зацикленное сравнение в GIF</string>
     <string name="compare_animation_before">До</string>

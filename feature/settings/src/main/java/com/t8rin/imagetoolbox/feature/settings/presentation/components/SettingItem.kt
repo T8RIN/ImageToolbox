@@ -315,6 +315,10 @@ internal fun SettingItem(
                 ShowGalleryFileExtensionSettingItem(onClick = component::setShowGalleryFileExtension)
             }
 
+            Setting.UseGalleryStyleSelection -> {
+                UseGalleryStyleSelectionSettingItem(onClick = component::setUseGalleryStyleSelection)
+            }
+
             Setting.SemanticSearch -> {
                 val state by component.semanticSearchState.collectAsStateWithLifecycle()
                 SemanticSearchSettingItem(

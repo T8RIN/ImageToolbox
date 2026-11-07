@@ -5597,6 +5597,8 @@
     <string name="gallery_show_file_extension">Show file format</string>
     <string name="gallery_show_file_size_sub">Show the file size on image thumbnails.</string>
     <string name="gallery_show_file_extension_sub">Show the file format on image thumbnails.</string>
+    <string name="gallery_style_selection">Gallery-style selection</string>
+    <string name="gallery_style_selection_sub">In the embedded picker, tap to preview and long-press to start selecting. While selecting, tap to add or remove images.</string>
     <string name="gallery_search_similar">Find similar photos</string>
     <string name="gallery_search_similar_description">Choose a photo to find others with similar contents.</string>
     <string name="gallery_search_similar_enable">Turn on Semantic photo search first.</string>

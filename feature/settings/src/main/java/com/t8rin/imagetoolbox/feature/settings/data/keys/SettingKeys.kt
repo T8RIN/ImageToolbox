@@ -51,6 +51,7 @@ internal val SEMANTIC_SEARCH_ENABLED = booleanPreferencesKey("SEMANTIC_SEARCH_EN
 internal val GALLERY_COLUMNS = intPreferencesKey("GALLERY_COLUMNS")
 internal val SHOW_GALLERY_FILE_SIZE = booleanPreferencesKey("SHOW_GALLERY_FILE_SIZE")
 internal val SHOW_GALLERY_FILE_EXTENSION = booleanPreferencesKey("SHOW_GALLERY_FILE_EXTENSION")
+internal val USE_GALLERY_STYLE_SELECTION = booleanPreferencesKey("USE_GALLERY_STYLE_SELECTION")
 internal val SEMANTIC_SEARCH_SETTINGS = stringPreferencesKey("SEMANTIC_SEARCH_SETTINGS")
 internal val AI_ASSISTANT_ENABLED = booleanPreferencesKey("AI_ASSISTANT_ENABLED")
 internal val AI_ASSISTANT_SETUP_COMPLETE = booleanPreferencesKey("AI_ASSISTANT_SETUP_COMPLETE")

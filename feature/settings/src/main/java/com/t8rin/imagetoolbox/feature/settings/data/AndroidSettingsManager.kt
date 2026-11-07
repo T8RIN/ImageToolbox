@@ -246,6 +246,7 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.USE_COMPACT_SELECTORS_L
 import com.t8rin.imagetoolbox.feature.settings.data.keys.USE_EMOJI_AS_PRIMARY_COLOR
 import com.t8rin.imagetoolbox.feature.settings.data.keys.USE_FORMATTED_TIMESTAMP
 import com.t8rin.imagetoolbox.feature.settings.data.keys.USE_FULLSCREEN_SETTINGS
+import com.t8rin.imagetoolbox.feature.settings.data.keys.USE_GALLERY_STYLE_SELECTION
 import com.t8rin.imagetoolbox.feature.settings.data.keys.USE_OPAQUE_IMAGE_VIEWER_BACKGROUND
 import com.t8rin.imagetoolbox.feature.settings.data.keys.USE_RANDOM_EMOJIS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.VIBRATION_STRENGTH
@@ -433,6 +434,10 @@ internal class AndroidSettingsManager @Inject constructor(
 
     override suspend fun setShowGalleryFileExtension(value: Boolean) = edit {
         it[SHOW_GALLERY_FILE_EXTENSION] = value
+    }
+
+    override suspend fun setUseGalleryStyleSelection(value: Boolean) = edit {
+        it[USE_GALLERY_STYLE_SELECTION] = value
     }
 
     override suspend fun setSemanticSearchSettings(value: SemanticSearchSettings) = edit {

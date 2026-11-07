@@ -260,6 +260,9 @@ class SettingsComponent @AssistedInject internal constructor(
     fun setShowGalleryFileExtension(value: Boolean) =
         settingsScope { setShowGalleryFileExtension(value) }
 
+    fun setUseGalleryStyleSelection(value: Boolean) =
+        settingsScope { setUseGalleryStyleSelection(value) }
+
     fun setSemanticSearchEnabled(enabled: Boolean) =
         settingsScope { setSemanticSearchEnabled(enabled) }
 
