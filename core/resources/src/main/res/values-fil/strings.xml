@@ -7970,4 +7970,7 @@
     <string name="collage_style_apply_appearance_sub">Panatilihin ang kasalukuyang layout. Ilapat ang hitsura at mga setting ng larawan ayon sa pagkakasunud-sunod ng slot.</string>
     <string name="gallery_style_selection">Pagpipilian sa istilo ng gallery</string>
     <string name="gallery_style_selection_sub">Sa naka-embed na picker, i-tap upang i-preview at pindutin nang matagal upang simulan ang pagpili. Habang pumipili, i-tap para magdagdag o mag-alis ng mga larawan.</string>
+    <string name="play">Maglaro</string>
+    <string name="show_loading_game_button">Mga laro habang naghihintay</string>
+    <string name="show_loading_game_button_sub">Magpakita ng button ng laro sa paglo-load ng mga dialog.</string>
 </resources>

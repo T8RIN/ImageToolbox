@@ -7970,4 +7970,7 @@
     <string name="collage_style_apply_appearance_sub">தற்போதைய அமைப்பை வைத்திருங்கள். ஸ்லாட் வரிசையில் தோற்றம் மற்றும் புகைப்பட அமைப்புகளைப் பயன்படுத்தவும்.</string>
     <string name="gallery_style_selection">கேலரி பாணி தேர்வு</string>
     <string name="gallery_style_selection_sub">உட்பொதிக்கப்பட்ட பிக்கரில், மாதிரிக்காட்சியைத் தட்டவும், தேர்ந்தெடுக்கத் தொடங்க நீண்ட நேரம் அழுத்தவும். தேர்ந்தெடுக்கும் போது, ​​படங்களைச் சேர்க்க அல்லது அகற்ற தட்டவும்.</string>
+    <string name="play">விளையாடு</string>
+    <string name="show_loading_game_button">காத்திருக்கும் போது விளையாட்டுகள்</string>
+    <string name="show_loading_game_button_sub">உரையாடல்களை ஏற்றுவதில் கேம் பட்டனைக் காட்டு.</string>
 </resources>

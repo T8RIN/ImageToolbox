@@ -7970,4 +7970,7 @@
     <string name="collage_style_apply_appearance_sub">Behalten Sie das aktuelle Layout bei. Wenden Sie die Darstellungs- und Fotoeinstellungen nach Slot-Reihenfolge an.</string>
     <string name="gallery_style_selection">Auswahl im Galeriestil</string>
     <string name="gallery_style_selection_sub">Tippen Sie im eingebetteten Picker auf, um eine Vorschau anzuzeigen, und drücken Sie lange, um mit der Auswahl zu beginnen. Tippen Sie beim Auswählen auf , um Bilder hinzuzufügen oder zu entfernen.</string>
+    <string name="play">Spielen</string>
+    <string name="show_loading_game_button">Spiele beim Warten</string>
+    <string name="show_loading_game_button_sub">Zeigt in Ladedialogen eine Spielschaltfläche an.</string>
 </resources>

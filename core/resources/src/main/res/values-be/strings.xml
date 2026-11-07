@@ -7972,4 +7972,7 @@
     <string name="collage_style_apply_appearance_sub">Захаваць бягучы макет. Ужывайце налады знешняга выгляду і фота ў парадку слотаў.</string>
     <string name="gallery_style_selection">Выбар стылю галерэі</string>
     <string name="gallery_style_selection_sub">Ва ўбудаваным сродку выбару націсніце, каб праглядзець, і доўга націсніце, каб пачаць выбар. Падчас выбару націсніце, каб дадаць або выдаліць выявы.</string>
+    <string name="play">гуляць</string>
+    <string name="show_loading_game_button">Гульні падчас чакання</string>
+    <string name="show_loading_game_button_sub">Паказаць кнопку гульні ў дыялогавых вокнах загрузкі.</string>
 </resources>

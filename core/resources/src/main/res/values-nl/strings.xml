@@ -7970,4 +7970,7 @@
     <string name="collage_style_apply_appearance_sub">Behoud de huidige indeling. Pas de weergave- en foto-instellingen toe per slotvolgorde.</string>
     <string name="gallery_style_selection">Selectie in galerijstijl</string>
     <string name="gallery_style_selection_sub">Tik in de ingebedde kiezer om een ​​voorbeeld te bekijken en houd lang ingedrukt om te beginnen met selecteren. Tik tijdens het selecteren op om afbeeldingen toe te voegen of te verwijderen.</string>
+    <string name="play">Toneelstuk</string>
+    <string name="show_loading_game_button">Spelletjes tijdens het wachten</string>
+    <string name="show_loading_game_button_sub">Toon een gameknop in laaddialogen.</string>
 </resources>

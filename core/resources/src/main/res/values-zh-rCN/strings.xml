@@ -7969,4 +7969,7 @@
     <string name="collage_style_apply_appearance_sub">保持当前布局。按插槽顺序应用外观和照片设置。</string>
     <string name="gallery_style_selection">画廊风格的选择</string>
     <string name="gallery_style_selection_sub">在嵌入式选择器中，点击进行预览并长按开始选择。选择时，点击可添加或删除图像。</string>
+    <string name="play">玩</string>
+    <string name="show_loading_game_button">等待时玩游戏</string>
+    <string name="show_loading_game_button_sub">在加载对话框中显示游戏按钮。</string>
 </resources>

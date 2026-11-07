@@ -7970,4 +7970,7 @@
     <string name="collage_style_apply_appearance_sub">طرح فعلی را حفظ کنید. تنظیمات ظاهر و عکس را به ترتیب شکاف اعمال کنید.</string>
     <string name="gallery_style_selection">انتخاب به سبک گالری</string>
     <string name="gallery_style_selection_sub">در انتخابگر تعبیه‌شده، برای پیش‌نمایش ضربه بزنید و برای شروع انتخاب، آن را طولانی فشار دهید. هنگام انتخاب، برای افزودن یا حذف تصاویر ضربه بزنید.</string>
+    <string name="play">بازی کنید</string>
+    <string name="show_loading_game_button">بازی در حال انتظار</string>
+    <string name="show_loading_game_button_sub">نمایش یک دکمه بازی در گفتگوهای بارگیری.</string>
 </resources>

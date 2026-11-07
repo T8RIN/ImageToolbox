@@ -7969,4 +7969,7 @@
     <string name="collage_style_apply_appearance_sub">Giữ nguyên bố cục hiện tại. Áp dụng cài đặt giao diện và ảnh theo thứ tự vị trí.</string>
     <string name="gallery_style_selection">Lựa chọn kiểu thư viện</string>
     <string name="gallery_style_selection_sub">Trong bộ chọn được nhúng, hãy nhấn để xem trước và nhấn và giữ để bắt đầu chọn. Trong khi chọn, chạm vào để thêm hoặc xóa hình ảnh.</string>
+    <string name="play">Chơi</string>
+    <string name="show_loading_game_button">Trò chơi trong khi chờ đợi</string>
+    <string name="show_loading_game_button_sub">Hiển thị nút trò chơi trong hộp thoại tải.</string>
 </resources>

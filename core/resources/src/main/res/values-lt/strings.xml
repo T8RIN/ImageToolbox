@@ -7972,4 +7972,7 @@
     <string name="collage_style_apply_appearance_sub">Palikite dabartinį išdėstymą. Taikykite išvaizdos ir nuotraukos nustatymus pagal lizdų tvarką.</string>
     <string name="gallery_style_selection">Galerijos stiliaus pasirinkimas</string>
     <string name="gallery_style_selection_sub">Įterptajame rinkiklyje bakstelėkite, kad peržiūrėtumėte, ir ilgai paspauskite, kad pradėtumėte rinktis. Pasirinkdami bakstelėkite, kad pridėtumėte arba pašalintumėte vaizdus.</string>
+    <string name="play">Žaisti</string>
+    <string name="show_loading_game_button">Žaidimai belaukiant</string>
+    <string name="show_loading_game_button_sub">Rodyti žaidimo mygtuką įkėlimo dialoguose.</string>
 </resources>

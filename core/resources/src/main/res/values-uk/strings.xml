@@ -7972,4 +7972,7 @@
     <string name="collage_style_apply_appearance_sub">Зберегти поточний макет. Застосуйте налаштування зовнішнього вигляду та фотографій у порядку слотів.</string>
     <string name="gallery_style_selection">Вибір стилю галереї</string>
     <string name="gallery_style_selection_sub">У вбудованому засобі вибору торкніться, щоб переглянути, і утримуйте, щоб почати вибір. Під час вибору натисніть, щоб додати або видалити зображення.</string>
+    <string name="play">грати</string>
+    <string name="show_loading_game_button">Ігри в очікуванні</string>
+    <string name="show_loading_game_button_sub">Показувати кнопку гри в діалогових вікнах завантаження.</string>
 </resources>
