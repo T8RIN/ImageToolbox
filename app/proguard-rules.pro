@@ -148,7 +148,10 @@
 -keep class com.t8rin.imagetoolbox.feature.image_stitch.domain.SavableCombiningParams { *; }
 -keep class com.t8rin.imagetoolbox.feature.ai_tools.domain.model.SavableNeuralParams { *; }
 -keep class com.t8rin.imagetoolbox.feature.ai_tools.domain.model.DepthParams { *; }
--keep class com.t8rin.imagetoolbox.collage_maker.presentation.components.CollageParams { *; }
+-keep class com.t8rin.imagetoolbox.collage_maker.domain.CollageParams { *; }
+-keep class com.t8rin.imagetoolbox.collage_maker.domain.CollageLibrary { *; }
+-keep class com.t8rin.imagetoolbox.collage_maker.domain.CollageStyle { *; }
+-keep class com.t8rin.imagetoolbox.collage_maker.domain.SavedCollageStyle { *; }
 -keep class com.t8rin.imagetoolbox.feature.draw.domain.DrawOnBackgroundParams { *; }
 -keep class com.t8rin.imagetoolbox.feature.markup_layers.domain.MarkupLayersParams { *; }
 -keep class com.t8rin.imagetoolbox.image_splitting.domain.SavableSplitParams { *; }
@@ -171,11 +174,15 @@
 -keep enum com.t8rin.imagetoolbox.feature.markup_layers.data.project.FontSnapshotType { *; }
 
 # Moshi reflects collage project snapshots.
--keep class com.t8rin.imagetoolbox.collage_maker.data.CollageProject { *; }
--keep class com.t8rin.imagetoolbox.collage_maker.data.CollageProjectSnapshot { *; }
--keep class com.t8rin.imagetoolbox.collage_maker.data.CollageProjectAspectRatio { *; }
+-keep class com.t8rin.imagetoolbox.collage_maker.data.project.CollageProjectFile { *; }
+-keep class com.t8rin.imagetoolbox.collage_maker.data.project.CollageProjectSnapshotFile { *; }
+-keep class com.t8rin.imagetoolbox.collage_maker.data.project.CollageProjectAspectRatio { *; }
 -keep class com.t8rin.collages.model.CollageState { *; }
 -keep class com.t8rin.collages.model.CollageImageState { *; }
+-keep class com.t8rin.collages.model.CollageDesign { *; }
+-keep class com.t8rin.collages.model.CollageSlot { *; }
+-keep class com.t8rin.collages.model.CollagePoint { *; }
+-keep class com.t8rin.collages.model.CollageSlotStyle { *; }
 
 # Shader JSON DTOs are private and read by Moshi.
 -keep class com.t8rin.imagetoolbox.core.filters.domain.model.shader.ShaderPresetJson { *; }
