@@ -54,7 +54,7 @@ internal fun Path.flattenMask(): Path = Path().also { result ->
     }
 }
 
-internal fun Path.insetMask(distance: Float) {
+internal fun Path.insetMask(distance: Float, spacingEdges: Path = this) {
     if (distance <= 0f) return
     var minimumArea = Double.POSITIVE_INFINITY
     forEachContour { _, area ->
@@ -64,9 +64,10 @@ internal fun Path.insetMask(distance: Float) {
     Paint().apply {
         style = Paint.Style.STROKE
         strokeWidth = distance * 2
+        strokeCap = Paint.Cap.SQUARE
         strokeJoin = Paint.Join.MITER
         strokeMiter = 2f
-    }.getFillPath(this, border)
+    }.getFillPath(spacingEdges, border)
     op(border, Path.Op.DIFFERENCE)
     if (minimumArea.isFinite()) {
         val clean = Path().also { it.fillType = fillType }
@@ -101,20 +102,5 @@ private inline fun Path.forEachContour(block: (Path, Double) -> Unit) {
         measure.getSegment(0f, length, contour, true)
         contour.close()
         block(contour, abs(area) / 2)
-    } while (measure.nextContour())
-}
-
-internal fun Path.previewMask(): Path = Path().also { result ->
-    result.fillType = fillType
-    val measure = PathMeasure(this, true)
-    val point = FloatArray(2)
-    do {
-        val steps = ceil(measure.length / 2f).toInt().coerceAtLeast(3)
-        for (step in 0..steps) {
-            measure.getPosTan(measure.length * step / steps, point, null)
-            if (step == 0) result.moveTo(point[0], point[1])
-            else result.lineTo(point[0], point[1])
-        }
-        result.close()
     } while (measure.nextContour())
 }

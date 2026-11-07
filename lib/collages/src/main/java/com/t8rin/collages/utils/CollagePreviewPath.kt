@@ -25,6 +25,7 @@ import android.graphics.RectF
 import android.graphics.Region
 import com.t8rin.collages.model.CollageLayout
 import com.t8rin.collages.view.FrameImageView
+import kotlin.math.sqrt
 
 internal const val CollagePreviewSize = 1000f
 
@@ -33,16 +34,16 @@ internal fun createCollagePreviewPath(layout: CollageLayout): Path {
         val width = CollagePreviewSize * item.bound.width()
         val height = CollagePreviewSize * item.bound.height()
         val path = item.normalizedPath?.let {
-            Path(it).apply {
+            Path(item.normalizedInsetPath ?: it).apply {
                 transform(Matrix().apply { setScale(width, height) })
-            }.previewMask()
+            }
         } ?: FrameImageView.shapePath(item, width, height)
         path.apply {
             op(this, this, Path.Op.UNION)
             offset(CollagePreviewSize * item.bound.left, CollagePreviewSize * item.bound.top)
         }
     }
-    val gap = minOf(48f, paths.minOfOrNull { it.maximumInset() * .7f } ?: 48f)
+    val gap = minOf(48f, CollagePreviewSize / (4 * sqrt(paths.size.coerceAtLeast(1).toFloat())))
     val contentTransform = Matrix().apply {
         val scale = 1f - gap / CollagePreviewSize
         setScale(scale, scale)
@@ -72,15 +73,16 @@ internal fun createCollagePreviewPath(layout: CollageLayout): Path {
     paths.forEachIndexed { index, path ->
         val outline = if (stacked) Path(path) else null
         val item = layout.photoItemList[index]
-        // Imported masks include the gaps between slots in their geometry.
-        if (item.normalizedPath != null && stacked) {
-            path.insetMask(minOf(gap / 2, item.maximumMaskInset * (CollagePreviewSize - gap)))
-        } else if (item.normalizedPath == null) {
+        val inset = minOf(gap / 2, path.maximumInset() * .7f)
+        if (item.normalizedPath != null) {
+            path.insetMask(minOf(gap / 4, item.maximumMaskInset * (CollagePreviewSize - gap)))
+        } else {
             if (path.isRect(bounds)) {
-                bounds.inset(gap / 2, gap / 2)
+                bounds.inset(inset, inset)
                 path.reset()
                 path.addRect(bounds, Path.Direction.CW)
             } else {
+                stroke.strokeWidth = inset * 2
                 stroke.getFillPath(path, border)
                 path.op(border, Path.Op.DIFFERENCE)
             }
@@ -97,5 +99,10 @@ internal fun createCollagePreviewPath(layout: CollageLayout): Path {
         }
     }
     preview.op(holes, Path.Op.DIFFERENCE)
+    val frame = Path().apply {
+        addRect(0f, 0f, CollagePreviewSize, CollagePreviewSize, Path.Direction.CW)
+        addRect(gap, gap, CollagePreviewSize - gap, CollagePreviewSize - gap, Path.Direction.CCW)
+    }
+    preview.op(frame, Path.Op.UNION)
     return preview
 }

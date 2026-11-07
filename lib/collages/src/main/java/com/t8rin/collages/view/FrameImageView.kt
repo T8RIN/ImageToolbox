@@ -45,6 +45,7 @@ import com.t8rin.collages.CollageSlotStyle
 import com.t8rin.collages.utils.GeometryUtils
 import com.t8rin.collages.utils.ImageDecoder
 import com.t8rin.collages.utils.ImageTransform
+import com.t8rin.collages.utils.collageSpacingEdges
 import com.t8rin.collages.utils.insetMask
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -161,7 +162,10 @@ internal class FrameImageView(
     fun setSnapToBordersEnabled(enabled: Boolean) {
         if (snapToBordersEnabled == enabled) return
         snapToBordersEnabled = enabled
-        if (enabled) snapToBorders()
+        if (enabled) {
+            finishTransform()
+            snapToBorders()
+        }
     }
 
     var originalLayoutParams: RelativeLayout.LayoutParams
@@ -200,7 +204,8 @@ internal class FrameImageView(
     }
 
     private var settleAnimator: ValueAnimator? = null
-    private var transforming = false
+    var isTransforming = false
+        private set
     private var pendingState: CollageImageState? = null
 
     init {
@@ -364,6 +369,7 @@ internal class FrameImageView(
             }
         }
         userAllowedEmptySpace = state.userAllowedEmptySpace
+        if (snapToBordersEnabled) snapToBorders()
         mTouchHandler?.matrix = mImageMatrix
         invalidate()
     }
@@ -410,6 +416,7 @@ internal class FrameImageView(
     }
 
     fun setSpace(space: Float, corner: Float) {
+        val previousBounds = imageBounds()
         this.space = space
         this.corner = corner
         setSpace(
@@ -429,15 +436,21 @@ internal class FrameImageView(
         outlinePath.op(mPath, Path.Op.INTERSECT)
         if (!mClearPath.isEmpty) outlinePath.op(mClearPath, Path.Op.DIFFERENCE)
         hitRegion.setPath(outlinePath, Region(0, 0, viewWidth.toInt(), viewHeight.toInt()))
+        if (snapToBordersEnabled && !previousBounds.contentEquals(imageBounds())) {
+            stopSettling()
+            snapToBorders()
+        }
         invalidate()
     }
 
-    fun updateFrame(viewWidth: Float, viewHeight: Float) {
+    fun updateFrame(viewWidth: Float, viewHeight: Float, scaleImage: Boolean) {
         finishImageTransition()
         finishTransform()
         val values = FloatArray(9).also(mImageMatrix::getValues)
         mImageMatrix.setValues(
-            ImageTransform.resize(values, this.viewWidth, this.viewHeight, viewWidth, viewHeight)
+            ImageTransform.resize(
+                values, this.viewWidth, this.viewHeight, viewWidth, viewHeight, scaleImage
+            )
         )
         this.viewWidth = viewWidth
         this.viewHeight = viewHeight
@@ -448,7 +461,7 @@ internal class FrameImageView(
         mClearPath.reset()
         mBackgroundPath.reset()
         setSpace(space, corner)
-        if (!userAllowedEmptySpace) snapToBorders()
+        if (snapToBordersEnabled || scaleImage && !userAllowedEmptySpace) snapToBorders()
         mTouchHandler?.matrix = mImageMatrix
         updateScaleRange()
     }
@@ -602,9 +615,11 @@ internal class FrameImageView(
             parent?.requestDisallowInterceptTouchEvent(true)
             mSelected = isSelected(event.x, event.y)
             if (!mSelected) return false
-            finishTransform()
-            transforming = true
-            mOnImageClickListener?.onImageTransformStart()
+            stopSettling()
+            if (!isTransforming) {
+                isTransforming = true
+                mOnImageClickListener?.onImageTransformStart()
+            }
         }
         if (!mSelected) return false
         mGestureDetector.onTouchEvent(event)
@@ -642,6 +657,7 @@ internal class FrameImageView(
     private fun snapToBorders() {
         if (style.fit) return
         mImageMatrix.setValues(fittedMatrix())
+        if (image != null) userAllowedEmptySpace = false
         mTouchHandler?.matrix = mImageMatrix
         invalidate()
     }
@@ -650,6 +666,7 @@ internal class FrameImageView(
         if (style.fit) {
             finishTransform(); return
         }
+        stopSettling()
         val start = FloatArray(9).also(mImageMatrix::getValues)
         val end = fittedMatrix()
         if (start.indices.all { abs(start[it] - end[it]) < 0.001f }) {
@@ -670,6 +687,8 @@ internal class FrameImageView(
             addListener(object : AnimatorListenerAdapter() {
                 override fun onAnimationEnd(animation: Animator) {
                     settleAnimator = null
+                    mImageMatrix.setValues(end)
+                    mTouchHandler?.matrix = mImageMatrix
                     finishTransform()
                 }
             })
@@ -685,8 +704,8 @@ internal class FrameImageView(
 
     fun finishTransform() {
         stopSettling()
-        if (!transforming) return
-        transforming = false
+        if (!isTransforming) return
+        isTransforming = false
         val bitmap = image
         userAllowedEmptySpace = bitmap != null && !ImageTransform.covers(
             FloatArray(9).also(mImageMatrix::getValues),
@@ -734,8 +753,16 @@ internal class FrameImageView(
             backgroundPath: Path,
             polygon: MutableList<PointF>,
             pathRect: Rect,
-            space: Float, corner: Float, outerPadding: Float = space
+            space: Float, corner: Float, outerPadding: Float = 0f
         ) {
+            val canvasWidth = viewWidth / photoItem.bound.width()
+            val canvasHeight = viewHeight / photoItem.bound.height()
+            val outerBounds = RectF(
+                -photoItem.bound.left * canvasWidth,
+                -photoItem.bound.top * canvasHeight,
+                (1f - photoItem.bound.left) * canvasWidth,
+                (1f - photoItem.bound.top) * canvasHeight
+            )
             photoItem.normalizedPath?.let { outline ->
                 path.set(if (space > 0f) photoItem.normalizedInsetPath ?: outline else outline)
                 path.transform(Matrix().apply { setScale(viewWidth, viewHeight) })
@@ -745,7 +772,10 @@ internal class FrameImageView(
                         viewWidth / photoItem.bound.width(),
                         viewHeight / photoItem.bound.height()
                     )
-                    path.insetMask(min(space, photoItem.maximumMaskInset * scale))
+                    path.insetMask(
+                        min(space, photoItem.maximumMaskInset * scale),
+                        path.collageSpacingEdges(outerBounds)
+                    )
                 }
                 return
             }
@@ -763,6 +793,7 @@ internal class FrameImageView(
                 }
                 path.close()
                 if (space > 0f) {
+                    path.op(path, path, Path.Op.UNION)
                     var doubleArea = 0f
                     var perimeter = 0f
                     local.forEachIndexed { index, point ->
@@ -776,7 +807,8 @@ internal class FrameImageView(
                         style = Paint.Style.STROKE
                         strokeWidth = min(space, maxInset) * 2
                         strokeJoin = Paint.Join.ROUND
-                    }.getFillPath(path, gap)
+                        strokeCap = Paint.Cap.SQUARE
+                    }.getFillPath(path.collageSpacingEdges(outerBounds), gap)
                     path.op(gap, Path.Op.DIFFERENCE)
                 }
                 if (corner > 0f) {
@@ -834,7 +866,8 @@ internal class FrameImageView(
                         shrunkPoints = GeometryUtils.shrinkPathCollageUsingMap(
                             convertedPoints,
                             space,
-                            photoItem.shrinkMap!!
+                            photoItem.shrinkMap!!,
+                            outerBounds
                         )
                     }
 
@@ -843,7 +876,8 @@ internal class FrameImageView(
                             GeometryUtils.commonShrinkPath(
                                 convertedPoints,
                                 space,
-                                photoItem.shrinkMap!!
+                                photoItem.shrinkMap!!,
+                                outerBounds
                             )
                     }
 

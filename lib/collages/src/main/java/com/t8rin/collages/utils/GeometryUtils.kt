@@ -112,12 +112,20 @@ object GeometryUtils {
     fun shrinkPathCollageUsingMap(
         pointList: MutableList<PointF>,
         space: Float,
-        map: HashMap<PointF, PointF>
+        map: HashMap<PointF, PointF>,
+        outerBounds: RectF
     ): List<PointF> {
         val result = ArrayList<PointF>()
         for (p in pointList) {
             val add: PointF = checkNotNull(map[p])
-            result.add(PointF(p.x + add.x * space, p.y + add.y * space))
+            result.add(
+                PointF(
+                    if (abs(p.x - outerBounds.left) < .01f || abs(p.x - outerBounds.right) < .01f) p.x
+                    else p.x + add.x * space,
+                    if (abs(p.y - outerBounds.top) < .01f || abs(p.y - outerBounds.bottom) < .01f) p.y
+                    else p.y + add.y * space
+                )
+            )
         }
         return result
     }
@@ -158,11 +166,11 @@ object GeometryUtils {
             spaceY = space
             if (bound != null) {
                 if ((bound.left == 0f && p.x < center.x) || (bound.right == 1f && p.x >= center.x)) {
-                    spaceX = 2 * space
+                    spaceX = 0f
                 }
 
                 if ((bound.top == 0f && p.y < center.y) || (bound.bottom == 1f && p.y >= center.y)) {
-                    spaceY = 2 * space
+                    spaceY = 0f
                 }
             }
 
@@ -267,7 +275,8 @@ object GeometryUtils {
     fun commonShrinkPath(
         pointList: List<PointF>,
         space: Float,
-        shrunkPointLeftRightDistances: Map<PointF, PointF>
+        shrunkPointLeftRightDistances: Map<PointF, PointF>,
+        outerBounds: RectF
     ): List<PointF> {
         val result = ArrayList<PointF>()
         if (space == 0f) {
@@ -295,12 +304,16 @@ object GeometryUtils {
 
                 val leftRightDistance: PointF =
                     checkNotNull(shrunkPointLeftRightDistances[center])
+                val leftSpace = if (isCollageEdge(left, center, outerBounds)) 0f
+                else leftRightDistance.x * space
+                val rightSpace = if (isCollageEdge(center, right, outerBounds)) 0f
+                else leftRightDistance.y * space
                 val pointF = shrinkPoint(
                     center,
                     left,
                     right,
-                    leftRightDistance.x * space,
-                    leftRightDistance.y * space,
+                    leftSpace,
+                    rightSpace,
                     !concave,
                     !concave
                 )
@@ -728,13 +741,15 @@ object GeometryUtils {
         val P2 = findIntersectPoint(ab[0], ab[1], m, ac[0], ac[1], q)
         val P3 = findIntersectPoint(ab[0], ab[1], p, ac[0], ac[1], n)
         val P4 = findIntersectPoint(ab[0], ab[1], p, ac[0], ac[1], q)
-        return if (testShrunkPoint(ab, ac, B, C, P1, b, c)) {
+        val testB = b.takeUnless { dAC == 0f }
+        val testC = c.takeUnless { dAB == 0f }
+        return if (testShrunkPoint(ab, ac, B, C, P1, testB, testC)) {
             P1
-        } else if (testShrunkPoint(ab, ac, B, C, P2, b, c)) {
+        } else if (testShrunkPoint(ab, ac, B, C, P2, testB, testC)) {
             P2
-        } else if (testShrunkPoint(ab, ac, B, C, P3, b, c)) {
+        } else if (testShrunkPoint(ab, ac, B, C, P3, testB, testC)) {
             P3
-        } else if (testShrunkPoint(ab, ac, B, C, P4, b, c)) {
+        } else if (testShrunkPoint(ab, ac, B, C, P4, testB, testC)) {
             P4
         } else {
             null
@@ -747,15 +762,15 @@ object GeometryUtils {
         B: PointF,
         C: PointF,
         P: PointF?,
-        b: Boolean,
-        c: Boolean
+        b: Boolean?,
+        c: Boolean?
     ): Boolean {
         if (P != null && P.x < Float.MAX_VALUE && P.y < Float.MAX_VALUE) {
             val signC = (ab[0] * P.x + ab[1] * P.y + ab[2]) * (ab[0] * C.x + ab[1] * C.y + ab[2])
             val signB = (ac[0] * P.x + ac[1] * P.y + ac[2]) * (ac[0] * B.x + ac[1] * B.y + ac[2])
             val testC = signC > Double.MIN_VALUE
             val testB = signB > Double.MIN_VALUE
-            return testC == c && testB == b
+            return (c == null || testC == c) && (b == null || testB == b)
         }
         return false
     }

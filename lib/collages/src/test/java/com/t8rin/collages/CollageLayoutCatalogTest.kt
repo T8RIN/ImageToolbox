@@ -27,12 +27,11 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import java.io.File
-import java.util.zip.GZIPInputStream
 
 class CollageLayoutCatalogTest {
     private val catalog by lazy {
-        File("src/main/assets/collages/layouts.json.gzip").inputStream()
-            .let(::GZIPInputStream).bufferedReader().use {
+        File("src/main/assets/collages/layouts.json").inputStream()
+            .bufferedReader().use {
                 Json.parseToJsonElement(it.readText()).jsonObject
             }
     }

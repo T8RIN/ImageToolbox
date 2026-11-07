@@ -28,10 +28,11 @@ internal object ImageTransform {
         oldWidth: Float,
         oldHeight: Float,
         width: Float,
-        height: Float
+        height: Float,
+        scaleImage: Boolean = true
     ): FloatArray {
         if (oldWidth <= 0f || oldHeight <= 0f || width <= 0f || height <= 0f) return values.copyOf()
-        val scale = sqrt((width / oldWidth) * (height / oldHeight))
+        val scale = if (scaleImage) sqrt((width / oldWidth) * (height / oldHeight)) else 1f
         return values.copyOf().apply {
             this[0] *= scale
             this[1] *= scale

@@ -184,7 +184,7 @@ internal class FramePhotoLayout(
             if (field == value) return
             field = value
             if (mViewWidth > 0 && mViewHeight > 0) {
-                mItemImageViews.indices.forEach(::resizeItem)
+                mItemImageViews.indices.forEach { resizeItem(it) }
             }
         }
 
@@ -290,7 +290,7 @@ internal class FramePhotoLayout(
         mViewWidth = width
         mViewHeight = height
         for (i in mItemImageViews.indices) {
-            resizeItem(i)
+            resizeItem(i, scaleImage = true)
         }
     }
 
@@ -304,7 +304,7 @@ internal class FramePhotoLayout(
         onUserStateChangeListener = null
     }
 
-    private fun resizeItem(index: Int) {
+    private fun resizeItem(index: Int, scaleImage: Boolean = false) {
         val view = mItemImageViews[index]
         val item = mPhotoItems[index]
         val metrics = computeFrameMetrics(item.bound)
@@ -314,7 +314,7 @@ internal class FramePhotoLayout(
         params.width = metrics.width
         params.height = metrics.height
         view.layoutParams = params
-        view.updateFrame(metrics.width.toFloat(), metrics.height.toFloat())
+        view.updateFrame(metrics.width.toFloat(), metrics.height.toFloat(), scaleImage)
     }
 
     fun setBackgroundColor(color: ComposeColor) {
@@ -365,7 +365,8 @@ internal class FramePhotoLayout(
     fun restoreState(state: CollageState) {
         if (state.layoutId != layoutId) return
         isRestoringState = true
-        paramsManager?.restoreValues(state.layoutParams)
+        paramsManager?.takeIf { it.snapshotValues().toList() != state.layoutParams }
+            ?.restoreValues(state.layoutParams)
         var restored = true
         state.images.forEach { imageState ->
             val imageRestored = mItemImageViews
@@ -696,11 +697,11 @@ internal class FramePhotoLayout(
     }
 
     override fun onImageTransformEnd() {
-        finishUserInteraction()
+        if (mItemImageViews.none { it.isTransforming }) finishUserInteraction()
     }
 
     override fun onImageStateReady() {
-        if (imagesReady) {
+        if (imagesReady && interactionStartState == null) {
             onImagesLoaded?.invoke()
             if (isRestoringState) {
                 finishStateRestoration()

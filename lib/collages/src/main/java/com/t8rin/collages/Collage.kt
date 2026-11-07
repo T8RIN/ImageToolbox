@@ -72,7 +72,7 @@ fun Collage(
     userInteractionEnabled: Boolean = true,
     imageGesturesEnabled: Boolean = true,
     canvasScale: Float = 1f,
-    outerPadding: Float = spacing,
+    outerPadding: Float = 0f,
     slotStyles: List<CollageSlotStyle> = emptyList(),
     slotBorderShaders: List<((Float, Float) -> Shader)?> = emptyList(),
     aspectRatio: Float = 1f,
@@ -137,11 +137,14 @@ fun Collage(
                         },
                         onRelease = { it.release() },
                         update = { target ->
+                            val stateToRestore = applied.state.update(
+                                state?.takeIf { it.layoutId == layout?.title }
+                            )
                             target.onImagesLoaded = { imagesLoaded?.invoke() }
                             target.setStateListeners(
                                 layoutId = layout?.title.orEmpty(),
                                 onStateReady = {
-                                    applied.state = it
+                                    applied.state.current = it
                                     stateReady?.invoke(it)
                                 },
                                 onUserStateChange = { before, after, swappedImages ->
@@ -184,12 +187,11 @@ fun Collage(
                                 spacing * decorationScale,
                                 cornerRadius * decorationScale
                             )
-                            state?.takeIf { it.layoutId == layout?.title && it != applied.state }
-                                ?.let {
-                                    applied.state = it
-                                    target.restoreState(it)
-                                }
-                            if (target.imagesReady) imagesLoaded?.invoke()
+                            stateToRestore?.let {
+                                applied.state.current = it
+                                target.restoreState(it)
+                            }
+                            target.onImageStateReady()
                         }
                     )
                 }
@@ -306,7 +308,7 @@ fun Collage(
 }
 
 private class AppliedCollageState {
-    var state: CollageState? = null
+    val state = CollageStateSync()
     var images: List<Uri>? = null
     var width: Int = 0
     var height: Int = 0

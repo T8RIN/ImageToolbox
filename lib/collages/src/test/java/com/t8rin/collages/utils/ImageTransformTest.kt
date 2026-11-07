@@ -55,6 +55,43 @@ class ImageTransformTest {
     }
 
     @Test
+    fun movingDividerPreservesImageScaleAndRotation() {
+        val original = floatArrayOf(2f, -.4f, -200f, .4f, 2f, -250f, 0f, 0f, 1f)
+        val resized = ImageTransform.resize(original, 400f, 300f, 480f, 350f, scaleImage = false)
+        assertArrayEquals(
+            floatArrayOf(2f, -.4f, -160f, .4f, 2f, -225f, 0f, 0f, 1f),
+            resized,
+            0.001f
+        )
+        assertArrayEquals(
+            resized,
+            ImageTransform.fit(resized, 600f, 600f, floatArrayOf(0f, 0f, 480f, 350f)),
+            0.001f
+        )
+        assertArrayEquals(
+            original,
+            ImageTransform.resize(resized, 480f, 350f, 400f, 300f, scaleImage = false),
+            0.001f
+        )
+    }
+
+    @Test
+    fun expandingSlotOnlyZoomsAsMuchAsNeededToCoverIt() {
+        val resized = ImageTransform.resize(
+            floatArrayOf(1f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 1f),
+            400f, 300f, 600f, 300f, scaleImage = false
+        )
+        val bounds = floatArrayOf(0f, 0f, 600f, 300f)
+        val fitted = ImageTransform.fit(resized, 400f, 300f, bounds)
+        assertArrayEquals(
+            floatArrayOf(1.5f, 0f, 0f, 0f, 1.5f, -75f, 0f, 0f, 1f),
+            fitted,
+            0.001f
+        )
+        assertTrue(ImageTransform.covers(fitted, 400f, 300f, bounds))
+    }
+
+    @Test
     fun repeatedViewportChangesDoNotStretchOrDrift() {
         val original = floatArrayOf(1.2f, -0.3f, -53f, 0.3f, 1.2f, 28f, 0f, 0f, 1f)
         var matrix = original.copyOf()
