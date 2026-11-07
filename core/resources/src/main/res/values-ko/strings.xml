@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="pick_image">이미지 선택</string>
     <string name="width">너비 %1$s</string>
     <string name="height">높이 %1$s</string>
@@ -3186,7 +3185,7 @@
     <string name="no_usage_statistics">아직 사용 통계가 없습니다.</string>
     <string name="no_usage_statistics_sub">몇 가지 도구를 열면 여기에 자동으로 표시됩니다.</string>
     <string name="usage_statistics_info">귀하의 사용 통계는 귀하의 장치에 로컬로만 저장됩니다. ImageToolbox는 이를 개인 활동, 즐겨찾는 도구 및 저장된 데이터 통찰력을 표시하는 데에만 사용합니다.</string>
-    <string name="search_keywords_single_edit">편집자 편집 사진 사진 수정 조정</string>
+    <string name="search_keywords_single_edit">편집자 편집 포토 사진 수정 조정</string>
     <string name="search_keywords_crop">자르기 트림 컷 종횡비</string>
     <string name="search_keywords_filter">필터 효과 색상 보정 LUT 마스크 조정</string>
     <string name="search_keywords_cipher">암호 암호화 해독 암호 비밀</string>
@@ -3208,7 +3207,7 @@
     <string name="search_keywords_pdf_extract_images">PDF 추출 이미지 사진</string>
     <string name="search_keywords_pdf_images_to_pdf">이미지를 PDF로 변환 jpg JPEG png 문서</string>
     <string name="search_keywords_pdf_extract_pages">PDF를 이미지 페이지로 내보내기 jpg png</string>
-    <string name="search_keywords_pdf_remove_annotations">PDF 주석 주석 제거 제거</string>
+    <string name="search_keywords_pdf_remove_annotations">PDF 주석 메모 제거 정리</string>
     <string name="neutral_variant">중립 변형</string>
     <string name="error">오류</string>
     <string name="drop_shadow">그림자</string>
@@ -3230,8 +3229,8 @@
     <string name="search_keywords_compare">전후 차이 비교</string>
     <string name="search_keywords_pdf_tools">pdf 문서 페이지 도구</string>
     <string name="search_keywords_gradient_maker">그라데이션 배경 색상 메쉬</string>
-    <string name="search_keywords_gif_tools">gif 애니메이션 애니메이션 변환 프레임</string>
-    <string name="search_keywords_apng_tools">apng 애니메이션 애니메이션 png 프레임 변환</string>
+    <string name="search_keywords_gif_tools">gif 애니메이션 움직이는 변환 프레임</string>
+    <string name="search_keywords_apng_tools">apng 애니메이션 움직이는 png 프레임 변환</string>
     <string name="search_keywords_zip">zip 아카이브 압축 팩 압축 풀기 파일</string>
     <string name="search_keywords_jxl_tools">jxl jpeg xl jpg 이미지 형식 변환</string>
     <string name="search_keywords_format_conversion">형식 변환 jpg jpeg png webp heic avid jxl bmp</string>
@@ -3251,12 +3250,12 @@
     <string name="search_keywords_ascii_art">ASCII 텍스트 아트 문자</string>
     <string name="search_keywords_color_library">색상이라는 색상 라이브러리 재료 팔레트</string>
     <string name="search_keywords_shader_studio">셰이더 glsl 조각 효과 스튜디오</string>
-    <string name="search_keywords_pdf_merge">pdf 병합 결합 결합</string>
+    <string name="search_keywords_pdf_merge">pdf 병합 결합 합치기</string>
     <string name="search_keywords_pdf_split">pdf 별도 페이지 분할</string>
-    <string name="search_keywords_pdf_rearrange">pdf 재정렬 재정렬 페이지 정렬</string>
+    <string name="search_keywords_pdf_rearrange">pdf 재정렬 순서 페이지 정렬</string>
     <string name="search_keywords_pdf_page_numbers">pdf 페이지 번호 페이지 매기기</string>
     <string name="search_keywords_pdf_watermark">pdf 워터마크 스탬프 로고 텍스트</string>
-    <string name="search_keywords_pdf_signature">pdf 서명 서명 그리기</string>
+    <string name="search_keywords_pdf_signature">pdf 서명 싸인 그리기</string>
     <string name="search_keywords_pdf_protect">pdf 비밀번호 보호 암호화 잠금</string>
     <string name="search_keywords_pdf_compress">PDF 압축 크기 줄이기 최적화</string>
     <string name="search_keywords_pdf_grayscale">pdf 회색조 검정 흰색 흑백</string>
@@ -3656,7 +3655,7 @@
     <string name="bit_depth_value">%1$d비트</string>
     <string name="batch_rename">일괄 이름 바꾸기</string>
     <string name="batch_rename_sub">파일 이름 패턴을 사용하여 여러 파일의 이름 바꾸기</string>
-    <string name="search_keywords_batch_rename">일괄 이름 바꾸기 파일 파일 이름 패턴 순서 날짜 확장자</string>
+    <string name="search_keywords_batch_rename">일괄 이름 바꾸기 변경 파일 파일명 패턴 순서 날짜 확장자</string>
     <string name="pick_files_to_rename">이름을 바꿀 파일을 선택하세요</string>
     <string name="filename_pattern">파일 이름 패턴</string>
     <string name="rename">이름 바꾸기</string>
@@ -4452,7 +4451,7 @@
     <string name="tag_image_editing_software">이미지 편집 소프트웨어</string>
     <string name="tag_image_editor">이미지 편집기</string>
     <string name="tag_image_title">이미지 제목</string>
-    <string name="tag_learning_opt_out_in">학습 거부/거부</string>
+    <string name="tag_learning_opt_out_in">학습 거부/허용</string>
     <string name="tag_metadata_editing_software">메타데이터 편집 소프트웨어</string>
     <string name="tag_noise_reduction">소음 감소</string>
     <string name="tag_photographer">사진작가</string>
@@ -5611,7 +5610,7 @@
     <string name="gallery_category_sunset">일몰</string>
     <string name="gallery_search_auto">의미있는 사진 검색</string>
     <string name="gallery_search_auto_sub">사진에 있는 내용을 기준으로 사진을 찾고 갤러리 및 내장 선택기에서 자동 카테고리를 찾아보세요. 첫 번째 설정에는 약 227MB의 다운로드가 필요합니다.</string>
-    <string name="gallery_search_queued">사진 준비를 기다리는 중...</string>
+    <string name="gallery_search_queued">사진 준비를 기다리는 중…</string>
     <string name="gallery_search_update_queued">사진 검색 업데이트를 기다리는 중…</string>
     <string name="gallery_search_permission">의미 검색을 위한 사진 액세스 허용</string>
     <string name="gallery_search_contents">의미있는 사진 검색</string>
@@ -7595,7 +7594,7 @@
     <string name="style_presets_sub">스타일 저장 또는 적용</string>
     <string name="save_style_preset">스타일 저장</string>
     <string name="delete_style_preset">스타일 삭제</string>
-    <string name="delete_style_preset_sub">\'%1$s\' 스타일을 삭제하시겠습니까?</string>
+    <string name="delete_style_preset_sub">저장한 스타일에서 “%1$s” 스타일을 삭제하시겠습니까? 현재 설정은 그대로 유지합니다.</string>
     <string name="code_preview_transparent_background">투명한 배경</string>
     <string name="filter_help_adaptive_binarization">로컬 밝기 통계를 사용하여 조명이 고르지 않은 경우 잉크와 용지를 분리합니다.</string>
     <string name="filter_help_agx_tone_mapping">분석적인 AgX 톤 곡선을 사용하여 하이라이트를 롤오프하고 채도를 제어합니다.</string>
