@@ -778,8 +778,10 @@ internal class FrameImageView(
                         val distance = min(inset, min(viewWidth, viewHeight) * .45f)
                         val left = if (photoItem.bound.left == 0f) 0f else distance
                         val top = if (photoItem.bound.top == 0f) 0f else distance
-                        val right = if (photoItem.bound.right == 1f) viewWidth else viewWidth - distance
-                        val bottom = if (photoItem.bound.bottom == 1f) viewHeight else viewHeight - distance
+                        val right =
+                            if (photoItem.bound.right == 1f) viewWidth else viewWidth - distance
+                        val bottom =
+                            if (photoItem.bound.bottom == 1f) viewHeight else viewHeight - distance
                         path.transform(Matrix().apply {
                             setRectToRect(
                                 RectF(0f, 0f, viewWidth, viewHeight),

@@ -38,7 +38,8 @@ import java.io.File
 import java.util.zip.ZipInputStream
 
 object CollageLayoutStore {
-    internal const val CATALOG_HASH = "745e4db65f7a085712c1b6f0c50074f4e6554c7c1543ea613659da6dd5a70462"
+    internal const val CATALOG_HASH =
+        "745e4db65f7a085712c1b6f0c50074f4e6554c7c1543ea613659da6dd5a70462"
     internal val counts = listOf(
         318, 452, 385, 376, 282, 206, 169, 166, 166, 122,
         93, 92, 90, 89, 86, 60, 62, 65, 60, 53,
