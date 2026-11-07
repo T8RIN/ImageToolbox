@@ -21,8 +21,8 @@ import android.net.Uri
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.net.toUri
-import com.t8rin.collages.CollageLayoutStore
-import com.t8rin.collages.CollageType
+import com.t8rin.collages.layout.CollageLayoutStore
+import com.t8rin.collages.model.CollageType
 import com.t8rin.imagetoolbox.collage_maker.domain.CollageProjectSnapshot
 import com.t8rin.imagetoolbox.collage_maker.presentation.screenLogic.CollageMakerComponent.HistorySnapshot
 

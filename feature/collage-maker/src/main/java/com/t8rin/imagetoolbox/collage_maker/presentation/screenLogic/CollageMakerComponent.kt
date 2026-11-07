@@ -29,11 +29,11 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.core.net.toUri
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.essenty.lifecycle.doOnDestroy
-import com.t8rin.collages.CollageLayoutStore
-import com.t8rin.collages.CollageSlotStyle
-import com.t8rin.collages.CollageState
-import com.t8rin.collages.CollageType
-import com.t8rin.collages.public.CollageConstants
+import com.t8rin.collages.config.CollageConstants
+import com.t8rin.collages.layout.CollageLayoutStore
+import com.t8rin.collages.model.CollageSlotStyle
+import com.t8rin.collages.model.CollageState
+import com.t8rin.collages.model.CollageType
 import com.t8rin.imagetoolbox.collage_maker.domain.CollageLibrary
 import com.t8rin.imagetoolbox.collage_maker.domain.CollageParams
 import com.t8rin.imagetoolbox.collage_maker.domain.CollageProject
@@ -477,10 +477,19 @@ class CollageMakerComponent @AssistedInject internal constructor(
         schedulePendingHistoryCommit()
     }
 
-    fun addImage(uri: Uri) {
+    fun addImages(uris: List<Uri>) {
+        if (uris.isEmpty()) return
         val current = _uris.value.orEmpty()
-        if (current.size >= CollageConstants.MAX_IMAGE_COUNT) return
-        val updated = current + uri
+        if (current.size + uris.size > CollageConstants.MAX_IMAGE_COUNT) {
+            AppToastHost.showFailureToast(
+                getString(
+                    R.string.pick_up_to_n_collage_images,
+                    CollageConstants.MAX_IMAGE_COUNT
+                )
+            )
+            return
+        }
+        val updated = current + uris
 
         finalizePendingHistoryTransaction()
         beginPendingHistoryTransaction()

@@ -17,7 +17,7 @@
 
 package com.t8rin.imagetoolbox.collage_maker.domain
 
-import com.t8rin.collages.CollageState
+import com.t8rin.collages.model.CollageState
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.Quality
 import com.t8rin.imagetoolbox.core.domain.model.DomainAspectRatio

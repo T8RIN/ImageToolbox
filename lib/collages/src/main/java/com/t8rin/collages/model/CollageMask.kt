@@ -20,7 +20,7 @@ package com.t8rin.collages.model
 import android.graphics.Matrix
 import android.graphics.Path
 import androidx.core.graphics.PathParser
-import com.t8rin.collages.utils.flattenMask
+import com.t8rin.collages.geometry.flattenMask
 import org.json.JSONObject
 
 internal class CollageMask(private val definition: JSONObject) {

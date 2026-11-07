@@ -20,7 +20,7 @@ package com.t8rin.imagetoolbox.collage_maker.data
 import android.content.Context
 import androidx.core.content.FileProvider
 import androidx.core.net.toUri
-import com.t8rin.collages.CollageLayoutStore
+import com.t8rin.collages.layout.CollageLayoutStore
 import com.t8rin.imagetoolbox.collage_maker.data.project.CollageProjectFile
 import com.t8rin.imagetoolbox.collage_maker.data.project.toFile
 import com.t8rin.imagetoolbox.collage_maker.data.project.toProject

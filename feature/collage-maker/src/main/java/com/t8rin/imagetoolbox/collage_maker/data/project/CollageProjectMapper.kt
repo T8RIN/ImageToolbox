@@ -17,7 +17,7 @@
 
 package com.t8rin.imagetoolbox.collage_maker.data.project
 
-import com.t8rin.collages.public.CollageConstants
+import com.t8rin.collages.config.CollageConstants
 import com.t8rin.imagetoolbox.collage_maker.domain.CollageProject
 import com.t8rin.imagetoolbox.collage_maker.domain.CollageProjectSnapshot
 import com.t8rin.imagetoolbox.core.domain.model.DomainAspectRatio

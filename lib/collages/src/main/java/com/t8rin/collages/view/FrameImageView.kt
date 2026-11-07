@@ -40,13 +40,18 @@ import android.view.animation.DecelerateInterpolator
 import android.widget.RelativeLayout
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.net.toUri
-import com.t8rin.collages.CollageImageState
-import com.t8rin.collages.CollageSlotStyle
-import com.t8rin.collages.utils.GeometryUtils
-import com.t8rin.collages.utils.ImageDecoder
-import com.t8rin.collages.utils.ImageTransform
-import com.t8rin.collages.utils.collageSpacingEdges
-import com.t8rin.collages.utils.insetMask
+import com.t8rin.collages.geometry.GeometryUtils
+import com.t8rin.collages.geometry.ImageTransform
+import com.t8rin.collages.geometry.collageSpacingEdges
+import com.t8rin.collages.geometry.insetMask
+import com.t8rin.collages.gesture.MultiTouchHandler
+import com.t8rin.collages.image.FrameImageRender
+import com.t8rin.collages.image.ImageDecoder
+import com.t8rin.collages.image.drawCollageImage
+import com.t8rin.collages.image.drawCollageShadow
+import com.t8rin.collages.model.CollageImageState
+import com.t8rin.collages.model.CollageSlotStyle
+import com.t8rin.collages.model.PhotoItem
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -744,6 +749,27 @@ internal class FrameImageView(
             return path
         }
 
+        private fun Path.scaleForSpacing(
+            distance: Float,
+            width: Float,
+            height: Float,
+            bounds: RectF
+        ) {
+            val inset = min(distance, min(width, height) * .45f)
+            transform(Matrix().apply {
+                setRectToRect(
+                    RectF(0f, 0f, width, height),
+                    RectF(
+                        if (bounds.left == 0f) 0f else inset,
+                        if (bounds.top == 0f) 0f else inset,
+                        if (bounds.right == 1f) width else width - inset,
+                        if (bounds.bottom == 1f) height else height - inset
+                    ),
+                    Matrix.ScaleToFit.FILL
+                )
+            })
+        }
+
         private fun setSpace(
             viewWidth: Float, viewHeight: Float, photoItem: PhotoItem,
             convertedPoints: MutableList<PointF>,
@@ -775,20 +801,7 @@ internal class FrameImageView(
                 path.transform(Matrix().apply { setScale(viewWidth, viewHeight) })
                 if (inset > 0f) {
                     if (preserveShape) {
-                        val distance = min(inset, min(viewWidth, viewHeight) * .45f)
-                        val left = if (photoItem.bound.left == 0f) 0f else distance
-                        val top = if (photoItem.bound.top == 0f) 0f else distance
-                        val right =
-                            if (photoItem.bound.right == 1f) viewWidth else viewWidth - distance
-                        val bottom =
-                            if (photoItem.bound.bottom == 1f) viewHeight else viewHeight - distance
-                        path.transform(Matrix().apply {
-                            setRectToRect(
-                                RectF(0f, 0f, viewWidth, viewHeight),
-                                RectF(left, top, right, bottom),
-                                Matrix.ScaleToFit.FILL
-                            )
-                        })
+                        path.scaleForSpacing(inset, viewWidth, viewHeight, photoItem.bound)
                     } else {
                         path.insetMask(inset, path.collageSpacingEdges(outerBounds))
                     }
@@ -809,7 +822,6 @@ internal class FrameImageView(
                 }
                 path.close()
                 if (space > 0f) {
-                    path.op(path, path, Path.Op.UNION)
                     var doubleArea = 0f
                     var perimeter = 0f
                     local.forEachIndexed { index, point ->
@@ -818,14 +830,20 @@ internal class FrameImageView(
                         perimeter += kotlin.math.hypot(next.x - point.x, next.y - point.y)
                     }
                     val maxInset = abs(doubleArea) * .375f / perimeter
-                    val gap = Path()
-                    Paint(Paint.ANTI_ALIAS_FLAG).apply {
-                        style = Paint.Style.STROKE
-                        strokeWidth = min(space, maxInset) * 2
-                        strokeJoin = Paint.Join.ROUND
-                        strokeCap = Paint.Cap.SQUARE
-                    }.getFillPath(path.collageSpacingEdges(outerBounds), gap)
-                    path.op(gap, Path.Op.DIFFERENCE)
+                    if (photoItem.preserveShape) {
+                        path.scaleForSpacing(
+                            min(space, maxInset),
+                            viewWidth,
+                            viewHeight,
+                            photoItem.bound
+                        )
+                    } else {
+                        path.insetMask(
+                            min(space, maxInset),
+                            path.collageSpacingEdges(outerBounds),
+                            keepLargest = true
+                        )
+                    }
                 }
                 if (corner > 0f) {
                     val rounded = Path()
@@ -866,6 +884,7 @@ internal class FrameImageView(
                 buildRealPath(viewWidth, viewHeight, photoItem, path, space, corner)
                 polygon.clear()
             } else {
+                val inset = min(space, min(viewWidth, viewHeight) * .35f)
                 val shrunkPoints: List<PointF>
                 when (photoItem.shrinkMethod) {
                     PhotoItem.SHRINK_METHOD_3_3 -> {
@@ -873,7 +892,7 @@ internal class FrameImageView(
                         shrunkPoints = GeometryUtils.shrinkPathCollage_3_3(
                             convertedPoints,
                             centerPointIdx,
-                            space,
+                            inset,
                             photoItem.bound
                         )
                     }
@@ -881,7 +900,7 @@ internal class FrameImageView(
                     PhotoItem.SHRINK_METHOD_USING_MAP if photoItem.shrinkMap != null -> {
                         shrunkPoints = GeometryUtils.shrinkPathCollageUsingMap(
                             convertedPoints,
-                            space,
+                            inset,
                             photoItem.shrinkMap!!,
                             outerBounds
                         )
@@ -891,7 +910,7 @@ internal class FrameImageView(
                         shrunkPoints =
                             GeometryUtils.commonShrinkPath(
                                 convertedPoints,
-                                space,
+                                inset,
                                 photoItem.shrinkMap!!,
                                 outerBounds
                             )
@@ -903,7 +922,7 @@ internal class FrameImageView(
                         } else {
                             GeometryUtils.shrinkPath(
                                 convertedPoints,
-                                space,
+                                inset,
                                 photoItem.bound,
                                 outerPadding
                             )

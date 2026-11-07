@@ -17,12 +17,12 @@
 
 package com.t8rin.imagetoolbox.collage_maker.data.project
 
-import com.t8rin.collages.CollageDesign
-import com.t8rin.collages.CollageImageState
-import com.t8rin.collages.CollagePoint
-import com.t8rin.collages.CollageSlot
-import com.t8rin.collages.CollageSlotStyle
-import com.t8rin.collages.CollageState
+import com.t8rin.collages.model.CollageDesign
+import com.t8rin.collages.model.CollageImageState
+import com.t8rin.collages.model.CollagePoint
+import com.t8rin.collages.model.CollageSlot
+import com.t8rin.collages.model.CollageSlotStyle
+import com.t8rin.collages.model.CollageState
 import com.t8rin.imagetoolbox.collage_maker.domain.CollageParams
 import com.t8rin.imagetoolbox.collage_maker.domain.CollageProject
 import com.t8rin.imagetoolbox.collage_maker.domain.CollageProjectSnapshot

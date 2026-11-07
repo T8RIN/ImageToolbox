@@ -38,8 +38,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.t8rin.collages.CollageLayoutStore
-import com.t8rin.collages.public.CollageConstants
+import com.t8rin.collages.config.CollageConstants
+import com.t8rin.collages.layout.CollageLayoutStore
 import com.t8rin.imagetoolbox.collage_maker.presentation.components.CollageMakerActions
 import com.t8rin.imagetoolbox.collage_maker.presentation.components.CollageMakerControls
 import com.t8rin.imagetoolbox.collage_maker.presentation.components.CollageMakerNoDataControls
@@ -90,6 +90,7 @@ fun CollageMakerContent(
     var showStyleApply by rememberSaveable { mutableStateOf(false) }
     val styleSelectorState = rememberStylePresetSelectorState()
     var closeControls by remember { mutableStateOf(false) }
+
     LaunchedEffect(component.uris?.size, component.collageType.imageCount) {
         val count = component.uris.orEmpty().size
         if (count > 0 && component.collageType.imageCount != count) {

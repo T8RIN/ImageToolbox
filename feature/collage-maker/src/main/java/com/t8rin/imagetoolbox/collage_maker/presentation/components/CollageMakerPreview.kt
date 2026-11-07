@@ -61,7 +61,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.drawable.DrawableCompat
-import com.t8rin.collages.Collage
+import com.t8rin.collages.components.Collage
 import com.t8rin.imagetoolbox.collage_maker.presentation.screenLogic.CollageMakerComponent
 import com.t8rin.imagetoolbox.core.data.image.utils.createShader
 import com.t8rin.imagetoolbox.core.resources.Icons
@@ -122,8 +122,8 @@ internal fun CollageMakerPreview(
             )
         }
 
-        val addPicker = rememberImagePicker { uri: Uri ->
-            component.addImage(uri)
+        val addPicker = rememberImagePicker { uris: List<Uri> ->
+            component.addImages(uris)
         }
 
         LaunchedEffect(resettingTrigger, component.collageResetKey) {

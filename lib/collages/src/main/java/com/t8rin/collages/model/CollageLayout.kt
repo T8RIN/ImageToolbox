@@ -17,9 +17,7 @@
 
 package com.t8rin.collages.model
 
-import com.t8rin.collages.CollageDesign
-import com.t8rin.collages.utils.ParamsManager
-import com.t8rin.collages.view.PhotoItem
+import com.t8rin.collages.handles.ParamsManager
 
 internal data class CollageLayout(
     val design: CollageDesign? = null,

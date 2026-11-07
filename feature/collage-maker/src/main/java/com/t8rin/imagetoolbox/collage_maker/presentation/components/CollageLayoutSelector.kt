@@ -46,8 +46,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.t8rin.collages.CollageLayoutStore
-import com.t8rin.collages.CollageTypeSelection
+import com.t8rin.collages.components.CollageTypeSelection
+import com.t8rin.collages.layout.CollageLayoutStore
 import com.t8rin.imagetoolbox.collage_maker.presentation.screenLogic.CollageMakerComponent
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R

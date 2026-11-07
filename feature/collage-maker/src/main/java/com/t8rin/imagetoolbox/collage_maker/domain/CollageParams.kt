@@ -17,7 +17,7 @@
 
 package com.t8rin.imagetoolbox.collage_maker.domain
 
-import com.t8rin.collages.CollageSlotStyle
+import com.t8rin.collages.model.CollageSlotStyle
 import com.t8rin.imagetoolbox.core.domain.model.GradientFill
 
 data class CollageParams(
