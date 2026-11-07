@@ -37,46 +37,46 @@ import com.t8rin.imagetoolbox.feature.ai_tools.presentation.screenLogic.AiToolsC
 internal fun NeuralSaveProgressDialog(
     component: AiToolsComponent
 ) {
-    component.saveProgress?.let { saveProgress ->
-        LoadingDialog(
-            visible = true,
-            onCancelLoading = component::cancelSaving,
-            progress = { saveProgress.totalProgress },
-            switchToIndicator = saveProgress.isZero,
-            loaderSize = 72.dp,
-            isLayoutSwappable = false,
-            additionalContent = {
-                Column(
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
+    LoadingDialog(
+        visible = component.saveProgress != null,
+        onCancelLoading = component::cancelSaving,
+        progress = { component.saveProgress?.totalProgress ?: 0f },
+        switchToIndicator = component.saveProgress?.isZero != false,
+        loaderSize = 72.dp,
+        isLayoutSwappable = false,
+        additionalContent = {
+            val saveProgress = component.saveProgress ?: NeuralSaveProgress(0, 0, 0, 0)
+
+            Column(
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                AutoSizeText(
+                    text = if (saveProgress.totalImages > 1) {
+                        "${saveProgress.doneImages} / ${saveProgress.totalImages}"
+                    } else {
+                        "${saveProgress.doneChunks} / ${saveProgress.totalChunks}"
+                    },
+                    maxLines = 1,
+                    fontWeight = FontWeight.Medium,
+                    modifier = Modifier.width(it * 0.7f),
+                    textAlign = TextAlign.Center
+                )
+                if (saveProgress.totalImages > 1 && saveProgress.totalChunks > 0) {
                     AutoSizeText(
-                        text = if (saveProgress.totalImages > 1) {
-                            "${saveProgress.doneImages} / ${saveProgress.totalImages}"
-                        } else {
-                            "${saveProgress.doneChunks} / ${saveProgress.totalChunks}"
-                        },
+                        text = "${saveProgress.doneChunks} / ${saveProgress.totalChunks}",
                         maxLines = 1,
-                        fontWeight = FontWeight.Medium,
-                        modifier = Modifier.width(it * 0.7f),
+                        style = LocalTextStyle.current.copy(
+                            fontSize = 12.sp,
+                            lineHeight = 12.sp
+                        ),
+                        color = LocalContentColor.current.copy(0.5f),
+                        fontWeight = FontWeight.Normal,
+                        modifier = Modifier.width(it * 0.45f),
                         textAlign = TextAlign.Center
                     )
-                    if (saveProgress.totalImages > 1 && saveProgress.totalChunks > 0) {
-                        AutoSizeText(
-                            text = "${saveProgress.doneChunks} / ${saveProgress.totalChunks}",
-                            maxLines = 1,
-                            style = LocalTextStyle.current.copy(
-                                fontSize = 12.sp,
-                                lineHeight = 12.sp
-                            ),
-                            color = LocalContentColor.current.copy(0.5f),
-                            fontWeight = FontWeight.Normal,
-                            modifier = Modifier.width(it * 0.45f),
-                            textAlign = TextAlign.Center
-                        )
-                    }
                 }
             }
-        )
-    }
+        }
+    )
 }
