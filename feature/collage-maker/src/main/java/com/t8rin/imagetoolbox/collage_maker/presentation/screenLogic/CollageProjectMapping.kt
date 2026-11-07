@@ -21,6 +21,7 @@ import android.net.Uri
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.net.toUri
+import com.t8rin.collages.CollageLayoutStore
 import com.t8rin.collages.CollageType
 import com.t8rin.imagetoolbox.collage_maker.domain.CollageProjectSnapshot
 import com.t8rin.imagetoolbox.collage_maker.presentation.screenLogic.CollageMakerComponent.HistorySnapshot
@@ -47,10 +48,10 @@ internal fun HistorySnapshot.toProjectSnapshot(): CollageProjectSnapshot {
 internal fun CollageProjectSnapshot.toHistorySnapshot(): HistorySnapshot {
     val layout = layoutId?.let {
         requireNotNull(
-            CollageType.fromLayoutId(
-                it,
-                collageState?.layoutParams,
-                collageState?.design
+            CollageLayoutStore.getLayout(
+                layoutId = it,
+                layoutParams = collageState?.layoutParams,
+                design = collageState?.design
             )
         ).also { type ->
             require(type.imageCount == uris.orEmpty().size)

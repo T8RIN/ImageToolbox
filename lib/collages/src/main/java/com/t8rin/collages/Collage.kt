@@ -92,8 +92,8 @@ fun Collage(
     val outlineAccent = MaterialTheme.colorScheme.primaryContainer.toArgb()
     val layout = remember(collageType.layoutId, collageType.design) {
         collageType.layoutId?.let {
-            CollageType.fromLayoutId(
-                it,
+            CollageLayoutStore.getLayout(
+                layoutId = it,
                 design = collageType.design
             )?.layout
         }

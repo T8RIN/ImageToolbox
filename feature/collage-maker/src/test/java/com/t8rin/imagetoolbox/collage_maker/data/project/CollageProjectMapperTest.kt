@@ -17,10 +17,12 @@
 
 package com.t8rin.imagetoolbox.collage_maker.data.project
 
+import com.t8rin.collages.CollageDesign
 import com.t8rin.collages.CollageImageState
+import com.t8rin.collages.CollagePoint
+import com.t8rin.collages.CollageSlot
 import com.t8rin.collages.CollageSlotStyle
 import com.t8rin.collages.CollageState
-import com.t8rin.collages.CreativeCollages
 import com.t8rin.imagetoolbox.collage_maker.domain.CollageParams
 import com.t8rin.imagetoolbox.collage_maker.domain.CollageProject
 import com.t8rin.imagetoolbox.collage_maker.domain.CollageProjectSnapshot
@@ -37,7 +39,24 @@ class CollageProjectMapperTest {
 
     @Test
     fun customLayoutAndPhotoStylesSurviveProjectRoundTrip() {
-        val design = CreativeCollages.templates.first { it.design.slots.size == 2 }.design
+        val design = CollageDesign(
+            slots = listOf(
+                CollageSlot(
+                    listOf(
+                        CollagePoint(0f, 0f),
+                        CollagePoint(1f, 0f),
+                        CollagePoint(0f, 1f)
+                    )
+                ),
+                CollageSlot(
+                    listOf(
+                        CollagePoint(1f, 0f),
+                        CollagePoint(1f, 1f),
+                        CollagePoint(0f, 1f)
+                    )
+                )
+            )
+        )
         val original = snapshot("first", "second")
         val current = original.copy(
             layoutId = "custom_test",

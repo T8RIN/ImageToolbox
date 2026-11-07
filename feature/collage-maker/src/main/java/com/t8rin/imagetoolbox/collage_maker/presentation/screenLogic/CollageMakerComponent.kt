@@ -29,6 +29,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.core.net.toUri
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.essenty.lifecycle.doOnDestroy
+import com.t8rin.collages.CollageLayoutStore
 import com.t8rin.collages.CollageSlotStyle
 import com.t8rin.collages.CollageState
 import com.t8rin.collages.CollageType
@@ -126,12 +127,14 @@ class CollageMakerComponent @AssistedInject internal constructor(
         beginPendingHistoryTransaction()
         if (includeLayout && style.imageCount == uris.orEmpty().size) {
             style.layoutId?.let { id ->
-                CollageType.fromLayoutId(id, style.layoutParams.takeIf { it.isNotEmpty() })
-                    ?.let { layout ->
-                        _collageType.value = layout
-                        _collageState.value = null
-                        _collageResetKey.update { it + 1 }
-                    }
+                CollageLayoutStore.getLayout(
+                    layoutId = id,
+                    layoutParams = style.layoutParams.takeIf { it.isNotEmpty() }
+                )?.let { layout ->
+                    _collageType.value = layout
+                    _collageState.value = null
+                    _collageResetKey.update { it + 1 }
+                }
             }
         }
         val updated = style.applyTo(params, uris.orEmpty().size)

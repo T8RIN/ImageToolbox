@@ -17,12 +17,13 @@
 
 package com.t8rin.collages
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.staggeredgrid.LazyHorizontalStaggeredGrid
@@ -45,12 +46,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.t8rin.collages.model.CollageLayout
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import kotlin.math.ceil
 
 @Composable
 fun CollageTypeSelection(
@@ -61,6 +62,7 @@ fun CollageTypeSelection(
     itemSize: Dp = 68.dp,
     rowHeight: Dp = itemSize,
     onValueChange: (CollageType) -> Unit,
+    loadingItem: @Composable () -> Unit,
     onLayoutCountChange: (Int) -> Unit = {},
     modifier: Modifier = Modifier,
     shape: Shape = RectangleShape,
@@ -69,22 +71,13 @@ fun CollageTypeSelection(
     previewColor: Color = MaterialTheme.colorScheme.secondary,
     contentPadding: PaddingValues = PaddingValues(16.dp)
 ) {
+    if (imagesCount <= 0) return
     var allFrames: List<Pair<CollageLayout, Path>> by remember {
         mutableStateOf(emptyList())
     }
-    val context = LocalContext.current
-
-    LaunchedEffect(context, imagesCount) {
+    LaunchedEffect(imagesCount) {
         allFrames = withContext(Dispatchers.Default) {
-            CollageType.catalog(context, imagesCount).mapNotNull { it.layout }
-                .sortedWith(compareBy({
-                    when {
-                        it.title.startsWith("collage_") -> 0
-                        it.title.startsWith("creative_") -> 1
-                        it.title.startsWith("layout_") -> 2
-                        else -> 3
-                    }
-                }, { it.title }))
+            CollageLayoutStore.getLayouts(imagesCount).mapNotNull { it.layout }
                 .map { it to CollagePreviewCache.get(it) }
         }
     }
@@ -98,7 +91,7 @@ fun CollageTypeSelection(
     }
 
     LaunchedEffect(availableFrames) {
-        onLayoutCountChange(availableFrames.size)
+        if (availableFrames.isNotEmpty()) onLayoutCountChange(availableFrames.size)
         if (
             availableFrames.isNotEmpty() && (value == CollageType.Empty || (value.layout?.photoItemList?.size
                 ?: 0) != imagesCount)
@@ -107,18 +100,27 @@ fun CollageTypeSelection(
         }
     }
 
-    AnimatedVisibility(
-        visible = availableFrames.isNotEmpty()
-    ) {
+    BoxWithConstraints(modifier) {
+        val columns = ceil(maxWidth / (itemSize + 8.dp)).toInt().coerceAtLeast(1)
+        val rows = ((maxHeight - contentPadding.calculateTopPadding() -
+                contentPadding.calculateBottomPadding()) / rowHeight).toInt().coerceAtLeast(1)
         LazyHorizontalStaggeredGrid(
             state = state,
             rows = StaggeredGridCells.Adaptive(rowHeight),
-            modifier = modifier,
+            modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
             horizontalItemSpacing = 8.dp,
             contentPadding = contentPadding
         ) {
-            items(availableFrames, key = { it.first.title }) { (layout, preview) ->
+            if (availableFrames.isEmpty()) {
+                items(columns * rows) {
+                    Column(Modifier.width(itemSize)) { loadingItem() }
+                }
+            }
+            items(
+                items = availableFrames,
+                key = { it.first.title }
+            ) { (layout, preview) ->
                 Column(
                     Modifier
                         .animateItem()

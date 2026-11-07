@@ -36,10 +36,9 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.t8rin.collages.CollageType
+import com.t8rin.collages.CollageLayoutStore
 import com.t8rin.collages.public.CollageConstants
 import com.t8rin.imagetoolbox.collage_maker.presentation.components.CollageMakerActions
 import com.t8rin.imagetoolbox.collage_maker.presentation.components.CollageMakerControls
@@ -82,7 +81,12 @@ import kotlinx.coroutines.launch
 fun CollageMakerContent(
     component: CollageMakerComponent
 ) {
-    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+
+    LaunchedEffect(Unit) {
+        CollageLayoutStore.load()
+    }
+
     var editSlot by rememberSaveable { mutableIntStateOf(-1) }
     var showSlotSettings by rememberSaveable { mutableStateOf(false) }
     var styleToApplyName by rememberSaveable { mutableStateOf<String?>(null) }
@@ -93,7 +97,9 @@ fun CollageMakerContent(
     LaunchedEffect(component.uris?.size, component.collageType.imageCount) {
         val count = component.uris.orEmpty().size
         if (count > 0 && component.collageType.imageCount != count) {
-            CollageType.catalog(context, count).firstOrNull()
+            CollageLayoutStore
+                .getDefaultLayout(count)
+                ?.takeIf { component.collageType.imageCount != count }
                 ?.let(component::setCollageType)
         }
     }
@@ -111,9 +117,14 @@ fun CollageMakerContent(
         visible = showStyleApply && styleToApply != null,
         onDismiss = { showStyleApply = false },
         onApply = { includeLayout ->
-            styleToApply?.style?.let { component.applyStyle(it, includeLayout) }
-            styleSelectorState.hide()
-            closeControls = true
+            styleToApply?.style?.let { style ->
+                scope.launch {
+                    CollageLayoutStore.load()
+                    component.applyStyle(style, includeLayout)
+                    styleSelectorState.hide()
+                    closeControls = true
+                }
+            }
         }
     )
 
@@ -183,7 +194,6 @@ fun CollageMakerContent(
         resettingTrigger++
     }
 
-    val scope = rememberCoroutineScope()
 
     val canShowScreenData = !component.uris.isNullOrEmpty()
 
@@ -204,7 +214,8 @@ fun CollageMakerContent(
                         EnhancedBadge(
                             content = {
                                 Text(
-                                    text = CollageConstants.layoutCount.toString()
+                                    text = CollageLayoutStore.layoutCount.takeIf { it > 0 }
+                                        ?.toString().orEmpty().ifEmpty { "..." }
                                 )
                             },
                             containerColor = MaterialTheme.colorScheme.tertiary,

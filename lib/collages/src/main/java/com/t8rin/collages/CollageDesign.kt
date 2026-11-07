@@ -40,26 +40,6 @@ data class CollageSlot(
             (a.x * b.y - b.x * a.y).toDouble()
         }.toFloat()) / 2f
 
-    fun clipped(a: Float, b: Float, c: Float): CollageSlot {
-        val result = mutableListOf<CollagePoint>()
-        points.indices.forEach { i ->
-            val p = points[i]
-            val q = points[(i + 1) % points.size]
-            val d = a * p.x + b * p.y - c
-            val e = a * q.x + b * q.y - c
-            if (d <= 0f) result.add(p)
-            if ((d < 0f && e > 0f) || (d > 0f && e < 0f)) {
-                val t = d / (d - e)
-                result.add(
-                    CollagePoint(
-                        if (b == 0f) c / a else p.x + (q.x - p.x) * t,
-                        if (a == 0f) c / b else p.y + (q.y - p.y) * t
-                    )
-                )
-            }
-        }
-        return CollageSlot(result)
-    }
 }
 
 data class CollageDesign(
@@ -72,17 +52,6 @@ data class CollageDesign(
             } && slot.area > 0.00001f && slot.right - slot.left > 0.001f && slot.bottom - slot.top > 0.001f
         }
 
-    fun split(index: Int, vertical: Boolean, fraction: Float = 0.5f): CollageDesign? {
-        val slot = slots.getOrNull(index) ?: return null
-        if (slots.size >= CollageConstants.MAX_IMAGE_COUNT || fraction !in .2f.. .8f) return null
-        val a = if (vertical) 1f else 0f
-        val b = if (vertical) 0f else 1f
-        val start = if (vertical) slot.left else slot.top
-        val end = if (vertical) slot.right else slot.bottom
-        val edge = start + (end - start) * fraction
-        val pieces = listOf(slot.clipped(a, b, edge), slot.clipped(-a, -b, -edge))
-        return copy(slots = slots.take(index) + pieces + slots.drop(index + 1)).takeIf { it.isValid() }
-    }
 }
 
 data class CollageSlotStyle(

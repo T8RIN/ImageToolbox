@@ -20,9 +20,11 @@ package com.t8rin.imagetoolbox.collage_maker.presentation.components
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -59,6 +61,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.scrollAnchor
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.shimmer
 
 @Composable
 internal fun CollageLayoutSelector(
@@ -121,6 +124,24 @@ internal fun CollageLayoutSelector(
             favorites = component.library.favorites,
             itemSize = 76.dp,
             rowHeight = 110.dp,
+            loadingItem = {
+                Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
+                    Box(
+                        Modifier
+                            .fillMaxWidth()
+                            .aspectRatio(1f)
+                            .clip(ShapeDefaults.top)
+                            .shimmer(true)
+                    )
+                    Box(
+                        Modifier
+                            .fillMaxWidth()
+                            .height(32.dp)
+                            .clip(ShapeDefaults.bottom)
+                            .shimmer(true)
+                    )
+                }
+            },
             itemBottomContent = { type ->
                 val isFavorite = type.layoutId in component.library.favorites
                 EnhancedIconButton(

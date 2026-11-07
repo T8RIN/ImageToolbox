@@ -17,13 +17,7 @@
 
 package com.t8rin.collages
 
-import android.content.Context
 import com.t8rin.collages.model.CollageLayout
-import com.t8rin.collages.utils.CollageLayoutFactory
-import com.t8rin.collages.utils.CollageLayoutFactory.createCollageLayouts
-import com.t8rin.collages.view.PhotoItem
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 @ConsistentCopyVisibility
 data class CollageType internal constructor(
@@ -38,56 +32,6 @@ data class CollageType internal constructor(
         get() = layout?.photoItemList?.size ?: 0
 
     companion object {
-        suspend fun prepareCatalog(context: Context) = AdditionalCollages.load(context)
-
-        suspend fun catalog(context: Context, imageCount: Int? = null): List<CollageType> =
-            withContext(Dispatchers.Default) {
-                prepareCatalog(context)
-                catalog(imageCount)
-            }
-
-        fun fromDesign(id: String, design: CollageDesign): CollageType? {
-            if (!design.isValid()) return null
-            return CollageType(
-                CollageLayout(
-                    title = id, design = design,
-                    photoItemList = design.slots.mapIndexed { index, slot ->
-                        PhotoItem(index = index, shape = slot.points).apply {
-                            bound.set(slot.left, slot.top, slot.right, slot.bottom)
-                        }
-                    }
-                ).let(CollageLayoutFactory::withRectangularHandles)
-            )
-        }
-
-        fun catalog(imageCount: Int? = null): List<CollageType> = (
-                CollageLayoutFactory.COLLAGE_MAP.keys + AdditionalCollages.ids +
-                        CreativeCollages.templates.map { it.id } + ArtisticCollages.templates.map { it.id } +
-                        DecorativeCollages.templates.map { it.id } + PatternCollages.templates.map { it.id }
-                ).filter { id ->
-                imageCount == null || id.split('_')
-                    .firstNotNullOfOrNull { it.toIntOrNull() } == imageCount
-            }.mapNotNull { fromLayoutId(it) }
-
         val Empty by lazy { CollageType(layout = null) }
-
-        fun fromLayoutId(
-            layoutId: String,
-            layoutParams: List<Float>? = null,
-            design: CollageDesign? = null
-        ): CollageType? {
-            val layout = if (design != null) fromDesign(layoutId, design)?.layout
-            else createCollageLayouts(layoutId)
-            layout ?: return null
-            if (layoutParams != null) {
-                val manager = layout.paramsManager
-                if (layoutParams.size != (manager?.snapshotValues()?.size ?: 0) ||
-                    layoutParams.any { !it.isFinite() }
-                ) return null
-
-                if (runCatching { manager?.restoreValues(layoutParams) }.isFailure) return null
-            }
-            return CollageType(layout)
-        }
     }
 }
