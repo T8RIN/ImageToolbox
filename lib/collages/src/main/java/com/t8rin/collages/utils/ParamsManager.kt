@@ -29,7 +29,8 @@ internal class ParamsManager(
     private val itemUpdateFunctions: List<ItemUpdate?>,
     private val itemHandles: List<List<Handle>>,
     private val itemsByIndex: List<PhotoItem?>,
-    private val paramToDependentItems: Array<IntArray>
+    private val paramToDependentItems: Array<IntArray>,
+    private val validate: () -> Unit
 ) {
     class InvalidValues : RuntimeException()
 
@@ -76,6 +77,7 @@ internal class ParamsManager(
                     if (itemIndex in itemUpdateFunctions.indices) itemUpdateFunctions[itemIndex] else null
                 if (photoItem != null && update != null) update(photoItem, values)
             }
+            validate()
         } catch (e: InvalidValues) {
             //rollback
             updateParams(params, previous, false)

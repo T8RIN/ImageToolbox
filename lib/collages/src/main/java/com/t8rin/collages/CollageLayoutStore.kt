@@ -39,7 +39,7 @@ import java.util.zip.ZipInputStream
 
 object CollageLayoutStore {
     internal const val CATALOG_HASH =
-        "745e4db65f7a085712c1b6f0c50074f4e6554c7c1543ea613659da6dd5a70462"
+        "e8e98222bc11a77af05507e798d50ab3410a7ffcf23e3691e642bd50c082d911"
     internal val counts = listOf(
         318, 452, 385, 376, 282, 206, 169, 166, 166, 122,
         93, 92, 90, 89, 86, 60, 62, 65, 60, 53,
@@ -174,7 +174,7 @@ object CollageLayoutStore {
             catalog.entries[layoutId]?.parseCollageLayout(catalog.masks, catalog.shapes)
                 ?: return null
         }
-        if (layoutParams != null) {
+        if (!layoutParams.isNullOrEmpty()) {
             val manager = layout.paramsManager
             if (layoutParams.size != (manager?.snapshotValues()?.size ?: 0) ||
                 layoutParams.any { !it.isFinite() }

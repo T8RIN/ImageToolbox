@@ -35,7 +35,7 @@ internal fun CollageLayoutDefinition.parseCollageLayout(
 ): CollageLayout {
     val items = slots.mapIndexed { index, slot -> slot.photoItem(index, masks, shapes, inset) }
     val layout = CollageLayout(title = id, photoItemList = items)
-    if (parameters == null) return layout
+    if (parameters == null || parameters.isEmpty()) return layout.withRectangularHandles()
 
     val builder = ParamsManagerBuilder()
     parameters.forEach(builder::param)

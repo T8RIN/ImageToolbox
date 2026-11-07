@@ -21,7 +21,9 @@ import android.graphics.PointF
 import android.graphics.RectF
 import com.t8rin.collages.view.PhotoItem
 
-internal class ParamsManagerBuilder {
+internal class ParamsManagerBuilder(
+    private val validate: () -> Unit = {}
+) {
     private companion object {
         const val MIN_DIMENSION_TOLERANCE: Float = 1e-4f
     }
@@ -52,6 +54,9 @@ internal class ParamsManagerBuilder {
             photoItem.pointList.add(PointF(0f, 1f))
         }
 
+        val initialBox = boxParams(paramValues.toFloatArray())
+        val minimumWidth = minOf(ParamsManager.minSize, initialBox.width() / 2)
+        val minimumHeight = minOf(ParamsManager.minSize, initialBox.height() / 2)
         val handles = mutableListOf<Handle>()
 
         for (xParam in xParams) {
@@ -84,10 +89,10 @@ internal class ParamsManagerBuilder {
                 if (box.top < 0) throw ParamsManager.InvalidValues()
                 if (box.right > 1f) throw ParamsManager.InvalidValues()
                 if (box.bottom > 1f) throw ParamsManager.InvalidValues()
-                if (box.right - box.left + MIN_DIMENSION_TOLERANCE < ParamsManager.minSize) {
+                if (box.right - box.left + MIN_DIMENSION_TOLERANCE < minimumWidth) {
                     throw ParamsManager.InvalidValues()
                 }
-                if (box.bottom - box.top + MIN_DIMENSION_TOLERANCE < ParamsManager.minSize) {
+                if (box.bottom - box.top + MIN_DIMENSION_TOLERANCE < minimumHeight) {
                     throw ParamsManager.InvalidValues()
                 }
                 p.bound.set(box)
@@ -136,7 +141,8 @@ internal class ParamsManagerBuilder {
             itemUpdateFunctions = itemUpdateArray,
             itemHandles = itemHandlesArray,
             itemsByIndex = itemsByIndex,
-            paramToDependentItems = dependents
+            paramToDependentItems = dependents,
+            validate = validate
         )
 
         val values = manager.snapshotValues()

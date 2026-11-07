@@ -20,7 +20,6 @@ package com.t8rin.collages.utils
 import android.graphics.RectF
 import com.t8rin.collages.CollagePoint
 import com.t8rin.collages.model.CollageLayout
-import kotlin.math.abs
 import kotlin.math.roundToInt
 
 internal fun CollageLayout.withRectangularHandles(): CollageLayout {
@@ -28,25 +27,42 @@ internal fun CollageLayout.withRectangularHandles(): CollageLayout {
     val items = photoItemList
     fun coordinate(value: Float) = (value * 100_000).roundToInt() / 100_000f
     if (items.any { item ->
+            if (item.path != null || item.clearPath != null || !item.clearAreaPoints.isNullOrEmpty()) {
+                return@any true
+            }
+            item.normalizedPath?.let { path ->
+                val bounds = RectF()
+                return@any !path.isRect(bounds) || coordinate(bounds.left) != 0f ||
+                        coordinate(bounds.top) != 0f || coordinate(bounds.right) != 1f ||
+                        coordinate(bounds.bottom) != 1f
+            }
             val points = item.shape?.map { coordinate(it.x) to coordinate(it.y) }
                 ?: item.pointList.map { coordinate(it.x) to coordinate(it.y) }
+            if (points.isEmpty()) return@any item.shape != null
             val left = if (item.shape == null) 0f else coordinate(item.bound.left)
             val top = if (item.shape == null) 0f else coordinate(item.bound.top)
             val right = if (item.shape == null) 1f else coordinate(item.bound.right)
             val bottom = if (item.shape == null) 1f else coordinate(item.bound.bottom)
-            item.normalizedPath != null || item.path != null || item.clearPath != null || !item.clearAreaPoints.isNullOrEmpty() ||
-                    points.toSet() != setOf(
-                left to top,
-                right to top,
-                right to bottom,
-                left to bottom
-            ) ||
-                    item.bound.width() < ParamsManager.minSize - .0001f ||
-                    item.bound.height() < ParamsManager.minSize - .0001f
+            val corners = setOf(left to top, right to top, right to bottom, left to bottom)
+            !points.containsAll(corners) || points.any { (x, y) ->
+                (x != left && x != right) && (y != top && y != bottom)
+            } || (points + points.first()).zipWithNext().any { (a, b) ->
+                a.first != b.first && a.second != b.second
+            }
         }) return this
-    val area = items.sumOf { (it.bound.width() * it.bound.height()).toDouble() }
-    if (abs(area - 1.0) > .0001) return this
-    val builder = ParamsManagerBuilder()
+    fun overlaps(): Boolean = items.indices.any { index ->
+        val bounds = items[index].bound
+        (index + 1 until items.size).any { otherIndex ->
+            val other = items[otherIndex].bound
+            minOf(bounds.right, other.right) - maxOf(bounds.left, other.left) > .00001f &&
+                    minOf(bounds.bottom, other.bottom) - maxOf(bounds.top, other.top) > .00001f
+        }
+    }
+    if (overlaps()) return this
+    val builder = ParamsManagerBuilder {
+        if (overlaps()) throw ParamsManager.InvalidValues()
+    }
+
     fun parameters(values: List<Float>) = values.map(::coordinate).distinct().sorted()
         .filter { it > 0f && it < 1f }.associateWith(builder::param)
 

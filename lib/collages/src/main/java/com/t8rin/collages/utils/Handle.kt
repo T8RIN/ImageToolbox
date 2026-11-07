@@ -75,8 +75,7 @@ private abstract class LinearHandle(
         return try {
             manager.updateParams(listOf(managedParam), floatArrayOf(newValue))
             clippedPoint
-        } catch (e: ParamsManager.InvalidValues) {
-            e.printStackTrace()
+        } catch (_: ParamsManager.InvalidValues) {
             null
         }
     }
