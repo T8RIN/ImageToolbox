@@ -34,7 +34,6 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 import org.json.JSONArray
-import java.util.zip.GZIPInputStream
 
 object CollageLayoutStore {
     @Volatile
@@ -53,7 +52,7 @@ object CollageLayoutStore {
             var masks = JSONArray()
             var shapes = emptyList<FloatArray>()
             val entries = mutableMapOf<String, CollageLayoutDefinition>()
-            context.assets.open("collages/layouts.json.gzip").let(::GZIPInputStream)
+            context.assets.open("collages/layouts.json")
                 .reader().let(::JsonReader).use { reader ->
                     reader.beginObject()
                     while (reader.hasNext()) {
