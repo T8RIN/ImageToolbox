@@ -7968,4 +7968,6 @@
     <string name="collage_style_apply_layout_unavailable">Vaatii %1$d valokuvaa; kollaasissasi on %2$d. Voit silti käyttää alla olevaa tyyliä.</string>
     <string name="collage_style_apply_appearance">Vain tyyli</string>
     <string name="collage_style_apply_appearance_sub">Säilytä nykyinen asettelu. Käytä ulkoasua ja valokuva-asetuksia paikkajärjestyksessä.</string>
+    <string name="gallery_style_selection">Galleriatyylinen valinta</string>
+    <string name="gallery_style_selection_sub">Napauta upotetussa valitsimessa esikatsellaksesi ja paina pitkään aloittaaksesi valinnan. Napauta valitessasi lisätäksesi tai poistaaksesi kuvia.</string>
 </resources>

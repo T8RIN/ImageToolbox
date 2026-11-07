@@ -7968,4 +7968,6 @@
     <string name="collage_style_apply_layout_unavailable">%1$d ఫోటోలు అవసరం; మీ దృశ్య రూపకల్పనలో %2$d ఉంది. మీరు ఇప్పటికీ దిగువ శైలిని వర్తింపజేయవచ్చు.</string>
     <string name="collage_style_apply_appearance">శైలి మాత్రమే</string>
     <string name="collage_style_apply_appearance_sub">ప్రస్తుత లేఅవుట్‌ను ఉంచండి. స్లాట్ ఆర్డర్ ద్వారా ప్రదర్శన మరియు ఫోటో సెట్టింగ్‌లను వర్తింపజేయండి.</string>
+    <string name="gallery_style_selection">గ్యాలరీ-శైలి ఎంపిక</string>
+    <string name="gallery_style_selection_sub">ఎంబెడెడ్ పికర్‌లో, ప్రివ్యూ చేయడానికి నొక్కండి మరియు ఎంచుకోవడం ప్రారంభించడానికి ఎక్కువసేపు నొక్కండి. ఎంచుకునేటప్పుడు, చిత్రాలను జోడించడానికి లేదా తీసివేయడానికి నొక్కండి.</string>
 </resources>

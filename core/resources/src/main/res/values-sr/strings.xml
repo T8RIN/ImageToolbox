@@ -7969,4 +7969,6 @@
     <string name="collage_style_apply_layout_unavailable">Захтева __ПХ_0__ фотографија; ваш колаж има __ПХ_1__. Још увек можете применити стил испод.</string>
     <string name="collage_style_apply_appearance">Само стил</string>
     <string name="collage_style_apply_appearance_sub">Задржите тренутни изглед. Примените подешавања изгледа и фотографије према редоследу места.</string>
+    <string name="gallery_style_selection">Избор у стилу галерије</string>
+    <string name="gallery_style_selection_sub">У уграђеном бирачу додирните да бисте прегледали и дуго притисните да бисте почели да бирате. Док бирате, додирните да бисте додали или уклонили слике.</string>
 </resources>

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -14,7 +13,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="something_went_wrong">发生错误</string>
     <string name="pick_image">选择图片以开始</string>
     <string name="close">关闭</string>
@@ -7966,4 +7967,6 @@
     <string name="collage_style_apply_layout_unavailable">需要 %1$d 照片；您的拼贴画有 %2$d。您仍然可以应用下面的样式。</string>
     <string name="collage_style_apply_appearance">仅款式</string>
     <string name="collage_style_apply_appearance_sub">保持当前布局。按插槽顺序应用外观和照片设置。</string>
+    <string name="gallery_style_selection">画廊风格的选择</string>
+    <string name="gallery_style_selection_sub">在嵌入式选择器中，点击进行预览并长按开始选择。选择时，点击可添加或删除图像。</string>
 </resources>

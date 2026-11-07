@@ -7970,4 +7970,6 @@
     <string name="collage_style_apply_layout_unavailable">Патрабуецца %1$d фота; ваш калаж мае %2$d. Вы ўсё яшчэ можаце прымяніць стыль ніжэй.</string>
     <string name="collage_style_apply_appearance">Толькі стыль</string>
     <string name="collage_style_apply_appearance_sub">Захаваць бягучы макет. Ужывайце налады знешняга выгляду і фота ў парадку слотаў.</string>
+    <string name="gallery_style_selection">Выбар стылю галерэі</string>
+    <string name="gallery_style_selection_sub">Ва ўбудаваным сродку выбару націсніце, каб праглядзець, і доўга націсніце, каб пачаць выбар. Падчас выбару націсніце, каб дадаць або выдаліць выявы.</string>
 </resources>

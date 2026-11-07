@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -14,7 +13,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="smth_went_wrong">Quelque chose s\'est mal passé: %1$s</string>
     <string name="size">Dimension %1$s</string>
     <string name="loading">Chargement…</string>
@@ -7967,4 +7968,6 @@
     <string name="collage_style_apply_layout_unavailable">Nécessite %1$d photos ; votre collage contient %2$d. Vous pouvez toujours appliquer le style ci-dessous.</string>
     <string name="collage_style_apply_appearance">Style uniquement</string>
     <string name="collage_style_apply_appearance_sub">Conserver la mise en page actuelle. Appliquez les paramètres d\'apparence et de photo par ordre d\'emplacement.</string>
+    <string name="gallery_style_selection">Sélection de style galerie</string>
+    <string name="gallery_style_selection_sub">Dans le sélecteur intégré, appuyez pour prévisualiser et appuyez longuement pour commencer la sélection. Lors de la sélection, appuyez sur pour ajouter ou supprimer des images.</string>
 </resources>

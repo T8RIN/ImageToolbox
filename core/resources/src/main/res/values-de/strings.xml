@@ -7968,4 +7968,6 @@
     <string name="collage_style_apply_layout_unavailable">Erfordert %1$d Fotos; Ihre Collage hat %2$d. Sie können den folgenden Stil weiterhin anwenden.</string>
     <string name="collage_style_apply_appearance">Nur Stil</string>
     <string name="collage_style_apply_appearance_sub">Behalten Sie das aktuelle Layout bei. Wenden Sie die Darstellungs- und Fotoeinstellungen nach Slot-Reihenfolge an.</string>
+    <string name="gallery_style_selection">Auswahl im Galeriestil</string>
+    <string name="gallery_style_selection_sub">Tippen Sie im eingebetteten Picker auf, um eine Vorschau anzuzeigen, und drücken Sie lange, um mit der Auswahl zu beginnen. Tippen Sie beim Auswählen auf , um Bilder hinzuzufügen oder zu entfernen.</string>
 </resources>

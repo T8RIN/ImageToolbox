@@ -7968,4 +7968,6 @@
     <string name="collage_style_apply_layout_unavailable">%1$d фотосуреттерді қажет етеді; коллажыңызда %2$d бар. Төмендегі стильді әлі де қолдана аласыз.</string>
     <string name="collage_style_apply_appearance">Тек стиль</string>
     <string name="collage_style_apply_appearance_sub">Ағымдағы орналасуды сақтаңыз. Сыртқы көрініс пен фотосурет параметрлерін ұяшық реті бойынша қолданыңыз.</string>
+    <string name="gallery_style_selection">Галерея стилін таңдау</string>
+    <string name="gallery_style_selection_sub">Енгізілген таңдау құралында алдын ала қарау үшін түртіңіз және таңдауды бастау үшін ұзақ басып тұрыңыз. Таңдау кезінде кескіндерді қосу немесе жою үшін түртіңіз.</string>
 </resources>

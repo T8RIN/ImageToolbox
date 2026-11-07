@@ -7970,4 +7970,6 @@
     <string name="collage_style_apply_layout_unavailable">Vyžaduje sa %1$d fotografií; vaša koláž má %2$d. Stále môžete použiť štýl uvedený nižšie.</string>
     <string name="collage_style_apply_appearance">Iba štýl</string>
     <string name="collage_style_apply_appearance_sub">Ponechajte aktuálne rozloženie. Použite nastavenia vzhľadu a fotografie podľa poradia slotov.</string>
+    <string name="gallery_style_selection">Výber v štýle galérie</string>
+    <string name="gallery_style_selection_sub">Vo vstavanom výbere klepnutím zobrazíte ukážku a dlhým stlačením spustíte výber. Počas výberu klepnite na a pridajte alebo odstráňte obrázky.</string>
 </resources>

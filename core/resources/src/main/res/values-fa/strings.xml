@@ -7968,4 +7968,6 @@
     <string name="collage_style_apply_layout_unavailable">به %1$d عکس نیاز دارد. کلاژ شما %2$d دارد. همچنان می توانید سبک زیر را اعمال کنید.</string>
     <string name="collage_style_apply_appearance">فقط سبک</string>
     <string name="collage_style_apply_appearance_sub">طرح فعلی را حفظ کنید. تنظیمات ظاهر و عکس را به ترتیب شکاف اعمال کنید.</string>
+    <string name="gallery_style_selection">انتخاب به سبک گالری</string>
+    <string name="gallery_style_selection_sub">در انتخابگر تعبیه‌شده، برای پیش‌نمایش ضربه بزنید و برای شروع انتخاب، آن را طولانی فشار دهید. هنگام انتخاب، برای افزودن یا حذف تصاویر ضربه بزنید.</string>
 </resources>

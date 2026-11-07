@@ -7967,4 +7967,6 @@
     <string name="collage_style_apply_layout_unavailable">ต้องใช้รูปภาพ %1$d; ภาพต่อกันของคุณมี %2$d คุณยังคงใช้สไตล์ด้านล่างได้</string>
     <string name="collage_style_apply_appearance">สไตล์เท่านั้น</string>
     <string name="collage_style_apply_appearance_sub">คงเค้าโครงปัจจุบันไว้ ใช้การตั้งค่ารูปลักษณ์และภาพถ่ายตามลำดับช่อง</string>
+    <string name="gallery_style_selection">การเลือกสไตล์แกลเลอรี</string>
+    <string name="gallery_style_selection_sub">ในเครื่องมือเลือกแบบฝัง ให้แตะเพื่อดูตัวอย่างและกดค้างไว้เพื่อเริ่มการเลือก ขณะที่เลือก ให้แตะเพื่อเพิ่มหรือลบภาพ</string>
 </resources>

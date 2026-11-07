@@ -7968,4 +7968,6 @@
     <string name="collage_style_apply_layout_unavailable">%1$d फ़ोटो की आवश्यकता है; आपके कोलाज में %2$d है। आप अभी भी नीचे दी गई शैली लागू कर सकते हैं.</string>
     <string name="collage_style_apply_appearance">केवल स्टाइल</string>
     <string name="collage_style_apply_appearance_sub">वर्तमान लेआउट रखें. स्लॉट क्रम के अनुसार उपस्थिति और फोटो सेटिंग्स लागू करें।</string>
+    <string name="gallery_style_selection">गैलरी-शैली चयन</string>
+    <string name="gallery_style_selection_sub">एम्बेडेड पिकर में, पूर्वावलोकन करने के लिए टैप करें और चयन शुरू करने के लिए देर तक दबाएँ। चयन करते समय, छवियाँ जोड़ने या हटाने के लिए टैप करें।</string>
 </resources>

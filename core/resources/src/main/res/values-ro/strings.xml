@@ -7969,4 +7969,6 @@
     <string name="collage_style_apply_layout_unavailable">Necesită %1$d fotografii; Colajul tău are %2$d. Puteți aplica în continuare stilul de mai jos.</string>
     <string name="collage_style_apply_appearance">Doar stil</string>
     <string name="collage_style_apply_appearance_sub">Păstrați aspectul curent. Aplicați setările de aspect și fotografie în ordinea slotului.</string>
+    <string name="gallery_style_selection">Selecție în stil galerie</string>
+    <string name="gallery_style_selection_sub">În selectorul încorporat, atingeți pentru a previzualiza și apăsați lung pentru a începe selectarea. În timp ce selectați, atingeți pentru a adăuga sau elimina imagini.</string>
 </resources>

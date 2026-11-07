@@ -7968,4 +7968,6 @@
     <string name="collage_style_apply_layout_unavailable">Kräver %1$d foton; ditt collage har %2$d. Du kan fortfarande använda stilen nedan.</string>
     <string name="collage_style_apply_appearance">Endast stil</string>
     <string name="collage_style_apply_appearance_sub">Behåll den nuvarande layouten. Tillämpa inställningarna för utseende och foto efter platsordning.</string>
+    <string name="gallery_style_selection">Urval i galleristil</string>
+    <string name="gallery_style_selection_sub">I den inbäddade väljaren trycker du för att förhandsgranska och trycker länge för att börja välja. Medan du väljer, tryck för att lägga till eller ta bort bilder.</string>
 </resources>

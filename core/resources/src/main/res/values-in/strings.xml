@@ -7967,4 +7967,6 @@
     <string name="collage_style_apply_layout_unavailable">Membutuhkan %1$d foto; kolase Anda memiliki %2$d. Anda masih bisa menerapkan gaya di bawah ini.</string>
     <string name="collage_style_apply_appearance">Hanya gaya</string>
     <string name="collage_style_apply_appearance_sub">Pertahankan tata letak saat ini. Terapkan pengaturan tampilan dan foto berdasarkan urutan slot.</string>
+    <string name="gallery_style_selection">Pilihan gaya galeri</string>
+    <string name="gallery_style_selection_sub">Di alat pilih yang tersemat, ketuk untuk melihat pratinjau dan tekan lama untuk mulai memilih. Saat memilih, ketuk untuk menambah atau menghapus gambar.</string>
 </resources>

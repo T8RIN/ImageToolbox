@@ -7968,4 +7968,6 @@
     <string name="collage_style_apply_layout_unavailable">Nangangailangan ng %1$d larawan; ang iyong collage ay may %2$d. Maaari mo pa ring ilapat ang istilo sa ibaba.</string>
     <string name="collage_style_apply_appearance">Style lang</string>
     <string name="collage_style_apply_appearance_sub">Panatilihin ang kasalukuyang layout. Ilapat ang hitsura at mga setting ng larawan ayon sa pagkakasunud-sunod ng slot.</string>
+    <string name="gallery_style_selection">Pagpipilian sa istilo ng gallery</string>
+    <string name="gallery_style_selection_sub">Sa naka-embed na picker, i-tap upang i-preview at pindutin nang matagal upang simulan ang pagpili. Habang pumipili, i-tap para magdagdag o mag-alis ng mga larawan.</string>
 </resources>

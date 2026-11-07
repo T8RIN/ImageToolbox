@@ -7968,4 +7968,6 @@
     <string name="collage_style_apply_layout_unavailable">%1$d ফটোর প্রয়োজন; আপনার কোলাজে আছে %2$d আপনি এখনও নীচের শৈলী প্রয়োগ করতে পারেন.</string>
     <string name="collage_style_apply_appearance">শুধুমাত্র শৈলী</string>
     <string name="collage_style_apply_appearance_sub">বর্তমান লেআউট রাখুন। স্লট ক্রম অনুসারে চেহারা এবং ফটো সেটিংস প্রয়োগ করুন।</string>
+    <string name="gallery_style_selection">গ্যালারি-স্টাইল নির্বাচন</string>
+    <string name="gallery_style_selection_sub">এমবেডেড পিকারে, প্রিভিউ করতে আলতো চাপুন এবং নির্বাচন শুরু করতে দীর্ঘক্ষণ প্রেস করুন। নির্বাচন করার সময়, ছবি যোগ করতে বা সরাতে আলতো চাপুন।</string>
 </resources>

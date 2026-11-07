@@ -7968,4 +7968,6 @@
     <string name="collage_style_apply_layout_unavailable">Requiere %1$d fotos; tu collage tiene %2$d. Aún puedes aplicar el estilo a continuación.</string>
     <string name="collage_style_apply_appearance">Solo estilo</string>
     <string name="collage_style_apply_appearance_sub">Mantenga el diseño actual. Aplique la configuración de apariencia y fotografía por orden de espacio.</string>
+    <string name="gallery_style_selection">Selección estilo galería</string>
+    <string name="gallery_style_selection_sub">En el selector integrado, toque para obtener una vista previa y mantenga presionado para comenzar a seleccionar. Mientras selecciona, toque para agregar o eliminar imágenes.</string>
 </resources>

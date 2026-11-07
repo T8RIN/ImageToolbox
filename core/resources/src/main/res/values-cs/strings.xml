@@ -7970,4 +7970,6 @@
     <string name="collage_style_apply_layout_unavailable">Vyžaduje %1$d fotografií; vaše koláž má %2$d. Stále můžete použít styl níže.</string>
     <string name="collage_style_apply_appearance">Pouze styl</string>
     <string name="collage_style_apply_appearance_sub">Zachovat aktuální rozložení. Použijte nastavení vzhledu a fotografií podle pořadí slotů.</string>
+    <string name="gallery_style_selection">Výběr ve stylu galerie</string>
+    <string name="gallery_style_selection_sub">Ve vloženém výběru klepnutím zobrazíte náhled a dlouhým stisknutím zahájíte výběr. Při výběru klepněte na pro přidání nebo odebrání obrázků.</string>
 </resources>

@@ -7967,4 +7967,6 @@
     <string name="collage_style_apply_layout_unavailable">%1$d枚の写真が必要です。あなたのコラージュには%2$dがあります。以下のスタイルは引き続き適用できます。</string>
     <string name="collage_style_apply_appearance">スタイルのみ</string>
     <string name="collage_style_apply_appearance_sub">現在のレイアウトを維持します。スロットの順序に従って外観と写真の設定を適用します。</string>
+    <string name="gallery_style_selection">ギャラリースタイルのセレクション</string>
+    <string name="gallery_style_selection_sub">埋め込みピッカーで、タップしてプレビューし、長押しして選択を開始します。選択中にタップして画像を追加または削除します。</string>
 </resources>

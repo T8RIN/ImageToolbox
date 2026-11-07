@@ -7970,4 +7970,6 @@
     <string name="collage_style_apply_layout_unavailable">Reikia %1$d nuotraukų; jūsų koliažas turi %2$d. Vis tiek galite taikyti toliau pateiktą stilių.</string>
     <string name="collage_style_apply_appearance">Tik stilius</string>
     <string name="collage_style_apply_appearance_sub">Palikite dabartinį išdėstymą. Taikykite išvaizdos ir nuotraukos nustatymus pagal lizdų tvarką.</string>
+    <string name="gallery_style_selection">Galerijos stiliaus pasirinkimas</string>
+    <string name="gallery_style_selection_sub">Įterptajame rinkiklyje bakstelėkite, kad peržiūrėtumėte, ir ilgai paspauskite, kad pradėtumėte rinktis. Pasirinkdami bakstelėkite, kad pridėtumėte arba pašalintumėte vaizdus.</string>
 </resources>

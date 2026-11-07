@@ -7967,4 +7967,6 @@
     <string name="collage_style_apply_layout_unavailable">需要 %1$d 照片；您的拼貼畫有 %2$d。您仍然可以套用下面的樣式。</string>
     <string name="collage_style_apply_appearance">僅款式</string>
     <string name="collage_style_apply_appearance_sub">保持當前佈局。按插槽順序套用外觀和照片設定。</string>
+    <string name="gallery_style_selection">畫廊風格的選擇</string>
+    <string name="gallery_style_selection_sub">在嵌入式選擇器中，點擊進行預覽並長按開始選擇。選擇時，點擊可新增或刪除影像。</string>
 </resources>
