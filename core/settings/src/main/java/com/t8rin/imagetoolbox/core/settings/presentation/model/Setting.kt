@@ -560,6 +560,12 @@ sealed class Setting(
     )
 
     @Serializable
+    data object ShowLoadingGameButton : Setting(
+        title = R.string.show_loading_game_button,
+        subtitle = R.string.show_loading_game_button_sub
+    )
+
+    @Serializable
     data object UseFullscreenSettings : Setting(
         title = R.string.fullscreen_settings,
         subtitle = R.string.fullscreen_settings_sub

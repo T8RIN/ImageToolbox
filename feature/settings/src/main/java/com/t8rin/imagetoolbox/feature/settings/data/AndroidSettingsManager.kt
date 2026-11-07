@@ -229,6 +229,7 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.SHOW_FAVORITE_TOOLS_IN_
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SHOW_GALLERY_FILE_EXTENSION
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SHOW_GALLERY_FILE_SIZE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SHOW_HELP_TIPS_BUTTON
+import com.t8rin.imagetoolbox.feature.settings.data.keys.SHOW_LOADING_GAME_BUTTON
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SHOW_SETTINGS_IN_LANDSCAPE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SHOW_TOOLS_HISTORY
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SHOW_UPDATE_DIALOG
@@ -966,6 +967,11 @@ internal class AndroidSettingsManager @Inject constructor(
     override suspend fun toggleShowSettingsInLandscape() = toggle(
         key = SHOW_SETTINGS_IN_LANDSCAPE,
         defaultValue = default.showSettingsInLandscape
+    )
+
+    override suspend fun toggleShowLoadingGameButton() = toggle(
+        key = SHOW_LOADING_GAME_BUTTON,
+        defaultValue = default.showLoadingGameButton
     )
 
     override suspend fun toggleUseFullscreenSettings() = toggle(

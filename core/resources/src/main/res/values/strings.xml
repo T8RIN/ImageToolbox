@@ -8017,4 +8017,6 @@
     <string name="collage_style_apply_appearance">Style only</string>
     <string name="collage_style_apply_appearance_sub">Keep the current layout. Apply the appearance and photo settings by slot order.</string>
     <string name="play">Play</string>
+    <string name="show_loading_game_button">Games while waiting</string>
+    <string name="show_loading_game_button_sub">Show a game button in loading dialogs.</string>
 </resources>

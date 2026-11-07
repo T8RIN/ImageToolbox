@@ -530,6 +530,8 @@ class SettingsComponent @AssistedInject internal constructor(
 
     fun toggleShowSettingsInLandscape() = settingsScope { toggleShowSettingsInLandscape() }
 
+    fun toggleShowLoadingGameButton() = settingsScope { toggleShowLoadingGameButton() }
+
     fun toggleUseFullscreenSettings() = settingsScope { toggleUseFullscreenSettings() }
 
     fun toggleUseCategorizedSettings() = settingsScope { toggleUseCategorizedSettings() }

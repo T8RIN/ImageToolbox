@@ -121,6 +121,7 @@ internal val IMAGE_HEADER_ZOOM_RESET_ENABLED =
 internal val ENABLE_SHEET_GESTURES = booleanPreferencesKey("ENABLE_SHEET_GESTURES")
 internal val SHEET_NESTED_SCROLL = booleanPreferencesKey("SHEET_NESTED_SCROLL")
 internal val SHOW_SETTINGS_IN_LANDSCAPE = booleanPreferencesKey("SHOW_SETTINGS_IN_LANDSCAPE")
+internal val SHOW_LOADING_GAME_BUTTON = booleanPreferencesKey("SHOW_LOADING_GAME_BUTTON")
 internal val USE_FULLSCREEN_SETTINGS = booleanPreferencesKey("USE_FULLSCREEN_SETTINGS")
 internal val USE_CATEGORIZED_SETTINGS = booleanPreferencesKey("USE_CATEGORIZED_SETTINGS")
 internal val ALLOW_COLLAPSING_SETTINGS_GROUPS =

@@ -410,6 +410,7 @@ sealed class SettingsGroup(
             Setting.SkipFilePicking,
             Setting.ReturnToExternalAppAfterSave,
             Setting.AllowSkipIfLarger,
+            Setting.ShowLoadingGameButton,
             Setting.ToolsHiddenForShare,
             Setting.EnableToolExitConfirmation,
             Setting.EnableBackgroundColorForAlphaFormats,
