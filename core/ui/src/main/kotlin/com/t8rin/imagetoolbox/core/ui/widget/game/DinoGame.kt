@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.game.dino
+package com.t8rin.imagetoolbox.core.ui.widget.game
 
 import android.os.Bundle
 import androidx.compose.foundation.Canvas
