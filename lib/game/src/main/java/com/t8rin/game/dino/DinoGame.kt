@@ -17,9 +17,12 @@
 
 package com.t8rin.game.dino
 
+import android.os.Bundle
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.gestures.awaitEachGesture
+import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -39,7 +42,8 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
-import androidx.compose.runtime.retain.retain
+import androidx.compose.runtime.saveable.Saver
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.withFrameNanos
 import androidx.compose.ui.Alignment
@@ -59,21 +63,26 @@ import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.PathParser
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.theme.ImageToolboxThemeForPreview
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
-import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.longPress
 import kotlin.math.exp
 import kotlin.random.Random
 
 @Immutable
 data class DinoGameState(
-    val highScore: Int = 0
+    val highScore: Int = 0,
+    val isPlaying: Boolean = false
 )
 
 @Immutable
@@ -91,7 +100,8 @@ data class DinoStyle(
     val scoreTextStyle: TextStyle,
     val overlayColor: Color,
     val buttonContainerColor: Color,
-    val buttonContentColor: Color
+    val buttonContentColor: Color,
+    val gameHeight: Dp
 )
 
 object DinoDefaults {
@@ -116,10 +126,11 @@ object DinoDefaults {
                     groundColor = colors.outline.copy(alpha = 0.8f),
                     scoreColor = colors.primary,
                     highScoreColor = colors.onSurfaceVariant,
-                    scoreTextStyle = typography.labelLarge,
+                    scoreTextStyle = typography.labelLarge.copy(fontWeight = FontWeight.Bold),
                     overlayColor = colors.scrim.copy(0.5f),
                     buttonContainerColor = colors.primary,
-                    buttonContentColor = colors.onPrimary
+                    buttonContentColor = colors.onPrimary,
+                    gameHeight = 220.dp
                 )
             }
         }
@@ -133,13 +144,18 @@ fun DinoGame(
     onHighScoreChanged: ((Int) -> Unit)? = null,
     onGameOver: ((Int) -> Unit)? = null
 ) {
-    val run = retain { DinoRun() }
-    var highScore by retain {
+    val run = rememberSaveable(saver = DinoRun.Saver) {
+        DinoRun().apply {
+            if (initialState.isPlaying) start()
+        }
+    }
+    var highScore by rememberSaveable {
         mutableIntStateOf(initialState.highScore.coerceAtLeast(0))
     }
     val currentOnHighScoreChanged by rememberUpdatedState(onHighScoreChanged)
     val currentOnGameOver by rememberUpdatedState(onGameOver)
     val phase = run.phase
+    val haptics = LocalHapticFeedback.current
 
     LaunchedEffect(initialState.highScore) {
         highScore = maxOf(highScore, initialState.highScore)
@@ -168,7 +184,7 @@ fun DinoGame(
         modifier = modifier
             .fillMaxWidth()
             .defaultMinSize(minWidth = 280.dp)
-            .height(220.dp)
+            .height(style.gameHeight)
             .clip(style.shape)
             .background(style.background)
             .border(1.dp, style.borderColor, style.shape)
@@ -178,12 +194,17 @@ fun DinoGame(
             style = style,
             modifier = Modifier
                 .matchParentSize()
-                .hapticsClickable(
-                    interactionSource = null,
-                    indication = null,
-                    enabled = phase == DinoPhase.Running && !run.isJumping,
-                    onClick = run::jump
-                )
+                .pointerInput(run, haptics, phase) {
+                    if (phase != DinoPhase.Running) return@pointerInput
+
+                    awaitEachGesture {
+                        val down = awaitFirstDown()
+                        if (run.jump()) {
+                            down.consume()
+                            haptics.longPress()
+                        }
+                    }
+                }
         )
 
         Row(
@@ -314,14 +335,12 @@ private class DinoRun {
         private set
     var score by mutableIntStateOf(0)
         private set
-    var isJumping by mutableStateOf(false)
-        private set
-
     var trackWidth = 320f
     var jumpHeight = 0f
         private set
     val obstacles = mutableListOf<DinoObstacle>()
 
+    private var isJumping = false
     private var jumpSpeed = 0f
     private var nextObstacle = 0f
 
@@ -334,18 +353,21 @@ private class DinoRun {
         obstacles.clear()
         distance = 0f
         score = 0
-        nextObstacle = minOf(trackWidth, 420f)
+        nextObstacle = 0f
         phase = DinoPhase.Running
     }
 
-    fun jump() {
-        if (phase != DinoPhase.Running || isJumping) return
+    fun jump(): Boolean {
+        if (phase != DinoPhase.Running || isJumping) return false
 
         jumpSpeed = 424f
         isJumping = true
+        return true
     }
 
     fun advance(seconds: Float) {
+        if (nextObstacle == 0f) nextObstacle = minOf(trackWidth, 420f)
+
         val speed = 248f + 174f * (1f - exp(-distance / 2800f))
         val step = speed * seconds
         val nextDistance = distance + step
@@ -399,6 +421,50 @@ private class DinoRun {
             )
         ) ||
                 bounds.overlaps(Rect(DinoX + 9f, -jumpHeight - 28f, DinoX + 30f, -jumpHeight - 4f))
+    }
+
+    companion object {
+        val Saver = Saver<DinoRun, Bundle>(
+            save = { run ->
+                Bundle().apply {
+                    putInt("phase", run.phase.ordinal)
+                    putFloat("distance", run.distance)
+                    putInt("score", run.score)
+                    putBoolean("isJumping", run.isJumping)
+                    putFloat("jumpHeight", run.jumpHeight)
+                    putFloat("jumpSpeed", run.jumpSpeed)
+                    putFloat("nextObstacle", run.nextObstacle)
+                    putFloatArray(
+                        "obstaclePositions",
+                        FloatArray(run.obstacles.size) { run.obstacles[it].x }
+                    )
+                    putIntArray(
+                        "obstacleTypes",
+                        IntArray(run.obstacles.size) { run.obstacles[it].type.ordinal }
+                    )
+                }
+            },
+            restore = { state ->
+                DinoRun().apply {
+                    phase = DinoPhase.entries[state.getInt("phase")]
+                    distance = state.getFloat("distance")
+                    score = state.getInt("score")
+                    isJumping = state.getBoolean("isJumping")
+                    jumpHeight = state.getFloat("jumpHeight")
+                    jumpSpeed = state.getFloat("jumpSpeed")
+                    nextObstacle = state.getFloat("nextObstacle")
+
+                    val positions = state.getFloatArray("obstaclePositions") ?: floatArrayOf()
+                    val types = state.getIntArray("obstacleTypes") ?: intArrayOf()
+                    for (index in positions.indices) {
+                        obstacles += DinoObstacle(
+                            positions[index],
+                            ObstacleType.entries[types[index]]
+                        )
+                    }
+                }
+            }
+        )
     }
 }
 
