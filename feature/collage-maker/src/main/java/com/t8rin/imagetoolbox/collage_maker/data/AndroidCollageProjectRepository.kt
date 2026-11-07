@@ -89,7 +89,6 @@ internal class AndroidCollageProjectRepository @Inject constructor(
         var loaded = false
         try {
             val project = withContext(ioDispatcher) {
-                CollageLayoutStore.load()
                 check(directory.mkdirs())
                 readArchive(uri, directory)
             }
@@ -146,7 +145,12 @@ internal class AndroidCollageProjectRepository @Inject constructor(
                 zip.closeEntry()
             }
         }
-        return requireNotNull(projectFile).toProject(images)
+        return requireNotNull(projectFile).toProject(images).also { project ->
+            (project.history + project.redoHistory + project.current)
+                .map { it.uris.orEmpty().size }
+                .distinct()
+                .forEach { CollageLayoutStore.load(it) }
+        }
     }
 
     private suspend fun InputStream.copyToCancellable(output: OutputStream): Long {

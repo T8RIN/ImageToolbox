@@ -764,18 +764,13 @@ internal class FrameImageView(
                 (1f - photoItem.bound.top) * canvasHeight
             )
             photoItem.normalizedPath?.let { outline ->
-                path.set(if (space > 0f) photoItem.normalizedInsetPath ?: outline else outline)
+                val scale = min(canvasWidth, canvasHeight)
+                val inset = min(space, photoItem.maximumMaskInset * scale)
+                    .takeIf { it >= .5f } ?: 0f
+                path.set(if (inset > 0f) photoItem.normalizedInsetPath ?: outline else outline)
                 path.transform(Matrix().apply { setScale(viewWidth, viewHeight) })
-                path.op(path, path, Path.Op.UNION)
-                if (space > 0f) {
-                    val scale = min(
-                        viewWidth / photoItem.bound.width(),
-                        viewHeight / photoItem.bound.height()
-                    )
-                    path.insetMask(
-                        min(space, photoItem.maximumMaskInset * scale),
-                        path.collageSpacingEdges(outerBounds)
-                    )
+                if (inset > 0f) {
+                    path.insetMask(inset, path.collageSpacingEdges(outerBounds))
                 }
                 return
             }

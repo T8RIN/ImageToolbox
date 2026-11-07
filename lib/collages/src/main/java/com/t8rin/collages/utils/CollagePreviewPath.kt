@@ -17,11 +17,7 @@
 
 package com.t8rin.collages.utils
 
-import android.graphics.Matrix
-import android.graphics.Paint
 import android.graphics.Path
-import android.graphics.PathMeasure
-import android.graphics.RectF
 import android.graphics.Region
 import com.t8rin.collages.model.CollageLayout
 import com.t8rin.collages.view.FrameImageView
@@ -29,80 +25,33 @@ import kotlin.math.sqrt
 
 internal const val CollagePreviewSize = 1000f
 
-internal fun createCollagePreviewPath(layout: CollageLayout): Path {
-    val paths = layout.photoItemList.map { item ->
-        val width = CollagePreviewSize * item.bound.width()
-        val height = CollagePreviewSize * item.bound.height()
-        val path = item.normalizedPath?.let {
-            Path(item.normalizedInsetPath ?: it).apply {
-                transform(Matrix().apply { setScale(width, height) })
-            }
-        } ?: FrameImageView.shapePath(item, width, height)
-        path.apply {
-            op(this, this, Path.Op.UNION)
-            offset(CollagePreviewSize * item.bound.left, CollagePreviewSize * item.bound.top)
-        }
-    }
-    val gap = minOf(48f, CollagePreviewSize / (4 * sqrt(paths.size.coerceAtLeast(1).toFloat())))
-    val contentTransform = Matrix().apply {
-        val scale = 1f - gap / CollagePreviewSize
-        setScale(scale, scale)
-        postTranslate(gap / 2, gap / 2)
-    }
-    paths.forEach { it.transform(contentTransform) }
+internal data class CollagePreviewShape(val path: Path, val outline: Path?)
+
+internal fun createCollagePreviewShapes(layout: CollageLayout): List<CollagePreviewShape> {
+    val gap = minOf(
+        48f,
+        CollagePreviewSize / (4 * sqrt(layout.photoItemList.size.coerceAtLeast(1).toFloat()))
+    )
+    val contentSize = CollagePreviewSize - gap * 2
     val clip = Region(0, 0, CollagePreviewSize.toInt(), CollagePreviewSize.toInt())
     val occupied = Region()
-    val stacked = paths.any { path ->
-        val region = Region().apply { setPath(path, clip) }
+    return layout.photoItemList.map { item ->
+        fun shape(spacing: Float) = FrameImageView.shapePath(
+            item = item,
+            width = contentSize * item.bound.width(),
+            height = contentSize * item.bound.height(),
+            spacing = spacing
+        ).apply {
+            offset(gap + contentSize * item.bound.left, gap + contentSize * item.bound.top)
+        }
+
+        val outline = shape(0f)
+        val region = Region().apply { setPath(outline, clip) }
         val overlaps = Region(region).op(occupied, Region.Op.INTERSECT)
         occupied.op(region, Region.Op.UNION)
-        overlaps
+        CollagePreviewShape(
+            path = shape(gap / 2),
+            outline = outline.takeIf { overlaps }
+        )
     }
-    val stroke = Paint().apply {
-        style = Paint.Style.STROKE
-        strokeWidth = gap
-        strokeJoin = Paint.Join.MITER
-    }
-    val preview = Path().apply {
-        addRect(0f, 0f, CollagePreviewSize, CollagePreviewSize, Path.Direction.CW)
-    }
-    val holes = Path()
-    val bounds = RectF()
-    val border = Path()
-    val measure = PathMeasure()
-    paths.forEachIndexed { index, path ->
-        val outline = if (stacked) Path(path) else null
-        val item = layout.photoItemList[index]
-        val inset = minOf(gap / 2, path.maximumInset() * .7f)
-        if (item.normalizedPath != null) {
-            path.insetMask(minOf(gap / 4, item.maximumMaskInset * (CollagePreviewSize - gap)))
-        } else {
-            if (path.isRect(bounds)) {
-                bounds.inset(inset, inset)
-                path.reset()
-                path.addRect(bounds, Path.Direction.CW)
-            } else {
-                stroke.strokeWidth = inset * 2
-                stroke.getFillPath(path, border)
-                path.op(border, Path.Op.DIFFERENCE)
-            }
-        }
-        measure.setPath(path, false)
-        if (outline != null) {
-            preview.op(outline, Path.Op.UNION)
-            preview.op(path, Path.Op.DIFFERENCE)
-        } else if (measure.nextContour()) {
-            // addPath does not preserve the even-odd holes of another path.
-            preview.op(path, Path.Op.DIFFERENCE)
-        } else {
-            holes.addPath(path)
-        }
-    }
-    preview.op(holes, Path.Op.DIFFERENCE)
-    val frame = Path().apply {
-        addRect(0f, 0f, CollagePreviewSize, CollagePreviewSize, Path.Direction.CW)
-        addRect(gap, gap, CollagePreviewSize - gap, CollagePreviewSize - gap, Path.Direction.CCW)
-    }
-    preview.op(frame, Path.Op.UNION)
-    return preview
 }

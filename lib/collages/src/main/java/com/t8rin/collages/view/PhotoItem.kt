@@ -22,12 +22,12 @@ import android.graphics.PointF
 import android.graphics.RectF
 import android.net.Uri
 import com.t8rin.collages.CollagePoint
+import com.t8rin.collages.model.CollageMask
 
 
 internal data class PhotoItem(
     var shape: List<CollagePoint>? = null,
-    val normalizedPath: Path? = null,
-    val normalizedInsetPath: Path? = null,
+    val mask: CollageMask? = null,
     val maximumMaskInset: Float = Float.POSITIVE_INFINITY,
     //Primary info
     var index: Int = 0,
@@ -59,6 +59,8 @@ internal data class PhotoItem(
     var clearPathScaleRatio: Float = 1f,
     var centerInClearBound: Boolean = false,
 ) {
+    val normalizedPath get() = mask?.path
+    val normalizedInsetPath get() = mask?.insetPath
 
     companion object {
         const val SHRINK_METHOD_DEFAULT = 0

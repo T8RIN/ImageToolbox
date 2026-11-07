@@ -17,7 +17,6 @@
 
 package com.t8rin.collages.utils
 
-import android.graphics.Matrix
 import android.graphics.Path
 import android.graphics.PointF
 import android.graphics.RectF
@@ -25,12 +24,13 @@ import androidx.core.graphics.PathParser
 import com.t8rin.collages.CollagePoint
 import com.t8rin.collages.model.CollageLayout
 import com.t8rin.collages.model.CollageLayoutDefinition
+import com.t8rin.collages.model.CollageMask
 import com.t8rin.collages.view.PhotoItem
 import org.json.JSONArray
 import org.json.JSONObject
 
 internal fun CollageLayoutDefinition.parseCollageLayout(
-    masks: JSONArray,
+    masks: List<CollageMask>,
     shapes: List<FloatArray>
 ): CollageLayout {
     val items = slots.mapIndexed { index, slot -> slot.photoItem(index, masks, shapes, inset) }
@@ -71,25 +71,18 @@ internal fun CollageLayoutDefinition.parseCollageLayout(
 
 private fun CollageLayoutDefinition.Slot.photoItem(
     index: Int,
-    masks: JSONArray,
+    masks: List<CollageMask>,
     shapes: List<FloatArray>,
     inset: Float
 ): PhotoItem {
     val shape = shape.takeIf { it >= 0 }?.let { shapes[it] }?.let { points ->
         List(points.size / 2) { CollagePoint(points[it * 2], points[it * 2 + 1]) }
     }
-    val mask = mask.takeIf { it >= 0 }?.let { masks.getJSONObject(it).maskPath() }
+    val mask = mask.takeIf { it >= 0 }?.let { masks[it] }
     return PhotoItem(
         index = index,
         shape = shape,
-        normalizedPath = mask,
-        normalizedInsetPath = mask?.let {
-            Path(it).apply {
-                transform(Matrix().apply { setScale(1000f, 1000f) })
-            }.flattenMask().apply {
-                transform(Matrix().apply { setScale(.001f, .001f) })
-            }
-        },
+        mask = mask,
         maximumMaskInset = inset,
         bound = RectF(bounds[0], bounds[1], bounds[2], bounds[3])
     ).apply {
@@ -124,16 +117,6 @@ private fun CollageLayoutDefinition.Slot.photoItem(
             centerInClearBound = properties.optBoolean("centerInClearBound")
         }
     }
-}
-
-private fun JSONObject.maskPath(): Path = checkNotNull(
-    PathParser.createPathFromPathData(getString("path"))
-).apply {
-    if (optBoolean("evenOdd")) fillType = Path.FillType.EVEN_ODD
-    op(this, this, Path.Op.UNION)
-    transform(Matrix().apply {
-        setScale(1f / getDouble("width").toFloat(), 1f / getDouble("height").toFloat())
-    })
 }
 
 private fun JSONObject.path(): Path {

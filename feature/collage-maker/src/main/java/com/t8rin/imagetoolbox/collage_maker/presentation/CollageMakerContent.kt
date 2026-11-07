@@ -83,10 +83,6 @@ fun CollageMakerContent(
 ) {
     val scope = rememberCoroutineScope()
 
-    LaunchedEffect(Unit) {
-        CollageLayoutStore.load()
-    }
-
     var editSlot by rememberSaveable { mutableIntStateOf(-1) }
     var showSlotSettings by rememberSaveable { mutableStateOf(false) }
     var styleToApplyName by rememberSaveable { mutableStateOf<String?>(null) }
@@ -119,7 +115,9 @@ fun CollageMakerContent(
         onApply = { includeLayout ->
             styleToApply?.style?.let { style ->
                 scope.launch {
-                    CollageLayoutStore.load()
+                    if (includeLayout && style.imageCount == component.uris.orEmpty().size) {
+                        CollageLayoutStore.load(style.imageCount)
+                    }
                     component.applyStyle(style, includeLayout)
                     styleSelectorState.hide()
                     closeControls = true
@@ -214,8 +212,7 @@ fun CollageMakerContent(
                         EnhancedBadge(
                             content = {
                                 Text(
-                                    text = CollageLayoutStore.layoutCount.takeIf { it > 0 }
-                                        ?.toString().orEmpty().ifEmpty { "..." }
+                                    text = CollageLayoutStore.layoutCount.toString()
                                 )
                             },
                             containerColor = MaterialTheme.colorScheme.tertiary,

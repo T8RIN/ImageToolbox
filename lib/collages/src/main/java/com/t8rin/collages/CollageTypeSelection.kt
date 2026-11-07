@@ -37,13 +37,13 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
@@ -72,21 +72,20 @@ fun CollageTypeSelection(
     contentPadding: PaddingValues = PaddingValues(16.dp)
 ) {
     if (imagesCount <= 0) return
-    var allFrames: List<Pair<CollageLayout, Path>> by remember {
+    var allFrames: List<CollageLayout> by remember {
         mutableStateOf(emptyList())
     }
     LaunchedEffect(imagesCount) {
         allFrames = withContext(Dispatchers.Default) {
             CollageLayoutStore.getLayouts(imagesCount).mapNotNull { it.layout }
-                .map { it to CollagePreviewCache.get(it) }
         }
     }
 
     val availableFrames by remember(allFrames, imagesCount, favorites) {
         derivedStateOf {
             allFrames.filter {
-                it.first.photoItemList.size == imagesCount
-            }.sortedByDescending { it.first.title in favorites }
+                it.photoItemList.size == imagesCount
+            }.sortedByDescending { it.title in favorites }
         }
     }
 
@@ -96,7 +95,7 @@ fun CollageTypeSelection(
             availableFrames.isNotEmpty() && (value == CollageType.Empty || (value.layout?.photoItemList?.size
                 ?: 0) != imagesCount)
         ) {
-            onValueChange(CollageType(availableFrames.first().first))
+            onValueChange(CollageType(availableFrames.first()))
         }
     }
 
@@ -119,17 +118,29 @@ fun CollageTypeSelection(
             }
             items(
                 items = availableFrames,
-                key = { it.first.title }
-            ) { (layout, preview) ->
+                key = { it.title }
+            ) { layout ->
+                val preview by produceState(
+                    initialValue = CollagePreviewCache.peek(layout),
+                    key1 = layout.title
+                ) {
+                    this.value = withContext(Dispatchers.Default) {
+                        CollagePreviewCache.get(layout)
+                    }
+                }
                 Column(
                     Modifier
                         .animateItem()
                         .width(itemSize),
                     verticalArrangement = Arrangement.spacedBy(2.dp)
                 ) {
+                    if (preview == null) {
+                        loadingItem()
+                        return@Column
+                    }
                     val type = remember(layout) { CollageType(layout) }
                     CollagePreview(
-                        path = preview,
+                        shapes = requireNotNull(preview),
                         color = previewColor,
                         modifier = Modifier
                             .fillMaxWidth()

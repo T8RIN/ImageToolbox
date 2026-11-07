@@ -23,6 +23,7 @@ plugins {
 android.namespace = "com.t8rin.collages"
 
 dependencies {
+    implementation(libs.xz)
     implementation(libs.appCompat)
     implementation(libs.coilCompose)
     testImplementation(libs.kotlinx.serialization.json)

@@ -17,44 +17,61 @@
 
 package com.t8rin.collages
 
+import android.graphics.Paint
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffXfermode
 import android.util.LruCache
 import androidx.compose.foundation.Canvas
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Path
-import androidx.compose.ui.graphics.asComposePath
-import androidx.compose.ui.graphics.drawscope.withTransform
+import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
+import androidx.compose.ui.graphics.nativeCanvas
+import androidx.compose.ui.graphics.toArgb
 import com.t8rin.collages.model.CollageLayout
+import com.t8rin.collages.utils.CollagePreviewShape
 import com.t8rin.collages.utils.CollagePreviewSize
-import com.t8rin.collages.utils.createCollagePreviewPath
+import com.t8rin.collages.utils.createCollagePreviewShapes
 
 @Composable
 internal fun CollagePreview(
-    path: Path,
+    shapes: List<CollagePreviewShape>,
     color: Color,
     modifier: Modifier
 ) {
+    val background = remember(color) {
+        Paint(Paint.ANTI_ALIAS_FLAG).apply { this.color = color.toArgb() }
+    }
+    val cutout = remember {
+        Paint(Paint.ANTI_ALIAS_FLAG).apply {
+            xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR)
+        }
+    }
     Canvas(modifier) {
-        withTransform({
-            scale(
-                scaleX = size.width / CollagePreviewSize,
-                scaleY = size.height / CollagePreviewSize,
-                pivot = Offset.Zero
-            )
-        }) {
-            drawPath(path, color)
+        drawIntoCanvas { canvas ->
+            val nativeCanvas = canvas.nativeCanvas
+            val layer = nativeCanvas.saveLayer(0f, 0f, size.width, size.height, null)
+            nativeCanvas.drawRect(0f, 0f, size.width, size.height, background)
+            nativeCanvas.scale(size.width / CollagePreviewSize, size.height / CollagePreviewSize)
+            shapes.forEach { shape ->
+                shape.outline?.let { nativeCanvas.drawPath(it, background) }
+                nativeCanvas.drawPath(shape.path, cutout)
+            }
+            nativeCanvas.restoreToCount(layer)
         }
     }
 }
 
 internal object CollagePreviewCache {
-    private val paths = LruCache<String, Path>(192)
+    private val shapes = LruCache<String, List<CollagePreviewShape>>(192)
 
-    fun get(layout: CollageLayout): Path = synchronized(paths) {
-        paths[layout.title] ?: createCollagePreviewPath(layout).asComposePath().also {
-            paths.put(layout.title, it)
-        }
+    fun peek(layout: CollageLayout): List<CollagePreviewShape>? = synchronized(shapes) {
+        shapes[layout.title]
     }
+
+    fun get(layout: CollageLayout): List<CollagePreviewShape> = peek(layout)
+        ?: createCollagePreviewShapes(layout).also {
+            synchronized(shapes) { shapes.put(layout.title, it) }
+        }
 }

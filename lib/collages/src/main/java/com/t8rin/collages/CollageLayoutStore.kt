@@ -17,11 +17,11 @@
 
 package com.t8rin.collages
 
+import android.content.Context
 import android.util.JsonReader
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import com.t8rin.collages.model.CollageLayout
 import com.t8rin.collages.model.CollageLayoutDefinition
+import com.t8rin.collages.model.CollageMask
 import com.t8rin.collages.public.CollageConstants
 import com.t8rin.collages.utils.parseCollageLayout
 import com.t8rin.collages.utils.readCollageLayout
@@ -33,73 +33,122 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
-import org.json.JSONArray
+import org.tukaani.xz.XZInputStream
+import java.io.File
+import java.util.zip.ZipInputStream
 
 object CollageLayoutStore {
+    internal const val CATALOG_HASH =
+        "c332fc2b0380b6463d296a19cc4936d0a6931da67fddbcf60c8369a26d538546"
+    internal val counts = listOf(
+        318, 452, 385, 376, 282, 206, 169, 166, 166, 122,
+        93, 92, 90, 89, 86, 60, 62, 65, 60, 53,
+        31, 27, 29, 31, 25, 22, 23, 25, 23, 25,
+        19, 21, 19, 19, 21, 21, 21, 19, 20, 22,
+        21, 22, 19, 22, 22, 22, 19, 20, 19, 20,
+        14, 14, 14, 16, 16, 16, 14, 14, 14, 16,
+        14, 14, 16, 14, 16, 16, 14, 14, 14, 15,
+        14, 14, 14, 14, 14, 14, 16, 16, 14, 16,
+        14, 14, 14, 16, 14, 14, 14, 14, 14, 14,
+        14, 14, 14, 14, 14, 16, 14, 16, 16, 14
+    )
+    val layoutCount = counts.sum()
+
     @Volatile
-    private var catalog: Catalog? = null
+    private var catalogs = emptyMap<Int, Catalog>()
     private val mutex = Mutex()
+    private var cacheDirectory: File? = null
 
-    private val _layoutCount = mutableIntStateOf(0)
-    val layoutCount by _layoutCount
-
-    suspend fun load() = withContext(Dispatchers.IO) {
+    suspend fun load(imageCount: Int) = withContext(Dispatchers.IO) {
         mutex.withLock {
-            if (catalog != null) return@withLock
-            val context = checkNotNull(CollageConstants.context) {
-                "CollageConstants.requestMapper must be initialized before loading layouts"
-            }
-            var masks = JSONArray()
+            if (imageCount !in 1..counts.size || imageCount in catalogs) return@withLock
+            var masks = emptyList<CollageMask>()
             var shapes = emptyList<FloatArray>()
             val entries = mutableMapOf<String, CollageLayoutDefinition>()
-            context.assets.open("collages/layouts.json")
-                .reader().let(::JsonReader).use { reader ->
-                    reader.beginObject()
-                    while (reader.hasNext()) {
-                        when (reader.nextName()) {
-                            "shapes" -> shapes = reader.readCollageShapes()
-                            "masks" -> masks = reader.readCollageMasks()
-                            "layouts" -> {
-                                reader.beginArray()
-                                while (reader.hasNext()) {
-                                    val entry = reader.readCollageLayout()
-                                    check(entries.put(entry.id, entry) == null)
-                                }
-                                reader.endArray()
-                            }
-
-                            else -> error("Unknown catalog field")
+            reader("layouts_$imageCount.json").use { reader ->
+                reader.beginObject()
+                while (reader.hasNext()) {
+                    when (reader.nextName()) {
+                        "shapes" -> shapes = reader.readCollageShapes()
+                        "masks" -> masks = reader.readCollageMasks().let { entries ->
+                            List(entries.length()) { CollageMask(entries.getJSONObject(it)) }
                         }
+
+                        "layouts" -> {
+                            reader.beginArray()
+                            while (reader.hasNext()) {
+                                val entry = reader.readCollageLayout()
+                                check(entry.slots.size == imageCount)
+                                check(entries.put(entry.id, entry) == null)
+                            }
+                            reader.endArray()
+                        }
+
+                        else -> error("Unknown catalog field")
                     }
-                    reader.endObject()
                 }
-            catalog = Catalog(
-                masks = masks,
-                shapes = shapes,
-                entries = entries,
-                byImageCount = entries.values.groupBy { it.slots.size }
-            )
-            _layoutCount.intValue = entries.size
+                reader.endObject()
+            }
+            check(entries.size == counts[imageCount - 1])
+            catalogs = catalogs + (imageCount to Catalog(masks, shapes, entries))
         }
     }
 
     suspend fun getLayouts(imageCount: Int? = null): List<CollageType> {
-        load()
+        if (imageCount == null) {
+            return (1..counts.size).flatMap { getLayouts(it) }
+        }
+        load(imageCount)
         return withContext(Dispatchers.Default) {
-            val catalog = catalog ?: return@withContext emptyList()
-            val entries = if (imageCount == null) catalog.entries.values
-            else catalog.byImageCount[imageCount].orEmpty()
-            entries.map { CollageType(it.parseCollageLayout(catalog.masks, catalog.shapes)) }
+            catalogs[imageCount]?.layouts.orEmpty()
         }
     }
 
     suspend fun getDefaultLayout(imageCount: Int): CollageType? {
-        load()
+        load(imageCount)
         return withContext(Dispatchers.Default) {
-            val catalog = catalog ?: return@withContext null
-            catalog.byImageCount[imageCount]?.firstOrNull()
+            val catalog = catalogs[imageCount] ?: return@withContext null
+            catalog.entries.values.firstOrNull()
                 ?.let { CollageType(it.parseCollageLayout(catalog.masks, catalog.shapes)) }
         }
+    }
+
+    private fun reader(file: String): JsonReader {
+        val context = checkNotNull(CollageConstants.context) {
+            "CollageConstants.requestMapper must be initialized before loading layouts"
+        }
+        val directory = cacheDirectory?.takeIf { it.resolve(file).isFile }
+            ?: unpackCatalog(context, file).also { cacheDirectory = it }
+        return JsonReader(directory.resolve(file).bufferedReader())
+    }
+
+    private fun unpackCatalog(context: Context, requestedFile: String): File {
+        val root = context.cacheDir.resolve("collage_layouts")
+        val directory = root.resolve(CATALOG_HASH)
+        if (directory.resolve(requestedFile).isFile) return directory
+
+        val staging = root.resolve("pending")
+        staging.deleteRecursively()
+        check(staging.mkdirs())
+        try {
+            ZipInputStream(
+                XZInputStream(context.assets.open("collages/layouts.xz").buffered(), 16 * 1024)
+            ).use { archive ->
+                counts.indices.forEach { index ->
+                    val name = "layouts_${index + 1}.json"
+                    check(archive.nextEntry?.name == name)
+                    staging.resolve(name).outputStream().buffered().use { archive.copyTo(it) }
+                    archive.closeEntry()
+                }
+                check(archive.nextEntry == null)
+            }
+            directory.deleteRecursively()
+            check(staging.renameTo(directory))
+            root.listFiles().orEmpty().filter { it != directory }.forEach { it.deleteRecursively() }
+        } finally {
+            staging.deleteRecursively()
+        }
+        return directory
     }
 
     fun getLayout(
@@ -119,7 +168,7 @@ object CollageLayoutStore {
                 }
             ).withRectangularHandles()
         } else {
-            val catalog = catalog ?: return null
+            val catalog = catalogs.values.firstOrNull { layoutId in it.entries } ?: return null
             catalog.entries[layoutId]?.parseCollageLayout(catalog.masks, catalog.shapes)
                 ?: return null
         }
@@ -133,10 +182,13 @@ object CollageLayoutStore {
         return CollageType(layout)
     }
 
-    private data class Catalog(
-        val masks: JSONArray,
+    private class Catalog(
+        val masks: List<CollageMask>,
         val shapes: List<FloatArray>,
-        val entries: Map<String, CollageLayoutDefinition>,
-        val byImageCount: Map<Int, List<CollageLayoutDefinition>>
-    )
+        val entries: Map<String, CollageLayoutDefinition>
+    ) {
+        val layouts by lazy {
+            entries.values.map { CollageType(it.parseCollageLayout(masks, shapes)) }
+        }
+    }
 }
