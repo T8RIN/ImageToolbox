@@ -22,12 +22,11 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -41,7 +40,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.retain.retain
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.withFrameNanos
 import androidx.compose.ui.Alignment
@@ -64,8 +62,6 @@ import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
@@ -93,8 +89,7 @@ data class DinoStyle(
     val scoreColor: Color,
     val highScoreColor: Color,
     val scoreTextStyle: TextStyle,
-    val gameOverColor: Color,
-    val gameOverTextStyle: TextStyle,
+    val overlayColor: Color,
     val buttonContainerColor: Color,
     val buttonContentColor: Color
 )
@@ -121,9 +116,8 @@ object DinoDefaults {
                     groundColor = colors.outline.copy(alpha = 0.8f),
                     scoreColor = colors.primary,
                     highScoreColor = colors.onSurfaceVariant,
-                    scoreTextStyle = typography.labelLarge.copy(fontFamily = FontFamily.Monospace),
-                    gameOverColor = colors.onSurface,
-                    gameOverTextStyle = typography.titleSmall,
+                    scoreTextStyle = typography.labelLarge,
+                    overlayColor = colors.scrim.copy(0.5f),
                     buttonContainerColor = colors.primary,
                     buttonContentColor = colors.onPrimary
                 )
@@ -140,7 +134,7 @@ fun DinoGame(
     onGameOver: ((Int) -> Unit)? = null
 ) {
     val run = retain { DinoRun() }
-    var highScore by rememberSaveable {
+    var highScore by retain {
         mutableIntStateOf(initialState.highScore.coerceAtLeast(0))
     }
     val currentOnHighScoreChanged by rememberUpdatedState(onHighScoreChanged)
@@ -215,27 +209,22 @@ fun DinoGame(
 
         if (phase != DinoPhase.Running) {
             val gameOver = phase == DinoPhase.Over
-            Column(
+            Box(
                 modifier = Modifier
-                    .align(Alignment.Center)
-                    .offset(y = (-12).dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(4.dp)
+                    .fillMaxSize()
+                    .background(style.overlayColor),
+                contentAlignment = Alignment.Center
             ) {
-                if (gameOver) {
-                    Text(
-                        text = stringResource(R.string.game_over),
-                        color = style.gameOverColor,
-                        style = style.gameOverTextStyle,
-                        textAlign = TextAlign.Center
-                    )
-                }
                 EnhancedButton(
                     onClick = run::start,
                     containerColor = style.buttonContainerColor,
                     contentColor = style.buttonContentColor
                 ) {
-                    Text(stringResource(if (gameOver) R.string.try_again else R.string.play))
+                    Text(
+                        stringResource(
+                            if (gameOver) R.string.try_again else R.string.play
+                        )
+                    )
                 }
             }
         }

@@ -8017,5 +8017,4 @@
     <string name="collage_style_apply_appearance">Style only</string>
     <string name="collage_style_apply_appearance_sub">Keep the current layout. Apply the appearance and photo settings by slot order.</string>
     <string name="play">Play</string>
-    <string name="game_over">Game over</string>
 </resources>
