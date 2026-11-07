@@ -66,18 +66,41 @@ import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.intPreferencesKey
+import com.t8rin.imagetoolbox.core.di.entryPoint
+import com.t8rin.imagetoolbox.core.domain.coroutines.AppScope
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.theme.ImageToolboxThemeForPreview
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.longPress
+import com.t8rin.imagetoolbox.core.utils.appContext
+import dagger.hilt.EntryPoint
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.launch
+import java.io.IOException
 import kotlin.math.exp
 import kotlin.random.Random
+
+private val DINO_HIGH_SCORE = intPreferencesKey("DINO_HIGH_SCORE")
+
+@EntryPoint
+@InstallIn(SingletonComponent::class)
+internal interface DinoGameEntryPoint {
+    val dataStore: DataStore<Preferences>
+    val appScope: AppScope
+}
 
 @Immutable
 data class DinoGameState(
@@ -128,8 +151,8 @@ object DinoDefaults {
                     highScoreColor = colors.onSurfaceVariant,
                     scoreTextStyle = typography.labelLarge.copy(fontWeight = FontWeight.Bold),
                     overlayColor = colors.scrim.copy(0.5f),
-                    buttonContainerColor = colors.primary,
-                    buttonContentColor = colors.onPrimary,
+                    buttonContainerColor = colors.tertiaryContainer,
+                    buttonContentColor = colors.onTertiaryContainer,
                     gameHeight = 220.dp
                 )
             }
@@ -156,9 +179,21 @@ fun DinoGame(
     val currentOnGameOver by rememberUpdatedState(onGameOver)
     val phase = run.phase
     val haptics = LocalHapticFeedback.current
+    val isPreview = LocalInspectionMode.current
+    val entryPoint = remember(isPreview) {
+        if (isPreview) null else appContext.entryPoint<DinoGameEntryPoint>()
+    }
 
     LaunchedEffect(initialState.highScore) {
         highScore = maxOf(highScore, initialState.highScore)
+    }
+
+    LaunchedEffect(entryPoint) {
+        entryPoint?.dataStore?.data
+            ?.catch { if (it !is IOException) throw it }
+            ?.collect { preferences ->
+                highScore = maxOf(highScore, preferences[DINO_HIGH_SCORE] ?: 0)
+            }
     }
 
     LaunchedEffect(phase) {
@@ -175,6 +210,11 @@ fun DinoGame(
         val score = run.score
         if (score > highScore) {
             highScore = score
+            entryPoint?.appScope?.launch {
+                entryPoint.dataStore.edit { preferences ->
+                    preferences[DINO_HIGH_SCORE] = maxOf(score, preferences[DINO_HIGH_SCORE] ?: 0)
+                }
+            }
             currentOnHighScoreChanged?.invoke(score)
         }
         currentOnGameOver?.invoke(score)

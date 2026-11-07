@@ -18,14 +18,32 @@
 package com.t8rin.imagetoolbox.core.ui.widget.dialogs
 
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.expandHorizontally
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkHorizontally
+import androidx.compose.animation.shrinkVertically
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -33,8 +51,13 @@ import androidx.compose.ui.keepScreenOn
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.resources.Icons
+import com.t8rin.imagetoolbox.core.resources.icons.StadiaController
+import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.BasicEnhancedAlertDialog
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedLoadingIndicator
+import com.t8rin.imagetoolbox.core.ui.widget.game.DinoGame
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.tappable
 
 @Composable
@@ -44,36 +67,14 @@ fun LoadingDialog(
     canCancel: Boolean = true,
     isForSaving: Boolean = true
 ) {
-    var showWantDismissDialog by remember(canCancel, visible) { mutableStateOf(false) }
-    BasicEnhancedAlertDialog(
+    LoadingDialogContent(
         visible = visible,
-        onDismissRequest = { showWantDismissDialog = canCancel },
-        modifier = Modifier.keepScreenOn()
-    ) {
-        val focus = LocalFocusManager.current
-        LaunchedEffect(focus) {
-            focus.clearFocus()
-        }
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .tappable {
-                    showWantDismissDialog = canCancel
-                },
-            contentAlignment = Alignment.Center,
-            content = {
-                EnhancedLoadingIndicator(modifier = Modifier.size(108.dp))
-            }
-        )
-    }
-    WantCancelLoadingDialog(
-        visible = showWantDismissDialog,
         onCancelLoading = onCancelLoading,
-        onDismissDialog = {
-            showWantDismissDialog = false
-        },
+        canCancel = canCancel,
         isForSaving = isForSaving
-    )
+    ) {
+        EnhancedLoadingIndicator(modifier = Modifier.size(108.dp))
+    }
 }
 
 @Composable
@@ -84,20 +85,16 @@ fun LoadingDialog(
     onCancelLoading: () -> Unit,
     canCancel: Boolean = true,
 ) {
-    if (left < 0) {
-        LoadingDialog(
-            visible = visible,
-            onCancelLoading = onCancelLoading,
-            canCancel = canCancel && visible
-        )
-    } else {
-        ProgressLoadingDialog(
-            visible = visible,
-            done = done,
-            left = left,
-            onCancelLoading = onCancelLoading,
-            canCancel = canCancel && visible
-        )
+    LoadingDialogContent(
+        visible = visible,
+        onCancelLoading = onCancelLoading,
+        canCancel = canCancel && visible
+    ) {
+        if (left < 0) {
+            EnhancedLoadingIndicator(modifier = Modifier.size(108.dp))
+        } else {
+            EnhancedLoadingIndicator(done = done, left = left)
+        }
     }
 }
 
@@ -115,78 +112,41 @@ fun LoadingDialog(
 ) {
     val progress = progress()
 
-    if (progress == 1f && visible && isLayoutSwappable) {
-        LoadingDialog(
-            visible = true,
-            onCancelLoading = onCancelLoading,
-            canCancel = canCancel,
-            isForSaving = isForSaving
-        )
-    } else {
-        var showWantDismissDialog by remember(canCancel, visible) { mutableStateOf(false) }
-        BasicEnhancedAlertDialog(
-            visible = visible,
-            onDismissRequest = { showWantDismissDialog = canCancel },
-            modifier = Modifier.keepScreenOn()
-        ) {
-            val focus = LocalFocusManager.current
-            LaunchedEffect(focus) {
-                focus.clearFocus()
-            }
+    LoadingDialogContent(
+        visible = visible,
+        onCancelLoading = onCancelLoading,
+        canCancel = canCancel,
+        isForSaving = isForSaving
+    ) {
+        AnimatedContent(
+            targetState = switchToIndicator || progress == 1f && visible && isLayoutSwappable,
+            modifier = Modifier.fillMaxSize()
+        ) { isIndicator ->
             Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .tappable(Unit) {
-                        showWantDismissDialog = canCancel
-                    },
-                contentAlignment = Alignment.Center,
-                content = {
-                    AnimatedContent(
-                        targetState = switchToIndicator,
-                        modifier = Modifier
-                            .size(120.dp)
-                            .align(Alignment.Center)
-                    ) { isIndicator ->
-                        Box(
-                            modifier = Modifier.fillMaxSize(),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            if (isIndicator) {
-                                EnhancedLoadingIndicator(
-                                    modifier = Modifier.size(108.dp)
-                                )
-                            } else {
-                                EnhancedLoadingIndicator(
-                                    progress = progress(),
-                                    loaderSize = loaderSize,
-                                    additionalContent = additionalContent
-                                )
-                            }
-                        }
-                    }
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                if (isIndicator) {
+                    EnhancedLoadingIndicator(modifier = Modifier.size(108.dp))
+                } else {
+                    EnhancedLoadingIndicator(
+                        progress = progress,
+                        loaderSize = loaderSize,
+                        additionalContent = additionalContent
+                    )
                 }
-            )
+            }
         }
-        WantCancelLoadingDialog(
-            visible = showWantDismissDialog,
-            onCancelLoading = onCancelLoading,
-            onDismissDialog = {
-                showWantDismissDialog = false
-            },
-            isForSaving = isForSaving,
-            modifier = Modifier.keepScreenOn()
-        )
     }
 }
 
-
 @Composable
-private fun ProgressLoadingDialog(
+private fun LoadingDialogContent(
     visible: Boolean,
-    done: Int,
-    left: Int,
     onCancelLoading: () -> Unit,
-    canCancel: Boolean = true,
+    canCancel: Boolean,
+    isForSaving: Boolean = true,
+    indicator: @Composable BoxScope.() -> Unit
 ) {
     var showWantDismissDialog by remember(canCancel, visible) { mutableStateOf(false) }
     BasicEnhancedAlertDialog(
@@ -199,19 +159,18 @@ private fun ProgressLoadingDialog(
             focus.clearFocus()
         }
         Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .tappable(Unit) {
-                    showWantDismissDialog = canCancel
-                },
-            contentAlignment = Alignment.Center,
-            content = {
-                EnhancedLoadingIndicator(
-                    done = done,
-                    left = left
-                )
-            }
-        )
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            Box(
+                modifier = Modifier
+                    .matchParentSize()
+                    .tappable(canCancel) {
+                        showWantDismissDialog = canCancel
+                    }
+            )
+            LoadingGameContent(indicator = indicator)
+        }
     }
     WantCancelLoadingDialog(
         visible = showWantDismissDialog,
@@ -219,6 +178,77 @@ private fun ProgressLoadingDialog(
         onDismissDialog = {
             showWantDismissDialog = false
         },
+        isForSaving = isForSaving,
         modifier = Modifier.keepScreenOn()
     )
+}
+
+@Composable
+private fun LoadingGameContent(
+    indicator: @Composable BoxScope.() -> Unit
+) {
+    var showGame by rememberSaveable { mutableStateOf(false) }
+    val isPortrait by isPortraitOrientationAsState()
+    val indicatorSize = 120.dp
+    val buttonSize = 48.dp
+    val buttonSpacing = 12.dp
+    val gameSpacing = 16.dp
+    val indicatorTopPadding by animateDpAsState(
+        targetValue = if (showGame) 0.dp else buttonSize + buttonSpacing
+    )
+
+    FlowRow(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(gameSpacing, Alignment.CenterHorizontally),
+        verticalArrangement = Arrangement.spacedBy(gameSpacing),
+        itemVerticalAlignment = Alignment.CenterVertically,
+        maxItemsInEachRow = if (isPortrait) 1 else 2
+    ) {
+        Column(
+            modifier = Modifier.padding(top = indicatorTopPadding),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(buttonSpacing)
+        ) {
+            Box(
+                modifier = Modifier.size(indicatorSize),
+                contentAlignment = Alignment.Center,
+                content = indicator
+            )
+            EnhancedIconButton(
+                onClick = { showGame = !showGame },
+                modifier = Modifier.size(buttonSize),
+                containerColor = if (showGame) {
+                    MaterialTheme.colorScheme.primary
+                } else {
+                    MaterialTheme.colorScheme.secondaryContainer
+                }
+            ) {
+                Icon(
+                    imageVector = if (showGame) {
+                        Icons.Rounded.StadiaController
+                    } else {
+                        Icons.Outlined.StadiaController
+                    },
+                    contentDescription = null
+                )
+            }
+        }
+
+        AnimatedVisibility(
+            visible = showGame,
+            modifier = if (isPortrait) Modifier else Modifier.weight(1f, fill = false),
+            enter = fadeIn() + if (isPortrait) {
+                expandVertically(expandFrom = Alignment.Top)
+            } else {
+                expandHorizontally(expandFrom = Alignment.Start)
+            },
+            exit = fadeOut() + if (isPortrait) {
+                shrinkVertically(shrinkTowards = Alignment.Top)
+            } else {
+                shrinkHorizontally(shrinkTowards = Alignment.Start)
+            }
+        ) {
+            DinoGame(modifier = Modifier.widthIn(max = 420.dp))
+        }
+    }
 }
