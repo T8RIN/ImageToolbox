@@ -415,9 +415,9 @@ private class DinoRun {
         // Scaling the change in speed squared scales acceleration at the same distance.
         val speedSquared =
             initialSpeedSquared + (originalSpeed * originalSpeed - initialSpeedSquared) * 1.15f
-        val lateProgress = ((distance - 4000f) / 12250f).coerceIn(0f, 1f)
+        val lateProgress = ((distance - 4000f) / 46000f).coerceIn(0f, 1f)
         val lateBlend = lateProgress * lateProgress * (3f - 2f * lateProgress)
-        val maxSpeed = 500f
+        val maxSpeed = 800f
         val speed = sqrt(speedSquared + (maxSpeed * maxSpeed - speedSquared) * lateBlend)
         val step = speed * seconds
         val nextDistance = distance + step
