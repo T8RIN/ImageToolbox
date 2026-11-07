@@ -26,32 +26,30 @@ import kotlin.math.ceil
 
 internal fun Path.flattenMask(): Path = Path().also { result ->
     result.fillType = fillType
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-        val points = approximate(.2f)
-        var fraction = -1f
-        for (index in points.indices step 3) {
-            if (index == 0 || points[index] == fraction) {
-                if (index > 0) result.close()
-                result.moveTo(points[index + 1], points[index + 2])
-            } else {
+    val measure = PathMeasure(this, true)
+    val contour = Path()
+    val point = FloatArray(2)
+    do {
+        if (measure.length <= 0f) continue
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            contour.reset()
+            if (!measure.getSegment(0f, measure.length, contour, true)) continue
+            val points = contour.approximate(.2f)
+            if (points.isEmpty()) continue
+            result.moveTo(points[1], points[2])
+            for (index in 3 until points.size step 3) {
                 result.lineTo(points[index + 1], points[index + 2])
             }
-            fraction = points[index]
-        }
-        result.close()
-    } else {
-        val measure = PathMeasure(this, true)
-        val point = FloatArray(2)
-        do {
+        } else {
             val steps = ceil(measure.length * 2).toInt().coerceAtLeast(1)
             for (step in 0..steps) {
                 measure.getPosTan(measure.length * step / steps, point, null)
                 if (step == 0) result.moveTo(point[0], point[1])
                 else result.lineTo(point[0], point[1])
             }
-            result.close()
-        } while (measure.nextContour())
-    }
+        }
+        result.close()
+    } while (measure.nextContour())
 }
 
 internal fun Path.insetMask(distance: Float, spacingEdges: Path = this) {

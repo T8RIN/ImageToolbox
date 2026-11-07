@@ -39,7 +39,7 @@ class CollageLayoutCatalogTest {
 
     @Test
     fun catalogContainsEveryLayoutAndSupportsOneToOneHundredPhotos() {
-        assertEquals(2200, layouts.size)
+        assertEquals(2975, layouts.size)
         assertEquals(layouts.size, layouts.map { it.getValue("id") }.toSet().size)
         val counts = layouts.groupingBy { it.getValue("slots").jsonArray.size }.eachCount()
         assertEquals((1..100).toSet(), counts.keys)
