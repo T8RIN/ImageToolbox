@@ -45,23 +45,25 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import com.t8rin.collages.CollageLayoutStore
 import com.t8rin.collages.CollageTypeSelection
 import com.t8rin.imagetoolbox.collage_maker.presentation.screenLogic.CollageMakerComponent
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Bookmark
 import com.t8rin.imagetoolbox.core.resources.icons.BookmarkRemove
+import com.t8rin.imagetoolbox.core.resources.icons.Collage
 import com.t8rin.imagetoolbox.core.resources.icons.KeyboardArrowDown
 import com.t8rin.imagetoolbox.core.resources.utils.animation.animateColorAsState
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBadge
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.scrollAnchor
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shimmer
+import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
 
 @Composable
 internal fun CollageLayoutSelector(
@@ -69,7 +71,10 @@ internal fun CollageLayoutSelector(
 ) {
     val canChangeCollage = !component.uris.isNullOrEmpty()
     var expanded by rememberSaveable { mutableStateOf(false) }
-    var layoutCount by remember { mutableIntStateOf(0) }
+    val imageCount = component.uris.orEmpty().size
+    var layoutCount by remember(imageCount) {
+        mutableIntStateOf(CollageLayoutStore.getLayoutCount(imageCount))
+    }
     val isExpanded = expanded && layoutCount > 1
     val height by animateDpAsState(if (isExpanded) 378.dp else 142.dp)
     val rotation by animateFloatAsState(if (isExpanded) 180f else 0f)
@@ -95,11 +100,25 @@ internal fun CollageLayoutSelector(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(
-                    fontWeight = FontWeight.Medium,
-                    text = stringResource(R.string.collage_type),
-                    fontSize = 18.sp
-                )
+                Row(
+                    modifier = Modifier.weight(1f),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    TitleItem(
+                        text = stringResource(R.string.collage_type),
+                        icon = Icons.Outlined.Collage,
+                        modifier = Modifier.weight(1f, false)
+                    )
+                    EnhancedBadge(
+                        containerColor = MaterialTheme.colorScheme.tertiary,
+                        contentColor = MaterialTheme.colorScheme.onTertiary,
+                        modifier = Modifier
+                            .padding(horizontal = 2.dp)
+                            .padding(bottom = 12.dp)
+                    ) {
+                        Text(layoutCount.toString())
+                    }
+                }
                 if (layoutCount > 12) {
                     EnhancedIconButton(
                         onClick = {
@@ -119,7 +138,7 @@ internal fun CollageLayoutSelector(
         CollageTypeSelection(
             state = state,
             onLayoutCountChange = { layoutCount = it },
-            imagesCount = component.uris?.size ?: 0,
+            imagesCount = imageCount,
             value = component.collageType,
             favorites = component.library.favorites,
             itemSize = 76.dp,

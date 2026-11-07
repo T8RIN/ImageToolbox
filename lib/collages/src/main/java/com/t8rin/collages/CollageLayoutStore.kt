@@ -38,21 +38,22 @@ import java.io.File
 import java.util.zip.ZipInputStream
 
 object CollageLayoutStore {
-    internal const val CATALOG_HASH =
-        "c332fc2b0380b6463d296a19cc4936d0a6931da67fddbcf60c8369a26d538546"
+    internal const val CATALOG_HASH = "745e4db65f7a085712c1b6f0c50074f4e6554c7c1543ea613659da6dd5a70462"
     internal val counts = listOf(
         318, 452, 385, 376, 282, 206, 169, 166, 166, 122,
         93, 92, 90, 89, 86, 60, 62, 65, 60, 53,
         31, 27, 29, 31, 25, 22, 23, 25, 23, 25,
-        19, 21, 19, 19, 21, 21, 21, 19, 20, 22,
-        21, 22, 19, 22, 22, 22, 19, 20, 19, 20,
-        14, 14, 14, 16, 16, 16, 14, 14, 14, 16,
-        14, 14, 16, 14, 16, 16, 14, 14, 14, 15,
-        14, 14, 14, 14, 14, 14, 16, 16, 14, 16,
-        14, 14, 14, 16, 14, 14, 14, 14, 14, 14,
-        14, 14, 14, 14, 14, 16, 14, 16, 16, 14
+        22, 24, 22, 22, 24, 24, 24, 22, 23, 25,
+        24, 25, 22, 25, 25, 25, 22, 23, 22, 23,
+        17, 17, 17, 19, 19, 19, 17, 17, 17, 19,
+        17, 17, 19, 17, 19, 19, 17, 17, 17, 18,
+        17, 17, 17, 17, 17, 17, 19, 19, 17, 19,
+        17, 17, 17, 19, 17, 17, 17, 17, 17, 17,
+        17, 17, 17, 17, 17, 19, 17, 19, 19, 17
     )
     val layoutCount = counts.sum()
+
+    fun getLayoutCount(imageCount: Int): Int = counts.getOrNull(imageCount - 1) ?: 0
 
     @Volatile
     private var catalogs = emptyMap<Int, Catalog>()

@@ -767,10 +767,29 @@ internal class FrameImageView(
                 val scale = min(canvasWidth, canvasHeight)
                 val inset = min(space, photoItem.maximumMaskInset * scale)
                     .takeIf { it >= .5f } ?: 0f
-                path.set(if (inset > 0f) photoItem.normalizedInsetPath ?: outline else outline)
+                val preserveShape = photoItem.mask?.preserveShape == true
+                path.set(
+                    if (inset > 0f && !preserveShape) photoItem.normalizedInsetPath ?: outline
+                    else outline
+                )
                 path.transform(Matrix().apply { setScale(viewWidth, viewHeight) })
                 if (inset > 0f) {
-                    path.insetMask(inset, path.collageSpacingEdges(outerBounds))
+                    if (preserveShape) {
+                        val distance = min(inset, min(viewWidth, viewHeight) * .45f)
+                        val left = if (photoItem.bound.left == 0f) 0f else distance
+                        val top = if (photoItem.bound.top == 0f) 0f else distance
+                        val right = if (photoItem.bound.right == 1f) viewWidth else viewWidth - distance
+                        val bottom = if (photoItem.bound.bottom == 1f) viewHeight else viewHeight - distance
+                        path.transform(Matrix().apply {
+                            setRectToRect(
+                                RectF(0f, 0f, viewWidth, viewHeight),
+                                RectF(left, top, right, bottom),
+                                Matrix.ScaleToFit.FILL
+                            )
+                        })
+                    } else {
+                        path.insetMask(inset, path.collageSpacingEdges(outerBounds))
+                    }
                 }
                 return
             }

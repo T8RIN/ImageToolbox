@@ -38,7 +38,7 @@ class CollageLayoutCatalogTest {
         val hash = MessageDigest.getInstance("SHA-256").digest(archive.readBytes())
             .joinToString("") { "%02x".format(it) }
         assertEquals(CollageLayoutStore.CATALOG_HASH, hash)
-        ZipInputStream(XZInputStream(archive.inputStream().buffered())).use { input ->
+        ZipInputStream(XZInputStream(archive.inputStream().buffered(), 16 * 1024)).use { input ->
             counts.indices.map { index ->
                 val name = "layouts_${index + 1}.json"
                 assertEquals(name, input.nextEntry?.name)
@@ -58,7 +58,7 @@ class CollageLayoutCatalogTest {
 
     @Test
     fun catalogContainsEveryLayoutAndSupportsOneToOneHundredPhotos() {
-        assertEquals(4790, layouts.size)
+        assertEquals(5000, layouts.size)
         assertEquals(layouts.size, counts.sum())
         catalogs.forEachIndexed { index, catalog ->
             val entries = catalog.getValue("layouts").jsonArray
@@ -141,7 +141,7 @@ class CollageLayoutCatalogTest {
 
     @Test
     fun catalogPolygonsRemainDistinctWithinEachGeneratedCollection() {
-        listOf("creative_", "artistic_", "decorative_", "pattern_").forEach { prefix ->
+        listOf("creative_", "artistic_", "decorative_", "pattern_", "gallery_").forEach { prefix ->
             val geometry = catalogs.flatMap { catalog ->
                 val shapes = catalog.getValue("shapes").jsonArray
                 catalog.getValue("layouts").jsonArray.map { it.jsonObject }

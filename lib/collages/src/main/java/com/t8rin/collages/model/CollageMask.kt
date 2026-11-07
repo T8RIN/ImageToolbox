@@ -24,6 +24,8 @@ import com.t8rin.collages.utils.flattenMask
 import org.json.JSONObject
 
 internal class CollageMask(private val definition: JSONObject) {
+    val preserveShape: Boolean = definition.optBoolean("preserveShape")
+
     val path: Path by lazy {
         checkNotNull(
             PathParser.createPathFromPathData(definition.getString("path"))
