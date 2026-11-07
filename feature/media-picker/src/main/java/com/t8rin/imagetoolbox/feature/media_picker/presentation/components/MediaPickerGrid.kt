@@ -100,6 +100,8 @@ internal fun BoxScope.MediaPickerGrid(
     bottomContentPadding: Dp = 0.dp
 ) {
     val settingsState = LocalSettingsState.current
+    val useGalleryStyleSelection = isGalleryMode || settingsState.useGalleryStyleSelection
+    val previewOnTap = useGalleryStyleSelection && selectedMedia.isEmpty()
     val hapticFeedback = LocalHapticFeedback.current
 
     var imagePreviewUri by rememberSaveable(albumId) {
@@ -258,8 +260,7 @@ internal fun BoxScope.MediaPickerGrid(
                     }
                 }
                 .dragHandler(
-                    enabled = isSelectionOfAll && allowMultiple &&
-                            (!isGalleryMode || selectedMedia.isNotEmpty()),
+                    enabled = isSelectionOfAll && allowMultiple && !previewOnTap,
                     key = state.mappedMedia,
                     itemIndex = { item ->
                         (item.index - if (isManagePermissionAllowed) 0 else 1)
@@ -355,13 +356,9 @@ internal fun BoxScope.MediaPickerGrid(
                             thumbnailSize = thumbnailSize,
                             uncheckedIcon = uncheckedIcon,
                             isInSelection = !isGalleryMode || selectionIndex >= 0,
-                            canClick = if (isGalleryMode) {
-                                selectedMedia.isEmpty() || !isSelectionOfAll || !allowMultiple
-                            } else {
-                                !isSelectionOfAll || !allowMultiple
-                            },
+                            canClick = previewOnTap || !isSelectionOfAll || !allowMultiple,
                             onItemClick = {
-                                if (isGalleryMode && selectedMedia.isEmpty()) {
+                                if (previewOnTap) {
                                     imagePreviewUri = it.uri
                                 } else {
                                     hapticFeedback.longPress()
@@ -369,7 +366,7 @@ internal fun BoxScope.MediaPickerGrid(
                                 }
                             },
                             onItemLongClick = {
-                                if (isGalleryMode) {
+                                if (useGalleryStyleSelection) {
                                     onMediaClick(it)
                                 } else {
                                     imagePreviewUri = it.uri
