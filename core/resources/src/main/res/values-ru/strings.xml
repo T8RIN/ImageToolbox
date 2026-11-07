@@ -7972,4 +7972,6 @@
     <string name="collage_style_apply_layout_unavailable">Нужно %1$d фото, а в коллаже — %2$d. Можно применить только стиль ниже.</string>
     <string name="collage_style_apply_appearance">Только стиль</string>
     <string name="collage_style_apply_appearance_sub">Оставить текущую раскладку. Применить оформление и настройки фото по порядку слотов.</string>
+    <string name="play">Играть</string>
+    <string name="game_over">Игра окончена</string>
 </resources>
