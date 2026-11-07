@@ -174,8 +174,8 @@
 -keep class com.t8rin.imagetoolbox.collage_maker.data.CollageProject { *; }
 -keep class com.t8rin.imagetoolbox.collage_maker.data.CollageProjectSnapshot { *; }
 -keep class com.t8rin.imagetoolbox.collage_maker.data.CollageProjectAspectRatio { *; }
--keep class com.t8rin.collages.CollageState { *; }
--keep class com.t8rin.collages.CollageImageState { *; }
+-keep class com.t8rin.collages.model.CollageState { *; }
+-keep class com.t8rin.collages.model.CollageImageState { *; }
 
 # Shader JSON DTOs are private and read by Moshi.
 -keep class com.t8rin.imagetoolbox.core.filters.domain.model.shader.ShaderPresetJson { *; }
