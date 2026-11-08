@@ -70,7 +70,7 @@ class ArcadeMechanicsTest {
                 phase = run.phase
                 restore(saved)
             }
-            assertBundlesEqual(run.javaClass.simpleName, saved, Bundle().also(restored::save))
+            assertBundlesEqual((run as Any).javaClass.simpleName, saved, Bundle().also(restored::save))
 
         }
     }
@@ -89,7 +89,7 @@ class ArcadeMechanicsTest {
                 val saved = Bundle().also(run::save)
                 for (key in saved.keySet()) {
                     val values = saved.get(key) as? FloatArray ?: continue
-                    assertTrue("${run.javaClass.simpleName}: $key", values.all(Float::isFinite))
+                    assertTrue("${(run as Any).javaClass.simpleName}: $key", values.all(Float::isFinite))
                 }
                 run.start()
                 assertEquals(0, run.score)
@@ -478,6 +478,21 @@ class ArcadeMechanicsTest {
         repeat(20) { run.advance(1f / 120f) }
         assertEquals(run.columns + 2, run.player)
         assertEquals(3, run.lives)
+        run.start()
+        run.board.fill(0)
+        val start = run.player
+        run.begin(Offset(100f, 100f))
+        run.drag(Offset(130f, 100f))
+        run.advance(1f / 120f)
+        run.swipe(Offset(30f, 0f))
+        run.release()
+        repeat(24) { run.advance(1f / 120f) }
+        assertEquals(start + 1, run.player)
+        run.begin(Offset(100f, 100f))
+        run.swipe(Offset(0f, 30f))
+        run.release()
+        repeat(24) { run.advance(1f / 120f) }
+        assertEquals(start + 1 + run.columns, run.player)
     }
 
     @Test
@@ -533,16 +548,33 @@ class ArcadeMechanicsTest {
     fun gravityObstaclesLeaveTimeToReachTheOppositeSurface() {
         for (height in listOf(220f, 680f)) {
             val run = GravityFlipRun().apply { resize(360f, height); start() }
-            repeat(120 * 80) {
+            var lastGate: GravityObstacle? = null
+            val kinds = mutableSetOf<Int>()
+            repeat(120 * 150) {
                 val obstacle = run.obstacles.filter { it.x + it.width >= run.playerX - run.radius }
                     .minByOrNull { it.x }
                 if (obstacle != null && obstacle.x - run.playerX < run.speed * 0.9f) {
-                    val gravity = if (obstacle.ceiling) 1 else -1
-                    if (run.gravity != gravity) run.flip()
+                    kinds += obstacle.kind
+                    when (obstacle.kind) {
+                        0 -> {
+                            val gravity = if (obstacle.ceiling) 1 else -1
+                            if (run.gravity != gravity) run.flip()
+                        }
+
+                        2 -> if (lastGate !== obstacle && obstacle.x + obstacle.width / 2f - run.playerX < run.speed * 0.235f) {
+                            run.flip()
+                            lastGate = obstacle
+                        }
+                    }
                 }
                 run.advance(1f / 120f)
-                assertEquals(ArcadePhase.Running, run.phase)
+                assertEquals(
+                    "Gravity: height=$height, kind=${obstacle?.kind}, x=${obstacle?.x}, y=${run.y}",
+                    ArcadePhase.Running,
+                    run.phase
+                )
             }
+            assertEquals(setOf(0, 1, 2), kinds)
             assertTrue(run.score > 100)
             assertTrue(run.obstacles.size < 8)
         }
@@ -588,7 +620,7 @@ class ArcadeMechanicsTest {
         corner.turn()
         repeat(30) { corner.advance(1f / 120f) }
         assertTrue(corner.fall < 0f)
-        assertEquals(4f, corner.x, 0.01f)
+        assertEquals(4.45f, corner.x, 0.001f)
         corner.x = 7f
         repeat(15) { corner.advance(1f / 120f) }
         assertTrue(corner.fall >= 0f)
@@ -597,6 +629,10 @@ class ArcadeMechanicsTest {
     @Test
     fun timbermanAlwaysLeavesASafeSideAndRequiresAChoppingRhythm() {
         val run = TimbermanRun().apply { start() }
+        run.resize(360f, 1400f)
+        assertTrue(run.branches.size * run.segment > run.base + run.segment)
+        run.resize(360f, 280f)
+        run.start()
         repeat(180) {
             val side = listOf(-1, 1).first { it != run.branches[0] && it != run.branches[1] }
             run.chop(side)
@@ -673,6 +709,9 @@ class ArcadeMechanicsTest {
             approach(0.07f, run.padLeft + run.padWidth / 2f)
             repeat(12) { run.advance(1f / 120f) }
             assertTrue(run.landed)
+            assertTrue(run.worldWidth > run.width)
+            assertTrue(run.camera.x <= 0f)
+            assertTrue(run.camera.x + run.worldWidth * run.zoom >= run.width - 0.01f)
             assertEquals(3, run.lives)
             assertTrue(run.score >= 120)
             repeat(130) { run.advance(1f / 120f) }
@@ -805,6 +844,12 @@ class ArcadeMechanicsTest {
         run.board[rider.position + 1] = 1
         run.step()
         assertTrue(rider.alive && !rider.charged)
+        assertTrue(rider.phaseTime > 1f)
+        repeat(4) {
+            run.board[rider.position + 1] = 2
+            run.step()
+            assertTrue(rider.alive)
+        }
         rider.charged = true
         run.board[rider.position + 1] = -1
         run.step()

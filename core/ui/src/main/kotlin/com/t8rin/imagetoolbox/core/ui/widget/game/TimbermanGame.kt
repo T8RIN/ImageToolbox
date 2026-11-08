@@ -21,9 +21,11 @@ import android.os.Bundle
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.drawscope.clipRect
 import androidx.compose.ui.graphics.drawscope.rotate
 import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
+import kotlin.math.ceil
 import kotlin.random.Random
 
 @Composable
@@ -48,7 +50,7 @@ fun TimbermanGame(
             val center = run.width / 2f
             val base = run.base
             val segment = run.segment
-            clipRect(top = run.topInset + 10f) {
+            clipRect(top = 0f, bottom = run.height) {
                 repeat(9) { tree ->
                     val x = (tree * 71f + 17f) % run.width
                     val height = 65f + tree % 4 * 23f
@@ -72,7 +74,7 @@ fun TimbermanGame(
                 }
                 run.branches.forEachIndexed { index, side ->
                     val y = base - (index + 1f + run.cut) * segment
-                    if (y + segment >= run.topInset && y < run.height) {
+                    if (y + segment >= 0f && y < run.height) {
                         pixelRect(
                             color = style.obstacleColor,
                             x = center - 17f,
@@ -335,7 +337,11 @@ internal class TimbermanRun : ArcadeRun() {
     }
 
     private fun populate() {
-        while (branches.size < 24) branches += if (branches.last() != 0 || Random.nextFloat() < 0.22f) 0
+        while (branches.size < maxOf(
+                24,
+                ceil(base / segment).toInt() + 3
+            )
+        ) branches += if (branches.last() != 0 || Random.nextFloat() < 0.22f) 0
         else if (Random.nextBoolean()) -1 else 1
     }
 
@@ -373,7 +379,7 @@ internal class TimbermanRun : ArcadeRun() {
         sinceChop += seconds
         if (begun) {
             energy =
-                (energy - seconds * (0.11f + chops.coerceAtMost(160) * 0.00065f)).coerceAtLeast(0f)
+                (energy - seconds * (0.11f + 0.13f * chops / (chops + 120f))).coerceAtLeast(0f)
             if (energy == 0f) phase = ArcadePhase.Over
         }
         for (chip in chips) {
@@ -383,6 +389,10 @@ internal class TimbermanRun : ArcadeRun() {
             chip.y += chip.vy * seconds
         }
         chips.removeAll { it.age > 0.8f }
+    }
+
+    override fun onResize(previous: Size) {
+        if (branches.isNotEmpty()) populate()
     }
 
     override fun save(state: Bundle) {

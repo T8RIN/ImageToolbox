@@ -53,9 +53,9 @@ class ArcadeRenderingTest {
     val compose = createComposeRule()
 
     @Test
-    fun renderEveryNewGameInCompactLightDarkAndTallFields() {
+    fun renderEveryGameInCompactLightDarkAndTallFields() {
         val requested = InstrumentationRegistry.getArguments().getString("arcadeGames")?.split(',')
-        val games = ArcadeGame.playable.drop(8).filter { requested == null || it.name in requested }
+        val games = ArcadeGame.playable.filter { requested == null || it.name in requested }
         assertTrue(games.isNotEmpty())
         var fieldBounds = Rect.Zero
         val sample = mutableIntStateOf(0)
@@ -67,7 +67,10 @@ class ArcadeRenderingTest {
             ImageToolboxThemeForPreview(isDarkTheme = variant != 0) {
                 CompositionLocalProvider(LocalInspectionMode provides true) {
                     key(index) {
-                        Column(Modifier.width(360.dp).statusBarsPadding().padding(12.dp)) {
+                        Column(Modifier
+                            .width(360.dp)
+                            .statusBarsPadding()
+                            .padding(12.dp)) {
                             Text(
                                 stringResource(game.title),
                                 modifier = Modifier.padding(bottom = 12.dp)
@@ -86,7 +89,12 @@ class ArcadeRenderingTest {
         if (capture) directory.mkdirs()
         for (index in 0 until games.size * 3) {
             compose.runOnIdle { sample.intValue = index }
-            compose.mainClock.advanceTimeBy(1600L)
+            compose.mainClock.advanceTimeBy(
+                if (games[index % games.size] in ArcadeGame.playable.take(
+                        8
+                    )
+                ) 300L else 1600L
+            )
             compose.waitForIdle()
             var downTime = 0L
             var heldPoint: Offset? = null
@@ -186,8 +194,18 @@ class ArcadeRenderingTest {
 private fun PlayingGame(game: ArcadeGame, height: Int, onBounds: (Rect) -> Unit) {
     val style = ArcadeDefaults.style.copy(gameHeight = height.dp)
     val initial = ArcadeGameState(isPlaying = true)
-    val modifier = Modifier.fillMaxWidth().onGloballyPositioned { onBounds(it.boundsInWindow()) }
+    val modifier = Modifier
+        .fillMaxWidth()
+        .onGloballyPositioned { onBounds(it.boundsInWindow()) }
     when (game) {
+        ArcadeGame.Dino -> DinoGame(modifier, initial, style)
+        ArcadeGame.Doodle -> DoodleGame(modifier, initial, style)
+        ArcadeGame.Bird -> BirdGame(modifier, initial, style)
+        ArcadeGame.Stack -> StackGame(modifier, initial, style)
+        ArcadeGame.Pong -> PongGame(modifier, initial, style)
+        ArcadeGame.`2048` -> Game2048(modifier, initial, style)
+        ArcadeGame.Snake -> SnakeGame(modifier, initial, style)
+        ArcadeGame.Tetris -> TetrisGame(modifier, initial, style)
         ArcadeGame.Racer -> RacerGame(modifier, initial, style)
         ArcadeGame.Ricochet -> RicochetGame(modifier, initial, style)
         ArcadeGame.Asteroids -> AsteroidsGame(modifier, initial, style)
@@ -210,6 +228,6 @@ private fun PlayingGame(game: ArcadeGame, height: Int, onBounds: (Rect) -> Unit)
         ArcadeGame.LunarLander -> LunarLanderGame(modifier, initial, style)
         ArcadeGame.BrickBreaker -> BrickBreakerGame(modifier, initial, style)
         ArcadeGame.LightCycles -> LightCyclesGame(modifier, initial, style)
-        else -> error("Expected a revised game")
+        else -> error("Expected a playable game")
     }
 }

@@ -64,195 +64,205 @@ fun LunarLanderGame(
                 height = run.height,
                 drift = 0f
             )
-            scale(run.zoom, run.shipPoint) {
-                val horizon = Path().apply {
-                    moveTo(-30f, run.height)
-                    repeat(15) { ridge ->
-                        lineTo(
-                            (ridge - 1) * run.width / 12f,
-                            run.top + run.span * (0.64f + ((ridge * 37 + run.round * 11) % 23) / 100f)
+            translate(run.camera.x, run.camera.y) {
+                scale(run.zoom, Offset.Zero) {
+                    val horizon = Path().apply {
+                        moveTo(-30f, run.height)
+                        repeat(15) { ridge ->
+                            lineTo(
+                                (ridge - 1) * run.worldWidth / 12f,
+                                run.top + run.span * (0.64f + ((ridge * 37 + run.round * 11) % 23) / 100f)
+                            )
+                        }
+                        lineTo(run.worldWidth + 30f, run.height)
+                        close()
+                    }
+                    drawPath(
+                        path = horizon,
+                        color = style.detailColor.copy(alpha = 0.12f)
+                    )
+                    val ground = Path().apply {
+                        moveTo(0f, run.height)
+                        run.terrain.forEach {
+                            lineTo(
+                                it.x * run.worldWidth,
+                                run.top + it.y * run.span
+                            )
+                        }
+                        lineTo(run.worldWidth, run.height)
+                        close()
+                    }
+                    drawPath(
+                        path = ground,
+                        color = style.obstacleColor.copy(alpha = 0.17f)
+                    )
+                    drawPath(
+                        path = ground,
+                        color = style.obstacleColor.copy(alpha = 0.6f),
+                        style = Stroke(1.5f)
+                    )
+                    repeat(24) {
+                        val x = ((it * 79 + 23) % 359) / 359f
+                        val surface = run.top + run.groundAt(x) * run.span
+                        val y = surface + 8f + it % 4 * 5f
+                        if (y < run.height - 6f) pixelRect(
+                            color = style.detailColor.copy(alpha = 0.5f),
+                            x = x * run.worldWidth,
+                            y = y,
+                            width = 3f + it % 5,
+                            height = 2f
                         )
                     }
-                    lineTo(run.width + 30f, run.height)
-                    close()
-                }
-                drawPath(
-                    path = horizon,
-                    color = style.detailColor.copy(alpha = 0.12f)
-                )
-                val ground = Path().apply {
-                    moveTo(0f, run.height)
-                    run.terrain.forEach { lineTo(it.x * run.width, run.top + it.y * run.span) }
-                    lineTo(run.width, run.height)
-                    close()
-                }
-                drawPath(
-                    path = ground,
-                    color = style.obstacleColor.copy(alpha = 0.17f)
-                )
-                drawPath(
-                    path = ground,
-                    color = style.obstacleColor.copy(alpha = 0.6f),
-                    style = Stroke(1.5f)
-                )
-                repeat(24) {
-                    val x = ((it * 79 + 23) % 359) / 359f
-                    val surface = run.top + run.groundAt(x) * run.span
-                    val y = surface + 8f + it % 4 * 5f
-                    if (y < run.height - 6f) pixelRect(
-                        color = style.detailColor.copy(alpha = 0.5f),
-                        x = x * run.width,
-                        y = y,
-                        width = 3f + it % 5,
-                        height = 2f
-                    )
-                }
-                for (pad in run.pads) {
-                    val padY = run.top + pad.y * run.span
-                    val padX = pad.left * run.width
-                    val padWidth = pad.width * run.width
-                    val padColor =
-                        if (run.safeSpeed || run.landed) style.accentColor else style.hazardColor
-                    pixelRect(
-                        color = padColor.copy(alpha = 0.12f),
-                        x = padX,
-                        y = padY - 6f,
-                        width = padWidth,
-                        height = 8f
-                    )
-                    pixelRect(
-                        color = padColor,
-                        x = padX,
-                        y = padY - 1f,
-                        width = padWidth,
-                        height = 3f
-                    )
-                    for (side in 0..1) {
-                        val x = padX + side * padWidth
+                    for (pad in run.pads) {
+                        val padY = run.top + pad.y * run.span
+                        val padX = pad.left * run.worldWidth
+                        val padWidth = pad.width * run.worldWidth
+                        val padColor =
+                            if (run.safeSpeed || run.landed) style.accentColor else style.hazardColor
                         pixelRect(
-                            color = style.obstacleColor,
-                            x = x - 1f,
-                            y = padY - 12f,
-                            width = 2f,
-                            height = 12f
+                            color = padColor.copy(alpha = 0.12f),
+                            x = padX,
+                            y = padY - 6f,
+                            width = padWidth,
+                            height = 8f
                         )
                         pixelRect(
                             color = padColor,
-                            x = x - 3f,
-                            y = padY - 14f,
-                            width = 6f,
+                            x = padX,
+                            y = padY - 1f,
+                            width = padWidth,
                             height = 3f
                         )
-                    }
-                    repeat(pad.multiplier) { dot ->
-                        pixelRect(
-                            color = padColor,
-                            x = padX + padWidth / 2f + (dot - (pad.multiplier - 1) / 2f) * 7f - 1.5f,
-                            y = padY + 6f,
-                            width = 3f,
-                            height = 3f
-                        )
-                    }
-                    if (abs(run.x - pad.left - pad.width / 2f) < pad.width && pad.y - run.y < 0.35f) {
                         for (side in 0..1) {
                             val x = padX + side * padWidth
-                            var y = padY - 20f
-                            while (y > run.shipPoint.y - 12f) {
-                                pixelRect(
-                                    color = padColor.copy(alpha = 0.3f),
-                                    x = x,
-                                    y = y,
-                                    width = 1f,
-                                    height = 3f
-                                )
-                                y -= 8f
+                            pixelRect(
+                                color = style.obstacleColor,
+                                x = x - 1f,
+                                y = padY - 12f,
+                                width = 2f,
+                                height = 12f
+                            )
+                            pixelRect(
+                                color = padColor,
+                                x = x - 3f,
+                                y = padY - 14f,
+                                width = 6f,
+                                height = 3f
+                            )
+                        }
+                        repeat(pad.multiplier) { dot ->
+                            pixelRect(
+                                color = padColor,
+                                x = padX + padWidth / 2f + (dot - (pad.multiplier - 1) / 2f) * 7f - 1.5f,
+                                y = padY + 6f,
+                                width = 3f,
+                                height = 3f
+                            )
+                        }
+                        if (abs(run.x - pad.left - pad.width / 2f) < pad.width && pad.y - run.y < 0.35f) {
+                            for (side in 0..1) {
+                                val x = padX + side * padWidth
+                                var y = padY - 20f
+                                while (y > run.shipPoint.y - 12f) {
+                                    pixelRect(
+                                        color = padColor.copy(alpha = 0.3f),
+                                        x = x,
+                                        y = y,
+                                        width = 1f,
+                                        height = 3f
+                                    )
+                                    y -= 8f
+                                }
                             }
                         }
                     }
-                }
-                val center = run.shipPoint
-                if (!run.crashed) translate(center.x, center.y) {
-                    rotate(run.angle * 180f / PI.toFloat(), Offset.Zero) {
-                        scale(run.shipScale, Offset.Zero) {
-                            if (run.burning) {
-                                val flame = Path().apply {
-                                    moveTo(-3f, 6f)
-                                    lineTo(0f, 10f + run.throttle * 16f + sin(run.time * 45f) * 2f)
-                                    lineTo(3f, 6f)
+                    val center = run.shipPoint
+                    if (!run.crashed) translate(center.x, center.y) {
+                        rotate(run.angle * 180f / PI.toFloat(), Offset.Zero) {
+                            scale(run.shipScale, Offset.Zero) {
+                                if (run.burning) {
+                                    val flame = Path().apply {
+                                        moveTo(-3f, 6f)
+                                        lineTo(
+                                            0f,
+                                            10f + run.throttle * 16f + sin(run.time * 45f) * 2f
+                                        )
+                                        lineTo(3f, 6f)
+                                        close()
+                                    }
+                                    drawPath(
+                                        path = flame,
+                                        color = style.accentColor
+                                    )
+                                    pixelRect(
+                                        color = style.playerDetailColor,
+                                        x = -1f,
+                                        y = 7f,
+                                        width = 2f,
+                                        height = 4f
+                                    )
+                                }
+                                val cabin = Path().apply {
+                                    moveTo(-6f, -3f)
+                                    lineTo(-3f, -8f)
+                                    lineTo(3f, -8f)
+                                    lineTo(6f, -3f)
+                                    lineTo(6f, 4f)
+                                    lineTo(-6f, 4f)
                                     close()
                                 }
                                 drawPath(
-                                    path = flame,
-                                    color = style.accentColor
+                                    path = cabin,
+                                    color = style.playerColor
                                 )
                                 pixelRect(
                                     color = style.playerDetailColor,
-                                    x = -1f,
-                                    y = 7f,
-                                    width = 2f,
+                                    x = -3f,
+                                    y = -5f,
+                                    width = 6f,
                                     height = 4f
                                 )
-                            }
-                            val cabin = Path().apply {
-                                moveTo(-6f, -3f)
-                                lineTo(-3f, -8f)
-                                lineTo(3f, -8f)
-                                lineTo(6f, -3f)
-                                lineTo(6f, 4f)
-                                lineTo(-6f, 4f)
-                                close()
-                            }
-                            drawPath(
-                                path = cabin,
-                                color = style.playerColor
-                            )
-                            pixelRect(
-                                color = style.playerDetailColor,
-                                x = -3f,
-                                y = -5f,
-                                width = 6f,
-                                height = 4f
-                            )
-                            pixelRect(
-                                color = style.obstacleColor,
-                                x = -5f,
-                                y = 4f,
-                                width = 10f,
-                                height = 3f
-                            )
-                            for (side in listOf(-1f, 1f)) {
-                                drawLine(
-                                    color = style.playerColor,
-                                    start = Offset(side * 5f, 3f),
-                                    end = Offset(side * 8f, 10f),
-                                    strokeWidth = 2f
-                                )
                                 pixelRect(
-                                    color = style.playerColor,
-                                    x = side * 8f - 3f,
-                                    y = 10f,
-                                    width = 6f,
-                                    height = 2f
+                                    color = style.obstacleColor,
+                                    x = -5f,
+                                    y = 4f,
+                                    width = 10f,
+                                    height = 3f
                                 )
+                                for (side in listOf(-1f, 1f)) {
+                                    drawLine(
+                                        color = style.playerColor,
+                                        start = Offset(side * 5f, 3f),
+                                        end = Offset(side * 8f, 10f),
+                                        strokeWidth = 2f
+                                    )
+                                    pixelRect(
+                                        color = style.playerColor,
+                                        x = side * 8f - 3f,
+                                        y = 10f,
+                                        width = 6f,
+                                        height = 2f
+                                    )
+                                }
                             }
                         }
                     }
-                }
-                if (!run.crashed && !run.landed) {
-                    val drift = Offset(run.vx * run.width, run.vy * run.span) * 0.35f
-                    if (drift.getDistance() > 3f) drawLine(
-                        color = if (run.safeSpeed) style.accentColor.copy(alpha = 0.5f) else style.hazardColor.copy(
-                            alpha = 0.65f
-                        ),
-                        start = run.shipPoint + Offset(0f, 17f * run.shipScale),
-                        end = run.shipPoint + Offset(0f, 17f * run.shipScale) + drift,
-                        strokeWidth = 1.5f
+                    if (!run.crashed && !run.landed) {
+                        val drift = Offset(run.vx * run.worldWidth, run.vy * run.span) * 0.35f
+                        if (drift.getDistance() > 3f) drawLine(
+                            color = if (run.safeSpeed) style.accentColor.copy(alpha = 0.5f) else style.hazardColor.copy(
+                                alpha = 0.65f
+                            ),
+                            start = run.shipPoint + Offset(0f, 17f * run.shipScale),
+                            end = run.shipPoint + Offset(0f, 17f * run.shipScale) + drift,
+                            strokeWidth = 1.5f
+                        )
+                    }
+                    run.effects.draw(
+                        scope = this,
+                        color = if (run.crashed) style.hazardColor else style.accentColor
                     )
                 }
-                run.effects.draw(
-                    scope = this,
-                    color = if (run.crashed) style.hazardColor else style.accentColor
-                )
             }
             run.touchOrigin?.let { origin ->
                 val point = origin + Offset(
@@ -320,7 +330,13 @@ internal class LunarLanderRun : ArcadeRun() {
     val top get() = topInset + 12f
     val span get() = height - top - 12f
     val shipScale get() = minOf(width / 360f, span / 180f).coerceIn(0.85f, 1.25f)
-    val shipPoint get() = Offset(x * width, top + y * span)
+    val worldWidth get() = width * 1.3f
+    val shipPoint get() = Offset(x * worldWidth, top + y * span)
+    val camera
+        get() = Offset(
+            (width / 2f - shipPoint.x * zoom).coerceIn(width - worldWidth * zoom, 0f),
+            (height * 0.42f - shipPoint.y * zoom).coerceIn(height - height * zoom, 0f)
+        )
     var x = 0.2f
     var y = 0.1f
     var vx = 0f
@@ -363,18 +379,18 @@ internal class LunarLanderRun : ArcadeRun() {
     }
 
     private fun newRound() {
-        padWidth = (0.225f - round * 0.005f).coerceAtLeast(0.13f)
+        padWidth = (0.225f - round * 0.005f).coerceAtLeast(0.13f) / 1.3f
         padLeft = 0.12f + Random.nextFloat() * (0.76f - padWidth)
         padY = 0.77f + Random.nextFloat() * 0.1f
         bonusPad = if (round > 1) {
-            val w = (0.15f - round * 0.003f).coerceAtLeast(0.1f)
+            val w = (0.15f - round * 0.003f).coerceAtLeast(0.1f) / 1.3f
             val left = if (padLeft > 0.4f) 0.05f else 0.94f - w
             LandingPad(left, w, 0.7f + Random.nextFloat() * 0.15f, 2)
         } else null
         terrain.clear()
         val pads = pads
-        repeat(17) {
-            val x = it / 16f
+        repeat(23) {
+            val x = it / 22f
             if (pads.none { x in it.left..(it.left + it.width) }) terrain += Offset(
                 x, 0.66f + Random.nextFloat() * 0.29f
             )
@@ -443,7 +459,7 @@ internal class LunarLanderRun : ArcadeRun() {
     ): Offset {
         val px = (dx * cos(angle) - dy * sin(angle)) * shipScale
         val py = (dx * sin(angle) + dy * cos(angle)) * shipScale
-        return Offset(x + px / width, y + py / span)
+        return Offset(x + px / worldWidth, y + py / span)
     }
 
     override fun advance(seconds: Float) {
@@ -471,9 +487,9 @@ internal class LunarLanderRun : ArcadeRun() {
         fuel = (fuel - if (burning) seconds * 0.075f * throttle else 0f).coerceAtLeast(0f)
         vx += sin(angle) * thrust * seconds
         vy += (0.115f + round.coerceAtMost(15) * 0.002f - cos(angle) * thrust) * seconds
-        x += vx * seconds
+        x += vx * seconds / 1.3f
         y += vy * seconds
-        val side = 12f * shipScale / width
+        val side = 12f * shipScale / worldWidth
         if (x < side || x > 1f - side) {
             x = x.coerceIn(side, 1f - side)
             vx *= -0.25f

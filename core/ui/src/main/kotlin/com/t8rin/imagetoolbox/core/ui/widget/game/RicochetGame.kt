@@ -240,7 +240,11 @@ internal class RicochetRun : ArcadeRun() {
         val columns = (0..6).shuffled()
         val count = minOf(5, 3 + round / 6)
         for (column in columns.take(count)) {
-            bricks += RicochetBrick(column, row, round + Random.nextInt(1, 4))
+            bricks += RicochetBrick(
+                column,
+                row,
+                (round.coerceAtMost(ballCount + 8)) + Random.nextInt(1, 4)
+            )
         }
         bricks += RicochetBrick(columns[count], row, 0)
     }

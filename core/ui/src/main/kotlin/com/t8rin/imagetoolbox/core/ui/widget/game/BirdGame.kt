@@ -265,6 +265,7 @@ private class BirdRun : ArcadeRun() {
     fun flap() {
         velocity = -315f
         wingTime = 0f
+        tilt = -18f
     }
 
     override fun advance(seconds: Float) {
@@ -296,10 +297,11 @@ private class BirdRun : ArcadeRun() {
         while (pipes.last().x < width + PipeWidth) {
             val last = pipes.last()
             val gap = gap()
+            val low = maxOf(last.center - 120f, topInset + gap / 2 + 12f)
+            val high = minOf(last.center + 120f, ground - gap / 2 - 16f)
             pipes += BirdPipe(
                 x = last.x + 190f,
-                center = (last.center + Random.nextFloat() * 240f - 120f)
-                    .coerceIn(topInset + gap / 2 + 12f, ground - gap / 2 - 16f),
+                center = low + Random.nextFloat() * (high - low),
                 gap = gap
             )
         }

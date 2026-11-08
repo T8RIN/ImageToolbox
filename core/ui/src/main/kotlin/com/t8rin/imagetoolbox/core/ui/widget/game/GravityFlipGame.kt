@@ -23,9 +23,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.drawscope.scale
-import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.drawscope.translate
 import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
 import kotlin.math.abs
 import kotlin.random.Random
@@ -61,9 +62,9 @@ fun GravityFlipGame(
             pixelRect(
                 color = style.obstacleColor.copy(alpha = 0.055f),
                 x = 0f,
-                y = run.topInset,
+                y = 0f,
                 width = run.width,
-                height = top - run.topInset
+                height = top
             )
             pixelRect(
                 color = style.obstacleColor.copy(alpha = 0.055f),
@@ -78,9 +79,9 @@ fun GravityFlipGame(
                 pixelRect(
                     color = style.detailColor.copy(alpha = 0.12f),
                     x = x,
-                    y = run.topInset + 10f,
+                    y = 0f,
                     width = 2f,
-                    height = (top - run.topInset - 20f).coerceAtLeast(0f)
+                    height = (top - 10f).coerceAtLeast(0f)
                 )
                 pixelRect(
                     color = style.detailColor.copy(alpha = 0.12f),
@@ -137,92 +138,75 @@ fun GravityFlipGame(
                     x += 32f
                 }
             }
-            val panelWidth = 94f
-            var panel = -(run.distance * 0.12f % panelWidth)
-            while (panel < run.width) {
-                pixelRect(
-                    color = style.detailColor.copy(alpha = 0.12f),
-                    x = panel,
-                    y = top + 10f,
-                    width = 1f,
-                    height = span - 20f
-                )
-                pixelRect(
-                    color = style.detailColor.copy(alpha = 0.1f),
-                    x = panel + 12f,
-                    y = top + span * 0.45f,
-                    width = 34f,
-                    height = 3f
-                )
-                panel += panelWidth
-            }
-            for (obstacle in run.obstacles) {
-                if (obstacle.broken) continue
-                val h = span * obstacle.depth
-                val y = if (obstacle.ceiling) top else bottom - h
-                val ink = if (obstacle.wide) style.accentColor else style.obstacleColor
-                pixelRect(
-                    color = ink.copy(alpha = 0.16f),
-                    x = obstacle.x,
-                    y = y,
-                    width = obstacle.width,
-                    height = h
-                )
-                pixelRect(
-                    color = ink,
-                    x = obstacle.x,
-                    y = y,
-                    width = 3f,
-                    height = h
-                )
-                pixelRect(
-                    color = ink,
-                    x = obstacle.x + obstacle.width - 3f,
-                    y = y,
-                    width = 3f,
-                    height = h
-                )
-                pixelRect(
-                    color = ink,
-                    x = obstacle.x,
-                    y = if (obstacle.ceiling) y + h - 3f else y,
-                    width = obstacle.width,
-                    height = 3f
-                )
-                val inset = 5f
-                pixelRect(
-                    color = ink.copy(alpha = 0.4f),
-                    x = obstacle.x + inset,
-                    y = y + inset,
-                    width = obstacle.width - inset * 2f,
-                    height = 3f
-                )
-                pixelRect(
-                    color = ink.copy(alpha = 0.35f),
-                    x = obstacle.x + inset,
-                    y = y + h - inset - 3f,
-                    width = obstacle.width - inset * 2f,
-                    height = 3f
-                )
-                val tip = if (obstacle.ceiling) y + h else y
-                repeat(3) { tooth ->
-                    val x = obstacle.x + 4f + tooth * (obstacle.width - 8f) / 3f
+            for ((x, width, depth, ceiling, _, _, broken, kind) in run.obstacles) {
+                if (broken) continue
+                val ranges = when (kind) {
+                    1 -> listOf(0.38f to 0.62f)
+                    2 -> listOf(0f to depth, 1f - depth to 1f)
+                    else -> if (ceiling) listOf(0f to depth) else listOf(1f - depth to 1f)
+                }
+                for ((start, end) in ranges) {
+                    val y = top + span * start
+                    val h = span * (end - start)
+                    val ink = if (kind == 2) style.hazardColor else style.obstacleColor
+                    pixelRect(
+                        color = ink.copy(alpha = 0.18f),
+                        x = x,
+                        y = y,
+                        width = width,
+                        height = h
+                    )
+                    pixelRect(
+                        color = ink,
+                        x = x,
+                        y = y + 3f,
+                        width = width,
+                        height = h - 6f
+                    )
+                    pixelRect(
+                        color = ink,
+                        x = x + 3f,
+                        y = y,
+                        width = (width - 6f).coerceAtLeast(1f),
+                        height = h
+                    )
+                    pixelRect(
+                        color = style.playerDetailColor.copy(alpha = 0.35f),
+                        x = x + 4f,
+                        y = y + 5f,
+                        width = 2f,
+                        height = h - 10f
+                    )
+                    val tip = if (start == 0f) y + h - 4f else y + 2f
                     pixelRect(
                         color = style.accentColor,
-                        x = x,
-                        y = tip - 2f,
-                        width = 4f,
-                        height = 4f
+                        x = x + 2f,
+                        y = tip,
+                        width = width - 4f,
+                        height = 2f
                     )
+                    if (kind == 1) {
+                        pixelRect(
+                            color = style.hazardColor,
+                            x = x + width / 2f - 2f,
+                            y = y + h / 2f - 3f,
+                            width = 4f,
+                            height = 6f
+                        )
+                    } else if (width > 20f) {
+                        var mark = y + 12f
+                        while (mark < y + h - 10f) {
+                            pixelRect(
+                                color = style.playerDetailColor.copy(alpha = 0.25f),
+                                x = x + 8f,
+                                y = mark,
+                                width = width - 12f,
+                                height = 2f
+                            )
+                            mark += 12f
+                        }
+                    }
                 }
-                val lightY = if (obstacle.ceiling) y + h - 9f else y + 6f
-                pixelRect(
-                    color = style.hazardColor,
-                    x = obstacle.x + obstacle.width / 2f - 2f,
-                    y = lightY,
-                    width = 4f,
-                    height = 3f
-                )
             }
             for (beacon in run.beacons) {
                 val center = Offset(beacon.x, top + beacon.y * span)
@@ -260,44 +244,54 @@ fun GravityFlipGame(
             val tilt = if (run.velocity == 0f) 0f else run.velocity * 4f
             rotate(tilt, center) {
                 scale(1f, if (run.gravity == 1) 1f else -1f, center) {
-                    val r = run.radius
+                    val unit = run.radius / 8f
                     val stride =
-                        if (run.velocity == 0f) kotlin.math.sin(run.distance * 0.16f) * 2f else 0f
-                    pixelRect(
-                        color = style.playerColor,
-                        x = center.x - r,
-                        y = center.y - r,
-                        width = r * 2,
-                        height = r * 1.65f
-                    )
-                    pixelRect(
-                        color = style.playerDetailColor,
-                        x = center.x - r * 0.5f,
-                        y = center.y - r * 0.6f,
-                        width = r * 1.5f,
-                        height = r * 0.45f
-                    )
-                    pixelRect(
-                        color = style.accentColor,
-                        x = center.x - r * 0.8f,
-                        y = center.y + r * 0.65f + stride,
-                        width = r * 0.55f,
-                        height = r * 0.35f
-                    )
-                    pixelRect(
-                        color = style.accentColor,
-                        x = center.x + r * 0.3f,
-                        y = center.y + r * 0.65f,
-                        width = r * 0.55f,
-                        height = r * 0.35f
-                    )
-                    pixelRect(
-                        color = style.obstacleColor,
-                        x = center.x - r * 0.3f,
-                        y = center.y - r * 1.35f,
-                        width = r * 0.25f,
-                        height = r * 0.35f
-                    )
+                        if (run.velocity == 0f) kotlin.math.sin(run.distance * 0.17f) * 1.4f else 0f
+                    translate(center.x - 8f * unit, center.y - 8f * unit) {
+                        scale(unit, Offset.Zero) {
+                            drawArcadeSprite(
+                                sprite = GravityRunner,
+                                tint = style.playerColor,
+                                x = 0f,
+                                y = 0f
+                            )
+                            pixelRect(
+                                color = style.playerDetailColor,
+                                x = 9f,
+                                y = 3f,
+                                width = 5f,
+                                height = 4f
+                            )
+                            pixelRect(
+                                color = style.accentColor,
+                                x = 13f,
+                                y = 4f,
+                                width = 1f,
+                                height = 2f
+                            )
+                            pixelRect(
+                                color = style.obstacleColor,
+                                x = 1f,
+                                y = 7f,
+                                width = 3f,
+                                height = 6f
+                            )
+                            pixelRect(
+                                color = style.accentColor,
+                                x = 4f,
+                                y = 14f + stride,
+                                width = 4f,
+                                height = 2f
+                            )
+                            pixelRect(
+                                color = style.accentColor,
+                                x = 10f,
+                                y = 14f - stride,
+                                width = 4f,
+                                height = 2f
+                            )
+                        }
+                    }
                 }
             }
             run.effects.draw(
@@ -308,6 +302,13 @@ fun GravityFlipGame(
     }
 }
 
+private val GravityRunner = ArcadeSprite(
+    name = "GravityRunner",
+    width = 16,
+    height = 16,
+    data = "M6 0H13V1H15V7H13V9H14V12H12V14H14V16H10V13H8V16H4V14H6V12H4V8H5V7H4V2H6Z"
+)
+
 internal data class GravityObstacle(
     var x: Float,
     val width: Float,
@@ -315,7 +316,8 @@ internal data class GravityObstacle(
     val ceiling: Boolean,
     val wide: Boolean,
     var passed: Boolean = false,
-    var broken: Boolean = false
+    var broken: Boolean = false,
+    val kind: Int = 0
 )
 
 internal data class GravityBeacon(
@@ -342,9 +344,11 @@ internal class GravityFlipRun : ArcadeRun() {
     private var passed = 0
     private var timer = 0.7f
     private var nextCeiling = false
+    private val patterns = ArrayDeque<Int>()
+    private var previousPattern = -1
     private var trailTime = 0f
     private var flipTime = 0f
-    val speed get() = 135f + passed.coerceAtMost(60) * 2f
+    val speed get() = 135f + 90f * passed / (passed + 50f)
 
     override fun reset() {
         obstacles.clear()
@@ -360,6 +364,8 @@ internal class GravityFlipRun : ArcadeRun() {
         passed = 0
         timer = 0.65f
         nextCeiling = false
+        patterns.clear()
+        previousPattern = -1
         trailTime = 0f
         flipTime = 0f
     }
@@ -393,21 +399,7 @@ internal class GravityFlipRun : ArcadeRun() {
         val step = speed * seconds
         distance += step
         timer -= seconds
-        if (timer <= 0f) {
-            val wide = passed >= 6 && Random.nextInt(3) == 0
-            val w = if (wide) 44f else 25f + Random.nextFloat() * 10f
-            val depth = 0.22f + Random.nextFloat() * 0.12f
-            obstacles += GravityObstacle(width + 20f, w, depth, nextCeiling, wide)
-            repeat(3) {
-                val bank = radius / span + 0.025f
-                beacons += GravityBeacon(
-                    width + 20f + w / 2f + it * 20f,
-                    if (nextCeiling) 1f - bank else bank
-                )
-            }
-            if (Random.nextFloat() < 0.82f) nextCeiling = !nextCeiling
-            timer += (w / speed + 1.0f + Random.nextFloat() * 0.32f)
-        }
+        if (timer <= 0f) spawnPattern()
         for (obstacle in obstacles) {
             obstacle.x -= step
             if (!obstacle.passed && obstacle.x + obstacle.width < playerX - radius) {
@@ -416,7 +408,11 @@ internal class GravityFlipRun : ArcadeRun() {
                 score += 5
             }
             if (!obstacle.broken && obstacle.x < playerX + radius * 0.8f && obstacle.x + obstacle.width > playerX - radius * 0.8f &&
-                (if (obstacle.ceiling) y - margin * 0.8f < obstacle.depth else y + margin * 0.8f > 1f - obstacle.depth)
+                when (obstacle.kind) {
+                    1 -> y + margin * 0.8f > 0.38f && y - margin * 0.8f < 0.62f
+                    2 -> y - margin * 0.8f < obstacle.depth || y + margin * 0.8f > 1f - obstacle.depth
+                    else -> if (obstacle.ceiling) y - margin * 0.8f < obstacle.depth else y + margin * 0.8f > 1f - obstacle.depth
+                }
             ) {
                 effects.burst(
                     point = Offset(playerX, top + y * span),
@@ -457,6 +453,43 @@ internal class GravityFlipRun : ArcadeRun() {
         }
     }
 
+    private fun spawnPattern() {
+        if (patterns.isEmpty()) {
+            val choices = if (passed < 4) listOf(0, 1, 0) else if (passed < 12) listOf(
+                0,
+                1,
+                2,
+                3
+            ) else listOf(0, 1, 2, 3, 4)
+            val shuffled = choices.shuffled().toMutableList()
+            if (shuffled.first() == previousPattern) shuffled.reverse()
+            patterns.addAll(shuffled)
+        }
+        val pattern = patterns.removeFirst()
+        previousPattern = pattern
+        val kind = when (pattern) {
+            3 -> 1; 4 -> 2; else -> 0
+        }
+        val w = when (pattern) {
+            1 -> 66f; 2 -> 20f; 3 -> 48f; 4 -> 8f; else -> 28f
+        }
+        val depth = when (pattern) {
+            2 -> 0.62f; 4 -> 0.16f; else -> 0.28f + Random.nextFloat() * 0.1f
+        }
+        val x = maxOf(width + 20f, playerX + speed * 1.2f)
+        obstacles += GravityObstacle(x, w, depth, nextCeiling, pattern == 1, kind = kind)
+        val bank = radius / span + 0.025f
+        repeat(3) { index ->
+            beacons += GravityBeacon(
+                x + w / 2f + index * 19f,
+                if (kind == 2) 0.5f else if (nextCeiling) 1f - bank else bank
+            )
+        }
+        // A middle gate asks for a timed flip. The next obstacle leaves a full crossing to settle.
+        if (kind == 0 || kind == 2) nextCeiling = !nextCeiling
+        timer += w / speed + 1.05f + Random.nextFloat() * 0.35f + if (kind == 2) 0.2f else 0f
+    }
+
     override fun onResize(previous: Size) {
         obstacles.forEach { it.x *= width / previous.width }
         beacons.forEach { it.x *= width / previous.width }
@@ -474,6 +507,8 @@ internal class GravityFlipRun : ArcadeRun() {
         state.putInt("gravity", gravity)
         state.putInt("passed", passed)
         state.putBoolean("nextCeiling", nextCeiling)
+        state.putIntArray("patterns", patterns.toIntArray())
+        state.putInt("previousPattern", previousPattern)
         state.putFloatArray(
             "obstacles",
             obstacles.flatMap {
@@ -484,7 +519,8 @@ internal class GravityFlipRun : ArcadeRun() {
                     if (it.ceiling) 1f else 0f,
                     if (it.wide) 1f else 0f,
                     if (it.passed) 1f else 0f,
-                    if (it.broken) 1f else 0f
+                    if (it.broken) 1f else 0f,
+                    it.kind.toFloat()
                 )
             }.toFloatArray()
         )
@@ -505,16 +541,20 @@ internal class GravityFlipRun : ArcadeRun() {
         gravity = state.getInt("gravity", 1)
         passed = state.getInt("passed")
         nextCeiling = state.getBoolean("nextCeiling")
+        patterns.clear()
+        state.getIntArray("patterns")?.forEach(patterns::addLast)
+        previousPattern = state.getInt("previousPattern", -1)
         obstacles.clear()
         state.getFloatArray("obstacles")?.let {
-            for (index in it.indices step 7) obstacles += GravityObstacle(
+            for (index in it.indices step 8) obstacles += GravityObstacle(
                 it[index],
                 it[index + 1],
                 it[index + 2],
                 it[index + 3] == 1f,
                 it[index + 4] == 1f,
                 it[index + 5] == 1f,
-                it[index + 6] == 1f
+                it[index + 6] == 1f,
+                it[index + 7].toInt()
             )
         }
         beacons.clear()

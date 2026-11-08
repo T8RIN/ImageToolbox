@@ -77,18 +77,42 @@ fun LightCyclesGame(
                     val y = index / run.columns
                     if (run.board[index] < 0 && x in 1 until run.columns - 1 && y in 1 until run.rows - 1) {
                         pixelRect(
-                            color = style.obstacleColor.copy(alpha = 0.3f),
+                            color = style.obstacleColor.copy(alpha = 0.12f),
                             x = point.x + 1f,
                             y = point.y + 1f,
                             width = cell - 2f,
                             height = cell - 2f
                         )
+                        val edge = cell * 0.3f
+                        for (dx in listOf(1f, cell - edge - 1f)) {
+                            pixelRect(
+                                color = style.obstacleColor.copy(alpha = 0.7f),
+                                x = point.x + dx,
+                                y = point.y + 1f,
+                                width = edge,
+                                height = 1f
+                            )
+                            pixelRect(
+                                color = style.obstacleColor.copy(alpha = 0.7f),
+                                x = point.x + dx,
+                                y = point.y + cell - 2f,
+                                width = edge,
+                                height = 1f
+                            )
+                        }
                         pixelRect(
-                            color = style.obstacleColor,
-                            x = point.x + 2f,
-                            y = point.y + 2f,
-                            width = cell - 4f,
-                            height = 2f
+                            color = style.obstacleColor.copy(alpha = 0.7f),
+                            x = point.x + 1f,
+                            y = point.y + 1f,
+                            width = 1f,
+                            height = cell - 2f
+                        )
+                        pixelRect(
+                            color = style.obstacleColor.copy(alpha = 0.7f),
+                            x = point.x + cell - 2f,
+                            y = point.y + 1f,
+                            width = 1f,
+                            height = cell - 2f
                         )
                     } else if (index % run.columns % 2 == 0 && index / run.columns % 2 == 0) {
                         pixelRect(
@@ -125,9 +149,9 @@ fun LightCyclesGame(
                 run.cycles.forEachIndexed { index, cycle ->
                     val color = when (index) {
                         0 -> style.playerColor
-                        1 -> style.accentColor
-                        2 -> style.obstacleColor
-                        else -> style.hazardColor
+                        1 -> style.hazardColor
+                        2 -> style.accentColor
+                        else -> style.obstacleColor
                     }
                     val ink = color.copy(alpha = if (cycle.alive) 1f else 0.45f)
                     translate(origin.x, origin.y) {
@@ -168,6 +192,15 @@ fun LightCyclesGame(
                             radius = cell * 0.6f,
                             center = point,
                             style = Stroke(1f)
+                        )
+                        if (cycle.phaseTime > 0f) drawArc(
+                            color = style.accentColor,
+                            startAngle = -90f - cycle.direction * 90f,
+                            sweepAngle = 360f * cycle.phaseTime / 1.6f,
+                            useCenter = false,
+                            topLeft = point - Offset(cell * 0.7f, cell * 0.7f),
+                            size = Size(cell * 1.4f, cell * 1.4f),
+                            style = Stroke(2f)
                         )
                         pixelRect(
                             color = ink,
@@ -252,7 +285,8 @@ internal class LightCycle(
     var previous: Int,
     var direction: Int,
     var alive: Boolean = true,
-    var charged: Boolean = false
+    var charged: Boolean = false,
+    var phaseTime: Float = 0f
 ) {
     val trail = mutableListOf<Int>()
     val path = Path()
@@ -274,7 +308,7 @@ internal class LightCyclesRun : ArcadeRun() {
     private var visited = IntArray(board.size)
     private val queue = IntArray(100)
     private var visitId = 0
-    private val interval get() = (0.15f - round.coerceAtMost(12) * 0.006f).coerceAtLeast(0.078f)
+    private val interval get() = 0.145f - 0.055f * (round - 1) / (round + 7f)
     val progress get() = (elapsed / interval).coerceIn(0f, 1f)
     val cell get() = minOf((width - 48f) / columns, (height - topInset - 48f) / rows)
     val origin
@@ -308,8 +342,8 @@ internal class LightCyclesRun : ArcadeRun() {
         val starts = listOf(
             Triple((rows - 3) * columns + columns / 4, 0, true),
             Triple(2 * columns + columns * 3 / 4, 2, true),
-            Triple(rows / 2 * columns + columns - 3, 3, round >= 4),
-            Triple(rows / 2 * columns + 2, 1, round >= 7)
+            Triple(rows / 2 * columns + columns - 3, 3, round >= 5),
+            Triple(rows / 2 * columns + 2, 1, round >= 10)
         )
         for ((position, direction, enabled) in starts) if (enabled) {
             val cycle = LightCycle(position, position, direction)
@@ -397,7 +431,7 @@ internal class LightCyclesRun : ArcadeRun() {
         val options = (0..3).filter {
             val position = next(cycle.position, it)
             it != (cycle.direction + 2) % 4 && position >= 0 &&
-                    (board[position] == 0 || cycle.charged && board[position] > 0 && cycles.none { it.alive && it.position == position })
+                    (board[position] == 0 || (cycle.charged || cycle.phaseTime > 0f) && board[position] > 0 && cycles.none { it.alive && it.position == position })
         }
         if (options.isEmpty()) return cycle.direction
         if (Random.nextFloat() < (0.18f - round * 0.01f).coerceAtLeast(0.04f)) return options.random()
@@ -426,9 +460,10 @@ internal class LightCyclesRun : ArcadeRun() {
             val headOn =
                 destinations.count { it == destination } > 1 || (destination in heads && destination != cycle.position)
             val trail = destination >= 0 && board[destination] > 0
-            val absorb = cycle.charged && trail && !headOn
-            if (absorb) {
+            val absorb = (cycle.charged || cycle.phaseTime > 0f) && trail && !headOn
+            if (absorb && cycle.phaseTime <= 0f) {
                 cycle.charged = false
+                cycle.phaseTime = 1.6f
                 effects.burst(
                     point = center(destination),
                     count = 14
@@ -478,6 +513,7 @@ internal class LightCyclesRun : ArcadeRun() {
             }
             return
         }
+        cycles.forEach { it.phaseTime = (it.phaseTime - seconds).coerceAtLeast(0f) }
         elapsed += seconds
         if (elapsed >= interval) {
             elapsed -= interval
@@ -495,6 +531,7 @@ internal class LightCyclesRun : ArcadeRun() {
         state.putIntArray("run", intArrayOf(rows, round, steps))
         state.putFloatArray("time", floatArrayOf(time, elapsed, transition))
         state.putIntArray("turns", turns.toIntArray())
+        state.putFloatArray("phasing", cycles.map { it.phaseTime }.toFloatArray())
         state.putIntArray(
             "cycles",
             cycles.flatMap {
@@ -541,6 +578,7 @@ internal class LightCyclesRun : ArcadeRun() {
                     it[index + 3] == 1,
                     it[index + 4] == 1
                 )
+                cycle.phaseTime = state.getFloatArray("phasing")?.getOrNull(index / 5) ?: 0f
                 state.getIntArray("trail${index / 5}")?.forEach(cycle.trail::add)
                 val path = if (cycle.alive) cycle.trail.dropLast(1) else cycle.trail
                 path.forEachIndexed { i, point ->

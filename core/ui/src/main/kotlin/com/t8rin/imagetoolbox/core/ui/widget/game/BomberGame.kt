@@ -28,6 +28,8 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.clipPath
+import androidx.compose.ui.graphics.drawscope.scale
+import androidx.compose.ui.graphics.drawscope.translate
 import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
 import kotlin.math.abs
 import kotlin.math.sin
@@ -55,9 +57,9 @@ fun BomberGame(
             run = run,
             onPress = run::begin,
             onDrag = run::drag,
-            onSwipe = run::steer,
-            swipeOnDrag = true,
+            onSwipe = run::swipe,
             onTap = { run.placeBomb() },
+            onSecondaryTap = { run.placeBomb() },
             onRelease = run::release
         ) {
             val cell = run.cell
@@ -66,74 +68,93 @@ fun BomberGame(
             val outline = Path().apply { addRoundRect(RoundRect(bounds, CornerRadius(10f))) }
             clipPath(outline) {
                 run.board.forEachIndexed { index, tile ->
-                    val p = run.center(index) - Offset(cell / 2f, cell / 2f)
+                    val point = run.center(index) - Offset(cell / 2f, cell / 2f)
                     when (tile) {
                         1 -> {
                             pixelRect(
                                 color = style.obstacleColor.copy(alpha = 0.3f),
-                                x = p.x + 1f,
-                                y = p.y + 1f,
+                                x = point.x + 1f,
+                                y = point.y + 3f,
                                 width = cell - 2f,
+                                height = cell - 6f
+                            )
+                            pixelRect(
+                                color = style.obstacleColor.copy(alpha = 0.3f),
+                                x = point.x + 3f,
+                                y = point.y + 1f,
+                                width = cell - 6f,
                                 height = cell - 2f
                             )
                             pixelRect(
-                                color = style.obstacleColor.copy(alpha = 0.6f),
-                                x = p.x + 2f,
-                                y = p.y + 2f,
-                                width = cell - 4f,
+                                color = style.detailColor.copy(alpha = 0.65f),
+                                x = point.x + 5f,
+                                y = point.y + 5f,
+                                width = 4f,
                                 height = 2f
                             )
                             pixelRect(
-                                color = style.playerDetailColor.copy(alpha = 0.22f),
-                                x = p.x + 2f,
-                                y = p.y + cell - 4f,
-                                width = cell - 4f,
+                                color = style.detailColor.copy(alpha = 0.4f),
+                                x = point.x + cell - 8f,
+                                y = point.y + cell - 6f,
+                                width = 3f,
                                 height = 2f
                             )
                         }
 
                         2 -> {
                             pixelRect(
-                                color = style.accentColor.copy(alpha = 0.65f),
-                                x = p.x + 2f,
-                                y = p.y + 2f,
-                                width = cell - 4f,
+                                color = style.accentColor.copy(alpha = 0.7f),
+                                x = point.x + 3f,
+                                y = point.y + 2f,
+                                width = cell - 6f,
                                 height = cell - 4f
                             )
                             pixelRect(
                                 color = style.playerDetailColor.copy(alpha = 0.45f),
-                                x = p.x + 4f,
-                                y = p.y + 4f,
-                                width = cell - 8f,
+                                x = point.x + cell * 0.35f,
+                                y = point.y + 4f,
+                                width = 2f,
                                 height = cell - 8f
                             )
-                            repeat(5) { brace ->
-                                val step = (cell - 8f) / 5f
-                                pixelRect(
-                                    color = style.accentColor.copy(alpha = 0.8f),
-                                    x = p.x + 4f + brace * step,
-                                    y = p.y + 4f + brace * step,
-                                    width = step + 0.5f,
-                                    height = step + 0.5f
-                                )
-                                pixelRect(
-                                    color = style.accentColor.copy(alpha = 0.55f),
-                                    x = p.x + cell - 4f - (brace + 1) * step,
-                                    y = p.y + 4f + brace * step,
-                                    width = step + 0.5f,
-                                    height = step + 0.5f
-                                )
-                            }
+                            pixelRect(
+                                color = style.playerDetailColor.copy(alpha = 0.45f),
+                                x = point.x + cell * 0.65f,
+                                y = point.y + 4f,
+                                width = 2f,
+                                height = cell - 8f
+                            )
+                            pixelRect(
+                                color = style.obstacleColor,
+                                x = point.x + 2f,
+                                y = point.y + 5f,
+                                width = cell - 4f,
+                                height = 3f
+                            )
+                            pixelRect(
+                                color = style.obstacleColor,
+                                x = point.x + 2f,
+                                y = point.y + cell - 8f,
+                                width = cell - 4f,
+                                height = 3f
+                            )
                         }
 
-                        else -> if ((index % run.columns + index / run.columns) % 2 == 0)
+                        else -> if (index % 3 == 0) {
                             pixelRect(
-                                color = style.detailColor.copy(alpha = 0.08f),
-                                x = p.x,
-                                y = p.y,
-                                width = cell,
-                                height = cell
+                                color = style.detailColor.copy(alpha = 0.35f),
+                                x = point.x + cell * 0.3f,
+                                y = point.y + cell * 0.7f,
+                                width = 2f,
+                                height = 1f
                             )
+                            pixelRect(
+                                color = style.detailColor.copy(alpha = 0.2f),
+                                x = point.x + cell * 0.3f + 3f,
+                                y = point.y + cell * 0.7f + 2f,
+                                width = 1f,
+                                height = 1f
+                            )
+                        }
                     }
                 }
                 for ((index, kind) in run.items) {
@@ -242,85 +263,132 @@ fun BomberGame(
                     )
                 }
                 for (enemy in run.enemies) {
-                    val p = run.enemyPoint(enemy)
-                    val leg = if ((run.time * 8f).toInt() % 2 == 0) 1f else -1f
-                    pixelRect(
-                        color = style.hazardColor,
-                        x = p.x - cell * 0.28f,
-                        y = p.y - cell * 0.22f,
-                        width = cell * 0.56f,
-                        height = cell * 0.44f
-                    )
-                    for (side in listOf(-1f, 1f)) {
-                        for (foot in listOf(-1f, 1f)) pixelRect(
-                            color = style.hazardColor,
-                            x = p.x + side * cell * 0.31f - cell * 0.05f,
-                            y = p.y + foot * cell * 0.18f + leg * side * cell * 0.04f,
-                            width = cell * 0.1f,
-                            height = cell * 0.16f
-                        )
-                        pixelRect(
-                            color = style.playerDetailColor,
-                            x = p.x + side * cell * 0.12f - 1.5f,
-                            y = p.y - 3f,
-                            width = 3f,
-                            height = 4f
-                        )
+                    val point = run.enemyPoint(enemy)
+                    val unit = cell / 17f
+                    translate(point.x - unit * 5f, point.y - unit * 5.5f) {
+                        scale(unit, Offset.Zero) {
+                            drawArcadeSprite(
+                                sprite = BomberBug,
+                                tint = style.hazardColor,
+                                x = 0f,
+                                y = 0f
+                            )
+                            pixelRect(
+                                color = style.playerDetailColor,
+                                x = 2f,
+                                y = 4f,
+                                width = 2f,
+                                height = 3f
+                            )
+                            pixelRect(
+                                color = style.playerDetailColor,
+                                x = 6f,
+                                y = 4f,
+                                width = 2f,
+                                height = 3f
+                            )
+                            val step = if ((run.time * 7f).toInt() % 2 == 0) 0f else 1f
+                            pixelRect(
+                                color = style.hazardColor,
+                                x = step,
+                                y = 9f,
+                                width = 2f,
+                                height = 2f
+                            )
+                            pixelRect(
+                                color = style.hazardColor,
+                                x = 8f - step,
+                                y = 9f,
+                                width = 2f,
+                                height = 2f
+                            )
+                        }
                     }
                 }
                 if (run.invulnerable <= 0f || (run.invulnerable * 9f).toInt() % 2 == 0) {
-                    val p = run.playerPoint
-                    val u = cell / 14f
-                    pixelRect(
-                        color = style.playerColor,
-                        x = p.x - 4f * u,
-                        y = p.y - 5f * u,
-                        width = 8f * u,
-                        height = 7f * u
-                    )
-                    pixelRect(
-                        color = style.accentColor,
-                        x = p.x - 3f * u,
-                        y = p.y - 3f * u,
-                        width = 6f * u,
-                        height = 3f * u
-                    )
-                    pixelRect(
-                        color = style.playerDetailColor,
-                        x = p.x - 2f * u,
-                        y = p.y - 2.5f * u,
-                        width = u,
-                        height = 2f * u
-                    )
-                    pixelRect(
-                        color = style.playerDetailColor,
-                        x = p.x + u,
-                        y = p.y - 2.5f * u,
-                        width = u,
-                        height = 2f * u
-                    )
-                    pixelRect(
-                        color = style.playerColor,
-                        x = p.x - 3f * u,
-                        y = p.y + 2f * u,
-                        width = 6f * u,
-                        height = 3f * u
-                    )
-                    pixelRect(
-                        color = style.obstacleColor,
-                        x = p.x - 4f * u,
-                        y = p.y + 5f * u,
-                        width = 3f * u,
-                        height = 2f * u
-                    )
-                    pixelRect(
-                        color = style.obstacleColor,
-                        x = p.x + u,
-                        y = p.y + 5f * u,
-                        width = 3f * u,
-                        height = 2f * u
-                    )
+                    val point = run.playerPoint
+                    val unit = cell / 19f
+                    translate(point.x - unit * 6f, point.y - unit * 8f) {
+                        scale(unit, Offset.Zero) {
+                            drawArcadeSprite(
+                                sprite = BomberBody,
+                                tint = style.playerColor,
+                                x = 0f,
+                                y = 0f
+                            )
+                            pixelRect(
+                                color = style.accentColor,
+                                x = 5f,
+                                y = 0f,
+                                width = 2f,
+                                height = 2f
+                            )
+                            pixelRect(
+                                color = style.accentColor,
+                                x = 3f,
+                                y = 5f,
+                                width = 6f,
+                                height = 4f
+                            )
+                            pixelRect(
+                                color = style.playerDetailColor,
+                                x = 4f,
+                                y = 6f,
+                                width = 1f,
+                                height = 2f
+                            )
+                            pixelRect(
+                                color = style.playerDetailColor,
+                                x = 7f,
+                                y = 6f,
+                                width = 1f,
+                                height = 2f
+                            )
+                            pixelRect(
+                                color = style.obstacleColor,
+                                x = 4f,
+                                y = 10f,
+                                width = 4f,
+                                height = 2f
+                            )
+                            val step =
+                                sin(run.progress * Math.PI.toFloat()) * (if (run.player % 2 == 0) 1f else -1f)
+                            pixelRect(
+                                color = style.accentColor,
+                                x = 1f,
+                                y = 14f + step,
+                                width = 4f,
+                                height = 2f
+                            )
+                            pixelRect(
+                                color = style.accentColor,
+                                x = 7f,
+                                y = 14f - step,
+                                width = 4f,
+                                height = 2f
+                            )
+                        }
+                    }
                 }
+            }
+            run.touchOrigin?.takeIf { run.stick.getDistance() > 8f }?.let { point ->
+                drawCircle(
+                    color = style.detailColor.copy(alpha = 0.35f),
+                    radius = 23f,
+                    center = point,
+                    style = Stroke(1f)
+                )
+                drawLine(
+                    color = style.playerColor.copy(alpha = 0.5f),
+                    start = point,
+                    end = point + run.stick,
+                    strokeWidth = 2f
+                )
+                drawCircle(
+                    color = style.playerColor.copy(alpha = 0.5f),
+                    radius = 4f,
+                    center = point + run.stick
+                )
             }
             drawRoundRect(
                 color = style.detailColor,
@@ -358,6 +426,20 @@ fun BomberGame(
         }
     }
 }
+
+private val BomberBody = ArcadeSprite(
+    name = "Bomber",
+    width = 12,
+    height = 16,
+    data = "M5 0H7V2H9V3H11V5H12V8H11V9H9V10H10V12H9V14H11V16H7V14H5V16H1V14H3V12H2V10H3V9H1V8H0V5H1V3H3V2H5Z"
+)
+
+private val BomberBug = ArcadeSprite(
+    name = "BomberBug",
+    width = 10,
+    height = 11,
+    data = "M1 0H3V2H7V0H9V3H10V8H8V10H6V9H4V10H2V8H0V3H1Z"
+)
 
 internal data class BomberBomb(
     val position: Int,
@@ -398,9 +480,13 @@ internal class BomberRun : ArcadeRun() {
     var transition = 0f
     private var broken = 0
     private var direction = -1
-    private var pending = false
+    private var queuedDirection = -1
+    private var gestureStepped = false
     private var moving = false
-    private var touch = Offset.Zero
+    var touchOrigin: Offset? = null
+        private set
+    var stick = Offset.Zero
+        private set
     val playerPoint get() = center(previous) + (center(player) - center(previous)) * progress
     fun enemyPoint(enemy: BomberEnemy) =
         center(enemy.previous) + (center(enemy.position) - center(enemy.previous)) * enemy.progress
@@ -461,26 +547,49 @@ internal class BomberRun : ArcadeRun() {
         index in board.indices && board[index] == 0 && bombs.none { it.position == index }
 
     fun begin(point: Offset) {
-        touch = point
+        touchOrigin = point
+        stick = Offset.Zero
+        gestureStepped = false
+        moving = false
     }
 
+    private fun heading(delta: Offset): Int = if (abs(delta.x) > abs(delta.y)) {
+        if (delta.x > 0f) 0 else 2
+    } else if (delta.y > 0f) 1 else 3
+
     fun drag(point: Offset) {
-        steer(point - touch); moving = true
+        var origin = touchOrigin ?: return
+        var delta = point - origin
+        if (delta.getDistance() > 32f) {
+            delta *= 32f / delta.getDistance()
+            origin = point - delta
+            touchOrigin = origin
+        }
+        stick = delta
+        moving = delta.getDistance() >= 8f
+        if (moving && (direction < 0 || abs(abs(delta.x) - abs(delta.y)) > 3f)) direction =
+            heading(delta)
+    }
+
+    fun steer(delta: Offset) {
+        if (transition <= 0f) queuedDirection = heading(delta)
+    }
+
+    fun swipe(delta: Offset) {
+        if (!gestureStepped) steer(delta)
     }
 
     fun release() {
         moving = false
-    }
-
-    fun steer(delta: Offset) {
-        if (transition > 0f) return
-        direction =
-            if (abs(delta.x) > abs(delta.y)) if (delta.x > 0f) 0 else 2 else if (delta.y > 0f) 1 else 3
-        pending = true
+        direction = -1
+        touchOrigin = null
+        stick = Offset.Zero
     }
 
     override fun stopInput() {
-        moving = false; pending = false; direction = -1
+        release()
+        queuedDirection = -1
+        gestureStepped = false
     }
 
     fun placeBomb() {
@@ -567,11 +676,15 @@ internal class BomberRun : ArcadeRun() {
         bombs.forEach { it.fuse -= seconds }
         bombs.filter { it.fuse <= 0f }.forEach(::explode)
         progress = (progress + seconds / 0.14f).coerceAtMost(1f)
-        if (progress >= 1f && direction >= 0 && (pending || moving)) {
-            val destination = next(player, direction)
-            pending = false
+        val heading = if (moving) direction else queuedDirection
+        if (progress >= 1f && heading >= 0) {
+            val destination = next(player, heading)
+            queuedDirection = -1
             if (open(destination)) {
-                previous = player; player = destination; progress = 0f
+                previous = player
+                player = destination
+                progress = 0f
+                gestureStepped = true
             }
         }
         val index = if (progress < 0.5f) previous else player
@@ -590,7 +703,7 @@ internal class BomberRun : ArcadeRun() {
         while (enemyIterator.hasNext()) {
             val enemy = enemyIterator.next()
             enemy.progress =
-                (enemy.progress + seconds / (0.38f - round.coerceAtMost(12) * 0.012f)).coerceAtMost(
+                (enemy.progress + seconds / (0.39f - 0.15f * (round - 1) / (round + 9f))).coerceAtMost(
                     1f
                 )
             val enemyIndex = if (enemy.progress < 0.5f) enemy.previous else enemy.position
