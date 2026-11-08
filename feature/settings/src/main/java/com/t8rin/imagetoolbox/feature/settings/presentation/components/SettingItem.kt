@@ -586,7 +586,10 @@ internal fun SettingItem(
             }
 
             Setting.ShowLoadingGameButton -> {
-                ShowLoadingGameButtonSettingItem(onClick = component::toggleShowLoadingGameButton)
+                ShowLoadingGameButtonSettingItem(
+                    onClick = component::toggleShowLoadingGameButton,
+                    onGameChange = component::setLoadingGame
+                )
             }
 
             Setting.UseFullscreenSettings -> {

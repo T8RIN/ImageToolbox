@@ -53,12 +53,13 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.icons.StadiaController
+import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.BasicEnhancedAlertDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedLoadingIndicator
-import com.t8rin.imagetoolbox.core.ui.widget.game.DinoGame
+import com.t8rin.imagetoolbox.core.ui.widget.game.ArcadeGameContent
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.tappable
 
 @Composable
@@ -189,7 +190,8 @@ private fun LoadingGameContent(
     indicator: @Composable BoxScope.() -> Unit
 ) {
     val indicatorSize = 120.dp
-    if (!LocalSettingsState.current.showLoadingGameButton) {
+    val settings = LocalSettingsState.current
+    if (!settings.showLoadingGameButton) {
         Box(
             modifier = Modifier.size(indicatorSize),
             contentAlignment = Alignment.Center,
@@ -199,6 +201,10 @@ private fun LoadingGameContent(
     }
 
     var showGame by rememberSaveable { mutableStateOf(false) }
+    val preference = settings.loadingGame
+    var game by rememberSaveable(preference) {
+        mutableStateOf(if (preference == ArcadeGame.Random) ArcadeGame.playable.random() else preference)
+    }
     val isPortrait by isPortraitOrientationAsState()
     val buttonSize = 48.dp
     val buttonSpacing = 12.dp
@@ -225,7 +231,12 @@ private fun LoadingGameContent(
                 content = indicator
             )
             EnhancedIconButton(
-                onClick = { showGame = !showGame },
+                onClick = {
+                    if (!showGame && preference == ArcadeGame.Random) {
+                        game = ArcadeGame.playable.filterNot { it == game }.random()
+                    }
+                    showGame = !showGame
+                },
                 modifier = Modifier.size(buttonSize),
                 containerColor = if (showGame) {
                     MaterialTheme.colorScheme.primary
@@ -258,7 +269,10 @@ private fun LoadingGameContent(
                 shrinkHorizontally(shrinkTowards = Alignment.Start)
             }
         ) {
-            DinoGame(modifier = Modifier.widthIn(max = 420.dp))
+            ArcadeGameContent(
+                game = game,
+                modifier = Modifier.widthIn(max = 420.dp)
+            )
         }
     }
 }

@@ -93,6 +93,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.ServiceToolbox
 import com.t8rin.imagetoolbox.core.resources.icons.ShieldLock
 import com.t8rin.imagetoolbox.core.resources.icons.SplitAlt
 import com.t8rin.imagetoolbox.core.resources.icons.Stacks
+import com.t8rin.imagetoolbox.core.resources.icons.StadiaController
 import com.t8rin.imagetoolbox.core.resources.icons.Stylus
 import com.t8rin.imagetoolbox.core.resources.icons.SwapVerticalCircle
 import com.t8rin.imagetoolbox.core.resources.icons.TagText
@@ -110,6 +111,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.WebpBox
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.AiTools
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.ApngTools
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.AppLogs
+import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.ArcadeGames
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.ArchiveTools
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.AsciiArt
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.AudioCoverExtractor
@@ -187,7 +189,7 @@ import android.net.Uri as AndroidUri
 internal fun Screen.isBetaFeature(): Boolean = false
 
 internal fun Screen.canExpandSettings(): Boolean = when {
-    this is ColorLibrary || this is Gallery -> false
+    this is ColorLibrary || this is Gallery || this is ArcadeGames -> false
     id >= 0 -> true
     else -> false
 }
@@ -201,6 +203,7 @@ internal fun Screen.simpleName(): String = when (this) {
     is CodePreview -> "Code_Preview"
     is ScreenshotFraming -> "Screenshot_Framing"
     is EmojiKitchen -> "Emoji_Kitchen"
+    is ArcadeGames -> "Arcade_Games"
     is Crop -> "Crop"
     is Curves -> "Tone_Curves"
     is DeleteExif -> "Delete_Exif"
@@ -315,6 +318,7 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is CodePreview -> Icons.Outlined.Terminal
     is ScreenshotFraming -> Icons.Outlined.WallArt
     is EmojiKitchen -> Icons.Outlined.FamilyStar
+    is ArcadeGames -> Icons.Outlined.StadiaController
     is Crop -> Icons.Rounded.CropSmall
     is Curves -> Icons.Outlined.Curve
     is DeleteExif -> Icons.Outlined.Exif
@@ -418,6 +422,7 @@ internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
     is CodePreview -> Icons.TwoTone.Terminal
     is ScreenshotFraming -> Icons.TwoTone.WallArt
     is EmojiKitchen -> Icons.TwoTone.FamilyStar
+    is ArcadeGames -> Icons.TwoTone.StadiaController
     is Crop -> Icons.TwoTone.CropSmall
     is Curves -> Icons.TwoTone.Curve
     is DeleteExif -> Icons.TwoTone.Exif
@@ -607,7 +612,8 @@ private object ScreenConstantsImpl : ScreenConstants {
                     JxlTools(),
                     ApngTools(),
                     WebpTools(),
-                    AudioCoverExtractor()
+                    AudioCoverExtractor(),
+                    ArcadeGames
                 ),
                 title = R.string.tools,
                 selectedIcon = Icons.Rounded.ServiceToolbox,
@@ -623,5 +629,5 @@ private object ScreenConstantsImpl : ScreenConstants {
             .sortedBy { it.id }
     }
 
-    override val FEATURES_COUNT = 111 + PdfTools.options.size
+    override val FEATURES_COUNT = 112 + PdfTools.options.size
 }

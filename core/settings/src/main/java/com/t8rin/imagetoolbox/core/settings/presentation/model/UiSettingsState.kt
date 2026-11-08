@@ -55,6 +55,7 @@ import com.t8rin.imagetoolbox.core.resources.BuildConfig
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.emoji.Emoji
 import com.t8rin.imagetoolbox.core.resources.emoji.Emoji.initEmoji
+import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
 import com.t8rin.imagetoolbox.core.settings.domain.model.CacheAutoClearInterval
 import com.t8rin.imagetoolbox.core.settings.domain.model.ColorHarmonizer
 import com.t8rin.imagetoolbox.core.settings.domain.model.CopyToClipboardMode
@@ -166,6 +167,7 @@ data class UiSettingsState(
     val sheetNestedScrollEnabled: Boolean,
     val showSettingsInLandscape: Boolean,
     val showLoadingGameButton: Boolean,
+    val loadingGame: ArcadeGame,
     val useFullscreenSettings: Boolean,
     val allowCollapsingSettingsGroups: Boolean,
     val useCategorizedSettings: Boolean,
@@ -465,6 +467,7 @@ fun SettingsState.toUiState(
                 sheetNestedScrollEnabled = sheetNestedScrollEnabled,
                 showSettingsInLandscape = showSettingsInLandscape,
                 showLoadingGameButton = showLoadingGameButton,
+                loadingGame = loadingGame,
                 useFullscreenSettings = useFullscreenSettings,
                 allowCollapsingSettingsGroups = allowCollapsingSettingsGroups,
                 useCategorizedSettings = useCategorizedSettings,

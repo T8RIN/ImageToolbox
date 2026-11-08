@@ -1407,6 +1407,13 @@ sealed class Screen(
         subtitle = R.string.emoji_kitchen_description
     )
 
+    @Serializable
+    data object ArcadeGames : Screen(
+        id = 85,
+        title = R.string.arcade_games,
+        subtitle = R.string.arcade_games_sub
+    )
+
     companion object : ScreenConstants by ScreenConstants
 
 }

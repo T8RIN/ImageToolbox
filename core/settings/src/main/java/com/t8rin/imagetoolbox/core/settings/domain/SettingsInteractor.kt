@@ -26,6 +26,7 @@ import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.HashingType
 import com.t8rin.imagetoolbox.core.domain.model.SystemBarsVisibility
 import com.t8rin.imagetoolbox.core.domain.saving.io.Writeable
+import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
 import com.t8rin.imagetoolbox.core.settings.domain.model.BackupProgress
 import com.t8rin.imagetoolbox.core.settings.domain.model.CacheAutoClearInterval
 import com.t8rin.imagetoolbox.core.settings.domain.model.ColorHarmonizer
@@ -226,6 +227,8 @@ interface SettingsInteractor : SimpleSettingsInteractor {
     suspend fun toggleShowSettingsInLandscape()
 
     suspend fun toggleShowLoadingGameButton()
+
+    suspend fun setLoadingGame(game: ArcadeGame)
 
     suspend fun toggleUseFullscreenSettings()
 

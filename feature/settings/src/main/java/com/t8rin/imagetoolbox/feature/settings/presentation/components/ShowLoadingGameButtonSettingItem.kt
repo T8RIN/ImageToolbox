@@ -17,7 +17,11 @@
 
 package com.t8rin.imagetoolbox.feature.settings.presentation.components
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -25,21 +29,42 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.StadiaController
+import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButtonGroup
+import com.t8rin.imagetoolbox.core.ui.widget.game.title
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 
 @Composable
 internal fun ShowLoadingGameButtonSettingItem(
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    onGameChange: (ArcadeGame) -> Unit
 ) {
+    val settings = LocalSettingsState.current
     PreferenceRowSwitch(
         shape = ShapeDefaults.center,
         modifier = Modifier.padding(horizontal = 8.dp),
         onClick = { onClick() },
         title = stringResource(R.string.show_loading_game_button),
         subtitle = stringResource(R.string.show_loading_game_button_sub),
-        checked = LocalSettingsState.current.showLoadingGameButton,
-        startIcon = Icons.Outlined.StadiaController
+        checked = settings.showLoadingGameButton,
+        startIcon = Icons.Outlined.StadiaController,
+        additionalContent = {
+            AnimatedVisibility(visible = settings.showLoadingGameButton) {
+                EnhancedButtonGroup(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 8.dp),
+                    entries = ArcadeGame.entries,
+                    value = settings.loadingGame,
+                    title = null,
+                    itemContent = { Text(stringResource(it.title)) },
+                    onValueChange = onGameChange,
+                    activeButtonColor = MaterialTheme.colorScheme.surfaceContainerHighest,
+                    inactiveButtonColor = MaterialTheme.colorScheme.surfaceContainer
+                )
+            }
+        }
     )
 }

@@ -50,6 +50,7 @@ import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
+import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
 import com.t8rin.imagetoolbox.core.settings.domain.model.BackupProgress
 import com.t8rin.imagetoolbox.core.settings.domain.model.CacheAutoClearInterval
 import com.t8rin.imagetoolbox.core.settings.domain.model.ColorHarmonizer
@@ -531,6 +532,8 @@ class SettingsComponent @AssistedInject internal constructor(
     fun toggleShowSettingsInLandscape() = settingsScope { toggleShowSettingsInLandscape() }
 
     fun toggleShowLoadingGameButton() = settingsScope { toggleShowLoadingGameButton() }
+
+    fun setLoadingGame(game: ArcadeGame) = settingsScope { setLoadingGame(game) }
 
     fun toggleUseFullscreenSettings() = settingsScope { toggleUseFullscreenSettings() }
 

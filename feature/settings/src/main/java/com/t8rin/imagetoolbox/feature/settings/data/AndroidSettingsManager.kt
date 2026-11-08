@@ -50,6 +50,7 @@ import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.domain.utils.timestamp
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
+import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
 import com.t8rin.imagetoolbox.core.settings.domain.model.BackupProgress
 import com.t8rin.imagetoolbox.core.settings.domain.model.CacheAutoClearInterval
 import com.t8rin.imagetoolbox.core.settings.domain.model.ColorHarmonizer
@@ -179,6 +180,7 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.KEEP_DATE_TIME
 import com.t8rin.imagetoolbox.feature.settings.data.keys.LAMA_LIMIT_RESOLUTION
 import com.t8rin.imagetoolbox.feature.settings.data.keys.LAMA_THREADS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.LAST_CACHE_AUTO_CLEAR_TIMESTAMP_MILLIS
+import com.t8rin.imagetoolbox.feature.settings.data.keys.LOADING_GAME
 import com.t8rin.imagetoolbox.feature.settings.data.keys.LOCK_DRAW_ORIENTATION
 import com.t8rin.imagetoolbox.feature.settings.data.keys.MAGNIFIER_ENABLED
 import com.t8rin.imagetoolbox.feature.settings.data.keys.MAIN_SCREEN_TITLE
@@ -973,6 +975,10 @@ internal class AndroidSettingsManager @Inject constructor(
         key = SHOW_LOADING_GAME_BUTTON,
         defaultValue = default.showLoadingGameButton
     )
+
+    override suspend fun setLoadingGame(game: ArcadeGame) = edit {
+        it[LOADING_GAME] = game.name
+    }
 
     override suspend fun toggleUseFullscreenSettings() = toggle(
         key = USE_FULLSCREEN_SETTINGS,

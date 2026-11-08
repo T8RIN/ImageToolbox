@@ -19,225 +19,62 @@ package com.t8rin.imagetoolbox.core.ui.widget.game
 
 import android.os.Bundle
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.awaitEachGesture
 import androidx.compose.foundation.gestures.awaitFirstDown
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Immutable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberUpdatedState
-import androidx.compose.runtime.saveable.Saver
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
-import androidx.compose.runtime.withFrameNanos
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.drawscope.translate
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.PathParser
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalHapticFeedback
-import androidx.compose.ui.platform.LocalInspectionMode
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.intPreferencesKey
-import com.t8rin.imagetoolbox.core.di.entryPoint
-import com.t8rin.imagetoolbox.core.domain.coroutines.AppScope
-import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
 import com.t8rin.imagetoolbox.core.ui.theme.ImageToolboxThemeForPreview
-import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.longPress
-import com.t8rin.imagetoolbox.core.utils.appContext
-import dagger.hilt.EntryPoint
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.launch
-import java.io.IOException
 import kotlin.math.exp
 import kotlin.math.sqrt
 import kotlin.random.Random
 
-private val DINO_HIGH_SCORE = intPreferencesKey("DINO_HIGH_SCORE")
-
-@EntryPoint
-@InstallIn(SingletonComponent::class)
-internal interface DinoGameEntryPoint {
-    val dataStore: DataStore<Preferences>
-    val appScope: AppScope
-}
-
-@Immutable
-data class DinoGameState(
-    val highScore: Int = 0,
-    val isPlaying: Boolean = false
-)
-
-@Immutable
-data class DinoStyle(
-    val shape: Shape,
-    val background: Brush,
-    val borderColor: Color,
-    val dinoColor: Color,
-    val cactusColor: Color,
-    val birdColor: Color,
-    val cloudColor: Color,
-    val groundColor: Color,
-    val scoreColor: Color,
-    val highScoreColor: Color,
-    val scoreTextStyle: TextStyle,
-    val overlayColor: Color,
-    val buttonContainerColor: Color,
-    val buttonContentColor: Color,
-    val gameHeight: Dp
-)
-
-object DinoDefaults {
-    val style: DinoStyle
-        @Composable
-        get() {
-            val colors = MaterialTheme.colorScheme
-            val shape = MaterialTheme.shapes.extraLarge
-            val typography = MaterialTheme.typography
-
-            return remember(colors, shape, typography) {
-                DinoStyle(
-                    shape = shape,
-                    background = Brush.verticalGradient(
-                        listOf(colors.surfaceContainerLow, colors.surfaceContainer)
-                    ),
-                    borderColor = colors.outlineVariant,
-                    dinoColor = colors.primary,
-                    cactusColor = colors.secondary,
-                    birdColor = colors.tertiary,
-                    cloudColor = colors.outline.copy(alpha = 0.42f),
-                    groundColor = colors.outline.copy(alpha = 0.8f),
-                    scoreColor = colors.primary,
-                    highScoreColor = colors.onSurfaceVariant,
-                    scoreTextStyle = typography.labelLarge.copy(fontWeight = FontWeight.Bold),
-                    overlayColor = colors.scrim.copy(0.5f),
-                    buttonContainerColor = colors.tertiaryContainer,
-                    buttonContentColor = colors.onTertiaryContainer,
-                    gameHeight = 220.dp
-                )
-            }
-        }
-}
-
 @Composable
 fun DinoGame(
     modifier: Modifier = Modifier,
-    initialState: DinoGameState = DinoGameState(),
-    style: DinoStyle = DinoDefaults.style,
+    initialState: ArcadeGameState = ArcadeGameState(),
+    style: ArcadeStyle = ArcadeDefaults.style,
     onHighScoreChanged: ((Int) -> Unit)? = null,
     onGameOver: ((Int) -> Unit)? = null
 ) {
-    val run = rememberSaveable(saver = DinoRun.Saver) {
-        DinoRun().apply {
-            if (initialState.isPlaying) start()
-        }
-    }
-    var highScore by rememberSaveable {
-        mutableIntStateOf(initialState.highScore.coerceAtLeast(0))
-    }
-    val currentOnHighScoreChanged by rememberUpdatedState(onHighScoreChanged)
-    val currentOnGameOver by rememberUpdatedState(onGameOver)
-    val phase = run.phase
+    val run = rememberArcadeRun(initialState, ::DinoRun)
     val haptics = LocalHapticFeedback.current
-    val isPreview = LocalInspectionMode.current
-    val entryPoint = remember(isPreview) {
-        if (isPreview) null else appContext.entryPoint<DinoGameEntryPoint>()
-    }
-
-    LaunchedEffect(initialState.highScore) {
-        highScore = maxOf(highScore, initialState.highScore)
-    }
-
-    LaunchedEffect(entryPoint) {
-        entryPoint?.dataStore?.data
-            ?.catch { if (it !is IOException) throw it }
-            ?.collect { preferences ->
-                highScore = maxOf(highScore, preferences[DINO_HIGH_SCORE] ?: 0)
-            }
-    }
-
-    LaunchedEffect(phase) {
-        if (phase != DinoPhase.Running) return@LaunchedEffect
-
-        var previousFrame = withFrameNanos { it }
-        while (run.phase == DinoPhase.Running) {
-            val frame = withFrameNanos { it }
-            val seconds = ((frame - previousFrame) / 1_000_000_000f).coerceIn(0f, 0.032f)
-            previousFrame = frame
-            run.advance(seconds)
-        }
-
-        val score = run.score
-        if (score > highScore) {
-            highScore = score
-            entryPoint?.appScope?.launch {
-                entryPoint.dataStore.edit { preferences ->
-                    preferences[DINO_HIGH_SCORE] = maxOf(score, preferences[DINO_HIGH_SCORE] ?: 0)
-                }
-            }
-            currentOnHighScoreChanged?.invoke(score)
-        }
-        currentOnGameOver?.invoke(score)
-    }
-
-    Box(
-        modifier = modifier
-            .fillMaxWidth()
-            .defaultMinSize(minWidth = 280.dp)
-            .height(style.gameHeight)
-            .clip(style.shape)
-            .background(style.background)
-            .border(1.dp, style.borderColor, style.shape)
+    ArcadeBoard(
+        game = ArcadeGame.Dino,
+        run = run,
+        style = style,
+        modifier = modifier,
+        initialState = initialState,
+        onHighScoreChanged = onHighScoreChanged,
+        onGameOver = onGameOver
     ) {
         DinoTrack(
             run = run,
             style = style,
             modifier = Modifier
-                .matchParentSize()
-                .pointerInput(run, haptics, phase) {
-                    if (phase != DinoPhase.Running) return@pointerInput
-
+                .fillMaxSize()
+                .pointerInput(run, haptics, run.phase) {
+                    if (run.phase != ArcadePhase.Running) return@pointerInput
                     awaitEachGesture {
                         val down = awaitFirstDown()
                         if (run.jump()) {
@@ -247,66 +84,26 @@ fun DinoGame(
                     }
                 }
         )
-
-        Row(
-            modifier = Modifier
-                .align(Alignment.TopEnd)
-                .padding(horizontal = 18.dp, vertical = 14.dp),
-            horizontalArrangement = Arrangement.spacedBy(10.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = "HI ${highScore.toString().padStart(5, '0')}",
-                color = style.highScoreColor,
-                style = style.scoreTextStyle,
-                maxLines = 1
-            )
-            Text(
-                text = run.score.toString().padStart(5, '0'),
-                color = style.scoreColor,
-                style = style.scoreTextStyle,
-                maxLines = 1
-            )
-        }
-
-        if (phase != DinoPhase.Running) {
-            val gameOver = phase == DinoPhase.Over
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(style.overlayColor),
-                contentAlignment = Alignment.Center
-            ) {
-                EnhancedButton(
-                    onClick = run::start,
-                    containerColor = style.buttonContainerColor,
-                    contentColor = style.buttonContentColor
-                ) {
-                    Text(
-                        stringResource(
-                            if (gameOver) R.string.try_again else R.string.play
-                        )
-                    )
-                }
-            }
-        }
     }
 }
 
 @Composable
 private fun DinoTrack(
     run: DinoRun,
-    style: DinoStyle,
+    style: ArcadeStyle,
     modifier: Modifier = Modifier
 ) {
     val painters = DinoSprite.entries.map { rememberVectorPainter(it.vector) }
 
     Canvas(
-        modifier = modifier.onSizeChanged {
-            val scale = trackScale(it.width.toFloat(), it.height.toFloat())
-            if (scale > 0f) run.trackWidth = it.width / scale
-        }
+        modifier = modifier
+            .graphicsLayer()
+            .onSizeChanged {
+                val scale = trackScale(it.width.toFloat(), it.height.toFloat())
+                if (scale > 0f) run.trackWidth = it.width / scale
+            }
     ) {
+        run.frame
         val scale = trackScale(size.width, size.height)
         if (scale <= 0f) return@Canvas
 
@@ -328,15 +125,15 @@ private fun DinoTrack(
         scale(scale = scale, pivot = Offset.Zero) {
             var cloudX = 130f - (distance * 0.16f) % 380f
             while (cloudX < width) {
-                drawSprite(DinoSprite.Cloud, cloudX, ground - 112f, style.cloudColor)
-                drawSprite(DinoSprite.Cloud, cloudX + 188f, ground - 144f, style.cloudColor)
+                drawSprite(DinoSprite.Cloud, cloudX, ground - 112f, style.detailColor)
+                drawSprite(DinoSprite.Cloud, cloudX + 188f, ground - 144f, style.detailColor)
                 cloudX += 380f
             }
 
             val groundSprite = DinoSprite.Ground
             var groundX = -(distance % groundSprite.width)
             while (groundX < width) {
-                drawSprite(groundSprite, groundX, ground, style.groundColor)
+                drawSprite(groundSprite, groundX, ground, style.detailColor.copy(alpha = 0.8f))
                 groundX += groundSprite.width
             }
 
@@ -346,17 +143,17 @@ private fun DinoTrack(
                     sprite = sprite,
                     x = obstacle.x,
                     y = ground - obstacle.type.altitude - sprite.height,
-                    tint = if (obstacle.type == ObstacleType.Bird) style.birdColor else style.cactusColor
+                    tint = if (obstacle.type == ObstacleType.Bird) style.accentColor else style.obstacleColor
                 )
             }
 
             val dino = when {
-                run.phase == DinoPhase.Over -> DinoSprite.DinoOver
-                run.phase == DinoPhase.Ready || run.jumpHeight > 0f -> DinoSprite.Dino
+                run.phase == ArcadePhase.Over -> DinoSprite.DinoOver
+                run.phase == ArcadePhase.Ready || run.jumpHeight > 0f -> DinoSprite.Dino
                 (distance / 24f).toInt() % 2 == 0 -> DinoSprite.DinoLeft
                 else -> DinoSprite.DinoRight
             }
-            drawSprite(dino, DinoX, ground - dino.height - run.jumpHeight, style.dinoColor)
+            drawSprite(dino, DinoX, ground - dino.height - run.jumpHeight, style.playerColor)
         }
     }
 }
@@ -365,16 +162,8 @@ private fun trackScale(width: Float, height: Float): Float = minOf(width / 320f,
 
 private const val DinoX = 24f
 
-private enum class DinoPhase {
-    Ready, Running, Over
-}
-
-private class DinoRun {
-    var phase by mutableStateOf(DinoPhase.Ready)
-        private set
-    var distance by mutableFloatStateOf(0f)
-        private set
-    var score by mutableIntStateOf(0)
+private class DinoRun : ArcadeRun() {
+    var distance = 0f
         private set
     var trackWidth = 320f
     var jumpHeight = 0f
@@ -385,9 +174,7 @@ private class DinoRun {
     private var jumpSpeed = 0f
     private var nextObstacle = 0f
 
-    fun start() {
-        if (phase == DinoPhase.Running) return
-
+    override fun reset() {
         jumpHeight = 0f
         jumpSpeed = 0f
         isJumping = false
@@ -395,18 +182,17 @@ private class DinoRun {
         distance = 0f
         score = 0
         nextObstacle = 0f
-        phase = DinoPhase.Running
     }
 
     fun jump(): Boolean {
-        if (phase != DinoPhase.Running || isJumping) return false
+        if (phase != ArcadePhase.Running || isJumping) return false
 
         jumpSpeed = 424f
         isJumping = true
         return true
     }
 
-    fun advance(seconds: Float) {
+    override fun advance(seconds: Float) {
         if (nextObstacle == 0f) nextObstacle = minOf(trackWidth, 420f)
 
         val initialSpeed = 248f
@@ -450,7 +236,7 @@ private class DinoRun {
         distance = nextDistance
         score = (nextDistance / 25f).toInt()
 
-        if (obstacles.any(::hitsDino)) phase = DinoPhase.Over
+        if (obstacles.any(::hitsDino)) phase = ArcadePhase.Over
     }
 
     private fun hitsDino(obstacle: DinoObstacle): Boolean {
@@ -473,48 +259,28 @@ private class DinoRun {
                 bounds.overlaps(Rect(DinoX + 9f, -jumpHeight - 28f, DinoX + 30f, -jumpHeight - 4f))
     }
 
-    companion object {
-        val Saver = Saver<DinoRun, Bundle>(
-            save = { run ->
-                Bundle().apply {
-                    putInt("phase", run.phase.ordinal)
-                    putFloat("distance", run.distance)
-                    putInt("score", run.score)
-                    putBoolean("isJumping", run.isJumping)
-                    putFloat("jumpHeight", run.jumpHeight)
-                    putFloat("jumpSpeed", run.jumpSpeed)
-                    putFloat("nextObstacle", run.nextObstacle)
-                    putFloatArray(
-                        "obstaclePositions",
-                        FloatArray(run.obstacles.size) { run.obstacles[it].x }
-                    )
-                    putIntArray(
-                        "obstacleTypes",
-                        IntArray(run.obstacles.size) { run.obstacles[it].type.ordinal }
-                    )
-                }
-            },
-            restore = { state ->
-                DinoRun().apply {
-                    phase = DinoPhase.entries[state.getInt("phase")]
-                    distance = state.getFloat("distance")
-                    score = state.getInt("score")
-                    isJumping = state.getBoolean("isJumping")
-                    jumpHeight = state.getFloat("jumpHeight")
-                    jumpSpeed = state.getFloat("jumpSpeed")
-                    nextObstacle = state.getFloat("nextObstacle")
+    override fun save(state: Bundle) {
+        state.putFloat("distance", distance)
+        state.putBoolean("isJumping", isJumping)
+        state.putFloat("jumpHeight", jumpHeight)
+        state.putFloat("jumpSpeed", jumpSpeed)
+        state.putFloat("nextObstacle", nextObstacle)
+        state.putFloatArray("obstaclePositions", FloatArray(obstacles.size) { obstacles[it].x })
+        state.putIntArray("obstacleTypes", IntArray(obstacles.size) { obstacles[it].type.ordinal })
+    }
 
-                    val positions = state.getFloatArray("obstaclePositions") ?: floatArrayOf()
-                    val types = state.getIntArray("obstacleTypes") ?: intArrayOf()
-                    for (index in positions.indices) {
-                        obstacles += DinoObstacle(
-                            positions[index],
-                            ObstacleType.entries[types[index]]
-                        )
-                    }
-                }
-            }
-        )
+    override fun restore(state: Bundle) {
+        distance = state.getFloat("distance")
+        isJumping = state.getBoolean("isJumping")
+        jumpHeight = state.getFloat("jumpHeight")
+        jumpSpeed = state.getFloat("jumpSpeed")
+        nextObstacle = state.getFloat("nextObstacle")
+        val positions = state.getFloatArray("obstaclePositions") ?: floatArrayOf()
+        val types = state.getIntArray("obstacleTypes") ?: intArrayOf()
+        obstacles.clear()
+        for (index in positions.indices) {
+            obstacles += DinoObstacle(positions[index], ObstacleType.entries[types[index]])
+        }
     }
 }
 

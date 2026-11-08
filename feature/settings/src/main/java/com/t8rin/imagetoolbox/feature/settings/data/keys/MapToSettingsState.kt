@@ -29,6 +29,7 @@ import com.t8rin.imagetoolbox.core.domain.model.AssistantModel
 import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.DomainAspectRatio
 import com.t8rin.imagetoolbox.core.domain.model.SystemBarsVisibility
+import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
 import com.t8rin.imagetoolbox.core.settings.domain.model.CacheAutoClearInterval
 import com.t8rin.imagetoolbox.core.settings.domain.model.ColorHarmonizer
 import com.t8rin.imagetoolbox.core.settings.domain.model.CopyToClipboardMode
@@ -200,6 +201,7 @@ internal fun Preferences.toSettingsState(
         ?: default.showSettingsInLandscape,
     showLoadingGameButton = this[SHOW_LOADING_GAME_BUTTON]
         ?: default.showLoadingGameButton,
+    loadingGame = ArcadeGame.entries.find { it.name == this[LOADING_GAME] } ?: default.loadingGame,
     useFullscreenSettings = this[USE_FULLSCREEN_SETTINGS]
         ?: default.useFullscreenSettings,
     useCategorizedSettings = this[USE_CATEGORIZED_SETTINGS]
