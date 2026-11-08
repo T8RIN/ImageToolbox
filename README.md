@@ -1691,6 +1691,11 @@ or click one of the badges below.
   - Lunar Lander
   - Brick Breaker
   - Light Cycles
+  - Flight Control
+  - Basketball
+  - Laser Mirrors
+  - Flow Connect
+  - Balance Tower
 
 (Yes, the app supports dynamic coloring based on wallpapers for every android version)
 
