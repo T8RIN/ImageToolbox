@@ -8086,8 +8086,8 @@
     <string name="arcade_brickbreaker_sub">Drag to move the paddle. Break every brick, catch bonuses and keep the ball in play through endless waves</string>
     <string name="arcade_lightcycles">Light Cycles</string>
     <string name="arcade_lightcycles_sub">Swipe to steer or tap left or right to turn. A charge lets you cross trails briefly after the first crossing. Watch the ring; walls and head-on crashes are always fatal</string>
-    <string name="arcade_sokoban">Sokoban</string>
-    <string name="arcade_sokoban_sub">Push each crate onto a target. Swipe to move or tap a free cell to walk there. Undo or restart whenever you need</string>
+    <string name="arcade_basketball">Basketball</string>
+    <string name="arcade_basketball_sub">Drag the ball upwards to aim, then release to shoot. Score through the hoop from above and build a streak. Three misses end the game</string>
     <string name="arcade_lasermirrors">Laser Mirrors</string>
     <string name="arcade_lasermirrors_sub">Tap mirrors to turn them. Guide the beam through every receiver to reveal the next puzzle</string>
     <string name="arcade_flowconnect">Flow Connect</string>
@@ -8095,5 +8095,5 @@
     <string name="arcade_flightcontrol">Flight Control</string>
     <string name="arcade_flightcontrol_sub">Draw a route from each aircraft to its matching landing zone. Keep aircraft apart and line planes up with the runway arrows</string>
     <string name="arcade_balancetower">Balance Tower</string>
-    <string name="arcade_balancetower_sub">Drag to position the next object, then release to drop it. Keep the combined weight above the supports; the marked end is heavier</string>
+    <string name="arcade_balancetower_sub">Tap to drop the moving block. Keep the combined weight above the supports; the marked end is heavier</string>
 </resources>
