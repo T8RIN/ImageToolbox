@@ -8024,7 +8024,7 @@
     <string name="arcade_exit_sub">The current game will end. Your high score will be saved.</string>
     <string name="arcade_games_sub">Play different arcade minigames</string>
     <string name="arcade_games_search">Dino Game, Doodle Jump, Flappy Bird, Tower Builder, Stack, Ping Pong, 2048, Snake, Tetris</string>
-    <string name="arcade_dino">Dino Game</string>
+    <string name="arcade_dino">Dino</string>
     <string name="arcade_doodle">Doodle Jump</string>
     <string name="arcade_bird">Flappy Bird</string>
     <string name="arcade_stack">Tower Builder</string>

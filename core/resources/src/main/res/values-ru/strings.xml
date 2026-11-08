@@ -7980,7 +7980,7 @@
     <string name="arcade_exit_sub">Текущая игра завершится. Рекорд сохранится.</string>
     <string name="arcade_games_sub">Играйте в различные аркадные мини-игры</string>
     <string name="arcade_games_search">Динозавр, Doodle Jump, Flappy Bird, башня, пинг-понг, 2048, змейка, тетрис</string>
-    <string name="arcade_dino">Dino Game</string>
+    <string name="arcade_dino">Dino</string>
     <string name="arcade_doodle">Doodle Jump</string>
     <string name="arcade_bird">Flappy Bird</string>
     <string name="arcade_stack">Башня</string>
