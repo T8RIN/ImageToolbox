@@ -17,9 +17,13 @@
 
 package com.t8rin.imagetoolbox.feature.arcade_games.presentation.screenLogic
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import com.arkivanov.decompose.ComponentContext
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
+import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
+import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -29,6 +33,13 @@ class ArcadeGamesComponent @AssistedInject internal constructor(
     @Assisted val onGoBack: () -> Unit,
     dispatchersHolder: DispatchersHolder
 ) : BaseComponent(dispatchersHolder, componentContext) {
+
+    private val _selectedGame = mutableStateOf<ArcadeGame?>(null)
+    val selectedGame by _selectedGame
+
+    fun selectGame(game: ArcadeGame?) {
+        _selectedGame.update { game }
+    }
 
     @AssistedFactory
     fun interface Factory {
