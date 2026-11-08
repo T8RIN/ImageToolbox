@@ -70,7 +70,7 @@ class ArcadeRenderingTest {
                 CompositionLocalProvider(LocalInspectionMode provides true) {
                     key(index) {
                         Column(Modifier
-                            .width(360.dp)
+                            .width(if (wide) 680.dp else 360.dp)
                             .statusBarsPadding()
                             .padding(12.dp)) {
                             Text(
