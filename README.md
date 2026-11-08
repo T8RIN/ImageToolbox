@@ -1660,6 +1660,37 @@ or click one of the badges below.
     - Squircle
     - Smooth
 - Main screen layout customization
+- Mini-Games to play when waiting for result
+  - Dino
+  - Doodle Jump
+  - Flappy Bird
+  - Tower Builder
+  - Ping Pong
+  - 2048
+  - Snake
+  - Tetris
+  - Retro Racer
+  - Ricochet
+  - Asteroids
+  - Fruit Slice
+  - Knife Hit
+  - Missile Command
+  - River Hop
+  - Whack-a-Mole
+  - Simon Says
+  - Bubble Pop
+  - Fishing
+  - Super Hexagon
+  - Bomber
+  - Minesweeper
+  - Gravity Flip
+  - Maze Chaser
+  - ZigZag
+  - Timberman
+  - Orbit Survival
+  - Lunar Lander
+  - Brick Breaker
+  - Light Cycles
 
 (Yes, the app supports dynamic coloring based on wallpapers for every android version)
 
