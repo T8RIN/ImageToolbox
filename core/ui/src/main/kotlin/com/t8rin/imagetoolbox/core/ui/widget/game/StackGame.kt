@@ -37,7 +37,13 @@ fun StackGame(
 ) {
     val run = rememberArcadeRun(initialState, ::StackRun)
     ArcadeBoard(
-        ArcadeGame.Stack, run, style, modifier, initialState, onHighScoreChanged, onGameOver
+        game = ArcadeGame.Stack,
+        run = run,
+        style = style,
+        modifier = modifier,
+        initialState = initialState,
+        onHighScoreChanged = onHighScoreChanged,
+        onGameOver = onGameOver
     ) {
         ArcadeField(run, onPress = { run.place() }) {
             val ground = run.height - 24f

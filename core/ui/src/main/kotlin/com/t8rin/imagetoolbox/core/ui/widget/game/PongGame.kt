@@ -39,7 +39,13 @@ fun PongGame(
 ) {
     val run = rememberArcadeRun(initialState, ::PongRun)
     ArcadeBoard(
-        ArcadeGame.Pong, run, style, modifier, initialState, onHighScoreChanged, onGameOver
+        game = ArcadeGame.Pong,
+        run = run,
+        style = style,
+        modifier = modifier,
+        initialState = initialState,
+        onHighScoreChanged = onHighScoreChanged,
+        onGameOver = onGameOver
     ) {
         ArcadeField(
             run = run,

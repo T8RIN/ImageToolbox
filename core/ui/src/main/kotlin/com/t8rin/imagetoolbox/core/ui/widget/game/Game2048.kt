@@ -52,7 +52,13 @@ fun Game2048(
     val run = rememberArcadeRun(initialState, ::MergeRun)
     val measurer = rememberTextMeasurer(cacheSize = 32)
     ArcadeBoard(
-        ArcadeGame.`2048`, run, style, modifier, initialState, onHighScoreChanged, onGameOver,
+        game = ArcadeGame.`2048`,
+        run = run,
+        style = style,
+        modifier = modifier,
+        initialState = initialState,
+        onHighScoreChanged = onHighScoreChanged,
+        onGameOver = onGameOver,
         turnBased = true
     ) {
         ArcadeField(run, onSwipe = run::swipe) {

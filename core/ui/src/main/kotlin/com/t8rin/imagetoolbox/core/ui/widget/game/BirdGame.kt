@@ -71,8 +71,15 @@ fun BirdGame(
     val eye = if (style.playerColor.luminance() > style.playerDetailColor.luminance()) {
         style.playerColor
     } else style.playerDetailColor
+
     ArcadeBoard(
-        ArcadeGame.Bird, run, style, modifier, initialState, onHighScoreChanged, onGameOver
+        game = ArcadeGame.Bird,
+        run = run,
+        style = style,
+        modifier = modifier,
+        initialState = initialState,
+        onHighScoreChanged = onHighScoreChanged,
+        onGameOver = onGameOver
     ) {
         ArcadeField(run, onPress = { run.flap() }) {
             var cloudX = 40f - run.distance * 0.18f % 690f
