@@ -24,6 +24,7 @@ import com.t8rin.imagetoolbox.color_tools.presentation.screenLogic.ColorToolsCom
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.feature.ai_tools.presentation.screenLogic.AiToolsComponent
 import com.t8rin.imagetoolbox.feature.apng_tools.presentation.screenLogic.ApngToolsComponent
+import com.t8rin.imagetoolbox.feature.arcade_games.presentation.screenLogic.ArcadeGamesComponent
 import com.t8rin.imagetoolbox.feature.archive_tools.presentation.screenLogic.ArchiveToolsComponent
 import com.t8rin.imagetoolbox.feature.ascii_art.presentation.screenLogic.AsciiArtComponent
 import com.t8rin.imagetoolbox.feature.assistant.presentation.screenLogic.AssistantComponent
@@ -264,6 +265,7 @@ internal class ChildProvider @Inject constructor(
     private val webpToolsComponentFactory: WebpToolsComponent.Factory,
     private val weightResizeComponentFactory: WeightResizeComponent.Factory,
     private val archiveToolsComponentFactory: ArchiveToolsComponent.Factory,
+    private val arcadeGamesComponentFactory: ArcadeGamesComponent.Factory,
     private val easterEggComponentFactory: EasterEggComponent.Factory,
     private val colorToolsComponentFactory: ColorToolsComponent.Factory,
     private val librariesInfoComponentFactory: LibrariesInfoComponent.Factory,
@@ -321,6 +323,13 @@ internal class ChildProvider @Inject constructor(
         config: Screen,
         componentContext: ComponentContext
     ): NavigationChild = when (config) {
+        Screen.ArcadeGames -> NavigationChild.ArcadeGames(
+            arcadeGamesComponentFactory(
+                componentContext = componentContext,
+                onGoBack = ::navigateBack
+            )
+        )
+
         Screen.ColorTools -> ColorTools(
             colorToolsComponentFactory(
                 componentContext = componentContext,

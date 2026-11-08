@@ -26,6 +26,7 @@ android.namespace = "com.t8rin.imagetoolbox.feature.root"
 
 dependencies {
     implementation(projects.feature.main)
+    implementation(projects.feature.arcadeGames)
     implementation(projects.feature.mediaPicker)
     implementation(projects.feature.loadNetImage)
     implementation(projects.feature.crop)

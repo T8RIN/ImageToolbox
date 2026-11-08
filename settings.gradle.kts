@@ -63,6 +63,7 @@ rootProject.name = "ImageToolbox"
 include(":app")
 
 include(":feature:main")
+include(":feature:arcade-games")
 include(":feature:pick-color")
 include(":feature:image-stitch")
 include(":core:filters")

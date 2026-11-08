@@ -35,6 +35,8 @@ import com.t8rin.imagetoolbox.feature.ai_tools.presentation.AiToolsContent
 import com.t8rin.imagetoolbox.feature.ai_tools.presentation.screenLogic.AiToolsComponent
 import com.t8rin.imagetoolbox.feature.apng_tools.presentation.ApngToolsContent
 import com.t8rin.imagetoolbox.feature.apng_tools.presentation.screenLogic.ApngToolsComponent
+import com.t8rin.imagetoolbox.feature.arcade_games.presentation.ArcadeGamesContent
+import com.t8rin.imagetoolbox.feature.arcade_games.presentation.screenLogic.ArcadeGamesComponent
 import com.t8rin.imagetoolbox.feature.archive_tools.presentation.ArchiveToolsContent
 import com.t8rin.imagetoolbox.feature.archive_tools.presentation.screenLogic.ArchiveToolsComponent
 import com.t8rin.imagetoolbox.feature.ascii_art.presentation.AsciiArtContent
@@ -251,6 +253,11 @@ internal sealed interface NavigationChild {
 
         @Composable
         override fun Content() = ApngToolsContent(component)
+    }
+
+    class ArcadeGames(private val component: ArcadeGamesComponent) : NavigationChild {
+        @Composable
+        override fun Content() = ArcadeGamesContent(component)
     }
 
     class Cipher(private val component: CipherComponent) : NavigationChild {

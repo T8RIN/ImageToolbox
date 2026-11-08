@@ -7986,7 +7986,7 @@
     <string name="arcade_2048">2048</string>
     <string name="arcade_snake">Змейка</string>
     <string name="arcade_dino_sub">Перепрыгивайте препятствия</string>
-    <string name="arcade_doodle_sub">Удерживайте и двигайте палец, чтобы прыгать по платформам</string>
+    <string name="arcade_doodle_sub">Прыгайте по платформам и стреляйте по врагам</string>
     <string name="arcade_bird_sub">Касайтесь экрана, чтобы пролетать между трубами</string>
     <string name="arcade_stack_sub">Ставьте блоки друг на друга и стройте башню</string>
     <string name="arcade_pong_sub">Отбивайте мяч как можно дольше</string>

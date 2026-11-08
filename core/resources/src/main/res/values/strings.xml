@@ -8030,7 +8030,7 @@
     <string name="arcade_2048">2048</string>
     <string name="arcade_snake">Snake</string>
     <string name="arcade_dino_sub">Jump over obstacles</string>
-    <string name="arcade_doodle_sub">Hold and drag to jump between platforms</string>
+    <string name="arcade_doodle_sub">Jump between platforms and shoot the monsters</string>
     <string name="arcade_bird_sub">Tap to fly between the pipes</string>
     <string name="arcade_stack_sub">Stack blocks to build a tower</string>
     <string name="arcade_pong_sub">Keep returning the ball for as long as you can</string>
