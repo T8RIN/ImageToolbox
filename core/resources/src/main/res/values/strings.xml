@@ -8067,7 +8067,7 @@
     <string name="arcade_watch">Watch</string>
     <string name="arcade_repeat">Your turn</string>
     <string name="arcade_bomber">Bomber</string>
-    <string name="arcade_bomber_sub">Swipe and hold to move. Tap to plant a bomb, clear crates and catch enemies in the blast</string>
+    <string name="arcade_bomber_sub">Swipe for one step or hold to keep moving. Tap to plant a bomb; use a second finger to plant while moving</string>
     <string name="arcade_minesweeper">Minesweeper</string>
     <string name="arcade_minesweeper_sub">Tap to reveal a cell. Hold to place or remove a flag. Tap an open number to clear its neighbors when all nearby mines are flagged</string>
     <string name="arcade_mazechaser">Maze Chaser</string>
@@ -8085,5 +8085,5 @@
     <string name="arcade_brickbreaker">Brick Breaker</string>
     <string name="arcade_brickbreaker_sub">Drag to move the paddle. Break every brick, catch bonuses and keep the ball in play through endless waves</string>
     <string name="arcade_lightcycles">Light Cycles</string>
-    <string name="arcade_lightcycles_sub">Swipe to steer or tap left or right to turn. Collect a charge to break through one trail. Walls and head-on crashes are always fatal</string>
+    <string name="arcade_lightcycles_sub">Swipe to steer or tap left or right to turn. A charge lets you cross trails briefly after the first crossing. Watch the ring; walls and head-on crashes are always fatal</string>
 </resources>

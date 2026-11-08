@@ -54,6 +54,8 @@ class ArcadeRenderingTest {
 
     @Test
     fun renderEveryGameInCompactLightDarkAndTallFields() {
+        val wide = InstrumentationRegistry.getArguments().getString("arcadeWide") == "true"
+        val variants = if (wide) 1 else 3
         val requested = InstrumentationRegistry.getArguments().getString("arcadeGames")?.split(',')
         val games = ArcadeGame.playable.filter { requested == null || it.name in requested }
         assertTrue(games.isNotEmpty())
@@ -64,7 +66,7 @@ class ArcadeRenderingTest {
             val index = sample.intValue
             val game = games[index % games.size]
             val variant = index / games.size
-            ImageToolboxThemeForPreview(isDarkTheme = variant != 0) {
+            ImageToolboxThemeForPreview(isDarkTheme = wide || variant != 0) {
                 CompositionLocalProvider(LocalInspectionMode provides true) {
                     key(index) {
                         Column(Modifier
@@ -75,7 +77,10 @@ class ArcadeRenderingTest {
                                 stringResource(game.title),
                                 modifier = Modifier.padding(bottom = 12.dp)
                             )
-                            PlayingGame(game, if (variant == 2) 620 else 280) { fieldBounds = it }
+                            PlayingGame(
+                                game,
+                                if (wide) 220 else if (variant == 2) 620 else 280
+                            ) { fieldBounds = it }
                         }
                     }
                 }
@@ -87,7 +92,7 @@ class ArcadeRenderingTest {
         val directory =
             File(instrumentation.targetContext.getExternalFilesDir(null), "arcade-previews")
         if (capture) directory.mkdirs()
-        for (index in 0 until games.size * 3) {
+        for (index in 0 until games.size * variants) {
             compose.runOnIdle { sample.intValue = index }
             compose.mainClock.advanceTimeBy(
                 if (games[index % games.size] in ArcadeGame.playable.take(
@@ -179,7 +184,7 @@ class ArcadeRenderingTest {
                 assertTrue(bitmap != null && bitmap.width > 0 && bitmap.height > 0)
                 File(
                     directory,
-                    "${index / games.size}-${games[index % games.size].name}.png"
+                    "${if (wide) "wide" else index / games.size}-${games[index % games.size].name}.png"
                 ).outputStream().use {
                     bitmap.compress(Bitmap.CompressFormat.PNG, 100, it)
                 }

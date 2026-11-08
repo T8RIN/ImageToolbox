@@ -405,8 +405,16 @@ internal class TimbermanRun : ArcadeRun() {
     override fun restore(state: Bundle) {
         branches.clear()
         state.getIntArray("branches")?.forEach(branches::add)
-        state.getIntArray("run")?.let { side = it[0]; chops = it[1]; chain = it[2] }
-        state.getFloatArray("time")?.let { energy = it[0]; cut = it[1]; sinceChop = it[2] }
+        state.getIntArray("run")?.let {
+            side = it[0]
+            chops = it[1]
+            chain = it[2]
+        }
+        state.getFloatArray("time")?.let {
+            energy = it[0]
+            cut = it[1]
+            sinceChop = it[2]
+        }
         begun = state.getBoolean("begun")
         chips.clear()
     }

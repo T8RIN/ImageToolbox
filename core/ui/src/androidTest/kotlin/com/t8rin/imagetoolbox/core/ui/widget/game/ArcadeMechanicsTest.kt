@@ -579,13 +579,13 @@ class ArcadeMechanicsTest {
             assertTrue(run.obstacles.size < 8)
         }
         val shield = GravityFlipRun().apply { start(); this.shield = true }
-        val obstacle = GravityObstacle(shield.playerX, 30f, 0.4f, false, false)
+        val obstacle = GravityObstacle(shield.playerX, 30f, 0.4f, false)
         shield.obstacles += obstacle
         shield.advance(1f / 120f)
         assertTrue(obstacle.broken)
         assertTrue(!shield.shield)
         assertEquals(ArcadePhase.Running, shield.phase)
-        shield.obstacles += GravityObstacle(shield.playerX, 30f, 0.4f, false, false)
+        shield.obstacles += GravityObstacle(shield.playerX, 30f, 0.4f, false)
         shield.advance(1f / 120f)
         assertEquals(ArcadePhase.Over, shield.phase)
     }
@@ -814,6 +814,8 @@ class ArcadeMechanicsTest {
         player.position = 5 * run.columns + 5
         player.previous = player.position
         player.direction = 0
+        player.charged = true
+        rival.phaseTime = 1f
         rival.position = player.position + 2
         rival.previous = rival.position
         rival.direction = 2
@@ -854,6 +856,15 @@ class ArcadeMechanicsTest {
         run.board[rider.position + 1] = -1
         run.step()
         assertTrue(!rider.alive)
+        run.start()
+        run.board.fill(0)
+        val expired = run.cycles.first()
+        expired.phaseTime = 0.04f
+        run.advance(0.05f)
+        assertEquals(0f, expired.phaseTime, 0f)
+        run.board[expired.position + 1] = 2
+        run.step()
+        assertTrue(!expired.alive)
     }
 
     private fun assertBundlesEqual(label: String, expected: Bundle, actual: Bundle) {

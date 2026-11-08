@@ -662,7 +662,8 @@ internal class BomberRun : ArcadeRun() {
         if (transition > 0f) {
             transition -= seconds
             if (transition <= 0f) {
-                round++; newRound()
+                round++
+                newRound()
             }
             return
         }
@@ -768,11 +769,22 @@ internal class BomberRun : ArcadeRun() {
     override fun restore(state: Bundle) {
         state.getIntArray("board")?.let { board = it.copyOf() }
         state.getIntArray("run")?.let {
-            rows = it[0]; player = it[1]; previous = it[2]; lives = it[3]; round = it[4]; range =
-            it[5]; capacity = it[6]; broken = it[7]
+            rows = it[0]
+            player = it[1]
+            previous = it[2]
+            lives = it[3]
+            round = it[4]
+            range = it[5]
+            capacity = it[6]
+            broken = it[7]
         }
         state.getFloatArray("time")
-            ?.let { progress = it[0]; invulnerable = it[1]; time = it[2]; transition = it[3] }
+            ?.let {
+                progress = it[0]
+                invulnerable = it[1]
+                time = it[2]
+                transition = it[3]
+            }
         bombs.clear()
         state.getFloatArray("bombs")?.let {
             for (i in it.indices step 3) bombs += BomberBomb(

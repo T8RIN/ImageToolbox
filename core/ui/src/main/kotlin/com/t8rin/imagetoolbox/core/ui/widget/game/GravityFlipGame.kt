@@ -138,7 +138,7 @@ fun GravityFlipGame(
                     x += 32f
                 }
             }
-            for ((x, width, depth, ceiling, _, _, broken, kind) in run.obstacles) {
+            for ((x, width, depth, ceiling, _, broken, kind) in run.obstacles) {
                 if (broken) continue
                 val ranges = when (kind) {
                     1 -> listOf(0.38f to 0.62f)
@@ -314,7 +314,6 @@ internal data class GravityObstacle(
     val width: Float,
     val depth: Float,
     val ceiling: Boolean,
-    val wide: Boolean,
     var passed: Boolean = false,
     var broken: Boolean = false,
     val kind: Int = 0
@@ -434,7 +433,8 @@ internal class GravityFlipRun : ArcadeRun() {
                 if (!shield) {
                     charge++
                     if (charge >= 12) {
-                        shield = true; charge = 0
+                        shield = true
+                        charge = 0
                     }
                 }
                 effects.burst(
@@ -455,12 +455,11 @@ internal class GravityFlipRun : ArcadeRun() {
 
     private fun spawnPattern() {
         if (patterns.isEmpty()) {
-            val choices = if (passed < 4) listOf(0, 1, 0) else if (passed < 12) listOf(
-                0,
-                1,
-                2,
-                3
-            ) else listOf(0, 1, 2, 3, 4)
+            val choices = when {
+                passed < 4 -> listOf(0, 1, 0)
+                passed < 12 -> listOf(0, 1, 2, 3)
+                else -> listOf(0, 1, 2, 3, 4)
+            }
             val shuffled = choices.shuffled().toMutableList()
             if (shuffled.first() == previousPattern) shuffled.reverse()
             patterns.addAll(shuffled)
@@ -468,16 +467,24 @@ internal class GravityFlipRun : ArcadeRun() {
         val pattern = patterns.removeFirst()
         previousPattern = pattern
         val kind = when (pattern) {
-            3 -> 1; 4 -> 2; else -> 0
+            3 -> 1
+            4 -> 2
+            else -> 0
         }
         val w = when (pattern) {
-            1 -> 66f; 2 -> 20f; 3 -> 48f; 4 -> 8f; else -> 28f
+            1 -> 66f
+            2 -> 20f
+            3 -> 48f
+            4 -> 8f
+            else -> 28f
         }
         val depth = when (pattern) {
-            2 -> 0.62f; 4 -> 0.16f; else -> 0.28f + Random.nextFloat() * 0.1f
+            2 -> 0.62f
+            4 -> 0.16f
+            else -> 0.28f + Random.nextFloat() * 0.1f
         }
         val x = maxOf(width + 20f, playerX + speed * 1.2f)
-        obstacles += GravityObstacle(x, w, depth, nextCeiling, pattern == 1, kind = kind)
+        obstacles += GravityObstacle(x, w, depth, nextCeiling, kind = kind)
         val bank = radius / span + 0.025f
         repeat(3) { index ->
             beacons += GravityBeacon(
@@ -517,7 +524,6 @@ internal class GravityFlipRun : ArcadeRun() {
                     it.width,
                     it.depth,
                     if (it.ceiling) 1f else 0f,
-                    if (it.wide) 1f else 0f,
                     if (it.passed) 1f else 0f,
                     if (it.broken) 1f else 0f,
                     it.kind.toFloat()
@@ -546,15 +552,14 @@ internal class GravityFlipRun : ArcadeRun() {
         previousPattern = state.getInt("previousPattern", -1)
         obstacles.clear()
         state.getFloatArray("obstacles")?.let {
-            for (index in it.indices step 8) obstacles += GravityObstacle(
+            for (index in it.indices step 7) obstacles += GravityObstacle(
                 it[index],
                 it[index + 1],
                 it[index + 2],
                 it[index + 3] == 1f,
                 it[index + 4] == 1f,
                 it[index + 5] == 1f,
-                it[index + 6] == 1f,
-                it[index + 7].toInt()
+                it[index + 6].toInt()
             )
         }
         beacons.clear()

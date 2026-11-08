@@ -248,7 +248,7 @@ fun LunarLanderGame(
                         }
                     }
                     if (!run.crashed && !run.landed) {
-                        val drift = Offset(run.vx * run.worldWidth, run.vy * run.span) * 0.35f
+                        val drift = Offset(run.vx * run.width, run.vy * run.span) * 0.35f
                         if (drift.getDistance() > 3f) drawLine(
                             color = if (run.safeSpeed) style.accentColor.copy(alpha = 0.5f) else style.hazardColor.copy(
                                 alpha = 0.65f
