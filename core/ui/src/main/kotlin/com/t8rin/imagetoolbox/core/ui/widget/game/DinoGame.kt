@@ -26,21 +26,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
-import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.scale
-import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.graphics.vector.PathParser
-import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalHapticFeedback
-import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.longPress
 import kotlin.math.exp
@@ -95,8 +85,6 @@ private fun DinoTrack(
     style: ArcadeStyle,
     modifier: Modifier = Modifier
 ) {
-    val painters = DinoSprite.entries.map { rememberVectorPainter(it.vector) }
-
     Canvas(
         modifier = modifier
             .graphicsLayer()
@@ -119,33 +107,17 @@ private fun DinoTrack(
         val ground = size.height / scale - 25f
         val distance = run.distance
 
-        fun DrawScope.drawSprite(
-            sprite: DinoSprite,
-            x: Float,
-            y: Float,
-            tint: Color
-        ) {
-            translate(left = x, top = y) {
-                with(painters[sprite.ordinal]) {
-                    draw(
-                        size = Size(sprite.width, sprite.height),
-                        colorFilter = ColorFilter.tint(tint)
-                    )
-                }
-            }
-        }
-
         scale(scale = scale, pivot = Offset.Zero) {
             var cloudX = 130f - (distance * 0.16f) % 380f
             while (cloudX < width) {
-                drawSprite(
-                    sprite = DinoSprite.Cloud,
+                drawArcadeSprite(
+                    sprite = DinoCloud,
                     x = cloudX,
                     y = ground - 112f,
                     tint = style.detailColor
                 )
-                drawSprite(
-                    sprite = DinoSprite.Cloud,
+                drawArcadeSprite(
+                    sprite = DinoCloud,
                     x = cloudX + 188f,
                     y = ground - 144f,
                     tint = style.detailColor
@@ -153,10 +125,10 @@ private fun DinoTrack(
                 cloudX += 380f
             }
 
-            val groundSprite = DinoSprite.Ground
+            val groundSprite = DinoGround
             var groundX = -(distance % groundSprite.width)
             while (groundX < width) {
-                drawSprite(
+                drawArcadeSprite(
                     sprite = groundSprite,
                     x = groundX,
                     y = ground,
@@ -167,7 +139,7 @@ private fun DinoTrack(
 
             for (obstacle in run.obstacles) {
                 val sprite = obstacle.type.sprite(distance)
-                drawSprite(
+                drawArcadeSprite(
                     sprite = sprite,
                     x = obstacle.x,
                     y = ground - obstacle.type.altitude - sprite.height,
@@ -176,12 +148,12 @@ private fun DinoTrack(
             }
 
             val dino = when {
-                run.phase == ArcadePhase.Over -> DinoSprite.DinoOver
-                run.phase == ArcadePhase.Ready || run.jumpHeight > 0f -> DinoSprite.Dino
-                (distance / 24f).toInt() % 2 == 0 -> DinoSprite.DinoLeft
-                else -> DinoSprite.DinoRight
+                run.phase == ArcadePhase.Over -> DinoCrashed
+                run.phase == ArcadePhase.Ready || run.jumpHeight > 0f -> DinoStanding
+                (distance / 24f).toInt() % 2 == 0 -> DinoRunningLeft
+                else -> DinoRunningRight
             }
-            drawSprite(
+            drawArcadeSprite(
                 sprite = dino,
                 x = DinoX,
                 y = ground - dino.height - run.jumpHeight,
@@ -326,20 +298,20 @@ private class DinoObstacle(
 )
 
 private enum class ObstacleType(
-    private val sprite: DinoSprite,
+    private val sprite: ArcadeSprite,
     val altitude: Float = 0f
 ) {
-    SmallCactus(DinoSprite.SmallCactus),
-    LargeCactus(DinoSprite.LargeCactus),
-    CactusGroup(DinoSprite.CactusGroup),
-    Bird(DinoSprite.BirdUp, altitude = 8f);
+    SmallCactus(DinoSmallCactus),
+    LargeCactus(DinoLargeCactus),
+    CactusGroup(DinoCactusGroup),
+    Bird(DinoBirdUp, altitude = 8f);
 
-    val width: Float get() = sprite.width
-    val height: Float get() = sprite.height
+    val width: Float get() = sprite.width.toFloat()
+    val height: Float get() = sprite.height.toFloat()
 
-    fun sprite(distance: Float): DinoSprite =
+    fun sprite(distance: Float): ArcadeSprite =
         if (this == Bird && (distance / 36f).toInt() % 2 == 1) {
-            DinoSprite.BirdDown
+            DinoBirdDown
         } else {
             sprite
         }
@@ -349,68 +321,60 @@ private const val DinoBody =
     "M24 2H41V4H44V16H34V19H41V22H31V25H36V29H33V27H31V33H28V39H13V36H9V33H6V30H3V26H1V17H4V22H7V25H12V23H16V20H20V17H22V5H24Z"
 private const val DinoEye = "M26 6V9H29V6Z"
 
-private enum class DinoSprite(
-    val width: Float,
-    val height: Float,
-    path: String
-) {
-    Dino(44f, 47f, "$DinoBody $DinoEye M13 37H19V42H17V44H21V47H13Z M22 37H28V44H31V47H24V43H22Z"),
-    DinoLeft(
-        44f,
-        47f,
-        "$DinoBody $DinoEye M13 37H19V43H17V44H21V47H13Z M22 37H28V40H31V43H25V41H22Z"
-    ),
-    DinoRight(
-        44f,
-        47f,
-        "$DinoBody $DinoEye M13 37H19V40H16V42H12V39H13Z M22 37H28V44H31V47H24V43H22Z"
-    ),
-    DinoOver(
-        44f,
-        47f,
-        "$DinoBody M25 5V11H31V5Z M27 7H29V9H27Z M13 37H19V42H17V44H21V47H13Z M22 37H28V44H31V47H24V43H22Z"
-    ),
-    SmallCactus(18f, 29f, "M7 0H11V2H13V14H15V9H18V17H16V19H13V29H6V22H3V20H1V11H4V17H6V2H7Z"),
-    LargeCactus(
-        26f,
-        42f,
-        "M10 0H16V2H18V21H21V10H23V8H25V23H23V26H18V42H8V30H4V28H1V15H3V13H6V24H8V3H10Z"
-    ),
-    CactusGroup(
-        46f, 39f,
-        "M7 11H11V13H13V24H15V19H17V27H13V39H6V32H3V30H1V22H4V27H6V13H7Z " +
-                "M23 0H28V2H30V18H32V12H34V10H36V20H34V23H30V39H21V27H18V25H16V15H19V22H21V2H23Z " +
-                "M38 16H42V18H43V27H45V22H46V30H43V39H37V33H33V25H35V29H37V18H38Z"
-    ),
-    BirdUp(
-        42f,
-        24f,
-        "M0 14H4V11H8V8H12V10H16V12H20V9H18V4H20V1H23V4H26V7H29V12H36V14H42V16H36V18H30V20H15V18H10V15H0Z"
-    ),
-    BirdDown(
-        42f,
-        24f,
-        "M0 14H4V11H8V8H12V10H16V12H33V14H42V16H36V18H30V20H26V24H22V22H18V20H15V18H10V15H0Z"
-    ),
-    Cloud(
-        54f, 16f,
-        "M0 15H7V12H12V9H17V5H22V2H31V4H36V7H41V10H47V12H54V13.5H46V11.5H40V8.5H35V5.5H30V3.5H23V6.5H18V10.5H13V13.5H8V16H0Z"
-    ),
-    Ground(
-        144f, 15f,
-        "M0 0H30V1H37V0H87V1H99V0H144V1.5H100V2.5H86V1.5H38V2.5H29V1.5H0Z " +
-                "M9 7H14V8H9Z M25 11H28V12H25Z M46 5H50V6H46Z M61 9H69V10H61Z M81 13H85V14H81Z " +
-                "M104 7H109V8H104Z M121 11H125V12H121Z M135 5H138V6H135Z"
-    );
+private val DinoStanding = ArcadeSprite(
+    "DinoStanding",
+    44,
+    47,
+    "$DinoBody $DinoEye M13 39H19V42H17V44H21V47H13Z M22 39H28V44H31V47H24V43H22Z"
+)
 
-    val vector: ImageVector = ImageVector.Builder(
-        name = name,
-        defaultWidth = width.dp,
-        defaultHeight = height.dp,
-        viewportWidth = width,
-        viewportHeight = height
-    ).addPath(
-        pathData = PathParser().parsePathString(path).toNodes(),
-        fill = SolidColor(Color.Black)
-    ).build()
-}
+private val DinoRunningLeft = ArcadeSprite(
+    "DinoRunningLeft", 44, 47,
+    "$DinoBody $DinoEye M13 39H19V43H17V44H21V47H13Z M22 39H28V40H31V43H25V41H22Z"
+)
+
+private val DinoRunningRight = ArcadeSprite(
+    "DinoRunningRight", 44, 47,
+    "$DinoBody $DinoEye M13 39H19V40H16V42H12V39H13Z M22 39H28V44H31V47H24V43H22Z"
+)
+
+private val DinoCrashed = ArcadeSprite(
+    "DinoCrashed", 44, 47,
+    "$DinoBody M25 5V11H31V5Z M27 7H29V9H27Z M13 39H19V42H17V44H21V47H13Z M22 39H28V44H31V47H24V43H22Z"
+)
+
+private val DinoSmallCactus = ArcadeSprite(
+    "DinoSmallCactus", 18, 29, "M7 0H11V2H13V14H15V9H18V17H16V19H13V29H6V22H3V20H1V11H4V17H6V2H7Z"
+)
+
+private val DinoLargeCactus = ArcadeSprite(
+    "DinoLargeCactus", 26, 42,
+    "M10 0H16V2H18V21H21V10H23V8H25V23H23V26H18V42H8V30H4V28H1V15H3V13H6V24H8V3H10Z"
+)
+
+private val DinoCactusGroup = ArcadeSprite(
+    "DinoCactusGroup", 46, 39,
+    "M1 22H4V27H6V13H7V11H11V13H13V24H15V19H16V15H19V22H21V2H23V0H28V2H30V18H32V12H34V10H36V20H34V23H30V39H21V27H18V25H17V27H13V39H6V32H3V30H1Z M33 25H35V29H37V18H38V16H42V18H43V27H45V22H46V30H43V39H37V33H33Z"
+)
+
+private val DinoBirdUp = ArcadeSprite(
+    "DinoBirdUp", 42, 24,
+    "M0 14H4V11H8V8H12V10H16V12H20V9H18V4H20V1H23V4H26V7H29V12H36V14H42V16H36V18H30V20H15V18H10V15H0Z"
+)
+
+private val DinoBirdDown = ArcadeSprite(
+    "DinoBirdDown", 42, 24,
+    "M0 14H4V11H8V8H12V10H16V12H33V14H42V16H36V18H30V20H26V24H22V22H18V20H15V18H10V15H0Z"
+)
+
+private val DinoCloud = ArcadeSprite(
+    "DinoCloud", 54, 16,
+    "M0 15H7V12H12V9H17V5H22V2H31V4H36V7H41V10H47V12H54V13.5H46V11.5H40V8.5H35V5.5H30V3.5H23V6.5H18V10.5H13V13.5H8V16H0Z"
+)
+
+private val DinoGround = ArcadeSprite(
+    "DinoGround", 144, 15,
+    "M0 0H30V1H37V0H87V1H99V0H144V1.5H100V2.5H86V1.5H38V2.5H29V1.5H0Z " +
+            "M9 7H14V8H9Z M25 11H28V12H25Z M46 5H50V6H46Z M61 9H69V10H61Z M81 13H85V14H81Z " +
+            "M104 7H109V8H104Z M121 11H125V12H121Z M135 5H138V6H135Z"
+)

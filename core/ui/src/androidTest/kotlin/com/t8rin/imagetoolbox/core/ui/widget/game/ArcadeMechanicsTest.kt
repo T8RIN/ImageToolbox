@@ -698,6 +698,9 @@ class ArcadeMechanicsTest {
     fun landerRewardsGentleLandingsAndRejectsHardOrOffPadImpacts() {
         for (height in listOf(220f, 680f)) {
             val run = LunarLanderRun().apply { resize(360f, height); start() }
+            assertTrue(run.worldWidth >= run.width * 2.5f)
+            assertTrue(run.span > (run.height - run.topInset) * 1.5f)
+            assertTrue(run.zoom < 0.6f)
             fun approach(speed: Float, x: Float) {
                 run.beginThrust(Offset(run.width / 2f, 100f))
                 run.stopInput()
@@ -734,7 +737,7 @@ class ArcadeMechanicsTest {
         val controlled = LunarLanderRun().apply { start() }
         val finger = Offset(180f, 120f)
         controlled.beginThrust(finger)
-        repeat(1800) {
+        repeat(3600) {
             if (!controlled.landed && !controlled.crashed) {
                 val clearance =
                     controlled.padY - controlled.y - 12f * controlled.shipScale / controlled.span
@@ -749,6 +752,7 @@ class ArcadeMechanicsTest {
             controlled.landed
         )
         assertTrue(controlled.fuel > 0f)
+        assertTrue(controlled.zoom > 1.4f)
         controlled.stopInput()
         assertTrue(!controlled.burning)
     }
@@ -869,65 +873,99 @@ class ArcadeMechanicsTest {
     }
 
     @Test
-    fun basketballScoresDescendingShotsBouncesOffTheRimAndEndsAfterThreeMisses() {
+    fun basketballChainsHoopsWithSlingshotShotsAndKeepsRimCollisionsPhysical() {
         for (height in listOf(220f, 680f)) {
             val run = BasketballRun().apply { resize(360f, height); start() }
-            run.begin(run.ball)
-            run.aim(run.ball + Offset(30f, -60f))
+            val finger = Offset(180f, height * 0.5f)
+            run.begin(finger)
+            run.aim(finger + Offset(-30f, 60f))
             run.stopInput()
             run.shoot()
             assertTrue(!run.airborne)
-            repeat(8) { basket ->
-                val target = run.hoop
-                val direction = target - run.ball
-                val length = listOf(24f, 60f, 130f)[basket % 3]
-                val drag = direction / direction.getDistance() * length
-                run.begin(run.ball)
-                run.aim(run.ball + drag)
-                assertEquals("The full unobstructed arc must be visible", 32, run.preview.size)
-                assertEquals(target.x, run.preview.last().x, 0.1f)
-                assertEquals(target.y, run.preview.last().y, 0.1f)
+            repeat(12) { basket ->
+                val target = run.hoops[1].center
+                val rise = target.y - run.ball.y
+                val vertical = kotlin.math.sqrt(2f * run.gravity * (rise + 45f))
+                val duration =
+                    (vertical + kotlin.math.sqrt(vertical * vertical - 2f * run.gravity * rise)) / run.gravity
+                val horizontal =
+                    (run.hoops[1].positionAt(run.time + duration).x - run.ball.x) / duration
+                run.begin(finger)
+                run.aim(finger + Offset(-horizontal, vertical) / 4f * run.unit)
+                assertTrue(run.preview.size > 10)
+                val preview = run.preview.toList()
+                val initial = run.ball
                 run.shoot()
+                assertEquals(horizontal, run.velocity.x, 0.01f)
+                assertEquals(vertical, run.velocity.y, 0.01f)
+                run.advance(0.035f)
+                assertEquals(preview.first().x, run.ball.x, 0.01f)
+                assertEquals(preview.first().y, run.ball.y, 0.01f)
+                assertTrue(run.ball.y > initial.y)
                 repeat(120 * 4) { run.advance(1f / 120f) }
-                assertEquals(basket + 1, run.made)
-                assertEquals(3, run.lives)
+                assertEquals("Basket $basket at height $height", basket + 1, run.made)
+                assertTrue(!run.airborne)
                 assertEquals(ArcadePhase.Running, run.phase)
+                assertTrue(run.camera > 0f)
             }
-            assertTrue(run.score > 40)
-            repeat(3) { miss ->
-                run.begin(run.ball)
-                run.aim(run.ball - Offset(0f, 28f))
-                run.shoot()
-                repeat(120 * 6) { if (run.phase == ArcadePhase.Running) run.advance(1f / 120f) }
-                assertEquals(2 - miss, run.lives)
-            }
+            assertTrue(run.score > 120)
+            assertTrue(run.hoops.any { it.travel > 0f })
+            val saved = Bundle().also(run::save)
+            val resumed = BasketballRun().apply { resize(360f, height); start(); restore(saved) }
+            repeat(120) { run.advance(1f / 120f); resumed.advance(1f / 120f) }
+            assertEquals(run.hoops, resumed.hoops)
+            run.begin(finger)
+            run.aim(finger + Offset(0f, 55f) * run.unit)
+            run.shoot()
+            repeat(120 * 3) { run.advance(1f / 120f) }
+            assertTrue("Returning to the same hoop allows another attempt", !run.airborne)
+            assertEquals(12, run.made)
+            run.begin(finger)
+            run.aim(finger + Offset(-60f, 0f) * run.unit)
+            run.shoot()
+            repeat(120 * 4) { if (run.phase == ArcadePhase.Running) run.advance(1f / 120f) }
             assertEquals(ArcadePhase.Over, run.phase)
         }
+        val bank = BasketballRun().apply { start() }
+        val rise = bank.hoops[1].center.y - bank.ball.y
+        val vertical = kotlin.math.sqrt(2f * bank.gravity * (rise + 80f))
+        val duration =
+            (vertical + kotlin.math.sqrt(vertical * vertical - 2f * bank.gravity * rise)) / bank.gravity
+        val speed =
+            ((bank.ball.x - bank.radius) + (bank.hoops[1].center.x - bank.radius) / 0.86f) / duration
+        val finger = Offset(180f, 120f)
+        bank.begin(finger)
+        bank.aim(finger + Offset(speed, vertical) / 4f * bank.unit)
+        bank.shoot()
+        repeat(480) { bank.advance(1f / 120f) }
+        assertEquals("A clean bank shot earns its bonus", 20, bank.score)
         val run = BasketballRun().apply { start() }
-        run.ball = run.hoop - Offset(run.rimWidth + 25f, 0f)
+        val target = run.hoops[1]
+        run.ball = target.center - Offset(target.halfWidth + 25f, 0f)
         run.velocity = Offset(300f, 0f)
         run.airborne = true
         repeat(12) { run.advance(1f / 120f) }
         assertTrue("The rim must rebound the ball", run.velocity.x < 0f)
         assertEquals(0, run.score)
         run.start()
-        run.ball = Offset(run.boardX - 18f, run.hoop.y - 25f)
-        run.velocity = Offset(350f, 0f)
+        run.ball = Offset(345f, 70f)
+        run.velocity = Offset(250f, 80f)
         run.airborne = true
         repeat(12) { run.advance(1f / 120f) }
-        assertTrue("The backboard must rebound the ball", run.velocity.x < 0f)
+        assertTrue("Side walls allow bank shots", run.velocity.x < 0f)
         run.start()
-        run.ball = run.hoop + Offset(0f, 18f)
-        run.velocity = Offset(0f, -140f)
+        run.ball = run.hoops[1].center - Offset(0f, 25f)
+        run.velocity = Offset(0f, 200f)
         run.airborne = true
         repeat(24) { run.advance(1f / 120f) }
         assertEquals("Entering from below is not a basket", 0, run.score)
-        run.start()
-        run.made = 100
-        val hoop = run.hoop
-        run.advance(1f)
-        assertTrue(run.hoop.x != hoop.x)
-        assertTrue(run.rimWidth >= 22f)
+        val state = Bundle().also(run::save)
+        val restored = BasketballRun().apply { start(); restore(state) }
+        repeat(20) { run.advance(1f / 120f); restored.advance(1f / 120f) }
+        assertEquals(run.ball, restored.ball)
+        assertEquals(run.velocity, restored.velocity)
+        run.resize(780f, 220f)
+        assertTrue(run.project(run.hoops[1].center).y > run.topInset)
     }
 
     @Test
@@ -1014,6 +1052,7 @@ class ArcadeMechanicsTest {
     @Test
     fun flightRoutesRequireMatchingLandingZonesAndAirborneCollisionsEndTheRun() {
         val joining = FlightControlRun().apply { start(); planes.clear() }
+        joining.runways[0] = FlightRunway(Offset(0f, 1f), 0f)
         val moving = ControlledFlight(100, 0, Offset(80f, 120f), 0f, true)
         joining.planes += moving
         joining.begin(moving.point)
@@ -1043,7 +1082,10 @@ class ArcadeMechanicsTest {
             )
             run.planes += plane
             run.begin(from)
-            run.drag(target)
+            val heading = run.runways[kind].heading
+            val endpoint = if (kind == 2) target else target +
+                    Offset(kotlin.math.cos(heading), kotlin.math.sin(heading)) * 28f
+            run.drag(endpoint)
             run.commit()
             assertTrue(plane.cleared)
             repeat(120 * 3) { run.advance(1f / 120f) }
@@ -1082,6 +1124,24 @@ class ArcadeMechanicsTest {
                 guided.landed
             )
         }
+        val spawning = FlightControlRun().apply { start(); planes.clear() }
+        val incoming = ControlledFlight(100, 0, Offset(-18f, 120f), 0f)
+        spawning.planes += ControlledFlight(101, 1, Offset(95f, 120f), Math.PI.toFloat(), true)
+        assertTrue("Future head-on conflicts must prevent spawning", !spawning.canSpawn(incoming))
+        spawning.planes.clear()
+        assertTrue(spawning.canSpawn(incoming))
+        val layouts = mutableSetOf<List<FlightRunway>>()
+        repeat(30) {
+            spawning.start()
+            layouts += spawning.runways.toList()
+            for (kind in 0..2) {
+                val zone = spawning.zone(kind)
+                assertTrue(zone.x in 48f..spawning.width - 48f)
+                assertTrue(zone.y in spawning.topInset + 40f..spawning.height - 40f)
+                for (other in kind + 1..2) assertTrue((zone - spawning.zone(other)).getDistance() > 72f)
+            }
+        }
+        assertTrue(layouts.size > 25)
         val run = FlightControlRun().apply { start(); planes.clear() }
         val wrong = ControlledFlight(100, 0, Offset(100f, 100f), 0f, true)
         run.planes += wrong

@@ -588,10 +588,7 @@ internal fun ArcadeBoard(
         if (isPreview) null else appContext.entryPoint<GamesEntryPoint>()
     }
     val recordKey = remember(game) {
-        intPreferencesKey(
-            if (game == ArcadeGame.Dino) "DINO_HIGH_SCORE"
-            else "ARCADE_${game.name.uppercase()}_HIGH_SCORE"
-        )
+        intPreferencesKey("ARCADE_${game.name.uppercase()}_HIGH_SCORE")
     }
 
     fun saveRecord() {
@@ -856,9 +853,9 @@ internal fun DrawScope.pixelRect(
 
 internal class ArcadeSprite(
     name: String,
-    width: Int,
-    height: Int,
-    data: String
+    val width: Int,
+    val height: Int,
+    val data: String
 ) {
     private val parser = PathParser().parsePathString(data)
     val path: Path = parser.toPath().apply { fillType = PathFillType.EvenOdd }

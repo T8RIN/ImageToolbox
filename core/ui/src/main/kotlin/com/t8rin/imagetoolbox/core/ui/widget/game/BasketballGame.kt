@@ -20,17 +20,18 @@ package com.t8rin.imagetoolbox.core.ui.widget.game
 import android.os.Bundle
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.rotate
+import androidx.compose.ui.graphics.drawscope.scale
+import androidx.compose.ui.graphics.drawscope.translate
 import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
 import kotlin.math.abs
+import kotlin.math.cos
 import kotlin.math.sin
-import kotlin.math.sqrt
 import kotlin.random.Random
 
 @Composable
@@ -61,183 +62,207 @@ fun BasketballGame(
             onDrag = run::aim,
             onRelease = run::shoot
         ) {
-            arcadeLives(
-                style = style,
-                remaining = run.lives,
-                y = run.topInset * 0.5f
-            )
-            val floor = run.floor
-            val left = run.courtLeft
-            val right = run.width - left
-            repeat(6) { row ->
-                val y = run.topInset + 24f + row * (floor - run.topInset - 24f) / 6f
-                repeat(5) { column ->
-                    val x =
-                        left + ((column + if (row % 2 == 0) 0.25f else 0.75f) / 5f) * (right - left)
-                    pixelRect(
-                        color = style.detailColor.copy(alpha = 0.17f),
-                        x = x,
-                        y = y,
-                        width = 7f,
-                        height = 2f
-                    )
+            val unit = run.unit
+            val left = (run.width - 360f * unit) / 2f
+            for (side in 0..1) {
+                drawLine(
+                    color = style.detailColor.copy(alpha = 0.3f),
+                    start = Offset(left + side * 360f * unit, 0f),
+                    end = Offset(left + side * 360f * unit, run.height),
+                    strokeWidth = 1f
+                )
+            }
+            repeat(36) { index ->
+                val point = Offset(
+                    left + (index * 79 % 347 + 6) * unit,
+                    (index * 53f + run.camera * unit * 0.3f) % run.height
+                )
+                pixelRect(
+                    color = style.detailColor.copy(alpha = 0.2f),
+                    x = point.x,
+                    y = point.y,
+                    width = 2f,
+                    height = 2f
+                )
+            }
+            run.hoops.forEachIndexed { index, hoop ->
+                val point = run.project(hoop.center)
+                if (index > 1 && point.y < run.topInset + 20f) return@forEachIndexed
+                val color = if (index == 1) style.accentColor else style.obstacleColor
+                val alpha = if (index > 1) 0.4f else 1f
+                translate(point.x, point.y) {
+                    scale(unit, Offset.Zero) {
+                        rotate(-hoop.angle * 180f / kotlin.math.PI.toFloat(), Offset.Zero) {
+                            val half = hoop.halfWidth
+                            val depth = 35f + if (index == 0) run.net * 5f else 0f
+                            val swing = if (index == 0) sin(run.net * 8f) * run.net * 3f else 0f
+                            val net = Path().apply {
+                                moveTo(-half, 2f)
+                                lineTo(-half * 0.6f + swing, depth)
+                                lineTo(half * 0.6f + swing, depth)
+                                lineTo(half, 2f)
+                                close()
+                            }
+                            drawPath(
+                                path = net,
+                                color = color.copy(alpha = 0.06f * alpha)
+                            )
+                            for (strand in 0..4) {
+                                val x = (strand / 4f - 0.5f) * 2f
+                                drawLine(
+                                    color = color.copy(alpha = 0.55f * alpha),
+                                    start = Offset(x * half, 2f),
+                                    end = Offset(x * half * 0.6f + swing, depth),
+                                    strokeWidth = 1f
+                                )
+                                if (strand < 4) drawLine(
+                                    color = color.copy(alpha = 0.35f * alpha),
+                                    start = Offset(x * half, 2f),
+                                    end = Offset((x + 0.5f) * half * 0.6f + swing, depth),
+                                    strokeWidth = 1f
+                                )
+                            }
+                            drawLine(
+                                color = color.copy(alpha = 0.55f * alpha),
+                                start = Offset(-half * 0.6f + swing, depth),
+                                end = Offset(half * 0.6f + swing, depth),
+                                strokeWidth = 1f
+                            )
+                            drawOval(
+                                color = color.copy(alpha = alpha),
+                                topLeft = Offset(-half, -3f),
+                                size = Size(half * 2f, 6f),
+                                style = Stroke(2.5f)
+                            )
+                            if (index == 1) {
+                                drawLine(
+                                    color = color,
+                                    start = Offset(-4f, -20f),
+                                    end = Offset(0f, -16f),
+                                    strokeWidth = 2f,
+                                    cap = StrokeCap.Round
+                                )
+                                drawLine(
+                                    color = color,
+                                    start = Offset(4f, -20f),
+                                    end = Offset(0f, -16f),
+                                    strokeWidth = 2f,
+                                    cap = StrokeCap.Round
+                                )
+                            }
+                        }
+                    }
                 }
             }
-            drawLine(
-                color = style.detailColor.copy(alpha = 0.5f),
-                start = Offset(left, floor),
-                end = Offset(right, floor),
-                strokeWidth = 1f
-            )
-            drawArc(
-                color = style.detailColor.copy(alpha = 0.25f),
-                startAngle = 180f,
-                sweepAngle = 180f,
-                useCenter = false,
-                topLeft = Offset(run.width / 2f - 52f, floor - 12f),
-                size = Size(104f, 24f),
-                style = Stroke(1f)
-            )
-            val hoop = run.hoop
-            val board = run.boardX
-            val half = run.rimWidth
-            val netDepth = 24f + run.net * 7f
-            val swing = sin(run.net * 9f) * run.net * 4f
-            drawLine(
-                color = style.detailColor.copy(alpha = 0.45f),
-                start = Offset(board, hoop.y - 22f),
-                end = Offset(if (run.side > 0) right else left, hoop.y - 22f),
-                strokeWidth = 3f
-            )
-            drawRoundRect(
-                color = style.obstacleColor.copy(alpha = 0.14f),
-                topLeft = Offset(board - 3f, hoop.y - 49f),
-                size = Size(6f, 59f),
-                cornerRadius = CornerRadius(2f)
-            )
-            drawLine(
-                color = style.obstacleColor,
-                start = Offset(board, hoop.y - 49f),
-                end = Offset(board, hoop.y + 10f),
-                strokeWidth = 3f
-            )
-            drawLine(
-                color = style.accentColor.copy(alpha = 0.7f),
-                start = Offset(board - run.side * 3f, hoop.y - 30f),
-                end = Offset(board - run.side * 3f, hoop.y - 12f),
-                strokeWidth = 2f
-            )
-            for (index in 0..4) {
-                val x = (index / 4f - 0.5f) * 2f
-                val top = hoop + Offset(x * half, 3f)
-                val bottom = hoop + Offset(x * half * 0.6f + swing, netDepth)
-                drawLine(
-                    color = style.obstacleColor.copy(alpha = 0.65f),
-                    start = top,
-                    end = bottom,
-                    strokeWidth = 1f
-                )
-                if (index < 4) drawLine(
-                    color = style.obstacleColor.copy(alpha = 0.35f),
-                    start = top,
-                    end = hoop + Offset((x + 0.5f) * half * 0.6f + swing, netDepth),
-                    strokeWidth = 1f
-                )
-            }
-            drawLine(
-                color = style.obstacleColor.copy(alpha = 0.5f),
-                start = hoop + Offset(-half * 0.6f + swing, netDepth),
-                end = hoop + Offset(half * 0.6f + swing, netDepth),
-                strokeWidth = 1f
-            )
-            drawLine(
-                color = style.accentColor,
-                start = hoop - Offset(half, 0f),
-                end = hoop + Offset(half, 0f),
-                strokeWidth = 3f,
-                cap = StrokeCap.Round
-            )
-            if (run.net > 0f) drawCircle(
-                color = style.accentColor.copy(alpha = run.net * 0.12f),
-                radius = half + (1f - run.net) * 12f,
-                center = hoop
-            )
-            val shadow = (1f - (floor - run.ball.y) / (floor - run.topInset)).coerceIn(0f, 1f)
-            drawOval(
-                color = style.detailColor.copy(alpha = 0.12f + shadow * 0.15f),
-                topLeft = Offset(run.ball.x - 11f, floor - 3f),
-                size = Size(22f, 5f)
-            )
             run.trail.forEachIndexed { index, point ->
                 drawCircle(
-                    color = style.playerColor.copy(alpha = index / 8f * 0.12f),
-                    radius = run.radius * 0.45f,
-                    center = point
+                    color = (if (run.combo >= 3) style.accentColor else style.playerColor).copy(
+                        alpha = index / 8f * 0.16f
+                    ),
+                    radius = run.radius * unit * if (run.combo >= 3) 0.65f else 0.5f,
+                    center = run.project(point)
                 )
             }
             if (run.aiming) {
                 run.preview.forEachIndexed { index, point ->
                     drawCircle(
-                        color = style.accentColor.copy(alpha = 0.55f - index * 0.01f),
-                        radius = 1.8f,
-                        center = point
+                        color = style.accentColor.copy(alpha = 0.7f - index * 0.012f),
+                        radius = 1.7f * unit,
+                        center = run.project(point)
                     )
                 }
+                drawLine(
+                    color = style.playerColor.copy(alpha = 0.3f),
+                    start = run.project(run.ball),
+                    end = run.project(run.ball) + run.pull * unit * 0.35f,
+                    strokeWidth = 2f,
+                    cap = StrokeCap.Round
+                )
             }
-            rotate(run.spin, run.ball) {
-                val r = run.radius
+            val center = run.project(run.ball)
+            val radius = run.radius * unit
+            rotate(run.spin, center) {
                 drawCircle(
                     color = style.playerColor,
-                    radius = r,
-                    center = run.ball
+                    radius = radius,
+                    center = center
                 )
                 drawCircle(
                     color = style.playerDetailColor.copy(alpha = 0.5f),
-                    radius = r,
-                    center = run.ball,
-                    style = Stroke(1f)
+                    radius = radius,
+                    center = center,
+                    style = Stroke(unit)
                 )
                 drawLine(
                     color = style.playerDetailColor.copy(alpha = 0.65f),
-                    start = run.ball - Offset(r, 0f),
-                    end = run.ball + Offset(r, 0f),
-                    strokeWidth = 1f
-                )
-                drawLine(
-                    color = style.playerDetailColor.copy(alpha = 0.65f),
-                    start = run.ball - Offset(0f, r),
-                    end = run.ball + Offset(0f, r),
-                    strokeWidth = 1f
+                    start = center - Offset(radius, 0f),
+                    end = center + Offset(radius, 0f),
+                    strokeWidth = unit
                 )
                 for (side in listOf(-1f, 1f)) {
                     val seam = Path().apply {
-                        moveTo(run.ball.x, run.ball.y - r)
+                        moveTo(center.x, center.y - radius)
                         cubicTo(
-                            run.ball.x + side * r * 0.9f, run.ball.y - r * 0.5f,
-                            run.ball.x + side * r * 0.9f, run.ball.y + r * 0.5f,
-                            run.ball.x, run.ball.y + r
+                            center.x + side * radius * 0.9f, center.y - radius * 0.3f,
+                            center.x + side * radius * 0.9f, center.y + radius * 0.3f,
+                            center.x, center.y + radius
                         )
                     }
                     drawPath(
                         path = seam,
                         color = style.playerDetailColor.copy(alpha = 0.65f),
-                        style = Stroke(1f)
+                        style = Stroke(unit)
                     )
                 }
             }
-            run.effects.draw(
-                scope = this,
-                color = style.accentColor
-            )
+            translate(left, run.height - 48f * unit + run.camera * unit) {
+                scale(unit, Offset.Zero) {
+                    scale(1f, -1f, Offset.Zero) {
+                        run.effects.draw(
+                            scope = this,
+                            color = style.accentColor
+                        )
+                    }
+                }
+            }
         }
     }
 }
 
+internal data class BasketballHoop(
+    var center: Offset,
+    val halfWidth: Float,
+    val angle: Float,
+    val anchorX: Float = center.x,
+    val travel: Float = 0f,
+    val phase: Float = 0f
+) {
+    val tangent get() = Offset(cos(angle), sin(angle))
+    val normal get() = Offset(-sin(angle), cos(angle))
+
+    fun positionAt(time: Float): Offset =
+        center.copy(x = anchorX + sin(time * 0.9f + phase) * travel)
+
+    fun speedAt(time: Float): Offset = Offset(cos(time * 0.9f + phase) * travel * 0.9f, 0f)
+}
+
 internal class BasketballRun : ArcadeRun() {
+    val hoops = mutableListOf<BasketballHoop>()
+    val effects = ArcadeEffects()
+    val trail = ArrayDeque<Offset>()
+    val preview = mutableListOf<Offset>()
+    val radius = 15f
+    val gravity = 360f
+    val unit
+        get() = minOf(
+            1f, width / 360f,
+            (height - topInset - 12f) / ((hoops.getOrNull(1)?.center?.y ?: 80f) -
+                    (hoops.firstOrNull()?.center?.y ?: 0f) + 112f)
+        )
     var ball = Offset.Zero
     var velocity = Offset.Zero
-    var launch = Offset.Zero
-    var lives = 3
+    var camera = 0f
+    var time = 0f
     var made = 0
     var combo = 0
     var spin = 0f
@@ -245,308 +270,289 @@ internal class BasketballRun : ArcadeRun() {
     var airborne = false
     var aiming = false
         private set
-    var side = 1f
+    var pull = Offset.Zero
         private set
-    val effects = ArcadeEffects()
-    val trail = ArrayDeque<Offset>()
-    val preview = mutableListOf<Offset>()
-    private var start = Offset.Zero
-    private var aim = Offset.Zero
-    private var hoopX = 260f
-    private var hoopY = 110f
-    private var time = 0f
-    private var shotTime = 0f
+    private var touch: Offset? = null
     private var settle = 0f
-    private var scored = false
-    private var bounced = false
-    private var trailTime = 0f
-    val radius = 8f
-    val floor get() = height - 20f
-    val courtLeft get() = maxOf(18f, (width - 420f) / 2f)
-    val pace get() = made / (made + 18f)
-    val rimWidth get() = 27f - pace * 5f
-    val gravity get() = 340f * ((height - topInset) / 240f).coerceIn(0.75f, 2.6f)
-    val maxSwipe get() = ((height - topInset) * 0.5f).coerceIn(70f, 160f)
-    val aimVelocity: Offset
-        get() {
-            if (aim.y >= -4f) return Offset.Zero
-            val targetX = (ball.x + aim.x / -aim.y * (ball.y - hoopY))
-                .coerceIn(courtLeft - 24f, width - courtLeft + 24f)
-            val clearance = 32f + (aim.getDistance() / maxSwipe).coerceAtMost(1f) * 36f
-            val apex = maxOf(topInset + radius + 10f, hoopY - clearance)
-            val vy = -sqrt(2f * gravity * (ball.y - apex).coerceAtLeast(1f))
-            val duration =
-                (-vy + sqrt((vy * vy + 2f * gravity * (hoopY - ball.y)).coerceAtLeast(0f))) / gravity
-            return Offset((targetX - ball.x) / duration, vy)
-        }
-    val hoop get() = hoopAt(0f)
-    val boardX get() = hoop.x + side * (rimWidth + 7f)
+    private var clean = true
+    private var banked = false
+    private var trailTimer = 0f
 
-    private fun hoopAt(seconds: Float) = Offset(
-        hoopX + sin((time + seconds) * (0.55f + pace * 0.3f)) * 20f * (made - 7).coerceAtLeast(0) / (made + 18f),
-        hoopY
+    fun project(point: Offset): Offset = Offset(
+        (width - 360f * unit) / 2f + point.x * unit,
+        height - 48f * unit - (point.y - camera) * unit
     )
 
     override fun reset() {
-        lives = 3
+        hoops.clear()
+        hoops += BasketballHoop(Offset(85f, 0f), 37f, 0f)
         made = 0
         combo = 0
+        camera = 0f
         time = 0f
+        spin = 0f
         net = 0f
+        settle = 0f
+        clean = true
+        banked = false
+        airborne = false
+        velocity = Offset.Zero
+        trailTimer = 0f
+        trail.clear()
         effects.clear()
-        nextShot(true)
+        stopInput()
+        repeat(3) { addHoop() }
+        ball = hoops.first().center - hoops.first().normal * 11f
     }
 
-    private fun nextShot(newTarget: Boolean) {
-        if (newTarget) {
-            side = if (made % 4 < 2) 1f else -1f
-            val span = width - courtLeft * 2f
-            launch = Offset(width / 2f - side * span * 0.31f, floor - radius - 1f)
-            hoopX = width / 2f + side * span * (0.25f + Random.nextFloat() * 0.06f)
-            hoopY = topInset + (floor - topInset) * (0.32f + Random.nextFloat() * 0.12f)
-        }
-        ball = launch
-        velocity = Offset.Zero
-        spin = 0f
-        airborne = false
-        scored = false
-        bounced = false
-        shotTime = 0f
-        settle = 0f
-        trailTime = 0f
-        trail.clear()
-        stopInput()
+    private fun addHoop() {
+        val previous = hoops.last()
+        val number = made + hoops.size
+        val pace = number / (number + 35f)
+        val close = number % 4 == 0
+        val gap = (height - topInset - 40f).coerceIn(120f, 340f) *
+                (0.38f + Random.nextFloat() * 0.06f) * if (close) 0.82f else 1f
+        val x = if (close) (previous.anchorX + Random.nextFloat() * 48f - 24f).coerceIn(72f, 288f)
+        else if (previous.center.x < 180f) 232f + Random.nextFloat() * 46f
+        else 82f + Random.nextFloat() * 46f
+        val hoop = BasketballHoop(
+            center = Offset(x, previous.center.y + gap),
+            halfWidth = 37f - pace * 5f,
+            angle = if (number < 5) 0f else (Random.nextFloat() - 0.5f) * 0.35f * pace,
+            travel = if (number >= 6 && number % 3 == 0) 12f + pace * 12f else 0f,
+            phase = Random.nextFloat() * kotlin.math.PI.toFloat() * 2f
+        )
+        hoop.center = hoop.positionAt(time)
+        hoops += hoop
     }
 
     fun begin(point: Offset) {
-        if (airborne || settle > 0f || (point - ball).getDistance() > 38f) return
-        start = point
-        aim = Offset.Zero
+        if (airborne || settle > 0f || point.y < topInset) return
+        touch = point
         aiming = true
+        pull = Offset.Zero
+        preview.clear()
     }
 
     fun aim(point: Offset) {
-        if (!aiming) return
-        val delta = point - start
-        aim = Offset(delta.x, minOf(delta.y, 0f)) * minOf(
-            1f,
-            maxSwipe / delta.getDistance().coerceAtLeast(1f)
-        )
-        updatePreview()
+        val start = touch ?: return
+        val delta = (point - start) / unit
+        pull = delta * minOf(1f, 105f / delta.getDistance().coerceAtLeast(0.001f))
+        preview.clear()
+        if (pull.getDistance() < 6f) return
+        var point = ball
+        var speed = launchVelocity()
+        repeat(48) { index ->
+            val step = 0.035f
+            val next = point + speed * step - Offset(0f, gravity * step * step / 2f)
+            for (basket in 0..1) {
+                val hoop = hoops[basket]
+                val center =
+                    if (basket == 0) hoop.center else hoop.positionAt(time + (index + 1) * step)
+                val before = if (basket == 0) hoop.center else hoop.positionAt(time + index * step)
+                for (side in -1..1 step 2) {
+                    val peg = center + hoop.tangent * hoop.halfWidth * side.toFloat()
+                    if (distanceToSegment(peg, point, next) < radius + 1.5f) return
+                }
+                if (crossesHoop(hoop, point, next, center, before)) return
+            }
+            speed -= Offset(0f, gravity * step)
+            point = next
+            if (point.x < radius || point.x > 360f - radius) {
+                point = point.copy(x = point.x.coerceIn(radius, 360f - radius))
+                speed = speed.copy(x = -speed.x * 0.86f)
+            }
+            if (project(point).y > height) return
+            preview += point
+        }
     }
 
+    private fun launchVelocity() = Offset(-pull.x * 4f, pull.y * 4f)
+
     fun shoot() {
-        if (!aiming) return
-        if (aim.y < -4f && aim.getDistance() > 14f) {
-            velocity = aimVelocity
+        if (!aiming || airborne) return
+        if (pull.getDistance() >= 6f) {
+            velocity = launchVelocity()
             airborne = true
-            shotTime = 0f
+            clean = true
+            banked = false
+            trail.clear()
         }
         stopInput()
     }
 
     override fun stopInput() {
         aiming = false
-        aim = Offset.Zero
+        touch = null
+        pull = Offset.Zero
         preview.clear()
     }
 
-    private fun updatePreview() {
-        preview.clear()
-        val velocity = aimVelocity
-        if (velocity.y >= 0f) return
-        val duration = (-velocity.y + sqrt(
-            (velocity.y * velocity.y + 2f * gravity * (hoopY - ball.y)).coerceAtLeast(0f)
-        )) / gravity
-        var previous = ball
-        for (index in 1..32) {
-            val t = duration * index / 32f
-            val point = ball + velocity * t + Offset(0f, gravity * t * t / 2f)
-            val hoop = hoopAt(t)
-            val segment = point - previous
-            val board = hoop.x + side * (rimWidth + 7f)
-            if (abs(segment.x) > 0.001f) {
-                val surface = board + if (segment.x > 0f) -radius - 3f else radius + 3f
-                val crossing = (surface - previous.x) / segment.x
-                val y = previous.y + segment.y * crossing
-                if (crossing in 0f..1f && y in hoop.y - 49f - radius..hoop.y + 10f + radius) break
-            }
-            val blocked = listOf(-rimWidth, rimWidth).any { x ->
-                val peg = hoop + Offset(x, 0f)
-                val delta = peg - previous
-                val projection =
-                    ((delta.x * segment.x + delta.y * segment.y) / segment.getDistanceSquared()
-                        .coerceAtLeast(0.001f)).coerceIn(0f, 1f)
-                (previous + segment * projection - peg).getDistance() <= radius + 2f
-            }
-            if (blocked) break
-            preview += point
-            previous = point
-        }
+    private fun dot(
+        a: Offset,
+        b: Offset
+    ): Float = a.x * b.x + a.y * b.y
+
+    private fun distanceToSegment(
+        point: Offset,
+        from: Offset,
+        to: Offset
+    ): Float {
+        val segment = to - from
+        val t = (dot(point - from, segment) / segment.getDistanceSquared().coerceAtLeast(0.001f))
+            .coerceIn(0f, 1f)
+        return (point - from - segment * t).getDistance()
     }
 
-    private fun bounceRim(
-        previous: Offset,
-        center: Offset
+    private fun crossesHoop(
+        hoop: BasketballHoop,
+        from: Offset,
+        to: Offset,
+        center: Offset = hoop.center,
+        previousCenter: Offset = center
+    ): Boolean {
+        val start = from - previousCenter
+        val end = to - center
+        val above = dot(start, hoop.normal)
+        val below = dot(end, hoop.normal)
+        if (above <= 0f || below > 0f) return false
+        val crossing = start + (end - start) * (above / (above - below))
+        return abs(dot(crossing, hoop.tangent)) < hoop.halfWidth - radius - 1.5f
+    }
+
+    private fun rebound(
+        peg: Offset,
+        motion: Offset
     ) {
-        val travel = ball - previous
-        val relative = previous - center
-        val reach = radius + 2f
-        val a = travel.getDistanceSquared()
-        if (a < 0.0001f) return
-        val b = 2f * (relative.x * travel.x + relative.y * travel.y)
-        val c = relative.getDistanceSquared() - reach * reach
-        val discriminant = b * b - 4f * a * c
-        if (discriminant < 0f) return
-        val hit = if (c < 0f) 0f else (-b - sqrt(discriminant)) / (2f * a)
-        if (hit !in 0f..1f) return
-        val contact = previous + travel * hit
-        val normal = (contact - center) / (contact - center).getDistance().coerceAtLeast(0.01f)
-        val impact = velocity.x * normal.x + velocity.y * normal.y
-        if (impact >= 0f) return
-        ball = center + normal * (reach + 0.2f)
-        velocity -= normal * (impact * 1.65f)
-        bounced = true
+        val delta = ball - peg
+        val length = delta.getDistance()
+        val contact = radius + 1.5f
+        if (length >= contact) return
+        val normal = if (length > 0.001f) delta / length else Offset(0f, 1f)
+        ball = peg + normal * contact
+        val speed = dot(velocity - motion, normal)
+        if (speed < 0f) velocity -= normal * (speed * 1.68f)
+        clean = false
     }
 
     override fun advance(seconds: Float) {
         time += seconds
-        net = (net - seconds * 2f).coerceAtLeast(0f)
+        for (index in 1..hoops.lastIndex) hoops[index].center = hoops[index].positionAt(time)
+        if (aiming && hoops[1].travel > 0f) touch?.let { aim(it + pull * unit) }
         effects.advance(seconds)
-        if (aiming && made >= 8) updatePreview()
-        if (settle > 0f) {
-            settle -= seconds
-            if (settle <= 0f) {
-                if (lives <= 0) phase = ArcadePhase.Over else nextShot(scored)
-                return
-            }
-        }
+        net = (net - seconds * 2.8f).coerceAtLeast(0f)
+        settle = (settle - seconds).coerceAtLeast(0f)
+        val target = maxOf(hoops.first().center.y, ball.y - (height - topInset) / unit * 0.48f)
+        camera += (target - camera) * minOf(1f, seconds * 5f)
         if (!airborne) return
-        shotTime += seconds
         val previous = ball
-        ball += velocity * seconds + Offset(0f, gravity * seconds * seconds / 2f)
-        velocity += Offset(0f, gravity * seconds)
-        spin = (spin + velocity.x * seconds * 5f) % 360f
-        trailTime += seconds
-        if (trailTime >= 0.035f) {
-            trailTime = 0f
-            trail += ball
-            if (trail.size > 8) trail.removeFirst()
+        ball += velocity * seconds - Offset(0f, gravity * seconds * seconds / 2f)
+        velocity -= Offset(0f, gravity * seconds)
+        spin += velocity.x * seconds * 1.8f
+        if (ball.x < radius || ball.x > 360f - radius) {
+            ball = ball.copy(x = ball.x.coerceIn(radius, 360f - radius))
+            velocity = velocity.copy(x = -velocity.x * 0.86f)
+            banked = true
         }
-        val target = hoop
-        val board = boardX
-        val surface = board + if (velocity.x > 0f) -radius - 3f else radius + 3f
-        if ((previous.x - surface) * (ball.x - surface) <= 0f && abs(ball.x - previous.x) > 0.001f) {
-            val t = (surface - previous.x) / (ball.x - previous.x)
-            val y = previous.y + (ball.y - previous.y) * t
-            if (y in target.y - 49f - radius..target.y + 10f + radius) {
-                ball = Offset(surface, ball.y)
-                velocity = Offset(-velocity.x * 0.72f, velocity.y * 0.95f)
-                bounced = true
-            }
+        for (index in 0..1) {
+            val hoop = hoops[index]
+            val motion = if (index == 0) Offset.Zero else hoop.speedAt(time)
+            rebound(hoop.center - hoop.tangent * hoop.halfWidth, motion)
+            rebound(hoop.center + hoop.tangent * hoop.halfWidth, motion)
         }
-        if (!scored) {
-            bounceRim(previous, target - Offset(rimWidth, 0f))
-            bounceRim(previous, target + Offset(rimWidth, 0f))
-            if (settle <= 0f && velocity.y > 0f && previous.y < target.y && ball.y >= target.y) {
-                val t = (target.y - previous.y) / (ball.y - previous.y)
-                val x = previous.x + (ball.x - previous.x) * t
-                if (abs(x - target.x) < rimWidth - radius) {
-                    scored = true
-                    made++
-                    combo++
-                    score += 10 + minOf(combo - 1, 5) * 2 + if (bounced) 0 else 5
-                    net = 1f
-                    settle = 0.7f
-                    effects.burst(
-                        point = target,
-                        count = 12
-                    )
-                }
+        for (index in 1 downTo 0) {
+            val hoop = hoops[index]
+            val previousCenter = if (index == 0) hoop.center else hoop.positionAt(time - seconds)
+            if (!crossesHoop(hoop, previous, ball, hoop.center, previousCenter)) continue
+            if (index == 1) {
+                made++
+                combo = if (clean) combo + 1 else 0
+                score += 10 + (if (clean) 5 * minOf(combo, 5) else 0) + if (banked) 5 else 0
+                effects.burst(
+                    point = hoop.center,
+                    count = if (clean) 16 else 8
+                )
+                hoops.removeAt(0)
+                addHoop()
             }
-        }
-        val missed =
-            ball.y + radius >= floor || ball.x < courtLeft - 40f || ball.x > width - courtLeft + 40f || shotTime > 6f
-        if (missed) {
-            if (settle <= 0f) {
-                lives--
-                combo = 0
-                settle = 0.6f
-            }
-            ball =
-                Offset(ball.x.coerceIn(courtLeft, width - courtLeft), minOf(ball.y, floor - radius))
+            ball = hoop.center - hoop.normal * 11f
             velocity = Offset.Zero
             airborne = false
+            settle = 0.25f
+            net = 1f
             trail.clear()
+            return
+        }
+        trailTimer += seconds
+        if (trailTimer >= 0.035f) {
+            trailTimer = 0f
+            trail.addLast(ball)
+            if (trail.size > 8) trail.removeFirst()
+        }
+        if (project(ball).y > height + radius * unit) {
+            phase = ArcadePhase.Over
+            stopInput()
         }
     }
 
     override fun onResize(previous: Size) {
-        val previousLeft = maxOf(18f, (previous.width - 420f) / 2f)
-        val x = (width - courtLeft * 2f) / (previous.width - previousLeft * 2f)
-        val y = height / previous.height
-        ball = Offset(courtLeft + (ball.x - previousLeft) * x, ball.y * y)
-        launch = Offset(courtLeft + (launch.x - previousLeft) * x, floor - radius - 1f)
-        if (!airborne && settle <= 0f) ball = launch
-        velocity = Offset(velocity.x * x, velocity.y * y)
-        hoopX = courtLeft + (hoopX - previousLeft) * x
-        hoopY = (hoopY * y).coerceIn(topInset + 24f, floor - 65f)
-        trail.clear()
         stopInput()
     }
 
     override fun save(state: Bundle) {
-        state.putIntArray("run", intArrayOf(lives, made, combo))
-        state.putFloatArray(
-            "motion",
-            floatArrayOf(
-                ball.x,
-                ball.y,
-                velocity.x,
-                velocity.y,
-                launch.x,
-                launch.y,
-                hoopX,
-                hoopY,
-                side,
-                spin
+        state.putFloatArray("hoops", hoops.flatMap {
+            listOf(
+                it.center.x,
+                it.center.y,
+                it.halfWidth,
+                it.angle,
+                it.anchorX,
+                it.travel,
+                it.phase
             )
-        )
-        state.putFloatArray("time", floatArrayOf(time, shotTime, settle, net, trailTime))
+        }.toFloatArray())
+        state.putFloatArray("ball", floatArrayOf(ball.x, ball.y, velocity.x, velocity.y))
+        state.putFloatArray("motion", floatArrayOf(camera, spin, net, settle, trailTimer, time))
+        state.putIntArray("score", intArrayOf(made, combo))
         state.putBoolean("airborne", airborne)
-        state.putBoolean("scored", scored)
-        state.putBoolean("bounced", bounced)
-        state.putFloatArray("trail", trail.flatMap { listOf(it.x, it.y) }.toFloatArray())
+        state.putBoolean("clean", clean)
+        state.putBoolean("banked", banked)
     }
 
     override fun restore(state: Bundle) {
-        state.getIntArray("run")!!.let {
-            lives = it[0]
-            made = it[1]
-            combo = it[2]
+        hoops.clear()
+        state.getFloatArray("hoops")!!.let {
+            for (index in it.indices step 7) {
+                hoops += BasketballHoop(
+                    Offset(it[index], it[index + 1]),
+                    it[index + 2],
+                    it[index + 3],
+                    it[index + 4],
+                    it[index + 5],
+                    it[index + 6]
+                )
+            }
         }
-        state.getFloatArray("motion")!!.let {
+        state.getFloatArray("ball")!!.let {
             ball = Offset(it[0], it[1])
             velocity = Offset(it[2], it[3])
-            launch = Offset(it[4], it[5])
-            hoopX = it[6]
-            hoopY = it[7]
-            side = it[8]
-            spin = it[9]
         }
-        state.getFloatArray("time")!!.let {
-            time = it[0]
-            shotTime = it[1]
-            settle = it[2]
-            net = it[3]
-            trailTime = it[4]
+        state.getFloatArray("motion")!!.let {
+            camera = it[0]
+            spin = it[1]
+            net = it[2]
+            settle = it[3]
+            trailTimer = it[4]
+            time = it[5]
+        }
+        state.getIntArray("score")!!.let {
+            made = it[0]
+            combo = it[1]
         }
         airborne = state.getBoolean("airborne")
-        scored = state.getBoolean("scored")
-        bounced = state.getBoolean("bounced")
+        clean = state.getBoolean("clean")
+        banked = state.getBoolean("banked")
         trail.clear()
-        state.getFloatArray("trail")!!
-            .let { for (index in it.indices step 2) trail += Offset(it[index], it[index + 1]) }
         stopInput()
     }
 }
