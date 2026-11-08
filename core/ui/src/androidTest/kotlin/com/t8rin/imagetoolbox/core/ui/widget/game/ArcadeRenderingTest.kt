@@ -19,6 +19,8 @@ package com.t8rin.imagetoolbox.core.ui.widget.game
 
 import android.graphics.Bitmap
 import android.os.SystemClock
+import android.view.InputDevice
+import android.view.MotionEvent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -30,6 +32,10 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Rect
+import androidx.compose.ui.layout.boundsInWindow
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.test.junit4.createComposeRule
@@ -48,7 +54,10 @@ class ArcadeRenderingTest {
 
     @Test
     fun renderEveryNewGameInCompactLightDarkAndTallFields() {
-        val games = ArcadeGame.playable.drop(8)
+        val requested = InstrumentationRegistry.getArguments().getString("arcadeGames")?.split(',')
+        val games = ArcadeGame.playable.drop(8).filter { requested == null || it.name in requested }
+        assertTrue(games.isNotEmpty())
+        var fieldBounds = Rect.Zero
         val sample = mutableIntStateOf(0)
         compose.mainClock.autoAdvance = false
         compose.setContent {
@@ -63,7 +72,7 @@ class ArcadeRenderingTest {
                                 stringResource(game.title),
                                 modifier = Modifier.padding(bottom = 12.dp)
                             )
-                            PlayingGame(game, if (variant == 2) 620 else 280)
+                            PlayingGame(game, if (variant == 2) 620 else 280) { fieldBounds = it }
                         }
                     }
                 }
@@ -79,6 +88,81 @@ class ArcadeRenderingTest {
             compose.runOnIdle { sample.intValue = index }
             compose.mainClock.advanceTimeBy(1600L)
             compose.waitForIdle()
+            var downTime = 0L
+            var heldPoint: Offset? = null
+            fun send(action: Int, point: Offset) {
+                val event = MotionEvent.obtain(
+                    downTime,
+                    SystemClock.uptimeMillis(),
+                    action,
+                    point.x,
+                    point.y,
+                    0
+                )
+                event.source = InputDevice.SOURCE_TOUCHSCREEN
+                instrumentation.uiAutomation.injectInputEvent(event, true)
+                event.recycle()
+            }
+
+            fun touch(point: Offset, duration: Long) {
+                downTime = SystemClock.uptimeMillis()
+                send(MotionEvent.ACTION_DOWN, point)
+                compose.mainClock.advanceTimeBy(duration)
+                send(MotionEvent.ACTION_UP, point)
+            }
+            when (games[index % games.size]) {
+                ArcadeGame.Minesweeper -> {
+                    touch(
+                        fieldBounds.topLeft + Offset(
+                            fieldBounds.width * 0.16f,
+                            fieldBounds.height * 0.27f
+                        ), 650L
+                    )
+                    touch(fieldBounds.center + Offset(0f, fieldBounds.height * 0.05f), 32L)
+                    compose.mainClock.advanceTimeBy(500L)
+                }
+
+                ArcadeGame.Bomber -> {
+                    touch(fieldBounds.center, 32L)
+                    val from = fieldBounds.center
+                    val to = from + Offset(fieldBounds.width * 0.2f, 0f)
+                    downTime = SystemClock.uptimeMillis()
+                    send(MotionEvent.ACTION_DOWN, from)
+                    send(MotionEvent.ACTION_MOVE, to)
+                    compose.mainClock.advanceTimeBy(180L)
+                    send(MotionEvent.ACTION_UP, to)
+                    compose.mainClock.advanceTimeBy(80L)
+                }
+
+                ArcadeGame.Timberman -> {
+                    val point = fieldBounds.center + Offset(fieldBounds.width * 0.25f, 0f)
+                    touch(point, 32L)
+                    compose.mainClock.advanceTimeBy(160L)
+                    touch(point, 32L)
+                    compose.mainClock.advanceTimeBy(48L)
+                }
+
+                ArcadeGame.GravityFlip -> {
+                    touch(fieldBounds.center, 32L)
+                    compose.mainClock.advanceTimeBy(450L)
+                }
+
+                ArcadeGame.LunarLander -> {
+                    val from = fieldBounds.topLeft + Offset(
+                        fieldBounds.width * 0.5f,
+                        fieldBounds.height * 0.7f
+                    )
+                    val to = from + Offset(fieldBounds.width * 0.06f, -fieldBounds.height * 0.025f)
+                    downTime = SystemClock.uptimeMillis()
+                    send(MotionEvent.ACTION_DOWN, from)
+                    send(MotionEvent.ACTION_MOVE, to)
+                    compose.mainClock.advanceTimeBy(400L)
+                    heldPoint = to
+                }
+
+                else -> Unit
+            }
+            compose.waitForIdle()
             if (capture) {
                 instrumentation.waitForIdleSync()
                 // Wait for the emulator compositor to present the new Canvas frame.
@@ -93,15 +177,16 @@ class ArcadeRenderingTest {
                 }
                 bitmap.recycle()
             }
+            heldPoint?.let { send(MotionEvent.ACTION_UP, it) }
         }
     }
 }
 
 @Composable
-private fun PlayingGame(game: ArcadeGame, height: Int) {
+private fun PlayingGame(game: ArcadeGame, height: Int, onBounds: (Rect) -> Unit) {
     val style = ArcadeDefaults.style.copy(gameHeight = height.dp)
     val initial = ArcadeGameState(isPlaying = true)
-    val modifier = Modifier.fillMaxWidth()
+    val modifier = Modifier.fillMaxWidth().onGloballyPositioned { onBounds(it.boundsInWindow()) }
     when (game) {
         ArcadeGame.Racer -> RacerGame(modifier, initial, style)
         ArcadeGame.Ricochet -> RicochetGame(modifier, initial, style)
@@ -115,6 +200,16 @@ private fun PlayingGame(game: ArcadeGame, height: Int) {
         ArcadeGame.BubblePop -> BubblePopGame(modifier, initial, style)
         ArcadeGame.Fishing -> FishingGame(modifier, initial, style)
         ArcadeGame.Hexagon -> HexagonGame(modifier, initial, style)
+        ArcadeGame.Bomber -> BomberGame(modifier, initial, style)
+        ArcadeGame.Minesweeper -> MinesweeperGame(modifier, initial, style)
+        ArcadeGame.MazeChaser -> MazeChaserGame(modifier, initial, style)
+        ArcadeGame.GravityFlip -> GravityFlipGame(modifier, initial, style)
+        ArcadeGame.ZigZag -> ZigZagGame(modifier, initial, style)
+        ArcadeGame.Timberman -> TimbermanGame(modifier, initial, style)
+        ArcadeGame.OrbitSurvival -> OrbitSurvivalGame(modifier, initial, style)
+        ArcadeGame.LunarLander -> LunarLanderGame(modifier, initial, style)
+        ArcadeGame.BrickBreaker -> BrickBreakerGame(modifier, initial, style)
+        ArcadeGame.LightCycles -> LightCyclesGame(modifier, initial, style)
         else -> error("Expected a revised game")
     }
 }

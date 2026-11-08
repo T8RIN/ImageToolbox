@@ -40,7 +40,17 @@ enum class ArcadeGame {
     SimonSays,
     BubblePop,
     Fishing,
-    Hexagon;
+    Hexagon,
+    Bomber,
+    Minesweeper,
+    GravityFlip,
+    MazeChaser,
+    ZigZag,
+    Timberman,
+    OrbitSurvival,
+    LunarLander,
+    BrickBreaker,
+    LightCycles;
 
     companion object {
         val playable = entries.filterNot { it == Random }

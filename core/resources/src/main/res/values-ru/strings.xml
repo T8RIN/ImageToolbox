@@ -8022,4 +8022,24 @@
     <string name="arcade_hexagon_sub">Удерживайте левую или правую часть поля, чтобы двигаться по орбите и проходить в просветы</string>
     <string name="arcade_watch">Запоминайте</string>
     <string name="arcade_repeat">Ваш ход</string>
+    <string name="arcade_bomber">Бомбер</string>
+    <string name="arcade_bomber_sub">Свайпайте и удерживайте, чтобы двигаться. Касайтесь поля, чтобы поставить бомбу. Разбивайте ящики и ловите врагов взрывом</string>
+    <string name="arcade_minesweeper">Сапёр</string>
+    <string name="arcade_minesweeper_sub">Касайтесь клеток, чтобы открывать их, и удерживайте для установки или снятия флажка. Касайтесь открытого числа, чтобы раскрыть соседей, когда все мины рядом отмечены</string>
+    <string name="arcade_mazechaser">Погоня в лабиринте</string>
+    <string name="arcade_mazechaser_sub">Задавайте направление свайпами. Соберите все точки, а крупные заряды помогут справиться с преследователями</string>
+    <string name="arcade_gravityflip">Смена гравитации</string>
+    <string name="arcade_gravityflip_sub">Касайтесь поля, чтобы менять гравитацию. Обходите преграды и собирайте кристаллы для защитного поля</string>
+    <string name="arcade_zigzag">Зигзаг</string>
+    <string name="arcade_zigzag_sub">Касайтесь поля для поворота. Удерживайте шарик на узкой дорожке и собирайте кристаллы, пока темп растёт</string>
+    <string name="arcade_timberman">Лесоруб</string>
+    <string name="arcade_timberman_sub">Касайтесь слева или справа, чтобы рубить дерево. Избегайте веток и поддерживайте темп, пока не кончилось время</string>
+    <string name="arcade_orbitsurvival">Двойная орбита</string>
+    <string name="arcade_orbitsurvival_sub">Удерживайте левую или правую часть поля, чтобы вращать обе точки. Уклоняйтесь от преград и метеоров с разных сторон</string>
+    <string name="arcade_lunarlander">Лунный посадочный модуль</string>
+    <string name="arcade_lunarlander_sub">Удерживайте палец для тяги. Двигайте в стороны для наклона, вверх или вниз для регулировки мощности. Садитесь плавно; узкие площадки дают двойные очки</string>
+    <string name="arcade_brickbreaker">Арканоид</string>
+    <string name="arcade_brickbreaker_sub">Двигайте ракетку пальцем, разбивайте кирпичи и ловите бонусы. Удерживайте мяч в игре в бесконечных волнах</string>
+    <string name="arcade_lightcycles">Световые мотоциклы</string>
+    <string name="arcade_lightcycles_sub">Задавайте направление свайпами или касайтесь слева и справа для поворота. Заряд позволяет пробить один след. Стены и встречные столкновения всегда опасны</string>
 </resources>

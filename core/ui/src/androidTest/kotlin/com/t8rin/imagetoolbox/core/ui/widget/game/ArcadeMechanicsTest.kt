@@ -33,13 +33,16 @@ class ArcadeMechanicsTest {
     private val factories = listOf(
         ::RacerRun, ::RicochetRun, ::AsteroidsRun, ::FruitSliceRun, ::KnifeHitRun,
         ::MissileCommandRun, ::RiverHopRun, ::WhackAMoleRun, ::SimonSaysRun,
-        ::BubblePopRun, ::FishingRun, ::HexagonRun
+        ::BubblePopRun, ::FishingRun, ::HexagonRun,
+        ::BomberRun, ::MinesweeperRun, ::MazeChaserRun,
+        ::GravityFlipRun, ::ZigZagRun, ::TimbermanRun,
+        ::OrbitSurvivalRun, ::LunarLanderRun, ::BrickBreakerRun, ::LightCyclesRun
     )
 
     @Test
-    fun collectionContainsTwentyDistinctGamesAndTheOriginalEight() {
-        assertEquals(20, ArcadeGame.playable.size)
-        assertEquals(20, ArcadeGame.playable.distinct().size)
+    fun collectionContainsThirtyDistinctGamesAndTheOriginalEight() {
+        assertEquals(30, ArcadeGame.playable.size)
+        assertEquals(30, ArcadeGame.playable.distinct().size)
         assertEquals(
             listOf(
                 ArcadeGame.Dino, ArcadeGame.Doodle, ArcadeGame.Bird, ArcadeGame.Stack,
@@ -47,7 +50,7 @@ class ArcadeMechanicsTest {
             ),
             ArcadeGame.playable.take(8)
         )
-        assertEquals(20, ArcadeGame.playable.map { it.title }.distinct().size)
+        assertEquals(30, ArcadeGame.playable.map { it.title }.distinct().size)
     }
 
     @Test
@@ -438,6 +441,376 @@ class ArcadeMechanicsTest {
         assertTrue(missile.charge < 1f)
     }
 
+    @Test
+    fun bomberBlastsStopAtWallsAndCratesAndChainOtherBombs() {
+        val run = BomberRun().apply { start() }
+        run.board.fill(0)
+        val origin = 3 * run.columns + 3
+        run.board[origin + 2] = 2
+        run.board[origin - run.columns] = 1
+        val bomb = BomberBomb(origin, 0f, 4)
+        run.bombs += bomb
+        run.explode(bomb)
+        assertEquals(0, run.board[origin + 2])
+        assertTrue(origin + 2 in run.blasts)
+        assertTrue(origin + 3 !in run.blasts)
+        assertTrue(origin - run.columns !in run.blasts)
+        run.blasts.clear()
+        run.board.fill(0)
+        run.enemies.clear()
+        run.enemies += BomberEnemy(origin + 3, origin + 3)
+        val first = BomberBomb(origin, 0f, 2)
+        run.bombs += first
+        run.bombs += BomberBomb(origin + 2, 2f, 2)
+        run.explode(first)
+        assertTrue(run.bombs.isEmpty())
+        assertTrue(origin + 4 in run.blasts)
+        run.advance(1f / 120f)
+        assertTrue(run.enemies.isEmpty())
+        assertTrue(run.transition > 0f)
+        repeat(125) { run.advance(1f / 120f) }
+        assertEquals(2, run.round)
+        assertTrue(run.enemies.isNotEmpty())
+        run.placeBomb()
+        run.placeBomb()
+        assertEquals(1, run.bombs.size)
+        run.steer(Offset(30f, 0f))
+        repeat(20) { run.advance(1f / 120f) }
+        assertEquals(run.columns + 2, run.player)
+        assertEquals(3, run.lives)
+    }
+
+    @Test
+    fun minesweeperFirstTapIsAnEmptyFloodAndNumbersMatchTheirNeighbors() {
+        for (height in listOf(220f, 680f)) repeat(20) {
+            val run = MinesweeperRun().apply { resize(360f, height); start() }
+            val first = run.board.indices.random()
+            run.open(first)
+            assertEquals(0, run.board[first])
+            assertTrue(run.neighbors(first).all { run.board[it] >= 0 })
+            assertEquals(run.mineCount, run.board.count { it == -1 })
+            for (index in run.board.indices) if (run.board[index] >= 0) {
+                assertEquals(run.neighbors(index).count { run.board[it] == -1 }, run.board[index])
+            }
+            assertTrue(run.cover.count { it == 1 } > 1)
+            assertEquals(ArcadePhase.Running, run.phase)
+        }
+    }
+
+
+    @Test
+    fun generatedMazesHaveReachableDotsAndEnemiesWithOpenCornerPellets() {
+        for (height in listOf(220f, 680f)) repeat(30) {
+            val run = MazeChaserRun().apply { resize(360f, height); start() }
+            val distances = run.distances(run.player)
+            for (index in run.walls.indices) {
+                assertEquals(!run.walls[index], distances[index] < Int.MAX_VALUE)
+                if (run.dots[index] > 0) assertTrue(!run.walls[index])
+                if (!run.walls[index]) {
+                    val neighbors =
+                        listOf(index - 1, index + 1, index - run.columns, index + run.columns)
+                    assertTrue(neighbors.count { it in run.walls.indices && !run.walls[it] } >= 2)
+                }
+            }
+            assertTrue(run.enemies.isNotEmpty())
+            assertTrue(run.enemies.all { distances[it.position] >= 5 })
+            assertEquals(3, run.dots.count { it == 2 })
+        }
+        val moving = MazeChaserRun().apply { start(); invulnerable = 999f }
+        moving.dots.fill(0)
+        repeat(700) { frame ->
+            if (frame == 260) moving.power = 0.4f
+            val before = moving.enemies.map(moving::enemyPoint)
+            moving.advance(1f / 120f)
+            moving.enemies.forEachIndexed { index, enemy ->
+                assertTrue((moving.enemyPoint(enemy) - before[index]).getDistance() <= moving.cell * 0.05f)
+            }
+        }
+    }
+
+
+    @Test
+    fun gravityObstaclesLeaveTimeToReachTheOppositeSurface() {
+        for (height in listOf(220f, 680f)) {
+            val run = GravityFlipRun().apply { resize(360f, height); start() }
+            repeat(120 * 80) {
+                val obstacle = run.obstacles.filter { it.x + it.width >= run.playerX - run.radius }
+                    .minByOrNull { it.x }
+                if (obstacle != null && obstacle.x - run.playerX < run.speed * 0.9f) {
+                    val gravity = if (obstacle.ceiling) 1 else -1
+                    if (run.gravity != gravity) run.flip()
+                }
+                run.advance(1f / 120f)
+                assertEquals(ArcadePhase.Running, run.phase)
+            }
+            assertTrue(run.score > 100)
+            assertTrue(run.obstacles.size < 8)
+        }
+        val shield = GravityFlipRun().apply { start(); this.shield = true }
+        val obstacle = GravityObstacle(shield.playerX, 30f, 0.4f, false, false)
+        shield.obstacles += obstacle
+        shield.advance(1f / 120f)
+        assertTrue(obstacle.broken)
+        assertTrue(!shield.shield)
+        assertEquals(ArcadePhase.Running, shield.phase)
+        shield.obstacles += GravityObstacle(shield.playerX, 30f, 0.4f, false, false)
+        shield.advance(1f / 120f)
+        assertEquals(ArcadePhase.Over, shield.phase)
+    }
+
+    @Test
+    fun zigzagTileEdgesAreContinuousAndGeneratedCornersRemainTraversable() {
+        val run = ZigZagRun().apply { start() }
+        assertTrue(run.supported(0.5f, 0f))
+        assertTrue(run.supported(0.49f, 0.49f))
+        assertTrue(!run.supported(0.56f, 0.56f))
+        var destination = 1
+        repeat(120 * 80) {
+            var tile = run.tiles.first { it.x + it.y == destination }
+            if (abs(run.x - tile.x) < 0.035f && abs(run.y - tile.y) < 0.035f) {
+                destination++
+                tile = run.tiles.first { it.x + it.y == destination }
+            }
+            val direction = if (abs(tile.x - run.x) > abs(tile.y - run.y)) 0 else 1
+            if (run.direction != direction) run.turn()
+            run.advance(1f / 120f)
+            assertTrue(run.fall < 0f)
+        }
+        assertTrue(run.progress > 150f)
+        assertTrue(run.tiles.size < 60)
+        val corner = ZigZagRun().apply { start(); advance(0.8f) }
+        corner.tiles.clear()
+        for (x in 0..4) corner.tiles += ZigZagTile(x, 0, false)
+        for (y in 1..5) corner.tiles += ZigZagTile(4, y, false)
+        corner.x = 4.45f
+        corner.y = 0f
+        corner.direction = 0
+        corner.turn()
+        repeat(30) { corner.advance(1f / 120f) }
+        assertTrue(corner.fall < 0f)
+        assertEquals(4f, corner.x, 0.01f)
+        corner.x = 7f
+        repeat(15) { corner.advance(1f / 120f) }
+        assertTrue(corner.fall >= 0f)
+    }
+
+    @Test
+    fun timbermanAlwaysLeavesASafeSideAndRequiresAChoppingRhythm() {
+        val run = TimbermanRun().apply { start() }
+        repeat(180) {
+            val side = listOf(-1, 1).first { it != run.branches[0] && it != run.branches[1] }
+            run.chop(side)
+            repeat(16) { run.advance(1f / 120f) }
+            assertEquals(ArcadePhase.Running, run.phase)
+            assertEquals(24, run.branches.size)
+            assertTrue(run.chips.size <= 6)
+        }
+        assertTrue(run.score >= 180)
+        repeat(700) { if (run.phase == ArcadePhase.Running) run.advance(1f / 120f) }
+        assertEquals(ArcadePhase.Over, run.phase)
+        run.start()
+        run.branches[1] = 1
+        run.chop(1)
+        assertEquals(ArcadePhase.Over, run.phase)
+    }
+
+    @Test
+    fun orbitPatternsFitBothDotsAndEitherDotCanCollide() {
+        for (kind in 0..2) {
+            val run = OrbitSurvivalRun().apply { start(); advance(0.01f) }
+            run.gates.clear()
+            run.gates += OrbitGate(-1.4f, kind)
+            run.angle = when (kind) {
+                0 -> 0f; 1 -> Math.PI.toFloat() / 2f; else -> Math.PI.toFloat() / 4f
+            }
+            repeat(230) { run.advance(1f / 120f) }
+            assertEquals(ArcadePhase.Running, run.phase)
+            assertEquals(1, run.score)
+        }
+        for (kind in 0..2) for (angle in listOf(0.7f, -1.2f, 3.14f)) {
+            val run = OrbitSurvivalRun().apply { start(); advance(0.01f) }
+            run.gates.clear()
+            run.gates += OrbitGate(-1.4f, kind, angle = angle)
+            run.angle = angle + when (kind) {
+                0 -> 0f; 1 -> Math.PI.toFloat() / 2f; else -> Math.PI.toFloat() / 4f
+            }
+            repeat(230) { run.advance(1f / 120f) }
+            assertEquals(ArcadePhase.Running, run.phase)
+        }
+        val variety = OrbitSurvivalRun().apply { start() }
+        val kinds = mutableSetOf<Int>()
+        val angles = mutableSetOf<Float>()
+        repeat(2400) {
+            variety.advance(0.05f)
+            variety.gates.forEach { kinds += it.kind; angles += it.angle }
+            variety.gates.clear()
+        }
+        assertEquals(5, kinds.size)
+        assertTrue(angles.size >= 4)
+        for (y in listOf(-1.1f, 0.9f)) {
+            val run = OrbitSurvivalRun().apply { start(); advance(0.01f) }
+            run.gates.clear()
+            run.gates += OrbitGate(y, 0)
+            run.angle = Math.PI.toFloat() / 2f
+            run.advance(1f / 120f)
+            assertEquals(ArcadePhase.Over, run.phase)
+        }
+    }
+
+    @Test
+    fun landerRewardsGentleLandingsAndRejectsHardOrOffPadImpacts() {
+        for (height in listOf(220f, 680f)) {
+            val run = LunarLanderRun().apply { resize(360f, height); start() }
+            fun approach(speed: Float, x: Float) {
+                run.beginThrust(Offset(run.width / 2f, 100f))
+                run.stopInput()
+                run.x = x
+                run.y = run.padY - 12f * run.shipScale / run.span - 0.002f
+                run.vx = 0f
+                run.vy = speed
+                run.angle = 0f
+            }
+            approach(0.07f, run.padLeft + run.padWidth / 2f)
+            repeat(12) { run.advance(1f / 120f) }
+            assertTrue(run.landed)
+            assertEquals(3, run.lives)
+            assertTrue(run.score >= 120)
+            repeat(130) { run.advance(1f / 120f) }
+            assertEquals(2, run.round)
+            assertEquals(1f, run.fuel, 0.001f)
+            approach(0.5f, run.padLeft + run.padWidth / 2f)
+            repeat(8) { run.advance(1f / 120f) }
+            assertTrue(run.crashed)
+            assertEquals(2, run.lives)
+            repeat(140) { run.advance(1f / 120f) }
+            run.terrain.clear()
+            run.terrain += Offset(0f, run.padY)
+            run.terrain += Offset(1f, run.padY)
+            approach(0.07f, run.padLeft - 0.03f)
+            repeat(12) { run.advance(1f / 120f) }
+            assertTrue(run.crashed)
+            assertEquals(1, run.lives)
+        }
+        val controlled = LunarLanderRun().apply { start() }
+        val finger = Offset(180f, 120f)
+        controlled.beginThrust(finger)
+        repeat(1800) {
+            if (!controlled.landed && !controlled.crashed) {
+                val clearance =
+                    controlled.padY - controlled.y - 12f * controlled.shipScale / controlled.span
+                val target = minOf(0.17f, maxOf(0.035f, clearance * 0.65f))
+                val throttle = if (controlled.vy > target) 0.85f else 0.1f
+                controlled.steer(finger + Offset(0f, (0.55f - throttle) * 90f))
+                controlled.advance(1f / 120f)
+            }
+        }
+        assertTrue(
+            "Landing: y=${controlled.y}, vy=${controlled.vy}, fuel=${controlled.fuel}, crashed=${controlled.crashed}",
+            controlled.landed
+        )
+        assertTrue(controlled.fuel > 0f)
+        controlled.stopInput()
+        assertTrue(!controlled.burning)
+    }
+
+    @Test
+    fun breakerBouncesOffPaddleAndArmoredBricksThenStartsAnotherWave() {
+        val run = BrickBreakerRun().apply { start() }
+        repeat(100) { run.advance(1f / 120f) }
+        run.ballX = run.paddleX
+        run.ballY = run.paddleY - run.ballRadius - 0.5f
+        run.vx = 0f
+        run.vy = run.speed
+        run.advance(1f / 120f)
+        assertTrue(run.vy < 0f && abs(run.vx) > 0f)
+        run.bricks.clear()
+        val brick = BreakerBrick(3, 0, 2)
+        run.bricks += brick
+        repeat(2) {
+            val rect = run.bounds(brick)
+            run.ballX = rect.center.x
+            run.ballY = rect.bottom + run.ballRadius + 0.1f
+            run.vx = 0f
+            run.vy = -run.speed
+            run.advance(1f / 120f)
+            assertTrue(run.vy > 0f)
+        }
+        assertTrue(run.bricks.isEmpty())
+        val falling = BreakerGift(20f, run.topInset + 60f, 0)
+        run.gifts += falling
+        repeat(120) { run.advance(1f / 120f) }
+        assertEquals(2, run.round)
+        assertTrue(run.bricks.isNotEmpty())
+        assertEquals(3, run.lives)
+        assertTrue(falling in run.gifts)
+        val bonus = BrickBreakerRun().apply { start() }
+        repeat(100) { bonus.advance(1f / 120f) }
+        bonus.vx = 0f
+        bonus.vy = 0f
+        bonus.ballY = bonus.paddleY - 40f
+        val normal = bonus.paddleHalf
+        bonus.gifts += BreakerGift(bonus.paddleX, bonus.paddleY - 5f, 0)
+        repeat(30) { bonus.advance(1f / 120f) }
+        assertTrue(bonus.paddleHalf > normal * 1.35f)
+        assertTrue(bonus.gifts.isEmpty())
+        bonus.wideTime = 0.02f
+        repeat(35) { bonus.advance(1f / 120f) }
+        assertEquals(normal, bonus.paddleHalf, 0.001f)
+        bonus.lives = 2
+        bonus.gifts += BreakerGift(bonus.paddleX, bonus.paddleY - 5f, 1)
+        bonus.advance(1f / 120f)
+        assertEquals(3, bonus.lives)
+        val points = bonus.score
+        bonus.gifts += BreakerGift(bonus.paddleX, bonus.paddleY - 5f, 1)
+        bonus.advance(1f / 120f)
+        assertEquals(points + 25, bonus.score)
+    }
+
+    @Test
+    fun lightCyclesResolveHeadOnCrashesTogetherAndWinningStartsAFreshArena() {
+        val run = LightCyclesRun().apply { start() }
+        run.board.fill(0)
+        val player = run.cycles[0]
+        val rival = run.cycles[1]
+        player.position = 5 * run.columns + 5
+        player.previous = player.position
+        player.direction = 0
+        rival.position = player.position + 2
+        rival.previous = rival.position
+        rival.direction = 2
+        run.board[player.position] = 1
+        run.board[rival.position] = 2
+        run.board[rival.position - run.columns] = -1
+        run.board[rival.position + run.columns] = -1
+        run.step()
+        assertTrue(!player.alive && !rival.alive)
+        assertEquals(ArcadePhase.Over, run.phase)
+        run.start()
+        val trapped = run.cycles[1].position
+        for (offset in listOf(-1, 1, -run.columns, run.columns)) run.board[trapped + offset] = -1
+        run.step()
+        assertTrue(run.cycles[0].alive)
+        assertTrue(!run.cycles[1].alive)
+        repeat(125) { run.advance(1f / 120f) }
+        assertEquals(2, run.round)
+        assertTrue(run.cycles.all { it.alive })
+        assertTrue(run.cycles.all { it.trail.size < 3 })
+        run.start()
+        run.board.fill(0)
+        val rider = run.cycles.first()
+        run.pickups.clear()
+        run.pickups += rider.position + 1
+        run.step()
+        assertTrue(rider.charged)
+        run.board[rider.position + 1] = 1
+        run.step()
+        assertTrue(rider.alive && !rider.charged)
+        rider.charged = true
+        run.board[rider.position + 1] = -1
+        run.step()
+        assertTrue(!rider.alive)
+    }
+
     private fun assertBundlesEqual(label: String, expected: Bundle, actual: Bundle) {
         assertEquals(label, expected.keySet(), actual.keySet())
         for (key in expected.keySet()) {
@@ -449,6 +822,10 @@ class ArcadeMechanicsTest {
                     assertTrue("$label/$key", first.contentEquals(second as FloatArray))
                 }
 
+                is BooleanArray -> assertTrue(
+                    "$label/$key",
+                    first.contentEquals(second as BooleanArray)
+                )
                 is IntArray -> assertTrue("$label/$key", first.contentEquals(second as IntArray))
                 else -> assertEquals("$label/$key", first, second)
             }

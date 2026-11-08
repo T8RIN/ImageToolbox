@@ -18,6 +18,7 @@
 package com.t8rin.imagetoolbox.core.ui.widget.game
 
 import android.os.Bundle
+import android.os.SystemClock
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -84,24 +85,34 @@ import com.t8rin.imagetoolbox.core.di.entryPoint
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Alien
+import com.t8rin.imagetoolbox.core.resources.icons.Bomb
 import com.t8rin.imagetoolbox.core.resources.icons.Brick
 import com.t8rin.imagetoolbox.core.resources.icons.BubbleChart
+import com.t8rin.imagetoolbox.core.resources.icons.ConversionPath
 import com.t8rin.imagetoolbox.core.resources.icons.Dinosaur
+import com.t8rin.imagetoolbox.core.resources.icons.Explore
 import com.t8rin.imagetoolbox.core.resources.icons.Filter2
+import com.t8rin.imagetoolbox.core.resources.icons.Flag
+import com.t8rin.imagetoolbox.core.resources.icons.Forest
 import com.t8rin.imagetoolbox.core.resources.icons.Hexagon
 import com.t8rin.imagetoolbox.core.resources.icons.Neurology
 import com.t8rin.imagetoolbox.core.resources.icons.Nutrition
+import com.t8rin.imagetoolbox.core.resources.icons.Orbit
 import com.t8rin.imagetoolbox.core.resources.icons.PestControlRodent
 import com.t8rin.imagetoolbox.core.resources.icons.Phishing
+import com.t8rin.imagetoolbox.core.resources.icons.Planet
 import com.t8rin.imagetoolbox.core.resources.icons.Raven
-import com.t8rin.imagetoolbox.core.resources.icons.RocketLaunch
+import com.t8rin.imagetoolbox.core.resources.icons.Rocket
 import com.t8rin.imagetoolbox.core.resources.icons.Shield
 import com.t8rin.imagetoolbox.core.resources.icons.Shuffle
 import com.t8rin.imagetoolbox.core.resources.icons.Snake
 import com.t8rin.imagetoolbox.core.resources.icons.SportsMotorsports
 import com.t8rin.imagetoolbox.core.resources.icons.SportsTennis
 import com.t8rin.imagetoolbox.core.resources.icons.Stacks
+import com.t8rin.imagetoolbox.core.resources.icons.SwapVerticalCircle
 import com.t8rin.imagetoolbox.core.resources.icons.TrackChanges
+import com.t8rin.imagetoolbox.core.resources.icons.VectorPolyline
+import com.t8rin.imagetoolbox.core.resources.icons.ViewComfy
 import com.t8rin.imagetoolbox.core.resources.icons.ViewQuilt
 import com.t8rin.imagetoolbox.core.resources.icons.Water
 import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
@@ -135,6 +146,16 @@ val ArcadeGame.title: Int
         ArcadeGame.Asteroids -> R.string.arcade_asteroids
         ArcadeGame.Ricochet -> R.string.arcade_ricochet
         ArcadeGame.Racer -> R.string.arcade_racer
+        ArcadeGame.LightCycles -> R.string.arcade_lightcycles
+        ArcadeGame.BrickBreaker -> R.string.arcade_brickbreaker
+        ArcadeGame.LunarLander -> R.string.arcade_lunarlander
+        ArcadeGame.OrbitSurvival -> R.string.arcade_orbitsurvival
+        ArcadeGame.Timberman -> R.string.arcade_timberman
+        ArcadeGame.ZigZag -> R.string.arcade_zigzag
+        ArcadeGame.GravityFlip -> R.string.arcade_gravityflip
+        ArcadeGame.MazeChaser -> R.string.arcade_mazechaser
+        ArcadeGame.Minesweeper -> R.string.arcade_minesweeper
+        ArcadeGame.Bomber -> R.string.arcade_bomber
     }
 
 
@@ -161,6 +182,16 @@ val ArcadeGame.description: Int
         ArcadeGame.Asteroids -> R.string.arcade_asteroids_sub
         ArcadeGame.Ricochet -> R.string.arcade_ricochet_sub
         ArcadeGame.Racer -> R.string.arcade_racer_sub
+        ArcadeGame.LightCycles -> R.string.arcade_lightcycles_sub
+        ArcadeGame.BrickBreaker -> R.string.arcade_brickbreaker_sub
+        ArcadeGame.LunarLander -> R.string.arcade_lunarlander_sub
+        ArcadeGame.OrbitSurvival -> R.string.arcade_orbitsurvival_sub
+        ArcadeGame.Timberman -> R.string.arcade_timberman_sub
+        ArcadeGame.ZigZag -> R.string.arcade_zigzag_sub
+        ArcadeGame.GravityFlip -> R.string.arcade_gravityflip_sub
+        ArcadeGame.MazeChaser -> R.string.arcade_mazechaser_sub
+        ArcadeGame.Minesweeper -> R.string.arcade_minesweeper_sub
+        ArcadeGame.Bomber -> R.string.arcade_bomber_sub
     }
 
 @Composable
@@ -278,6 +309,56 @@ fun ArcadeGameContent(
             )
 
             ArcadeGame.Hexagon -> HexagonGame(
+                modifier = modifier,
+                style = style
+            )
+
+            ArcadeGame.Bomber -> BomberGame(
+                modifier = modifier,
+                style = style
+            )
+
+            ArcadeGame.Minesweeper -> MinesweeperGame(
+                modifier = modifier,
+                style = style
+            )
+
+            ArcadeGame.MazeChaser -> MazeChaserGame(
+                modifier = modifier,
+                style = style
+            )
+
+            ArcadeGame.GravityFlip -> GravityFlipGame(
+                modifier = modifier,
+                style = style
+            )
+
+            ArcadeGame.ZigZag -> ZigZagGame(
+                modifier = modifier,
+                style = style
+            )
+
+            ArcadeGame.Timberman -> TimbermanGame(
+                modifier = modifier,
+                style = style
+            )
+
+            ArcadeGame.OrbitSurvival -> OrbitSurvivalGame(
+                modifier = modifier,
+                style = style
+            )
+
+            ArcadeGame.LunarLander -> LunarLanderGame(
+                modifier = modifier,
+                style = style
+            )
+
+            ArcadeGame.BrickBreaker -> BrickBreakerGame(
+                modifier = modifier,
+                style = style
+            )
+
+            ArcadeGame.LightCycles -> LightCyclesGame(
                 modifier = modifier,
                 style = style
             )
@@ -587,6 +668,7 @@ internal fun ArcadeField(
     onPress: ((Offset) -> Unit)? = null,
     onSecondaryTap: ((Offset) -> Unit)? = null,
     onTap: ((Offset) -> Unit)? = null,
+    onLongPress: ((Offset) -> Unit)? = null,
     onDrag: ((Offset) -> Unit)? = null,
     onRelease: (() -> Unit)? = null,
     onSwipe: ((Offset) -> Unit)? = null,
@@ -596,6 +678,7 @@ internal fun ArcadeField(
     val press by rememberUpdatedState(onPress)
     val secondaryTap by rememberUpdatedState(onSecondaryTap)
     val tap by rememberUpdatedState(onTap)
+    val hold by rememberUpdatedState(onLongPress)
     val drag by rememberUpdatedState(onDrag)
     val release by rememberUpdatedState(onRelease)
     val swipe by rememberUpdatedState(onSwipe)
@@ -634,11 +717,24 @@ internal fun ArcadeField(
                     }
                     var swiped = false
                     var dragged = false
+                    var held = false
                     val secondaryTouches = mutableMapOf<PointerId, Pair<Offset, Long>>()
                     try {
                         while (run.phase == ArcadePhase.Running) {
-                            val event = awaitPointerEvent()
+                            val event = if (hold != null && !held && !dragged) {
+                                val remaining = viewConfiguration.longPressTimeoutMillis -
+                                        (SystemClock.uptimeMillis() - down.uptimeMillis)
+                                if (remaining <= 0L) null else withTimeoutOrNull(remaining) {
+                                    awaitPointerEvent()
+                                }
+                            } else awaitPointerEvent()
                             if (run.phase != ArcadePhase.Running) break
+                            if (event == null) {
+                                held = true
+                                hold?.invoke(down.position / scale)
+                                haptics.longPress()
+                                continue
+                            }
                             secondaryTap?.let { fire ->
                                 event.changes.filter { it.id != down.id }.forEach { change ->
                                     if (change.isConsumed) {
@@ -676,7 +772,7 @@ internal fun ArcadeField(
                                 }
                             }
                             if (!change.pressed) {
-                                if (!swiped && !dragged && change.uptimeMillis - down.uptimeMillis < viewConfiguration.longPressTimeoutMillis) {
+                                if (!held && !swiped && !dragged && change.uptimeMillis - down.uptimeMillis < viewConfiguration.longPressTimeoutMillis) {
                                     tap?.let {
                                         it(change.position / scale)
                                         if (press == null) haptics.longPress()
@@ -816,9 +912,19 @@ internal fun DrawScope.arcadeGround(
 
 val ArcadeGame.icon: ImageVector
     get() = when (this) {
+        ArcadeGame.Bomber -> Icons.Outlined.Bomb
+        ArcadeGame.Minesweeper -> Icons.Outlined.Flag
+        ArcadeGame.MazeChaser -> Icons.Outlined.Explore
+        ArcadeGame.GravityFlip -> Icons.Outlined.SwapVerticalCircle
+        ArcadeGame.ZigZag -> Icons.Outlined.VectorPolyline
+        ArcadeGame.Timberman -> Icons.Outlined.Forest
+        ArcadeGame.OrbitSurvival -> Icons.Outlined.Orbit
+        ArcadeGame.LunarLander -> Icons.Outlined.Rocket
+        ArcadeGame.BrickBreaker -> Icons.Outlined.ViewComfy
+        ArcadeGame.LightCycles -> Icons.Outlined.ConversionPath
         ArcadeGame.Racer -> Icons.Outlined.SportsMotorsports
         ArcadeGame.Ricochet -> Icons.Outlined.Brick
-        ArcadeGame.Asteroids -> Icons.Outlined.RocketLaunch
+        ArcadeGame.Asteroids -> Icons.Outlined.Planet
         ArcadeGame.FruitSlice -> Icons.Outlined.Nutrition
         ArcadeGame.KnifeHit -> Icons.Outlined.TrackChanges
         ArcadeGame.MissileCommand -> Icons.Outlined.Shield
