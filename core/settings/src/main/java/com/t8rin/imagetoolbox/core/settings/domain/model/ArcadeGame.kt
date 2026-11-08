@@ -50,7 +50,12 @@ enum class ArcadeGame {
     OrbitSurvival,
     LunarLander,
     BrickBreaker,
-    LightCycles;
+    LightCycles,
+    FlightControl,
+    Basketball,
+    LaserMirrors,
+    FlowConnect,
+    BalanceTower;
 
     companion object {
         val playable = entries.filterNot { it == Random }

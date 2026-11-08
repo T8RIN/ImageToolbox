@@ -173,6 +173,58 @@ class ArcadeRenderingTest {
                     heldPoint = to
                 }
 
+                ArcadeGame.BalanceTower -> {
+                    var elapsed = 1.6
+                    repeat(3) { count ->
+                        val speed = 0.7 + count.toDouble() / (count + 35)
+                        val crossing = kotlin.math.ceil(elapsed * speed / Math.PI) * Math.PI / speed
+                        compose.mainClock.advanceTimeBy(((crossing - elapsed) * 1000).toLong())
+                        touch(fieldBounds.center, 32L)
+                        compose.mainClock.advanceTimeBy(1200L)
+                        elapsed = crossing + 1.232
+                    }
+                }
+
+                ArcadeGame.Basketball -> {
+                    val scale = minOf(fieldBounds.width / 360f, fieldBounds.height / 220f)
+                    val width = fieldBounds.width / scale
+                    val height = fieldBounds.height / scale
+                    val top = 44f * fieldBounds.width / (if (wide) 656f else 336f) / scale
+                    val span = width - maxOf(18f, (width - 420f) / 2f) * 2f
+                    val from = fieldBounds.topLeft + Offset(
+                        width / 2f - span * 0.31f,
+                        height - 29f
+                    ) * scale
+                    val to = fieldBounds.topLeft + Offset(
+                        width / 2f + span * 0.28f,
+                        top + (height - 20f - top) * 0.38f
+                    ) * scale
+                    downTime = SystemClock.uptimeMillis()
+                    send(MotionEvent.ACTION_DOWN, from)
+                    send(MotionEvent.ACTION_MOVE, to)
+                    compose.mainClock.advanceTimeBy(120L)
+                    heldPoint = to
+                }
+
+                ArcadeGame.FlightControl -> {
+                    val scale = minOf(fieldBounds.width / 360f, fieldBounds.height / 220f)
+                    val top = 44f * fieldBounds.width / (if (wide) 656f else 336f) / scale
+                    val width = fieldBounds.width / scale
+                    val height = fieldBounds.height / scale
+                    val from =
+                        fieldBounds.topLeft + Offset(30f, top + (height - top) * 0.36f) * scale
+                    val target = fieldBounds.topLeft + Offset(
+                        width * 0.27f,
+                        top + 18f + (height - top - 36f) * 0.73f
+                    ) * scale
+                    downTime = SystemClock.uptimeMillis()
+                    send(MotionEvent.ACTION_DOWN, from)
+                    send(MotionEvent.ACTION_MOVE, from + Offset(30f, 0f) * scale)
+                    send(MotionEvent.ACTION_MOVE, target)
+                    send(MotionEvent.ACTION_UP, target)
+                    compose.mainClock.advanceTimeBy(300L)
+                }
+
                 else -> Unit
             }
             compose.waitForIdle()
@@ -233,6 +285,11 @@ private fun PlayingGame(game: ArcadeGame, height: Int, onBounds: (Rect) -> Unit)
         ArcadeGame.LunarLander -> LunarLanderGame(modifier, initial, style)
         ArcadeGame.BrickBreaker -> BrickBreakerGame(modifier, initial, style)
         ArcadeGame.LightCycles -> LightCyclesGame(modifier, initial, style)
+        ArcadeGame.FlightControl -> FlightControlGame(modifier, initial, style)
+        ArcadeGame.Basketball -> BasketballGame(modifier, initial, style)
+        ArcadeGame.LaserMirrors -> LaserMirrorsGame(modifier, initial, style)
+        ArcadeGame.FlowConnect -> FlowConnectGame(modifier, initial, style)
+        ArcadeGame.BalanceTower -> BalanceTowerGame(modifier, initial, style)
         else -> error("Expected a playable game")
     }
 }

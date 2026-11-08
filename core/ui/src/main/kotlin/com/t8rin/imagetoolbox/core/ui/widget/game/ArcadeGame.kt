@@ -85,6 +85,7 @@ import com.t8rin.imagetoolbox.core.di.entryPoint
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Alien
+import com.t8rin.imagetoolbox.core.resources.icons.Balance
 import com.t8rin.imagetoolbox.core.resources.icons.Bomb
 import com.t8rin.imagetoolbox.core.resources.icons.Brick
 import com.t8rin.imagetoolbox.core.resources.icons.BubbleChart
@@ -93,6 +94,8 @@ import com.t8rin.imagetoolbox.core.resources.icons.Dinosaur
 import com.t8rin.imagetoolbox.core.resources.icons.Explore
 import com.t8rin.imagetoolbox.core.resources.icons.Filter2
 import com.t8rin.imagetoolbox.core.resources.icons.Flag
+import com.t8rin.imagetoolbox.core.resources.icons.Flare
+import com.t8rin.imagetoolbox.core.resources.icons.Flight
 import com.t8rin.imagetoolbox.core.resources.icons.Forest
 import com.t8rin.imagetoolbox.core.resources.icons.Hexagon
 import com.t8rin.imagetoolbox.core.resources.icons.Neurology
@@ -103,9 +106,11 @@ import com.t8rin.imagetoolbox.core.resources.icons.Phishing
 import com.t8rin.imagetoolbox.core.resources.icons.Planet
 import com.t8rin.imagetoolbox.core.resources.icons.Raven
 import com.t8rin.imagetoolbox.core.resources.icons.Rocket
+import com.t8rin.imagetoolbox.core.resources.icons.Route
 import com.t8rin.imagetoolbox.core.resources.icons.Shield
 import com.t8rin.imagetoolbox.core.resources.icons.Shuffle
 import com.t8rin.imagetoolbox.core.resources.icons.Snake
+import com.t8rin.imagetoolbox.core.resources.icons.SportsBasketball
 import com.t8rin.imagetoolbox.core.resources.icons.SportsMotorsports
 import com.t8rin.imagetoolbox.core.resources.icons.SportsTennis
 import com.t8rin.imagetoolbox.core.resources.icons.Stacks
@@ -156,6 +161,11 @@ val ArcadeGame.title: Int
         ArcadeGame.MazeChaser -> R.string.arcade_mazechaser
         ArcadeGame.Minesweeper -> R.string.arcade_minesweeper
         ArcadeGame.Bomber -> R.string.arcade_bomber
+        ArcadeGame.BalanceTower -> R.string.arcade_balancetower
+        ArcadeGame.FlightControl -> R.string.arcade_flightcontrol
+        ArcadeGame.FlowConnect -> R.string.arcade_flowconnect
+        ArcadeGame.LaserMirrors -> R.string.arcade_lasermirrors
+        ArcadeGame.Basketball -> R.string.arcade_basketball
     }
 
 
@@ -192,6 +202,11 @@ val ArcadeGame.description: Int
         ArcadeGame.MazeChaser -> R.string.arcade_mazechaser_sub
         ArcadeGame.Minesweeper -> R.string.arcade_minesweeper_sub
         ArcadeGame.Bomber -> R.string.arcade_bomber_sub
+        ArcadeGame.BalanceTower -> R.string.arcade_balancetower_sub
+        ArcadeGame.FlightControl -> R.string.arcade_flightcontrol_sub
+        ArcadeGame.FlowConnect -> R.string.arcade_flowconnect_sub
+        ArcadeGame.LaserMirrors -> R.string.arcade_lasermirrors_sub
+        ArcadeGame.Basketball -> R.string.arcade_basketball_sub
     }
 
 @Composable
@@ -309,6 +324,31 @@ fun ArcadeGameContent(
             )
 
             ArcadeGame.Hexagon -> HexagonGame(
+                modifier = modifier,
+                style = style
+            )
+
+            ArcadeGame.Basketball -> BasketballGame(
+                modifier = modifier,
+                style = style
+            )
+
+            ArcadeGame.LaserMirrors -> LaserMirrorsGame(
+                modifier = modifier,
+                style = style
+            )
+
+            ArcadeGame.FlowConnect -> FlowConnectGame(
+                modifier = modifier,
+                style = style
+            )
+
+            ArcadeGame.FlightControl -> FlightControlGame(
+                modifier = modifier,
+                style = style
+            )
+
+            ArcadeGame.BalanceTower -> BalanceTowerGame(
                 modifier = modifier,
                 style = style
             )
@@ -912,6 +952,11 @@ internal fun DrawScope.arcadeGround(
 
 val ArcadeGame.icon: ImageVector
     get() = when (this) {
+        ArcadeGame.Basketball -> Icons.Outlined.SportsBasketball
+        ArcadeGame.LaserMirrors -> Icons.Outlined.Flare
+        ArcadeGame.FlowConnect -> Icons.Outlined.Route
+        ArcadeGame.FlightControl -> Icons.Outlined.Flight
+        ArcadeGame.BalanceTower -> Icons.Outlined.Balance
         ArcadeGame.Bomber -> Icons.Outlined.Bomb
         ArcadeGame.Minesweeper -> Icons.Outlined.Flag
         ArcadeGame.MazeChaser -> Icons.Outlined.Explore

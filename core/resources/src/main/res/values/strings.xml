@@ -8087,7 +8087,7 @@
     <string name="arcade_lightcycles">Light Cycles</string>
     <string name="arcade_lightcycles_sub">Swipe to steer or tap left or right to turn. A charge lets you cross trails briefly after the first crossing. Watch the ring; walls and head-on crashes are always fatal</string>
     <string name="arcade_basketball">Basketball</string>
-    <string name="arcade_basketball_sub">Drag the ball upwards to aim, then release to shoot. Score through the hoop from above and build a streak. Three misses end the game</string>
+    <string name="arcade_basketball_sub">Swipe from the ball toward the hoop and release to shoot. Follow the dotted arc and earn a bonus for clean shots. Three misses end the game</string>
     <string name="arcade_lasermirrors">Laser Mirrors</string>
     <string name="arcade_lasermirrors_sub">Tap mirrors to turn them. Guide the beam through every receiver to reveal the next puzzle</string>
     <string name="arcade_flowconnect">Flow Connect</string>

@@ -40,10 +40,8 @@ import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalHapticFeedback
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
-import com.t8rin.imagetoolbox.core.ui.theme.ImageToolboxThemeForPreview
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.longPress
 import kotlin.math.exp
 import kotlin.math.sqrt
@@ -415,10 +413,4 @@ private enum class DinoSprite(
         pathData = PathParser().parsePathString(path).toNodes(),
         fill = SolidColor(Color.Black)
     ).build()
-}
-
-@Composable
-@Preview
-private fun Preview() = ImageToolboxThemeForPreview(false) {
-    DinoGame()
 }

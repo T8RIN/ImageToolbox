@@ -36,13 +36,14 @@ class ArcadeMechanicsTest {
         ::BubblePopRun, ::FishingRun, ::HexagonRun,
         ::BomberRun, ::MinesweeperRun, ::MazeChaserRun,
         ::GravityFlipRun, ::ZigZagRun, ::TimbermanRun,
-        ::OrbitSurvivalRun, ::LunarLanderRun, ::BrickBreakerRun, ::LightCyclesRun
+        ::OrbitSurvivalRun, ::LunarLanderRun, ::BrickBreakerRun, ::LightCyclesRun,
+        ::FlightControlRun, ::BasketballRun, ::LaserMirrorsRun, ::FlowConnectRun, ::BalanceTowerRun
     )
 
     @Test
-    fun collectionContainsThirtyDistinctGamesAndTheOriginalEight() {
-        assertEquals(30, ArcadeGame.playable.size)
-        assertEquals(30, ArcadeGame.playable.distinct().size)
+    fun collectionContainsThirtyFiveDistinctGamesAndTheOriginalEight() {
+        assertEquals(35, ArcadeGame.playable.size)
+        assertEquals(35, ArcadeGame.playable.distinct().size)
         assertEquals(
             listOf(
                 ArcadeGame.Dino, ArcadeGame.Doodle, ArcadeGame.Bird, ArcadeGame.Stack,
@@ -50,7 +51,7 @@ class ArcadeMechanicsTest {
             ),
             ArcadeGame.playable.take(8)
         )
-        assertEquals(30, ArcadeGame.playable.map { it.title }.distinct().size)
+        assertEquals(35, ArcadeGame.playable.map { it.title }.distinct().size)
     }
 
     @Test
@@ -865,6 +866,275 @@ class ArcadeMechanicsTest {
         run.board[expired.position + 1] = 2
         run.step()
         assertTrue(!expired.alive)
+    }
+
+    @Test
+    fun basketballScoresDescendingShotsBouncesOffTheRimAndEndsAfterThreeMisses() {
+        for (height in listOf(220f, 680f)) {
+            val run = BasketballRun().apply { resize(360f, height); start() }
+            run.begin(run.ball)
+            run.aim(run.ball + Offset(30f, -60f))
+            run.stopInput()
+            run.shoot()
+            assertTrue(!run.airborne)
+            repeat(8) { basket ->
+                val target = run.hoop
+                val direction = target - run.ball
+                val length = listOf(24f, 60f, 130f)[basket % 3]
+                val drag = direction / direction.getDistance() * length
+                run.begin(run.ball)
+                run.aim(run.ball + drag)
+                assertEquals("The full unobstructed arc must be visible", 32, run.preview.size)
+                assertEquals(target.x, run.preview.last().x, 0.1f)
+                assertEquals(target.y, run.preview.last().y, 0.1f)
+                run.shoot()
+                repeat(120 * 4) { run.advance(1f / 120f) }
+                assertEquals(basket + 1, run.made)
+                assertEquals(3, run.lives)
+                assertEquals(ArcadePhase.Running, run.phase)
+            }
+            assertTrue(run.score > 40)
+            repeat(3) { miss ->
+                run.begin(run.ball)
+                run.aim(run.ball - Offset(0f, 28f))
+                run.shoot()
+                repeat(120 * 6) { if (run.phase == ArcadePhase.Running) run.advance(1f / 120f) }
+                assertEquals(2 - miss, run.lives)
+            }
+            assertEquals(ArcadePhase.Over, run.phase)
+        }
+        val run = BasketballRun().apply { start() }
+        run.ball = run.hoop - Offset(run.rimWidth + 25f, 0f)
+        run.velocity = Offset(300f, 0f)
+        run.airborne = true
+        repeat(12) { run.advance(1f / 120f) }
+        assertTrue("The rim must rebound the ball", run.velocity.x < 0f)
+        assertEquals(0, run.score)
+        run.start()
+        run.ball = Offset(run.boardX - 18f, run.hoop.y - 25f)
+        run.velocity = Offset(350f, 0f)
+        run.airborne = true
+        repeat(12) { run.advance(1f / 120f) }
+        assertTrue("The backboard must rebound the ball", run.velocity.x < 0f)
+        run.start()
+        run.ball = run.hoop + Offset(0f, 18f)
+        run.velocity = Offset(0f, -140f)
+        run.airborne = true
+        repeat(24) { run.advance(1f / 120f) }
+        assertEquals("Entering from below is not a basket", 0, run.score)
+        run.start()
+        run.made = 100
+        val hoop = run.hoop
+        run.advance(1f)
+        assertTrue(run.hoop.x != hoop.x)
+        assertTrue(run.rimWidth >= 22f)
+    }
+
+    @Test
+    fun mirrorPuzzlesStartUnsolvedAndTheirBeamsReachEveryReceiverWithoutInfiniteLoops() {
+        val run = LaserMirrorsRun().apply { start() }
+        repeat(50) {
+            assertTrue("Already solved round ${run.round}", run.lit.size < run.targets.size)
+            assertTrue(run.board.count { it in 1..2 } >= 3)
+            val round = run.round
+            for (index in run.board.indices) {
+                if (run.board[index] in 1..2 && run.board[index] != run.solution[index]) run.turn(
+                    index
+                )
+                assertTrue(run.beam.size <= run.board.size * 4)
+                if (run.lit.size == run.targets.size) break
+                repeat(20) { run.advance(1f / 120f) }
+            }
+            assertEquals("Round $round", run.targets.size, run.lit.size)
+            repeat(110) { run.advance(1f / 120f) }
+            assertEquals(round + 1, run.round)
+            assertTrue(!run.isAnimating)
+        }
+    }
+
+    @Test
+    fun flowBoardsHaveCompleteNonIntersectingSolutionsAndDraggingBackRemovesTheTail() {
+        val run = FlowConnectRun().apply { start() }
+        repeat(24) {
+            val round = run.round
+            val occupied = run.solution.flatMap { it.toList() }
+            assertEquals(run.columns * run.columns, occupied.size)
+            assertEquals(occupied.size, occupied.distinct().size)
+            val first = run.solution.first()
+            run.begin(run.center(first[0]))
+            run.drag(run.center(first[1]))
+            run.drag(run.center(first[2]))
+            run.drag(run.center(first[1]))
+            assertEquals(listOf(first[0], first[1]), run.paths.first())
+            run.stopInput()
+            run.restartPuzzle()
+            for ((kind, path) in run.solution.withIndex()) {
+                run.begin(run.center(path.first()))
+                for (index in 1 until path.size) {
+                    assertTrue(run.adjacent(path[index - 1], path[index]))
+                    run.drag(run.center(path[index]))
+                }
+                run.stopInput()
+                assertTrue("Round $round / pair $kind", run.connected(kind))
+            }
+            assertEquals(run.columns * run.columns, run.paths.sumOf { it.size })
+            repeat(115) { run.advance(1f / 120f) }
+            assertEquals(round + 1, run.round)
+            assertTrue(!run.isAnimating)
+        }
+        run.begin(run.center(run.pairs[0][0]))
+        val blocked = run.pairs[1][0]
+        run.extend(blocked)
+        assertTrue(blocked !in run.paths[0])
+        run.start()
+        run.pairs.clear()
+        run.pairs += intArrayOf(0, 15)
+        run.pairs += intArrayOf(3, 12)
+        run.paths.clear()
+        repeat(2) { run.paths += mutableListOf<Int>() }
+        run.begin(run.center(0))
+        run.drag(run.center(5))
+        assertEquals(5, run.paths[0].last())
+        assertTrue(run.paths[0].zipWithNext().all { run.adjacent(it.first, it.second) })
+        repeat(240) { run.advance(1f / 120f) }
+        assertEquals("Pausing a finger must not detach the route", 0, run.active)
+        assertTrue(run.isAnimating)
+        run.drag(run.center(10))
+        assertEquals(10, run.paths[0].last())
+        run.stopInput()
+        repeat(60) { run.advance(1f / 120f) }
+        assertTrue(!run.isAnimating)
+        run.begin(run.center(0))
+        run.drag(run.center(3))
+        assertTrue(3 !in run.paths[0])
+        run.drag(run.center(6))
+        assertEquals("A blocked gesture must recover without another touch", 6, run.paths[0].last())
+    }
+
+    @Test
+    fun flightRoutesRequireMatchingLandingZonesAndAirborneCollisionsEndTheRun() {
+        val joining = FlightControlRun().apply { start(); planes.clear() }
+        val moving = ControlledFlight(100, 0, Offset(80f, 120f), 0f, true)
+        joining.planes += moving
+        joining.begin(moving.point)
+        joining.drag(Offset(100f, 120f))
+        joining.drag(Offset(240f, 120f))
+        repeat(120) { joining.advance(1f / 120f) }
+        joining.commit()
+        repeat(60) {
+            val x = moving.point.x
+            joining.advance(1f / 120f)
+            assertTrue(
+                "Join ahead of the aircraft, without returning to old vertices",
+                moving.point.x > x
+            )
+            assertEquals(0f, moving.heading, 0.01f)
+        }
+        for (kind in 0..2) {
+            val run = FlightControlRun().apply { start(); planes.clear() }
+            val target = run.zone(kind)
+            val from = target - if (kind == 1) Offset(0f, 65f) else Offset(65f, 0f)
+            val plane = ControlledFlight(
+                100,
+                kind,
+                from,
+                if (kind == 1) Math.PI.toFloat() / 2f else 0f,
+                true
+            )
+            run.planes += plane
+            run.begin(from)
+            run.drag(target)
+            run.commit()
+            assertTrue(plane.cleared)
+            repeat(120 * 3) { run.advance(1f / 120f) }
+            assertEquals(1, run.landed)
+            assertTrue(run.score >= 10)
+            assertEquals(ArcadePhase.Running, run.phase)
+        }
+        for (kind in 0..2) for (landed in listOf(0, 100)) for (heading in 0..3) {
+            val guided = FlightControlRun().apply { start(); planes.clear(); this.landed = landed }
+            val aircraft = ControlledFlight(
+                100,
+                kind,
+                Offset(40f, 100f),
+                heading * Math.PI.toFloat() / 2f,
+                true
+            )
+            guided.planes += aircraft
+            guided.begin(aircraft.point)
+            for (point in listOf(
+                Offset(160f, 100f),
+                Offset(160f, 180f),
+                Offset(240f, 180f),
+                Offset(240f, 110f),
+                guided.zone(kind)
+            )) {
+                guided.drag(point)
+            }
+            guided.commit()
+            repeat(120 * 30) {
+                guided.planes.removeAll { it.id != aircraft.id }
+                guided.advance(1f / 120f)
+            }
+            assertEquals(
+                "A sharp route must not trap a plane in a circle: $kind/$landed/$heading",
+                landed + 1,
+                guided.landed
+            )
+        }
+        val run = FlightControlRun().apply { start(); planes.clear() }
+        val wrong = ControlledFlight(100, 0, Offset(100f, 100f), 0f, true)
+        run.planes += wrong
+        run.begin(wrong.point)
+        run.drag(run.zone(2))
+        run.commit()
+        assertTrue(!wrong.cleared)
+        val route = wrong.route.toList()
+        run.begin(wrong.point)
+        run.drag(Offset(250f, 180f))
+        run.stopInput()
+        run.commit()
+        assertEquals(route, wrong.route.toList())
+        wrong.point = Offset(100f, 120f)
+        wrong.route.clear()
+        run.planes += ControlledFlight(101, 1, Offset(117f, 120f), Math.PI.toFloat(), true)
+        repeat(20) { if (run.phase == ArcadePhase.Running) run.advance(1f / 120f) }
+        assertEquals(ArcadePhase.Over, run.phase)
+    }
+
+    @Test
+    fun balancingUsesTheMassAboveEverySupportAndStableTowersKeepGrowing() {
+        val run = BalanceTowerRun().apply { start() }
+        run.advance(0.4f)
+        val moving = run.current.x
+        assertTrue(moving > 180f)
+        run.stopInput()
+        assertTrue(!run.dropping)
+        run.drop()
+        run.advance(0.1f)
+        assertTrue(run.dropping)
+        assertEquals("A tap drops the block at its current position", moving, run.current.x, 0f)
+        run.start()
+        repeat(80) { index ->
+            val center = 180f - run.current.offset
+            run.current.x = center
+            run.drop()
+            repeat(180) { run.advance(1f / 120f) }
+            assertEquals(index + 1, run.loads.size)
+            assertTrue(run.stability >= 0f)
+            assertEquals(ArcadePhase.Running, run.phase)
+        }
+        assertTrue(run.camera > 100f)
+        assertTrue(run.score >= 800)
+        run.start()
+        run.loads += TowerLoad(210f, 0f, 100f, 20f, 0f, 0)
+        run.loads += TowerLoad(240f, 20f, 100f, 20f, 0f, 0)
+        run.loads += TowerLoad(270f, 40f, 100f, 20f, 0f, 0)
+        run.evaluate()
+        assertTrue(run.collapsing)
+        assertEquals(0, run.pivot)
+        repeat(110) { run.advance(1f / 120f) }
+        assertEquals(ArcadePhase.Over, run.phase)
     }
 
     private fun assertBundlesEqual(label: String, expected: Bundle, actual: Bundle) {
