@@ -7969,4 +7969,7 @@
     <string name="collage_style_apply_appearance_sub">현재 레이아웃을 유지합니다. 슬롯 순서대로 외모와 사진 설정을 적용합니다.</string>
     <string name="gallery_style_selection">갤러리 스타일 선택</string>
     <string name="gallery_style_selection_sub">내장된 선택기에서 미리 보려면 탭하고 선택을 시작하려면 길게 누르세요. 선택하는 동안 탭하여 이미지를 추가하거나 제거하세요.</string>
+    <string name="play">놀다</string>
+    <string name="show_loading_game_button">기다리는 동안 게임</string>
+    <string name="show_loading_game_button_sub">로딩 대화상자에 게임 버튼을 표시합니다.</string>
 </resources>

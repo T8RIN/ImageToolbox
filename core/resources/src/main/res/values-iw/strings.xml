@@ -7972,4 +7972,7 @@
     <string name="collage_style_apply_appearance_sub">שמור על הפריסה הנוכחית. החל את הגדרות המראה והצילום לפי סדר חריץ.</string>
     <string name="gallery_style_selection">מבחר בסגנון גלריה</string>
     <string name="gallery_style_selection_sub">בבוחר המוטבע, הקש כדי להציג תצוגה מקדימה ולחץ לחיצה ארוכה כדי להתחיל בבחירה. בזמן הבחירה, הקש כדי להוסיף או להסיר תמונות.</string>
+    <string name="play">לְשַׂחֵק</string>
+    <string name="show_loading_game_button">משחקים בזמן ההמתנה</string>
+    <string name="show_loading_game_button_sub">הצג כפתור משחק בדיאלוגים טעינה.</string>
 </resources>

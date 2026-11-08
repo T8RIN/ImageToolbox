@@ -7970,4 +7970,7 @@
     <string name="collage_style_apply_appearance_sub">Conserver la mise en page actuelle. Appliquez les paramètres d\'apparence et de photo par ordre d\'emplacement.</string>
     <string name="gallery_style_selection">Sélection de style galerie</string>
     <string name="gallery_style_selection_sub">Dans le sélecteur intégré, appuyez pour prévisualiser et appuyez longuement pour commencer la sélection. Lors de la sélection, appuyez sur pour ajouter ou supprimer des images.</string>
+    <string name="play">Jouer</string>
+    <string name="show_loading_game_button">Jeux en attendant</string>
+    <string name="show_loading_game_button_sub">Afficher un bouton de jeu dans les boîtes de dialogue de chargement.</string>
 </resources>

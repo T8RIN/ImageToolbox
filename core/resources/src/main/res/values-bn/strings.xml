@@ -7970,4 +7970,7 @@
     <string name="collage_style_apply_appearance_sub">বর্তমান লেআউট রাখুন। স্লট ক্রম অনুসারে চেহারা এবং ফটো সেটিংস প্রয়োগ করুন।</string>
     <string name="gallery_style_selection">গ্যালারি-স্টাইল নির্বাচন</string>
     <string name="gallery_style_selection_sub">এমবেডেড পিকারে, প্রিভিউ করতে আলতো চাপুন এবং নির্বাচন শুরু করতে দীর্ঘক্ষণ প্রেস করুন। নির্বাচন করার সময়, ছবি যোগ করতে বা সরাতে আলতো চাপুন।</string>
+    <string name="play">খেলা</string>
+    <string name="show_loading_game_button">অপেক্ষার সময় গেম</string>
+    <string name="show_loading_game_button_sub">লোডিং ডায়ালগে একটি গেম বোতাম দেখান৷</string>
 </resources>

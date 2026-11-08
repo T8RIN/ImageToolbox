@@ -7971,4 +7971,7 @@
     <string name="collage_style_apply_appearance_sub">Mantenha o layout atual. Aplique as configurações de aparência e foto por ordem de slot.</string>
     <string name="gallery_style_selection">Seleção de estilo de galeria</string>
     <string name="gallery_style_selection_sub">No seletor incorporado, toque para visualizar e mantenha pressionado para começar a selecionar. Ao selecionar, toque para adicionar ou remover imagens.</string>
+    <string name="play">Jogar</string>
+    <string name="show_loading_game_button">Jogos enquanto espera</string>
+    <string name="show_loading_game_button_sub">Mostrar um botão de jogo nas caixas de diálogo de carregamento.</string>
 </resources>

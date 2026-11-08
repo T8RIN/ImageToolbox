@@ -7972,4 +7972,7 @@
     <string name="collage_style_apply_appearance_sub">Zachowaj bieżący układ. Zastosuj ustawienia wyglądu i zdjęć według kolejności gniazd.</string>
     <string name="gallery_style_selection">Wybór w stylu galerii</string>
     <string name="gallery_style_selection_sub">W osadzonym selektorze dotknij, aby wyświetlić podgląd i naciśnij długo, aby rozpocząć wybieranie. Podczas wybierania dotknij, aby dodać lub usunąć obrazy.</string>
+    <string name="play">Grać</string>
+    <string name="show_loading_game_button">Gry podczas oczekiwania</string>
+    <string name="show_loading_game_button_sub">Pokaż przycisk gry w oknach dialogowych ładowania.</string>
 </resources>

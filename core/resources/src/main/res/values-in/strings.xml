@@ -7969,4 +7969,7 @@
     <string name="collage_style_apply_appearance_sub">Pertahankan tata letak saat ini. Terapkan pengaturan tampilan dan foto berdasarkan urutan slot.</string>
     <string name="gallery_style_selection">Pilihan gaya galeri</string>
     <string name="gallery_style_selection_sub">Di alat pilih yang tersemat, ketuk untuk melihat pratinjau dan tekan lama untuk mulai memilih. Saat memilih, ketuk untuk menambah atau menghapus gambar.</string>
+    <string name="play">Bermain</string>
+    <string name="show_loading_game_button">Permainan sambil menunggu</string>
+    <string name="show_loading_game_button_sub">Tampilkan tombol permainan dalam memuat dialog.</string>
 </resources>

@@ -53,6 +53,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.icons.StadiaController
+import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.BasicEnhancedAlertDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
@@ -187,9 +188,18 @@ private fun LoadingDialogContent(
 private fun LoadingGameContent(
     indicator: @Composable BoxScope.() -> Unit
 ) {
+    val indicatorSize = 120.dp
+    if (!LocalSettingsState.current.showLoadingGameButton) {
+        Box(
+            modifier = Modifier.size(indicatorSize),
+            contentAlignment = Alignment.Center,
+            content = indicator
+        )
+        return
+    }
+
     var showGame by rememberSaveable { mutableStateOf(false) }
     val isPortrait by isPortraitOrientationAsState()
-    val indicatorSize = 120.dp
     val buttonSize = 48.dp
     val buttonSpacing = 12.dp
     val gameSpacing = 16.dp

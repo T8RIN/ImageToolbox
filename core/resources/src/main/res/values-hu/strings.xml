@@ -7970,4 +7970,7 @@
     <string name="collage_style_apply_appearance_sub">Tartsa meg a jelenlegi elrendezést. Alkalmazza a megjelenés és a fénykép beállításait slot sorrendben.</string>
     <string name="gallery_style_selection">Galéria stílusú válogatás</string>
     <string name="gallery_style_selection_sub">A beágyazott választóban érintse meg az előnézetet, és tartsa lenyomva a kijelölés elindításához. Kiválasztás közben érintse meg a ikont képek hozzáadásához vagy eltávolításához.</string>
+    <string name="play">Játék</string>
+    <string name="show_loading_game_button">Játékok várakozás közben</string>
+    <string name="show_loading_game_button_sub">Játékgomb megjelenítése a betöltési párbeszédablakban.</string>
 </resources>

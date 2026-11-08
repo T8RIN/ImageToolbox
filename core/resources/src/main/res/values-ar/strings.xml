@@ -7974,4 +7974,7 @@
     <string name="collage_style_apply_appearance_sub">احتفظ بالتخطيط الحالي. قم بتطبيق إعدادات المظهر والصورة حسب ترتيب الفتحة.</string>
     <string name="gallery_style_selection">اختيار نمط المعرض</string>
     <string name="gallery_style_selection_sub">في المنتقي المضمن، انقر للمعاينة، ثم اضغط مطولاً لبدء التحديد. أثناء التحديد، انقر فوق لإضافة الصور أو إزالتها.</string>
+    <string name="play">يلعب</string>
+    <string name="show_loading_game_button">الألعاب أثناء الانتظار</string>
+    <string name="show_loading_game_button_sub">إظهار زر اللعبة في مربعات حوار التحميل.</string>
 </resources>

@@ -7970,4 +7970,7 @@
     <string name="collage_style_apply_appearance_sub">वर्तमान लेआउट रखें. स्लॉट क्रम के अनुसार उपस्थिति और फोटो सेटिंग्स लागू करें।</string>
     <string name="gallery_style_selection">गैलरी-शैली चयन</string>
     <string name="gallery_style_selection_sub">एम्बेडेड पिकर में, पूर्वावलोकन करने के लिए टैप करें और चयन शुरू करने के लिए देर तक दबाएँ। चयन करते समय, छवियाँ जोड़ने या हटाने के लिए टैप करें।</string>
+    <string name="play">खेल</string>
+    <string name="show_loading_game_button">इंतज़ार करते समय खेल</string>
+    <string name="show_loading_game_button_sub">लोडिंग संवादों में गेम बटन दिखाएं.</string>
 </resources>

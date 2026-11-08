@@ -7971,4 +7971,7 @@
     <string name="collage_style_apply_appearance_sub">Păstrați aspectul curent. Aplicați setările de aspect și fotografie în ordinea slotului.</string>
     <string name="gallery_style_selection">Selecție în stil galerie</string>
     <string name="gallery_style_selection_sub">În selectorul încorporat, atingeți pentru a previzualiza și apăsați lung pentru a începe selectarea. În timp ce selectați, atingeți pentru a adăuga sau elimina imagini.</string>
+    <string name="play">Juca</string>
+    <string name="show_loading_game_button">Jocuri în așteptare</string>
+    <string name="show_loading_game_button_sub">Afișează un buton de joc în casetele de dialog de încărcare.</string>
 </resources>

@@ -7970,4 +7970,7 @@
     <string name="collage_style_apply_appearance_sub">Säilitage praegune paigutus. Rakenda välimus ja foto seaded pesa järjekorras.</string>
     <string name="gallery_style_selection">Galerii stiilis valik</string>
     <string name="gallery_style_selection_sub">Manustatud valijas puudutage eelvaate kuvamiseks ja vajutage pikalt valiku alustamiseks. Piltide lisamiseks või eemaldamiseks puudutage valimise ajal.</string>
+    <string name="play">Mängi</string>
+    <string name="show_loading_game_button" />
+    <string name="show_loading_game_button_sub">Näita laadimisdialoogides mängunuppu.</string>
 </resources>

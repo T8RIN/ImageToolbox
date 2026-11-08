@@ -7969,4 +7969,7 @@
     <string name="collage_style_apply_appearance_sub">Behåll den nuvarande layouten. Tillämpa inställningarna för utseende och foto efter platsordning.</string>
     <string name="gallery_style_selection">Urval i galleristil</string>
     <string name="gallery_style_selection_sub">I den inbäddade väljaren trycker du för att förhandsgranska och trycker länge för att börja välja. Medan du väljer, tryck för att lägga till eller ta bort bilder.</string>
+    <string name="play">Spela</string>
+    <string name="show_loading_game_button">Spel i väntan</string>
+    <string name="show_loading_game_button_sub">Visa en spelknapp i laddningsdialoger.</string>
 </resources>

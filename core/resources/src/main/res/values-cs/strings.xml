@@ -7972,4 +7972,7 @@
     <string name="collage_style_apply_appearance_sub">Zachovat aktuální rozložení. Použijte nastavení vzhledu a fotografií podle pořadí slotů.</string>
     <string name="gallery_style_selection">Výběr ve stylu galerie</string>
     <string name="gallery_style_selection_sub">Ve vloženém výběru klepnutím zobrazíte náhled a dlouhým stisknutím zahájíte výběr. Při výběru klepněte na pro přidání nebo odebrání obrázků.</string>
+    <string name="play">Hrát</string>
+    <string name="show_loading_game_button">Hry na počkání</string>
+    <string name="show_loading_game_button_sub">Zobrazit tlačítko hry v dialogových oknech načítání.</string>
 </resources>

@@ -225,6 +225,8 @@ interface SettingsInteractor : SimpleSettingsInteractor {
 
     suspend fun toggleShowSettingsInLandscape()
 
+    suspend fun toggleShowLoadingGameButton()
+
     suspend fun toggleUseFullscreenSettings()
 
     suspend fun toggleAllowCollapsingSettingsGroups()

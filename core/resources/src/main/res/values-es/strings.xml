@@ -7970,4 +7970,7 @@
     <string name="collage_style_apply_appearance_sub">Mantenga el diseño actual. Aplique la configuración de apariencia y fotografía por orden de espacio.</string>
     <string name="gallery_style_selection">Selección estilo galería</string>
     <string name="gallery_style_selection_sub">En el selector integrado, toque para obtener una vista previa y mantenga presionado para comenzar a seleccionar. Mientras selecciona, toque para agregar o eliminar imágenes.</string>
+    <string name="play">Jugar</string>
+    <string name="show_loading_game_button">Juegos mientras espera</string>
+    <string name="show_loading_game_button_sub">Muestra un botón de juego en los cuadros de diálogo de carga.</string>
 </resources>

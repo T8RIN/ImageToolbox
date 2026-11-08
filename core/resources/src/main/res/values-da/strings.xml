@@ -7970,4 +7970,7 @@
     <string name="collage_style_apply_appearance_sub">Behold det nuværende layout. Anvend indstillingerne for udseende og foto efter rækkefølge.</string>
     <string name="gallery_style_selection">Udvalg i galleristil</string>
     <string name="gallery_style_selection_sub">I den indlejrede vælger skal du trykke for at se et eksempel og trykke længe for at begynde at vælge. Mens du vælger, skal du trykke for at tilføje eller fjerne billeder.</string>
+    <string name="play">Spil</string>
+    <string name="show_loading_game_button">Spil mens du venter</string>
+    <string name="show_loading_game_button_sub">Vis en spilknap i indlæsningsdialoger.</string>
 </resources>

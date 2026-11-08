@@ -198,6 +198,8 @@ internal fun Preferences.toSettingsState(
         ?: default.sheetNestedScrollEnabled,
     showSettingsInLandscape = this[SHOW_SETTINGS_IN_LANDSCAPE]
         ?: default.showSettingsInLandscape,
+    showLoadingGameButton = this[SHOW_LOADING_GAME_BUTTON]
+        ?: default.showLoadingGameButton,
     useFullscreenSettings = this[USE_FULLSCREEN_SETTINGS]
         ?: default.useFullscreenSettings,
     useCategorizedSettings = this[USE_CATEGORIZED_SETTINGS]

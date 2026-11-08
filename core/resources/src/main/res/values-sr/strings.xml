@@ -7971,4 +7971,7 @@
     <string name="collage_style_apply_appearance_sub">Задржите тренутни изглед. Примените подешавања изгледа и фотографије према редоследу места.</string>
     <string name="gallery_style_selection">Избор у стилу галерије</string>
     <string name="gallery_style_selection_sub">У уграђеном бирачу додирните да бисте прегледали и дуго притисните да бисте почели да бирате. Док бирате, додирните да бисте додали или уклонили слике.</string>
+    <string name="play">Играј</string>
+    <string name="show_loading_game_button">Игре док чекате</string>
+    <string name="show_loading_game_button_sub">Прикажи дугме за игру у дијалозима за учитавање.</string>
 </resources>

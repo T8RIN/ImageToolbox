@@ -7970,4 +7970,7 @@
     <string name="collage_style_apply_appearance_sub">Mevcut düzeni koruyun. Görünüm ve fotoğraf ayarlarını yuva sırasına göre uygulayın.</string>
     <string name="gallery_style_selection">Galeri tarzı seçim</string>
     <string name="gallery_style_selection_sub">Katıştırılmış seçicide, önizlemek için dokunun ve seçmeye başlamak için uzun basın. Seçerken görselleri eklemek veya kaldırmak için dokunun.</string>
+    <string name="play">Oynamak</string>
+    <string name="show_loading_game_button">Beklerken oynanan oyunlar</string>
+    <string name="show_loading_game_button_sub">Yükleme diyaloglarında bir oyun düğmesi gösterin.</string>
 </resources>

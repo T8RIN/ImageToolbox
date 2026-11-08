@@ -7969,4 +7969,7 @@
     <string name="collage_style_apply_appearance_sub">現在のレイアウトを維持します。スロットの順序に従って外観と写真の設定を適用します。</string>
     <string name="gallery_style_selection">ギャラリースタイルのセレクション</string>
     <string name="gallery_style_selection_sub">埋め込みピッカーで、タップしてプレビューし、長押しして選択を開始します。選択中にタップして画像を追加または削除します。</string>
+    <string name="play">遊ぶ</string>
+    <string name="show_loading_game_button">待っている間のゲーム</string>
+    <string name="show_loading_game_button_sub">ロードダイアログにゲームボタンを表示します。</string>
 </resources>

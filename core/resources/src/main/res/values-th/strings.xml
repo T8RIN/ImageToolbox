@@ -7969,4 +7969,7 @@
     <string name="collage_style_apply_appearance_sub">คงเค้าโครงปัจจุบันไว้ ใช้การตั้งค่ารูปลักษณ์และภาพถ่ายตามลำดับช่อง</string>
     <string name="gallery_style_selection">การเลือกสไตล์แกลเลอรี</string>
     <string name="gallery_style_selection_sub">ในเครื่องมือเลือกแบบฝัง ให้แตะเพื่อดูตัวอย่างและกดค้างไว้เพื่อเริ่มการเลือก ขณะที่เลือก ให้แตะเพื่อเพิ่มหรือลบภาพ</string>
+    <string name="play">เล่น</string>
+    <string name="show_loading_game_button">เกมส์ระหว่างรอ</string>
+    <string name="show_loading_game_button_sub">แสดงปุ่มเกมในกล่องโต้ตอบการโหลด</string>
 </resources>

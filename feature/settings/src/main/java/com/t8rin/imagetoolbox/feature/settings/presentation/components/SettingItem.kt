@@ -585,6 +585,10 @@ internal fun SettingItem(
                 ShowSettingsInLandscapeSettingItem(onClick = component::toggleShowSettingsInLandscape)
             }
 
+            Setting.ShowLoadingGameButton -> {
+                ShowLoadingGameButtonSettingItem(onClick = component::toggleShowLoadingGameButton)
+            }
+
             Setting.UseFullscreenSettings -> {
                 UseFullscreenSettingsSettingItem(
                     onClick = component::toggleUseFullscreenSettings,

@@ -7970,4 +7970,7 @@
     <string name="collage_style_apply_appearance_sub">Säilytä nykyinen asettelu. Käytä ulkoasua ja valokuva-asetuksia paikkajärjestyksessä.</string>
     <string name="gallery_style_selection">Galleriatyylinen valinta</string>
     <string name="gallery_style_selection_sub">Napauta upotetussa valitsimessa esikatsellaksesi ja paina pitkään aloittaaksesi valinnan. Napauta valitessasi lisätäksesi tai poistaaksesi kuvia.</string>
+    <string name="play">Pelata</string>
+    <string name="show_loading_game_button">Pelit odotellessa</string>
+    <string name="show_loading_game_button_sub">Näytä pelipainike latausikkunassa.</string>
 </resources>

@@ -7970,4 +7970,7 @@
     <string name="collage_style_apply_appearance_sub">Mantingueu el disseny actual. Apliqueu la configuració de l\'aspecte i de la foto per ordre de ranura.</string>
     <string name="gallery_style_selection">Selecció d\'estil galeria</string>
     <string name="gallery_style_selection_sub">Al selector incrustat, toqueu per previsualitzar i premeu llargament per començar a seleccionar. Mentre seleccioneu, toqueu per afegir o eliminar imatges.</string>
+    <string name="play">Jugar</string>
+    <string name="show_loading_game_button">Jocs a l\'espera</string>
+    <string name="show_loading_game_button_sub">Mostra un botó de joc als diàlegs de càrrega.</string>
 </resources>
