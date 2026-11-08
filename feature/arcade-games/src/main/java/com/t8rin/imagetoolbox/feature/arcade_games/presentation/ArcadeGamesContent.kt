@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.feature.arcade_games.presentation
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.PaddingValues
@@ -98,21 +99,25 @@ fun ArcadeGamesContent(component: ArcadeGamesComponent) {
                 Text(
                     text = stringResource(game?.title ?: R.string.arcade_games)
                 )
-                EnhancedBadge(
-                    content = {
-                        Text(
-                            text = ArcadeGame.playable.size.toString()
-                        )
-                    },
-                    containerColor = MaterialTheme.colorScheme.tertiary,
-                    contentColor = MaterialTheme.colorScheme.onTertiary,
-                    modifier = Modifier
-                        .padding(horizontal = 2.dp)
-                        .padding(bottom = 12.dp)
-                        .scaleOnTap {
-                            AppToastHost.showConfetti()
-                        }
-                )
+                AnimatedVisibility(
+                    visible = game == null
+                ) {
+                    EnhancedBadge(
+                        content = {
+                            Text(
+                                text = ArcadeGame.playable.size.toString()
+                            )
+                        },
+                        containerColor = MaterialTheme.colorScheme.tertiary,
+                        contentColor = MaterialTheme.colorScheme.onTertiary,
+                        modifier = Modifier
+                            .padding(horizontal = 2.dp)
+                            .padding(bottom = 12.dp)
+                            .scaleOnTap {
+                                AppToastHost.showConfetti()
+                            }
+                    )
+                }
             }
         },
         onGoBack = goBack,
