@@ -7972,4 +7972,25 @@
     <string name="play">遊ぶ</string>
     <string name="show_loading_game_button">待っている間のゲーム</string>
     <string name="show_loading_game_button_sub">ロードダイアログにゲームボタンを表示します。</string>
+    <string name="arcade_games">ゲーム</string>
+    <string name="arcade_exit_title">ゲームから離れますか?</string>
+    <string name="arcade_exit_sub">現在のゲームは終了します。ハイスコ​​アは保存されます。</string>
+    <string name="arcade_games_sub">さまざまなアーケード ミニゲームをプレイする</string>
+    <string name="arcade_games_search">恐竜ゲーム、落書きジャンプ、フラッピーバード、タワービルダー、スタック、ピンポン、2048、スネーク、テトリス</string>
+    <string name="arcade_dino">ディノゲーム</string>
+    <string name="arcade_doodle">落書きジャンプ</string>
+    <string name="arcade_bird">フラッピーバード</string>
+    <string name="arcade_stack">タワービルダー</string>
+    <string name="arcade_pong">ピンポン</string>
+    <string name="arcade_2048">2048年</string>
+    <string name="arcade_snake">蛇</string>
+    <string name="arcade_dino_sub">障害物を飛び越える</string>
+    <string name="arcade_doodle_sub">プラットフォーム間をジャンプしてモンスターを撃つ</string>
+    <string name="arcade_bird_sub">タップしてパイプの間を飛びます</string>
+    <string name="arcade_stack_sub">ブロックを積み上げて塔を建てる</string>
+    <string name="arcade_pong_sub">できるだけ長くボールを返し続ける</string>
+    <string name="arcade_2048_sub">一致する数字を結合して 2048 に到達します</string>
+    <string name="arcade_snake_sub">食べ物を集めて壁や尻尾を避けてください</string>
+    <string name="arcade_tetris">テトリス</string>
+    <string name="arcade_tetris_sub">ブロックを合わせて完全な列をクリアします</string>
 </resources>

@@ -7973,4 +7973,25 @@
     <string name="play">Jugar</string>
     <string name="show_loading_game_button">Jocs a l\'espera</string>
     <string name="show_loading_game_button_sub">Mostra un botó de joc als diàlegs de càrrega.</string>
+    <string name="arcade_games">Jocs</string>
+    <string name="arcade_exit_title">Deixar el joc?</string>
+    <string name="arcade_exit_sub">El joc actual s\'acabarà. La teva puntuació més alta es desarà.</string>
+    <string name="arcade_games_sub">Juga a diferents minijocs arcade</string>
+    <string name="arcade_games_search">Dino joc, Doodle Jump, Flappy Bird, Constructor de torres, Pila, Ping Pong, 2048, Serp, Tetris</string>
+    <string name="arcade_dino">Joc Dino</string>
+    <string name="arcade_doodle">Doodle Jump</string>
+    <string name="arcade_bird">Ocell Flappy</string>
+    <string name="arcade_stack">Constructor de torres</string>
+    <string name="arcade_pong">Ping Pong</string>
+    <string name="arcade_2048">2048</string>
+    <string name="arcade_snake">Serp</string>
+    <string name="arcade_dino_sub">Saltar per sobre dels obstacles</string>
+    <string name="arcade_doodle_sub">Salta entre plataformes i dispara als monstres</string>
+    <string name="arcade_bird_sub">Toqueu per volar entre les canonades</string>
+    <string name="arcade_stack_sub">Apila blocs per construir una torre</string>
+    <string name="arcade_pong_sub">Continueu tornant la pilota durant el temps que pugueu</string>
+    <string name="arcade_2048_sub">Combina els números coincidents per arribar al 2048</string>
+    <string name="arcade_snake_sub">Recull aliments i evita les parets i la cua</string>
+    <string name="arcade_tetris">Tetris</string>
+    <string name="arcade_tetris_sub">Col·loqueu els blocs junts i netegeu files completes</string>
 </resources>

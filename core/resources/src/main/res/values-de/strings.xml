@@ -7973,4 +7973,25 @@
     <string name="play">Spielen</string>
     <string name="show_loading_game_button">Spiele beim Warten</string>
     <string name="show_loading_game_button_sub">Zeigt in Ladedialogen eine Spielschaltfläche an.</string>
+    <string name="arcade_games">Spiele</string>
+    <string name="arcade_exit_title">Das Spiel verlassen?</string>
+    <string name="arcade_exit_sub">Das aktuelle Spiel wird beendet. Ihr Highscore wird gespeichert.</string>
+    <string name="arcade_games_sub">Spielen Sie verschiedene Arcade-Minispiele</string>
+    <string name="arcade_games_search">Dino-Spiel, Doodle Jump, Flappy Bird, Tower Builder, Stack, Ping Pong, 2048, Snake, Tetris</string>
+    <string name="arcade_dino">Dino-Spiel</string>
+    <string name="arcade_doodle">Doodle-Sprung</string>
+    <string name="arcade_bird">Flappy Bird</string>
+    <string name="arcade_stack">Turmbauer</string>
+    <string name="arcade_pong">Tischtennis</string>
+    <string name="arcade_2048">2048</string>
+    <string name="arcade_snake">Schlange</string>
+    <string name="arcade_dino_sub">Springe über Hindernisse</string>
+    <string name="arcade_doodle_sub">Springe zwischen Plattformen und erschieße die Monster</string>
+    <string name="arcade_bird_sub">Tippen Sie, um zwischen den Rohren zu fliegen</string>
+    <string name="arcade_stack_sub">Stapeln Sie Blöcke, um einen Turm zu bauen</string>
+    <string name="arcade_pong_sub">Geben Sie den Ball so lange wie möglich zurück</string>
+    <string name="arcade_2048_sub">Füge übereinstimmende Zahlen zusammen, um 2048 zu erreichen</string>
+    <string name="arcade_snake_sub">Sammeln Sie Nahrung und meiden Sie die Wände und Ihren Schwanz</string>
+    <string name="arcade_tetris">Tetris</string>
+    <string name="arcade_tetris_sub">Setzen Sie die Blöcke zusammen und räumen Sie komplette Reihen frei</string>
 </resources>

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -14,7 +13,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Något gick fel: %1$s</string>
     <string name="size">Storlek %1$s</string>
     <string name="loading">Laddar…</string>
@@ -7972,4 +7973,25 @@
     <string name="play">Spela</string>
     <string name="show_loading_game_button">Spel i väntan</string>
     <string name="show_loading_game_button_sub">Visa en spelknapp i laddningsdialoger.</string>
+    <string name="arcade_games">Spel</string>
+    <string name="arcade_exit_title">Lämna spelet?</string>
+    <string name="arcade_exit_sub">Det aktuella spelet kommer att avslutas. Ditt högsta betyg kommer att sparas.</string>
+    <string name="arcade_games_sub">Spela olika arkadminispel</string>
+    <string name="arcade_games_search">Dino Game, Doodle Jump, Flappy Bird, Tower Builder, Stack, Ping Pong, 2048, Snake, Tetris</string>
+    <string name="arcade_dino">Dino spel</string>
+    <string name="arcade_doodle">Doodle Jump</string>
+    <string name="arcade_bird">Flappy Bird</string>
+    <string name="arcade_stack">Tornbyggare</string>
+    <string name="arcade_pong">Ping Pong</string>
+    <string name="arcade_2048">2048</string>
+    <string name="arcade_snake">Orm</string>
+    <string name="arcade_dino_sub">Hoppa över hinder</string>
+    <string name="arcade_doodle_sub">Hoppa mellan plattformar och skjut monstren</string>
+    <string name="arcade_bird_sub">Tryck för att flyga mellan rören</string>
+    <string name="arcade_stack_sub">Stapla block för att bygga ett torn</string>
+    <string name="arcade_pong_sub">Fortsätt att lämna tillbaka bollen så länge du kan</string>
+    <string name="arcade_2048_sub">Slå ihop matchande siffror för att nå 2048</string>
+    <string name="arcade_snake_sub">Samla mat och undvik väggarna och din svans</string>
+    <string name="arcade_tetris">Tetris</string>
+    <string name="arcade_tetris_sub">Passa ihop blocken och rensa hela rader</string>
 </resources>

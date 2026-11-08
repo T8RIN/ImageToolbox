@@ -7973,4 +7973,25 @@
     <string name="play">Toneelstuk</string>
     <string name="show_loading_game_button">Spelletjes tijdens het wachten</string>
     <string name="show_loading_game_button_sub">Toon een gameknop in laaddialogen.</string>
+    <string name="arcade_games">Spellen</string>
+    <string name="arcade_exit_title">Het spel verlaten?</string>
+    <string name="arcade_exit_sub">Het huidige spel eindigt. Je hoge score wordt opgeslagen.</string>
+    <string name="arcade_games_sub">Speel verschillende arcade-minigames</string>
+    <string name="arcade_games_search">Dinospel, Doodle Jump, Flappy Bird, Torenbouwer, Stapel, Ping Pong, 2048, Slang, Tetris</string>
+    <string name="arcade_dino">Dino-spel</string>
+    <string name="arcade_doodle">Doodle sprong</string>
+    <string name="arcade_bird">Flappy Vogel</string>
+    <string name="arcade_stack">Torenbouwer</string>
+    <string name="arcade_pong">Pingpong</string>
+    <string name="arcade_2048">2048</string>
+    <string name="arcade_snake">Slang</string>
+    <string name="arcade_dino_sub">Spring over obstakels</string>
+    <string name="arcade_doodle_sub">Spring tussen platforms en schiet de monsters neer</string>
+    <string name="arcade_bird_sub">Tik om tussen de pijpen te vliegen</string>
+    <string name="arcade_stack_sub">Stapel blokken om een ​​toren te bouwen</string>
+    <string name="arcade_pong_sub">Blijf de bal zo lang mogelijk teruggeven</string>
+    <string name="arcade_2048_sub">Voeg overeenkomende nummers samen om 2048 te bereiken</string>
+    <string name="arcade_snake_sub">Verzamel voedsel en ontwijk de muren en je staart</string>
+    <string name="arcade_tetris">Tetris</string>
+    <string name="arcade_tetris_sub">Plaats de blokken in elkaar en maak hele rijen leeg</string>
 </resources>

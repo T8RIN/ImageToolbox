@@ -7973,4 +7973,25 @@
     <string name="play">Ойнау</string>
     <string name="show_loading_game_button">Күту кезіндегі ойындар</string>
     <string name="show_loading_game_button_sub">Жүктеу диалогтық терезелерінде ойын түймешігін көрсетіңіз.</string>
+    <string name="arcade_games">Ойындар</string>
+    <string name="arcade_exit_title">Ойыннан шығасыз ба?</string>
+    <string name="arcade_exit_sub">Ағымдағы ойын аяқталады. Сіздің жоғары ұпайыңыз сақталады.</string>
+    <string name="arcade_games_sub">Әр түрлі аркадалық мини-ойындарды ойнаңыз</string>
+    <string name="arcade_games_search">Дино ойыны, Doodle Jump, Flappy Bird, Tower Builder, Stack, Ping Pong, 2048, Snake, Tetris</string>
+    <string name="arcade_dino">Дино ойыны</string>
+    <string name="arcade_doodle">Doodle Jump</string>
+    <string name="arcade_bird">Flappy Bird</string>
+    <string name="arcade_stack">Мұнара құрылысшысы</string>
+    <string name="arcade_pong">Пинг-понг</string>
+    <string name="arcade_2048">2048</string>
+    <string name="arcade_snake">Жылан</string>
+    <string name="arcade_dino_sub">Кедергілерден секіру</string>
+    <string name="arcade_doodle_sub">Платформалар арасында секіріңіз және құбыжықтарды атыңыз</string>
+    <string name="arcade_bird_sub">Құбырлар арасында ұшу үшін түртіңіз</string>
+    <string name="arcade_stack_sub">Мұнара салу үшін блоктарды жинаңыз</string>
+    <string name="arcade_pong_sub">Допты мүмкіндігінше қайтара беріңіз</string>
+    <string name="arcade_2048_sub">2048-ге жету үшін сәйкес сандарды біріктіріңіз</string>
+    <string name="arcade_snake_sub">Азық-түлікті жинап, қабырғалар мен құйрықтардан аулақ болыңыз</string>
+    <string name="arcade_tetris">Тетрис</string>
+    <string name="arcade_tetris_sub">Блоктарды біріктіріп, толық жолдарды тазалаңыз</string>
 </resources>

@@ -7975,4 +7975,25 @@
     <string name="play">Žaisti</string>
     <string name="show_loading_game_button">Žaidimai belaukiant</string>
     <string name="show_loading_game_button_sub">Rodyti žaidimo mygtuką įkėlimo dialoguose.</string>
+    <string name="arcade_games">Žaidimai</string>
+    <string name="arcade_exit_title">Palikti žaidimą?</string>
+    <string name="arcade_exit_sub">Dabartinis žaidimas baigsis. Jūsų aukštas rezultatas bus išsaugotas.</string>
+    <string name="arcade_games_sub">Žaisk skirtingus arkadinius mini žaidimus</string>
+    <string name="arcade_games_search">Dino žaidimas, Doodle Jump, Flappy Bird, Bokšto statytojas, Stack, Ping Pong, 2048, Gyvatė, Tetris</string>
+    <string name="arcade_dino">Dino žaidimas</string>
+    <string name="arcade_doodle">Doodle Jump</string>
+    <string name="arcade_bird">Flappy Bird</string>
+    <string name="arcade_stack">Bokšto statytojas</string>
+    <string name="arcade_pong">Ping Pong</string>
+    <string name="arcade_2048">2048 m</string>
+    <string name="arcade_snake">Gyvatė</string>
+    <string name="arcade_dino_sub">Peršok kliūtis</string>
+    <string name="arcade_doodle_sub">Peršok tarp platformų ir šaudyk į monstrus</string>
+    <string name="arcade_bird_sub">Bakstelėkite, kad skristumėte tarp vamzdžių</string>
+    <string name="arcade_stack_sub">Sukraukite blokus, kad pastatytumėte bokštą</string>
+    <string name="arcade_pong_sub">Grąžinkite kamuolį tol, kol galite</string>
+    <string name="arcade_2048_sub">Sujunkite atitinkančius skaičius, kad pasiektumėte 2048</string>
+    <string name="arcade_snake_sub">Rinkite maistą ir venkite sienų bei uodegos</string>
+    <string name="arcade_tetris">Tetris</string>
+    <string name="arcade_tetris_sub">Sujunkite blokus ir išvalykite visas eilutes</string>
 </resources>

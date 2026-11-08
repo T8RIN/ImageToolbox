@@ -7972,4 +7972,25 @@
     <string name="play">놀다</string>
     <string name="show_loading_game_button">기다리는 동안 게임</string>
     <string name="show_loading_game_button_sub">로딩 대화상자에 게임 버튼을 표시합니다.</string>
+    <string name="arcade_games">계략</string>
+    <string name="arcade_exit_title">게임을 종료하시겠습니까?</string>
+    <string name="arcade_exit_sub">현재 게임이 종료됩니다. 당신의 최고 점수가 저장됩니다.</string>
+    <string name="arcade_games_sub">다양한 아케이드 미니게임을 플레이해보세요</string>
+    <string name="arcade_games_search">공룡 게임, 두들 점프, 플래피 버드, 타워 빌더, 스택, 탁구, 2048, 뱀, 테트리스</string>
+    <string name="arcade_dino">공룡 게임</string>
+    <string name="arcade_doodle">낙서 점프</string>
+    <string name="arcade_bird">플래피 버드</string>
+    <string name="arcade_stack">타워 빌더</string>
+    <string name="arcade_pong">탁구</string>
+    <string name="arcade_2048">2048년</string>
+    <string name="arcade_snake">뱀</string>
+    <string name="arcade_dino_sub">장애물을 뛰어넘으세요</string>
+    <string name="arcade_doodle_sub">플랫폼 사이를 점프하고 몬스터를 쏘세요</string>
+    <string name="arcade_bird_sub">파이프 사이를 비행하려면 탭하세요.</string>
+    <string name="arcade_stack_sub">블록을 쌓아서 탑을 쌓으세요</string>
+    <string name="arcade_pong_sub">가능한 한 오랫동안 공을 계속 돌려보내세요.</string>
+    <string name="arcade_2048_sub">일치하는 숫자를 병합하여 2048에 도달</string>
+    <string name="arcade_snake_sub">음식을 모으고 벽과 꼬리를 피하세요</string>
+    <string name="arcade_tetris">테트리스</string>
+    <string name="arcade_tetris_sub">블록을 함께 맞추고 전체 행을 지웁니다.</string>
 </resources>

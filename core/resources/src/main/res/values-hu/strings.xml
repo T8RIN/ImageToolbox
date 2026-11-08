@@ -7973,4 +7973,25 @@
     <string name="play">Játék</string>
     <string name="show_loading_game_button">Játékok várakozás közben</string>
     <string name="show_loading_game_button_sub">Játékgomb megjelenítése a betöltési párbeszédablakban.</string>
+    <string name="arcade_games">Játékok</string>
+    <string name="arcade_exit_title">Hagyja a játékot?</string>
+    <string name="arcade_exit_sub">A jelenlegi játék véget ér. A magas pontszám mentésre kerül.</string>
+    <string name="arcade_games_sub">Játssz különböző arcade minijátékokat</string>
+    <string name="arcade_games_search">Dinójáték, Doodle Jump, Flappy Bird, Tower Builder, Stack, Ping Pong, 2048, Snake, Tetris</string>
+    <string name="arcade_dino">Dino játék</string>
+    <string name="arcade_doodle">Doodle Jump</string>
+    <string name="arcade_bird">Flappy Bird</string>
+    <string name="arcade_stack">Toronyépítő</string>
+    <string name="arcade_pong">Ping Pong</string>
+    <string name="arcade_2048">2048</string>
+    <string name="arcade_snake">Kígyó</string>
+    <string name="arcade_dino_sub">Ugorj át az akadályokon</string>
+    <string name="arcade_doodle_sub">Ugorj a platformok között, és lődd le a szörnyeket</string>
+    <string name="arcade_bird_sub">Koppintson a csövek közötti repüléshez</string>
+    <string name="arcade_stack_sub">Halmozd fel a blokkokat a torony építéséhez</string>
+    <string name="arcade_pong_sub">Addig tedd vissza a labdát, ameddig csak tudod</string>
+    <string name="arcade_2048_sub">Egyesítse a megfelelő számokat, hogy elérje a 2048-at</string>
+    <string name="arcade_snake_sub">Gyűjtse össze az ételt, és kerülje a falakat és a farkát</string>
+    <string name="arcade_tetris">Tetris</string>
+    <string name="arcade_tetris_sub">Illessze össze a blokkokat, és törölje le a teljes sorokat</string>
 </resources>

@@ -7972,4 +7972,25 @@
     <string name="play">玩</string>
     <string name="show_loading_game_button">等待時玩遊戲</string>
     <string name="show_loading_game_button_sub">在載入對話方塊中顯示遊戲按鈕。</string>
+    <string name="arcade_games">遊戲</string>
+    <string name="arcade_exit_title">離開遊戲？</string>
+    <string name="arcade_exit_sub">當前的遊戲將結束。您的高分將被保存。</string>
+    <string name="arcade_games_sub">玩不同的街機迷你遊戲</string>
+    <string name="arcade_games_search">恐龍遊戲、塗鴉跳躍、Flappy Bird、Tower Builder、Stack、乒乓球、2048、蛇、俄羅斯方塊</string>
+    <string name="arcade_dino">恐龍遊戲</string>
+    <string name="arcade_doodle">塗鴉跳躍</string>
+    <string name="arcade_bird">飛揚的鳥</string>
+    <string name="arcade_stack">塔樓建造者</string>
+    <string name="arcade_pong">乒乓球</string>
+    <string name="arcade_2048">2048</string>
+    <string name="arcade_snake">蛇</string>
+    <string name="arcade_dino_sub">跳過障礙</string>
+    <string name="arcade_doodle_sub">在平台之間跳躍並射擊怪物</string>
+    <string name="arcade_bird_sub">點擊即可在管道之間飛行</string>
+    <string name="arcade_stack_sub">堆疊積木來建造一座塔</string>
+    <string name="arcade_pong_sub">盡可能長時間回擊球</string>
+    <string name="arcade_2048_sub">合併匹配數字達 2048</string>
+    <string name="arcade_snake_sub">收集食物並避開牆壁和尾巴</string>
+    <string name="arcade_tetris">俄羅斯方塊</string>
+    <string name="arcade_tetris_sub">將區塊安裝在一起並清除完整的行</string>
 </resources>

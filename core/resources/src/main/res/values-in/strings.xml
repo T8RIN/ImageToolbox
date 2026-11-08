@@ -7972,4 +7972,25 @@
     <string name="play">Bermain</string>
     <string name="show_loading_game_button">Permainan sambil menunggu</string>
     <string name="show_loading_game_button_sub">Tampilkan tombol permainan dalam memuat dialog.</string>
+    <string name="arcade_games">Pertandingan</string>
+    <string name="arcade_exit_title">Keluar dari permainan?</string>
+    <string name="arcade_exit_sub">Permainan saat ini akan berakhir. Skor tinggi Anda akan disimpan.</string>
+    <string name="arcade_games_sub">Mainkan minigame arcade yang berbeda</string>
+    <string name="arcade_games_search">Game Dino, Lompat Doodle, Flappy Bird, Pembangun Menara, Tumpukan, Ping Pong, 2048, Ular, Tetris</string>
+    <string name="arcade_dino">Permainan Dino</string>
+    <string name="arcade_doodle">Lompat Doodle</string>
+    <string name="arcade_bird">Burung Flappy</string>
+    <string name="arcade_stack">Pembangun Menara</string>
+    <string name="arcade_pong">Ping Pong</string>
+    <string name="arcade_2048">2048</string>
+    <string name="arcade_snake">Ular</string>
+    <string name="arcade_dino_sub">Melompati rintangan</string>
+    <string name="arcade_doodle_sub">Lompat antar platform dan tembak monster</string>
+    <string name="arcade_bird_sub">Ketuk untuk terbang di antara pipa</string>
+    <string name="arcade_stack_sub">Tumpuk balok untuk membangun menara</string>
+    <string name="arcade_pong_sub">Terus kembalikan bola selama Anda bisa</string>
+    <string name="arcade_2048_sub">Gabungkan angka yang cocok untuk mencapai 2048</string>
+    <string name="arcade_snake_sub">Kumpulkan makanan dan hindari dinding dan ekor Anda</string>
+    <string name="arcade_tetris">Tetris</string>
+    <string name="arcade_tetris_sub">Pasangkan blok-blok tersebut dan bersihkan baris-baris yang lengkap</string>
 </resources>

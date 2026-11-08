@@ -7973,4 +7973,25 @@
     <string name="play">Mängi</string>
     <string name="show_loading_game_button" />
     <string name="show_loading_game_button_sub">Näita laadimisdialoogides mängunuppu.</string>
+    <string name="arcade_games">Mängud</string>
+    <string name="arcade_exit_title">Kas lahkuda mängust?</string>
+    <string name="arcade_exit_sub">Praegune mäng lõpeb. Teie rekord salvestatakse.</string>
+    <string name="arcade_games_sub">Mängige erinevaid arkaadminimänge</string>
+    <string name="arcade_games_search">Dinomäng, Doodle Jump, Flappy Bird, Tower Builder, Stack, Ping Pong, 2048, Snake, Tetris</string>
+    <string name="arcade_dino">Dino mäng</string>
+    <string name="arcade_doodle">Doodle Jump</string>
+    <string name="arcade_bird">Flappy Bird</string>
+    <string name="arcade_stack">Torni ehitaja</string>
+    <string name="arcade_pong">Pingpong</string>
+    <string name="arcade_2048">2048</string>
+    <string name="arcade_snake">Madu</string>
+    <string name="arcade_dino_sub">Hüppa üle takistuste</string>
+    <string name="arcade_doodle_sub">Hüppa platvormide vahel ja tulista koletisi</string>
+    <string name="arcade_bird_sub">Puudutage torude vahel lendamiseks</string>
+    <string name="arcade_stack_sub">Torni ehitamiseks virna klotse</string>
+    <string name="arcade_pong_sub">Jätkake palli tagastamist nii kaua kui võimalik</string>
+    <string name="arcade_2048_sub">Ühendage vastavad numbrid, et jõuda 2048-ni</string>
+    <string name="arcade_snake_sub">Koguge toitu ja vältige seinu ja saba</string>
+    <string name="arcade_tetris">Tetris</string>
+    <string name="arcade_tetris_sub">Paigaldage klotsid kokku ja tühjendage terved read</string>
 </resources>

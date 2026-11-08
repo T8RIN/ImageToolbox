@@ -7973,4 +7973,25 @@
     <string name="play">விளையாடு</string>
     <string name="show_loading_game_button">காத்திருக்கும் போது விளையாட்டுகள்</string>
     <string name="show_loading_game_button_sub">உரையாடல்களை ஏற்றுவதில் கேம் பட்டனைக் காட்டு.</string>
+    <string name="arcade_games">விளையாட்டுகள்</string>
+    <string name="arcade_exit_title">விளையாட்டை விட்டு வெளியேறவா?</string>
+    <string name="arcade_exit_sub">தற்போதைய ஆட்டம் முடிவடையும். உங்கள் அதிக மதிப்பெண் சேமிக்கப்படும்.</string>
+    <string name="arcade_games_sub">வெவ்வேறு ஆர்கேட் மினிகேம்களை விளையாடுங்கள்</string>
+    <string name="arcade_games_search">டினோ கேம், டூடுல் ஜம்ப், ஃபிளாப்பி பேர்ட், டவர் பில்டர், ஸ்டேக், பிங் பாங், 2048, பாம்பு, டெட்ரிஸ்</string>
+    <string name="arcade_dino">டினோ விளையாட்டு</string>
+    <string name="arcade_doodle">டூடுல் ஜம்ப்</string>
+    <string name="arcade_bird">Flappy பறவை</string>
+    <string name="arcade_stack">கோபுரம் கட்டுபவர்</string>
+    <string name="arcade_pong">பிங் பாங்</string>
+    <string name="arcade_2048">2048</string>
+    <string name="arcade_snake">பாம்பு</string>
+    <string name="arcade_dino_sub">தடைகளைத் தாண்டி குதிக்கவும்</string>
+    <string name="arcade_doodle_sub">தளங்களுக்கு இடையில் குதித்து அரக்கர்களைச் சுடவும்</string>
+    <string name="arcade_bird_sub">குழாய்களுக்கு இடையில் பறக்க தட்டவும்</string>
+    <string name="arcade_stack_sub">ஒரு கோபுரத்தை உருவாக்க தொகுதிகளை அடுக்கி வைக்கவும்</string>
+    <string name="arcade_pong_sub">உங்களால் முடிந்தவரை பந்தை திருப்பி அனுப்புங்கள்</string>
+    <string name="arcade_2048_sub">2048ஐ அடைய பொருந்தும் எண்களை ஒன்றிணைக்கவும்</string>
+    <string name="arcade_snake_sub">உணவைச் சேகரித்து, சுவர்கள் மற்றும் உங்கள் வாலைத் தவிர்க்கவும்</string>
+    <string name="arcade_tetris">டெட்ரிஸ்</string>
+    <string name="arcade_tetris_sub">தொகுதிகளை ஒன்றாக பொருத்தி, முழுமையான வரிசைகளை அழிக்கவும்</string>
 </resources>

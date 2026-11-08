@@ -7973,4 +7973,25 @@
     <string name="play">Oynamak</string>
     <string name="show_loading_game_button">Beklerken oynanan oyunlar</string>
     <string name="show_loading_game_button_sub">Yükleme diyaloglarında bir oyun düğmesi gösterin.</string>
+    <string name="arcade_games">Oyunlar</string>
+    <string name="arcade_exit_title">Oyunu bırakmak mı?</string>
+    <string name="arcade_exit_sub">Mevcut oyun sona erecek. Yüksek puanınız kaydedilecektir.</string>
+    <string name="arcade_games_sub">Farklı arcade mini oyunlarını oynayın</string>
+    <string name="arcade_games_search">Dino Oyunu, Doodle Jump, Flappy Bird, Kule Oluşturucu, Yığın, Masa Tenisi, 2048, Yılan, Tetris</string>
+    <string name="arcade_dino">Dinozor Oyunu</string>
+    <string name="arcade_doodle">Karalama atlama</string>
+    <string name="arcade_bird">Flappy Kuş</string>
+    <string name="arcade_stack">Kule İnşaatçısı</string>
+    <string name="arcade_pong">Masa Tenisi</string>
+    <string name="arcade_2048">2048</string>
+    <string name="arcade_snake">Yılan</string>
+    <string name="arcade_dino_sub">Engellerin üzerinden atla</string>
+    <string name="arcade_doodle_sub">Platformlar arasında atlayın ve canavarları vurun</string>
+    <string name="arcade_bird_sub">Borular arasında uçmak için dokunun</string>
+    <string name="arcade_stack_sub">Bir kule inşa etmek için blokları istifleyin</string>
+    <string name="arcade_pong_sub">Topu mümkün olduğunca uzun süre geri göndermeye devam edin</string>
+    <string name="arcade_2048_sub">2048\'e ulaşmak için eşleşen sayıları birleştir</string>
+    <string name="arcade_snake_sub">Yiyecek toplayın ve duvarlardan ve kuyruğunuzdan kaçının</string>
+    <string name="arcade_tetris">Tetris</string>
+    <string name="arcade_tetris_sub">Blokları birbirine yerleştirin ve tüm satırları temizleyin</string>
 </resources>

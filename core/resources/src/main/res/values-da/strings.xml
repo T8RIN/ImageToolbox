@@ -7973,4 +7973,25 @@
     <string name="play">Spil</string>
     <string name="show_loading_game_button">Spil mens du venter</string>
     <string name="show_loading_game_button_sub">Vis en spilknap i indlæsningsdialoger.</string>
+    <string name="arcade_games">Spil</string>
+    <string name="arcade_exit_title">Forlade spillet?</string>
+    <string name="arcade_exit_sub">Det nuværende spil slutter. Din højeste score vil blive gemt.</string>
+    <string name="arcade_games_sub">Spil forskellige arkade minispil</string>
+    <string name="arcade_games_search">Dino Game, Doodle Jump, Flappy Bird, Tower Builder, Stack, Ping Pong, 2048, Snake, Tetris</string>
+    <string name="arcade_dino">Dino spil</string>
+    <string name="arcade_doodle">Doodle Jump</string>
+    <string name="arcade_bird">Flappy Bird</string>
+    <string name="arcade_stack">Tårnbygger</string>
+    <string name="arcade_pong">Ping Pong</string>
+    <string name="arcade_2048">2048</string>
+    <string name="arcade_snake">Slange</string>
+    <string name="arcade_dino_sub">Hop over forhindringer</string>
+    <string name="arcade_doodle_sub">Hop mellem platforme og skyd monstrene</string>
+    <string name="arcade_bird_sub">Tryk for at flyve mellem rørene</string>
+    <string name="arcade_stack_sub">Stak blokke for at bygge et tårn</string>
+    <string name="arcade_pong_sub">Fortsæt med at returnere bolden, så længe du kan</string>
+    <string name="arcade_2048_sub">Slå matchende tal sammen for at nå 2048</string>
+    <string name="arcade_snake_sub">Saml mad og undgå væggene og din hale</string>
+    <string name="arcade_tetris">Tetris</string>
+    <string name="arcade_tetris_sub">Sæt blokkene sammen og ryd hele rækker</string>
 </resources>

@@ -7973,4 +7973,25 @@
     <string name="play">खेल</string>
     <string name="show_loading_game_button">इंतज़ार करते समय खेल</string>
     <string name="show_loading_game_button_sub">लोडिंग संवादों में गेम बटन दिखाएं.</string>
+    <string name="arcade_games">खेल</string>
+    <string name="arcade_exit_title">इस खेल को छोडो?</string>
+    <string name="arcade_exit_sub">वर्तमान खेल समाप्त हो जाएगा. आपका उच्च स्कोर सहेजा जाएगा.</string>
+    <string name="arcade_games_sub">विभिन्न आर्केड मिनीगेम खेलें</string>
+    <string name="arcade_games_search">डिनो गेम, डूडल जंप, फ्लैपी बर्ड, टॉवर बिल्डर, स्टैक, पिंग पोंग, 2048, स्नेक, टेट्रिस</string>
+    <string name="arcade_dino">डिनो गेम</string>
+    <string name="arcade_doodle">आलसभरी छलांग</string>
+    <string name="arcade_bird">फ्लैपी चिड़ियां</string>
+    <string name="arcade_stack">टावर बिल्डर</string>
+    <string name="arcade_pong">पिंग पोंग</string>
+    <string name="arcade_2048">2048</string>
+    <string name="arcade_snake">साँप</string>
+    <string name="arcade_dino_sub">बाधाओं पर कूदो</string>
+    <string name="arcade_doodle_sub">प्लेटफार्मों के बीच कूदें और राक्षसों को गोली मारें</string>
+    <string name="arcade_bird_sub">पाइपों के बीच उड़ान भरने के लिए टैप करें</string>
+    <string name="arcade_stack_sub">टावर बनाने के लिए ब्लॉकों को ढेर करें</string>
+    <string name="arcade_pong_sub">जब तक संभव हो गेंद लौटाते रहें</string>
+    <string name="arcade_2048_sub">2048 तक पहुंचने के लिए मिलान संख्याओं को मिलाएं</string>
+    <string name="arcade_snake_sub">भोजन इकट्ठा करें और दीवारों और अपनी पूँछ से बचें</string>
+    <string name="arcade_tetris">टेट्रिस</string>
+    <string name="arcade_tetris_sub">ब्लॉकों को एक साथ फ़िट करें और पूरी पंक्तियाँ साफ़ करें</string>
 </resources>

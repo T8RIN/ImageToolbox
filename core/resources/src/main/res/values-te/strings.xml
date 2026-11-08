@@ -7973,4 +7973,25 @@
     <string name="play">ఆడండి</string>
     <string name="show_loading_game_button">వేచి ఉన్నప్పుడు ఆటలు</string>
     <string name="show_loading_game_button_sub">డైలాగ్‌లను లోడ్ చేయడంలో గేమ్ బటన్‌ను చూపండి.</string>
+    <string name="arcade_games">ఆటలు</string>
+    <string name="arcade_exit_title">ఆటను వదిలేయాలా?</string>
+    <string name="arcade_exit_sub">ప్రస్తుత ఆట ముగుస్తుంది. మీ అధిక స్కోర్ సేవ్ చేయబడుతుంది.</string>
+    <string name="arcade_games_sub">విభిన్న ఆర్కేడ్ మినీగేమ్‌లను ఆడండి</string>
+    <string name="arcade_games_search">డినో గేమ్, డూడుల్ జంప్, ఫ్లాపీ బర్డ్, టవర్ బిల్డర్, స్టాక్, పింగ్ పాంగ్, 2048, స్నేక్, టెట్రిస్</string>
+    <string name="arcade_dino">డినో గేమ్</string>
+    <string name="arcade_doodle">డూడుల్ జంప్</string>
+    <string name="arcade_bird">ఫ్లాపీ బర్డ్</string>
+    <string name="arcade_stack">టవర్ బిల్డర్</string>
+    <string name="arcade_pong">పింగ్ పాంగ్</string>
+    <string name="arcade_2048">2048</string>
+    <string name="arcade_snake">పాము</string>
+    <string name="arcade_dino_sub">అడ్డంకులను అధిగమించండి</string>
+    <string name="arcade_doodle_sub">ప్లాట్‌ఫారమ్‌ల మధ్య గెంతు మరియు రాక్షసులను కాల్చండి</string>
+    <string name="arcade_bird_sub">పైపుల మధ్య ఎగరడానికి నొక్కండి</string>
+    <string name="arcade_stack_sub">టవర్‌ను నిర్మించడానికి బ్లాక్‌లను పేర్చండి</string>
+    <string name="arcade_pong_sub">మీకు వీలైనంత కాలం బంతిని తిరిగి ఇస్తూ ఉండండి</string>
+    <string name="arcade_2048_sub">2048కి చేరుకోవడానికి సరిపోలే సంఖ్యలను విలీనం చేయండి</string>
+    <string name="arcade_snake_sub">ఆహారాన్ని సేకరించండి మరియు గోడలు మరియు మీ తోకను నివారించండి</string>
+    <string name="arcade_tetris">టెట్రిస్</string>
+    <string name="arcade_tetris_sub">బ్లాక్‌లను ఒకదానితో ఒకటి అమర్చండి మరియు పూర్తి వరుసలను క్లియర్ చేయండి</string>
 </resources>

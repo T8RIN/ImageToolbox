@@ -7974,4 +7974,25 @@
     <string name="play">Juca</string>
     <string name="show_loading_game_button">Jocuri în așteptare</string>
     <string name="show_loading_game_button_sub">Afișează un buton de joc în casetele de dialog de încărcare.</string>
+    <string name="arcade_games">Jocuri</string>
+    <string name="arcade_exit_title">Lasă jocul?</string>
+    <string name="arcade_exit_sub">Jocul actual se va încheia. Scorul tău cel mai mare va fi salvat.</string>
+    <string name="arcade_games_sub">Joacă diferite minijocuri arcade</string>
+    <string name="arcade_games_search">Joc Dino, Doodle Jump, Flappy Bird, Turn Builder, Stivă, Ping Pong, 2048, Șarpe, Tetris</string>
+    <string name="arcade_dino">Jocul Dino</string>
+    <string name="arcade_doodle">Doodle Jump</string>
+    <string name="arcade_bird">Pasăre Flappy</string>
+    <string name="arcade_stack">Constructor de turnuri</string>
+    <string name="arcade_pong">Ping Pong</string>
+    <string name="arcade_2048">2048</string>
+    <string name="arcade_snake">Şarpe</string>
+    <string name="arcade_dino_sub">Sari peste obstacole</string>
+    <string name="arcade_doodle_sub">Sari între platforme și împușcă monștri</string>
+    <string name="arcade_bird_sub">Atingeți pentru a zbura între țevi</string>
+    <string name="arcade_stack_sub">Stivuiți blocuri pentru a construi un turn</string>
+    <string name="arcade_pong_sub">Continuați să returnați mingea cât de mult puteți</string>
+    <string name="arcade_2048_sub">Îmbinați numerele potrivite pentru a ajunge la 2048</string>
+    <string name="arcade_snake_sub">Strânge mâncare și evită pereții și coada</string>
+    <string name="arcade_tetris">Tetris</string>
+    <string name="arcade_tetris_sub">Așezați blocurile împreună și ștergeți rândurile complete</string>
 </resources>

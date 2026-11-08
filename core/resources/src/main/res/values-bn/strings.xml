@@ -7973,4 +7973,25 @@
     <string name="play">খেলা</string>
     <string name="show_loading_game_button">অপেক্ষার সময় গেম</string>
     <string name="show_loading_game_button_sub">লোডিং ডায়ালগে একটি গেম বোতাম দেখান৷</string>
+    <string name="arcade_games">গেমস</string>
+    <string name="arcade_exit_title">খেলা ছেড়ে দাও?</string>
+    <string name="arcade_exit_sub">বর্তমান খেলা শেষ হবে। আপনার উচ্চ স্কোর সংরক্ষণ করা হবে.</string>
+    <string name="arcade_games_sub">বিভিন্ন আর্কেড মিনিগেম খেলুন</string>
+    <string name="arcade_games_search">ডিনো গেম, ডুডল জাম্প, ফ্ল্যাপি বার্ড, টাওয়ার বিল্ডার, স্ট্যাক, পিং পং, 2048, স্নেক, টেট্রিস</string>
+    <string name="arcade_dino">ডিনো গেম</string>
+    <string name="arcade_doodle">ডুডল জাম্প</string>
+    <string name="arcade_bird">ফ্ল্যাপি বার্ড</string>
+    <string name="arcade_stack">টাওয়ার নির্মাতা</string>
+    <string name="arcade_pong">পিং পং</string>
+    <string name="arcade_2048">2048</string>
+    <string name="arcade_snake">সাপ</string>
+    <string name="arcade_dino_sub">বাধা অতিক্রম করুন</string>
+    <string name="arcade_doodle_sub">প্ল্যাটফর্মের মধ্যে ঝাঁপ দিন এবং দানবদের গুলি করুন</string>
+    <string name="arcade_bird_sub">পাইপের মধ্যে উড়তে আলতো চাপুন</string>
+    <string name="arcade_stack_sub">একটি টাওয়ার তৈরি করতে ব্লক স্ট্যাক করুন</string>
+    <string name="arcade_pong_sub">যতক্ষণ পারেন বল ফেরাতে থাকুন</string>
+    <string name="arcade_2048_sub">2048-এ পৌঁছানোর জন্য মিলে যাওয়া সংখ্যাগুলিকে একত্রিত করুন</string>
+    <string name="arcade_snake_sub">খাবার সংগ্রহ করুন এবং দেয়াল এবং আপনার লেজ এড়িয়ে চলুন</string>
+    <string name="arcade_tetris">টেট্রিস</string>
+    <string name="arcade_tetris_sub">ব্লকগুলি একসাথে ফিট করুন এবং সম্পূর্ণ সারি সাফ করুন</string>
 </resources>

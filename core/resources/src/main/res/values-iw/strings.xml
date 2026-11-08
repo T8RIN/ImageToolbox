@@ -7975,4 +7975,25 @@
     <string name="play">לְשַׂחֵק</string>
     <string name="show_loading_game_button">משחקים בזמן ההמתנה</string>
     <string name="show_loading_game_button_sub">הצג כפתור משחק בדיאלוגים טעינה.</string>
+    <string name="arcade_games">משחקים</string>
+    <string name="arcade_exit_title">לעזוב את המשחק?</string>
+    <string name="arcade_exit_sub">המשחק הנוכחי יסתיים. הציון הגבוה שלך יישמר.</string>
+    <string name="arcade_games_sub">שחק מיני משחקי ארקייד שונים</string>
+    <string name="arcade_games_search">Dino Game, Doodle Jump, Flappy Bird, Tower Builder, Stack, פינג פונג, 2048, נחש, טטריס</string>
+    <string name="arcade_dino">משחק דינו</string>
+    <string name="arcade_doodle">קפיצת שרבוטים</string>
+    <string name="arcade_bird">פלאפי בירד</string>
+    <string name="arcade_stack">בונה מגדלים</string>
+    <string name="arcade_pong">פינג פונג</string>
+    <string name="arcade_2048">2048</string>
+    <string name="arcade_snake">נָחָשׁ</string>
+    <string name="arcade_dino_sub">לקפוץ מעל מכשולים</string>
+    <string name="arcade_doodle_sub">קפוץ בין פלטפורמות וירה במפלצות</string>
+    <string name="arcade_bird_sub">הקש כדי לעוף בין הצינורות</string>
+    <string name="arcade_stack_sub">ערמו בלוקים לבניית מגדל</string>
+    <string name="arcade_pong_sub">המשך להחזיר את הכדור כל עוד אתה יכול</string>
+    <string name="arcade_2048_sub">מיזוג מספרים תואמים כדי להגיע ל-2048</string>
+    <string name="arcade_snake_sub">אספו מזון והימנעו מהקירות ומהזנב שלכם</string>
+    <string name="arcade_tetris">טטריס</string>
+    <string name="arcade_tetris_sub">חברו את הבלוקים יחדיו ונקו שורות שלמות</string>
 </resources>

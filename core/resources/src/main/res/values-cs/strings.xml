@@ -7975,4 +7975,25 @@
     <string name="play">Hrát</string>
     <string name="show_loading_game_button">Hry na počkání</string>
     <string name="show_loading_game_button_sub">Zobrazit tlačítko hry v dialogových oknech načítání.</string>
+    <string name="arcade_games">Hry</string>
+    <string name="arcade_exit_title">Opustit hru?</string>
+    <string name="arcade_exit_sub">Aktuální hra skončí. Vaše vysoké skóre bude uloženo.</string>
+    <string name="arcade_games_sub">Hrajte různé arkádové minihry</string>
+    <string name="arcade_games_search">Dino hra, Doodle Jump, Flappy Bird, Tower Builder, Stack, Ping Pong, 2048, Had, Tetris</string>
+    <string name="arcade_dino">Dino hra</string>
+    <string name="arcade_doodle">Doodle Jump</string>
+    <string name="arcade_bird">Flappy Bird</string>
+    <string name="arcade_stack">Stavitel věží</string>
+    <string name="arcade_pong">Ping Pong</string>
+    <string name="arcade_2048">2048</string>
+    <string name="arcade_snake">Had</string>
+    <string name="arcade_dino_sub">Skákejte přes překážky</string>
+    <string name="arcade_doodle_sub">Skákejte mezi plošinami a střílejte příšery</string>
+    <string name="arcade_bird_sub">Klepnutím proletíte mezi trubkami</string>
+    <string name="arcade_stack_sub">Naskládejte bloky a postavte věž</string>
+    <string name="arcade_pong_sub">Vracejte míč tak dlouho, jak jen můžete</string>
+    <string name="arcade_2048_sub">Sloučením odpovídajících čísel dosáhnete čísla 2048</string>
+    <string name="arcade_snake_sub">Sbírejte jídlo a vyhněte se stěnám a ocasu</string>
+    <string name="arcade_tetris">Tetris</string>
+    <string name="arcade_tetris_sub">Spojte bloky dohromady a vyčistěte celé řady</string>
 </resources>

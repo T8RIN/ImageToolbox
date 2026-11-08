@@ -7973,4 +7973,25 @@
     <string name="play">بازی کنید</string>
     <string name="show_loading_game_button">بازی در حال انتظار</string>
     <string name="show_loading_game_button_sub">نمایش یک دکمه بازی در گفتگوهای بارگیری.</string>
+    <string name="arcade_games">بازی ها</string>
+    <string name="arcade_exit_title">ترک بازی؟</string>
+    <string name="arcade_exit_sub">بازی فعلی به پایان خواهد رسید. نمره بالا شما ذخیره خواهد شد.</string>
+    <string name="arcade_games_sub">مینی گیم های آرکید مختلف را بازی کنید</string>
+    <string name="arcade_games_search">Dino Game، Doodle Jump، Flappy Bird، Tower Builder، Stack، Ping Pong، 2048، Snake، Tetris</string>
+    <string name="arcade_dino">بازی دینو</string>
+    <string name="arcade_doodle">پرش دودل</string>
+    <string name="arcade_bird">فلپی برد</string>
+    <string name="arcade_stack">برج ساز</string>
+    <string name="arcade_pong">پینگ پنگ</string>
+    <string name="arcade_2048">2048</string>
+    <string name="arcade_snake">مار</string>
+    <string name="arcade_dino_sub">از روی موانع بپرید</string>
+    <string name="arcade_doodle_sub">بین سکوها بپرید و به هیولاها شلیک کنید</string>
+    <string name="arcade_bird_sub">برای پرواز بین لوله ها ضربه بزنید</string>
+    <string name="arcade_stack_sub">برای ساختن یک برج بلوک ها را روی هم بچینید</string>
+    <string name="arcade_pong_sub">تا زمانی که می توانید توپ را برگردانید</string>
+    <string name="arcade_2048_sub">اعداد منطبق را ادغام کنید تا به 2048 برسید</string>
+    <string name="arcade_snake_sub">غذا جمع کنید و از دیوارها و دم خود دوری کنید</string>
+    <string name="arcade_tetris">تتریس</string>
+    <string name="arcade_tetris_sub">بلوک ها را با هم بچینید و ردیف های کامل را پاک کنید</string>
 </resources>

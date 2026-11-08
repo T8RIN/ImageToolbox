@@ -7972,4 +7972,25 @@
     <string name="play">เล่น</string>
     <string name="show_loading_game_button">เกมส์ระหว่างรอ</string>
     <string name="show_loading_game_button_sub">แสดงปุ่มเกมในกล่องโต้ตอบการโหลด</string>
+    <string name="arcade_games">เกมส์</string>
+    <string name="arcade_exit_title">ออกจากเกมเหรอ?</string>
+    <string name="arcade_exit_sub">เกมปัจจุบันจะจบลง คะแนนสูงสุดของคุณจะถูกบันทึกไว้</string>
+    <string name="arcade_games_sub">เล่นมินิเกมอาร์เคดที่แตกต่างกัน</string>
+    <string name="arcade_games_search">เกมไดโน, กระโดดดูเดิล, แฟลปปี้เบิร์ด, ผู้สร้างหอคอย, สแต็ค, ปิงปอง, 2048, งู, เตตริส</string>
+    <string name="arcade_dino">เกมไดโน</string>
+    <string name="arcade_doodle">กระโดดดูเดิล</string>
+    <string name="arcade_bird">เครื่องปัดนก</string>
+    <string name="arcade_stack">ผู้สร้างทาวเวอร์</string>
+    <string name="arcade_pong">ปิงปอง</string>
+    <string name="arcade_2048">2048</string>
+    <string name="arcade_snake">งู</string>
+    <string name="arcade_dino_sub">กระโดดข้ามสิ่งกีดขวาง</string>
+    <string name="arcade_doodle_sub">กระโดดระหว่างแพลตฟอร์มและยิงสัตว์ประหลาด</string>
+    <string name="arcade_bird_sub">แตะเพื่อบินระหว่างท่อ</string>
+    <string name="arcade_stack_sub">ซ้อนบล็อกเพื่อสร้างหอคอย</string>
+    <string name="arcade_pong_sub">ส่งคืนลูกบอลให้นานที่สุดเท่าที่จะทำได้</string>
+    <string name="arcade_2048_sub">รวมหมายเลขที่ตรงกันเพื่อให้ถึง 2048</string>
+    <string name="arcade_snake_sub">รวบรวมอาหารและหลีกเลี่ยงกำแพงและหางของคุณ</string>
+    <string name="arcade_tetris">เตตริส</string>
+    <string name="arcade_tetris_sub">ประกอบบล็อกเข้าด้วยกันและเคลียร์แถวให้สมบูรณ์</string>
 </resources>

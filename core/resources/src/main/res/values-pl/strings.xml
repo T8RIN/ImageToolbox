@@ -7975,4 +7975,25 @@
     <string name="play">Grać</string>
     <string name="show_loading_game_button">Gry podczas oczekiwania</string>
     <string name="show_loading_game_button_sub">Pokaż przycisk gry w oknach dialogowych ładowania.</string>
+    <string name="arcade_games">Zawody sportowe</string>
+    <string name="arcade_exit_title">Opuścić grę?</string>
+    <string name="arcade_exit_sub">Bieżąca gra zakończy się. Twój najlepszy wynik zostanie zapisany.</string>
+    <string name="arcade_games_sub">Graj w różne minigry zręcznościowe</string>
+    <string name="arcade_games_search">Gra Dino, Doodle Jump, Flappy Bird, Tower Builder, Stos, Ping Pong, 2048, Wąż, Tetris</string>
+    <string name="arcade_dino">Gra Dino</string>
+    <string name="arcade_doodle">Doodle skok</string>
+    <string name="arcade_bird">Flappy Bird</string>
+    <string name="arcade_stack">Konstruktor Wieży</string>
+    <string name="arcade_pong">Ping-pong</string>
+    <string name="arcade_2048">2048</string>
+    <string name="arcade_snake">Wąż</string>
+    <string name="arcade_dino_sub">Skacz przez przeszkody</string>
+    <string name="arcade_doodle_sub">Skacz pomiędzy platformami i strzelaj do potworów</string>
+    <string name="arcade_bird_sub">Stuknij, aby latać między rurami</string>
+    <string name="arcade_stack_sub">Układaj klocki, aby zbudować wieżę</string>
+    <string name="arcade_pong_sub">Oddawaj piłkę tak długo, jak możesz</string>
+    <string name="arcade_2048_sub">Połącz pasujące liczby, aby uzyskać liczbę 2048</string>
+    <string name="arcade_snake_sub">Zbieraj jedzenie i unikaj ścian oraz ogona</string>
+    <string name="arcade_tetris">Tetrisa</string>
+    <string name="arcade_tetris_sub">Dopasuj bloki do siebie i usuń całe rzędy</string>
 </resources>

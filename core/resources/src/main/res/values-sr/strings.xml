@@ -7974,4 +7974,25 @@
     <string name="play">Играј</string>
     <string name="show_loading_game_button">Игре док чекате</string>
     <string name="show_loading_game_button_sub">Прикажи дугме за игру у дијалозима за учитавање.</string>
+    <string name="arcade_games">Игре</string>
+    <string name="arcade_exit_title">Напустити игру?</string>
+    <string name="arcade_exit_sub">Тренутна утакмица ће се завршити. Ваш најбољи резултат ће бити сачуван.</string>
+    <string name="arcade_games_sub">Играјте различите аркадне мини игре</string>
+    <string name="arcade_games_search">Дино игра, Доодле Јумп, Флаппи Бирд, Градитељ торњева, Стацк, Пинг Понг, 2048, Змија, Тетрис</string>
+    <string name="arcade_dino">Дино игра</string>
+    <string name="arcade_doodle">Доодле Јумп</string>
+    <string name="arcade_bird">Флаппи Бирд</string>
+    <string name="arcade_stack">Товер Буилдер</string>
+    <string name="arcade_pong">Пинг Понг</string>
+    <string name="arcade_2048">2048</string>
+    <string name="arcade_snake">Снаке</string>
+    <string name="arcade_dino_sub">Прескачите препреке</string>
+    <string name="arcade_doodle_sub">Скачите између платформи и пуцајте у чудовишта</string>
+    <string name="arcade_bird_sub">Додирните да летите између цеви</string>
+    <string name="arcade_stack_sub">Сложите блокове да бисте изградили торањ</string>
+    <string name="arcade_pong_sub">Наставите да враћате лопту што дуже можете</string>
+    <string name="arcade_2048_sub">Спојите одговарајуће бројеве да бисте дошли до 2048</string>
+    <string name="arcade_snake_sub">Сакупљајте храну и избегавајте зидове и реп</string>
+    <string name="arcade_tetris">Тетрис</string>
+    <string name="arcade_tetris_sub">Поставите блокове заједно и очистите комплетне редове</string>
 </resources>

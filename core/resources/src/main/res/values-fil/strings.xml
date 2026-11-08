@@ -7973,4 +7973,25 @@
     <string name="play">Maglaro</string>
     <string name="show_loading_game_button">Mga laro habang naghihintay</string>
     <string name="show_loading_game_button_sub">Magpakita ng button ng laro sa paglo-load ng mga dialog.</string>
+    <string name="arcade_games">Mga laro</string>
+    <string name="arcade_exit_title">Umalis sa laro?</string>
+    <string name="arcade_exit_sub">Ang kasalukuyang laro ay magtatapos. Mase-save ang iyong mataas na marka.</string>
+    <string name="arcade_games_sub">Maglaro ng iba\'t ibang arcade minigames</string>
+    <string name="arcade_games_search">Dino Game, Doodle Jump, Flappy Bird, Tower Builder, Stack, Ping Pong, 2048, Snake, Tetris</string>
+    <string name="arcade_dino">Larong Dino</string>
+    <string name="arcade_doodle">Doodle Jump</string>
+    <string name="arcade_bird">Flappy Bird</string>
+    <string name="arcade_stack">Tagabuo ng Tore</string>
+    <string name="arcade_pong">Ping Pong</string>
+    <string name="arcade_2048">2048</string>
+    <string name="arcade_snake">ahas</string>
+    <string name="arcade_dino_sub">Tumalon sa mga hadlang</string>
+    <string name="arcade_doodle_sub">Tumalon sa pagitan ng mga platform at barilin ang mga halimaw</string>
+    <string name="arcade_bird_sub">I-tap para lumipad sa pagitan ng mga tubo</string>
+    <string name="arcade_stack_sub">I-stack ang mga bloke para magtayo ng tore</string>
+    <string name="arcade_pong_sub">Patuloy na ibalik ang bola hangga\'t kaya mo</string>
+    <string name="arcade_2048_sub">Pagsamahin ang mga tumutugmang numero para maabot ang 2048</string>
+    <string name="arcade_snake_sub">Mangolekta ng pagkain at iwasan ang mga dingding at ang iyong buntot</string>
+    <string name="arcade_tetris">Tetris</string>
+    <string name="arcade_tetris_sub">Pagsamahin ang mga bloke at i-clear ang kumpletong mga hilera</string>
 </resources>

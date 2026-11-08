@@ -7972,4 +7972,25 @@
     <string name="play">Chơi</string>
     <string name="show_loading_game_button">Trò chơi trong khi chờ đợi</string>
     <string name="show_loading_game_button_sub">Hiển thị nút trò chơi trong hộp thoại tải.</string>
+    <string name="arcade_games">Trò chơi</string>
+    <string name="arcade_exit_title">Rời khỏi trò chơi?</string>
+    <string name="arcade_exit_sub">Trò chơi hiện tại sẽ kết thúc. Điểm cao của bạn sẽ được lưu lại.</string>
+    <string name="arcade_games_sub">Chơi các minigame arcade khác nhau</string>
+    <string name="arcade_games_search">Trò chơi khủng long, Doodle Jump, Flappy Bird, Người xây tháp, Chồng, Bóng bàn, 2048, Con rắn, Tetris</string>
+    <string name="arcade_dino">trò chơi khủng long</string>
+    <string name="arcade_doodle">Nhảy vẽ nguệch ngoạc</string>
+    <string name="arcade_bird">Flappy Bird</string>
+    <string name="arcade_stack">Người xây tháp</string>
+    <string name="arcade_pong">bóng bàn</string>
+    <string name="arcade_2048">2048</string>
+    <string name="arcade_snake">Rắn</string>
+    <string name="arcade_dino_sub">Nhảy qua chướng ngại vật</string>
+    <string name="arcade_doodle_sub">Nhảy giữa các nền tảng và bắn quái vật</string>
+    <string name="arcade_bird_sub">Nhấn để bay giữa các đường ống</string>
+    <string name="arcade_stack_sub">Xếp chồng các khối để xây dựng một tòa tháp</string>
+    <string name="arcade_pong_sub">Tiếp tục trả bóng lâu nhất có thể</string>
+    <string name="arcade_2048_sub">Hợp nhất các số phù hợp để đạt 2048</string>
+    <string name="arcade_snake_sub">Thu thập thức ăn và tránh các bức tường và đuôi của bạn</string>
+    <string name="arcade_tetris">Tetris</string>
+    <string name="arcade_tetris_sub">Ghép các khối lại với nhau và xóa các hàng hoàn chỉnh</string>
 </resources>

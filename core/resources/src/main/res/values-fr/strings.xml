@@ -7973,4 +7973,25 @@
     <string name="play">Jouer</string>
     <string name="show_loading_game_button">Jeux en attendant</string>
     <string name="show_loading_game_button_sub">Afficher un bouton de jeu dans les boîtes de dialogue de chargement.</string>
+    <string name="arcade_games">Jeux</string>
+    <string name="arcade_exit_title">Quitter le jeu ?</string>
+    <string name="arcade_exit_sub">Le jeu en cours se terminera. Votre meilleur score sera enregistré.</string>
+    <string name="arcade_games_sub">Jouez à différents mini-jeux d\'arcade</string>
+    <string name="arcade_games_search">Jeu de Dino, Doodle Jump, Flappy Bird, Tower Builder, Stack, Ping Pong, 2048, Serpent, Tetris</string>
+    <string name="arcade_dino">Jeu de dinosaures</string>
+    <string name="arcade_doodle">Saut de griffonnage</string>
+    <string name="arcade_bird">Oiseau Flappy</string>
+    <string name="arcade_stack">Constructeur de tour</string>
+    <string name="arcade_pong">Ping-pong</string>
+    <string name="arcade_2048">2048</string>
+    <string name="arcade_snake">Serpent</string>
+    <string name="arcade_dino_sub">Sauter par-dessus les obstacles</string>
+    <string name="arcade_doodle_sub">Sautez entre les plates-formes et tirez sur les monstres</string>
+    <string name="arcade_bird_sub">Appuyez pour voler entre les tuyaux</string>
+    <string name="arcade_stack_sub">Empilez des blocs pour construire une tour</string>
+    <string name="arcade_pong_sub">Continuez à renvoyer le ballon aussi longtemps que vous le pouvez</string>
+    <string name="arcade_2048_sub">Fusionnez les numéros correspondants pour atteindre 2048</string>
+    <string name="arcade_snake_sub">Ramassez de la nourriture et évitez les murs et votre queue</string>
+    <string name="arcade_tetris">Tétris</string>
+    <string name="arcade_tetris_sub">Assemblez les blocs ensemble et effacez les lignes complètes</string>
 </resources>
