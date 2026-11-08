@@ -38,11 +38,23 @@ fun BubblePopGame(
     onHighScoreChanged: ((Int) -> Unit)? = null,
     onGameOver: ((Int) -> Unit)? = null
 ) {
-    val run = rememberArcadeRun(initialState, ::BubblePopRun)
+    val run = rememberArcadeRun(
+        initialState = initialState,
+        create = ::BubblePopRun
+    )
     ArcadeBoard(
-        ArcadeGame.BubblePop, run, style, modifier, initialState, onHighScoreChanged, onGameOver
+        game = ArcadeGame.BubblePop,
+        run = run,
+        style = style,
+        modifier = modifier,
+        initialState = initialState,
+        onHighScoreChanged = onHighScoreChanged,
+        onGameOver = onGameOver
     ) {
-        ArcadeField(run, onTap = run::pop, onSwipe = { if (it.y < -12f) run.rush() }) {
+        ArcadeField(
+            run = run,
+            onTap = run::pop
+        ) {
             val cell = run.cell
             val origin = run.origin
             repeat(16) { index ->
@@ -50,82 +62,154 @@ fun BubblePopGame(
                 val x = ((index * 73 + index * index * 17 + 7) % 347) / 347f * run.width
                 val y = ((index * 113 + index * index * 29 + 31) % 431) / 431f * run.height
                 val color = if (index % 2 == 0) style.playerColor else style.accentColor
-                drawCircle(color.copy(alpha = 0.025f), radius, Offset(x, y))
-                drawCircle(color.copy(alpha = 0.09f), radius, Offset(x, y), style = Stroke(1f))
                 drawCircle(
-                    color.copy(alpha = 0.1f),
-                    1.5f,
-                    Offset(x + radius + 6f, y - radius * 0.4f)
+                    color = color.copy(alpha = 0.025f),
+                    radius = radius,
+                    center = Offset(x, y)
+                )
+                drawCircle(
+                    color = color.copy(alpha = 0.09f),
+                    radius = radius,
+                    center = Offset(x, y),
+                    style = Stroke(1f)
+                )
+                drawCircle(
+                    color = color.copy(alpha = 0.1f),
+                    radius = 1.5f,
+                    center = Offset(x + radius + 6f, y - radius * 0.4f)
                 )
             }
             val danger =
                 (run.board.size - run.columns until run.board.size).any { run.board[it] >= 0 }
             if (danger) {
                 drawLine(
-                    style.hazardColor.copy(alpha = 0.4f + run.rise * 0.6f),
-                    origin, origin + Offset(cell * run.columns, 0f), 1.5f
+                    color = style.hazardColor.copy(alpha = 0.4f + run.rise * 0.6f),
+                    start = origin,
+                    end = origin + Offset(cell * run.columns, 0f),
+                    strokeWidth = 1.5f
                 )
             }
             clipRect(top = run.topInset, bottom = run.height) {
                 for (index in run.board.indices) {
                     val color = run.board[index]
-                    if (color >= 0) drawBubble(style, run.center(index), cell * 0.43f, color)
+                    if (color >= 0) drawBubble(
+                        style = style,
+                        point = run.center(index),
+                        radius = cell * 0.43f,
+                        kind = color
+                    )
                 }
                 for (column in 0 until run.columns) {
                     val center =
                         origin + Offset((column + 0.5f) * cell, (run.rows + 0.5f - run.rise) * cell)
-                    drawBubble(style, center, cell * 0.43f, run.next[column])
+                    drawBubble(
+                        style = style,
+                        point = center,
+                        radius = cell * 0.43f,
+                        kind = run.next[column]
+                    )
                 }
                 for (burst in run.bursts) {
                     drawCircle(
-                        style.accentColor.copy(alpha = burst.life * 2f),
-                        cell * (0.7f - burst.life * 0.5f), burst.point, style = Stroke(1.5f)
+                        color = style.accentColor.copy(alpha = burst.life * 2f),
+                        radius = cell * (0.7f - burst.life * 0.5f),
+                        center = burst.point,
+                        style = Stroke(1.5f)
                     )
                 }
-                run.effects.draw(this, style.accentColor)
-            }
-            repeat(minOf(run.combo, 4)) { index ->
-                pixelRect(style.accentColor, 14f + index * 10f, run.topInset / 2f - 2f, 6f, 4f)
+                run.effects.draw(
+                    scope = this,
+                    color = style.accentColor
+                )
             }
         }
     }
 }
 
-private fun DrawScope.drawBubble(style: ArcadeStyle, point: Offset, radius: Float, kind: Int) {
+private fun DrawScope.drawBubble(
+    style: ArcadeStyle,
+    point: Offset,
+    radius: Float,
+    kind: Int
+) {
     val color = when (kind) {
         0 -> style.playerColor
         1 -> style.accentColor
         2 -> style.obstacleColor
         else -> style.textColor
     }
-    drawCircle(color.copy(alpha = 0.18f), radius, point)
-    drawCircle(color, radius, point, style = Stroke(1.8f))
+    drawCircle(
+        color = color.copy(alpha = 0.18f),
+        radius = radius,
+        center = point
+    )
+    drawCircle(
+        color = color,
+        radius = radius,
+        center = point,
+        style = Stroke(1.8f)
+    )
     drawArc(
-        color.copy(alpha = 0.55f),
-        205f,
-        55f,
-        false,
-        point - Offset(radius * 0.68f, radius * 0.68f),
-        Size(radius * 1.36f, radius * 1.36f),
+        color = color.copy(alpha = 0.55f),
+        startAngle = 205f,
+        sweepAngle = 55f,
+        useCenter = false,
+        topLeft = point - Offset(radius * 0.68f, radius * 0.68f),
+        size = Size(radius * 1.36f, radius * 1.36f),
         style = Stroke(1.5f)
     )
     val r = radius * 0.25f
     when (kind) {
-        0 -> drawCircle(color, r, point)
-        1 -> pixelRect(color, point.x - r, point.y - r, r * 2f, r * 2f)
+        0 -> drawCircle(
+            color = color,
+            radius = r,
+            center = point
+        )
+
+        1 -> pixelRect(
+            color = color,
+            x = point.x - r,
+            y = point.y - r,
+            width = r * 2f,
+            height = r * 2f
+        )
+
         2 -> {
-            drawLine(color, point - Offset(r, 0f), point + Offset(r, 0f), 2f)
-            drawLine(color, point - Offset(0f, r), point + Offset(0f, r), 2f)
+            drawLine(
+                color = color,
+                start = point - Offset(r, 0f),
+                end = point + Offset(r, 0f),
+                strokeWidth = 2f
+            )
+            drawLine(
+                color = color,
+                start = point - Offset(0f, r),
+                end = point + Offset(0f, r),
+                strokeWidth = 2f
+            )
         }
 
         else -> {
-            drawLine(color, point - Offset(r, r), point + Offset(r, r), 2f)
-            drawLine(color, point + Offset(r, -r), point + Offset(-r, r), 2f)
+            drawLine(
+                color = color,
+                start = point - Offset(r, r),
+                end = point + Offset(r, r),
+                strokeWidth = 2f
+            )
+            drawLine(
+                color = color,
+                start = point + Offset(r, -r),
+                end = point + Offset(-r, r),
+                strokeWidth = 2f
+            )
         }
     }
 }
 
-internal data class BubbleBurst(val point: Offset, var life: Float = 0.35f)
+internal data class BubbleBurst(
+    val point: Offset,
+    var life: Float = 0.35f
+)
 
 internal class BubblePopRun : ArcadeRun() {
     var columns = 6
@@ -146,6 +230,7 @@ internal class BubblePopRun : ArcadeRun() {
     var combo = 0
     private var comboTime = 0f
     private var hasSize = false
+    private var advanceRow = false
 
     fun center(index: Int) = origin + Offset(
         (index % columns + 0.5f) * cell,
@@ -159,6 +244,7 @@ internal class BubblePopRun : ArcadeRun() {
         rise = 0f
         combo = 0
         comboTime = 0f
+        advanceRow = false
         repeat(4) { row ->
             fillNext()
             next.copyInto(board, row * columns)
@@ -209,7 +295,10 @@ internal class BubblePopRun : ArcadeRun() {
             val point = center(item)
             if (bursts.size >= 48) bursts.removeAt(0)
             bursts += BubbleBurst(point)
-            effects.burst(point, 3)
+            effects.burst(
+                point = point,
+                count = 3
+            )
             board[item] = -1
         }
         for (column in 0 until columns) {
@@ -227,11 +316,8 @@ internal class BubblePopRun : ArcadeRun() {
                 target++
             }
         }
+        advanceRow = true
         redraw()
-    }
-
-    fun rush() {
-        rise = maxOf(rise, 0.92f)
     }
 
     override fun advance(seconds: Float) {
@@ -241,7 +327,10 @@ internal class BubblePopRun : ArcadeRun() {
         for (index in fall.indices) fall[index] = (fall[index] + seconds * 10f).coerceAtMost(0f)
         comboTime -= seconds
         if (comboTime <= 0f) combo = 0
-        rise += seconds * rows / 6f / maxOf(2.8f, 7f - score * 0.004f)
+        val speed = rows / 6f / maxOf(6f, 12f - score * 0.004f)
+        rise += seconds * if (advanceRow && comboTime < 1.4f && fall.none { it < 0f }) {
+            maxOf(0.85f, speed)
+        } else speed
         if (rise >= 1f) {
             if ((board.size - columns until board.size).any { board[it] >= 0 }) {
                 phase = ArcadePhase.Over
@@ -254,6 +343,7 @@ internal class BubblePopRun : ArcadeRun() {
             next.copyInto(board)
             for (column in 0 until columns) fall[column] = 0f
             rise -= 1f
+            advanceRow = false
             fillNext()
         }
     }
@@ -292,6 +382,7 @@ internal class BubblePopRun : ArcadeRun() {
     }
 
     override fun save(state: Bundle) {
+        state.putBoolean("advanceRow", advanceRow)
         state.putIntArray("layout", intArrayOf(columns, rows))
         state.putIntArray("bubbles", board.copyOf())
         state.putIntArray("next", next.copyOf())
@@ -300,6 +391,7 @@ internal class BubblePopRun : ArcadeRun() {
     }
 
     override fun restore(state: Bundle) {
+        advanceRow = state.getBoolean("advanceRow")
         state.getIntArray("layout")?.let {
             columns = it[0]
             rows = it[1]

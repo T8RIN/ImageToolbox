@@ -41,13 +41,22 @@ fun RicochetGame(
     onHighScoreChanged: ((Int) -> Unit)? = null,
     onGameOver: ((Int) -> Unit)? = null
 ) {
-    val run = rememberArcadeRun(initialState, ::RicochetRun)
+    val run = rememberArcadeRun(
+        initialState = initialState,
+        create = ::RicochetRun
+    )
     val measurer = rememberTextMeasurer()
     ArcadeBoard(
-        ArcadeGame.Ricochet, run, style, modifier, initialState, onHighScoreChanged, onGameOver
+        game = ArcadeGame.Ricochet,
+        run = run,
+        style = style,
+        modifier = modifier,
+        initialState = initialState,
+        onHighScoreChanged = onHighScoreChanged,
+        onGameOver = onGameOver
     ) {
         ArcadeField(
-            run,
+            run = run,
             onPress = run::aim,
             onDrag = run::aim,
             onTap = { run.shoot() },
@@ -59,8 +68,9 @@ fun RicochetGame(
             val rowHeight = run.rowHeight
             for (row in 0..6) for (column in 0..6) {
                 drawCircle(
-                    style.detailColor.copy(alpha = 0.2f), 1f,
-                    run.origin + Offset((column + 0.5f) * cell, (row + 0.5f) * rowHeight)
+                    color = style.detailColor.copy(alpha = 0.2f),
+                    radius = 1f,
+                    center = run.origin + Offset((column + 0.5f) * cell, (row + 0.5f) * rowHeight)
                 )
             }
             for (brick in run.bricks) {
@@ -71,27 +81,27 @@ fun RicochetGame(
                 val center = point + Offset(cell / 2f - 2f, rowHeight / 2f - 2f)
                 if (brick.health == 0) {
                     drawCircle(
-                        style.accentColor.copy(alpha = 0.14f),
-                        minOf(cell, rowHeight) * 0.28f,
-                        center
+                        color = style.accentColor.copy(alpha = 0.14f),
+                        radius = minOf(cell, rowHeight) * 0.28f,
+                        center = center
                     )
                     drawCircle(
-                        style.accentColor,
-                        minOf(cell, rowHeight) * 0.22f,
-                        center,
+                        color = style.accentColor,
+                        radius = minOf(cell, rowHeight) * 0.22f,
+                        center = center,
                         style = Stroke(1.5f)
                     )
                     drawLine(
-                        style.accentColor,
-                        center - Offset(minOf(cell, rowHeight) * 0.1f, 0f),
-                        center + Offset(minOf(cell, rowHeight) * 0.1f, 0f),
-                        2f
+                        color = style.accentColor,
+                        start = center - Offset(minOf(cell, rowHeight) * 0.1f, 0f),
+                        end = center + Offset(minOf(cell, rowHeight) * 0.1f, 0f),
+                        strokeWidth = 2f
                     )
                     drawLine(
-                        style.accentColor,
-                        center - Offset(0f, minOf(cell, rowHeight) * 0.1f),
-                        center + Offset(0f, minOf(cell, rowHeight) * 0.1f),
-                        2f
+                        color = style.accentColor,
+                        start = center - Offset(0f, minOf(cell, rowHeight) * 0.1f),
+                        end = center + Offset(0f, minOf(cell, rowHeight) * 0.1f),
+                        strokeWidth = 2f
                     )
                 } else {
                     val color =
@@ -123,40 +133,42 @@ fun RicochetGame(
             }
             val left = run.origin.x
             drawLine(
-                style.hazardColor.copy(alpha = 0.5f), Offset(left, run.launchY - rowHeight * 0.35f),
-                Offset(left + cell * 7f, run.launchY - rowHeight * 0.35f), 1f
+                color = style.hazardColor.copy(alpha = 0.5f),
+                start = Offset(left, run.launchY - rowHeight * 0.35f),
+                end = Offset(left + cell * 7f, run.launchY - rowHeight * 0.35f),
+                strokeWidth = 1f
             )
             if (!run.flying) {
                 var point = Offset(run.launchX, run.launchY)
-                var direction = run.direction
                 repeat(18) { index ->
-                    point += direction * (rowHeight * 0.32f)
-                    if (point.x < left + radius || point.x > left + cell * 7f - radius) {
-                        point = Offset(
-                            point.x.coerceIn(left + radius, left + cell * 7f - radius),
-                            point.y
-                        )
-                        direction = Offset(-direction.x, direction.y)
-                    }
-                    if (point.y > run.origin.y) {
+                    point += run.direction * (rowHeight * 0.32f)
+                    if (point.x in (left + radius)..(left + cell * 7f - radius) && point.y > run.origin.y) {
                         drawCircle(
-                            style.playerColor.copy(alpha = 0.55f * (1f - index / 20f)),
-                            radius * 0.48f,
-                            point
+                            color = style.playerColor.copy(alpha = 0.55f * (1f - index / 20f)),
+                            radius = radius * 0.48f,
+                            center = point
                         )
                     }
                 }
             }
             for (ball in run.balls) {
                 drawLine(
-                    style.playerColor.copy(alpha = 0.2f),
-                    Offset(ball.x - ball.vx * 0.025f, ball.y - ball.vy * 0.025f),
-                    Offset(ball.x, ball.y),
-                    radius * 1.5f
+                    color = style.playerColor.copy(alpha = 0.2f),
+                    start = Offset(ball.x - ball.vx * 0.025f, ball.y - ball.vy * 0.025f),
+                    end = Offset(ball.x, ball.y),
+                    strokeWidth = radius * 1.5f
                 )
-                drawCircle(style.playerColor, radius, Offset(ball.x, ball.y))
+                drawCircle(
+                    color = style.playerColor,
+                    radius = radius,
+                    center = Offset(ball.x, ball.y)
+                )
             }
-            drawCircle(style.playerColor, radius * 1.3f, Offset(run.launchX, run.launchY))
+            drawCircle(
+                color = style.playerColor,
+                radius = radius * 1.3f,
+                center = Offset(run.launchX, run.launchY)
+            )
             val count =
                 measurer.measure("×${run.ballCount}", style.scoreTextStyle, density = Density(1f))
             drawText(
@@ -164,13 +176,26 @@ fun RicochetGame(
                 style.playerColor,
                 Offset(run.launchX - count.size.width / 2f, run.launchY + radius + 3f)
             )
-            run.effects.draw(this, style.accentColor)
+            run.effects.draw(
+                scope = this,
+                color = style.accentColor
+            )
         }
     }
 }
 
-internal data class RicochetBrick(val column: Int, var row: Int, var health: Int)
-internal data class RicochetBall(var x: Float, var y: Float, var vx: Float, var vy: Float)
+internal data class RicochetBrick(
+    val column: Int,
+    var row: Int,
+    var health: Int
+)
+
+internal data class RicochetBall(
+    var x: Float,
+    var y: Float,
+    var vx: Float,
+    var vy: Float
+)
 
 internal class RicochetRun : ArcadeRun() {
     val cell get() = (width - 32f) / 7f
@@ -296,7 +321,10 @@ internal class RicochetRun : ArcadeRun() {
                     score++
                     if (hit.health == 0) bricks.remove(hit)
                 }
-                effects.burst(Offset(ball.x, ball.y), 5)
+                effects.burst(
+                    point = Offset(ball.x, ball.y),
+                    count = 5
+                )
             }
             // Bring back shallow ricochets so a volley cannot stall the next throw.
             if (flightTime > 6f) ball.vy = maxOf(abs(ball.vy), speed * 0.7f)

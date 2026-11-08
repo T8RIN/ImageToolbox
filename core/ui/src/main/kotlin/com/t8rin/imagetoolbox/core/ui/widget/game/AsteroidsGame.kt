@@ -52,7 +52,10 @@ fun AsteroidsGame(
     onHighScoreChanged: ((Int) -> Unit)? = null,
     onGameOver: ((Int) -> Unit)? = null
 ) {
-    val run = rememberArcadeRun(initialState, ::AsteroidsRun)
+    val run = rememberArcadeRun(
+        initialState = initialState,
+        create = ::AsteroidsRun
+    )
     ArcadeBoard(
         game = ArcadeGame.Asteroids,
         run = run,
@@ -68,71 +71,164 @@ fun AsteroidsGame(
             onDrag = run::aim,
             onRelease = run::stopInput
         ) {
-            arcadeStars(style, run.width, run.height, run.distance)
+            arcadeStars(
+                style = style,
+                width = run.width,
+                height = run.height,
+                drift = run.distance
+            )
             for (rock in run.rocks) {
                 rotate(rock.spin * 180f / PI.toFloat(), Offset(rock.x, rock.y)) {
                     scale(rock.radius / 24f, Offset(rock.x, rock.y)) {
                         drawArcadeSprite(
-                            SpaceBoulder,
-                            style.obstacleColor,
-                            rock.x - 24f,
-                            rock.y - 24f
+                            sprite = SpaceBoulder,
+                            tint = style.obstacleColor,
+                            x = rock.x - 24f,
+                            y = rock.y - 24f
                         )
-                        pixelRect(style.playerDetailColor, rock.x - 12f, rock.y - 11f, 8f, 3f)
-                        pixelRect(style.playerDetailColor, rock.x - 15f, rock.y - 8f, 3f, 7f)
-                        pixelRect(style.playerDetailColor, rock.x + 6f, rock.y + 8f, 7f, 3f)
+                        pixelRect(
+                            color = style.playerDetailColor,
+                            x = rock.x - 12f,
+                            y = rock.y - 11f,
+                            width = 8f,
+                            height = 3f
+                        )
+                        pixelRect(
+                            color = style.playerDetailColor,
+                            x = rock.x - 15f,
+                            y = rock.y - 8f,
+                            width = 3f,
+                            height = 7f
+                        )
+                        pixelRect(
+                            color = style.playerDetailColor,
+                            x = rock.x + 6f,
+                            y = rock.y + 8f,
+                            width = 7f,
+                            height = 3f
+                        )
                     }
                 }
             }
             for (invader in run.invaders) {
-                drawArcadeSprite(SpaceInvader, style.accentColor, invader.x - 20f, invader.y - 12f)
-                pixelRect(style.playerDetailColor, invader.x - 7f, invader.y - 7f, 14f, 5f)
+                drawArcadeSprite(
+                    sprite = SpaceInvader,
+                    tint = style.accentColor,
+                    x = invader.x - 20f,
+                    y = invader.y - 12f
+                )
+                pixelRect(
+                    color = style.playerDetailColor,
+                    x = invader.x - 7f,
+                    y = invader.y - 7f,
+                    width = 14f,
+                    height = 5f
+                )
                 repeat(3) { index ->
                     pixelRect(
-                        style.playerDetailColor,
-                        invader.x - 12f + index * 10f,
-                        invader.y + 2f,
-                        4f,
-                        3f
+                        color = style.playerDetailColor,
+                        x = invader.x - 12f + index * 10f,
+                        y = invader.y + 2f,
+                        width = 4f,
+                        height = 3f
                     )
                 }
                 if (invader.cooldown < 0.35f) {
                     drawCircle(
-                        style.hazardColor.copy(alpha = 0.25f),
-                        9f,
-                        Offset(invader.x, invader.y + 10f)
+                        color = style.hazardColor.copy(alpha = 0.25f),
+                        radius = 9f,
+                        center = Offset(invader.x, invader.y + 10f)
                     )
-                    pixelRect(style.hazardColor, invader.x - 2f, invader.y + 7f, 4f, 7f)
+                    pixelRect(
+                        color = style.hazardColor,
+                        x = invader.x - 2f,
+                        y = invader.y + 7f,
+                        width = 4f,
+                        height = 7f
+                    )
                 }
             }
             for (shot in run.enemyShots) {
                 val point = Offset(shot.x, shot.y)
                 val tail = Offset(shot.vx, shot.vy) * 0.06f
-                drawLine(style.hazardColor.copy(alpha = 0.3f), point - tail, point, 5f)
-                pixelRect(style.hazardColor, shot.x - 2f, shot.y - 3f, 4f, 6f)
+                drawLine(
+                    color = style.hazardColor.copy(alpha = 0.3f),
+                    start = point - tail,
+                    end = point,
+                    strokeWidth = 5f
+                )
+                pixelRect(
+                    color = style.hazardColor,
+                    x = shot.x - 2f,
+                    y = shot.y - 3f,
+                    width = 4f,
+                    height = 6f
+                )
             }
             for (shot in run.shots) {
-                pixelRect(style.accentColor.copy(alpha = 0.2f), shot.x - 2f, shot.y, 4f, 15f)
-                pixelRect(style.accentColor, shot.x - 1.5f, shot.y - 5f, 3f, 10f)
+                pixelRect(
+                    color = style.accentColor.copy(alpha = 0.2f),
+                    x = shot.x - 2f,
+                    y = shot.y,
+                    width = 4f,
+                    height = 15f
+                )
+                pixelRect(
+                    color = style.accentColor,
+                    x = shot.x - 1.5f,
+                    y = shot.y - 5f,
+                    width = 3f,
+                    height = 10f
+                )
             }
             if (run.invincible <= 0f || (run.invincible * 12).toInt() % 2 == 0) {
-                drawArcadeSprite(SpaceShip, style.playerColor, run.x - 13f, run.y - 16f)
-                pixelRect(style.playerDetailColor, run.x - 2f, run.y - 7f, 4f, 10f)
+                drawArcadeSprite(
+                    sprite = SpaceShip,
+                    tint = style.playerColor,
+                    x = run.x - 13f,
+                    y = run.y - 16f
+                )
+                pixelRect(
+                    color = style.playerDetailColor,
+                    x = run.x - 2f,
+                    y = run.y - 7f,
+                    width = 4f,
+                    height = 10f
+                )
                 if (run.phase == ArcadePhase.Running) {
-                    pixelRect(style.accentColor, run.x - 3f, run.y + 12f, 6f, 5f)
-                    pixelRect(style.accentColor, run.x - 1f, run.y + 17f, 2f, 4f)
+                    pixelRect(
+                        color = style.accentColor,
+                        x = run.x - 3f,
+                        y = run.y + 12f,
+                        width = 6f,
+                        height = 5f
+                    )
+                    pixelRect(
+                        color = style.accentColor,
+                        x = run.x - 1f,
+                        y = run.y + 17f,
+                        width = 2f,
+                        height = 4f
+                    )
                 }
             }
             if (run.invincible > 0f) {
                 drawCircle(
-                    style.playerColor.copy(alpha = 0.4f),
-                    22f,
-                    Offset(run.x, run.y),
+                    color = style.playerColor.copy(alpha = 0.4f),
+                    radius = 22f,
+                    center = Offset(run.x, run.y),
                     style = Stroke(1.5f)
                 )
             }
-            run.effects.draw(this, style.accentColor)
-            arcadeLives(style, run.lives, run.topInset / 2f)
+            run.effects.draw(
+                scope = this,
+                color = style.accentColor
+            )
+            arcadeLives(
+                style = style,
+                remaining = run.lives,
+                y = run.topInset / 2f
+            )
         }
     }
 }
@@ -302,11 +398,14 @@ internal class AsteroidsRun : ArcadeRun() {
             if (hit >= 0) {
                 val rock = rocks[hit]
                 rock.health--
-                effects.burst(Offset(shot.x, shot.y), 3)
+                effects.burst(
+                    point = Offset(shot.x, shot.y),
+                    count = 3
+                )
                 if (rock.health <= 0) {
                     rocks.removeAt(hit)
                     score += if (rock.radius > 30f) 30 else 10
-                    effects.burst(Offset(rock.x, rock.y))
+                    effects.burst(point = Offset(rock.x, rock.y))
                     if (rock.radius > 15f) {
                         for (sign in -1..1 step 2) {
                             rocks += SpaceRock(
@@ -319,11 +418,17 @@ internal class AsteroidsRun : ArcadeRun() {
                 iterator.remove()
             } else if (ship != null) {
                 ship.health--
-                effects.burst(Offset(shot.x, shot.y), 4)
+                effects.burst(
+                    point = Offset(shot.x, shot.y),
+                    count = 4
+                )
                 if (ship.health <= 0) {
                     invaders.remove(ship)
                     score += 50
-                    effects.burst(Offset(ship.x, ship.y), 16)
+                    effects.burst(
+                        point = Offset(ship.x, ship.y),
+                        count = 16
+                    )
                 }
                 iterator.remove()
             } else if (shot.life <= 0f || shot.y < -8f) iterator.remove()
@@ -334,7 +439,10 @@ internal class AsteroidsRun : ArcadeRun() {
         if (invincible > 0f) return
         lives--
         invincible = 1.25f
-        effects.burst(Offset(x, y), 12)
+        effects.burst(
+            point = Offset(x, y),
+            count = 12
+        )
         if (lives <= 0) phase = ArcadePhase.Over
     }
 

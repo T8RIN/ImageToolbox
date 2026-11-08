@@ -44,18 +44,42 @@ fun KnifeHitGame(
     onHighScoreChanged: ((Int) -> Unit)? = null,
     onGameOver: ((Int) -> Unit)? = null
 ) {
-    val run = rememberArcadeRun(initialState, ::KnifeHitRun)
+    val run = rememberArcadeRun(
+        initialState = initialState,
+        create = ::KnifeHitRun
+    )
     ArcadeBoard(
-        ArcadeGame.KnifeHit, run, style, modifier, initialState, onHighScoreChanged, onGameOver
+        game = ArcadeGame.KnifeHit,
+        run = run,
+        style = style,
+        modifier = modifier,
+        initialState = initialState,
+        onHighScoreChanged = onHighScoreChanged,
+        onGameOver = onGameOver
     ) {
-        ArcadeField(run, onPress = { run.throwKnife() }) {
+        ArcadeField(
+            run = run,
+            onPress = { run.throwKnife() }
+        ) {
             val center = run.center + Offset(0f, sin(run.impact * PI.toFloat()) * 3f)
             val radius = run.radius
             repeat(20) { index ->
                 val x = (index * 97f + 19f) % run.width
                 val y = (index * 61f + 37f) % run.height
-                pixelRect(style.detailColor.copy(alpha = 0.18f), x, y, 5f, 2f)
-                pixelRect(style.detailColor.copy(alpha = 0.1f), x + 3f, y + 3f, 9f, 1f)
+                pixelRect(
+                    color = style.detailColor.copy(alpha = 0.18f),
+                    x = x,
+                    y = y,
+                    width = 5f,
+                    height = 2f
+                )
+                pixelRect(
+                    color = style.detailColor.copy(alpha = 0.1f),
+                    x = x + 3f,
+                    y = y + 3f,
+                    width = 9f,
+                    height = 1f
+                )
             }
             if (run.transition > 0f) {
                 val progress = 1f - run.transition / 0.6f
@@ -63,57 +87,56 @@ fun KnifeHitGame(
                     val angle = (index * 90f + 45f) * PI.toFloat() / 180f
                     val offset = Offset(cos(angle), sin(angle)) * progress * 42f
                     drawArc(
-                        style.obstacleColor.copy(alpha = 1f - progress),
-                        index * 90f + 3f,
-                        84f,
-                        true,
-                        center + offset - Offset(radius, radius),
-                        Size(radius * 2f, radius * 2f)
+                        color = style.obstacleColor.copy(alpha = 1f - progress),
+                        startAngle = index * 90f + 3f,
+                        sweepAngle = 84f,
+                        useCenter = true,
+                        topLeft = center + offset - Offset(radius, radius),
+                        size = Size(radius * 2f, radius * 2f)
                     )
                 }
             } else {
                 drawCircle(
-                    style.detailColor.copy(alpha = 0.2f),
-                    radius + 3f,
-                    center + Offset(0f, 3f)
+                    color = style.detailColor.copy(alpha = 0.2f),
+                    radius = radius + 3f,
+                    center = center + Offset(0f, 3f)
                 )
-                drawCircle(style.obstacleColor, radius, center)
+                drawCircle(
+                    color = style.obstacleColor,
+                    radius = radius,
+                    center = center
+                )
                 rotate(run.angle, center) {
                     drawCircle(
-                        style.playerDetailColor.copy(alpha = 0.35f),
-                        radius - 5f,
-                        center,
+                        color = style.playerDetailColor.copy(alpha = 0.35f),
+                        radius = radius - 5f,
+                        center = center,
                         style = Stroke(1.5f)
                     )
                     drawCircle(
-                        style.playerDetailColor.copy(alpha = 0.25f),
-                        radius * 0.62f,
-                        center + Offset(3f, -2f),
+                        color = style.playerDetailColor.copy(alpha = 0.25f),
+                        radius = radius * 0.62f,
+                        center = center + Offset(3f, -2f),
                         style = Stroke(2f)
                     )
                     drawCircle(
-                        style.playerDetailColor.copy(alpha = 0.25f),
-                        radius * 0.31f,
-                        center + Offset(4f, -3f),
+                        color = style.playerDetailColor.copy(alpha = 0.25f),
+                        radius = radius * 0.31f,
+                        center = center + Offset(4f, -3f),
                         style = Stroke(1f)
                     )
                     drawCircle(
-                        style.playerDetailColor.copy(alpha = 0.3f),
-                        3f,
-                        center + Offset(5f, -4f)
-                    )
-                    drawArc(
-                        style.playerDetailColor.copy(alpha = 0.4f), 25f, 220f, false,
-                        center - Offset(radius * 0.48f, radius * 0.4f),
-                        Size(radius * 0.8f, radius * 0.74f), style = Stroke(1.5f)
+                        color = style.playerDetailColor.copy(alpha = 0.3f),
+                        radius = 3f,
+                        center = center + Offset(5f, -4f)
                     )
                     repeat(12) { index ->
                         rotate(index * 30f, center) {
                             drawLine(
-                                style.playerDetailColor.copy(alpha = 0.5f),
-                                center + Offset(0f, radius - 8f),
-                                center + Offset(0f, radius - 2f),
-                                2f
+                                color = style.playerDetailColor.copy(alpha = 0.5f),
+                                start = center + Offset(0f, radius - 8f),
+                                end = center + Offset(0f, radius - 2f),
+                                strokeWidth = 2f
                             )
                         }
                     }
@@ -121,41 +144,133 @@ fun KnifeHitGame(
                 for (bonus in run.bonuses) {
                     val angle = (bonus + run.angle) * PI.toFloat() / 180f
                     val point = center + Offset(cos(angle), sin(angle)) * (radius + 12f)
-                    drawArcadeSprite(KnifeApple, style.accentColor, point.x - 9f, point.y - 9f)
-                    pixelRect(style.playerColor, point.x, point.y - 12f, 2f, 7f)
-                    pixelRect(style.playerColor, point.x + 2f, point.y - 12f, 5f, 2f)
-                    pixelRect(style.playerDetailColor, point.x - 5f, point.y - 3f, 2f, 4f)
+                    drawArcadeSprite(
+                        sprite = KnifeApple,
+                        tint = style.accentColor,
+                        x = point.x - 9f,
+                        y = point.y - 9f
+                    )
+                    pixelRect(
+                        color = style.playerColor,
+                        x = point.x,
+                        y = point.y - 12f,
+                        width = 2f,
+                        height = 7f
+                    )
+                    pixelRect(
+                        color = style.playerColor,
+                        x = point.x + 2f,
+                        y = point.y - 12f,
+                        width = 5f,
+                        height = 2f
+                    )
+                    pixelRect(
+                        color = style.playerDetailColor,
+                        x = point.x - 5f,
+                        y = point.y - 3f,
+                        width = 2f,
+                        height = 4f
+                    )
                 }
                 for (knife in run.knives) {
                     rotate(knife + run.angle - 90f, center) {
-                        drawKnife(style, center.x, center.y + radius - 5f)
+                        drawKnife(
+                            style = style,
+                            x = center.x,
+                            y = center.y + radius - 5f
+                        )
                     }
                 }
                 val y = run.launchY + (run.center.y + radius - 5f - run.launchY) * run.flight
                 if (run.flight > 0f) {
-                    pixelRect(style.accentColor.copy(alpha = 0.2f), center.x - 1f, y + 29f, 2f, 18f)
+                    pixelRect(
+                        color = style.accentColor.copy(alpha = 0.2f),
+                        x = center.x - 1f,
+                        y = y + 29f,
+                        width = 2f,
+                        height = 18f
+                    )
                 }
-                drawKnife(style, center.x, y)
+                drawKnife(
+                    style = style,
+                    x = center.x,
+                    y = y
+                )
             }
             repeat(run.total) { index ->
                 val x = run.width / 2f + (index - (run.total - 1) / 2f) * 12f
                 val color =
                     if (index < run.remaining) style.playerColor else style.detailColor.copy(alpha = 0.3f)
-                pixelRect(color, x - 1f, run.height - 17f, 2f, 7f)
-                pixelRect(color, x - 3f, run.height - 10f, 6f, 2f)
-                pixelRect(color, x - 1f, run.height - 8f, 2f, 4f)
+                pixelRect(
+                    color = color,
+                    x = x - 1f,
+                    y = run.height - 17f,
+                    width = 2f,
+                    height = 7f
+                )
+                pixelRect(
+                    color = color,
+                    x = x - 3f,
+                    y = run.height - 10f,
+                    width = 6f,
+                    height = 2f
+                )
+                pixelRect(
+                    color = color,
+                    x = x - 1f,
+                    y = run.height - 8f,
+                    width = 2f,
+                    height = 4f
+                )
             }
-            run.effects.draw(this, style.accentColor)
+            run.effects.draw(
+                scope = this,
+                color = style.accentColor
+            )
         }
     }
 }
 
-private fun DrawScope.drawKnife(style: ArcadeStyle, x: Float, y: Float) {
-    pixelRect(style.textColor, x - 2f, y + 3f, 4f, 17f)
-    pixelRect(style.playerDetailColor, x - 1f, y, 2f, 16f)
-    pixelRect(style.accentColor, x - 5f, y + 18f, 10f, 3f)
-    pixelRect(style.playerColor, x - 3f, y + 21f, 6f, 10f)
-    pixelRect(style.playerDetailColor.copy(alpha = 0.5f), x - 2f, y + 25f, 4f, 1f)
+private fun DrawScope.drawKnife(
+    style: ArcadeStyle,
+    x: Float,
+    y: Float
+) {
+    pixelRect(
+        color = style.textColor,
+        x = x - 2f,
+        y = y + 3f,
+        width = 4f,
+        height = 17f
+    )
+    pixelRect(
+        color = style.playerDetailColor,
+        x = x - 1f,
+        y = y,
+        width = 2f,
+        height = 16f
+    )
+    pixelRect(
+        color = style.accentColor,
+        x = x - 5f,
+        y = y + 18f,
+        width = 10f,
+        height = 3f
+    )
+    pixelRect(
+        color = style.playerColor,
+        x = x - 3f,
+        y = y + 21f,
+        width = 6f,
+        height = 10f
+    )
+    pixelRect(
+        color = style.playerDetailColor.copy(alpha = 0.5f),
+        x = x - 2f,
+        y = y + 25f,
+        width = 4f,
+        height = 1f
+    )
 }
 
 internal class KnifeHitRun : ArcadeRun() {
@@ -164,7 +279,7 @@ internal class KnifeHitRun : ArcadeRun() {
     val effects = ArcadeEffects()
     val radius get() = minOf(64f, (height - topInset) * 0.22f, width * 0.2f)
     val center get() = Offset(width / 2f, topInset + (height - topInset) * 0.34f)
-    val launchY get() = height - 48f
+    val launchY get() = height - 68f
     var angle = 0f
     var flight = 0f
     var remaining = 6
@@ -193,7 +308,12 @@ internal class KnifeHitRun : ArcadeRun() {
         repeat(minOf(3, targets / 2)) { knives += it * 90f + 30f }
         for (index in 0..minOf(2, targets / 2)) {
             val bonus = arcadeAngle(210f + index * 115f + Random.nextFloat() * 25f)
-            if (knives.none { arcadeAngleDistance(it, bonus) < 25f }) bonuses += bonus
+            if (knives.none {
+                    arcadeAngleDistance(
+                        first = it,
+                        second = bonus
+                    ) < 25f
+                }) bonuses += bonus
         }
         flight = 0f
         flying = false
@@ -223,27 +343,46 @@ internal class KnifeHitRun : ArcadeRun() {
         flight += seconds / 0.16f
         if (flight < 1f) return
         val local = arcadeAngle(90f - angle)
-        if (knives.any { arcadeAngleDistance(it, local) < 13f }) {
+        if (knives.any {
+                arcadeAngleDistance(
+                    first = it,
+                    second = local
+                ) < 13f
+            }) {
             flight = 1f
             phase = ArcadePhase.Over
             return
         }
         knives += local
-        val bonus = bonuses.indexOfFirst { arcadeAngleDistance(it, local) < 16f }
+        val bonus = bonuses.indexOfFirst {
+            arcadeAngleDistance(
+                first = it,
+                second = local
+            ) < 16f
+        }
         if (bonus >= 0) {
             bonuses.removeAt(bonus)
             score += 5
-            effects.burst(center + Offset(0f, radius + 12f), 12)
+            effects.burst(
+                point = center + Offset(0f, radius + 12f),
+                count = 12
+            )
         }
         score++
         remaining--
         impact = 1f
-        effects.burst(center + Offset(0f, radius), 5)
+        effects.burst(
+            point = center + Offset(0f, radius),
+            count = 5
+        )
         if (remaining == 0) {
             targets++
             transition = 0.6f
             score += 5
-            effects.burst(center, 16)
+            effects.burst(
+                point = center,
+                count = 16
+            )
         }
         flight = 0f
         flying = false

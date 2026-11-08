@@ -44,11 +44,30 @@ fun RiverHopGame(
     onHighScoreChanged: ((Int) -> Unit)? = null,
     onGameOver: ((Int) -> Unit)? = null
 ) {
-    val run = rememberArcadeRun(initialState, ::RiverHopRun)
+    val run = rememberArcadeRun(
+        initialState = initialState,
+        create = ::RiverHopRun
+    )
     ArcadeBoard(
-        ArcadeGame.RiverHop, run, style, modifier, initialState, onHighScoreChanged, onGameOver
+        game = ArcadeGame.RiverHop,
+        run = run,
+        style = style,
+        modifier = modifier,
+        initialState = initialState,
+        onHighScoreChanged = onHighScoreChanged,
+        onGameOver = onGameOver
     ) {
-        ArcadeField(run, onTap = { run.hop(0, 1) }, onSwipe = run::swipe, swipeOnDrag = true) {
+        ArcadeField(
+            run = run,
+            onTap = {
+                run.hop(
+                    dx = 0,
+                    dy = 1
+                )
+            },
+            onSwipe = run::swipe,
+            swipeOnDrag = true
+        ) {
             val cell = run.cell
             val left = run.left
             for (lane in run.lanes) {
@@ -60,44 +79,80 @@ fun RiverHopGame(
                     else -> style.obstacleColor
                 }
                 pixelRect(
-                    tint.copy(alpha = if (lane.kind == 2) 0.14f else 0.06f),
-                    0f,
-                    y,
-                    run.width,
-                    cell
+                    color = tint.copy(
+                        alpha = when (lane.kind) {
+                            0 -> 0.22f
+                            2 -> 0.18f
+                            else -> 0.035f
+                        }
+                    ),
+                    x = 0f,
+                    y = y,
+                    width = run.width,
+                    height = cell
                 )
                 if (lane.kind == 0) {
+                    pixelRect(
+                        color = style.obstacleColor.copy(alpha = 0.45f),
+                        x = 0f,
+                        y = y,
+                        width = run.width,
+                        height = 2f
+                    )
+                    pixelRect(
+                        color = style.playerDetailColor.copy(alpha = 0.18f),
+                        x = 0f,
+                        y = y + cell - 3f,
+                        width = run.width,
+                        height = 3f
+                    )
                     repeat(9) { column ->
                         val x = left + (column + 0.3f) * cell
                         pixelRect(
-                            style.obstacleColor.copy(alpha = 0.35f),
-                            x,
-                            y + cell * 0.7f,
-                            2f,
-                            4f
+                            color = style.obstacleColor.copy(alpha = 0.7f),
+                            x = x,
+                            y = y + cell * 0.7f,
+                            width = 2f,
+                            height = 4f
                         )
                         pixelRect(
-                            style.obstacleColor.copy(alpha = 0.25f),
-                            x + 4f,
-                            y + cell * 0.75f,
-                            2f,
-                            3f
+                            color = style.obstacleColor.copy(alpha = 0.5f),
+                            x = x + 4f,
+                            y = y + cell * 0.75f,
+                            width = 2f,
+                            height = 3f
                         )
                     }
                     continue
                 }
                 if (lane.kind == 1) {
                     repeat(9) { column ->
-                        pixelRect(style.detailColor, left + column * cell, y + 1f, cell * 0.35f, 1f)
+                        pixelRect(
+                            color = style.textColor.copy(alpha = 0.3f),
+                            x = left + column * cell,
+                            y = y + 1f,
+                            width = cell * 0.4f,
+                            height = 2f
+                        )
                     }
                 } else {
-                    repeat(9) { column ->
+                    repeat(18) { index ->
+                        val x =
+                            left + ((index / 2f + run.water * lane.speed * 0.15f + 90f) % 9f) * cell
+                        val waveY = y + cell * if (index % 2 == 0) 0.12f else 0.86f
                         pixelRect(
-                            style.playerColor.copy(alpha = 0.2f),
-                            left + ((column + run.water * 0.2f) % 9f) * cell,
-                            y + cell * 0.2f,
-                            7f,
-                            1f
+                            color = style.playerColor.copy(alpha = 0.4f),
+                            x = x,
+                            y = waveY,
+                            width = 8f,
+                            height = 1f
+                        )
+                        pixelRect(
+                            color = style.playerColor.copy(alpha = 0.25f),
+                            x = x + 8f,
+                            y = waveY - 1f,
+                            width = 4f,
+                            height = 1f
                         )
                     }
                 }
@@ -107,65 +162,97 @@ fun RiverHopGame(
                     val length = lane.length * cell
                     if (lane.kind == 2) {
                         pixelRect(
-                            style.obstacleColor,
-                            x + 2f,
-                            y + cell * 0.22f,
-                            length - 4f,
-                            cell * 0.58f
+                            color = style.playerDetailColor.copy(alpha = 0.4f),
+                            x = x + 2f,
+                            y = y + cell * 0.25f,
+                            width = length - 4f,
+                            height = cell * 0.62f
                         )
                         pixelRect(
-                            style.accentColor.copy(alpha = 0.35f),
-                            x + 5f,
-                            y + cell * 0.28f,
-                            length - 10f,
-                            2f
+                            color = style.accentColor,
+                            x = x + 2f,
+                            y = y + cell * 0.22f,
+                            width = length - 4f,
+                            height = cell * 0.58f
                         )
                         pixelRect(
-                            style.playerDetailColor.copy(alpha = 0.4f),
-                            x + 5f,
-                            y + cell * 0.45f,
-                            length - 14f,
-                            1f
+                            color = style.obstacleColor,
+                            x = x + 5f,
+                            y = y + cell * 0.28f,
+                            width = length - 10f,
+                            height = 2f
                         )
                         pixelRect(
-                            style.playerDetailColor.copy(alpha = 0.3f),
-                            x + 9f,
-                            y + cell * 0.65f,
-                            length - 18f,
-                            1f
+                            color = style.playerDetailColor.copy(alpha = 0.4f),
+                            x = x + 5f,
+                            y = y + cell * 0.45f,
+                            width = length - 14f,
+                            height = 1f
                         )
                         pixelRect(
-                            style.textColor.copy(alpha = 0.2f),
-                            x + 5f,
-                            y + cell * 0.3f,
-                            2f,
-                            cell * 0.38f
+                            color = style.playerDetailColor.copy(alpha = 0.3f),
+                            x = x + 9f,
+                            y = y + cell * 0.65f,
+                            width = length - 18f,
+                            height = 1f
+                        )
+                        pixelRect(
+                            color = style.playerDetailColor.copy(alpha = 0.45f),
+                            x = x + 5f,
+                            y = y + cell * 0.3f,
+                            width = 2f,
+                            height = cell * 0.38f
                         )
                     } else {
                         val color =
                             if (lane.index % 2 == 0) style.accentColor else style.obstacleColor
                         pixelRect(
-                            style.textColor,
-                            x + 5f,
-                            y + cell * 0.15f,
-                            length - 10f,
-                            cell * 0.7f
+                            color = style.textColor,
+                            x = x + 5f,
+                            y = y + cell * 0.15f,
+                            width = length - 10f,
+                            height = cell * 0.7f
                         )
-                        pixelRect(color, x + 1f, y + cell * 0.23f, length - 2f, cell * 0.54f)
+                        pixelRect(
+                            color = color,
+                            x = x + 1f,
+                            y = y + cell * 0.23f,
+                            width = length - 2f,
+                            height = cell * 0.54f
+                        )
+                        val headlightX = if (lane.speed > 0f) x + length - 3f else x + 1f
+                        val tailLightX = if (lane.speed > 0f) x + 1f else x + length - 3f
+                        repeat(2) { index ->
+                            val edge = if (index == 0) 0.3f else 0.63f
+                            pixelRect(
+                                color = style.textColor,
+                                x = headlightX,
+                                y = y + cell * edge,
+                                width = 2f,
+                                height = 3f
+                            )
+                            pixelRect(
+                                color = style.hazardColor,
+                                x = tailLightX,
+                                y = y + cell * edge,
+                                width = 2f,
+                                height = 3f
+                            )
+                        }
                         val front = if (lane.speed > 0f) x + length * 0.65f else x + length * 0.18f
                         pixelRect(
-                            style.playerDetailColor,
-                            front,
-                            y + cell * 0.29f,
-                            length * 0.17f,
-                            cell * 0.42f
+                            color = style.playerDetailColor,
+                            x = front,
+                            y = y + cell * 0.29f,
+                            width = length * 0.17f,
+                            height = cell * 0.42f
                         )
                         pixelRect(
-                            style.playerDetailColor.copy(alpha = 0.6f),
-                            x + length * 0.4f,
-                            y + cell * 0.29f,
-                            3f,
-                            cell * 0.42f
+                            color = style.playerDetailColor.copy(alpha = 0.6f),
+                            x = x + length * 0.4f,
+                            y = y + cell * 0.29f,
+                            width = 3f,
+                            height = cell * 0.42f
                         )
                     }
                     start += lane.period
@@ -177,23 +264,63 @@ fun RiverHopGame(
             translate(point.x, point.y - lift) {
                 rotate(run.facing, Offset.Zero) {
                     scale(cell * 0.68f / 24f, Offset.Zero) {
-                        drawArcadeSprite(RiverFrog, style.playerColor, -12f, -12f)
-                        pixelRect(style.playerDetailColor, -7f, -8f, 3f, 3f)
-                        pixelRect(style.playerDetailColor, 4f, -8f, 3f, 3f)
-                        pixelRect(style.playerDetailColor.copy(alpha = 0.4f), -4f, 1f, 8f, 3f)
+                        repeat(4) { index ->
+                            val offset = when (index) {
+                                0 -> Offset(-1.5f, 0f)
+                                1 -> Offset(1.5f, 0f)
+                                2 -> Offset(0f, -1.5f)
+                                else -> Offset(0f, 1.5f)
+                            }
+                            drawArcadeSprite(
+                                sprite = RiverFrog,
+                                tint = style.playerDetailColor,
+                                x = -12f + offset.x,
+                                y = -12f + offset.y
+                            )
+                        }
+                        drawArcadeSprite(
+                            sprite = RiverFrog,
+                            tint = style.playerColor,
+                            x = -12f,
+                            y = -12f
+                        )
+                        pixelRect(
+                            color = style.playerDetailColor,
+                            x = -7f,
+                            y = -8f,
+                            width = 3f,
+                            height = 3f
+                        )
+                        pixelRect(
+                            color = style.playerDetailColor,
+                            x = 4f,
+                            y = -8f,
+                            width = 3f,
+                            height = 3f
+                        )
+                        pixelRect(
+                            color = style.playerDetailColor.copy(alpha = 0.4f),
+                            x = -4f,
+                            y = 1f,
+                            width = 8f,
+                            height = 3f
+                        )
                     }
                 }
             }
             pixelRect(
-                style.detailColor.copy(alpha = 0.25f),
-                12f,
-                run.height - 7f,
-                run.width - 24f,
-                2f
+                color = style.detailColor.copy(alpha = 0.25f),
+                x = 12f,
+                y = run.height - 7f,
+                width = run.width - 24f,
+                height = 2f
             )
             pixelRect(
-                if (run.remaining < 2f) style.hazardColor else style.accentColor,
-                12f, run.height - 7f, (run.width - 24f) * run.remaining / 8f, 2f
+                color = if (run.remaining < 2f) style.hazardColor else style.accentColor,
+                x = 12f,
+                y = run.height - 7f,
+                width = (run.width - 24f) * run.remaining / 8f,
+                height = 2f
             )
         }
     }
@@ -272,11 +399,20 @@ internal class RiverHopRun : ArcadeRun() {
     }
 
     fun swipe(delta: Offset) {
-        if (abs(delta.x) > abs(delta.y)) hop(if (delta.x > 0f) 1 else -1, 0)
-        else hop(0, if (delta.y < 0f) 1 else -1)
+        if (abs(delta.x) > abs(delta.y)) hop(
+            dx = if (delta.x > 0f) 1 else -1,
+            dy = 0
+        )
+        else hop(
+            dx = 0,
+            dy = if (delta.y < 0f) 1 else -1
+        )
     }
 
-    fun hop(dx: Int, dy: Int) {
+    fun hop(
+        dx: Int,
+        dy: Int
+    ) {
         if (hopTime > 0f || row + dy < maxOf(0, camera.toInt() - 1)) return
         val nextX = frogX + dx
         if (nextX !in 0.35f..8.65f) return

@@ -37,86 +37,201 @@ fun MissileCommandGame(
     onHighScoreChanged: ((Int) -> Unit)? = null,
     onGameOver: ((Int) -> Unit)? = null
 ) {
-    val run = rememberArcadeRun(initialState, ::MissileCommandRun)
+    val run = rememberArcadeRun(
+        initialState = initialState,
+        create = ::MissileCommandRun
+    )
     ArcadeBoard(
-        ArcadeGame.MissileCommand,
-        run,
-        style,
-        modifier,
-        initialState,
-        onHighScoreChanged,
-        onGameOver
+        game = ArcadeGame.MissileCommand,
+        run = run,
+        style = style,
+        modifier = modifier,
+        initialState = initialState,
+        onHighScoreChanged = onHighScoreChanged,
+        onGameOver = onGameOver
     ) {
-        ArcadeField(run, onPress = run::fire) {
-            arcadeStars(style, run.width, run.height, 0f)
-            arcadeGround(style, run.width, run.ground)
+        ArcadeField(
+            run = run,
+            onPress = run::fire
+        ) {
+            arcadeStars(
+                style = style,
+                width = run.width,
+                height = run.height,
+                drift = 0f
+            )
+            arcadeGround(
+                style = style,
+                width = run.width,
+                y = run.ground
+            )
             for (index in run.cities.indices) {
                 val x = run.cityX(index)
                 if (run.cities[index] == 0) {
-                    pixelRect(style.detailColor, x - 13f, run.ground - 4f, 9f, 4f)
-                    pixelRect(style.detailColor, x + 1f, run.ground - 7f, 5f, 7f)
-                    pixelRect(style.detailColor, x + 8f, run.ground - 3f, 6f, 3f)
+                    pixelRect(
+                        color = style.detailColor,
+                        x = x - 13f,
+                        y = run.ground - 4f,
+                        width = 9f,
+                        height = 4f
+                    )
+                    pixelRect(
+                        color = style.detailColor,
+                        x = x + 1f,
+                        y = run.ground - 7f,
+                        width = 5f,
+                        height = 7f
+                    )
+                    pixelRect(
+                        color = style.detailColor,
+                        x = x + 8f,
+                        y = run.ground - 3f,
+                        width = 6f,
+                        height = 3f
+                    )
                     continue
                 }
-                pixelRect(style.obstacleColor, x - 15f, run.ground - 19f, 10f, 19f)
-                pixelRect(style.obstacleColor, x - 4f, run.ground - 28f, 13f, 28f)
-                pixelRect(style.obstacleColor, x + 10f, run.ground - 14f, 7f, 14f)
+                pixelRect(
+                    color = style.obstacleColor,
+                    x = x - 15f,
+                    y = run.ground - 19f,
+                    width = 10f,
+                    height = 19f
+                )
+                pixelRect(
+                    color = style.obstacleColor,
+                    x = x - 4f,
+                    y = run.ground - 28f,
+                    width = 13f,
+                    height = 28f
+                )
+                pixelRect(
+                    color = style.obstacleColor,
+                    x = x + 10f,
+                    y = run.ground - 14f,
+                    width = 7f,
+                    height = 14f
+                )
                 repeat(3) { row ->
                     pixelRect(
-                        style.playerDetailColor.copy(alpha = 0.75f),
-                        x - 1f,
-                        run.ground - 23f + row * 7f,
-                        3f,
-                        3f
+                        color = style.playerDetailColor.copy(alpha = 0.75f),
+                        x = x - 1f,
+                        y = run.ground - 23f + row * 7f,
+                        width = 3f,
+                        height = 3f
                     )
                     pixelRect(
-                        style.playerDetailColor.copy(alpha = 0.75f),
-                        x + 4f,
-                        run.ground - 23f + row * 7f,
-                        3f,
-                        3f
+                        color = style.playerDetailColor.copy(alpha = 0.75f),
+                        x = x + 4f,
+                        y = run.ground - 23f + row * 7f,
+                        width = 3f,
+                        height = 3f
                     )
                 }
-                pixelRect(style.playerDetailColor, x - 12f, run.ground - 14f, 3f, 4f)
+                pixelRect(
+                    color = style.playerDetailColor,
+                    x = x - 12f,
+                    y = run.ground - 14f,
+                    width = 3f,
+                    height = 4f
+                )
             }
             for (missile in run.missiles) {
                 val point = Offset(missile.x, missile.y)
-                drawLine(style.hazardColor.copy(alpha = 0.4f), Offset(missile.start, 0f), point, 1f)
-                drawCircle(style.hazardColor.copy(alpha = 0.15f), 6f, point)
-                drawCircle(style.hazardColor, 2.5f, point)
+                drawLine(
+                    color = style.hazardColor.copy(alpha = 0.4f),
+                    start = Offset(missile.start, 0f),
+                    end = point,
+                    strokeWidth = 1f
+                )
+                drawCircle(
+                    color = style.hazardColor.copy(alpha = 0.15f),
+                    radius = 6f,
+                    center = point
+                )
+                drawCircle(
+                    color = style.hazardColor,
+                    radius = 2.5f,
+                    center = point
+                )
             }
             for (shot in run.shots) {
                 val point = Offset(shot.x, shot.y)
-                drawLine(style.playerColor.copy(alpha = 0.5f), run.launch, point, 1f)
-                drawCircle(style.playerColor, 2.5f, point)
+                drawLine(
+                    color = style.playerColor.copy(alpha = 0.5f),
+                    start = run.launch,
+                    end = point,
+                    strokeWidth = 1f
+                )
+                drawCircle(
+                    color = style.playerColor,
+                    radius = 2.5f,
+                    center = point
+                )
                 val target = Offset(shot.targetX, shot.targetY)
-                drawLine(style.detailColor, target - Offset(3f, 3f), target + Offset(3f, 3f), 1f)
-                drawLine(style.detailColor, target + Offset(3f, -3f), target + Offset(-3f, 3f), 1f)
+                drawLine(
+                    color = style.detailColor,
+                    start = target - Offset(3f, 3f),
+                    end = target + Offset(3f, 3f),
+                    strokeWidth = 1f
+                )
+                drawLine(
+                    color = style.detailColor,
+                    start = target + Offset(3f, -3f),
+                    end = target + Offset(-3f, 3f),
+                    strokeWidth = 1f
+                )
             }
             for (blast in run.blasts) {
                 val radius = blast.radius * run.blastSize
                 val point = Offset(blast.x, blast.y)
                 val color = if (blast.chain) style.accentColor else style.playerColor
-                drawCircle(color.copy(alpha = 0.12f), radius, point)
-                drawCircle(color, radius, point, style = Stroke(1.5f))
-                drawCircle(color.copy(alpha = 0.3f), radius * 0.72f, point, style = Stroke(1f))
-            }
-            drawArc(
-                style.playerColor,
-                180f,
-                180f,
-                true,
-                run.launch - Offset(14f, 10f),
-                Size(28f, 20f)
-            )
-            pixelRect(style.playerColor, run.launch.x - 3f, run.launch.y - 18f, 6f, 12f)
-            repeat(4) { index ->
-                pixelRect(
-                    if (run.charge >= index + 1) style.accentColor else style.detailColor,
-                    run.launch.x - 14f + index * 8f, run.ground + 6f, 5f, 3f
+                drawCircle(
+                    color = color.copy(alpha = 0.12f),
+                    radius = radius,
+                    center = point
+                )
+                drawCircle(
+                    color = color,
+                    radius = radius,
+                    center = point,
+                    style = Stroke(1.5f)
+                )
+                drawCircle(
+                    color = color.copy(alpha = 0.3f),
+                    radius = radius * 0.72f,
+                    center = point,
+                    style = Stroke(1f)
                 )
             }
-            run.effects.draw(this, style.accentColor)
+            drawArc(
+                color = style.playerColor,
+                startAngle = 180f,
+                sweepAngle = 180f,
+                useCenter = true,
+                topLeft = run.launch - Offset(14f, 10f),
+                size = Size(28f, 20f)
+            )
+            pixelRect(
+                color = style.playerColor,
+                x = run.launch.x - 3f,
+                y = run.launch.y - 18f,
+                width = 6f,
+                height = 12f
+            )
+            repeat(4) { index ->
+                pixelRect(
+                    color = if (run.charge >= index + 1) style.accentColor else style.detailColor,
+                    x = run.launch.x - 14f + index * 8f,
+                    y = run.ground + 6f,
+                    width = 5f,
+                    height = 3f
+                )
+            }
+            run.effects.draw(
+                scope = this,
+                color = style.accentColor
+            )
         }
     }
 }
@@ -129,7 +244,13 @@ internal data class IncomingMissile(
     var speed: Float
 )
 
-internal data class Interceptor(var x: Float, var y: Float, var targetX: Float, var targetY: Float)
+internal data class Interceptor(
+    var x: Float,
+    var y: Float,
+    var targetX: Float,
+    var targetY: Float
+)
+
 internal data class MissileBlast(
     var x: Float,
     var y: Float,
@@ -224,11 +345,17 @@ internal class MissileCommandRun : ArcadeRun() {
                 }) {
                 score += 10
                 blasts += MissileBlast(missile.x, missile.y, 0.2f, true)
-                effects.burst(Offset(missile.x, missile.y), 4)
+                effects.burst(
+                    point = Offset(missile.x, missile.y),
+                    count = 4
+                )
                 iterator.remove()
             } else if (distance <= missile.speed * seconds) {
                 cities[missile.city] = 0
-                effects.burst(Offset(cityX(missile.city), ground - 8f), 12)
+                effects.burst(
+                    point = Offset(cityX(missile.city), ground - 8f),
+                    count = 12
+                )
                 iterator.remove()
             } else {
                 missile.x += dx / distance * missile.speed * seconds
@@ -247,7 +374,7 @@ internal class MissileCommandRun : ArcadeRun() {
             if (wave % 4 == 0) {
                 cities.indices.firstOrNull { cities[it] == 0 }?.let {
                     cities[it] = 1
-                    effects.burst(Offset(cityX(it), ground - 16f))
+                    effects.burst(point = Offset(cityX(it), ground - 16f))
                 }
             }
         }

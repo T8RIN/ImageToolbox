@@ -57,7 +57,10 @@ fun DinoGame(
     onHighScoreChanged: ((Int) -> Unit)? = null,
     onGameOver: ((Int) -> Unit)? = null
 ) {
-    val run = rememberArcadeRun(initialState, ::DinoRun)
+    val run = rememberArcadeRun(
+        initialState = initialState,
+        create = ::DinoRun
+    )
     val haptics = LocalHapticFeedback.current
     val isPaused = LocalArcadePaused.current
     ArcadeBoard(
@@ -100,19 +103,30 @@ private fun DinoTrack(
         modifier = modifier
             .graphicsLayer()
             .onSizeChanged {
-                val scale = trackScale(it.width.toFloat(), it.height.toFloat())
+                val scale = trackScale(
+                    width = it.width.toFloat(),
+                    height = it.height.toFloat()
+                )
                 if (scale > 0f) run.trackWidth = it.width / scale
             }
     ) {
         run.frame
-        val scale = trackScale(size.width, size.height)
+        val scale = trackScale(
+            width = size.width,
+            height = size.height
+        )
         if (scale <= 0f) return@Canvas
 
         val width = size.width / scale
         val ground = size.height / scale - 25f
         val distance = run.distance
 
-        fun DrawScope.drawSprite(sprite: DinoSprite, x: Float, y: Float, tint: Color) {
+        fun DrawScope.drawSprite(
+            sprite: DinoSprite,
+            x: Float,
+            y: Float,
+            tint: Color
+        ) {
             translate(left = x, top = y) {
                 with(painters[sprite.ordinal]) {
                     draw(
@@ -126,15 +140,30 @@ private fun DinoTrack(
         scale(scale = scale, pivot = Offset.Zero) {
             var cloudX = 130f - (distance * 0.16f) % 380f
             while (cloudX < width) {
-                drawSprite(DinoSprite.Cloud, cloudX, ground - 112f, style.detailColor)
-                drawSprite(DinoSprite.Cloud, cloudX + 188f, ground - 144f, style.detailColor)
+                drawSprite(
+                    sprite = DinoSprite.Cloud,
+                    x = cloudX,
+                    y = ground - 112f,
+                    tint = style.detailColor
+                )
+                drawSprite(
+                    sprite = DinoSprite.Cloud,
+                    x = cloudX + 188f,
+                    y = ground - 144f,
+                    tint = style.detailColor
+                )
                 cloudX += 380f
             }
 
             val groundSprite = DinoSprite.Ground
             var groundX = -(distance % groundSprite.width)
             while (groundX < width) {
-                drawSprite(groundSprite, groundX, ground, style.detailColor.copy(alpha = 0.8f))
+                drawSprite(
+                    sprite = groundSprite,
+                    x = groundX,
+                    y = ground,
+                    tint = style.detailColor.copy(alpha = 0.8f)
+                )
                 groundX += groundSprite.width
             }
 
@@ -154,12 +183,20 @@ private fun DinoTrack(
                 (distance / 24f).toInt() % 2 == 0 -> DinoSprite.DinoLeft
                 else -> DinoSprite.DinoRight
             }
-            drawSprite(dino, DinoX, ground - dino.height - run.jumpHeight, style.playerColor)
+            drawSprite(
+                sprite = dino,
+                x = DinoX,
+                y = ground - dino.height - run.jumpHeight,
+                tint = style.playerColor
+            )
         }
     }
 }
 
-private fun trackScale(width: Float, height: Float): Float = minOf(width / 320f, height / 210f)
+private fun trackScale(
+    width: Float,
+    height: Float
+): Float = minOf(width / 320f, height / 210f)
 
 private const val DinoX = 24f
 

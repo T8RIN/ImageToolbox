@@ -49,19 +49,49 @@ fun WhackAMoleGame(
     onHighScoreChanged: ((Int) -> Unit)? = null,
     onGameOver: ((Int) -> Unit)? = null
 ) {
-    val run = rememberArcadeRun(initialState, ::WhackAMoleRun)
+    val run = rememberArcadeRun(
+        initialState = initialState,
+        create = ::WhackAMoleRun
+    )
     ArcadeBoard(
-        ArcadeGame.WhackAMole, run, style, modifier, initialState, onHighScoreChanged, onGameOver
+        game = ArcadeGame.WhackAMole,
+        run = run,
+        style = style,
+        modifier = modifier,
+        initialState = initialState,
+        onHighScoreChanged = onHighScoreChanged,
+        onGameOver = onGameOver
     ) {
-        ArcadeField(run, onPress = run::hit) {
+        ArcadeField(
+            run = run,
+            onPress = run::hit
+        ) {
             repeat(28) { index ->
                 val x = ((index * 73 + index * index * 17 + 29) % 347) / 347f * run.width
                 val y =
                     run.topInset + ((index * 113 + index * index * 47 + 13) % 431) / 431f * (run.height - run.topInset)
                 val color = style.obstacleColor.copy(alpha = 0.14f + index % 3 * 0.04f)
-                pixelRect(color, x, y, 2f, 5f)
-                pixelRect(color, x - 3f, y - 2f, 2f, 4f)
-                pixelRect(color, x + 3f, y - 3f, 2f, 5f)
+                pixelRect(
+                    color = color,
+                    x = x,
+                    y = y,
+                    width = 2f,
+                    height = 5f
+                )
+                pixelRect(
+                    color = color,
+                    x = x - 3f,
+                    y = y - 2f,
+                    width = 2f,
+                    height = 4f
+                )
+                pixelRect(
+                    color = color,
+                    x = x + 3f,
+                    y = y - 3f,
+                    width = 2f,
+                    height = 5f
+                )
             }
             for (index in 0..8) {
                 val center = run.hole(index)
@@ -69,60 +99,196 @@ fun WhackAMoleGame(
                 translate(center.x, center.y) {
                     scale(unit, Offset.Zero) {
                         drawArcadeSprite(
-                            MoleHole,
-                            style.obstacleColor.copy(alpha = 0.16f),
-                            -29f,
-                            5f
+                            sprite = MoleHole,
+                            tint = style.obstacleColor.copy(alpha = 0.16f),
+                            x = -29f,
+                            y = 5f
                         )
-                        pixelRect(style.overlayColor.copy(alpha = 0.65f), -21f, 8f, 42f, 9f)
-                        pixelRect(style.overlayColor.copy(alpha = 0.65f), -25f, 11f, 50f, 3f)
+                        pixelRect(
+                            color = style.overlayColor.copy(alpha = 0.65f),
+                            x = -21f,
+                            y = 8f,
+                            width = 42f,
+                            height = 9f
+                        )
+                        pixelRect(
+                            color = style.overlayColor.copy(alpha = 0.65f),
+                            x = -25f,
+                            y = 11f,
+                            width = 50f,
+                            height = 3f
+                        )
                         val type = run.types[index]
                         if (type != 0) {
                             val rise = minOf(1f, run.ages[index] / 0.12f, run.timers[index] / 0.18f)
                             val y = 15f - rise * 42f
                             clipRect(left = -30f, top = -42f, right = 30f, bottom = 12f) {
                                 if (type == 1) {
-                                    drawArcadeSprite(ArcadeMole, style.obstacleColor, -20f, y)
-                                    pixelRect(style.accentColor, -14f, y + 7f, 5f, 5f)
-                                    pixelRect(style.accentColor, 9f, y + 7f, 5f, 5f)
-                                    pixelRect(style.playerDetailColor, -10f, y + 15f, 5f, 6f)
-                                    pixelRect(style.playerDetailColor, 5f, y + 15f, 5f, 6f)
-                                    pixelRect(style.textColor, -8f, y + 17f, 2f, 3f)
-                                    pixelRect(style.textColor, 6f, y + 17f, 2f, 3f)
-                                    pixelRect(style.accentColor, -9f, y + 24f, 18f, 8f)
-                                    pixelRect(style.accentColor, -6f, y + 22f, 12f, 12f)
-                                    pixelRect(style.playerDetailColor, -3f, y + 24f, 6f, 3f)
-                                    pixelRect(style.playerDetailColor, -3f, y + 34f, 6f, 4f)
-                                    pixelRect(style.obstacleColor, -1f, y + 34f, 2f, 4f)
+                                    drawArcadeSprite(
+                                        sprite = ArcadeMole,
+                                        tint = style.obstacleColor,
+                                        x = -20f,
+                                        y = y
+                                    )
+                                    pixelRect(
+                                        color = style.accentColor,
+                                        x = -14f,
+                                        y = y + 7f,
+                                        width = 5f,
+                                        height = 5f
+                                    )
+                                    pixelRect(
+                                        color = style.accentColor,
+                                        x = 9f,
+                                        y = y + 7f,
+                                        width = 5f,
+                                        height = 5f
+                                    )
+                                    pixelRect(
+                                        color = style.playerDetailColor,
+                                        x = -10f,
+                                        y = y + 15f,
+                                        width = 5f,
+                                        height = 6f
+                                    )
+                                    pixelRect(
+                                        color = style.playerDetailColor,
+                                        x = 5f,
+                                        y = y + 15f,
+                                        width = 5f,
+                                        height = 6f
+                                    )
+                                    pixelRect(
+                                        color = style.textColor,
+                                        x = -8f,
+                                        y = y + 17f,
+                                        width = 2f,
+                                        height = 3f
+                                    )
+                                    pixelRect(
+                                        color = style.textColor,
+                                        x = 6f,
+                                        y = y + 17f,
+                                        width = 2f,
+                                        height = 3f
+                                    )
+                                    pixelRect(
+                                        color = style.accentColor,
+                                        x = -9f,
+                                        y = y + 24f,
+                                        width = 18f,
+                                        height = 8f
+                                    )
+                                    pixelRect(
+                                        color = style.accentColor,
+                                        x = -6f,
+                                        y = y + 22f,
+                                        width = 12f,
+                                        height = 12f
+                                    )
+                                    pixelRect(
+                                        color = style.playerDetailColor,
+                                        x = -3f,
+                                        y = y + 24f,
+                                        width = 6f,
+                                        height = 3f
+                                    )
+                                    pixelRect(
+                                        color = style.playerDetailColor,
+                                        x = -3f,
+                                        y = y + 34f,
+                                        width = 6f,
+                                        height = 4f
+                                    )
+                                    pixelRect(
+                                        color = style.obstacleColor,
+                                        x = -1f,
+                                        y = y + 34f,
+                                        width = 2f,
+                                        height = 4f
+                                    )
                                 } else {
-                                    drawArcadeSprite(MoleMine, style.hazardColor, -20f, y + 2f)
+                                    drawArcadeSprite(
+                                        sprite = MoleMine,
+                                        tint = style.hazardColor,
+                                        x = -20f,
+                                        y = y + 2f
+                                    )
                                     repeat(4) { pixel ->
                                         pixelRect(
-                                            style.playerDetailColor,
-                                            -7f + pixel * 4f,
-                                            y + 14f + pixel * 4f,
-                                            3f,
-                                            3f
+                                            color = style.playerDetailColor,
+                                            x = -7f + pixel * 4f,
+                                            y = y + 14f + pixel * 4f,
+                                            width = 3f,
+                                            height = 3f
                                         )
                                         pixelRect(
-                                            style.playerDetailColor,
-                                            5f - pixel * 4f,
-                                            y + 14f + pixel * 4f,
-                                            3f,
-                                            3f
+                                            color = style.playerDetailColor,
+                                            x = 5f - pixel * 4f,
+                                            y = y + 14f + pixel * 4f,
+                                            width = 3f,
+                                            height = 3f
                                         )
                                     }
                                 }
                             }
                         }
-                        pixelRect(style.obstacleColor.copy(alpha = 0.32f), -22f, 16f, 44f, 5f)
-                        pixelRect(style.obstacleColor.copy(alpha = 0.18f), -17f, 21f, 34f, 3f)
-                        pixelRect(style.playerColor.copy(alpha = 0.7f), -29f, 10f, 3f, 8f)
-                        pixelRect(style.playerColor.copy(alpha = 0.7f), -32f, 8f, 3f, 6f)
-                        pixelRect(style.playerColor.copy(alpha = 0.7f), 25f, 8f, 3f, 10f)
-                        pixelRect(style.playerColor.copy(alpha = 0.7f), 29f, 5f, 3f, 9f)
-                        pixelRect(style.playerDetailColor.copy(alpha = 0.25f), -15f, 17f, 5f, 2f)
-                        pixelRect(style.playerDetailColor.copy(alpha = 0.25f), 9f, 19f, 4f, 2f)
+                        pixelRect(
+                            color = style.obstacleColor.copy(alpha = 0.32f),
+                            x = -22f,
+                            y = 16f,
+                            width = 44f,
+                            height = 5f
+                        )
+                        pixelRect(
+                            color = style.obstacleColor.copy(alpha = 0.18f),
+                            x = -17f,
+                            y = 21f,
+                            width = 34f,
+                            height = 3f
+                        )
+                        pixelRect(
+                            color = style.playerColor.copy(alpha = 0.7f),
+                            x = -29f,
+                            y = 10f,
+                            width = 3f,
+                            height = 8f
+                        )
+                        pixelRect(
+                            color = style.playerColor.copy(alpha = 0.7f),
+                            x = -32f,
+                            y = 8f,
+                            width = 3f,
+                            height = 6f
+                        )
+                        pixelRect(
+                            color = style.playerColor.copy(alpha = 0.7f),
+                            x = 25f,
+                            y = 8f,
+                            width = 3f,
+                            height = 10f
+                        )
+                        pixelRect(
+                            color = style.playerColor.copy(alpha = 0.7f),
+                            x = 29f,
+                            y = 5f,
+                            width = 3f,
+                            height = 9f
+                        )
+                        pixelRect(
+                            color = style.playerDetailColor.copy(alpha = 0.25f),
+                            x = -15f,
+                            y = 17f,
+                            width = 5f,
+                            height = 2f
+                        )
+                        pixelRect(
+                            color = style.playerDetailColor.copy(alpha = 0.25f),
+                            x = 9f,
+                            y = 19f,
+                            width = 4f,
+                            height = 2f
+                        )
                         if (run.hits[index] > 0f) {
                             val length = 8f + (0.3f - run.hits[index]) * 20f
                             val color = style.accentColor.copy(
@@ -131,24 +297,40 @@ fun WhackAMoleGame(
                                     1f
                                 )
                             )
-                            pixelRect(color, -2f, -19f - length, 4f, length * 2f)
-                            pixelRect(color, -length, -21f, length * 2f, 4f)
-                            pixelRect(color, -8f, -27f, 16f, 16f)
+                            pixelRect(
+                                color = color,
+                                x = -2f,
+                                y = -19f - length,
+                                width = 4f,
+                                height = length * 2f
+                            )
+                            pixelRect(
+                                color = color,
+                                x = -length,
+                                y = -21f,
+                                width = length * 2f,
+                                height = 4f
+                            )
+                            pixelRect(
+                                color = color,
+                                x = -8f,
+                                y = -27f,
+                                width = 16f,
+                                height = 16f
+                            )
                         }
                     }
                 }
             }
-            repeat(minOf(run.combo, 10)) { index ->
-                pixelRect(
-                    style.accentColor,
-                    run.width / 2f + (index - 4.5f) * 9f,
-                    run.height - 9f,
-                    5f,
-                    2f
-                )
-            }
-            run.effects.draw(this, style.accentColor)
-            arcadeLives(style, 3 - run.misses, run.topInset / 2f)
+            run.effects.draw(
+                scope = this,
+                color = style.accentColor
+            )
+            arcadeLives(
+                style = style,
+                remaining = 3 - run.misses,
+                y = run.topInset / 2f
+            )
         }
     }
 }
@@ -196,7 +378,7 @@ internal class WhackAMoleRun : ArcadeRun() {
                 hits[index] = 0.3f
                 combo++
                 score += 1 + minOf(combo / 5, 4)
-                effects.burst(hole(index) - Offset(0f, cell * 0.2f))
+                effects.burst(point = hole(index) - Offset(0f, cell * 0.2f))
             }
 
             2 -> {

@@ -42,7 +42,10 @@ fun TetrisGame(
     onHighScoreChanged: ((Int) -> Unit)? = null,
     onGameOver: ((Int) -> Unit)? = null
 ) {
-    val run = rememberArcadeRun(initialState, ::TetrisRun)
+    val run = rememberArcadeRun(
+        initialState = initialState,
+        create = ::TetrisRun
+    )
     ArcadeBoard(
         game = ArcadeGame.Tetris,
         run = run,
@@ -69,17 +72,17 @@ fun TetrisGame(
             for (column in 1 until TetrisColumns) {
                 val x = origin.x + column * cell
                 drawLine(
-                    style.detailColor.copy(alpha = 0.12f),
-                    Offset(x, origin.y),
-                    Offset(x, origin.y + boardSize.height)
+                    color = style.detailColor.copy(alpha = 0.12f),
+                    start = Offset(x, origin.y),
+                    end = Offset(x, origin.y + boardSize.height)
                 )
             }
             for (row in 1 until TetrisRows) {
                 val y = origin.y + row * cell
                 drawLine(
-                    style.detailColor.copy(alpha = 0.12f),
-                    Offset(origin.x, y),
-                    Offset(origin.x + boardSize.width, y)
+                    color = style.detailColor.copy(alpha = 0.12f),
+                    start = Offset(origin.x, y),
+                    end = Offset(origin.x + boardSize.width, y)
                 )
             }
             drawRect(style.detailColor, origin, boardSize, style = Stroke(1f))
@@ -129,9 +132,9 @@ fun TetrisGame(
                         val scale =
                             if (row in run.clearing) 1f - run.clearTime / ClearDuration else 1f
                         block(
-                            origin + Offset(index % TetrisColumns * cell, row * cell),
-                            cell,
-                            value - 1,
+                            point = origin + Offset(index % TetrisColumns * cell, row * cell),
+                            size = cell,
+                            type = value - 1,
                             scale = scale
                         )
                     }
@@ -141,17 +144,22 @@ fun TetrisGame(
                     for (point in run.cells()) {
                         if (ghostY + point.y >= 0) {
                             block(
-                                origin + Offset(
+                                point = origin + Offset(
                                     (run.x + point.x) * cell,
                                     (ghostY + point.y) * cell
-                                ), cell, run.piece.ordinal, ghost = true
+                                ),
+                                size = cell,
+                                type = run.piece.ordinal,
+                                ghost = true
                             )
                         }
                         block(
-                            origin + Offset(
+                            point = origin + Offset(
                                 (run.x + point.x) * cell,
                                 (run.drawY + point.y) * cell
-                            ), cell, run.piece.ordinal
+                            ),
+                            size = cell,
+                            type = run.piece.ordinal
                         )
                     }
                 }
@@ -163,19 +171,22 @@ fun TetrisGame(
             val previewHeight = (preview.maxOf { it.y } - top + 1) * previewCell
             for (point in preview) {
                 block(
-                    Offset(
+                    point = Offset(
                         14f + (point.x - left) * previewCell,
                         (run.topInset - previewHeight) / 2 + (point.y - top) * previewCell
                     ),
-                    previewCell,
-                    run.next.ordinal
+                    size = previewCell,
+                    type = run.next.ordinal
                 )
             }
         }
     }
 }
 
-private data class TetrisCell(val x: Int, val y: Int)
+private data class TetrisCell(
+    val x: Int,
+    val y: Int
+)
 
 private enum class Tetromino(val shape: List<TetrisCell>) {
     I(listOf(TetrisCell(0, 1), TetrisCell(1, 1), TetrisCell(2, 1), TetrisCell(3, 1))),
@@ -261,12 +272,21 @@ private class TetrisRun : ArcadeRun() {
         elapsed = 0f
         lockTime = 0f
         lockResets = 0
-        if (!fits(x, y, rotation)) phase = ArcadePhase.Over
+        if (!fits(
+                x = x,
+                y = y,
+                rotation = rotation
+            )
+        ) phase = ArcadePhase.Over
     }
 
     fun cells() = piece.cells(rotation)
 
-    private fun fits(x: Int, y: Int, rotation: Int): Boolean = piece.cells(rotation).all {
+    private fun fits(
+        x: Int,
+        y: Int,
+        rotation: Int
+    ): Boolean = piece.cells(rotation).all {
         val px = x + it.x
         val py = y + it.y
         px in 0 until TetrisColumns && py in -2 until TetrisRows &&
@@ -297,8 +317,17 @@ private class TetrisRun : ArcadeRun() {
             val amount = ((point.x - dragX) / cellSize).toInt()
             val direction = if (amount > 0) 1 else -1
             repeat(abs(amount).coerceAtMost(TetrisColumns)) {
-                val grounded = !fits(x, y + 1, rotation)
-                if (fits(x + direction, y, rotation)) {
+                val grounded = !fits(
+                    x = x,
+                    y = y + 1,
+                    rotation = rotation
+                )
+                if (fits(
+                        x = x + direction,
+                        y = y,
+                        rotation = rotation
+                    )
+                ) {
                     x += direction
                     if (grounded) resetLock()
                 }
@@ -339,9 +368,18 @@ private class TetrisRun : ArcadeRun() {
                 else -> listOf(-1 to 0, -1 to 1, 0 to -2, -1 to -2)
             }
         }
-        val grounded = !fits(x, y + 1, rotation)
+        val grounded = !fits(
+            x = x,
+            y = y + 1,
+            rotation = rotation
+        )
         for ((dx, dy) in listOf(0 to 0) + kicks) {
-            if (fits(x + dx, y + dy, nextRotation)) {
+            if (fits(
+                    x = x + dx,
+                    y = y + dy,
+                    rotation = nextRotation
+                )
+            ) {
                 x += dx
                 y += dy
                 drawY = y.toFloat()
@@ -361,7 +399,12 @@ private class TetrisRun : ArcadeRun() {
 
     fun landingY(): Int {
         var result = y
-        while (fits(x, result + 1, rotation)) result++
+        while (fits(
+                x = x,
+                y = result + 1,
+                rotation = rotation
+            )
+        ) result++
         return result
     }
 
@@ -418,13 +461,23 @@ private class TetrisRun : ArcadeRun() {
         val interval = if (held) 0.045f else (0.72f * 0.82f.pow(lines / 10)).coerceAtLeast(0.08f)
         while (elapsed >= interval) {
             elapsed -= interval
-            if (fits(x, y + 1, rotation)) {
+            if (fits(
+                    x = x,
+                    y = y + 1,
+                    rotation = rotation
+                )
+            ) {
                 y++
                 if (held) score++
             }
         }
         drawY = y.toFloat()
-        if (!fits(x, y + 1, rotation)) {
+        if (!fits(
+                x = x,
+                y = y + 1,
+                rotation = rotation
+            )
+        ) {
             lockTime += seconds
             if (lockTime >= 0.5f) lock()
         } else lockTime = 0f

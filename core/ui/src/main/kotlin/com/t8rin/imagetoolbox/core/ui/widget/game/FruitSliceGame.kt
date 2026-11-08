@@ -67,7 +67,10 @@ fun FruitSliceGame(
     onHighScoreChanged: ((Int) -> Unit)? = null,
     onGameOver: ((Int) -> Unit)? = null
 ) {
-    val run = rememberArcadeRun(initialState, ::FruitSliceRun)
+    val run = rememberArcadeRun(
+        initialState = initialState,
+        create = ::FruitSliceRun
+    )
     ArcadeBoard(
         game = ArcadeGame.FruitSlice,
         run = run,
@@ -87,158 +90,231 @@ fun FruitSliceGame(
             repeat((run.width / plank).toInt() + 1) { index ->
                 val x = index * plank
                 pixelRect(
-                    style.obstacleColor.copy(alpha = if (index % 2 == 0) 0.05f else 0.02f),
-                    x,
-                    0f,
-                    plank - 2f,
-                    run.height
+                    color = style.obstacleColor.copy(alpha = if (index % 2 == 0) 0.05f else 0.02f),
+                    x = x,
+                    y = 0f,
+                    width = plank - 2f,
+                    height = run.height
                 )
-                pixelRect(style.detailColor.copy(alpha = 0.18f), x, 0f, 1f, run.height)
+                pixelRect(
+                    color = style.detailColor.copy(alpha = 0.18f),
+                    x = x,
+                    y = 0f,
+                    width = 1f,
+                    height = run.height
+                )
                 repeat(5) { grain ->
                     val y = (index * 71f + grain * 103f + 39f) % run.height
                     pixelRect(
-                        style.detailColor.copy(alpha = 0.22f),
-                        x + 10f + grain % 3 * 12f,
-                        y,
-                        1f,
-                        17f + grain * 3f
+                        color = style.detailColor.copy(alpha = 0.22f),
+                        x = x + 10f + grain % 3 * 12f,
+                        y = y,
+                        width = 1f,
+                        height = 17f + grain * 3f
                     )
                     pixelRect(
-                        style.detailColor.copy(alpha = 0.14f),
-                        x + 13f + grain % 3 * 12f,
-                        y + 8f,
-                        1f,
-                        12f
+                        color = style.detailColor.copy(alpha = 0.14f),
+                        x = x + 13f + grain % 3 * 12f,
+                        y = y + 8f,
+                        width = 1f,
+                        height = 12f
                     )
                 }
             }
-            repeat(minOf(run.combo, 5)) { index ->
-                pixelRect(style.accentColor, 16f + index * 10f, run.topInset / 2f + 10f, 6f, 2f)
-            }
-            for (fruit in run.fruits) {
-                rotate(fruit.angle, Offset(fruit.x, fruit.y)) {
-                    val x = fruit.x - 18f
-                    val y = fruit.y - 18f
-                    if (fruit.bomb) {
-                        drawArcadeSprite(SliceBomb, style.textColor, x, y)
-                        pixelRect(style.accentColor, x + 23f, y - 4f, 3f, 5f)
-                        pixelRect(style.accentColor, x + 28f, y - 7f, 3f, 3f)
-                        drawLine(
-                            style.playerDetailColor,
-                            Offset(x + 13f, y + 13f),
-                            Offset(x + 23f, y + 23f),
-                            3f
+            for ((x1, y1, _, _, bomb, kind, angle) in run.fruits) {
+                rotate(angle, Offset(x1, y1)) {
+                    val x = x1 - 18f
+                    val y = y1 - 18f
+                    if (bomb) {
+                        drawArcadeSprite(
+                            sprite = SliceBomb,
+                            tint = style.textColor,
+                            x = x,
+                            y = y
+                        )
+                        pixelRect(
+                            color = style.accentColor,
+                            x = x + 23f,
+                            y = y - 4f,
+                            width = 3f,
+                            height = 5f
+                        )
+                        pixelRect(
+                            color = style.accentColor,
+                            x = x + 28f,
+                            y = y - 7f,
+                            width = 3f,
+                            height = 3f
                         )
                         drawLine(
-                            style.playerDetailColor,
-                            Offset(x + 23f, y + 13f),
-                            Offset(x + 13f, y + 23f),
-                            3f
+                            color = style.playerDetailColor,
+                            start = Offset(x + 13f, y + 13f),
+                            end = Offset(x + 23f, y + 23f),
+                            strokeWidth = 3f
+                        )
+                        drawLine(
+                            color = style.playerDetailColor,
+                            start = Offset(x + 23f, y + 13f),
+                            end = Offset(x + 13f, y + 23f),
+                            strokeWidth = 3f
                         )
                     } else {
-                        val color = fruitColor(style, fruit.kind)
-                        val sprite = when (fruit.kind) {
+                        val color = fruitColor(
+                            style = style,
+                            kind = kind
+                        )
+                        val sprite = when (kind) {
                             0 -> SliceApple
                             2 -> SlicePear
                             3 -> SliceMelon
                             4 -> SliceBerry
                             else -> SliceOrange
                         }
-                        drawArcadeSprite(sprite, color, x, y)
-                        if (fruit.kind == 4) {
+                        drawArcadeSprite(
+                            sprite = sprite,
+                            tint = color,
+                            x = x,
+                            y = y
+                        )
+                        if (kind == 4) {
                             repeat(6) { seed ->
                                 pixelRect(
-                                    style.playerDetailColor, x + 9f + seed % 3 * 7f,
-                                    y + 11f + seed / 3 * 8f, 2f, 3f
+                                    color = style.playerDetailColor,
+                                    x = x + 9f + seed % 3 * 7f,
+                                    y = y + 11f + seed / 3 * 8f,
+                                    width = 2f,
+                                    height = 3f
                                 )
                             }
-                            pixelRect(style.obstacleColor, x + 6f, y + 1f, 24f, 3f)
-                            pixelRect(style.obstacleColor, x + 13f, y, 4f, 7f)
-                        } else if (fruit.kind == 3) {
+                            pixelRect(
+                                color = style.obstacleColor,
+                                x = x + 6f,
+                                y = y + 1f,
+                                width = 24f,
+                                height = 3f
+                            )
+                            pixelRect(
+                                color = style.obstacleColor,
+                                x = x + 13f,
+                                y = y,
+                                width = 4f,
+                                height = 7f
+                            )
+                        } else if (kind == 3) {
                             repeat(3) { stripe ->
                                 pixelRect(
-                                    style.playerDetailColor.copy(alpha = 0.45f),
-                                    x + 8f + stripe * 8f,
-                                    y + 7f,
-                                    3f,
-                                    22f
+                                    color = style.playerDetailColor.copy(alpha = 0.45f),
+                                    x = x + 8f + stripe * 8f,
+                                    y = y + 7f,
+                                    width = 3f,
+                                    height = 22f
                                 )
                             }
                         } else {
                             pixelRect(
-                                style.playerDetailColor.copy(alpha = 0.7f),
-                                x + 6f,
-                                y + 10f,
-                                3f,
-                                8f
+                                color = style.playerDetailColor.copy(alpha = 0.7f),
+                                x = x + 6f,
+                                y = y + 10f,
+                                width = 3f,
+                                height = 8f
                             )
-                            if (fruit.kind == 1) repeat(5) { dot ->
+                            if (kind == 1) repeat(5) { dot ->
                                 pixelRect(
-                                    style.playerDetailColor.copy(alpha = 0.35f),
-                                    x + 14f + dot % 3 * 5f,
-                                    y + 17f + dot / 3 * 7f,
-                                    2f,
-                                    2f
+                                    color = style.playerDetailColor.copy(alpha = 0.35f),
+                                    x = x + 14f + dot % 3 * 5f,
+                                    y = y + 17f + dot / 3 * 7f,
+                                    width = 2f,
+                                    height = 2f
                                 )
                             }
                         }
-                        pixelRect(style.obstacleColor, x + 17f, y - 3f, 3f, 7f)
-                        pixelRect(style.obstacleColor, x + 20f, y - 4f, 8f, 3f)
                         pixelRect(
-                            style.playerDetailColor.copy(alpha = 0.25f),
-                            x + 21f,
-                            y - 3f,
-                            5f,
-                            1f
+                            color = style.obstacleColor,
+                            x = x + 17f,
+                            y = y - 3f,
+                            width = 3f,
+                            height = 7f
+                        )
+                        pixelRect(
+                            color = style.obstacleColor,
+                            x = x + 20f,
+                            y = y - 4f,
+                            width = 8f,
+                            height = 3f
+                        )
+                        pixelRect(
+                            color = style.playerDetailColor.copy(alpha = 0.25f),
+                            x = x + 21f,
+                            y = y - 3f,
+                            width = 5f,
+                            height = 1f
                         )
                     }
                 }
             }
             for (piece in run.pieces) {
                 val color =
-                    fruitColor(style, piece.kind).copy(alpha = (piece.life / 0.8f).coerceIn(0f, 1f))
+                    fruitColor(
+                        style = style,
+                        kind = piece.kind
+                    ).copy(alpha = (piece.life / 0.8f).coerceIn(0f, 1f))
                 rotate(piece.angle + (0.8f - piece.life) * piece.vx, Offset(piece.x, piece.y)) {
-                    drawArcadeSprite(SlicedFruit, color, piece.x - 17f, piece.y - 9f)
-                    pixelRect(
-                        style.playerDetailColor.copy(alpha = piece.life),
-                        piece.x - 6f,
-                        piece.y - 4f,
-                        3f,
-                        3f
+                    drawArcadeSprite(
+                        sprite = SlicedFruit,
+                        tint = color,
+                        x = piece.x - 17f,
+                        y = piece.y - 9f
                     )
                     pixelRect(
-                        style.playerDetailColor.copy(alpha = piece.life),
-                        piece.x + 4f,
-                        piece.y - 4f,
-                        3f,
-                        3f
+                        color = style.playerDetailColor.copy(alpha = piece.life),
+                        x = piece.x - 6f,
+                        y = piece.y - 4f,
+                        width = 3f,
+                        height = 3f
+                    )
+                    pixelRect(
+                        color = style.playerDetailColor.copy(alpha = piece.life),
+                        x = piece.x + 4f,
+                        y = piece.y - 4f,
+                        width = 3f,
+                        height = 3f
                     )
                 }
             }
-            run.effects.draw(this, style.accentColor)
+            run.effects.draw(
+                scope = this,
+                color = style.accentColor
+            )
             for (trace in run.trail) {
                 drawLine(
-                    style.playerColor.copy(alpha = trace.life * 0.15f),
-                    trace.start,
-                    trace.end,
-                    9f,
-                    StrokeCap.Round
+                    color = style.playerColor.copy(alpha = trace.life * 0.15f),
+                    start = trace.start,
+                    end = trace.end,
+                    strokeWidth = 9f,
+                    cap = StrokeCap.Round
                 )
                 drawLine(
-                    style.playerColor.copy(alpha = trace.life),
-                    trace.start,
-                    trace.end,
-                    2.5f,
-                    StrokeCap.Round
+                    color = style.playerColor.copy(alpha = trace.life),
+                    start = trace.start,
+                    end = trace.end,
+                    strokeWidth = 2.5f,
+                    cap = StrokeCap.Round
                 )
             }
-            arcadeLives(style, 3 - run.misses, run.topInset / 2f)
+            arcadeLives(
+                style = style,
+                remaining = 3 - run.misses,
+                y = run.topInset / 2f
+            )
         }
     }
 }
 
 
-private fun fruitColor(style: ArcadeStyle, kind: Int) = when (kind) {
+private fun fruitColor(
+    style: ArcadeStyle,
+    kind: Int
+) = when (kind) {
     0 -> style.playerColor
     1 -> style.accentColor
     2 -> lerp(style.playerColor, style.accentColor, 0.5f)
@@ -261,7 +337,11 @@ internal data class SlicePiece(
     val kind: Int
 )
 
-internal data class SliceTrace(val start: Offset, val end: Offset, var life: Float = 1f)
+internal data class SliceTrace(
+    val start: Offset,
+    val end: Offset,
+    var life: Float = 1f
+)
 
 internal class FruitSliceRun : ArcadeRun() {
     val fruits = mutableListOf<SliceFruit>()
@@ -318,7 +398,10 @@ internal class FruitSliceRun : ArcadeRun() {
                 combo++
                 comboTime = 0.3f
                 score += minOf(combo, 5)
-                effects.burst(Offset(fruit.x, fruit.y), 6)
+                effects.burst(
+                    point = Offset(fruit.x, fruit.y),
+                    count = 6
+                )
                 for (sign in -1..1 step 2) {
                     pieces += SlicePiece(
                         fruit.x, fruit.y, sign * 65f, -65f, 0.8f,

@@ -21,6 +21,7 @@ import android.os.Bundle
 import androidx.compose.ui.geometry.Offset
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
+import org.junit.Assert.assertArrayEquals
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -254,15 +255,46 @@ class ArcadeMechanicsTest {
     @Test
     fun bubblesKeepRisingAndEndWhenTheCeilingIsReached() {
         val run = BubblePopRun().apply { start() }
-        repeat(120 * 25) { if (run.phase == ArcadePhase.Running) run.advance(1f / 120f) }
+        repeat(120 * 45) { if (run.phase == ArcadePhase.Running) run.advance(1f / 120f) }
         assertEquals(ArcadePhase.Over, run.phase)
         run.start()
         run.board.fill(-1)
-        run.rush()
-        repeat(120) { run.advance(1f / 120f) }
+        run.board[0] = 0
+        run.board[1] = 0
+        run.pop(run.center(0))
+        repeat(240) { run.advance(1f / 120f) }
         assertEquals(ArcadePhase.Running, run.phase)
         assertTrue(run.board.take(run.columns).all { it >= 0 })
         assertTrue((0 until run.columns - 1).any { run.board[it] == run.board[it + 1] })
+    }
+
+    @Test
+    fun onlySuccessfulPopsBringTheNextRowUpSmoothly() {
+        val run = BubblePopRun().apply { resize(360f, 680f); start() }
+        run.board.fill(-1)
+        run.board[0] = 0
+        run.board[1] = 1
+        run.pop(run.center(0))
+        repeat(60) { run.advance(1f / 120f) }
+        assertEquals(0, run.score)
+        assertTrue(run.rise < 0.2f)
+        assertEquals(2, run.board.count { it >= 0 })
+
+        run.board[1] = 0
+        val before = run.rise
+        run.pop(run.center(0))
+        assertEquals(before, run.rise, 0f)
+        val next = run.next.copyOf()
+        val saved = Bundle().also(run::save)
+        val restored = BubblePopRun().apply {
+            resize(360f, 680f)
+            start()
+            restore(saved)
+        }
+        repeat(240) { restored.advance(1f / 120f) }
+        assertArrayEquals(next, restored.board.take(restored.columns).toIntArray())
+        assertEquals(restored.columns, restored.board.count { it >= 0 })
+        assertTrue(restored.rise < 0.5f)
     }
 
     @Test

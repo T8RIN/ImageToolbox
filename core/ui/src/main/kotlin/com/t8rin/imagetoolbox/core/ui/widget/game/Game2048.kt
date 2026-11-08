@@ -49,7 +49,10 @@ fun Game2048(
     onHighScoreChanged: ((Int) -> Unit)? = null,
     onGameOver: ((Int) -> Unit)? = null
 ) {
-    val run = rememberArcadeRun(initialState, ::MergeRun)
+    val run = rememberArcadeRun(
+        initialState = initialState,
+        create = ::MergeRun
+    )
     val measurer = rememberTextMeasurer(cacheSize = 32)
     ArcadeBoard(
         game = ArcadeGame.`2048`,
@@ -61,7 +64,10 @@ fun Game2048(
         onGameOver = onGameOver,
         turnBased = true
     ) {
-        ArcadeField(run, onSwipe = run::swipe) {
+        ArcadeField(
+            run = run,
+            onSwipe = run::swipe
+        ) {
             val side = minOf(run.width - 24f, run.height - run.topInset - 24f)
             val gap = side * 0.018f
             val cell = (side - gap * (GridSize + 1)) / GridSize
@@ -92,7 +98,11 @@ fun Game2048(
                 )
             }
 
-            fun tile(value: Int, point: Offset, scale: Float = 1f) {
+            fun tile(
+                value: Int,
+                point: Offset,
+                scale: Float = 1f
+            ) {
                 if (value == 0 || scale <= 0f) return
                 val color = when (value) {
                     2 -> style.obstacleColor.copy(alpha = 0.14f)
@@ -144,7 +154,10 @@ fun Game2048(
                     FastOutSlowInEasing.transform((run.time / SlideDuration).coerceIn(0f, 1f))
                 run.slides.forEach {
                     val from = position(it.from)
-                    tile(it.value, from + (position(it.to) - from) * fraction)
+                    tile(
+                        value = it.value,
+                        point = from + (position(it.to) - from) * fraction
+                    )
                 }
             } else {
                 val fraction =
@@ -156,14 +169,22 @@ fun Game2048(
                         index in run.merged -> 1f + sin(fraction * Math.PI).toFloat() * 0.1f
                         else -> 1f
                     }
-                    tile(value, position(index), scale)
+                    tile(
+                        value = value,
+                        point = position(index),
+                        scale = scale
+                    )
                 }
             }
         }
     }
 }
 
-private data class TileSlide(val value: Int, val from: Int, val to: Int)
+private data class TileSlide(
+    val value: Int,
+    val from: Int,
+    val to: Int
+)
 
 private class MergeRun : ArcadeRun() {
     val tiles = IntArray(GridSize * GridSize)

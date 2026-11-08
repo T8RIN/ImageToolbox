@@ -37,7 +37,10 @@ fun PongGame(
     onHighScoreChanged: ((Int) -> Unit)? = null,
     onGameOver: ((Int) -> Unit)? = null
 ) {
-    val run = rememberArcadeRun(initialState, ::PongRun)
+    val run = rememberArcadeRun(
+        initialState = initialState,
+        create = ::PongRun
+    )
     ArcadeBoard(
         game = ArcadeGame.Pong,
         run = run,
@@ -54,41 +57,59 @@ fun PongGame(
         ) {
             var y = run.top
             while (y < run.bottom) {
-                pixelRect(style.detailColor, run.width / 2 - 1, y, 2f, minOf(8f, run.bottom - y))
+                pixelRect(
+                    color = style.detailColor,
+                    x = run.width / 2 - 1,
+                    y = y,
+                    width = 2f,
+                    height = minOf(8f, run.bottom - y)
+                )
                 y += 18f
             }
-            pixelRect(style.detailColor, 0f, run.top - 2, run.width, 1f)
-            pixelRect(style.detailColor, 0f, run.bottom + 1, run.width, 1f)
             pixelRect(
-                style.playerColor,
-                PaddleEdge - 7,
-                run.playerY - run.paddleHalf,
-                7f,
-                run.paddleHalf * 2
+                color = style.detailColor,
+                x = 0f,
+                y = run.top - 2,
+                width = run.width,
+                height = 1f
             )
             pixelRect(
-                style.obstacleColor,
-                run.width - PaddleEdge,
-                run.rivalY - run.paddleHalf,
-                7f,
-                run.paddleHalf * 2
+                color = style.detailColor,
+                x = 0f,
+                y = run.bottom + 1,
+                width = run.width,
+                height = 1f
+            )
+            pixelRect(
+                color = style.playerColor,
+                x = PaddleEdge - 7,
+                y = run.playerY - run.paddleHalf,
+                width = 7f,
+                height = run.paddleHalf * 2
+            )
+            pixelRect(
+                color = style.obstacleColor,
+                x = run.width - PaddleEdge,
+                y = run.rivalY - run.paddleHalf,
+                width = 7f,
+                height = run.paddleHalf * 2
             )
             run.trail.forEachIndexed { index, point ->
                 val side = 3f + index * 0.8f
                 pixelRect(
-                    style.accentColor.copy(alpha = (index + 1) * 0.05f),
-                    point.x - side / 2,
-                    point.y - side / 2,
-                    side,
-                    side
+                    color = style.accentColor.copy(alpha = (index + 1) * 0.05f),
+                    x = point.x - side / 2,
+                    y = point.y - side / 2,
+                    width = side,
+                    height = side
                 )
             }
             pixelRect(
-                style.accentColor,
-                run.ballX - BallHalf,
-                run.ballY - BallHalf,
-                BallHalf * 2,
-                BallHalf * 2
+                color = style.accentColor,
+                x = run.ballX - BallHalf,
+                y = run.ballY - BallHalf,
+                width = BallHalf * 2,
+                height = BallHalf * 2
             )
         }
     }
@@ -164,14 +185,20 @@ private class PongRun : ArcadeRun() {
             velocityX < 0 && oldX >= PaddleEdge + BallHalf && ballX <= PaddleEdge + BallHalf &&
                     abs(ballY - playerY) <= paddleHalf + BallHalf -> {
                 ballX = PaddleEdge + BallHalf
-                bounce(playerY, 1)
+                bounce(
+                    paddleY = playerY,
+                    direction = 1
+                )
                 score++
             }
 
             velocityX > 0 && oldX <= width - PaddleEdge - BallHalf && ballX >= width - PaddleEdge - BallHalf &&
                     abs(ballY - rivalY) <= paddleHalf + BallHalf -> {
                 ballX = width - PaddleEdge - BallHalf
-                bounce(rivalY, -1)
+                bounce(
+                    paddleY = rivalY,
+                    direction = -1
+                )
             }
 
             ballX < -BallHalf -> {
@@ -190,7 +217,10 @@ private class PongRun : ArcadeRun() {
         }
     }
 
-    private fun bounce(paddleY: Float, direction: Int) {
+    private fun bounce(
+        paddleY: Float,
+        direction: Int
+    ) {
         velocityX = (abs(velocityX) + 18f).coerceAtMost(620f) * direction
         val offset = ((ballY - paddleY) / paddleHalf).coerceIn(-1f, 1f)
         velocityY = offset * minOf(370f, abs(velocityX) * 0.85f)

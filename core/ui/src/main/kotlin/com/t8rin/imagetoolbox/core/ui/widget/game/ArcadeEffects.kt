@@ -33,7 +33,10 @@ internal class ArcadeEffects {
 
     private val sparks = ArrayList<Spark>(48)
 
-    fun burst(point: Offset, count: Int = 8) {
+    fun burst(
+        point: Offset,
+        count: Int = 8
+    ) {
         repeat(count) { index ->
             if (sparks.size >= 48) sparks.removeAt(0)
             val angle = index * 2f * PI.toFloat() / count
@@ -51,12 +54,15 @@ internal class ArcadeEffects {
 
     fun clear() = sparks.clear()
 
-    fun draw(scope: DrawScope, color: Color) = with(scope) {
+    fun draw(
+        scope: DrawScope,
+        color: Color
+    ) = with(scope) {
         for (spark in sparks) {
             drawCircle(
-                color.copy(alpha = spark.life.coerceIn(0f, 1f)),
-                2f * spark.life,
-                spark.point
+                color = color.copy(alpha = spark.life.coerceIn(0f, 1f)),
+                radius = 2f * spark.life,
+                center = spark.point
             )
         }
     }
@@ -67,26 +73,44 @@ private val ArcadeHeart = ArcadeSprite(
     "M1 0H4V1H5V2H6V1H7V0H10V1H11V5H10V6H9V7H8V8H7V9H6V10H5V9H4V8H3V7H2V6H1V5H0V1H1Z"
 )
 
-internal fun DrawScope.arcadeLives(style: ArcadeStyle, remaining: Int, y: Float) {
+internal fun DrawScope.arcadeLives(
+    style: ArcadeStyle,
+    remaining: Int,
+    y: Float
+) {
     repeat(3) { index ->
         drawArcadeSprite(
-            ArcadeHeart,
-            if (index < remaining) style.accentColor else style.detailColor.copy(alpha = 0.3f),
-            14f + index * 16f,
-            y - 5f
+            sprite = ArcadeHeart,
+            tint = if (index < remaining) style.accentColor else style.detailColor.copy(alpha = 0.3f),
+            x = 14f + index * 16f,
+            y = y - 5f
         )
     }
 }
 
-internal fun DrawScope.arcadeStars(style: ArcadeStyle, width: Float, height: Float, drift: Float) {
+internal fun DrawScope.arcadeStars(
+    style: ArcadeStyle,
+    width: Float,
+    height: Float,
+    drift: Float
+) {
     repeat(28) { index ->
         val x = (index * 79f + 17f) % width
         val y = (index * 137f + drift * (1f + index % 3) * 0.15f) % height
-        pixelRect(style.detailColor.copy(alpha = if (index % 4 == 0) 0.5f else 0.25f), x, y, 2f, 2f)
+        pixelRect(
+            color = style.detailColor.copy(alpha = if (index % 4 == 0) 0.5f else 0.25f),
+            x = x,
+            y = y,
+            width = 2f,
+            height = 2f
+        )
     }
 }
 
 internal fun arcadeAngle(angle: Float): Float = (angle % 360f + 360f) % 360f
 
-internal fun arcadeAngleDistance(first: Float, second: Float): Float =
+internal fun arcadeAngleDistance(
+    first: Float,
+    second: Float
+): Float =
     kotlin.math.abs(arcadeAngle(first - second + 180f) - 180f)

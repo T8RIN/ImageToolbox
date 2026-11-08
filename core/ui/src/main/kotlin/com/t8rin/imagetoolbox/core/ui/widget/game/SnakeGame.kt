@@ -52,7 +52,10 @@ fun SnakeGame(
     onHighScoreChanged: ((Int) -> Unit)? = null,
     onGameOver: ((Int) -> Unit)? = null
 ) {
-    val run = rememberArcadeRun(initialState, ::SnakeRun)
+    val run = rememberArcadeRun(
+        initialState = initialState,
+        create = ::SnakeRun
+    )
     ArcadeBoard(
         game = ArcadeGame.Snake,
         run = run,
@@ -104,8 +107,18 @@ fun SnakeGame(
                 val food = center(run.food)
                 translate(food.x - cell * 0.42f, food.y - cell * 0.48f) {
                     scale(cell * 0.06f, Offset.Zero) {
-                        drawArcadeSprite(SnakeFood, style.accentColor, 0f, 0f)
-                        drawArcadeSprite(SnakeLeaf, style.obstacleColor, 0f, 0f)
+                        drawArcadeSprite(
+                            sprite = SnakeFood,
+                            tint = style.accentColor,
+                            x = 0f,
+                            y = 0f
+                        )
+                        drawArcadeSprite(
+                            sprite = SnakeLeaf,
+                            tint = style.obstacleColor,
+                            x = 0f,
+                            y = 0f
+                        )
                     }
                 }
             }
@@ -135,8 +148,18 @@ fun SnakeGame(
             rotate(run.direction.angle, head) {
                 translate(head.x - cell * 0.45f, head.y - cell * 0.45f) {
                     scale(cell * 0.9f / 14f, Offset.Zero) {
-                        drawArcadeSprite(SnakeHead, style.playerColor, 0f, 0f)
-                        drawArcadeSprite(SnakeEyes, style.playerDetailColor, 0f, 0f)
+                        drawArcadeSprite(
+                            sprite = SnakeHead,
+                            tint = style.playerColor,
+                            x = 0f,
+                            y = 0f
+                        )
+                        drawArcadeSprite(
+                            sprite = SnakeEyes,
+                            tint = style.playerDetailColor,
+                            x = 0f,
+                            y = 0f
+                        )
                     }
                 }
             }
@@ -144,7 +167,11 @@ fun SnakeGame(
     }
 }
 
-private enum class SnakeDirection(val dx: Int, val dy: Int, val angle: Float) {
+private enum class SnakeDirection(
+    val dx: Int,
+    val dy: Int,
+    val angle: Float
+) {
     Right(1, 0, 0f),
     Down(0, 1, 90f),
     Left(-1, 0, 180f),

@@ -64,7 +64,10 @@ fun BirdGame(
     onHighScoreChanged: ((Int) -> Unit)? = null,
     onGameOver: ((Int) -> Unit)? = null
 ) {
-    val run = rememberArcadeRun(initialState, ::BirdRun)
+    val run = rememberArcadeRun(
+        initialState = initialState,
+        create = ::BirdRun
+    )
     val ink = if (style.playerColor.luminance() < style.playerDetailColor.luminance()) {
         style.playerColor
     } else style.playerDetailColor
@@ -81,13 +84,18 @@ fun BirdGame(
         onHighScoreChanged = onHighScoreChanged,
         onGameOver = onGameOver
     ) {
-        ArcadeField(run, onPress = { run.flap() }) {
+        ArcadeField(
+            run = run,
+            onPress = { run.flap() }
+        ) {
             var cloudX = 40f - run.distance * 0.18f % 690f
             var index = 0
             while (cloudX < run.width) {
                 drawArcadeSprite(
-                    ArcadeCloud, style.detailColor, cloudX,
-                    run.topInset + 25f + index % 3 * (run.ground - run.topInset) * 0.15f
+                    sprite = ArcadeCloud,
+                    tint = style.detailColor,
+                    x = cloudX,
+                    y = run.topInset + 25f + index % 3 * (run.ground - run.topInset) * 0.15f
                 )
                 cloudX += 230f
                 index++
@@ -95,41 +103,128 @@ fun BirdGame(
             for ((x, center1, gap) in run.pipes) {
                 val top = center1 - gap / 2
                 val bottom = center1 + gap / 2
-                pixelRect(style.obstacleColor, x + 3, 0f, PipeWidth - 6, top - 9)
-                pixelRect(style.obstacleColor, x, top - 9, PipeWidth, 9f)
                 pixelRect(
-                    style.obstacleColor,
-                    x + 3,
-                    bottom + 9,
-                    PipeWidth - 6,
-                    run.ground - bottom - 9
+                    color = style.obstacleColor,
+                    x = x + 3,
+                    y = 0f,
+                    width = PipeWidth - 6,
+                    height = top - 9
                 )
-                pixelRect(style.obstacleColor, x, bottom, PipeWidth, 9f)
+                pixelRect(
+                    color = style.obstacleColor,
+                    x = x,
+                    y = top - 9,
+                    width = PipeWidth,
+                    height = 9f
+                )
+                pixelRect(
+                    color = style.obstacleColor,
+                    x = x + 3,
+                    y = bottom + 9,
+                    width = PipeWidth - 6,
+                    height = run.ground - bottom - 9
+                )
+                pixelRect(
+                    color = style.obstacleColor,
+                    x = x,
+                    y = bottom,
+                    width = PipeWidth,
+                    height = 9f
+                )
                 val highlight = style.buttonContentColor.copy(alpha = 0.3f)
-                pixelRect(highlight, x + 7, 0f, 3f, top - 11)
-                pixelRect(highlight, x + 4, top - 7, PipeWidth - 8, 2f)
-                pixelRect(highlight, x + 7, bottom + 11, 3f, run.ground - bottom - 11)
-                pixelRect(highlight, x + 4, bottom + 2, PipeWidth - 8, 2f)
+                pixelRect(
+                    color = highlight,
+                    x = x + 7,
+                    y = 0f,
+                    width = 3f,
+                    height = top - 11
+                )
+                pixelRect(
+                    color = highlight,
+                    x = x + 4,
+                    y = top - 7,
+                    width = PipeWidth - 8,
+                    height = 2f
+                )
+                pixelRect(
+                    color = highlight,
+                    x = x + 7,
+                    y = bottom + 11,
+                    width = 3f,
+                    height = run.ground - bottom - 11
+                )
+                pixelRect(
+                    color = highlight,
+                    x = x + 4,
+                    y = bottom + 2,
+                    width = PipeWidth - 8,
+                    height = 2f
+                )
             }
-            arcadeGround(style, run.width, run.ground, run.distance)
+            arcadeGround(
+                style = style,
+                width = run.width,
+                y = run.ground,
+                distance = run.distance
+            )
             val wingUp = run.wingTime % 0.24f < 0.12f
             rotate(run.tilt, Offset(run.birdX, run.y)) {
                 val x = run.birdX - 23
                 val y = run.y - 16
-                drawArcadeSprite(BirdBody, ink, x, y)
-                drawArcadeSprite(BirdFill, style.playerColor, x, y)
-                drawArcadeSprite(BirdEye, ink, x, y)
-                drawArcadeSprite(BirdEyeWhite, eye, x, y)
-                drawArcadeSprite(BirdPupil, ink, x, y)
-                drawArcadeSprite(if (wingUp) WingUp else WingDown, ink, x, y)
                 drawArcadeSprite(
-                    if (wingUp) WingUpColor else WingDownColor,
-                    style.obstacleColor,
-                    x,
-                    y
+                    sprite = BirdBody,
+                    tint = ink,
+                    x = x,
+                    y = y
                 )
-                drawArcadeSprite(BirdBeak, ink, x, y)
-                drawArcadeSprite(BirdBeakColor, style.accentColor, x, y)
+                drawArcadeSprite(
+                    sprite = BirdFill,
+                    tint = style.playerColor,
+                    x = x,
+                    y = y
+                )
+                drawArcadeSprite(
+                    sprite = BirdEye,
+                    tint = ink,
+                    x = x,
+                    y = y
+                )
+                drawArcadeSprite(
+                    sprite = BirdEyeWhite,
+                    tint = eye,
+                    x = x,
+                    y = y
+                )
+                drawArcadeSprite(
+                    sprite = BirdPupil,
+                    tint = ink,
+                    x = x,
+                    y = y
+                )
+                drawArcadeSprite(
+                    sprite = if (wingUp) WingUp else WingDown,
+                    tint = ink,
+                    x = x,
+                    y = y
+                )
+                drawArcadeSprite(
+                    sprite = if (wingUp) WingUpColor else WingDownColor,
+                    tint = style.obstacleColor,
+                    x = x,
+                    y = y
+                )
+                drawArcadeSprite(
+                    sprite = BirdBeak,
+                    tint = ink,
+                    x = x,
+                    y = y
+                )
+                drawArcadeSprite(
+                    sprite = BirdBeakColor,
+                    tint = style.accentColor,
+                    x = x,
+                    y = y
+                )
             }
         }
     }

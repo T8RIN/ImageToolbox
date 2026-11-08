@@ -77,10 +77,19 @@ fun DoodleGame(
     onHighScoreChanged: ((Int) -> Unit)? = null,
     onGameOver: ((Int) -> Unit)? = null
 ) {
-    val run = rememberArcadeRun(initialState, ::DoodleRun)
+    val run = rememberArcadeRun(
+        initialState = initialState,
+        create = ::DoodleRun
+    )
     val ink = style.playerDetailColor
     ArcadeBoard(
-        ArcadeGame.Doodle, run, style, modifier, initialState, onHighScoreChanged, onGameOver
+        game = ArcadeGame.Doodle,
+        run = run,
+        style = style,
+        modifier = modifier,
+        initialState = initialState,
+        onHighScoreChanged = onHighScoreChanged,
+        onGameOver = onGameOver
     ) {
         ArcadeField(
             run = run,
@@ -94,9 +103,10 @@ fun DoodleGame(
             var index = 0
             while (cloudY < run.height) {
                 drawArcadeSprite(
-                    ArcadeCloud, style.detailColor,
-                    if (index % 2 == 0) run.width * 0.16f else run.width * 0.7f,
-                    cloudY
+                    sprite = ArcadeCloud,
+                    tint = style.detailColor,
+                    x = if (index % 2 == 0) run.width * 0.16f else run.width * 0.7f,
+                    y = cloudY
                 )
                 cloudY += 210f
                 index++
@@ -113,38 +123,134 @@ fun DoodleGame(
                 val tint = color.copy(alpha = (1 - falling * 1.8f).coerceIn(0f, 1f))
                 if (falling > 0) {
                     val half = platform.width / 2 - 2
-                    pixelRect(tint, x - falling * 35, y, half, 7f)
-                    pixelRect(tint, platform.x + 2 + falling * 35, y + falling * 12, half, 7f)
+                    pixelRect(
+                        color = tint,
+                        x = x - falling * 35,
+                        y = y,
+                        width = half,
+                        height = 7f
+                    )
+                    pixelRect(
+                        color = tint,
+                        x = platform.x + 2 + falling * 35,
+                        y = y + falling * 12,
+                        width = half,
+                        height = 7f
+                    )
                 } else {
-                    pixelRect(tint, x + 2, y, platform.width - 4, 7f)
-                    pixelRect(tint, x, y + 2, platform.width, 3f)
-                    pixelRect(style.detailColor, x + 6, y + 7, platform.width - 12, 2f)
+                    pixelRect(
+                        color = tint,
+                        x = x + 2,
+                        y = y,
+                        width = platform.width - 4,
+                        height = 7f
+                    )
+                    pixelRect(
+                        color = tint,
+                        x = x,
+                        y = y + 2,
+                        width = platform.width,
+                        height = 3f
+                    )
+                    pixelRect(
+                        color = style.detailColor,
+                        x = x + 6,
+                        y = y + 7,
+                        width = platform.width - 12,
+                        height = 2f
+                    )
                     if (platform.kind == PlatformKind.Crumbling) {
-                        pixelRect(style.playerDetailColor, platform.x, y, 2f, 3f)
-                        pixelRect(style.playerDetailColor, platform.x - 2, y + 3, 2f, 2f)
-                        pixelRect(style.playerDetailColor, platform.x, y + 5, 2f, 2f)
+                        pixelRect(
+                            color = style.playerDetailColor,
+                            x = platform.x,
+                            y = y,
+                            width = 2f,
+                            height = 3f
+                        )
+                        pixelRect(
+                            color = style.playerDetailColor,
+                            x = platform.x - 2,
+                            y = y + 3,
+                            width = 2f,
+                            height = 2f
+                        )
+                        pixelRect(
+                            color = style.playerDetailColor,
+                            x = platform.x,
+                            y = y + 5,
+                            width = 2f,
+                            height = 2f
+                        )
                     }
                     if (platform.kind == PlatformKind.Moving) {
-                        pixelRect(style.playerDetailColor, platform.x - 9, y + 2, 18f, 2f)
-                        pixelRect(style.playerDetailColor, platform.x - 12, y + 3, 3f, 2f)
-                        pixelRect(style.playerDetailColor, platform.x + 9, y + 3, 3f, 2f)
+                        pixelRect(
+                            color = style.playerDetailColor,
+                            x = platform.x - 9,
+                            y = y + 2,
+                            width = 18f,
+                            height = 2f
+                        )
+                        pixelRect(
+                            color = style.playerDetailColor,
+                            x = platform.x - 12,
+                            y = y + 3,
+                            width = 3f,
+                            height = 2f
+                        )
+                        pixelRect(
+                            color = style.playerDetailColor,
+                            x = platform.x + 9,
+                            y = y + 3,
+                            width = 3f,
+                            height = 2f
+                        )
                     }
                     if (platform.kind == PlatformKind.Spring) {
-                        pixelRect(style.accentColor, platform.x - 6, y - 12, 12f, 2f)
-                        pixelRect(style.accentColor, platform.x - 4, y - 8, 8f, 2f)
-                        pixelRect(style.accentColor, platform.x - 6, y - 4, 12f, 2f)
-                        pixelRect(style.accentColor, platform.x - 4, y - 11, 2f, 11f)
-                        pixelRect(style.accentColor, platform.x + 2, y - 11, 2f, 11f)
+                        pixelRect(
+                            color = style.accentColor,
+                            x = platform.x - 6,
+                            y = y - 12,
+                            width = 12f,
+                            height = 2f
+                        )
+                        pixelRect(
+                            color = style.accentColor,
+                            x = platform.x - 4,
+                            y = y - 8,
+                            width = 8f,
+                            height = 2f
+                        )
+                        pixelRect(
+                            color = style.accentColor,
+                            x = platform.x - 6,
+                            y = y - 4,
+                            width = 12f,
+                            height = 2f
+                        )
+                        pixelRect(
+                            color = style.accentColor,
+                            x = platform.x - 4,
+                            y = y - 11,
+                            width = 2f,
+                            height = 11f
+                        )
+                        pixelRect(
+                            color = style.accentColor,
+                            x = platform.x + 2,
+                            y = y - 11,
+                            width = 2f,
+                            height = 11f
+                        )
                     }
                 }
             }
             for (bullet in run.bullets) {
                 pixelRect(
-                    style.playerColor,
-                    bullet.x - 2,
-                    run.height - bullet.y + run.camera,
-                    4f,
-                    7f
+                    color = style.playerColor,
+                    x = bullet.x - 2,
+                    y = run.height - bullet.y + run.camera,
+                    width = 4f,
+                    height = 7f
                 )
             }
             for (monster in run.monsters) {
@@ -161,26 +267,36 @@ fun DoodleGame(
                 val color = if (monster.hitTime > 0f) style.playerColor else style.accentColor
                 val x = monster.x - monster.kind.halfWidth
                 val y = run.height - monster.height + run.camera - monster.kind.halfHeight
-                drawArcadeSprite(sprite, color, x, y)
-                drawArcadeSprite(face, style.playerDetailColor, x, y)
+                drawArcadeSprite(
+                    sprite = sprite,
+                    tint = color,
+                    x = x,
+                    y = y
+                )
+                drawArcadeSprite(
+                    sprite = face,
+                    tint = style.playerDetailColor,
+                    x = x,
+                    y = y
+                )
             }
             for (burst in run.bursts) {
                 val spread = burst.time * 65f
                 val color = style.accentColor.copy(alpha = (1 - burst.time / 0.3f).coerceIn(0f, 1f))
                 for (direction in listOf(-1f, 1f)) {
                     pixelRect(
-                        color,
-                        burst.x + spread * direction,
-                        run.height - burst.height + run.camera - spread,
-                        3f,
-                        3f
+                        color = color,
+                        x = burst.x + spread * direction,
+                        y = run.height - burst.height + run.camera - spread,
+                        width = 3f,
+                        height = 3f
                     )
                     pixelRect(
-                        color,
-                        burst.x + spread * direction,
-                        run.height - burst.height + run.camera + spread,
-                        3f,
-                        3f
+                        color = color,
+                        x = burst.x + spread * direction,
+                        y = run.height - burst.height + run.camera + spread,
+                        width = 3f,
+                        height = 3f
                     )
                 }
             }
@@ -188,16 +304,38 @@ fun DoodleGame(
             fun player(x: Float) {
                 scale(if (run.facingRight || run.shooting) 1f else -1f, 1f, Offset(x, feet)) {
                     drawArcadeSprite(
-                        if (run.shooting) DoodleShootingBody else DoodleBody,
-                        style.playerColor,
-                        x - 22,
-                        feet - 44
+                        sprite = if (run.shooting) DoodleShootingBody else DoodleBody,
+                        tint = style.playerColor,
+                        x = x - 22,
+                        y = feet - 44
                     )
-                    drawArcadeSprite(DoodleStripes, ink.copy(alpha = 0.4f), x - 22, feet - 44)
+                    drawArcadeSprite(
+                        sprite = DoodleStripes,
+                        tint = ink.copy(alpha = 0.4f),
+                        x = x - 22,
+                        y = feet - 44
+                    )
                     if (run.shooting) {
-                        pixelRect(ink, x - 10, feet - 30, 2f, 5f)
-                        pixelRect(ink, x + 4, feet - 30, 2f, 5f)
-                    } else drawArcadeSprite(DoodleFace, ink, x - 22, feet - 44)
+                        pixelRect(
+                            color = ink,
+                            x = x - 10,
+                            y = feet - 30,
+                            width = 2f,
+                            height = 5f
+                        )
+                        pixelRect(
+                            color = ink,
+                            x = x + 4,
+                            y = feet - 30,
+                            width = 2f,
+                            height = 5f
+                        )
+                    } else drawArcadeSprite(
+                        sprite = DoodleFace,
+                        tint = ink,
+                        x = x - 22,
+                        y = feet - 44
+                    )
                 }
             }
             player(run.x)
@@ -209,7 +347,10 @@ fun DoodleGame(
 
 private enum class PlatformKind { Standard, Spring, Crumbling, Moving }
 
-private enum class MonsterKind(val halfWidth: Float, val halfHeight: Float) {
+private enum class MonsterKind(
+    val halfWidth: Float,
+    val halfHeight: Float
+) {
     Flyer(19f, 14f), Jumper(16f, 16f), Guard(28f, 19f)
 }
 
@@ -241,8 +382,18 @@ private data class DoodleMonster(
     var previousHeight = height
 }
 
-private data class DoodleBullet(var x: Float, var y: Float, val vx: Float, val vy: Float)
-private data class DoodleBurst(val x: Float, val height: Float, var time: Float = 0f)
+private data class DoodleBullet(
+    var x: Float,
+    var y: Float,
+    val vx: Float,
+    val vy: Float
+)
+
+private data class DoodleBurst(
+    val x: Float,
+    val height: Float,
+    var time: Float = 0f
+)
 
 private class DoodleRun : ArcadeRun() {
     var x = width / 2
@@ -314,7 +465,10 @@ private class DoodleRun : ArcadeRun() {
         touchX = null
     }
 
-    private fun horizontalDistance(first: Float, second: Float): Float {
+    private fun horizontalDistance(
+        first: Float,
+        second: Float
+    ): Float {
         val distance = abs(first - second)
         return minOf(distance, width - distance)
     }
@@ -369,7 +523,10 @@ private class DoodleRun : ArcadeRun() {
         bursts.forEach { it.time += seconds }
         bursts.removeAll { it.time >= 0.3f }
         val hit = monsters.firstOrNull {
-            horizontalDistance(x, it.x) < 13f + it.kind.halfWidth &&
+            horizontalDistance(
+                first = x,
+                second = it.x
+            ) < 13f + it.kind.halfWidth &&
                     y < it.height + it.kind.halfHeight && y + 36f > it.height - it.kind.halfHeight
         }
         if (hit != null) {
@@ -386,7 +543,10 @@ private class DoodleRun : ArcadeRun() {
         if (velocity < 0f) {
             val landing = platforms.filter {
                 it.breakTime == 0f && previousY >= it.height && y <= it.height &&
-                        horizontalDistance(x, it.x) <= 12f + it.width / 2
+                        horizontalDistance(
+                            first = x,
+                            second = it.x
+                        ) <= 12f + it.width / 2
             }.maxByOrNull { it.height }
             if (landing != null) {
                 if (landing.kind == PlatformKind.Crumbling) {
@@ -430,7 +590,12 @@ private class DoodleRun : ArcadeRun() {
                 row % 5 == 3 -> PlatformKind.Moving
                 else -> PlatformKind.Standard
             }
-            val platform = newPlatform(nextX, lastHeight, PlatformWidth - difficulty * 10f, kind)
+            val platform = newPlatform(
+                x = nextX,
+                height = lastHeight,
+                width = PlatformWidth - difficulty * 10f,
+                kind = kind
+            )
             if (gate) {
                 monsters += DoodleMonster(
                     x = platform.x,
@@ -445,10 +610,10 @@ private class DoodleRun : ArcadeRun() {
                 val extraX = choices.firstOrNull { abs(it - nextX) > PlatformWidth + 45f }
                 if (extraX != null) {
                     val extra = newPlatform(
-                        extraX,
-                        lastHeight + Random.nextFloat() * 16f - 8f,
-                        PlatformWidth - 6f,
-                        when {
+                        x = extraX,
+                        height = lastHeight + Random.nextFloat() * 16f - 8f,
+                        width = PlatformWidth - 6f,
+                        kind = when {
                             row > 6 && row % 4 == 0 -> PlatformKind.Crumbling
                             row > 10 && row % 4 == 1 -> PlatformKind.Moving
                             else -> PlatformKind.Standard

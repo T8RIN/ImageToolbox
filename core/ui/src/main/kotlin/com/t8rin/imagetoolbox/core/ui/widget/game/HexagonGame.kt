@@ -39,15 +39,32 @@ fun HexagonGame(
     onHighScoreChanged: ((Int) -> Unit)? = null,
     onGameOver: ((Int) -> Unit)? = null
 ) {
-    val run = rememberArcadeRun(initialState, ::HexagonRun)
+    val run = rememberArcadeRun(
+        initialState = initialState,
+        create = ::HexagonRun
+    )
     ArcadeBoard(
-        ArcadeGame.Hexagon, run, style, modifier, initialState, onHighScoreChanged, onGameOver
+        game = ArcadeGame.Hexagon,
+        run = run,
+        style = style,
+        modifier = modifier,
+        initialState = initialState,
+        onHighScoreChanged = onHighScoreChanged,
+        onGameOver = onGameOver
     ) {
-        ArcadeField(run, onPress = run::steer, onDrag = run::steer, onRelease = run::stopInput) {
+        ArcadeField(
+            run = run,
+            onPress = run::steer,
+            onDrag = run::steer,
+            onRelease = run::stopInput
+        ) {
             val center = run.center
             val extent = run.extent
             val path = run.outline
-            fun point(angle: Float, radius: Float) =
+            fun point(
+                angle: Float,
+                radius: Float
+            ) =
                 center + Offset(cos(angle), sin(angle)) * radius * extent
 
             val backdropRadius = maxOf(run.width, run.height) * 2f / extent
@@ -56,8 +73,14 @@ fun HexagonGame(
                 val b = a + PI.toFloat() / 3f
                 path.reset()
                 path.moveTo(center.x, center.y)
-                val first = point(a, backdropRadius)
-                val second = point(b, backdropRadius)
+                val first = point(
+                    angle = a,
+                    radius = backdropRadius
+                )
+                val second = point(
+                    angle = b,
+                    radius = backdropRadius
+                )
                 path.lineTo(first.x, first.y)
                 path.lineTo(second.x, second.y)
                 path.close()
@@ -70,45 +93,74 @@ fun HexagonGame(
                 val x = ((index * 71 + index * index * 19 + 23) % 359) / 359f * run.width
                 val y = ((index * 97 + index * index * 31 + 11) % 443) / 443f * run.height
                 if ((Offset(x, y) - center).getDistance() > extent * 0.6f) {
-                    pixelRect(style.obstacleColor.copy(alpha = 0.18f), x, y, 2f, 2f)
+                    pixelRect(
+                        color = style.obstacleColor.copy(alpha = 0.18f),
+                        x = x,
+                        y = y,
+                        width = 2f,
+                        height = 2f
+                    )
                 }
             }
             drawCircle(
-                style.detailColor.copy(alpha = 0.35f),
-                extent * 0.46f,
-                center,
+                color = style.detailColor.copy(alpha = 0.35f),
+                radius = extent * 0.46f,
+                center = center,
                 style = Stroke(1f)
             )
-            for (wall in run.walls) {
+            for ((radius, gap, passed) in run.walls) {
                 for (side in 0..5) {
-                    if (side == wall.gap) continue
+                    if (side == gap) continue
                     val a = side * PI.toFloat() / 3f + run.rotation
                     val b = a + PI.toFloat() / 3f
-                    val first = point(a, wall.radius)
-                    val second = point(b, wall.radius)
-                    val third = point(b, wall.radius + 0.1f)
-                    val fourth = point(a, wall.radius + 0.1f)
+                    val first = point(
+                        angle = a,
+                        radius = radius
+                    )
+                    val second = point(
+                        angle = b,
+                        radius = radius
+                    )
+                    val third = point(
+                        angle = b,
+                        radius = radius + 0.1f
+                    )
+                    val fourth = point(
+                        angle = a,
+                        radius = radius + 0.1f
+                    )
                     path.reset()
                     path.moveTo(first.x, first.y)
                     path.lineTo(second.x, second.y)
                     path.lineTo(third.x, third.y)
                     path.lineTo(fourth.x, fourth.y)
                     path.close()
-                    val color = if (wall.passed) style.detailColor else style.obstacleColor
+                    val color = if (passed) style.detailColor else style.obstacleColor
                     drawPath(path, color)
-                    drawLine(style.playerDetailColor.copy(alpha = 0.35f), third, fourth, 1f)
+                    drawLine(
+                        color = style.playerDetailColor.copy(alpha = 0.35f),
+                        start = third,
+                        end = fourth,
+                        strokeWidth = 1f
+                    )
                 }
             }
             path.reset()
             for (index in 0..5) {
                 val point =
-                    point(index * PI.toFloat() / 3f + run.rotation, 0.18f + run.pulse * 0.025f)
+                    point(
+                        angle = index * PI.toFloat() / 3f + run.rotation,
+                        radius = 0.18f + run.pulse * 0.025f
+                    )
                 if (index == 0) path.moveTo(point.x, point.y) else path.lineTo(point.x, point.y)
             }
             path.close()
             drawPath(path, style.accentColor)
             drawPath(path, style.playerDetailColor.copy(alpha = 0.35f), style = Stroke(1.5f))
-            val player = point(run.angle, 0.46f)
+            val player = point(
+                angle = run.angle,
+                radius = 0.46f
+            )
             rotate(run.angle * 180f / PI.toFloat() + 90f, player) {
                 path.reset()
                 path.moveTo(player.x, player.y - 7f)
@@ -121,7 +173,11 @@ fun HexagonGame(
     }
 }
 
-internal data class HexagonWall(var radius: Float, val gap: Int, var passed: Boolean = false)
+internal data class HexagonWall(
+    var radius: Float,
+    val gap: Int,
+    var passed: Boolean = false
+)
 
 internal class HexagonRun : ArcadeRun() {
     val walls = mutableListOf<HexagonWall>()

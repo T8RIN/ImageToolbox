@@ -182,26 +182,106 @@ fun ArcadeGameContent(
         LocalArcadePlayingChanged provides onPlayingChanged
     ) {
         when (selected) {
-            ArcadeGame.Dino -> DinoGame(modifier = modifier, style = style)
-            ArcadeGame.Doodle -> DoodleGame(modifier = modifier, style = style)
-            ArcadeGame.Bird -> BirdGame(modifier = modifier, style = style)
-            ArcadeGame.Stack -> StackGame(modifier = modifier, style = style)
-            ArcadeGame.Pong -> PongGame(modifier = modifier, style = style)
-            ArcadeGame.`2048` -> Game2048(modifier = modifier, style = style)
-            ArcadeGame.Snake -> SnakeGame(modifier = modifier, style = style)
-            ArcadeGame.Tetris -> TetrisGame(modifier = modifier, style = style)
-            ArcadeGame.Racer -> RacerGame(modifier = modifier, style = style)
-            ArcadeGame.Ricochet -> RicochetGame(modifier = modifier, style = style)
-            ArcadeGame.Asteroids -> AsteroidsGame(modifier = modifier, style = style)
-            ArcadeGame.FruitSlice -> FruitSliceGame(modifier = modifier, style = style)
-            ArcadeGame.KnifeHit -> KnifeHitGame(modifier = modifier, style = style)
-            ArcadeGame.MissileCommand -> MissileCommandGame(modifier = modifier, style = style)
-            ArcadeGame.RiverHop -> RiverHopGame(modifier = modifier, style = style)
-            ArcadeGame.WhackAMole -> WhackAMoleGame(modifier = modifier, style = style)
-            ArcadeGame.SimonSays -> SimonSaysGame(modifier = modifier, style = style)
-            ArcadeGame.BubblePop -> BubblePopGame(modifier = modifier, style = style)
-            ArcadeGame.Fishing -> FishingGame(modifier = modifier, style = style)
-            ArcadeGame.Hexagon -> HexagonGame(modifier = modifier, style = style)
+            ArcadeGame.Dino -> DinoGame(
+                modifier = modifier,
+                style = style
+            )
+
+            ArcadeGame.Doodle -> DoodleGame(
+                modifier = modifier,
+                style = style
+            )
+
+            ArcadeGame.Bird -> BirdGame(
+                modifier = modifier,
+                style = style
+            )
+
+            ArcadeGame.Stack -> StackGame(
+                modifier = modifier,
+                style = style
+            )
+
+            ArcadeGame.Pong -> PongGame(
+                modifier = modifier,
+                style = style
+            )
+
+            ArcadeGame.`2048` -> Game2048(
+                modifier = modifier,
+                style = style
+            )
+
+            ArcadeGame.Snake -> SnakeGame(
+                modifier = modifier,
+                style = style
+            )
+
+            ArcadeGame.Tetris -> TetrisGame(
+                modifier = modifier,
+                style = style
+            )
+
+            ArcadeGame.Racer -> RacerGame(
+                modifier = modifier,
+                style = style
+            )
+
+            ArcadeGame.Ricochet -> RicochetGame(
+                modifier = modifier,
+                style = style
+            )
+
+            ArcadeGame.Asteroids -> AsteroidsGame(
+                modifier = modifier,
+                style = style
+            )
+
+            ArcadeGame.FruitSlice -> FruitSliceGame(
+                modifier = modifier,
+                style = style
+            )
+
+            ArcadeGame.KnifeHit -> KnifeHitGame(
+                modifier = modifier,
+                style = style
+            )
+
+            ArcadeGame.MissileCommand -> MissileCommandGame(
+                modifier = modifier,
+                style = style
+            )
+
+            ArcadeGame.RiverHop -> RiverHopGame(
+                modifier = modifier,
+                style = style
+            )
+
+            ArcadeGame.WhackAMole -> WhackAMoleGame(
+                modifier = modifier,
+                style = style
+            )
+
+            ArcadeGame.SimonSays -> SimonSaysGame(
+                modifier = modifier,
+                style = style
+            )
+
+            ArcadeGame.BubblePop -> BubblePopGame(
+                modifier = modifier,
+                style = style
+            )
+
+            ArcadeGame.Fishing -> FishingGame(
+                modifier = modifier,
+                style = style
+            )
+
+            ArcadeGame.Hexagon -> HexagonGame(
+                modifier = modifier,
+                style = style
+            )
+
             ArcadeGame.Random -> Unit
         }
     }
@@ -297,7 +377,11 @@ internal abstract class ArcadeRun {
         frame++
     }
 
-    fun resize(width: Float, height: Float, topInset: Float = this.topInset) {
+    fun resize(
+        width: Float,
+        height: Float,
+        topInset: Float = this.topInset
+    ) {
         if (width == this.width && height == this.height && topInset == this.topInset) return
         this.topInset = topInset
         val previous = Size(this.width, this.height)
@@ -317,7 +401,10 @@ internal abstract class ArcadeRun {
 }
 
 @Composable
-internal fun <T : ArcadeRun> rememberArcadeRun(initialState: ArcadeGameState, create: () -> T): T {
+internal fun <T : ArcadeRun> rememberArcadeRun(
+    initialState: ArcadeGameState,
+    create: () -> T
+): T {
     val saver = Saver<T, Bundle>(
         save = { run ->
             Bundle().apply {
@@ -334,9 +421,9 @@ internal fun <T : ArcadeRun> rememberArcadeRun(initialState: ArcadeGameState, cr
             create().apply {
                 reset()
                 resize(
-                    state.getFloat("width", 360f),
-                    state.getFloat("height", 240f),
-                    state.getFloat("topInset", 44f)
+                    width = state.getFloat("width", 360f),
+                    height = state.getFloat("height", 240f),
+                    topInset = state.getFloat("topInset", 44f)
                 )
                 phase = state.getString("phase")?.let(ArcadePhase::valueOf) ?: ArcadePhase.Ready
                 score = state.getInt("score")
@@ -520,15 +607,25 @@ internal fun ArcadeField(
             .fillMaxSize()
             .graphicsLayer()
             .onSizeChanged {
-                val scale = arcadeScale(it.width.toFloat(), it.height.toFloat())
-                if (scale > 0f) run.resize(it.width / scale, it.height / scale, topInset / scale)
+                val scale = arcadeScale(
+                    width = it.width.toFloat(),
+                    height = it.height.toFloat()
+                )
+                if (scale > 0f) run.resize(
+                    width = it.width / scale,
+                    height = it.height / scale,
+                    topInset = topInset / scale
+                )
             }
             .pointerInput(run, haptics, swipeOnDrag, isPaused) {
                 if (isPaused) return@pointerInput
                 awaitEachGesture {
                     val down = awaitFirstDown()
                     if (run.phase != ArcadePhase.Running) return@awaitEachGesture
-                    val scale = arcadeScale(size.width.toFloat(), size.height.toFloat())
+                    val scale = arcadeScale(
+                        width = size.width.toFloat(),
+                        height = size.height.toFloat()
+                    )
                     if (scale <= 0f) return@awaitEachGesture
                     down.consume()
                     press?.let {
@@ -598,18 +695,35 @@ internal fun ArcadeField(
             }
     ) {
         run.frame
-        val scale = arcadeScale(size.width, size.height)
+        val scale = arcadeScale(
+            width = size.width,
+            height = size.height
+        )
         if (scale > 0f) scale(scale, Offset.Zero) { draw() }
     }
 }
 
-private fun arcadeScale(width: Float, height: Float): Float = minOf(width / 360f, height / 220f)
+private fun arcadeScale(
+    width: Float,
+    height: Float
+): Float = minOf(width / 360f, height / 220f)
 
-internal fun DrawScope.pixelRect(color: Color, x: Float, y: Float, width: Float, height: Float) {
+internal fun DrawScope.pixelRect(
+    color: Color,
+    x: Float,
+    y: Float,
+    width: Float,
+    height: Float
+) {
     if (width > 0f && height > 0f) drawRect(color, Offset(x, y), Size(width, height))
 }
 
-internal class ArcadeSprite(name: String, width: Int, height: Int, data: String) {
+internal class ArcadeSprite(
+    name: String,
+    width: Int,
+    height: Int,
+    data: String
+) {
     private val parser = PathParser().parsePathString(data)
     val path: Path = parser.toPath().apply { fillType = PathFillType.EvenOdd }
     val vector: ImageVector = ImageVector.Builder(
@@ -645,15 +759,57 @@ internal fun DrawScope.arcadeGround(
     y: Float,
     distance: Float = 0f
 ) {
-    pixelRect(style.detailColor, 0f, y, width, 1f)
+    pixelRect(
+        color = style.detailColor,
+        x = 0f,
+        y = y,
+        width = width,
+        height = 1f
+    )
     var x = -(distance % 144f)
     while (x < width) {
-        pixelRect(style.detailColor, x + 9, y + 7, 5f, 1f)
-        pixelRect(style.detailColor, x + 25, y + 11, 3f, 1f)
-        pixelRect(style.detailColor, x + 46, y + 5, 4f, 1f)
-        pixelRect(style.detailColor, x + 61, y + 9, 8f, 1f)
-        pixelRect(style.detailColor, x + 104, y + 7, 5f, 1f)
-        pixelRect(style.detailColor, x + 121, y + 11, 4f, 1f)
+        pixelRect(
+            color = style.detailColor,
+            x = x + 9,
+            y = y + 7,
+            width = 5f,
+            height = 1f
+        )
+        pixelRect(
+            color = style.detailColor,
+            x = x + 25,
+            y = y + 11,
+            width = 3f,
+            height = 1f
+        )
+        pixelRect(
+            color = style.detailColor,
+            x = x + 46,
+            y = y + 5,
+            width = 4f,
+            height = 1f
+        )
+        pixelRect(
+            color = style.detailColor,
+            x = x + 61,
+            y = y + 9,
+            width = 8f,
+            height = 1f
+        )
+        pixelRect(
+            color = style.detailColor,
+            x = x + 104,
+            y = y + 7,
+            width = 5f,
+            height = 1f
+        )
+        pixelRect(
+            color = style.detailColor,
+            x = x + 121,
+            y = y + 11,
+            width = 4f,
+            height = 1f
+        )
         x += 144f
     }
 }

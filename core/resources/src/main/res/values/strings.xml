@@ -8059,7 +8059,7 @@
     <string name="arcade_simonsays">Simon Says</string>
     <string name="arcade_simonsays_sub">Watch the symbols light up, then repeat the sequence. Each round adds one symbol</string>
     <string name="arcade_bubblepop">Bubble Pop</string>
-    <string name="arcade_bubblepop_sub">Tap groups of matching bubbles before they reach the top. Chain pops for combos. Swipe up to bring in the next row</string>
+    <string name="arcade_bubblepop_sub">Tap groups of matching bubbles before they reach the top. Chain pops for combos. New rows rise automatically after a pop</string>
     <string name="arcade_fishing">Fishing</string>
     <string name="arcade_fishing_sub">Tap to cast the swinging hook. Smaller fish score more. Three empty casts end the run</string>
     <string name="arcade_hexagon">Super Hexagon</string>

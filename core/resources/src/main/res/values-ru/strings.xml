@@ -8015,7 +8015,7 @@
     <string name="arcade_simonsays">Повтори последовательность</string>
     <string name="arcade_simonsays_sub">Запоминайте подсвеченные символы и повторяйте порядок. Каждый раунд добавляет один символ</string>
     <string name="arcade_bubblepop">Пузырьки</string>
-    <string name="arcade_bubblepop_sub">Лопайте группы одинаковых пузырьков, пока они не дошли до верха. Собирайте комбо. Свайп вверх добавляет новый ряд</string>
+    <string name="arcade_bubblepop_sub">Лопайте группы одинаковых пузырьков, пока они не дошли до верха. Собирайте комбо. После хлопка следующий ряд поднимается автоматически</string>
     <string name="arcade_fishing">Рыбалка</string>
     <string name="arcade_fishing_sub">Касайтесь поля, чтобы забросить качающийся крючок. Мелкая рыба приносит больше очков. Три пустых заброса заканчивают игру</string>
     <string name="arcade_hexagon">Супершестиугольник</string>

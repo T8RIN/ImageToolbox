@@ -42,15 +42,27 @@ fun SimonSaysGame(
     onHighScoreChanged: ((Int) -> Unit)? = null,
     onGameOver: ((Int) -> Unit)? = null
 ) {
-    val run = rememberArcadeRun(initialState, ::SimonSaysRun)
+    val run = rememberArcadeRun(
+        initialState = initialState,
+        create = ::SimonSaysRun
+    )
     val measurer = rememberTextMeasurer()
     val watch = stringResource(R.string.arcade_watch)
     val repeatPrompt = stringResource(R.string.arcade_repeat)
     ArcadeBoard(
-        ArcadeGame.SimonSays, run, style, modifier, initialState, onHighScoreChanged, onGameOver,
+        game = ArcadeGame.SimonSays,
+        run = run,
+        style = style,
+        modifier = modifier,
+        initialState = initialState,
+        onHighScoreChanged = onHighScoreChanged,
+        onGameOver = onGameOver,
         turnBased = true
     ) {
-        ArcadeField(run, onPress = run::tap) {
+        ArcadeField(
+            run = run,
+            onPress = run::tap
+        ) {
             val side = run.side
             val origin = run.origin
             val cell = side / 2f
@@ -63,11 +75,20 @@ fun SimonSaysGame(
                     val color = if (index % 2 == 0) style.playerColor else style.accentColor
                     if (index % 3 == 0) {
                         drawSimonSymbol(
-                            index % 4, color.copy(alpha = 0.18f),
-                            Offset(x, y), 4f + index % 4 * 2f, 1f
+                            index = index % 4,
+                            color = color.copy(alpha = 0.18f),
+                            center = Offset(x, y),
+                            radius = 4f + index % 4 * 2f,
+                            stroke = 1f
                         )
                     } else {
-                        pixelRect(color.copy(alpha = 0.12f), x, y, 2f, 2f)
+                        pixelRect(
+                            color = color.copy(alpha = 0.12f),
+                            x = x,
+                            y = y,
+                            width = 2f,
+                            height = 2f
+                        )
                     }
                 }
             }
@@ -107,15 +128,25 @@ fun SimonSaysGame(
                 val center = point + Offset(pad.width / 2f, pad.height / 2f)
                 val ink = if (active) style.playerDetailColor else color
                 val r = cell * 0.15f
-                drawSimonSymbol(index, ink, center, r, 2.5f)
+                drawSimonSymbol(
+                    index = index,
+                    color = ink,
+                    center = center,
+                    radius = r,
+                    stroke = 2.5f
+                )
             }
             val count = minOf(run.sequence.size, 16)
             val progress = if (run.accepting) run.input else run.playback
             repeat(count) { index ->
                 val filled = index < (progress.toFloat() / run.sequence.size * count).toInt()
                 drawCircle(
-                    if (filled) style.accentColor else style.detailColor.copy(alpha = 0.4f), 2.5f,
-                    Offset(run.width / 2f + (index - (count - 1) / 2f) * 9f, origin.y + side + 9f)
+                    color = if (filled) style.accentColor else style.detailColor.copy(alpha = 0.4f),
+                    radius = 2.5f,
+                    center = Offset(
+                        run.width / 2f + (index - (count - 1) / 2f) * 9f,
+                        origin.y + side + 9f
+                    )
                 )
             }
         }
@@ -130,7 +161,13 @@ private fun DrawScope.drawSimonSymbol(
     stroke: Float
 ) {
     when (index) {
-        0 -> drawCircle(color, radius, center, style = Stroke(stroke))
+        0 -> drawCircle(
+            color = color,
+            radius = radius,
+            center = center,
+            style = Stroke(stroke)
+        )
+
         1 -> drawRect(
             color,
             center - Offset(radius, radius),
@@ -139,22 +176,32 @@ private fun DrawScope.drawSimonSymbol(
         )
 
         2 -> {
-            drawLine(color, center - Offset(radius, 0f), center + Offset(radius, 0f), stroke)
-            drawLine(color, center - Offset(0f, radius), center + Offset(0f, radius), stroke)
+            drawLine(
+                color = color,
+                start = center - Offset(radius, 0f),
+                end = center + Offset(radius, 0f),
+                strokeWidth = stroke
+            )
+            drawLine(
+                color = color,
+                start = center - Offset(0f, radius),
+                end = center + Offset(0f, radius),
+                strokeWidth = stroke
+            )
         }
 
         else -> {
             drawLine(
-                color,
-                center - Offset(radius, radius),
-                center + Offset(radius, radius),
-                stroke
+                color = color,
+                start = center - Offset(radius, radius),
+                end = center + Offset(radius, radius),
+                strokeWidth = stroke
             )
             drawLine(
-                color,
-                center + Offset(radius, -radius),
-                center + Offset(-radius, radius),
-                stroke
+                color = color,
+                start = center + Offset(radius, -radius),
+                end = center + Offset(-radius, radius),
+                strokeWidth = stroke
             )
         }
     }
