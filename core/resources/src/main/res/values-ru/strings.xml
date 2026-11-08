@@ -8042,4 +8042,14 @@
     <string name="arcade_brickbreaker_sub">Двигайте ракетку пальцем, разбивайте кирпичи и ловите бонусы. Удерживайте мяч в игре в бесконечных волнах</string>
     <string name="arcade_lightcycles">Световые мотоциклы</string>
     <string name="arcade_lightcycles_sub">Задавайте направление свайпами или касайтесь слева и справа для поворота. Заряд ненадолго позволяет проходить сквозь следы после первого пересечения. Следите за кольцом; стены и встречные столкновения всегда опасны</string>
+    <string name="arcade_sokoban">Сокобан</string>
+    <string name="arcade_sokoban_sub">Сдвигайте ящики на отмеченные клетки. Двигайтесь свайпами или касайтесь свободной клетки. Можно отменить ход или начать поле заново</string>
+    <string name="arcade_lasermirrors">Лазерные зеркала</string>
+    <string name="arcade_lasermirrors_sub">Поворачивайте зеркала касаниями. Проведите луч через все приёмники, чтобы открыть следующую головоломку</string>
+    <string name="arcade_flowconnect">Соедини точки</string>
+    <string name="arcade_flowconnect_sub">Соедините одинаковые символы линиями. Заполните всё поле без пересечений. Ведите палец назад, чтобы укоротить линию</string>
+    <string name="arcade_flightcontrol">Авиадиспетчер</string>
+    <string name="arcade_flightcontrol_sub">Рисуйте маршруты от самолётов и вертолётов к подходящим площадкам. Избегайте столкновений и заводите самолёты по стрелкам полосы</string>
+    <string name="arcade_balancetower">Баланс башни</string>
+    <string name="arcade_balancetower_sub">Передвигайте предмет пальцем и отпускайте, чтобы уронить его. Удерживайте общий вес над опорами; отмеченный край тяжелее</string>
 </resources>
