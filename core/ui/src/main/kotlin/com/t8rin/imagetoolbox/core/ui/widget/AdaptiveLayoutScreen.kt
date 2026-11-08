@@ -102,6 +102,7 @@ fun AdaptiveLayoutScreen(
     controls: (@Composable ColumnScope.(LazyListState) -> Unit)?,
     buttons: @Composable (actions: @Composable RowScope.() -> Unit) -> Unit,
     noDataControls: @Composable () -> Unit = {},
+    enableNoDataScroll: Boolean = true,
     canShowScreenData: Boolean,
     forceImagePreviewToMax: Boolean = false,
     contentPadding: Dp = 20.dp,
@@ -206,6 +207,12 @@ fun AdaptiveLayoutScreen(
                             contentAlignment = Alignment.Center
                         ) {
                             if (showLoading) EnhancedLoadingIndicator()
+                        }
+                        return@AnimatedContent
+                    }
+                    if (!canShowScreenData && !enableNoDataScroll) {
+                        Box(Modifier.fillMaxSize()) {
+                            noDataControls()
                         }
                         return@AnimatedContent
                     }

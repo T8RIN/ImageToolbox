@@ -20,12 +20,15 @@ package com.t8rin.imagetoolbox.feature.arcade_games.presentation
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
@@ -43,13 +46,13 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.StadiaController
 import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
-import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalScreenSize
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
@@ -64,15 +67,20 @@ import com.t8rin.imagetoolbox.feature.arcade_games.presentation.screenLogic.Arca
 @Composable
 fun ArcadeGamesContent(component: ArcadeGamesComponent) {
     val gridState = rememberLazyStaggeredGridState()
+    val cutout = WindowInsets.displayCutout.asPaddingValues()
+    val direction = LocalLayoutDirection.current
 
     val game = component.selectedGame
     var showExitDialog by rememberSaveable(game) { mutableStateOf(false) }
+    var isPlaying by rememberSaveable(game) { mutableStateOf(false) }
 
     val goBack = {
         if (game == null) {
             component.onGoBack()
-        } else {
+        } else if (isPlaying) {
             showExitDialog = true
+        } else {
+            component.selectGame(null)
         }
     }
 
@@ -96,11 +104,10 @@ fun ArcadeGamesContent(component: ArcadeGamesComponent) {
         showImagePreviewAsStickyHeader = false,
         canShowScreenData = game != null,
         addHorizontalCutoutPaddingIfNoPreview = false,
+        enableNoDataScroll = false,
         noDataControls = {
             LazyVerticalStaggeredGrid(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .heightIn(max = LocalScreenSize.current.height),
+                modifier = Modifier.fillMaxSize(),
                 state = gridState,
                 columns = StaggeredGridCells.Adaptive(300.dp),
                 horizontalArrangement = Arrangement.spacedBy(
@@ -108,6 +115,13 @@ fun ArcadeGamesContent(component: ArcadeGamesComponent) {
                     alignment = Alignment.CenterHorizontally
                 ),
                 verticalItemSpacing = 12.dp,
+                contentPadding = PaddingValues(
+                    top = 12.dp,
+                    bottom = 12.dp + WindowInsets.navigationBars.asPaddingValues()
+                        .calculateBottomPadding(),
+                    start = 12.dp + cutout.calculateStartPadding(direction),
+                    end = 12.dp + cutout.calculateEndPadding(direction)
+                ),
                 flingBehavior = enhancedFlingBehavior()
             ) {
                 items(
@@ -144,7 +158,8 @@ fun ArcadeGamesContent(component: ArcadeGamesComponent) {
                     game = game ?: return@BoxWithConstraints,
                     modifier = Modifier.fillMaxSize(),
                     height = maxHeight,
-                    isPaused = showExitDialog
+                    isPaused = showExitDialog,
+                    onPlayingChanged = { isPlaying = it }
                 )
             }
         }
