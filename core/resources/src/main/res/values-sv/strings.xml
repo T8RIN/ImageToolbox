@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Något gick fel: %1$s</string>
     <string name="size">Storlek %1$s</string>
     <string name="loading">Laddar…</string>
@@ -7596,7 +7595,7 @@
     <string name="style_presets_sub">Spara eller tillämpa en stil</string>
     <string name="save_style_preset">Spara stil</string>
     <string name="delete_style_preset">Ta bort stil</string>
-    <string name="delete_style_preset_sub">Vill du ta bort stilen \"%1$s\"?</string>
+    <string name="delete_style_preset_sub">Vill du ta bort stilen \"%1$s\"? från sparade stilar? Dina nuvarande inställningar förblir oförändrade.</string>
     <string name="code_preview_transparent_background">Transparent bakgrund</string>
     <string name="filter_help_adaptive_binarization">Separerar bläck och papper under ojämn belysning med hjälp av lokal ljusstyrkastatistik.</string>
     <string name="filter_help_agx_tone_mapping">Rullar av högdagrar och kontrollerar mättnad med den analytiska AgX-tonkurvan.</string>
