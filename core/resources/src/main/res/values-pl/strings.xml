@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">Rozmiar %1$s</string>
     <string name="width">Szerokość %1$s</string>
     <string name="loading">Ładowanie…</string>
@@ -7979,7 +7978,7 @@
     <string name="arcade_exit_title">Opuścić grę?</string>
     <string name="arcade_exit_sub">Bieżąca gra zakończy się. Twój najlepszy wynik zostanie zapisany.</string>
     <string name="arcade_games_sub">Graj w różne minigry zręcznościowe</string>
-    <string name="arcade_games_search">Gra Dino, Doodle Jump, Flappy Bird, Tower Builder, Stos, Ping Pong, 2048, Wąż, Tetris</string>
+    <string name="arcade_games_search">Dino Game, Doodle Jump, Flappy Bird, Tower Builder, Stack, Ping Pong, 2048, Snake, Tetris, Retro Racer, Ricochet, Asteroids, Fruit Slice, Knife Hit, Missile Command, River Hop, Frogger, Whack-a-Mole, Simon Says, Bubble Pop, Fishing, Super Hexagon</string>
     <string name="arcade_dino">Gra Dino</string>
     <string name="arcade_doodle">Doodle skok</string>
     <string name="arcade_bird">Flappy Bird</string>
