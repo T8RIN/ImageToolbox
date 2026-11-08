@@ -8020,6 +8020,8 @@
     <string name="show_loading_game_button">Games while waiting</string>
     <string name="show_loading_game_button_sub">Show a game button in loading dialogs.</string>
     <string name="arcade_games">Games</string>
+    <string name="arcade_exit_title">Leave the game?</string>
+    <string name="arcade_exit_sub">The current game will end. Your high score will be saved.</string>
     <string name="arcade_games_sub">Play different arcade minigames</string>
     <string name="arcade_games_search">Dino Game, Doodle Jump, Flappy Bird, Tower Builder, Stack, Ping Pong, 2048, Snake, Tetris</string>
     <string name="arcade_dino">Dino Game</string>

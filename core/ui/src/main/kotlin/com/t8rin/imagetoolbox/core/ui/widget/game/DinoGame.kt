@@ -59,6 +59,7 @@ fun DinoGame(
 ) {
     val run = rememberArcadeRun(initialState, ::DinoRun)
     val haptics = LocalHapticFeedback.current
+    val isPaused = LocalArcadePaused.current
     ArcadeBoard(
         game = ArcadeGame.Dino,
         run = run,
@@ -73,8 +74,8 @@ fun DinoGame(
             style = style,
             modifier = Modifier
                 .fillMaxSize()
-                .pointerInput(run, haptics, run.phase) {
-                    if (run.phase != ArcadePhase.Running) return@pointerInput
+                .pointerInput(run, haptics, run.phase, isPaused) {
+                    if (isPaused || run.phase != ArcadePhase.Running) return@pointerInput
                     awaitEachGesture {
                         val down = awaitFirstDown()
                         if (run.jump()) {

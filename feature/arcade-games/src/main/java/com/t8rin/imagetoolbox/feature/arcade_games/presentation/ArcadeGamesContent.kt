@@ -37,14 +37,21 @@ import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.StadiaController
 import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalScreenSize
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
+import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
 import com.t8rin.imagetoolbox.core.ui.widget.game.ArcadeGameContent
 import com.t8rin.imagetoolbox.core.ui.widget.game.description
@@ -59,12 +66,13 @@ fun ArcadeGamesContent(component: ArcadeGamesComponent) {
     val gridState = rememberLazyStaggeredGridState()
 
     val game = component.selectedGame
+    var showExitDialog by rememberSaveable(game) { mutableStateOf(false) }
 
     val goBack = {
         if (game == null) {
             component.onGoBack()
         } else {
-            component.selectGame(null)
+            showExitDialog = true
         }
     }
 
@@ -135,9 +143,20 @@ fun ArcadeGamesContent(component: ArcadeGamesComponent) {
                 ArcadeGameContent(
                     game = game ?: return@BoxWithConstraints,
                     modifier = Modifier.fillMaxSize(),
-                    height = maxHeight
+                    height = maxHeight,
+                    isPaused = showExitDialog
                 )
             }
         }
+    )
+
+    ExitWithoutSavingDialog(
+        visible = showExitDialog,
+        onExit = { component.selectGame(null) },
+        onDismiss = { showExitDialog = false },
+        respectSettings = false,
+        title = stringResource(R.string.arcade_exit_title),
+        text = stringResource(R.string.arcade_exit_sub),
+        icon = Icons.Outlined.StadiaController
     )
 }

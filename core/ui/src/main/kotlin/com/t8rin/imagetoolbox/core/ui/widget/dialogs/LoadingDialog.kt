@@ -151,9 +151,13 @@ private fun LoadingDialogContent(
     indicator: @Composable BoxScope.() -> Unit
 ) {
     var showWantDismissDialog by remember(canCancel, visible) { mutableStateOf(false) }
+    var showGame by rememberSaveable(visible) { mutableStateOf(false) }
+    val gameVisible = showGame && LocalSettingsState.current.showLoadingGameButton
+    val canDismissOnTap = canCancel && !gameVisible
     BasicEnhancedAlertDialog(
         visible = visible,
         onDismissRequest = { showWantDismissDialog = canCancel },
+        dismissOnClickOutside = canDismissOnTap,
         modifier = Modifier.keepScreenOn()
     ) {
         val focus = LocalFocusManager.current
@@ -167,11 +171,16 @@ private fun LoadingDialogContent(
             Box(
                 modifier = Modifier
                     .matchParentSize()
-                    .tappable(canCancel) {
-                        showWantDismissDialog = canCancel
+                    .tappable(canDismissOnTap) {
+                        showWantDismissDialog = canDismissOnTap
                     }
             )
-            LoadingGameContent(indicator = indicator)
+            LoadingGameContent(
+                showGame = gameVisible,
+                onShowGameChange = { showGame = it },
+                isPaused = showWantDismissDialog,
+                indicator = indicator
+            )
         }
     }
     WantCancelLoadingDialog(
@@ -187,6 +196,9 @@ private fun LoadingDialogContent(
 
 @Composable
 private fun LoadingGameContent(
+    showGame: Boolean,
+    onShowGameChange: (Boolean) -> Unit,
+    isPaused: Boolean,
     indicator: @Composable BoxScope.() -> Unit
 ) {
     val indicatorSize = 120.dp
@@ -200,7 +212,6 @@ private fun LoadingGameContent(
         return
     }
 
-    var showGame by rememberSaveable { mutableStateOf(false) }
     val preference = settings.loadingGame
     var game by rememberSaveable(preference) {
         mutableStateOf(if (preference == ArcadeGame.Random) ArcadeGame.playable.random() else preference)
@@ -235,7 +246,7 @@ private fun LoadingGameContent(
                     if (!showGame && preference == ArcadeGame.Random) {
                         game = ArcadeGame.playable.filterNot { it == game }.random()
                     }
-                    showGame = !showGame
+                    onShowGameChange(!showGame)
                 },
                 modifier = Modifier.size(buttonSize),
                 containerColor = if (showGame) {
@@ -271,7 +282,8 @@ private fun LoadingGameContent(
         ) {
             ArcadeGameContent(
                 game = game,
-                modifier = Modifier.widthIn(max = 420.dp)
+                modifier = Modifier.widthIn(max = 420.dp),
+                isPaused = isPaused
             )
         }
     }

@@ -165,6 +165,7 @@ fun BasicEnhancedAlertDialog(
     onDismissRequest: (() -> Unit)?,
     modifier: Modifier = Modifier,
     placeAboveAll: Boolean = false,
+    dismissOnClickOutside: Boolean = true,
     content: @Composable BoxScope.() -> Unit
 ) {
     var visibleAnimated by remember { mutableStateOf(false) }
@@ -219,7 +220,9 @@ fun BasicEnhancedAlertDialog(
 
                     Box(
                         modifier = Modifier
-                            .tappable { onDismissRequest?.invoke() }
+                            .tappable(dismissOnClickOutside) {
+                                if (dismissOnClickOutside) onDismissRequest?.invoke()
+                            }
                             .background(MaterialTheme.colorScheme.scrim.copy(alpha = alpha))
                             .fillMaxSize()
                     )

@@ -7976,6 +7976,8 @@
     <string name="show_loading_game_button">Игры во время ожидания</string>
     <string name="show_loading_game_button_sub">Показывать кнопку игры в диалогах загрузки.</string>
     <string name="arcade_games">Игры</string>
+    <string name="arcade_exit_title">Выйти из игры?</string>
+    <string name="arcade_exit_sub">Текущая игра завершится. Рекорд сохранится.</string>
     <string name="arcade_games_sub">Играйте в различные аркадные мини-игры</string>
     <string name="arcade_games_search">Динозавр, Doodle Jump, Flappy Bird, башня, пинг-понг, 2048, змейка, тетрис</string>
     <string name="arcade_dino">Dino Game</string>
