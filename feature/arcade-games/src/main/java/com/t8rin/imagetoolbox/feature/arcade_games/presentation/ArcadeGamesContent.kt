@@ -17,10 +17,10 @@
 
 package com.t8rin.imagetoolbox.feature.arcade_games.presentation
 
-import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.asPaddingValues
@@ -38,6 +38,7 @@ import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -53,15 +54,19 @@ import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.StadiaController
 import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ExitWithoutSavingDialog
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBadge
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
 import com.t8rin.imagetoolbox.core.ui.widget.game.ArcadeGameContent
 import com.t8rin.imagetoolbox.core.ui.widget.game.description
 import com.t8rin.imagetoolbox.core.ui.widget.game.icon
 import com.t8rin.imagetoolbox.core.ui.widget.game.title
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.scaleOnTap
 import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
+import com.t8rin.imagetoolbox.core.ui.widget.text.marquee
 import com.t8rin.imagetoolbox.feature.arcade_games.presentation.screenLogic.ArcadeGamesComponent
 
 @Composable
@@ -86,8 +91,28 @@ fun ArcadeGamesContent(component: ArcadeGamesComponent) {
 
     AdaptiveLayoutScreen(
         title = {
-            AnimatedContent(targetState = game?.title ?: R.string.arcade_games) {
-                Text(stringResource(it))
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.marquee()
+            ) {
+                Text(
+                    text = stringResource(game?.title ?: R.string.arcade_games)
+                )
+                EnhancedBadge(
+                    content = {
+                        Text(
+                            text = ArcadeGame.playable.size.toString()
+                        )
+                    },
+                    containerColor = MaterialTheme.colorScheme.tertiary,
+                    contentColor = MaterialTheme.colorScheme.onTertiary,
+                    modifier = Modifier
+                        .padding(horizontal = 2.dp)
+                        .padding(bottom = 12.dp)
+                        .scaleOnTap {
+                            AppToastHost.showConfetti()
+                        }
+                )
             }
         },
         onGoBack = goBack,

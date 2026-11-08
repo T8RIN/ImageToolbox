@@ -84,14 +84,26 @@ import com.t8rin.imagetoolbox.core.di.entryPoint
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Alien
+import com.t8rin.imagetoolbox.core.resources.icons.Brick
+import com.t8rin.imagetoolbox.core.resources.icons.BubbleChart
 import com.t8rin.imagetoolbox.core.resources.icons.Dinosaur
 import com.t8rin.imagetoolbox.core.resources.icons.Filter2
+import com.t8rin.imagetoolbox.core.resources.icons.Hexagon
+import com.t8rin.imagetoolbox.core.resources.icons.Neurology
+import com.t8rin.imagetoolbox.core.resources.icons.Nutrition
+import com.t8rin.imagetoolbox.core.resources.icons.PestControlRodent
+import com.t8rin.imagetoolbox.core.resources.icons.Phishing
 import com.t8rin.imagetoolbox.core.resources.icons.Raven
+import com.t8rin.imagetoolbox.core.resources.icons.RocketLaunch
+import com.t8rin.imagetoolbox.core.resources.icons.Shield
 import com.t8rin.imagetoolbox.core.resources.icons.Shuffle
 import com.t8rin.imagetoolbox.core.resources.icons.Snake
+import com.t8rin.imagetoolbox.core.resources.icons.SportsMotorsports
 import com.t8rin.imagetoolbox.core.resources.icons.SportsTennis
 import com.t8rin.imagetoolbox.core.resources.icons.Stacks
+import com.t8rin.imagetoolbox.core.resources.icons.TrackChanges
 import com.t8rin.imagetoolbox.core.resources.icons.ViewQuilt
+import com.t8rin.imagetoolbox.core.resources.icons.Water
 import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.longPress
@@ -111,6 +123,18 @@ val ArcadeGame.title: Int
         ArcadeGame.`2048` -> R.string.arcade_2048
         ArcadeGame.Snake -> R.string.arcade_snake
         ArcadeGame.Tetris -> R.string.arcade_tetris
+        ArcadeGame.Hexagon -> R.string.arcade_hexagon
+        ArcadeGame.Fishing -> R.string.arcade_fishing
+        ArcadeGame.BubblePop -> R.string.arcade_bubblepop
+        ArcadeGame.SimonSays -> R.string.arcade_simonsays
+        ArcadeGame.WhackAMole -> R.string.arcade_whackamole
+        ArcadeGame.RiverHop -> R.string.arcade_riverhop
+        ArcadeGame.MissileCommand -> R.string.arcade_missilecommand
+        ArcadeGame.KnifeHit -> R.string.arcade_knifehit
+        ArcadeGame.FruitSlice -> R.string.arcade_fruitslice
+        ArcadeGame.Asteroids -> R.string.arcade_asteroids
+        ArcadeGame.Ricochet -> R.string.arcade_ricochet
+        ArcadeGame.Racer -> R.string.arcade_racer
     }
 
 
@@ -125,6 +149,18 @@ val ArcadeGame.description: Int
         ArcadeGame.`2048` -> R.string.arcade_2048_sub
         ArcadeGame.Snake -> R.string.arcade_snake_sub
         ArcadeGame.Tetris -> R.string.arcade_tetris_sub
+        ArcadeGame.Hexagon -> R.string.arcade_hexagon_sub
+        ArcadeGame.Fishing -> R.string.arcade_fishing_sub
+        ArcadeGame.BubblePop -> R.string.arcade_bubblepop_sub
+        ArcadeGame.SimonSays -> R.string.arcade_simonsays_sub
+        ArcadeGame.WhackAMole -> R.string.arcade_whackamole_sub
+        ArcadeGame.RiverHop -> R.string.arcade_riverhop_sub
+        ArcadeGame.MissileCommand -> R.string.arcade_missilecommand_sub
+        ArcadeGame.KnifeHit -> R.string.arcade_knifehit_sub
+        ArcadeGame.FruitSlice -> R.string.arcade_fruitslice_sub
+        ArcadeGame.Asteroids -> R.string.arcade_asteroids_sub
+        ArcadeGame.Ricochet -> R.string.arcade_ricochet_sub
+        ArcadeGame.Racer -> R.string.arcade_racer_sub
     }
 
 @Composable
@@ -132,7 +168,8 @@ fun ArcadeGameContent(
     game: ArcadeGame,
     modifier: Modifier = Modifier,
     height: Dp = Dp.Unspecified,
-    isPaused: Boolean = false
+    isPaused: Boolean = false,
+    onPlayingChanged: ((Boolean) -> Unit)? = null
 ) {
     val style = ArcadeDefaults.style.let {
         if (height == Dp.Unspecified) it else it.copy(gameHeight = height)
@@ -140,7 +177,10 @@ fun ArcadeGameContent(
     val selected = rememberSaveable(game) {
         if (game == ArcadeGame.Random) ArcadeGame.playable.random() else game
     }
-    CompositionLocalProvider(LocalArcadePaused provides isPaused) {
+    CompositionLocalProvider(
+        LocalArcadePaused provides isPaused,
+        LocalArcadePlayingChanged provides onPlayingChanged
+    ) {
         when (selected) {
             ArcadeGame.Dino -> DinoGame(modifier = modifier, style = style)
             ArcadeGame.Doodle -> DoodleGame(modifier = modifier, style = style)
@@ -150,12 +190,25 @@ fun ArcadeGameContent(
             ArcadeGame.`2048` -> Game2048(modifier = modifier, style = style)
             ArcadeGame.Snake -> SnakeGame(modifier = modifier, style = style)
             ArcadeGame.Tetris -> TetrisGame(modifier = modifier, style = style)
+            ArcadeGame.Racer -> RacerGame(modifier = modifier, style = style)
+            ArcadeGame.Ricochet -> RicochetGame(modifier = modifier, style = style)
+            ArcadeGame.Asteroids -> AsteroidsGame(modifier = modifier, style = style)
+            ArcadeGame.FruitSlice -> FruitSliceGame(modifier = modifier, style = style)
+            ArcadeGame.KnifeHit -> KnifeHitGame(modifier = modifier, style = style)
+            ArcadeGame.MissileCommand -> MissileCommandGame(modifier = modifier, style = style)
+            ArcadeGame.RiverHop -> RiverHopGame(modifier = modifier, style = style)
+            ArcadeGame.WhackAMole -> WhackAMoleGame(modifier = modifier, style = style)
+            ArcadeGame.SimonSays -> SimonSaysGame(modifier = modifier, style = style)
+            ArcadeGame.BubblePop -> BubblePopGame(modifier = modifier, style = style)
+            ArcadeGame.Fishing -> FishingGame(modifier = modifier, style = style)
+            ArcadeGame.Hexagon -> HexagonGame(modifier = modifier, style = style)
             ArcadeGame.Random -> Unit
         }
     }
 }
 
 internal val LocalArcadePaused = compositionLocalOf { false }
+private val LocalArcadePlayingChanged = compositionLocalOf<((Boolean) -> Unit)?> { null }
 
 @Immutable
 data class ArcadeGameState(
@@ -179,7 +232,8 @@ data class ArcadeStyle(
     val overlayColor: Color,
     val buttonColor: Color,
     val buttonContentColor: Color,
-    val gameHeight: Dp
+    val gameHeight: Dp,
+    val hazardColor: Color = accentColor
 )
 
 object ArcadeDefaults {
@@ -207,7 +261,8 @@ object ArcadeDefaults {
                     overlayColor = colors.scrim.copy(alpha = 0.5f),
                     buttonColor = colors.tertiaryContainer,
                     buttonContentColor = colors.onTertiaryContainer,
-                    gameHeight = 280.dp
+                    gameHeight = 280.dp,
+                    hazardColor = colors.error
                 )
             }
         }
@@ -243,8 +298,8 @@ internal abstract class ArcadeRun {
     }
 
     fun resize(width: Float, height: Float, topInset: Float = this.topInset) {
+        if (width == this.width && height == this.height && topInset == this.topInset) return
         this.topInset = topInset
-        if (width == this.width && height == this.height) return
         val previous = Size(this.width, this.height)
         this.width = width
         this.height = height
@@ -271,13 +326,18 @@ internal fun <T : ArcadeRun> rememberArcadeRun(initialState: ArcadeGameState, cr
                 putBoolean("gameOverReported", run.gameOverReported)
                 putFloat("width", run.width)
                 putFloat("height", run.height)
+                putFloat("topInset", run.topInset)
                 run.save(this)
             }
         },
         restore = { state ->
             create().apply {
                 reset()
-                resize(state.getFloat("width", 360f), state.getFloat("height", 240f))
+                resize(
+                    state.getFloat("width", 360f),
+                    state.getFloat("height", 240f),
+                    state.getFloat("topInset", 44f)
+                )
                 phase = state.getString("phase")?.let(ArcadePhase::valueOf) ?: ArcadePhase.Ready
                 score = state.getInt("score")
                 gameOverReported = state.getBoolean("gameOverReported")
@@ -306,6 +366,10 @@ internal fun ArcadeBoard(
     field: @Composable () -> Unit
 ) {
     val phase = run.phase
+    val playingChanged by rememberUpdatedState(LocalArcadePlayingChanged.current)
+    LaunchedEffect(phase) {
+        playingChanged?.invoke(phase == ArcadePhase.Running)
+    }
     val isPaused = LocalArcadePaused.current
     val score = run.score
     var record by rememberSaveable { mutableIntStateOf(initialState.highScore.coerceAtLeast(0)) }
@@ -557,13 +621,22 @@ internal class ArcadeSprite(name: String, width: Int, height: Int, data: String)
     ).build()
 }
 
-internal fun DrawScope.drawArcadeSprite(sprite: ArcadeSprite, tint: Color, x: Float, y: Float) {
-    translate(x, y) { drawPath(sprite.path, tint) }
+internal fun DrawScope.drawArcadeSprite(
+    sprite: ArcadeSprite,
+    tint: Color,
+    x: Float,
+    y: Float
+) {
+    translate(x, y) {
+        drawPath(sprite.path, tint)
+    }
 }
 
 internal val ArcadeCloud = ArcadeSprite(
-    "Cloud", 54, 16,
-    "M0 15H7V12H12V9H17V5H22V2H31V4H36V7H41V10H47V12H54V13H46V11H40V8H35V5H30V3H23V6H18V10H13V13H8V16H0Z"
+    name = "Cloud",
+    width = 54,
+    height = 16,
+    data = "M0 15H7V12H12V9H17V5H22V2H31V4H36V7H41V10H47V12H54V13H46V11H40V8H35V5H30V3H23V6H18V10H13V13H8V16H0Z"
 )
 
 internal fun DrawScope.arcadeGround(
@@ -587,6 +660,18 @@ internal fun DrawScope.arcadeGround(
 
 val ArcadeGame.icon: ImageVector
     get() = when (this) {
+        ArcadeGame.Racer -> Icons.Outlined.SportsMotorsports
+        ArcadeGame.Ricochet -> Icons.Outlined.Brick
+        ArcadeGame.Asteroids -> Icons.Outlined.RocketLaunch
+        ArcadeGame.FruitSlice -> Icons.Outlined.Nutrition
+        ArcadeGame.KnifeHit -> Icons.Outlined.TrackChanges
+        ArcadeGame.MissileCommand -> Icons.Outlined.Shield
+        ArcadeGame.RiverHop -> Icons.Rounded.Water
+        ArcadeGame.WhackAMole -> Icons.Outlined.PestControlRodent
+        ArcadeGame.SimonSays -> Icons.Outlined.Neurology
+        ArcadeGame.BubblePop -> Icons.Outlined.BubbleChart
+        ArcadeGame.Fishing -> Icons.Outlined.Phishing
+        ArcadeGame.Hexagon -> Icons.Outlined.Hexagon
         ArcadeGame.Random -> Icons.Rounded.Shuffle
         ArcadeGame.Dino -> Icons.Outlined.Dinosaur
         ArcadeGame.Doodle -> Icons.Outlined.Alien

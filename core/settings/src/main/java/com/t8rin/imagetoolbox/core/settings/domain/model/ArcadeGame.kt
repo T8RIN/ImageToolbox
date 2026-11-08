@@ -15,6 +15,8 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
+@file:Suppress("EnumEntryName")
+
 package com.t8rin.imagetoolbox.core.settings.domain.model
 
 enum class ArcadeGame {
@@ -26,7 +28,19 @@ enum class ArcadeGame {
     Pong,
     `2048`,
     Snake,
-    Tetris;
+    Tetris,
+    Racer,
+    Ricochet,
+    Asteroids,
+    FruitSlice,
+    KnifeHit,
+    MissileCommand,
+    RiverHop,
+    WhackAMole,
+    SimonSays,
+    BubblePop,
+    Fishing,
+    Hexagon;
 
     companion object {
         val playable = entries.filterNot { it == Random }
