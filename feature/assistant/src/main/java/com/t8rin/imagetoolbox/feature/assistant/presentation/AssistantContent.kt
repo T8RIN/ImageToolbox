@@ -17,13 +17,21 @@
 
 package com.t8rin.imagetoolbox.feature.assistant.presentation
 
+import android.content.res.Configuration
 import android.view.WindowManager
 import androidx.activity.compose.LocalActivity
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.DragInteraction
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -53,8 +61,12 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.text.input.InputTransformation
+import androidx.compose.foundation.text.input.TextFieldLineLimits
+import androidx.compose.foundation.text.input.TextFieldState
+import androidx.compose.foundation.text.input.maxLength
+import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
@@ -66,23 +78,27 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.movableContentOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.saveable.rememberSaveableStateHolder
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
@@ -97,12 +113,13 @@ import com.t8rin.imagetoolbox.core.resources.icons.DeleteSweep
 import com.t8rin.imagetoolbox.core.resources.icons.KeyboardArrowDown
 import com.t8rin.imagetoolbox.core.resources.icons.Neurology
 import com.t8rin.imagetoolbox.core.resources.icons.Square
+import com.t8rin.imagetoolbox.core.resources.icons.StadiaController
+import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.DisabledAlpha
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.shareUris
-import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalScreenSize
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ResetDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBadge
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
@@ -112,6 +129,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedLoadingIndicator
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBar
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
+import com.t8rin.imagetoolbox.core.ui.widget.game.ArcadeGameContent
 import com.t8rin.imagetoolbox.core.ui.widget.image.ImagePager
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
@@ -128,14 +146,29 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun AssistantContent(component: AssistantComponent) {
-    var input by rememberSaveable { mutableStateOf("") }
+    val input = rememberTextFieldState()
     var showModels by rememberSaveable { mutableStateOf(false) }
     var showClearConversation by rememberSaveable { mutableStateOf(false) }
     var followLatest by rememberSaveable { mutableStateOf(true) }
     val listState = rememberLazyListState()
     val scope = rememberCoroutineScope()
     val busy = component.isGenerating
-    val landscape = LocalScreenSize.current.run { width > height }
+    val settings = LocalSettingsState.current
+    var showGame by rememberSaveable(settings.showLoadingGameButton, component.messages.isEmpty()) {
+        mutableStateOf(false)
+    }
+    val preference = settings.loadingGame
+    var game by rememberSaveable(preference) {
+        mutableStateOf(if (preference == ArcadeGame.Random) ArcadeGame.playable.random() else preference)
+    }
+    val gameVisible = showGame && settings.showLoadingGameButton
+    val gameState = rememberSaveableStateHolder()
+    LaunchedEffect(gameVisible) {
+        if (!gameVisible) gameState.removeState("game")
+    }
+    val focus = LocalFocusManager.current
+    val keyboard = LocalSoftwareKeyboardController.current
+    val isLandscape = LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE
     val keyboardVisible by isKeyboardVisibleAsState()
     val modelReady = AssistantModels.isSupported() && component.installations.any {
         it.variant == component.selectedModel && it.installed
@@ -143,7 +176,7 @@ fun AssistantContent(component: AssistantComponent) {
     val showSetup = component.enabled && component.messages.isEmpty() &&
             !LocalSettingsState.current.isAiAssistantSetupComplete &&
             component.installations.none { it.installed }
-    val hideTopBar = !showSetup && landscape && keyboardVisible
+    val hideTopBar = !showSetup && isLandscape && keyboardVisible
     val window = LocalActivity.current?.window
     DisposableEffect(window) {
         val previousMode = window?.attributes?.softInputMode?.let {
@@ -170,7 +203,7 @@ fun AssistantContent(component: AssistantComponent) {
                 showModels = true
             } else if (component.send(question)) {
                 followLatest = true
-                input = ""
+                input.edit { replace(0, length, "") }
             }
         }
     }
@@ -218,33 +251,100 @@ fun AssistantContent(component: AssistantComponent) {
                 AssistantComposer(
                     component = component,
                     input = input,
-                    onInputChange = { input = it },
-                    onSend = { send(input) },
+                    onSend = { send(input.text.toString()) },
                     onPickImages = picker::pickImage,
                     onShowModels = { showModels = true },
-                    compact = landscape
+                    showGameButton = settings.showLoadingGameButton && (busy || gameVisible),
+                    showGame = gameVisible,
+                    onToggleGame = {
+                        if (!showGame) {
+                            focus.clearFocus()
+                            keyboard?.hide()
+                            if (preference == ArcadeGame.Random) {
+                                game = ArcadeGame.playable.filterNot { it == game }.random()
+                            }
+                        }
+                        showGame = !showGame
+                    },
+                    compact = isLandscape
                 )
             }
         }
     ) { padding ->
-        AssistantConversation(
-            component = component,
-            listState = listState,
+        BoxWithConstraints(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
-                .consumeWindowInsets(padding),
-            modelReady = modelReady,
-            showSetup = showSetup,
-            onShowModels = { showModels = true },
-            onLatest = {
-                scope.launch {
-                    listState.animateScrollToItem(component.messages.size)
-                    followLatest = true
+                .consumeWindowInsets(padding)
+                .clipToBounds()
+        ) {
+            val hasRoom = if (isLandscape) maxHeight >= 204.dp else maxHeight >= 440.dp
+            val displayGame = gameVisible && (!keyboardVisible || hasRoom)
+            val gameWidth = if (isLandscape) minOf(420.dp, maxWidth / 2) else maxWidth
+            val gameHeight = if (isLandscape) {
+                maxHeight.coerceAtLeast(204.dp)
+            } else {
+                (maxHeight / 2).coerceIn(204.dp, 304.dp)
+            }
+            val endPadding by animateDpAsState(
+                targetValue = if (displayGame && isLandscape) gameWidth else 0.dp,
+                animationSpec = tween(220)
+            )
+            val bottomPadding by animateDpAsState(
+                targetValue = if (displayGame && !isLandscape) gameHeight else 0.dp,
+                animationSpec = tween(220)
+            )
+            AssistantConversation(
+                component = component,
+                listState = listState,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(
+                        end = endPadding,
+                        bottom = bottomPadding
+                    ),
+                modelReady = modelReady,
+                showSetup = showSetup,
+                onShowModels = { showModels = true },
+                onLatest = {
+                    scope.launch {
+                        listState.animateScrollToItem(component.messages.size)
+                        followLatest = true
+                    }
+                }
+            )
+            AnimatedVisibility(
+                visible = displayGame,
+                modifier = Modifier.align(
+                    if (isLandscape) Alignment.CenterEnd else Alignment.BottomCenter
+                ),
+                enter = fadeIn(tween(220)) + if (isLandscape) {
+                    slideInHorizontally(tween(220)) { it / 12 }
+                } else {
+                    slideInVertically(tween(220)) { it / 12 }
+                },
+                exit = fadeOut(tween(120))
+            ) {
+                Box(
+                    modifier = Modifier
+                        .width(gameWidth)
+                        .padding(12.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    gameState.SaveableStateProvider("game") {
+                        ArcadeGameContent(
+                            game = game,
+                            modifier = Modifier.widthIn(max = 420.dp),
+                            height = gameHeight - 24.dp,
+                            isPaused = !displayGame || showModels || showClearConversation ||
+                                    component.galleryPreviewUri != null
+                        )
+                    }
                 }
             }
-        )
+        }
     }
+
     if (component.galleryPreviewUris.isNotEmpty()) {
         val context = LocalContext.current
         val uris = remember(component.galleryPreviewUris) {
@@ -330,49 +430,18 @@ private fun AssistantTopBar(
 @Composable
 private fun AssistantComposer(
     component: AssistantComponent,
-    input: String,
-    onInputChange: (String) -> Unit,
+    input: TextFieldState,
     onSend: () -> Unit,
     onPickImages: () -> Unit,
     onShowModels: () -> Unit,
+    showGameButton: Boolean,
+    showGame: Boolean,
+    onToggleGame: () -> Unit,
     compact: Boolean
 ) {
     val busy = component.isGenerating
-    val currentOnInputChange by rememberUpdatedState(onInputChange)
-    val currentOnSend by rememberUpdatedState(onSend)
-    val editor = remember(component) {
-        movableContentOf<Modifier, String, Boolean> { modifier, value, compact ->
-            BasicTextField(
-                value = value,
-                onValueChange = { currentOnInputChange(it.take(AssistantComponent.MAX_QUERY_LENGTH)) },
-                modifier = modifier
-                    .padding(
-                        horizontal = if (compact) 8.dp else 16.dp,
-                        vertical = if (compact) 8.dp else 12.dp
-                    )
-                    .heightIn(min = 28.dp),
-                textStyle = MaterialTheme.typography.bodyLarge.copy(
-                    color = MaterialTheme.colorScheme.onSurface
-                ),
-                cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
-                maxLines = if (compact) 1 else 3,
-                enabled = component.enabled && !component.isLoading,
-                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Send),
-                keyboardActions = KeyboardActions(onSend = { currentOnSend() })
-            ) { innerTextField ->
-                Box {
-                    if (value.isEmpty()) {
-                        Text(
-                            text = stringResource(R.string.assistant_prompt_placeholder),
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            style = MaterialTheme.typography.bodyLarge
-                        )
-                    }
-                    innerTextField()
-                }
-            }
-        }
-    }
+    val inputScrollState = rememberScrollState()
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -383,24 +452,60 @@ private fun AssistantComposer(
                     .union(WindowInsets.ime)
                     .only(WindowInsetsSides.Horizontal + WindowInsetsSides.Bottom)
             )
-            .padding(horizontal = 12.dp, vertical = if (compact) 4.dp else 8.dp)
+            .padding(horizontal = 12.dp, vertical = 8.dp)
             .container(
                 shape = ShapeDefaults.large,
                 color = MaterialTheme.colorScheme.surfaceContainerHigh,
                 resultPadding = 0.dp
             )
     ) {
-        if (!compact) {
-            if (component.selectedUris.isNotEmpty()) {
-                AssistantSelection(
-                    uris = component.selectedUris,
-                    onRemove = { component.updateSelectedUris(component.selectedUris - it) },
-                    enabled = !busy,
-                    modifier = Modifier.padding(top = 8.dp)
-                )
-            }
-            editor(Modifier.fillMaxWidth(), input, false)
+        if (component.selectedUris.isNotEmpty()) {
+            AssistantSelection(
+                uris = component.selectedUris,
+                onRemove = { component.updateSelectedUris(component.selectedUris - it) },
+                enabled = !busy,
+                modifier = Modifier.padding(top = 8.dp)
+            )
         }
+        BasicTextField(
+            state = input,
+            inputTransformation = InputTransformation.maxLength(AssistantComponent.MAX_QUERY_LENGTH),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 12.dp)
+                .heightIn(min = 28.dp)
+                .fadingEdges(
+                    scrollableState = inputScrollState,
+                    enabled = compact
+                ),
+            textStyle = MaterialTheme.typography.bodyLarge.copy(
+                color = MaterialTheme.colorScheme.onSurface
+            ),
+            cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
+            lineLimits = if (compact) {
+                TextFieldLineLimits.SingleLine
+            } else {
+                TextFieldLineLimits.MultiLine(maxHeightInLines = 3)
+            },
+            scrollState = inputScrollState,
+            enabled = component.enabled && !component.isLoading,
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Send),
+            onKeyboardAction = { onSend() },
+            decorator = { innerTextField ->
+                Box(contentAlignment = Alignment.CenterStart) {
+                    if (input.text.isEmpty()) {
+                        Text(
+                            text = stringResource(R.string.assistant_prompt_placeholder),
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            style = MaterialTheme.typography.bodyLarge,
+                            maxLines = if (compact) 1 else 3,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                    }
+                    innerTextField()
+                }
+            }
+        )
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -414,19 +519,25 @@ private fun AssistantComposer(
             ) {
                 Icon(Icons.Rounded.Add, stringResource(R.string.add_image))
             }
-            if (compact) {
-                if (component.selectedUris.isNotEmpty()) {
-                    AssistantSelection(
-                        uris = component.selectedUris,
-                        onRemove = { component.updateSelectedUris(component.selectedUris - it) },
-                        enabled = !busy,
-                        modifier = Modifier.width(if (component.selectedUris.size == 1) 56.dp else 104.dp),
-                        imageSize = 40.dp
+            Spacer(Modifier.weight(1f))
+            if (showGameButton) {
+                EnhancedIconButton(
+                    onClick = onToggleGame,
+                    containerColor = if (showGame) {
+                        MaterialTheme.colorScheme.tertiary
+                    } else {
+                        MaterialTheme.colorScheme.tertiaryContainer
+                    }
+                ) {
+                    Icon(
+                        imageVector = if (showGame) {
+                            Icons.Rounded.StadiaController
+                        } else {
+                            Icons.Outlined.StadiaController
+                        },
+                        contentDescription = null
                     )
                 }
-                editor(Modifier.weight(1f), input, true)
-            } else {
-                Spacer(Modifier.weight(1f))
             }
             EnhancedButton(
                 onClick = onShowModels,
@@ -442,8 +553,8 @@ private fun AssistantComposer(
                 )
             }
             EnhancedIconButton(
-                onClick = { if (busy) component.stop() else currentOnSend() },
-                enabled = busy || ((input.isNotBlank() || component.selectedUris.isNotEmpty()) &&
+                onClick = { if (busy) component.stop() else onSend() },
+                enabled = busy || ((input.text.isNotBlank() || component.selectedUris.isNotEmpty()) &&
                         component.enabled && !component.isLoading),
                 containerColor = MaterialTheme.colorScheme.primary,
                 contentColor = MaterialTheme.colorScheme.onPrimary,
