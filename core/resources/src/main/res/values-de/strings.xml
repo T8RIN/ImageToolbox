@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="size">Größe %1$s</string>
     <string name="height">Höhe %1$s</string>
     <string name="quality">Qualität</string>
@@ -8050,4 +8049,9 @@
     <string name="arcade_flightcontrol_sub">Zeichnen Sie eine Route von jedem Flugzeug zur entsprechenden Landezone. Halten Sie die Flugzeuge auseinander und richten Sie sie an den Landebahnpfeilen aus</string>
     <string name="arcade_balancetower">Balanceturm</string>
     <string name="arcade_balancetower_sub">Tippen Sie, um den Bewegungsblock zu löschen. Halten Sie das Gesamtgewicht über den Stützen; das markierte Ende ist schwerer</string>
+    <string name="arcade_paused">Pausiert</string>
+    <string name="arcade_game_over">Game Over</string>
+    <string name="arcade_new_record">Neuer Rekord!</string>
+    <string name="arcade_previous_best">Letzter Rekord: %1$d</string>
+    <string name="arcade_finish">Spiel beenden</string>
 </resources>

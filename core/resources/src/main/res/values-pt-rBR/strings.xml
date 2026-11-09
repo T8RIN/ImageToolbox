@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Algo deu errado: %1$s</string>
     <string name="size">Tamanho %1$s</string>
     <string name="loading">Carregando…</string>
@@ -8051,4 +8050,9 @@
     <string name="arcade_flightcontrol_sub">Desenhe uma rota de cada aeronave até a zona de pouso correspondente. Mantenha as aeronaves separadas e alinhe-as com as setas da pista</string>
     <string name="arcade_balancetower">Torre de equilíbrio</string>
     <string name="arcade_balancetower_sub">Toque para soltar o bloco em movimento. Mantenha o peso combinado acima dos apoios; a extremidade marcada é mais pesada</string>
+    <string name="arcade_paused">Pausado</string>
+    <string name="arcade_game_over">Fim de jogo</string>
+    <string name="arcade_new_record">Novo recorde!</string>
+    <string name="arcade_previous_best">Melhor resultado anterior: %1$d</string>
+    <string name="arcade_finish">Terminar jogo</string>
 </resources>
