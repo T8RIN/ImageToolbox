@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">大小 %1$s</string>
     <string name="loading">載入中…</string>
     <string name="no_exif">沒有發現 EXIF 資料</string>
@@ -1247,7 +1246,7 @@
     <string name="collage_maker">拼貼畫製作器</string>
     <string name="collage_type">拼貼類型</string>
     <string name="collages_info">按住圖片進行交換、移動與縮放以調整位置</string>
-    <string name="collage_maker_sub">使用圖片製作拼貼畫</string>
+    <string name="collage_maker_sub">用最多 100 張圖片製作拼貼畫</string>
     <string name="alignment">對齊</string>
     <string name="custom_options">自訂選項</string>
     <string name="line_style">線條樣式</string>
@@ -7187,7 +7186,7 @@
     <string name="help_tip_ai_cleanup_step_2">對於模糊、雨點、半色調或條帶，請閱讀特定型號說明，而不是使用一般的升級器。 FBCNN 公開了用於比較溫和和更強清理的強度控制。</string>
     <string name="help_tip_ai_cleanup_step_3">以正常查看尺寸檢查文字、頭髮、精細圖案和皮膚。當相同儲存的影像開始失去紋理時，避免重複去雜訊。</string>
     <string name="help_tip_ai_colorization_title">為黑白照片上色</string>
-    <string name="help_tip_ai_colorization_subtitle">DDColor、DDColor Tiny 與 DDColor Artistic</string>
+    <string name="help_tip_ai_colorization_subtitle">DDColor（標準版、輕量版、美術版）</string>
     <string name="help_tip_ai_colorization_description">著色器根據灰階內容預測合理的顏色。他們無法確定地恢復原始顏色：衣服、物體和膚色可能與真實場景有所不同。</string>
     <string name="help_tip_ai_colorization_step_1">在 AI 工具中選擇著色模型。從 DDColor Tiny 開始使用較輕的模型，或比較相同來源的 DDColor 和 DDColor Artistic。</string>
     <string name="help_tip_ai_colorization_step_2">預覽整個影像，然後檢查臉部和物件邊界是否有滲色。如果嚴重噪音或損壞影響結果，請單獨清除。</string>
@@ -7595,7 +7594,7 @@
     <string name="style_presets_sub">儲存或套用樣式</string>
     <string name="save_style_preset">儲存樣式</string>
     <string name="delete_style_preset">刪除樣式</string>
-    <string name="delete_style_preset_sub">刪除樣式“%1$s”？</string>
+    <string name="delete_style_preset_sub">從已儲存的樣式中刪除樣式「%1$s」？您目前的設定將保持不變。</string>
     <string name="code_preview_transparent_background">透明背景</string>
     <string name="filter_help_adaptive_binarization">使用局部亮度統計在不均勻照明下分離墨水和紙張。</string>
     <string name="filter_help_agx_tone_mapping">使用分析 AgX 色調曲線降低高光並控制飽和度。</string>
@@ -7976,7 +7975,7 @@
     <string name="arcade_exit_title">離開遊戲？</string>
     <string name="arcade_exit_sub">當前的遊戲將結束。您的高分將被保存。</string>
     <string name="arcade_games_sub">玩不同的街機迷你遊戲</string>
-    <string name="arcade_games_search">恐龍遊戲、塗鴉跳躍、Flappy Bird、Tower Builder、Stack、乒乓球、2048、蛇、俄羅斯方塊</string>
+    <string name="arcade_games_search">恐龍遊戲、塗鴉跳躍、像素鳥、塔樓建造者、堆疊、乒乓球、2048、貪吃蛇、俄羅斯方塊、復古賽車、彈射、小行星、水果切片、飛刀、飛彈指揮官、河流跳躍、青蛙過河、打地鼠、西蒙說、泡泡龍、釣魚、超級六邊形</string>
     <string name="arcade_dino">恐龍遊戲</string>
     <string name="arcade_doodle">塗鴉跳躍</string>
     <string name="arcade_bird">飛揚的鳥</string>
@@ -8049,4 +8048,9 @@
     <string name="arcade_flightcontrol_sub">繪製從每架飛機到其匹配著陸區的路線。保持飛機間隔並使飛機與跑道箭頭對齊</string>
     <string name="arcade_balancetower">平衡塔</string>
     <string name="arcade_balancetower_sub">點擊以放下移動塊。將總重量保持在支撐物上方；標示的一端較重</string>
+    <string name="arcade_paused">已暫停</string>
+    <string name="arcade_game_over">遊戲結束</string>
+    <string name="arcade_new_record">新紀錄！</string>
+    <string name="arcade_previous_best">先前最佳：%1$d</string>
+    <string name="arcade_finish">完成遊戲</string>
 </resources>
