@@ -38,7 +38,7 @@ import androidx.compose.ui.layout.boundsInWindow
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.junit4.v2.createComposeRule
 import androidx.compose.ui.unit.dp
 import androidx.test.platform.app.InstrumentationRegistry
 import com.t8rin.imagetoolbox.core.games.catalog.AsteroidsGame
@@ -72,6 +72,7 @@ import com.t8rin.imagetoolbox.core.games.catalog.RiverHopGame
 import com.t8rin.imagetoolbox.core.games.catalog.SimonSaysGame
 import com.t8rin.imagetoolbox.core.games.catalog.SnakeGame
 import com.t8rin.imagetoolbox.core.games.catalog.StackGame
+import com.t8rin.imagetoolbox.core.games.catalog.TempleEscapeGame
 import com.t8rin.imagetoolbox.core.games.catalog.TetrisGame
 import com.t8rin.imagetoolbox.core.games.catalog.TimbermanGame
 import com.t8rin.imagetoolbox.core.games.catalog.WhackAMoleGame
@@ -316,6 +317,11 @@ private fun PlayingGame(game: ArcadeGame, height: Int, onBounds: (Rect) -> Unit)
         ArcadeGame.LaserMirrors -> LaserMirrorsGame(modifier, initial, style)
         ArcadeGame.FlowConnect -> FlowConnectGame(modifier, initial, style)
         ArcadeGame.BalanceTower -> BalanceTowerGame(modifier, initial, style)
+        ArcadeGame.TempleEscape -> TempleEscapeGame(
+            modifier = modifier,
+            initialState = initial,
+            style = style
+        )
         else -> error("Expected a playable game")
     }
 }

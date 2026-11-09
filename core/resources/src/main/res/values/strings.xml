@@ -8112,4 +8112,6 @@
     <string name="arcade_flightcontrol_sub">Draw a route from each aircraft to its matching landing zone. Keep aircraft apart and line planes up with the runway arrows</string>
     <string name="arcade_balancetower">Balance Tower</string>
     <string name="arcade_balancetower_sub">Tap to drop the moving block. Keep the combined weight above the supports; the marked end is heavier</string>
+    <string name="arcade_templeescape">Temple Escape</string>
+    <string name="arcade_templeescape_sub">Swipe to dash from wall to wall and climb to the exit before the lava catches you. Dodge spikes and guardians, collect relics and use shields to survive a hit</string>
 </resources>

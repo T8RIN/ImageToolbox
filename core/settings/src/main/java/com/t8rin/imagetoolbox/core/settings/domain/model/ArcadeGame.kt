@@ -56,6 +56,7 @@ enum class ArcadeGame {
     LaserMirrors,
     FlowConnect,
     BalanceTower,
+    TempleEscape,
     RandomFavorite;
 
     fun pickGame(

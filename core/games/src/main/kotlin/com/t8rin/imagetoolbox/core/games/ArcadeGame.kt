@@ -135,6 +135,7 @@ import com.t8rin.imagetoolbox.core.games.catalog.RiverHopGame
 import com.t8rin.imagetoolbox.core.games.catalog.SimonSaysGame
 import com.t8rin.imagetoolbox.core.games.catalog.SnakeGame
 import com.t8rin.imagetoolbox.core.games.catalog.StackGame
+import com.t8rin.imagetoolbox.core.games.catalog.TempleEscapeGame
 import com.t8rin.imagetoolbox.core.games.catalog.TetrisGame
 import com.t8rin.imagetoolbox.core.games.catalog.TimbermanGame
 import com.t8rin.imagetoolbox.core.games.catalog.WhackAMoleGame
@@ -313,6 +314,12 @@ fun ArcadeGameContent(
             )
 
             ArcadeGame.FlightControl -> FlightControlGame(
+                modifier = modifier,
+                style = style,
+                isPaused = isPaused
+            )
+
+            ArcadeGame.TempleEscape -> TempleEscapeGame(
                 modifier = modifier,
                 style = style,
                 isPaused = isPaused

@@ -29,6 +29,7 @@ import com.t8rin.imagetoolbox.core.games.catalog.StackRun
 import com.t8rin.imagetoolbox.core.games.catalog.PongRun
 import com.t8rin.imagetoolbox.core.games.catalog.MergeRun
 import com.t8rin.imagetoolbox.core.games.catalog.SnakeRun
+import com.t8rin.imagetoolbox.core.games.catalog.TempleEscapeRun
 import com.t8rin.imagetoolbox.core.games.catalog.TetrisRun
 import com.t8rin.imagetoolbox.core.games.catalog.AsteroidsRun
 import com.t8rin.imagetoolbox.core.games.catalog.BalanceTowerRun
@@ -55,6 +56,7 @@ import com.t8rin.imagetoolbox.core.games.catalog.LightCyclesRun
 import com.t8rin.imagetoolbox.core.games.catalog.LunarLanderRun
 import com.t8rin.imagetoolbox.core.games.catalog.MazeChaserRun
 import com.t8rin.imagetoolbox.core.games.catalog.MinesweeperRun
+import com.t8rin.imagetoolbox.core.games.catalog.MissileBlast
 import com.t8rin.imagetoolbox.core.games.catalog.MissileCommandRun
 import com.t8rin.imagetoolbox.core.games.catalog.OrbitGate
 import com.t8rin.imagetoolbox.core.games.catalog.OrbitSurvivalRun
@@ -120,13 +122,14 @@ class ArcadeMechanicsTest {
         ::BasketballRun,
         ::LaserMirrorsRun,
         ::FlowConnectRun,
-        ::BalanceTowerRun
+        ::BalanceTowerRun,
+        ::TempleEscapeRun
     )
 
     @Test
-    fun collectionContainsThirtyFiveDistinctGamesAndTheOriginalEight() {
-        assertEquals(35, ArcadeGame.playable.size)
-        assertEquals(35, ArcadeGame.playable.distinct().size)
+    fun collectionContainsThirtySixDistinctGamesAndTheOriginalEight() {
+        assertEquals(36, ArcadeGame.playable.size)
+        assertEquals(36, ArcadeGame.playable.distinct().size)
         assertEquals(
             listOf(
                 ArcadeGame.Dino, ArcadeGame.Doodle, ArcadeGame.Bird, ArcadeGame.Stack,
@@ -134,7 +137,7 @@ class ArcadeMechanicsTest {
             ),
             ArcadeGame.playable.take(8)
         )
-        assertEquals(35, ArcadeGame.playable.map { it.title }.distinct().size)
+        assertEquals(36, ArcadeGame.playable.map { it.title }.distinct().size)
     }
 
     @Test
@@ -455,6 +458,25 @@ class ArcadeMechanicsTest {
     }
 
     @Test
+    fun missileWavesKeepBlastsAndInputRunningWithoutFadingTheField() {
+        val run = MissileCommandRun().apply { start() }
+        var steps = 0
+        while (run.score == 0 && steps++ < 2000) {
+            run.missiles.clear()
+            run.advance(seconds = 1f / 120f)
+        }
+        assertTrue(run.score > 0)
+        assertEquals(0f, run.levelTransition, 0f)
+        val blast = MissileBlast(x = 100f, y = 100f)
+        run.blasts += blast
+        run.fire(point = Offset(x = 100f, y = 100f))
+        assertEquals(1, run.shots.size)
+        repeat(12) { run.advance(seconds = 1f / 120f) }
+        assertTrue(blast.age > 0f)
+        assertTrue(run.shots.single().y < run.ground)
+    }
+
+    @Test
     fun incomingMissilesEnterFromOutsideTheTopEdge() {
         val run = MissileCommandRun().apply { resize(360f, 680f); start() }
         var frames = 0
@@ -488,6 +510,7 @@ class ArcadeMechanicsTest {
                 repeat(28) { run.advance(1f / 120f) }
             }
             assertEquals(round + 1, run.score)
+            assertEquals(0f, run.levelTransition, 0f)
             // Finish the last-input flash before observing the next playback.
             repeat(30) { run.advance(1f / 120f) }
         }
@@ -1517,7 +1540,8 @@ private val runSerializers = mapOf(
     BasketballRun::class to BasketballRun.serializer(),
     LaserMirrorsRun::class to LaserMirrorsRun.serializer(),
     FlowConnectRun::class to FlowConnectRun.serializer(),
-    BalanceTowerRun::class to BalanceTowerRun.serializer()
+    BalanceTowerRun::class to BalanceTowerRun.serializer(),
+    TempleEscapeRun::class to TempleEscapeRun.serializer()
 )
 
 @Suppress("UNCHECKED_CAST")

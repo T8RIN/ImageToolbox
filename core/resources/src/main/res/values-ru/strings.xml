@@ -8068,4 +8068,6 @@
     <string name="arcade_flightcontrol_sub">Рисуйте маршруты от самолётов и вертолётов к подходящим площадкам. Избегайте столкновений и заводите самолёты по стрелкам полосы</string>
     <string name="arcade_balancetower">Баланс башни</string>
     <string name="arcade_balancetower_sub">Касайтесь поля, чтобы сбросить движущийся блок. Удерживайте общий вес над опорами; отмеченный край тяжелее</string>
+    <string name="arcade_templeescape">Побег из храма</string>
+    <string name="arcade_templeescape_sub">Смахивайте, чтобы мчаться от стены к стене и добраться до выхода раньше лавы. Избегайте шипов и стражей, собирайте реликвии; щит спасёт от одного удара</string>
 </resources>

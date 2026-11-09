@@ -43,6 +43,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.Raven
 import com.t8rin.imagetoolbox.core.resources.icons.Rocket
 import com.t8rin.imagetoolbox.core.resources.icons.Route
 import com.t8rin.imagetoolbox.core.resources.icons.Shield
+import com.t8rin.imagetoolbox.core.resources.icons.ShineDiamond
 import com.t8rin.imagetoolbox.core.resources.icons.Shuffle
 import com.t8rin.imagetoolbox.core.resources.icons.Snake
 import com.t8rin.imagetoolbox.core.resources.icons.SportsBasketball
@@ -93,6 +94,7 @@ val ArcadeGame.title: Int
         ArcadeGame.Minesweeper -> R.string.arcade_minesweeper
         ArcadeGame.Bomber -> R.string.arcade_bomber
         ArcadeGame.BalanceTower -> R.string.arcade_balancetower
+        ArcadeGame.TempleEscape -> R.string.arcade_templeescape
         ArcadeGame.FlightControl -> R.string.arcade_flightcontrol
         ArcadeGame.FlowConnect -> R.string.arcade_flowconnect
         ArcadeGame.LaserMirrors -> R.string.arcade_lasermirrors
@@ -134,6 +136,7 @@ val ArcadeGame.description: Int
         ArcadeGame.Minesweeper -> R.string.arcade_minesweeper_sub
         ArcadeGame.Bomber -> R.string.arcade_bomber_sub
         ArcadeGame.BalanceTower -> R.string.arcade_balancetower_sub
+        ArcadeGame.TempleEscape -> R.string.arcade_templeescape_sub
         ArcadeGame.FlightControl -> R.string.arcade_flightcontrol_sub
         ArcadeGame.FlowConnect -> R.string.arcade_flowconnect_sub
         ArcadeGame.LaserMirrors -> R.string.arcade_lasermirrors_sub
@@ -147,6 +150,7 @@ val ArcadeGame.icon: ImageVector
         ArcadeGame.FlowConnect -> Icons.Outlined.Route
         ArcadeGame.FlightControl -> Icons.Outlined.Flight
         ArcadeGame.BalanceTower -> Icons.Outlined.Balance
+        ArcadeGame.TempleEscape -> Icons.Outlined.ShineDiamond
         ArcadeGame.Bomber -> Icons.Outlined.Bomb
         ArcadeGame.Minesweeper -> Icons.Outlined.Flag
         ArcadeGame.MazeChaser -> Icons.Outlined.Explore
