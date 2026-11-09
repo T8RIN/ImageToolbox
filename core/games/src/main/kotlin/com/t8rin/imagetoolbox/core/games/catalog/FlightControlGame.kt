@@ -22,7 +22,6 @@ package com.t8rin.imagetoolbox.core.games.catalog
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Path
@@ -56,16 +55,43 @@ import kotlin.math.sin
 import kotlin.random.Random
 
 private val FlightPlaneSprite = ArcadeSprite(
-    width = 22,
-    height = 24,
-    data = "M10 0H12V2H13V8L22 14V17L13 13V20L17 22V24L11 22L5 24V22L9 20V13L0 17V14L9 8V2H10Z"
+    width = 26,
+    height = 30,
+    data = "M0 14H4V12H8V10H10V2H12V0H14V2H16V10H18V12H22V14H26V18H20V16H16V24H20V26H22V28H16V30H10V28H4V26H6V24H10V16H6V18H0Z M12 4V8H14V4Z"
 )
-private val FlightHelicopterSprite =
-    ArcadeSprite(
-        width = 18,
-        height = 24,
-        data = "M7 2H11V4H13V12H11V20H13V22H5V20H7V12H5V4H7Z M2 5H4V14H2Z M14 5H16V14H14Z"
-    )
+
+private val FlightJetSprite = ArcadeSprite(
+    width = 26,
+    height = 30,
+    data = "M0 18H2V16H4V14H6V12H8V10H10V2H12V0H14V2H16V10H18V12H20V14H22V16H24V18H26V22H20V20H16V24H20V26H22V30H18V28H14V30H12V28H8V30H4V26H6V24H10V20H6V22H0Z M12 4V8H14V4Z"
+)
+
+private val FlightHelicopterSprite = ArcadeSprite(
+    width = 26,
+    height = 30,
+    data = "M10 0H16V2H18V4H20V12H18V14H16V16H10V14H8V12H6V4H8V2H10Z " +
+            "M10 4H16V6H18V10H8V6H10Z M12 16H14V24H18V26H14V30H12V26H8V24H12Z"
+)
+
+private val FlightHelipad = ArcadeSprite(
+    width = 42,
+    height = 42,
+    data = "M8 0H34V2H38V4H40V8H42V34H40V38H38V40H34V42H8V40H4V38H2V34H0V8H2V4H4V2H8Z " +
+            "M8 2H34V4H38V8H40V34H38V38H34V40H8V38H4V34H2V8H4V4H8Z " +
+            "M13 11H17V19H25V11H29V31H25V23H17V31H13Z"
+)
+
+private val FlightAirstrip = ArcadeSprite(
+    width = 70,
+    height = 24,
+    data = "M4 0H66V2H70V22H66V24H4V22H0V2H4Z M4 2H66V4H68V20H66V22H4V20H2V4H4Z"
+)
+
+private val FlightApproach = ArcadeSprite(
+    width = 6,
+    height = 10,
+    data = "M0 0H2V2H0Z M2 2H4V4H2Z M4 4H6V6H4Z M2 6H4V8H2Z M0 8H2V10H0Z"
+)
 
 @Composable
 fun FlightControlGame(
@@ -99,24 +125,23 @@ fun FlightControlGame(
             onRelease = run::commit
         ) {
             val colors = listOf(style.playerColor, style.hazardColor, style.accentColor)
-            repeat(22) { index ->
-                val p = Offset(
-                    x = ((index * 71 + 37) % 353) / 353f * run.width,
-                    y = ((index * 101 + 19) % 419) / 419f * run.height
-                )
+            repeat(18) { index ->
+                val x = ((index * 71 + 37) % 353) / 353f * run.width
+                val y =
+                    run.topInset + ((index * 101 + 19) % 419) / 419f * (run.height - run.topInset)
                 pixelRect(
-                    color = style.detailColor.copy(alpha = 0.23f),
-                    x = p.x,
-                    y = p.y,
-                    width = 6f,
-                    height = 2f
+                    color = style.detailColor.copy(alpha = 0.22f),
+                    x = x,
+                    y = y,
+                    width = if (index % 3 == 0) 6f else 3f,
+                    height = 1f
                 )
-                pixelRect(
-                    color = style.detailColor.copy(alpha = 0.16f),
-                    x = p.x + 2f,
-                    y = p.y - 3f,
+                if (index % 3 == 0) pixelRect(
+                    color = style.detailColor.copy(alpha = 0.22f),
+                    x = x + 9f,
+                    y = y - 3f,
                     width = 2f,
-                    height = 8f
+                    height = 1f
                 )
             }
             repeat(3) { kind ->
@@ -124,54 +149,21 @@ fun FlightControlGame(
                 val color = colors[kind]
                 val active = run.planes.any { it.kind == kind && it.cleared }
                 if (kind == 2) {
-                    drawCircle(
-                        color = color.copy(alpha = if (active) 0.28f else 0.12f),
-                        radius = 21f,
-                        center = p
-                    )
-                    drawCircle(
-                        color = color.copy(alpha = 0.65f),
-                        radius = 17f,
-                        center = p,
-                        style = Stroke(width = 1.5f)
-                    )
-                    pixelRect(
-                        color = color,
-                        x = p.x - 7f,
-                        y = p.y - 8f,
-                        width = 3f,
-                        height = 16f
-                    )
-                    pixelRect(
-                        color = color,
-                        x = p.x + 4f,
-                        y = p.y - 8f,
-                        width = 3f,
-                        height = 16f
-                    )
-                    pixelRect(
-                        color = color,
-                        x = p.x - 5f,
-                        y = p.y - 1.5f,
-                        width = 10f,
-                        height = 3f
+                    drawArcadeSprite(
+                        sprite = FlightHelipad,
+                        tint = color.copy(alpha = if (active) 1f else 0.65f),
+                        x = p.x - FlightHelipad.width / 2f,
+                        y = p.y - FlightHelipad.height / 2f
                     )
                 } else rotate(
                     degrees = run.runways[kind].heading * 180f / PI.toFloat(),
                     pivot = p
                 ) {
-                    drawRoundRect(
-                        color = color.copy(alpha = 0.12f),
-                        topLeft = p - Offset(x = 35f, y = 12f),
-                        size = Size(width = 70f, height = 24f),
-                        cornerRadius = CornerRadius(x = 3f)
-                    )
-                    drawRoundRect(
-                        color = color.copy(alpha = if (active) 1f else 0.65f),
-                        topLeft = p - Offset(x = 35f, y = 12f),
-                        size = Size(width = 70f, height = 24f),
-                        cornerRadius = CornerRadius(x = 3f),
-                        style = Stroke(width = 1f)
+                    drawArcadeSprite(
+                        sprite = FlightAirstrip,
+                        tint = color.copy(alpha = if (active) 1f else 0.65f),
+                        x = p.x - FlightAirstrip.width / 2f,
+                        y = p.y - FlightAirstrip.height / 2f
                     )
                     repeat(5) {
                         pixelRect(
@@ -191,17 +183,11 @@ fun FlightControlGame(
                             height = 3f
                         )
                     }
-                    drawLine(
-                        color = color,
-                        start = p + Offset(x = -47f, y = -5f),
-                        end = p + Offset(x = -42f, y = 0f),
-                        strokeWidth = 1.5f
-                    )
-                    drawLine(
-                        color = color,
-                        start = p + Offset(x = -47f, y = 5f),
-                        end = p + Offset(x = -42f, y = 0f),
-                        strokeWidth = 1.5f
+                    drawArcadeSprite(
+                        sprite = FlightApproach,
+                        tint = color,
+                        x = p.x - 47f,
+                        y = p.y - FlightApproach.height / 2f
                     )
                 }
             }
@@ -222,68 +208,58 @@ fun FlightControlGame(
                         )
                     )
                 }
-                if (plane.warning || plane.id == run.selected) drawCircle(
-                    color = if (plane.warning) style.hazardColor.copy(alpha = 0.7f) else color.copy(
-                        alpha = 0.5f
-                    ),
-                    radius = 17f + if (plane.warning) sin(run.time * 10f) * 2f else 0f,
-                    center = plane.point,
-                    style = Stroke(width = 1f)
-                )
+                if (plane.warning || plane.id == run.selected) {
+                    val ink = if (plane.warning) style.hazardColor else color
+                    val radius = 18f + if (plane.warning) sin(run.time * 10f) * 2f else 0f
+                    for (side in 0..1) for (end in 0..1) {
+                        val x = plane.point.x + if (side == 0) -radius else radius - 6f
+                        val y = plane.point.y + if (end == 0) -radius else radius - 2f
+                        pixelRect(color = ink, x = x, y = y, width = 6f, height = 2f)
+                        pixelRect(
+                            color = ink,
+                            x = x + if (side == 0) 0f else 4f,
+                            y = y + if (end == 0) 0f else -4f,
+                            width = 2f,
+                            height = 6f
+                        )
+                    }
+                }
                 rotate(degrees = plane.heading * 180f / PI.toFloat() + 90f, pivot = plane.point) {
                     scale(
                         if (plane.landing > 0f) (plane.landing / 0.6f).coerceAtLeast(0.1f) else 1f,
                         plane.point
                     ) {
+                        val sprite = when (plane.kind) {
+                            1 -> FlightJetSprite
+                            2 -> FlightHelicopterSprite
+                            else -> FlightPlaneSprite
+                        }
+                        drawArcadeSprite(
+                            sprite = sprite,
+                            tint = color,
+                            x = plane.point.x - sprite.width / 2f,
+                            y = plane.point.y - sprite.height / 2f
+                        )
                         if (plane.kind == 2) {
-                            drawArcadeSprite(
-                                sprite = FlightHelicopterSprite,
-                                tint = color,
-                                x = plane.point.x - 9f,
-                                y = plane.point.y - 12f
-                            )
-                            rotate(
-                                degrees = run.time * 950f,
-                                pivot = plane.point - Offset(x = 0f, y = 4f)
-                            ) {
-                                pixelRect(
-                                    color = color.copy(alpha = 0.8f),
-                                    x = plane.point.x - 12f,
-                                    y = plane.point.y - 5f,
-                                    width = 24f,
-                                    height = 2f
-                                )
+                            val hub = plane.point - Offset(x = 0f, y = 3f)
+                            rotate(degrees = run.time * 900f, pivot = hub) {
+                                for (side in 0..1) {
+                                    pixelRect(
+                                        color = color.copy(alpha = 0.7f),
+                                        x = hub.x + if (side == 0) -15f else 3f,
+                                        y = hub.y - 1f,
+                                        width = 12f,
+                                        height = 2f
+                                    )
+                                }
                             }
-                        } else {
-                            drawArcadeSprite(
-                                sprite = FlightPlaneSprite,
-                                tint = color,
-                                x = plane.point.x - 11f,
-                                y = plane.point.y - 12f
-                            )
                             pixelRect(
-                                color = style.playerDetailColor,
-                                x = plane.point.x - 1f,
-                                y = plane.point.y - 8f,
-                                width = 2f,
+                                color = color,
+                                x = hub.x - 2f,
+                                y = hub.y - 2f,
+                                width = 4f,
                                 height = 4f
                             )
-                            if (plane.kind == 1) {
-                                pixelRect(
-                                    color = style.playerDetailColor,
-                                    x = plane.point.x - 5f,
-                                    y = plane.point.y + 1f,
-                                    width = 3f,
-                                    height = 3f
-                                )
-                                pixelRect(
-                                    color = style.playerDetailColor,
-                                    x = plane.point.x + 2f,
-                                    y = plane.point.y + 1f,
-                                    width = 3f,
-                                    height = 3f
-                                )
-                            }
                         }
                     }
                 }

@@ -26,6 +26,7 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.rotate
+import androidx.compose.ui.graphics.drawscope.scale
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
 import com.t8rin.imagetoolbox.core.games.ArcadeDefaults
 import com.t8rin.imagetoolbox.core.games.ArcadeField
@@ -47,13 +48,81 @@ import kotlin.math.abs
 import kotlin.math.exp
 import kotlin.random.Random
 
-private val RacingBody = ArcadeSprite(
-    width = 30, height = 46,
-    data = "M8 0H22V3H25V10H27V36H25V43H22V46H8V43H5V36H3V10H5V3H8Z"
+private val RacingPlayer = ArcadeSprite(
+    width = 30,
+    height = 46,
+    data = "M6 0H24V2H26V28H28V40H30V44H26V46H4V44H0V40H2V28H4V2H6Z"
 )
+
+private val RacingPlayerDetails = ArcadeSprite(
+    width = 30,
+    height = 46,
+    data = "M5 4H10V7H5Z M20 4H25V7H20Z M9 15H21V17H23V22H7V17H9Z " +
+            "M9 32H21V37H9Z M3 41H27V43H3Z"
+)
+
+private val RacingCar = ArcadeSprite(
+    width = 30,
+    height = 46,
+    data = "M6 0H24V2H26V18H29V21H26V44H24V46H6V44H4V21H1V18H4V2H6Z"
+)
+
+private val RacingCarDetails = ArcadeSprite(
+    width = 30,
+    height = 46,
+    data = "M5 3H10V5H5Z M20 3H25V5H20Z M8 11H22V17H8Z " +
+            "M8 32H22V38H8Z M6 42H10V44H6Z M20 42H24V44H20Z"
+)
+
+private val RacingHatchback = ArcadeSprite(
+    width = 30,
+    height = 46,
+    data = "M4 0H26V2H28V16H30V19H28V44H26V46H4V44H2V19H0V16H2V2H4Z"
+)
+
+private val RacingHatchbackDetails = ArcadeSprite(
+    width = 30,
+    height = 46,
+    data = "M4 3H9V5H4Z M21 3H26V5H21Z M6 8H24V14H6Z " +
+            "M6 28H24V39H6Z M3 41H6V44H3Z M24 41H27V44H24Z"
+)
+
 private val RacingTires = ArcadeSprite(
-    width = 30, height = 46,
-    data = "M0 9H5V19H0Z M25 9H30V19H25Z M0 30H5V40H0Z M25 30H30V40H25Z"
+    width = 30,
+    height = 46,
+    data = "M0 8H5V17H0Z M25 8H30V17H25Z M0 31H5V40H0Z M25 31H30V40H25Z"
+)
+
+private val RacingTruck = ArcadeSprite(
+    width = 38,
+    height = 82,
+    data = "M7 0H31V2H33V26H36V80H34V82H4V80H2V26H5V2H7Z"
+)
+
+private val RacingTruckDetails = ArcadeSprite(
+    width = 38,
+    height = 82,
+    data = "M6 3H11V6H6Z M27 3H32V6H27Z M8 9H18V16H8Z M20 9H30V16H20Z " +
+            "M4 27H34V30H4Z M4 77H9V80H4Z M29 77H34V80H29Z"
+)
+
+private val RacingTruckTires = ArcadeSprite(
+    width = 38,
+    height = 82,
+    data = "M0 10H6V20H0Z M32 10H38V20H32Z M0 60H5V68H0Z M33 60H38V68H33Z " +
+            "M0 72H5V80H0Z M33 72H38V80H33Z"
+)
+
+private val RacingBush = ArcadeSprite(
+    width = 20,
+    height = 14,
+    data = "M0 6H2V4H6V2H8V0H12V2H14V4H18V6H20V10H18V12H14V14H6V12H2V10H0Z"
+)
+
+private val RacingShoulder = ArcadeSprite(
+    width = 18,
+    height = 144,
+    data = "M0 0H1V58H3V85H1V144H0V84H2V59H0Z M8 32H11V33H8Z M14 110H16V112H14Z"
 )
 
 @Composable
@@ -89,57 +158,37 @@ fun RacerGame(
             val roadWidth = run.laneWidth * 3f
 
             pixelRect(
-                color = style.detailColor.copy(alpha = 0.1f),
+                color = style.detailColor.copy(alpha = 0.04f),
                 x = left,
                 y = 0f,
                 width = roadWidth,
                 height = run.height
             )
-
             for (side in 0..1) {
                 val edge = if (side == 0) left else left + roadWidth
-                pixelRect(
-                    color = style.detailColor,
-                    x = edge - 1f,
-                    y = 0f,
-                    width = 2f,
-                    height = run.height
-                )
-                var y = run.distance % 36f - 36f
+                val direction = if (side == 0) -1f else 1f
+                var y = run.distance % 144f - 144f
                 while (y < run.height) {
-                    pixelRect(
-                        color = style.obstacleColor,
-                        x = edge + if (side == 0) -6f else 2f,
-                        y = y,
-                        width = 4f,
-                        height = 18f
+                    scale(
+                        scaleX = direction,
+                        scaleY = 1f,
+                        pivot = Offset(x = edge, y = 0f)
+                    ) {
+                        drawArcadeSprite(
+                            sprite = RacingShoulder,
+                            tint = style.detailColor,
+                            x = edge,
+                            y = y
+                        )
+                    }
+                    val x = if (side == 0) left / 2f else run.width - left / 2f
+                    drawArcadeSprite(
+                        sprite = RacingBush,
+                        tint = style.detailColor.copy(alpha = 0.3f),
+                        x = x - RacingBush.width / 2f,
+                        y = y + if (side == 0) 60f else 116f
                     )
-                    y += 36f
-                }
-                repeat(9) { index ->
-                    val y = (index * 83f + run.distance * 0.75f) % (run.height + 40f) - 20f
-                    val x = if (side == 0) left * 0.44f else run.width - left * 0.44f
-                    pixelRect(
-                        color = style.detailColor,
-                        x = x - 1f,
-                        y = y,
-                        width = 2f,
-                        height = 15f
-                    )
-                    pixelRect(
-                        color = style.obstacleColor.copy(alpha = 0.4f),
-                        x = x - 5f,
-                        y = y - 4f,
-                        width = 10f,
-                        height = 10f
-                    )
-                    pixelRect(
-                        color = style.obstacleColor.copy(alpha = 0.4f),
-                        x = x - 8f,
-                        y = y,
-                        width = 16f,
-                        height = 5f
-                    )
+                    y += 144f
                 }
             }
             for (lane in 1..2) {
@@ -157,35 +206,45 @@ fun RacerGame(
             }
             for ((lane, y, kind) in run.traffic) {
                 racingCar(
-                    style, run.laneX(lane.toFloat()), y,
-                    if (kind == 0) style.obstacleColor else style.accentColor,
-                    kind
+                    style = style,
+                    x = run.laneX(lane = lane.toFloat()),
+                    y = y,
+                    color = style.obstacleColor,
+                    kind = kind
                 )
             }
             val x = run.laneX(run.position)
             if (run.phase == ArcadePhase.Running) {
                 pixelRect(
                     color = style.playerColor.copy(alpha = 0.15f),
-                    x = x - 9f,
-                    y = run.playerY + 22f,
+                    x = x - 14f,
+                    y = run.playerY + 18f,
                     width = 3f,
-                    height = 15f
+                    height = 18f
                 )
                 pixelRect(
                     color = style.playerColor.copy(alpha = 0.15f),
-                    x = x + 6f,
-                    y = run.playerY + 22f,
+                    x = x + 11f,
+                    y = run.playerY + 18f,
                     width = 3f,
-                    height = 15f
+                    height = 18f
                 )
             }
             rotate(
                 degrees = (run.targetLane - run.position) * 9f,
                 pivot = Offset(x = x, y = run.playerY)
             ) {
-                racingCar(style, x, run.playerY, style.playerColor)
+                racingCar(
+                    style = style,
+                    x = x,
+                    y = run.playerY,
+                    color = style.playerColor
+                )
             }
-            run.effects.draw(this, style.accentColor)
+            run.effects.draw(
+                scope = this,
+                color = style.accentColor
+            )
         }
     }
 }
@@ -195,157 +254,66 @@ private fun DrawScope.racingCar(
     x: Float,
     y: Float,
     color: Color,
-    kind: Int = 0
+    kind: Int = -1
 ) {
+    val sprite = when (kind) {
+        0 -> RacingCar
+        1 -> RacingHatchback
+        2 -> RacingTruck
+        else -> RacingPlayer
+    }
+    val details = when (kind) {
+        0 -> RacingCarDetails
+        1 -> RacingHatchbackDetails
+        2 -> RacingTruckDetails
+        else -> RacingPlayerDetails
+    }
+    val left = x - sprite.width / 2f
+    val top = y - sprite.height / 2f
+    drawArcadeSprite(
+        sprite = if (kind == 2) RacingTruckTires else RacingTires,
+        tint = Color.Black.copy(alpha = 0.65f),
+        x = left,
+        y = top
+    )
+    drawArcadeSprite(
+        sprite = sprite,
+        tint = color,
+        x = left,
+        y = top
+    )
+    drawArcadeSprite(
+        sprite = details,
+        tint = style.playerDetailColor,
+        x = left,
+        y = top
+    )
+    val trim = style.playerDetailColor.copy(alpha = 0.25f)
     if (kind == 2) {
-        pixelRect(
-            color = style.textColor,
-            x = x - 19f,
-            y = y - 32f,
-            width = 38f,
-            height = 12f
-        )
-        pixelRect(
-            color = style.textColor,
-            x = x - 19f,
-            y = y + 22f,
-            width = 38f,
-            height = 13f
-        )
-        pixelRect(
-            color = color,
-            x = x - 16f,
-            y = y - 41f,
-            width = 32f,
-            height = 82f
-        )
-        pixelRect(
-            color = style.playerDetailColor,
-            x = x - 12f,
-            y = y - 32f,
-            width = 24f,
-            height = 9f
-        )
-        pixelRect(
-            color = style.detailColor,
-            x = x - 17f,
-            y = y - 15f,
-            width = 34f,
-            height = 54f
-        )
-        pixelRect(
-            color = color,
-            x = x - 14f,
-            y = y - 12f,
-            width = 28f,
-            height = 48f
-        )
-        repeat(5) { index ->
+        pixelRect(color = trim, x = left + 8f, y = top + 21f, width = 22f, height = 2f)
+        pixelRect(color = trim, x = left + 5f, y = top + 33f, width = 2f, height = 42f)
+        pixelRect(color = trim, x = left + 31f, y = top + 33f, width = 2f, height = 42f)
+        repeat(3) { index ->
             pixelRect(
-                color = style.playerDetailColor.copy(alpha = 0.22f),
-                x = x - 12f,
-                y = y - 7f + index * 8f,
+                color = trim,
+                x = left + 7f,
+                y = top + 38f + index * 12f,
                 width = 24f,
                 height = 2f
             )
         }
+    } else if (kind == -1) {
+        pixelRect(color = trim, x = x - 3f, y = top + 3f, width = 2f, height = 10f)
+        pixelRect(color = trim, x = x + 1f, y = top + 3f, width = 2f, height = 10f)
+    } else {
         pixelRect(
-            color = style.playerDetailColor,
-            x = x - 13f,
-            y = y - 39f,
-            width = 5f,
-            height = 3f
+            color = trim,
+            x = left + 6f,
+            y = top + if (kind == 0) 8f else 6f,
+            width = 18f,
+            height = 1f
         )
-        pixelRect(
-            color = style.playerDetailColor,
-            x = x + 8f,
-            y = y - 39f,
-            width = 5f,
-            height = 3f
-        )
-        pixelRect(
-            color = style.hazardColor,
-            x = x - 13f,
-            y = y + 38f,
-            width = 5f,
-            height = 3f
-        )
-        pixelRect(
-            color = style.hazardColor,
-            x = x + 8f,
-            y = y + 38f,
-            width = 5f,
-            height = 3f
-        )
-        return
     }
-    drawArcadeSprite(
-        sprite = RacingBody,
-        tint = style.textColor.copy(alpha = 0.12f),
-        x = x - 13f,
-        y = y - 20f
-    )
-    drawArcadeSprite(
-        sprite = RacingTires,
-        tint = style.textColor,
-        x = x - 15f,
-        y = y - 23f
-    )
-    drawArcadeSprite(
-        sprite = RacingBody,
-        tint = color,
-        x = x - 15f,
-        y = y - 23f
-    )
-    pixelRect(
-        color = style.playerDetailColor,
-        x = x - 8f,
-        y = y - 10f,
-        width = 16f,
-        height = 8f
-    )
-    pixelRect(
-        color = style.playerDetailColor.copy(alpha = 0.65f),
-        x = x - 7f,
-        y = y + 10f,
-        width = 14f,
-        height = 5f
-    )
-    pixelRect(
-        color = color,
-        x = x - 2f,
-        y = y - 10f,
-        width = 4f,
-        height = 8f
-    )
-    pixelRect(
-        color = style.playerDetailColor,
-        x = x - 9f,
-        y = y - 20f,
-        width = 4f,
-        height = 3f
-    )
-    pixelRect(
-        color = style.playerDetailColor,
-        x = x + 5f,
-        y = y - 20f,
-        width = 4f,
-        height = 3f
-    )
-    pixelRect(
-        color = style.hazardColor,
-        x = x - 9f,
-        y = y + 18f,
-        width = 4f,
-        height = 2f
-    )
-    pixelRect(
-        color = style.hazardColor,
-        x = x + 5f,
-        y = y + 18f,
-        width = 4f,
-        height = 2f
-    )
 }
 
 @Serializable

@@ -21,6 +21,7 @@ import android.os.SystemClock
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.SizeTransform
+import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -64,6 +65,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.runtime.withFrameNanos
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -150,6 +152,7 @@ import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
 import com.t8rin.imagetoolbox.core.utils.appContext
 import com.t8rin.imagetoolbox.core.utils.makeLog
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
@@ -624,13 +627,26 @@ internal fun ArcadeBoard(
     }
 
     var starting by remember(run) { mutableStateOf(false) }
+    val fieldAlpha = remember(run) { Animatable(initialValue = 1f) }
     val overlay = remember(run) { MutableTransitionState(initialState = !run.startWhenReady) }
     overlay.targetState = !run.startWhenReady && phase != ArcadePhase.Running && !starting
-    LaunchedEffect(overlay.isIdle, overlay.currentState, starting, isPaused) {
-        if (starting && overlay.isIdle && !overlay.currentState && !isPaused) {
+    LaunchedEffect(starting, isPaused) {
+        if (starting && !isPaused) {
+            val restarting = run.phase == ArcadePhase.Over
+            if (restarting) {
+                fieldAlpha.animateTo(
+                    targetValue = 0f,
+                    animationSpec = tween(durationMillis = 180)
+                )
+            }
+            snapshotFlow { overlay.isIdle && !overlay.currentState }.first { it }
             if (run.phase != ArcadePhase.Paused) run.previousBest = record
             run.start()
+            if (restarting) run.animateLevel()
+            fieldAlpha.snapTo(targetValue = 1f)
             starting = false
+        } else {
+            fieldAlpha.snapTo(targetValue = 1f)
         }
     }
     val lifecycle = LocalLifecycleOwner.current.lifecycle
@@ -686,7 +702,11 @@ internal fun ArcadeBoard(
             .border(1.dp, style.borderColor, style.shape)
     ) {
         val hudScale = (maxWidth / 320.dp).coerceAtMost(1f)
-        Box(modifier = Modifier.matchParentSize()) {
+        Box(
+            modifier = Modifier
+                .matchParentSize()
+                .graphicsLayer { alpha = fieldAlpha.value }
+        ) {
             field()
         }
         Row(
