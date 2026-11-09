@@ -48,6 +48,7 @@ dependencies {
     api(projects.core.utils)
     implementation(projects.core.di)
     implementation(projects.core.settings)
+    implementation(projects.core.games)
 
     implementation(libs.dotlottie.android)
 

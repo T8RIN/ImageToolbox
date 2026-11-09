@@ -1,0 +1,474 @@
+/*
+ * ImageToolbox is an image editor for android
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * You should have received a copy of the Apache License
+ * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
+ */
+
+package com.t8rin.imagetoolbox.core.games.catalog
+
+import android.os.Bundle
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.CornerRadius
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.drawscope.rotate
+import com.t8rin.imagetoolbox.core.games.ArcadeBoard
+import com.t8rin.imagetoolbox.core.games.ArcadeDefaults
+import com.t8rin.imagetoolbox.core.games.ArcadeField
+import com.t8rin.imagetoolbox.core.games.ArcadeGameState
+import com.t8rin.imagetoolbox.core.games.ArcadeRun
+import com.t8rin.imagetoolbox.core.games.ArcadeStyle
+import com.t8rin.imagetoolbox.core.games.pixelRect
+import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
+import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
+import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
+import kotlin.math.abs
+import kotlin.random.Random
+
+@Composable
+fun LaserMirrorsGame(
+    modifier: Modifier = Modifier,
+    initialState: ArcadeGameState = ArcadeGameState(),
+    style: ArcadeStyle = ArcadeDefaults.style,
+    onHighScoreChanged: ((Int) -> Unit)? = null,
+    onGameOver: ((Int) -> Unit)? = null
+) {
+    val run = rememberArcadeRun(
+        initialState = initialState,
+        create = ::LaserMirrorsRun
+    )
+
+    ArcadeBoard(
+        game = ArcadeGame.LaserMirrors,
+        run = run,
+        style = style,
+        modifier = modifier,
+        initialState = initialState,
+        onHighScoreChanged = onHighScoreChanged,
+        onGameOver = onGameOver,
+        turnBased = true
+    ) {
+        ArcadeField(
+            run = run,
+            onTap = run::tap
+        ) {
+            val cell = run.cell
+            val area = Size(cell * run.columns, cell * run.columns)
+            drawRoundRect(
+                color = style.detailColor.copy(alpha = 0.055f),
+                topLeft = run.origin,
+                size = area,
+                cornerRadius = CornerRadius(7f)
+            )
+            drawRoundRect(
+                color = style.detailColor.copy(alpha = 0.35f),
+                topLeft = run.origin,
+                size = area,
+                cornerRadius = CornerRadius(7f),
+                style = Stroke(1f)
+            )
+            for (index in run.board.indices) {
+                val p = run.center(index)
+                if (run.board[index] == 3) {
+                    pixelRect(
+                        color = style.detailColor.copy(alpha = 0.65f),
+                        x = p.x - cell * 0.25f,
+                        y = p.y - cell * 0.25f,
+                        width = cell * 0.5f,
+                        height = cell * 0.5f
+                    )
+                    pixelRect(
+                        color = style.playerDetailColor.copy(alpha = 0.3f),
+                        x = p.x - cell * 0.12f,
+                        y = p.y - 1f,
+                        width = cell * 0.24f,
+                        height = 2f
+                    )
+                } else if (run.board[index] == 0 && index !in run.targets) drawCircle(
+                    color = style.detailColor.copy(alpha = 0.4f),
+                    radius = 1f,
+                    center = p
+                )
+            }
+            val source = run.center(run.source) - Offset(cell * 0.65f, 0f)
+            val beam = Path().apply {
+                moveTo(source.x, source.y)
+                for (index in run.beam) lineTo(run.center(index).x, run.center(index).y)
+                run.exit?.let { lineTo(it.x, it.y) }
+            }
+            drawPath(
+                path = beam,
+                color = style.playerColor.copy(alpha = 0.09f),
+                style = Stroke(
+                    8f,
+                    cap = StrokeCap.Round
+                )
+            )
+            drawPath(
+                path = beam,
+                color = style.playerColor.copy(alpha = 0.3f),
+                style = Stroke(
+                    4f,
+                    cap = StrokeCap.Round
+                )
+            )
+            drawPath(
+                path = beam,
+                color = style.playerColor,
+                style = Stroke(
+                    1.5f,
+                    cap = StrokeCap.Round
+                )
+            )
+            pixelRect(
+                color = style.playerColor,
+                x = source.x - 4f,
+                y = source.y - 7f,
+                width = 8f,
+                height = 14f
+            )
+            pixelRect(
+                color = style.accentColor,
+                x = source.x + 3f,
+                y = source.y - 3f,
+                width = 5f,
+                height = 6f
+            )
+            for (target in run.targets) {
+                val p = run.center(target)
+                val lit = target in run.lit
+                val color = if (lit) style.accentColor else style.obstacleColor
+                drawCircle(
+                    color = color.copy(alpha = if (lit) 0.18f else 0.06f),
+                    radius = cell * 0.3f,
+                    center = p
+                )
+                drawCircle(
+                    color = color,
+                    radius = cell * 0.21f,
+                    center = p,
+                    style = Stroke(1.5f)
+                )
+                drawCircle(
+                    color = color,
+                    radius = cell * if (lit) 0.11f else 0.045f,
+                    center = p
+                )
+                if (lit) repeat(4) { side ->
+                    rotate(side * 90f, p) {
+                        drawLine(
+                            color = color,
+                            start = p + Offset(0f, -cell * 0.3f),
+                            end = p + Offset(0f, -cell * 0.36f),
+                            strokeWidth = 1f
+                        )
+                    }
+                }
+            }
+            for (index in run.board.indices) if (run.board[index] in 1..2) {
+                val p = run.center(index)
+                drawCircle(
+                    color = style.detailColor.copy(alpha = 0.12f),
+                    radius = cell * 0.32f,
+                    center = p
+                )
+                val angle = run.angles[index]
+                rotate(angle, p) {
+                    drawLine(
+                        color = style.obstacleColor.copy(alpha = 0.2f),
+                        start = p - Offset(cell * 0.34f, 0f),
+                        end = p + Offset(cell * 0.34f, 0f),
+                        strokeWidth = 6f,
+                        cap = StrokeCap.Round
+                    )
+                    drawLine(
+                        color = style.obstacleColor,
+                        start = p - Offset(cell * 0.32f, 0f),
+                        end = p + Offset(cell * 0.32f, 0f),
+                        strokeWidth = 3f,
+                        cap = StrokeCap.Round
+                    )
+                    drawLine(
+                        color = style.accentColor,
+                        start = p + Offset(-cell * 0.25f, -1f),
+                        end = p + Offset(cell * 0.25f, -1f),
+                        strokeWidth = 1f
+                    )
+                }
+                drawCircle(
+                    color = style.playerDetailColor,
+                    radius = 1.5f,
+                    center = p
+                )
+            }
+            run.effects.draw(
+                scope = this,
+                color = style.accentColor
+            )
+        }
+    }
+}
+
+internal class LaserMirrorsRun : ArcadeRun() {
+    var columns = 5
+    var board = IntArray(25)
+    var angles = FloatArray(25)
+    var targets = intArrayOf()
+    var source = 0
+    var round = 1
+    var turns = 0
+    val beam = mutableListOf<Int>()
+    val lit = mutableSetOf<Int>()
+    val effects = ArcadeEffects()
+    var solution = IntArray(25)
+        private set
+    private var initial = IntArray(25)
+    private var transition = 0f
+    private var glow = 0f
+    val cell get() = minOf((width - 62f) / columns, (height - topInset - 34f) / columns)
+    val origin
+        get() = Offset(
+            (width - columns * cell) / 2f,
+            topInset + (height - topInset - columns * cell) / 2f
+        )
+
+    fun center(index: Int) =
+        origin + Offset((index % columns + 0.5f) * cell, (index / columns + 0.5f) * cell)
+
+    var exit: Offset? = null
+        private set
+
+    fun neighbor(
+        index: Int,
+        direction: Int
+    ): Int {
+        val x = index % columns + when (direction) {
+            0 -> 1
+            2 -> -1
+            else -> 0
+        }
+        val y = index / columns + when (direction) {
+            1 -> 1
+            3 -> -1
+            else -> 0
+        }
+        return if (x in 0 until columns && y in 0 until columns) y * columns + x else -1
+    }
+
+    override fun reset() {
+        round = 1
+        newRound()
+    }
+
+    private fun newRound() {
+        columns = (5 + (round - 1) / 5).coerceAtMost(7)
+        val wanted = (3 + round / 2).coerceAtMost(9)
+        var bestPath = emptyList<Int>()
+        var bestTurns = -1
+        repeat(100) {
+            val path = mutableListOf(Random.nextInt(columns) * columns)
+            var direction = 0
+            var bends = 0
+            repeat(columns * columns) {
+                val choices = listOf(direction, (direction + 1) % 4, (direction + 3) % 4).filter {
+                    val next = neighbor(path.last(), it)
+                    next >= 0 && next !in path
+                }
+                if (choices.isNotEmpty() && bends < wanted + 2) {
+                    val chosen = if (path.size == 1) 0 else choices.random()
+                    val next = neighbor(path.last(), chosen)
+                    if (next >= 0 && next !in path) {
+                        if (chosen != direction) bends++
+                        direction = chosen
+                        path += next
+                    }
+                }
+            }
+            if (bends > bestTurns && path.size >= columns + wanted) {
+                bestPath = path
+                bestTurns = bends
+            }
+        }
+        // A serpentine route is also a valid fallback on the smallest field.
+        if (bestPath.isEmpty()) bestPath = (0 until columns).flatMap { row ->
+            (0 until columns).map { col -> row * columns + if (row % 2 == 0) col else columns - 1 - col }
+        }
+        source = bestPath.first()
+        solution = IntArray(columns * columns)
+        var direction = 0
+        for (i in 0 until bestPath.lastIndex) {
+            val at = bestPath[i]
+            val next = (0..3).first { neighbor(at, it) == bestPath[i + 1] }
+            if (next != direction) solution[at] = if (3 - direction == next) 1 else 2
+            direction = next
+        }
+        val straight = bestPath.drop(2).filter { solution[it] == 0 }
+        val receivers = straight.shuffled().take((1 + round / 3).coerceAtMost(3)).toMutableSet()
+        receivers += bestPath.last()
+        targets = receivers.toIntArray()
+        solution[bestPath.last()] = 0
+        for (index in solution.indices) if (index !in bestPath) {
+            solution[index] = when {
+                Random.nextFloat() < 0.16f -> 3
+                round > 2 && Random.nextFloat() < 0.12f -> Random.nextInt(1, 3)
+                else -> 0
+            }
+        }
+        board = solution.copyOf()
+        val mirrors = bestPath.filter { solution[it] in 1..2 }.shuffled()
+        mirrors.take((2 + round / 2).coerceAtMost(mirrors.size))
+            .forEach { board[it] = 3 - board[it] }
+        trace()
+        if (lit.size == targets.size) {
+            for (index in board.indices) if (board[index] in 1..2) board[index] = 1
+            trace()
+            if (lit.size == targets.size) {
+                for (index in board.indices) if (board[index] in 1..2) board[index] = 2
+            }
+        }
+        initial = board.copyOf()
+        transition = 0f
+        restartPuzzle()
+    }
+
+    internal fun trace() {
+        beam.clear()
+        lit.clear()
+        exit = null
+        val visited = BooleanArray(board.size * 4)
+        var at = source
+        var direction = 0
+        while (at >= 0 && !visited[at * 4 + direction]) {
+            visited[at * 4 + direction] = true
+            beam += at
+            if (board[at] == 3) break
+            if (at in targets) lit += at
+            direction = when (board[at]) {
+                1 -> 3 - direction
+                2 -> direction xor 1
+                else -> direction
+            }
+            val next = neighbor(at, direction)
+            if (next < 0) {
+                val delta = when (direction) {
+                    0 -> Offset(1f, 0f)
+                    1 -> Offset(0f, 1f)
+                    2 -> Offset(-1f, 0f)
+                    else -> Offset(0f, -1f)
+                }
+                exit = center(at) + delta * cell * 0.5f
+            }
+            at = next
+        }
+    }
+
+    fun restartPuzzle() {
+        if (transition > 0f) return
+        board = initial.copyOf()
+        angles = FloatArray(board.size) { if (board[it] == 1) -45f else 45f }
+        turns = 0
+        glow = 0f
+        effects.clear()
+        trace()
+        isAnimating = false
+        redraw()
+    }
+
+    fun tap(point: Offset) {
+        if (point.x < origin.x || point.y < origin.y) return
+        val x = ((point.x - origin.x) / cell).toInt()
+        val y = ((point.y - origin.y) / cell).toInt()
+        if (x in 0 until columns && y in 0 until columns) turn(y * columns + x)
+    }
+
+    internal fun turn(index: Int) {
+        if (transition > 0f || index !in board.indices || board[index] !in 1..2) return
+        board[index] = 3 - board[index]
+        turns++
+        glow = 0.42f
+        trace()
+        effects.burst(
+            point = center(index),
+            count = 4
+        )
+        if (lit.size == targets.size) {
+            score += 100 + round * 20 + (30 - turns).coerceAtLeast(0) * 2
+            transition = 0.85f
+            targets.forEach {
+                effects.burst(
+                    point = center(it),
+                    count = 8
+                )
+            }
+        }
+        isAnimating = true
+        redraw()
+    }
+
+    override fun advance(seconds: Float) {
+        glow = (glow - seconds).coerceAtLeast(0f)
+        effects.advance(seconds)
+        for (index in board.indices) {
+            val target = if (board[index] == 1) -45f else 45f
+            angles[index] += (target - angles[index]).coerceIn(-seconds * 600f, seconds * 600f)
+        }
+        if (transition > 0f) {
+            transition -= seconds
+            if (transition <= 0f) {
+                round++
+                newRound()
+            }
+        }
+        isAnimating =
+            transition > 0f || glow > 0f || angles.indices.any { abs(angles[it] - if (board[it] == 1) -45f else 45f) > 0.1f }
+    }
+
+    override fun onResize(previous: Size) {
+        trace()
+    }
+
+    override fun save(state: Bundle) {
+        state.putIntArray("board", board)
+        state.putIntArray("solution", solution)
+        state.putIntArray("initial", initial)
+        state.putIntArray("targets", targets)
+        state.putFloatArray("angles", angles)
+        state.putIntArray("run", intArrayOf(columns, source, round, turns))
+        state.putFloatArray("time", floatArrayOf(transition, glow))
+    }
+
+    override fun restore(state: Bundle) {
+        board = state.getIntArray("board")!!.copyOf()
+        solution = state.getIntArray("solution")!!.copyOf()
+        initial = state.getIntArray("initial")!!.copyOf()
+        targets = state.getIntArray("targets")!!.copyOf()
+        angles = state.getFloatArray("angles")!!.copyOf()
+        state.getIntArray("run")!!.let {
+            columns = it[0]
+            source = it[1]
+            round = it[2]
+            turns = it[3]
+        }
+        state.getFloatArray("time")!!.let {
+            transition = it[0]
+            glow = it[1]
+        }
+        trace()
+        isAnimating = transition > 0f || glow > 0f
+    }
+}

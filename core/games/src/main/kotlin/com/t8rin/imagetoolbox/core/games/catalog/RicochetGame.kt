@@ -1,0 +1,420 @@
+/*
+ * ImageToolbox is an image editor for android
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * You should have received a copy of the Apache License
+ * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
+ */
+
+package com.t8rin.imagetoolbox.core.games.catalog
+
+import android.os.Bundle
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.CornerRadius
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.text.drawText
+import androidx.compose.ui.text.rememberTextMeasurer
+import androidx.compose.ui.unit.Density
+import androidx.compose.ui.unit.sp
+import com.t8rin.imagetoolbox.core.games.ArcadeBoard
+import com.t8rin.imagetoolbox.core.games.ArcadeDefaults
+import com.t8rin.imagetoolbox.core.games.ArcadeField
+import com.t8rin.imagetoolbox.core.games.ArcadeGameState
+import com.t8rin.imagetoolbox.core.games.ArcadePhase
+import com.t8rin.imagetoolbox.core.games.ArcadeRun
+import com.t8rin.imagetoolbox.core.games.ArcadeStyle
+import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
+import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
+import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
+import kotlin.math.abs
+import kotlin.math.hypot
+import kotlin.random.Random
+
+@Composable
+fun RicochetGame(
+    modifier: Modifier = Modifier,
+    initialState: ArcadeGameState = ArcadeGameState(),
+    style: ArcadeStyle = ArcadeDefaults.style,
+    onHighScoreChanged: ((Int) -> Unit)? = null,
+    onGameOver: ((Int) -> Unit)? = null
+) {
+    val run = rememberArcadeRun(
+        initialState = initialState,
+        create = ::RicochetRun
+    )
+    val measurer = rememberTextMeasurer()
+    ArcadeBoard(
+        game = ArcadeGame.Ricochet,
+        run = run,
+        style = style,
+        modifier = modifier,
+        initialState = initialState,
+        onHighScoreChanged = onHighScoreChanged,
+        onGameOver = onGameOver
+    ) {
+        ArcadeField(
+            run = run,
+            onPress = run::aim,
+            onDrag = run::aim,
+            onTap = { run.shoot() },
+            onSwipe = { run.shoot() },
+            onRelease = run::stopInput
+        ) {
+            val cell = run.cell
+            val radius = run.ballRadius
+            val rowHeight = run.rowHeight
+            for (row in 0..6) for (column in 0..6) {
+                drawCircle(
+                    color = style.detailColor.copy(alpha = 0.2f),
+                    radius = 1f,
+                    center = run.origin + Offset((column + 0.5f) * cell, (row + 0.5f) * rowHeight)
+                )
+            }
+            for ((column, row, health) in run.bricks) {
+                val point = run.origin + Offset(
+                    column * cell + 2f,
+                    (row - run.shift) * rowHeight + 2f
+                )
+                val center = point + Offset(cell / 2f - 2f, rowHeight / 2f - 2f)
+                if (health == 0) {
+                    drawCircle(
+                        color = style.accentColor.copy(alpha = 0.14f),
+                        radius = minOf(cell, rowHeight) * 0.28f,
+                        center = center
+                    )
+                    drawCircle(
+                        color = style.accentColor,
+                        radius = minOf(cell, rowHeight) * 0.22f,
+                        center = center,
+                        style = Stroke(1.5f)
+                    )
+                    drawLine(
+                        color = style.accentColor,
+                        start = center - Offset(minOf(cell, rowHeight) * 0.1f, 0f),
+                        end = center + Offset(minOf(cell, rowHeight) * 0.1f, 0f),
+                        strokeWidth = 2f
+                    )
+                    drawLine(
+                        color = style.accentColor,
+                        start = center - Offset(0f, minOf(cell, rowHeight) * 0.1f),
+                        end = center + Offset(0f, minOf(cell, rowHeight) * 0.1f),
+                        strokeWidth = 2f
+                    )
+                } else {
+                    val color =
+                        if (health > run.ballCount) style.accentColor else style.obstacleColor
+                    drawRoundRect(
+                        color.copy(alpha = 0.18f),
+                        point,
+                        Size(cell - 4f, rowHeight - 4f),
+                        CornerRadius(3f)
+                    )
+                    drawRoundRect(
+                        color,
+                        point,
+                        Size(cell - 4f, rowHeight - 4f),
+                        CornerRadius(3f),
+                        style = Stroke(1.5f)
+                    )
+                    val label = measurer.measure(
+                        health.toString(),
+                        style.scoreTextStyle.copy(fontSize = (minOf(cell, rowHeight) * 0.46f).sp),
+                        density = Density(1f)
+                    )
+                    drawText(
+                        label,
+                        style.textColor,
+                        center - Offset(label.size.width / 2f, label.size.height / 2f)
+                    )
+                }
+            }
+            val left = run.origin.x
+            drawLine(
+                color = style.hazardColor.copy(alpha = 0.5f),
+                start = Offset(left, run.launchY - rowHeight * 0.35f),
+                end = Offset(left + cell * 7f, run.launchY - rowHeight * 0.35f),
+                strokeWidth = 1f
+            )
+            if (!run.flying) {
+                var point = Offset(run.launchX, run.launchY)
+                repeat(18) { index ->
+                    point += run.direction * (rowHeight * 0.32f)
+                    if (point.x in (left + radius)..(left + cell * 7f - radius) && point.y > run.origin.y) {
+                        drawCircle(
+                            color = style.playerColor.copy(alpha = 0.55f * (1f - index / 20f)),
+                            radius = radius * 0.48f,
+                            center = point
+                        )
+                    }
+                }
+            }
+            for ((x, y, vx, vy) in run.balls) {
+                drawLine(
+                    color = style.playerColor.copy(alpha = 0.2f),
+                    start = Offset(x - vx * 0.025f, y - vy * 0.025f),
+                    end = Offset(x, y),
+                    strokeWidth = radius * 1.5f
+                )
+                drawCircle(
+                    color = style.playerColor,
+                    radius = radius,
+                    center = Offset(x, y)
+                )
+            }
+            drawCircle(
+                color = style.playerColor,
+                radius = radius * 1.3f,
+                center = Offset(run.launchX, run.launchY)
+            )
+            val count =
+                measurer.measure("×${run.ballCount}", style.scoreTextStyle, density = Density(1f))
+            drawText(
+                count,
+                style.playerColor,
+                Offset(run.launchX - count.size.width / 2f, run.launchY + radius + 3f)
+            )
+            run.effects.draw(
+                scope = this,
+                color = style.accentColor
+            )
+        }
+    }
+}
+
+internal data class RicochetBrick(
+    val column: Int,
+    var row: Int,
+    var health: Int
+)
+
+internal data class RicochetBall(
+    var x: Float,
+    var y: Float,
+    var vx: Float,
+    var vy: Float
+)
+
+internal class RicochetRun : ArcadeRun() {
+    val cell get() = (width - 32f) / 7f
+    val rowHeight get() = (height - topInset - 44f) / 8f
+    val origin get() = Offset((width - cell * 7f) / 2f, topInset + 6f)
+    val launchY get() = origin.y + rowHeight * 7.7f
+    val ballRadius get() = minOf(cell, rowHeight) * 0.12f
+    val bricks = mutableListOf<RicochetBrick>()
+    val balls = mutableListOf<RicochetBall>()
+    val effects = ArcadeEffects()
+    var launchX = width / 2f
+    var direction = Offset(0.25f, -0.97f)
+    var ballCount = 3
+    var flying = false
+    var shift = 0f
+    private var aiming = false
+    private var pending = 0
+    private var delay = 0f
+    private var flightTime = 0f
+    private var firstReturn = -1f
+    private var round = 1
+
+    override fun reset() {
+        bricks.clear()
+        balls.clear()
+        effects.clear()
+        launchX = width / 2f
+        direction = Offset(0.25f, -0.97f)
+        ballCount = 3
+        flying = false
+        aiming = false
+        shift = 0f
+        pending = 0
+        delay = 0f
+        flightTime = 0f
+        firstReturn = -1f
+        round = 1
+        repeat(3) { addRow(it) }
+    }
+
+    private fun addRow(row: Int) {
+        val columns = (0..6).shuffled()
+        val count = minOf(5, 3 + round / 6)
+        for (column in columns.take(count)) {
+            bricks += RicochetBrick(
+                column,
+                row,
+                (round.coerceAtMost(ballCount + 8)) + Random.nextInt(1, 4)
+            )
+        }
+        bricks += RicochetBrick(columns[count], row, 0)
+    }
+
+    fun aim(point: Offset) {
+        if (flying || shift > 0f) return
+        val dx = point.x - launchX
+        val dy = minOf(-rowHeight * 0.7f, point.y - launchY)
+        val length = hypot(dx, dy).coerceAtLeast(1f)
+        direction = Offset(dx / length, dy / length)
+        aiming = true
+    }
+
+    fun shoot() {
+        if (!aiming || flying || shift > 0f || phase != ArcadePhase.Running) return
+        aiming = false
+        flying = true
+        pending = ballCount
+        delay = 0f
+        flightTime = 0f
+        firstReturn = -1f
+    }
+
+    override fun stopInput() {
+        aiming = false
+    }
+
+    override fun advance(seconds: Float) {
+        effects.advance(seconds)
+        shift = (shift - seconds * 4f).coerceAtLeast(0f)
+        if (!flying) return
+        flightTime += seconds
+        delay -= seconds
+        val speed = maxOf(width, height) * 1.3f
+        if (pending > 0 && delay <= 0f) {
+            balls += RicochetBall(launchX, launchY, direction.x * speed, direction.y * speed)
+            pending--
+            delay += 0.1f
+        }
+        val left = origin.x + ballRadius
+        val right = origin.x + cell * 7f - ballRadius
+        val iterator = balls.iterator()
+        while (iterator.hasNext()) {
+            val ball = iterator.next()
+            val oldX = ball.x
+            val oldY = ball.y
+            ball.x += ball.vx * seconds
+            ball.y += ball.vy * seconds
+            if (ball.x < left || ball.x > right) {
+                ball.x = ball.x.coerceIn(left, right)
+                ball.vx = -ball.vx
+            }
+            if (ball.y < origin.y + ballRadius) {
+                ball.y = origin.y + ballRadius
+                ball.vy = abs(ball.vy)
+            }
+            val hit = bricks.firstOrNull {
+                val x = origin.x + it.column * cell + 2f
+                val y = origin.y + it.row * rowHeight + 2f
+                ball.x + ballRadius > x && ball.x - ballRadius < x + cell - 4f &&
+                        ball.y + ballRadius > y && ball.y - ballRadius < y + rowHeight - 4f
+            }
+            if (hit != null) {
+                if (hit.health == 0) {
+                    bricks.remove(hit)
+                    ballCount = minOf(18, ballCount + 1)
+                    score += 5
+                } else {
+                    val x = origin.x + hit.column * cell + 2f
+                    if (oldX + ballRadius <= x || oldX - ballRadius >= x + cell - 4f) {
+                        ball.vx = -ball.vx
+                        ball.x = oldX
+                    } else {
+                        ball.vy = -ball.vy
+                        ball.y = oldY
+                    }
+                    hit.health--
+                    score++
+                    if (hit.health == 0) bricks.remove(hit)
+                }
+                effects.burst(
+                    point = Offset(ball.x, ball.y),
+                    count = 5
+                )
+            }
+            // Bring back shallow ricochets so a volley cannot stall the next throw.
+            if (flightTime > 6f) ball.vy = maxOf(abs(ball.vy), speed * 0.7f)
+            if (ball.y >= launchY && ball.vy > 0f) {
+                if (firstReturn < 0f) firstReturn = ball.x.coerceIn(left, right)
+                iterator.remove()
+            }
+        }
+        if (pending == 0 && balls.isEmpty()) {
+            flying = false
+            launchX = if (firstReturn >= 0f) firstReturn else width / 2f
+            round++
+            bricks.removeAll { it.health == 0 && it.row >= 5 }
+            for (brick in bricks) brick.row++
+            if (bricks.any { it.row >= 7 && it.health > 0 }) {
+                phase = ArcadePhase.Over
+            } else {
+                addRow(0)
+                shift = 1f
+            }
+        }
+    }
+
+    override fun onResize(previous: Size) {
+        launchX *= width / previous.width
+        for (ball in balls) {
+            ball.x *= width / previous.width
+            ball.y *= height / previous.height
+        }
+        effects.clear()
+        stopInput()
+    }
+
+    override fun save(state: Bundle) {
+        state.putFloatArray(
+            "throw", floatArrayOf(
+                launchX, direction.x, direction.y, ballCount.toFloat(),
+                shift, pending.toFloat(), delay, flightTime, firstReturn, round.toFloat()
+            )
+        )
+        state.putBoolean("flying", flying)
+        state.putIntArray(
+            "bricks",
+            bricks.flatMap { listOf(it.column, it.row, it.health) }.toIntArray()
+        )
+        state.putFloatArray(
+            "balls",
+            balls.flatMap { listOf(it.x, it.y, it.vx, it.vy) }.toFloatArray()
+        )
+    }
+
+    override fun restore(state: Bundle) {
+        state.getFloatArray("throw")?.let {
+            launchX = it[0]
+            direction = Offset(it[1], it[2])
+            ballCount = it[3].toInt()
+            shift = it[4]
+            pending = it[5].toInt()
+            delay = it[6]
+            flightTime = it[7]
+            firstReturn = it[8]
+            round = it[9].toInt()
+        }
+        flying = state.getBoolean("flying")
+        bricks.clear()
+        balls.clear()
+        state.getIntArray("bricks")?.let {
+            for (i in it.indices step 3) bricks += RicochetBrick(it[i], it[i + 1], it[i + 2])
+        }
+        state.getFloatArray("balls")?.let {
+            for (i in it.indices step 4) balls += RicochetBall(
+                it[i],
+                it[i + 1],
+                it[i + 2],
+                it[i + 3]
+            )
+        }
+        stopInput()
+    }
+}

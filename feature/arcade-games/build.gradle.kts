@@ -23,3 +23,7 @@ plugins {
 }
 
 android.namespace = "com.t8rin.imagetoolbox.feature.arcade_games"
+
+dependencies {
+    implementation(projects.core.games)
+}

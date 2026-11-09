@@ -1,0 +1,292 @@
+/*
+ * ImageToolbox is an image editor for android
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * You should have received a copy of the Apache License
+ * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
+ */
+
+package com.t8rin.imagetoolbox.core.games.catalog
+
+import android.os.Bundle
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.drawscope.rotate
+import com.t8rin.imagetoolbox.core.games.ArcadeBoard
+import com.t8rin.imagetoolbox.core.games.ArcadeDefaults
+import com.t8rin.imagetoolbox.core.games.ArcadeField
+import com.t8rin.imagetoolbox.core.games.ArcadeGameState
+import com.t8rin.imagetoolbox.core.games.ArcadePhase
+import com.t8rin.imagetoolbox.core.games.ArcadeRun
+import com.t8rin.imagetoolbox.core.games.ArcadeStyle
+import com.t8rin.imagetoolbox.core.games.pixelRect
+import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
+import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
+import kotlin.math.PI
+import kotlin.math.abs
+import kotlin.math.cos
+import kotlin.math.sin
+import kotlin.random.Random
+
+@Composable
+fun HexagonGame(
+    modifier: Modifier = Modifier,
+    initialState: ArcadeGameState = ArcadeGameState(),
+    style: ArcadeStyle = ArcadeDefaults.style,
+    onHighScoreChanged: ((Int) -> Unit)? = null,
+    onGameOver: ((Int) -> Unit)? = null
+) {
+    val run = rememberArcadeRun(
+        initialState = initialState,
+        create = ::HexagonRun
+    )
+    ArcadeBoard(
+        game = ArcadeGame.Hexagon,
+        run = run,
+        style = style,
+        modifier = modifier,
+        initialState = initialState,
+        onHighScoreChanged = onHighScoreChanged,
+        onGameOver = onGameOver
+    ) {
+        ArcadeField(
+            run = run,
+            onPress = run::steer,
+            onDrag = run::steer,
+            onRelease = run::stopInput
+        ) {
+            val center = run.center
+            val extent = run.extent
+            val path = run.outline
+            fun point(
+                angle: Float,
+                radius: Float
+            ) =
+                center + Offset(cos(angle), sin(angle)) * radius * extent
+
+            val backdropRadius = maxOf(run.width, run.height) * 2f / extent
+            for (sector in 0..5) {
+                val a = sector * PI.toFloat() / 3f + run.rotation * 0.45f
+                val b = a + PI.toFloat() / 3f
+                path.reset()
+                path.moveTo(center.x, center.y)
+                val first = point(
+                    angle = a,
+                    radius = backdropRadius
+                )
+                val second = point(
+                    angle = b,
+                    radius = backdropRadius
+                )
+                path.lineTo(first.x, first.y)
+                path.lineTo(second.x, second.y)
+                path.close()
+                drawPath(
+                    path, if (sector % 2 == 0) style.playerColor.copy(alpha = 0.035f)
+                    else style.obstacleColor.copy(alpha = 0.1f)
+                )
+            }
+            repeat(24) { index ->
+                val x = ((index * 71 + index * index * 19 + 23) % 359) / 359f * run.width
+                val y = ((index * 97 + index * index * 31 + 11) % 443) / 443f * run.height
+                if ((Offset(x, y) - center).getDistance() > extent * 0.6f) {
+                    pixelRect(
+                        color = style.obstacleColor.copy(alpha = 0.18f),
+                        x = x,
+                        y = y,
+                        width = 2f,
+                        height = 2f
+                    )
+                }
+            }
+            drawCircle(
+                color = style.detailColor.copy(alpha = 0.35f),
+                radius = extent * 0.46f,
+                center = center,
+                style = Stroke(1f)
+            )
+            for ((radius, gap, passed) in run.walls) {
+                for (side in 0..5) {
+                    if (side == gap) continue
+                    val a = side * PI.toFloat() / 3f + run.rotation
+                    val b = a + PI.toFloat() / 3f
+                    val first = point(
+                        angle = a,
+                        radius = radius
+                    )
+                    val second = point(
+                        angle = b,
+                        radius = radius
+                    )
+                    val third = point(
+                        angle = b,
+                        radius = radius + 0.1f
+                    )
+                    val fourth = point(
+                        angle = a,
+                        radius = radius + 0.1f
+                    )
+                    path.reset()
+                    path.moveTo(first.x, first.y)
+                    path.lineTo(second.x, second.y)
+                    path.lineTo(third.x, third.y)
+                    path.lineTo(fourth.x, fourth.y)
+                    path.close()
+                    val color = if (passed) style.detailColor else style.obstacleColor
+                    drawPath(path, color)
+                    drawLine(
+                        color = style.playerDetailColor.copy(alpha = 0.35f),
+                        start = third,
+                        end = fourth,
+                        strokeWidth = 1f
+                    )
+                }
+            }
+            path.reset()
+            for (index in 0..5) {
+                val point =
+                    point(
+                        angle = index * PI.toFloat() / 3f + run.rotation,
+                        radius = 0.18f + run.pulse * 0.025f
+                    )
+                if (index == 0) path.moveTo(point.x, point.y) else path.lineTo(point.x, point.y)
+            }
+            path.close()
+            drawPath(path, style.accentColor)
+            drawPath(path, style.playerDetailColor.copy(alpha = 0.35f), style = Stroke(1.5f))
+            val player = point(
+                angle = run.angle,
+                radius = 0.46f
+            )
+            rotate(run.angle * 180f / PI.toFloat() + 90f, player) {
+                path.reset()
+                path.moveTo(player.x, player.y - 7f)
+                path.lineTo(player.x - 5.5f, player.y + 5f)
+                path.lineTo(player.x + 5.5f, player.y + 5f)
+                path.close()
+                drawPath(path, style.playerColor)
+            }
+        }
+    }
+}
+
+internal data class HexagonWall(
+    var radius: Float,
+    val gap: Int,
+    var passed: Boolean = false
+)
+
+internal class HexagonRun : ArcadeRun() {
+    val walls = mutableListOf<HexagonWall>()
+    val outline = Path()
+    val center get() = Offset(width / 2f, topInset + (height - topInset - 18f) / 2f)
+    val extent get() = minOf(width - 28f, height - topInset - 30f) / 2f
+    var angle = 0f
+    var rotation = 0f
+    var direction = 0
+    var pulse = 0f
+    private var timer = 0.7f
+    private var elapsed = 0f
+    private var previousGap = 0
+
+    override fun reset() {
+        walls.clear()
+        angle = PI.toFloat() / 6f
+        rotation = 0f
+        direction = 0
+        pulse = 0f
+        timer = 0.7f
+        elapsed = 0f
+        previousGap = 0
+    }
+
+    fun steer(point: Offset) {
+        direction = if (point.x < width / 2f) -1 else 1
+    }
+
+    override fun stopInput() {
+        direction = 0
+    }
+
+    override fun advance(seconds: Float) {
+        elapsed += seconds
+        timer -= seconds
+        pulse = (pulse - seconds * 3f).coerceAtLeast(0f)
+        val full = 2f * PI.toFloat()
+        rotation = (rotation + 0.12f * seconds) % full
+        angle = (angle + direction * 3.6f * seconds + full) % full
+        val speed = 0.26f + minOf(elapsed * 0.0016f, 0.2f)
+        if (timer <= 0f) {
+            previousGap = (previousGap + Random.nextInt(-2, 3) + 6) % 6
+            walls += HexagonWall(1.12f, previousGap)
+            timer += maxOf(1.05f, 1.85f - elapsed * 0.006f)
+        }
+        val relative = ((angle - rotation) % full + full) % full
+        val sector = (relative / (PI.toFloat() / 3f)).toInt().coerceIn(0, 5)
+        val local = relative - sector * PI.toFloat() / 3f - PI.toFloat() / 6f
+        val playerRadius = 6f / extent
+        for (wall in walls) {
+            wall.radius -= speed * seconds
+            val inner = wall.radius * cos(PI.toFloat() / 6f) / cos(local)
+            val outer = (wall.radius + 0.1f) * cos(PI.toFloat() / 6f) / cos(local)
+            if (inner < 0.46f + playerRadius && outer > 0.46f - playerRadius) {
+                val gapCenter = (wall.gap + 0.5f) * PI.toFloat() / 3f
+                val delta = abs(((relative - gapCenter + 3f * PI.toFloat()) % full) - PI.toFloat())
+                if (delta > PI.toFloat() / 6f - playerRadius / 0.46f) {
+                    phase = ArcadePhase.Over
+                    return
+                }
+            }
+            if (!wall.passed && outer < 0.46f - playerRadius) {
+                wall.passed = true
+                score++
+                pulse = 1f
+            }
+        }
+        walls.removeAll { it.radius < 0.15f }
+    }
+
+    override fun save(state: Bundle) {
+        state.putFloatArray(
+            "arena",
+            floatArrayOf(angle, rotation, timer, elapsed, previousGap.toFloat(), pulse)
+        )
+        state.putFloatArray(
+            "walls",
+            walls.flatMap { listOf(it.radius, it.gap.toFloat(), if (it.passed) 1f else 0f) }
+                .toFloatArray()
+        )
+    }
+
+    override fun restore(state: Bundle) {
+        state.getFloatArray("arena")?.let {
+            angle = it[0]
+            rotation = it[1]
+            timer = it[2]
+            elapsed = it[3]
+            previousGap = it[4].toInt()
+            pulse = it[5]
+        }
+        walls.clear()
+        state.getFloatArray("walls")?.let {
+            for (i in it.indices step 3) walls += HexagonWall(
+                it[i],
+                it[i + 1].toInt(),
+                it[i + 2] == 1f
+            )
+        }
+        stopInput()
+    }
+}

@@ -38,10 +38,12 @@ import androidx.compose.ui.platform.LocalContext
 import com.t8rin.dynamic.theme.ColorTuple
 import com.t8rin.dynamic.theme.DynamicTheme
 import com.t8rin.dynamic.theme.rememberDynamicThemeState
+import com.t8rin.imagetoolbox.core.games.components.LocalArcadeButton
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.rememberAppColorTuple
 import com.t8rin.imagetoolbox.core.ui.utils.animation.FancyTransitionEasing
 import com.t8rin.imagetoolbox.core.ui.utils.helper.DeviceInfo
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.AutoCornersShape
 
 @SuppressLint("NewApi")
@@ -83,6 +85,15 @@ fun ImageToolboxTheme(
         ),
         content = {
             CompositionLocalProvider(
+                LocalArcadeButton provides { onClick, enabled, containerColor, contentColor, buttonContent ->
+                    EnhancedButton(
+                        onClick = onClick,
+                        enabled = enabled,
+                        containerColor = containerColor,
+                        contentColor = contentColor,
+                        content = buttonContent
+                    )
+                },
                 LocalTonalElevationEnabled provides !(settingsState.isAmoledMode &&
                         settingsState.isAmoledModeExtended && settingsState.isNightMode)
             ) {

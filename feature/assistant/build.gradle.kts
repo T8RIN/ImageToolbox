@@ -25,6 +25,7 @@ plugins {
 android.namespace = "com.t8rin.imagetoolbox.feature.assistant"
 
 dependencies {
+    implementation(projects.core.games)
     implementation(libs.commonmark)
     implementation(libs.snowball.stemmer)
     implementation(libs.kotlinx.serialization.json)
