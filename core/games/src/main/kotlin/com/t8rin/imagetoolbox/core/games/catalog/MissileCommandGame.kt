@@ -91,7 +91,6 @@ fun MissileCommandGame(
     ) {
         ArcadeField(
             run = run,
-            transition = { run.transition },
             onPress = run::fire
         ) {
             arcadeStars(
@@ -307,8 +306,6 @@ internal class MissileCommandRun : ArcadeRun() {
     private var wave = 1
     private var pending = 5
     private var spawn = 1f
-    var transition = 0f
-        private set
 
     fun cityX(index: Int) = width * when (index) {
         0 -> 0.12f
@@ -327,11 +324,10 @@ internal class MissileCommandRun : ArcadeRun() {
         pending = 5
         spawn = 1f
         charge = 4f
-        transition = 0f
     }
 
     fun fire(point: Offset) {
-        if (charge < 1f || point.y < topInset || transition > 0f) return
+        if (charge < 1f || point.y < topInset) return
         shots += Interceptor(
             x = launch.x, y = launch.y, targetX = point.x.coerceIn(8f, width - 8f),
             targetY = point.y.coerceIn(topInset + 6f, ground - 32f)
@@ -340,23 +336,6 @@ internal class MissileCommandRun : ArcadeRun() {
     }
 
     override fun advance(seconds: Float) {
-        if (transition > 0f) {
-            transition = (transition - seconds).coerceAtLeast(0f)
-            if (transition == 0f) {
-                score += cities.sum() * 5
-                wave++
-                animateLevel()
-                pending = minOf(22, 4 + wave)
-                spawn = 1.5f
-                if (wave % 4 == 0) {
-                    cities.indices.firstOrNull { cities[it] == 0 }?.let {
-                        cities[it] = 1
-                        effects.burst(point = Offset(x = cityX(it), y = ground - 16f))
-                    }
-                }
-            }
-            return
-        }
         effects.advance(seconds)
         charge = (charge + seconds * 1.8f).coerceAtMost(4f)
         spawn -= seconds
@@ -420,7 +399,18 @@ internal class MissileCommandRun : ArcadeRun() {
             phase = ArcadePhase.Over
             return
         }
-        if (pending == 0 && missiles.isEmpty()) transition = 0.24f
+        if (pending == 0 && missiles.isEmpty()) {
+            score += cities.sum() * 5
+            wave++
+            pending = minOf(22, 4 + wave)
+            spawn = 1.75f
+            if (wave % 4 == 0) {
+                cities.indices.firstOrNull { cities[it] == 0 }?.let {
+                    cities[it] = 1
+                    effects.burst(point = Offset(x = cityX(it), y = ground - 16f))
+                }
+            }
+        }
     }
 
     override fun onResize(previous: Size) {

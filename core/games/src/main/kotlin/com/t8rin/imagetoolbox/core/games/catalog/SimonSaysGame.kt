@@ -76,7 +76,6 @@ fun SimonSaysGame(
     ) {
         ArcadeField(
             run = run,
-            transition = { run.transition },
             onPress = run::tap
         ) {
             val side = run.side
@@ -249,7 +248,6 @@ internal class SimonSaysRun : ArcadeRun() {
     private var timer = 0.75f
     private var gap = true
     private var completed = false
-    val transition get() = if (completed) timer else 0f
 
     override fun isValid(): Boolean = super.isValid() &&
             sequence.isNotEmpty() &&
@@ -310,7 +308,6 @@ internal class SimonSaysRun : ArcadeRun() {
             lit = -1
             // The last input flash belongs to the preceding round, not playback.
             if (completed) {
-                animateLevel()
                 completed = false
                 input = 0
                 timer = 0.6f
