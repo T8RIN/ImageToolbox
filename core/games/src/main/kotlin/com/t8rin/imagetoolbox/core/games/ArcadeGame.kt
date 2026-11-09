@@ -86,6 +86,7 @@ import androidx.compose.ui.graphics.vector.PathParser
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.input.pointer.PointerId
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalHapticFeedback
@@ -793,10 +794,20 @@ internal fun ArcadeBoard(
                             .using(SizeTransform(clip = false))
                     }
                 ) { overlayPhase ->
+                    val hasContainer = overlayPhase != ArcadePhase.Ready
                     Column(
                         modifier = Modifier
                             .padding(12.dp)
-                            .widthIn(max = 320.dp),
+                            .widthIn(max = 320.dp)
+                            .then(
+                                if (hasContainer) Modifier
+                                    .background(
+                                        MaterialTheme.colorScheme.surfaceContainer,
+                                        MaterialTheme.shapes.extraLarge
+                                    )
+                                    .padding(if (compact) 8.dp else 20.dp)
+                                else Modifier
+                            ),
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.spacedBy(if (compact) 4.dp else 8.dp)
                     ) {
@@ -827,7 +838,7 @@ internal fun ArcadeBoard(
                             Text(
                                 text = stringResource(R.string.arcade_paused),
                                 color = style.textColor,
-                                style = MaterialTheme.typography.titleLarge
+                                style = if (compact) MaterialTheme.typography.titleMedium else MaterialTheme.typography.titleLarge
                             )
                         }
                         if (overlayPhase != ArcadePhase.Paused) {
@@ -841,8 +852,8 @@ internal fun ArcadeBoard(
                             }
                         } else {
                             Box(
-                                Modifier
-                                    .size(56.dp)
+                                modifier = Modifier
+                                    .size(if (compact) 48.dp else 64.dp)
                                     .clip(CircleShape)
                                     .clickable(
                                         enabled = phase == overlayPhase && !isPaused && !starting && run.prepared && recordLoaded,
@@ -851,9 +862,11 @@ internal fun ArcadeBoard(
                                             haptics.longPress()
                                         }
                                     )
-                                    .padding(6.dp)
+                                    .padding(4.dp)
                                     .paint(
                                         painter = rememberVectorPainter(Icons.Rounded.PlayCircle),
+                                        sizeToIntrinsics = false,
+                                        contentScale = ContentScale.Fit,
                                         colorFilter = ColorFilter.tint(style.playerColor)
                                     )
                             )
