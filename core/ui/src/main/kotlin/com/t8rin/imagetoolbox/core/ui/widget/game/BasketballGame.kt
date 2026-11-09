@@ -23,13 +23,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Path
-import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.drawscope.clipPath
 import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.drawscope.translate
 import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
 import kotlin.math.abs
+import kotlin.math.atan2
 import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.random.Random
@@ -85,71 +87,58 @@ fun BasketballGame(
                     height = 2f
                 )
             }
+            if (!run.airborne) drawBasketballBall(
+                run = run,
+                style = style
+            )
             run.hoops.forEachIndexed { index, hoop ->
                 val point = run.project(hoop.center)
-                if (index > 1 && point.y < run.topInset + 20f) return@forEachIndexed
                 val color = if (index == 1) style.accentColor else style.obstacleColor
-                val alpha = if (index > 1) 0.4f else 1f
                 translate(point.x, point.y) {
                     scale(unit, Offset.Zero) {
                         rotate(-hoop.angle * 180f / kotlin.math.PI.toFloat(), Offset.Zero) {
                             val half = hoop.halfWidth
-                            val depth = 35f + if (index == 0) run.net * 5f else 0f
-                            val swing = if (index == 0) sin(run.net * 8f) * run.net * 3f else 0f
+                            val delta =
+                                if (index == 0 && !run.airborne) run.ball - hoop.center else -hoop.normal * 20f
+                            val depth = maxOf(
+                                35f + (if (index == 0) run.net * 6f else 0f),
+                                -(delta.x * hoop.normal.x + delta.y * hoop.normal.y) + run.radius
+                            )
+                            val swing =
+                                if (index == 0 && !run.airborne) delta.x * hoop.tangent.x + delta.y * hoop.tangent.y else 0f
                             val net = Path().apply {
-                                moveTo(-half, 2f)
-                                lineTo(-half * 0.6f + swing, depth)
-                                lineTo(half * 0.6f + swing, depth)
-                                lineTo(half, 2f)
+                                moveTo(-half, 0f)
+                                quadraticTo(-half * 0.55f + swing, depth, swing, depth)
+                                quadraticTo(half * 0.55f + swing, depth, half, 0f)
                                 close()
                             }
                             drawPath(
                                 path = net,
-                                color = color.copy(alpha = 0.06f * alpha)
+                                color = color.copy(alpha = 0.06f)
                             )
-                            for (strand in 0..4) {
-                                val x = (strand / 4f - 0.5f) * 2f
-                                drawLine(
-                                    color = color.copy(alpha = 0.55f * alpha),
-                                    start = Offset(x * half, 2f),
-                                    end = Offset(x * half * 0.6f + swing, depth),
-                                    strokeWidth = 1f
-                                )
-                                if (strand < 4) drawLine(
-                                    color = color.copy(alpha = 0.35f * alpha),
-                                    start = Offset(x * half, 2f),
-                                    end = Offset((x + 0.5f) * half * 0.6f + swing, depth),
-                                    strokeWidth = 1f
-                                )
+                            clipPath(net) {
+                                for (strand in -5..5) for (side in listOf(-1f, 1f)) {
+                                    val start = Offset(strand * half / 3f, 0f)
+                                    drawLine(
+                                        color = color.copy(alpha = 0.7f),
+                                        start = start,
+                                        end = start + Offset(side * half + swing, depth),
+                                        strokeWidth = 1.5f
+                                    )
+                                }
                             }
-                            drawLine(
-                                color = color.copy(alpha = 0.55f * alpha),
-                                start = Offset(-half * 0.6f + swing, depth),
-                                end = Offset(half * 0.6f + swing, depth),
-                                strokeWidth = 1f
+                            drawPath(
+                                path = net,
+                                color = color.copy(alpha = 0.75f),
+                                style = Stroke(1.5f)
                             )
                             drawOval(
-                                color = color.copy(alpha = alpha),
-                                topLeft = Offset(-half, -3f),
-                                size = Size(half * 2f, 6f),
-                                style = Stroke(2.5f)
+                                color = color,
+                                topLeft = Offset(-half, -6f),
+                                size = Size(half * 2f, 12f),
+                                style = Stroke(4f)
                             )
-                            if (index == 1) {
-                                drawLine(
-                                    color = color,
-                                    start = Offset(-4f, -20f),
-                                    end = Offset(0f, -16f),
-                                    strokeWidth = 2f,
-                                    cap = StrokeCap.Round
-                                )
-                                drawLine(
-                                    color = color,
-                                    start = Offset(4f, -20f),
-                                    end = Offset(0f, -16f),
-                                    strokeWidth = 2f,
-                                    cap = StrokeCap.Round
-                                )
-                            }
+
                         }
                     }
                 }
@@ -171,51 +160,13 @@ fun BasketballGame(
                         center = run.project(point)
                     )
                 }
-                drawLine(
-                    color = style.playerColor.copy(alpha = 0.3f),
-                    start = run.project(run.ball),
-                    end = run.project(run.ball) + run.pull * unit * 0.35f,
-                    strokeWidth = 2f,
-                    cap = StrokeCap.Round
-                )
+
             }
-            val center = run.project(run.ball)
-            val radius = run.radius * unit
-            rotate(run.spin, center) {
-                drawCircle(
-                    color = style.playerColor,
-                    radius = radius,
-                    center = center
-                )
-                drawCircle(
-                    color = style.playerDetailColor.copy(alpha = 0.5f),
-                    radius = radius,
-                    center = center,
-                    style = Stroke(unit)
-                )
-                drawLine(
-                    color = style.playerDetailColor.copy(alpha = 0.65f),
-                    start = center - Offset(radius, 0f),
-                    end = center + Offset(radius, 0f),
-                    strokeWidth = unit
-                )
-                for (side in listOf(-1f, 1f)) {
-                    val seam = Path().apply {
-                        moveTo(center.x, center.y - radius)
-                        cubicTo(
-                            center.x + side * radius * 0.9f, center.y - radius * 0.3f,
-                            center.x + side * radius * 0.9f, center.y + radius * 0.3f,
-                            center.x, center.y + radius
-                        )
-                    }
-                    drawPath(
-                        path = seam,
-                        color = style.playerDetailColor.copy(alpha = 0.65f),
-                        style = Stroke(unit)
-                    )
-                }
-            }
-            translate(left, run.height - 48f * unit + run.camera * unit) {
+            if (run.airborne) drawBasketballBall(
+                run = run,
+                style = style
+            )
+            translate(left, run.baseline + run.camera * unit) {
                 scale(unit, Offset.Zero) {
                     scale(1f, -1f, Offset.Zero) {
                         run.effects.draw(
@@ -229,10 +180,53 @@ fun BasketballGame(
     }
 }
 
+private fun DrawScope.drawBasketballBall(
+    run: BasketballRun,
+    style: ArcadeStyle
+) {
+    val unit = run.unit
+    val center = run.project(run.ball)
+    val radius = run.radius * unit
+    rotate(run.spin, center) {
+        drawCircle(
+            color = style.playerColor,
+            radius = radius,
+            center = center
+        )
+        drawCircle(
+            color = style.playerDetailColor.copy(alpha = 0.5f),
+            radius = radius,
+            center = center,
+            style = Stroke(unit)
+        )
+        drawLine(
+            color = style.playerDetailColor.copy(alpha = 0.65f),
+            start = center - Offset(radius, 0f),
+            end = center + Offset(radius, 0f),
+            strokeWidth = unit
+        )
+        for (side in listOf(-1f, 1f)) {
+            val seam = Path().apply {
+                moveTo(center.x, center.y - radius)
+                cubicTo(
+                    center.x + side * radius * 0.9f, center.y - radius * 0.3f,
+                    center.x + side * radius * 0.9f, center.y + radius * 0.3f,
+                    center.x, center.y + radius
+                )
+            }
+            drawPath(
+                path = seam,
+                color = style.playerDetailColor.copy(alpha = 0.65f),
+                style = Stroke(unit)
+            )
+        }
+    }
+}
+
 internal data class BasketballHoop(
     var center: Offset,
     val halfWidth: Float,
-    val angle: Float,
+    var angle: Float,
     val anchorX: Float = center.x,
     val travel: Float = 0f,
     val phase: Float = 0f
@@ -253,12 +247,14 @@ internal class BasketballRun : ArcadeRun() {
     val preview = mutableListOf<Offset>()
     val radius = 15f
     val gravity = 360f
+    val power = 4.8f
     val unit
         get() = minOf(
             1f, width / 360f,
             (height - topInset - 12f) / ((hoops.getOrNull(1)?.center?.y ?: 80f) -
-                    (hoops.firstOrNull()?.center?.y ?: 0f) + 112f)
+                    (hoops.firstOrNull()?.center?.y ?: 0f) + 128f)
         )
+    val baseline get() = minOf(height - 70f * unit, topInset + (height - topInset) * 0.78f)
     var ball = Offset.Zero
     var velocity = Offset.Zero
     var camera = 0f
@@ -277,10 +273,11 @@ internal class BasketballRun : ArcadeRun() {
     private var clean = true
     private var banked = false
     private var trailTimer = 0f
+    private var catchFrom = Offset.Zero
 
     fun project(point: Offset): Offset = Offset(
         (width - 360f * unit) / 2f + point.x * unit,
-        height - 48f * unit - (point.y - camera) * unit
+        baseline - (point.y - camera) * unit
     )
 
     override fun reset() {
@@ -301,8 +298,9 @@ internal class BasketballRun : ArcadeRun() {
         trail.clear()
         effects.clear()
         stopInput()
-        repeat(3) { addHoop() }
-        ball = hoops.first().center - hoops.first().normal * 11f
+        addHoop()
+        ball = hoops.first().center - hoops.first().normal * 20f
+        catchFrom = ball
     }
 
     private fun addHoop() {
@@ -310,16 +308,16 @@ internal class BasketballRun : ArcadeRun() {
         val number = made + hoops.size
         val pace = number / (number + 35f)
         val close = number % 4 == 0
-        val gap = (height - topInset - 40f).coerceIn(120f, 340f) *
-                (0.38f + Random.nextFloat() * 0.06f) * if (close) 0.82f else 1f
-        val x = if (close) (previous.anchorX + Random.nextFloat() * 48f - 24f).coerceIn(72f, 288f)
-        else if (previous.center.x < 180f) 232f + Random.nextFloat() * 46f
-        else 82f + Random.nextFloat() * 46f
+        val gap = (height - topInset).coerceIn(170f, 660f) *
+                (0.27f + Random.nextFloat() * 0.045f) * if (close) 0.85f else 1f
+        val x = if (close) (previous.center.x + Random.nextFloat() * 16f - 8f).coerceIn(65f, 295f)
+        else if (previous.center.x < 180f) 260f + Random.nextFloat() * 24f
+        else 76f + Random.nextFloat() * 24f
         val hoop = BasketballHoop(
             center = Offset(x, previous.center.y + gap),
             halfWidth = 37f - pace * 5f,
             angle = if (number < 5) 0f else (Random.nextFloat() - 0.5f) * 0.35f * pace,
-            travel = if (number >= 6 && number % 3 == 0) 12f + pace * 12f else 0f,
+            travel = if (number >= 6 && number % 3 == 0 && !close) 10f + pace * 8f else 0f,
             phase = Random.nextFloat() * kotlin.math.PI.toFloat() * 2f
         )
         hoop.center = hoop.positionAt(time)
@@ -338,6 +336,10 @@ internal class BasketballRun : ArcadeRun() {
         val start = touch ?: return
         val delta = (point - start) / unit
         pull = delta * minOf(1f, 105f / delta.getDistance().coerceAtLeast(0.001f))
+        val hoop = hoops.first()
+        if (pull.getDistance() >= 6f) hoop.angle =
+            atan2(pull.x, maxOf(12f, pull.y)).coerceIn(-0.65f, 0.65f)
+        ball = hoop.center - hoop.normal * 20f + Offset(pull.x, -pull.y) * 0.22f
         preview.clear()
         if (pull.getDistance() < 6f) return
         var point = ball
@@ -367,7 +369,7 @@ internal class BasketballRun : ArcadeRun() {
         }
     }
 
-    private fun launchVelocity() = Offset(-pull.x * 4f, pull.y * 4f)
+    private fun launchVelocity() = Offset(-pull.x * power, pull.y * power)
 
     fun shoot() {
         if (!aiming || airborne) return
@@ -386,6 +388,8 @@ internal class BasketballRun : ArcadeRun() {
         touch = null
         pull = Offset.Zero
         preview.clear()
+        if (!airborne && hoops.isNotEmpty()) ball =
+            hoops.first().center - hoops.first().normal * 20f
     }
 
     private fun dot(
@@ -444,7 +448,14 @@ internal class BasketballRun : ArcadeRun() {
         settle = (settle - seconds).coerceAtLeast(0f)
         val target = maxOf(hoops.first().center.y, ball.y - (height - topInset) / unit * 0.48f)
         camera += (target - camera) * minOf(1f, seconds * 5f)
-        if (!airborne) return
+        if (!airborne) {
+            if (!aiming) {
+                val rest = hoops.first().center - hoops.first().normal * 20f
+                val amount = (settle / 0.22f).coerceIn(0f, 1f)
+                ball = rest + (catchFrom - rest) * amount * amount
+            }
+            return
+        }
         val previous = ball
         ball += velocity * seconds - Offset(0f, gravity * seconds * seconds / 2f)
         velocity -= Offset(0f, gravity * seconds)
@@ -467,7 +478,7 @@ internal class BasketballRun : ArcadeRun() {
             if (index == 1) {
                 made++
                 combo = if (clean) combo + 1 else 0
-                score += 10 + (if (clean) 5 * minOf(combo, 5) else 0) + if (banked) 5 else 0
+                score += 1 + (if (clean) minOf(combo, 5) else 0) + if (banked) 1 else 0
                 effects.burst(
                     point = hoop.center,
                     count = if (clean) 16 else 8
@@ -475,10 +486,10 @@ internal class BasketballRun : ArcadeRun() {
                 hoops.removeAt(0)
                 addHoop()
             }
-            ball = hoop.center - hoop.normal * 11f
+            catchFrom = ball
             velocity = Offset.Zero
             airborne = false
-            settle = 0.25f
+            settle = 0.22f
             net = 1f
             trail.clear()
             return
@@ -496,6 +507,7 @@ internal class BasketballRun : ArcadeRun() {
     }
 
     override fun onResize(previous: Size) {
+        if (hoops.isNotEmpty() && time == 0f && !airborne) reset()
         stopInput()
     }
 
@@ -512,7 +524,10 @@ internal class BasketballRun : ArcadeRun() {
             )
         }.toFloatArray())
         state.putFloatArray("ball", floatArrayOf(ball.x, ball.y, velocity.x, velocity.y))
-        state.putFloatArray("motion", floatArrayOf(camera, spin, net, settle, trailTimer, time))
+        state.putFloatArray(
+            "motion",
+            floatArrayOf(camera, spin, net, settle, trailTimer, time, catchFrom.x, catchFrom.y)
+        )
         state.putIntArray("score", intArrayOf(made, combo))
         state.putBoolean("airborne", airborne)
         state.putBoolean("clean", clean)
@@ -544,6 +559,7 @@ internal class BasketballRun : ArcadeRun() {
             settle = it[3]
             trailTimer = it[4]
             time = it[5]
+            catchFrom = Offset(it[6], it[7])
         }
         state.getIntArray("score")!!.let {
             made = it[0]
@@ -553,6 +569,9 @@ internal class BasketballRun : ArcadeRun() {
         clean = state.getBoolean("clean")
         banked = state.getBoolean("banked")
         trail.clear()
-        stopInput()
+        aiming = false
+        touch = null
+        pull = Offset.Zero
+        preview.clear()
     }
 }
