@@ -530,6 +530,22 @@ class ArcadeMechanicsTest {
     }
 
     @Test
+    fun riverGeneratesCarsAndTrucksWithRoomToCross() {
+        val run = RiverHopRun().apply { resize(width = 360f, height = 680f) }
+        val lengths = mutableListOf<Float>()
+        repeat(128) {
+            run.reset()
+            for ((_, kind, _, length, period) in run.lanes) {
+                if (kind != 1) continue
+                lengths += length
+                assertTrue(period - length >= 2.4f - 0.001f)
+            }
+        }
+        assertTrue(lengths.any { it <= 1.8f })
+        assertTrue(lengths.any { it > 1.8f })
+    }
+
+    @Test
     fun riverLogsCarryTheFrogAndOpenWaterEndsTheRun() {
         val run = RiverHopRun().apply { resize(360f, 220f); start() }
         run.row = 3

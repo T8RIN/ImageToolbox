@@ -541,7 +541,11 @@ internal class RiverHopRun : ArcadeRun() {
             }
             val speed = (0.65f + Random.nextFloat() * 0.35f + minOf(index * 0.005f, 0.7f)) *
                     if (index % 2 == 0) 1f else -1f
-            val length = if (kind == 2) 2.8f else 1.15f + Random.nextFloat() * 0.55f
+            val length = when {
+                kind == 2 -> 2.8f
+                kind == 1 && Random.nextInt(until = 4) == 0 -> 2.1f + Random.nextFloat() * 0.5f
+                else -> 1.15f + Random.nextFloat() * 0.55f
+            }
             val period = length + if (kind == 2) 1.3f else 2.4f + Random.nextFloat()
             lanes += RiverLane(
                 index = index,
