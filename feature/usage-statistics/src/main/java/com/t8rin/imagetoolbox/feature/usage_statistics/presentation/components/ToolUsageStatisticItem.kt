@@ -74,19 +74,18 @@ internal fun ToolUsageStatisticItem(
             }
         },
         placeBottomContentInside = true,
-        bottomContent = {
-            LinearWavyProgressIndicator(
-                progress = { progress },
-                modifier = Modifier
-                    .padding(
-                        top = if (progress >= 1f) 8.dp else 12.dp
-                    )
-                    .fillMaxWidth(),
-                amplitude = {
-                    if (it >= 0.05f) 0.8f else 0f
-                }
-            )
-        }
+        bottomContent = { UsageStatisticProgressIndicator(progress) }
+    )
+}
+
+@Composable
+internal fun UsageStatisticProgressIndicator(progress: Float) {
+    LinearWavyProgressIndicator(
+        progress = { progress },
+        modifier = Modifier
+            .padding(top = if (progress >= 1f) 8.dp else 12.dp)
+            .fillMaxWidth(),
+        amplitude = { if (it >= 0.05f) 0.8f else 0f }
     )
 }
 

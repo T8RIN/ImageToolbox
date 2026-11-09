@@ -202,7 +202,9 @@ import com.t8rin.imagetoolbox.feature.single_edit.presentation.SingleEditContent
 import com.t8rin.imagetoolbox.feature.single_edit.presentation.screenLogic.SingleEditComponent
 import com.t8rin.imagetoolbox.feature.svg_maker.presentation.SvgMakerContent
 import com.t8rin.imagetoolbox.feature.svg_maker.presentation.screenLogic.SvgMakerComponent
+import com.t8rin.imagetoolbox.feature.usage_statistics.presentation.ArcadeStatisticsContent
 import com.t8rin.imagetoolbox.feature.usage_statistics.presentation.UsageStatisticsContent
+import com.t8rin.imagetoolbox.feature.usage_statistics.presentation.screenLogic.ArcadeStatisticsComponent
 import com.t8rin.imagetoolbox.feature.usage_statistics.presentation.screenLogic.UsageStatisticsComponent
 import com.t8rin.imagetoolbox.feature.wallpapers_export.presentation.WallpapersExportContent
 import com.t8rin.imagetoolbox.feature.wallpapers_export.presentation.screenLogic.WallpapersExportComponent
@@ -258,6 +260,11 @@ internal sealed interface NavigationChild {
     class ArcadeGames(private val component: ArcadeGamesComponent) : NavigationChild {
         @Composable
         override fun Content() = ArcadeGamesContent(component)
+    }
+
+    class ArcadeStatistics(private val component: ArcadeStatisticsComponent) : NavigationChild {
+        @Composable
+        override fun Content() = ArcadeStatisticsContent(component)
     }
 
     class Cipher(private val component: CipherComponent) : NavigationChild {

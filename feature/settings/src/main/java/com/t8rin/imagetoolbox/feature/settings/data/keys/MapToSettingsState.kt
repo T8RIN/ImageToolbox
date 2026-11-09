@@ -202,6 +202,10 @@ internal fun Preferences.toSettingsState(
     showLoadingGameButton = this[SHOW_LOADING_GAME_BUTTON]
         ?: default.showLoadingGameButton,
     loadingGame = ArcadeGame.entries.find { it.name == this[LOADING_GAME] } ?: default.loadingGame,
+    favoriteArcadeGames = this[FAVORITE_ARCADE_GAMES].orEmpty().let { favorites ->
+        ArcadeGame.playable.filterTo(mutableSetOf()) { it.name in favorites }
+    },
+    arcadeGameOrder = arcadeGameOrder(),
     useFullscreenSettings = this[USE_FULLSCREEN_SETTINGS]
         ?: default.useFullscreenSettings,
     useCategorizedSettings = this[USE_CATEGORIZED_SETTINGS]
@@ -478,3 +482,9 @@ private fun Set<String>?.toCustomFonts(): List<DomainFontFamily.Custom> = this?.
         filePath = split[1]
     )
 } ?: emptyList()
+
+internal fun Preferences.arcadeGameOrder(): List<ArcadeGame> {
+    val playable = ArcadeGame.playable.associateBy { it.name }
+    val order = this[ARCADE_GAME_ORDER]?.split("/")?.mapNotNull(playable::get).orEmpty()
+    return (order + ArcadeGame.playable).distinct()
+}

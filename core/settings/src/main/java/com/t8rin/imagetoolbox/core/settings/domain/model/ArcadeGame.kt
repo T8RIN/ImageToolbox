@@ -55,9 +55,22 @@ enum class ArcadeGame {
     Basketball,
     LaserMirrors,
     FlowConnect,
-    BalanceTower;
+    BalanceTower,
+    RandomFavorite;
+
+    fun pickGame(
+        favorites: Set<ArcadeGame> = emptySet(),
+        previous: ArcadeGame? = null
+    ): ArcadeGame {
+        val choices = when (this) {
+            Random -> playable
+            RandomFavorite -> playable.filter { it in favorites }.ifEmpty { playable }
+            else -> return this
+        }
+        return choices.filterNot { it == previous }.ifEmpty { choices }.random()
+    }
 
     companion object {
-        val playable = entries.filterNot { it == Random }
+        val playable = entries.filterNot { it == Random || it == RandomFavorite }
     }
 }

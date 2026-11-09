@@ -56,7 +56,10 @@ internal fun ShowLoadingGameButtonSettingItem(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 8.dp),
-                    entries = ArcadeGame.entries,
+                    entries = listOf(
+                        ArcadeGame.Random,
+                        ArcadeGame.RandomFavorite
+                    ) + ArcadeGame.playable,
                     value = settings.loadingGame,
                     title = null,
                     itemContent = { Text(stringResource(it.title)) },

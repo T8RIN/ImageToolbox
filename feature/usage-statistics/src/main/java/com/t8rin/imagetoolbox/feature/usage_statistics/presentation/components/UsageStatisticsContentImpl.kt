@@ -29,6 +29,7 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -48,6 +49,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.Interests
 import com.t8rin.imagetoolbox.core.resources.icons.LocalFireDepartment
 import com.t8rin.imagetoolbox.core.resources.icons.Save
 import com.t8rin.imagetoolbox.core.resources.icons.ServiceToolbox
+import com.t8rin.imagetoolbox.core.resources.icons.StadiaController
 import com.t8rin.imagetoolbox.core.resources.icons.TouchApp
 import com.t8rin.imagetoolbox.core.ui.theme.ImageToolboxThemeForPreview
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.rememberHumanFileSize
@@ -130,6 +132,15 @@ internal fun UsageStatisticsContentImpl(
                 title = stringResource(R.string.last_tool_opened),
                 value = state.lastOpened.asReadableDate(),
                 modifier = Modifier.weight(1f)
+            )
+            UsageStatisticSummaryItem(
+                icon = Icons.Rounded.StadiaController,
+                title = stringResource(R.string.arcade_games),
+                value = state.startedGameRounds.toString(),
+                modifier = Modifier.fillMaxWidth(),
+                showZero = true,
+                containerColor = MaterialTheme.colorScheme.primaryContainer,
+                onClick = { onNavigate(Screen.ArcadeStatistics) }
             )
         }
     }

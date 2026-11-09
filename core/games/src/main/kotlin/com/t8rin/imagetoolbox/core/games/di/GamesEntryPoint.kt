@@ -17,9 +17,8 @@
 
 package com.t8rin.imagetoolbox.core.games.di
 
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
 import com.t8rin.imagetoolbox.core.domain.coroutines.AppScope
+import com.t8rin.imagetoolbox.core.games.ArcadeStatisticsRepository
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
@@ -27,6 +26,6 @@ import dagger.hilt.components.SingletonComponent
 @EntryPoint
 @InstallIn(SingletonComponent::class)
 internal interface GamesEntryPoint {
-    val dataStore: DataStore<Preferences>
+    val statisticsRepository: ArcadeStatisticsRepository
     val appScope: AppScope
 }

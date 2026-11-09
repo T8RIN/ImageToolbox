@@ -8025,6 +8025,13 @@
     <string name="show_loading_game_button">Games while waiting</string>
     <string name="show_loading_game_button_sub">Show a game button in loading dialogs.</string>
     <string name="arcade_games">Games</string>
+    <string name="arcade_random_favorite">Random from favorites</string>
+    <string name="arcade_statistics">Game Statistics</string>
+    <string name="arcade_no_statistics">No game statistics yet</string>
+    <string name="arcade_rounds_started">Rounds started</string>
+    <string name="arcade_rounds_finished">Rounds finished</string>
+    <string name="arcade_rounds_subtitle">%1$d/%2$d rounds</string>
+    <string name="arcade_return">Return</string>
     <string name="arcade_exit_title">Leave the game?</string>
     <string name="arcade_exit_sub">The current game will end. Your high score will be saved.</string>
     <string name="arcade_games_sub">Play different arcade minigames</string>

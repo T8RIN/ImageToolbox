@@ -19,26 +19,75 @@ package com.t8rin.imagetoolbox.feature.arcade_games.presentation.screenLogic
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import com.arkivanov.decompose.ComponentContext
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
+import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
 import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
+import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import kotlinx.serialization.builtins.serializer
 
 class ArcadeGamesComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val onGoBack: () -> Unit,
+    @Assisted private val onNavigate: (Screen) -> Unit,
+    private val settingsManager: SettingsManager,
     dispatchersHolder: DispatchersHolder
 ) : BaseComponent(dispatchersHolder, componentContext) {
 
     private val _selectedGame = mutableStateOf<ArcadeGame?>(null)
     val selectedGame by _selectedGame
 
+    var isPlaying by mutableStateOf(false)
+        private set
+
+    private var activeSearchQuery by mutableStateOf(
+        stateKeeper.consume("searchQuery", String.serializer())
+    )
+    val showSearch get() = activeSearchQuery != null
+    val searchQuery get() = activeSearchQuery.orEmpty()
+
+    init {
+        stateKeeper.register("searchQuery", String.serializer()) { activeSearchQuery }
+    }
+
     fun selectGame(game: ArcadeGame?) {
+        if (game == selectedGame) return
+        isPlaying = false
         _selectedGame.update { game }
+    }
+
+    fun onPlayingChanged(game: ArcadeGame, playing: Boolean) {
+        if (game == selectedGame) isPlaying = playing
+    }
+
+    fun openSearch() {
+        if (!showSearch) activeSearchQuery = ""
+    }
+
+    fun updateSearch(query: String): Boolean {
+        if (!showSearch || searchQuery == query) return false
+        activeSearchQuery = query
+        return true
+    }
+
+    fun closeSearch() {
+        activeSearchQuery = null
+    }
+
+    fun openStatistics() = onNavigate(Screen.ArcadeStatistics)
+
+    fun toggleFavorite(game: ArcadeGame) {
+        componentScope.launch { settingsManager.toggleFavoriteArcadeGame(game) }
+    }
+
+    fun reorderGames(games: List<ArcadeGame>) {
+        componentScope.launch { settingsManager.reorderArcadeGames(games) }
     }
 
     @AssistedFactory
@@ -46,6 +95,7 @@ class ArcadeGamesComponent @AssistedInject internal constructor(
         operator fun invoke(
             componentContext: ComponentContext,
             onGoBack: () -> Unit,
+            onNavigate: (Screen) -> Unit,
         ): ArcadeGamesComponent
     }
 }

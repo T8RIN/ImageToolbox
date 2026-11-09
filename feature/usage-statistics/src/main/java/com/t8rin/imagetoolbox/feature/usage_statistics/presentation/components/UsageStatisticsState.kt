@@ -23,7 +23,8 @@ data class UsageStatisticsState(
     val activityStreak: Int = 0,
     val savedBytes: Long = 0,
     val topSavedFormat: String = "",
-    val tools: List<UiToolUsageStatistic> = emptyList()
+    val tools: List<UiToolUsageStatistic> = emptyList(),
+    val startedGameRounds: Int = 0
 ) {
     val totalToolOpens = tools.sumOf { it.openCount }
     val lastOpened = tools.maxByOrNull { it.lastOpenedTimestamp }?.lastOpenedTimestamp

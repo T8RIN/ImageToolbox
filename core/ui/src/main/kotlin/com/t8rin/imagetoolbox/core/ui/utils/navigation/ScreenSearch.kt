@@ -228,5 +228,6 @@ private fun Screen.searchKeywordsRes(): Int? = when (this) {
     is LibraryDetails,
     is Screen.Assistant,
     is Help,
-    is UsageStatistics -> null
+    is UsageStatistics,
+    is Screen.ArcadeStatistics -> null
 }

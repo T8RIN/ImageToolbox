@@ -205,6 +205,7 @@ import com.t8rin.imagetoolbox.feature.settings.presentation.screenLogic.Settings
 import com.t8rin.imagetoolbox.feature.shader_studio.presentation.screenLogic.ShaderStudioComponent
 import com.t8rin.imagetoolbox.feature.single_edit.presentation.screenLogic.SingleEditComponent
 import com.t8rin.imagetoolbox.feature.svg_maker.presentation.screenLogic.SvgMakerComponent
+import com.t8rin.imagetoolbox.feature.usage_statistics.presentation.screenLogic.ArcadeStatisticsComponent
 import com.t8rin.imagetoolbox.feature.usage_statistics.presentation.screenLogic.UsageStatisticsComponent
 import com.t8rin.imagetoolbox.feature.wallpapers_export.presentation.screenLogic.WallpapersExportComponent
 import com.t8rin.imagetoolbox.feature.watermarking.presentation.screenLogic.WatermarkingComponent
@@ -266,6 +267,7 @@ internal class ChildProvider @Inject constructor(
     private val weightResizeComponentFactory: WeightResizeComponent.Factory,
     private val archiveToolsComponentFactory: ArchiveToolsComponent.Factory,
     private val arcadeGamesComponentFactory: ArcadeGamesComponent.Factory,
+    private val arcadeStatisticsComponentFactory: ArcadeStatisticsComponent.Factory,
     private val easterEggComponentFactory: EasterEggComponent.Factory,
     private val colorToolsComponentFactory: ColorToolsComponent.Factory,
     private val librariesInfoComponentFactory: LibrariesInfoComponent.Factory,
@@ -325,6 +327,14 @@ internal class ChildProvider @Inject constructor(
     ): NavigationChild = when (config) {
         Screen.ArcadeGames -> NavigationChild.ArcadeGames(
             arcadeGamesComponentFactory(
+                componentContext = componentContext,
+                onGoBack = ::navigateBack,
+                onNavigate = ::navigateTo
+            )
+        )
+
+        Screen.ArcadeStatistics -> NavigationChild.ArcadeStatistics(
+            arcadeStatisticsComponentFactory(
                 componentContext = componentContext,
                 onGoBack = ::navigateBack
             )

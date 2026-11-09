@@ -61,6 +61,7 @@ import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
 val ArcadeGame.title: Int
     get() = when (this) {
         ArcadeGame.Random -> R.string.grid_random
+        ArcadeGame.RandomFavorite -> R.string.arcade_random_favorite
         ArcadeGame.Dino -> R.string.arcade_dino
         ArcadeGame.Doodle -> R.string.arcade_doodle
         ArcadeGame.Bird -> R.string.arcade_bird
@@ -101,7 +102,7 @@ val ArcadeGame.title: Int
 
 val ArcadeGame.description: Int
     get() = when (this) {
-        ArcadeGame.Random -> R.string.arcade_games_sub
+        ArcadeGame.Random, ArcadeGame.RandomFavorite -> R.string.arcade_games_sub
         ArcadeGame.Dino -> R.string.arcade_dino_sub
         ArcadeGame.Doodle -> R.string.arcade_doodle_sub
         ArcadeGame.Bird -> R.string.arcade_bird_sub
@@ -168,7 +169,7 @@ val ArcadeGame.icon: ImageVector
         ArcadeGame.BubblePop -> Icons.Outlined.BubbleChart
         ArcadeGame.Fishing -> Icons.Outlined.Phishing
         ArcadeGame.Hexagon -> Icons.Outlined.Hexagon
-        ArcadeGame.Random -> Icons.Rounded.Shuffle
+        ArcadeGame.Random, ArcadeGame.RandomFavorite -> Icons.Rounded.Shuffle
         ArcadeGame.Dino -> Icons.Outlined.Dinosaur
         ArcadeGame.Doodle -> Icons.Outlined.Alien
         ArcadeGame.Bird -> Icons.Outlined.Raven

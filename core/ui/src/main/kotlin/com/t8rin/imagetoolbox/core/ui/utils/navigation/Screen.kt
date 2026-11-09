@@ -118,6 +118,13 @@ sealed class Screen(
     )
 
     @Serializable
+    data object ArcadeStatistics : Screen(
+        id = -11,
+        title = 0,
+        subtitle = 0
+    )
+
+    @Serializable
     data class Settings(
         val searchQuery: String = "",
         val targetSetting: Setting? = null

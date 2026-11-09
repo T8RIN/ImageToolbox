@@ -26,10 +26,12 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -38,9 +40,11 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Save
+import com.t8rin.imagetoolbox.core.resources.icons.Visibility
 import com.t8rin.imagetoolbox.core.settings.domain.model.ShapeType
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.ImageToolboxThemeForPreview
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.AutoCornersShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 
@@ -49,9 +53,13 @@ internal fun UsageStatisticSummaryItem(
     icon: ImageVector,
     title: String,
     value: String,
-    modifier: Modifier
+    modifier: Modifier,
+    showZero: Boolean = false,
+    containerColor: Color = MaterialTheme.colorScheme.tertiaryContainer,
+    onClick: (() -> Unit)? = null
 ) {
     val strength = LocalSettingsState.current.shapesType.strength
+    val contentColor = contentColorFor(containerColor)
     Row(
         modifier = modifier
             .widthIn(min = 172.dp)
@@ -62,22 +70,24 @@ internal fun UsageStatisticSummaryItem(
                         shapesType = ShapeType.Wavy(strength)
                     )
                 },
-                resultPadding = 12.dp,
-                color = MaterialTheme.colorScheme.tertiaryContainer.copy(0.75f)
-            ),
+                resultPadding = 0.dp,
+                color = containerColor.copy(alpha = 0.75f)
+            )
+            .then(onClick?.let { Modifier.hapticsClickable(onClick = it) } ?: Modifier)
+            .padding(12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(
             imageVector = icon,
             contentDescription = null,
-            tint = MaterialTheme.colorScheme.onTertiaryContainer
+            tint = contentColor
         )
         Spacer(Modifier.width(10.dp))
         Column(
-            modifier = Modifier.weight(1f, false)
+            modifier = Modifier.weight(1f)
         ) {
             Text(
-                text = if (value.isBlank() || value == "0" || value == "0.0") {
+                text = if (value.isBlank() || !showZero && (value == "0" || value == "0.0")) {
                     stringResource(R.string.not_specified)
                 } else {
                     value
@@ -85,14 +95,18 @@ internal fun UsageStatisticSummaryItem(
                 maxLines = 1,
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.SemiBold,
-                color = MaterialTheme.colorScheme.onTertiaryContainer
+                color = contentColor
             )
             Text(
                 text = title,
                 maxLines = 1,
                 style = MaterialTheme.typography.labelSmall,
-                color = MaterialTheme.colorScheme.onTertiaryContainer.copy(0.65f)
+                color = contentColor.copy(alpha = 0.65f)
             )
+        }
+        if (onClick != null) {
+            Spacer(Modifier.width(10.dp))
+            Icon(Icons.Outlined.Visibility, null, tint = contentColor)
         }
     }
 }

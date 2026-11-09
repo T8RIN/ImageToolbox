@@ -23,3 +23,7 @@ plugins {
 }
 
 android.namespace = "com.t8rin.imagetoolbox.feature.usage_statistics"
+
+dependencies {
+    implementation(projects.core.games)
+}

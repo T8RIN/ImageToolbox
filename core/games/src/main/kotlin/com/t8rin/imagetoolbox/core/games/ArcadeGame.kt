@@ -99,8 +99,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
@@ -150,14 +148,11 @@ import com.t8rin.imagetoolbox.core.resources.icons.Pause
 import com.t8rin.imagetoolbox.core.resources.icons.PlayCircle
 import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
 import com.t8rin.imagetoolbox.core.utils.appContext
-import com.t8rin.imagetoolbox.core.utils.makeLog
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import kotlinx.serialization.serializer
-import java.io.IOException
 
 @Composable
 fun ArcadeGameContent(
@@ -165,16 +160,18 @@ fun ArcadeGameContent(
     modifier: Modifier = Modifier,
     height: Dp = Dp.Unspecified,
     isPaused: Boolean = false,
+    allowNewRound: Boolean = true,
     onPlayingChanged: ((Boolean) -> Unit)? = null
 ) {
     val style = ArcadeDefaults.style.let {
         if (height == Dp.Unspecified) it else it.copy(gameHeight = height)
     }
     val selected = rememberSaveable(game) {
-        if (game == ArcadeGame.Random) ArcadeGame.playable.random() else game
+        game.pickGame()
     }
     CompositionLocalProvider(
-        LocalArcadePlayingChanged provides onPlayingChanged
+        LocalArcadePlayingChanged provides onPlayingChanged,
+        LocalArcadeAllowNewRound provides allowNewRound
     ) {
         when (selected) {
             ArcadeGame.Dino -> DinoGame(
@@ -387,12 +384,13 @@ fun ArcadeGameContent(
                 isPaused = isPaused
             )
 
-            ArcadeGame.Random -> Unit
+            ArcadeGame.Random, ArcadeGame.RandomFavorite -> Unit
         }
     }
 }
 
 private val LocalArcadePlayingChanged = compositionLocalOf<((Boolean) -> Unit)?> { null }
+private val LocalArcadeAllowNewRound = compositionLocalOf { true }
 
 @Immutable
 data class ArcadeGameState(
@@ -461,6 +459,7 @@ internal const val LevelTransitionDuration = 0.24f
 internal abstract class ArcadeRun {
     var phase by mutableStateOf(ArcadePhase.Ready)
     var gameOverReported = false
+    var statsRoundStarted = false
     var score by mutableIntStateOf(0)
     var frame by mutableIntStateOf(0)
         private set
@@ -484,6 +483,7 @@ internal abstract class ArcadeRun {
         isAnimating = false
         levelTransition = 0f
         gameOverReported = false
+        statsRoundStarted = false
         phase = ArcadePhase.Ready
         reset()
         prepared = true
@@ -571,9 +571,8 @@ internal fun ArcadeBoard(
 ) {
     val phase = run.phase
     val playingChanged by rememberUpdatedState(LocalArcadePlayingChanged.current)
-    LaunchedEffect(phase) {
-        playingChanged?.invoke(phase == ArcadePhase.Running || phase == ArcadePhase.Paused)
-    }
+    var starting by rememberSaveable(run) { mutableStateOf(false) }
+    val allowNewRound = LocalArcadeAllowNewRound.current
     val haptics = LocalHapticFeedback.current
     val score = run.score
     var record by rememberSaveable { mutableIntStateOf(initialState.highScore.coerceAtLeast(0)) }
@@ -583,30 +582,37 @@ internal fun ArcadeBoard(
     val storage = remember(isPreview) {
         if (isPreview) null else appContext.entryPoint<GamesEntryPoint>()
     }
-    val recordKey = remember(game) {
-        intPreferencesKey("ARCADE_${game.name.uppercase()}_HIGH_SCORE")
+    var recordLoaded by remember(storage, game) { mutableStateOf(storage == null) }
+
+    fun startRound() {
+        val resuming = run.phase == ArcadePhase.Paused
+        run.start()
+        if (!resuming) {
+            run.statsRoundStarted = true
+            val startedAt = System.currentTimeMillis()
+            storage?.appScope?.launch {
+                storage.statisticsRepository.recordStart(game, startedAt)
+            }
+        }
     }
-    var recordLoaded by remember(storage, recordKey) { mutableStateOf(storage == null) }
+
+    LaunchedEffect(phase, starting) {
+        playingChanged?.invoke(starting || phase == ArcadePhase.Running || phase == ArcadePhase.Paused)
+    }
     LaunchedEffect(initialState.highScore) {
         record = maxOf(record, initialState.highScore)
     }
-    LaunchedEffect(storage, recordKey) {
-        storage?.dataStore?.data
-            ?.catch {
-                if (it !is IOException) throw it
-                it.makeLog("Arcade")
-                recordLoaded = true
-            }
-            ?.collect {
-                record = maxOf(record, it[recordKey] ?: 0)
-                recordLoaded = true
-            }
+    LaunchedEffect(storage, game) {
+        storage?.statisticsRepository?.highScore(game)?.collect {
+            record = maxOf(record, it)
+            recordLoaded = true
+        }
     }
     LaunchedEffect(run.prepared, recordLoaded) {
         if (run.startWhenReady && run.prepared && recordLoaded) {
             run.startWhenReady = false
             run.previousBest = record
-            run.start()
+            startRound()
             if (isPaused) run.pause()
         }
     }
@@ -615,18 +621,20 @@ internal fun ArcadeBoard(
         if (phase == ArcadePhase.Over && !run.gameOverReported) {
             run.stopInput()
             run.gameOverReported = true
+            val trackRound = run.statsRoundStarted
+            if (trackRound || score > record) {
+                storage?.appScope?.launch {
+                    storage.statisticsRepository.recordFinish(game, score, trackRound)
+                }
+            }
             if (score > record) {
                 record = score
-                storage?.appScope?.launch {
-                    storage.dataStore.edit { it[recordKey] = maxOf(it[recordKey] ?: 0, score) }
-                }
                 highScoreChanged?.invoke(score)
             }
             gameOver?.invoke(score)
         }
     }
 
-    var starting by remember(run) { mutableStateOf(false) }
     val fieldAlpha = remember(run) { Animatable(initialValue = 1f) }
     val overlay = remember(run) { MutableTransitionState(initialState = !run.startWhenReady) }
     overlay.targetState = !run.startWhenReady && phase != ArcadePhase.Running && !starting
@@ -641,7 +649,7 @@ internal fun ArcadeBoard(
             }
             snapshotFlow { overlay.isIdle && !overlay.currentState }.first { it }
             if (run.phase != ArcadePhase.Paused) run.previousBest = record
-            run.start()
+            startRound()
             if (restarting) run.animateLevel()
             fieldAlpha.snapTo(targetValue = 1f)
             starting = false
@@ -861,16 +869,7 @@ internal fun ArcadeBoard(
                                 style = if (compact) MaterialTheme.typography.titleMedium else MaterialTheme.typography.titleLarge
                             )
                         }
-                        if (overlayPhase != ArcadePhase.Paused) {
-                            LocalArcadeButton.current(
-                                { starting = true },
-                                phase == overlayPhase && !isPaused && !starting && run.prepared && recordLoaded,
-                                style.buttonColor,
-                                style.buttonContentColor
-                            ) {
-                                Text(text = stringResource(if (overlayPhase == ArcadePhase.Ready) R.string.play else R.string.try_again))
-                            }
-                        } else {
+                        if (overlayPhase == ArcadePhase.Paused) {
                             Box(
                                 modifier = Modifier
                                     .size(if (compact) 48.dp else 64.dp)
@@ -890,6 +889,18 @@ internal fun ArcadeBoard(
                                         colorFilter = ColorFilter.tint(style.playerColor)
                                     )
                             )
+                        } else if (allowNewRound) {
+                            LocalArcadeButton.current(
+                                {
+                                    starting = true
+                                    playingChanged?.invoke(true)
+                                },
+                                phase == overlayPhase && !isPaused && !starting && run.prepared && recordLoaded,
+                                style.buttonColor,
+                                style.buttonContentColor
+                            ) {
+                                Text(text = stringResource(if (overlayPhase == ArcadePhase.Ready) R.string.play else R.string.try_again))
+                            }
                         }
                         if (overlayPhase == ArcadePhase.Paused) {
                             LocalArcadeButton.current(

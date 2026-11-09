@@ -230,6 +230,10 @@ interface SettingsInteractor : SimpleSettingsInteractor {
 
     suspend fun setLoadingGame(game: ArcadeGame)
 
+    suspend fun toggleFavoriteArcadeGame(game: ArcadeGame)
+
+    suspend fun reorderArcadeGames(games: List<ArcadeGame>)
+
     suspend fun toggleUseFullscreenSettings()
 
     suspend fun toggleAllowCollapsingSettingsGroups()

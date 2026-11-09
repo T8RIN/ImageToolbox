@@ -103,6 +103,7 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.AMOLED_MODE_EXTENDED
 import com.t8rin.imagetoolbox.feature.settings.data.keys.APPLY_SPOT_HEAL_MANUALLY
 import com.t8rin.imagetoolbox.feature.settings.data.keys.APP_COLOR_TUPLE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.APP_OPEN_COUNT
+import com.t8rin.imagetoolbox.feature.settings.data.keys.ARCADE_GAME_ORDER
 import com.t8rin.imagetoolbox.feature.settings.data.keys.ASCII_CUSTOM_GRADIENTS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.AUTO_CACHE_CLEAR
 import com.t8rin.imagetoolbox.feature.settings.data.keys.BACKGROUND_COLOR_FOR_NA_FORMATS
@@ -146,6 +147,7 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.ENABLE_TOOL_EXIT_CONFIR
 import com.t8rin.imagetoolbox.feature.settings.data.keys.EXIF_WIDGET_INITIAL_STATE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.FAB_ALIGNMENT
 import com.t8rin.imagetoolbox.feature.settings.data.keys.FAST_SETTINGS_SIDE
+import com.t8rin.imagetoolbox.feature.settings.data.keys.FAVORITE_ARCADE_GAMES
 import com.t8rin.imagetoolbox.feature.settings.data.keys.FAVORITE_COLORS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.FAVORITE_GRADIENTS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.FAVORITE_SCREENS
@@ -254,6 +256,7 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.USE_OPAQUE_IMAGE_VIEWER
 import com.t8rin.imagetoolbox.feature.settings.data.keys.USE_RANDOM_EMOJIS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.VIBRATION_STRENGTH
 import com.t8rin.imagetoolbox.feature.settings.data.keys.WEBLATE_INFO_DIALOG_OPEN_COUNT
+import com.t8rin.imagetoolbox.feature.settings.data.keys.arcadeGameOrder
 import com.t8rin.imagetoolbox.feature.settings.data.keys.toGradientPalettes
 import com.t8rin.imagetoolbox.feature.settings.data.keys.toSettingsState
 import dagger.Lazy
@@ -978,6 +981,25 @@ internal class AndroidSettingsManager @Inject constructor(
 
     override suspend fun setLoadingGame(game: ArcadeGame) = edit {
         it[LOADING_GAME] = game.name
+    }
+
+    override suspend fun toggleFavoriteArcadeGame(game: ArcadeGame) = edit { preferences ->
+        if (game !in ArcadeGame.playable) return@edit
+
+        val favorites = preferences[FAVORITE_ARCADE_GAMES].orEmpty()
+        preferences[FAVORITE_ARCADE_GAMES] = if (game.name in favorites) {
+            favorites - game.name
+        } else {
+            favorites + game.name
+        }
+    }
+
+    override suspend fun reorderArcadeGames(games: List<ArcadeGame>) = edit { preferences ->
+        val reorderedGames = games.filter { it in ArcadeGame.playable }.distinct()
+        val reordered = reorderedGames.iterator()
+        preferences[ARCADE_GAME_ORDER] = preferences.arcadeGameOrder().joinToString("/") {
+            if (it in reorderedGames) reordered.next().name else it.name
+        }
     }
 
     override suspend fun toggleUseFullscreenSettings() = toggle(

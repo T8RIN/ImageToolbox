@@ -7981,6 +7981,13 @@
     <string name="show_loading_game_button">Игры во время ожидания</string>
     <string name="show_loading_game_button_sub">Показывать кнопку игры в диалогах загрузки.</string>
     <string name="arcade_games">Игры</string>
+    <string name="arcade_random_favorite">Случайная из избранных</string>
+    <string name="arcade_statistics">Статистика игр</string>
+    <string name="arcade_no_statistics">Статистики игр пока нет</string>
+    <string name="arcade_rounds_started">Начато раундов</string>
+    <string name="arcade_rounds_finished">Завершено раундов</string>
+    <string name="arcade_rounds_subtitle">%1$d/%2$d раундов</string>
+    <string name="arcade_return">Вернуться</string>
     <string name="arcade_exit_title">Выйти из игры?</string>
     <string name="arcade_exit_sub">Текущая игра завершится. Рекорд сохранится.</string>
     <string name="arcade_games_sub">Играйте в различные аркадные мини-игры</string>

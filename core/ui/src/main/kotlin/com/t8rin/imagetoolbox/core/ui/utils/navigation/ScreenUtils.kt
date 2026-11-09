@@ -265,6 +265,7 @@ internal fun Screen.simpleName(): String = when (this) {
     is ShaderStudio -> "Shader_Studio"
     is Help -> "Help_Tips"
     is UsageStatistics -> "Usage_Statistics"
+    is Screen.ArcadeStatistics -> "Arcade_Statistics"
     is PdfTools.Merge -> "PdfTools_Merge"
     is PdfTools.Split -> "PdfTools_Split"
     is PdfTools.Rotate -> "PdfTools_Rotate"
@@ -308,7 +309,8 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is MeshGradients,
     is LibraryDetails,
     is Help,
-    is UsageStatistics -> null
+    is UsageStatistics,
+    is Screen.ArcadeStatistics -> null
 
     is SingleEdit -> Icons.Outlined.ImageEdit
     is ApngTools -> Icons.Outlined.ApngBox
@@ -412,7 +414,8 @@ internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
     is MeshGradients,
     is LibraryDetails,
     is Help,
-    is UsageStatistics -> null
+    is UsageStatistics,
+    is Screen.ArcadeStatistics -> null
 
     is SingleEdit -> Icons.TwoTone.ImageEdit
     is ApngTools -> Icons.TwoTone.ApngBox

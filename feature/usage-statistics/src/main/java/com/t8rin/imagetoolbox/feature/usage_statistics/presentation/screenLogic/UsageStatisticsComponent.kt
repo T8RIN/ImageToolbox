@@ -21,6 +21,7 @@ import com.arkivanov.decompose.ComponentContext
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.history.AppHistoryRepository
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
+import com.t8rin.imagetoolbox.core.games.ArcadeStatisticsRepository
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsProvider
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
@@ -39,6 +40,7 @@ class UsageStatisticsComponent @AssistedInject constructor(
     @Assisted val onGoBack: () -> Unit,
     @Assisted val onNavigate: (Screen) -> Unit,
     private val appHistoryRepository: AppHistoryRepository,
+    arcadeStatisticsRepository: ArcadeStatisticsRepository,
     settingsProvider: SettingsProvider,
     dispatchersHolder: DispatchersHolder
 ) : BaseComponent(dispatchersHolder, componentContext) {
@@ -46,13 +48,15 @@ class UsageStatisticsComponent @AssistedInject constructor(
     val state: StateFlow<UsageStatisticsState> = combine(
         settingsProvider.settingsState,
         appHistoryRepository.toolUsageStatistics(),
-        appHistoryRepository.appUsageStatistics()
-    ) { settings, history, usageStatistics ->
+        appHistoryRepository.appUsageStatistics(),
+        arcadeStatisticsRepository.statistics
+    ) { settings, history, usageStatistics, gameStatistics ->
         UsageStatisticsState(
             appOpenCount = settings.appOpenCount,
             successfulSavesCount = usageStatistics.successfulSavesCount,
             activityStreak = usageStatistics.currentActivityStreak,
             savedBytes = usageStatistics.savedBytes,
+            startedGameRounds = gameStatistics.sumOf { it.startedRounds },
             topSavedFormat = usageStatistics.savedFormatCounts
                 .maxWithOrNull(compareBy<Map.Entry<String, Int>> { it.value }.thenBy { it.key })
                 ?.key

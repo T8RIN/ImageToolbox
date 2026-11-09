@@ -115,7 +115,6 @@ import com.t8rin.imagetoolbox.core.resources.icons.KeyboardArrowDown
 import com.t8rin.imagetoolbox.core.resources.icons.Neurology
 import com.t8rin.imagetoolbox.core.resources.icons.Square
 import com.t8rin.imagetoolbox.core.resources.icons.StadiaController
-import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.DisabledAlpha
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
@@ -158,8 +157,8 @@ fun AssistantContent(component: AssistantComponent) {
         mutableStateOf(false)
     }
     val preference = settings.loadingGame
-    var game by rememberSaveable(preference) {
-        mutableStateOf(if (preference == ArcadeGame.Random) ArcadeGame.playable.random() else preference)
+    var game by rememberSaveable {
+        mutableStateOf(preference.pickGame(settings.favoriteArcadeGames))
     }
     val gameVisible = showGame && settings.showLoadingGameButton
     val gameState = rememberSaveableStateHolder()
@@ -260,9 +259,8 @@ fun AssistantContent(component: AssistantComponent) {
                         if (!showGame) {
                             focus.clearFocus()
                             keyboard?.hide()
-                            if (preference == ArcadeGame.Random) {
-                                game = ArcadeGame.playable.filterNot { it == game }.random()
-                            }
+                            game =
+                                preference.pickGame(settings.favoriteArcadeGames, previous = game)
                         }
                         showGame = !showGame
                     },
