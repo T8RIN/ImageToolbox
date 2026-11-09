@@ -80,7 +80,7 @@ import com.t8rin.imagetoolbox.feature.usage_statistics.presentation.screenLogic.
 
 @Composable
 fun ArcadeStatisticsContent(component: ArcadeStatisticsComponent) {
-    val statistics by component.statistics.collectAsStateWithLifecycle(initialValue = emptyList())
+    val statistics by component.statistics.collectAsStateWithLifecycle()
     val maxStartedRounds = statistics.maxOfOrNull { it.startedRounds }?.coerceAtLeast(1) ?: 1
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val isPortrait by isPortraitOrientationAsState()
@@ -172,6 +172,7 @@ fun ArcadeStatisticsContent(component: ArcadeStatisticsComponent) {
                 PreferenceItemOverload(
                     title = stringResource(item.game.title),
                     subtitle = item.subtitle(),
+                    onClick = { component.openGame(item.game) },
                     startIcon = { Icon(item.game.icon, null) },
                     shape = if (useGrid) ShapeDefaults.default
                     else ShapeDefaults.byIndex(index, statistics.size),

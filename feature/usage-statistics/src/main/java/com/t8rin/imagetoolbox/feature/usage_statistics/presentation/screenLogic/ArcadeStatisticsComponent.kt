@@ -20,19 +20,30 @@ package com.t8rin.imagetoolbox.feature.usage_statistics.presentation.screenLogic
 import com.arkivanov.decompose.ComponentContext
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.games.ArcadeStatisticsRepository
+import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
+import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.stateIn
 
 class ArcadeStatisticsComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val onGoBack: () -> Unit,
+    @Assisted private val onNavigate: (Screen) -> Unit,
     private val repository: ArcadeStatisticsRepository,
     dispatchersHolder: DispatchersHolder
 ) : BaseComponent(dispatchersHolder, componentContext) {
 
-    val statistics = repository.statistics
+    val statistics = repository.statistics.stateIn(
+        scope = componentScope,
+        started = SharingStarted.Eagerly,
+        initialValue = emptyList()
+    )
+
+    fun openGame(game: ArcadeGame) = onNavigate(Screen.ArcadeGames(game))
 
     fun resetStatistics() {
         componentScope.launch { repository.resetStatistics() }
@@ -42,7 +53,8 @@ class ArcadeStatisticsComponent @AssistedInject internal constructor(
     fun interface Factory {
         operator fun invoke(
             componentContext: ComponentContext,
-            onGoBack: () -> Unit
+            onGoBack: () -> Unit,
+            onNavigate: (Screen) -> Unit
         ): ArcadeStatisticsComponent
     }
 }

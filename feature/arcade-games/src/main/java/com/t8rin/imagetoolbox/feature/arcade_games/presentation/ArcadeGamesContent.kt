@@ -82,7 +82,7 @@ fun ArcadeGamesContent(component: ArcadeGamesComponent) {
     val goBack = {
         when {
             game != null && component.isPlaying -> showExitDialog = true
-            game != null -> component.selectGame(null)
+            game != null -> component.closeGame()
             showSearch -> closeSearch()
             else -> component.onGoBack()
         }
@@ -188,7 +188,7 @@ fun ArcadeGamesContent(component: ArcadeGamesComponent) {
 
     ExitWithoutSavingDialog(
         visible = showExitDialog,
-        onExit = { component.selectGame(null) },
+        onExit = component::closeGame,
         onDismiss = { showExitDialog = false },
         respectSettings = false,
         title = stringResource(R.string.arcade_exit_title),

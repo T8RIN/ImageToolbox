@@ -32,13 +32,14 @@ import dagger.assisted.AssistedInject
 
 class ArcadeGamesComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
+    @Assisted private val initialGame: ArcadeGame?,
     @Assisted val onGoBack: () -> Unit,
     @Assisted private val onNavigate: (Screen) -> Unit,
     private val settingsManager: SettingsManager,
     dispatchersHolder: DispatchersHolder
 ) : BaseComponent(dispatchersHolder, componentContext) {
 
-    private val _selectedGame = mutableStateOf<ArcadeGame?>(null)
+    private val _selectedGame = mutableStateOf(initialGame)
     val selectedGame by _selectedGame
 
     private val _isPlaying = mutableStateOf(false)
@@ -54,6 +55,14 @@ class ArcadeGamesComponent @AssistedInject internal constructor(
         if (game == selectedGame) return
         _isPlaying.update { false }
         _selectedGame.update { game }
+    }
+
+    fun closeGame() {
+        if (initialGame == null) {
+            selectGame(null)
+        } else {
+            onGoBack()
+        }
     }
 
     fun onPlayingChanged(game: ArcadeGame, playing: Boolean) {
@@ -89,6 +98,7 @@ class ArcadeGamesComponent @AssistedInject internal constructor(
     fun interface Factory {
         operator fun invoke(
             componentContext: ComponentContext,
+            initialGame: ArcadeGame?,
             onGoBack: () -> Unit,
             onNavigate: (Screen) -> Unit,
         ): ArcadeGamesComponent

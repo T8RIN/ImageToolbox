@@ -616,7 +616,7 @@ private object ScreenConstantsImpl : ScreenConstants {
                     ApngTools(),
                     WebpTools(),
                     AudioCoverExtractor(),
-                    ArcadeGames
+                    ArcadeGames()
                 ),
                 title = R.string.tools,
                 selectedIcon = Icons.Rounded.ServiceToolbox,

@@ -325,9 +325,10 @@ internal class ChildProvider @Inject constructor(
         config: Screen,
         componentContext: ComponentContext
     ): NavigationChild = when (config) {
-        Screen.ArcadeGames -> NavigationChild.ArcadeGames(
+        is Screen.ArcadeGames -> NavigationChild.ArcadeGames(
             arcadeGamesComponentFactory(
                 componentContext = componentContext,
+                initialGame = config.game,
                 onGoBack = ::navigateBack,
                 onNavigate = ::navigateTo
             )
@@ -336,7 +337,8 @@ internal class ChildProvider @Inject constructor(
         Screen.ArcadeStatistics -> NavigationChild.ArcadeStatistics(
             arcadeStatisticsComponentFactory(
                 componentContext = componentContext,
-                onGoBack = ::navigateBack
+                onGoBack = ::navigateBack,
+                onNavigate = ::navigateTo
             )
         )
 
