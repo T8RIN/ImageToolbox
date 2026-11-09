@@ -37,6 +37,7 @@ import com.t8rin.imagetoolbox.core.games.ArcadeOffsetSerializer
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.ArcadeStyle
+import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
 import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
@@ -126,7 +127,7 @@ fun RicochetGame(
                     val color =
                         if (health > run.ballCount) style.accentColor else style.obstacleColor
                     drawRoundRect(
-                        color = color.copy(alpha = 0.18f),
+                        color = color,
                         topLeft = point,
                         size = Size(width = cell - 4f, height = rowHeight - 4f),
                         cornerRadius = CornerRadius(x = 3f)
@@ -138,6 +139,13 @@ fun RicochetGame(
                         cornerRadius = CornerRadius(x = 3f),
                         style = Stroke(width = 1.5f)
                     )
+                    pixelRect(
+                        color = style.playerDetailColor.copy(alpha = 0.4f),
+                        x = point.x + 2f,
+                        y = point.y + 2f,
+                        width = cell - 8f,
+                        height = 1.5f
+                    )
                     val label = measurer.measure(
                         health.toString(),
                         style.scoreTextStyle.copy(fontSize = (minOf(cell, rowHeight) * 0.46f).sp),
@@ -145,7 +153,7 @@ fun RicochetGame(
                     )
                     drawText(
                         label,
-                        style.textColor,
+                        style.playerDetailColor,
                         center - Offset(x = label.size.width / 2f, y = label.size.height / 2f)
                     )
                 }

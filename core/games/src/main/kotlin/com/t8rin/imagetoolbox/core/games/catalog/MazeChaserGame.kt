@@ -30,6 +30,7 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.clipPath
+import androidx.compose.ui.graphics.drawscope.scale
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
 import com.t8rin.imagetoolbox.core.games.ArcadeDefaults
 import com.t8rin.imagetoolbox.core.games.ArcadeDequeSerializer
@@ -38,7 +39,9 @@ import com.t8rin.imagetoolbox.core.games.ArcadeGameState
 import com.t8rin.imagetoolbox.core.games.ArcadeOffsetSerializer
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
+import com.t8rin.imagetoolbox.core.games.ArcadeSprite
 import com.t8rin.imagetoolbox.core.games.ArcadeStyle
+import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
 import com.t8rin.imagetoolbox.core.games.utils.arcadeLives
@@ -49,6 +52,18 @@ import kotlinx.serialization.UseSerializers
 import kotlin.math.abs
 import kotlin.math.sin
 import kotlin.random.Random
+
+private val MazeGhost = ArcadeSprite(
+    width = 16,
+    height = 16,
+    data = "M5 0H11V1H13V3H15V6H16V16H13V14H11V16H8V14H6V16H3V14H0V6H1V3H3V1H5Z"
+)
+
+private val MazeGhostStep = ArcadeSprite(
+    width = 16,
+    height = 16,
+    data = "M5 0H11V1H13V3H15V6H16V14H14V16H11V14H8V16H6V14H3V16H0V6H1V3H3V1H5Z"
+)
 
 @Composable
 fun MazeChaserGame(
@@ -64,7 +79,6 @@ fun MazeChaserGame(
         create = ::MazeChaserRun
     )
     val outlinePath = remember { Path() }
-    val bodyPath = remember { Path() }
     ArcadeBoard(
         game = ArcadeGame.MazeChaser,
         run = run,
@@ -160,25 +174,23 @@ fun MazeChaserGame(
                         1 -> style.hazardColor
                         else -> style.obstacleColor
                     }
-                    val body = bodyPath.apply {
-                        rewind()
-                        moveTo(point.x - r, point.y + r)
-                        lineTo(point.x - r, point.y - r * 0.5f)
-                        lineTo(point.x - r * 0.5f, point.y - r)
-                        lineTo(point.x + r * 0.5f, point.y - r)
-                        lineTo(point.x + r, point.y - r * 0.5f)
-                        lineTo(point.x + r, point.y + r)
-                        repeat(5) {
-                            lineTo(
-                                point.x + r - it * r * 0.5f,
-                                point.y + r - if (it % 2 == 1) r * 0.3f else 0f
-                            )
-                        }
-                        close()
+                    scale(scale = r / 8f, pivot = point) {
+                        drawArcadeSprite(
+                            sprite = if ((run.time * 6f).toInt() % 2 == 0) MazeGhost else MazeGhostStep,
+                            tint = ink,
+                            x = point.x - 8f,
+                            y = point.y - 8f
+                        )
                     }
-                    drawPath(
-                        path = body,
-                        color = ink
+                    val looking = Offset(
+                        x = (enemy.position % run.columns - enemy.previous % run.columns).coerceIn(
+                            -1,
+                            1
+                        ) * r * 0.12f,
+                        y = (enemy.position / run.columns - enemy.previous / run.columns).coerceIn(
+                            -1,
+                            1
+                        ) * r * 0.12f
                     )
                     for (side in listOf(-1, 1)) {
                         drawRect(
@@ -192,8 +204,8 @@ fun MazeChaserGame(
                         if (!frightened) drawRect(
                             color = style.textColor,
                             topLeft = point + Offset(
-                                x = side * r * 0.45f - r * 0.07f,
-                                y = -r * 0.25f
+                                x = side * r * 0.45f - r * 0.07f + looking.x,
+                                y = -r * 0.25f + looking.y
                             ),
                             size = Size(width = r * 0.17f, height = r * 0.25f)
                         )

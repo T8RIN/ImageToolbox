@@ -144,6 +144,13 @@ fun SimonSaysGame(
                     cornerRadius = CornerRadius(x = 4f),
                     style = Stroke(width = if (active) 2f else 1f)
                 )
+                pixelRect(
+                    color = color.copy(alpha = if (active) 0.35f else 0.3f),
+                    x = point.x + 3f,
+                    y = point.y + pad.height - 4f,
+                    width = pad.width - 6f,
+                    height = 2f
+                )
                 val center = point + Offset(x = pad.width / 2f, y = pad.height / 2f)
                 val ink = if (active) style.playerDetailColor else color
                 val r = cell * 0.15f

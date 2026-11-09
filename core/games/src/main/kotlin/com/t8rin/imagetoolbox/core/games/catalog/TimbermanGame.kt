@@ -25,6 +25,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.drawscope.clipRect
 import androidx.compose.ui.graphics.drawscope.rotate
+import androidx.compose.ui.graphics.drawscope.scale
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
 import com.t8rin.imagetoolbox.core.games.ArcadeDefaults
 import com.t8rin.imagetoolbox.core.games.ArcadeField
@@ -32,7 +33,9 @@ import com.t8rin.imagetoolbox.core.games.ArcadeGameState
 import com.t8rin.imagetoolbox.core.games.ArcadeOffsetSerializer
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
+import com.t8rin.imagetoolbox.core.games.ArcadeSprite
 import com.t8rin.imagetoolbox.core.games.ArcadeStyle
+import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
@@ -42,6 +45,30 @@ import kotlinx.serialization.Transient
 import kotlinx.serialization.UseSerializers
 import kotlin.math.ceil
 import kotlin.random.Random
+
+private val TimberWorker = ArcadeSprite(
+    width = 28,
+    height = 44,
+    data = "M6 0H19V2H22V6H24V10H26V14H22V18H20V20H23V24H26V30H20V28H19V35H23V42H17V44H13V35H10V44H4V42H6V33H2V24H4V20H8V18H6V14H4V8H6Z"
+)
+
+private val TimberFace = ArcadeSprite(
+    width = 28,
+    height = 44,
+    data = "M8 8H22V10H24V14H20V18H12V16H8Z M20 26H26V30H20Z"
+)
+
+private val TimberPine = ArcadeSprite(
+    width = 40,
+    height = 72,
+    data = "M18 0H22V6H25V12H29V16H25V19H32V23H28V26H35V30H30V34H38V38H32V41H40V45H24V72H17V45H0V41H8V38H2V34H10V30H5V26H12V23H8V19H15V16H11V12H15V6H18Z"
+)
+
+private val TimberAxe = ArcadeSprite(
+    width = 18,
+    height = 14,
+    data = "M0 0H5V2H11V4H18V10H11V12H5V14H0Z"
+)
 
 @Composable
 fun TimbermanGame(
@@ -73,24 +100,19 @@ fun TimbermanGame(
             val base = run.base
             val segment = run.segment
             clipRect(top = 0f, bottom = run.height) {
-                repeat(9) { tree ->
-                    val x = (tree * 71f + 17f) % run.width
-                    val height = 65f + tree % 4 * 23f
-                    pixelRect(
-                        color = style.detailColor.copy(alpha = 0.13f),
-                        x = x,
-                        y = base - height,
-                        width = 7f,
-                        height = height
-                    )
-                    repeat(4) { tier ->
-                        val w = 42f - tier * 8f
-                        pixelRect(
-                            color = style.detailColor.copy(alpha = 0.1f),
-                            x = x + 3f - w / 2f,
-                            y = base - height - tier * 9f,
-                            width = w,
-                            height = 12f
+                repeat(6) { tree ->
+                    val x = (tree * 83f + 13f) % run.width
+                    val height = 90f + tree % 3 * 24f
+                    scale(
+                        scaleX = height / 72f,
+                        scaleY = height / 72f,
+                        pivot = Offset(x = x, y = base)
+                    ) {
+                        drawArcadeSprite(
+                            sprite = TimberPine,
+                            tint = style.detailColor.copy(alpha = 0.16f),
+                            x = x - 20f,
+                            y = base - 72f
                         )
                     }
                 }
@@ -188,55 +210,55 @@ fun TimbermanGame(
                 width = 30f,
                 height = 4f
             )
-            pixelRect(
-                color = style.obstacleColor,
-                x = px - 9f,
-                y = foot - 9f,
-                width = 6f,
-                height = 10f
-            )
-            pixelRect(
-                color = style.obstacleColor,
-                x = px + 3f,
-                y = foot - 9f,
-                width = 6f,
-                height = 10f
-            )
-            pixelRect(
-                color = style.playerColor,
-                x = px - 10f,
-                y = foot - 27f + kick,
-                width = 20f,
-                height = 19f - kick
-            )
-            pixelRect(
-                color = style.playerDetailColor.copy(alpha = 0.4f),
-                x = px - 1f,
-                y = foot - 25f + kick,
-                width = 3f,
-                height = 15f
-            )
-            pixelRect(
-                color = style.accentColor,
-                x = px - 8f,
-                y = foot - 41f + kick,
-                width = 16f,
-                height = 14f
-            )
-            pixelRect(
-                color = style.playerColor,
-                x = px - 10f,
-                y = foot - 44f + kick,
-                width = 20f,
-                height = 6f
-            )
-            pixelRect(
-                color = style.playerDetailColor,
-                x = px - run.side * 4f - 1f,
-                y = foot - 36f + kick,
-                width = 3f,
-                height = 3f
-            )
+            scale(scaleX = -run.side.toFloat(), scaleY = 1f, pivot = Offset(x = px, y = foot)) {
+                drawArcadeSprite(
+                    sprite = TimberWorker,
+                    tint = style.playerColor,
+                    x = px - 14f,
+                    y = foot - 44f + kick
+                )
+                drawArcadeSprite(
+                    sprite = TimberFace,
+                    tint = style.accentColor,
+                    x = px - 14f,
+                    y = foot - 44f + kick
+                )
+                pixelRect(
+                    color = style.playerDetailColor,
+                    x = px + 4f,
+                    y = foot - 34f + kick,
+                    width = 2f,
+                    height = 3f
+                )
+                pixelRect(
+                    color = style.playerDetailColor.copy(alpha = 0.5f),
+                    x = px - 4f,
+                    y = foot - 29f + kick,
+                    width = 10f,
+                    height = 3f
+                )
+                pixelRect(
+                    color = style.playerDetailColor.copy(alpha = 0.4f),
+                    x = px - 8f,
+                    y = foot - 21f + kick,
+                    width = 2f,
+                    height = 11f
+                )
+                pixelRect(
+                    color = style.obstacleColor,
+                    x = px - 11f,
+                    y = foot - 4f,
+                    width = 8f,
+                    height = 4f
+                )
+                pixelRect(
+                    color = style.obstacleColor,
+                    x = px + 2f,
+                    y = foot - 4f,
+                    width = 8f,
+                    height = 4f
+                )
+            }
             val hand = Offset(x = px - run.side * 9f, y = foot - 22f + kick)
             rotate(degrees = run.side * (65f - run.cut * 100f), pivot = hand) {
                 pixelRect(
@@ -246,19 +268,18 @@ fun TimbermanGame(
                     width = 4f,
                     height = 24f
                 )
-                pixelRect(
-                    color = style.obstacleColor,
-                    x = hand.x - 8f,
-                    y = hand.y - 23f,
-                    width = 15f,
-                    height = 10f
+                drawArcadeSprite(
+                    sprite = TimberAxe,
+                    tint = style.obstacleColor,
+                    x = hand.x - 10f,
+                    y = hand.y - 25f
                 )
                 pixelRect(
                     color = style.playerDetailColor,
-                    x = hand.x - 8f,
-                    y = hand.y - 23f,
-                    width = 3f,
-                    height = 10f
+                    x = hand.x - 10f,
+                    y = hand.y - 25f,
+                    width = 2f,
+                    height = 14f
                 )
             }
             repeat(17) {

@@ -52,11 +52,11 @@ import kotlin.random.Random
 
 private val SpaceShip = ArcadeSprite(
     width = 26, height = 30,
-    data = "M11 0H15V5H17V10H20V17H24V22H26V28H18V25H16V22H10V25H8V28H0V22H2V17H6V10H9V5H11Z"
+    data = "M12 0H14V3H16V12H18V8H21V15H23V18H26V27H22V25H18V28H15V24H11V28H8V25H4V27H0V18H3V15H5V8H8V12H10V3H12Z"
 )
 private val SpaceInvader = ArcadeSprite(
     width = 40, height = 24,
-    data = "M14 0H26V3H30V8H35V11H40V17H35V20H29V24H24V20H16V24H11V20H5V17H0V11H5V8H10V3H14Z"
+    data = "M14 0H26V2H30V6H32V10H37V12H40V16H37V18H29V21H25V24H22V20H18V24H15V21H11V18H3V16H0V12H3V10H8V6H10V2H14Z"
 )
 private val SpaceBoulder = ArcadeSprite(
     width = 48, height = 48,
@@ -216,6 +216,15 @@ fun AsteroidsGame(
                     width = 4f,
                     height = 10f
                 )
+                for (side in listOf(-1f, 1f)) {
+                    pixelRect(
+                        color = style.playerDetailColor.copy(alpha = 0.5f),
+                        x = run.x + side * 8f - 1f,
+                        y = run.y,
+                        width = 2f,
+                        height = 7f
+                    )
+                }
                 if (run.phase == ArcadePhase.Running) {
                     pixelRect(
                         color = style.accentColor,

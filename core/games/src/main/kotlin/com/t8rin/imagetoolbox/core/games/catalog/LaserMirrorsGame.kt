@@ -160,6 +160,20 @@ fun LaserMirrorsGame(
                 width = 5f,
                 height = 6f
             )
+            pixelRect(
+                color = style.playerDetailColor.copy(alpha = 0.5f),
+                x = source.x - 2f,
+                y = source.y - 5f,
+                width = 2f,
+                height = 10f
+            )
+            pixelRect(
+                color = style.playerColor,
+                x = source.x + 6f,
+                y = source.y - 4f,
+                width = 2f,
+                height = 8f
+            )
             for (target in run.targets) {
                 val p = run.center(target)
                 val lit = target in run.lit
@@ -214,6 +228,15 @@ fun LaserMirrorsGame(
                         strokeWidth = 3f,
                         cap = StrokeCap.Round
                     )
+                    for (end in listOf(-1f, 1f)) {
+                        pixelRect(
+                            color = style.obstacleColor,
+                            x = p.x + end * cell * 0.32f - 1.5f,
+                            y = p.y - 4f,
+                            width = 3f,
+                            height = 8f
+                        )
+                    }
                     drawLine(
                         color = style.accentColor,
                         start = p + Offset(x = -cell * 0.25f, y = -1f),

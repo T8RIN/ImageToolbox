@@ -108,17 +108,26 @@ fun ZigZagGame(
                 }
                 drawPath(
                     path = edge,
-                    color = tint.copy(alpha = 0.25f)
+                    color = lerp(style.playerDetailColor, tint, 0.6f)
                 )
                 drawPath(
                     path = path,
-                    color = style.obstacleColor.copy(alpha = 0.3f)
+                    color = lerp(style.playerDetailColor, style.obstacleColor, 0.22f)
                 )
                 drawPath(
                     path = path,
                     color = tint.copy(alpha = 0.65f),
                     style = Stroke(width = 1f)
                 )
+                val face = edgePath.apply {
+                    rewind()
+                    moveTo(point.x, point.y + depth)
+                    lineTo(point.x + half, point.y)
+                    lineTo(point.x + half, point.y + 5f)
+                    lineTo(point.x, point.y + depth + 5f)
+                    close()
+                }
+                drawPath(path = face, color = lerp(style.playerDetailColor, tint, 0.4f))
                 if (hasGem) {
                     val gem = gemPath.apply {
                         rewind()
@@ -136,6 +145,12 @@ fun ZigZagGame(
                     drawPath(
                         path = gem,
                         color = style.accentColor
+                    )
+                    drawLine(
+                        color = style.playerDetailColor.copy(alpha = 0.55f),
+                        start = point - Offset(x = 0f, y = 10f),
+                        end = point,
+                        strokeWidth = 1f
                     )
                 }
             }

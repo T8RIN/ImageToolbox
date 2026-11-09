@@ -51,31 +51,76 @@ import kotlin.random.Random
 
 private val SliceApple = ArcadeSprite(
     width = 36, height = 36,
-    data = "M6 3H13V5H23V3H30V6H34V12H36V24H33V31H28V35H21V33H15V35H8V31H3V24H0V12H2V6H6Z"
+    data = "M6 4H12V5H15V8H21V5H24V3H29V5H32V8H34V12H35V21H33V27H30V31H26V34H22V33H18V31H15V34H10V33H6" +
+            "V29H3V24H1V15H2V9H4V6H6Z"
 )
 private val SliceOrange = ArcadeSprite(
     width = 36, height = 36,
-    data = "M11 0H25V3H31V7H34V12H36V24H33V30H29V34H23V36H12V34H6V30H2V24H0V12H3V7H7V3H11Z"
+    data = "M12 2H24V3H28V5H31V8H33V12H35V24H33V28H30V31H26V33H22V35H13V34H8V32H5V29H3V25H1V15H2V10H5V6H8V4H12Z"
 )
 private val SlicePear = ArcadeSprite(
     width = 36, height = 36,
-    data = "M14 0H22V4H24V11H28V16H32V22H35V30H31V34H25V36H11V34H5V30H1V22H4V16H8V11H12V4H14Z"
+    data = "M16 1H21V3H23V9H24V13H27V16H30V20H32V25H31V29H28V32H24V34H13V35H9V33H5V30H3V26H4V21H6V17H10" +
+            "V14H12V10H13V5H15V3H16Z"
 )
 private val SliceMelon = ArcadeSprite(
     width = 36, height = 36,
-    data = "M10 2H26V5H31V9H34V15H36V24H33V30H27V34H9V30H3V24H0V15H2V9H5V5H10Z"
+    data = "M12 1H24V3H29V6H32V10H34V14H35V23H33V28H30V31H25V34H12V33H7V30H4V26H2V22H1V14H3V9H6V5H10V3H12Z"
 )
 private val SliceBerry = ArcadeSprite(
     width = 36, height = 36,
-    data = "M6 3H30V6H34V14H31V21H27V27H22V32H18V36H14V32H9V26H5V20H2V13H2V7H6Z"
+    data = "M9 4H26V5H30V7H33V11H34V16H32V21H29V25H25V29H21V33H18V35H15V32H11V29H7V25H4V20H2V14H3V9H5V6H9Z"
+)
+private val SliceAppleDetail = ArcadeSprite(
+    width = 36, height = 36,
+    data = "M6 11H8V9H12V11H10V15H8V19H6Z M28 22H30V26H28V29H25V31H22V29H26V26H28Z"
+)
+private val SliceOrangeDetail = ArcadeSprite(
+    width = 36, height = 36,
+    data = "M7 10H10V8H13V10H10V14H8V18H6V13H7Z M23 13H25V15H23Z M27 19H29V21H27Z M20 23H22V25H20Z " +
+            "M12 26H14V28H12Z M25 27H27V29H25Z"
+)
+private val SlicePearDetail = ArcadeSprite(
+    width = 36, height = 36,
+    data = "M15 6H17V12H15V16H12V19H10V23H8V20H9V17H12V13H14V9H15Z M25 26H27V29H24V31H20V29H24V28H25Z"
+)
+private val SliceMelonDetail = ArcadeSprite(
+    width = 36, height = 36,
+    data = "M11 4H14V6H12V10H10V15H9V22H10V27H12V31H9V28H7V23H6V15H8V9H10V6H11Z M19 3H21V9H20V17H19V25" +
+            "H20V32H18V25H17V18H18V10H19Z M26 5H28V8H30V13H31V22H29V27H27V30H24V28H26V24H28V20H28V14H27V9" +
+            "H26Z"
+)
+private val SliceBerryDetail = ArcadeSprite(
+    width = 36, height = 36,
+    data = "M8 12H10V15H8Z M17 10H19V13H17Z M26 12H28V15H26Z M12 19H14V22H12Z M22 19H24V22H22Z M17 26H19V29H17Z"
+)
+private val SliceLeaf = ArcadeSprite(
+    width = 36, height = 13,
+    data = "M17 4H19V13H17Z M19 5V2H22V0H29V3H26V5H19Z"
+)
+private val SliceBerryCrown = ArcadeSprite(
+    width = 36, height = 12,
+    data = "M17 0H20V4H26V3H31V5H27V7H23V10H20V7H17V12H14V8H10V9H6V6H12V4H17Z"
 )
 private val SliceBomb = ArcadeSprite(
     width = 36, height = 36,
-    data = "M15 0H24V5H29V8H33V13H36V26H32V32H26V36H11V33H5V28H1V15H4V9H9V6H15Z"
+    data = "M12 4H24V6H28V8H30V12H32V16H34V24H32V28H28V32H24V34H12V32H8V28H4V24H2V16H4V12H6V8H8V6H12Z"
+)
+private val SliceBombFuse = ArcadeSprite(
+    width = 36, height = 12,
+    data = "M16 7H24V12H16Z M21 7V3H23V1H29V3H24V5H23V7H21Z"
+)
+private val SliceBombShine = ArcadeSprite(
+    width = 36, height = 36,
+    data = "M9 11H14V13H11V16H9V20H7V15H9Z"
 )
 private val SlicedFruit = ArcadeSprite(
     width = 34, height = 18,
-    data = "M0 0H34V7H31V12H26V16H21V18H13V16H7V12H3V7H0Z"
+    data = "M0 0H34V6H32V10H29V13H25V16H20V18H13V17H8V14H4V10H1V6H0Z"
+)
+private val SliceFlesh = ArcadeSprite(
+    width = 34, height = 18,
+    data = "M3 2H31V6H29V9H26V12H22V14H14V14H9V11H6V8H4V5H3Z"
 )
 
 @Composable
@@ -149,35 +194,49 @@ fun FruitSliceGame(
                     if (bomb) {
                         drawArcadeSprite(
                             sprite = SliceBomb,
-                            tint = style.textColor,
+                            tint = style.hazardColor,
                             x = x,
                             y = y
                         )
-                        pixelRect(
-                            color = style.accentColor,
-                            x = x + 23f,
-                            y = y - 4f,
-                            width = 3f,
-                            height = 5f
+                        drawArcadeSprite(
+                            sprite = SliceBombFuse,
+                            tint = style.obstacleColor,
+                            x = x,
+                            y = y - 7f
                         )
-                        pixelRect(
-                            color = style.accentColor,
-                            x = x + 28f,
-                            y = y - 7f,
-                            width = 3f,
-                            height = 3f
+                        drawArcadeSprite(
+                            sprite = SliceBombShine,
+                            tint = style.playerDetailColor.copy(alpha = 0.75f),
+                            x = x,
+                            y = y
                         )
                         drawLine(
                             color = style.playerDetailColor,
-                            start = Offset(x = x + 13f, y = y + 13f),
-                            end = Offset(x = x + 23f, y = y + 23f),
-                            strokeWidth = 3f
+                            start = Offset(x = x + 13f, y = y + 16f),
+                            end = Offset(x = x + 23f, y = y + 26f),
+                            strokeWidth = 3f,
+                            cap = StrokeCap.Square
                         )
                         drawLine(
                             color = style.playerDetailColor,
-                            start = Offset(x = x + 23f, y = y + 13f),
-                            end = Offset(x = x + 13f, y = y + 23f),
-                            strokeWidth = 3f
+                            start = Offset(x = x + 23f, y = y + 16f),
+                            end = Offset(x = x + 13f, y = y + 26f),
+                            strokeWidth = 3f,
+                            cap = StrokeCap.Square
+                        )
+                        pixelRect(
+                            color = style.hazardColor,
+                            x = x + 29f,
+                            y = y - 8f,
+                            width = 2f,
+                            height = 6f
+                        )
+                        pixelRect(
+                            color = style.hazardColor,
+                            x = x + 27f,
+                            y = y - 6f,
+                            width = 6f,
+                            height = 2f
                         )
                     } else {
                         val color = fruitColor(
@@ -197,78 +256,23 @@ fun FruitSliceGame(
                             x = x,
                             y = y
                         )
-                        if (kind == 4) {
-                            repeat(6) { seed ->
-                                pixelRect(
-                                    color = style.playerDetailColor,
-                                    x = x + 9f + seed % 3 * 7f,
-                                    y = y + 11f + seed / 3 * 8f,
-                                    width = 2f,
-                                    height = 3f
-                                )
-                            }
-                            pixelRect(
-                                color = style.obstacleColor,
-                                x = x + 6f,
-                                y = y + 1f,
-                                width = 24f,
-                                height = 3f
-                            )
-                            pixelRect(
-                                color = style.obstacleColor,
-                                x = x + 13f,
-                                y = y,
-                                width = 4f,
-                                height = 7f
-                            )
-                        } else if (kind == 3) {
-                            repeat(3) { stripe ->
-                                pixelRect(
-                                    color = style.playerDetailColor.copy(alpha = 0.45f),
-                                    x = x + 8f + stripe * 8f,
-                                    y = y + 7f,
-                                    width = 3f,
-                                    height = 22f
-                                )
-                            }
-                        } else {
-                            pixelRect(
-                                color = style.playerDetailColor.copy(alpha = 0.7f),
-                                x = x + 6f,
-                                y = y + 10f,
-                                width = 3f,
-                                height = 8f
-                            )
-                            if (kind == 1) repeat(5) { dot ->
-                                pixelRect(
-                                    color = style.playerDetailColor.copy(alpha = 0.35f),
-                                    x = x + 14f + dot % 3 * 5f,
-                                    y = y + 17f + dot / 3 * 7f,
-                                    width = 2f,
-                                    height = 2f
-                                )
-                            }
-                        }
-                        pixelRect(
-                            color = style.obstacleColor,
-                            x = x + 17f,
-                            y = y - 3f,
-                            width = 3f,
-                            height = 7f
+                        drawArcadeSprite(
+                            sprite = when (kind) {
+                                0 -> SliceAppleDetail
+                                2 -> SlicePearDetail
+                                3 -> SliceMelonDetail
+                                4 -> SliceBerryDetail
+                                else -> SliceOrangeDetail
+                            },
+                            tint = style.playerDetailColor.copy(alpha = 0.65f),
+                            x = x,
+                            y = y
                         )
-                        pixelRect(
-                            color = style.obstacleColor,
-                            x = x + 20f,
-                            y = y - 4f,
-                            width = 8f,
-                            height = 3f
-                        )
-                        pixelRect(
-                            color = style.playerDetailColor.copy(alpha = 0.25f),
-                            x = x + 21f,
-                            y = y - 3f,
-                            width = 5f,
-                            height = 1f
+                        drawArcadeSprite(
+                            sprite = if (kind == 4) SliceBerryCrown else SliceLeaf,
+                            tint = style.obstacleColor,
+                            x = x,
+                            y = y - if (kind == 4) 2f else 5f
                         )
                     }
                 }
@@ -283,6 +287,12 @@ fun FruitSliceGame(
                     drawArcadeSprite(
                         sprite = SlicedFruit,
                         tint = color,
+                        x = x - 17f,
+                        y = y - 9f
+                    )
+                    drawArcadeSprite(
+                        sprite = SliceFlesh,
+                        tint = style.playerDetailColor.copy(alpha = life * 0.65f),
                         x = x - 17f,
                         y = y - 9f
                     )

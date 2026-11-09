@@ -42,6 +42,7 @@ import com.t8rin.imagetoolbox.core.games.ArcadeOffsetSerializer
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.ArcadeStyle
+import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
 import kotlinx.serialization.Serializable
@@ -101,13 +102,29 @@ fun MinesweeperGame(
                     size = Size(width = cell - 2f, height = cell - 2f),
                     cornerRadius = CornerRadius(x = 3f)
                 )
-                if (!opened) drawRoundRect(
-                    color = style.playerColor.copy(alpha = 0.38f),
-                    topLeft = point + Offset(x = 1f, y = 1f),
-                    size = Size(width = cell - 2f, height = cell - 2f),
-                    cornerRadius = CornerRadius(x = 3f),
-                    style = Stroke(width = 1f)
-                )
+                if (!opened) {
+                    drawRoundRect(
+                        color = style.playerColor.copy(alpha = 0.38f),
+                        topLeft = point + Offset(x = 1f, y = 1f),
+                        size = Size(width = cell - 2f, height = cell - 2f),
+                        cornerRadius = CornerRadius(x = 3f),
+                        style = Stroke(width = 1f)
+                    )
+                    pixelRect(
+                        color = style.playerColor.copy(alpha = 0.25f),
+                        x = point.x + 3f,
+                        y = point.y + cell - 4f,
+                        width = cell - 6f,
+                        height = 2f
+                    )
+                    pixelRect(
+                        color = style.playerDetailColor.copy(alpha = 0.5f),
+                        x = point.x + 3f,
+                        y = point.y + 3f,
+                        width = cell - 6f,
+                        height = 2f
+                    )
+                }
                 val center = point + Offset(x = cell / 2f, y = cell / 2f)
                 when {
                     mine -> {
@@ -168,11 +185,6 @@ fun MinesweeperGame(
                         )
                     }
 
-                    !opened -> drawCircle(
-                        color = style.playerColor.copy(alpha = 0.25f),
-                        radius = 1f,
-                        center = center
-                    )
                 }
                 if (run.revealAge[index] in 0f..0.3f) {
                     drawRoundRect(

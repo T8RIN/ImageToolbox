@@ -26,6 +26,7 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.rotate
+import androidx.compose.ui.graphics.drawscope.scale
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
 import com.t8rin.imagetoolbox.core.games.ArcadeDefaults
 import com.t8rin.imagetoolbox.core.games.ArcadeField
@@ -53,6 +54,12 @@ import kotlin.random.Random
 private val KnifeApple = ArcadeSprite(
     width = 18, height = 18,
     data = "M3 3H7V5H11V3H15V5H18V13H15V17H11V16H7V17H3V13H0V5H3Z"
+)
+
+private val KnifeBlade = ArcadeSprite(
+    width = 10,
+    height = 20,
+    data = "M8 0H9V18H3V15H1V9H3V6H5V3H7V1H8Z"
 )
 
 @Composable
@@ -209,12 +216,13 @@ fun KnifeHitGame(
                         )
                     }
                 }
-                val y = run.launchY + (run.center.y + radius - 5f - run.launchY) * run.flight
+                val launchY = run.launchY - 10f
+                val y = launchY + (run.center.y + radius - 5f - launchY) * run.flight
                 if (run.flight > 0f) {
                     pixelRect(
                         color = style.accentColor.copy(alpha = 0.2f),
                         x = center.x - 1f,
-                        y = y + 29f,
+                        y = y + 43f,
                         width = 2f,
                         height = 18f
                     )
@@ -227,29 +235,15 @@ fun KnifeHitGame(
             }
             repeat(run.total) { index ->
                 val x = run.width / 2f + (index - (run.total - 1) / 2f) * 12f
-                val color =
-                    if (index < run.remaining) style.playerColor else style.detailColor.copy(alpha = 0.3f)
-                pixelRect(
-                    color = color,
-                    x = x - 1f,
-                    y = run.height - 17f,
-                    width = 2f,
-                    height = 7f
-                )
-                pixelRect(
-                    color = color,
-                    x = x - 3f,
-                    y = run.height - 10f,
-                    width = 6f,
-                    height = 2f
-                )
-                pixelRect(
-                    color = color,
-                    x = x - 1f,
-                    y = run.height - 8f,
-                    width = 2f,
-                    height = 4f
-                )
+                val y = run.height - 25f
+                scale(scale = 0.45f, pivot = Offset(x = x, y = y)) {
+                    drawKnife(
+                        style = style,
+                        x = x,
+                        y = y,
+                        alpha = if (index < run.remaining) 1f else 0.25f
+                    )
+                }
             }
             run.effects.draw(
                 scope = this,
@@ -262,43 +256,54 @@ fun KnifeHitGame(
 private fun DrawScope.drawKnife(
     style: ArcadeStyle,
     x: Float,
-    y: Float
+    y: Float,
+    alpha: Float = 1f
 ) {
-    pixelRect(
-        color = style.textColor,
-        x = x - 2f,
-        y = y + 3f,
-        width = 4f,
-        height = 17f
-    )
-    pixelRect(
-        color = style.playerDetailColor,
-        x = x - 1f,
-        y = y,
-        width = 2f,
-        height = 16f
-    )
-    pixelRect(
-        color = style.accentColor,
-        x = x - 5f,
-        y = y + 18f,
-        width = 10f,
-        height = 3f
-    )
-    pixelRect(
-        color = style.playerColor,
-        x = x - 3f,
-        y = y + 21f,
-        width = 6f,
-        height = 10f
-    )
-    pixelRect(
-        color = style.playerDetailColor.copy(alpha = 0.5f),
-        x = x - 2f,
-        y = y + 25f,
-        width = 4f,
-        height = 1f
-    )
+    scale(scale = 1.4f, pivot = Offset(x = x, y = y)) {
+        drawArcadeSprite(
+            sprite = KnifeBlade,
+            tint = style.obstacleColor.copy(alpha = alpha),
+            x = x - 5f,
+            y = y
+        )
+        pixelRect(
+            color = style.playerDetailColor.copy(alpha = alpha),
+            x = x + 2f,
+            y = y + 5f,
+            width = 1f,
+            height = 12f
+        )
+        pixelRect(
+            color = style.accentColor.copy(alpha = alpha),
+            x = x - 3f,
+            y = y + 18f,
+            width = 8f,
+            height = 2f
+        )
+        pixelRect(
+            color = style.playerColor.copy(alpha = alpha),
+            x = x - 1f,
+            y = y + 20f,
+            width = 5f,
+            height = 10f
+        )
+        pixelRect(
+            color = style.obstacleColor.copy(alpha = alpha),
+            x = x - 1f,
+            y = y + 30f,
+            width = 5f,
+            height = 2f
+        )
+        for (rivet in listOf(23f, 27f)) {
+            pixelRect(
+                color = style.playerDetailColor.copy(alpha = alpha),
+                x = x + 1f,
+                y = y + rivet,
+                width = 1f,
+                height = 1f
+            )
+        }
+    }
 }
 
 @Serializable

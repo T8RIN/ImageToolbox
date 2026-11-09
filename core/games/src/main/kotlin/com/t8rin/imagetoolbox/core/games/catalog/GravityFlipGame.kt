@@ -47,7 +47,6 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import kotlinx.serialization.UseSerializers
 import kotlin.math.abs
-import kotlin.math.sin
 import kotlin.random.Random
 
 @Composable
@@ -81,65 +80,32 @@ fun GravityFlipGame(
             val bottom = run.bottom
             val span = run.span
             pixelRect(
-                color = style.obstacleColor.copy(alpha = 0.055f),
+                color = style.obstacleColor.copy(alpha = 0.07f),
                 x = 0f,
                 y = 0f,
                 width = run.width,
                 height = top
             )
             pixelRect(
-                color = style.obstacleColor.copy(alpha = 0.055f),
+                color = style.obstacleColor.copy(alpha = 0.07f),
                 x = 0f,
                 y = bottom,
                 width = run.width,
                 height = run.height - bottom
             )
-            repeat(7) { column ->
+            repeat(16) { index ->
                 val x =
-                    ((column * 83f - run.distance * 0.12f) % (run.width + 83f) + run.width + 83f) % (run.width + 83f) - 40f
+                    ((index * 67f - run.distance * 0.15f) % (run.width + 40f) + run.width + 40f) % (run.width + 40f) - 20f
                 pixelRect(
-                    color = style.detailColor.copy(alpha = 0.12f),
+                    color = style.detailColor.copy(alpha = 0.2f),
                     x = x,
-                    y = 0f,
-                    width = 2f,
-                    height = (top - 10f).coerceAtLeast(0f)
-                )
-                pixelRect(
-                    color = style.detailColor.copy(alpha = 0.12f),
-                    x = x + 20f,
-                    y = bottom + 10f,
-                    width = 2f,
-                    height = (run.height - bottom - 20f).coerceAtLeast(0f)
-                )
-            }
-            repeat(18) {
-                val x =
-                    ((it * 67f - run.distance * 0.22f) % (run.width + 40f) + run.width + 40f) % (run.width + 40f) - 20f
-                val y = top + ((it * 37 % 89) / 89f) * span
-                pixelRect(
-                    color = style.detailColor.copy(alpha = 0.23f),
-                    x = x,
-                    y = y,
-                    width = 13f,
+                    y = top + (index * 37 % 89) / 89f * span,
+                    width = if (index % 3 == 0) 3f else 1f,
                     height = 1f
-                )
-                pixelRect(
-                    color = style.detailColor.copy(alpha = 0.3f),
-                    x = x + 13f,
-                    y = y - 2f,
-                    width = 3f,
-                    height = 3f
                 )
             }
             for (edge in listOf(top, bottom)) {
                 val floor = edge == bottom
-                pixelRect(
-                    color = style.playerColor.copy(alpha = 0.12f),
-                    x = 0f,
-                    y = if (floor) edge else edge - 10f,
-                    width = run.width,
-                    height = 10f
-                )
                 pixelRect(
                     color = style.obstacleColor,
                     x = 0f,
@@ -147,16 +113,33 @@ fun GravityFlipGame(
                     width = run.width,
                     height = 2f
                 )
-                var x = -(run.distance % 32f)
+                var x = -(run.distance % 72f) - 72f
+                var index = 0
                 while (x < run.width) {
+                    val depth = 4f + index % 3 * 2f
                     pixelRect(
-                        color = style.detailColor,
+                        color = style.obstacleColor.copy(alpha = 0.25f),
                         x = x,
-                        y = edge + if (floor) 5f else -6f,
-                        width = 12f,
+                        y = if (floor) edge + 2f else edge - depth,
+                        width = 28f + index % 2 * 12f,
+                        height = depth
+                    )
+                    pixelRect(
+                        color = style.detailColor.copy(alpha = 0.4f),
+                        x = x + 13f,
+                        y = edge + if (floor) 12f else -12f,
+                        width = 19f,
                         height = 2f
                     )
-                    x += 32f
+                    pixelRect(
+                        color = style.detailColor.copy(alpha = 0.25f),
+                        x = x + 48f,
+                        y = edge + if (floor) 20f else -20f,
+                        width = 5f,
+                        height = 2f
+                    )
+                    x += 72f
+                    index++
                 }
             }
             for ((x, width, depth, ceiling, _, broken, kind) in run.obstacles) {
@@ -171,60 +154,57 @@ fun GravityFlipGame(
                     val h = span * (end - start)
                     val ink = if (kind == 2) style.hazardColor else style.obstacleColor
                     pixelRect(
-                        color = ink.copy(alpha = 0.18f),
+                        color = ink,
                         x = x,
-                        y = y,
+                        y = y + 2f,
                         width = width,
-                        height = h
+                        height = h - 4f
                     )
                     pixelRect(
                         color = ink,
-                        x = x,
-                        y = y + 3f,
-                        width = width,
-                        height = h - 6f
-                    )
-                    pixelRect(
-                        color = ink,
-                        x = x + 3f,
-                        y = y,
-                        width = (width - 6f).coerceAtLeast(1f),
-                        height = h
-                    )
-                    pixelRect(
-                        color = style.playerDetailColor.copy(alpha = 0.35f),
-                        x = x + 4f,
-                        y = y + 5f,
-                        width = 2f,
-                        height = h - 10f
-                    )
-                    val tip = if (start == 0f) y + h - 4f else y + 2f
-                    pixelRect(
-                        color = style.accentColor,
                         x = x + 2f,
-                        y = tip,
+                        y = y,
                         width = width - 4f,
+                        height = h
+                    )
+                    pixelRect(
+                        color = style.playerDetailColor.copy(alpha = 0.3f),
+                        x = x + 4f,
+                        y = y + 4f,
+                        width = 7f,
+                        height = 2f
+                    )
+                    val crack = y + h * 0.38f
+                    pixelRect(
+                        color = style.playerDetailColor.copy(alpha = 0.4f),
+                        x = x,
+                        y = crack,
+                        width = width * 0.42f,
+                        height = 2f
+                    )
+                    pixelRect(
+                        color = style.playerDetailColor.copy(alpha = 0.4f),
+                        x = x + width * 0.42f - 2f,
+                        y = crack + 2f,
+                        width = 2f,
+                        height = 5f
+                    )
+                    pixelRect(
+                        color = style.playerDetailColor.copy(alpha = 0.3f),
+                        x = x + width * 0.65f,
+                        y = y + h * 0.74f,
+                        width = width * 0.35f,
                         height = 2f
                     )
                     if (kind == 1) {
-                        pixelRect(
-                            color = style.hazardColor,
-                            x = x + width / 2f - 2f,
-                            y = y + h / 2f - 3f,
-                            width = 4f,
-                            height = 6f
-                        )
-                    } else if (width > 20f) {
-                        var mark = y + 12f
-                        while (mark < y + h - 10f) {
+                        for (index in 0..2) {
                             pixelRect(
-                                color = style.playerDetailColor.copy(alpha = 0.25f),
-                                x = x + 8f,
-                                y = mark,
-                                width = width - 12f,
-                                height = 2f
+                                color = style.accentColor,
+                                x = x + width / 2f - 3f + index * 2f,
+                                y = y + h / 2f - 4f + index * 3f,
+                                width = 3f,
+                                height = 4f
                             )
-                            mark += 12f
                         }
                     }
                 }
@@ -264,12 +244,21 @@ fun GravityFlipGame(
             )
             val tilt = if (run.velocity == 0f) 0f else run.velocity * 4f
             rotate(degrees = tilt, pivot = center) {
-                scale(1f, if (run.gravity == 1) 1f else -1f, center) {
-                    val unit = run.radius / 8f
-                    val stride =
-                        if (run.velocity == 0f) sin(run.distance * 0.17f) * 1.4f else 0f
-                    translate(left = center.x - 8f * unit, top = center.y - 8f * unit) {
-                        scale(unit, Offset.Zero) {
+                scale(
+                    scaleX = 1f,
+                    scaleY = if (run.gravity == 1) 1f else -1f,
+                    pivot = center
+                ) {
+                    val unit = run.radius / 14f
+                    val stride = run.velocity == 0f && (run.distance / 9f).toInt() % 2 == 0
+                    translate(left = center.x - 12f * unit, top = center.y - 14f * unit) {
+                        scale(scale = unit, pivot = Offset.Zero) {
+                            drawArcadeSprite(
+                                sprite = if (stride) GravityStride else GravityLeap,
+                                tint = style.playerColor,
+                                x = 0f,
+                                y = 0f
+                            )
                             drawArcadeSprite(
                                 sprite = GravityRunner,
                                 tint = style.playerColor,
@@ -278,36 +267,15 @@ fun GravityFlipGame(
                             )
                             pixelRect(
                                 color = style.playerDetailColor,
-                                x = 9f,
+                                x = 17f,
                                 y = 3f,
-                                width = 5f,
+                                width = 6f,
                                 height = 4f
                             )
                             pixelRect(
                                 color = style.accentColor,
-                                x = 13f,
-                                y = 4f,
-                                width = 1f,
-                                height = 2f
-                            )
-                            pixelRect(
-                                color = style.obstacleColor,
-                                x = 1f,
-                                y = 7f,
-                                width = 3f,
-                                height = 6f
-                            )
-                            pixelRect(
-                                color = style.accentColor,
-                                x = 4f,
-                                y = 14f + stride,
-                                width = 4f,
-                                height = 2f
-                            )
-                            pixelRect(
-                                color = style.accentColor,
-                                x = 10f,
-                                y = 14f - stride,
+                                x = 11f,
+                                y = 11f,
                                 width = 4f,
                                 height = 2f
                             )
@@ -324,9 +292,22 @@ fun GravityFlipGame(
 }
 
 private val GravityRunner = ArcadeSprite(
-    width = 16,
-    height = 16,
-    data = "M6 0H13V1H15V7H13V9H14V12H12V14H14V16H10V13H8V16H4V14H6V12H4V8H5V7H4V2H6Z"
+    width = 24,
+    height = 28,
+    data = "M14 0H21V2H23V8H21V10H17V12H19V14H23V17H19V16H16V15H15V18H11V20H7V17H9V14" +
+            "H7V16H4V15H2V12H5V11H7V13H10V10H12V8H11V3H12V1H14Z"
+)
+private val GravityStride = ArcadeSprite(
+    width = 24,
+    height = 28,
+    data = "M11 17H14V19H18V21H20V25H24V28H17V23H14V22H10Z " +
+            "M8 17H11V20H8V23H3V22H0V19H3V18H5V20H7V19H8Z"
+)
+private val GravityLeap = ArcadeSprite(
+    width = 24,
+    height = 28,
+    data = "M10 17H14V21H11V24H9V26H12V28H5V25H7V22H9V20H10Z " +
+            "M13 17H16V19H21V21H22V24H19V25H17V23H18V22H14V21H12V19Z"
 )
 
 @Serializable

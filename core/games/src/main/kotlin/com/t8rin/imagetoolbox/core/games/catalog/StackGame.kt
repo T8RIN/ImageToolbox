@@ -109,11 +109,18 @@ fun StackGame(
                     height = BlockHeight - 1
                 )
                 pixelRect(
-                    color = style.buttonContentColor.copy(alpha = 0.25f),
+                    color = style.playerDetailColor.copy(alpha = 0.35f),
                     x = x + 2,
                     y = y + 2,
                     width = width - 4,
                     height = 2f
+                )
+                if (width > 4f) pixelRect(
+                    color = style.playerDetailColor.copy(alpha = 0.2f),
+                    x = x + width - 3f,
+                    y = y + 4f,
+                    width = 2f,
+                    height = BlockHeight - 7f
                 )
                 pixelRect(
                     color = style.detailColor,

@@ -65,6 +65,18 @@ private val FishingCoat = ArcadeSprite(
     data = "M4 0H11V3H14V6H18V10H12V8H10V13H16V17H3V14H0V5H2V2H4Z"
 )
 
+private val FishingPerch = ArcadeSprite(
+    width = 40,
+    height = 22,
+    data = "M0 3H3V6H7V9H10V7H13V4H17V0H19V3H22V1H24V4H28V6H33V8H37V10H40V14H36V17H29V19H23V22H19V19H14V16H10V13H7V16H3V19H0Z"
+)
+
+private val FishingMinnow = ArcadeSprite(
+    width = 40,
+    height = 22,
+    data = "M0 5H3V8H8V10H13V8H21V5H25V8H31V9H36V11H40V13H35V15H29V17H23V20H19V17H13V15H8V13H5V16H1V18H0Z"
+)
+
 @Composable
 fun FishingGame(
     modifier: Modifier = Modifier,
@@ -163,7 +175,11 @@ fun FishingGame(
                         pivot = Offset.Zero
                     ) {
                         drawArcadeSprite(
-                            sprite = ArcadeFish,
+                            sprite = when (kind) {
+                                1 -> FishingPerch
+                                2 -> FishingMinnow
+                                else -> ArcadeFish
+                            },
                             tint = color,
                             x = -20f,
                             y = -11f

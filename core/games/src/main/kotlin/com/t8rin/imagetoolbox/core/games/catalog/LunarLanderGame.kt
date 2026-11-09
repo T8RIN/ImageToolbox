@@ -36,7 +36,9 @@ import com.t8rin.imagetoolbox.core.games.ArcadeGameState
 import com.t8rin.imagetoolbox.core.games.ArcadeOffsetSerializer
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
+import com.t8rin.imagetoolbox.core.games.ArcadeSprite
 import com.t8rin.imagetoolbox.core.games.ArcadeStyle
+import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
@@ -51,6 +53,18 @@ import kotlin.math.abs
 import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.random.Random
+
+private val LanderCabin = ArcadeSprite(
+    width = 16,
+    height = 16,
+    data = "M5 0H11V2H14V5H16V12H13V14H3V12H0V5H2V2H5Z"
+)
+
+private val LanderWindow = ArcadeSprite(
+    width = 16,
+    height = 16,
+    data = "M4 3H12V5H13V8H3V5H4Z M5 11H11V12H5Z"
+)
 
 @Composable
 fun LunarLanderGame(
@@ -69,7 +83,6 @@ fun LunarLanderGame(
     val groundPath = remember { Path() }
     val surfacePath = remember { Path() }
     val flamePath = remember { Path() }
-    val cabinPath = remember { Path() }
     ArcadeBoard(
         game = ArcadeGame.LunarLander,
         run = run,
@@ -245,33 +258,38 @@ fun LunarLanderGame(
                                         height = 4f
                                     )
                                 }
-                                val cabin = cabinPath.apply {
-                                    rewind()
-                                    moveTo(-6f, -3f)
-                                    lineTo(-3f, -8f)
-                                    lineTo(3f, -8f)
-                                    lineTo(6f, -3f)
-                                    lineTo(6f, 4f)
-                                    lineTo(-6f, 4f)
-                                    close()
-                                }
-                                drawPath(
-                                    path = cabin,
-                                    color = style.playerColor
+                                drawArcadeSprite(
+                                    sprite = LanderCabin,
+                                    tint = style.playerColor,
+                                    x = -8f,
+                                    y = -10f
                                 )
-                                pixelRect(
-                                    color = style.playerDetailColor,
-                                    x = -3f,
-                                    y = -5f,
-                                    width = 6f,
-                                    height = 4f
+                                drawArcadeSprite(
+                                    sprite = LanderWindow,
+                                    tint = style.playerDetailColor,
+                                    x = -8f,
+                                    y = -10f
                                 )
                                 pixelRect(
                                     color = style.obstacleColor,
-                                    x = -5f,
+                                    x = -6f,
                                     y = 4f,
-                                    width = 10f,
+                                    width = 12f,
                                     height = 3f
+                                )
+                                pixelRect(
+                                    color = style.playerColor,
+                                    x = 4f,
+                                    y = -14f,
+                                    width = 1f,
+                                    height = 6f
+                                )
+                                pixelRect(
+                                    color = style.accentColor,
+                                    x = 3f,
+                                    y = -15f,
+                                    width = 3f,
+                                    height = 2f
                                 )
                                 for (side in listOf(-1f, 1f)) {
                                     drawLine(

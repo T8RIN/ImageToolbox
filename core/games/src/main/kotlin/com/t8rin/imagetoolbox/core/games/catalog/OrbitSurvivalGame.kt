@@ -21,12 +21,12 @@ package com.t8rin.imagetoolbox.core.games.catalog
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.clipRect
 import androidx.compose.ui.graphics.drawscope.rotate
+import androidx.compose.ui.graphics.drawscope.scale
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
 import com.t8rin.imagetoolbox.core.games.ArcadeDefaults
 import com.t8rin.imagetoolbox.core.games.ArcadeDequeSerializer
@@ -35,7 +35,9 @@ import com.t8rin.imagetoolbox.core.games.ArcadeGameState
 import com.t8rin.imagetoolbox.core.games.ArcadeOffsetSerializer
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
+import com.t8rin.imagetoolbox.core.games.ArcadeSprite
 import com.t8rin.imagetoolbox.core.games.ArcadeStyle
+import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
@@ -53,6 +55,12 @@ private val OrbitSegments = listOf(
     listOf(-0.62f to 0.62f),
     listOf(-1.5f to -0.27f, 0.27f to 1.5f),
     listOf(-1.5f to -1.02f, -0.4f to 0.4f, 1.02f to 1.5f)
+)
+
+private val OrbitMeteor = ArcadeSprite(
+    width = 32,
+    height = 32,
+    data = "M9 1H19V3H25V7H29V12H32V20H28V24H25V28H18V31H11V28H5V24H2V17H0V10H4V5H9Z"
 )
 
 @Composable
@@ -116,25 +124,17 @@ fun OrbitSurvivalGame(
                                     )
                                 val size =
                                     Size(width = (right - left) * radius, height = radius * 0.22f)
-                                drawRoundRect(
-                                    color = style.obstacleColor.copy(alpha = 0.2f),
-                                    topLeft = point,
-                                    size = size,
-                                    cornerRadius = CornerRadius(x = 3f)
-                                )
-                                drawRoundRect(
+                                drawRect(
                                     color = style.obstacleColor,
                                     topLeft = point,
-                                    size = size,
-                                    cornerRadius = CornerRadius(x = 3f),
-                                    style = Stroke(width = 1f)
+                                    size = size
                                 )
                                 pixelRect(
-                                    color = style.accentColor,
-                                    x = point.x + 4f,
-                                    y = point.y + size.height / 2f - 1f,
-                                    width = (size.width - 8f).coerceAtLeast(1f),
-                                    height = 2f
+                                    color = style.playerDetailColor.copy(alpha = 0.2f),
+                                    x = point.x + size.width - 2f,
+                                    y = point.y,
+                                    width = 2f,
+                                    height = size.height
                                 )
                             }
                         } else {
@@ -145,11 +145,14 @@ fun OrbitSurvivalGame(
                                     radius = radius * 0.32f,
                                     center = point
                                 )
-                                drawCircle(
-                                    color = style.obstacleColor,
-                                    radius = radius * 0.23f,
-                                    center = point
-                                )
+                                scale(scale = radius * 0.46f / 32f, pivot = point) {
+                                    drawArcadeSprite(
+                                        sprite = OrbitMeteor,
+                                        tint = style.obstacleColor,
+                                        x = point.x - 16f,
+                                        y = point.y - 16f
+                                    )
+                                }
                                 drawCircle(
                                     color = style.playerDetailColor.copy(alpha = 0.35f),
                                     radius = radius * 0.07f,

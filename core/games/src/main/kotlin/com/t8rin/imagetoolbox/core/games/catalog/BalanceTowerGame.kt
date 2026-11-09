@@ -142,6 +142,33 @@ fun BalanceTowerGame(
                         width = size.width - 6f * unit,
                         height = 2f * unit
                     )
+                    val frame = style.playerDetailColor.copy(alpha = 0.32f)
+                    for (end in listOf(point.x + 3f * unit, point.x + size.width - 5f * unit)) {
+                        pixelRect(
+                            color = frame,
+                            x = end,
+                            y = point.y + 3f * unit,
+                            width = 2f * unit,
+                            height = size.height - 6f * unit
+                        )
+                    }
+                    if (load.kind == 1) {
+                        pixelRect(
+                            color = frame,
+                            x = point.x + 7f * unit,
+                            y = point.y + size.height - 5f * unit,
+                            width = size.width - 14f * unit,
+                            height = 2f * unit
+                        )
+                    } else {
+                        for (section in 1..2) pixelRect(
+                            color = frame.copy(alpha = 0.18f),
+                            x = point.x + size.width * section / 3f,
+                            y = point.y + 5f * unit,
+                            width = unit,
+                            height = size.height - 10f * unit
+                        )
+                    }
                     val ballast = run.project(load.x + load.offset, load.bottom + load.height / 2f)
                     pixelRect(
                         color = style.playerDetailColor.copy(alpha = 0.38f),

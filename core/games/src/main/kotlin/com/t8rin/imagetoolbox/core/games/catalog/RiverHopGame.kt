@@ -23,6 +23,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.drawscope.translate
@@ -178,99 +179,162 @@ fun RiverHopGame(
                     val x = left + start * cell
                     val length = length * cell
                     if (kind == 2) {
+                        val top = y + cell * 0.22f
+                        val height = cell * 0.58f
                         pixelRect(
-                            color = style.playerDetailColor.copy(alpha = 0.4f),
-                            x = x + 2f,
-                            y = y + cell * 0.25f,
-                            width = length - 4f,
-                            height = cell * 0.62f
+                            color = style.accentColor,
+                            x = x + 5f,
+                            y = top,
+                            width = length - 10f,
+                            height = height
                         )
                         pixelRect(
                             color = style.accentColor,
                             x = x + 2f,
-                            y = y + cell * 0.22f,
+                            y = top + 3f,
                             width = length - 4f,
-                            height = cell * 0.58f
+                            height = height - 6f
                         )
-                        pixelRect(
-                            color = style.obstacleColor,
-                            x = x + 5f,
-                            y = y + cell * 0.28f,
-                            width = length - 10f,
-                            height = 2f
-                        )
-                        pixelRect(
-                            color = style.playerDetailColor.copy(alpha = 0.4f),
-                            x = x + 5f,
-                            y = y + cell * 0.45f,
-                            width = length - 14f,
-                            height = 1f
-                        )
-                        pixelRect(
-                            color = style.playerDetailColor.copy(alpha = 0.3f),
-                            x = x + 9f,
-                            y = y + cell * 0.65f,
-                            width = length - 18f,
-                            height = 1f
-                        )
-                        pixelRect(
-                            color = style.playerDetailColor.copy(alpha = 0.45f),
-                            x = x + 5f,
-                            y = y + cell * 0.3f,
-                            width = 2f,
-                            height = cell * 0.38f
-                        )
-                    } else {
-                        val color =
-                            if (index % 2 == 0) style.accentColor else style.obstacleColor
-                        pixelRect(
-                            color = style.textColor,
-                            x = x + 5f,
-                            y = y + cell * 0.15f,
-                            width = length - 10f,
-                            height = cell * 0.7f
-                        )
-                        pixelRect(
-                            color = color,
-                            x = x + 1f,
-                            y = y + cell * 0.23f,
-                            width = length - 2f,
-                            height = cell * 0.54f
-                        )
-                        val headlightX = if (speed > 0f) x + length - 3f else x + 1f
-                        val tailLightX = if (speed > 0f) x + 1f else x + length - 3f
-                        repeat(2) { index ->
-                            val edge = if (index == 0) 0.3f else 0.63f
+                        val grain = style.playerDetailColor.copy(alpha = 0.35f)
+                        for (end in listOf(x + 5f, x + length - 9f)) {
                             pixelRect(
-                                color = style.textColor,
-                                x = headlightX,
-                                y = y + cell * edge,
+                                color = grain,
+                                x = end,
+                                y = top + 3f,
                                 width = 2f,
-                                height = 3f
+                                height = height - 6f
                             )
                             pixelRect(
-                                color = style.hazardColor,
-                                x = tailLightX,
-                                y = y + cell * edge,
+                                color = grain,
+                                x = end + 2f,
+                                y = top + 6f,
                                 width = 2f,
-                                height = 3f
+                                height = height - 12f
                             )
                         }
-                        val front = if (speed > 0f) x + length * 0.65f else x + length * 0.18f
                         pixelRect(
-                            color = style.playerDetailColor,
-                            x = front,
-                            y = y + cell * 0.29f,
-                            width = length * 0.17f,
-                            height = cell * 0.42f
+                            color = grain,
+                            x = x + 12f,
+                            y = top + 4f,
+                            width = length * 0.35f,
+                            height = 1f
                         )
                         pixelRect(
-                            color = style.playerDetailColor.copy(alpha = 0.6f),
-                            x = x + length * 0.4f,
-                            y = y + cell * 0.29f,
-                            width = 3f,
-                            height = cell * 0.42f
+                            color = grain,
+                            x = x + length * 0.45f,
+                            y = top + height - 5f,
+                            width = length * 0.3f,
+                            height = 1f
                         )
+                        val knot = x + length * 0.6f
+                        pixelRect(
+                            color = grain,
+                            x = knot,
+                            y = top + height / 2f - 2f,
+                            width = 6f,
+                            height = 1f
+                        )
+                        pixelRect(
+                            color = grain,
+                            x = knot - 2f,
+                            y = top + height / 2f - 1f,
+                            width = 2f,
+                            height = 3f
+                        )
+                        pixelRect(
+                            color = grain,
+                            x = knot,
+                            y = top + height / 2f + 2f,
+                            width = 6f,
+                            height = 1f
+                        )
+                    } else {
+                        val color = if (index % 2 == 0) style.accentColor else style.obstacleColor
+                        val center = Offset(x = x + length / 2f, y = y + cell / 2f)
+                        scale(scaleX = if (speed > 0f) 1f else -1f, scaleY = 1f, pivot = center) {
+                            val top = y + cell * 0.22f
+                            val height = cell * 0.56f
+                            val truck = length > cell * 1.8f
+                            for (axle in listOf(x + length * 0.18f, x + length * 0.76f)) {
+                                pixelRect(
+                                    color = Color.Black.copy(alpha = 0.65f),
+                                    x = axle,
+                                    y = top - 3f,
+                                    width = length * 0.13f,
+                                    height = height + 6f
+                                )
+                            }
+                            pixelRect(
+                                color = color,
+                                x = x + 4f,
+                                y = top,
+                                width = length - 8f,
+                                height = height
+                            )
+                            pixelRect(
+                                color = color,
+                                x = x + 2f,
+                                y = top + 3f,
+                                width = length - 4f,
+                                height = height - 6f
+                            )
+                            val glass = style.playerDetailColor
+                            val front = x + length * if (truck) 0.8f else 0.62f
+                            pixelRect(
+                                color = glass,
+                                x = front,
+                                y = top + 3f,
+                                width = length * 0.1f,
+                                height = height - 6f
+                            )
+                            if (truck) {
+                                pixelRect(
+                                    color = glass.copy(alpha = 0.6f),
+                                    x = x + length * 0.7f,
+                                    y = top,
+                                    width = 2f,
+                                    height = height
+                                )
+                                pixelRect(
+                                    color = glass.copy(alpha = 0.25f),
+                                    x = x + 7f,
+                                    y = top + 3f,
+                                    width = length * 0.55f,
+                                    height = 2f
+                                )
+                                pixelRect(
+                                    color = glass.copy(alpha = 0.25f),
+                                    x = x + 7f,
+                                    y = top + height - 5f,
+                                    width = length * 0.55f,
+                                    height = 2f
+                                )
+                            } else {
+                                pixelRect(
+                                    color = glass,
+                                    x = x + length * 0.25f,
+                                    y = top + 4f,
+                                    width = length * 0.12f,
+                                    height = height - 8f
+                                )
+                            }
+                            for (edge in listOf(top + 2f, top + height - 5f)) {
+                                pixelRect(
+                                    color = glass,
+                                    x = x + length - 4f,
+                                    y = edge,
+                                    width = 2f,
+                                    height = 3f
+                                )
+                                pixelRect(
+                                    color = style.hazardColor,
+                                    x = x + 2f,
+                                    y = edge,
+                                    width = 2f,
+                                    height = 3f
+                                )
+                            }
+                        }
                     }
                     start += period
                 }

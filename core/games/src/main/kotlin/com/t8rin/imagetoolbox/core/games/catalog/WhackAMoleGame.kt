@@ -47,7 +47,7 @@ import kotlin.random.Random
 
 private val ArcadeMole = ArcadeSprite(
     width = 40, height = 42,
-    data = "M5 8V3H12V6H28V3H35V8H38V16H36V21H38V42H2V21H4V16H2V8Z"
+    data = "M11 2H29V4H33V8H37V13H40V22H37V27H36V42H4V27H3V22H0V13H3V8H7V4H11Z"
 )
 
 private val MoleHole = ArcadeSprite(
@@ -151,18 +151,18 @@ fun WhackAMoleGame(
                                         y = y
                                     )
                                     pixelRect(
-                                        color = style.accentColor,
-                                        x = -14f,
-                                        y = y + 7f,
-                                        width = 5f,
-                                        height = 5f
+                                        color = style.playerDetailColor.copy(alpha = 0.25f),
+                                        x = -16f,
+                                        y = y + 11f,
+                                        width = 4f,
+                                        height = 4f
                                     )
                                     pixelRect(
-                                        color = style.accentColor,
-                                        x = 9f,
-                                        y = y + 7f,
-                                        width = 5f,
-                                        height = 5f
+                                        color = style.playerDetailColor.copy(alpha = 0.25f),
+                                        x = 12f,
+                                        y = y + 11f,
+                                        width = 4f,
+                                        height = 4f
                                     )
                                     pixelRect(
                                         color = style.playerDetailColor,

@@ -41,7 +41,9 @@ import com.t8rin.imagetoolbox.core.games.ArcadeGameState
 import com.t8rin.imagetoolbox.core.games.ArcadeOffsetSerializer
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
+import com.t8rin.imagetoolbox.core.games.ArcadeSprite
 import com.t8rin.imagetoolbox.core.games.ArcadeStyle
+import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
@@ -52,6 +54,18 @@ import kotlinx.serialization.UseSerializers
 import kotlin.math.abs
 import kotlin.math.sin
 import kotlin.random.Random
+
+private val LightCycleBody = ArcadeSprite(
+    width = 24,
+    height = 16,
+    data = "M2 4H7V2H15V4H19V5H22V6H24V10H22V11H19V12H15V14H7V12H2V10H0V6H2Z M2 6H6V10H2Z M19 7H22V9H19Z"
+)
+
+private val LightCycleRider = ArcadeSprite(
+    width = 24,
+    height = 16,
+    data = "M9 5H14V6H17V10H14V11H9Z"
+)
 
 @Composable
 fun LightCyclesGame(
@@ -234,34 +248,20 @@ fun LightCyclesGame(
                             size = Size(width = cell * 1.4f, height = cell * 1.4f),
                             style = Stroke(width = 2f)
                         )
-                        pixelRect(
-                            color = ink,
-                            x = point.x - cell * 0.42f,
-                            y = point.y - cell * 0.24f,
-                            width = cell * 0.84f,
-                            height = cell * 0.48f
-                        )
-                        pixelRect(
-                            color = style.playerDetailColor,
-                            x = point.x + cell * 0.12f,
-                            y = point.y - cell * 0.14f,
-                            width = cell * 0.2f,
-                            height = cell * 0.28f
-                        )
-                        pixelRect(
-                            color = style.obstacleColor,
-                            x = point.x - cell * 0.28f,
-                            y = point.y - cell * 0.35f,
-                            width = cell * 0.24f,
-                            height = cell * 0.12f
-                        )
-                        pixelRect(
-                            color = style.obstacleColor,
-                            x = point.x - cell * 0.28f,
-                            y = point.y + cell * 0.23f,
-                            width = cell * 0.24f,
-                            height = cell * 0.12f
-                        )
+                        scale(scale = cell * 0.95f / 24f, pivot = point) {
+                            drawArcadeSprite(
+                                sprite = LightCycleBody,
+                                tint = ink,
+                                x = point.x - 12f,
+                                y = point.y - 8f
+                            )
+                            drawArcadeSprite(
+                                sprite = LightCycleRider,
+                                tint = style.playerDetailColor,
+                                x = point.x - 12f,
+                                y = point.y - 8f
+                            )
+                        }
                     }
                 }
             }

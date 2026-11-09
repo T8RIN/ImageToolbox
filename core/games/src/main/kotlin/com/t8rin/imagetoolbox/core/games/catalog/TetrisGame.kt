@@ -26,6 +26,7 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.clipRect
+import androidx.compose.ui.graphics.lerp
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
 import com.t8rin.imagetoolbox.core.games.ArcadeDefaults
 import com.t8rin.imagetoolbox.core.games.ArcadeDequeSerializer
@@ -85,14 +86,14 @@ fun TetrisGame(
             )
             val boardSize = Size(width = cell * TetrisColumns, height = cell * TetrisRows)
             drawRect(
-                color = style.detailColor.copy(alpha = 0.08f),
+                color = style.obstacleColor.copy(alpha = 0.035f),
                 topLeft = origin,
                 size = boardSize
             )
             for (column in 1 until TetrisColumns) {
                 val x = origin.x + column * cell
                 drawLine(
-                    color = style.detailColor.copy(alpha = 0.12f),
+                    color = style.detailColor.copy(alpha = 0.08f),
                     start = Offset(x = x, y = origin.y),
                     end = Offset(x = x, y = origin.y + boardSize.height)
                 )
@@ -100,16 +101,22 @@ fun TetrisGame(
             for (row in 1 until TetrisRows) {
                 val y = origin.y + row * cell
                 drawLine(
-                    color = style.detailColor.copy(alpha = 0.12f),
+                    color = style.detailColor.copy(alpha = 0.08f),
                     start = Offset(x = origin.x, y = y),
                     end = Offset(x = origin.x + boardSize.width, y = y)
                 )
             }
+            for (x in listOf(origin.x - 3f, origin.x + boardSize.width + 1f)) {
+                drawRect(
+                    color = style.obstacleColor.copy(alpha = 0.35f),
+                    topLeft = Offset(x = x, y = origin.y),
+                    size = Size(width = 2f, height = boardSize.height + 3f)
+                )
+            }
             drawRect(
-                color = style.detailColor,
-                topLeft = origin,
-                size = boardSize,
-                style = Stroke(width = 1f)
+                color = style.obstacleColor.copy(alpha = 0.35f),
+                topLeft = origin + Offset(x = -3f, y = boardSize.height + 1f),
+                size = Size(width = boardSize.width + 6f, height = 2f)
             )
 
             fun block(
@@ -120,36 +127,67 @@ fun TetrisGame(
                 scale: Float = 1f
             ) {
                 if (scale <= 0) return
-                val color = when (type % 3) {
+                val color = when (type) {
                     0 -> style.playerColor
-                    1 -> style.obstacleColor
-                    else -> style.accentColor
+                    1 -> style.accentColor
+                    2 -> style.obstacleColor
+                    3 -> lerp(start = style.playerColor, stop = style.accentColor, fraction = 0.35f)
+                    4 -> lerp(
+                        start = style.obstacleColor,
+                        stop = style.accentColor,
+                        fraction = 0.6f
+                    )
+
+                    5 -> lerp(
+                        start = style.playerColor,
+                        stop = style.obstacleColor,
+                        fraction = 0.55f
+                    )
+
+                    else -> lerp(
+                        start = style.accentColor,
+                        stop = style.playerColor,
+                        fraction = 0.2f
+                    )
                 }
-                val gap = size * 0.055f
+                val gap = size * 0.045f
                 val topLeft = point + Offset(x = gap, y = gap + size * (1 - scale) / 2)
                 val blockSize = Size(width = size - gap * 2, height = (size - gap * 2) * scale)
                 if (ghost) {
                     drawRect(
-                        color = color.copy(alpha = 0.28f),
+                        color = color.copy(alpha = 0.06f),
+                        topLeft = topLeft,
+                        size = blockSize
+                    )
+                    drawRect(
+                        color = color.copy(alpha = 0.4f),
                         topLeft = topLeft,
                         size = blockSize,
-                        style = Stroke(width = 1f)
+                        style = Stroke(width = size * 0.06f)
                     )
                 } else {
-                    drawRect(color = color, topLeft = topLeft, size = blockSize)
-                    val edge = size * 0.08f
+                    val edge = size * 0.12f
+                    val edgeHeight = edge * scale
                     drawRect(
-                        color = Color.White.copy(alpha = 0.18f),
+                        color = lerp(start = color, stop = Color.White, fraction = 0.3f),
                         topLeft = topLeft,
-                        size = Size(width = blockSize.width, height = minOf(edge, blockSize.height))
+                        size = blockSize
                     )
                     drawRect(
-                        color = Color.Black.copy(alpha = 0.12f),
-                        topLeft = topLeft + Offset(
-                            x = 0f,
-                            y = (blockSize.height - edge).coerceAtLeast(0f)
-                        ),
-                        size = Size(width = blockSize.width, height = minOf(edge, blockSize.height))
+                        color = lerp(start = color, stop = Color.Black, fraction = 0.3f),
+                        topLeft = topLeft + Offset(x = edge, y = edgeHeight),
+                        size = Size(
+                            width = blockSize.width - edge,
+                            height = blockSize.height - edgeHeight
+                        )
+                    )
+                    drawRect(
+                        color = color,
+                        topLeft = topLeft + Offset(x = edge, y = edgeHeight),
+                        size = Size(
+                            width = blockSize.width - edge * 2f,
+                            height = blockSize.height - edgeHeight * 2f
+                        )
                     )
                 }
             }

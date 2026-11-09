@@ -159,7 +159,7 @@ private fun DrawScope.drawBubble(
         else -> style.textColor
     }
     drawCircle(
-        color = color.copy(alpha = 0.18f),
+        color = color.copy(alpha = 0.24f),
         radius = radius,
         center = point
     )
@@ -177,6 +177,15 @@ private fun DrawScope.drawBubble(
         topLeft = point - Offset(x = radius * 0.68f, y = radius * 0.68f),
         size = Size(width = radius * 1.36f, height = radius * 1.36f),
         style = Stroke(width = 1.5f)
+    )
+    drawArc(
+        color = color.copy(alpha = 0.25f),
+        startAngle = 25f,
+        sweepAngle = 70f,
+        useCenter = false,
+        topLeft = point - Offset(x = radius * 0.83f, y = radius * 0.83f),
+        size = Size(width = radius * 1.66f, height = radius * 1.66f),
+        style = Stroke(width = radius * 0.12f)
     )
     val r = radius * 0.25f
     when (kind) {

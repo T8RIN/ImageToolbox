@@ -50,9 +50,10 @@ private const val PlatformWidth = 64f
 private const val JumpVelocity = 365f
 
 private const val DoodleBodyPath =
-    "M11 2H23V4H28V7H31V11H33V16H41V18H44V23H41V25H33V34H30V38H29V43H25V38H23V44H19V38H17V44H13V38H11V43H7V37H4V32H2V22H3V13H5V8H8V5H11Z"
-private const val DoodleFacePath = "M20 9H22V14H20Z M27 11H29V16H27Z M39 19H42V22H39Z"
-private const val DoodleStripesPath = "M5 24H30V26H5Z M6 29H29V31H6Z M9 34H27V36H9Z"
+    "M11 2H24V4H28V7H31V13H33V16H41V17H44V21H41V22H33V30H31V34H29V37H28V43H25V38" +
+            "H23V44H20V39H17V44H14V38H12V43H9V37H6V33H4V28H2V20H3V13H5V8H8V5H11Z"
+private const val DoodleFacePath = "M20 9H22V14H20Z M27 11H29V16H27Z M40 18H44V20H40Z"
+private const val DoodleStripesPath = "M5 27H30V29H5Z M8 33H27V35H8Z"
 private val DoodleBody = ArcadeSprite(
     width = 44,
     height = 44,
@@ -94,8 +95,9 @@ private val PlatformMonsterFace = ArcadeSprite(
     data = "M8 12H16V21H8Z M24 10H32V19H24Z M40 12H48V21H40Z M12 27H18V30H23V27H33V30H38V27H44V32H12Z"
 )
 private val DoodleShootingBody = ArcadeSprite(
-    width = 44, height = 48,
-    data = "M19 0H25V8H29V11H32V16H34V32H31V38H29V43H25V38H23V44H19V38H17V44H13V38H11V43H7V37H4V32H2V22H3V13H5V8H8V5H15V8H19Z"
+    width = 44, height = 44,
+    data = "M19 0H25V9H29V12H32V18H33V30H31V34H29V37H28V43H25V38H23V44H20V39H17V44H14V38" +
+            "H12V43H9V37H6V33H4V28H2V20H3V13H5V8H8V5H14V8H19Z"
 )
 
 @Composable
@@ -333,9 +335,9 @@ fun DoodleGame(
             val feet = run.height - run.y + run.camera
             fun player(x: Float) {
                 scale(
-                    if (run.facingRight || run.shooting) 1f else -1f,
-                    1f,
-                    Offset(x = x, y = feet)
+                    scaleX = if (run.facingRight || run.shooting) 1f else -1f,
+                    scaleY = 1f,
+                    pivot = Offset(x = x, y = feet)
                 ) {
                     drawArcadeSprite(
                         sprite = if (run.shooting) DoodleShootingBody else DoodleBody,
@@ -350,6 +352,13 @@ fun DoodleGame(
                         y = feet - 44
                     )
                     if (run.shooting) {
+                        pixelRect(
+                            color = ink,
+                            x = x - 2f,
+                            y = feet - 44f,
+                            width = 4f,
+                            height = 2f
+                        )
                         pixelRect(
                             color = ink,
                             x = x - 10,

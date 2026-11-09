@@ -229,28 +229,51 @@ fun BomberGame(
                     val p = run.center(position)
                     val pulse =
                         if (fuse < 0.8f) 1f + sin(fuse * 32f) * 0.08f else 1f
-                    drawCircle(
-                        color = style.obstacleColor,
-                        radius = cell * 0.31f * pulse,
-                        center = p
-                    )
-                    drawCircle(
-                        color = style.playerDetailColor,
-                        radius = cell * 0.07f * pulse,
-                        center = p - Offset(x = cell * 0.08f, y = cell * 0.1f)
-                    )
-                    pixelRect(
-                        color = style.accentColor,
-                        x = p.x + cell * 0.12f,
-                        y = p.y - cell * 0.4f,
-                        width = 3f,
-                        height = cell * 0.16f
-                    )
-                    drawCircle(
-                        color = style.hazardColor,
-                        radius = cell * 0.07f,
-                        center = p + Offset(x = cell * 0.18f, y = -cell * 0.42f)
-                    )
+                    val unit = cell * 0.62f * pulse / 24f
+                    translate(left = p.x - 12f * unit, top = p.y - 15f * unit) {
+                        scale(scale = unit, pivot = Offset.Zero) {
+                            drawArcadeSprite(
+                                sprite = BomberBombBody,
+                                tint = style.obstacleColor,
+                                x = 0f,
+                                y = 0f
+                            )
+                            drawArcadeSprite(
+                                sprite = BomberBombShine,
+                                tint = style.playerDetailColor,
+                                x = 0f,
+                                y = 0f
+                            )
+                            pixelRect(
+                                color = style.accentColor,
+                                x = 12f,
+                                y = 2f,
+                                width = 2f,
+                                height = 4f
+                            )
+                            pixelRect(
+                                color = style.accentColor,
+                                x = 14f,
+                                y = 1f,
+                                width = 4f,
+                                height = 2f
+                            )
+                            pixelRect(
+                                color = style.hazardColor,
+                                x = 18f,
+                                y = -2f,
+                                width = 2f,
+                                height = 6f
+                            )
+                            pixelRect(
+                                color = style.hazardColor,
+                                x = 16f,
+                                y = 0f,
+                                width = 6f,
+                                height = 2f
+                            )
+                        }
+                    }
                     drawArc(
                         color = style.accentColor,
                         startAngle = -90f,
@@ -338,65 +361,68 @@ fun BomberGame(
                 }
                 if (run.invulnerable <= 0f || (run.invulnerable * 9f).toInt() % 2 == 0) {
                     val point = run.playerPoint
-                    val unit = cell / 19f
-                    translate(left = point.x - unit * 6f, top = point.y - unit * 8f) {
-                        scale(unit, Offset.Zero) {
+                    val unit = cell / 31f
+                    translate(left = point.x - unit * 10f, top = point.y - unit * 13f) {
+                        scale(scale = unit, pivot = Offset.Zero) {
                             drawArcadeSprite(
                                 sprite = BomberBody,
                                 tint = style.playerColor,
                                 x = 0f,
                                 y = 0f
                             )
+                            drawArcadeSprite(
+                                sprite = BomberVisor,
+                                tint = style.playerDetailColor,
+                                x = 0f,
+                                y = 0f
+                            )
                             pixelRect(
                                 color = style.accentColor,
-                                x = 5f,
+                                x = 8f,
                                 y = 0f,
-                                width = 2f,
-                                height = 2f
+                                width = 4f,
+                                height = 3f
                             )
-                            pixelRect(
-                                color = style.accentColor,
-                                x = 3f,
-                                y = 5f,
-                                width = 6f,
-                                height = 4f
-                            )
-                            pixelRect(
-                                color = style.playerDetailColor,
-                                x = 4f,
-                                y = 6f,
-                                width = 1f,
-                                height = 2f
-                            )
-                            pixelRect(
-                                color = style.playerDetailColor,
-                                x = 7f,
-                                y = 6f,
-                                width = 1f,
-                                height = 2f
-                            )
+                            for (eye in listOf(6f, 12f)) {
+                                pixelRect(
+                                    color = style.playerColor,
+                                    x = eye,
+                                    y = 7f,
+                                    width = 2f,
+                                    height = 4f
+                                )
+                            }
                             pixelRect(
                                 color = style.obstacleColor,
-                                x = 4f,
-                                y = 10f,
-                                width = 4f,
+                                x = 6f,
+                                y = 19f,
+                                width = 8f,
                                 height = 2f
                             )
+                            for (hand in listOf(1f, 15f)) {
+                                pixelRect(
+                                    color = style.accentColor,
+                                    x = hand,
+                                    y = 16f,
+                                    width = 4f,
+                                    height = 4f
+                                )
+                            }
                             val step =
                                 sin(run.progress * Math.PI.toFloat()) * (if (run.player % 2 == 0) 1f else -1f)
                             pixelRect(
                                 color = style.accentColor,
-                                x = 1f,
-                                y = 14f + step,
-                                width = 4f,
-                                height = 2f
+                                x = 3f,
+                                y = 23f + step,
+                                width = 6f,
+                                height = 3f
                             )
                             pixelRect(
                                 color = style.accentColor,
-                                x = 7f,
-                                y = 14f - step,
-                                width = 4f,
-                                height = 2f
+                                x = 11f,
+                                y = 23f - step,
+                                width = 6f,
+                                height = 3f
                             )
                         }
                     }
@@ -459,9 +485,24 @@ fun BomberGame(
 }
 
 private val BomberBody = ArcadeSprite(
-    width = 12,
-    height = 16,
-    data = "M5 0H7V2H9V3H11V5H12V8H11V9H9V10H10V12H9V14H11V16H7V14H5V16H1V14H3V12H2V10H3V9H1V8H0V5H1V3H3V2H5Z"
+    width = 20,
+    height = 26,
+    data = "M5 2H15V3H18V5H20V12H18V14H14V16H17V19H15V22H13V24H11V22H9V24H7V22H5V19H3V16H6V14H2V12H0V5H2V3H5Z"
+)
+private val BomberVisor = ArcadeSprite(
+    width = 20,
+    height = 26,
+    data = "M5 5H15V6H17V11H15V12H5V11H3V6H5Z"
+)
+private val BomberBombBody = ArcadeSprite(
+    width = 24,
+    height = 28,
+    data = "M9 4H15V6H19V8H22V11H24V20H22V23H19V25H15V26H8V25H4V23H2V20H0V12H2V9H5V7H9Z"
+)
+private val BomberBombShine = ArcadeSprite(
+    width = 24,
+    height = 28,
+    data = "M6 10H11V12H8V14H6V17H4V13H6Z"
 )
 
 private val BomberBug = ArcadeSprite(

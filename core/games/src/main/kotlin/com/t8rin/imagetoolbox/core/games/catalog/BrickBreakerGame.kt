@@ -90,7 +90,7 @@ fun BrickBreakerGame(
                     else -> style.playerColor
                 }
                 drawRoundRect(
-                    color = color.copy(alpha = 0.25f + brick.flash * 0.5f),
+                    color = color.copy(alpha = 0.85f + brick.flash.coerceAtMost(0.3f) * 0.5f),
                     topLeft = rect.topLeft,
                     size = rect.size,
                     cornerRadius = CornerRadius(x = 2f)
@@ -102,10 +102,24 @@ fun BrickBreakerGame(
                     cornerRadius = CornerRadius(x = 2f),
                     style = Stroke(width = 1f)
                 )
+                pixelRect(
+                    color = style.playerDetailColor.copy(alpha = 0.4f),
+                    x = rect.left + 2f,
+                    y = rect.top + 2f,
+                    width = rect.width - 4f,
+                    height = 2f
+                )
+                pixelRect(
+                    color = style.playerDetailColor.copy(alpha = 0.2f),
+                    x = rect.left + 2f,
+                    y = rect.top + 4f,
+                    width = 2f,
+                    height = rect.height - 6f
+                )
                 repeat(brick.health - 1) { notch ->
                     pixelRect(
-                        color = color,
-                        x = rect.left + 5f + notch * 5f,
+                        color = style.playerDetailColor,
+                        x = rect.left + 7f + notch * 5f,
                         y = rect.top + 4f,
                         width = 2f,
                         height = rect.height - 8f

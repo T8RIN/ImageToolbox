@@ -31,8 +31,10 @@ import com.t8rin.imagetoolbox.core.games.ArcadeGameState
 import com.t8rin.imagetoolbox.core.games.ArcadeOffsetSerializer
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
+import com.t8rin.imagetoolbox.core.games.ArcadeSprite
 import com.t8rin.imagetoolbox.core.games.ArcadeStyle
 import com.t8rin.imagetoolbox.core.games.arcadeGround
+import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
@@ -45,6 +47,24 @@ import kotlin.math.PI
 import kotlin.math.hypot
 import kotlin.math.sin
 import kotlin.random.Random
+
+private val MissileCity = ArcadeSprite(
+    width = 34,
+    height = 30,
+    data = "M0 14H3V10H11V30H0Z M12 8H15V3H18V0H20V3H24V8H26V30H12Z M27 18H30V15H34V30H27Z"
+)
+
+private val MissileFactory = ArcadeSprite(
+    width = 34,
+    height = 30,
+    data = "M0 18H4V15H8V12H12V18H16V15H20V12H24V18H27V5H31V18H34V30H0Z"
+)
+
+private val MissileBunker = ArcadeSprite(
+    width = 28,
+    height = 22,
+    data = "M11 0H17V12H21V14H25V17H28V22H0V17H3V14H7V12H11Z M5 18H9V20H5Z M19 18H23V20H19Z"
+)
 
 @Composable
 fun MissileCommandGame(
@@ -111,50 +131,40 @@ fun MissileCommandGame(
                     )
                     continue
                 }
-                pixelRect(
-                    color = style.obstacleColor,
-                    x = x - 15f,
-                    y = run.ground - 19f,
-                    width = 10f,
-                    height = 19f
+                drawArcadeSprite(
+                    sprite = if (index % 2 == 0) MissileCity else MissileFactory,
+                    tint = style.obstacleColor,
+                    x = x - 17f,
+                    y = run.ground - 30f
                 )
-                pixelRect(
-                    color = style.obstacleColor,
-                    x = x - 4f,
-                    y = run.ground - 28f,
-                    width = 13f,
-                    height = 28f
-                )
-                pixelRect(
-                    color = style.obstacleColor,
-                    x = x + 10f,
-                    y = run.ground - 14f,
-                    width = 7f,
-                    height = 14f
-                )
-                repeat(3) { row ->
+                if (index % 2 == 0) {
+                    repeat(3) { row ->
+                        for (column in 0..1) pixelRect(
+                            color = style.playerDetailColor.copy(alpha = 0.75f),
+                            x = x - 2f + column * 5f,
+                            y = run.ground - 19f + row * 6f,
+                            width = 2f,
+                            height = 3f
+                        )
+                    }
                     pixelRect(
-                        color = style.playerDetailColor.copy(alpha = 0.75f),
-                        x = x - 1f,
-                        y = run.ground - 23f + row * 7f,
-                        width = 3f,
-                        height = 3f
+                        color = style.playerDetailColor.copy(alpha = 0.5f),
+                        x = x - 13f,
+                        y = run.ground - 15f,
+                        width = 4f,
+                        height = 2f
                     )
-                    pixelRect(
-                        color = style.playerDetailColor.copy(alpha = 0.75f),
-                        x = x + 4f,
-                        y = run.ground - 23f + row * 7f,
-                        width = 3f,
-                        height = 3f
-                    )
+                } else {
+                    repeat(4) { window ->
+                        pixelRect(
+                            color = style.playerDetailColor.copy(alpha = 0.7f),
+                            x = x - 13f + window * 7f,
+                            y = run.ground - 9f,
+                            width = 4f,
+                            height = 4f
+                        )
+                    }
                 }
-                pixelRect(
-                    color = style.playerDetailColor,
-                    x = x - 12f,
-                    y = run.ground - 14f,
-                    width = 3f,
-                    height = 4f
-                )
             }
             for ((x, y, start) in run.missiles) {
                 val point = Offset(x = x, y = y)
@@ -224,20 +234,18 @@ fun MissileCommandGame(
                     style = Stroke(width = 1f)
                 )
             }
-            drawArc(
-                color = style.playerColor,
-                startAngle = 180f,
-                sweepAngle = 180f,
-                useCenter = true,
-                topLeft = run.launch - Offset(x = 14f, y = 10f),
-                size = Size(width = 28f, height = 20f)
+            drawArcadeSprite(
+                sprite = MissileBunker,
+                tint = style.playerColor,
+                x = run.launch.x - 14f,
+                y = run.launch.y - 22f
             )
             pixelRect(
-                color = style.playerColor,
-                x = run.launch.x - 3f,
-                y = run.launch.y - 18f,
-                width = 6f,
-                height = 12f
+                color = style.playerDetailColor.copy(alpha = 0.5f),
+                x = run.launch.x - 1f,
+                y = run.launch.y - 20f,
+                width = 2f,
+                height = 9f
             )
             repeat(4) { index ->
                 pixelRect(
