@@ -19,7 +19,6 @@ package com.t8rin.imagetoolbox.feature.arcade_games.presentation.screenLogic
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import com.arkivanov.decompose.ComponentContext
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
@@ -30,7 +29,6 @@ import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import kotlinx.serialization.builtins.serializer
 
 class ArcadeGamesComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
@@ -43,41 +41,38 @@ class ArcadeGamesComponent @AssistedInject internal constructor(
     private val _selectedGame = mutableStateOf<ArcadeGame?>(null)
     val selectedGame by _selectedGame
 
-    var isPlaying by mutableStateOf(false)
-        private set
+    private val _isPlaying = mutableStateOf(false)
+    val isPlaying by _isPlaying
 
-    private var activeSearchQuery by mutableStateOf(
-        stateKeeper.consume("searchQuery", String.serializer())
-    )
-    val showSearch get() = activeSearchQuery != null
-    val searchQuery get() = activeSearchQuery.orEmpty()
+    private val _showSearch = mutableStateOf(false)
+    val showSearch by _showSearch
 
-    init {
-        stateKeeper.register("searchQuery", String.serializer()) { activeSearchQuery }
-    }
+    private val _searchQuery = mutableStateOf("")
+    val searchQuery by _searchQuery
 
     fun selectGame(game: ArcadeGame?) {
         if (game == selectedGame) return
-        isPlaying = false
+        _isPlaying.update { false }
         _selectedGame.update { game }
     }
 
     fun onPlayingChanged(game: ArcadeGame, playing: Boolean) {
-        if (game == selectedGame) isPlaying = playing
+        if (game == selectedGame) _isPlaying.update { playing }
     }
 
     fun openSearch() {
-        if (!showSearch) activeSearchQuery = ""
+        _showSearch.update { true }
     }
 
     fun updateSearch(query: String): Boolean {
         if (!showSearch || searchQuery == query) return false
-        activeSearchQuery = query
+        _searchQuery.update { query }
         return true
     }
 
     fun closeSearch() {
-        activeSearchQuery = null
+        _showSearch.update { false }
+        _searchQuery.update { "" }
     }
 
     fun openStatistics() = onNavigate(Screen.ArcadeStatistics)

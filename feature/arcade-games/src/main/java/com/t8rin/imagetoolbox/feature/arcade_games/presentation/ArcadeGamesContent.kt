@@ -18,37 +18,33 @@
 package com.t8rin.imagetoolbox.feature.arcade_games.presentation
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
-import androidx.compose.foundation.layout.asPaddingValues
-import androidx.compose.foundation.layout.calculateEndPadding
-import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.union
 import androidx.compose.foundation.layout.windowInsetsPadding
-import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
-import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
-import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.games.ArcadeGameContent
@@ -57,36 +53,38 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.StadiaController
 import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
-import com.t8rin.imagetoolbox.core.ui.utils.helper.description
-import com.t8rin.imagetoolbox.core.ui.utils.helper.icon
 import com.t8rin.imagetoolbox.core.ui.utils.helper.title
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBadge
-import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.scaleOnTap
 import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
-import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import com.t8rin.imagetoolbox.core.ui.widget.text.marquee
+import com.t8rin.imagetoolbox.feature.arcade_games.presentation.components.ArcadeCatalogActions
+import com.t8rin.imagetoolbox.feature.arcade_games.presentation.components.ArcadeGameCatalog
 import com.t8rin.imagetoolbox.feature.arcade_games.presentation.screenLogic.ArcadeGamesComponent
 
 @Composable
 fun ArcadeGamesContent(component: ArcadeGamesComponent) {
     val gridState = rememberLazyStaggeredGridState()
-    val cutout = WindowInsets.displayCutout.asPaddingValues()
-    val direction = LocalLayoutDirection.current
+    val focus = LocalFocusManager.current
 
+    val showSearch = component.showSearch
+    val searchQuery = component.searchQuery
     val game = component.selectedGame
     var showExitDialog by rememberSaveable(game) { mutableStateOf(false) }
-    var isPlaying by rememberSaveable(game) { mutableStateOf(false) }
 
+    val closeSearch = {
+        if (component.searchQuery.isNotBlank()) gridState.requestScrollToItem(0)
+        component.closeSearch()
+        focus.clearFocus()
+    }
     val goBack = {
-        if (game == null) {
-            component.onGoBack()
-        } else if (isPlaying) {
-            showExitDialog = true
-        } else {
-            component.selectGame(null)
+        when {
+            game != null && component.isPlaying -> showExitDialog = true
+            game != null -> component.selectGame(null)
+            showSearch -> closeSearch()
+            else -> component.onGoBack()
         }
     }
 
@@ -121,7 +119,7 @@ fun ArcadeGamesContent(component: ArcadeGamesComponent) {
             }
         },
         onGoBack = goBack,
-        shouldDisableBackHandler = game == null,
+        shouldDisableBackHandler = game == null && !showSearch,
         topAppBarPersistentActions = {
             TopAppBarEmoji()
         },
@@ -136,40 +134,33 @@ fun ArcadeGamesContent(component: ArcadeGamesComponent) {
         addHorizontalCutoutPaddingIfNoPreview = false,
         enableNoDataScroll = false,
         noDataControls = {
-            LazyVerticalStaggeredGrid(
-                modifier = Modifier.fillMaxSize(),
-                state = gridState,
-                columns = StaggeredGridCells.Adaptive(300.dp),
-                horizontalArrangement = Arrangement.spacedBy(
-                    space = 12.dp,
-                    alignment = Alignment.CenterHorizontally
-                ),
-                verticalItemSpacing = 12.dp,
-                contentPadding = PaddingValues(
-                    top = 12.dp,
-                    bottom = 12.dp + WindowInsets.navigationBars.asPaddingValues()
-                        .calculateBottomPadding(),
-                    start = 12.dp + cutout.calculateStartPadding(direction),
-                    end = 12.dp + cutout.calculateEndPadding(direction)
-                ),
-                flingBehavior = enhancedFlingBehavior()
+            var actionsHeight by remember { mutableIntStateOf(0) }
+            val bottomPadding = with(LocalDensity.current) { actionsHeight.toDp() }
+
+            Box(
+                modifier = Modifier.fillMaxSize()
             ) {
-                items(
-                    items = ArcadeGame.playable,
-                    key = { it.name }
-                ) { option ->
-                    PreferenceItem(
-                        title = stringResource(option.title),
-                        subtitle = stringResource(option.description),
-                        startIcon = option.icon,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .animateItem(),
-                        onClick = {
-                            component.selectGame(option)
+                ArcadeGameCatalog(
+                    query = searchQuery.trim(),
+                    gridState = gridState,
+                    bottomPadding = bottomPadding,
+                    component = component
+                )
+                ArcadeCatalogActions(
+                    searching = showSearch,
+                    query = searchQuery,
+                    onQueryChange = {
+                        if (component.updateSearch(it)) {
+                            gridState.requestScrollToItem(0)
                         }
-                    )
-                }
+                    },
+                    onOpenSearch = component::openSearch,
+                    onCloseSearch = closeSearch,
+                    onOpenStatistics = component::openStatistics,
+                    modifier = Modifier
+                        .align(Alignment.BottomCenter)
+                        .onSizeChanged { actionsHeight = it.height }
+                )
             }
         },
         contentPadding = 12.dp,
@@ -189,7 +180,7 @@ fun ArcadeGamesContent(component: ArcadeGamesComponent) {
                     modifier = Modifier.fillMaxSize(),
                     height = maxHeight,
                     isPaused = showExitDialog,
-                    onPlayingChanged = { isPlaying = it }
+                    onPlayingChanged = { component.onPlayingChanged(game, it) }
                 )
             }
         }

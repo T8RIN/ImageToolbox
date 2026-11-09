@@ -26,21 +26,26 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkHorizontally
 import androidx.compose.animation.shrinkVertically
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -49,15 +54,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.keepScreenOn
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.games.ArcadeGameContent
 import com.t8rin.imagetoolbox.core.resources.Icons
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.StadiaController
 import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.BasicEnhancedAlertDialog
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedLoadingIndicator
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.tappable
@@ -151,12 +159,26 @@ private fun LoadingDialogContent(
     indicator: @Composable BoxScope.() -> Unit
 ) {
     var showWantDismissDialog by remember(canCancel, visible) { mutableStateOf(false) }
-    var showGame by rememberSaveable(visible) { mutableStateOf(false) }
+    var showGame by rememberSaveable { mutableStateOf(false) }
+    var keepGameOpen by rememberSaveable { mutableStateOf(false) }
     val gameVisible = showGame && LocalSettingsState.current.showLoadingGameButton
-    val canDismissOnTap = canCancel && !gameVisible
+    val showGameAfterLoading = gameVisible && keepGameOpen
+    val canDismissOnTap = visible && canCancel && !gameVisible
+
+    fun closeGame() {
+        showGame = false
+        keepGameOpen = false
+    }
+
+    LaunchedEffect(visible, gameVisible) {
+        if (!visible && (!gameVisible || !keepGameOpen)) closeGame()
+    }
+
     BasicEnhancedAlertDialog(
-        visible = visible,
-        onDismissRequest = { showWantDismissDialog = canCancel },
+        visible = visible || showGameAfterLoading,
+        onDismissRequest = {
+            if (visible) showWantDismissDialog = canCancel else closeGame()
+        },
         dismissOnClickOutside = canDismissOnTap,
         modifier = Modifier.keepScreenOn()
     ) {
@@ -176,16 +198,26 @@ private fun LoadingDialogContent(
                     }
             )
             LoadingGameContent(
+                loading = visible,
                 showGame = gameVisible,
-                onShowGameChange = { showGame = it },
-                isPaused = showWantDismissDialog,
+                onShowGameChange = {
+                    if (it) showGame = true else closeGame()
+                },
+                onPlayingChanged = { playing ->
+                    if (showGame && (visible || playing)) keepGameOpen = playing
+                },
+                onReturn = ::closeGame,
+                isPaused = visible && showWantDismissDialog,
                 indicator = indicator
             )
         }
     }
     WantCancelLoadingDialog(
-        visible = showWantDismissDialog,
-        onCancelLoading = onCancelLoading,
+        visible = visible && showWantDismissDialog,
+        onCancelLoading = {
+            closeGame()
+            onCancelLoading()
+        },
         onDismissDialog = {
             showWantDismissDialog = false
         },
@@ -196,8 +228,11 @@ private fun LoadingDialogContent(
 
 @Composable
 private fun LoadingGameContent(
+    loading: Boolean,
     showGame: Boolean,
     onShowGameChange: (Boolean) -> Unit,
+    onPlayingChanged: (Boolean) -> Unit,
+    onReturn: () -> Unit,
     isPaused: Boolean,
     indicator: @Composable BoxScope.() -> Unit
 ) {
@@ -213,9 +248,8 @@ private fun LoadingGameContent(
     }
 
     val preference = settings.loadingGame
-    var game by rememberSaveable(preference) {
-        mutableStateOf(if (preference == ArcadeGame.Random) ArcadeGame.playable.random() else preference)
-    }
+    var game by rememberSaveable { mutableStateOf<ArcadeGame?>(null) }
+    var gameSession by rememberSaveable { mutableIntStateOf(0) }
     val isPortrait by isPortraitOrientationAsState()
     val buttonSize = 48.dp
     val buttonSpacing = 12.dp
@@ -224,67 +258,97 @@ private fun LoadingGameContent(
         targetValue = if (showGame) 0.dp else buttonSize + buttonSpacing
     )
 
-    FlowRow(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(gameSpacing, Alignment.CenterHorizontally),
-        verticalArrangement = Arrangement.spacedBy(gameSpacing),
-        itemVerticalAlignment = Alignment.CenterVertically,
-        maxItemsInEachRow = if (isPortrait) 1 else 2
-    ) {
-        Column(
-            modifier = Modifier.padding(top = indicatorTopPadding),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(buttonSpacing)
+    BoxWithConstraints(modifier = Modifier.fillMaxWidth()) {
+        val gameWidth = minOf(
+            420.dp,
+            if (isPortrait) maxWidth else (maxWidth - indicatorSize - gameSpacing).coerceAtLeast(0.dp)
+        )
+        FlowRow(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(gameSpacing, Alignment.CenterHorizontally),
+            verticalArrangement = Arrangement.spacedBy(gameSpacing),
+            itemVerticalAlignment = Alignment.CenterVertically,
+            maxItemsInEachRow = if (isPortrait) 1 else 2
         ) {
-            Box(
-                modifier = Modifier.size(indicatorSize),
+            AnimatedContent(
+                targetState = loading,
+                modifier = Modifier.width(indicatorSize),
                 contentAlignment = Alignment.Center,
-                content = indicator
-            )
-            EnhancedIconButton(
-                onClick = {
-                    if (!showGame && preference == ArcadeGame.Random) {
-                        game = ArcadeGame.playable.filterNot { it == game }.random()
+                transitionSpec = { fadeIn() togetherWith fadeOut() }
+            ) { isLoading ->
+                if (isLoading) {
+                    Column(
+                        modifier = Modifier.padding(top = indicatorTopPadding),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.spacedBy(buttonSpacing)
+                    ) {
+                        Box(
+                            modifier = Modifier.size(indicatorSize),
+                            contentAlignment = Alignment.Center,
+                            content = indicator
+                        )
+                        EnhancedIconButton(
+                            onClick = {
+                                if (!showGame) {
+                                    game = preference.pickGame(
+                                        settings.favoriteArcadeGames,
+                                        previous = game
+                                    )
+                                    gameSession++
+                                }
+                                onShowGameChange(!showGame)
+                            },
+                            modifier = Modifier.size(buttonSize),
+                            enabled = loading,
+                            containerColor = if (showGame) {
+                                MaterialTheme.colorScheme.primary
+                            } else {
+                                MaterialTheme.colorScheme.secondaryContainer
+                            }
+                        ) {
+                            Icon(
+                                imageVector = if (showGame) {
+                                    Icons.Rounded.StadiaController
+                                } else {
+                                    Icons.Outlined.StadiaController
+                                },
+                                contentDescription = null
+                            )
+                        }
                     }
-                    onShowGameChange(!showGame)
-                },
-                modifier = Modifier.size(buttonSize),
-                containerColor = if (showGame) {
-                    MaterialTheme.colorScheme.primary
                 } else {
-                    MaterialTheme.colorScheme.secondaryContainer
+                    EnhancedButton(onClick = onReturn) {
+                        Text(stringResource(R.string.arcade_return))
+                    }
+                }
+            }
+
+            AnimatedVisibility(
+                visible = showGame,
+                enter = fadeIn() + if (isPortrait) {
+                    expandVertically(expandFrom = Alignment.Top)
+                } else {
+                    expandHorizontally(expandFrom = Alignment.Start)
+                },
+                exit = fadeOut() + if (isPortrait) {
+                    shrinkVertically(shrinkTowards = Alignment.Top)
+                } else {
+                    shrinkHorizontally(shrinkTowards = Alignment.Start)
                 }
             ) {
-                Icon(
-                    imageVector = if (showGame) {
-                        Icons.Rounded.StadiaController
-                    } else {
-                        Icons.Outlined.StadiaController
-                    },
-                    contentDescription = null
-                )
+                val selectedGame = game
+                if (selectedGame != null) {
+                    key(gameSession) {
+                        ArcadeGameContent(
+                            game = selectedGame,
+                            modifier = Modifier.width(gameWidth),
+                            isPaused = isPaused,
+                            allowNewRound = loading,
+                            onPlayingChanged = onPlayingChanged
+                        )
+                    }
+                }
             }
-        }
-
-        AnimatedVisibility(
-            visible = showGame,
-            modifier = if (isPortrait) Modifier else Modifier.weight(1f, fill = false),
-            enter = fadeIn() + if (isPortrait) {
-                expandVertically(expandFrom = Alignment.Top)
-            } else {
-                expandHorizontally(expandFrom = Alignment.Start)
-            },
-            exit = fadeOut() + if (isPortrait) {
-                shrinkVertically(shrinkTowards = Alignment.Top)
-            } else {
-                shrinkHorizontally(shrinkTowards = Alignment.Start)
-            }
-        ) {
-            ArcadeGameContent(
-                game = game,
-                modifier = Modifier.widthIn(max = 420.dp),
-                isPaused = isPaused
-            )
         }
     }
 }
