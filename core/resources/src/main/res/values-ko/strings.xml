@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="pick_image">이미지 선택</string>
     <string name="width">너비 %1$s</string>
     <string name="height">높이 %1$s</string>
@@ -7976,7 +7975,7 @@
     <string name="arcade_exit_title">게임을 종료하시겠습니까?</string>
     <string name="arcade_exit_sub">현재 게임이 종료됩니다. 당신의 최고 점수가 저장됩니다.</string>
     <string name="arcade_games_sub">다양한 아케이드 미니게임을 플레이해보세요</string>
-    <string name="arcade_games_search">공룡 게임, 두들 점프, 플래피 버드, 타워 빌더, 스택, 탁구, 2048, 뱀, 테트리스</string>
+    <string name="arcade_games_search">공룡 게임, 두들 점프, 플래피 버드, 타워 빌더, 스택, 탁구, 2048, 뱀, 테트리스, 레트로 레이서, 리코쳇, 아스테로이드, 과일 자르기, 나이프 히트, 미사일 커맨드, 강 건너기, 두더지 잡기, 가라사대, 버블 팝, 낚시, 슈퍼 헥사곤</string>
     <string name="arcade_dino">공룡 게임</string>
     <string name="arcade_doodle">낙서 점프</string>
     <string name="arcade_bird">플래피 버드</string>
@@ -8049,4 +8048,9 @@
     <string name="arcade_flightcontrol_sub">각 항공기에서 일치하는 착륙 지점까지의 경로를 그립니다. 활주로 화살표로 항공기를 분리하고 비행기를 정렬하세요.</string>
     <string name="arcade_balancetower">밸런스 타워</string>
     <string name="arcade_balancetower_sub">움직이는 블록을 떨어뜨리려면 탭하세요. 결합된 무게를 지지대 위에 유지하십시오. 표시된 끝이 더 무겁습니다</string>
+    <string name="arcade_paused">멈춤</string>
+    <string name="arcade_game_over">게임 끝</string>
+    <string name="arcade_new_record">신기록!</string>
+    <string name="arcade_previous_best">이전 최고 기록: %1$d</string>
+    <string name="arcade_finish">게임 종료</string>
 </resources>
