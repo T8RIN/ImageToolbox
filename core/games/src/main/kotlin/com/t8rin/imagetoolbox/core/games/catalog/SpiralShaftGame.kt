@@ -59,6 +59,8 @@ private const val ShaftRadians = 0.017453293f
 private const val ShaftBallRadius = 8f
 private const val ShaftSpacing = 84f
 private const val ShaftCombo = 3
+private const val ShaftStageSize = 11
+private const val ShaftShatterTime = 0.46f
 
 @Composable
 fun SpiralShaftGame(
@@ -98,7 +100,7 @@ fun SpiralShaftGame(
                             shaftPlatform(run, style, path, platform, front = false)
                         }
                     }
-                    shaftShaft(run, style, path, top, bottom)
+                    drawShaft(run, style, path, top, bottom)
 
                     var ballDrawn = false
                     for (platform in platforms) {
@@ -120,7 +122,7 @@ fun SpiralShaftGame(
     }
 }
 
-private fun DrawScope.shaftShaft(
+private fun DrawScope.drawShaft(
     run: SpiralShaftRun,
     style: ArcadeStyle,
     path: Path,
@@ -161,10 +163,22 @@ private fun DrawScope.shaftPlatform(
     platform: ShaftPlatform,
     front: Boolean
 ) {
-    val start = arcadeAngle(platform.gap + run.rotation + platform.opening / 2f)
+    val start = arcadeAngle(platform.gap + run.rotation + platform.turn + platform.opening / 2f)
     val end = start + 360f - platform.opening
     val danger = start + platform.dangerOffset
-    val color = if (platform.passed) style.obstacleColor else style.playerColor
+    val color = when {
+        platform.checkpoint -> style.accentColor
+        platform.passed -> style.obstacleColor
+        platform.stage % 3 == 1 -> lerp(style.playerColor, style.accentColor, 0.55f)
+        platform.stage % 3 == 2 -> lerp(style.playerColor, style.obstacleColor, 0.58f)
+        else -> style.playerColor
+    }
+    if (platform.shatter >= 0f) {
+        if (front && platform.shatter < ShaftShatterTime) {
+            shaftShards(run, path, color, platform, start, end)
+        }
+        return
+    }
     val y = platform.y
     for (half in 0..3) {
         if ((half % 2 == 0) != front) continue
@@ -178,7 +192,9 @@ private fun DrawScope.shaftPlatform(
         )
         shaftWedge(run, path, color, y, maxOf(first, danger + platform.dangerWidth), last, front)
     }
-    for ((edge, isStart) in arrayOf(start to true, end to false)) {
+    if (platform.opening > 0f) for (edgeIndex in 0..1) {
+        val isStart = edgeIndex == 0
+        val edge = if (isStart) start else end
         val angle = edge * ShaftRadians
         if ((sin(angle) >= 0f) != front || (cos(angle) < 0f) != isStart) continue
         val inner = run.projectRim(ShaftInnerRadius, y, edge)
@@ -209,6 +225,35 @@ private fun DrawScope.shaftPlatform(
             topLeft = shadow - Offset(radius, radius * 0.4f),
             size = Size(radius * 2f, radius * 0.8f)
         )
+    }
+}
+
+private fun DrawScope.shaftShards(
+    run: SpiralShaftRun,
+    path: Path,
+    color: Color,
+    platform: ShaftPlatform,
+    start: Float,
+    end: Float
+) {
+    val time = platform.shatter
+    val opacity = 1f - time / ShaftShatterTime
+    repeat(8) { index ->
+        val angle = start + (end - start) * (index + 0.5f) / 8f
+        val spread = time * (82f + index % 3 * 33f)
+        val y = platform.y - time * (54f + index % 4 * 17f) + time * time * 470f
+        val swing = time * (if (index % 2 == 0) 78f else -78f)
+        val a = run.projectRim(37f + spread, y, angle + swing - 6f)
+        val b = run.projectRim(ShaftOuterRadius + spread, y, angle + swing - 9f)
+        val c = run.projectRim(ShaftOuterRadius + spread, y + time * 22f, angle + swing + 8f)
+        val d = run.projectRim(55f + spread, y + time * 16f, angle + swing + 4f)
+        path.rewind()
+        path.moveTo(a.x, a.y)
+        path.lineTo(b.x, b.y)
+        path.lineTo(c.x, c.y)
+        path.lineTo(d.x, d.y)
+        path.close()
+        drawPath(path, lerp(color, Color.White, index % 3 * 0.12f).copy(alpha = opacity))
     }
 }
 
@@ -273,17 +318,25 @@ private fun SpiralShaftRun.traceRim(
 private fun DrawScope.shaftBall(run: SpiralShaftRun, style: ArcadeStyle) {
     val center = run.project(0f, run.ball, ShaftTrackRadius)
     val radius = run.project(ShaftBallRadius, run.ball, ShaftTrackRadius).x
-    val color = if (run.combo >= ShaftCombo) style.accentColor else style.playerColor
-    if (run.velocity > 230f) {
-        for (index in 3 downTo 1) {
+    val boosted = run.smashes > 0
+    val color =
+        if (boosted) lerp(style.accentColor, Color(0xFFFF9D43), 0.55f) else style.playerColor
+    if (run.velocity > 210f) {
+        val count = if (boosted) 6 else 3
+        for (index in count downTo 1) {
             drawCircle(
-                color = color.copy(alpha = 0.25f - index * 0.055f),
-                radius = radius * (1f - index * 0.12f),
-                center = run.project(0f, run.ball - index * run.velocity / 43f, ShaftTrackRadius)
+                color = color.copy(alpha = (if (boosted) 0.46f else 0.27f) * (1f - index / (count + 1f))),
+                radius = radius * (1f - index * 0.11f),
+                center = run.project(
+                    0f,
+                    run.ball - index * run.velocity / (if (boosted) 65f else 43f),
+                    ShaftTrackRadius
+                )
             )
         }
     }
-    drawCircle(
+    val squash = radius * run.impact * 0.25f
+    drawOval(
         brush = Brush.radialGradient(
             0f to lerp(color, Color.White, 0.80f),
             0.40f to lerp(color, Color.White, 0.23f),
@@ -292,8 +345,8 @@ private fun DrawScope.shaftBall(run: SpiralShaftRun, style: ArcadeStyle) {
             center = center - Offset(radius * 0.28f, radius * 0.32f),
             radius = radius * 1.34f
         ),
-        radius = radius,
-        center = center
+        topLeft = center - Offset(radius + squash, radius - squash),
+        size = Size((radius + squash) * 2f, (radius - squash) * 2f)
     )
 }
 
@@ -304,7 +357,12 @@ internal class ShaftPlatform(
     val opening: Float,
     val dangerOffset: Float,
     val dangerWidth: Float,
-    var passed: Boolean = false
+    var passed: Boolean = false,
+    val stage: Int = 0,
+    val checkpoint: Boolean = false,
+    val spinSpeed: Float = 0f,
+    var turn: Float = 0f,
+    var shatter: Float = -1f
 )
 
 @Serializable
@@ -318,8 +376,12 @@ internal class SpiralShaftRun : ArcadeRun() {
         private set
     var camera = 0f
         private set
-    var combo = 0
+    private var combo = 0
+    var smashes = 0
         private set
+    var impact = 0f
+        private set
+    private var checkpointPause = 0f
     private var generated = 0
 
     @Transient
@@ -331,7 +393,7 @@ internal class SpiralShaftRun : ArcadeRun() {
     val unit: Float
         get() = minOf(width / 262f, (height - topInset) / 180f)
     val anchor: Float
-        get() = topInset + (height - topInset) * 0.44f
+        get() = topInset + (height - topInset) * 0.30f
 
     fun project(x: Float, y: Float, z: Float): Offset {
         val relativeY = y - camera
@@ -351,6 +413,9 @@ internal class SpiralShaftRun : ArcadeRun() {
         rotation = 0f
         camera = 0f
         combo = 0
+        smashes = 0
+        impact = 0f
+        checkpointPause = 0f
         generated = 0
         effects.clear()
         platforms.clear()
@@ -373,8 +438,19 @@ internal class SpiralShaftRun : ArcadeRun() {
 
     override fun advance(seconds: Float) {
         effects.advance(seconds)
+        impact = (impact - seconds * 6.5f).coerceAtLeast(0f)
+        for (platform in platforms) {
+            if (platform.shatter in 0f..ShaftShatterTime) platform.shatter += seconds
+            if (!platform.passed && platform.spinSpeed != 0f) {
+                platform.turn = arcadeAngle(platform.turn + platform.spinSpeed * seconds)
+            }
+        }
         val previous = ball
-        velocity = (velocity + 830f * seconds).coerceAtMost(600f)
+        if (checkpointPause > 0f) {
+            checkpointPause -= seconds
+        } else {
+            velocity = (velocity + 890f * seconds).coerceAtMost(if (smashes > 0) 720f else 600f)
+        }
         ball += velocity * seconds
         if (velocity > 0f) {
             val platform =
@@ -391,21 +467,41 @@ internal class SpiralShaftRun : ArcadeRun() {
     }
 
     private fun land(platform: ShaftPlatform) {
-        val contact = arcadeAngle(90f - rotation)
-        val inGap = arcadeAngleDistance(contact, platform.gap) < platform.opening / 2f - 6f
-        if (inGap || combo >= ShaftCombo) {
+        if (platform.checkpoint) {
             platform.passed = true
-            if (inGap) {
-                combo = (combo + 1).coerceAtMost(ShaftCombo)
-                score += combo
-            } else {
-                platforms.remove(platform)
-                score += 6
-                combo = 0
-            }
-            effects.burst(Offset(0f, platform.y), if (inGap) 5 else 18)
+            platform.shatter = 0f
+            ball = platform.y - ShaftBallRadius
+            velocity = 0f
+            checkpointPause = 0.26f
+            impact = 1f
+            combo = 0
+            smashes = 0
+            score += 20
+            effects.burst(Offset(0f, platform.y), 24)
             return
         }
+        val contact = arcadeAngle(90f - rotation - platform.turn)
+        val inGap = arcadeAngleDistance(contact, platform.gap) < platform.opening / 2f - 6f
+        if (inGap) {
+            platform.passed = true
+            if (combo < ShaftCombo) {
+                combo++
+                if (combo == ShaftCombo) smashes = 2
+            }
+            score += combo
+            effects.burst(Offset(0f, platform.y), if (smashes > 0) 9 else 5)
+            return
+        }
+        if (smashes > 0) {
+            platform.passed = true
+            platform.shatter = 0f
+            smashes--
+            if (smashes == 0) combo = 0
+            score += 6
+            effects.burst(Offset(0f, platform.y), 18)
+            return
+        }
+
         ball = platform.y - ShaftBallRadius
         val start = platform.gap + platform.opening / 2f + platform.dangerOffset
         val hazard = platform.dangerWidth > 0f &&
@@ -416,7 +512,8 @@ internal class SpiralShaftRun : ArcadeRun() {
             finish()
         } else {
             combo = 0
-            velocity = -252f
+            impact = 1f
+            velocity = -236f
         }
     }
 
@@ -424,24 +521,44 @@ internal class SpiralShaftRun : ArcadeRun() {
         val bottom = camera + maxOf(6f * ShaftSpacing, (height - anchor) / unit + ShaftSpacing)
         while (platforms.isEmpty() || platforms.last().y < bottom) {
             val index = generated++
-            val difficulty = index.toFloat() / (index + 45f)
+            val stage = index / ShaftStageSize
+            val section = index % ShaftStageSize
+            val checkpoint = section == ShaftStageSize - 1
+            val difficulty = index.toFloat() / (index + 46f)
             val previous = platforms.lastOrNull()
             val gap = when {
                 previous == null -> 36f
-                index % 7 in 1..2 -> previous.gap + Random.nextFloat() * 28f - 14f
-                else -> previous.gap + Random.nextFloat() * 190f - 95f
+                section in 1..2 -> previous.gap + Random.nextFloat() * 26f - 13f
+                section in 3..4 -> previous.gap + Random.nextFloat() * 114f - 57f
+                else -> previous.gap + Random.nextFloat() * 196f - 98f
             }
-            val opening = 101f - difficulty * 48f + Random.nextFloat() * 10f
-            val danger = if (index < 3 || index % 5 == 2) 0f else 30f + 82f * difficulty
+            val opening = if (checkpoint) 0f else 102f - difficulty * 48f + Random.nextFloat() * 10f
+            val danger = if (checkpoint || index < 3 || section == 5) {
+                0f
+            } else {
+                31f + 86f * difficulty
+            }
             val safe = 360f - opening - danger
-            val offset = 18f + Random.nextFloat() * (safe - 36f)
+            val spacing = when {
+                checkpoint -> 105f
+                section in 1..3 -> 72f
+                else -> ShaftSpacing + Random.nextFloat() * 14f
+            }
+            val spin = if (stage > 0 && section in 4..8 && section % 2 == stage % 2) {
+                (19f + difficulty * 37f) * if (section % 3 == 0) -1f else 1f
+            } else {
+                0f
+            }
             platforms.addLast(
                 ShaftPlatform(
-                    index * ShaftSpacing,
-                    arcadeAngle(gap),
-                    opening,
-                    offset,
-                    danger
+                    y = previous?.let { it.y + spacing } ?: 0f,
+                    gap = arcadeAngle(gap),
+                    opening = opening,
+                    dangerOffset = 18f + Random.nextFloat() * (safe - 36f),
+                    dangerWidth = danger,
+                    stage = stage,
+                    checkpoint = checkpoint,
+                    spinSpeed = spin
                 )
             )
         }
