@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -14,7 +13,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Algo deu errado: %1$s</string>
     <string name="size">Tamanho %1$s</string>
     <string name="loading">Carregando…</string>
@@ -8020,4 +8021,34 @@
     <string name="arcade_hexagon_sub">Segure para a esquerda ou para a direita para orbitar pelas lacunas. Sobreviva às paredes fechadas</string>
     <string name="arcade_watch">Assistir</string>
     <string name="arcade_repeat">Sua vez</string>
+    <string name="arcade_bomber">Bombardeiro</string>
+    <string name="arcade_bomber_sub">Deslize um passo ou segure para continuar se movendo. Toque para plantar uma bomba; use um segundo dedo para plantar enquanto se move</string>
+    <string name="arcade_minesweeper">Campo Minado</string>
+    <string name="arcade_minesweeper_sub">Toque para revelar uma célula. Segure para colocar ou remover uma bandeira. Toque em um número aberto para limpar seus vizinhos quando todas as minas próximas forem sinalizadas</string>
+    <string name="arcade_mazechaser">Caçador de Labirinto</string>
+    <string name="arcade_mazechaser_sub">Deslize para navegar pelo labirinto. Colete cada ponto e use bolinhas de energia para virar o jogo contra seus perseguidores</string>
+    <string name="arcade_gravityflip">Inversão gravitacional</string>
+    <string name="arcade_gravityflip_sub">Toque para reverter a gravidade. Desvie de barreiras e colete cristais para carregar um escudo</string>
+    <string name="arcade_zigzag">Ziguezague</string>
+    <string name="arcade_zigzag_sub">Toque para virar em cada esquina. Permaneça no caminho estreito e colete cristais conforme o ritmo aumenta</string>
+    <string name="arcade_timberman">Timberman</string>
+    <string name="arcade_timberman_sub">Toque para a esquerda ou para a direita para cortar. Evite galhos e mantenha o ritmo de corte antes que o tempo acabe</string>
+    <string name="arcade_orbitsurvival">Sobrevivência em órbita</string>
+    <string name="arcade_orbitsurvival_sub">Segure para a esquerda ou para a direita para girar os dois pontos. Desvie de portões e meteoros se aproximando de diferentes direções</string>
+    <string name="arcade_lunarlander">Módulo de pouso lunar</string>
+    <string name="arcade_lunarlander_sub">Segure para ligar o motor. Arraste para os lados para inclinar, para cima ou para baixo para ajustar o impulso. Pouse suavemente; almofadas estreitas dão pontos duplos</string>
+    <string name="arcade_brickbreaker">Quebra-tijolos</string>
+    <string name="arcade_brickbreaker_sub">Arraste para mover a raquete. Quebre todos os tijolos, pegue bônus e mantenha a bola em jogo em ondas infinitas</string>
+    <string name="arcade_lightcycles">Ciclos de luz</string>
+    <string name="arcade_lightcycles_sub">Deslize para dirigir ou toque para a esquerda ou direita para virar. Uma carga permite cruzar trilhas brevemente após a primeira travessia. Observe o anel; paredes e colisões frontais são sempre fatais</string>
+    <string name="arcade_basketball">Basquetebol</string>
+    <string name="arcade_basketball_sub">Arraste para baixo e para longe do próximo arco e solte para lançar a bola. Cestas de corrente, ricocheteiam nas paredes e subam o mais alto que puder</string>
+    <string name="arcade_lasermirrors">Espelhos Laser</string>
+    <string name="arcade_lasermirrors_sub">Toque nos espelhos para girá-los. Guie o feixe através de cada receptor para revelar o próximo quebra-cabeça</string>
+    <string name="arcade_flowconnect">Conexão de fluxo</string>
+    <string name="arcade_flowconnect_sub">Junte símbolos correspondentes desenhando caminhos. Preencha todas as células sem cruzar outro caminho. Arraste para trás para desfazer parte de uma rota</string>
+    <string name="arcade_flightcontrol">Controle de vôo</string>
+    <string name="arcade_flightcontrol_sub">Desenhe uma rota de cada aeronave até a zona de pouso correspondente. Mantenha as aeronaves separadas e alinhe-as com as setas da pista</string>
+    <string name="arcade_balancetower">Torre de equilíbrio</string>
+    <string name="arcade_balancetower_sub">Toque para soltar o bloco em movimento. Mantenha o peso combinado acima dos apoios; a extremidade marcada é mais pesada</string>
 </resources>

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -14,7 +13,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">Rozmiar %1$s</string>
     <string name="width">Szerokość %1$s</string>
     <string name="loading">Ładowanie…</string>
@@ -8021,4 +8022,34 @@
     <string name="arcade_hexagon_sub">Przytrzymaj lewą lub prawą stronę, aby orbitować przez szczeliny. Przetrwaj zamykające się ściany</string>
     <string name="arcade_watch">Oglądać</string>
     <string name="arcade_repeat">Twoja kolej</string>
+    <string name="arcade_bomber">Bombowiec</string>
+    <string name="arcade_bomber_sub">Przesuń o jeden krok lub przytrzymaj, aby się poruszać. Stuknij, aby podłożyć bombę; użyj drugiego palca do sadzenia podczas ruchu</string>
+    <string name="arcade_minesweeper">Saper</string>
+    <string name="arcade_minesweeper_sub">Stuknij, aby odsłonić komórkę. Przytrzymaj, aby umieścić lub usunąć flagę. Stuknij otwarty numer, aby wyczyścić sąsiadów, gdy wszystkie pobliskie miny zostaną oznaczone</string>
+    <string name="arcade_mazechaser">Łowca labiryntów</string>
+    <string name="arcade_mazechaser_sub">Przesuń, aby poruszać się po labiryncie. Zbierz każdą kropkę i użyj kulek mocy, aby odwrócić losy swoich prześladowców</string>
+    <string name="arcade_gravityflip">Obrót grawitacyjny</string>
+    <string name="arcade_gravityflip_sub">Kliknij, aby odwrócić grawitację. Unikaj barier i zbieraj kryształy, aby naładować tarczę</string>
+    <string name="arcade_zigzag">Zygzak</string>
+    <string name="arcade_zigzag_sub">Dotknij, aby skręcić na każdym rogu. Pozostań na wąskiej ścieżce i zbieraj kryształy w miarę wzrostu tempa</string>
+    <string name="arcade_timberman">Timbermana</string>
+    <string name="arcade_timberman_sub">Stuknij w lewo lub w prawo, aby posiekać. Unikaj gałęzi i utrzymuj rytm siekania, zanim skończy się czas</string>
+    <string name="arcade_orbitsurvival">Przetrwanie orbity</string>
+    <string name="arcade_orbitsurvival_sub">Przytrzymaj w lewo lub w prawo, aby obrócić obie kropki. Unikaj bram i meteorów zbliżających się z różnych kierunków</string>
+    <string name="arcade_lunarlander">Lądownik Księżycowy</string>
+    <string name="arcade_lunarlander_sub">Przytrzymaj, aby uruchomić silnik. Przeciągnij w bok, aby przechylić, w górę lub w dół, aby dostosować siłę ciągu. Wyląduj delikatnie; wąskie podkładki dają podwójne punkty</string>
+    <string name="arcade_brickbreaker">Łamacz Cegieł</string>
+    <string name="arcade_brickbreaker_sub">Przeciągnij, aby przesunąć wiosło. Rozbij każdą cegłę, złap bonusy i utrzymuj piłkę w grze przez niekończące się fale</string>
+    <string name="arcade_lightcycles">Cykle świetlne</string>
+    <string name="arcade_lightcycles_sub">Przesuń, aby sterować, lub dotknij w lewo lub w prawo, aby skręcić. Opłata umożliwia krótkie przemierzanie szlaków już po pierwszym przejeździe. Obserwuj pierścień; Ściany i zderzenia czołowe są zawsze śmiertelne</string>
+    <string name="arcade_basketball">Koszykówka</string>
+    <string name="arcade_basketball_sub">Przeciągnij w dół i od następnej obręczy, a następnie zwolnij, aby wystrzelić piłkę. Kosze łańcuchowe, odbijaj się od ścian i wspinaj się jak najwyżej</string>
+    <string name="arcade_lasermirrors">Lustra laserowe</string>
+    <string name="arcade_lasermirrors_sub">Dotknij lusterek, aby je obrócić. Poprowadź wiązkę przez każdy odbiornik, aby odkryć następną zagadkę</string>
+    <string name="arcade_flowconnect">Połączenie przepływu</string>
+    <string name="arcade_flowconnect_sub">Łącz pasujące symbole, rysując ścieżki. Wypełnij każdą komórkę bez przekraczania innej ścieżki. Przeciągnij do tyłu, aby cofnąć część trasy</string>
+    <string name="arcade_flightcontrol">Kontrola lotu</string>
+    <string name="arcade_flightcontrol_sub">Narysuj trasę z każdego samolotu do odpowiadającej mu strefy lądowania. Trzymaj samoloty osobno i ustawiaj je zgodnie ze strzałkami pasa startowego</string>
+    <string name="arcade_balancetower">Wieża Równowagi</string>
+    <string name="arcade_balancetower_sub">Stuknij, aby upuścić poruszający się blok. Utrzymuj łączny ciężar nad podporami; zaznaczony koniec jest cięższy</string>
 </resources>
