@@ -15,10 +15,12 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
+@file:UseSerializers(ArcadeOffsetSerializer::class, ArcadeDequeSerializer::class)
+
 package com.t8rin.imagetoolbox.core.games.catalog
 
-import android.os.Bundle
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
@@ -33,8 +35,10 @@ import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.drawscope.translate
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
 import com.t8rin.imagetoolbox.core.games.ArcadeDefaults
+import com.t8rin.imagetoolbox.core.games.ArcadeDequeSerializer
 import com.t8rin.imagetoolbox.core.games.ArcadeField
 import com.t8rin.imagetoolbox.core.games.ArcadeGameState
+import com.t8rin.imagetoolbox.core.games.ArcadeOffsetSerializer
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.ArcadeStyle
@@ -42,6 +46,9 @@ import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
 import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
+import kotlinx.serialization.UseSerializers
 import kotlin.math.abs
 import kotlin.math.sin
 import kotlin.random.Random
@@ -52,12 +59,15 @@ fun LightCyclesGame(
     initialState: ArcadeGameState = ArcadeGameState(),
     style: ArcadeStyle = ArcadeDefaults.style,
     onHighScoreChanged: ((Int) -> Unit)? = null,
-    onGameOver: ((Int) -> Unit)? = null
+    onGameOver: ((Int) -> Unit)? = null,
+    isPaused: Boolean = false
 ) {
     val run = rememberArcadeRun(
         initialState = initialState,
         create = ::LightCyclesRun
     )
+    val boltPath = remember { Path() }
+    val beamPath = remember { Path() }
     ArcadeBoard(
         game = ArcadeGame.LightCycles,
         run = run,
@@ -65,19 +75,21 @@ fun LightCyclesGame(
         modifier = modifier,
         initialState = initialState,
         onHighScoreChanged = onHighScoreChanged,
+        isPaused = isPaused,
         onGameOver = onGameOver
     ) {
         ArcadeField(
             run = run,
+            transition = { run.transition },
             onTap = { run.turn(if (it.x < run.width / 2f) -1 else 1) },
             onSwipe = run::steer,
             swipeOnDrag = true
         ) {
             val cell = run.cell
             val origin = run.origin
-            val area = Size(run.columns * cell, run.rows * cell)
+            val area = Size(width = run.columns * cell, height = run.rows * cell)
             val outline =
-                Path().apply { addRoundRect(RoundRect(Rect(origin, area), CornerRadius(10f))) }
+                Path().apply { addRoundRect(RoundRect(Rect(origin, area), CornerRadius(x = 10f))) }
             clipPath(outline) {
                 drawRect(
                     color = style.detailColor.copy(alpha = 0.035f),
@@ -86,7 +98,10 @@ fun LightCyclesGame(
                 )
                 for (index in run.board.indices) {
                     val point =
-                        origin + Offset(index % run.columns * cell, index / run.columns * cell)
+                        origin + Offset(
+                            x = index % run.columns * cell,
+                            y = index / run.columns * cell
+                        )
                     val x = index % run.columns
                     val y = index / run.columns
                     if (run.board[index] < 0 && x in 1 until run.columns - 1 && y in 1 until run.rows - 1) {
@@ -147,7 +162,8 @@ fun LightCyclesGame(
                         radius = r,
                         center = point
                     )
-                    val bolt = Path().apply {
+                    val bolt = boltPath.apply {
+                        rewind()
                         moveTo(point.x + cell * 0.1f, point.y - cell * 0.38f)
                         lineTo(point.x - cell * 0.25f, point.y + cell * 0.06f)
                         lineTo(point.x, point.y + cell * 0.06f)
@@ -169,17 +185,17 @@ fun LightCyclesGame(
                         else -> style.obstacleColor
                     }
                     val ink = color.copy(alpha = if (cycle.alive) 1f else 0.45f)
-                    translate(origin.x, origin.y) {
+                    translate(left = origin.x, top = origin.y) {
                         scale(cell, Offset.Zero) {
                             drawPath(
                                 path = cycle.path,
                                 color = ink.copy(alpha = 0.16f),
-                                style = Stroke(0.8f)
+                                style = Stroke(width = 0.8f)
                             )
                             drawPath(
                                 path = cycle.path,
                                 color = ink,
-                                style = Stroke(0.28f)
+                                style = Stroke(width = 0.28f)
                             )
                         }
                     }
@@ -191,8 +207,9 @@ fun LightCyclesGame(
                         end = point,
                         strokeWidth = cell * 0.28f
                     )
-                    if (cycle.alive) rotate(cycle.direction * 90f, point) {
-                        val beam = Path().apply {
+                    if (cycle.alive) rotate(degrees = cycle.direction * 90f, pivot = point) {
+                        val beam = beamPath.apply {
+                            rewind()
                             moveTo(point.x + cell * 0.3f, point.y)
                             lineTo(point.x + cell * 1.8f, point.y - cell * 0.6f)
                             lineTo(point.x + cell * 1.8f, point.y + cell * 0.6f)
@@ -206,16 +223,16 @@ fun LightCyclesGame(
                             color = style.accentColor,
                             radius = cell * 0.6f,
                             center = point,
-                            style = Stroke(1f)
+                            style = Stroke(width = 1f)
                         )
                         if (cycle.phaseTime > 0f) drawArc(
                             color = style.accentColor,
                             startAngle = -90f - cycle.direction * 90f,
                             sweepAngle = 360f * cycle.phaseTime / 1.6f,
                             useCenter = false,
-                            topLeft = point - Offset(cell * 0.7f, cell * 0.7f),
-                            size = Size(cell * 1.4f, cell * 1.4f),
-                            style = Stroke(2f)
+                            topLeft = point - Offset(x = cell * 0.7f, y = cell * 0.7f),
+                            size = Size(width = cell * 1.4f, height = cell * 1.4f),
+                            style = Stroke(width = 2f)
                         )
                         pixelRect(
                             color = ink,
@@ -249,15 +266,15 @@ fun LightCyclesGame(
                 }
             }
             val inner = Rect(
-                origin + Offset(cell, cell),
-                Size(area.width - cell * 2f, area.height - cell * 2f)
+                origin + Offset(x = cell, y = cell),
+                Size(width = area.width - cell * 2f, height = area.height - cell * 2f)
             )
             drawRoundRect(
                 color = style.playerColor.copy(alpha = 0.35f),
                 topLeft = inner.topLeft,
                 size = inner.size,
-                cornerRadius = CornerRadius(5f),
-                style = Stroke(1f)
+                cornerRadius = CornerRadius(x = 5f),
+                style = Stroke(width = 1f)
             )
             for (corner in listOf(
                 inner.topLeft,
@@ -270,13 +287,13 @@ fun LightCyclesGame(
                 drawLine(
                     color = style.accentColor.copy(alpha = 0.8f),
                     start = corner,
-                    end = corner + Offset(dx * 12f, 0f),
+                    end = corner + Offset(x = dx * 12f, y = 0f),
                     strokeWidth = 2f
                 )
                 drawLine(
                     color = style.accentColor.copy(alpha = 0.8f),
                     start = corner,
-                    end = corner + Offset(0f, dy * 12f),
+                    end = corner + Offset(x = 0f, y = dy * 12f),
                     strokeWidth = 2f
                 )
             }
@@ -284,8 +301,8 @@ fun LightCyclesGame(
                 color = style.detailColor.copy(alpha = 0.2f),
                 topLeft = origin,
                 size = area,
-                cornerRadius = CornerRadius(10f),
-                style = Stroke(1f)
+                cornerRadius = CornerRadius(x = 10f),
+                style = Stroke(width = 1f)
             )
             run.effects.draw(
                 scope = this,
@@ -295,6 +312,7 @@ fun LightCyclesGame(
     }
 }
 
+@Serializable
 internal class LightCycle(
     var position: Int,
     var previous: Int,
@@ -304,36 +322,54 @@ internal class LightCycle(
     var phaseTime: Float = 0f
 ) {
     val trail = mutableListOf<Int>()
+
+    @Transient
     val path = Path()
 }
 
+@Serializable
 internal class LightCyclesRun : ArcadeRun() {
     val columns = 25
     var rows = 15
     var board = IntArray(columns * rows)
     val cycles = mutableListOf<LightCycle>()
     val pickups = mutableSetOf<Int>()
+
+    @Transient
     val effects = ArcadeEffects()
     var round = 1
     var time = 0f
     private var elapsed = 0f
-    private var transition = 0f
+    var transition = 0f
+        private set
     private var steps = 0
     private val turns = ArrayDeque<Int>()
+
+    @Transient
     private var visited = IntArray(board.size)
+
+    @Transient
     private val queue = IntArray(100)
+
+    @Transient
     private var visitId = 0
     private val interval get() = 0.145f - 0.055f * (round - 1) / (round + 7f)
     val progress get() = (elapsed / interval).coerceIn(0f, 1f)
     val cell get() = minOf((width - 48f) / columns, (height - topInset - 48f) / rows)
     val origin
         get() = Offset(
-            (width - columns * cell) / 2f,
-            topInset + (height - topInset - rows * cell) / 2f
+            x = (width - columns * cell) / 2f,
+            y = topInset + (height - topInset - rows * cell) / 2f
         )
 
     fun center(index: Int) =
-        origin + Offset((index % columns + 0.5f) * cell, (index / columns + 0.5f) * cell)
+        origin + Offset(x = (index % columns + 0.5f) * cell, y = (index / columns + 0.5f) * cell)
+
+    override fun isValid(): Boolean = super.isValid() &&
+            rows in 11..35 &&
+            board.size == columns * rows &&
+            cycles.isNotEmpty() &&
+            cycles.all { it.position in board.indices && it.previous in board.indices && it.trail.all { point -> point in board.indices } }
 
     override fun reset() {
         round = 1
@@ -344,6 +380,7 @@ internal class LightCyclesRun : ArcadeRun() {
     }
 
     private fun newRound() {
+        animateLevel()
         rows = ((height - topInset - 48f) / ((width - 48f) / columns)).toInt().coerceIn(11, 35)
         board = IntArray(columns * rows) {
             if (it % columns == 0 || it % columns == columns - 1 || it / columns == 0 || it / columns == rows - 1) -1 else 0
@@ -361,7 +398,7 @@ internal class LightCyclesRun : ArcadeRun() {
             Triple(rows / 2 * columns + 2, 1, round >= 10)
         )
         for ((position, direction, enabled) in starts) if (enabled) {
-            val cycle = LightCycle(position, position, direction)
+            val cycle = LightCycle(position = position, previous = position, direction = direction)
             cycle.trail += position
             cycle.path.moveTo(position % columns + 0.5f, position / columns + 0.5f)
             cycles += cycle
@@ -443,9 +480,9 @@ internal class LightCyclesRun : ArcadeRun() {
     }
 
     private fun choose(cycle: LightCycle): Int {
-        val options = (0..3).filter {
-            val position = next(cycle.position, it)
-            it != (cycle.direction + 2) % 4 && position >= 0 &&
+        val options = (0..3).filter { direction ->
+            val position = next(cycle.position, direction)
+            direction != (cycle.direction + 2) % 4 && position >= 0 &&
                     (board[position] == 0 || (cycle.charged || cycle.phaseTime > 0f) && board[position] > 0 && cycles.none { it.alive && it.position == position })
         }
         if (options.isEmpty()) return cycle.direction
@@ -536,79 +573,21 @@ internal class LightCyclesRun : ArcadeRun() {
         }
     }
 
-    override fun onResize(previous: Size) {
-        if (time == 0f) newRound()
-    }
 
-    override fun save(state: Bundle) {
-        state.putIntArray("board", board.copyOf())
-        state.putIntArray("pickups", pickups.toIntArray())
-        state.putIntArray("run", intArrayOf(rows, round, steps))
-        state.putFloatArray("time", floatArrayOf(time, elapsed, transition))
-        state.putIntArray("turns", turns.toIntArray())
-        state.putFloatArray("phasing", cycles.map { it.phaseTime }.toFloatArray())
-        state.putIntArray(
-            "cycles",
-            cycles.flatMap {
-                listOf(
-                    it.position,
-                    it.previous,
-                    it.direction,
-                    if (it.alive) 1 else 0,
-                    if (it.charged) 1 else 0
-                )
-            }.toIntArray()
-        )
-        cycles.forEachIndexed { index, cycle ->
-            state.putIntArray(
-                "trail$index",
-                cycle.trail.toIntArray()
-            )
-        }
-    }
-
-    override fun restore(state: Bundle) {
-        pickups.clear()
-        state.getIntArray("pickups")?.forEach(pickups::add)
-        state.getIntArray("board")?.let { board = it.copyOf() }
-        state.getIntArray("run")?.let {
-            rows = it[0]
-            round = it[1]
-            steps = it[2]
-        }
-        state.getFloatArray("time")?.let {
-            time = it[0]
-            elapsed = it[1]
-            transition = it[2]
-        }
-        turns.clear()
-        state.getIntArray("turns")?.forEach(turns::addLast)
-        cycles.clear()
-        state.getIntArray("cycles")?.let {
-            for (index in it.indices step 5) {
-                val cycle = LightCycle(
-                    it[index],
-                    it[index + 1],
-                    it[index + 2],
-                    it[index + 3] == 1,
-                    it[index + 4] == 1
-                )
-                cycle.phaseTime = state.getFloatArray("phasing")?.getOrNull(index / 5) ?: 0f
-                state.getIntArray("trail${index / 5}")?.forEach(cycle.trail::add)
-                val path = if (cycle.alive) cycle.trail.dropLast(1) else cycle.trail
-                path.forEachIndexed { i, point ->
-                    val x = point % columns + 0.5f
-                    val y = point / columns + 0.5f
-                    if (i == 0) cycle.path.moveTo(x, y) else cycle.path.lineTo(x, y)
-                }
-                if (path.isEmpty()) cycle.path.moveTo(
-                    cycle.position % columns + 0.5f,
-                    cycle.position / columns + 0.5f
-                )
-                cycles += cycle
-            }
-        }
+    override fun onRestore() {
         visited = IntArray(board.size)
         visitId = 0
+        cycles.forEach { cycle ->
+            val points = if (cycle.alive) cycle.trail.dropLast(1) else cycle.trail
+            points.forEachIndexed { index, point ->
+                val x = point % columns + 0.5f
+                val y = point / columns + 0.5f
+                if (index == 0) cycle.path.moveTo(x, y) else cycle.path.lineTo(x, y)
+            }
+            if (points.isEmpty()) cycle.path.moveTo(
+                cycle.position % columns + 0.5f,
+                cycle.position / columns + 0.5f
+            )
+        }
     }
 }

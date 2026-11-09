@@ -15,9 +15,10 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
+@file:UseSerializers(ArcadeOffsetSerializer::class, ArcadeDequeSerializer::class)
+
 package com.t8rin.imagetoolbox.core.games.catalog
 
-import android.os.Bundle
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.CornerRadius
@@ -28,8 +29,10 @@ import androidx.compose.ui.graphics.drawscope.clipRect
 import androidx.compose.ui.graphics.drawscope.rotate
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
 import com.t8rin.imagetoolbox.core.games.ArcadeDefaults
+import com.t8rin.imagetoolbox.core.games.ArcadeDequeSerializer
 import com.t8rin.imagetoolbox.core.games.ArcadeField
 import com.t8rin.imagetoolbox.core.games.ArcadeGameState
+import com.t8rin.imagetoolbox.core.games.ArcadeOffsetSerializer
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.ArcadeStyle
@@ -38,6 +41,9 @@ import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
 import com.t8rin.imagetoolbox.core.games.utils.arcadeStars
 import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
+import kotlinx.serialization.UseSerializers
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
@@ -55,7 +61,8 @@ fun OrbitSurvivalGame(
     initialState: ArcadeGameState = ArcadeGameState(),
     style: ArcadeStyle = ArcadeDefaults.style,
     onHighScoreChanged: ((Int) -> Unit)? = null,
-    onGameOver: ((Int) -> Unit)? = null
+    onGameOver: ((Int) -> Unit)? = null,
+    isPaused: Boolean = false
 ) {
     val run = rememberArcadeRun(
         initialState = initialState,
@@ -68,6 +75,7 @@ fun OrbitSurvivalGame(
         modifier = modifier,
         initialState = initialState,
         onHighScoreChanged = onHighScoreChanged,
+        isPaused = isPaused,
         onGameOver = onGameOver
     ) {
         ArcadeField(
@@ -88,34 +96,38 @@ fun OrbitSurvivalGame(
                 color = style.detailColor.copy(alpha = 0.25f),
                 radius = radius,
                 center = center,
-                style = Stroke(1f)
+                style = Stroke(width = 1f)
             )
             drawCircle(
                 color = style.playerColor.copy(alpha = run.pulse * 0.16f),
                 radius = radius * (1f + run.pulse * 0.15f),
                 center = center,
-                style = Stroke(2f)
+                style = Stroke(width = 2f)
             )
             clipRect(top = 0f, bottom = run.height) {
                 for (gate in run.gates) {
-                    rotate(gate.angle * 180f / PI.toFloat(), center) {
+                    rotate(degrees = gate.angle * 180f / PI.toFloat(), pivot = center) {
                         if (gate.kind < 3) {
                             for ((left, right) in run.segments(gate.kind)) {
                                 val point =
-                                    Offset(center.x + left * radius, center.y + gate.y * radius)
-                                val size = Size((right - left) * radius, radius * 0.22f)
+                                    Offset(
+                                        x = center.x + left * radius,
+                                        y = center.y + gate.y * radius
+                                    )
+                                val size =
+                                    Size(width = (right - left) * radius, height = radius * 0.22f)
                                 drawRoundRect(
                                     color = style.obstacleColor.copy(alpha = 0.2f),
                                     topLeft = point,
                                     size = size,
-                                    cornerRadius = CornerRadius(3f)
+                                    cornerRadius = CornerRadius(x = 3f)
                                 )
                                 drawRoundRect(
                                     color = style.obstacleColor,
                                     topLeft = point,
                                     size = size,
-                                    cornerRadius = CornerRadius(3f),
-                                    style = Stroke(1f)
+                                    cornerRadius = CornerRadius(x = 3f),
+                                    style = Stroke(width = 1f)
                                 )
                                 pixelRect(
                                     color = style.accentColor,
@@ -141,17 +153,20 @@ fun OrbitSurvivalGame(
                                 drawCircle(
                                     color = style.playerDetailColor.copy(alpha = 0.35f),
                                     radius = radius * 0.07f,
-                                    center = point + Offset(-radius * 0.06f, -radius * 0.07f)
+                                    center = point + Offset(
+                                        x = -radius * 0.06f,
+                                        y = -radius * 0.07f
+                                    )
                                 )
                                 drawCircle(
                                     color = style.detailColor,
                                     radius = radius * 0.045f,
-                                    center = point + Offset(radius * 0.08f, radius * 0.06f)
+                                    center = point + Offset(x = radius * 0.08f, y = radius * 0.06f)
                                 )
                                 drawLine(
                                     color = style.hazardColor.copy(alpha = 0.3f),
-                                    start = point - Offset(0f, radius * 0.28f),
-                                    end = point - Offset(0f, radius * 0.6f),
+                                    start = point - Offset(x = 0f, y = radius * 0.28f),
+                                    end = point - Offset(x = 0f, y = radius * 0.6f),
                                     strokeWidth = 2f
                                 )
                             }
@@ -163,8 +178,8 @@ fun OrbitSurvivalGame(
                 val color = if (side > 0f) style.playerColor else style.accentColor
                 run.trail.forEachIndexed { index, angle ->
                     val point = center + Offset(
-                        cos(angle),
-                        sin(angle)
+                        x = cos(angle),
+                        y = sin(angle)
                     ) * radius * side
                     drawCircle(
                         color = color.copy(alpha = (index + 1) * 0.025f),
@@ -186,7 +201,7 @@ fun OrbitSurvivalGame(
                 drawCircle(
                     color = style.playerDetailColor.copy(alpha = 0.8f),
                     radius = run.dotRadius * 0.3f,
-                    center = point - Offset(1f, 1.5f)
+                    center = point - Offset(x = 1f, y = 1.5f)
                 )
             }
             drawCircle(
@@ -202,6 +217,7 @@ fun OrbitSurvivalGame(
     }
 }
 
+@Serializable
 internal data class OrbitGate(
     var y: Float,
     val kind: Int,
@@ -210,16 +226,21 @@ internal data class OrbitGate(
     val offset: Float = 0.6f
 )
 
+@Serializable
 internal class OrbitSurvivalRun : ArcadeRun() {
     val gates = mutableListOf<OrbitGate>()
     val trail = mutableListOf<Float>()
+
+    @Transient
     val effects = ArcadeEffects()
-    val center get() = Offset(width / 2f, topInset + (height - topInset) * 0.64f)
+    val center get() = Offset(x = width / 2f, y = topInset + (height - topInset) * 0.64f)
     val radius get() = minOf((width - 60f) * 0.3f, (height - topInset - 32f) * 0.28f)
     val dotRadius get() = radius * 0.115f
     var angle = 0f
     var time = 0f
     var pulse = 0f
+
+    @Transient
     private var direction = 0
     private var timer = 0f
     private var previousKind = -1
@@ -228,13 +249,16 @@ internal class OrbitSurvivalRun : ArcadeRun() {
     private var trailTime = 0f
     val speed get() = 1.45f + (time * 0.004f).coerceAtMost(1f)
 
-    fun dot(side: Float) = center + Offset(cos(angle), sin(angle)) * radius * side
+    fun dot(side: Float) = center + Offset(x = cos(angle), y = sin(angle)) * radius * side
 
     fun segments(kind: Int) = OrbitSegments[kind]
 
     fun meteors(gate: OrbitGate): List<Offset> =
-        if (gate.kind == 3) listOf(Offset(gate.offset, gate.y))
-        else listOf(Offset(gate.offset, gate.y), Offset(-gate.offset, gate.y - 0.85f))
+        if (gate.kind == 3) listOf(Offset(x = gate.offset, y = gate.y))
+        else listOf(
+            Offset(x = gate.offset, y = gate.y),
+            Offset(x = -gate.offset, y = gate.y - 0.85f)
+        )
 
     override fun reset() {
         gates.clear()
@@ -282,7 +306,7 @@ internal class OrbitSurvivalRun : ArcadeRun() {
             val dx = maxOf(center.x, width - center.x)
             val dy = maxOf(center.y, height - center.y)
             gates += OrbitGate(
-                -sqrt(dx * dx + dy * dy) / radius - 0.4f, kind, angle = angle,
+                y = -sqrt(dx * dx + dy * dy) / radius - 0.4f, kind = kind, angle = angle,
                 offset = if (kotlin.random.Random.nextBoolean()) 0.65f else -0.65f
             )
             timer += (if (kind == 4) 3.5f else 2.6f) / speed + 0.95f
@@ -325,50 +349,5 @@ internal class OrbitSurvivalRun : ArcadeRun() {
             trail += angle
             if (trail.size > 7) trail.removeAt(0)
         }
-    }
-
-    override fun save(state: Bundle) {
-        state.putFloatArray("run", floatArrayOf(angle, time, pulse, timer, trailTime))
-        state.putInt("kind", previousKind)
-        state.putFloat("angle", previousAngle)
-        state.putIntArray("patterns", patterns.toIntArray())
-        state.putFloatArray(
-            "gates",
-            gates.flatMap {
-                listOf(
-                    it.y,
-                    it.kind.toFloat(),
-                    if (it.passed) 1f else 0f,
-                    it.angle,
-                    it.offset
-                )
-            }
-                .toFloatArray()
-        )
-    }
-
-    override fun restore(state: Bundle) {
-        state.getFloatArray("run")?.let {
-            angle = it[0]
-            time = it[1]
-            pulse = it[2]
-            timer = it[3]
-            trailTime = it[4]
-        }
-        previousKind = state.getInt("kind")
-        previousAngle = state.getFloat("angle")
-        patterns.clear()
-        state.getIntArray("patterns")?.forEach(patterns::addLast)
-        gates.clear()
-        state.getFloatArray("gates")?.let {
-            for (index in it.indices step 5) gates += OrbitGate(
-                it[index],
-                it[index + 1].toInt(),
-                it[index + 2] == 1f,
-                it[index + 3],
-                it[index + 4]
-            )
-        }
-        direction = 0
     }
 }

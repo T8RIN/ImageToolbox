@@ -15,10 +15,12 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
+@file:UseSerializers(ArcadeOffsetSerializer::class, ArcadeDequeSerializer::class)
+
 package com.t8rin.imagetoolbox.core.games.catalog
 
-import android.os.Bundle
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
@@ -29,8 +31,10 @@ import androidx.compose.ui.graphics.drawscope.rotate
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
 import com.t8rin.imagetoolbox.core.games.ArcadeCloud
 import com.t8rin.imagetoolbox.core.games.ArcadeDefaults
+import com.t8rin.imagetoolbox.core.games.ArcadeDequeSerializer
 import com.t8rin.imagetoolbox.core.games.ArcadeField
 import com.t8rin.imagetoolbox.core.games.ArcadeGameState
+import com.t8rin.imagetoolbox.core.games.ArcadeOffsetSerializer
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.ArcadeStyle
@@ -40,6 +44,9 @@ import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
 import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
+import kotlinx.serialization.UseSerializers
 import kotlin.math.sin
 import kotlin.random.Random
 
@@ -49,13 +56,15 @@ fun BalanceTowerGame(
     initialState: ArcadeGameState = ArcadeGameState(),
     style: ArcadeStyle = ArcadeDefaults.style,
     onHighScoreChanged: ((Int) -> Unit)? = null,
-    onGameOver: ((Int) -> Unit)? = null
+    onGameOver: ((Int) -> Unit)? = null,
+    isPaused: Boolean = false
 ) {
     val run = rememberArcadeRun(
         initialState = initialState,
         create = ::BalanceTowerRun
     )
 
+    val indicatorPath = remember { Path() }
     ArcadeBoard(
         game = ArcadeGame.BalanceTower,
         run = run,
@@ -63,6 +72,7 @@ fun BalanceTowerGame(
         modifier = modifier,
         initialState = initialState,
         onHighScoreChanged = onHighScoreChanged,
+        isPaused = isPaused,
         onGameOver = onGameOver
     ) {
         ArcadeField(
@@ -103,27 +113,27 @@ fun BalanceTowerGame(
                 ghost: Boolean = false
             ) {
                 val p = run.project(load.x, load.bottom + load.height)
-                val size = Size(load.width * unit, load.height * unit)
+                val size = Size(width = load.width * unit, height = load.height * unit)
                 val color = when (load.kind) {
                     0 -> style.playerColor
                     1 -> style.obstacleColor
                     else -> style.accentColor
                 }
-                val point = p - Offset(size.width / 2f, 0f)
+                val point = p - Offset(x = size.width / 2f, y = 0f)
                 if (ghost) {
                     drawRoundRect(
                         color = color.copy(alpha = 0.25f),
                         topLeft = point,
                         size = size,
-                        cornerRadius = CornerRadius(unit * 2f),
-                        style = Stroke(1f)
+                        cornerRadius = CornerRadius(x = unit * 2f),
+                        style = Stroke(width = 1f)
                     )
                 } else {
                     drawRoundRect(
                         color = color.copy(alpha = 0.85f),
                         topLeft = point,
                         size = size,
-                        cornerRadius = CornerRadius(unit * 2f)
+                        cornerRadius = CornerRadius(x = unit * 2f)
                     )
                     pixelRect(
                         color = style.playerDetailColor.copy(alpha = 0.18f),
@@ -161,7 +171,11 @@ fun BalanceTowerGame(
                 if (point.y >= -load.height * unit && point.y <= run.height + load.height * unit) {
                     val tilt =
                         if (run.collapsing && index >= run.pivot) run.tilt else if (!run.collapsing) run.wobble else 0f
-                    rotate(tilt, if (run.collapsing) pivot else ground) { block(load) }
+                    rotate(degrees = tilt, pivot = if (run.collapsing) pivot else ground) {
+                        block(
+                            load
+                        )
+                    }
                 }
             }
             if (!run.collapsing) {
@@ -188,7 +202,8 @@ fun BalanceTowerGame(
                 if (run.settle <= 0f) block(load)
                 if (run.loads.isNotEmpty()) {
                     val mark = run.project(run.centerMass, run.stackTop + 7f)
-                    val path = Path().apply {
+                    val path = indicatorPath.apply {
+                        rewind()
                         moveTo(mark.x, mark.y + 3f)
                         lineTo(mark.x - 3f, mark.y - 2f)
                         lineTo(mark.x + 3f, mark.y - 2f)
@@ -208,6 +223,7 @@ fun BalanceTowerGame(
     }
 }
 
+@Serializable
 internal data class TowerLoad(
     var x: Float,
     var bottom: Float,
@@ -219,10 +235,14 @@ internal data class TowerLoad(
     val mass get() = width * height * if (kind == 2) 1.6f else 1f
 }
 
+@Serializable
 internal class BalanceTowerRun : ArcadeRun() {
     val loads = mutableListOf<TowerLoad>()
+
+    @Transient
     val effects = ArcadeEffects()
-    var current = TowerLoad(180f, 100f, 80f, 18f, 0f, 0)
+    var current =
+        TowerLoad(x = 180f, bottom = 100f, width = 80f, height = 18f, offset = 0f, kind = 0)
     var camera = 0f
     var wobble = 0f
     var tilt = 0f
@@ -246,7 +266,7 @@ internal class BalanceTowerRun : ArcadeRun() {
     fun project(
         x: Float,
         y: Float
-    ) = Offset(width / 2f + (x - 180f) * unit, height - 24f + (camera - y) * unit)
+    ) = Offset(x = width / 2f + (x - 180f) * unit, y = height - 24f + (camera - y) * unit)
 
     override fun reset() {
         loads.clear()
@@ -285,7 +305,14 @@ internal class BalanceTowerRun : ArcadeRun() {
         }
         val offset =
             if (loads.size < 2) 0f else w * (0.12f + 0.1f * loads.size / (loads.size + 20f)) * if (Random.nextBoolean()) 1f else -1f
-        current = TowerLoad(180f, stackTop + 100f, w, h, offset, kind)
+        current = TowerLoad(
+            x = 180f,
+            bottom = stackTop + 100f,
+            width = w,
+            height = h,
+            offset = offset,
+            kind = kind
+        )
         velocity = 0f
         dropping = false
     }
@@ -379,69 +406,5 @@ internal class BalanceTowerRun : ArcadeRun() {
                 )
             }
         }
-    }
-
-    override fun save(state: Bundle) {
-        fun TowerLoad.values() = listOf(x, bottom, width, height, offset, kind.toFloat())
-        state.putFloatArray("loads", loads.flatMap { it.values() }.toFloatArray())
-        state.putFloatArray("current", current.values().toFloatArray())
-        state.putFloatArray(
-            "run",
-            floatArrayOf(
-                camera,
-                wobble,
-                tilt,
-                settle,
-                pivotX,
-                pivotY,
-                centerMass,
-                stability,
-                time,
-                velocity,
-                angularVelocity,
-                collapseTime,
-                fallDirection
-            )
-        )
-        state.putInt("pivot", pivot)
-        state.putBoolean("dropping", dropping)
-        state.putBoolean("collapsing", collapsing)
-        state.putIntArray("kinds", kinds.toIntArray())
-    }
-
-    override fun restore(state: Bundle) {
-        fun FloatArray.load(index: Int) = TowerLoad(
-            this[index],
-            this[index + 1],
-            this[index + 2],
-            this[index + 3],
-            this[index + 4],
-            this[index + 5].toInt()
-        )
-        loads.clear()
-        state.getFloatArray("loads")!!
-            .let { for (index in it.indices step 6) loads += it.load(index) }
-        current = state.getFloatArray("current")!!.load(0)
-        state.getFloatArray("run")!!.let {
-            camera = it[0]
-            wobble = it[1]
-            tilt = it[2]
-            settle = it[3]
-            pivotX = it[4]
-            pivotY = it[5]
-            centerMass = it[6]
-            stability = it[7]
-            time = it[8]
-            velocity = it[9]
-            angularVelocity = it[10]
-            collapseTime = it[11]
-            fallDirection = it[12]
-        }
-        pivot = state.getInt("pivot")
-        dropping = state.getBoolean("dropping")
-        collapsing = state.getBoolean("collapsing")
-        kinds.clear()
-        state.getIntArray("kinds")?.forEach(kinds::addLast)
-        stopInput()
     }
 }

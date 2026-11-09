@@ -15,9 +15,10 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
+@file:UseSerializers(ArcadeOffsetSerializer::class)
+
 package com.t8rin.imagetoolbox.core.games.catalog
 
-import android.os.Bundle
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -29,6 +30,7 @@ import com.t8rin.imagetoolbox.core.games.ArcadeBoard
 import com.t8rin.imagetoolbox.core.games.ArcadeDefaults
 import com.t8rin.imagetoolbox.core.games.ArcadeField
 import com.t8rin.imagetoolbox.core.games.ArcadeGameState
+import com.t8rin.imagetoolbox.core.games.ArcadeOffsetSerializer
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.ArcadeSprite
@@ -40,37 +42,40 @@ import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
 import com.t8rin.imagetoolbox.core.games.utils.arcadeAngle
 import com.t8rin.imagetoolbox.core.games.utils.arcadeLives
 import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
+import kotlinx.serialization.UseSerializers
 import kotlin.math.hypot
 import kotlin.math.sqrt
 import kotlin.random.Random
 
 private val SliceApple = ArcadeSprite(
-    "SliceApple", 36, 36,
-    "M6 3H13V5H23V3H30V6H34V12H36V24H33V31H28V35H21V33H15V35H8V31H3V24H0V12H2V6H6Z"
+    width = 36, height = 36,
+    data = "M6 3H13V5H23V3H30V6H34V12H36V24H33V31H28V35H21V33H15V35H8V31H3V24H0V12H2V6H6Z"
 )
 private val SliceOrange = ArcadeSprite(
-    "SliceOrange", 36, 36,
-    "M11 0H25V3H31V7H34V12H36V24H33V30H29V34H23V36H12V34H6V30H2V24H0V12H3V7H7V3H11Z"
+    width = 36, height = 36,
+    data = "M11 0H25V3H31V7H34V12H36V24H33V30H29V34H23V36H12V34H6V30H2V24H0V12H3V7H7V3H11Z"
 )
 private val SlicePear = ArcadeSprite(
-    "SlicePear", 36, 36,
-    "M14 0H22V4H24V11H28V16H32V22H35V30H31V34H25V36H11V34H5V30H1V22H4V16H8V11H12V4H14Z"
+    width = 36, height = 36,
+    data = "M14 0H22V4H24V11H28V16H32V22H35V30H31V34H25V36H11V34H5V30H1V22H4V16H8V11H12V4H14Z"
 )
 private val SliceMelon = ArcadeSprite(
-    "SliceMelon", 36, 36,
-    "M10 2H26V5H31V9H34V15H36V24H33V30H27V34H9V30H3V24H0V15H2V9H5V5H10Z"
+    width = 36, height = 36,
+    data = "M10 2H26V5H31V9H34V15H36V24H33V30H27V34H9V30H3V24H0V15H2V9H5V5H10Z"
 )
 private val SliceBerry = ArcadeSprite(
-    "SliceBerry", 36, 36,
-    "M6 3H30V6H34V14H31V21H27V27H22V32H18V36H14V32H9V26H5V20H2V13H2V7H6Z"
+    width = 36, height = 36,
+    data = "M6 3H30V6H34V14H31V21H27V27H22V32H18V36H14V32H9V26H5V20H2V13H2V7H6Z"
 )
 private val SliceBomb = ArcadeSprite(
-    "SliceBomb", 36, 36,
-    "M15 0H24V5H29V8H33V13H36V26H32V32H26V36H11V33H5V28H1V15H4V9H9V6H15Z"
+    width = 36, height = 36,
+    data = "M15 0H24V5H29V8H33V13H36V26H32V32H26V36H11V33H5V28H1V15H4V9H9V6H15Z"
 )
 private val SlicedFruit = ArcadeSprite(
-    "SlicedFruit", 34, 18,
-    "M0 0H34V7H31V12H26V16H21V18H13V16H7V12H3V7H0Z"
+    width = 34, height = 18,
+    data = "M0 0H34V7H31V12H26V16H21V18H13V16H7V12H3V7H0Z"
 )
 
 @Composable
@@ -79,7 +84,8 @@ fun FruitSliceGame(
     initialState: ArcadeGameState = ArcadeGameState(),
     style: ArcadeStyle = ArcadeDefaults.style,
     onHighScoreChanged: ((Int) -> Unit)? = null,
-    onGameOver: ((Int) -> Unit)? = null
+    onGameOver: ((Int) -> Unit)? = null,
+    isPaused: Boolean = false
 ) {
     val run = rememberArcadeRun(
         initialState = initialState,
@@ -92,6 +98,7 @@ fun FruitSliceGame(
         modifier = modifier,
         initialState = initialState,
         onHighScoreChanged = onHighScoreChanged,
+        isPaused = isPaused,
         onGameOver = onGameOver
     ) {
         ArcadeField(
@@ -136,7 +143,7 @@ fun FruitSliceGame(
                 }
             }
             for ((x1, y1, _, _, bomb, kind, angle) in run.fruits) {
-                rotate(angle, Offset(x1, y1)) {
+                rotate(degrees = angle, pivot = Offset(x = x1, y = y1)) {
                     val x = x1 - 18f
                     val y = y1 - 18f
                     if (bomb) {
@@ -162,14 +169,14 @@ fun FruitSliceGame(
                         )
                         drawLine(
                             color = style.playerDetailColor,
-                            start = Offset(x + 13f, y + 13f),
-                            end = Offset(x + 23f, y + 23f),
+                            start = Offset(x = x + 13f, y = y + 13f),
+                            end = Offset(x = x + 23f, y = y + 23f),
                             strokeWidth = 3f
                         )
                         drawLine(
                             color = style.playerDetailColor,
-                            start = Offset(x + 23f, y + 13f),
-                            end = Offset(x + 13f, y + 23f),
+                            start = Offset(x = x + 23f, y = y + 13f),
+                            end = Offset(x = x + 13f, y = y + 23f),
                             strokeWidth = 3f
                         )
                     } else {
@@ -272,7 +279,7 @@ fun FruitSliceGame(
                         style = style,
                         kind = kind
                     ).copy(alpha = (life / 0.8f).coerceIn(0f, 1f))
-                rotate(angle + (0.8f - life) * vx, Offset(x, y)) {
+                rotate(degrees = angle + (0.8f - life) * vx, pivot = Offset(x = x, y = y)) {
                     drawArcadeSprite(
                         sprite = SlicedFruit,
                         tint = color,
@@ -336,11 +343,13 @@ private fun fruitColor(
     else -> lerp(style.accentColor, style.textColor, 0.35f)
 }
 
+@Serializable
 internal data class SliceFruit(
     var x: Float, var y: Float, var vx: Float, var vy: Float, val bomb: Boolean,
     val kind: Int, var angle: Float = 0f, val spin: Float = 0f
 )
 
+@Serializable
 internal data class SlicePiece(
     var x: Float,
     var y: Float,
@@ -351,19 +360,25 @@ internal data class SlicePiece(
     val kind: Int
 )
 
+@Serializable
 internal data class SliceTrace(
     val start: Offset,
     val end: Offset,
     var life: Float = 1f
 )
 
+@Serializable
 internal class FruitSliceRun : ArcadeRun() {
     val fruits = mutableListOf<SliceFruit>()
     val pieces = mutableListOf<SlicePiece>()
     val trail = mutableListOf<SliceTrace>()
+
+    @Transient
     val effects = ArcadeEffects()
     var misses = 0
     var combo = 0
+
+    @Transient
     private var finger: Offset? = null
     private var comboTime = 0f
     private var timer = 0.6f
@@ -393,7 +408,7 @@ internal class FruitSliceRun : ArcadeRun() {
         val length = delta.x * delta.x + delta.y * delta.y
         if (length < 1f) return
         if (trail.size >= 18) trail.removeAt(0)
-        trail += SliceTrace(start, point)
+        trail += SliceTrace(start = start, end = point)
         finger = point
         val iterator = fruits.iterator()
         while (iterator.hasNext()) {
@@ -413,13 +428,13 @@ internal class FruitSliceRun : ArcadeRun() {
                 comboTime = 0.3f
                 score += minOf(combo, 5)
                 effects.burst(
-                    point = Offset(fruit.x, fruit.y),
+                    point = Offset(x = fruit.x, y = fruit.y),
                     count = 6
                 )
                 for (sign in -1..1 step 2) {
                     pieces += SlicePiece(
-                        fruit.x, fruit.y, sign * 65f, -65f, 0.8f,
-                        if (sign < 0) 90f else 270f, fruit.kind
+                        x = fruit.x, y = fruit.y, vx = sign * 65f, vy = -65f, life = 0.8f,
+                        angle = if (sign < 0) 90f else 270f, kind = fruit.kind
                     )
                 }
                 iterator.remove()
@@ -450,9 +465,9 @@ internal class FruitSliceRun : ArcadeRun() {
                 val velocity = sqrt(2f * gravity * rise)
                 val airtime = 2f * velocity / gravity
                 fruits += SliceFruit(
-                    x, height + 20f, (landing - x) / airtime,
-                    -velocity, index == bomb, Random.nextInt(5),
-                    Random.nextFloat() * 360f, (Random.nextFloat() - 0.5f) * 180f
+                    x = x, y = height + 20f, vx = (landing - x) / airtime,
+                    vy = -velocity, bomb = index == bomb, kind = Random.nextInt(5),
+                    angle = Random.nextFloat() * 360f, spin = (Random.nextFloat() - 0.5f) * 180f
                 )
             }
             timer += maxOf(0.9f, 1.7f - elapsed * 0.005f) * (0.8f + Random.nextFloat() * 0.4f)
@@ -489,73 +504,6 @@ internal class FruitSliceRun : ArcadeRun() {
         pieces.clear()
         trail.clear()
         effects.clear()
-        stopInput()
-    }
-
-    override fun save(state: Bundle) {
-        state.putFloatArray("timing", floatArrayOf(timer, elapsed, misses.toFloat()))
-        state.putFloatArray(
-            "fruit",
-            fruits.flatMap {
-                listOf(
-                    it.x,
-                    it.y,
-                    it.vx,
-                    it.vy,
-                    if (it.bomb) 1f else 0f,
-                    it.kind.toFloat(),
-                    it.angle,
-                    it.spin
-                )
-            }.toFloatArray()
-        )
-        state.putFloatArray(
-            "pieces",
-            pieces.flatMap {
-                listOf(
-                    it.x,
-                    it.y,
-                    it.vx,
-                    it.vy,
-                    it.life,
-                    it.angle,
-                    it.kind.toFloat()
-                )
-            }.toFloatArray()
-        )
-    }
-
-    override fun restore(state: Bundle) {
-        state.getFloatArray("timing")?.let {
-            timer = it[0]
-            elapsed = it[1]
-            misses = it[2].toInt()
-        }
-        fruits.clear()
-        pieces.clear()
-        state.getFloatArray("fruit")?.let {
-            for (i in it.indices step 8) fruits += SliceFruit(
-                it[i],
-                it[i + 1],
-                it[i + 2],
-                it[i + 3],
-                it[i + 4] == 1f,
-                it[i + 5].toInt(),
-                it[i + 6],
-                it[i + 7]
-            )
-        }
-        state.getFloatArray("pieces")?.let {
-            for (i in it.indices step 7) pieces += SlicePiece(
-                it[i],
-                it[i + 1],
-                it[i + 2],
-                it[i + 3],
-                it[i + 4],
-                it[i + 5],
-                it[i + 6].toInt()
-            )
-        }
         stopInput()
     }
 }

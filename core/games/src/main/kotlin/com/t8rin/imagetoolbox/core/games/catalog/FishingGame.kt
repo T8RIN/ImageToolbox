@@ -15,9 +15,10 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
+@file:UseSerializers(ArcadeOffsetSerializer::class)
+
 package com.t8rin.imagetoolbox.core.games.catalog
 
-import android.os.Bundle
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -32,6 +33,7 @@ import com.t8rin.imagetoolbox.core.games.ArcadeBoard
 import com.t8rin.imagetoolbox.core.games.ArcadeDefaults
 import com.t8rin.imagetoolbox.core.games.ArcadeField
 import com.t8rin.imagetoolbox.core.games.ArcadeGameState
+import com.t8rin.imagetoolbox.core.games.ArcadeOffsetSerializer
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.ArcadeSprite
@@ -42,22 +44,25 @@ import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
 import com.t8rin.imagetoolbox.core.games.utils.arcadeLives
 import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
+import kotlinx.serialization.UseSerializers
 import kotlin.math.abs
 import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.random.Random
 
 private val ArcadeFish = ArcadeSprite(
-    "ArcadeFish", 40, 22,
-    "M0 4H4V6H8V9H11V6H15V3H20V0H26V3H31V5H35V8H38V10H40V14H37V17H32V19H26V22H20V19H15V16H11V13H8V16H4V18H0Z"
+    width = 40, height = 22,
+    data = "M0 4H4V6H8V9H11V6H15V3H20V0H26V3H31V5H35V8H38V10H40V14H37V17H32V19H26V22H20V19H15V16H11V13H8V16H4V18H0Z"
 )
 private val FishingCap = ArcadeSprite(
-    "FishingCap", 18, 10,
-    "M3 0H13V2H15V6H18V9H0V6H2V2H3Z"
+    width = 18, height = 10,
+    data = "M3 0H13V2H15V6H18V9H0V6H2V2H3Z"
 )
 private val FishingCoat = ArcadeSprite(
-    "FishingCoat", 18, 17,
-    "M4 0H11V3H14V6H18V10H12V8H10V13H16V17H3V14H0V5H2V2H4Z"
+    width = 18, height = 17,
+    data = "M4 0H11V3H14V6H18V10H12V8H10V13H16V17H3V14H0V5H2V2H4Z"
 )
 
 @Composable
@@ -66,7 +71,8 @@ fun FishingGame(
     initialState: ArcadeGameState = ArcadeGameState(),
     style: ArcadeStyle = ArcadeDefaults.style,
     onHighScoreChanged: ((Int) -> Unit)? = null,
-    onGameOver: ((Int) -> Unit)? = null
+    onGameOver: ((Int) -> Unit)? = null,
+    isPaused: Boolean = false
 ) {
     val run = rememberArcadeRun(
         initialState = initialState,
@@ -79,6 +85,7 @@ fun FishingGame(
         modifier = modifier,
         initialState = initialState,
         onHighScoreChanged = onHighScoreChanged,
+        isPaused = isPaused,
         onGameOver = onGameOver
     ) {
         ArcadeField(
@@ -98,8 +105,8 @@ fun FishingGame(
                 val y = water + sin(x * 0.06f + run.time * 2f) * 2f
                 drawLine(
                     color = style.playerColor.copy(alpha = 0.4f),
-                    start = Offset(x, y),
-                    end = Offset(x + 12f, y + 1f),
+                    start = Offset(x = x, y = y),
+                    end = Offset(x = x + 12f, y = y + 1f),
                     strokeWidth = 1f
                 )
                 x += 20f
@@ -111,8 +118,8 @@ fun FishingGame(
                 drawCircle(
                     color = style.playerColor.copy(alpha = 0.15f),
                     radius = 1.5f + index % 2,
-                    center = Offset(x, y),
-                    style = Stroke(0.8f)
+                    center = Offset(x = x, y = y),
+                    style = Stroke(width = 0.8f)
                 )
             }
             val bottom = run.height - 8f
@@ -128,14 +135,14 @@ fun FishingGame(
                 val bend = sin(run.time * 1.4f + index) * 3f
                 drawLine(
                     color = style.obstacleColor.copy(alpha = 0.4f),
-                    start = Offset(x, bottom),
-                    end = Offset(x + bend, bottom - 15f - index % 3 * 5f),
+                    start = Offset(x = x, y = bottom),
+                    end = Offset(x = x + bend, y = bottom - 15f - index % 3 * 5f),
                     strokeWidth = 2f
                 )
                 drawLine(
                     color = style.obstacleColor.copy(alpha = 0.4f),
-                    start = Offset(x, bottom - 5f),
-                    end = Offset(x - 4f + bend, bottom - 13f),
+                    start = Offset(x = x, y = bottom - 5f),
+                    end = Offset(x = x - 4f + bend, y = bottom - 13f),
                     strokeWidth = 1.5f
                 )
             }
@@ -149,7 +156,7 @@ fun FishingGame(
                     2 -> style.playerColor
                     else -> style.accentColor
                 }
-                translate(point.x, point.y) {
+                translate(left = point.x, top = point.y) {
                     scale(
                         scaleX = direction * (1.1f - kind * 0.13f),
                         scaleY = 1.1f - kind * 0.13f,
@@ -208,10 +215,10 @@ fun FishingGame(
                     }
                 }
             }
-            for (item in run.fish) fish(
-                point = Offset(item.x, run.fishY(item.row)),
-                kind = item.kind,
-                direction = item.direction
+            for ((x, row, kind, direction) in run.fish) fish(
+                point = Offset(x = x, y = run.fishY(row)),
+                kind = kind,
+                direction = direction
             )
             val point = run.hook
             fishingLine(
@@ -242,7 +249,7 @@ fun FishingGame(
                 height = 5f
             )
             if (run.caught > 0) fish(
-                point = point + Offset(0f, 8f),
+                point = point + Offset(x = 0f, y = 8f),
                 kind = run.caught,
                 direction = 1
             )
@@ -324,7 +331,7 @@ fun FishingGame(
                 height = 3f
             )
             fishingLine(
-                start = Offset(boatX + 9f, boatY - 10f),
+                start = Offset(x = boatX + 9f, y = boatY - 10f),
                 end = run.anchor,
                 color = style.obstacleColor,
                 width = 2f
@@ -381,9 +388,10 @@ private fun DrawScope.fishingLine(
             previous = point
         }
     }
-    drawPath(path, color, style = Stroke(width))
+    drawPath(path = path, color = color, style = Stroke(width = width))
 }
 
+@Serializable
 internal data class SwimmingFish(
     var x: Float,
     val row: Int,
@@ -391,17 +399,20 @@ internal data class SwimmingFish(
     val direction: Int
 )
 
+@Serializable
 internal class FishingRun : ArcadeRun() {
     val fish = mutableListOf<SwimmingFish>()
+
+    @Transient
     val effects = ArcadeEffects()
     val waterline get() = topInset + 35f
-    val anchor get() = Offset(width / 2f + 18f, waterline - 28f)
+    val anchor get() = Offset(x = width / 2f + 18f, y = waterline - 28f)
     var angle = 0f
     var length = 22f
     var caught = 0
     var misses = 0
     var time = 0f
-    val hook get() = anchor + Offset(sin(angle), cos(angle)) * length
+    val hook get() = anchor + Offset(x = sin(angle), y = cos(angle)) * length
     private var casting = false
     private var returning = false
 
@@ -419,8 +430,8 @@ internal class FishingRun : ArcadeRun() {
         returning = false
         repeat(4) { row ->
             fish += SwimmingFish(
-                Random.nextFloat() * (width - 60f) + 30f, row,
-                1 + row % 3, if (row % 2 == 0) 1 else -1
+                x = Random.nextFloat() * (width - 60f) + 30f, row = row,
+                kind = 1 + row % 3, direction = if (row % 2 == 0) 1 else -1
             )
         }
     }
@@ -453,7 +464,7 @@ internal class FishingRun : ArcadeRun() {
                 returning = false
                 if (caught > 0) {
                     score += caught
-                    effects.burst(point = Offset(width / 2f, waterline))
+                    effects.burst(point = Offset(x = width / 2f, y = waterline))
                 } else misses++
                 caught = 0
                 if (misses >= 3) phase = ArcadePhase.Over
@@ -476,8 +487,8 @@ internal class FishingRun : ArcadeRun() {
                     count = 5
                 )
                 fish[hit] = SwimmingFish(
-                    if (item.direction > 0) -32f else width + 32f,
-                    item.row, Random.nextInt(1, 4), item.direction
+                    x = if (item.direction > 0) -32f else width + 32f,
+                    row = item.row, kind = Random.nextInt(1, 4), direction = item.direction
                 )
             } else if (point.x !in 10f..(width - 10f) || point.y >= height - 14f) returning = true
         }
@@ -487,46 +498,5 @@ internal class FishingRun : ArcadeRun() {
         fish.forEach { it.x *= width / previous.width }
         length *= height / previous.height
         effects.clear()
-    }
-
-    override fun save(state: Bundle) {
-        state.putFloatArray(
-            "hook",
-            floatArrayOf(angle, length, caught.toFloat(), misses.toFloat(), time)
-        )
-        state.putBoolean("casting", casting)
-        state.putBoolean("returning", returning)
-        state.putFloatArray(
-            "fish",
-            fish.flatMap {
-                listOf(
-                    it.x,
-                    it.row.toFloat(),
-                    it.kind.toFloat(),
-                    it.direction.toFloat()
-                )
-            }.toFloatArray()
-        )
-    }
-
-    override fun restore(state: Bundle) {
-        state.getFloatArray("hook")?.let {
-            angle = it[0]
-            length = it[1]
-            caught = it[2].toInt()
-            misses = it[3].toInt()
-            time = it[4]
-        }
-        casting = state.getBoolean("casting")
-        returning = state.getBoolean("returning")
-        fish.clear()
-        state.getFloatArray("fish")?.let {
-            for (i in it.indices step 4) fish += SwimmingFish(
-                it[i],
-                it[i + 1].toInt(),
-                it[i + 2].toInt(),
-                it[i + 3].toInt()
-            )
-        }
     }
 }

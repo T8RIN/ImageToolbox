@@ -15,10 +15,12 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
+@file:UseSerializers(ArcadeOffsetSerializer::class)
+
 package com.t8rin.imagetoolbox.core.games.catalog
 
-import android.os.Bundle
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
@@ -31,12 +33,16 @@ import com.t8rin.imagetoolbox.core.games.ArcadeBoard
 import com.t8rin.imagetoolbox.core.games.ArcadeDefaults
 import com.t8rin.imagetoolbox.core.games.ArcadeField
 import com.t8rin.imagetoolbox.core.games.ArcadeGameState
+import com.t8rin.imagetoolbox.core.games.ArcadeOffsetSerializer
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.ArcadeStyle
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
 import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
+import kotlinx.serialization.UseSerializers
 import kotlin.math.abs
 import kotlin.random.Random
 
@@ -46,13 +52,15 @@ fun LaserMirrorsGame(
     initialState: ArcadeGameState = ArcadeGameState(),
     style: ArcadeStyle = ArcadeDefaults.style,
     onHighScoreChanged: ((Int) -> Unit)? = null,
-    onGameOver: ((Int) -> Unit)? = null
+    onGameOver: ((Int) -> Unit)? = null,
+    isPaused: Boolean = false
 ) {
     val run = rememberArcadeRun(
         initialState = initialState,
         create = ::LaserMirrorsRun
     )
 
+    val beamPath = remember { Path() }
     ArcadeBoard(
         game = ArcadeGame.LaserMirrors,
         run = run,
@@ -60,27 +68,29 @@ fun LaserMirrorsGame(
         modifier = modifier,
         initialState = initialState,
         onHighScoreChanged = onHighScoreChanged,
+        isPaused = isPaused,
         onGameOver = onGameOver,
         turnBased = true
     ) {
         ArcadeField(
             run = run,
+            transition = { run.transition },
             onTap = run::tap
         ) {
             val cell = run.cell
-            val area = Size(cell * run.columns, cell * run.columns)
+            val area = Size(width = cell * run.columns, height = cell * run.columns)
             drawRoundRect(
                 color = style.detailColor.copy(alpha = 0.055f),
                 topLeft = run.origin,
                 size = area,
-                cornerRadius = CornerRadius(7f)
+                cornerRadius = CornerRadius(x = 7f)
             )
             drawRoundRect(
                 color = style.detailColor.copy(alpha = 0.35f),
                 topLeft = run.origin,
                 size = area,
-                cornerRadius = CornerRadius(7f),
-                style = Stroke(1f)
+                cornerRadius = CornerRadius(x = 7f),
+                style = Stroke(width = 1f)
             )
             for (index in run.board.indices) {
                 val p = run.center(index)
@@ -105,8 +115,9 @@ fun LaserMirrorsGame(
                     center = p
                 )
             }
-            val source = run.center(run.source) - Offset(cell * 0.65f, 0f)
-            val beam = Path().apply {
+            val source = run.center(run.source) - Offset(x = cell * 0.65f, y = 0f)
+            val beam = beamPath.apply {
+                rewind()
                 moveTo(source.x, source.y)
                 for (index in run.beam) lineTo(run.center(index).x, run.center(index).y)
                 run.exit?.let { lineTo(it.x, it.y) }
@@ -115,7 +126,7 @@ fun LaserMirrorsGame(
                 path = beam,
                 color = style.playerColor.copy(alpha = 0.09f),
                 style = Stroke(
-                    8f,
+                    width = 8f,
                     cap = StrokeCap.Round
                 )
             )
@@ -123,7 +134,7 @@ fun LaserMirrorsGame(
                 path = beam,
                 color = style.playerColor.copy(alpha = 0.3f),
                 style = Stroke(
-                    4f,
+                    width = 4f,
                     cap = StrokeCap.Round
                 )
             )
@@ -131,7 +142,7 @@ fun LaserMirrorsGame(
                 path = beam,
                 color = style.playerColor,
                 style = Stroke(
-                    1.5f,
+                    width = 1.5f,
                     cap = StrokeCap.Round
                 )
             )
@@ -162,7 +173,7 @@ fun LaserMirrorsGame(
                     color = color,
                     radius = cell * 0.21f,
                     center = p,
-                    style = Stroke(1.5f)
+                    style = Stroke(width = 1.5f)
                 )
                 drawCircle(
                     color = color,
@@ -170,11 +181,11 @@ fun LaserMirrorsGame(
                     center = p
                 )
                 if (lit) repeat(4) { side ->
-                    rotate(side * 90f, p) {
+                    rotate(degrees = side * 90f, pivot = p) {
                         drawLine(
                             color = color,
-                            start = p + Offset(0f, -cell * 0.3f),
-                            end = p + Offset(0f, -cell * 0.36f),
+                            start = p + Offset(x = 0f, y = -cell * 0.3f),
+                            end = p + Offset(x = 0f, y = -cell * 0.36f),
                             strokeWidth = 1f
                         )
                     }
@@ -188,25 +199,25 @@ fun LaserMirrorsGame(
                     center = p
                 )
                 val angle = run.angles[index]
-                rotate(angle, p) {
+                rotate(degrees = angle, pivot = p) {
                     drawLine(
                         color = style.obstacleColor.copy(alpha = 0.2f),
-                        start = p - Offset(cell * 0.34f, 0f),
-                        end = p + Offset(cell * 0.34f, 0f),
+                        start = p - Offset(x = cell * 0.34f, y = 0f),
+                        end = p + Offset(x = cell * 0.34f, y = 0f),
                         strokeWidth = 6f,
                         cap = StrokeCap.Round
                     )
                     drawLine(
                         color = style.obstacleColor,
-                        start = p - Offset(cell * 0.32f, 0f),
-                        end = p + Offset(cell * 0.32f, 0f),
+                        start = p - Offset(x = cell * 0.32f, y = 0f),
+                        end = p + Offset(x = cell * 0.32f, y = 0f),
                         strokeWidth = 3f,
                         cap = StrokeCap.Round
                     )
                     drawLine(
                         color = style.accentColor,
-                        start = p + Offset(-cell * 0.25f, -1f),
-                        end = p + Offset(cell * 0.25f, -1f),
+                        start = p + Offset(x = -cell * 0.25f, y = -1f),
+                        end = p + Offset(x = cell * 0.25f, y = -1f),
                         strokeWidth = 1f
                     )
                 }
@@ -224,6 +235,7 @@ fun LaserMirrorsGame(
     }
 }
 
+@Serializable
 internal class LaserMirrorsRun : ArcadeRun() {
     var columns = 5
     var board = IntArray(25)
@@ -234,21 +246,24 @@ internal class LaserMirrorsRun : ArcadeRun() {
     var turns = 0
     val beam = mutableListOf<Int>()
     val lit = mutableSetOf<Int>()
+
+    @Transient
     val effects = ArcadeEffects()
     var solution = IntArray(25)
         private set
     private var initial = IntArray(25)
-    private var transition = 0f
+    var transition = 0f
+        private set
     private var glow = 0f
     val cell get() = minOf((width - 62f) / columns, (height - topInset - 34f) / columns)
     val origin
         get() = Offset(
-            (width - columns * cell) / 2f,
-            topInset + (height - topInset - columns * cell) / 2f
+            x = (width - columns * cell) / 2f,
+            y = topInset + (height - topInset - columns * cell) / 2f
         )
 
     fun center(index: Int) =
-        origin + Offset((index % columns + 0.5f) * cell, (index / columns + 0.5f) * cell)
+        origin + Offset(x = (index % columns + 0.5f) * cell, y = (index / columns + 0.5f) * cell)
 
     var exit: Offset? = null
         private set
@@ -270,12 +285,22 @@ internal class LaserMirrorsRun : ArcadeRun() {
         return if (x in 0 until columns && y in 0 until columns) y * columns + x else -1
     }
 
+    override fun isValid(): Boolean = super.isValid() &&
+            columns in 5..7 &&
+            board.size == columns * columns &&
+            angles.size == board.size &&
+            solution.size == board.size &&
+            initial.size == board.size &&
+            source in board.indices &&
+            targets.all { it in board.indices }
+
     override fun reset() {
         round = 1
         newRound()
     }
 
     private fun newRound() {
+        animateLevel()
         columns = (5 + (round - 1) / 5).coerceAtMost(7)
         val wanted = (3 + round / 2).coerceAtMost(9)
         var bestPath = emptyList<Int>()
@@ -366,10 +391,10 @@ internal class LaserMirrorsRun : ArcadeRun() {
             val next = neighbor(at, direction)
             if (next < 0) {
                 val delta = when (direction) {
-                    0 -> Offset(1f, 0f)
-                    1 -> Offset(0f, 1f)
-                    2 -> Offset(-1f, 0f)
-                    else -> Offset(0f, -1f)
+                    0 -> Offset(x = 1f, y = 0f)
+                    1 -> Offset(x = 0f, y = 1f)
+                    2 -> Offset(x = -1f, y = 0f)
+                    else -> Offset(x = 0f, y = -1f)
                 }
                 exit = center(at) + delta * cell * 0.5f
             }
@@ -440,35 +465,5 @@ internal class LaserMirrorsRun : ArcadeRun() {
 
     override fun onResize(previous: Size) {
         trace()
-    }
-
-    override fun save(state: Bundle) {
-        state.putIntArray("board", board)
-        state.putIntArray("solution", solution)
-        state.putIntArray("initial", initial)
-        state.putIntArray("targets", targets)
-        state.putFloatArray("angles", angles)
-        state.putIntArray("run", intArrayOf(columns, source, round, turns))
-        state.putFloatArray("time", floatArrayOf(transition, glow))
-    }
-
-    override fun restore(state: Bundle) {
-        board = state.getIntArray("board")!!.copyOf()
-        solution = state.getIntArray("solution")!!.copyOf()
-        initial = state.getIntArray("initial")!!.copyOf()
-        targets = state.getIntArray("targets")!!.copyOf()
-        angles = state.getFloatArray("angles")!!.copyOf()
-        state.getIntArray("run")!!.let {
-            columns = it[0]
-            source = it[1]
-            round = it[2]
-            turns = it[3]
-        }
-        state.getFloatArray("time")!!.let {
-            transition = it[0]
-            glow = it[1]
-        }
-        trace()
-        isAnimating = transition > 0f || glow > 0f
     }
 }

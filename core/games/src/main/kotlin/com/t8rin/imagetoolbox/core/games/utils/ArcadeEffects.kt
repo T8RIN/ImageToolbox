@@ -45,7 +45,10 @@ internal class ArcadeEffects {
         repeat(count) { index ->
             if (sparks.size >= 48) sparks.removeAt(0)
             val angle = index * 2f * PI.toFloat() / count
-            sparks += Spark(point, Offset(cos(angle), sin(angle)) * (32f + index % 3 * 13f))
+            sparks += Spark(
+                point = point,
+                velocity = Offset(x = cos(angle), y = sin(angle)) * (32f + index % 3 * 13f)
+            )
         }
     }
 
@@ -64,18 +67,21 @@ internal class ArcadeEffects {
         color: Color
     ) = with(scope) {
         for (spark in sparks) {
-            drawCircle(
+            val size = (3f * spark.life).coerceAtLeast(1f)
+            pixelRect(
                 color = color.copy(alpha = spark.life.coerceIn(0f, 1f)),
-                radius = 2f * spark.life,
-                center = spark.point
+                x = spark.point.x - size / 2f,
+                y = spark.point.y - size / 2f,
+                width = size,
+                height = size
             )
         }
     }
 }
 
 private val ArcadeHeart = ArcadeSprite(
-    "ArcadeHeart", 11, 10,
-    "M1 0H4V1H5V2H6V1H7V0H10V1H11V5H10V6H9V7H8V8H7V9H6V10H5V9H4V8H3V7H2V6H1V5H0V1H1Z"
+    width = 11, height = 10,
+    data = "M1 0H4V1H5V2H6V1H7V0H10V1H11V5H10V6H9V7H8V8H7V9H6V10H5V9H4V8H3V7H2V6H1V5H0V1H1Z"
 )
 
 internal fun DrawScope.arcadeLives(

@@ -15,9 +15,10 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
+@file:UseSerializers(ArcadeOffsetSerializer::class, ArcadeDequeSerializer::class)
+
 package com.t8rin.imagetoolbox.core.games.catalog
 
-import android.os.Bundle
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -29,8 +30,10 @@ import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.drawscope.translate
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
 import com.t8rin.imagetoolbox.core.games.ArcadeDefaults
+import com.t8rin.imagetoolbox.core.games.ArcadeDequeSerializer
 import com.t8rin.imagetoolbox.core.games.ArcadeField
 import com.t8rin.imagetoolbox.core.games.ArcadeGameState
+import com.t8rin.imagetoolbox.core.games.ArcadeOffsetSerializer
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.ArcadeSprite
@@ -40,6 +43,9 @@ import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
 import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
+import kotlinx.serialization.UseSerializers
 import kotlin.math.abs
 import kotlin.math.sin
 import kotlin.random.Random
@@ -50,7 +56,8 @@ fun GravityFlipGame(
     initialState: ArcadeGameState = ArcadeGameState(),
     style: ArcadeStyle = ArcadeDefaults.style,
     onHighScoreChanged: ((Int) -> Unit)? = null,
-    onGameOver: ((Int) -> Unit)? = null
+    onGameOver: ((Int) -> Unit)? = null,
+    isPaused: Boolean = false
 ) {
     val run = rememberArcadeRun(
         initialState = initialState,
@@ -63,6 +70,7 @@ fun GravityFlipGame(
         modifier = modifier,
         initialState = initialState,
         onHighScoreChanged = onHighScoreChanged,
+        isPaused = isPaused,
         onGameOver = onGameOver
     ) {
         ArcadeField(
@@ -222,7 +230,7 @@ fun GravityFlipGame(
                 }
             }
             for ((x, y) in run.beacons) {
-                val center = Offset(x, top + y * span)
+                val center = Offset(x = x, y = top + y * span)
                 val path = Path().apply {
                     moveTo(center.x, center.y - 6f)
                     lineTo(center.x + 5f, center.y)
@@ -240,27 +248,27 @@ fun GravityFlipGame(
                     color = style.accentColor
                 )
             }
-            val center = Offset(run.playerX, top + run.y * span)
+            val center = Offset(x = run.playerX, y = top + run.y * span)
             run.trail.forEachIndexed { index, point ->
                 drawCircle(
                     color = style.playerColor.copy(alpha = (index + 1) * 0.025f),
                     radius = run.radius * 0.7f,
-                    center = Offset(point.x, top + point.y * span)
+                    center = Offset(x = point.x, y = top + point.y * span)
                 )
             }
             if (run.shield) drawCircle(
                 color = style.accentColor,
                 radius = run.radius + 5f,
                 center = center,
-                style = Stroke(1.5f)
+                style = Stroke(width = 1.5f)
             )
             val tilt = if (run.velocity == 0f) 0f else run.velocity * 4f
-            rotate(tilt, center) {
+            rotate(degrees = tilt, pivot = center) {
                 scale(1f, if (run.gravity == 1) 1f else -1f, center) {
                     val unit = run.radius / 8f
                     val stride =
                         if (run.velocity == 0f) sin(run.distance * 0.17f) * 1.4f else 0f
-                    translate(center.x - 8f * unit, center.y - 8f * unit) {
+                    translate(left = center.x - 8f * unit, top = center.y - 8f * unit) {
                         scale(unit, Offset.Zero) {
                             drawArcadeSprite(
                                 sprite = GravityRunner,
@@ -316,12 +324,12 @@ fun GravityFlipGame(
 }
 
 private val GravityRunner = ArcadeSprite(
-    name = "GravityRunner",
     width = 16,
     height = 16,
     data = "M6 0H13V1H15V7H13V9H14V12H12V14H14V16H10V13H8V16H4V14H6V12H4V8H5V7H4V2H6Z"
 )
 
+@Serializable
 internal data class GravityObstacle(
     var x: Float,
     val width: Float,
@@ -332,15 +340,19 @@ internal data class GravityObstacle(
     val kind: Int = 0
 )
 
+@Serializable
 internal data class GravityBeacon(
     var x: Float,
     val y: Float
 )
 
+@Serializable
 internal class GravityFlipRun : ArcadeRun() {
     val obstacles = mutableListOf<GravityObstacle>()
     val beacons = mutableListOf<GravityBeacon>()
     val trail = mutableListOf<Offset>()
+
+    @Transient
     val effects = ArcadeEffects()
     val span get() = minOf(230f, height - topInset - 40f)
     val top get() = topInset + (height - topInset - span) / 2f
@@ -388,7 +400,7 @@ internal class GravityFlipRun : ArcadeRun() {
         velocity = gravity * 1.1f
         flipTime = 0.1f
         effects.burst(
-            point = Offset(playerX, top + y * span),
+            point = Offset(x = playerX, y = top + y * span),
             count = 5
         )
     }
@@ -404,7 +416,7 @@ internal class GravityFlipRun : ArcadeRun() {
             y = y.coerceIn(margin, 1f - margin)
             velocity = 0f
             if (airborne) effects.burst(
-                point = Offset(playerX, if (gravity > 0) bottom else top),
+                point = Offset(x = playerX, y = if (gravity > 0) bottom else top),
                 count = 5
             )
         }
@@ -427,13 +439,16 @@ internal class GravityFlipRun : ArcadeRun() {
                 }
             ) {
                 effects.burst(
-                    point = Offset(playerX, top + y * span),
+                    point = Offset(x = playerX, y = top + y * span),
                     count = 18
                 )
                 if (shield) {
                     shield = false
                     obstacle.broken = true
-                } else phase = ArcadePhase.Over
+                } else {
+                    phase = ArcadePhase.Over
+                    return
+                }
             }
         }
         obstacles.removeAll { it.x + it.width < -8f }
@@ -451,17 +466,17 @@ internal class GravityFlipRun : ArcadeRun() {
                     }
                 }
                 effects.burst(
-                    point = Offset(beacon.x, top + beacon.y * span),
+                    point = Offset(x = beacon.x, y = top + beacon.y * span),
                     count = 7
                 )
                 iterator.remove()
             } else if (beacon.x < -10f) iterator.remove()
         }
         trailTime += seconds
-        for (index in trail.indices) trail[index] = trail[index] - Offset(step, 0f)
+        for (index in trail.indices) trail[index] = trail[index] - Offset(x = step, y = 0f)
         if (trailTime >= 0.035f) {
             trailTime = 0f
-            trail += Offset(playerX, y)
+            trail += Offset(x = playerX, y = y)
             if (trail.size > 7) trail.removeAt(0)
         }
     }
@@ -497,12 +512,18 @@ internal class GravityFlipRun : ArcadeRun() {
             else -> 0.28f + Random.nextFloat() * 0.1f
         }
         val x = maxOf(width + 20f, playerX + speed * 1.2f)
-        obstacles += GravityObstacle(x, w, depth, nextCeiling, kind = kind)
+        obstacles += GravityObstacle(
+            x = x,
+            width = w,
+            depth = depth,
+            ceiling = nextCeiling,
+            kind = kind
+        )
         val bank = radius / span + 0.025f
         repeat(3) { index ->
             beacons += GravityBeacon(
-                x + w / 2f + index * 19f,
-                if (kind == 2) 0.5f else if (nextCeiling) 1f - bank else bank
+                x = x + w / 2f + index * 19f,
+                y = if (kind == 2) 0.5f else if (nextCeiling) 1f - bank else bank
             )
         }
         // A middle gate asks for a timed flip. The next obstacle leaves a full crossing to settle.
@@ -515,69 +536,5 @@ internal class GravityFlipRun : ArcadeRun() {
         beacons.forEach { it.x *= width / previous.width }
         trail.clear()
         y = y.coerceIn(radius / span, 1f - radius / span)
-    }
-
-    override fun save(state: Bundle) {
-        state.putBoolean("shield", shield)
-        state.putInt("charge", charge)
-        state.putFloatArray(
-            "run",
-            floatArrayOf(y, velocity, distance, timer, trailTime, flipTime)
-        )
-        state.putInt("gravity", gravity)
-        state.putInt("passed", passed)
-        state.putBoolean("nextCeiling", nextCeiling)
-        state.putIntArray("patterns", patterns.toIntArray())
-        state.putInt("previousPattern", previousPattern)
-        state.putFloatArray(
-            "obstacles",
-            obstacles.flatMap {
-                listOf(
-                    it.x,
-                    it.width,
-                    it.depth,
-                    if (it.ceiling) 1f else 0f,
-                    if (it.passed) 1f else 0f,
-                    if (it.broken) 1f else 0f,
-                    it.kind.toFloat()
-                )
-            }.toFloatArray()
-        )
-        state.putFloatArray("beacons", beacons.flatMap { listOf(it.x, it.y) }.toFloatArray())
-    }
-
-    override fun restore(state: Bundle) {
-        shield = state.getBoolean("shield")
-        charge = state.getInt("charge")
-        state.getFloatArray("run")?.let {
-            y = it[0]
-            velocity = it[1]
-            distance = it[2]
-            timer = it[3]
-            trailTime = it[4]
-            flipTime = it[5]
-        }
-        gravity = state.getInt("gravity", 1)
-        passed = state.getInt("passed")
-        nextCeiling = state.getBoolean("nextCeiling")
-        patterns.clear()
-        state.getIntArray("patterns")?.forEach(patterns::addLast)
-        previousPattern = state.getInt("previousPattern", -1)
-        obstacles.clear()
-        state.getFloatArray("obstacles")?.let {
-            for (index in it.indices step 7) obstacles += GravityObstacle(
-                it[index],
-                it[index + 1],
-                it[index + 2],
-                it[index + 3] == 1f,
-                it[index + 4] == 1f,
-                it[index + 5] == 1f,
-                it[index + 6].toInt()
-            )
-        }
-        beacons.clear()
-        state.getFloatArray("beacons")?.let {
-            for (index in it.indices step 2) beacons += GravityBeacon(it[index], it[index + 1])
-        }
     }
 }

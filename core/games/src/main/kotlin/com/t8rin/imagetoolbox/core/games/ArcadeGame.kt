@@ -17,20 +17,37 @@
 
 package com.t8rin.imagetoolbox.core.games
 
-import android.os.Bundle
 import android.os.SystemClock
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.SizeTransform
+import androidx.compose.animation.core.MutableTransitionState
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.awaitEachGesture
 import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -40,31 +57,33 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
-import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.withFrameNanos
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.paint
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.PathFillType
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.PathParser
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.input.pointer.PointerId
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
@@ -74,11 +93,13 @@ import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.repeatOnLifecycle
 import com.t8rin.imagetoolbox.core.di.entryPoint
@@ -120,11 +141,18 @@ import com.t8rin.imagetoolbox.core.games.catalog.ZigZagGame
 import com.t8rin.imagetoolbox.core.games.components.LocalArcadeButton
 import com.t8rin.imagetoolbox.core.games.components.longPress
 import com.t8rin.imagetoolbox.core.games.di.GamesEntryPoint
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Pause
+import com.t8rin.imagetoolbox.core.resources.icons.PlayCircle
 import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
 import com.t8rin.imagetoolbox.core.utils.appContext
+import com.t8rin.imagetoolbox.core.utils.makeLog
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
+import kotlinx.serialization.serializer
 import java.io.IOException
 
 @Composable
@@ -142,183 +170,217 @@ fun ArcadeGameContent(
         if (game == ArcadeGame.Random) ArcadeGame.playable.random() else game
     }
     CompositionLocalProvider(
-        LocalArcadePaused provides isPaused,
         LocalArcadePlayingChanged provides onPlayingChanged
     ) {
         when (selected) {
             ArcadeGame.Dino -> DinoGame(
                 modifier = modifier,
-                style = style
+                style = style,
+                isPaused = isPaused
             )
 
             ArcadeGame.Doodle -> DoodleGame(
                 modifier = modifier,
-                style = style
+                style = style,
+                isPaused = isPaused
             )
 
             ArcadeGame.Bird -> BirdGame(
                 modifier = modifier,
-                style = style
+                style = style,
+                isPaused = isPaused
             )
 
             ArcadeGame.Stack -> StackGame(
                 modifier = modifier,
-                style = style
+                style = style,
+                isPaused = isPaused
             )
 
             ArcadeGame.Pong -> PongGame(
                 modifier = modifier,
-                style = style
+                style = style,
+                isPaused = isPaused
             )
 
             ArcadeGame.`2048` -> Game2048(
                 modifier = modifier,
-                style = style
+                style = style,
+                isPaused = isPaused
             )
 
             ArcadeGame.Snake -> SnakeGame(
                 modifier = modifier,
-                style = style
+                style = style,
+                isPaused = isPaused
             )
 
             ArcadeGame.Tetris -> TetrisGame(
                 modifier = modifier,
-                style = style
+                style = style,
+                isPaused = isPaused
             )
 
             ArcadeGame.Racer -> RacerGame(
                 modifier = modifier,
-                style = style
+                style = style,
+                isPaused = isPaused
             )
 
             ArcadeGame.Ricochet -> RicochetGame(
                 modifier = modifier,
-                style = style
+                style = style,
+                isPaused = isPaused
             )
 
             ArcadeGame.Asteroids -> AsteroidsGame(
                 modifier = modifier,
-                style = style
+                style = style,
+                isPaused = isPaused
             )
 
             ArcadeGame.FruitSlice -> FruitSliceGame(
                 modifier = modifier,
-                style = style
+                style = style,
+                isPaused = isPaused
             )
 
             ArcadeGame.KnifeHit -> KnifeHitGame(
                 modifier = modifier,
-                style = style
+                style = style,
+                isPaused = isPaused
             )
 
             ArcadeGame.MissileCommand -> MissileCommandGame(
                 modifier = modifier,
-                style = style
+                style = style,
+                isPaused = isPaused
             )
 
             ArcadeGame.RiverHop -> RiverHopGame(
                 modifier = modifier,
-                style = style
+                style = style,
+                isPaused = isPaused
             )
 
             ArcadeGame.WhackAMole -> WhackAMoleGame(
                 modifier = modifier,
-                style = style
+                style = style,
+                isPaused = isPaused
             )
 
             ArcadeGame.SimonSays -> SimonSaysGame(
                 modifier = modifier,
-                style = style
+                style = style,
+                isPaused = isPaused
             )
 
             ArcadeGame.BubblePop -> BubblePopGame(
                 modifier = modifier,
-                style = style
+                style = style,
+                isPaused = isPaused
             )
 
             ArcadeGame.Fishing -> FishingGame(
                 modifier = modifier,
-                style = style
+                style = style,
+                isPaused = isPaused
             )
 
             ArcadeGame.Hexagon -> HexagonGame(
                 modifier = modifier,
-                style = style
+                style = style,
+                isPaused = isPaused
             )
 
             ArcadeGame.Basketball -> BasketballGame(
                 modifier = modifier,
-                style = style
+                style = style,
+                isPaused = isPaused
             )
 
             ArcadeGame.LaserMirrors -> LaserMirrorsGame(
                 modifier = modifier,
-                style = style
+                style = style,
+                isPaused = isPaused
             )
 
             ArcadeGame.FlowConnect -> FlowConnectGame(
                 modifier = modifier,
-                style = style
+                style = style,
+                isPaused = isPaused
             )
 
             ArcadeGame.FlightControl -> FlightControlGame(
                 modifier = modifier,
-                style = style
+                style = style,
+                isPaused = isPaused
             )
 
             ArcadeGame.BalanceTower -> BalanceTowerGame(
                 modifier = modifier,
-                style = style
+                style = style,
+                isPaused = isPaused
             )
 
             ArcadeGame.Bomber -> BomberGame(
                 modifier = modifier,
-                style = style
+                style = style,
+                isPaused = isPaused
             )
 
             ArcadeGame.Minesweeper -> MinesweeperGame(
                 modifier = modifier,
-                style = style
+                style = style,
+                isPaused = isPaused
             )
 
             ArcadeGame.MazeChaser -> MazeChaserGame(
                 modifier = modifier,
-                style = style
+                style = style,
+                isPaused = isPaused
             )
 
             ArcadeGame.GravityFlip -> GravityFlipGame(
                 modifier = modifier,
-                style = style
+                style = style,
+                isPaused = isPaused
             )
 
             ArcadeGame.ZigZag -> ZigZagGame(
                 modifier = modifier,
-                style = style
+                style = style,
+                isPaused = isPaused
             )
 
             ArcadeGame.Timberman -> TimbermanGame(
                 modifier = modifier,
-                style = style
+                style = style,
+                isPaused = isPaused
             )
 
             ArcadeGame.OrbitSurvival -> OrbitSurvivalGame(
                 modifier = modifier,
-                style = style
+                style = style,
+                isPaused = isPaused
             )
 
             ArcadeGame.LunarLander -> LunarLanderGame(
                 modifier = modifier,
-                style = style
+                style = style,
+                isPaused = isPaused
             )
 
             ArcadeGame.BrickBreaker -> BrickBreakerGame(
                 modifier = modifier,
-                style = style
+                style = style,
+                isPaused = isPaused
             )
 
             ArcadeGame.LightCycles -> LightCyclesGame(
                 modifier = modifier,
-                style = style
+                style = style,
+                isPaused = isPaused
             )
 
             ArcadeGame.Random -> Unit
@@ -326,7 +388,6 @@ fun ArcadeGameContent(
     }
 }
 
-internal val LocalArcadePaused = compositionLocalOf { false }
 private val LocalArcadePlayingChanged = compositionLocalOf<((Boolean) -> Unit)?> { null }
 
 @Immutable
@@ -387,8 +448,12 @@ object ArcadeDefaults {
         }
 }
 
-internal enum class ArcadePhase { Ready, Running, Over }
+@Serializable
+internal enum class ArcadePhase { Ready, Running, Paused, Over }
 
+internal const val LevelTransitionDuration = 0.24f
+
+@Serializable
 internal abstract class ArcadeRun {
     var phase by mutableStateOf(ArcadePhase.Ready)
     var gameOverReported = false
@@ -396,7 +461,12 @@ internal abstract class ArcadeRun {
     var frame by mutableIntStateOf(0)
         private set
     var isAnimating by mutableStateOf(false)
-        protected set
+    var levelTransition by mutableFloatStateOf(0f)
+    var prepared by mutableStateOf(false)
+    var previousBest = -1
+
+    @Transient
+    var startWhenReady = false
     var topInset = 44f
         private set
     var width = 360f
@@ -404,12 +474,41 @@ internal abstract class ArcadeRun {
     var height = 240f
         private set
 
-    fun start() {
-        gameOverReported = false
+    fun prepare() {
+        stopInput()
         score = 0
+        isAnimating = false
+        levelTransition = 0f
+        gameOverReported = false
+        phase = ArcadePhase.Ready
         reset()
+        prepared = true
         redraw()
+    }
+
+    fun start() {
+        if (!prepared || phase == ArcadePhase.Over || phase == ArcadePhase.Running) prepare()
         phase = ArcadePhase.Running
+        redraw()
+    }
+
+    fun pause() {
+        if (phase != ArcadePhase.Running) return
+        phase = ArcadePhase.Paused
+        stopInput()
+    }
+
+    fun finish() {
+        stopInput()
+        phase = ArcadePhase.Over
+        redraw()
+    }
+
+    fun animateLevel() {
+        if (phase == ArcadePhase.Running) {
+            stopInput()
+            levelTransition = LevelTransitionDuration
+        }
     }
 
     fun redraw() {
@@ -421,62 +520,36 @@ internal abstract class ArcadeRun {
         height: Float,
         topInset: Float = this.topInset
     ) {
-        if (width == this.width && height == this.height && topInset == this.topInset) return
+        if (prepared && width == this.width && height == this.height &&
+            topInset == this.topInset
+        ) return
         this.topInset = topInset
-        val previous = Size(this.width, this.height)
+        val previous = Size(width = this.width, height = this.height)
         this.width = width
         this.height = height
-        onResize(previous)
+        if (prepared) onResize(previous)
+        else prepare()
         redraw()
     }
 
     abstract fun reset()
-    abstract fun save(state: Bundle)
-    abstract fun restore(state: Bundle)
 
+    open fun isValid(): Boolean = width.isFinite() && height.isFinite() &&
+            topInset.isFinite() &&
+            width >= 120f && height > topInset + 60f
+
+    open fun onRestore() = Unit
     open fun onResize(previous: Size) = Unit
     open fun stopInput() = Unit
     open fun advance(seconds: Float) = Unit
 }
 
 @Composable
-internal fun <T : ArcadeRun> rememberArcadeRun(
+internal inline fun <reified T : ArcadeRun> rememberArcadeRun(
     initialState: ArcadeGameState,
-    create: () -> T
-): T {
-    val saver = Saver<T, Bundle>(
-        save = { run ->
-            Bundle().apply {
-                putString("phase", run.phase.name)
-                putInt("score", run.score)
-                putBoolean("gameOverReported", run.gameOverReported)
-                putFloat("width", run.width)
-                putFloat("height", run.height)
-                putFloat("topInset", run.topInset)
-                run.save(this)
-            }
-        },
-        restore = { state ->
-            create().apply {
-                reset()
-                resize(
-                    width = state.getFloat("width", 360f),
-                    height = state.getFloat("height", 240f),
-                    topInset = state.getFloat("topInset", 44f)
-                )
-                phase = state.getString("phase")?.let(ArcadePhase::valueOf) ?: ArcadePhase.Ready
-                score = state.getInt("score")
-                gameOverReported = state.getBoolean("gameOverReported")
-                restore(state)
-            }
-        }
-    )
-    return rememberSaveable(saver = saver) {
-        create().apply {
-            reset()
-            if (initialState.isPlaying) start()
-        }
-    }
+    noinline create: () -> T
+): T = rememberSaveable(saver = arcadeRunSaver(serializer<T>())) {
+    create().apply { startWhenReady = initialState.isPlaying }
 }
 
 @Composable
@@ -489,14 +562,15 @@ internal fun ArcadeBoard(
     onHighScoreChanged: ((Int) -> Unit)?,
     onGameOver: ((Int) -> Unit)?,
     turnBased: Boolean = false,
+    isPaused: Boolean = false,
     field: @Composable () -> Unit
 ) {
     val phase = run.phase
     val playingChanged by rememberUpdatedState(LocalArcadePlayingChanged.current)
     LaunchedEffect(phase) {
-        playingChanged?.invoke(phase == ArcadePhase.Running)
+        playingChanged?.invoke(phase == ArcadePhase.Running || phase == ArcadePhase.Paused)
     }
-    val isPaused = LocalArcadePaused.current
+    val haptics = LocalHapticFeedback.current
     val score = run.score
     var record by rememberSaveable { mutableIntStateOf(initialState.highScore.coerceAtLeast(0)) }
     val highScoreChanged by rememberUpdatedState(onHighScoreChanged)
@@ -508,64 +582,101 @@ internal fun ArcadeBoard(
     val recordKey = remember(game) {
         intPreferencesKey("ARCADE_${game.name.uppercase()}_HIGH_SCORE")
     }
-
-    fun saveRecord() {
-        val value = run.score
-        if (value <= record) return
-        record = value
-        storage?.appScope?.launch {
-            storage.dataStore.edit { it[recordKey] = maxOf(it[recordKey] ?: 0, value) }
-        }
-        highScoreChanged?.invoke(value)
-    }
-
+    var recordLoaded by remember(storage, recordKey) { mutableStateOf(storage == null) }
     LaunchedEffect(initialState.highScore) {
         record = maxOf(record, initialState.highScore)
     }
     LaunchedEffect(storage, recordKey) {
         storage?.dataStore?.data
-            ?.catch { if (it !is IOException) throw it }
-            ?.collect { record = maxOf(record, it[recordKey] ?: 0) }
+            ?.catch {
+                if (it !is IOException) throw it
+                it.makeLog("Arcade")
+                recordLoaded = true
+            }
+            ?.collect {
+                record = maxOf(record, it[recordKey] ?: 0)
+                recordLoaded = true
+            }
     }
-    LaunchedEffect(phase, if (turnBased) score else 0) {
-        if (phase == ArcadePhase.Over || turnBased) saveRecord()
+    LaunchedEffect(run.prepared, recordLoaded) {
+        if (run.startWhenReady && run.prepared && recordLoaded) {
+            run.startWhenReady = false
+            run.previousBest = record
+            run.start()
+            if (isPaused) run.pause()
+        }
+    }
+    LaunchedEffect(phase) {
+        if (run.previousBest < 0 && phase != ArcadePhase.Ready) run.previousBest = record
         if (phase == ArcadePhase.Over && !run.gameOverReported) {
+            run.stopInput()
             run.gameOverReported = true
+            if (score > record) {
+                record = score
+                storage?.appScope?.launch {
+                    storage.dataStore.edit { it[recordKey] = maxOf(it[recordKey] ?: 0, score) }
+                }
+                highScoreChanged?.invoke(score)
+            }
             gameOver?.invoke(score)
         }
     }
-    DisposableEffect(run, storage) {
-        onDispose { saveRecord() }
-    }
 
-    val lifecycle = LocalLifecycleOwner.current.lifecycle
-    LaunchedEffect(run, isPaused) {
-        if (isPaused) run.stopInput()
+    var starting by remember(run) { mutableStateOf(false) }
+    val overlay = remember(run) { MutableTransitionState(initialState = !run.startWhenReady) }
+    overlay.targetState = !run.startWhenReady && phase != ArcadePhase.Running && !starting
+    LaunchedEffect(overlay.isIdle, overlay.currentState, starting, isPaused) {
+        if (starting && overlay.isIdle && !overlay.currentState && !isPaused) {
+            if (run.phase != ArcadePhase.Paused) run.previousBest = record
+            run.start()
+            starting = false
+        }
     }
-    val animate = !isPaused && phase == ArcadePhase.Running && (!turnBased || run.isAnimating)
+    val lifecycle = LocalLifecycleOwner.current.lifecycle
+    DisposableEffect(run, lifecycle) {
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_PAUSE) {
+                starting = false
+                run.pause()
+            }
+        }
+        lifecycle.addObserver(observer)
+        onDispose {
+            lifecycle.removeObserver(observer)
+            run.stopInput()
+        }
+    }
+    LaunchedEffect(run, isPaused, phase) {
+        if (isPaused) {
+            starting = false
+            run.pause()
+        }
+    }
+    val animate =
+        !isPaused && phase == ArcadePhase.Running && (!turnBased || run.isAnimating || run.levelTransition > 0f)
     LaunchedEffect(run, animate, lifecycle) {
         if (!animate) return@LaunchedEffect
         lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
-            try {
-                var previous = withFrameNanos { it }
-                while (run.phase == ArcadePhase.Running) {
-                    val now = withFrameNanos { it }
-                    var remaining = ((now - previous) / 1_000_000_000f).coerceIn(0f, 0.05f)
-                    while (remaining > 0f && run.phase == ArcadePhase.Running) {
-                        val step = minOf(remaining, 1f / 120f)
+            var previous = withFrameNanos { it }
+            while (run.phase == ArcadePhase.Running) {
+                val now = withFrameNanos { it }
+                var remaining = ((now - previous) / 1_000_000_000f).coerceIn(0f, 0.05f)
+                while (remaining > 0f && run.phase == ArcadePhase.Running) {
+                    val step = minOf(remaining, 1f / 120f)
+                    if (run.levelTransition > 0f) {
+                        run.levelTransition = (run.levelTransition - step).coerceAtLeast(0f)
+                    } else {
                         run.advance(step)
-                        remaining -= step
                     }
-                    run.redraw()
-                    previous = now
+                    remaining -= step
                 }
-            } finally {
-                run.stopInput()
+                run.redraw()
+                previous = now
             }
         }
     }
 
-    Box(
+    BoxWithConstraints(
         modifier = modifier
             .fillMaxWidth()
             .height(style.gameHeight)
@@ -573,44 +684,191 @@ internal fun ArcadeBoard(
             .background(style.background)
             .border(1.dp, style.borderColor, style.shape)
     ) {
-        Box(Modifier.matchParentSize()) {
+        val hudScale = (maxWidth / 320.dp).coerceAtMost(1f)
+        Box(modifier = Modifier.matchParentSize()) {
             field()
         }
         Row(
             modifier = Modifier
                 .align(Alignment.TopEnd)
                 .padding(end = 12.dp, top = 8.dp)
-                .background(style.background, MaterialTheme.shapes.small)
-                .padding(6.dp),
-            horizontalArrangement = Arrangement.spacedBy(10.dp)
+                .graphicsLayer {
+                    scaleX = hudScale
+                    scaleY = hudScale
+                    transformOrigin = TransformOrigin(pivotFractionX = 1f, pivotFractionY = 0f)
+                },
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(
-                text = "HI ${maxOf(record, score).toString().padStart(5, '0')}",
-                color = style.highScoreColor,
-                style = style.scoreTextStyle,
-                maxLines = 1
-            )
-            Text(
-                text = score.toString().padStart(5, '0'),
-                color = style.playerColor,
-                style = style.scoreTextStyle,
-                maxLines = 1
-            )
-        }
-        if (phase != ArcadePhase.Running) {
-            Box(
+            AnimatedVisibility(
+                visible = phase == ArcadePhase.Running,
+                enter = fadeIn(animationSpec = tween(durationMillis = 180)) + scaleIn(
+                    animationSpec = tween(
+                        durationMillis = 180
+                    ), initialScale = 0.85f
+                ),
+                exit = fadeOut(animationSpec = tween(durationMillis = 120)) + scaleOut(
+                    animationSpec = tween(
+                        durationMillis = 120
+                    ), targetScale = 0.85f
+                )
+            ) {
+                Box(
+                    Modifier
+                        .size(28.dp)
+                        .clip(MaterialTheme.shapes.small)
+                        .background(style.background)
+                        .clickable(enabled = phase == ArcadePhase.Running && !isPaused) {
+                            run.pause()
+                            haptics.longPress()
+                        }
+                        .padding(6.dp)
+                        .paint(
+                            painter = rememberVectorPainter(Icons.Rounded.Pause),
+                            colorFilter = ColorFilter.tint(style.accentColor)
+                        )
+                )
+            }
+            Row(
                 modifier = Modifier
-                    .matchParentSize()
-                    .background(style.overlayColor),
+                    .background(style.background, MaterialTheme.shapes.small)
+                    .padding(6.dp),
+                horizontalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                Text(
+                    text = "HI ${
+                        (if (phase == ArcadePhase.Ready) record else run.previousBest.coerceAtLeast(
+                            0
+                        ))
+                            .toString().padStart(5, '0')
+                    }",
+                    color = style.highScoreColor,
+                    style = style.scoreTextStyle,
+                    maxLines = 1
+                )
+                Text(
+                    text = score.toString().padStart(5, '0'),
+                    color = style.playerColor,
+                    style = style.scoreTextStyle,
+                    maxLines = 1
+                )
+            }
+        }
+        AnimatedVisibility(
+            visibleState = overlay,
+            enter = fadeIn(animationSpec = tween(durationMillis = 180)) + scaleIn(
+                animationSpec = tween(
+                    durationMillis = 180
+                ), initialScale = 0.96f
+            ),
+            exit = fadeOut(animationSpec = tween(durationMillis = 180)) + scaleOut(
+                animationSpec = tween(
+                    durationMillis = 180
+                ), targetScale = 1.03f
+            ),
+            modifier = Modifier.matchParentSize()
+        ) {
+            BoxWithConstraints(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(style.overlayColor)
+                    .pointerInput(Unit) {
+                        awaitEachGesture {
+                            awaitFirstDown().consume()
+                            do {
+                                val event = awaitPointerEvent()
+                                event.changes.forEach { it.consume() }
+                            } while (event.changes.any { it.pressed })
+                        }
+                    },
                 contentAlignment = Alignment.Center
             ) {
-                LocalArcadeButton.current(
-                    run::start,
-                    !isPaused,
-                    style.buttonColor,
-                    style.buttonContentColor
-                ) {
-                    Text(stringResource(if (phase == ArcadePhase.Ready) R.string.play else R.string.try_again))
+                val compact = maxHeight < 230.dp
+                AnimatedContent(
+                    targetState = phase,
+                    contentAlignment = Alignment.Center,
+                    transitionSpec = {
+                        ((fadeIn(animationSpec = tween(durationMillis = 180)) + slideInVertically { it / 12 }) togetherWith
+                                (fadeOut(animationSpec = tween(durationMillis = 100)) + slideOutVertically { -it / 12 }))
+                            .using(SizeTransform(clip = false))
+                    }
+                ) { overlayPhase ->
+                    Column(
+                        modifier = Modifier
+                            .padding(12.dp)
+                            .widthIn(max = 320.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.spacedBy(if (compact) 4.dp else 8.dp)
+                    ) {
+                        if (overlayPhase == ArcadePhase.Over) {
+                            Text(
+                                text = stringResource(
+                                    if (score > run.previousBest) R.string.arcade_new_record else R.string.arcade_game_over
+                                ),
+                                color = if (score > run.previousBest) style.accentColor else style.textColor,
+                                style = MaterialTheme.typography.titleMedium,
+                                textAlign = TextAlign.Center
+                            )
+                            Text(
+                                text = score.toString(),
+                                color = style.playerColor,
+                                style = if (compact) MaterialTheme.typography.headlineMedium else MaterialTheme.typography.displaySmall,
+                                fontWeight = FontWeight.Bold
+                            )
+                            Text(
+                                text = stringResource(
+                                    R.string.arcade_previous_best,
+                                    run.previousBest.coerceAtLeast(0)
+                                ),
+                                color = style.highScoreColor,
+                                style = MaterialTheme.typography.bodySmall
+                            )
+                        } else if (overlayPhase == ArcadePhase.Paused) {
+                            Text(
+                                text = stringResource(R.string.arcade_paused),
+                                color = style.textColor,
+                                style = MaterialTheme.typography.titleLarge
+                            )
+                        }
+                        if (overlayPhase != ArcadePhase.Paused) {
+                            LocalArcadeButton.current(
+                                { starting = true },
+                                phase == overlayPhase && !isPaused && !starting && run.prepared && recordLoaded,
+                                style.buttonColor,
+                                style.buttonContentColor
+                            ) {
+                                Text(text = stringResource(if (overlayPhase == ArcadePhase.Ready) R.string.play else R.string.try_again))
+                            }
+                        } else {
+                            Box(
+                                Modifier
+                                    .size(56.dp)
+                                    .clip(CircleShape)
+                                    .clickable(
+                                        enabled = phase == overlayPhase && !isPaused && !starting && run.prepared && recordLoaded,
+                                        onClick = {
+                                            starting = true
+                                            haptics.longPress()
+                                        }
+                                    )
+                                    .padding(6.dp)
+                                    .paint(
+                                        painter = rememberVectorPainter(Icons.Rounded.PlayCircle),
+                                        colorFilter = ColorFilter.tint(style.playerColor)
+                                    )
+                            )
+                        }
+                        if (overlayPhase == ArcadePhase.Paused) {
+                            LocalArcadeButton.current(
+                                run::finish,
+                                phase == overlayPhase && !isPaused && !starting,
+                                style.buttonColor,
+                                style.buttonContentColor
+                            ) {
+                                Text(text = stringResource(R.string.arcade_finish))
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -620,6 +878,8 @@ internal fun ArcadeBoard(
 @Composable
 internal fun ArcadeField(
     run: ArcadeRun,
+    worldSize: Size = Size(width = 360f, height = 220f),
+    transition: (() -> Float)? = null,
     onPress: ((Offset) -> Unit)? = null,
     onSecondaryTap: ((Offset) -> Unit)? = null,
     onTap: ((Offset) -> Unit)? = null,
@@ -630,6 +890,7 @@ internal fun ArcadeField(
     swipeOnDrag: Boolean = false,
     draw: DrawScope.() -> Unit
 ) {
+    val levelEnding by rememberUpdatedState(transition)
     val press by rememberUpdatedState(onPress)
     val secondaryTap by rememberUpdatedState(onSecondaryTap)
     val tap by rememberUpdatedState(onTap)
@@ -638,16 +899,24 @@ internal fun ArcadeField(
     val release by rememberUpdatedState(onRelease)
     val swipe by rememberUpdatedState(onSwipe)
     val haptics = LocalHapticFeedback.current
-    val isPaused = LocalArcadePaused.current
     val topInset = with(LocalDensity.current) { 44.dp.toPx() }
     Canvas(
         modifier = Modifier
             .fillMaxSize()
-            .graphicsLayer()
+            .graphicsLayer {
+                run.frame
+                val remaining = levelEnding?.invoke() ?: 0f
+                val outgoing = if (remaining > 0f) {
+                    (remaining / LevelTransitionDuration).coerceAtMost(1f)
+                } else 1f
+                val incoming = 1f - run.levelTransition / LevelTransitionDuration
+                alpha = minOf(outgoing, incoming)
+            }
             .onSizeChanged {
                 val scale = arcadeScale(
                     width = it.width.toFloat(),
-                    height = it.height.toFloat()
+                    height = it.height.toFloat(),
+                    worldSize = worldSize
                 )
                 if (scale > 0f) run.resize(
                     width = it.width / scale,
@@ -655,14 +924,18 @@ internal fun ArcadeField(
                     topInset = topInset / scale
                 )
             }
-            .pointerInput(run, haptics, swipeOnDrag, isPaused) {
-                if (isPaused) return@pointerInput
+            .pointerInput(run, haptics, swipeOnDrag, run.phase, worldSize) {
+                fun acceptsInput() = run.phase == ArcadePhase.Running &&
+                        run.levelTransition == 0f && (levelEnding?.invoke() ?: 0f) <= 0f
+
+                if (run.phase != ArcadePhase.Running) return@pointerInput
                 awaitEachGesture {
                     val down = awaitFirstDown()
-                    if (run.phase != ArcadePhase.Running) return@awaitEachGesture
+                    if (!acceptsInput()) return@awaitEachGesture
                     val scale = arcadeScale(
                         width = size.width.toFloat(),
-                        height = size.height.toFloat()
+                        height = size.height.toFloat(),
+                        worldSize = worldSize
                     )
                     if (scale <= 0f) return@awaitEachGesture
                     down.consume()
@@ -673,6 +946,8 @@ internal fun ArcadeField(
                     var swiped = false
                     var dragged = false
                     var held = false
+                    var released = false
+                    val gestureSize = size
                     val secondaryTouches = mutableMapOf<PointerId, Pair<Offset, Long>>()
                     try {
                         while (run.phase == ArcadePhase.Running) {
@@ -683,7 +958,7 @@ internal fun ArcadeField(
                                     awaitPointerEvent()
                                 }
                             } else awaitPointerEvent()
-                            if (run.phase != ArcadePhase.Running) break
+                            if (!acceptsInput() || size != gestureSize) break
                             if (event == null) {
                                 held = true
                                 hold?.invoke(down.position / scale)
@@ -727,6 +1002,7 @@ internal fun ArcadeField(
                                 }
                             }
                             if (!change.pressed) {
+                                released = true
                                 if (!held && !swiped && !dragged && change.uptimeMillis - down.uptimeMillis < viewConfiguration.longPressTimeoutMillis) {
                                     tap?.let {
                                         it(change.position / scale)
@@ -740,7 +1016,8 @@ internal fun ArcadeField(
                             change.consume()
                         }
                     } finally {
-                        release?.invoke()
+                        if (released && acceptsInput()) release?.invoke()
+                        else run.stopInput()
                     }
                 }
             }
@@ -748,7 +1025,8 @@ internal fun ArcadeField(
         run.frame
         val scale = arcadeScale(
             width = size.width,
-            height = size.height
+            height = size.height,
+            worldSize = worldSize
         )
         if (scale > 0f) scale(scale, Offset.Zero) { draw() }
     }
@@ -756,8 +1034,9 @@ internal fun ArcadeField(
 
 private fun arcadeScale(
     width: Float,
-    height: Float
-): Float = minOf(width / 360f, height / 220f)
+    height: Float,
+    worldSize: Size
+): Float = minOf(width / worldSize.width, height / worldSize.height)
 
 internal fun DrawScope.pixelRect(
     color: Color,
@@ -766,24 +1045,21 @@ internal fun DrawScope.pixelRect(
     width: Float,
     height: Float
 ) {
-    if (width > 0f && height > 0f) drawRect(color, Offset(x, y), Size(width, height))
+    if (width > 0f && height > 0f) drawRect(
+        color = color,
+        topLeft = Offset(x = x, y = y),
+        size = Size(width = width, height = height)
+    )
 }
 
 internal class ArcadeSprite(
-    name: String,
     val width: Int,
     val height: Int,
-    val data: String
+    data: String
 ) {
-    private val parser = PathParser().parsePathString(data)
-    val path: Path = parser.toPath().apply { fillType = PathFillType.EvenOdd }
-    val vector: ImageVector = ImageVector.Builder(
-        name, width.dp, height.dp, width.toFloat(), height.toFloat()
-    ).addPath(
-        pathData = parser.toNodes(),
-        pathFillType = PathFillType.EvenOdd,
-        fill = SolidColor(Color.Black)
-    ).build()
+    val path: Path = PathParser().parsePathString(data).toPath().apply {
+        fillType = PathFillType.EvenOdd
+    }
 }
 
 internal fun DrawScope.drawArcadeSprite(
@@ -792,13 +1068,12 @@ internal fun DrawScope.drawArcadeSprite(
     x: Float,
     y: Float
 ) {
-    translate(x, y) {
-        drawPath(sprite.path, tint)
+    translate(left = x, top = y) {
+        drawPath(path = sprite.path, color = tint)
     }
 }
 
 internal val ArcadeCloud = ArcadeSprite(
-    name = "Cloud",
     width = 54,
     height = 16,
     data = "M0 15H7V12H12V9H17V5H22V2H31V4H36V7H41V10H47V12H54V13H46V11H40V8H35V5H30V3H23V6H18V10H13V13H8V16H0Z"

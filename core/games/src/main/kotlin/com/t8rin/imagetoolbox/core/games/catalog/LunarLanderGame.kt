@@ -15,10 +15,12 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
+@file:UseSerializers(ArcadeOffsetSerializer::class)
+
 package com.t8rin.imagetoolbox.core.games.catalog
 
-import android.os.Bundle
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
@@ -31,6 +33,7 @@ import com.t8rin.imagetoolbox.core.games.ArcadeBoard
 import com.t8rin.imagetoolbox.core.games.ArcadeDefaults
 import com.t8rin.imagetoolbox.core.games.ArcadeField
 import com.t8rin.imagetoolbox.core.games.ArcadeGameState
+import com.t8rin.imagetoolbox.core.games.ArcadeOffsetSerializer
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.ArcadeStyle
@@ -40,6 +43,9 @@ import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
 import com.t8rin.imagetoolbox.core.games.utils.arcadeLives
 import com.t8rin.imagetoolbox.core.games.utils.arcadeStars
 import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
+import kotlinx.serialization.UseSerializers
 import kotlin.math.PI
 import kotlin.math.abs
 import kotlin.math.cos
@@ -52,12 +58,18 @@ fun LunarLanderGame(
     initialState: ArcadeGameState = ArcadeGameState(),
     style: ArcadeStyle = ArcadeDefaults.style,
     onHighScoreChanged: ((Int) -> Unit)? = null,
-    onGameOver: ((Int) -> Unit)? = null
+    onGameOver: ((Int) -> Unit)? = null,
+    isPaused: Boolean = false
 ) {
     val run = rememberArcadeRun(
         initialState = initialState,
         create = ::LunarLanderRun
     )
+    val horizonPath = remember { Path() }
+    val groundPath = remember { Path() }
+    val surfacePath = remember { Path() }
+    val flamePath = remember { Path() }
+    val cabinPath = remember { Path() }
     ArcadeBoard(
         game = ArcadeGame.LunarLander,
         run = run,
@@ -65,10 +77,12 @@ fun LunarLanderGame(
         modifier = modifier,
         initialState = initialState,
         onHighScoreChanged = onHighScoreChanged,
+        isPaused = isPaused,
         onGameOver = onGameOver
     ) {
         ArcadeField(
             run = run,
+            transition = { run.transition },
             onPress = run::beginThrust,
             onDrag = run::steer,
             onRelease = run::stopInput
@@ -80,9 +94,10 @@ fun LunarLanderGame(
                 drift = 0f
             )
             val groundBottom = maxOf(run.worldBottom, (run.height - run.camera.y) / run.zoom + 24f)
-            translate(run.camera.x, run.camera.y) {
+            translate(left = run.camera.x, top = run.camera.y) {
                 scale(run.zoom, Offset.Zero) {
-                    val horizon = Path().apply {
+                    val horizon = horizonPath.apply {
+                        rewind()
                         moveTo(-30f, groundBottom)
                         repeat(15) { ridge ->
                             lineTo(
@@ -97,7 +112,8 @@ fun LunarLanderGame(
                         path = horizon,
                         color = style.detailColor.copy(alpha = 0.12f)
                     )
-                    val ground = Path().apply {
+                    val ground = groundPath.apply {
+                        rewind()
                         moveTo(0f, groundBottom)
                         run.terrain.forEach {
                             lineTo(
@@ -112,7 +128,8 @@ fun LunarLanderGame(
                         path = ground,
                         color = style.obstacleColor.copy(alpha = 0.17f)
                     )
-                    val surface = Path().apply {
+                    val surface = surfacePath.apply {
+                        rewind()
                         run.terrain.forEachIndexed { index, point ->
                             val x = point.x * run.worldWidth
                             val y = run.top + point.y * run.span
@@ -122,7 +139,7 @@ fun LunarLanderGame(
                     drawPath(
                         path = surface,
                         color = style.obstacleColor.copy(alpha = 0.6f),
-                        style = Stroke(1.5f)
+                        style = Stroke(width = 1.5f)
                     )
                     repeat(48) {
                         val x = ((it * 79 + 23) % 359) / 359f
@@ -136,10 +153,10 @@ fun LunarLanderGame(
                             height = 2f
                         )
                     }
-                    for (pad in run.pads) {
-                        val padY = run.top + pad.y * run.span
-                        val padX = pad.left * run.worldWidth
-                        val padWidth = pad.width * run.worldWidth
+                    for ((left, width, y, multiplier) in run.pads) {
+                        val padY = run.top + y * run.span
+                        val padX = left * run.worldWidth
+                        val padWidth = width * run.worldWidth
                         val padColor =
                             if (run.safeSpeed || run.landed) style.accentColor else style.hazardColor
                         pixelRect(
@@ -173,38 +190,39 @@ fun LunarLanderGame(
                                 height = 3f
                             )
                         }
-                        repeat(pad.multiplier) { dot ->
+                        repeat(multiplier) { dot ->
                             pixelRect(
                                 color = padColor,
-                                x = padX + padWidth / 2f + (dot - (pad.multiplier - 1) / 2f) * 7f - 1.5f,
+                                x = padX + padWidth / 2f + (dot - (multiplier - 1) / 2f) * 7f - 1.5f,
                                 y = padY + 6f,
                                 width = 3f,
                                 height = 3f
                             )
                         }
-                        if (abs(run.x - pad.left - pad.width / 2f) < pad.width && pad.y - run.y < 0.35f) {
+                        if (abs(run.x - left - width / 2f) < width && y - run.y < 0.35f) {
                             for (side in 0..1) {
                                 val x = padX + side * padWidth
-                                var y = padY - 20f
-                                while (y > run.shipPoint.y - 12f) {
+                                var guideY = padY - 20f
+                                while (guideY > run.shipPoint.y - 12f) {
                                     pixelRect(
                                         color = padColor.copy(alpha = 0.3f),
                                         x = x,
-                                        y = y,
+                                        y = guideY,
                                         width = 1f,
                                         height = 3f
                                     )
-                                    y -= 8f
+                                    guideY -= 8f
                                 }
                             }
                         }
                     }
                     val center = run.shipPoint
-                    if (!run.crashed) translate(center.x, center.y) {
-                        rotate(run.angle * 180f / PI.toFloat(), Offset.Zero) {
+                    if (!run.crashed) translate(left = center.x, top = center.y) {
+                        rotate(degrees = run.angle * 180f / PI.toFloat(), pivot = Offset.Zero) {
                             scale(run.shipScale, Offset.Zero) {
                                 if (run.burning) {
-                                    val flame = Path().apply {
+                                    val flame = flamePath.apply {
+                                        rewind()
                                         moveTo(-3f, 6f)
                                         lineTo(
                                             0f,
@@ -227,7 +245,8 @@ fun LunarLanderGame(
                                         height = 4f
                                     )
                                 }
-                                val cabin = Path().apply {
+                                val cabin = cabinPath.apply {
+                                    rewind()
                                     moveTo(-6f, -3f)
                                     lineTo(-3f, -8f)
                                     lineTo(3f, -8f)
@@ -257,8 +276,8 @@ fun LunarLanderGame(
                                 for (side in listOf(-1f, 1f)) {
                                     drawLine(
                                         color = style.playerColor,
-                                        start = Offset(side * 5f, 3f),
-                                        end = Offset(side * 8f, 10f),
+                                        start = Offset(x = side * 5f, y = 3f),
+                                        end = Offset(x = side * 8f, y = 10f),
                                         strokeWidth = 2f
                                     )
                                     pixelRect(
@@ -273,13 +292,14 @@ fun LunarLanderGame(
                         }
                     }
                     if (!run.crashed && !run.landed) {
-                        val drift = Offset(run.vx * run.width, run.vy * run.span / 1.8f) * 0.35f
+                        val drift =
+                            Offset(x = run.vx * run.width, y = run.vy * run.span / 1.8f) * 0.35f
                         if (drift.getDistance() > 3f) drawLine(
                             color = if (run.safeSpeed) style.accentColor.copy(alpha = 0.5f) else style.hazardColor.copy(
                                 alpha = 0.65f
                             ),
-                            start = run.shipPoint + Offset(0f, 17f * run.shipScale),
-                            end = run.shipPoint + Offset(0f, 17f * run.shipScale) + drift,
+                            start = run.shipPoint + Offset(x = 0f, y = 17f * run.shipScale),
+                            end = run.shipPoint + Offset(x = 0f, y = 17f * run.shipScale) + drift,
                             strokeWidth = 1.5f
                         )
                     }
@@ -291,14 +311,14 @@ fun LunarLanderGame(
             }
             run.touchOrigin?.let { origin ->
                 val point = origin + Offset(
-                    run.stick.x.coerceIn(-34f, 34f),
-                    run.stick.y.coerceIn(-34f, 34f)
+                    x = run.stick.x.coerceIn(-34f, 34f),
+                    y = run.stick.y.coerceIn(-34f, 34f)
                 )
                 drawCircle(
                     color = style.detailColor.copy(alpha = 0.4f),
                     radius = 27f,
                     center = origin,
-                    style = Stroke(1f)
+                    style = Stroke(width = 1f)
                 )
                 drawLine(
                     color = style.accentColor.copy(alpha = 0.5f),
@@ -320,9 +340,9 @@ fun LunarLanderGame(
             val fuelY = run.topInset / 2f - 5f
             drawRect(
                 color = style.detailColor,
-                topLeft = Offset(76f, fuelY),
-                size = Size(34f, 10f),
-                style = Stroke(1f)
+                topLeft = Offset(x = 76f, y = fuelY),
+                size = Size(width = 34f, height = 10f),
+                style = Stroke(width = 1f)
             )
             pixelRect(
                 color = if (run.fuel > 0.2f) style.playerColor else style.hazardColor,
@@ -342,6 +362,7 @@ fun LunarLanderGame(
     }
 }
 
+@Serializable
 internal data class LandingPad(
     val left: Float,
     val width: Float,
@@ -349,19 +370,22 @@ internal data class LandingPad(
     val multiplier: Int = 1
 )
 
+@Serializable
 internal class LunarLanderRun : ArcadeRun() {
     val terrain = mutableListOf<Offset>()
+
+    @Transient
     val effects = ArcadeEffects()
     val top get() = topInset + 12f
     val span get() = (height - top - 12f) * 1.8f
     val worldBottom get() = top + span + 12f
     val shipScale get() = minOf(width / 360f, (height - top - 12f) / 180f).coerceIn(0.85f, 1.25f)
     val worldWidth get() = width * 2.8f
-    val shipPoint get() = Offset(x * worldWidth, top + y * span)
+    val shipPoint get() = Offset(x = x * worldWidth, y = top + y * span)
     val camera
         get() = Offset(
-            (width / 2f - shipPoint.x * zoom).coerceIn(width - worldWidth * zoom, 0f),
-            (topInset + (height - topInset) * 0.4f - shipPoint.y * zoom)
+            x = (width / 2f - shipPoint.x * zoom).coerceIn(width - worldWidth * zoom, 0f),
+            y = (topInset + (height - topInset) * 0.4f - shipPoint.y * zoom)
                 .coerceAtMost(topInset + 8f - top * zoom)
         )
     var x = 0.2f
@@ -374,11 +398,15 @@ internal class LunarLanderRun : ArcadeRun() {
     var padWidth = 0.22f
     var padY = 0.85f
     var bonusPad: LandingPad? = null
-    val pads get() = listOfNotNull(LandingPad(padLeft, padWidth, padY), bonusPad)
+    val pads get() = listOfNotNull(LandingPad(left = padLeft, width = padWidth, y = padY), bonusPad)
     var throttle = 0.55f
     var zoom = 0.52f
+
+    @Transient
     var touchOrigin: Offset? = null
         private set
+
+    @Transient
     var stick = Offset.Zero
         private set
     var round = 1
@@ -386,16 +414,26 @@ internal class LunarLanderRun : ArcadeRun() {
     var time = 0f
     var landed = false
     var crashed = false
+
+    @Transient
     private var firing = false
+
+    @Transient
     private var targetAngle = 0f
+
+    @Transient
     private var touchAngle = 0f
-    private var transition = 0f
+    var transition = 0f
+        private set
     private var grace = 0.7f
     val burning get() = firing && fuel > 0f && transition <= 0f
     val safeSpeed
         get() = abs(vx) <= 0.1f && abs(vy) <= 0.13f - round.coerceAtMost(16) * 0.002f && abs(
             angle
         ) <= 0.22f
+
+    override fun isValid(): Boolean = super.isValid() &&
+            terrain.size >= 2 && terrain.zipWithNext().all { (a, b) -> a.x < b.x }
 
     override fun reset() {
         round = 1
@@ -412,25 +450,31 @@ internal class LunarLanderRun : ArcadeRun() {
         bonusPad = if (round > 1) {
             val w = (0.15f - round * 0.003f).coerceAtLeast(0.1f) / 2.8f
             val left = if (padLeft > 0.4f) 0.05f else 0.94f - w
-            LandingPad(left, w, 0.7f + Random.nextFloat() * 0.15f, 2)
+            LandingPad(
+                left = left,
+                width = w,
+                y = 0.7f + Random.nextFloat() * 0.15f,
+                multiplier = 2
+            )
         } else null
         terrain.clear()
         val pads = pads
-        repeat(45) {
-            val x = it / 44f
+        repeat(45) { index ->
+            val x = index / 44f
             if (pads.none { x in it.left..(it.left + it.width) }) terrain += Offset(
-                x, 0.66f + Random.nextFloat() * 0.29f
+                x = x, y = 0.66f + Random.nextFloat() * 0.29f
             )
         }
-        for (pad in pads) {
-            terrain += Offset(pad.left, pad.y)
-            terrain += Offset(pad.left + pad.width, pad.y)
+        for ((left, width, y) in pads) {
+            terrain += Offset(x = left, y = y)
+            terrain += Offset(x = left + width, y = y)
         }
         terrain.sortBy { it.x }
         launch()
     }
 
     private fun launch() {
+        animateLevel()
         x =
             if (round == 1) padLeft + padWidth / 2f else if (padLeft + padWidth / 2f > 0.5f) 0.22f else 0.78f
         y = 0.1f
@@ -486,7 +530,7 @@ internal class LunarLanderRun : ArcadeRun() {
     ): Offset {
         val px = (dx * cos(angle) - dy * sin(angle)) * shipScale
         val py = (dx * sin(angle) + dy * cos(angle)) * shipScale
-        return Offset(x + px / worldWidth, y + py / span)
+        return Offset(x = x + px / worldWidth, y = y + py / span)
     }
 
     override fun advance(seconds: Float) {
@@ -555,62 +599,5 @@ internal class LunarLanderRun : ArcadeRun() {
             }
             stopInput()
         }
-    }
-
-    override fun save(state: Bundle) {
-        state.putFloat("throttle", throttle)
-        state.putFloat("zoom", zoom)
-        bonusPad?.let { state.putFloatArray("bonus", floatArrayOf(it.left, it.width, it.y)) }
-        state.putFloatArray(
-            "ship",
-            floatArrayOf(
-                x,
-                y,
-                vx,
-                vy,
-                angle,
-                fuel,
-                padLeft,
-                padWidth,
-                padY,
-                time,
-                transition,
-                grace
-            )
-        )
-        state.putInt("round", round)
-        state.putInt("lives", lives)
-        state.putBoolean("landed", landed)
-        state.putBoolean("crashed", crashed)
-        state.putFloatArray("terrain", terrain.flatMap { listOf(it.x, it.y) }.toFloatArray())
-    }
-
-    override fun restore(state: Bundle) {
-        throttle = state.getFloat("throttle", 0.55f)
-        zoom = state.getFloat("zoom", 0.52f)
-        bonusPad = state.getFloatArray("bonus")?.let { LandingPad(it[0], it[1], it[2], 2) }
-        state.getFloatArray("ship")?.let {
-            x = it[0]
-            y = it[1]
-            vx = it[2]
-            vy = it[3]
-            angle = it[4]
-            fuel = it[5]
-            padLeft = it[6]
-            padWidth = it[7]
-            padY = it[8]
-            time = it[9]
-            transition = it[10]
-            grace = it[11]
-        }
-        round = state.getInt("round", 1)
-        lives = state.getInt("lives", 3)
-        landed = state.getBoolean("landed")
-        crashed = state.getBoolean("crashed")
-        terrain.clear()
-        state.getFloatArray("terrain")?.let {
-            for (index in it.indices step 2) terrain += Offset(it[index], it[index + 1])
-        }
-        stopInput()
     }
 }

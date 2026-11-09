@@ -15,9 +15,10 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
+@file:UseSerializers(ArcadeOffsetSerializer::class)
+
 package com.t8rin.imagetoolbox.core.games.catalog
 
-import android.os.Bundle
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -29,6 +30,7 @@ import com.t8rin.imagetoolbox.core.games.ArcadeBoard
 import com.t8rin.imagetoolbox.core.games.ArcadeDefaults
 import com.t8rin.imagetoolbox.core.games.ArcadeField
 import com.t8rin.imagetoolbox.core.games.ArcadeGameState
+import com.t8rin.imagetoolbox.core.games.ArcadeOffsetSerializer
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.ArcadeSprite
@@ -38,17 +40,20 @@ import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
 import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
+import kotlinx.serialization.UseSerializers
 import kotlin.math.abs
 import kotlin.math.exp
 import kotlin.random.Random
 
 private val RacingBody = ArcadeSprite(
-    "RacingBody", 30, 46,
-    "M8 0H22V3H25V10H27V36H25V43H22V46H8V43H5V36H3V10H5V3H8Z"
+    width = 30, height = 46,
+    data = "M8 0H22V3H25V10H27V36H25V43H22V46H8V43H5V36H3V10H5V3H8Z"
 )
 private val RacingTires = ArcadeSprite(
-    "RacingTires", 30, 46,
-    "M0 9H5V19H0Z M25 9H30V19H25Z M0 30H5V40H0Z M25 30H30V40H25Z"
+    width = 30, height = 46,
+    data = "M0 9H5V19H0Z M25 9H30V19H25Z M0 30H5V40H0Z M25 30H30V40H25Z"
 )
 
 @Composable
@@ -57,7 +62,8 @@ fun RacerGame(
     initialState: ArcadeGameState = ArcadeGameState(),
     style: ArcadeStyle = ArcadeDefaults.style,
     onHighScoreChanged: ((Int) -> Unit)? = null,
-    onGameOver: ((Int) -> Unit)? = null
+    onGameOver: ((Int) -> Unit)? = null,
+    isPaused: Boolean = false
 ) {
     val run = rememberArcadeRun(
         initialState = initialState,
@@ -71,6 +77,7 @@ fun RacerGame(
         modifier = modifier,
         initialState = initialState,
         onHighScoreChanged = onHighScoreChanged,
+        isPaused = isPaused,
         onGameOver = onGameOver
     ) {
         ArcadeField(
@@ -138,7 +145,13 @@ fun RacerGame(
             for (lane in 1..2) {
                 var y = run.distance % 42f - 42f
                 while (y < run.height) {
-                    pixelRect(style.detailColor, left + lane * run.laneWidth - 1f, y, 2f, 20f)
+                    pixelRect(
+                        color = style.detailColor,
+                        x = left + lane * run.laneWidth - 1f,
+                        y = y,
+                        width = 2f,
+                        height = 20f
+                    )
                     y += 42f
                 }
             }
@@ -166,7 +179,10 @@ fun RacerGame(
                     height = 15f
                 )
             }
-            rotate((run.targetLane - run.position) * 9f, Offset(x, run.playerY)) {
+            rotate(
+                degrees = (run.targetLane - run.position) * 9f,
+                pivot = Offset(x = x, y = run.playerY)
+            ) {
                 racingCar(style, x, run.playerY, style.playerColor)
             }
             run.effects.draw(this, style.accentColor)
@@ -332,6 +348,7 @@ private fun DrawScope.racingCar(
     )
 }
 
+@Serializable
 internal data class RacerCar(
     val lane: Int,
     var y: Float,
@@ -339,11 +356,14 @@ internal data class RacerCar(
     var passed: Boolean = false
 )
 
+@Serializable
 internal class RacerRun : ArcadeRun() {
     val roadLeft get() = (width * 0.14f).coerceAtLeast(24f)
     val laneWidth get() = (width - roadLeft * 2f) / 3f
     val playerY get() = height - 36f
     val traffic = mutableListOf<RacerCar>()
+
+    @Transient
     val effects = ArcadeEffects()
     var position = 1f
     var targetLane = 1
@@ -387,7 +407,7 @@ internal class RacerRun : ArcadeRun() {
             var longest = 46f
             for (lane in blocked) {
                 val kind = if (waves >= 3 && Random.nextFloat() < 0.4f) 2 else Random.nextInt(2)
-                traffic += RacerCar(lane, -48f, kind)
+                traffic += RacerCar(lane = lane, y = -48f, kind = kind)
                 if (kind == 2) longest = 82f
             }
             lastGap = gap
@@ -408,7 +428,7 @@ internal class RacerRun : ArcadeRun() {
             if (!car.passed && car.y > playerY + clearance + 3f) {
                 car.passed = true
                 score += if (car.kind == 2) 20 else 10
-                effects.burst(Offset(laneX(car.lane.toFloat()), playerY + 25f), 4)
+                effects.burst(Offset(x = laneX(car.lane.toFloat()), y = playerY + 25f), 4)
             }
             if (car.y > height + 46f) iterator.remove()
         }
@@ -418,44 +438,5 @@ internal class RacerRun : ArcadeRun() {
         val ratio = height / previous.height
         for (car in traffic) car.y *= ratio
         effects.clear()
-    }
-
-    override fun save(state: Bundle) {
-        state.putFloatArray(
-            "road",
-            floatArrayOf(
-                position,
-                distance,
-                targetLane.toFloat(),
-                spawn,
-                elapsed,
-                lastGap.toFloat(),
-                waves.toFloat()
-            )
-        )
-        state.putFloatArray("traffic", traffic.flatMap {
-            listOf(it.lane.toFloat(), it.y, it.kind.toFloat(), if (it.passed) 1f else 0f)
-        }.toFloatArray())
-    }
-
-    override fun restore(state: Bundle) {
-        state.getFloatArray("road")?.let {
-            position = it[0]
-            distance = it[1]
-            targetLane = it[2].toInt()
-            spawn = it[3]
-            elapsed = it[4]
-            lastGap = it[5].toInt()
-            waves = it[6].toInt()
-        }
-        traffic.clear()
-        state.getFloatArray("traffic")?.let {
-            for (i in it.indices step 4) traffic += RacerCar(
-                it[i].toInt(),
-                it[i + 1],
-                it[i + 2].toInt(),
-                it[i + 3] == 1f
-            )
-        }
     }
 }

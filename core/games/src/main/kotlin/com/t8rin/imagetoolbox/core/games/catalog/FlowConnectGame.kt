@@ -15,10 +15,12 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
+@file:UseSerializers(ArcadeOffsetSerializer::class)
+
 package com.t8rin.imagetoolbox.core.games.catalog
 
-import android.os.Bundle
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
@@ -33,11 +35,15 @@ import com.t8rin.imagetoolbox.core.games.ArcadeBoard
 import com.t8rin.imagetoolbox.core.games.ArcadeDefaults
 import com.t8rin.imagetoolbox.core.games.ArcadeField
 import com.t8rin.imagetoolbox.core.games.ArcadeGameState
+import com.t8rin.imagetoolbox.core.games.ArcadeOffsetSerializer
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.ArcadeStyle
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
 import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
+import kotlinx.serialization.UseSerializers
 import kotlin.math.abs
 import kotlin.math.ceil
 import kotlin.random.Random
@@ -48,13 +54,15 @@ fun FlowConnectGame(
     initialState: ArcadeGameState = ArcadeGameState(),
     style: ArcadeStyle = ArcadeDefaults.style,
     onHighScoreChanged: ((Int) -> Unit)? = null,
-    onGameOver: ((Int) -> Unit)? = null
+    onGameOver: ((Int) -> Unit)? = null,
+    isPaused: Boolean = false
 ) {
     val run = rememberArcadeRun(
         initialState = initialState,
         create = ::FlowConnectRun
     )
 
+    val routePath = remember { Path() }
     ArcadeBoard(
         game = ArcadeGame.FlowConnect,
         run = run,
@@ -62,11 +70,13 @@ fun FlowConnectGame(
         modifier = modifier,
         initialState = initialState,
         onHighScoreChanged = onHighScoreChanged,
+        isPaused = isPaused,
         onGameOver = onGameOver,
         turnBased = true
     ) {
         ArcadeField(
             run = run,
+            transition = { run.transition },
             onPress = run::begin,
             onDrag = run::drag,
             onRelease = run::stopInput
@@ -80,37 +90,38 @@ fun FlowConnectGame(
                 lerp(style.playerColor, style.accentColor, 0.5f),
                 lerp(style.hazardColor, style.obstacleColor, 0.5f)
             )
-            val area = Size(cell * run.columns, cell * run.columns)
+            val area = Size(width = cell * run.columns, height = cell * run.columns)
             drawRoundRect(
                 color = style.detailColor.copy(alpha = 0.055f),
                 topLeft = run.origin,
                 size = area,
-                cornerRadius = CornerRadius(8f)
+                cornerRadius = CornerRadius(x = 8f)
             )
             drawRoundRect(
                 color = style.detailColor.copy(alpha = 0.4f),
                 topLeft = run.origin,
                 size = area,
-                cornerRadius = CornerRadius(8f),
-                style = Stroke(1f)
+                cornerRadius = CornerRadius(x = 8f),
+                style = Stroke(width = 1f)
             )
             for (index in 1 until run.columns) {
                 drawLine(
                     color = style.detailColor.copy(alpha = 0.16f),
-                    start = run.origin + Offset(index * cell, 0f),
-                    end = run.origin + Offset(index * cell, area.height),
+                    start = run.origin + Offset(x = index * cell, y = 0f),
+                    end = run.origin + Offset(x = index * cell, y = area.height),
                     strokeWidth = 1f
                 )
                 drawLine(
                     color = style.detailColor.copy(alpha = 0.16f),
-                    start = run.origin + Offset(0f, index * cell),
-                    end = run.origin + Offset(area.width, index * cell),
+                    start = run.origin + Offset(x = 0f, y = index * cell),
+                    end = run.origin + Offset(x = area.width, y = index * cell),
                     strokeWidth = 1f
                 )
             }
             run.paths.forEachIndexed { kind, points ->
                 if (points.size > 1) {
-                    val path = Path().apply {
+                    val path = routePath.apply {
+                        rewind()
                         moveTo(run.center(points.first()).x, run.center(points.first()).y)
                         points.drop(1).forEach { lineTo(run.center(it).x, run.center(it).y) }
                     }
@@ -119,7 +130,7 @@ fun FlowConnectGame(
                         path = path,
                         color = color.copy(alpha = 0.12f),
                         style = Stroke(
-                            cell * 0.45f,
+                            width = cell * 0.45f,
                             cap = StrokeCap.Round,
                             join = StrokeJoin.Round
                         )
@@ -128,7 +139,7 @@ fun FlowConnectGame(
                         path = path,
                         color = color.copy(alpha = if (run.connected(kind)) 0.9f else 0.6f),
                         style = Stroke(
-                            cell * 0.22f,
+                            width = cell * 0.22f,
                             cap = StrokeCap.Round,
                             join = StrokeJoin.Round
                         )
@@ -165,29 +176,29 @@ fun FlowConnectGame(
 
                         1 -> drawRect(
                             color = ink,
-                            topLeft = p - Offset(r, r),
-                            size = Size(r * 2f, r * 2f)
+                            topLeft = p - Offset(x = r, y = r),
+                            size = Size(width = r * 2f, height = r * 2f)
                         )
 
-                        2 -> rotate(45f, p) {
+                        2 -> rotate(degrees = 45f, pivot = p) {
                             drawRect(
                                 color = ink,
-                                topLeft = p - Offset(r, r),
-                                size = Size(r * 2f, r * 2f)
+                                topLeft = p - Offset(x = r, y = r),
+                                size = Size(width = r * 2f, height = r * 2f)
                             )
                         }
 
-                        3, 4 -> rotate(if (kind == 3) 0f else 45f, p) {
+                        3, 4 -> rotate(degrees = if (kind == 3) 0f else 45f, pivot = p) {
                             drawLine(
                                 color = ink,
-                                start = p - Offset(r * 1.2f, 0f),
-                                end = p + Offset(r * 1.2f, 0f),
+                                start = p - Offset(x = r * 1.2f, y = 0f),
+                                end = p + Offset(x = r * 1.2f, y = 0f),
                                 strokeWidth = 2f
                             )
                             drawLine(
                                 color = ink,
-                                start = p - Offset(0f, r * 1.2f),
-                                end = p + Offset(0f, r * 1.2f),
+                                start = p - Offset(x = 0f, y = r * 1.2f),
+                                end = p + Offset(x = 0f, y = r * 1.2f),
                                 strokeWidth = 2f
                             )
                         }
@@ -196,7 +207,7 @@ fun FlowConnectGame(
                             color = ink,
                             radius = r * 1.3f,
                             center = p,
-                            style = Stroke(2f)
+                            style = Stroke(width = 2f)
                         )
                     }
                 }
@@ -209,27 +220,35 @@ fun FlowConnectGame(
     }
 }
 
+@Serializable
 internal class FlowConnectRun : ArcadeRun() {
     var columns = 4
     var round = 1
     val pairs = mutableListOf<IntArray>()
     val paths = mutableListOf<MutableList<Int>>()
     val solution = mutableListOf<IntArray>()
+
+    @Transient
     val effects = ArcadeEffects()
+
+    @Transient
     var active = -1
         private set
+
+    @Transient
     private var lastTouch: Offset? = null
-    private var transition = 0f
+    var transition = 0f
+        private set
     private var glow = 0f
     val cell get() = minOf((width - 48f) / columns, (height - topInset - 34f) / columns)
     val origin
         get() = Offset(
-            (width - columns * cell) / 2f,
-            topInset + (height - topInset - columns * cell) / 2f
+            x = (width - columns * cell) / 2f,
+            y = topInset + (height - topInset - columns * cell) / 2f
         )
 
     fun center(index: Int) =
-        origin + Offset((index % columns + 0.5f) * cell, (index / columns + 0.5f) * cell)
+        origin + Offset(x = (index % columns + 0.5f) * cell, y = (index / columns + 0.5f) * cell)
 
     fun adjacent(
         a: Int,
@@ -239,12 +258,21 @@ internal class FlowConnectRun : ArcadeRun() {
     fun connected(kind: Int): Boolean =
         paths[kind].size > 1 && paths[kind].first() in pairs[kind] && paths[kind].last() in pairs[kind]
 
+    override fun isValid(): Boolean = super.isValid() &&
+            columns in 4..7 &&
+            pairs.size == paths.size &&
+            pairs.size == solution.size &&
+            pairs.all { it.size == 2 } &&
+            (pairs.asSequence().flatMap { it.asSequence() } + paths.asSequence()
+                .flatten()).all { it in 0 until columns * columns }
+
     override fun reset() {
         round = 1
         newRound()
     }
 
     private fun newRound() {
+        animateLevel()
         columns = (4 + (round - 1) / 4).coerceAtMost(7)
         val count = (columns - 1).coerceIn(3, 6)
         var best = Int.MIN_VALUE
@@ -341,7 +369,8 @@ internal class FlowConnectRun : ArcadeRun() {
             val sample = from + (point - from) * (step.toFloat() / steps)
             val target = indexAt(sample)
             if (target < 0) continue
-            for (distance in 0 until columns * 2) {
+            var remaining = columns * 2
+            while (remaining-- > 0) {
                 if (active < 0) break
                 val last = paths[active].last()
                 if (last == target) break
@@ -410,37 +439,5 @@ internal class FlowConnectRun : ArcadeRun() {
             }
         }
         isAnimating = active >= 0 || transition > 0f || glow > 0f
-    }
-
-    override fun save(state: Bundle) {
-        state.putIntArray("run", intArrayOf(columns, round))
-        state.putFloatArray("time", floatArrayOf(transition, glow))
-        state.putInt("count", pairs.size)
-        pairs.indices.forEach {
-            state.putIntArray("pair$it", pairs[it])
-            state.putIntArray("path$it", paths[it].toIntArray())
-            state.putIntArray("solution$it", solution[it])
-        }
-    }
-
-    override fun restore(state: Bundle) {
-        state.getIntArray("run")!!.let {
-            columns = it[0]
-            round = it[1]
-        }
-        state.getFloatArray("time")!!.let {
-            transition = it[0]
-            glow = it[1]
-        }
-        pairs.clear()
-        paths.clear()
-        solution.clear()
-        repeat(state.getInt("count")) {
-            pairs += state.getIntArray("pair$it")!!.copyOf()
-            paths += state.getIntArray("path$it")!!.toMutableList()
-            solution += state.getIntArray("solution$it")!!.copyOf()
-        }
-        stopInput()
-        isAnimating = transition > 0f || glow > 0f
     }
 }

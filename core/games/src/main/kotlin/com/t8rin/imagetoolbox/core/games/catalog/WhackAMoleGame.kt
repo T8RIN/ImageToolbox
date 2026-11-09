@@ -15,9 +15,10 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
+@file:UseSerializers(ArcadeOffsetSerializer::class)
+
 package com.t8rin.imagetoolbox.core.games.catalog
 
-import android.os.Bundle
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -28,6 +29,7 @@ import com.t8rin.imagetoolbox.core.games.ArcadeBoard
 import com.t8rin.imagetoolbox.core.games.ArcadeDefaults
 import com.t8rin.imagetoolbox.core.games.ArcadeField
 import com.t8rin.imagetoolbox.core.games.ArcadeGameState
+import com.t8rin.imagetoolbox.core.games.ArcadeOffsetSerializer
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.ArcadeSprite
@@ -38,20 +40,23 @@ import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
 import com.t8rin.imagetoolbox.core.games.utils.arcadeLives
 import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
+import kotlinx.serialization.UseSerializers
 import kotlin.random.Random
 
 private val ArcadeMole = ArcadeSprite(
-    "ArcadeMole", 40, 42,
-    "M5 8V3H12V6H28V3H35V8H38V16H36V21H38V42H2V21H4V16H2V8Z"
+    width = 40, height = 42,
+    data = "M5 8V3H12V6H28V3H35V8H38V16H36V21H38V42H2V21H4V16H2V8Z"
 )
 
 private val MoleHole = ArcadeSprite(
-    "MoleHole", 58, 18,
-    "M10 0H46V3H53V6H58V12H51V15H44V18H13V15H5V12H0V6H5V3H10Z"
+    width = 58, height = 18,
+    data = "M10 0H46V3H53V6H58V12H51V15H44V18H13V15H5V12H0V6H5V3H10Z"
 )
 private val MoleMine = ArcadeSprite(
-    "MoleMine", 40, 40,
-    "M17 0H23V6H29V3H35V10H32V15H40V23H33V29H36V36H29V33H23V40H17V33H10V36H3V29H6V23H0V17H7V11H4V4H11V7H17Z"
+    width = 40, height = 40,
+    data = "M17 0H23V6H29V3H35V10H32V15H40V23H33V29H36V36H29V33H23V40H17V33H10V36H3V29H6V23H0V17H7V11H4V4H11V7H17Z"
 )
 
 @Composable
@@ -60,7 +65,8 @@ fun WhackAMoleGame(
     initialState: ArcadeGameState = ArcadeGameState(),
     style: ArcadeStyle = ArcadeDefaults.style,
     onHighScoreChanged: ((Int) -> Unit)? = null,
-    onGameOver: ((Int) -> Unit)? = null
+    onGameOver: ((Int) -> Unit)? = null,
+    isPaused: Boolean = false
 ) {
     val run = rememberArcadeRun(
         initialState = initialState,
@@ -73,6 +79,7 @@ fun WhackAMoleGame(
         modifier = modifier,
         initialState = initialState,
         onHighScoreChanged = onHighScoreChanged,
+        isPaused = isPaused,
         onGameOver = onGameOver
     ) {
         ArcadeField(
@@ -109,7 +116,7 @@ fun WhackAMoleGame(
             for (index in 0..8) {
                 val center = run.hole(index)
                 val unit = run.cell / 76f
-                translate(center.x, center.y) {
+                translate(left = center.x, top = center.y) {
                     scale(unit, Offset.Zero) {
                         drawArcadeSprite(
                             sprite = MoleHole,
@@ -348,18 +355,21 @@ fun WhackAMoleGame(
     }
 }
 
+@Serializable
 internal class WhackAMoleRun : ArcadeRun() {
     val timers = FloatArray(9)
     val hits = FloatArray(9)
     val ages = FloatArray(9)
     val types = IntArray(9)
+
+    @Transient
     val effects = ArcadeEffects()
     val side get() = minOf(width - 32f, height - topInset - 22f)
     val cell get() = side / 3f
     val origin
         get() = Offset(
-            (width - side) / 2f,
-            topInset + 14f + (height - topInset - 22f - side) / 2f
+            x = (width - side) / 2f,
+            y = topInset + 14f + (height - topInset - 22f - side) / 2f
         )
     var misses = 0
     var combo = 0
@@ -367,7 +377,11 @@ internal class WhackAMoleRun : ArcadeRun() {
     private var elapsed = 0f
     private var last = -1
 
-    fun hole(index: Int) = origin + Offset((index % 3 + 0.5f) * cell, (index / 3 + 0.62f) * cell)
+    fun hole(index: Int) =
+        origin + Offset(x = (index % 3 + 0.5f) * cell, y = (index / 3 + 0.62f) * cell)
+
+    override fun isValid(): Boolean = super.isValid() &&
+            timers.size == 9 && hits.size == 9 && ages.size == 9 && types.size == 9
 
     override fun reset() {
         timers.fill(0f)
@@ -391,7 +405,7 @@ internal class WhackAMoleRun : ArcadeRun() {
                 hits[index] = 0.3f
                 combo++
                 score += 1 + minOf(combo / 5, 4)
-                effects.burst(point = hole(index) - Offset(0f, cell * 0.2f))
+                effects.burst(point = hole(index) - Offset(x = 0f, y = cell * 0.2f))
             }
 
             2 -> {
@@ -438,31 +452,6 @@ internal class WhackAMoleRun : ArcadeRun() {
                 ages[index] = 0f
             }
             timer += maxOf(0.4f, 0.95f - elapsed * 0.006f)
-        }
-    }
-
-    override fun save(state: Bundle) {
-        state.putIntArray("holes", types.copyOf())
-        state.putFloatArray("hits", hits.copyOf())
-        state.putFloatArray("timers", timers.copyOf())
-        state.putFloatArray("ages", ages.copyOf())
-        state.putFloatArray(
-            "moles",
-            floatArrayOf(misses.toFloat(), combo.toFloat(), timer, elapsed, last.toFloat())
-        )
-    }
-
-    override fun restore(state: Bundle) {
-        state.getIntArray("holes")?.copyInto(types)
-        state.getFloatArray("hits")?.copyInto(hits)
-        state.getFloatArray("timers")?.copyInto(timers)
-        state.getFloatArray("ages")?.copyInto(ages)
-        state.getFloatArray("moles")?.let {
-            misses = it[0].toInt()
-            combo = it[1].toInt()
-            timer = it[2]
-            elapsed = it[3]
-            last = it[4].toInt()
         }
     }
 }

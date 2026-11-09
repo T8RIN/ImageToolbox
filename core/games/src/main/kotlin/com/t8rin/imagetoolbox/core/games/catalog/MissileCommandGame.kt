@@ -15,9 +15,10 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
+@file:UseSerializers(ArcadeOffsetSerializer::class)
+
 package com.t8rin.imagetoolbox.core.games.catalog
 
-import android.os.Bundle
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -27,6 +28,7 @@ import com.t8rin.imagetoolbox.core.games.ArcadeBoard
 import com.t8rin.imagetoolbox.core.games.ArcadeDefaults
 import com.t8rin.imagetoolbox.core.games.ArcadeField
 import com.t8rin.imagetoolbox.core.games.ArcadeGameState
+import com.t8rin.imagetoolbox.core.games.ArcadeOffsetSerializer
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.ArcadeStyle
@@ -36,6 +38,9 @@ import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
 import com.t8rin.imagetoolbox.core.games.utils.arcadeStars
 import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
+import kotlinx.serialization.UseSerializers
 import kotlin.math.PI
 import kotlin.math.hypot
 import kotlin.math.sin
@@ -47,7 +52,8 @@ fun MissileCommandGame(
     initialState: ArcadeGameState = ArcadeGameState(),
     style: ArcadeStyle = ArcadeDefaults.style,
     onHighScoreChanged: ((Int) -> Unit)? = null,
-    onGameOver: ((Int) -> Unit)? = null
+    onGameOver: ((Int) -> Unit)? = null,
+    isPaused: Boolean = false
 ) {
     val run = rememberArcadeRun(
         initialState = initialState,
@@ -60,10 +66,12 @@ fun MissileCommandGame(
         modifier = modifier,
         initialState = initialState,
         onHighScoreChanged = onHighScoreChanged,
+        isPaused = isPaused,
         onGameOver = onGameOver
     ) {
         ArcadeField(
             run = run,
+            transition = { run.transition },
             onPress = run::fire
         ) {
             arcadeStars(
@@ -149,10 +157,10 @@ fun MissileCommandGame(
                 )
             }
             for ((x, y, start) in run.missiles) {
-                val point = Offset(x, y)
+                val point = Offset(x = x, y = y)
                 drawLine(
                     color = style.hazardColor.copy(alpha = 0.4f),
-                    start = Offset(start, 0f),
+                    start = Offset(x = start, y = 0f),
                     end = point,
                     strokeWidth = 1f
                 )
@@ -168,7 +176,7 @@ fun MissileCommandGame(
                 )
             }
             for ((x, y, targetX, targetY) in run.shots) {
-                val point = Offset(x, y)
+                val point = Offset(x = x, y = y)
                 drawLine(
                     color = style.playerColor.copy(alpha = 0.5f),
                     start = run.launch,
@@ -180,23 +188,23 @@ fun MissileCommandGame(
                     radius = 2.5f,
                     center = point
                 )
-                val target = Offset(targetX, targetY)
+                val target = Offset(x = targetX, y = targetY)
                 drawLine(
                     color = style.detailColor,
-                    start = target - Offset(3f, 3f),
-                    end = target + Offset(3f, 3f),
+                    start = target - Offset(x = 3f, y = 3f),
+                    end = target + Offset(x = 3f, y = 3f),
                     strokeWidth = 1f
                 )
                 drawLine(
                     color = style.detailColor,
-                    start = target + Offset(3f, -3f),
-                    end = target + Offset(-3f, 3f),
+                    start = target + Offset(x = 3f, y = -3f),
+                    end = target + Offset(x = -3f, y = 3f),
                     strokeWidth = 1f
                 )
             }
             for (blast in run.blasts) {
                 val radius = blast.radius * run.blastSize
-                val point = Offset(blast.x, blast.y)
+                val point = Offset(x = blast.x, y = blast.y)
                 val color = if (blast.chain) style.accentColor else style.playerColor
                 drawCircle(
                     color = color.copy(alpha = 0.12f),
@@ -207,13 +215,13 @@ fun MissileCommandGame(
                     color = color,
                     radius = radius,
                     center = point,
-                    style = Stroke(1.5f)
+                    style = Stroke(width = 1.5f)
                 )
                 drawCircle(
                     color = color.copy(alpha = 0.3f),
                     radius = radius * 0.72f,
                     center = point,
-                    style = Stroke(1f)
+                    style = Stroke(width = 1f)
                 )
             }
             drawArc(
@@ -221,8 +229,8 @@ fun MissileCommandGame(
                 startAngle = 180f,
                 sweepAngle = 180f,
                 useCenter = true,
-                topLeft = run.launch - Offset(14f, 10f),
-                size = Size(28f, 20f)
+                topLeft = run.launch - Offset(x = 14f, y = 10f),
+                size = Size(width = 28f, height = 20f)
             )
             pixelRect(
                 color = style.playerColor,
@@ -248,6 +256,7 @@ fun MissileCommandGame(
     }
 }
 
+@Serializable
 internal data class IncomingMissile(
     var x: Float,
     var y: Float,
@@ -256,6 +265,7 @@ internal data class IncomingMissile(
     var speed: Float
 )
 
+@Serializable
 internal data class Interceptor(
     var x: Float,
     var y: Float,
@@ -263,6 +273,7 @@ internal data class Interceptor(
     var targetY: Float
 )
 
+@Serializable
 internal data class MissileBlast(
     var x: Float,
     var y: Float,
@@ -272,19 +283,24 @@ internal data class MissileBlast(
     val radius get() = sin((age / 1.4f).coerceIn(0f, 1f) * PI.toFloat())
 }
 
+@Serializable
 internal class MissileCommandRun : ArcadeRun() {
     val cities = IntArray(4) { 1 }
     val missiles = mutableListOf<IncomingMissile>()
     val shots = mutableListOf<Interceptor>()
     val blasts = mutableListOf<MissileBlast>()
+
+    @Transient
     val effects = ArcadeEffects()
     val ground get() = height - 22f
-    val launch get() = Offset(width / 2f, ground)
+    val launch get() = Offset(x = width / 2f, y = ground)
     val blastSize get() = minOf(width * 0.12f, (height - topInset) * 0.23f)
     var charge = 4f
     private var wave = 1
     private var pending = 5
     private var spawn = 1f
+    var transition = 0f
+        private set
 
     fun cityX(index: Int) = width * when (index) {
         0 -> 0.12f
@@ -303,18 +319,36 @@ internal class MissileCommandRun : ArcadeRun() {
         pending = 5
         spawn = 1f
         charge = 4f
+        transition = 0f
     }
 
     fun fire(point: Offset) {
-        if (charge < 1f || point.y < topInset) return
+        if (charge < 1f || point.y < topInset || transition > 0f) return
         shots += Interceptor(
-            launch.x, launch.y, point.x.coerceIn(8f, width - 8f),
-            point.y.coerceIn(topInset + 6f, ground - 32f)
+            x = launch.x, y = launch.y, targetX = point.x.coerceIn(8f, width - 8f),
+            targetY = point.y.coerceIn(topInset + 6f, ground - 32f)
         )
         charge -= 1f
     }
 
     override fun advance(seconds: Float) {
+        if (transition > 0f) {
+            transition = (transition - seconds).coerceAtLeast(0f)
+            if (transition == 0f) {
+                score += cities.sum() * 5
+                wave++
+                animateLevel()
+                pending = minOf(22, 4 + wave)
+                spawn = 1.5f
+                if (wave % 4 == 0) {
+                    cities.indices.firstOrNull { cities[it] == 0 }?.let {
+                        cities[it] = 1
+                        effects.burst(point = Offset(x = cityX(it), y = ground - 16f))
+                    }
+                }
+            }
+            return
+        }
         effects.advance(seconds)
         charge = (charge + seconds * 1.8f).coerceAtMost(4f)
         spawn -= seconds
@@ -322,7 +356,7 @@ internal class MissileCommandRun : ArcadeRun() {
             val city = cities.indices.filter { cities[it] > 0 }.randomOrNull() ?: return
             val x = Random.nextFloat() * (width - 30f) + 15f
             val speed = (ground + 8f) / maxOf(2.7f, 5.5f - wave * 0.15f)
-            missiles += IncomingMissile(x, -8f, x, city, speed)
+            missiles += IncomingMissile(x = x, y = -8f, start = x, city = city, speed = speed)
             pending--
             spawn = maxOf(0.4f, 0.95f - wave * 0.025f)
         }
@@ -334,7 +368,7 @@ internal class MissileCommandRun : ArcadeRun() {
             val distance = hypot(dx, dy)
             val step = maxOf(320f, height * 0.9f) * seconds
             if (distance <= step) {
-                blasts += MissileBlast(shot.targetX, shot.targetY)
+                blasts += MissileBlast(x = shot.targetX, y = shot.targetY)
                 interceptors.remove()
             } else {
                 shot.x += dx / distance * step
@@ -356,16 +390,16 @@ internal class MissileCommandRun : ArcadeRun() {
                     ) < it.radius * blastSize + 2f
                 }) {
                 score += 10
-                blasts += MissileBlast(missile.x, missile.y, 0.2f, true)
+                blasts += MissileBlast(x = missile.x, y = missile.y, age = 0.2f, chain = true)
                 effects.burst(
-                    point = Offset(missile.x, missile.y),
+                    point = Offset(x = missile.x, y = missile.y),
                     count = 4
                 )
                 iterator.remove()
             } else if (distance <= missile.speed * seconds) {
                 cities[missile.city] = 0
                 effects.burst(
-                    point = Offset(cityX(missile.city), ground - 8f),
+                    point = Offset(x = cityX(missile.city), y = ground - 8f),
                     count = 12
                 )
                 iterator.remove()
@@ -378,18 +412,7 @@ internal class MissileCommandRun : ArcadeRun() {
             phase = ArcadePhase.Over
             return
         }
-        if (pending == 0 && missiles.isEmpty()) {
-            score += cities.sum() * 5
-            wave++
-            pending = minOf(22, 4 + wave)
-            spawn = 1.5f
-            if (wave % 4 == 0) {
-                cities.indices.firstOrNull { cities[it] == 0 }?.let {
-                    cities[it] = 1
-                    effects.burst(point = Offset(cityX(it), ground - 16f))
-                }
-            }
-        }
+        if (pending == 0 && missiles.isEmpty()) transition = 0.24f
     }
 
     override fun onResize(previous: Size) {
@@ -412,61 +435,5 @@ internal class MissileCommandRun : ArcadeRun() {
             blast.y *= sy
         }
         effects.clear()
-    }
-
-    override fun save(state: Bundle) {
-        state.putIntArray("cities", cities.copyOf())
-        state.putFloatArray("wave", floatArrayOf(wave.toFloat(), pending.toFloat(), spawn, charge))
-        state.putFloatArray(
-            "missiles",
-            missiles.flatMap { listOf(it.x, it.y, it.start, it.city.toFloat(), it.speed) }
-                .toFloatArray()
-        )
-        state.putFloatArray(
-            "shots",
-            shots.flatMap { listOf(it.x, it.y, it.targetX, it.targetY) }.toFloatArray()
-        )
-        state.putFloatArray(
-            "blasts",
-            blasts.flatMap { listOf(it.x, it.y, it.age, if (it.chain) 1f else 0f) }.toFloatArray()
-        )
-    }
-
-    override fun restore(state: Bundle) {
-        state.getIntArray("cities")?.copyInto(cities)
-        state.getFloatArray("wave")?.let {
-            wave = it[0].toInt()
-            pending = it[1].toInt()
-            spawn = it[2]
-            charge = it[3]
-        }
-        missiles.clear()
-        shots.clear()
-        blasts.clear()
-        state.getFloatArray("missiles")?.let {
-            for (i in it.indices step 5) missiles += IncomingMissile(
-                it[i],
-                it[i + 1],
-                it[i + 2],
-                it[i + 3].toInt(),
-                it[i + 4]
-            )
-        }
-        state.getFloatArray("shots")?.let {
-            for (i in it.indices step 4) shots += Interceptor(
-                it[i],
-                it[i + 1],
-                it[i + 2],
-                it[i + 3]
-            )
-        }
-        state.getFloatArray("blasts")?.let {
-            for (i in it.indices step 4) blasts += MissileBlast(
-                it[i],
-                it[i + 1],
-                it[i + 2],
-                it[i + 3] == 1f
-            )
-        }
     }
 }

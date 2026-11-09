@@ -15,9 +15,10 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
+@file:UseSerializers(ArcadeOffsetSerializer::class)
+
 package com.t8rin.imagetoolbox.core.games.catalog
 
-import android.os.Bundle
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -29,6 +30,7 @@ import com.t8rin.imagetoolbox.core.games.ArcadeBoard
 import com.t8rin.imagetoolbox.core.games.ArcadeDefaults
 import com.t8rin.imagetoolbox.core.games.ArcadeField
 import com.t8rin.imagetoolbox.core.games.ArcadeGameState
+import com.t8rin.imagetoolbox.core.games.ArcadeOffsetSerializer
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.ArcadeSprite
@@ -40,22 +42,25 @@ import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
 import com.t8rin.imagetoolbox.core.games.utils.arcadeLives
 import com.t8rin.imagetoolbox.core.games.utils.arcadeStars
 import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
+import kotlinx.serialization.UseSerializers
 import kotlin.math.PI
 import kotlin.math.hypot
 import kotlin.math.sin
 import kotlin.random.Random
 
 private val SpaceShip = ArcadeSprite(
-    "SpaceShip", 26, 30,
-    "M11 0H15V5H17V10H20V17H24V22H26V28H18V25H16V22H10V25H8V28H0V22H2V17H6V10H9V5H11Z"
+    width = 26, height = 30,
+    data = "M11 0H15V5H17V10H20V17H24V22H26V28H18V25H16V22H10V25H8V28H0V22H2V17H6V10H9V5H11Z"
 )
 private val SpaceInvader = ArcadeSprite(
-    "SpaceInvader", 40, 24,
-    "M14 0H26V3H30V8H35V11H40V17H35V20H29V24H24V20H16V24H11V20H5V17H0V11H5V8H10V3H14Z"
+    width = 40, height = 24,
+    data = "M14 0H26V3H30V8H35V11H40V17H35V20H29V24H24V20H16V24H11V20H5V17H0V11H5V8H10V3H14Z"
 )
 private val SpaceBoulder = ArcadeSprite(
-    "SpaceBoulder", 48, 48,
-    "M12 1H29V5H39V11H44V24H48V31H42V40H33V46H17V42H7V35H2V25H0V15H6V7H12Z"
+    width = 48, height = 48,
+    data = "M12 1H29V5H39V11H44V24H48V31H42V40H33V46H17V42H7V35H2V25H0V15H6V7H12Z"
 )
 
 @Composable
@@ -64,7 +69,8 @@ fun AsteroidsGame(
     initialState: ArcadeGameState = ArcadeGameState(),
     style: ArcadeStyle = ArcadeDefaults.style,
     onHighScoreChanged: ((Int) -> Unit)? = null,
-    onGameOver: ((Int) -> Unit)? = null
+    onGameOver: ((Int) -> Unit)? = null,
+    isPaused: Boolean = false
 ) {
     val run = rememberArcadeRun(
         initialState = initialState,
@@ -77,6 +83,7 @@ fun AsteroidsGame(
         modifier = modifier,
         initialState = initialState,
         onHighScoreChanged = onHighScoreChanged,
+        isPaused = isPaused,
         onGameOver = onGameOver
     ) {
         ArcadeField(
@@ -92,8 +99,8 @@ fun AsteroidsGame(
                 drift = run.distance
             )
             for ((x, y, _, _, radius, spin) in run.rocks) {
-                rotate(spin * 180f / PI.toFloat(), Offset(x, y)) {
-                    scale(radius / 24f, Offset(x, y)) {
+                rotate(degrees = spin * 180f / PI.toFloat(), pivot = Offset(x = x, y = y)) {
+                    scale(radius / 24f, Offset(x = x, y = y)) {
                         drawArcadeSprite(
                             sprite = SpaceBoulder,
                             tint = style.obstacleColor,
@@ -151,7 +158,7 @@ fun AsteroidsGame(
                     drawCircle(
                         color = style.hazardColor.copy(alpha = 0.25f),
                         radius = 9f,
-                        center = Offset(x, y + 10f)
+                        center = Offset(x = x, y = y + 10f)
                     )
                     pixelRect(
                         color = style.hazardColor,
@@ -163,8 +170,8 @@ fun AsteroidsGame(
                 }
             }
             for ((x, y, vx, vy) in run.enemyShots) {
-                val point = Offset(x, y)
-                val tail = Offset(vx, vy) * 0.06f
+                val point = Offset(x = x, y = y)
+                val tail = Offset(x = vx, y = vy) * 0.06f
                 drawLine(
                     color = style.hazardColor.copy(alpha = 0.3f),
                     start = point - tail,
@@ -230,8 +237,8 @@ fun AsteroidsGame(
                 drawCircle(
                     color = style.playerColor.copy(alpha = 0.4f),
                     radius = 22f,
-                    center = Offset(run.x, run.y),
-                    style = Stroke(1.5f)
+                    center = Offset(x = run.x, y = run.y),
+                    style = Stroke(width = 1.5f)
                 )
             }
             run.effects.draw(
@@ -247,6 +254,7 @@ fun AsteroidsGame(
     }
 }
 
+@Serializable
 internal data class SpaceRock(
     var x: Float,
     var y: Float,
@@ -257,15 +265,17 @@ internal data class SpaceRock(
     var health: Int = 1
 )
 
+@Serializable
 internal data class SpaceShot(
     var x: Float,
     var y: Float,
-    val vx: Float,
-    val vy: Float,
+    var vx: Float,
+    var vy: Float,
     var life: Float
 )
 
 
+@Serializable
 internal data class SpaceInvaderShip(
     var x: Float,
     var y: Float,
@@ -274,11 +284,14 @@ internal data class SpaceInvaderShip(
     var health: Int = 4
 )
 
+@Serializable
 internal class AsteroidsRun : ArcadeRun() {
     val rocks = mutableListOf<SpaceRock>()
     val invaders = mutableListOf<SpaceInvaderShip>()
     val enemyShots = mutableListOf<SpaceShot>()
     val shots = mutableListOf<SpaceShot>()
+
+    @Transient
     val effects = ArcadeEffects()
     var x = width / 2f
     val y get() = height - 30f
@@ -326,7 +339,13 @@ internal class AsteroidsRun : ArcadeRun() {
         x += (target - x).coerceIn(-480f * seconds, 480f * seconds)
         cooldown -= seconds
         if (cooldown <= 0f) {
-            shots += SpaceShot(x, y - 17f, 0f, -440f, (height + 30f) / 440f)
+            shots += SpaceShot(
+                x = x,
+                y = y - 17f,
+                vx = 0f,
+                vy = -440f,
+                life = (height + 30f) / 440f
+            )
             cooldown += 0.19f
         }
         spawn -= seconds
@@ -339,9 +358,9 @@ internal class AsteroidsRun : ArcadeRun() {
                 val px = if (large) x.coerceIn(40f, width - 40f)
                 else 35f + Random.nextFloat() * (width - 70f)
                 rocks += SpaceRock(
-                    px, -radius - index * 35f,
-                    (Random.nextFloat() - 0.5f) * 50f, speed,
-                    radius, Random.nextFloat() * 6f, if (large) 7 else 2
+                    x = px, y = -radius - index * 35f,
+                    vx = (Random.nextFloat() - 0.5f) * 50f, vy = speed,
+                    radius = radius, spin = Random.nextFloat() * 6f, health = if (large) 7 else 2
                 )
             }
             wave++
@@ -351,9 +370,9 @@ internal class AsteroidsRun : ArcadeRun() {
         if (invaderTimer <= 0f && invaders.size < 2) {
             val fromLeft = Random.nextBoolean()
             invaders += SpaceInvaderShip(
-                if (fromLeft) -24f else width + 24f,
-                topInset + 26f + Random.nextFloat() * (height - topInset) * 0.15f,
-                (if (fromLeft) 1f else -1f) * width / 5.5f, 0.8f
+                x = if (fromLeft) -24f else width + 24f,
+                y = topInset + 26f + Random.nextFloat() * (height - topInset) * 0.15f,
+                vx = (if (fromLeft) 1f else -1f) * width / 5.5f, cooldown = 0.8f
             )
             invaderTimer = maxOf(2.8f, 6f - elapsed * 0.03f)
         }
@@ -367,8 +386,8 @@ internal class AsteroidsRun : ArcadeRun() {
                 val distance = hypot(dx, dy).coerceAtLeast(1f)
                 val speed = maxOf(130f, (height - topInset) / 1.5f)
                 enemyShots += SpaceShot(
-                    invader.x, invader.y + 10f, dx / distance * speed,
-                    dy / distance * speed, distance / speed + 1f
+                    x = invader.x, y = invader.y + 10f, vx = dx / distance * speed,
+                    vy = dy / distance * speed, life = distance / speed + 1f
                 )
                 invader.cooldown = maxOf(0.85f, 1.55f - elapsed * 0.006f)
             }
@@ -413,18 +432,18 @@ internal class AsteroidsRun : ArcadeRun() {
                 val rock = rocks[hit]
                 rock.health--
                 effects.burst(
-                    point = Offset(shot.x, shot.y),
+                    point = Offset(x = shot.x, y = shot.y),
                     count = 3
                 )
                 if (rock.health <= 0) {
                     rocks.removeAt(hit)
                     score += if (rock.radius > 30f) 30 else 10
-                    effects.burst(point = Offset(rock.x, rock.y))
+                    effects.burst(point = Offset(x = rock.x, y = rock.y))
                     if (rock.radius > 15f) {
                         for (sign in -1..1 step 2) {
                             rocks += SpaceRock(
-                                rock.x + sign * 12f, rock.y, sign * 75f,
-                                rock.vy * 1.25f, 11f, rock.spin
+                                x = rock.x + sign * 12f, y = rock.y, vx = sign * 75f,
+                                vy = rock.vy * 1.25f, radius = 11f, spin = rock.spin
                             )
                         }
                     }
@@ -433,14 +452,14 @@ internal class AsteroidsRun : ArcadeRun() {
             } else if (ship != null) {
                 ship.health--
                 effects.burst(
-                    point = Offset(shot.x, shot.y),
+                    point = Offset(x = shot.x, y = shot.y),
                     count = 4
                 )
                 if (ship.health <= 0) {
                     invaders.remove(ship)
                     score += 50
                     effects.burst(
-                        point = Offset(ship.x, ship.y),
+                        point = Offset(x = ship.x, y = ship.y),
                         count = 16
                     )
                 }
@@ -454,7 +473,7 @@ internal class AsteroidsRun : ArcadeRun() {
         lives--
         invincible = 1.25f
         effects.burst(
-            point = Offset(x, y),
+            point = Offset(x = x, y = y),
             count = 12
         )
         if (lives <= 0) phase = ArcadePhase.Over
@@ -472,109 +491,12 @@ internal class AsteroidsRun : ArcadeRun() {
             invader.x *= width / previous.width
             invader.y *= height / previous.height
         }
-        shots.clear()
-        enemyShots.clear()
+        for (shot in shots + enemyShots) {
+            shot.x *= width / previous.width
+            shot.y *= height / previous.height
+            shot.vx *= width / previous.width
+            shot.vy *= height / previous.height
+        }
         effects.clear()
-    }
-
-    override fun save(state: Bundle) {
-        state.putFloatArray(
-            "ship",
-            floatArrayOf(
-                x,
-                cooldown,
-                elapsed,
-                spawn,
-                distance,
-                lives.toFloat(),
-                invincible,
-                invaderTimer,
-                wave.toFloat()
-            )
-        )
-        state.putFloatArray(
-            "rocks",
-            rocks.flatMap {
-                listOf(
-                    it.x,
-                    it.y,
-                    it.vx,
-                    it.vy,
-                    it.radius,
-                    it.spin,
-                    it.health.toFloat()
-                )
-            }.toFloatArray()
-        )
-        state.putFloatArray(
-            "invaders",
-            invaders.flatMap { listOf(it.x, it.y, it.vx, it.cooldown, it.health.toFloat()) }
-                .toFloatArray()
-        )
-        state.putFloatArray(
-            "enemyShots",
-            enemyShots.flatMap { listOf(it.x, it.y, it.vx, it.vy, it.life) }.toFloatArray()
-        )
-        state.putFloatArray(
-            "shots",
-            shots.flatMap { listOf(it.x, it.y, it.vx, it.vy, it.life) }.toFloatArray()
-        )
-    }
-
-    override fun restore(state: Bundle) {
-        state.getFloatArray("ship")?.let {
-            x = it[0]
-            cooldown = it[1]
-            elapsed = it[2]
-            spawn = it[3]
-            distance = it[4]
-            lives = it[5].toInt()
-            invincible = it[6]
-            invaderTimer = it[7]
-            wave = it[8].toInt()
-        }
-        stopInput()
-        rocks.clear()
-        shots.clear()
-        state.getFloatArray("rocks")?.let {
-            for (i in it.indices step 7) rocks += SpaceRock(
-                it[i],
-                it[i + 1],
-                it[i + 2],
-                it[i + 3],
-                it[i + 4],
-                it[i + 5],
-                it[i + 6].toInt()
-            )
-        }
-        invaders.clear()
-        enemyShots.clear()
-        state.getFloatArray("invaders")?.let {
-            for (i in it.indices step 5) invaders += SpaceInvaderShip(
-                it[i],
-                it[i + 1],
-                it[i + 2],
-                it[i + 3],
-                it[i + 4].toInt()
-            )
-        }
-        state.getFloatArray("enemyShots")?.let {
-            for (i in it.indices step 5) enemyShots += SpaceShot(
-                it[i],
-                it[i + 1],
-                it[i + 2],
-                it[i + 3],
-                it[i + 4]
-            )
-        }
-        state.getFloatArray("shots")?.let {
-            for (i in it.indices step 5) shots += SpaceShot(
-                it[i],
-                it[i + 1],
-                it[i + 2],
-                it[i + 3],
-                it[i + 4]
-            )
-        }
     }
 }

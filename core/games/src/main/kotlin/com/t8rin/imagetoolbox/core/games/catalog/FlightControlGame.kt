@@ -15,10 +15,12 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
+@file:UseSerializers(ArcadeOffsetSerializer::class, ArcadeDequeSerializer::class)
+
 package com.t8rin.imagetoolbox.core.games.catalog
 
-import android.os.Bundle
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
@@ -30,8 +32,10 @@ import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.drawscope.scale
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
 import com.t8rin.imagetoolbox.core.games.ArcadeDefaults
+import com.t8rin.imagetoolbox.core.games.ArcadeDequeSerializer
 import com.t8rin.imagetoolbox.core.games.ArcadeField
 import com.t8rin.imagetoolbox.core.games.ArcadeGameState
+import com.t8rin.imagetoolbox.core.games.ArcadeOffsetSerializer
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.ArcadeSprite
@@ -41,6 +45,9 @@ import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
 import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
+import kotlinx.serialization.UseSerializers
 import kotlin.math.PI
 import kotlin.math.abs
 import kotlin.math.atan2
@@ -49,17 +56,15 @@ import kotlin.math.sin
 import kotlin.random.Random
 
 private val FlightPlaneSprite = ArcadeSprite(
-    "FlightPlane",
-    22,
-    24,
-    "M10 0H12V2H13V8L22 14V17L13 13V20L17 22V24L11 22L5 24V22L9 20V13L0 17V14L9 8V2H10Z"
+    width = 22,
+    height = 24,
+    data = "M10 0H12V2H13V8L22 14V17L13 13V20L17 22V24L11 22L5 24V22L9 20V13L0 17V14L9 8V2H10Z"
 )
 private val FlightHelicopterSprite =
     ArcadeSprite(
-        "FlightHelicopter",
-        18,
-        24,
-        "M7 2H11V4H13V12H11V20H13V22H5V20H7V12H5V4H7Z M2 5H4V14H2Z M14 5H16V14H14Z"
+        width = 18,
+        height = 24,
+        data = "M7 2H11V4H13V12H11V20H13V22H5V20H7V12H5V4H7Z M2 5H4V14H2Z M14 5H16V14H14Z"
     )
 
 @Composable
@@ -68,13 +73,15 @@ fun FlightControlGame(
     initialState: ArcadeGameState = ArcadeGameState(),
     style: ArcadeStyle = ArcadeDefaults.style,
     onHighScoreChanged: ((Int) -> Unit)? = null,
-    onGameOver: ((Int) -> Unit)? = null
+    onGameOver: ((Int) -> Unit)? = null,
+    isPaused: Boolean = false
 ) {
     val run = rememberArcadeRun(
         initialState = initialState,
         create = ::FlightControlRun
     )
 
+    val routePath = remember { Path() }
     ArcadeBoard(
         game = ArcadeGame.FlightControl,
         run = run,
@@ -82,6 +89,7 @@ fun FlightControlGame(
         modifier = modifier,
         initialState = initialState,
         onHighScoreChanged = onHighScoreChanged,
+        isPaused = isPaused,
         onGameOver = onGameOver
     ) {
         ArcadeField(
@@ -93,8 +101,8 @@ fun FlightControlGame(
             val colors = listOf(style.playerColor, style.hazardColor, style.accentColor)
             repeat(22) { index ->
                 val p = Offset(
-                    ((index * 71 + 37) % 353) / 353f * run.width,
-                    ((index * 101 + 19) % 419) / 419f * run.height
+                    x = ((index * 71 + 37) % 353) / 353f * run.width,
+                    y = ((index * 101 + 19) % 419) / 419f * run.height
                 )
                 pixelRect(
                     color = style.detailColor.copy(alpha = 0.23f),
@@ -125,7 +133,7 @@ fun FlightControlGame(
                         color = color.copy(alpha = 0.65f),
                         radius = 17f,
                         center = p,
-                        style = Stroke(1.5f)
+                        style = Stroke(width = 1.5f)
                     )
                     pixelRect(
                         color = color,
@@ -148,19 +156,22 @@ fun FlightControlGame(
                         width = 10f,
                         height = 3f
                     )
-                } else rotate(run.runways[kind].heading * 180f / PI.toFloat(), p) {
+                } else rotate(
+                    degrees = run.runways[kind].heading * 180f / PI.toFloat(),
+                    pivot = p
+                ) {
                     drawRoundRect(
                         color = color.copy(alpha = 0.12f),
-                        topLeft = p - Offset(35f, 12f),
-                        size = Size(70f, 24f),
-                        cornerRadius = CornerRadius(3f)
+                        topLeft = p - Offset(x = 35f, y = 12f),
+                        size = Size(width = 70f, height = 24f),
+                        cornerRadius = CornerRadius(x = 3f)
                     )
                     drawRoundRect(
                         color = color.copy(alpha = if (active) 1f else 0.65f),
-                        topLeft = p - Offset(35f, 12f),
-                        size = Size(70f, 24f),
-                        cornerRadius = CornerRadius(3f),
-                        style = Stroke(1f)
+                        topLeft = p - Offset(x = 35f, y = 12f),
+                        size = Size(width = 70f, height = 24f),
+                        cornerRadius = CornerRadius(x = 3f),
+                        style = Stroke(width = 1f)
                     )
                     repeat(5) {
                         pixelRect(
@@ -182,14 +193,14 @@ fun FlightControlGame(
                     }
                     drawLine(
                         color = color,
-                        start = p + Offset(-47f, -5f),
-                        end = p + Offset(-42f, 0f),
+                        start = p + Offset(x = -47f, y = -5f),
+                        end = p + Offset(x = -42f, y = 0f),
                         strokeWidth = 1.5f
                     )
                     drawLine(
                         color = color,
-                        start = p + Offset(-47f, 5f),
-                        end = p + Offset(-42f, 0f),
+                        start = p + Offset(x = -47f, y = 5f),
+                        end = p + Offset(x = -42f, y = 0f),
                         strokeWidth = 1.5f
                     )
                 }
@@ -197,7 +208,8 @@ fun FlightControlGame(
             for (plane in run.planes) {
                 val color = colors[plane.kind]
                 if (plane.route.isNotEmpty()) {
-                    val path = Path().apply {
+                    val path = routePath.apply {
+                        rewind()
                         moveTo(plane.point.x, plane.point.y)
                         plane.route.forEach { lineTo(it.x, it.y) }
                     }
@@ -205,7 +217,7 @@ fun FlightControlGame(
                         path = path,
                         color = color.copy(alpha = if (plane.id == run.selected) 0.15f else 0.4f),
                         style = Stroke(
-                            1f,
+                            width = 1f,
                             cap = StrokeCap.Round
                         )
                     )
@@ -216,9 +228,9 @@ fun FlightControlGame(
                     ),
                     radius = 17f + if (plane.warning) sin(run.time * 10f) * 2f else 0f,
                     center = plane.point,
-                    style = Stroke(1f)
+                    style = Stroke(width = 1f)
                 )
-                rotate(plane.heading * 180f / PI.toFloat() + 90f, plane.point) {
+                rotate(degrees = plane.heading * 180f / PI.toFloat() + 90f, pivot = plane.point) {
                     scale(
                         if (plane.landing > 0f) (plane.landing / 0.6f).coerceAtLeast(0.1f) else 1f,
                         plane.point
@@ -230,7 +242,10 @@ fun FlightControlGame(
                                 x = plane.point.x - 9f,
                                 y = plane.point.y - 12f
                             )
-                            rotate(run.time * 950f, plane.point - Offset(0f, 4f)) {
+                            rotate(
+                                degrees = run.time * 950f,
+                                pivot = plane.point - Offset(x = 0f, y = 4f)
+                            ) {
                                 pixelRect(
                                     color = color.copy(alpha = 0.8f),
                                     x = plane.point.x - 12f,
@@ -275,7 +290,8 @@ fun FlightControlGame(
             }
             if (run.drawing.size > 1) {
                 val color = colors[run.planes.firstOrNull { it.id == run.selected }?.kind ?: 0]
-                val path = Path().apply {
+                val path = routePath.apply {
+                    rewind()
                     moveTo(run.drawing.first().x, run.drawing.first().y)
                     run.drawing.drop(1).forEach { lineTo(it.x, it.y) }
                 }
@@ -283,7 +299,7 @@ fun FlightControlGame(
                     path = path,
                     color = color.copy(alpha = 0.18f),
                     style = Stroke(
-                        7f,
+                        width = 7f,
                         cap = StrokeCap.Round
                     )
                 )
@@ -291,7 +307,7 @@ fun FlightControlGame(
                     path = path,
                     color = color,
                     style = Stroke(
-                        2f,
+                        width = 2f,
                         cap = StrokeCap.Round
                     )
                 )
@@ -299,7 +315,7 @@ fun FlightControlGame(
                     color = color,
                     radius = 4f,
                     center = run.drawing.last(),
-                    style = Stroke(1.5f)
+                    style = Stroke(width = 1.5f)
                 )
             }
             run.effects.draw(
@@ -310,11 +326,13 @@ fun FlightControlGame(
     }
 }
 
+@Serializable
 internal data class FlightRunway(
     val position: Offset,
     val heading: Float
 )
 
+@Serializable
 internal class ControlledFlight(
     val id: Int,
     val kind: Int,
@@ -328,11 +346,18 @@ internal class ControlledFlight(
     var warning = false
 }
 
+@Serializable
 internal class FlightControlRun : ArcadeRun() {
     val planes = mutableListOf<ControlledFlight>()
     val runways = mutableListOf<FlightRunway>()
+
+    @Transient
     val drawing = mutableListOf<Offset>()
+
+    @Transient
     val effects = ArcadeEffects()
+
+    @Transient
     var selected = -1
         private set
     var time = 0f
@@ -343,8 +368,8 @@ internal class FlightControlRun : ArcadeRun() {
     fun zone(kind: Int): Offset {
         val position = runways[kind].position
         return Offset(
-            52f + position.x * (width - 104f),
-            topInset + 44f + position.y * (height - topInset - 88f)
+            x = 52f + position.x * (width - 104f),
+            y = topInset + 44f + position.y * (height - topInset - 88f)
         )
     }
 
@@ -361,18 +386,21 @@ internal class FlightControlRun : ArcadeRun() {
         return abs(along) <= 35f + padding && abs(across) <= 12f + padding
     }
 
+    override fun isValid(): Boolean = super.isValid() &&
+            runways.size == 3 && planes.all { it.kind in 0..2 }
+
     override fun reset() {
         runways.clear()
         val positions = listOf(
-            Offset(Random.nextFloat() * 0.16f, Random.nextFloat()),
-            Offset(0.84f + Random.nextFloat() * 0.16f, Random.nextFloat())
+            Offset(x = Random.nextFloat() * 0.16f, y = Random.nextFloat()),
+            Offset(x = 0.84f + Random.nextFloat() * 0.16f, y = Random.nextFloat())
         ).shuffled()
         positions.forEach {
-            runways += FlightRunway(it, Random.nextInt(8) * PI.toFloat() / 4f)
+            runways += FlightRunway(position = it, heading = Random.nextInt(8) * PI.toFloat() / 4f)
         }
         runways += FlightRunway(
-            Offset(0.47f + Random.nextFloat() * 0.06f, Random.nextFloat()),
-            0f
+            position = Offset(x = 0.47f + Random.nextFloat() * 0.06f, y = Random.nextFloat()),
+            heading = 0f
         )
         planes.clear()
         drawing.clear()
@@ -383,26 +411,27 @@ internal class FlightControlRun : ArcadeRun() {
         nextId = 0
         timer = 2.4f
         planes += ControlledFlight(
-            nextId++,
-            0,
-            Offset(-18f, topInset + (height - topInset) * 0.36f),
-            0f
+            id = nextId++,
+            kind = 0,
+            point = Offset(x = -18f, y = topInset + (height - topInset) * 0.36f),
+            heading = 0f
         )
     }
 
     fun begin(point: Offset) {
         val plane =
             planes.filter { it.landing <= 0f }.minByOrNull { (it.point - point).getDistance() }
-        selected = plane?.takeIf { (it.point - point).getDistance() <= 32f }?.id ?: -1
+        val selectedPlane = plane?.takeIf { (it.point - point).getDistance() <= 32f }
+        selected = selectedPlane?.id ?: -1
         drawing.clear()
-        if (selected >= 0) drawing += plane!!.point
+        selectedPlane?.let { drawing += it.point }
     }
 
     fun drag(point: Offset) {
         if (selected < 0) return
         val point = Offset(
-            point.x.coerceIn(12f, width - 12f),
-            point.y.coerceIn(topInset + 12f, height - 12f)
+            x = point.x.coerceIn(12f, width - 12f),
+            y = point.y.coerceIn(topInset + 12f, height - 12f)
         )
         if (drawing.size > 1 && (point - drawing[drawing.lastIndex - 1]).getDistance() < 5f) {
             drawing[drawing.lastIndex] = point
@@ -458,8 +487,8 @@ internal class FlightControlRun : ArcadeRun() {
 
     private fun forecast(plane: ControlledFlight): List<Offset> {
         val copy = ControlledFlight(
-            plane.id, plane.kind, plane.point, plane.heading,
-            plane.entered, plane.landing, plane.cleared
+            id = plane.id, kind = plane.kind, point = plane.point, heading = plane.heading,
+            entered = plane.entered, landing = plane.landing, cleared = plane.cleared
         ).apply {
             route.addAll(plane.route)
         }
@@ -483,20 +512,29 @@ internal class FlightControlRun : ArcadeRun() {
         repeat(24) {
             val kind = if (nextId < 3) nextId else Random.nextInt(3)
             val p = when (Random.nextInt(4)) {
-                0 -> Offset(-18f, topInset + 20f + Random.nextFloat() * (height - topInset - 50f))
-                1 -> Offset(
-                    width + 18f,
-                    topInset + 20f + Random.nextFloat() * (height - topInset - 50f)
+                0 -> Offset(
+                    x = -18f,
+                    y = topInset + 20f + Random.nextFloat() * (height - topInset - 50f)
                 )
 
-                2 -> Offset(24f + Random.nextFloat() * (width - 48f), -18f)
-                else -> Offset(24f + Random.nextFloat() * (width - 48f), height + 18f)
+                1 -> Offset(
+                    x = width + 18f,
+                    y = topInset + 20f + Random.nextFloat() * (height - topInset - 50f)
+                )
+
+                2 -> Offset(x = 24f + Random.nextFloat() * (width - 48f), y = -18f)
+                else -> Offset(x = 24f + Random.nextFloat() * (width - 48f), y = height + 18f)
             }
             val delta = Offset(
-                width * (0.25f + Random.nextFloat() * 0.5f),
-                topInset + (height - topInset) * (0.25f + Random.nextFloat() * 0.5f)
+                x = width * (0.25f + Random.nextFloat() * 0.5f),
+                y = topInset + (height - topInset) * (0.25f + Random.nextFloat() * 0.5f)
             ) - p
-            val plane = ControlledFlight(nextId, kind, p, atan2(delta.y, delta.x))
+            val plane = ControlledFlight(
+                id = nextId,
+                kind = kind,
+                point = p,
+                heading = atan2(delta.y, delta.x)
+            )
             if (canSpawn(plane)) {
                 nextId++
                 planes += plane
@@ -517,7 +555,7 @@ internal class FlightControlRun : ArcadeRun() {
         }
         if (plane.cleared && plane.route.size <= 1) speed *= 0.8f
         var remaining = speed * seconds
-        var direction = Offset(cos(plane.heading), sin(plane.heading))
+        var direction = Offset(x = cos(plane.heading), y = sin(plane.heading))
         while (remaining > 0f && plane.route.isNotEmpty()) {
             val delta = plane.route.first() - plane.point
             val distance = delta.getDistance()
@@ -536,13 +574,13 @@ internal class FlightControlRun : ArcadeRun() {
                     plane.point.y !in topInset + 24f..height - 24f
             if (outside && plane.entered) {
                 val delta = Offset(
-                    width * (0.25f + Random.nextFloat() * 0.5f),
-                    topInset + (height - topInset) * (0.25f + Random.nextFloat() * 0.5f)
+                    x = width * (0.25f + Random.nextFloat() * 0.5f),
+                    y = topInset + (height - topInset) * (0.25f + Random.nextFloat() * 0.5f)
                 ) - plane.point
                 val desired = atan2(delta.y, delta.x)
                 val error = atan2(sin(desired - plane.heading), cos(desired - plane.heading))
                 plane.heading += error.coerceIn(-seconds * 1.8f, seconds * 1.8f)
-                direction = Offset(cos(plane.heading), sin(plane.heading))
+                direction = Offset(x = cos(plane.heading), y = sin(plane.heading))
             }
             plane.point += direction * remaining
         }
@@ -610,80 +648,14 @@ internal class FlightControlRun : ArcadeRun() {
         val x = width / previous.width
         val y = height / previous.height
         planes.forEach { plane ->
-            plane.point = Offset(plane.point.x * x, plane.point.y * y)
-            val route = plane.route.map { Offset(it.x * x, it.y * y) }
+            plane.point = Offset(x = plane.point.x * x, y = plane.point.y * y)
+            val route = plane.route.map { Offset(x = it.x * x, y = it.y * y) }
             plane.route.clear()
             plane.route.addAll(route)
             if (plane.cleared && plane.route.isNotEmpty()) {
                 plane.route.removeLast()
                 plane.route.addLast(zone(plane.kind))
             }
-        }
-        stopInput()
-    }
-
-    override fun save(state: Bundle) {
-        state.putFloatArray("runways", runways.flatMap {
-            listOf(it.position.x, it.position.y, it.heading)
-        }.toFloatArray())
-        state.putIntArray("run", intArrayOf(landed, nextId, planes.size))
-        state.putFloatArray("time", floatArrayOf(time, timer))
-        planes.forEachIndexed { index, plane ->
-            state.putIntArray(
-                "plane$index",
-                intArrayOf(
-                    plane.id,
-                    plane.kind,
-                    if (plane.entered) 1 else 0,
-                    if (plane.cleared) 1 else 0
-                )
-            )
-            state.putFloatArray(
-                "position$index",
-                floatArrayOf(
-                    plane.point.x,
-                    plane.point.y,
-                    plane.heading,
-                    plane.landing
-                )
-            )
-            state.putFloatArray(
-                "route$index",
-                plane.route.flatMap { listOf(it.x, it.y) }.toFloatArray()
-            )
-        }
-    }
-
-    override fun restore(state: Bundle) {
-        runways.clear()
-        state.getFloatArray("runways")!!.let {
-            for (index in it.indices step 3) {
-                runways += FlightRunway(Offset(it[index], it[index + 1]), it[index + 2])
-            }
-        }
-        val run = state.getIntArray("run")!!
-        landed = run[0]
-        nextId = run[1]
-        state.getFloatArray("time")!!.let {
-            time = it[0]
-            timer = it[1]
-        }
-        planes.clear()
-        repeat(run[2]) { index ->
-            val data = state.getIntArray("plane$index")!!
-            val point = state.getFloatArray("position$index")!!
-            val plane = ControlledFlight(
-                data[0],
-                data[1],
-                Offset(point[0], point[1]),
-                point[2],
-                data[2] == 1,
-                point[3],
-                data[3] == 1
-            )
-            state.getFloatArray("route$index")!!
-                .let { for (i in it.indices step 2) plane.route += Offset(it[i], it[i + 1]) }
-            planes += plane
         }
         stopInput()
     }

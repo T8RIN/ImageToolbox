@@ -15,9 +15,10 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
+@file:UseSerializers(ArcadeOffsetSerializer::class)
+
 package com.t8rin.imagetoolbox.core.games.catalog
 
-import android.os.Bundle
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -29,6 +30,7 @@ import com.t8rin.imagetoolbox.core.games.ArcadeBoard
 import com.t8rin.imagetoolbox.core.games.ArcadeDefaults
 import com.t8rin.imagetoolbox.core.games.ArcadeField
 import com.t8rin.imagetoolbox.core.games.ArcadeGameState
+import com.t8rin.imagetoolbox.core.games.ArcadeOffsetSerializer
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.ArcadeSprite
@@ -40,14 +42,17 @@ import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
 import com.t8rin.imagetoolbox.core.games.utils.arcadeAngle
 import com.t8rin.imagetoolbox.core.games.utils.arcadeAngleDistance
 import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
+import kotlinx.serialization.UseSerializers
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.random.Random
 
 private val KnifeApple = ArcadeSprite(
-    "KnifeApple", 18, 18,
-    "M3 3H7V5H11V3H15V5H18V13H15V17H11V16H7V17H3V13H0V5H3Z"
+    width = 18, height = 18,
+    data = "M3 3H7V5H11V3H15V5H18V13H15V17H11V16H7V17H3V13H0V5H3Z"
 )
 
 @Composable
@@ -56,7 +61,8 @@ fun KnifeHitGame(
     initialState: ArcadeGameState = ArcadeGameState(),
     style: ArcadeStyle = ArcadeDefaults.style,
     onHighScoreChanged: ((Int) -> Unit)? = null,
-    onGameOver: ((Int) -> Unit)? = null
+    onGameOver: ((Int) -> Unit)? = null,
+    isPaused: Boolean = false
 ) {
     val run = rememberArcadeRun(
         initialState = initialState,
@@ -69,15 +75,17 @@ fun KnifeHitGame(
         modifier = modifier,
         initialState = initialState,
         onHighScoreChanged = onHighScoreChanged,
+        isPaused = isPaused,
         onGameOver = onGameOver
     ) {
         ArcadeField(
             run = run,
+            transition = { run.transition },
             onPress = { run.throwKnife() }
         ) {
             val center = run.center + Offset(
-                0f,
-                sin(run.impact * PI.toFloat()) * 3f
+                x = 0f,
+                y = sin(run.impact * PI.toFloat()) * 3f
             )
             val radius = run.radius
             repeat(20) { index ->
@@ -102,57 +110,57 @@ fun KnifeHitGame(
                 val progress = 1f - run.transition / 0.6f
                 repeat(4) { index ->
                     val angle = (index * 90f + 45f) * PI.toFloat() / 180f
-                    val offset = Offset(cos(angle), sin(angle)) * progress * 42f
+                    val offset = Offset(x = cos(angle), y = sin(angle)) * progress * 42f
                     drawArc(
                         color = style.obstacleColor.copy(alpha = 1f - progress),
                         startAngle = index * 90f + 3f,
                         sweepAngle = 84f,
                         useCenter = true,
-                        topLeft = center + offset - Offset(radius, radius),
-                        size = Size(radius * 2f, radius * 2f)
+                        topLeft = center + offset - Offset(x = radius, y = radius),
+                        size = Size(width = radius * 2f, height = radius * 2f)
                     )
                 }
             } else {
                 drawCircle(
                     color = style.detailColor.copy(alpha = 0.2f),
                     radius = radius + 3f,
-                    center = center + Offset(0f, 3f)
+                    center = center + Offset(x = 0f, y = 3f)
                 )
                 drawCircle(
                     color = style.obstacleColor,
                     radius = radius,
                     center = center
                 )
-                rotate(run.angle, center) {
+                rotate(degrees = run.angle, pivot = center) {
                     drawCircle(
                         color = style.playerDetailColor.copy(alpha = 0.35f),
                         radius = radius - 5f,
                         center = center,
-                        style = Stroke(1.5f)
+                        style = Stroke(width = 1.5f)
                     )
                     drawCircle(
                         color = style.playerDetailColor.copy(alpha = 0.25f),
                         radius = radius * 0.62f,
-                        center = center + Offset(3f, -2f),
-                        style = Stroke(2f)
+                        center = center + Offset(x = 3f, y = -2f),
+                        style = Stroke(width = 2f)
                     )
                     drawCircle(
                         color = style.playerDetailColor.copy(alpha = 0.25f),
                         radius = radius * 0.31f,
-                        center = center + Offset(4f, -3f),
-                        style = Stroke(1f)
+                        center = center + Offset(x = 4f, y = -3f),
+                        style = Stroke(width = 1f)
                     )
                     drawCircle(
                         color = style.playerDetailColor.copy(alpha = 0.3f),
                         radius = 3f,
-                        center = center + Offset(5f, -4f)
+                        center = center + Offset(x = 5f, y = -4f)
                     )
                     repeat(12) { index ->
-                        rotate(index * 30f, center) {
+                        rotate(degrees = index * 30f, pivot = center) {
                             drawLine(
                                 color = style.playerDetailColor.copy(alpha = 0.5f),
-                                start = center + Offset(0f, radius - 8f),
-                                end = center + Offset(0f, radius - 2f),
+                                start = center + Offset(x = 0f, y = radius - 8f),
+                                end = center + Offset(x = 0f, y = radius - 2f),
                                 strokeWidth = 2f
                             )
                         }
@@ -161,8 +169,8 @@ fun KnifeHitGame(
                 for (bonus in run.bonuses) {
                     val angle = (bonus + run.angle) * PI.toFloat() / 180f
                     val point = center + Offset(
-                        cos(angle),
-                        sin(angle)
+                        x = cos(angle),
+                        y = sin(angle)
                     ) * (radius + 12f)
                     drawArcadeSprite(
                         sprite = KnifeApple,
@@ -193,7 +201,7 @@ fun KnifeHitGame(
                     )
                 }
                 for (knife in run.knives) {
-                    rotate(knife + run.angle - 90f, center) {
+                    rotate(degrees = knife + run.angle - 90f, pivot = center) {
                         drawKnife(
                             style = style,
                             x = center.x,
@@ -293,12 +301,15 @@ private fun DrawScope.drawKnife(
     )
 }
 
+@Serializable
 internal class KnifeHitRun : ArcadeRun() {
     val knives = mutableListOf<Float>()
     val bonuses = mutableListOf<Float>()
+
+    @Transient
     val effects = ArcadeEffects()
     val radius get() = minOf(64f, (height - topInset) * 0.22f, width * 0.2f)
-    val center get() = Offset(width / 2f, topInset + (height - topInset) * 0.34f)
+    val center get() = Offset(x = width / 2f, y = topInset + (height - topInset) * 0.34f)
     val launchY get() = height - 68f
     var angle = 0f
     var flight = 0f
@@ -321,6 +332,7 @@ internal class KnifeHitRun : ArcadeRun() {
     }
 
     private fun nextTarget() {
+        animateLevel()
         knives.clear()
         bonuses.clear()
         total = minOf(10, 6 + targets / 3)
@@ -384,7 +396,7 @@ internal class KnifeHitRun : ArcadeRun() {
             bonuses.removeAt(bonus)
             score += 5
             effects.burst(
-                point = center + Offset(0f, radius + 12f),
+                point = center + Offset(x = 0f, y = radius + 12f),
                 count = 12
             )
         }
@@ -392,7 +404,7 @@ internal class KnifeHitRun : ArcadeRun() {
         remaining--
         impact = 1f
         effects.burst(
-            point = center + Offset(0f, radius),
+            point = center + Offset(x = 0f, y = radius),
             count = 5
         )
         if (remaining == 0) {
@@ -406,42 +418,5 @@ internal class KnifeHitRun : ArcadeRun() {
         }
         flight = 0f
         flying = false
-    }
-
-    override fun save(state: Bundle) {
-        state.putFloatArray(
-            "target",
-            floatArrayOf(
-                angle,
-                flight,
-                remaining.toFloat(),
-                total.toFloat(),
-                transition,
-                targets.toFloat(),
-                time,
-                impact
-            )
-        )
-        state.putBoolean("flying", flying)
-        state.putFloatArray("knives", knives.toFloatArray())
-        state.putFloatArray("bonuses", bonuses.toFloatArray())
-    }
-
-    override fun restore(state: Bundle) {
-        state.getFloatArray("target")?.let {
-            angle = it[0]
-            flight = it[1]
-            remaining = it[2].toInt()
-            total = it[3].toInt()
-            transition = it[4]
-            targets = it[5].toInt()
-            time = it[6]
-            impact = it[7]
-        }
-        flying = state.getBoolean("flying")
-        knives.clear()
-        state.getFloatArray("knives")?.let { knives.addAll(it.toList()) }
-        bonuses.clear()
-        state.getFloatArray("bonuses")?.let { bonuses.addAll(it.toList()) }
     }
 }

@@ -15,9 +15,10 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
+@file:UseSerializers(ArcadeOffsetSerializer::class)
+
 package com.t8rin.imagetoolbox.core.games.catalog
 
-import android.os.Bundle
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -29,6 +30,7 @@ import com.t8rin.imagetoolbox.core.games.ArcadeBoard
 import com.t8rin.imagetoolbox.core.games.ArcadeDefaults
 import com.t8rin.imagetoolbox.core.games.ArcadeField
 import com.t8rin.imagetoolbox.core.games.ArcadeGameState
+import com.t8rin.imagetoolbox.core.games.ArcadeOffsetSerializer
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.ArcadeSprite
@@ -37,14 +39,16 @@ import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.UseSerializers
 import kotlin.math.abs
 import kotlin.math.ceil
 import kotlin.math.sin
 import kotlin.random.Random
 
 private val RiverFrog = ArcadeSprite(
-    "RiverFrog", 24, 24,
-    "M3 1H8V5H16V1H21V8H18V11H22V15H24V21H19V18H16V22H8V18H5V21H0V15H2V11H6V8H3Z"
+    width = 24, height = 24,
+    data = "M3 1H8V5H16V1H21V8H18V11H22V15H24V21H19V18H16V22H8V18H5V21H0V15H2V11H6V8H3Z"
 )
 
 @Composable
@@ -53,7 +57,8 @@ fun RiverHopGame(
     initialState: ArcadeGameState = ArcadeGameState(),
     style: ArcadeStyle = ArcadeDefaults.style,
     onHighScoreChanged: ((Int) -> Unit)? = null,
-    onGameOver: ((Int) -> Unit)? = null
+    onGameOver: ((Int) -> Unit)? = null,
+    isPaused: Boolean = false
 ) {
     val run = rememberArcadeRun(
         initialState = initialState,
@@ -66,6 +71,7 @@ fun RiverHopGame(
         modifier = modifier,
         initialState = initialState,
         onHighScoreChanged = onHighScoreChanged,
+        isPaused = isPaused,
         onGameOver = onGameOver
     ) {
         ArcadeField(
@@ -81,17 +87,17 @@ fun RiverHopGame(
         ) {
             val cell = run.cell
             val left = run.left
-            for (lane in run.lanes) {
-                val y = run.screenY(lane.index.toFloat()) - cell / 2f
+            for ((index, kind, speed, length, period, offset) in run.lanes) {
+                val y = run.screenY(index.toFloat()) - cell / 2f
                 if (y < -cell || y > run.height) continue
-                val tint = when (lane.kind) {
+                val tint = when (kind) {
                     1 -> style.textColor
                     2 -> style.playerColor
                     else -> style.obstacleColor
                 }
                 pixelRect(
                     color = tint.copy(
-                        alpha = when (lane.kind) {
+                        alpha = when (kind) {
                             0 -> 0.22f
                             2 -> 0.18f
                             else -> 0.035f
@@ -102,7 +108,7 @@ fun RiverHopGame(
                     width = run.width,
                     height = cell
                 )
-                if (lane.kind == 0) {
+                if (kind == 0) {
                     pixelRect(
                         color = style.obstacleColor.copy(alpha = 0.45f),
                         x = 0f,
@@ -136,7 +142,7 @@ fun RiverHopGame(
                     }
                     continue
                 }
-                if (lane.kind == 1) {
+                if (kind == 1) {
                     repeat(9) { column ->
                         pixelRect(
                             color = style.textColor.copy(alpha = 0.3f),
@@ -149,7 +155,7 @@ fun RiverHopGame(
                 } else {
                     repeat(18) { index ->
                         val x =
-                            left + ((index / 2f + run.water * lane.speed * 0.15f + 90f) % 9f) * cell
+                            left + ((index / 2f + run.water * speed * 0.15f + 90f) % 9f) * cell
                         val waveY = y + cell * if (index % 2 == 0) 0.12f else 0.86f
                         pixelRect(
                             color = style.playerColor.copy(alpha = 0.4f),
@@ -167,11 +173,11 @@ fun RiverHopGame(
                         )
                     }
                 }
-                var start = lane.offset % lane.period - lane.period
+                var start = offset % period - period
                 while (start < 9f) {
                     val x = left + start * cell
-                    val length = lane.length * cell
-                    if (lane.kind == 2) {
+                    val length = length * cell
+                    if (kind == 2) {
                         pixelRect(
                             color = style.playerDetailColor.copy(alpha = 0.4f),
                             x = x + 2f,
@@ -216,7 +222,7 @@ fun RiverHopGame(
                         )
                     } else {
                         val color =
-                            if (lane.index % 2 == 0) style.accentColor else style.obstacleColor
+                            if (index % 2 == 0) style.accentColor else style.obstacleColor
                         pixelRect(
                             color = style.textColor,
                             x = x + 5f,
@@ -231,8 +237,8 @@ fun RiverHopGame(
                             width = length - 2f,
                             height = cell * 0.54f
                         )
-                        val headlightX = if (lane.speed > 0f) x + length - 3f else x + 1f
-                        val tailLightX = if (lane.speed > 0f) x + 1f else x + length - 3f
+                        val headlightX = if (speed > 0f) x + length - 3f else x + 1f
+                        val tailLightX = if (speed > 0f) x + 1f else x + length - 3f
                         repeat(2) { index ->
                             val edge = if (index == 0) 0.3f else 0.63f
                             pixelRect(
@@ -250,7 +256,7 @@ fun RiverHopGame(
                                 height = 3f
                             )
                         }
-                        val front = if (lane.speed > 0f) x + length * 0.65f else x + length * 0.18f
+                        val front = if (speed > 0f) x + length * 0.65f else x + length * 0.18f
                         pixelRect(
                             color = style.playerDetailColor,
                             x = front,
@@ -266,22 +272,26 @@ fun RiverHopGame(
                             height = cell * 0.42f
                         )
                     }
-                    start += lane.period
+                    start += period
                 }
             }
-            val point = Offset(left + run.drawX * cell, run.screenY(run.drawRow))
+            val point = Offset(x = left + run.drawX * cell, y = run.screenY(run.drawRow))
             val lift =
                 sin(run.hopProgress * kotlin.math.PI.toFloat()) * 7f
-            drawOval(style.textColor.copy(alpha = 0.18f), point - Offset(9f, -5f), Size(18f, 6f))
-            translate(point.x, point.y - lift) {
-                rotate(run.facing, Offset.Zero) {
+            drawOval(
+                color = style.textColor.copy(alpha = 0.18f),
+                topLeft = point - Offset(x = 9f, y = -5f),
+                size = Size(width = 18f, height = 6f)
+            )
+            translate(left = point.x, top = point.y - lift) {
+                rotate(degrees = run.facing, pivot = Offset.Zero) {
                     scale(cell * 0.68f / 24f, Offset.Zero) {
                         repeat(4) { index ->
                             val offset = when (index) {
-                                0 -> Offset(-1.5f, 0f)
-                                1 -> Offset(1.5f, 0f)
-                                2 -> Offset(0f, -1.5f)
-                                else -> Offset(0f, 1.5f)
+                                0 -> Offset(x = -1.5f, y = 0f)
+                                1 -> Offset(x = 1.5f, y = 0f)
+                                2 -> Offset(x = 0f, y = -1.5f)
+                                else -> Offset(x = 0f, y = 1.5f)
                             }
                             drawArcadeSprite(
                                 sprite = RiverFrog,
@@ -338,6 +348,7 @@ fun RiverHopGame(
     }
 }
 
+@Serializable
 internal data class RiverLane(
     val index: Int,
     val kind: Int,
@@ -347,6 +358,7 @@ internal data class RiverLane(
     var offset: Float
 )
 
+@Serializable
 internal class RiverHopRun : ArcadeRun() {
     val lanes = mutableListOf<RiverLane>()
     val cell get() = minOf(width / 9f, (height - topInset - 12f) / 5f)
@@ -369,6 +381,9 @@ internal class RiverHopRun : ArcadeRun() {
 
     fun screenY(row: Float) = height - cell * 1.5f - (row - camera) * cell
 
+    override fun isValid(): Boolean = super.isValid() &&
+            lanes.isNotEmpty() && lanes.all { it.period > 0f }
+
     override fun reset() {
         lanes.clear()
         frogX = 4.5f
@@ -383,8 +398,8 @@ internal class RiverHopRun : ArcadeRun() {
         fromRow = 0
         sectionLeft = 0
         sectionKind = 1
-        lanes += RiverLane(0, 0, 0f, 0f, 1f, 0f)
-        lanes += RiverLane(1, 0, 0f, 0f, 1f, 0f)
+        lanes += RiverLane(index = 0, kind = 0, speed = 0f, length = 0f, period = 1f, offset = 0f)
+        lanes += RiverLane(index = 1, kind = 0, speed = 0f, length = 0f, period = 1f, offset = 0f)
         populate()
     }
 
@@ -405,7 +420,14 @@ internal class RiverHopRun : ArcadeRun() {
                     if (index % 2 == 0) 1f else -1f
             val length = if (kind == 2) 2.8f else 1.15f + Random.nextFloat() * 0.55f
             val period = length + if (kind == 2) 1.3f else 2.4f + Random.nextFloat()
-            lanes += RiverLane(index, kind, speed, length, period, Random.nextFloat() * period)
+            lanes += RiverLane(
+                index = index,
+                kind = kind,
+                speed = speed,
+                length = length,
+                period = period,
+                offset = Random.nextFloat() * period
+            )
         }
         lanes.removeAll { it.index < camera.toInt() - 2 }
     }
@@ -472,55 +494,5 @@ internal class RiverHopRun : ArcadeRun() {
 
     override fun onResize(previous: Size) {
         if (lanes.isNotEmpty()) populate()
-    }
-
-    override fun save(state: Bundle) {
-        state.putFloatArray(
-            "frog", floatArrayOf(
-                frogX,
-                row.toFloat(),
-                highest.toFloat(),
-                camera,
-                remaining,
-                facing,
-                water,
-                hopTime,
-                fromX,
-                fromRow.toFloat(),
-                sectionLeft.toFloat(),
-                sectionKind.toFloat()
-            )
-        )
-        state.putFloatArray("lanes", lanes.flatMap {
-            listOf(it.index.toFloat(), it.kind.toFloat(), it.speed, it.length, it.period, it.offset)
-        }.toFloatArray())
-    }
-
-    override fun restore(state: Bundle) {
-        state.getFloatArray("frog")?.let {
-            frogX = it[0]
-            row = it[1].toInt()
-            highest = it[2].toInt()
-            camera = it[3]
-            remaining = it[4]
-            facing = it[5]
-            water = it[6]
-            hopTime = it[7]
-            fromX = it[8]
-            fromRow = it[9].toInt()
-            sectionLeft = it[10].toInt()
-            sectionKind = it[11].toInt()
-        }
-        lanes.clear()
-        state.getFloatArray("lanes")?.let {
-            for (i in it.indices step 6) lanes += RiverLane(
-                it[i].toInt(),
-                it[i + 1].toInt(),
-                it[i + 2],
-                it[i + 3],
-                it[i + 4],
-                it[i + 5]
-            )
-        }
     }
 }

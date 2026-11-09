@@ -17,7 +17,6 @@
 
 package com.t8rin.imagetoolbox.core.games.catalog
 
-import android.os.Bundle
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
@@ -34,6 +33,7 @@ import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
+import kotlinx.serialization.Serializable
 import kotlin.math.abs
 
 private const val BlockHeight = 18f
@@ -45,7 +45,8 @@ fun StackGame(
     initialState: ArcadeGameState = ArcadeGameState(),
     style: ArcadeStyle = ArcadeDefaults.style,
     onHighScoreChanged: ((Int) -> Unit)? = null,
-    onGameOver: ((Int) -> Unit)? = null
+    onGameOver: ((Int) -> Unit)? = null,
+    isPaused: Boolean = false
 ) {
     val run = rememberArcadeRun(
         initialState = initialState,
@@ -58,6 +59,7 @@ fun StackGame(
         modifier = modifier,
         initialState = initialState,
         onHighScoreChanged = onHighScoreChanged,
+        isPaused = isPaused,
         onGameOver = onGameOver
     ) {
         ArcadeField(
@@ -173,14 +175,16 @@ fun StackGame(
     }
 }
 
-private data class StackBlock(
+@Serializable
+internal data class StackBlock(
     var x: Float,
     val width: Float,
     val level: Int,
     val perfect: Boolean
 )
 
-private data class StackPiece(
+@Serializable
+internal data class StackPiece(
     var x: Float,
     var altitude: Float,
     val width: Float,
@@ -188,7 +192,8 @@ private data class StackPiece(
     val direction: Int
 )
 
-private class StackRun : ArcadeRun() {
+@Serializable
+internal class StackRun : ArcadeRun() {
     var x = 0f
         private set
     var camera = 0f
@@ -201,6 +206,9 @@ private class StackRun : ArcadeRun() {
     private var perfectStreak = 0
     private var cooldown = 0f
 
+    override fun isValid(): Boolean = super.isValid() &&
+            blocks.isNotEmpty() && blocks.all { it.width > 0f }
+
     override fun reset() {
         x = 0f
         camera = 0f
@@ -210,7 +218,12 @@ private class StackRun : ArcadeRun() {
         cooldown = 0f
         pieces.clear()
         blocks.clear()
-        blocks += StackBlock((width - InitialBlockWidth) / 2, InitialBlockWidth, 0, false)
+        blocks += StackBlock(
+            x = (width - InitialBlockWidth) / 2,
+            width = InitialBlockWidth,
+            level = 0,
+            perfect = false
+        )
     }
 
     fun place() {
@@ -228,19 +241,19 @@ private class StackRun : ArcadeRun() {
             val restored = if (perfectStreak >= 3) 8f else 0f
             val newWidth = minOf(last.width + restored, InitialBlockWidth)
             StackBlock(
-                (last.x - (newWidth - last.width) / 2).coerceIn(0f, width - newWidth),
-                newWidth, score + 1, true
+                x = (last.x - (newWidth - last.width) / 2).coerceIn(0f, width - newWidth),
+                width = newWidth, level = score + 1, perfect = true
             )
         } else {
             val cutX = if (x < last.x) x else right
             pieces += StackPiece(
-                cutX,
-                (score + 2) * BlockHeight,
-                last.width - (right - left),
-                0f,
-                if (x < last.x) -1 else 1
+                x = cutX,
+                altitude = (score + 2) * BlockHeight,
+                width = last.width - (right - left),
+                velocity = 0f,
+                direction = if (x < last.x) -1 else 1
             )
-            StackBlock(left, right - left, score + 1, false)
+            StackBlock(x = left, width = right - left, level = score + 1, perfect = false)
         }
         if (perfect) flash = 1f
         blocks += next
@@ -277,52 +290,5 @@ private class StackRun : ArcadeRun() {
         blocks.forEach { it.x = (it.x + shift).coerceIn(0f, width - it.width) }
         pieces.forEach { it.x += shift }
         x = (x + shift).coerceIn(0f, width - (blocks.lastOrNull()?.width ?: InitialBlockWidth))
-        if (phase == ArcadePhase.Ready) reset()
-    }
-
-    override fun save(state: Bundle) {
-        state.putFloatArray("stack", floatArrayOf(x, camera, flash, cooldown))
-        state.putInt("direction", direction)
-        state.putInt("streak", perfectStreak)
-        state.putFloatArray("blocks", blocks.flatMap {
-            listOf(it.x, it.width, it.level.toFloat(), if (it.perfect) 1f else 0f)
-        }.toFloatArray())
-        state.putFloatArray("pieces", pieces.flatMap {
-            listOf(it.x, it.altitude, it.width, it.velocity, it.direction.toFloat())
-        }.toFloatArray())
-    }
-
-    override fun restore(state: Bundle) {
-        state.getFloatArray("stack")?.let {
-            x = it[0]
-            camera = it[1]
-            flash = it[2]
-            cooldown = it[3]
-        }
-        direction = state.getInt("direction", 1)
-        perfectStreak = state.getInt("streak")
-        state.getFloatArray("blocks")?.let { points ->
-            blocks.clear()
-            for (index in points.indices step 4) {
-                blocks += StackBlock(
-                    points[index],
-                    points[index + 1],
-                    points[index + 2].toInt(),
-                    points[index + 3] == 1f
-                )
-            }
-        }
-        state.getFloatArray("pieces")?.let { points ->
-            pieces.clear()
-            for (index in points.indices step 5) {
-                pieces += StackPiece(
-                    points[index],
-                    points[index + 1],
-                    points[index + 2],
-                    points[index + 3],
-                    points[index + 4].toInt()
-                )
-            }
-        }
     }
 }

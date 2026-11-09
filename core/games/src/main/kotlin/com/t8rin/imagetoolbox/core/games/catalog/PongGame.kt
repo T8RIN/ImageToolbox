@@ -15,9 +15,10 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
+@file:UseSerializers(ArcadeOffsetSerializer::class)
+
 package com.t8rin.imagetoolbox.core.games.catalog
 
-import android.os.Bundle
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -26,12 +27,15 @@ import com.t8rin.imagetoolbox.core.games.ArcadeBoard
 import com.t8rin.imagetoolbox.core.games.ArcadeDefaults
 import com.t8rin.imagetoolbox.core.games.ArcadeField
 import com.t8rin.imagetoolbox.core.games.ArcadeGameState
+import com.t8rin.imagetoolbox.core.games.ArcadeOffsetSerializer
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.ArcadeStyle
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.UseSerializers
 import kotlin.math.abs
 import kotlin.random.Random
 
@@ -44,7 +48,8 @@ fun PongGame(
     initialState: ArcadeGameState = ArcadeGameState(),
     style: ArcadeStyle = ArcadeDefaults.style,
     onHighScoreChanged: ((Int) -> Unit)? = null,
-    onGameOver: ((Int) -> Unit)? = null
+    onGameOver: ((Int) -> Unit)? = null,
+    isPaused: Boolean = false
 ) {
     val run = rememberArcadeRun(
         initialState = initialState,
@@ -57,6 +62,7 @@ fun PongGame(
         modifier = modifier,
         initialState = initialState,
         onHighScoreChanged = onHighScoreChanged,
+        isPaused = isPaused,
         onGameOver = onGameOver
     ) {
         ArcadeField(
@@ -124,7 +130,8 @@ fun PongGame(
     }
 }
 
-private class PongRun : ArcadeRun() {
+@Serializable
+internal class PongRun : ArcadeRun() {
     val top get() = topInset + 12f
     val bottom get() = height - 18f
     val paddleHalf get() = ((bottom - top) * 0.12f).coerceIn(24f, 42f)
@@ -151,17 +158,17 @@ private class PongRun : ArcadeRun() {
         targetY = playerY
         rivalTarget = playerY
         reaction = 0f
-        serve(-1)
+        serve()
     }
 
     fun steer(y: Float) {
         targetY = y.coerceIn(top + paddleHalf, bottom - paddleHalf)
     }
 
-    private fun serve(direction: Int) {
+    private fun serve() {
         ballX = width / 2
         ballY = (top + bottom) / 2
-        velocityX = (270f + score * 5f).coerceAtMost(620f) * direction
+        velocityX = -(270f + score * 5f).coerceAtMost(620f)
         velocityY = Random.nextFloat() * 150f - 75f
         serveDelay = 0.8f
         trail.clear()
@@ -215,13 +222,13 @@ private class PongRun : ArcadeRun() {
             }
 
             ballX > width + BallHalf -> {
-                serve(-1)
+                serve()
             }
         }
         trailTime += seconds
         if (trailTime >= 0.025f) {
             trailTime = 0f
-            trail += Offset(ballX, ballY)
+            trail += Offset(x = ballX, y = ballY)
             if (trail.size > 5) trail.removeAt(0)
         }
     }
@@ -246,38 +253,5 @@ private class PongRun : ArcadeRun() {
         targetY = playerY
         rivalTarget = rivalY
         trail.clear()
-        if (phase == ArcadePhase.Ready) reset()
-    }
-
-    override fun save(state: Bundle) {
-        state.putFloatArray(
-            "court", floatArrayOf(
-                playerY,
-                rivalY,
-                ballX,
-                ballY,
-                targetY,
-                velocityX,
-                velocityY,
-                serveDelay,
-                rivalTarget,
-                reaction
-            )
-        )
-    }
-
-    override fun restore(state: Bundle) {
-        state.getFloatArray("court")?.let {
-            playerY = it[0]
-            rivalY = it[1]
-            ballX = it[2]
-            ballY = it[3]
-            targetY = it[4]
-            velocityX = it[5]
-            velocityY = it[6]
-            serveDelay = it[7]
-            rivalTarget = it[8]
-            reaction = it[9]
-        }
     }
 }

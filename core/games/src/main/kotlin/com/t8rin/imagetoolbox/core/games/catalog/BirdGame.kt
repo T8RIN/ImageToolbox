@@ -15,9 +15,10 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
+@file:UseSerializers(ArcadeOffsetSerializer::class)
+
 package com.t8rin.imagetoolbox.core.games.catalog
 
-import android.os.Bundle
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -29,6 +30,7 @@ import com.t8rin.imagetoolbox.core.games.ArcadeCloud
 import com.t8rin.imagetoolbox.core.games.ArcadeDefaults
 import com.t8rin.imagetoolbox.core.games.ArcadeField
 import com.t8rin.imagetoolbox.core.games.ArcadeGameState
+import com.t8rin.imagetoolbox.core.games.ArcadeOffsetSerializer
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.ArcadeSprite
@@ -38,6 +40,8 @@ import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.UseSerializers
 import kotlin.random.Random
 
 private const val PipeWidth = 52f
@@ -58,66 +62,56 @@ private const val WingUpFill = "M4 14H12V16H16V18H14V19H8V17H4Z"
 private const val WingDownPath = "M3 17H8V19H15V22H18V26H14V29H7V26H4V22H2V19H3Z"
 private const val WingDownFill = "M4 19H7V21H13V23H16V25H13V27H8V24H6V21H4Z"
 private val BirdBody = ArcadeSprite(
-    "BirdBody",
-    46,
-    32,
-    BirdOutlinePath
+    width = 46,
+    height = 32,
+    data = BirdOutlinePath
 )
 private val BirdFill = ArcadeSprite(
-    "BirdFill",
-    46,
-    32,
-    BirdFillPath
+    width = 46,
+    height = 32,
+    data = BirdFillPath
 )
 private val BirdEye = ArcadeSprite(
-    "BirdEye",
-    46,
-    32,
-    BirdEyePath
+    width = 46,
+    height = 32,
+    data = BirdEyePath
 )
 private val BirdEyeWhite = ArcadeSprite(
-    "BirdEyeWhite",
-    46,
-    32,
-    BirdEyeFill
+    width = 46,
+    height = 32,
+    data = BirdEyeFill
 )
 private val BirdPupil = ArcadeSprite(
-    "BirdPupil",
-    46,
-    32,
-    BirdPupilPath
+    width = 46,
+    height = 32,
+    data = BirdPupilPath
 )
 private val BirdBeak = ArcadeSprite(
-    "BirdBeak",
-    46,
-    32,
-    BirdBeakPath
+    width = 46,
+    height = 32,
+    data = BirdBeakPath
 )
 private val BirdBeakColor = ArcadeSprite(
-    "BirdBeakColor",
-    46,
-    32,
-    BirdBeakFill
+    width = 46,
+    height = 32,
+    data = BirdBeakFill
 )
 private val WingUp =
-    ArcadeSprite("WingUp", 46, 32, WingUpPath)
+    ArcadeSprite(width = 46, height = 32, data = WingUpPath)
 private val WingUpColor = ArcadeSprite(
-    "WingUpColor",
-    46,
-    32,
-    WingUpFill
+    width = 46,
+    height = 32,
+    data = WingUpFill
 )
 private val WingDown = ArcadeSprite(
-    "WingDown",
-    46,
-    32,
-    WingDownPath
+    width = 46,
+    height = 32,
+    data = WingDownPath
 )
 private val WingDownColor = ArcadeSprite(
-    "WingDownColor",
-    46,
-    32,
-    WingDownFill
+    width = 46,
+    height = 32,
+    data = WingDownFill
 )
 
 @Composable
@@ -126,7 +120,8 @@ fun BirdGame(
     initialState: ArcadeGameState = ArcadeGameState(),
     style: ArcadeStyle = ArcadeDefaults.style,
     onHighScoreChanged: ((Int) -> Unit)? = null,
-    onGameOver: ((Int) -> Unit)? = null
+    onGameOver: ((Int) -> Unit)? = null,
+    isPaused: Boolean = false
 ) {
     val run = rememberArcadeRun(
         initialState = initialState,
@@ -146,6 +141,7 @@ fun BirdGame(
         modifier = modifier,
         initialState = initialState,
         onHighScoreChanged = onHighScoreChanged,
+        isPaused = isPaused,
         onGameOver = onGameOver
     ) {
         ArcadeField(
@@ -232,7 +228,7 @@ fun BirdGame(
                 distance = run.distance
             )
             val wingUp = run.wingTime % 0.24f < 0.12f
-            rotate(run.tilt, Offset(run.birdX, run.y)) {
+            rotate(degrees = run.tilt, pivot = Offset(x = run.birdX, y = run.y)) {
                 val x = run.birdX - 23
                 val y = run.y - 16
                 drawArcadeSprite(
@@ -294,14 +290,16 @@ fun BirdGame(
     }
 }
 
-private data class BirdPipe(
+@Serializable
+internal data class BirdPipe(
     var x: Float,
     var center: Float,
     var gap: Float,
     var passed: Boolean = false
 )
 
-private class BirdRun : ArcadeRun() {
+@Serializable
+internal class BirdRun : ArcadeRun() {
     val birdX get() = (width * 0.25f).coerceIn(72f, 150f)
     val ground get() = height - 20f
     var y = height / 2
@@ -315,6 +313,9 @@ private class BirdRun : ArcadeRun() {
     val pipes = mutableListOf<BirdPipe>()
     private var velocity = 0f
 
+    override fun isValid(): Boolean = super.isValid() &&
+            pipes.isNotEmpty() && pipes.all { it.gap > BirdRadiusY * 2 }
+
     override fun reset() {
         y = (topInset + ground) / 2
         distance = 0f
@@ -322,7 +323,7 @@ private class BirdRun : ArcadeRun() {
         tilt = 0f
         velocity = -110f
         pipes.clear()
-        pipes += BirdPipe(birdX + 240f, y, gap())
+        pipes += BirdPipe(x = birdX + 240f, center = y, gap = gap())
         addPipes()
     }
 
@@ -387,35 +388,6 @@ private class BirdRun : ArcadeRun() {
         if (activePipe != null && offset != null) {
             val clearance = activePipe.gap / 2 - BirdRadiusY - 1f
             y = activePipe.center + (offset * activePipe.gap).coerceIn(-clearance, clearance)
-        }
-        if (phase == ArcadePhase.Ready) reset()
-    }
-
-    override fun save(state: Bundle) {
-        state.putFloatArray("bird", floatArrayOf(y, distance, velocity, wingTime, tilt))
-        state.putFloatArray("pipes", pipes.flatMap {
-            listOf(it.x, it.center, it.gap, if (it.passed) 1f else 0f)
-        }.toFloatArray())
-    }
-
-    override fun restore(state: Bundle) {
-        state.getFloatArray("bird")?.let {
-            y = it[0]
-            distance = it[1]
-            velocity = it[2]
-            wingTime = it[3]
-            tilt = it[4]
-        }
-        state.getFloatArray("pipes")?.let { points ->
-            pipes.clear()
-            for (index in points.indices step 4) {
-                pipes += BirdPipe(
-                    points[index],
-                    points[index + 1],
-                    points[index + 2],
-                    points[index + 3] == 1f
-                )
-            }
         }
     }
 }

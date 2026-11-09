@@ -15,9 +15,10 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
+@file:UseSerializers(ArcadeOffsetSerializer::class)
+
 package com.t8rin.imagetoolbox.core.games.catalog
 
-import android.os.Bundle
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -28,6 +29,7 @@ import com.t8rin.imagetoolbox.core.games.ArcadeBoard
 import com.t8rin.imagetoolbox.core.games.ArcadeDefaults
 import com.t8rin.imagetoolbox.core.games.ArcadeField
 import com.t8rin.imagetoolbox.core.games.ArcadeGameState
+import com.t8rin.imagetoolbox.core.games.ArcadeOffsetSerializer
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.ArcadeStyle
@@ -35,6 +37,9 @@ import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
 import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
+import kotlinx.serialization.UseSerializers
 import kotlin.math.ceil
 import kotlin.random.Random
 
@@ -44,7 +49,8 @@ fun TimbermanGame(
     initialState: ArcadeGameState = ArcadeGameState(),
     style: ArcadeStyle = ArcadeDefaults.style,
     onHighScoreChanged: ((Int) -> Unit)? = null,
-    onGameOver: ((Int) -> Unit)? = null
+    onGameOver: ((Int) -> Unit)? = null,
+    isPaused: Boolean = false
 ) {
     val run = rememberArcadeRun(
         initialState = initialState,
@@ -57,6 +63,7 @@ fun TimbermanGame(
         modifier = modifier,
         initialState = initialState,
         onHighScoreChanged = onHighScoreChanged,
+        isPaused = isPaused,
         onGameOver = onGameOver
     ) {
         ArcadeField(
@@ -153,7 +160,7 @@ fun TimbermanGame(
                     }
                 }
                 for ((x, y, _, _, spin, age) in run.chips) {
-                    rotate(spin * age, Offset(x, y)) {
+                    rotate(degrees = spin * age, pivot = Offset(x = x, y = y)) {
                         pixelRect(
                             color = style.obstacleColor,
                             x = x - 14f,
@@ -230,8 +237,8 @@ fun TimbermanGame(
                 width = 3f,
                 height = 3f
             )
-            val hand = Offset(px - run.side * 9f, foot - 22f + kick)
-            rotate(run.side * (65f - run.cut * 100f), hand) {
+            val hand = Offset(x = px - run.side * 9f, y = foot - 22f + kick)
+            rotate(degrees = run.side * (65f - run.cut * 100f), pivot = hand) {
                 pixelRect(
                     color = style.accentColor,
                     x = hand.x - 2f,
@@ -272,7 +279,7 @@ fun TimbermanGame(
                 )
             }
             val color = if (run.energy < 0.25f) style.hazardColor else style.accentColor
-            val clock = Offset(22f, run.topInset / 2f)
+            val clock = Offset(x = 22f, y = run.topInset / 2f)
             drawCircle(
                 color = color,
                 radius = 6f,
@@ -282,13 +289,13 @@ fun TimbermanGame(
             drawLine(
                 color = color,
                 start = clock,
-                end = clock + Offset(0f, -4f),
+                end = clock + Offset(x = 0f, y = -4f),
                 strokeWidth = 1.5f
             )
             drawLine(
                 color = color,
                 start = clock,
-                end = clock + Offset(3f, 1f),
+                end = clock + Offset(x = 3f, y = 1f),
                 strokeWidth = 1.5f
             )
             pixelRect(
@@ -313,6 +320,7 @@ fun TimbermanGame(
     }
 }
 
+@Serializable
 internal data class TimberChip(
     var x: Float,
     var y: Float,
@@ -322,9 +330,12 @@ internal data class TimberChip(
     var age: Float = 0f
 )
 
+@Serializable
 internal class TimbermanRun : ArcadeRun() {
     val branches = mutableListOf<Int>()
     val chips = mutableListOf<TimberChip>()
+
+    @Transient
     val effects = ArcadeEffects()
     val base get() = height - 23f
     val segment get() = minOf(43f, (height - topInset - 26f) / 5f)
@@ -335,6 +346,9 @@ internal class TimbermanRun : ArcadeRun() {
     var begun = false
     private var sinceChop = 0f
     private var chain = 0
+
+    override fun isValid(): Boolean = super.isValid() &&
+            branches.isNotEmpty()
 
     override fun reset() {
         branches.clear()
@@ -370,10 +384,16 @@ internal class TimbermanRun : ArcadeRun() {
         }
         branches.removeAt(0)
         populate()
-        chips += TimberChip(width / 2f, base - segment / 2f, -side * 170f, -90f, side * 300f)
+        chips += TimberChip(
+            x = width / 2f,
+            y = base - segment / 2f,
+            vx = -side * 170f,
+            vy = -90f,
+            spin = side * 300f
+        )
         if (chips.size > 6) chips.removeAt(0)
         effects.burst(
-            point = Offset(width / 2f - side * 18f, base - segment / 2f),
+            point = Offset(x = width / 2f - side * 18f, y = base - segment / 2f),
             count = 7
         )
         cut = 1f
@@ -408,29 +428,5 @@ internal class TimbermanRun : ArcadeRun() {
 
     override fun onResize(previous: Size) {
         if (branches.isNotEmpty()) populate()
-    }
-
-    override fun save(state: Bundle) {
-        state.putIntArray("branches", branches.toIntArray())
-        state.putIntArray("run", intArrayOf(side, chops, chain))
-        state.putFloatArray("time", floatArrayOf(energy, cut, sinceChop))
-        state.putBoolean("begun", begun)
-    }
-
-    override fun restore(state: Bundle) {
-        branches.clear()
-        state.getIntArray("branches")?.forEach(branches::add)
-        state.getIntArray("run")?.let {
-            side = it[0]
-            chops = it[1]
-            chain = it[2]
-        }
-        state.getFloatArray("time")?.let {
-            energy = it[0]
-            cut = it[1]
-            sinceChop = it[2]
-        }
-        begun = state.getBoolean("begun")
-        chips.clear()
     }
 }

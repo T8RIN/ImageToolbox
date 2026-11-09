@@ -15,9 +15,10 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
+@file:UseSerializers(ArcadeOffsetSerializer::class)
+
 package com.t8rin.imagetoolbox.core.games.catalog
 
-import android.os.Bundle
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.CornerRadius
@@ -29,6 +30,7 @@ import com.t8rin.imagetoolbox.core.games.ArcadeBoard
 import com.t8rin.imagetoolbox.core.games.ArcadeDefaults
 import com.t8rin.imagetoolbox.core.games.ArcadeField
 import com.t8rin.imagetoolbox.core.games.ArcadeGameState
+import com.t8rin.imagetoolbox.core.games.ArcadeOffsetSerializer
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.ArcadeStyle
@@ -38,6 +40,9 @@ import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
 import com.t8rin.imagetoolbox.core.games.utils.arcadeLives
 import com.t8rin.imagetoolbox.core.games.utils.arcadeStars
 import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
+import kotlinx.serialization.UseSerializers
 import kotlin.math.abs
 import kotlin.math.sqrt
 import kotlin.random.Random
@@ -48,7 +53,8 @@ fun BrickBreakerGame(
     initialState: ArcadeGameState = ArcadeGameState(),
     style: ArcadeStyle = ArcadeDefaults.style,
     onHighScoreChanged: ((Int) -> Unit)? = null,
-    onGameOver: ((Int) -> Unit)? = null
+    onGameOver: ((Int) -> Unit)? = null,
+    isPaused: Boolean = false
 ) {
     val run = rememberArcadeRun(
         initialState = initialState,
@@ -61,10 +67,12 @@ fun BrickBreakerGame(
         modifier = modifier,
         initialState = initialState,
         onHighScoreChanged = onHighScoreChanged,
+        isPaused = isPaused,
         onGameOver = onGameOver
     ) {
         ArcadeField(
             run = run,
+            transition = { run.transition },
             onPress = run::steer,
             onDrag = run::steer
         ) {
@@ -85,14 +93,14 @@ fun BrickBreakerGame(
                     color = color.copy(alpha = 0.25f + brick.flash * 0.5f),
                     topLeft = rect.topLeft,
                     size = rect.size,
-                    cornerRadius = CornerRadius(2f)
+                    cornerRadius = CornerRadius(x = 2f)
                 )
                 drawRoundRect(
                     color = color.copy(alpha = 0.8f),
                     topLeft = rect.topLeft,
                     size = rect.size,
-                    cornerRadius = CornerRadius(2f),
-                    style = Stroke(1f)
+                    cornerRadius = CornerRadius(x = 2f),
+                    style = Stroke(width = 1f)
                 )
                 repeat(brick.health - 1) { notch ->
                     pixelRect(
@@ -114,7 +122,7 @@ fun BrickBreakerGame(
                 color = style.playerColor,
                 topLeft = paddle.topLeft,
                 size = paddle.size,
-                cornerRadius = CornerRadius(3f)
+                cornerRadius = CornerRadius(x = 3f)
             )
             pixelRect(
                 color = style.playerDetailColor.copy(alpha = 0.45f),
@@ -149,19 +157,19 @@ fun BrickBreakerGame(
             drawCircle(
                 color = style.playerColor,
                 radius = run.ballRadius,
-                center = Offset(run.ballX, run.ballY)
+                center = Offset(x = run.ballX, y = run.ballY)
             )
             drawCircle(
                 color = style.playerDetailColor.copy(alpha = 0.8f),
                 radius = 1.5f,
-                center = Offset(run.ballX - 1f, run.ballY - 1.5f)
+                center = Offset(x = run.ballX - 1f, y = run.ballY - 1.5f)
             )
             for ((x, y, kind) in run.gifts) {
                 drawRoundRect(
                     color = style.accentColor,
-                    topLeft = Offset(x - 9f, y - 6f),
-                    size = Size(18f, 12f),
-                    cornerRadius = CornerRadius(3f)
+                    topLeft = Offset(x = x - 9f, y = y - 6f),
+                    size = Size(width = 18f, height = 12f),
+                    cornerRadius = CornerRadius(x = 3f)
                 )
                 pixelRect(
                     color = style.playerDetailColor,
@@ -198,6 +206,7 @@ fun BrickBreakerGame(
     }
 }
 
+@Serializable
 internal data class BreakerBrick(
     val column: Int,
     val row: Int,
@@ -205,16 +214,20 @@ internal data class BreakerBrick(
     var flash: Float = 0f
 )
 
+@Serializable
 internal data class BreakerGift(
     var x: Float,
     var y: Float,
     val kind: Int
 )
 
+@Serializable
 internal class BrickBreakerRun : ArcadeRun() {
     val bricks = mutableListOf<BreakerBrick>()
     val gifts = mutableListOf<BreakerGift>()
     val trail = mutableListOf<Offset>()
+
+    @Transient
     val effects = ArcadeEffects()
     val ballRadius = 5f
     val paddleY get() = height - 26f
@@ -237,7 +250,8 @@ internal class BrickBreakerRun : ArcadeRun() {
     var extension = 0f
     private var targetX = paddleX
     private var serve = 0.8f
-    private var transition = 0f
+    var transition = 0f
+        private set
     private var broken = 0
     private var trailTime = 0f
 
@@ -262,12 +276,13 @@ internal class BrickBreakerRun : ArcadeRun() {
     }
 
     private fun newWave() {
+        animateLevel()
         bricks.clear()
         val rows = (4 + round / 4).coerceAtMost(5)
         for (row in 0 until rows) for (column in 0..7) {
             if (round > 1 && (column + row * 2 + round) % 7 == 0) continue
             val health = if (row < 2) (1 + round / 3).coerceAtMost(3) else 1
-            bricks += BreakerBrick(column, row, health)
+            bricks += BreakerBrick(column = column, row = row, health = health)
         }
         transition = 0f
         serveBall()
@@ -306,7 +321,7 @@ internal class BrickBreakerRun : ArcadeRun() {
                 if (gift.kind == 0) wideTime = 10f
                 else if (lives < 3) lives++ else score += 25
                 effects.burst(
-                    point = Offset(gift.x, paddleY),
+                    point = Offset(x = gift.x, y = paddleY),
                     count = 12
                 )
                 drops.remove()
@@ -388,9 +403,9 @@ internal class BrickBreakerRun : ArcadeRun() {
                     count = 8
                 )
                 if (broken % 9 == 0 && gifts.size < 3) gifts += BreakerGift(
-                    rect.center.x,
-                    rect.center.y,
-                    if (broken % 18 == 0) 1 else 0
+                    x = rect.center.x,
+                    y = rect.center.y,
+                    kind = if (broken % 18 == 0) 1 else 0
                 )
                 iterator.remove()
             }
@@ -406,7 +421,7 @@ internal class BrickBreakerRun : ArcadeRun() {
         trailTime += seconds
         if (trailTime > 0.025f) {
             trailTime = 0f
-            trail += Offset(ballX, ballY)
+            trail += Offset(x = ballX, y = ballY)
             if (trail.size > 6) trail.removeAt(0)
         }
     }
@@ -419,7 +434,7 @@ internal class BrickBreakerRun : ArcadeRun() {
             (ballX / previous.width * width).coerceIn(16f + ballRadius, width - 16f - ballRadius)
         ballY =
             (ballY / previous.height * height).coerceIn(topInset + ballRadius, paddleY - ballRadius)
-        if (bricks.any { bounds(it).inflate(ballRadius).contains(Offset(ballX, ballY)) }) {
+        if (bricks.any { bounds(it).inflate(ballRadius).contains(Offset(x = ballX, y = ballY)) }) {
             ballY =
                 (bricks.maxOf { bounds(it).bottom } + ballRadius + 1f).coerceAtMost(paddleY - ballRadius)
             vy = abs(vy)
@@ -434,78 +449,5 @@ internal class BrickBreakerRun : ArcadeRun() {
             it.y *= height / previous.height
         }
         trail.clear()
-    }
-
-    override fun save(state: Bundle) {
-        state.putFloat("extension", extension)
-        state.putFloatArray(
-            "run",
-            floatArrayOf(
-                paddleX,
-                ballX,
-                ballY,
-                vx,
-                vy,
-                wideTime,
-                targetX,
-                serve,
-                transition,
-                trailTime
-            )
-        )
-        state.putIntArray("round", intArrayOf(round, lives, broken))
-        state.putFloatArray(
-            "bricks",
-            bricks.flatMap {
-                listOf(
-                    it.column.toFloat(),
-                    it.row.toFloat(),
-                    it.health.toFloat(),
-                    it.flash
-                )
-            }.toFloatArray()
-        )
-        state.putFloatArray(
-            "gifts",
-            gifts.flatMap { listOf(it.x, it.y, it.kind.toFloat()) }.toFloatArray()
-        )
-    }
-
-    override fun restore(state: Bundle) {
-        extension = state.getFloat("extension")
-        state.getFloatArray("run")?.let {
-            paddleX = it[0]
-            ballX = it[1]
-            ballY = it[2]
-            vx = it[3]
-            vy = it[4]
-            wideTime = it[5]
-            targetX = it[6]
-            serve = it[7]
-            transition = it[8]
-            trailTime = it[9]
-        }
-        state.getIntArray("round")?.let {
-            round = it[0]
-            lives = it[1]
-            broken = it[2]
-        }
-        bricks.clear()
-        state.getFloatArray("bricks")?.let {
-            for (index in it.indices step 4) bricks += BreakerBrick(
-                it[index].toInt(),
-                it[index + 1].toInt(),
-                it[index + 2].toInt(),
-                it[index + 3]
-            )
-        }
-        gifts.clear()
-        state.getFloatArray("gifts")?.let {
-            for (index in it.indices step 3) gifts += BreakerGift(
-                it[index],
-                it[index + 1],
-                it[index + 2].toInt()
-            )
-        }
     }
 }

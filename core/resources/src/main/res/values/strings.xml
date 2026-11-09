@@ -8016,6 +8016,11 @@
     <string name="collage_style_apply_layout_unavailable">Requires %1$d photos; your collage has %2$d. You can still apply the style below.</string>
     <string name="collage_style_apply_appearance">Style only</string>
     <string name="collage_style_apply_appearance_sub">Keep the current layout. Apply the appearance and photo settings by slot order.</string>
+    <string name="arcade_paused">Paused</string>
+    <string name="arcade_game_over">Game over</string>
+    <string name="arcade_new_record">New record!</string>
+    <string name="arcade_previous_best">Previous best: %1$d</string>
+    <string name="arcade_finish">Finish game</string>
     <string name="play">Play</string>
     <string name="show_loading_game_button">Games while waiting</string>
     <string name="show_loading_game_button_sub">Show a game button in loading dialogs.</string>

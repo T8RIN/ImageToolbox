@@ -15,10 +15,12 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
+@file:UseSerializers(ArcadeOffsetSerializer::class)
+
 package com.t8rin.imagetoolbox.core.games.catalog
 
-import android.os.Bundle
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
@@ -29,6 +31,7 @@ import com.t8rin.imagetoolbox.core.games.ArcadeBoard
 import com.t8rin.imagetoolbox.core.games.ArcadeDefaults
 import com.t8rin.imagetoolbox.core.games.ArcadeField
 import com.t8rin.imagetoolbox.core.games.ArcadeGameState
+import com.t8rin.imagetoolbox.core.games.ArcadeOffsetSerializer
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.ArcadeStyle
@@ -36,6 +39,9 @@ import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
 import com.t8rin.imagetoolbox.core.games.utils.arcadeStars
 import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
+import kotlinx.serialization.UseSerializers
 import kotlin.math.abs
 import kotlin.random.Random
 
@@ -45,12 +51,16 @@ fun ZigZagGame(
     initialState: ArcadeGameState = ArcadeGameState(),
     style: ArcadeStyle = ArcadeDefaults.style,
     onHighScoreChanged: ((Int) -> Unit)? = null,
-    onGameOver: ((Int) -> Unit)? = null
+    onGameOver: ((Int) -> Unit)? = null,
+    isPaused: Boolean = false
 ) {
     val run = rememberArcadeRun(
         initialState = initialState,
         create = ::ZigZagRun
     )
+    val tilePath = remember { Path() }
+    val edgePath = remember { Path() }
+    val gemPath = remember { Path() }
     ArcadeBoard(
         game = ArcadeGame.ZigZag,
         run = run,
@@ -58,6 +68,7 @@ fun ZigZagGame(
         modifier = modifier,
         initialState = initialState,
         onHighScoreChanged = onHighScoreChanged,
+        isPaused = isPaused,
         onGameOver = onGameOver
     ) {
         ArcadeField(
@@ -72,19 +83,21 @@ fun ZigZagGame(
             )
             val tint = lerp(style.playerColor, style.accentColor, run.tint)
 
-            for (tile in run.tiles.asReversed()) {
-                val half = run.tileWidth * tile.span / 2f
+            for ((x, y, hasGem, span) in run.tiles.asReversed()) {
+                val half = run.tileWidth * span / 2f
                 val depth = half / 2f
-                val point = run.project(tile.x.toFloat(), tile.y.toFloat())
+                val point = run.project(x.toFloat(), y.toFloat())
                 if (point.y < -depth || point.y > run.height + depth) continue
-                val path = Path().apply {
+                val path = tilePath.apply {
+                    rewind()
                     moveTo(point.x, point.y - depth)
                     lineTo(point.x + half, point.y)
                     lineTo(point.x, point.y + depth)
                     lineTo(point.x - half, point.y)
                     close()
                 }
-                val edge = Path().apply {
+                val edge = edgePath.apply {
+                    rewind()
                     moveTo(point.x - half, point.y)
                     lineTo(point.x, point.y + depth)
                     lineTo(point.x + half, point.y)
@@ -104,10 +117,11 @@ fun ZigZagGame(
                 drawPath(
                     path = path,
                     color = tint.copy(alpha = 0.65f),
-                    style = Stroke(1f)
+                    style = Stroke(width = 1f)
                 )
-                if (tile.gem) {
-                    val gem = Path().apply {
+                if (hasGem) {
+                    val gem = gemPath.apply {
+                        rewind()
                         moveTo(point.x, point.y - 12f)
                         lineTo(point.x + 5f, point.y - 5f)
                         lineTo(point.x, point.y + 2f)
@@ -117,7 +131,7 @@ fun ZigZagGame(
                     drawCircle(
                         color = style.accentColor.copy(alpha = 0.12f),
                         radius = 10f,
-                        center = point - Offset(0f, 5f)
+                        center = point - Offset(x = 0f, y = 5f)
                     )
                     drawPath(
                         path = gem,
@@ -129,11 +143,11 @@ fun ZigZagGame(
             val falling = run.fall.coerceAtLeast(0f)
             val radius = run.tileWidth * 0.12f * (1f - falling * 0.5f)
             drawOval(
-                style.playerDetailColor.copy(alpha = 0.2f),
-                point - Offset(radius, 1f),
-                Size(radius * 2f, radius)
+                color = style.playerDetailColor.copy(alpha = 0.2f),
+                topLeft = point - Offset(x = radius, y = 1f),
+                size = Size(width = radius * 2f, height = radius)
             )
-            val ball = point + Offset(0f, -radius + falling * falling * 100f)
+            val ball = point + Offset(x = 0f, y = -radius + falling * falling * 100f)
             drawCircle(
                 color = style.playerColor.copy(alpha = 1f - falling),
                 radius = radius,
@@ -142,7 +156,7 @@ fun ZigZagGame(
             drawCircle(
                 color = style.playerDetailColor.copy(alpha = (1f - falling) * 0.7f),
                 radius = radius * 0.28f,
-                center = ball - Offset(radius * 0.28f, radius * 0.3f)
+                center = ball - Offset(x = radius * 0.28f, y = radius * 0.3f)
             )
             run.effects.draw(
                 scope = this,
@@ -152,6 +166,7 @@ fun ZigZagGame(
     }
 }
 
+@Serializable
 internal data class ZigZagTile(
     val x: Int,
     val y: Int,
@@ -159,8 +174,11 @@ internal data class ZigZagTile(
     val span: Float = 1f
 )
 
+@Serializable
 internal class ZigZagRun : ArcadeRun() {
     val tiles = mutableListOf<ZigZagTile>()
+
+    @Transient
     val effects = ArcadeEffects()
     var x = 0f
     var y = 0f
@@ -186,9 +204,12 @@ internal class ZigZagRun : ArcadeRun() {
         x: Float,
         y: Float
     ) = Offset(
-        width / 2f + (x - y - camera) * tileWidth / 2f,
-        topInset + (height - topInset) * 0.76f - (x + y - progress) * tileWidth / 4f
+        x = width / 2f + (x - y - camera) * tileWidth / 2f,
+        y = topInset + (height - topInset) * 0.76f - (x + y - progress) * tileWidth / 4f
     )
+
+    override fun isValid(): Boolean = super.isValid() &&
+            tiles.isNotEmpty()
 
     override fun reset() {
         tiles.clear()
@@ -204,8 +225,8 @@ internal class ZigZagRun : ArcadeRun() {
         remaining = 4
         gems = 0
         grace = 0.7f
-        tiles += ZigZagTile(-1, 0, false)
-        tiles += ZigZagTile(0, 0, false)
+        tiles += ZigZagTile(x = -1, y = 0, gem = false)
+        tiles += ZigZagTile(x = 0, y = 0, gem = false)
         populate()
     }
 
@@ -222,8 +243,8 @@ internal class ZigZagRun : ArcadeRun() {
             val nextY = last.y + if (generatedDirection == 1) 1 else 0
             val index = nextX + nextY
             tiles += ZigZagTile(
-                nextX, nextY, index % 5 == 0 || index % 36 == 16,
-                if (remaining == 1 && index % 24 < 6 && index > 10) 1.35f else 1f
+                x = nextX, y = nextY, gem = index % 5 == 0 || index % 36 == 16,
+                span = if (remaining == 1 && index % 24 < 6 && index > 10) 1.35f else 1f
             )
             remaining--
         }
@@ -267,7 +288,7 @@ internal class ZigZagRun : ArcadeRun() {
                 tile.gem = false
                 gems++
                 effects.burst(
-                    point = project(tile.x.toFloat(), tile.y.toFloat()) - Offset(0f, 5f),
+                    point = project(tile.x.toFloat(), tile.y.toFloat()) - Offset(x = 0f, y = 5f),
                     count = 8
                 )
             }
@@ -278,43 +299,5 @@ internal class ZigZagRun : ArcadeRun() {
 
     override fun onResize(previous: Size) {
         if (tiles.isNotEmpty()) populate()
-    }
-
-    override fun save(state: Bundle) {
-        state.putFloatArray("run", floatArrayOf(x, y, fall, progress, camera, grace))
-        state.putFloat("edgeTime", edgeTime)
-        state.putIntArray("path", intArrayOf(direction, generatedDirection, remaining, gems))
-        state.putIntArray(
-            "tiles",
-            tiles.flatMap { listOf(it.x, it.y, if (it.gem) 1 else 0, (it.span * 100f).toInt()) }
-                .toIntArray()
-        )
-    }
-
-    override fun restore(state: Bundle) {
-        edgeTime = state.getFloat("edgeTime")
-        state.getFloatArray("run")?.let {
-            x = it[0]
-            y = it[1]
-            fall = it[2]
-            progress = it[3]
-            camera = it[4]
-            grace = it[5]
-        }
-        state.getIntArray("path")?.let {
-            direction = it[0]
-            generatedDirection = it[1]
-            remaining = it[2]
-            gems = it[3]
-        }
-        tiles.clear()
-        state.getIntArray("tiles")?.let {
-            for (index in it.indices step 4) tiles += ZigZagTile(
-                it[index],
-                it[index + 1],
-                it[index + 2] == 1,
-                it[index + 3] / 100f
-            )
-        }
     }
 }

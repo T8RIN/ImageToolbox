@@ -80,7 +80,6 @@ internal fun Project.configureKotlinAndroid(
         lint.apply {
             disable += "UsingMaterialAndMaterial3Libraries"
             disable += "ModifierParameter"
-            disable += "ConvertLongToDuration"
         }
     }
 

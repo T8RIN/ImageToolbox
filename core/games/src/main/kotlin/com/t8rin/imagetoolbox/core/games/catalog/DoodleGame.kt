@@ -15,9 +15,10 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
+@file:UseSerializers(ArcadeOffsetSerializer::class)
+
 package com.t8rin.imagetoolbox.core.games.catalog
 
-import android.os.Bundle
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -28,6 +29,7 @@ import com.t8rin.imagetoolbox.core.games.ArcadeCloud
 import com.t8rin.imagetoolbox.core.games.ArcadeDefaults
 import com.t8rin.imagetoolbox.core.games.ArcadeField
 import com.t8rin.imagetoolbox.core.games.ArcadeGameState
+import com.t8rin.imagetoolbox.core.games.ArcadeOffsetSerializer
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.ArcadeSprite
@@ -36,6 +38,9 @@ import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
+import kotlinx.serialization.UseSerializers
 import kotlin.math.abs
 import kotlin.math.sin
 import kotlin.math.sqrt
@@ -49,51 +54,48 @@ private const val DoodleBodyPath =
 private const val DoodleFacePath = "M20 9H22V14H20Z M27 11H29V16H27Z M39 19H42V22H39Z"
 private const val DoodleStripesPath = "M5 24H30V26H5Z M6 29H29V31H6Z M9 34H27V36H9Z"
 private val DoodleBody = ArcadeSprite(
-    "DoodleBody",
-    44,
-    44,
-    DoodleBodyPath
+    width = 44,
+    height = 44,
+    data = DoodleBodyPath
 )
 private val DoodleFace = ArcadeSprite(
-    "DoodleFace",
-    44,
-    44,
-    DoodleFacePath
+    width = 44,
+    height = 44,
+    data = DoodleFacePath
 )
 private val DoodleStripes = ArcadeSprite(
-    "DoodleStripes",
-    44,
-    44,
-    DoodleStripesPath
+    width = 44,
+    height = 44,
+    data = DoodleStripesPath
 )
 
 private val FlyingMonster = ArcadeSprite(
-    "FlyingMonster", 38, 28,
-    "M0 6H5V10H9V5H13V2H25V5H29V10H33V6H38V16H34V20H29V24H25V27H13V24H9V20H4V16H0Z M12 9H17V15H12Z M22 9H27V15H22Z M16 21H23V23H16Z"
+    width = 38, height = 28,
+    data = "M0 6H5V10H9V5H13V2H25V5H29V10H33V6H38V16H34V20H29V24H25V27H13V24H9V20H4V16H0Z M12 9H17V15H12Z M22 9H27V15H22Z M16 21H23V23H16Z"
 )
 private val JumpingMonster = ArcadeSprite(
-    "JumpingMonster", 32, 32,
-    "M4 0H8V5H24V0H28V7H30V12H32V25H28V29H25V32H20V27H12V32H7V29H4V25H0V12H2V7H4Z M6 11H13V18H6Z M19 11H26V18H19Z M10 22H22V24H10Z"
+    width = 32, height = 32,
+    data = "M4 0H8V5H24V0H28V7H30V12H32V25H28V29H25V32H20V27H12V32H7V29H4V25H0V12H2V7H4Z M6 11H13V18H6Z M19 11H26V18H19Z M10 22H22V24H10Z"
 )
 private val PlatformMonster = ArcadeSprite(
-    "PlatformMonster", 56, 38,
-    "M8 3H17V0H22V5H34V0H39V3H48V7H52V13H56V29H52V34H46V38H38V34H18V38H10V34H4V29H0V13H4V7H8Z M8 12H16V21H8Z M24 10H32V19H24Z M40 12H48V21H40Z M12 27H18V30H23V27H33V30H38V27H44V32H12Z"
+    width = 56, height = 38,
+    data = "M8 3H17V0H22V5H34V0H39V3H48V7H52V13H56V29H52V34H46V38H38V34H18V38H10V34H4V29H0V13H4V7H8Z M8 12H16V21H8Z M24 10H32V19H24Z M40 12H48V21H40Z M12 27H18V30H23V27H33V30H38V27H44V32H12Z"
 )
 private val FlyingMonsterFace = ArcadeSprite(
-    "FlyingMonsterFace", 38, 28,
-    "M12 9H17V15H12Z M22 9H27V15H22Z M16 21H23V23H16Z"
+    width = 38, height = 28,
+    data = "M12 9H17V15H12Z M22 9H27V15H22Z M16 21H23V23H16Z"
 )
 private val JumpingMonsterFace = ArcadeSprite(
-    "JumpingMonsterFace", 32, 32,
-    "M6 11H13V18H6Z M19 11H26V18H19Z M10 22H22V24H10Z"
+    width = 32, height = 32,
+    data = "M6 11H13V18H6Z M19 11H26V18H19Z M10 22H22V24H10Z"
 )
 private val PlatformMonsterFace = ArcadeSprite(
-    "PlatformMonsterFace", 56, 38,
-    "M8 12H16V21H8Z M24 10H32V19H24Z M40 12H48V21H40Z M12 27H18V30H23V27H33V30H38V27H44V32H12Z"
+    width = 56, height = 38,
+    data = "M8 12H16V21H8Z M24 10H32V19H24Z M40 12H48V21H40Z M12 27H18V30H23V27H33V30H38V27H44V32H12Z"
 )
 private val DoodleShootingBody = ArcadeSprite(
-    "DoodleShootingBody", 44, 48,
-    "M19 0H25V8H29V11H32V16H34V32H31V38H29V43H25V38H23V44H19V38H17V44H13V38H11V43H7V37H4V32H2V22H3V13H5V8H8V5H15V8H19Z"
+    width = 44, height = 48,
+    data = "M19 0H25V8H29V11H32V16H34V32H31V38H29V43H25V38H23V44H19V38H17V44H13V38H11V43H7V37H4V32H2V22H3V13H5V8H8V5H15V8H19Z"
 )
 
 @Composable
@@ -102,7 +104,8 @@ fun DoodleGame(
     initialState: ArcadeGameState = ArcadeGameState(),
     style: ArcadeStyle = ArcadeDefaults.style,
     onHighScoreChanged: ((Int) -> Unit)? = null,
-    onGameOver: ((Int) -> Unit)? = null
+    onGameOver: ((Int) -> Unit)? = null,
+    isPaused: Boolean = false
 ) {
     val run = rememberArcadeRun(
         initialState = initialState,
@@ -116,6 +119,7 @@ fun DoodleGame(
         modifier = modifier,
         initialState = initialState,
         onHighScoreChanged = onHighScoreChanged,
+        isPaused = isPaused,
         onGameOver = onGameOver
     ) {
         ArcadeField(
@@ -138,18 +142,17 @@ fun DoodleGame(
                 cloudY += 210f
                 index++
             }
-            for (platform in run.platforms) {
-                val falling = platform.breakTime
-                val y = run.height - platform.height + run.camera + falling * falling * 280f
-                val x = platform.x - platform.width / 2
-                val color = when (platform.kind) {
+            for ((_, centerX, height, width, kind, _, _, _, _, falling) in run.platforms) {
+                val y = run.height - height + run.camera + falling * falling * 280f
+                val x = centerX - width / 2
+                val color = when (kind) {
                     PlatformKind.Crumbling -> style.accentColor
                     PlatformKind.Moving -> style.playerColor
                     else -> style.obstacleColor
                 }
                 val tint = color.copy(alpha = (1 - falling * 1.8f).coerceIn(0f, 1f))
                 if (falling > 0) {
-                    val half = platform.width / 2 - 2
+                    val half = width / 2 - 2
                     pixelRect(
                         color = tint,
                         x = x - falling * 35,
@@ -159,7 +162,7 @@ fun DoodleGame(
                     )
                     pixelRect(
                         color = tint,
-                        x = platform.x + 2 + falling * 35,
+                        x = centerX + 2 + falling * 35,
                         y = y + falling * 12,
                         width = half,
                         height = 7f
@@ -169,101 +172,101 @@ fun DoodleGame(
                         color = tint,
                         x = x + 2,
                         y = y,
-                        width = platform.width - 4,
+                        width = width - 4,
                         height = 7f
                     )
                     pixelRect(
                         color = tint,
                         x = x,
                         y = y + 2,
-                        width = platform.width,
+                        width = width,
                         height = 3f
                     )
                     pixelRect(
                         color = style.detailColor,
                         x = x + 6,
                         y = y + 7,
-                        width = platform.width - 12,
+                        width = width - 12,
                         height = 2f
                     )
-                    if (platform.kind == PlatformKind.Crumbling) {
+                    if (kind == PlatformKind.Crumbling) {
                         pixelRect(
                             color = style.playerDetailColor,
-                            x = platform.x,
+                            x = centerX,
                             y = y,
                             width = 2f,
                             height = 3f
                         )
                         pixelRect(
                             color = style.playerDetailColor,
-                            x = platform.x - 2,
+                            x = centerX - 2,
                             y = y + 3,
                             width = 2f,
                             height = 2f
                         )
                         pixelRect(
                             color = style.playerDetailColor,
-                            x = platform.x,
+                            x = centerX,
                             y = y + 5,
                             width = 2f,
                             height = 2f
                         )
                     }
-                    if (platform.kind == PlatformKind.Moving) {
+                    if (kind == PlatformKind.Moving) {
                         pixelRect(
                             color = style.playerDetailColor,
-                            x = platform.x - 9,
+                            x = centerX - 9,
                             y = y + 2,
                             width = 18f,
                             height = 2f
                         )
                         pixelRect(
                             color = style.playerDetailColor,
-                            x = platform.x - 12,
+                            x = centerX - 12,
                             y = y + 3,
                             width = 3f,
                             height = 2f
                         )
                         pixelRect(
                             color = style.playerDetailColor,
-                            x = platform.x + 9,
+                            x = centerX + 9,
                             y = y + 3,
                             width = 3f,
                             height = 2f
                         )
                     }
-                    if (platform.kind == PlatformKind.Spring) {
+                    if (kind == PlatformKind.Spring) {
                         pixelRect(
                             color = style.accentColor,
-                            x = platform.x - 6,
+                            x = centerX - 6,
                             y = y - 12,
                             width = 12f,
                             height = 2f
                         )
                         pixelRect(
                             color = style.accentColor,
-                            x = platform.x - 4,
+                            x = centerX - 4,
                             y = y - 8,
                             width = 8f,
                             height = 2f
                         )
                         pixelRect(
                             color = style.accentColor,
-                            x = platform.x - 6,
+                            x = centerX - 6,
                             y = y - 4,
                             width = 12f,
                             height = 2f
                         )
                         pixelRect(
                             color = style.accentColor,
-                            x = platform.x - 4,
+                            x = centerX - 4,
                             y = y - 11,
                             width = 2f,
                             height = 11f
                         )
                         pixelRect(
                             color = style.accentColor,
-                            x = platform.x + 2,
+                            x = centerX + 2,
                             y = y - 11,
                             width = 2f,
                             height = 11f
@@ -280,20 +283,20 @@ fun DoodleGame(
                     height = 7f
                 )
             }
-            for (monster in run.monsters) {
-                val sprite = when (monster.kind) {
+            for ((centerX, height, kind, _, _, _, _, _, hitTime) in run.monsters) {
+                val sprite = when (kind) {
                     MonsterKind.Flyer -> FlyingMonster
                     MonsterKind.Jumper -> JumpingMonster
                     MonsterKind.Guard -> PlatformMonster
                 }
-                val face = when (monster.kind) {
+                val face = when (kind) {
                     MonsterKind.Flyer -> FlyingMonsterFace
                     MonsterKind.Jumper -> JumpingMonsterFace
                     MonsterKind.Guard -> PlatformMonsterFace
                 }
-                val color = if (monster.hitTime > 0f) style.playerColor else style.accentColor
-                val x = monster.x - monster.kind.halfWidth
-                val y = run.height - monster.height + run.camera - monster.kind.halfHeight
+                val color = if (hitTime > 0f) style.playerColor else style.accentColor
+                val x = centerX - kind.halfWidth
+                val y = run.height - height + run.camera - kind.halfHeight
                 drawArcadeSprite(
                     sprite = sprite,
                     tint = color,
@@ -329,7 +332,11 @@ fun DoodleGame(
             }
             val feet = run.height - run.y + run.camera
             fun player(x: Float) {
-                scale(if (run.facingRight || run.shooting) 1f else -1f, 1f, Offset(x, feet)) {
+                scale(
+                    if (run.facingRight || run.shooting) 1f else -1f,
+                    1f,
+                    Offset(x = x, y = feet)
+                ) {
                     drawArcadeSprite(
                         sprite = if (run.shooting) DoodleShootingBody else DoodleBody,
                         tint = style.playerColor,
@@ -372,16 +379,19 @@ fun DoodleGame(
     }
 }
 
-private enum class PlatformKind { Standard, Spring, Crumbling, Moving }
+@Serializable
+internal enum class PlatformKind { Standard, Spring, Crumbling, Moving }
 
-private enum class MonsterKind(
+@Serializable
+internal enum class MonsterKind(
     val halfWidth: Float,
     val halfHeight: Float
 ) {
     Flyer(19f, 14f), Jumper(16f, 16f), Guard(28f, 19f)
 }
 
-private data class DoodlePlatform(
+@Serializable
+internal data class DoodlePlatform(
     val id: Int,
     var x: Float,
     val height: Float,
@@ -394,7 +404,8 @@ private data class DoodlePlatform(
     var breakTime: Float = 0f
 )
 
-private data class DoodleMonster(
+@Serializable
+internal data class DoodleMonster(
     var x: Float,
     var height: Float,
     val kind: MonsterKind,
@@ -409,20 +420,23 @@ private data class DoodleMonster(
     var previousHeight = height
 }
 
-private data class DoodleBullet(
+@Serializable
+internal data class DoodleBullet(
     var x: Float,
     var y: Float,
     val vx: Float,
     val vy: Float
 )
 
-private data class DoodleBurst(
+@Serializable
+internal data class DoodleBurst(
     val x: Float,
     val height: Float,
     var time: Float = 0f
 )
 
-private class DoodleRun : ArcadeRun() {
+@Serializable
+internal class DoodleRun : ArcadeRun() {
     var x = width / 2
         private set
     var y = 24f
@@ -438,6 +452,8 @@ private class DoodleRun : ArcadeRun() {
     val monsters = mutableListOf<DoodleMonster>()
     val bullets = mutableListOf<DoodleBullet>()
     val bursts = mutableListOf<DoodleBurst>()
+
+    @Transient
     private var touchX: Float? = null
     private var velocity = 0f
     private var row = 0
@@ -445,6 +461,9 @@ private class DoodleRun : ArcadeRun() {
     private var lastHeight = 24f
     private var lastX = x
     private var shotTime = 0f
+
+    override fun isValid(): Boolean = super.isValid() &&
+            platforms.isNotEmpty()
 
     override fun reset() {
         x = width / 2
@@ -463,7 +482,13 @@ private class DoodleRun : ArcadeRun() {
         monsters.clear()
         bullets.clear()
         bursts.clear()
-        platforms += DoodlePlatform(platformId++, x, y, PlatformWidth, PlatformKind.Standard)
+        platforms += DoodlePlatform(
+            id = platformId++,
+            x = x,
+            height = y,
+            width = PlatformWidth,
+            kind = PlatformKind.Standard
+        )
         addPlatforms()
     }
 
@@ -484,7 +509,7 @@ private class DoodleRun : ArcadeRun() {
         if (shotTime > 0.04f) return
         val rise = (height - y + camera - 44f - target.y).coerceAtLeast(120f)
         val vx = ((target.x - x) / rise * 520f).coerceIn(-200f, 200f)
-        bullets += DoodleBullet(x, y + 44f, vx, sqrt(520f * 520f - vx * vx))
+        bullets += DoodleBullet(x = x, y = y + 44f, vx = vx, vy = sqrt(520f * 520f - vx * vx))
         shotTime = 0.18f
     }
 
@@ -542,7 +567,7 @@ private class DoodleRun : ArcadeRun() {
                 hit.health--
                 hit.hitTime = 0.1f
                 if (hit.health == 0) {
-                    bursts += DoodleBurst(hit.x, hit.height)
+                    bursts += DoodleBurst(x = hit.x, height = hit.height)
                     monsters.remove(hit)
                 }
             } else if (bullet.y > camera + height + 120 || bullet.x < -10 || bullet.x > width + 10) shots.remove()
@@ -559,7 +584,7 @@ private class DoodleRun : ArcadeRun() {
         if (hit != null) {
             if (hit.kind != MonsterKind.Guard && velocity < 0 && previousY >= hit.previousHeight + hit.kind.halfHeight) {
                 monsters.remove(hit)
-                bursts += DoodleBurst(hit.x, hit.height)
+                bursts += DoodleBurst(x = hit.x, height = hit.height)
                 y = hit.height + hit.kind.halfHeight
                 velocity = JumpVelocity
             } else {
@@ -711,119 +736,6 @@ private class DoodleRun : ArcadeRun() {
         }
         bullets.forEach { it.x *= ratio }
         camera = maxOf(camera, y - (height - topInset) * 0.55f)
-        if (phase == ArcadePhase.Ready) reset() else addPlatforms()
-    }
-
-    override fun save(state: Bundle) {
-        state.putFloatArray(
-            "runner",
-            floatArrayOf(x, y, velocity, camera, time, lastHeight, lastX, shotTime)
-        )
-        state.putBoolean("facing", facingRight)
-        state.putInt("row", row)
-        state.putInt("platformId", platformId)
-        state.putFloatArray("platforms", platforms.flatMap {
-            listOf(
-                it.id.toFloat(),
-                it.x,
-                it.height,
-                it.width,
-                it.kind.ordinal.toFloat(),
-                it.origin,
-                it.range,
-                it.phase,
-                it.speed,
-                it.breakTime
-            )
-        }.toFloatArray())
-        state.putFloatArray("monsters", monsters.flatMap {
-            listOf(
-                it.x,
-                it.height,
-                it.kind.ordinal.toFloat(),
-                it.platformId.toFloat(),
-                it.left,
-                it.right,
-                it.direction.toFloat(),
-                it.health.toFloat(),
-                it.hitTime,
-                it.baseHeight
-            )
-        }.toFloatArray())
-        state.putFloatArray(
-            "bullets",
-            bullets.flatMap { listOf(it.x, it.y, it.vx, it.vy) }.toFloatArray()
-        )
-        state.putFloatArray(
-            "bursts",
-            bursts.flatMap { listOf(it.x, it.height, it.time) }.toFloatArray()
-        )
-    }
-
-    override fun restore(state: Bundle) {
-        state.getFloatArray("runner")?.let {
-            x = it[0]
-            y = it[1]
-            velocity = it[2]
-            camera = it[3]
-            time = it[4]
-            lastHeight = it[5]
-            lastX = it[6]
-            shotTime = it[7]
-        }
-        facingRight = state.getBoolean("facing", true)
-        row = state.getInt("row")
-        platformId = state.getInt("platformId")
-        platforms.clear()
-        state.getFloatArray("platforms")?.let { points ->
-            for (index in points.indices step 10) {
-                platforms += DoodlePlatform(
-                    points[index].toInt(),
-                    points[index + 1],
-                    points[index + 2],
-                    points[index + 3],
-                    PlatformKind.entries[points[index + 4].toInt()],
-                    points[index + 5],
-                    points[index + 6],
-                    points[index + 7],
-                    points[index + 8],
-                    points[index + 9]
-                )
-            }
-        }
-        monsters.clear()
-        state.getFloatArray("monsters")?.let { points ->
-            for (index in points.indices step 10) {
-                monsters += DoodleMonster(
-                    points[index],
-                    points[index + 1],
-                    MonsterKind.entries[points[index + 2].toInt()],
-                    points[index + 3].toInt(),
-                    points[index + 4],
-                    points[index + 5],
-                    points[index + 6].toInt(),
-                    points[index + 7].toInt(),
-                    points[index + 8],
-                    points[index + 9]
-                )
-            }
-        }
-        bullets.clear()
-        state.getFloatArray("bullets")?.let { points ->
-            for (index in points.indices step 4) bullets += DoodleBullet(
-                points[index],
-                points[index + 1],
-                points[index + 2],
-                points[index + 3]
-            )
-        }
-        bursts.clear()
-        state.getFloatArray("bursts")?.let { points ->
-            for (index in points.indices step 3) bursts += DoodleBurst(
-                points[index],
-                points[index + 1],
-                points[index + 2]
-            )
-        }
+        addPlatforms()
     }
 }

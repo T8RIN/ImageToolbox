@@ -15,9 +15,10 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
+@file:UseSerializers(ArcadeOffsetSerializer::class)
+
 package com.t8rin.imagetoolbox.core.games.catalog
 
-import android.os.Bundle
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.CornerRadius
@@ -34,6 +35,7 @@ import com.t8rin.imagetoolbox.core.games.ArcadeBoard
 import com.t8rin.imagetoolbox.core.games.ArcadeDefaults
 import com.t8rin.imagetoolbox.core.games.ArcadeField
 import com.t8rin.imagetoolbox.core.games.ArcadeGameState
+import com.t8rin.imagetoolbox.core.games.ArcadeOffsetSerializer
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.ArcadeStyle
@@ -41,6 +43,8 @@ import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.UseSerializers
 import kotlin.random.Random
 
 @Composable
@@ -49,7 +53,8 @@ fun SimonSaysGame(
     initialState: ArcadeGameState = ArcadeGameState(),
     style: ArcadeStyle = ArcadeDefaults.style,
     onHighScoreChanged: ((Int) -> Unit)? = null,
-    onGameOver: ((Int) -> Unit)? = null
+    onGameOver: ((Int) -> Unit)? = null,
+    isPaused: Boolean = false
 ) {
     val run = rememberArcadeRun(
         initialState = initialState,
@@ -65,11 +70,13 @@ fun SimonSaysGame(
         modifier = modifier,
         initialState = initialState,
         onHighScoreChanged = onHighScoreChanged,
+        isPaused = isPaused,
         onGameOver = onGameOver,
         turnBased = true
     ) {
         ArcadeField(
             run = run,
+            transition = { run.transition },
             onPress = run::tap
         ) {
             val side = run.side
@@ -86,7 +93,7 @@ fun SimonSaysGame(
                         drawSimonSymbol(
                             index = index % 4,
                             color = color.copy(alpha = 0.18f),
-                            center = Offset(x, y),
+                            center = Offset(x = x, y = y),
                             radius = 4f + index % 4 * 2f,
                             stroke = 1f
                         )
@@ -109,7 +116,10 @@ fun SimonSaysGame(
             drawText(
                 caption,
                 style.textColor,
-                Offset((run.width - caption.size.width) / 2f, origin.y - caption.size.height - 8f)
+                Offset(
+                    x = (run.width - caption.size.width) / 2f,
+                    y = origin.y - caption.size.height - 8f
+                )
             )
             for (index in 0..3) {
                 val color = when (index) {
@@ -119,22 +129,22 @@ fun SimonSaysGame(
                     else -> style.textColor
                 }
                 val active = run.lit == index
-                val point = origin + Offset(index % 2 * cell + 4f, index / 2 * cell + 4f)
-                val pad = Size(cell - 8f, cell - 8f)
+                val point = origin + Offset(x = index % 2 * cell + 4f, y = index / 2 * cell + 4f)
+                val pad = Size(width = cell - 8f, height = cell - 8f)
                 drawRoundRect(
-                    color.copy(alpha = if (active) 1f else 0.1f),
-                    point,
-                    pad,
-                    CornerRadius(12f)
+                    color = color.copy(alpha = if (active) 1f else 0.1f),
+                    topLeft = point,
+                    size = pad,
+                    cornerRadius = CornerRadius(x = 4f)
                 )
                 drawRoundRect(
-                    color.copy(alpha = if (active || run.accepting) 0.8f else 0.3f),
-                    point,
-                    pad,
-                    CornerRadius(12f),
-                    style = Stroke(if (active) 2.5f else 1f)
+                    color = color.copy(alpha = if (active || run.accepting) 0.8f else 0.3f),
+                    topLeft = point,
+                    size = pad,
+                    cornerRadius = CornerRadius(x = 4f),
+                    style = Stroke(width = if (active) 2f else 1f)
                 )
-                val center = point + Offset(pad.width / 2f, pad.height / 2f)
+                val center = point + Offset(x = pad.width / 2f, y = pad.height / 2f)
                 val ink = if (active) style.playerDetailColor else color
                 val r = cell * 0.15f
                 drawSimonSymbol(
@@ -153,8 +163,8 @@ fun SimonSaysGame(
                     color = if (filled) style.accentColor else style.detailColor.copy(alpha = 0.4f),
                     radius = 2.5f,
                     center = Offset(
-                        run.width / 2f + (index - (count - 1) / 2f) * 9f,
-                        origin.y + side + 9f
+                        x = run.width / 2f + (index - (count - 1) / 2f) * 9f,
+                        y = origin.y + side + 9f
                     )
                 )
             }
@@ -174,27 +184,27 @@ private fun DrawScope.drawSimonSymbol(
             color = color,
             radius = radius,
             center = center,
-            style = Stroke(stroke)
+            style = Stroke(width = stroke)
         )
 
         1 -> drawRect(
-            color,
-            center - Offset(radius, radius),
-            Size(radius * 2f, radius * 2f),
-            style = Stroke(stroke)
+            color = color,
+            topLeft = center - Offset(x = radius, y = radius),
+            size = Size(width = radius * 2f, height = radius * 2f),
+            style = Stroke(width = stroke)
         )
 
         2 -> {
             drawLine(
                 color = color,
-                start = center - Offset(radius, 0f),
-                end = center + Offset(radius, 0f),
+                start = center - Offset(x = radius, y = 0f),
+                end = center + Offset(x = radius, y = 0f),
                 strokeWidth = stroke
             )
             drawLine(
                 color = color,
-                start = center - Offset(0f, radius),
-                end = center + Offset(0f, radius),
+                start = center - Offset(x = 0f, y = radius),
+                end = center + Offset(x = 0f, y = radius),
                 strokeWidth = stroke
             )
         }
@@ -202,27 +212,28 @@ private fun DrawScope.drawSimonSymbol(
         else -> {
             drawLine(
                 color = color,
-                start = center - Offset(radius, radius),
-                end = center + Offset(radius, radius),
+                start = center - Offset(x = radius, y = radius),
+                end = center + Offset(x = radius, y = radius),
                 strokeWidth = stroke
             )
             drawLine(
                 color = color,
-                start = center + Offset(radius, -radius),
-                end = center + Offset(-radius, radius),
+                start = center + Offset(x = radius, y = -radius),
+                end = center + Offset(x = -radius, y = radius),
                 strokeWidth = stroke
             )
         }
     }
 }
 
+@Serializable
 internal class SimonSaysRun : ArcadeRun() {
     val sequence = mutableListOf<Int>()
     val side get() = minOf(width - 40f, height - topInset - 58f)
     val origin
         get() = Offset(
-            (width - side) / 2f,
-            topInset + 30f + (height - topInset - 58f - side) / 2f
+            x = (width - side) / 2f,
+            y = topInset + 30f + (height - topInset - 58f - side) / 2f
         )
     var lit = -1
     var accepting = false
@@ -231,6 +242,13 @@ internal class SimonSaysRun : ArcadeRun() {
     private var timer = 0.75f
     private var gap = true
     private var completed = false
+    val transition get() = if (completed) timer else 0f
+
+    override fun isValid(): Boolean = super.isValid() &&
+            sequence.isNotEmpty() &&
+            sequence.all { it in 0..3 } &&
+            input in 0..sequence.size &&
+            playback in 0..sequence.size
 
     override fun reset() {
         sequence.clear()
@@ -285,6 +303,7 @@ internal class SimonSaysRun : ArcadeRun() {
             lit = -1
             // The last input flash belongs to the preceding round, not playback.
             if (completed) {
+                animateLevel()
                 completed = false
                 input = 0
                 timer = 0.6f
@@ -303,32 +322,5 @@ internal class SimonSaysRun : ArcadeRun() {
             timer = maxOf(0.28f, 0.55f - score * 0.012f)
             gap = false
         }
-    }
-
-    override fun save(state: Bundle) {
-        state.putIntArray("sequence", sequence.toIntArray())
-        state.putFloatArray(
-            "memory",
-            floatArrayOf(lit.toFloat(), input.toFloat(), playback.toFloat(), timer)
-        )
-        state.putBoolean("accepting", accepting)
-        state.putBoolean("gap", gap)
-        state.putBoolean("completed", completed)
-        state.putBoolean("animating", isAnimating)
-    }
-
-    override fun restore(state: Bundle) {
-        sequence.clear()
-        state.getIntArray("sequence")?.let { sequence.addAll(it.toList()) }
-        state.getFloatArray("memory")?.let {
-            lit = it[0].toInt()
-            input = it[1].toInt()
-            playback = it[2].toInt()
-            timer = it[3]
-        }
-        accepting = state.getBoolean("accepting")
-        gap = state.getBoolean("gap")
-        completed = state.getBoolean("completed")
-        isAnimating = state.getBoolean("animating")
     }
 }

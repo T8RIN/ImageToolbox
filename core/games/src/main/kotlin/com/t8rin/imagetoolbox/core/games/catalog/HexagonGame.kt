@@ -15,9 +15,10 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
+@file:UseSerializers(ArcadeOffsetSerializer::class)
+
 package com.t8rin.imagetoolbox.core.games.catalog
 
-import android.os.Bundle
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -28,12 +29,16 @@ import com.t8rin.imagetoolbox.core.games.ArcadeBoard
 import com.t8rin.imagetoolbox.core.games.ArcadeDefaults
 import com.t8rin.imagetoolbox.core.games.ArcadeField
 import com.t8rin.imagetoolbox.core.games.ArcadeGameState
+import com.t8rin.imagetoolbox.core.games.ArcadeOffsetSerializer
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.ArcadeStyle
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
+import kotlinx.serialization.UseSerializers
 import kotlin.math.PI
 import kotlin.math.abs
 import kotlin.math.cos
@@ -46,7 +51,8 @@ fun HexagonGame(
     initialState: ArcadeGameState = ArcadeGameState(),
     style: ArcadeStyle = ArcadeDefaults.style,
     onHighScoreChanged: ((Int) -> Unit)? = null,
-    onGameOver: ((Int) -> Unit)? = null
+    onGameOver: ((Int) -> Unit)? = null,
+    isPaused: Boolean = false
 ) {
     val run = rememberArcadeRun(
         initialState = initialState,
@@ -59,6 +65,7 @@ fun HexagonGame(
         modifier = modifier,
         initialState = initialState,
         onHighScoreChanged = onHighScoreChanged,
+        isPaused = isPaused,
         onGameOver = onGameOver
     ) {
         ArcadeField(
@@ -74,7 +81,7 @@ fun HexagonGame(
                 angle: Float,
                 radius: Float
             ) =
-                center + Offset(cos(angle), sin(angle)) * radius * extent
+                center + Offset(x = cos(angle), y = sin(angle)) * radius * extent
 
             val backdropRadius = maxOf(run.width, run.height) * 2f / extent
             for (sector in 0..5) {
@@ -94,14 +101,14 @@ fun HexagonGame(
                 path.lineTo(second.x, second.y)
                 path.close()
                 drawPath(
-                    path, if (sector % 2 == 0) style.playerColor.copy(alpha = 0.035f)
-                    else style.obstacleColor.copy(alpha = 0.1f)
+                    path = path, color = if (sector % 2 == 0) style.playerColor.copy(alpha = 0.035f)
+                    else style.obstacleColor.copy(alpha = 0.05f)
                 )
             }
             repeat(24) { index ->
                 val x = ((index * 71 + index * index * 19 + 23) % 359) / 359f * run.width
                 val y = ((index * 97 + index * index * 31 + 11) % 443) / 443f * run.height
-                if ((Offset(x, y) - center).getDistance() > extent * 0.6f) {
+                if ((Offset(x = x, y = y) - center).getDistance() > extent * 0.6f) {
                     pixelRect(
                         color = style.obstacleColor.copy(alpha = 0.18f),
                         x = x,
@@ -115,7 +122,7 @@ fun HexagonGame(
                 color = style.detailColor.copy(alpha = 0.35f),
                 radius = extent * 0.46f,
                 center = center,
-                style = Stroke(1f)
+                style = Stroke(width = 1f)
             )
             for ((radius, gap, passed) in run.walls) {
                 for (side in 0..5) {
@@ -145,7 +152,7 @@ fun HexagonGame(
                     path.lineTo(fourth.x, fourth.y)
                     path.close()
                     val color = if (passed) style.detailColor else style.obstacleColor
-                    drawPath(path, color)
+                    drawPath(path = path, color = color)
                     drawLine(
                         color = style.playerDetailColor.copy(alpha = 0.35f),
                         start = third,
@@ -164,37 +171,47 @@ fun HexagonGame(
                 if (index == 0) path.moveTo(point.x, point.y) else path.lineTo(point.x, point.y)
             }
             path.close()
-            drawPath(path, style.accentColor)
-            drawPath(path, style.playerDetailColor.copy(alpha = 0.35f), style = Stroke(1.5f))
+            drawPath(path = path, color = style.accentColor)
+            drawPath(
+                path = path,
+                color = style.playerDetailColor.copy(alpha = 0.35f),
+                style = Stroke(width = 1.5f)
+            )
             val player = point(
                 angle = run.angle,
                 radius = 0.46f
             )
-            rotate(run.angle * 180f / PI.toFloat() + 90f, player) {
+            rotate(degrees = run.angle * 180f / PI.toFloat() + 90f, pivot = player) {
                 path.reset()
                 path.moveTo(player.x, player.y - 7f)
                 path.lineTo(player.x - 5.5f, player.y + 5f)
                 path.lineTo(player.x + 5.5f, player.y + 5f)
                 path.close()
-                drawPath(path, style.playerColor)
+                drawPath(path = path, color = style.playerColor)
             }
         }
     }
 }
 
+@Serializable
 internal data class HexagonWall(
     var radius: Float,
     val gap: Int,
     var passed: Boolean = false
 )
 
+@Serializable
 internal class HexagonRun : ArcadeRun() {
     val walls = mutableListOf<HexagonWall>()
+
+    @Transient
     val outline = Path()
-    val center get() = Offset(width / 2f, topInset + (height - topInset - 18f) / 2f)
+    val center get() = Offset(x = width / 2f, y = topInset + (height - topInset - 18f) / 2f)
     val extent get() = minOf(width - 28f, height - topInset - 30f) / 2f
     var angle = 0f
     var rotation = 0f
+
+    @Transient
     var direction = 0
     var pulse = 0f
     private var timer = 0.7f
@@ -230,7 +247,7 @@ internal class HexagonRun : ArcadeRun() {
         val speed = 0.26f + minOf(elapsed * 0.0016f, 0.2f)
         if (timer <= 0f) {
             previousGap = (previousGap + Random.nextInt(-2, 3) + 6) % 6
-            walls += HexagonWall(1.12f, previousGap)
+            walls += HexagonWall(radius = 1.12f, gap = previousGap)
             timer += maxOf(1.05f, 1.85f - elapsed * 0.006f)
         }
         val relative = ((angle - rotation) % full + full) % full
@@ -256,37 +273,5 @@ internal class HexagonRun : ArcadeRun() {
             }
         }
         walls.removeAll { it.radius < 0.15f }
-    }
-
-    override fun save(state: Bundle) {
-        state.putFloatArray(
-            "arena",
-            floatArrayOf(angle, rotation, timer, elapsed, previousGap.toFloat(), pulse)
-        )
-        state.putFloatArray(
-            "walls",
-            walls.flatMap { listOf(it.radius, it.gap.toFloat(), if (it.passed) 1f else 0f) }
-                .toFloatArray()
-        )
-    }
-
-    override fun restore(state: Bundle) {
-        state.getFloatArray("arena")?.let {
-            angle = it[0]
-            rotation = it[1]
-            timer = it[2]
-            elapsed = it[3]
-            previousGap = it[4].toInt()
-            pulse = it[5]
-        }
-        walls.clear()
-        state.getFloatArray("walls")?.let {
-            for (i in it.indices step 3) walls += HexagonWall(
-                it[i],
-                it[i + 1].toInt(),
-                it[i + 2] == 1f
-            )
-        }
-        stopInput()
     }
 }

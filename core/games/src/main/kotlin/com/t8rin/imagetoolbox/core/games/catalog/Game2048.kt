@@ -15,9 +15,10 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
+@file:UseSerializers(ArcadeOffsetSerializer::class)
+
 package com.t8rin.imagetoolbox.core.games.catalog
 
-import android.os.Bundle
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -36,11 +37,14 @@ import com.t8rin.imagetoolbox.core.games.ArcadeBoard
 import com.t8rin.imagetoolbox.core.games.ArcadeDefaults
 import com.t8rin.imagetoolbox.core.games.ArcadeField
 import com.t8rin.imagetoolbox.core.games.ArcadeGameState
+import com.t8rin.imagetoolbox.core.games.ArcadeOffsetSerializer
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.ArcadeStyle
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.UseSerializers
 import kotlin.math.abs
 import kotlin.math.sin
 import kotlin.random.Random
@@ -55,7 +59,8 @@ fun Game2048(
     initialState: ArcadeGameState = ArcadeGameState(),
     style: ArcadeStyle = ArcadeDefaults.style,
     onHighScoreChanged: ((Int) -> Unit)? = null,
-    onGameOver: ((Int) -> Unit)? = null
+    onGameOver: ((Int) -> Unit)? = null,
+    isPaused: Boolean = false
 ) {
     val run = rememberArcadeRun(
         initialState = initialState,
@@ -69,6 +74,7 @@ fun Game2048(
         modifier = modifier,
         initialState = initialState,
         onHighScoreChanged = onHighScoreChanged,
+        isPaused = isPaused,
         onGameOver = onGameOver,
         turnBased = true
     ) {
@@ -80,28 +86,28 @@ fun Game2048(
             val gap = side * 0.018f
             val cell = (side - gap * (GridSize + 1)) / GridSize
             val origin = Offset(
-                (run.width - side) / 2,
-                run.topInset + (run.height - run.topInset - side) / 2
+                x = (run.width - side) / 2,
+                y = run.topInset + (run.height - run.topInset - side) / 2
             )
 
             fun position(index: Int) = origin + Offset(
-                gap + index % GridSize * (cell + gap),
-                gap + index / GridSize * (cell + gap)
+                x = gap + index % GridSize * (cell + gap),
+                y = gap + index / GridSize * (cell + gap)
             )
 
-            val radius = CornerRadius(cell * 0.06f)
+            val radius = CornerRadius(x = cell * 0.06f)
             drawRoundRect(
                 color = style.detailColor.copy(alpha = 0.2f),
                 topLeft = origin,
-                size = Size(side, side),
-                cornerRadius = CornerRadius(gap)
+                size = Size(width = side, height = side),
+                cornerRadius = CornerRadius(x = gap)
             )
             for (index in run.tiles.indices) {
                 val point = position(index)
                 drawRoundRect(
                     color = style.detailColor.copy(alpha = 0.16f),
                     topLeft = point,
-                    size = Size(cell, cell),
+                    size = Size(width = cell, height = cell),
                     cornerRadius = radius
                 )
             }
@@ -122,20 +128,20 @@ fun Game2048(
                     else -> style.playerColor.copy(alpha = 0.5f)
                 }
                 val inset = cell * (1 - scale) / 2
-                val topLeft = point + Offset(inset, inset)
+                val topLeft = point + Offset(x = inset, y = inset)
                 val size = cell * scale
                 drawRoundRect(
                     color = color,
                     topLeft = topLeft,
-                    size = Size(size, size),
+                    size = Size(width = size, height = size),
                     cornerRadius = radius * scale
                 )
                 drawRoundRect(
                     color = style.detailColor.copy(alpha = 0.3f),
                     topLeft = topLeft,
-                    size = Size(size, size),
+                    size = Size(width = size, height = size),
                     cornerRadius = radius * scale,
-                    style = Stroke(1f)
+                    style = Stroke(width = 1f)
                 )
                 val digits = value.toString().length
                 val label = measurer.measure(
@@ -151,8 +157,8 @@ fun Game2048(
                     textLayoutResult = label,
                     color = style.textColor.copy(alpha = scale.coerceIn(0f, 1f)),
                     topLeft = point + Offset(
-                        (cell - label.size.width) / 2,
-                        (cell - label.size.height) / 2
+                        x = (cell - label.size.width) / 2,
+                        y = (cell - label.size.height) / 2
                     )
                 )
             }
@@ -188,13 +194,15 @@ fun Game2048(
     }
 }
 
-private data class TileSlide(
+@Serializable
+internal data class TileSlide(
     val value: Int,
     val from: Int,
     val to: Int
 )
 
-private class MergeRun : ArcadeRun() {
+@Serializable
+internal class MergeRun : ArcadeRun() {
     val tiles = IntArray(GridSize * GridSize)
     val slides = mutableListOf<TileSlide>()
     val merged = mutableSetOf<Int>()
@@ -203,6 +211,9 @@ private class MergeRun : ArcadeRun() {
     var time = MoveDuration
         private set
     private var queuedSwipe: Offset? = null
+
+    override fun isValid(): Boolean = super.isValid() &&
+            tiles.size == GridSize * GridSize && tiles.all { it >= 0 }
 
     override fun reset() {
         tiles.fill(0)
@@ -239,9 +250,9 @@ private class MergeRun : ArcadeRun() {
                 val from = occupied[source++]
                 val value = before[from]
                 val to = indices[destination++]
-                slides += TileSlide(value, from, to)
+                slides += TileSlide(value = value, from = from, to = to)
                 if (source < occupied.size && before[occupied[source]] == value) {
-                    slides += TileSlide(value, occupied[source++], to)
+                    slides += TileSlide(value = value, from = occupied[source++], to = to)
                     tiles[to] = value * 2
                     gained += value * 2
                     merged += to
@@ -285,14 +296,5 @@ private class MergeRun : ArcadeRun() {
         tiles[index] == 0 ||
                 index % GridSize < GridSize - 1 && tiles[index] == tiles[index + 1] ||
                 index / GridSize < GridSize - 1 && tiles[index] == tiles[index + GridSize]
-    }
-
-    override fun save(state: Bundle) {
-        state.putIntArray("tiles", tiles.copyOf())
-    }
-
-    override fun restore(state: Bundle) {
-        state.getIntArray("tiles")?.copyInto(tiles)
-        if (phase == ArcadePhase.Running && !hasMoves()) phase = ArcadePhase.Over
     }
 }

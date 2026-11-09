@@ -352,7 +352,13 @@ private fun EnhancedAlertDialogContent(
                         Modifier
                             .weight(weight = 1f, fill = false)
                             .padding(TextPadding)
-                            .align(Alignment.Start)
+                            .align(
+                                if (icon == null) {
+                                    Alignment.Start
+                                } else {
+                                    Alignment.CenterHorizontally
+                                }
+                            )
                     ) {
                         text()
                     }

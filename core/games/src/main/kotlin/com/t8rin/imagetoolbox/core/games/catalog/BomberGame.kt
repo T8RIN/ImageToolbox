@@ -15,10 +15,12 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
+@file:UseSerializers(ArcadeOffsetSerializer::class, ArcadeDequeSerializer::class)
+
 package com.t8rin.imagetoolbox.core.games.catalog
 
-import android.os.Bundle
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
@@ -32,8 +34,10 @@ import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.drawscope.translate
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
 import com.t8rin.imagetoolbox.core.games.ArcadeDefaults
+import com.t8rin.imagetoolbox.core.games.ArcadeDequeSerializer
 import com.t8rin.imagetoolbox.core.games.ArcadeField
 import com.t8rin.imagetoolbox.core.games.ArcadeGameState
+import com.t8rin.imagetoolbox.core.games.ArcadeOffsetSerializer
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.ArcadeSprite
@@ -44,6 +48,9 @@ import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
 import com.t8rin.imagetoolbox.core.games.utils.arcadeLives
 import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
+import kotlinx.serialization.UseSerializers
 import kotlin.math.abs
 import kotlin.math.sin
 import kotlin.random.Random
@@ -54,12 +61,14 @@ fun BomberGame(
     initialState: ArcadeGameState = ArcadeGameState(),
     style: ArcadeStyle = ArcadeDefaults.style,
     onHighScoreChanged: ((Int) -> Unit)? = null,
-    onGameOver: ((Int) -> Unit)? = null
+    onGameOver: ((Int) -> Unit)? = null,
+    isPaused: Boolean = false
 ) {
     val run = rememberArcadeRun(
         initialState = initialState,
         create = ::BomberRun
     )
+    val outlinePath = remember { Path() }
     ArcadeBoard(
         game = ArcadeGame.Bomber,
         run = run,
@@ -67,10 +76,12 @@ fun BomberGame(
         modifier = modifier,
         initialState = initialState,
         onHighScoreChanged = onHighScoreChanged,
+        isPaused = isPaused,
         onGameOver = onGameOver
     ) {
         ArcadeField(
             run = run,
+            transition = { run.transition },
             onPress = run::begin,
             onDrag = run::drag,
             onSwipe = run::swipe,
@@ -80,11 +91,14 @@ fun BomberGame(
         ) {
             val cell = run.cell
             val origin = run.origin
-            val bounds = Rect(origin, Size(run.columns * cell, run.rows * cell))
-            val outline = Path().apply { addRoundRect(RoundRect(bounds, CornerRadius(10f))) }
+            val bounds = Rect(origin, Size(width = run.columns * cell, height = run.rows * cell))
+            val outline = outlinePath.apply {
+                rewind()
+                addRoundRect(RoundRect(bounds, CornerRadius(x = 10f)))
+            }
             clipPath(outline) {
                 run.board.forEachIndexed { index, tile ->
-                    val point = run.center(index) - Offset(cell / 2f, cell / 2f)
+                    val point = run.center(index) - Offset(x = cell / 2f, y = cell / 2f)
                     when (tile) {
                         1 -> {
                             pixelRect(
@@ -200,7 +214,7 @@ fun BomberGame(
                             color = style.accentColor,
                             radius = cell * 0.18f,
                             center = p,
-                            style = Stroke(2f)
+                            style = Stroke(width = 2f)
                         )
                         pixelRect(
                             color = style.accentColor,
@@ -223,7 +237,7 @@ fun BomberGame(
                     drawCircle(
                         color = style.playerDetailColor,
                         radius = cell * 0.07f * pulse,
-                        center = p - Offset(cell * 0.08f, cell * 0.1f)
+                        center = p - Offset(x = cell * 0.08f, y = cell * 0.1f)
                     )
                     pixelRect(
                         color = style.accentColor,
@@ -235,16 +249,16 @@ fun BomberGame(
                     drawCircle(
                         color = style.hazardColor,
                         radius = cell * 0.07f,
-                        center = p + Offset(cell * 0.18f, -cell * 0.42f)
+                        center = p + Offset(x = cell * 0.18f, y = -cell * 0.42f)
                     )
                     drawArc(
                         color = style.accentColor,
                         startAngle = -90f,
                         sweepAngle = fuse / 2.2f * 360f,
                         useCenter = false,
-                        topLeft = p - Offset(cell * 0.38f, cell * 0.38f),
-                        size = Size(cell * 0.76f, cell * 0.76f),
-                        style = Stroke(1f)
+                        topLeft = p - Offset(x = cell * 0.38f, y = cell * 0.38f),
+                        size = Size(width = cell * 0.76f, height = cell * 0.76f),
+                        style = Stroke(width = 1f)
                     )
                 }
                 for ((index, life) in run.blasts) {
@@ -282,7 +296,7 @@ fun BomberGame(
                 for (enemy in run.enemies) {
                     val point = run.enemyPoint(enemy)
                     val unit = cell / 17f
-                    translate(point.x - unit * 5f, point.y - unit * 5.5f) {
+                    translate(left = point.x - unit * 5f, top = point.y - unit * 5.5f) {
                         scale(unit, Offset.Zero) {
                             drawArcadeSprite(
                                 sprite = BomberBug,
@@ -325,7 +339,7 @@ fun BomberGame(
                 if (run.invulnerable <= 0f || (run.invulnerable * 9f).toInt() % 2 == 0) {
                     val point = run.playerPoint
                     val unit = cell / 19f
-                    translate(point.x - unit * 6f, point.y - unit * 8f) {
+                    translate(left = point.x - unit * 6f, top = point.y - unit * 8f) {
                         scale(unit, Offset.Zero) {
                             drawArcadeSprite(
                                 sprite = BomberBody,
@@ -393,7 +407,7 @@ fun BomberGame(
                     color = style.detailColor.copy(alpha = 0.35f),
                     radius = 23f,
                     center = point,
-                    style = Stroke(1f)
+                    style = Stroke(width = 1f)
                 )
                 drawLine(
                     color = style.playerColor.copy(alpha = 0.5f),
@@ -411,8 +425,8 @@ fun BomberGame(
                 color = style.detailColor,
                 topLeft = bounds.topLeft,
                 size = bounds.size,
-                cornerRadius = CornerRadius(10f),
-                style = Stroke(1f)
+                cornerRadius = CornerRadius(x = 10f),
+                style = Stroke(width = 1f)
             )
             arcadeLives(
                 style = style,
@@ -420,7 +434,7 @@ fun BomberGame(
                 y = run.topInset / 2f
             )
             repeat(run.capacity) { index ->
-                val p = Offset(83f + index * 13f, run.topInset / 2f)
+                val p = Offset(x = 83f + index * 13f, y = run.topInset / 2f)
                 val color =
                     style.accentColor.copy(alpha = if (index < run.capacity - run.bombs.size) 1f else 0.2f)
                 drawCircle(
@@ -445,31 +459,32 @@ fun BomberGame(
 }
 
 private val BomberBody = ArcadeSprite(
-    name = "Bomber",
     width = 12,
     height = 16,
     data = "M5 0H7V2H9V3H11V5H12V8H11V9H9V10H10V12H9V14H11V16H7V14H5V16H1V14H3V12H2V10H3V9H1V8H0V5H1V3H3V2H5Z"
 )
 
 private val BomberBug = ArcadeSprite(
-    name = "BomberBug",
     width = 10,
     height = 11,
     data = "M1 0H3V2H7V0H9V3H10V8H8V10H6V9H4V10H2V8H0V3H1Z"
 )
 
+@Serializable
 internal data class BomberBomb(
     val position: Int,
     var fuse: Float,
     val range: Int
 )
 
+@Serializable
 internal data class BomberEnemy(
     var position: Int,
     var previous: Int,
     var progress: Float = 1f
 )
 
+@Serializable
 internal class BomberRun : ArcadeRun() {
     val columns = 11
     var rows = 9
@@ -478,12 +493,14 @@ internal class BomberRun : ArcadeRun() {
     val blasts = mutableMapOf<Int, Float>()
     val items = mutableMapOf<Int, Int>()
     val enemies = mutableListOf<BomberEnemy>()
+
+    @Transient
     val effects = ArcadeEffects()
     val cell get() = minOf((width - 48f) / columns, (height - topInset - 32f) / rows)
     val origin
         get() = Offset(
-            (width - columns * cell) / 2f,
-            topInset + (height - topInset - rows * cell) / 2f
+            x = (width - columns * cell) / 2f,
+            y = topInset + (height - topInset - rows * cell) / 2f
         )
     var player = columns + 1
     var previous = player
@@ -496,12 +513,24 @@ internal class BomberRun : ArcadeRun() {
     var time = 0f
     var transition = 0f
     private var broken = 0
+
+    @Transient
     private var direction = -1
+
+    @Transient
     private var queuedDirection = -1
+
+    @Transient
     private var gestureStepped = false
+
+    @Transient
     private var moving = false
+
+    @Transient
     var touchOrigin: Offset? = null
         private set
+
+    @Transient
     var stick = Offset.Zero
         private set
     val playerPoint get() = center(previous) + (center(player) - center(previous)) * progress
@@ -509,7 +538,14 @@ internal class BomberRun : ArcadeRun() {
         center(enemy.previous) + (center(enemy.position) - center(enemy.previous)) * enemy.progress
 
     fun center(index: Int) =
-        origin + Offset((index % columns + 0.5f) * cell, (index / columns + 0.5f) * cell)
+        origin + Offset(x = (index % columns + 0.5f) * cell, y = (index / columns + 0.5f) * cell)
+
+    override fun isValid(): Boolean = super.isValid() &&
+            rows in 7..15 &&
+            board.size == columns * rows &&
+            player in board.indices &&
+            previous in board.indices &&
+            enemies.all { it.position in board.indices && it.previous in board.indices }
 
     override fun reset() {
         round = 1
@@ -523,6 +559,7 @@ internal class BomberRun : ArcadeRun() {
     }
 
     private fun newRound() {
+        animateLevel()
         rows = (((height - topInset - 32f) / ((width - 48f) / columns)).toInt()
             .coerceIn(7, 15) / 2) * 2 + 1
         val starts = listOf(columns * 2 - 2, (rows - 2) * columns + 1, (rows - 1) * columns - 2)
@@ -542,7 +579,7 @@ internal class BomberRun : ArcadeRun() {
         items.clear()
         enemies.clear()
         starts.shuffled().take((1 + round / 2).coerceAtMost(3))
-            .forEach { enemies += BomberEnemy(it, it) }
+            .forEach { enemies += BomberEnemy(position = it, previous = it) }
         player = columns + 1
         previous = player
         progress = 1f
@@ -612,7 +649,11 @@ internal class BomberRun : ArcadeRun() {
     fun placeBomb() {
         if (transition > 0f || bombs.size >= capacity) return
         val index = if (progress < 0.5f) previous else player
-        if (bombs.none { it.position == index }) bombs += BomberBomb(index, 2.2f, range)
+        if (bombs.none { it.position == index }) bombs += BomberBomb(
+            position = index,
+            fuse = 2.2f,
+            range = range
+        )
     }
 
     fun blastCells(
@@ -755,74 +796,4 @@ internal class BomberRun : ArcadeRun() {
         }
     }
 
-    override fun onResize(previous: Size) {
-        if (time == 0f) newRound()
-    }
-
-    override fun save(state: Bundle) {
-        state.putIntArray("board", board.copyOf())
-        state.putIntArray(
-            "run",
-            intArrayOf(rows, player, previous, lives, round, range, capacity, broken)
-        )
-        state.putFloatArray("time", floatArrayOf(progress, invulnerable, time, transition))
-        state.putFloatArray(
-            "bombs",
-            bombs.flatMap { listOf(it.position.toFloat(), it.fuse, it.range.toFloat()) }
-                .toFloatArray()
-        )
-        state.putFloatArray(
-            "blasts",
-            blasts.flatMap { listOf(it.key.toFloat(), it.value) }.toFloatArray()
-        )
-        state.putIntArray("items", items.flatMap { listOf(it.key, it.value) }.toIntArray())
-        state.putFloatArray(
-            "enemies",
-            enemies.flatMap { listOf(it.position.toFloat(), it.previous.toFloat(), it.progress) }
-                .toFloatArray()
-        )
-    }
-
-    override fun restore(state: Bundle) {
-        state.getIntArray("board")?.let { board = it.copyOf() }
-        state.getIntArray("run")?.let {
-            rows = it[0]
-            player = it[1]
-            previous = it[2]
-            lives = it[3]
-            round = it[4]
-            range = it[5]
-            capacity = it[6]
-            broken = it[7]
-        }
-        state.getFloatArray("time")
-            ?.let {
-                progress = it[0]
-                invulnerable = it[1]
-                time = it[2]
-                transition = it[3]
-            }
-        bombs.clear()
-        state.getFloatArray("bombs")?.let {
-            for (i in it.indices step 3) bombs += BomberBomb(
-                it[i].toInt(),
-                it[i + 1],
-                it[i + 2].toInt()
-            )
-        }
-        blasts.clear()
-        state.getFloatArray("blasts")
-            ?.let { for (i in it.indices step 2) blasts[it[i].toInt()] = it[i + 1] }
-        items.clear()
-        state.getIntArray("items")?.let { for (i in it.indices step 2) items[it[i]] = it[i + 1] }
-        enemies.clear()
-        state.getFloatArray("enemies")?.let {
-            for (i in it.indices step 3) enemies += BomberEnemy(
-                it[i].toInt(),
-                it[i + 1].toInt(),
-                it[i + 2]
-            )
-        }
-        stopInput()
-    }
 }

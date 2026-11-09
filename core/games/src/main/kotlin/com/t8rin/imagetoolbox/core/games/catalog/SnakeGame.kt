@@ -15,10 +15,12 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
+@file:UseSerializers(ArcadeOffsetSerializer::class, ArcadeDequeSerializer::class)
+
 package com.t8rin.imagetoolbox.core.games.catalog
 
-import android.os.Bundle
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
@@ -31,8 +33,10 @@ import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.drawscope.translate
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
 import com.t8rin.imagetoolbox.core.games.ArcadeDefaults
+import com.t8rin.imagetoolbox.core.games.ArcadeDequeSerializer
 import com.t8rin.imagetoolbox.core.games.ArcadeField
 import com.t8rin.imagetoolbox.core.games.ArcadeGameState
+import com.t8rin.imagetoolbox.core.games.ArcadeOffsetSerializer
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.ArcadeSprite
@@ -40,28 +44,28 @@ import com.t8rin.imagetoolbox.core.games.ArcadeStyle
 import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.UseSerializers
 import kotlin.math.abs
 
 private const val SnakeCells = 20
 private val SnakeHead = ArcadeSprite(
-    "SnakeHead", 14, 14,
-    "M2 0H12V2H14V12H12V14H2V12H0V2H2Z"
+    width = 14, height = 14,
+    data = "M2 0H12V2H14V12H12V14H2V12H0V2H2Z"
 )
 private val SnakeEyes = ArcadeSprite(
-    "SnakeEyes",
-    14,
-    14,
-    "M9 2H11V5H9Z M9 9H11V12H9Z"
+    width = 14,
+    height = 14,
+    data = "M9 2H11V5H9Z M9 9H11V12H9Z"
 )
 private val SnakeFood = ArcadeSprite(
-    "Apple", 14, 16,
-    "M3 4H6V5H8V4H11V5H13V8H14V11H12V14H10V16H8V15H6V16H4V14H2V11H1V8H2V5H3Z"
+    width = 14, height = 16,
+    data = "M3 4H6V5H8V4H11V5H13V8H14V11H12V14H10V16H8V15H6V16H4V14H2V11H1V8H2V5H3Z"
 )
 private val SnakeLeaf = ArcadeSprite(
-    "AppleLeaf",
-    14,
-    16,
-    "M7 2H9V5H7Z M9 0H13V2H11V3H9Z"
+    width = 14,
+    height = 16,
+    data = "M7 2H9V5H7Z M9 0H13V2H11V3H9Z"
 )
 
 @Composable
@@ -70,12 +74,14 @@ fun SnakeGame(
     initialState: ArcadeGameState = ArcadeGameState(),
     style: ArcadeStyle = ArcadeDefaults.style,
     onHighScoreChanged: ((Int) -> Unit)? = null,
-    onGameOver: ((Int) -> Unit)? = null
+    onGameOver: ((Int) -> Unit)? = null,
+    isPaused: Boolean = false
 ) {
     val run = rememberArcadeRun(
         initialState = initialState,
         create = ::SnakeRun
     )
+    val bodyPath = remember { Path() }
     ArcadeBoard(
         game = ArcadeGame.Snake,
         run = run,
@@ -83,6 +89,7 @@ fun SnakeGame(
         modifier = modifier,
         initialState = initialState,
         onHighScoreChanged = onHighScoreChanged,
+        isPaused = isPaused,
         onGameOver = onGameOver
     ) {
         ArcadeField(
@@ -93,21 +100,21 @@ fun SnakeGame(
             val side = minOf(run.width - 28f, run.height - run.topInset - 28f)
             val cell = side / SnakeCells
             val origin = Offset(
-                (run.width - side) / 2,
-                run.topInset + (run.height - run.topInset - side) / 2
+                x = (run.width - side) / 2,
+                y = run.topInset + (run.height - run.topInset - side) / 2
             )
             drawRect(
                 color = style.obstacleColor.copy(alpha = 0.06f),
                 topLeft = origin,
-                size = Size(side, side)
+                size = Size(width = side, height = side)
             )
             for (row in 0 until SnakeCells) {
                 for (column in 0 until SnakeCells) {
                     if ((row + column) % 2 == 0) {
                         drawRect(
                             color = style.obstacleColor.copy(alpha = 0.07f),
-                            topLeft = origin + Offset(column * cell, row * cell),
-                            size = Size(cell, cell)
+                            topLeft = origin + Offset(x = column * cell, y = row * cell),
+                            size = Size(width = cell, height = cell)
                         )
                     }
                 }
@@ -115,17 +122,17 @@ fun SnakeGame(
             drawRect(
                 color = style.detailColor,
                 topLeft = origin,
-                size = Size(side, side),
-                style = Stroke(1f)
+                size = Size(width = side, height = side),
+                style = Stroke(width = 1f)
             )
             fun center(cellIndex: Int) = origin + Offset(
-                (cellIndex % SnakeCells + 0.5f) * cell,
-                (cellIndex / SnakeCells + 0.5f) * cell
+                x = (cellIndex % SnakeCells + 0.5f) * cell,
+                y = (cellIndex / SnakeCells + 0.5f) * cell
             )
 
             if (run.food >= 0) {
                 val food = center(run.food)
-                translate(food.x - cell * 0.42f, food.y - cell * 0.48f) {
+                translate(left = food.x - cell * 0.42f, top = food.y - cell * 0.48f) {
                     scale(cell * 0.06f, Offset.Zero) {
                         drawArcadeSprite(
                             sprite = SnakeFood,
@@ -148,7 +155,8 @@ fun SnakeGame(
                     (center(run.body.first()) - center(run.previous.first())) * fraction
             val tail = center(run.previous.last()) +
                     (center(run.body.last()) - center(run.previous.last())) * fraction
-            val body = Path().apply {
+            val body = bodyPath.apply {
+                rewind()
                 moveTo(head.x, head.y)
                 for (index in 1..run.body.lastIndex) {
                     val point = center(run.body[index])
@@ -165,8 +173,8 @@ fun SnakeGame(
                     join = StrokeJoin.Miter
                 )
             )
-            rotate(run.direction.angle, head) {
-                translate(head.x - cell * 0.45f, head.y - cell * 0.45f) {
+            rotate(degrees = run.direction.angle, pivot = head) {
+                translate(left = head.x - cell * 0.45f, top = head.y - cell * 0.45f) {
                     scale(cell * 0.9f / 14f, Offset.Zero) {
                         drawArcadeSprite(
                             sprite = SnakeHead,
@@ -187,7 +195,8 @@ fun SnakeGame(
     }
 }
 
-private enum class SnakeDirection(
+@Serializable
+internal enum class SnakeDirection(
     val dx: Int,
     val dy: Int,
     val angle: Float
@@ -200,7 +209,8 @@ private enum class SnakeDirection(
     fun opposite(other: SnakeDirection) = dx == -other.dx && dy == -other.dy
 }
 
-private class SnakeRun : ArcadeRun() {
+@Serializable
+internal class SnakeRun : ArcadeRun() {
     val body = mutableListOf<Int>()
     val previous = mutableListOf<Int>()
     var food = 0
@@ -211,6 +221,9 @@ private class SnakeRun : ArcadeRun() {
     private val interval get() = (0.16f / (1f + score * 0.035f)).coerceAtLeast(0.075f)
     private var elapsed = 0f
     private val turns = ArrayDeque<SnakeDirection>()
+
+    override fun isValid(): Boolean = super.isValid() &&
+            body.isNotEmpty() && body.all { it in 0 until SnakeCells * SnakeCells } && previous.isNotEmpty()
 
     override fun reset() {
         body.clear()
@@ -260,30 +273,5 @@ private class SnakeRun : ArcadeRun() {
         } else {
             body.removeAt(body.lastIndex)
         }
-    }
-
-    override fun save(state: Bundle) {
-        state.putIntArray("body", body.toIntArray())
-        state.putIntArray("previous", previous.toIntArray())
-        state.putInt("food", food)
-        state.putInt("direction", direction.ordinal)
-        state.putFloat("elapsed", elapsed)
-        state.putIntArray("turns", turns.map { it.ordinal }.toIntArray())
-    }
-
-    override fun restore(state: Bundle) {
-        state.getIntArray("body")?.let {
-            body.clear()
-            body += it.toList()
-        }
-        state.getIntArray("previous")?.let {
-            previous.clear()
-            previous += it.toList()
-        }
-        food = state.getInt("food")
-        direction = SnakeDirection.entries[state.getInt("direction")]
-        elapsed = state.getFloat("elapsed")
-        turns.clear()
-        state.getIntArray("turns")?.forEach { turns.addLast(SnakeDirection.entries[it]) }
     }
 }

@@ -18,8 +18,18 @@
 package com.t8rin.imagetoolbox.core.games
 
 import android.os.Bundle
+import androidx.compose.runtime.saveable.SaverScope
+import kotlinx.serialization.KSerializer
 import androidx.compose.ui.geometry.Offset
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.t8rin.imagetoolbox.core.games.catalog.DinoRun
+import com.t8rin.imagetoolbox.core.games.catalog.DoodleRun
+import com.t8rin.imagetoolbox.core.games.catalog.BirdRun
+import com.t8rin.imagetoolbox.core.games.catalog.StackRun
+import com.t8rin.imagetoolbox.core.games.catalog.PongRun
+import com.t8rin.imagetoolbox.core.games.catalog.MergeRun
+import com.t8rin.imagetoolbox.core.games.catalog.SnakeRun
+import com.t8rin.imagetoolbox.core.games.catalog.TetrisRun
 import com.t8rin.imagetoolbox.core.games.catalog.AsteroidsRun
 import com.t8rin.imagetoolbox.core.games.catalog.BalanceTowerRun
 import com.t8rin.imagetoolbox.core.games.catalog.BasketballRun
@@ -75,14 +85,42 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class ArcadeMechanicsTest {
-    private val factories = listOf(
-        ::RacerRun, ::RicochetRun, ::AsteroidsRun, ::FruitSliceRun, ::KnifeHitRun,
-        ::MissileCommandRun, ::RiverHopRun, ::WhackAMoleRun, ::SimonSaysRun,
-        ::BubblePopRun, ::FishingRun, ::HexagonRun,
-        ::BomberRun, ::MinesweeperRun, ::MazeChaserRun,
-        ::GravityFlipRun, ::ZigZagRun, ::TimbermanRun,
-        ::OrbitSurvivalRun, ::LunarLanderRun, ::BrickBreakerRun, ::LightCyclesRun,
-        ::FlightControlRun, ::BasketballRun, ::LaserMirrorsRun, ::FlowConnectRun, ::BalanceTowerRun
+    internal val factories: List<() -> ArcadeRun> = listOf(
+        ::DinoRun,
+        ::DoodleRun,
+        ::BirdRun,
+        ::StackRun,
+        ::PongRun,
+        ::MergeRun,
+        ::SnakeRun,
+        ::TetrisRun,
+        ::RacerRun,
+        ::RicochetRun,
+        ::AsteroidsRun,
+        ::FruitSliceRun,
+        ::KnifeHitRun,
+        ::MissileCommandRun,
+        ::RiverHopRun,
+        ::WhackAMoleRun,
+        ::SimonSaysRun,
+        ::BubblePopRun,
+        ::FishingRun,
+        ::HexagonRun,
+        ::BomberRun,
+        ::MinesweeperRun,
+        ::MazeChaserRun,
+        ::GravityFlipRun,
+        ::ZigZagRun,
+        ::TimbermanRun,
+        ::OrbitSurvivalRun,
+        ::LunarLanderRun,
+        ::BrickBreakerRun,
+        ::LightCyclesRun,
+        ::FlightControlRun,
+        ::BasketballRun,
+        ::LaserMirrorsRun,
+        ::FlowConnectRun,
+        ::BalanceTowerRun
     )
 
     @Test
@@ -100,28 +138,53 @@ class ArcadeMechanicsTest {
     }
 
     @Test
-    fun everyNewGameRestoresItsLiveStateAtCompactAndTallSizes() {
-        for (height in listOf(220f, 680f)) for (factory in factories) {
-            val run = factory().apply {
-                resize(360f, height, 52f)
-                start()
+    fun everyGameRestoresItsLiveStateAtCompactWideAndTallSizes() {
+        for ((width, height) in listOf(360f to 220f, 780f to 220f, 360f to 680f)) {
+            for (factory in factories) {
+                val run = factory().apply { resize(width, height, 28f); start() }
+                repeat(90) { if (run.phase == ArcadePhase.Running) run.advance(1f / 120f) }
+                run.stopInput()
+                val saved = saveRun(run)
+                val restored = restoreRun(run, saved)
+                assertEquals(
+                    run.javaClass.simpleName,
+                    saved.getString("snapshot"),
+                    saveRun(restored).getString("snapshot")
+                )
+                assertTrue(
+                    "Snapshot too large: ${run.javaClass.simpleName}",
+                    requireNotNull(saved.getString("snapshot")).length < 100_000
+                )
             }
-            repeat(90) { run.advance(1f / 120f) }
-            run.stopInput()
-            val saved = Bundle().also(run::save)
-            val restored = factory().apply {
-                reset()
-                resize(run.width, run.height, run.topInset)
-                score = run.score
-                phase = run.phase
-                restore(saved)
-            }
-            assertBundlesEqual(
-                (run as Any).javaClass.simpleName,
-                saved,
-                Bundle().also(restored::save)
-            )
+        }
+    }
 
+    @Test
+    fun playStartsThePreparedLevelAndPauseKeepsEverySession() {
+        for (factory in factories) {
+            val run = factory().apply { resize(360f, 680f, 28f) }
+            val before = saveRun(run)
+            run.start()
+            run.phase = ArcadePhase.Ready
+            assertEquals(
+                run.javaClass.simpleName,
+                before.getString("snapshot"),
+                saveRun(run).getString("snapshot")
+            )
+            run.start()
+            repeat(15) { if (run.phase == ArcadePhase.Running) run.advance(1f / 120f) }
+            run.pause()
+            val paused = saveRun(run)
+            val restored = restoreRun(run, paused)
+            assertEquals(ArcadePhase.Paused, restored.phase)
+            assertEquals(paused.getString("snapshot"), saveRun(restored).getString("snapshot"))
+            restored.start()
+            restored.pause()
+            assertEquals(paused.getString("snapshot"), saveRun(restored).getString("snapshot"))
+            restored.finish()
+            restored.start()
+            assertEquals(0, restored.score)
+            assertEquals(ArcadePhase.Running, restored.phase)
         }
     }
 
@@ -133,20 +196,28 @@ class ArcadeMechanicsTest {
                 run.resize(
                     if (cycle % 2 == 0) 360f else 780f,
                     if (cycle % 2 == 0) 680f else 220f,
-                    44f
+                    28f
                 )
                 repeat(240) { if (run.phase == ArcadePhase.Running) run.advance(1f / 120f) }
-                val saved = Bundle().also(run::save)
-                for (key in saved.keySet()) {
-                    val values = saved.get(key) as? FloatArray ?: continue
-                    assertTrue(
-                        "${(run as Any).javaClass.simpleName}: $key",
-                        values.all(Float::isFinite)
-                    )
-                }
+                // JSON rejects NaN and infinity, including values nested in model collections.
+                saveRun(run)
+                assertTrue(run.isValid())
                 run.start()
                 assertEquals(0, run.score)
                 assertEquals(ArcadePhase.Running, run.phase)
+            }
+        }
+    }
+
+    @Test
+    fun missingOutdatedAndCorruptedSessionsFallBackToPreparation() {
+        for (factory in factories) {
+            val run = factory().apply { start() }
+            val saver = arcadeRunSaver(runSerializer(run))
+            assertEquals(null, saver.restore(Bundle()))
+            val saved = requireNotNull(saveRun(run).getString("snapshot"))
+            for (invalid in listOf("{", saved.replace("\"version\":1", "\"version\":999"))) {
+                assertEquals(null, saver.restore(Bundle().apply { putString("snapshot", invalid) }))
             }
         }
     }
@@ -341,12 +412,7 @@ class ArcadeMechanicsTest {
         run.pop(run.center(0))
         assertEquals(before, run.rise, 0f)
         val next = run.next.copyOf()
-        val saved = Bundle().also(run::save)
-        val restored = BubblePopRun().apply {
-            resize(360f, 680f)
-            start()
-            restore(saved)
-        }
+        val restored = restoreRun(run)
         repeat(240) { restored.advance(1f / 120f) }
         assertArrayEquals(next, restored.board.take(restored.columns).toIntArray())
         assertEquals(restored.columns, restored.board.count { it >= 0 })
@@ -376,11 +442,11 @@ class ArcadeMechanicsTest {
         repeat(120 * 30) {
             run.misses = 0
             run.advance(1f / 120f)
-            for (fruit in run.fruits) if (fruit.y > run.height + 10f && fruit.vy < 0f) {
-                positions += fruit.x.toInt()
-                kinds += fruit.kind
-                if (fruit.vx < -15f) left = true
-                if (fruit.vx > 15f) right = true
+            for ((x, y, vx, vy, _, kind) in run.fruits) if (y > run.height + 10f && vy < 0f) {
+                positions += x.toInt()
+                kinds += kind
+                if (vx < -15f) left = true
+                if (vx > 15f) right = true
             }
         }
         assertTrue(positions.size > 12)
@@ -968,8 +1034,7 @@ class ArcadeMechanicsTest {
                 assertTrue(run.camera > 0f)
             }
             assertTrue(run.score > 12)
-            val saved = Bundle().also(run::save)
-            val resumed = BasketballRun().apply { resize(360f, height); start(); restore(saved) }
+            val resumed = restoreRun(run)
             repeat(120) { run.advance(1f / 120f); resumed.advance(1f / 120f) }
             assertEquals(run.hoops, resumed.hoops)
             run.begin(finger)
@@ -1019,8 +1084,7 @@ class ArcadeMechanicsTest {
         run.airborne = true
         repeat(24) { run.advance(1f / 120f) }
         assertEquals("Entering from below is not a basket", 0, run.score)
-        val state = Bundle().also(run::save)
-        val restored = BasketballRun().apply { start(); restore(state) }
+        val restored = restoreRun(run)
         repeat(20) { run.advance(1f / 120f); restored.advance(1f / 120f) }
         assertEquals(run.ball, restored.ball)
         assertEquals(run.velocity, restored.velocity)
@@ -1278,25 +1342,53 @@ class ArcadeMechanicsTest {
         assertEquals(ArcadePhase.Over, run.phase)
     }
 
-    private fun assertBundlesEqual(label: String, expected: Bundle, actual: Bundle) {
-        assertEquals(label, expected.keySet(), actual.keySet())
-        for (key in expected.keySet()) {
-            val first = expected.get(key)
-            val second = actual.get(key)
-            when (first) {
-                is FloatArray -> {
-                    assertTrue("$label/$key", second is FloatArray)
-                    assertTrue("$label/$key", first.contentEquals(second as FloatArray))
-                }
-
-                is BooleanArray -> assertTrue(
-                    "$label/$key",
-                    first.contentEquals(second as BooleanArray)
-                )
-
-                is IntArray -> assertTrue("$label/$key", first.contentEquals(second as IntArray))
-                else -> assertEquals("$label/$key", first, second)
-            }
-        }
-    }
 }
+
+private val runSerializers = mapOf(
+    DinoRun::class to DinoRun.serializer(),
+    DoodleRun::class to DoodleRun.serializer(),
+    BirdRun::class to BirdRun.serializer(),
+    StackRun::class to StackRun.serializer(),
+    PongRun::class to PongRun.serializer(),
+    MergeRun::class to MergeRun.serializer(),
+    SnakeRun::class to SnakeRun.serializer(),
+    TetrisRun::class to TetrisRun.serializer(),
+    RacerRun::class to RacerRun.serializer(),
+    RicochetRun::class to RicochetRun.serializer(),
+    AsteroidsRun::class to AsteroidsRun.serializer(),
+    FruitSliceRun::class to FruitSliceRun.serializer(),
+    KnifeHitRun::class to KnifeHitRun.serializer(),
+    MissileCommandRun::class to MissileCommandRun.serializer(),
+    RiverHopRun::class to RiverHopRun.serializer(),
+    WhackAMoleRun::class to WhackAMoleRun.serializer(),
+    SimonSaysRun::class to SimonSaysRun.serializer(),
+    BubblePopRun::class to BubblePopRun.serializer(),
+    FishingRun::class to FishingRun.serializer(),
+    HexagonRun::class to HexagonRun.serializer(),
+    BomberRun::class to BomberRun.serializer(),
+    MinesweeperRun::class to MinesweeperRun.serializer(),
+    MazeChaserRun::class to MazeChaserRun.serializer(),
+    GravityFlipRun::class to GravityFlipRun.serializer(),
+    ZigZagRun::class to ZigZagRun.serializer(),
+    TimbermanRun::class to TimbermanRun.serializer(),
+    OrbitSurvivalRun::class to OrbitSurvivalRun.serializer(),
+    LunarLanderRun::class to LunarLanderRun.serializer(),
+    BrickBreakerRun::class to BrickBreakerRun.serializer(),
+    LightCyclesRun::class to LightCyclesRun.serializer(),
+    FlightControlRun::class to FlightControlRun.serializer(),
+    BasketballRun::class to BasketballRun.serializer(),
+    LaserMirrorsRun::class to LaserMirrorsRun.serializer(),
+    FlowConnectRun::class to FlowConnectRun.serializer(),
+    BalanceTowerRun::class to BalanceTowerRun.serializer()
+)
+
+@Suppress("UNCHECKED_CAST")
+internal fun <T : ArcadeRun> runSerializer(run: T): KSerializer<T> =
+    requireNotNull(runSerializers[run::class]) as KSerializer<T>
+
+internal fun <T : ArcadeRun> saveRun(run: T): Bundle = with(arcadeRunSaver(runSerializer(run))) {
+    with(SaverScope { true }) { save(run) } ?: error("Unprepared game")
+}
+
+internal fun <T : ArcadeRun> restoreRun(run: T, state: Bundle = saveRun(run)): T =
+    requireNotNull(arcadeRunSaver(runSerializer(run)).restore(state)).apply { phase = run.phase }

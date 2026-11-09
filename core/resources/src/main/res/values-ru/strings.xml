@@ -7972,6 +7972,11 @@
     <string name="collage_style_apply_layout_unavailable">Нужно %1$d фото, а в коллаже — %2$d. Можно применить только стиль ниже.</string>
     <string name="collage_style_apply_appearance">Только стиль</string>
     <string name="collage_style_apply_appearance_sub">Оставить текущую раскладку. Применить оформление и настройки фото по порядку слотов.</string>
+    <string name="arcade_paused">Игра на паузе</string>
+    <string name="arcade_game_over">Игра окончена</string>
+    <string name="arcade_new_record">Новый рекорд!</string>
+    <string name="arcade_previous_best">Прежний рекорд: %1$d</string>
+    <string name="arcade_finish">Завершить игру</string>
     <string name="play">Играть</string>
     <string name="show_loading_game_button">Игры во время ожидания</string>
     <string name="show_loading_game_button_sub">Показывать кнопку игры в диалогах загрузки.</string>

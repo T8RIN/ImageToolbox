@@ -15,9 +15,10 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
+@file:UseSerializers(ArcadeOffsetSerializer::class)
+
 package com.t8rin.imagetoolbox.core.games.catalog
 
-import android.os.Bundle
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.CornerRadius
@@ -32,12 +33,16 @@ import com.t8rin.imagetoolbox.core.games.ArcadeBoard
 import com.t8rin.imagetoolbox.core.games.ArcadeDefaults
 import com.t8rin.imagetoolbox.core.games.ArcadeField
 import com.t8rin.imagetoolbox.core.games.ArcadeGameState
+import com.t8rin.imagetoolbox.core.games.ArcadeOffsetSerializer
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.ArcadeStyle
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
 import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
+import kotlinx.serialization.UseSerializers
 import kotlin.math.abs
 import kotlin.math.hypot
 import kotlin.random.Random
@@ -48,7 +53,8 @@ fun RicochetGame(
     initialState: ArcadeGameState = ArcadeGameState(),
     style: ArcadeStyle = ArcadeDefaults.style,
     onHighScoreChanged: ((Int) -> Unit)? = null,
-    onGameOver: ((Int) -> Unit)? = null
+    onGameOver: ((Int) -> Unit)? = null,
+    isPaused: Boolean = false
 ) {
     val run = rememberArcadeRun(
         initialState = initialState,
@@ -62,6 +68,7 @@ fun RicochetGame(
         modifier = modifier,
         initialState = initialState,
         onHighScoreChanged = onHighScoreChanged,
+        isPaused = isPaused,
         onGameOver = onGameOver
     ) {
         ArcadeField(
@@ -79,15 +86,18 @@ fun RicochetGame(
                 drawCircle(
                     color = style.detailColor.copy(alpha = 0.2f),
                     radius = 1f,
-                    center = run.origin + Offset((column + 0.5f) * cell, (row + 0.5f) * rowHeight)
+                    center = run.origin + Offset(
+                        x = (column + 0.5f) * cell,
+                        y = (row + 0.5f) * rowHeight
+                    )
                 )
             }
             for ((column, row, health) in run.bricks) {
                 val point = run.origin + Offset(
-                    column * cell + 2f,
-                    (row - run.shift) * rowHeight + 2f
+                    x = column * cell + 2f,
+                    y = (row - run.shift) * rowHeight + 2f
                 )
-                val center = point + Offset(cell / 2f - 2f, rowHeight / 2f - 2f)
+                val center = point + Offset(x = cell / 2f - 2f, y = rowHeight / 2f - 2f)
                 if (health == 0) {
                     drawCircle(
                         color = style.accentColor.copy(alpha = 0.14f),
@@ -98,35 +108,35 @@ fun RicochetGame(
                         color = style.accentColor,
                         radius = minOf(cell, rowHeight) * 0.22f,
                         center = center,
-                        style = Stroke(1.5f)
+                        style = Stroke(width = 1.5f)
                     )
                     drawLine(
                         color = style.accentColor,
-                        start = center - Offset(minOf(cell, rowHeight) * 0.1f, 0f),
-                        end = center + Offset(minOf(cell, rowHeight) * 0.1f, 0f),
+                        start = center - Offset(x = minOf(cell, rowHeight) * 0.1f, y = 0f),
+                        end = center + Offset(x = minOf(cell, rowHeight) * 0.1f, y = 0f),
                         strokeWidth = 2f
                     )
                     drawLine(
                         color = style.accentColor,
-                        start = center - Offset(0f, minOf(cell, rowHeight) * 0.1f),
-                        end = center + Offset(0f, minOf(cell, rowHeight) * 0.1f),
+                        start = center - Offset(x = 0f, y = minOf(cell, rowHeight) * 0.1f),
+                        end = center + Offset(x = 0f, y = minOf(cell, rowHeight) * 0.1f),
                         strokeWidth = 2f
                     )
                 } else {
                     val color =
                         if (health > run.ballCount) style.accentColor else style.obstacleColor
                     drawRoundRect(
-                        color.copy(alpha = 0.18f),
-                        point,
-                        Size(cell - 4f, rowHeight - 4f),
-                        CornerRadius(3f)
+                        color = color.copy(alpha = 0.18f),
+                        topLeft = point,
+                        size = Size(width = cell - 4f, height = rowHeight - 4f),
+                        cornerRadius = CornerRadius(x = 3f)
                     )
                     drawRoundRect(
-                        color,
-                        point,
-                        Size(cell - 4f, rowHeight - 4f),
-                        CornerRadius(3f),
-                        style = Stroke(1.5f)
+                        color = color,
+                        topLeft = point,
+                        size = Size(width = cell - 4f, height = rowHeight - 4f),
+                        cornerRadius = CornerRadius(x = 3f),
+                        style = Stroke(width = 1.5f)
                     )
                     val label = measurer.measure(
                         health.toString(),
@@ -136,19 +146,19 @@ fun RicochetGame(
                     drawText(
                         label,
                         style.textColor,
-                        center - Offset(label.size.width / 2f, label.size.height / 2f)
+                        center - Offset(x = label.size.width / 2f, y = label.size.height / 2f)
                     )
                 }
             }
             val left = run.origin.x
             drawLine(
                 color = style.hazardColor.copy(alpha = 0.5f),
-                start = Offset(left, run.launchY - rowHeight * 0.35f),
-                end = Offset(left + cell * 7f, run.launchY - rowHeight * 0.35f),
+                start = Offset(x = left, y = run.launchY - rowHeight * 0.35f),
+                end = Offset(x = left + cell * 7f, y = run.launchY - rowHeight * 0.35f),
                 strokeWidth = 1f
             )
             if (!run.flying) {
-                var point = Offset(run.launchX, run.launchY)
+                var point = Offset(x = run.launchX, y = run.launchY)
                 repeat(18) { index ->
                     point += run.direction * (rowHeight * 0.32f)
                     if (point.x in (left + radius)..(left + cell * 7f - radius) && point.y > run.origin.y) {
@@ -163,27 +173,27 @@ fun RicochetGame(
             for ((x, y, vx, vy) in run.balls) {
                 drawLine(
                     color = style.playerColor.copy(alpha = 0.2f),
-                    start = Offset(x - vx * 0.025f, y - vy * 0.025f),
-                    end = Offset(x, y),
+                    start = Offset(x = x - vx * 0.025f, y = y - vy * 0.025f),
+                    end = Offset(x = x, y = y),
                     strokeWidth = radius * 1.5f
                 )
                 drawCircle(
                     color = style.playerColor,
                     radius = radius,
-                    center = Offset(x, y)
+                    center = Offset(x = x, y = y)
                 )
             }
             drawCircle(
                 color = style.playerColor,
                 radius = radius * 1.3f,
-                center = Offset(run.launchX, run.launchY)
+                center = Offset(x = run.launchX, y = run.launchY)
             )
             val count =
                 measurer.measure("×${run.ballCount}", style.scoreTextStyle, density = Density(1f))
             drawText(
                 count,
                 style.playerColor,
-                Offset(run.launchX - count.size.width / 2f, run.launchY + radius + 3f)
+                Offset(x = run.launchX - count.size.width / 2f, y = run.launchY + radius + 3f)
             )
             run.effects.draw(
                 scope = this,
@@ -193,12 +203,14 @@ fun RicochetGame(
     }
 }
 
+@Serializable
 internal data class RicochetBrick(
     val column: Int,
     var row: Int,
     var health: Int
 )
 
+@Serializable
 internal data class RicochetBall(
     var x: Float,
     var y: Float,
@@ -206,20 +218,25 @@ internal data class RicochetBall(
     var vy: Float
 )
 
+@Serializable
 internal class RicochetRun : ArcadeRun() {
     val cell get() = (width - 32f) / 7f
     val rowHeight get() = (height - topInset - 44f) / 8f
-    val origin get() = Offset((width - cell * 7f) / 2f, topInset + 6f)
+    val origin get() = Offset(x = (width - cell * 7f) / 2f, y = topInset + 6f)
     val launchY get() = origin.y + rowHeight * 7.7f
     val ballRadius get() = minOf(cell, rowHeight) * 0.12f
     val bricks = mutableListOf<RicochetBrick>()
     val balls = mutableListOf<RicochetBall>()
+
+    @Transient
     val effects = ArcadeEffects()
     var launchX = width / 2f
-    var direction = Offset(0.25f, -0.97f)
+    var direction = Offset(x = 0.25f, y = -0.97f)
     var ballCount = 3
     var flying = false
     var shift = 0f
+
+    @Transient
     private var aiming = false
     private var pending = 0
     private var delay = 0f
@@ -232,7 +249,7 @@ internal class RicochetRun : ArcadeRun() {
         balls.clear()
         effects.clear()
         launchX = width / 2f
-        direction = Offset(0.25f, -0.97f)
+        direction = Offset(x = 0.25f, y = -0.97f)
         ballCount = 3
         flying = false
         aiming = false
@@ -250,12 +267,12 @@ internal class RicochetRun : ArcadeRun() {
         val count = minOf(5, 3 + round / 6)
         for (column in columns.take(count)) {
             bricks += RicochetBrick(
-                column,
-                row,
-                (round.coerceAtMost(ballCount + 8)) + Random.nextInt(1, 4)
+                column = column,
+                row = row,
+                health = (round.coerceAtMost(ballCount + 8)) + Random.nextInt(1, 4)
             )
         }
-        bricks += RicochetBrick(columns[count], row, 0)
+        bricks += RicochetBrick(column = columns[count], row = row, health = 0)
     }
 
     fun aim(point: Offset) {
@@ -263,7 +280,7 @@ internal class RicochetRun : ArcadeRun() {
         val dx = point.x - launchX
         val dy = minOf(-rowHeight * 0.7f, point.y - launchY)
         val length = hypot(dx, dy).coerceAtLeast(1f)
-        direction = Offset(dx / length, dy / length)
+        direction = Offset(x = dx / length, y = dy / length)
         aiming = true
     }
 
@@ -289,7 +306,12 @@ internal class RicochetRun : ArcadeRun() {
         delay -= seconds
         val speed = maxOf(width, height) * 1.3f
         if (pending > 0 && delay <= 0f) {
-            balls += RicochetBall(launchX, launchY, direction.x * speed, direction.y * speed)
+            balls += RicochetBall(
+                x = launchX,
+                y = launchY,
+                vx = direction.x * speed,
+                vy = direction.y * speed
+            )
             pending--
             delay += 0.1f
         }
@@ -302,7 +324,7 @@ internal class RicochetRun : ArcadeRun() {
             val oldY = ball.y
             ball.x += ball.vx * seconds
             ball.y += ball.vy * seconds
-            if (ball.x < left || ball.x > right) {
+            if (ball.x !in left..right) {
                 ball.x = ball.x.coerceIn(left, right)
                 ball.vx = -ball.vx
             }
@@ -335,7 +357,7 @@ internal class RicochetRun : ArcadeRun() {
                     if (hit.health == 0) bricks.remove(hit)
                 }
                 effects.burst(
-                    point = Offset(ball.x, ball.y),
+                    point = Offset(x = ball.x, y = ball.y),
                     count = 5
                 )
             }
@@ -368,53 +390,6 @@ internal class RicochetRun : ArcadeRun() {
             ball.y *= height / previous.height
         }
         effects.clear()
-        stopInput()
-    }
-
-    override fun save(state: Bundle) {
-        state.putFloatArray(
-            "throw", floatArrayOf(
-                launchX, direction.x, direction.y, ballCount.toFloat(),
-                shift, pending.toFloat(), delay, flightTime, firstReturn, round.toFloat()
-            )
-        )
-        state.putBoolean("flying", flying)
-        state.putIntArray(
-            "bricks",
-            bricks.flatMap { listOf(it.column, it.row, it.health) }.toIntArray()
-        )
-        state.putFloatArray(
-            "balls",
-            balls.flatMap { listOf(it.x, it.y, it.vx, it.vy) }.toFloatArray()
-        )
-    }
-
-    override fun restore(state: Bundle) {
-        state.getFloatArray("throw")?.let {
-            launchX = it[0]
-            direction = Offset(it[1], it[2])
-            ballCount = it[3].toInt()
-            shift = it[4]
-            pending = it[5].toInt()
-            delay = it[6]
-            flightTime = it[7]
-            firstReturn = it[8]
-            round = it[9].toInt()
-        }
-        flying = state.getBoolean("flying")
-        bricks.clear()
-        balls.clear()
-        state.getIntArray("bricks")?.let {
-            for (i in it.indices step 3) bricks += RicochetBrick(it[i], it[i + 1], it[i + 2])
-        }
-        state.getFloatArray("balls")?.let {
-            for (i in it.indices step 4) balls += RicochetBall(
-                it[i],
-                it[i + 1],
-                it[i + 2],
-                it[i + 3]
-            )
-        }
         stopInput()
     }
 }

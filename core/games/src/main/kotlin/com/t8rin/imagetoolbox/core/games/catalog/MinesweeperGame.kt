@@ -15,9 +15,10 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
+@file:UseSerializers(ArcadeOffsetSerializer::class, ArcadeDequeSerializer::class)
+
 package com.t8rin.imagetoolbox.core.games.catalog
 
-import android.os.Bundle
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.CornerRadius
@@ -34,13 +35,17 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.sp
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
 import com.t8rin.imagetoolbox.core.games.ArcadeDefaults
+import com.t8rin.imagetoolbox.core.games.ArcadeDequeSerializer
 import com.t8rin.imagetoolbox.core.games.ArcadeField
 import com.t8rin.imagetoolbox.core.games.ArcadeGameState
+import com.t8rin.imagetoolbox.core.games.ArcadeOffsetSerializer
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.ArcadeStyle
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.UseSerializers
 import kotlin.math.abs
 
 @Composable
@@ -49,7 +54,8 @@ fun MinesweeperGame(
     initialState: ArcadeGameState = ArcadeGameState(),
     style: ArcadeStyle = ArcadeDefaults.style,
     onHighScoreChanged: ((Int) -> Unit)? = null,
-    onGameOver: ((Int) -> Unit)? = null
+    onGameOver: ((Int) -> Unit)? = null,
+    isPaused: Boolean = false
 ) {
     val run = rememberArcadeRun(
         initialState = initialState,
@@ -63,18 +69,23 @@ fun MinesweeperGame(
         modifier = modifier,
         initialState = initialState,
         onHighScoreChanged = onHighScoreChanged,
+        isPaused = isPaused,
         onGameOver = onGameOver,
         turnBased = true
     ) {
         ArcadeField(
             run = run,
+            transition = { run.transition },
             onTap = run::tap,
             onLongPress = run::hold
         ) {
             val cell = run.cell
             for (index in run.board.indices) {
                 val point =
-                    run.origin + Offset(index % run.columns * cell, index / run.columns * cell)
+                    run.origin + Offset(
+                        x = index % run.columns * cell,
+                        y = index / run.columns * cell
+                    )
                 val opened = run.cover[index] == 1
                 val mine =
                     run.board[index] == -1 && (opened || run.phase == ArcadePhase.Over)
@@ -86,18 +97,18 @@ fun MinesweeperGame(
                 }
                 drawRoundRect(
                     color = color,
-                    topLeft = point + Offset(1f, 1f),
-                    size = Size(cell - 2f, cell - 2f),
-                    cornerRadius = CornerRadius(3f)
+                    topLeft = point + Offset(x = 1f, y = 1f),
+                    size = Size(width = cell - 2f, height = cell - 2f),
+                    cornerRadius = CornerRadius(x = 3f)
                 )
                 if (!opened) drawRoundRect(
                     color = style.playerColor.copy(alpha = 0.38f),
-                    topLeft = point + Offset(1f, 1f),
-                    size = Size(cell - 2f, cell - 2f),
-                    cornerRadius = CornerRadius(3f),
-                    style = Stroke(1f)
+                    topLeft = point + Offset(x = 1f, y = 1f),
+                    size = Size(width = cell - 2f, height = cell - 2f),
+                    cornerRadius = CornerRadius(x = 3f),
+                    style = Stroke(width = 1f)
                 )
-                val center = point + Offset(cell / 2f, cell / 2f)
+                val center = point + Offset(x = cell / 2f, y = cell / 2f)
                 when {
                     mine -> {
                         drawCircle(
@@ -107,10 +118,10 @@ fun MinesweeperGame(
                         )
                         repeat(4) {
                             val delta = when (it) {
-                                0 -> Offset(cell * 0.26f, 0f)
-                                1 -> Offset(0f, cell * 0.26f)
-                                2 -> Offset(cell * 0.19f, cell * 0.19f)
-                                else -> Offset(cell * 0.19f, -cell * 0.19f)
+                                0 -> Offset(x = cell * 0.26f, y = 0f)
+                                1 -> Offset(x = 0f, y = cell * 0.26f)
+                                2 -> Offset(x = cell * 0.19f, y = cell * 0.19f)
+                                else -> Offset(x = cell * 0.19f, y = -cell * 0.19f)
                             }
                             drawLine(
                                 color = style.hazardColor,
@@ -122,7 +133,7 @@ fun MinesweeperGame(
                         drawCircle(
                             color = style.playerDetailColor,
                             radius = cell * 0.04f,
-                            center = center - Offset(cell * 0.05f, cell * 0.05f)
+                            center = center - Offset(x = cell * 0.05f, y = cell * 0.05f)
                         )
                     }
 
@@ -150,7 +161,10 @@ fun MinesweeperGame(
                         drawText(
                             textLayoutResult = label,
                             color = ink,
-                            topLeft = center - Offset(label.size.width / 2f, label.size.height / 2f)
+                            topLeft = center - Offset(
+                                x = label.size.width / 2f,
+                                y = label.size.height / 2f
+                            )
                         )
                     }
 
@@ -163,13 +177,13 @@ fun MinesweeperGame(
                 if (run.revealAge[index] in 0f..0.3f) {
                     drawRoundRect(
                         color = style.playerColor.copy(alpha = (1f - run.revealAge[index] / 0.3f) * 0.35f),
-                        topLeft = point + Offset(1f, 1f),
-                        size = Size(cell - 2f, cell - 2f),
-                        cornerRadius = CornerRadius(3f)
+                        topLeft = point + Offset(x = 1f, y = 1f),
+                        size = Size(width = cell - 2f, height = cell - 2f),
+                        cornerRadius = CornerRadius(x = 3f)
                     )
                 }
             }
-            minesweeperFlag(style.accentColor, Offset(22f, run.topInset / 2f), 7f)
+            minesweeperFlag(style.accentColor, Offset(x = 22f, y = run.topInset / 2f), 7f)
             val remaining = measurer.measure(
                 text = (run.mineCount - run.cover.count { it == 2 }).toString(),
                 style = style.scoreTextStyle,
@@ -178,7 +192,7 @@ fun MinesweeperGame(
             drawText(
                 textLayoutResult = remaining,
                 color = style.textColor,
-                topLeft = Offset(35f, (run.topInset - remaining.size.height) / 2f)
+                topLeft = Offset(x = 35f, y = (run.topInset - remaining.size.height) / 2f)
             )
         }
     }
@@ -201,18 +215,19 @@ private fun DrawScope.minesweeperFlag(
     )
     drawLine(
         color = color,
-        start = center + Offset(-radius * 0.6f, -radius),
-        end = center + Offset(-radius * 0.6f, radius),
+        start = center + Offset(x = -radius * 0.6f, y = -radius),
+        end = center + Offset(x = -radius * 0.6f, y = radius),
         strokeWidth = 2f
     )
     drawLine(
         color = color,
-        start = center + Offset(-radius, radius),
-        end = center + Offset(radius * 0.3f, radius),
+        start = center + Offset(x = -radius, y = radius),
+        end = center + Offset(x = radius * 0.3f, y = radius),
         strokeWidth = 2f
     )
 }
 
+@Serializable
 internal class MinesweeperRun : ArcadeRun() {
     val columns = 8
     var rows = 5
@@ -221,6 +236,7 @@ internal class MinesweeperRun : ArcadeRun() {
     var revealAge = FloatArray(board.size) { 1f }
     var round = 1
     var mineCount = 6
+    var mineOrder = intArrayOf()
     var generated = false
     var exploded = -1
     var transition = 0f
@@ -228,9 +244,17 @@ internal class MinesweeperRun : ArcadeRun() {
     val boardWidth get() = cell * columns
     val origin
         get() = Offset(
-            (width - boardWidth) / 2f,
-            topInset + 12f + (height - topInset - 24f - cell * rows) / 2f
+            x = (width - boardWidth) / 2f,
+            y = topInset + 12f + (height - topInset - 24f - cell * rows) / 2f
         )
+
+    override fun isValid(): Boolean = super.isValid() &&
+            rows in 4..12 &&
+            board.size == columns * rows &&
+            cover.size == board.size &&
+            revealAge.size == board.size &&
+            mineOrder.size == board.size &&
+            mineOrder.all { it in board.indices }
 
     override fun reset() {
         round = 1
@@ -238,8 +262,10 @@ internal class MinesweeperRun : ArcadeRun() {
     }
 
     private fun newRound() {
+        animateLevel()
         rows = ((height - topInset - 24f) / 36f).toInt().coerceIn(4, 12)
         board = IntArray(columns * rows)
+        mineOrder = board.indices.shuffled().toIntArray()
         cover = IntArray(board.size)
         revealAge = FloatArray(board.size) { 1f }
         mineCount =
@@ -262,7 +288,7 @@ internal class MinesweeperRun : ArcadeRun() {
 
     private fun generate(first: Int) {
         val safe = neighbors(first) + first
-        val mines = board.indices.filterNot { it in safe }.shuffled().take(mineCount)
+        val mines = mineOrder.filterNot { it in safe }.take(mineCount)
         mines.forEach { board[it] = -1 }
         for (index in board.indices) if (board[index] != -1) board[index] =
             neighbors(index).count { board[it] == -1 }
@@ -350,31 +376,4 @@ internal class MinesweeperRun : ArcadeRun() {
         updateAnimation()
     }
 
-    override fun onResize(previous: Size) {
-        if (!generated && cover.all { it == 0 }) newRound()
-    }
-
-    override fun save(state: Bundle) {
-        state.putIntArray("board", board.copyOf())
-        state.putIntArray("cover", cover.copyOf())
-        state.putFloatArray("reveal", revealAge.copyOf())
-        state.putIntArray("run", intArrayOf(rows, round, mineCount, exploded))
-        state.putBoolean("generated", generated)
-        state.putFloat("transition", transition)
-    }
-
-    override fun restore(state: Bundle) {
-        state.getIntArray("board")?.let { board = it.copyOf() }
-        state.getIntArray("cover")?.let { cover = it.copyOf() }
-        state.getFloatArray("reveal")?.let { revealAge = it.copyOf() }
-        state.getIntArray("run")?.let {
-            rows = it[0]
-            round = it[1]
-            mineCount = it[2]
-            exploded = it[3]
-        }
-        generated = state.getBoolean("generated")
-        transition = state.getFloat("transition")
-        updateAnimation()
-    }
 }

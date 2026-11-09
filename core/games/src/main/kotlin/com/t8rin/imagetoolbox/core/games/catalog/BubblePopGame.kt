@@ -15,9 +15,10 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
+@file:UseSerializers(ArcadeOffsetSerializer::class)
+
 package com.t8rin.imagetoolbox.core.games.catalog
 
-import android.os.Bundle
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -29,6 +30,7 @@ import com.t8rin.imagetoolbox.core.games.ArcadeBoard
 import com.t8rin.imagetoolbox.core.games.ArcadeDefaults
 import com.t8rin.imagetoolbox.core.games.ArcadeField
 import com.t8rin.imagetoolbox.core.games.ArcadeGameState
+import com.t8rin.imagetoolbox.core.games.ArcadeOffsetSerializer
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.ArcadeStyle
@@ -36,6 +38,9 @@ import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
 import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
+import kotlinx.serialization.UseSerializers
 import kotlin.math.abs
 import kotlin.math.ceil
 import kotlin.random.Random
@@ -46,7 +51,8 @@ fun BubblePopGame(
     initialState: ArcadeGameState = ArcadeGameState(),
     style: ArcadeStyle = ArcadeDefaults.style,
     onHighScoreChanged: ((Int) -> Unit)? = null,
-    onGameOver: ((Int) -> Unit)? = null
+    onGameOver: ((Int) -> Unit)? = null,
+    isPaused: Boolean = false
 ) {
     val run = rememberArcadeRun(
         initialState = initialState,
@@ -59,6 +65,7 @@ fun BubblePopGame(
         modifier = modifier,
         initialState = initialState,
         onHighScoreChanged = onHighScoreChanged,
+        isPaused = isPaused,
         onGameOver = onGameOver
     ) {
         ArcadeField(
@@ -75,18 +82,18 @@ fun BubblePopGame(
                 drawCircle(
                     color = color.copy(alpha = 0.025f),
                     radius = radius,
-                    center = Offset(x, y)
+                    center = Offset(x = x, y = y)
                 )
                 drawCircle(
                     color = color.copy(alpha = 0.09f),
                     radius = radius,
-                    center = Offset(x, y),
-                    style = Stroke(1f)
+                    center = Offset(x = x, y = y),
+                    style = Stroke(width = 1f)
                 )
                 drawCircle(
                     color = color.copy(alpha = 0.1f),
                     radius = 1.5f,
-                    center = Offset(x + radius + 6f, y - radius * 0.4f)
+                    center = Offset(x = x + radius + 6f, y = y - radius * 0.4f)
                 )
             }
             val danger =
@@ -95,7 +102,7 @@ fun BubblePopGame(
                 drawLine(
                     color = style.hazardColor.copy(alpha = 0.4f + run.rise * 0.6f),
                     start = origin,
-                    end = origin + Offset(cell * run.columns, 0f),
+                    end = origin + Offset(x = cell * run.columns, y = 0f),
                     strokeWidth = 1.5f
                 )
             }
@@ -111,7 +118,10 @@ fun BubblePopGame(
                 }
                 for (column in 0 until run.columns) {
                     val center =
-                        origin + Offset((column + 0.5f) * cell, (run.rows + 0.5f - run.rise) * cell)
+                        origin + Offset(
+                            x = (column + 0.5f) * cell,
+                            y = (run.rows + 0.5f - run.rise) * cell
+                        )
                     drawBubble(
                         style = style,
                         point = center,
@@ -124,7 +134,7 @@ fun BubblePopGame(
                         color = style.accentColor.copy(alpha = life * 2f),
                         radius = cell * (0.7f - life * 0.5f),
                         center = point,
-                        style = Stroke(1.5f)
+                        style = Stroke(width = 1.5f)
                     )
                 }
                 run.effects.draw(
@@ -157,16 +167,16 @@ private fun DrawScope.drawBubble(
         color = color,
         radius = radius,
         center = point,
-        style = Stroke(1.8f)
+        style = Stroke(width = 1.8f)
     )
     drawArc(
         color = color.copy(alpha = 0.55f),
         startAngle = 205f,
         sweepAngle = 55f,
         useCenter = false,
-        topLeft = point - Offset(radius * 0.68f, radius * 0.68f),
-        size = Size(radius * 1.36f, radius * 1.36f),
-        style = Stroke(1.5f)
+        topLeft = point - Offset(x = radius * 0.68f, y = radius * 0.68f),
+        size = Size(width = radius * 1.36f, height = radius * 1.36f),
+        style = Stroke(width = 1.5f)
     )
     val r = radius * 0.25f
     when (kind) {
@@ -187,14 +197,14 @@ private fun DrawScope.drawBubble(
         2 -> {
             drawLine(
                 color = color,
-                start = point - Offset(r, 0f),
-                end = point + Offset(r, 0f),
+                start = point - Offset(x = r, y = 0f),
+                end = point + Offset(x = r, y = 0f),
                 strokeWidth = 2f
             )
             drawLine(
                 color = color,
-                start = point - Offset(0f, r),
-                end = point + Offset(0f, r),
+                start = point - Offset(x = 0f, y = r),
+                end = point + Offset(x = 0f, y = r),
                 strokeWidth = 2f
             )
         }
@@ -202,25 +212,27 @@ private fun DrawScope.drawBubble(
         else -> {
             drawLine(
                 color = color,
-                start = point - Offset(r, r),
-                end = point + Offset(r, r),
+                start = point - Offset(x = r, y = r),
+                end = point + Offset(x = r, y = r),
                 strokeWidth = 2f
             )
             drawLine(
                 color = color,
-                start = point + Offset(r, -r),
-                end = point + Offset(-r, r),
+                start = point + Offset(x = r, y = -r),
+                end = point + Offset(x = -r, y = r),
                 strokeWidth = 2f
             )
         }
     }
 }
 
+@Serializable
 internal data class BubbleBurst(
     val point: Offset,
     var life: Float = 0.35f
 )
 
+@Serializable
 internal class BubblePopRun : ArcadeRun() {
     var columns = 6
         private set
@@ -232,23 +244,31 @@ internal class BubblePopRun : ArcadeRun() {
         private set
     var fall = FloatArray(board.size)
         private set
+
+    @Transient
     val effects = ArcadeEffects()
     val bursts = mutableListOf<BubbleBurst>()
     val cell get() = minOf((width - 24f) / columns, (height - topInset) / rows)
-    val origin get() = Offset((width - cell * columns) / 2f, height - cell * rows)
+    val origin get() = Offset(x = (width - cell * columns) / 2f, y = height - cell * rows)
     var rise = 0f
     var combo = 0
     private var comboTime = 0f
-    private var hasSize = false
     private var advanceRow = false
 
     fun center(index: Int) = origin + Offset(
-        (index % columns + 0.5f) * cell,
-        (rows - 0.5f - index / columns - rise + fall[index]) * cell
+        x = (index % columns + 0.5f) * cell,
+        y = (rows - 0.5f - index / columns - rise + fall[index]) * cell
     )
 
+    override fun isValid(): Boolean = super.isValid() &&
+            columns >= 6 &&
+            rows >= 6 &&
+            board.size == columns * rows &&
+            fall.size == board.size &&
+            next.size == columns
+
     override fun reset() {
-        fitBoard(emptyList())
+        fitBoard()
         effects.clear()
         bursts.clear()
         rise = 0f
@@ -304,7 +324,7 @@ internal class BubblePopRun : ArcadeRun() {
         for (item in group) {
             val point = center(item)
             if (bursts.size >= 48) bursts.removeAt(0)
-            bursts += BubbleBurst(point)
+            bursts += BubbleBurst(point = point)
             effects.burst(
                 point = point,
                 count = 3
@@ -358,61 +378,20 @@ internal class BubblePopRun : ArcadeRun() {
         }
     }
 
-    private fun fitBoard(previous: List<Int>) {
+    private fun fitBoard() {
         val preferred = minOf((width - 24f) / 6f, (height - topInset) / 6f)
         columns = ceil((width - 24f) / preferred).toInt().coerceAtLeast(6)
-        val occupied = previous.filter { it >= 0 }
         rows = maxOf(
-            6, ((height - topInset) / ((width - 24f) / columns)).toInt(),
-            ceil(occupied.size.toFloat() / columns).toInt()
+            6, ((height - topInset) / ((width - 24f) / columns)).toInt()
         )
         board = IntArray(columns * rows) { -1 }
-        occupied.forEachIndexed { index, color -> board[index] = color }
         fall = FloatArray(board.size)
         next = IntArray(columns)
         fillNext()
     }
 
     override fun onResize(previous: Size) {
-        val untouched = score == 0 && rise == 0f && board.count { it >= 0 } == columns * 4
-        if (phase == ArcadePhase.Ready || !hasSize && untouched) {
-            reset()
-        } else {
-            val oldColumns = columns
-            val oldBoard = board.copyOf()
-            fitBoard(board.toList())
-            if (oldColumns == columns && oldBoard.size <= board.size) {
-                board.fill(-1)
-                oldBoard.copyInto(board)
-            }
-        }
-        hasSize = true
         bursts.clear()
         effects.clear()
-    }
-
-    override fun save(state: Bundle) {
-        state.putBoolean("advanceRow", advanceRow)
-        state.putIntArray("layout", intArrayOf(columns, rows))
-        state.putIntArray("bubbles", board.copyOf())
-        state.putIntArray("next", next.copyOf())
-        state.putFloatArray("fall", fall.copyOf())
-        state.putFloatArray("rise", floatArrayOf(rise, combo.toFloat(), comboTime))
-    }
-
-    override fun restore(state: Bundle) {
-        advanceRow = state.getBoolean("advanceRow")
-        state.getIntArray("layout")?.let {
-            columns = it[0]
-            rows = it[1]
-        }
-        state.getIntArray("bubbles")?.let { board = it.copyOf() }
-        state.getIntArray("next")?.let { next = it.copyOf() }
-        state.getFloatArray("fall")?.let { fall = it.copyOf() }
-        state.getFloatArray("rise")?.let {
-            rise = it[0]
-            combo = it[1].toInt()
-            comboTime = it[2]
-        }
     }
 }

@@ -15,10 +15,12 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
+@file:UseSerializers(ArcadeOffsetSerializer::class, ArcadeDequeSerializer::class)
+
 package com.t8rin.imagetoolbox.core.games.catalog
 
-import android.os.Bundle
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
@@ -30,8 +32,10 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.clipPath
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
 import com.t8rin.imagetoolbox.core.games.ArcadeDefaults
+import com.t8rin.imagetoolbox.core.games.ArcadeDequeSerializer
 import com.t8rin.imagetoolbox.core.games.ArcadeField
 import com.t8rin.imagetoolbox.core.games.ArcadeGameState
+import com.t8rin.imagetoolbox.core.games.ArcadeOffsetSerializer
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.ArcadeStyle
@@ -39,6 +43,9 @@ import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
 import com.t8rin.imagetoolbox.core.games.utils.arcadeLives
 import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
+import kotlinx.serialization.UseSerializers
 import kotlin.math.abs
 import kotlin.math.sin
 import kotlin.random.Random
@@ -49,12 +56,15 @@ fun MazeChaserGame(
     initialState: ArcadeGameState = ArcadeGameState(),
     style: ArcadeStyle = ArcadeDefaults.style,
     onHighScoreChanged: ((Int) -> Unit)? = null,
-    onGameOver: ((Int) -> Unit)? = null
+    onGameOver: ((Int) -> Unit)? = null,
+    isPaused: Boolean = false
 ) {
     val run = rememberArcadeRun(
         initialState = initialState,
         create = ::MazeChaserRun
     )
+    val outlinePath = remember { Path() }
+    val bodyPath = remember { Path() }
     ArcadeBoard(
         game = ArcadeGame.MazeChaser,
         run = run,
@@ -62,57 +72,63 @@ fun MazeChaserGame(
         modifier = modifier,
         initialState = initialState,
         onHighScoreChanged = onHighScoreChanged,
+        isPaused = isPaused,
         onGameOver = onGameOver
     ) {
         ArcadeField(
             run = run,
+            transition = { run.transition },
             onTap = { run.steer(it - run.playerPoint) },
             onSwipe = run::steer,
             swipeOnDrag = true
         ) {
             val cell = run.cell
             val origin = run.origin
-            val area = Size(cell * run.columns, cell * run.rows)
-            val outline = Path().apply {
-                addRoundRect(RoundRect(Rect(origin, area), CornerRadius(10f)))
+            val area = Size(width = cell * run.columns, height = cell * run.rows)
+            val outline = outlinePath.apply {
+                rewind()
+                addRoundRect(RoundRect(Rect(origin, area), CornerRadius(x = 10f)))
             }
             clipPath(outline) {
                 for (index in run.walls.indices) {
                     val point =
-                        origin + Offset(index % run.columns * cell, index / run.columns * cell)
+                        origin + Offset(
+                            x = index % run.columns * cell,
+                            y = index / run.columns * cell
+                        )
                     if (run.walls[index]) {
                         drawRect(
                             color = style.playerColor.copy(alpha = 0.1f),
                             topLeft = point,
-                            size = Size(cell, cell)
+                            size = Size(width = cell, height = cell)
                         )
                         val ink = style.playerColor.copy(alpha = 0.65f)
                         if (index % run.columns > 0 && !run.walls[index - 1]) drawLine(
                             color = ink,
                             start = point,
-                            end = point + Offset(0f, cell),
+                            end = point + Offset(x = 0f, y = cell),
                             strokeWidth = 1.5f
                         )
                         if (index % run.columns < run.columns - 1 && !run.walls[index + 1]) drawLine(
                             color = ink,
-                            start = point + Offset(cell, 0f),
-                            end = point + Offset(cell, cell),
+                            start = point + Offset(x = cell, y = 0f),
+                            end = point + Offset(x = cell, y = cell),
                             strokeWidth = 1.5f
                         )
                         if (index >= run.columns && !run.walls[index - run.columns]) drawLine(
                             color = ink,
                             start = point,
-                            end = point + Offset(cell, 0f),
+                            end = point + Offset(x = cell, y = 0f),
                             strokeWidth = 1.5f
                         )
                         if (index + run.columns < run.walls.size && !run.walls[index + run.columns]) drawLine(
                             color = ink,
-                            start = point + Offset(0f, cell),
-                            end = point + Offset(cell, cell),
+                            start = point + Offset(x = 0f, y = cell),
+                            end = point + Offset(x = cell, y = cell),
                             strokeWidth = 1.5f
                         )
                     } else if (run.dots[index] > 0) {
-                        val center = point + Offset(cell / 2f, cell / 2f)
+                        val center = point + Offset(x = cell / 2f, y = cell / 2f)
                         if (run.dots[index] == 2) {
                             val radius =
                                 cell * (0.19f + sin(run.time * 5f) * 0.025f)
@@ -144,7 +160,8 @@ fun MazeChaserGame(
                         1 -> style.hazardColor
                         else -> style.obstacleColor
                     }
-                    val body = Path().apply {
+                    val body = bodyPath.apply {
+                        rewind()
                         moveTo(point.x - r, point.y + r)
                         lineTo(point.x - r, point.y - r * 0.5f)
                         lineTo(point.x - r * 0.5f, point.y - r)
@@ -166,13 +183,19 @@ fun MazeChaserGame(
                     for (side in listOf(-1, 1)) {
                         drawRect(
                             color = style.playerDetailColor,
-                            topLeft = point + Offset(side * r * 0.45f - r * 0.18f, -r * 0.4f),
-                            size = Size(r * 0.36f, r * 0.5f)
+                            topLeft = point + Offset(
+                                x = side * r * 0.45f - r * 0.18f,
+                                y = -r * 0.4f
+                            ),
+                            size = Size(width = r * 0.36f, height = r * 0.5f)
                         )
                         if (!frightened) drawRect(
                             color = style.textColor,
-                            topLeft = point + Offset(side * r * 0.45f - r * 0.07f, -r * 0.25f),
-                            size = Size(r * 0.17f, r * 0.25f)
+                            topLeft = point + Offset(
+                                x = side * r * 0.45f - r * 0.07f,
+                                y = -r * 0.25f
+                            ),
+                            size = Size(width = r * 0.17f, height = r * 0.25f)
                         )
                     }
                 }
@@ -187,22 +210,22 @@ fun MazeChaserGame(
                         startAngle = run.direction * 90f + mouth,
                         sweepAngle = 360f - mouth * 2f,
                         useCenter = true,
-                        topLeft = point - Offset(radius, radius),
-                        size = Size(radius * 2f, radius * 2f)
+                        topLeft = point - Offset(x = radius, y = radius),
+                        size = Size(width = radius * 2f, height = radius * 2f)
                     )
                 }
                 if (run.transition > 0f) drawRect(
                     color = style.accentColor.copy(alpha = run.transition * 0.12f),
                     topLeft = origin,
-                    size = Size(cell * run.columns, cell * run.rows)
+                    size = Size(width = cell * run.columns, height = cell * run.rows)
                 )
             }
             drawRoundRect(
                 color = style.playerColor.copy(alpha = 0.35f),
                 topLeft = origin,
                 size = area,
-                cornerRadius = CornerRadius(10f),
-                style = Stroke(1f)
+                cornerRadius = CornerRadius(x = 10f),
+                style = Stroke(width = 1f)
             )
             run.effects.draw(
                 scope = this,
@@ -217,6 +240,7 @@ fun MazeChaserGame(
     }
 }
 
+@Serializable
 internal data class MazeEnemy(
     var position: Int,
     var previous: Int,
@@ -224,12 +248,15 @@ internal data class MazeEnemy(
     var cooldown: Float = 0f
 )
 
+@Serializable
 internal class MazeChaserRun : ArcadeRun() {
     val columns = 13
     var rows = 9
     var walls = BooleanArray(columns * rows) { true }
     var dots = IntArray(walls.size)
     val enemies = mutableListOf<MazeEnemy>()
+
+    @Transient
     val effects = ArcadeEffects()
     var player = columns + 1
     var previous = player
@@ -247,8 +274,8 @@ internal class MazeChaserRun : ArcadeRun() {
     val cell get() = minOf((width - 48f) / columns, (height - topInset - 48f) / rows)
     val origin
         get() = Offset(
-            (width - columns * cell) / 2f,
-            topInset + (height - topInset - rows * cell) / 2f
+            x = (width - columns * cell) / 2f,
+            y = topInset + (height - topInset - rows * cell) / 2f
         )
     val playerPoint
         get() = center(previous) + (center(player) - center(previous)) * (elapsed / playerInterval).coerceIn(
@@ -257,13 +284,21 @@ internal class MazeChaserRun : ArcadeRun() {
         )
 
     fun center(index: Int) =
-        origin + Offset((index % columns + 0.5f) * cell, (index / columns + 0.5f) * cell)
+        origin + Offset(x = (index % columns + 0.5f) * cell, y = (index / columns + 0.5f) * cell)
 
     fun enemyPoint(enemy: MazeEnemy) =
         center(enemy.previous) + (center(enemy.position) - center(enemy.previous)) * enemy.elapsed.coerceIn(
             0f,
             1f
         )
+
+    override fun isValid(): Boolean = super.isValid() &&
+            rows in 7..19 &&
+            walls.size == columns * rows &&
+            dots.size == walls.size &&
+            player in walls.indices &&
+            previous in walls.indices &&
+            enemies.all { it.position in walls.indices && it.previous in walls.indices }
 
     override fun reset() {
         round = 1
@@ -274,6 +309,7 @@ internal class MazeChaserRun : ArcadeRun() {
     }
 
     private fun newRound() {
+        animateLevel()
         rows = (((height - topInset - 48f) / 24f).toInt().coerceIn(7, 19) / 2) * 2 + 1
         walls = BooleanArray(columns * rows) { true }
         val stack = ArrayDeque<Int>()
@@ -284,7 +320,12 @@ internal class MazeChaserRun : ArcadeRun() {
             val x = current % columns
             val y = current / columns
             val options =
-                listOf(Offset(2f, 0f), Offset(-2f, 0f), Offset(0f, 2f), Offset(0f, -2f)).filter {
+                listOf(
+                    Offset(x = 2f, y = 0f),
+                    Offset(x = -2f, y = 0f),
+                    Offset(x = 0f, y = 2f),
+                    Offset(x = 0f, y = -2f)
+                ).filter {
                     val nx = x + it.x.toInt()
                     val ny = y + it.y.toInt()
                     nx in 1 until columns - 1 && ny in 1 until rows - 1 && walls[ny * columns + nx]
@@ -335,7 +376,7 @@ internal class MazeChaserRun : ArcadeRun() {
         val choices =
             walls.indices.filter { !walls[it] && abs(it % columns - 1) + abs(it / columns - 1) > (columns + rows) / 3 }
         val spawns = choices.shuffled().take((1 + (round - 1) / 3).coerceAtMost(3))
-        spawns.forEach { enemies += MazeEnemy(it, it, cooldown = 1.2f) }
+        spawns.forEach { enemies += MazeEnemy(position = it, previous = it, cooldown = 1.2f) }
     }
 
     private fun next(
@@ -470,58 +511,4 @@ internal class MazeChaserRun : ArcadeRun() {
         }
     }
 
-    override fun onResize(previous: Size) {
-        if (time == 0f) newRound()
-    }
-
-    override fun save(state: Bundle) {
-        state.putBooleanArray("walls", walls.copyOf())
-        state.putIntArray("dots", dots.copyOf())
-        state.putIntArray(
-            "run",
-            intArrayOf(rows, player, previous, direction, queued, lives, round)
-        )
-        state.putFloatArray("time", floatArrayOf(time, power, invulnerable, transition, elapsed))
-        state.putFloatArray(
-            "enemies",
-            enemies.flatMap {
-                listOf(
-                    it.position.toFloat(),
-                    it.previous.toFloat(),
-                    it.elapsed,
-                    it.cooldown
-                )
-            }.toFloatArray()
-        )
-    }
-
-    override fun restore(state: Bundle) {
-        state.getBooleanArray("walls")?.let { walls = it.copyOf() }
-        state.getIntArray("dots")?.let { dots = it.copyOf() }
-        state.getIntArray("run")?.let {
-            rows = it[0]
-            player = it[1]
-            previous = it[2]
-            direction = it[3]
-            queued = it[4]
-            lives = it[5]
-            round = it[6]
-        }
-        state.getFloatArray("time")?.let {
-            time = it[0]
-            power = it[1]
-            invulnerable = it[2]
-            transition = it[3]
-            elapsed = it[4]
-        }
-        enemies.clear()
-        state.getFloatArray("enemies")?.let {
-            for (index in it.indices step 4) enemies += MazeEnemy(
-                it[index].toInt(),
-                it[index + 1].toInt(),
-                it[index + 2],
-                it[index + 3]
-            )
-        }
-    }
 }
