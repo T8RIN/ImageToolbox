@@ -561,6 +561,62 @@ class ArcadeMechanicsTest {
     }
 
     @Test
+    fun bomberPlayerCanCrossBombsButStillHitsWallsAndBlasts() {
+        val run = BomberRun().apply { start() }
+        val origin = run.columns * 3 + 3
+        val guard = (run.rows - 2) * run.columns + run.columns - 2
+        run.board.fill(1)
+        for (index in origin - 1..origin + 1) run.board[index] = 0
+        run.board[guard] = 0
+        run.enemies.clear()
+        run.enemies += BomberEnemy(position = guard, previous = guard)
+        run.player = origin
+        run.previous = origin
+        run.placeBomb()
+        for (destination in listOf(origin + 1, origin, origin - 1)) {
+            run.steer(
+                delta = Offset(x = if (destination > run.player) 32f else -32f, y = 0f)
+            )
+            run.advance(seconds = 0.15f)
+            assertEquals(destination, run.player)
+        }
+        assertEquals(origin, run.bombs.single().position)
+        for (tile in 1..2) {
+            run.board[origin - 2] = tile
+            run.steer(delta = Offset(x = -32f, y = 0f))
+            run.advance(seconds = 0.15f)
+            assertEquals(origin - 1, run.player)
+        }
+        run.steer(delta = Offset(x = 32f, y = 0f))
+        run.advance(seconds = 0.15f)
+        run.advance(seconds = 0.15f)
+        assertEquals(origin, run.player)
+        run.invulnerable = 0f
+        run.bombs.single().fuse = 0.01f
+        run.advance(seconds = 0.02f)
+        assertEquals(2, run.lives)
+        assertTrue(origin in run.blasts)
+    }
+
+    @Test
+    fun bomberBombsStillBlockEnemies() {
+        val run = BomberRun().apply { start() }
+        val origin = run.columns * 3 + 3
+        run.board.fill(1)
+        for (index in origin - 1..origin + 1) run.board[index] = 0
+        run.player = origin - 1
+        run.previous = run.player
+        run.invulnerable = 10f
+        run.time = 2f
+        run.enemies.clear()
+        run.enemies += BomberEnemy(position = origin + 1, previous = origin + 1)
+        run.bombs += BomberBomb(position = origin, fuse = 10f, range = 2)
+        run.advance(seconds = 0.4f)
+        assertEquals(origin + 1, run.enemies.single().position)
+        assertEquals(origin, run.bombs.single().position)
+    }
+
+    @Test
     fun bomberBlastsStopAtWallsAndCratesAndChainOtherBombs() {
         val run = BomberRun().apply { start() }
         run.board.fill(0)
@@ -615,6 +671,32 @@ class ArcadeMechanicsTest {
     }
 
     @Test
+    fun minesweeperFlagLimitAllowsRemovingAndReusingFlags() {
+        for (height in listOf(220f, 680f)) {
+            val run = MinesweeperRun().apply {
+                resize(width = 360f, height = height)
+                start()
+            }
+            repeat(run.mineCount) { run.flag(index = it) }
+            assertEquals(0, run.remainingFlags)
+            run.flag(index = run.mineCount)
+            assertEquals(0, run.cover[run.mineCount])
+            assertEquals(run.mineCount, run.cover.count { it == 2 })
+            val restored = restoreRun(run = run, state = saveRun(run))
+            restored.flag(index = restored.mineCount)
+            assertEquals(0, restored.cover[restored.mineCount])
+            restored.flag(index = 0)
+            assertEquals(1, restored.remainingFlags)
+            restored.flag(index = restored.mineCount)
+            assertEquals(0, restored.remainingFlags)
+            assertEquals(2, restored.cover[restored.mineCount])
+            assertEquals(0, restored.cover[0])
+            restored.flag(index = 0)
+            assertEquals(0, restored.cover[0])
+        }
+    }
+
+    @Test
     fun minesweeperFirstTapIsAnEmptyFloodAndNumbersMatchTheirNeighbors() {
         for (height in listOf(220f, 680f)) repeat(20) {
             val run = MinesweeperRun().apply { resize(360f, height); start() }
@@ -664,12 +746,52 @@ class ArcadeMechanicsTest {
 
 
     @Test
+    fun gravityAcceleratesWithTimeAndRestoresItsPace() {
+        val run = GravityFlipRun().apply {
+            resize(width = 360f, height = 220f)
+            start()
+        }
+        val initialSpeed = run.speed
+        var previousDistance = 0f
+        repeat(4) {
+            val startDistance = run.distance
+            val startSpeed = run.speed
+            repeat(120 * 15) {
+                run.obstacles.clear()
+                run.beacons.clear()
+                run.advance(seconds = 1f / 120f)
+            }
+            val traveled = run.distance - startDistance
+            assertTrue(run.speed > startSpeed)
+            assertTrue(traveled > previousDistance)
+            previousDistance = traveled
+        }
+        assertEquals(0, run.score)
+        assertTrue(run.speed > initialSpeed * 1.65f)
+        assertTrue(run.speed < initialSpeed * 2f)
+        run.pause()
+        val restored = restoreRun(run = run, state = saveRun(run))
+        assertEquals(run.speed, restored.speed, 0.001f)
+        restored.start()
+        assertEquals(run.speed, restored.speed, 0.001f)
+        restored.advance(seconds = 0.1f)
+        assertTrue(restored.speed > run.speed)
+        restored.finish()
+        restored.start()
+        assertEquals(initialSpeed, restored.speed, 0.001f)
+        assertEquals(0f, restored.distance, 0f)
+    }
+
+    @Test
     fun gravityObstaclesLeaveTimeToReachTheOppositeSurface() {
-        for (height in listOf(220f, 680f)) {
-            val run = GravityFlipRun().apply { resize(360f, height); start() }
+        for ((width, height) in listOf(360f to 220f, 780f to 220f, 360f to 680f)) {
+            val run = GravityFlipRun().apply {
+                resize(width = width, height = height)
+                start()
+            }
             var lastGate: GravityObstacle? = null
             val kinds = mutableSetOf<Int>()
-            repeat(120 * 150) {
+            repeat(120 * 180) {
                 val obstacle = run.obstacles.filter { it.x + it.width >= run.playerX - run.radius }
                     .minByOrNull { it.x }
                 if (obstacle != null && obstacle.x - run.playerX < run.speed * 0.9f) {
@@ -688,7 +810,7 @@ class ArcadeMechanicsTest {
                 }
                 run.advance(1f / 120f)
                 assertEquals(
-                    "Gravity: height=$height, kind=${obstacle?.kind}, x=${obstacle?.x}, y=${run.y}",
+                    "Gravity: width=$width, height=$height, kind=${obstacle?.kind}, x=${obstacle?.x}, y=${run.y}",
                     ArcadePhase.Running,
                     run.phase
                 )

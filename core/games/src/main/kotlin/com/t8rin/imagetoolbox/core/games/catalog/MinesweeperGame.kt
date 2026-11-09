@@ -196,14 +196,15 @@ fun MinesweeperGame(
                 }
             }
             minesweeperFlag(style.accentColor, Offset(x = 22f, y = run.topInset / 2f), 7f)
+            val flags = run.remainingFlags
             val remaining = measurer.measure(
-                text = (run.mineCount - run.cover.count { it == 2 }).toString(),
+                text = flags.toString(),
                 style = style.scoreTextStyle,
                 density = Density(1f)
             )
             drawText(
                 textLayoutResult = remaining,
-                color = style.textColor,
+                color = if (flags == 0) style.hazardColor else style.textColor,
                 topLeft = Offset(x = 35f, y = (run.topInset - remaining.size.height) / 2f)
             )
         }
@@ -253,6 +254,7 @@ internal class MinesweeperRun : ArcadeRun() {
     var exploded = -1
     var transition = 0f
     val cell get() = minOf((width - 28f) / columns, (height - topInset - 24f) / rows)
+    val remainingFlags get() = mineCount - cover.count { it == 2 }
     val boardWidth get() = cell * columns
     val origin
         get() = Offset(
@@ -323,10 +325,11 @@ internal class MinesweeperRun : ArcadeRun() {
     }
 
     internal fun flag(index: Int) {
-        if (index in cover.indices && cover[index] != 1 && transition <= 0f) {
-            cover[index] = if (cover[index] == 2) 0 else 2
-            redraw()
-        }
+        if (index !in cover.indices || cover[index] == 1 || transition > 0f) return
+        if (cover[index] == 2) cover[index] = 0
+        else if (remainingFlags > 0) cover[index] = 2
+        else return
+        redraw()
     }
 
     private fun updateAnimation() {

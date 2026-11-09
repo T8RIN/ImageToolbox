@@ -638,8 +638,11 @@ internal class BomberRun : ArcadeRun() {
         return if (x in 0 until columns && y in 0 until rows) y * columns + x else -1
     }
 
-    private fun open(index: Int) =
-        index in board.indices && board[index] == 0 && bombs.none { it.position == index }
+    private fun open(
+        index: Int,
+        allowBomb: Boolean = false
+    ) = index in board.indices && board[index] == 0 &&
+            (allowBomb || bombs.none { it.position == index })
 
     fun begin(point: Offset) {
         touchOrigin = point
@@ -780,7 +783,7 @@ internal class BomberRun : ArcadeRun() {
         if (progress >= 1f && heading >= 0) {
             val destination = next(player, heading)
             queuedDirection = -1
-            if (open(destination)) {
+            if (open(index = destination, allowBomb = true)) {
                 previous = player
                 player = destination
                 progress = 0f

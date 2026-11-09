@@ -47,6 +47,7 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import kotlinx.serialization.UseSerializers
 import kotlin.math.abs
+import kotlin.math.exp
 import kotlin.random.Random
 
 @Composable
@@ -79,6 +80,7 @@ fun GravityFlipGame(
             val top = run.top
             val bottom = run.bottom
             val span = run.span
+            val pace = run.pace
             pixelRect(
                 color = style.obstacleColor.copy(alpha = 0.07f),
                 x = 0f,
@@ -94,13 +96,15 @@ fun GravityFlipGame(
                 height = run.height - bottom
             )
             repeat(16) { index ->
+                val near = index % 4 == 0
+                val drift = if (near) 0.65f else 0.2f
                 val x =
-                    ((index * 67f - run.distance * 0.15f) % (run.width + 40f) + run.width + 40f) % (run.width + 40f) - 20f
+                    ((index * 67f - run.distance * drift) % (run.width + 40f) + run.width + 40f) % (run.width + 40f) - 20f
                 pixelRect(
-                    color = style.detailColor.copy(alpha = 0.2f),
+                    color = style.detailColor.copy(alpha = 0.15f + pace * 0.1f),
                     x = x,
                     y = top + (index * 37 % 89) / 89f * span,
-                    width = if (index % 3 == 0) 3f else 1f,
+                    width = if (near) 3f + pace * 9f else 1f,
                     height = 1f
                 )
             }
@@ -113,7 +117,7 @@ fun GravityFlipGame(
                     width = run.width,
                     height = 2f
                 )
-                var x = -(run.distance % 72f) - 72f
+                var x = -(run.distance % 432f) - 72f
                 var index = 0
                 while (x < run.width) {
                     val depth = 4f + index % 3 * 2f
@@ -230,10 +234,13 @@ fun GravityFlipGame(
             }
             val center = Offset(x = run.playerX, y = top + run.y * span)
             run.trail.forEachIndexed { index, point ->
-                drawCircle(
-                    color = style.playerColor.copy(alpha = (index + 1) * 0.025f),
-                    radius = run.radius * 0.7f,
-                    center = Offset(x = point.x, y = top + point.y * span)
+                if (index == 0) return@forEachIndexed
+                val previous = run.trail[index - 1]
+                drawLine(
+                    color = style.playerColor.copy(alpha = (index + 1) * 0.035f),
+                    start = Offset(x = previous.x, y = top + previous.y * span),
+                    end = Offset(x = point.x, y = top + point.y * span),
+                    strokeWidth = run.radius * (0.15f + index * 0.035f)
                 )
             }
             if (run.shield) drawCircle(
@@ -250,7 +257,7 @@ fun GravityFlipGame(
                     pivot = center
                 ) {
                     val unit = run.radius / 14f
-                    val stride = run.velocity == 0f && (run.distance / 9f).toInt() % 2 == 0
+                    val stride = run.velocity == 0f && (run.distance / 18f).toInt() % 2 == 0
                     translate(left = center.x - 12f * unit, top = center.y - 14f * unit) {
                         scale(scale = unit, pivot = Offset.Zero) {
                             drawArcadeSprite(
@@ -345,6 +352,7 @@ internal class GravityFlipRun : ArcadeRun() {
     var gravity = 1
     var distance = 0f
     var shield = false
+    private var elapsed = 0f
     private var charge = 0
     private var passed = 0
     private var timer = 0.7f
@@ -353,7 +361,8 @@ internal class GravityFlipRun : ArcadeRun() {
     private var previousPattern = -1
     private var trailTime = 0f
     private var flipTime = 0f
-    val speed get() = 135f + 90f * passed / (passed + 50f)
+    val pace get() = 1f - exp(-elapsed / 45f)
+    val speed get() = 150f + 150f * pace
 
     override fun reset() {
         obstacles.clear()
@@ -365,6 +374,7 @@ internal class GravityFlipRun : ArcadeRun() {
         gravity = 1
         distance = 0f
         shield = false
+        elapsed = 0f
         charge = 0
         passed = 0
         timer = 0.65f
@@ -387,6 +397,7 @@ internal class GravityFlipRun : ArcadeRun() {
     }
 
     override fun advance(seconds: Float) {
+        elapsed += seconds
         effects.advance(seconds)
         flipTime = (flipTime - seconds).coerceAtLeast(0f)
         velocity = (velocity + gravity * 7.2f * seconds).coerceIn(-3.8f, 3.8f)
@@ -509,7 +520,8 @@ internal class GravityFlipRun : ArcadeRun() {
         }
         // A middle gate asks for a timed flip. The next obstacle leaves a full crossing to settle.
         if (kind == 0 || kind == 2) nextCeiling = !nextCeiling
-        timer += w / speed + 1.05f + Random.nextFloat() * 0.35f + if (kind == 2) 0.2f else 0f
+        timer += w / speed + 1.05f - pace * 0.3f + Random.nextFloat() * 0.25f +
+                if (kind == 2) 0.2f else 0f
     }
 
     override fun onResize(previous: Size) {

@@ -255,73 +255,132 @@ fun RiverHopGame(
                             val top = y + cell * 0.22f
                             val height = cell * 0.56f
                             val truck = length > cell * 1.8f
-                            for (axle in listOf(x + length * 0.18f, x + length * 0.76f)) {
+                            val detail = style.playerDetailColor
+                            val trim = detail.copy(alpha = 0.25f)
+                            val axles =
+                                if (truck) listOf(0.14f, 0.3f, 0.78f) else listOf(0.18f, 0.76f)
+                            for (axle in axles) {
                                 pixelRect(
                                     color = Color.Black.copy(alpha = 0.65f),
-                                    x = axle,
+                                    x = x + length * axle,
                                     y = top - 3f,
-                                    width = length * 0.13f,
+                                    width = length * 0.1f,
                                     height = height + 6f
                                 )
                             }
-                            pixelRect(
-                                color = color,
-                                x = x + 4f,
-                                y = top,
-                                width = length - 8f,
-                                height = height
-                            )
-                            pixelRect(
-                                color = color,
-                                x = x + 2f,
-                                y = top + 3f,
-                                width = length - 4f,
-                                height = height - 6f
-                            )
-                            val glass = style.playerDetailColor
-                            val front = x + length * if (truck) 0.8f else 0.62f
-                            pixelRect(
-                                color = glass,
-                                x = front,
-                                y = top + 3f,
-                                width = length * 0.1f,
-                                height = height - 6f
-                            )
                             if (truck) {
+                                val cargo = length * 0.66f
+                                val cab = x + length * 0.72f
                                 pixelRect(
-                                    color = glass.copy(alpha = 0.6f),
-                                    x = x + length * 0.7f,
+                                    color = color,
+                                    x = x + 2f,
                                     y = top,
-                                    width = 2f,
+                                    width = cargo,
                                     height = height
                                 )
                                 pixelRect(
-                                    color = glass.copy(alpha = 0.25f),
-                                    x = x + 7f,
-                                    y = top + 3f,
-                                    width = length * 0.55f,
-                                    height = 2f
+                                    color = color,
+                                    x = x + cargo,
+                                    y = top + 5f,
+                                    width = length * 0.1f,
+                                    height = height - 10f
                                 )
                                 pixelRect(
-                                    color = glass.copy(alpha = 0.25f),
-                                    x = x + 7f,
-                                    y = top + height - 5f,
-                                    width = length * 0.55f,
-                                    height = 2f
+                                    color = color,
+                                    x = cab,
+                                    y = top + 1f,
+                                    width = length * 0.28f - 4f,
+                                    height = height - 2f
                                 )
+                                pixelRect(
+                                    color = color,
+                                    x = cab + 2f,
+                                    y = top + 3f,
+                                    width = length * 0.28f - 4f,
+                                    height = height - 6f
+                                )
+                                for (pane in listOf(top + 3f, top + height / 2f + 1f)) {
+                                    pixelRect(
+                                        color = detail,
+                                        x = x + length * 0.83f,
+                                        y = pane,
+                                        width = length * 0.09f,
+                                        height = height / 2f - 4f
+                                    )
+                                }
+                                for (edge in listOf(top + 3f, top + height - 4f)) {
+                                    pixelRect(
+                                        color = trim,
+                                        x = x + 5f,
+                                        y = edge,
+                                        width = cargo - 6f,
+                                        height = 1f
+                                    )
+                                }
                             } else {
                                 pixelRect(
-                                    color = glass,
-                                    x = x + length * 0.25f,
+                                    color = color,
+                                    x = x + 4f,
+                                    y = top,
+                                    width = length * 0.72f - 4f,
+                                    height = height
+                                )
+                                pixelRect(
+                                    color = color,
+                                    x = x + length * 0.72f,
+                                    y = top + 2f,
+                                    width = length * 0.28f - 3f,
+                                    height = height - 4f
+                                )
+                                pixelRect(
+                                    color = color,
+                                    x = x + 2f,
+                                    y = top + 2f,
+                                    width = 2f,
+                                    height = height - 4f
+                                )
+                                pixelRect(
+                                    color = color,
+                                    x = x + length - 3f,
+                                    y = top + 4f,
+                                    width = 2f,
+                                    height = height - 8f
+                                )
+                                pixelRect(
+                                    color = detail,
+                                    x = x + length * 0.61f,
+                                    y = top + 3f,
+                                    width = length * 0.14f,
+                                    height = height - 6f
+                                )
+                                pixelRect(
+                                    color = detail,
+                                    x = x + length * 0.23f,
                                     y = top + 4f,
                                     width = length * 0.12f,
+                                    height = height - 8f
+                                )
+                                for (mirror in listOf(top - 1f, top + height - 1f)) {
+                                    pixelRect(
+                                        color = color,
+                                        x = x + length * 0.6f,
+                                        y = mirror,
+                                        width = 3f,
+                                        height = 2f
+                                    )
+                                }
+                                pixelRect(
+                                    color = trim,
+                                    x = x + length * 0.79f,
+                                    y = top + 4f,
+                                    width = 1f,
                                     height = height - 8f
                                 )
                             }
                             for (edge in listOf(top + 2f, top + height - 5f)) {
                                 pixelRect(
-                                    color = glass,
-                                    x = x + length - 4f,
+                                    color = style.playerDetailColor,
+                                    x = x + length - if (truck) 6f else 5f,
                                     y = edge,
                                     width = 2f,
                                     height = 3f
