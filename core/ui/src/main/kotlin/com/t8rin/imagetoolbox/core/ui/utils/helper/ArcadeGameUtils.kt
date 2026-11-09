@@ -25,7 +25,6 @@ import com.t8rin.imagetoolbox.core.resources.icons.Balance
 import com.t8rin.imagetoolbox.core.resources.icons.Bomb
 import com.t8rin.imagetoolbox.core.resources.icons.Brick
 import com.t8rin.imagetoolbox.core.resources.icons.BubbleChart
-import com.t8rin.imagetoolbox.core.resources.icons.ConversionPath
 import com.t8rin.imagetoolbox.core.resources.icons.Dinosaur
 import com.t8rin.imagetoolbox.core.resources.icons.Explore
 import com.t8rin.imagetoolbox.core.resources.icons.Filter2
@@ -52,6 +51,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.SportsTennis
 import com.t8rin.imagetoolbox.core.resources.icons.Stacks
 import com.t8rin.imagetoolbox.core.resources.icons.SwapVerticalCircle
 import com.t8rin.imagetoolbox.core.resources.icons.TrackChanges
+import com.t8rin.imagetoolbox.core.resources.icons.TwoWheeler
 import com.t8rin.imagetoolbox.core.resources.icons.VectorPolyline
 import com.t8rin.imagetoolbox.core.resources.icons.ViewComfy
 import com.t8rin.imagetoolbox.core.resources.icons.ViewQuilt
@@ -155,7 +155,7 @@ val ArcadeGame.icon: ImageVector
         ArcadeGame.OrbitSurvival -> Icons.Outlined.Orbit
         ArcadeGame.LunarLander -> Icons.Outlined.Rocket
         ArcadeGame.BrickBreaker -> Icons.Outlined.ViewComfy
-        ArcadeGame.LightCycles -> Icons.Outlined.ConversionPath
+        ArcadeGame.LightCycles -> Icons.Outlined.TwoWheeler
         ArcadeGame.Racer -> Icons.Outlined.SportsMotorsports
         ArcadeGame.Ricochet -> Icons.Outlined.Brick
         ArcadeGame.Asteroids -> Icons.Outlined.Planet
