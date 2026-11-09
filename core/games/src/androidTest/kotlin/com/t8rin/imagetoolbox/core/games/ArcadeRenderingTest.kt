@@ -77,6 +77,10 @@ import com.t8rin.imagetoolbox.core.games.catalog.TetrisGame
 import com.t8rin.imagetoolbox.core.games.catalog.TimbermanGame
 import com.t8rin.imagetoolbox.core.games.catalog.WhackAMoleGame
 import com.t8rin.imagetoolbox.core.games.catalog.ZigZagGame
+import com.t8rin.imagetoolbox.core.games.catalog.TintAscentGame
+import com.t8rin.imagetoolbox.core.games.catalog.SpiralShaftGame
+import com.t8rin.imagetoolbox.core.games.catalog.TraceAndClaimGame
+import com.t8rin.imagetoolbox.core.games.catalog.OrchardPileGame
 import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
 import com.t8rin.imagetoolbox.core.ui.theme.ImageToolboxThemeForPreview
 import com.t8rin.imagetoolbox.core.ui.utils.helper.title
@@ -322,6 +326,10 @@ private fun PlayingGame(game: ArcadeGame, height: Int, onBounds: (Rect) -> Unit)
             initialState = initial,
             style = style
         )
+        ArcadeGame.SpiralShaft -> SpiralShaftGame(modifier, initial, style)
+        ArcadeGame.TintAscent -> TintAscentGame(modifier, initial, style)
+        ArcadeGame.TraceAndClaim -> TraceAndClaimGame(modifier, initial, style)
+        ArcadeGame.OrchardPile -> OrchardPileGame(modifier, initial, style)
         else -> error("Expected a playable game")
     }
 }

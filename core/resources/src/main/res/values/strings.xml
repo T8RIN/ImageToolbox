@@ -8114,4 +8114,12 @@
     <string name="arcade_balancetower_sub">Tap to drop the moving block. Keep the combined weight above the supports; the marked end is heavier</string>
     <string name="arcade_templeescape">Temple Escape</string>
     <string name="arcade_templeescape_sub">Swipe to dash from wall to wall and climb to the exit before the lava catches you. Dodge spikes and guardians, collect relics and use shields to survive a hit</string>
+    <string name="arcade_spiralshaft">Spiral Shaft</string>
+    <string name="arcade_spiralshaft_sub">Drag sideways to spin the tower. Drop through three gaps in a row to smash the next platform. Avoid marked segments between combos</string>
+    <string name="arcade_tintascent">Tint Ascent</string>
+    <string name="arcade_tintascent_sub">Tap to bounce through matching colors and collect stars. Multicolor tokens change the color of your ball</string>
+    <string name="arcade_traceandclaim">Trace &amp; Claim</string>
+    <string name="arcade_traceandclaim_sub">Drag to steer with the floating joystick. You have three lives. Return to your territory to claim the enclosed area. Cross enemy trails and protect your own. Capture enough land to open a new arena</string>
+    <string name="arcade_orchardpile">Orchard Pile</string>
+    <string name="arcade_orchardpile_sub">Drag to aim and release to drop a fruit. Matching fruits merge, and two watermelons clear each other. Keep the pile below the dashed line</string>
 </resources>

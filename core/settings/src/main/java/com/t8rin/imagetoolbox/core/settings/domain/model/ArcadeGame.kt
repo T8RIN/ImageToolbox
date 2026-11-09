@@ -57,7 +57,11 @@ enum class ArcadeGame {
     FlowConnect,
     BalanceTower,
     TempleEscape,
-    RandomFavorite;
+    RandomFavorite,
+    SpiralShaft,
+    TintAscent,
+    TraceAndClaim,
+    OrchardPile;
 
     fun pickGame(
         favorites: Set<ArcadeGame> = emptySet(),

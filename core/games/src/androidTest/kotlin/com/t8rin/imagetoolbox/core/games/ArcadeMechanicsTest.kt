@@ -76,6 +76,10 @@ import com.t8rin.imagetoolbox.core.games.catalog.TowerLoad
 import com.t8rin.imagetoolbox.core.games.catalog.WhackAMoleRun
 import com.t8rin.imagetoolbox.core.games.catalog.ZigZagRun
 import com.t8rin.imagetoolbox.core.games.catalog.ZigZagTile
+import com.t8rin.imagetoolbox.core.games.catalog.TintAscentRun
+import com.t8rin.imagetoolbox.core.games.catalog.SpiralShaftRun
+import com.t8rin.imagetoolbox.core.games.catalog.TraceAndClaimRun
+import com.t8rin.imagetoolbox.core.games.catalog.OrchardPileRun
 import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
 import com.t8rin.imagetoolbox.core.ui.utils.helper.title
 import kotlin.math.abs
@@ -123,13 +127,17 @@ class ArcadeMechanicsTest {
         ::LaserMirrorsRun,
         ::FlowConnectRun,
         ::BalanceTowerRun,
-        ::TempleEscapeRun
+        ::TempleEscapeRun,
+        ::SpiralShaftRun,
+        ::TintAscentRun,
+        ::TraceAndClaimRun,
+        ::OrchardPileRun
     )
 
     @Test
-    fun collectionContainsThirtySixDistinctGamesAndTheOriginalEight() {
-        assertEquals(36, ArcadeGame.playable.size)
-        assertEquals(36, ArcadeGame.playable.distinct().size)
+    fun collectionContainsFortyDistinctGamesAndTheOriginalEight() {
+        assertEquals(40, ArcadeGame.playable.size)
+        assertEquals(40, ArcadeGame.playable.distinct().size)
         assertEquals(
             listOf(
                 ArcadeGame.Dino, ArcadeGame.Doodle, ArcadeGame.Bird, ArcadeGame.Stack,
@@ -137,7 +145,7 @@ class ArcadeMechanicsTest {
             ),
             ArcadeGame.playable.take(8)
         )
-        assertEquals(36, ArcadeGame.playable.map { it.title }.distinct().size)
+        assertEquals(40, ArcadeGame.playable.map { it.title }.distinct().size)
     }
 
     @Test
@@ -1541,7 +1549,11 @@ private val runSerializers = mapOf(
     LaserMirrorsRun::class to LaserMirrorsRun.serializer(),
     FlowConnectRun::class to FlowConnectRun.serializer(),
     BalanceTowerRun::class to BalanceTowerRun.serializer(),
-    TempleEscapeRun::class to TempleEscapeRun.serializer()
+    TempleEscapeRun::class to TempleEscapeRun.serializer(),
+    SpiralShaftRun::class to SpiralShaftRun.serializer(),
+    TintAscentRun::class to TintAscentRun.serializer(),
+    TraceAndClaimRun::class to TraceAndClaimRun.serializer(),
+    OrchardPileRun::class to OrchardPileRun.serializer()
 )
 
 @Suppress("UNCHECKED_CAST")

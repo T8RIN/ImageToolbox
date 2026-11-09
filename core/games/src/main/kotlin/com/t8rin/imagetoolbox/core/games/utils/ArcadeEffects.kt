@@ -20,6 +20,7 @@ package com.t8rin.imagetoolbox.core.games.utils
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope
+import androidx.compose.ui.graphics.drawscope.Stroke
 import com.t8rin.imagetoolbox.core.games.ArcadeSprite
 import com.t8rin.imagetoolbox.core.games.ArcadeStyle
 import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
@@ -83,6 +84,23 @@ private val ArcadeHeart = ArcadeSprite(
     width = 11, height = 10,
     data = "M1 0H4V1H5V2H6V1H7V0H10V1H11V5H10V6H9V7H8V8H7V9H6V10H5V9H4V8H3V7H2V6H1V5H0V1H1Z"
 )
+
+internal fun DrawScope.arcadeJoystick(
+    style: ArcadeStyle,
+    origin: Offset?,
+    stick: Offset
+) {
+    if (origin == null || stick.getDistanceSquared() <= 64f) return
+    drawCircle(
+        color = style.detailColor.copy(alpha = 0.35f),
+        radius = 23f,
+        center = origin,
+        style = Stroke(width = 1f)
+    )
+    val tint = style.playerColor.copy(alpha = 0.5f)
+    drawLine(tint, origin, origin + stick, strokeWidth = 2f)
+    drawCircle(tint, radius = 4f, center = origin + stick)
+}
 
 internal fun DrawScope.arcadeLives(
     style: ArcadeStyle,

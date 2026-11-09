@@ -21,11 +21,13 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Alien
+import com.t8rin.imagetoolbox.core.resources.icons.AvocadoBean
 import com.t8rin.imagetoolbox.core.resources.icons.Balance
 import com.t8rin.imagetoolbox.core.resources.icons.Bomb
 import com.t8rin.imagetoolbox.core.resources.icons.Brick
 import com.t8rin.imagetoolbox.core.resources.icons.BubbleChart
 import com.t8rin.imagetoolbox.core.resources.icons.Dinosaur
+import com.t8rin.imagetoolbox.core.resources.icons.DonutLarge
 import com.t8rin.imagetoolbox.core.resources.icons.Explore
 import com.t8rin.imagetoolbox.core.resources.icons.Filter2
 import com.t8rin.imagetoolbox.core.resources.icons.Flag
@@ -33,6 +35,8 @@ import com.t8rin.imagetoolbox.core.resources.icons.Flare
 import com.t8rin.imagetoolbox.core.resources.icons.Flight
 import com.t8rin.imagetoolbox.core.resources.icons.Forest
 import com.t8rin.imagetoolbox.core.resources.icons.Hexagon
+import com.t8rin.imagetoolbox.core.resources.icons.Laps
+import com.t8rin.imagetoolbox.core.resources.icons.LassoSelect
 import com.t8rin.imagetoolbox.core.resources.icons.Neurology
 import com.t8rin.imagetoolbox.core.resources.icons.Nutrition
 import com.t8rin.imagetoolbox.core.resources.icons.Orbit
@@ -99,6 +103,10 @@ val ArcadeGame.title: Int
         ArcadeGame.FlowConnect -> R.string.arcade_flowconnect
         ArcadeGame.LaserMirrors -> R.string.arcade_lasermirrors
         ArcadeGame.Basketball -> R.string.arcade_basketball
+        ArcadeGame.SpiralShaft -> R.string.arcade_spiralshaft
+        ArcadeGame.TintAscent -> R.string.arcade_tintascent
+        ArcadeGame.TraceAndClaim -> R.string.arcade_traceandclaim
+        ArcadeGame.OrchardPile -> R.string.arcade_orchardpile
     }
 
 
@@ -141,6 +149,10 @@ val ArcadeGame.description: Int
         ArcadeGame.FlowConnect -> R.string.arcade_flowconnect_sub
         ArcadeGame.LaserMirrors -> R.string.arcade_lasermirrors_sub
         ArcadeGame.Basketball -> R.string.arcade_basketball_sub
+        ArcadeGame.SpiralShaft -> R.string.arcade_spiralshaft_sub
+        ArcadeGame.TintAscent -> R.string.arcade_tintascent_sub
+        ArcadeGame.TraceAndClaim -> R.string.arcade_traceandclaim_sub
+        ArcadeGame.OrchardPile -> R.string.arcade_orchardpile_sub
     }
 
 val ArcadeGame.icon: ImageVector
@@ -182,4 +194,8 @@ val ArcadeGame.icon: ImageVector
         ArcadeGame.`2048` -> Icons.Outlined.Filter2
         ArcadeGame.Snake -> Icons.Outlined.Snake
         ArcadeGame.Tetris -> Icons.Outlined.ViewQuilt
+        ArcadeGame.SpiralShaft -> Icons.Outlined.Laps
+        ArcadeGame.TintAscent -> Icons.Outlined.DonutLarge
+        ArcadeGame.TraceAndClaim -> Icons.Outlined.LassoSelect
+        ArcadeGame.OrchardPile -> Icons.Outlined.AvocadoBean
     }

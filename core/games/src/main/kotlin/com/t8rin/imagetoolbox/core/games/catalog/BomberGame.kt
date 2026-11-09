@@ -46,6 +46,7 @@ import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
+import com.t8rin.imagetoolbox.core.games.utils.arcadeJoystick
 import com.t8rin.imagetoolbox.core.games.utils.arcadeLives
 import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
 import kotlinx.serialization.Serializable
@@ -428,25 +429,7 @@ fun BomberGame(
                     }
                 }
             }
-            run.touchOrigin?.takeIf { run.stick.getDistance() > 8f }?.let { point ->
-                drawCircle(
-                    color = style.detailColor.copy(alpha = 0.35f),
-                    radius = 23f,
-                    center = point,
-                    style = Stroke(width = 1f)
-                )
-                drawLine(
-                    color = style.playerColor.copy(alpha = 0.5f),
-                    start = point,
-                    end = point + run.stick,
-                    strokeWidth = 2f
-                )
-                drawCircle(
-                    color = style.playerColor.copy(alpha = 0.5f),
-                    radius = 4f,
-                    center = point + run.stick
-                )
-            }
+            arcadeJoystick(style, run.touchOrigin, run.stick)
             drawRoundRect(
                 color = style.detailColor,
                 topLeft = bounds.topLeft,

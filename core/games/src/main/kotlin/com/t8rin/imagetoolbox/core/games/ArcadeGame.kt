@@ -128,16 +128,20 @@ import com.t8rin.imagetoolbox.core.games.catalog.MazeChaserGame
 import com.t8rin.imagetoolbox.core.games.catalog.MinesweeperGame
 import com.t8rin.imagetoolbox.core.games.catalog.MissileCommandGame
 import com.t8rin.imagetoolbox.core.games.catalog.OrbitSurvivalGame
+import com.t8rin.imagetoolbox.core.games.catalog.OrchardPileGame
 import com.t8rin.imagetoolbox.core.games.catalog.PongGame
 import com.t8rin.imagetoolbox.core.games.catalog.RacerGame
 import com.t8rin.imagetoolbox.core.games.catalog.RicochetGame
 import com.t8rin.imagetoolbox.core.games.catalog.RiverHopGame
 import com.t8rin.imagetoolbox.core.games.catalog.SimonSaysGame
 import com.t8rin.imagetoolbox.core.games.catalog.SnakeGame
+import com.t8rin.imagetoolbox.core.games.catalog.SpiralShaftGame
 import com.t8rin.imagetoolbox.core.games.catalog.StackGame
 import com.t8rin.imagetoolbox.core.games.catalog.TempleEscapeGame
 import com.t8rin.imagetoolbox.core.games.catalog.TetrisGame
 import com.t8rin.imagetoolbox.core.games.catalog.TimbermanGame
+import com.t8rin.imagetoolbox.core.games.catalog.TintAscentGame
+import com.t8rin.imagetoolbox.core.games.catalog.TraceAndClaimGame
 import com.t8rin.imagetoolbox.core.games.catalog.WhackAMoleGame
 import com.t8rin.imagetoolbox.core.games.catalog.ZigZagGame
 import com.t8rin.imagetoolbox.core.games.components.LocalArcadeButton
@@ -386,6 +390,30 @@ fun ArcadeGameContent(
             )
 
             ArcadeGame.LightCycles -> LightCyclesGame(
+                modifier = modifier,
+                style = style,
+                isPaused = isPaused
+            )
+
+            ArcadeGame.SpiralShaft -> SpiralShaftGame(
+                modifier = modifier,
+                style = style,
+                isPaused = isPaused
+            )
+
+            ArcadeGame.TintAscent -> TintAscentGame(
+                modifier = modifier,
+                style = style,
+                isPaused = isPaused
+            )
+
+            ArcadeGame.TraceAndClaim -> TraceAndClaimGame(
+                modifier = modifier,
+                style = style,
+                isPaused = isPaused
+            )
+
+            ArcadeGame.OrchardPile -> OrchardPileGame(
                 modifier = modifier,
                 style = style,
                 isPaused = isPaused
