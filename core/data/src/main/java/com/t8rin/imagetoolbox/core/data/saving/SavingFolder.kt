@@ -93,7 +93,9 @@ internal data class SavingFolder private constructor(
             saveToOriginalFolder: Boolean,
             deleteOriginalsAfterSave: Boolean = false
         ): SavingFolder? = coroutineScope {
-            val originalFolder = if (saveToOriginalFolder) {
+            val shouldSaveToOriginalFolder =
+                saveToOriginalFolder && saveTarget.originalUri.isNotEmpty()
+            val originalFolder = if (shouldSaveToOriginalFolder) {
                 runCatching {
                     val originalFilename = saveTarget.filename?.takeIf {
                         deleteOriginalsAfterSave && it == UriReplacements
@@ -127,7 +129,7 @@ internal data class SavingFolder private constructor(
             } else null
 
             if (originalFolder != null) return@coroutineScope originalFolder
-            if (saveToOriginalFolder && treeUri == null) return@coroutineScope null
+            if (shouldSaveToOriginalFolder && treeUri == null) return@coroutineScope null
 
             if (treeUri == null) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
