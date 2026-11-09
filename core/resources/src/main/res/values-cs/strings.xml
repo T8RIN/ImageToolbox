@@ -8052,4 +8052,20 @@
     <string name="arcade_flightcontrol_sub">Nakreslete trasu z každého letadla do odpovídající přistávací zóny. Udržujte letadla od sebe a zarovnejte letadla pomocí šipek dráhy</string>
     <string name="arcade_balancetower">Balanční věž</string>
     <string name="arcade_balancetower_sub">Klepnutím přesunete blok. Udržujte kombinovanou hmotnost nad podpěrami; označený konec je těžší</string>
+    <string name="arcade_paused">Pozastaveno</string>
+    <string name="arcade_game_over">Konec hry</string>
+    <string name="arcade_new_record">Nový rekord!</string>
+    <string name="arcade_previous_best">Předchozí nejlepší: %1$d</string>
+    <string name="arcade_finish">Dokončete hru</string>
+    <string name="arcade_random_favorite">Náhodně z oblíbených</string>
+    <string name="arcade_statistics">Herní statistiky</string>
+    <string name="arcade_no_statistics">Zatím žádné herní statistiky</string>
+    <string name="arcade_no_statistics_sub">Začněte kolo a hra se zde objeví automaticky.</string>
+    <string name="arcade_statistics_info">Herní statistiky jsou uloženy lokálně ve vašem zařízení. Ukazují počet kol, nejvyšší skóre a čas, kdy jste každou hru naposledy hráli.</string>
+    <string name="arcade_reset_statistics">Resetovat statistiky hry</string>
+    <string name="arcade_reset_statistics_sub">Počty kol, nejvyšší skóre a data posledního hraní budou vymazána.</string>
+    <string name="arcade_rounds_started">Začala kola</string>
+    <string name="arcade_rounds_finished">Kola ukončena</string>
+    <string name="arcade_rounds_subtitle">%1$d/%2$d kol</string>
+    <string name="arcade_return">Návrat</string>
 </resources>

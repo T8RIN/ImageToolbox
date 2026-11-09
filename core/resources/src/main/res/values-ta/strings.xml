@@ -8050,4 +8050,20 @@
     <string name="arcade_flightcontrol_sub">ஒவ்வொரு விமானத்திலிருந்தும் அதன் பொருந்தும் தரையிறங்கும் மண்டலத்திற்கு ஒரு வழியை வரையவும். விமானங்களைத் தனியே வைத்து, ஓடுபாதை அம்புகளுடன் விமானங்களை வரிசைப்படுத்தவும்</string>
     <string name="arcade_balancetower">இருப்பு கோபுரம்</string>
     <string name="arcade_balancetower_sub">நகரும் தொகுதியை கைவிட தட்டவும். ஒருங்கிணைந்த எடையை ஆதரவுகளுக்கு மேலே வைத்திருங்கள்; குறிக்கப்பட்ட முடிவு கனமானது</string>
+    <string name="arcade_paused">இடைநிறுத்தப்பட்டது</string>
+    <string name="arcade_game_over">ஆட்டம் முடிந்தது</string>
+    <string name="arcade_new_record">புதிய சாதனை!</string>
+    <string name="arcade_previous_best">முந்தைய சிறந்தது: %1$d</string>
+    <string name="arcade_finish">விளையாட்டை முடிக்கவும்</string>
+    <string name="arcade_random_favorite">பிடித்தவையிலிருந்து சீரற்றவை</string>
+    <string name="arcade_statistics">விளையாட்டு புள்ளிவிவரங்கள்</string>
+    <string name="arcade_no_statistics">விளையாட்டுப் புள்ளிவிவரங்கள் எதுவும் இல்லை</string>
+    <string name="arcade_no_statistics_sub">ஒரு சுற்று தொடங்கவும், விளையாட்டு தானாகவே இங்கு தோன்றும்.</string>
+    <string name="arcade_statistics_info">விளையாட்டு புள்ளிவிவரங்கள் உங்கள் சாதனத்தில் உள்ளூரில் சேமிக்கப்படும். அவை உங்கள் சுற்று எண்ணிக்கைகள், அதிக மதிப்பெண்கள் மற்றும் நீங்கள் கடைசியாக ஒவ்வொரு கேமை விளையாடியபோதும் காட்டுகின்றன.</string>
+    <string name="arcade_reset_statistics">விளையாட்டு புள்ளிவிவரங்களை மீட்டமைக்கவும்</string>
+    <string name="arcade_reset_statistics_sub">சுற்று எண்ணிக்கைகள், அதிக மதிப்பெண்கள் மற்றும் கடைசியாக விளையாடிய தேதிகள் அழிக்கப்படும்.</string>
+    <string name="arcade_rounds_started">சுற்றுகள் தொடங்கியது</string>
+    <string name="arcade_rounds_finished">சுற்றுகள் முடிந்தது</string>
+    <string name="arcade_rounds_subtitle">%1$d/%2$d சுற்றுகள்</string>
+    <string name="arcade_return">திரும்பு</string>
 </resources>

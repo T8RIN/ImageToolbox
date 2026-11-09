@@ -8051,4 +8051,20 @@
     <string name="arcade_flightcontrol_sub">Desenați o rută de la fiecare aeronavă până la zona de aterizare potrivită. Mențineți aeronavele depărtate și aliniați avioanele cu săgețile pistei</string>
     <string name="arcade_balancetower">Turnul de echilibru</string>
     <string name="arcade_balancetower_sub">Atingeți pentru a arunca blocul în mișcare. Păstrați greutatea combinată deasupra suporturilor; capătul marcat este mai greu</string>
+    <string name="arcade_paused">Întrerupt</string>
+    <string name="arcade_game_over">Joc încheiat</string>
+    <string name="arcade_new_record">Record nou!</string>
+    <string name="arcade_previous_best">Cel mai bun anterior: %1$d</string>
+    <string name="arcade_finish">Termină jocul</string>
+    <string name="arcade_random_favorite">Aleatoriu dintre favorite</string>
+    <string name="arcade_statistics">Statistica jocului</string>
+    <string name="arcade_no_statistics">Nicio statistică de joc încă</string>
+    <string name="arcade_no_statistics_sub">Începeți o rundă și jocul va apărea automat aici.</string>
+    <string name="arcade_statistics_info">Statisticile jocului sunt stocate local pe dispozitivul dvs. Acestea arată numărul rundelor tale, scorurile mari și când ai jucat ultima dată fiecare joc.</string>
+    <string name="arcade_reset_statistics">Resetați statisticile jocului</string>
+    <string name="arcade_reset_statistics_sub">Numărările rundelor, scorurile mari și ultimele date jucate vor fi șterse.</string>
+    <string name="arcade_rounds_started">Au început rundele</string>
+    <string name="arcade_rounds_finished">Runde terminate</string>
+    <string name="arcade_rounds_subtitle">%1$d/%2$d runde</string>
+    <string name="arcade_return">Reveni</string>
 </resources>

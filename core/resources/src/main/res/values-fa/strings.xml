@@ -8050,4 +8050,20 @@
     <string name="arcade_flightcontrol_sub">یک مسیر از هر هواپیما به منطقه فرود منطبق آن ترسیم کنید. هواپیماها را از هم جدا نگه دارید و هواپیماها را با فلش های باند فرودگاه ردیف کنید</string>
     <string name="arcade_balancetower">برج تعادل</string>
     <string name="arcade_balancetower_sub">برای رها کردن بلوک متحرک ضربه بزنید. وزن ترکیبی را بالاتر از تکیه گاه ها نگه دارید. انتهای مشخص شده سنگین تر است</string>
+    <string name="arcade_paused">مکث کرد</string>
+    <string name="arcade_game_over">بازی تمام شد</string>
+    <string name="arcade_new_record">رکورد جدید!</string>
+    <string name="arcade_previous_best">بهترین های قبلی: %1$d</string>
+    <string name="arcade_finish">بازی را تمام کن</string>
+    <string name="arcade_random_favorite">تصادفی از موارد دلخواه</string>
+    <string name="arcade_statistics">آمار بازی</string>
+    <string name="arcade_no_statistics">هنوز آمار بازی وجود ندارد</string>
+    <string name="arcade_no_statistics_sub">یک دور شروع کنید و بازی به طور خودکار در اینجا ظاهر می شود.</string>
+    <string name="arcade_statistics_info">آمار بازی به صورت محلی در دستگاه شما ذخیره می شود. آنها تعداد دور، نمرات بالا و آخرین باری که در هر بازی انجام داده اید را نشان می دهند.</string>
+    <string name="arcade_reset_statistics">بازنشانی آمار بازی</string>
+    <string name="arcade_reset_statistics_sub">تعداد دور، نمرات بالا و تاریخ های آخرین بازی پاک خواهند شد.</string>
+    <string name="arcade_rounds_started">راندها شروع شد</string>
+    <string name="arcade_rounds_finished">راندها تمام شد</string>
+    <string name="arcade_rounds_subtitle">%1$d/%2$d دور</string>
+    <string name="arcade_return">بازگشت</string>
 </resources>

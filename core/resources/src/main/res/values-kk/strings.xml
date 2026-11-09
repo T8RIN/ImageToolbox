@@ -8050,4 +8050,20 @@
     <string name="arcade_flightcontrol_sub">Әр ұшақтан сәйкес қону аймағына бағытты сызыңыз. Ұшақтарды бір-бірінен алшақ ұстаңыз және ұшақтарды ҰҚЖ көрсеткілерімен түзетіңіз</string>
     <string name="arcade_balancetower">Баланс мұнарасы</string>
     <string name="arcade_balancetower_sub">Жылжымалы блокты тастау үшін түртіңіз. Біріктірілген салмақты тіректердің үстінде ұстаңыз; белгіленген ұшы ауырырақ</string>
+    <string name="arcade_paused">Кідіртілді</string>
+    <string name="arcade_game_over">Ойын аяқталды</string>
+    <string name="arcade_new_record">Жаңа рекорд!</string>
+    <string name="arcade_previous_best">Алдыңғы үздік: %1$d</string>
+    <string name="arcade_finish">Ойынды аяқтау</string>
+    <string name="arcade_random_favorite">Таңдаулылардан кездейсоқ</string>
+    <string name="arcade_statistics">Ойын статистикасы</string>
+    <string name="arcade_no_statistics">Әзірге ойын статистикасы жоқ</string>
+    <string name="arcade_no_statistics_sub">Раундты бастаңыз және ойын осы жерде автоматты түрде пайда болады.</string>
+    <string name="arcade_statistics_info">Ойын статистикасы құрылғыңызда жергілікті түрде сақталады. Олар сіздің айналым сандарыңызды, жоғары ұпайларды және әр ойынды соңғы рет қашан ойнағаныңызды көрсетеді.</string>
+    <string name="arcade_reset_statistics">Ойын статистикасын қалпына келтіріңіз</string>
+    <string name="arcade_reset_statistics_sub">Раунд сандары, жоғары ұпайлар және соңғы ойналған күндер жойылады.</string>
+    <string name="arcade_rounds_started">Раундтар басталды</string>
+    <string name="arcade_rounds_finished">Раундтар аяқталды</string>
+    <string name="arcade_rounds_subtitle">%1$d/%2$d раундтар</string>
+    <string name="arcade_return">Қайту</string>
 </resources>

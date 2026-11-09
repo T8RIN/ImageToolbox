@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -14,7 +13,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">大小 %1$s</string>
     <string name="loading">載入中…</string>
     <string name="no_exif">沒有發現 EXIF 資料</string>
@@ -8053,4 +8054,15 @@
     <string name="arcade_new_record">新紀錄！</string>
     <string name="arcade_previous_best">先前最佳：%1$d</string>
     <string name="arcade_finish">完成遊戲</string>
+    <string name="arcade_random_favorite">從收藏夾中隨機選擇</string>
+    <string name="arcade_statistics">遊戲統計</string>
+    <string name="arcade_no_statistics">還沒有比賽統計數據</string>
+    <string name="arcade_no_statistics_sub">開始一輪遊戲將自動出現在此。</string>
+    <string name="arcade_statistics_info">遊戲統計資料儲存在您的裝置本地。它們顯示您的回合數、高分以及您上次玩每場比賽的時間。</string>
+    <string name="arcade_reset_statistics">重置遊戲統計數據</string>
+    <string name="arcade_reset_statistics_sub">輪數、高分和最後比賽日期都將清除。</string>
+    <string name="arcade_rounds_started">回合開始</string>
+    <string name="arcade_rounds_finished">回合結束</string>
+    <string name="arcade_rounds_subtitle">%1$d/%2$d 輪</string>
+    <string name="arcade_return">返回</string>
 </resources>

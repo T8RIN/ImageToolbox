@@ -8050,4 +8050,20 @@
     <string name="arcade_flightcontrol_sub">Teken een route van elk vliegtuig naar de bijbehorende landingszone. Houd vliegtuigen uit elkaar en lijn vliegtuigen uit met de baanpijlen</string>
     <string name="arcade_balancetower">Evenwichtstoren</string>
     <string name="arcade_balancetower_sub">Tik om het bewegende blok te laten vallen. Houd het gecombineerde gewicht boven de steunen; het gemarkeerde uiteinde is zwaarder</string>
+    <string name="arcade_paused">Gepauzeerd</string>
+    <string name="arcade_game_over">Spel voorbij</string>
+    <string name="arcade_new_record">Nieuw record!</string>
+    <string name="arcade_previous_best">Vorige beste: %1$d</string>
+    <string name="arcade_finish">Voltooi het spel</string>
+    <string name="arcade_random_favorite">Willekeurig uit favorieten</string>
+    <string name="arcade_statistics">Spelstatistieken</string>
+    <string name="arcade_no_statistics">Nog geen spelstatistieken</string>
+    <string name="arcade_no_statistics_sub">Start een ronde en het spel verschijnt hier automatisch.</string>
+    <string name="arcade_statistics_info">Spelstatistieken worden lokaal op uw apparaat opgeslagen. Ze tonen uw rondetellingen, hoge scores en wanneer u elke game voor het laatst hebt gespeeld.</string>
+    <string name="arcade_reset_statistics">Spelstatistieken resetten</string>
+    <string name="arcade_reset_statistics_sub">Rondetellingen, hoogste scores en laatst gespeelde datums worden gewist.</string>
+    <string name="arcade_rounds_started">Rondes begonnen</string>
+    <string name="arcade_rounds_finished">Rondes afgelopen</string>
+    <string name="arcade_rounds_subtitle">%1$d/%2$d rondes</string>
+    <string name="arcade_return">Opbrengst</string>
 </resources>

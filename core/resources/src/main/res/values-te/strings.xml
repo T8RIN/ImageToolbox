@@ -8050,4 +8050,20 @@
     <string name="arcade_flightcontrol_sub">ప్రతి విమానం నుండి దాని మ్యాచింగ్ ల్యాండింగ్ జోన్‌కు ఒక మార్గాన్ని గీయండి. విమానాలను వేరుగా ఉంచండి మరియు రన్‌వే బాణాలతో విమానాలను వరుసలో ఉంచండి</string>
     <string name="arcade_balancetower">బ్యాలెన్స్ టవర్</string>
     <string name="arcade_balancetower_sub">కదిలే బ్లాక్‌ను వదలడానికి నొక్కండి. మద్దతు పైన మిశ్రమ బరువు ఉంచండి; గుర్తించబడిన ముగింపు భారీగా ఉంటుంది</string>
+    <string name="arcade_paused">పాజ్ చేయబడింది</string>
+    <string name="arcade_game_over">ఆట ముగిసింది</string>
+    <string name="arcade_new_record">కొత్త రికార్డు!</string>
+    <string name="arcade_previous_best">మునుపటి ఉత్తమమైనది: %1$d</string>
+    <string name="arcade_finish">ఆట ముగించు</string>
+    <string name="arcade_random_favorite">ఇష్టమైన వాటి నుండి యాదృచ్ఛికంగా</string>
+    <string name="arcade_statistics">గేమ్ గణాంకాలు</string>
+    <string name="arcade_no_statistics">ఇంకా గేమ్ గణాంకాలు లేవు</string>
+    <string name="arcade_no_statistics_sub">ఒక రౌండ్ ప్రారంభించండి మరియు గేమ్ స్వయంచాలకంగా ఇక్కడ కనిపిస్తుంది.</string>
+    <string name="arcade_statistics_info">గేమ్ గణాంకాలు మీ పరికరంలో స్థానికంగా నిల్వ చేయబడతాయి. అవి మీ రౌండ్ గణనలు, అధిక స్కోర్‌లు మరియు మీరు చివరిగా ప్రతి గేమ్ ఆడినప్పుడు చూపుతాయి.</string>
+    <string name="arcade_reset_statistics">గేమ్ గణాంకాలను రీసెట్ చేయండి</string>
+    <string name="arcade_reset_statistics_sub">రౌండ్ గణనలు, అధిక స్కోర్లు మరియు చివరిగా ఆడిన తేదీలు క్లియర్ చేయబడతాయి.</string>
+    <string name="arcade_rounds_started">రౌండ్లు ప్రారంభమయ్యాయి</string>
+    <string name="arcade_rounds_finished">రౌండ్లు పూర్తయ్యాయి</string>
+    <string name="arcade_rounds_subtitle">%1$d/%2$d రౌండ్లు</string>
+    <string name="arcade_return">తిరిగి</string>
 </resources>

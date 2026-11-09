@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -14,7 +13,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="pick_image">이미지 선택</string>
     <string name="width">너비 %1$s</string>
     <string name="height">높이 %1$s</string>
@@ -8053,4 +8054,15 @@
     <string name="arcade_new_record">신기록!</string>
     <string name="arcade_previous_best">이전 최고 기록: %1$d</string>
     <string name="arcade_finish">게임 종료</string>
+    <string name="arcade_random_favorite">즐겨찾기에서 무작위로</string>
+    <string name="arcade_statistics">게임 통계</string>
+    <string name="arcade_no_statistics">아직 게임 통계가 없습니다.</string>
+    <string name="arcade_no_statistics_sub">라운드를 시작하면 게임이 여기에 자동으로 나타납니다.</string>
+    <string name="arcade_statistics_info">게임 통계는 귀하의 장치에 로컬로 저장됩니다. 여기에는 라운드 수, 최고 점수, 각 게임을 마지막으로 플레이한 시간이 표시됩니다.</string>
+    <string name="arcade_reset_statistics">게임 통계 재설정</string>
+    <string name="arcade_reset_statistics_sub">라운드 수, 최고 점수, 마지막 플레이 날짜가 삭제됩니다.</string>
+    <string name="arcade_rounds_started">라운드 시작됨</string>
+    <string name="arcade_rounds_finished">라운드 완료</string>
+    <string name="arcade_rounds_subtitle">%1$d/%2$d 라운드</string>
+    <string name="arcade_return">반품</string>
 </resources>

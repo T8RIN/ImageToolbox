@@ -8052,4 +8052,20 @@
     <string name="arcade_flightcontrol_sub">Намалюйце маршрут ад кожнага самалёта да адпаведнай зоны пасадкі. Трымайце самалёты адзін ад аднаго і выстройвайце самалёты стрэлкамі ўзлётна-пасадачнай паласы</string>
     <string name="arcade_balancetower">Вежа балансу</string>
     <string name="arcade_balancetower_sub">Націсніце, каб апусціць рухомы блок. Трымайце агульную вагу над апорамі; адзначаны канец цяжэйшы</string>
+    <string name="arcade_paused">Прыпынена</string>
+    <string name="arcade_game_over">Гульня скончана</string>
+    <string name="arcade_new_record">Новы рэкорд!</string>
+    <string name="arcade_previous_best">Папярэдні лепшы: %1$d</string>
+    <string name="arcade_finish">Скончыць гульню</string>
+    <string name="arcade_random_favorite">Выпадковы з абраных</string>
+    <string name="arcade_statistics">Статыстыка гульні</string>
+    <string name="arcade_no_statistics">Статыстыкі гульні пакуль няма</string>
+    <string name="arcade_no_statistics_sub">Пачніце раўнд, і гульня з\'явіцца тут аўтаматычна.</string>
+    <string name="arcade_statistics_info">Статыстыка гульні захоўваецца лакальна на вашым прыладзе. Яны паказваюць колькасць вашых раундаў, рэкорды і час, калі вы ў апошні раз гулялі ў кожную гульню.</string>
+    <string name="arcade_reset_statistics">Скінуць статыстыку гульні</string>
+    <string name="arcade_reset_statistics_sub">Лікі раундаў, рэкорды і даты апошніх гульняў будуць выдалены.</string>
+    <string name="arcade_rounds_started">Пачаліся туры</string>
+    <string name="arcade_rounds_finished">Раунды скончаны</string>
+    <string name="arcade_rounds_subtitle">%1$d/%2$d раундаў</string>
+    <string name="arcade_return">Вярнуцца</string>
 </resources>

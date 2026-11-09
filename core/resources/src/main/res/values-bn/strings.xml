@@ -8050,4 +8050,20 @@
     <string name="arcade_flightcontrol_sub">প্রতিটি বিমান থেকে তার মিলিত অবতরণ অঞ্চলে একটি রুট আঁকুন। বিমানকে আলাদা রাখুন এবং রানওয়ে তীর দিয়ে প্লেনগুলিকে লাইন করুন</string>
     <string name="arcade_balancetower">ব্যালেন্স টাওয়ার</string>
     <string name="arcade_balancetower_sub">চলন্ত ব্লক ড্রপ করতে আলতো চাপুন। সমন্বিত ওজন সমর্থনের উপরে রাখুন; চিহ্নিত শেষ ভারী</string>
+    <string name="arcade_paused">বিরতি দেওয়া হয়েছে</string>
+    <string name="arcade_game_over">খেলা শেষ</string>
+    <string name="arcade_new_record">নতুন রেকর্ড!</string>
+    <string name="arcade_previous_best">আগের সেরা: %1$d</string>
+    <string name="arcade_finish">খেলা শেষ করুন</string>
+    <string name="arcade_random_favorite">প্রিয় থেকে র্যান্ডম</string>
+    <string name="arcade_statistics">খেলা পরিসংখ্যান</string>
+    <string name="arcade_no_statistics">এখনো খেলার কোনো পরিসংখ্যান নেই</string>
+    <string name="arcade_no_statistics_sub">একটি রাউন্ড শুরু করুন এবং গেমটি স্বয়ংক্রিয়ভাবে এখানে উপস্থিত হবে।</string>
+    <string name="arcade_statistics_info">গেমের পরিসংখ্যান আপনার ডিভাইসে স্থানীয়ভাবে সংরক্ষণ করা হয়। তারা আপনার রাউন্ডের সংখ্যা, উচ্চ স্কোর এবং আপনি শেষবার কখন প্রতিটি গেম খেলেছেন তা দেখায়।</string>
+    <string name="arcade_reset_statistics">গেমের পরিসংখ্যান রিসেট করুন</string>
+    <string name="arcade_reset_statistics_sub">রাউন্ড গণনা, উচ্চ স্কোর এবং সর্বশেষ খেলার তারিখগুলি সাফ করা হবে৷</string>
+    <string name="arcade_rounds_started">শুরু হল রাউন্ড</string>
+    <string name="arcade_rounds_finished">রাউন্ড শেষ</string>
+    <string name="arcade_rounds_subtitle">%1$d/%2$d রাউন্ড</string>
+    <string name="arcade_return">প্রত্যাবর্তন</string>
 </resources>

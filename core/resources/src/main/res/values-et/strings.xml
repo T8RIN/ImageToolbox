@@ -8050,4 +8050,20 @@
     <string name="arcade_flightcontrol_sub">Joonistage marsruut igalt lennukilt vastavale maandumisalale. Hoidke lennukid üksteisest eemal ja joondage lennukid raja nooltega</string>
     <string name="arcade_balancetower">Tasakaalutorn</string>
     <string name="arcade_balancetower_sub">Puudutage liikuva ploki kukutamiseks. Hoidke kombineeritud raskust tugede kohal; märgitud ots on raskem</string>
+    <string name="arcade_paused">Peatatud</string>
+    <string name="arcade_game_over">Mäng läbi</string>
+    <string name="arcade_new_record">Uus rekord!</string>
+    <string name="arcade_previous_best">Eelmine parim: %1$d</string>
+    <string name="arcade_finish">Lõpeta mäng</string>
+    <string name="arcade_random_favorite">Juhuslik lemmikutest</string>
+    <string name="arcade_statistics">Mängude statistika</string>
+    <string name="arcade_no_statistics">Mängude statistikat veel pole</string>
+    <string name="arcade_no_statistics_sub">Alustage ringi ja mäng ilmub siia automaatselt.</string>
+    <string name="arcade_statistics_info">Mängude statistika salvestatakse teie seadmesse kohapeal. Need näitavad teie voorude arvu, rekordeid ja seda, millal viimati iga mängu mängisite.</string>
+    <string name="arcade_reset_statistics">Mängu statistika lähtestamine</string>
+    <string name="arcade_reset_statistics_sub">Voorude arvud, rekordid ja viimati mängitud kuupäevad kustutatakse.</string>
+    <string name="arcade_rounds_started">Ringid algasid</string>
+    <string name="arcade_rounds_finished">Ringid lõppenud</string>
+    <string name="arcade_rounds_subtitle">%1$d/%2$d vooru</string>
+    <string name="arcade_return">Tagasi</string>
 </resources>

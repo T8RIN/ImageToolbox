@@ -8052,4 +8052,20 @@
     <string name="arcade_flightcontrol_sub">Nubraižykite maršrutą iš kiekvieno orlaivio į atitinkamą tūpimo zoną. Laikykite orlaivius atskirai ir sureguliuokite lėktuvus kilimo ir tūpimo tako rodyklėmis</string>
     <string name="arcade_balancetower">Balanso bokštas</string>
     <string name="arcade_balancetower_sub">Bakstelėkite, kad numestumėte judantį bloką. Laikykite bendrą svorį virš atramų; pažymėtas galas yra sunkesnis</string>
+    <string name="arcade_paused">Pristabdyta</string>
+    <string name="arcade_game_over">Žaidimas baigtas</string>
+    <string name="arcade_new_record">Naujas rekordas!</string>
+    <string name="arcade_previous_best">Ankstesnis geriausias: %1$d</string>
+    <string name="arcade_finish">Baigti žaidimą</string>
+    <string name="arcade_random_favorite">Atsitiktinis iš mėgstamiausių</string>
+    <string name="arcade_statistics">Žaidimo statistika</string>
+    <string name="arcade_no_statistics">Žaidimo statistikos dar nėra</string>
+    <string name="arcade_no_statistics_sub">Pradėkite raundą ir žaidimas čia pasirodys automatiškai.</string>
+    <string name="arcade_statistics_info">Žaidimo statistika saugoma jūsų įrenginyje. Jie rodo jūsų raundų skaičių, aukštus rezultatus ir kada paskutinį kartą žaidėte kiekvieną žaidimą.</string>
+    <string name="arcade_reset_statistics">Iš naujo nustatyti žaidimo statistiką</string>
+    <string name="arcade_reset_statistics_sub">Raundų skaičiai, aukšti rezultatai ir paskutinių žaidimų datos bus išvalytos.</string>
+    <string name="arcade_rounds_started">Prasidėjo raundai</string>
+    <string name="arcade_rounds_finished">Raundai baigti</string>
+    <string name="arcade_rounds_subtitle">%1$d/%2$d raundų</string>
+    <string name="arcade_return">Grįžti</string>
 </resources>

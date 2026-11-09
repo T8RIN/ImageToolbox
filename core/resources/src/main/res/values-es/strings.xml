@@ -8050,4 +8050,20 @@
     <string name="arcade_flightcontrol_sub">Dibuja una ruta desde cada avión hasta su zona de aterrizaje correspondiente. Mantenga los aviones separados y alinee los aviones con las flechas de la pista.</string>
     <string name="arcade_balancetower">Torre de equilibrio</string>
     <string name="arcade_balancetower_sub">Toque para soltar el bloque en movimiento. Mantenga el peso combinado por encima de los soportes; el extremo marcado es más pesado</string>
+    <string name="arcade_paused">En pausa</string>
+    <string name="arcade_game_over">Juego terminado</string>
+    <string name="arcade_new_record">¡Nuevo récord!</string>
+    <string name="arcade_previous_best">Mejor anterior: %1$d</string>
+    <string name="arcade_finish">terminar el juego</string>
+    <string name="arcade_random_favorite">Aleatorio de favoritos</string>
+    <string name="arcade_statistics">Estadísticas del juego</string>
+    <string name="arcade_no_statistics">Aún no hay estadísticas del juego</string>
+    <string name="arcade_no_statistics_sub">Comienza una ronda y el juego aparecerá aquí automáticamente.</string>
+    <string name="arcade_statistics_info">Las estadísticas del juego se almacenan localmente en su dispositivo. Muestran el recuento de rondas, las puntuaciones más altas y cuándo jugaste por última vez en cada juego.</string>
+    <string name="arcade_reset_statistics">Restablecer estadísticas del juego</string>
+    <string name="arcade_reset_statistics_sub">Se borrarán los recuentos de rondas, las puntuaciones más altas y las últimas fechas jugadas.</string>
+    <string name="arcade_rounds_started">Rondas iniciadas</string>
+    <string name="arcade_rounds_finished">Rondas terminadas</string>
+    <string name="arcade_rounds_subtitle">%1$d/%2$d rondas</string>
+    <string name="arcade_return">Devolver</string>
 </resources>

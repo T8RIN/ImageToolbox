@@ -8050,4 +8050,20 @@
     <string name="arcade_flightcontrol_sub">Her uçaktan eşleşen iniş bölgesine bir rota çizin. Uçakları ayrı tutun ve uçakları pist oklarıyla hizalayın</string>
     <string name="arcade_balancetower">Denge Kulesi</string>
     <string name="arcade_balancetower_sub">Hareketli bloğu bırakmak için dokunun. Birleşik ağırlığı desteklerin üzerinde tutun; işaretli uç daha ağırdır</string>
+    <string name="arcade_paused">Duraklatıldı</string>
+    <string name="arcade_game_over">Oyun bitti</string>
+    <string name="arcade_new_record">Yeni rekor!</string>
+    <string name="arcade_previous_best">Önceki en iyi: %1$d</string>
+    <string name="arcade_finish">Oyunu bitir</string>
+    <string name="arcade_random_favorite">Favorilerden rastgele</string>
+    <string name="arcade_statistics">Oyun İstatistikleri</string>
+    <string name="arcade_no_statistics">Henüz oyun istatistiği yok</string>
+    <string name="arcade_no_statistics_sub">Bir tur başlattığınızda oyun otomatik olarak burada görünecektir.</string>
+    <string name="arcade_statistics_info">Oyun istatistikleri cihazınızda yerel olarak saklanır. Tur sayınızı, yüksek puanlarınızı ve her oyunu en son ne zaman oynadığınızı gösterirler.</string>
+    <string name="arcade_reset_statistics">Oyun istatistiklerini sıfırla</string>
+    <string name="arcade_reset_statistics_sub">Tur sayıları, yüksek puanlar ve son oynanan tarihler silinecektir.</string>
+    <string name="arcade_rounds_started">Turlar başladı</string>
+    <string name="arcade_rounds_finished">Turlar tamamlandı</string>
+    <string name="arcade_rounds_subtitle">%1$d/%2$d tur</string>
+    <string name="arcade_return">Geri dönmek</string>
 </resources>

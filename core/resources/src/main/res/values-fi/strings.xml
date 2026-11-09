@@ -8050,4 +8050,20 @@
     <string name="arcade_flightcontrol_sub">Piirrä reitti kustakin lentokoneesta sitä vastaavalle laskeutumisvyöhykkeelle. Pidä lentokoneet erillään ja kohdista lentokoneet kiitotien nuolilla</string>
     <string name="arcade_balancetower">Tasapainon torni</string>
     <string name="arcade_balancetower_sub">Napauta pudottaaksesi liikkuvan kappaleen. Pidä yhdistetty paino tukien yläpuolella; merkitty pää on raskaampi</string>
+    <string name="arcade_paused">Keskeytetty</string>
+    <string name="arcade_game_over">Peli ohi</string>
+    <string name="arcade_new_record">Uusi ennätys!</string>
+    <string name="arcade_previous_best">Edellinen paras: %1$d</string>
+    <string name="arcade_finish">Lopeta peli</string>
+    <string name="arcade_random_favorite">Satunnainen suosikeista</string>
+    <string name="arcade_statistics">Pelin tilastot</string>
+    <string name="arcade_no_statistics">Pelitilastoja ei vielä ole</string>
+    <string name="arcade_no_statistics_sub">Aloita kierros ja peli ilmestyy tänne automaattisesti.</string>
+    <string name="arcade_statistics_info">Pelitilastot tallennetaan paikallisesti laitteellesi. Ne näyttävät kierrosmääräsi, huippupisteesi ja milloin viimeksi pelasit jokaista peliä.</string>
+    <string name="arcade_reset_statistics">Nollaa pelin tilastot</string>
+    <string name="arcade_reset_statistics_sub">Kierrosten määrät, huippupisteet ja viimeksi pelatut päivämäärät tyhjennetään.</string>
+    <string name="arcade_rounds_started">Kierrokset alkoivat</string>
+    <string name="arcade_rounds_finished">Kierrokset päättyneet</string>
+    <string name="arcade_rounds_subtitle">%1$d/%2$d kierrosta</string>
+    <string name="arcade_return">Palata</string>
 </resources>

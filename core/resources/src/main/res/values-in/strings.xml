@@ -8049,4 +8049,20 @@
     <string name="arcade_flightcontrol_sub">Gambarkan rute dari setiap pesawat ke zona pendaratan yang cocok. Pisahkan pesawat dan sejajarkan pesawat dengan panah landasan</string>
     <string name="arcade_balancetower">Menara Keseimbangan</string>
     <string name="arcade_balancetower_sub">Ketuk untuk menjatuhkan blok bergerak. Pertahankan beban gabungan di atas penyangga; ujung yang ditandai lebih berat</string>
+    <string name="arcade_paused">Dijeda</string>
+    <string name="arcade_game_over">Permainan berakhir</string>
+    <string name="arcade_new_record">Rekor baru!</string>
+    <string name="arcade_previous_best">Terbaik sebelumnya: %1$d</string>
+    <string name="arcade_finish">Selesaikan permainan</string>
+    <string name="arcade_random_favorite">Acak dari favorit</string>
+    <string name="arcade_statistics">Statistik Permainan</string>
+    <string name="arcade_no_statistics">Belum ada statistik pertandingan</string>
+    <string name="arcade_no_statistics_sub">Mulai putaran dan permainan akan muncul di sini secara otomatis.</string>
+    <string name="arcade_statistics_info">Statistik permainan disimpan secara lokal di perangkat Anda. Mereka menunjukkan jumlah putaran Anda, skor tertinggi, dan kapan terakhir kali Anda memainkan setiap permainan.</string>
+    <string name="arcade_reset_statistics">Setel ulang statistik permainan</string>
+    <string name="arcade_reset_statistics_sub">Penghitungan putaran, skor tertinggi, dan tanggal pertandingan terakhir akan dihapus.</string>
+    <string name="arcade_rounds_started">Putaran dimulai</string>
+    <string name="arcade_rounds_finished">Putaran selesai</string>
+    <string name="arcade_rounds_subtitle">%1$d/%2$d putaran</string>
+    <string name="arcade_return">Kembali</string>
 </resources>

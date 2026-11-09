@@ -8049,4 +8049,20 @@
     <string name="arcade_flightcontrol_sub">วาดเส้นทางจากเครื่องบินแต่ละลำไปยังโซนลงจอดที่ตรงกัน แยกเครื่องบินออกจากกันและจัดแนวเครื่องบินให้ตรงกับลูกศรบนรันเวย์</string>
     <string name="arcade_balancetower">บาลานซ์ทาวเวอร์</string>
     <string name="arcade_balancetower_sub">แตะเพื่อวางบล็อกที่กำลังเคลื่อนที่ รักษาน้ำหนักรวมไว้เหนือส่วนรองรับ ปลายที่ทำเครื่องหมายไว้นั้นหนักกว่า</string>
+    <string name="arcade_paused">หยุดชั่วคราว</string>
+    <string name="arcade_game_over">จบเกม</string>
+    <string name="arcade_new_record">สถิติใหม่!</string>
+    <string name="arcade_previous_best">ดีที่สุดก่อนหน้า: %1$d</string>
+    <string name="arcade_finish">จบเกม</string>
+    <string name="arcade_random_favorite">สุ่มจากรายการโปรด</string>
+    <string name="arcade_statistics">สถิติเกม</string>
+    <string name="arcade_no_statistics">ยังไม่มีสถิติเกม</string>
+    <string name="arcade_no_statistics_sub">เริ่มรอบแล้วเกมจะปรากฏที่นี่โดยอัตโนมัติ</string>
+    <string name="arcade_statistics_info">สถิติเกมจะถูกจัดเก็บไว้ในอุปกรณ์ของคุณ โดยจะแสดงจำนวนรอบ คะแนนสูงสุด และเวลาที่เล่นล่าสุดในแต่ละเกม</string>
+    <string name="arcade_reset_statistics">รีเซ็ตสถิติเกม</string>
+    <string name="arcade_reset_statistics_sub">จำนวนรอบ คะแนนสูงสุด และวันที่เล่นล่าสุดจะถูกล้าง</string>
+    <string name="arcade_rounds_started">เริ่มรอบแล้ว</string>
+    <string name="arcade_rounds_finished">รอบเสร็จแล้ว</string>
+    <string name="arcade_rounds_subtitle">%1$d/%2$d รอบ</string>
+    <string name="arcade_return">กลับ</string>
 </resources>

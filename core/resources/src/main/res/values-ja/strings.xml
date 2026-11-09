@@ -8049,4 +8049,20 @@
     <string name="arcade_flightcontrol_sub">各航空機から対応する着陸ゾーンまでのルートを描きます。航空機を離し、滑走路の矢印に沿って飛行機を並べます</string>
     <string name="arcade_balancetower">バランスタワー</string>
     <string name="arcade_balancetower_sub">タップして移動ブロックをドロップします。合計重量がサポートより上になるようにしてください。マークされた端はより重いです</string>
+    <string name="arcade_paused">一時停止中</string>
+    <string name="arcade_game_over">ゲームオーバー</string>
+    <string name="arcade_new_record">新記録！</string>
+    <string name="arcade_previous_best">過去のベスト: %1$d</string>
+    <string name="arcade_finish">ゲームを終了する</string>
+    <string name="arcade_random_favorite">お気に入りからランダム</string>
+    <string name="arcade_statistics">ゲーム統計</string>
+    <string name="arcade_no_statistics">ゲーム統計はまだありません</string>
+    <string name="arcade_no_statistics_sub">ラウンドを開始すると、ゲームが自動的にここに表示されます。</string>
+    <string name="arcade_statistics_info">ゲーム統計はデバイス上にローカルに保存されます。ラウンド数、ハイスコア、各ゲームを最後にプレイした日時が表示されます。</string>
+    <string name="arcade_reset_statistics">ゲーム統計をリセットする</string>
+    <string name="arcade_reset_statistics_sub">ラウンド数、ハイスコア、最後にプレイした日付はクリアされます。</string>
+    <string name="arcade_rounds_started">ラウンドが開始されました</string>
+    <string name="arcade_rounds_finished">終了したラウンド</string>
+    <string name="arcade_rounds_subtitle">%1$d/%2$d ラウンド</string>
+    <string name="arcade_return">戻る</string>
 </resources>

@@ -8052,4 +8052,20 @@
     <string name="arcade_flightcontrol_sub">Narysuj trasę z każdego samolotu do odpowiadającej mu strefy lądowania. Trzymaj samoloty osobno i ustawiaj je zgodnie ze strzałkami pasa startowego</string>
     <string name="arcade_balancetower">Wieża Równowagi</string>
     <string name="arcade_balancetower_sub">Stuknij, aby upuścić poruszający się blok. Utrzymuj łączny ciężar nad podporami; zaznaczony koniec jest cięższy</string>
+    <string name="arcade_paused">Wstrzymano</string>
+    <string name="arcade_game_over">Koniec gry</string>
+    <string name="arcade_new_record">Nowy rekord!</string>
+    <string name="arcade_previous_best">Poprzednie najlepsze: %1$d</string>
+    <string name="arcade_finish">Zakończ grę</string>
+    <string name="arcade_random_favorite">Losowo z ulubionych</string>
+    <string name="arcade_statistics">Statystyki gry</string>
+    <string name="arcade_no_statistics">Nie ma jeszcze statystyk gry</string>
+    <string name="arcade_no_statistics_sub">Rozpocznij rundę, a gra pojawi się tutaj automatycznie.</string>
+    <string name="arcade_statistics_info">Statystyki gier są przechowywane lokalnie na Twoim urządzeniu. Pokazują liczbę rund, najlepsze wyniki i datę ostatniego rozegrania każdej gry.</string>
+    <string name="arcade_reset_statistics">Zresetuj statystyki gry</string>
+    <string name="arcade_reset_statistics_sub">Liczniki rund, najlepsze wyniki i daty ostatniej rozgrywki zostaną usunięte.</string>
+    <string name="arcade_rounds_started">Rozpoczęły się rundy</string>
+    <string name="arcade_rounds_finished">Rundy zakończone</string>
+    <string name="arcade_rounds_subtitle">%1$d/%2$d rund</string>
+    <string name="arcade_return">Powrót</string>
 </resources>

@@ -8050,4 +8050,20 @@
     <string name="arcade_flightcontrol_sub">Gumuhit ng ruta mula sa bawat sasakyang panghimpapawid patungo sa katugmang landing zone nito. Panatilihing magkahiwalay ang sasakyang panghimpapawid at ihanay ang mga eroplano gamit ang mga arrow ng runway</string>
     <string name="arcade_balancetower">Balanse Tower</string>
     <string name="arcade_balancetower_sub">I-tap para i-drop ang gumagalaw na block. Panatilihin ang pinagsamang timbang sa itaas ng mga suporta; mas mabigat ang markadong dulo</string>
+    <string name="arcade_paused">Naka-pause</string>
+    <string name="arcade_game_over">Tapos na ang laro</string>
+    <string name="arcade_new_record">Bagong record!</string>
+    <string name="arcade_previous_best">Nakaraang pinakamahusay: %1$d</string>
+    <string name="arcade_finish">Tapusin ang laro</string>
+    <string name="arcade_random_favorite">Random mula sa mga paborito</string>
+    <string name="arcade_statistics">Istatistika ng Laro</string>
+    <string name="arcade_no_statistics">Wala pang mga istatistika ng laro</string>
+    <string name="arcade_no_statistics_sub">Magsimula ng isang round at ang laro ay awtomatikong lalabas dito.</string>
+    <string name="arcade_statistics_info">Lokal na iniimbak ang mga istatistika ng laro sa iyong device. Ipinapakita nila ang iyong mga round count, matataas na marka, at kung kailan ka huling naglaro sa bawat laro.</string>
+    <string name="arcade_reset_statistics">I-reset ang mga istatistika ng laro</string>
+    <string name="arcade_reset_statistics_sub">Maki-clear ang mga round count, matataas na marka, at huling nilaro na petsa.</string>
+    <string name="arcade_rounds_started">Nagsimula ang mga round</string>
+    <string name="arcade_rounds_finished">Natapos ang mga round</string>
+    <string name="arcade_rounds_subtitle">%1$d/%2$d round</string>
+    <string name="arcade_return">Bumalik</string>
 </resources>

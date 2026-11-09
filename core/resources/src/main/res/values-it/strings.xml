@@ -8050,4 +8050,20 @@
     <string name="arcade_flightcontrol_sub">Disegna un percorso da ciascun aereo alla zona di atterraggio corrispondente. Tieni gli aerei separati e allineali con le frecce della pista</string>
     <string name="arcade_balancetower">Torre dell\'equilibrio</string>
     <string name="arcade_balancetower_sub">Tocca per rilasciare il blocco in movimento. Mantenere il peso combinato sopra i supporti; l\'estremità marcata è più pesante</string>
+    <string name="arcade_paused">In pausa</string>
+    <string name="arcade_game_over">Game Over</string>
+    <string name="arcade_new_record">Nuovo record!</string>
+    <string name="arcade_previous_best">Migliore precedente: %1$d</string>
+    <string name="arcade_finish">Termina il gioco</string>
+    <string name="arcade_random_favorite">Casuale dai preferiti</string>
+    <string name="arcade_statistics">Statistiche di gioco</string>
+    <string name="arcade_no_statistics">Nessuna statistica di gioco ancora</string>
+    <string name="arcade_no_statistics_sub">Inizia un round e il gioco apparirà qui automaticamente.</string>
+    <string name="arcade_statistics_info">Le statistiche di gioco vengono archiviate localmente sul tuo dispositivo. Mostrano il numero dei round, i punteggi più alti e l\'ultima volta che hai giocato a ogni partita.</string>
+    <string name="arcade_reset_statistics">Reimposta le statistiche del gioco</string>
+    <string name="arcade_reset_statistics_sub">I conteggi dei round, i punteggi più alti e le ultime date giocate verranno cancellati.</string>
+    <string name="arcade_rounds_started">Sono iniziati i turni</string>
+    <string name="arcade_rounds_finished">Turni finiti</string>
+    <string name="arcade_rounds_subtitle">%1$d/%2$d giri</string>
+    <string name="arcade_return">Ritorno</string>
 </resources>

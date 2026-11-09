@@ -8054,4 +8054,20 @@
     <string name="arcade_flightcontrol_sub">ارسم مسارًا من كل طائرة إلى منطقة الهبوط المطابقة لها. أبقِ الطائرات متباعدة ووجه الطائرات إلى أعلى باستخدام أسهم المدرج</string>
     <string name="arcade_balancetower">برج التوازن</string>
     <string name="arcade_balancetower_sub">انقر لإسقاط الكتلة المتحركة. حافظ على الوزن المجمع فوق الدعامات؛ النهاية المحددة أثقل</string>
+    <string name="arcade_paused">متوقف مؤقتًا</string>
+    <string name="arcade_game_over">انتهت اللعبة</string>
+    <string name="arcade_new_record">رقم قياسي جديد!</string>
+    <string name="arcade_previous_best">الأفضل السابق: %1$d</string>
+    <string name="arcade_finish">إنهاء اللعبة</string>
+    <string name="arcade_random_favorite">عشوائي من المفضلة</string>
+    <string name="arcade_statistics">إحصائيات اللعبة</string>
+    <string name="arcade_no_statistics">لا توجد إحصائيات اللعبة حتى الآن</string>
+    <string name="arcade_no_statistics_sub">ابدأ جولة وستظهر اللعبة هنا تلقائيًا.</string>
+    <string name="arcade_statistics_info">يتم تخزين إحصائيات اللعبة محليًا على جهازك. إنها تعرض عدد جولاتك ونتائجك العالية وتاريخ آخر مرة لعبت فيها كل لعبة.</string>
+    <string name="arcade_reset_statistics">إعادة ضبط إحصائيات اللعبة</string>
+    <string name="arcade_reset_statistics_sub">سيتم مسح عدد الجولات والنتائج العالية وتواريخ آخر لعب.</string>
+    <string name="arcade_rounds_started">بدأت الجولات</string>
+    <string name="arcade_rounds_finished">انتهت الجولات</string>
+    <string name="arcade_rounds_subtitle">%1$d/%2$d جولات</string>
+    <string name="arcade_return">يعود</string>
 </resources>

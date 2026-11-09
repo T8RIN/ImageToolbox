@@ -8052,4 +8052,20 @@
     <string name="arcade_flightcontrol_sub">צייר מסלול מכל מטוס לאזור הנחיתה התואם שלו. הרחיקו את המטוסים והתאימו את המטוסים עם חיצי המסלול</string>
     <string name="arcade_balancetower">מגדל איזון</string>
     <string name="arcade_balancetower_sub">הקש כדי לשחרר את הבלוק הנע. שמור על המשקל המשולב מעל התומכים; הקצה המסומן כבד יותר</string>
+    <string name="arcade_paused">מושהה</string>
+    <string name="arcade_game_over">המשחק נגמר</string>
+    <string name="arcade_new_record">שיא חדש!</string>
+    <string name="arcade_previous_best">הקודם הטוב ביותר: %1$d</string>
+    <string name="arcade_finish">סיים משחק</string>
+    <string name="arcade_random_favorite">אקראי מהמועדפים</string>
+    <string name="arcade_statistics">סטטיסטיקות משחק</string>
+    <string name="arcade_no_statistics">עדיין אין סטטיסטיקות משחק</string>
+    <string name="arcade_no_statistics_sub">התחל סיבוב והמשחק יופיע כאן אוטומטית.</string>
+    <string name="arcade_statistics_info">הנתונים הסטטיסטיים של המשחק מאוחסנים באופן מקומי במכשיר שלך. הם מראים את ספירת הסיבובים שלך, את הציונים הגבוהים ומתי שיחקת בפעם האחרונה בכל משחק.</string>
+    <string name="arcade_reset_statistics">אפס את סטטיסטיקת המשחק</string>
+    <string name="arcade_reset_statistics_sub">ספירות סיבובים, ציונים גבוהים ותאריכים ששיחקו לאחרונה ימוקו.</string>
+    <string name="arcade_rounds_started">החלו סיבובים</string>
+    <string name="arcade_rounds_finished">סיבובים הסתיימו</string>
+    <string name="arcade_rounds_subtitle">%1$d/%2$d סיבובים</string>
+    <string name="arcade_return">לַחֲזוֹר</string>
 </resources>

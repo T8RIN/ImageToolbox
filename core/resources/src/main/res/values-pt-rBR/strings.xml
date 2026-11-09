@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -14,7 +13,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Algo deu errado: %1$s</string>
     <string name="size">Tamanho %1$s</string>
     <string name="loading">Carregando…</string>
@@ -8055,4 +8056,15 @@
     <string name="arcade_new_record">Novo recorde!</string>
     <string name="arcade_previous_best">Melhor resultado anterior: %1$d</string>
     <string name="arcade_finish">Terminar jogo</string>
+    <string name="arcade_random_favorite">Aleatório dos favoritos</string>
+    <string name="arcade_statistics">Estatísticas do jogo</string>
+    <string name="arcade_no_statistics">Ainda não há estatísticas do jogo</string>
+    <string name="arcade_no_statistics_sub">Comece uma rodada e o jogo aparecerá aqui automaticamente.</string>
+    <string name="arcade_statistics_info">As estatísticas do jogo são armazenadas localmente no seu dispositivo. Eles mostram a contagem de rodadas, pontuações mais altas e quando você jogou cada partida pela última vez.</string>
+    <string name="arcade_reset_statistics">Redefinir estatísticas do jogo</string>
+    <string name="arcade_reset_statistics_sub">Contagens de rodadas, pontuações mais altas e datas dos últimos jogos serão apagadas.</string>
+    <string name="arcade_rounds_started">Rodadas iniciadas</string>
+    <string name="arcade_rounds_finished">Rodadas concluídas</string>
+    <string name="arcade_rounds_subtitle">%1$d/%2$d rodadas</string>
+    <string name="arcade_return">Retornar</string>
 </resources>

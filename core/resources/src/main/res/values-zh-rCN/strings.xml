@@ -8049,4 +8049,20 @@
     <string name="arcade_flightcontrol_sub">绘制从每架飞机到其匹配着陆区的路线。保持飞机间隔并使飞机与跑道箭头对齐</string>
     <string name="arcade_balancetower">平衡塔</string>
     <string name="arcade_balancetower_sub">点击以放下移动块。将总重量保持在支撑物上方；标记的一端较重</string>
+    <string name="arcade_paused">已暂停</string>
+    <string name="arcade_game_over">游戏结束</string>
+    <string name="arcade_new_record">新纪录！</string>
+    <string name="arcade_previous_best">往届最佳成绩：%1$d</string>
+    <string name="arcade_finish">完成游戏</string>
+    <string name="arcade_random_favorite">从收藏夹中随机选择</string>
+    <string name="arcade_statistics">游戏统计</string>
+    <string name="arcade_no_statistics">还没有比赛统计数据</string>
+    <string name="arcade_no_statistics_sub">开始一轮游戏将自动出现在此处。</string>
+    <string name="arcade_statistics_info">游戏统计数据存储在您的设备本地。它们显示您的回合数、高分以及您上次玩每场比赛的时间。</string>
+    <string name="arcade_reset_statistics">重置游戏统计数据</string>
+    <string name="arcade_reset_statistics_sub">轮数、高分和最后比赛日期都将被清除。</string>
+    <string name="arcade_rounds_started">回合开始</string>
+    <string name="arcade_rounds_finished">回合结束</string>
+    <string name="arcade_rounds_subtitle">%1$d/%2$d 轮</string>
+    <string name="arcade_return">返回</string>
 </resources>

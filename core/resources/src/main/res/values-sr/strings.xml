@@ -8051,4 +8051,20 @@
     <string name="arcade_flightcontrol_sub">Нацртајте руту од сваког авиона до одговарајуће зоне слетања. Држите авионе одвојено и поравнајте авионе са стрелицама на писти</string>
     <string name="arcade_balancetower">Баланце Товер</string>
     <string name="arcade_balancetower_sub">Додирните да бисте испустили покретни блок. Држите комбиновану тежину изнад носача; означени крај је тежи</string>
+    <string name="arcade_paused">Паузирано</string>
+    <string name="arcade_game_over">Игра је готова</string>
+    <string name="arcade_new_record">Нови рекорд!</string>
+    <string name="arcade_previous_best">Претходно најбоље: __ПХ_0__</string>
+    <string name="arcade_finish">Заврши игру</string>
+    <string name="arcade_random_favorite">Насумично од фаворита</string>
+    <string name="arcade_statistics">Статистика игре</string>
+    <string name="arcade_no_statistics">Још увек нема статистике игре</string>
+    <string name="arcade_no_statistics_sub">Започните рунду и игра ће се аутоматски појавити овде.</string>
+    <string name="arcade_statistics_info">Статистика игре се чува локално на вашем уређају. Показују ваш број рунди, најбоље резултате и када сте последњи пут играли сваку игру.</string>
+    <string name="arcade_reset_statistics">Ресетујте статистику игре</string>
+    <string name="arcade_reset_statistics_sub">Број рунди, најбољи резултати и датуми последњег играња биће обрисани.</string>
+    <string name="arcade_rounds_started">Почеле су рунде</string>
+    <string name="arcade_rounds_finished">Рунди су завршени</string>
+    <string name="arcade_rounds_subtitle">__ПХ_0__/__ПХ_1__ рунди</string>
+    <string name="arcade_return">Повратак</string>
 </resources>

@@ -8050,4 +8050,20 @@
     <string name="arcade_flightcontrol_sub">Tracez un itinéraire entre chaque avion et sa zone d\'atterrissage correspondante. Gardez les avions séparés et alignez les avions avec les flèches de piste.</string>
     <string name="arcade_balancetower">Tour d\'équilibre</string>
     <string name="arcade_balancetower_sub">Appuyez pour déposer le bloc en mouvement. Gardez le poids combiné au-dessus des supports ; l\'extrémité marquée est plus lourde</string>
+    <string name="arcade_paused">En pause</string>
+    <string name="arcade_game_over">Jeu terminé</string>
+    <string name="arcade_new_record">Nouveau disque !</string>
+    <string name="arcade_previous_best">Meilleur précédent : %1$d</string>
+    <string name="arcade_finish">Terminer le jeu</string>
+    <string name="arcade_random_favorite">Aléatoire parmi les favoris</string>
+    <string name="arcade_statistics">Statistiques du jeu</string>
+    <string name="arcade_no_statistics">Pas encore de statistiques de jeu</string>
+    <string name="arcade_no_statistics_sub">Commencez un tour et le jeu apparaîtra ici automatiquement.</string>
+    <string name="arcade_statistics_info">Les statistiques de jeu sont stockées localement sur votre appareil. Ils montrent le nombre de vos tours, vos meilleurs scores et la dernière fois que vous avez joué à chaque partie.</string>
+    <string name="arcade_reset_statistics">Réinitialiser les statistiques du jeu</string>
+    <string name="arcade_reset_statistics_sub">Le décompte des tours, les meilleurs scores et les dates des dernières parties jouées seront effacés.</string>
+    <string name="arcade_rounds_started">Les tours ont commencé</string>
+    <string name="arcade_rounds_finished">Tours terminés</string>
+    <string name="arcade_rounds_subtitle">%1$d/%2$d tours</string>
+    <string name="arcade_return">Retour</string>
 </resources>

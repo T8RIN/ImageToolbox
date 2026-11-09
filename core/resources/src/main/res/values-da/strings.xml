@@ -8050,4 +8050,20 @@
     <string name="arcade_flightcontrol_sub">Tegn en rute fra hvert fly til dets matchende landingszone. Hold fly adskilt, og line fly op med banepilene</string>
     <string name="arcade_balancetower">Balancetårn</string>
     <string name="arcade_balancetower_sub">Tryk for at slippe den bevægelige blok. Hold den kombinerede vægt over støtterne; den markerede ende er tungere</string>
+    <string name="arcade_paused">Pause</string>
+    <string name="arcade_game_over">Spillet er slut</string>
+    <string name="arcade_new_record">Ny rekord!</string>
+    <string name="arcade_previous_best">Tidligere bedste: %1$d</string>
+    <string name="arcade_finish">Afslut spillet</string>
+    <string name="arcade_random_favorite">Tilfældigt fra favoritter</string>
+    <string name="arcade_statistics">Spilstatistik</string>
+    <string name="arcade_no_statistics">Ingen spilstatistikker endnu</string>
+    <string name="arcade_no_statistics_sub">Start en runde, og spillet vises her automatisk.</string>
+    <string name="arcade_statistics_info">Spilstatistikker gemmes lokalt på din enhed. De viser dine runder, høje scores og hvornår du sidst spillede hvert spil.</string>
+    <string name="arcade_reset_statistics">Nulstil spilstatistikker</string>
+    <string name="arcade_reset_statistics_sub">Rundetællinger, høje scores og sidste spillede datoer vil blive slettet.</string>
+    <string name="arcade_rounds_started">Runder startede</string>
+    <string name="arcade_rounds_finished">runder afsluttet</string>
+    <string name="arcade_rounds_subtitle">%1$d/%2$d runder</string>
+    <string name="arcade_return">Retur</string>
 </resources>

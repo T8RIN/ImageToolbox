@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -14,7 +13,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="size">Größe %1$s</string>
     <string name="height">Höhe %1$s</string>
     <string name="quality">Qualität</string>
@@ -8054,4 +8055,15 @@
     <string name="arcade_new_record">Neuer Rekord!</string>
     <string name="arcade_previous_best">Letzter Rekord: %1$d</string>
     <string name="arcade_finish">Spiel beenden</string>
+    <string name="arcade_random_favorite">Zufällig aus Favoriten</string>
+    <string name="arcade_statistics">Spielstatistiken</string>
+    <string name="arcade_no_statistics">Noch keine Spielstatistiken</string>
+    <string name="arcade_no_statistics_sub">Starten Sie eine Runde und das Spiel wird hier automatisch angezeigt.</string>
+    <string name="arcade_statistics_info">Spielstatistiken werden lokal auf Ihrem Gerät gespeichert. Sie zeigen die Anzahl Ihrer Runden, Ihre Highscores und wann Sie das letzte Spiel gespielt haben.</string>
+    <string name="arcade_reset_statistics">Spielstatistiken zurücksetzen</string>
+    <string name="arcade_reset_statistics_sub">Rundenzählungen, Highscores und zuletzt gespielte Daten werden gelöscht.</string>
+    <string name="arcade_rounds_started">Die Runden begannen</string>
+    <string name="arcade_rounds_finished">Runden beendet</string>
+    <string name="arcade_rounds_subtitle">%1$d/%2$d Runden</string>
+    <string name="arcade_return">Zurückkehren</string>
 </resources>

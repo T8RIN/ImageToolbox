@@ -8050,4 +8050,20 @@
     <string name="arcade_flightcontrol_sub">Dibuixa una ruta des de cada avió fins a la seva zona d\'aterratge corresponent. Mantingueu els avions separats i alineeu els avions amb les fletxes de la pista</string>
     <string name="arcade_balancetower">Torre d\'equilibri</string>
     <string name="arcade_balancetower_sub">Toqueu per deixar anar el bloc en moviment. Mantingueu el pes combinat per sobre dels suports; l\'extrem marcat és més pesat</string>
+    <string name="arcade_paused">En pausa</string>
+    <string name="arcade_game_over">S\'ha acabat el joc</string>
+    <string name="arcade_new_record">Nou disc!</string>
+    <string name="arcade_previous_best">Millor anterior: %1$d</string>
+    <string name="arcade_finish">Finalitzar el joc</string>
+    <string name="arcade_random_favorite">Aleatori dels favorits</string>
+    <string name="arcade_statistics">Estadístiques del joc</string>
+    <string name="arcade_no_statistics">Encara no hi ha estadístiques de joc</string>
+    <string name="arcade_no_statistics_sub">Comença una ronda i el joc apareixerà aquí automàticament.</string>
+    <string name="arcade_statistics_info">Les estadístiques del joc s\'emmagatzemen localment al vostre dispositiu. Mostren el vostre recompte de rondes, les puntuacions més altes i l\'última vegada que vau jugar cada partit.</string>
+    <string name="arcade_reset_statistics">Restableix les estadístiques del joc</string>
+    <string name="arcade_reset_statistics_sub">S\'esborraran els recomptes de rondes, les puntuacions més altes i les dates de l\'última jugada.</string>
+    <string name="arcade_rounds_started">Van començar les rondes</string>
+    <string name="arcade_rounds_finished">Rondes acabades</string>
+    <string name="arcade_rounds_subtitle">%1$d/%2$d rondes</string>
+    <string name="arcade_return">Tornar</string>
 </resources>

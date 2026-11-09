@@ -8050,4 +8050,20 @@
     <string name="arcade_flightcontrol_sub">Rajzoljon egy útvonalat minden repülőgéptől a megfelelő leszállási zónáig. Tartsa egymástól a repülőgépeket, és állítsa a repülőgépeket a kifutópálya nyilaihoz</string>
     <string name="arcade_balancetower">Balance Tower</string>
     <string name="arcade_balancetower_sub">Érintse meg a mozgó blokk eldobásához. Tartsa a kombinált súlyt a támasztékok felett; a megjelölt vége nehezebb</string>
+    <string name="arcade_paused">Szüneteltetve</string>
+    <string name="arcade_game_over">A játéknak vége</string>
+    <string name="arcade_new_record">Új rekord!</string>
+    <string name="arcade_previous_best">Előző legjobb: %1$d</string>
+    <string name="arcade_finish">Fejezd be a játékot</string>
+    <string name="arcade_random_favorite">Véletlen a kedvencekből</string>
+    <string name="arcade_statistics">Játékstatisztika</string>
+    <string name="arcade_no_statistics">Még nincs játékstatisztika</string>
+    <string name="arcade_no_statistics_sub">Kezdj el egy kört, és a játék automatikusan megjelenik itt.</string>
+    <string name="arcade_statistics_info">A játékstatisztikát a rendszer helyileg tárolja az eszközén. Megmutatják a körök számát, a magas pontszámokat, és azt, hogy mikor játszott utoljára az egyes játékokat.</string>
+    <string name="arcade_reset_statistics">A játék statisztikáinak visszaállítása</string>
+    <string name="arcade_reset_statistics_sub">A fordulók száma, a magas pontszámok és az utolsó játék dátumai törlésre kerülnek.</string>
+    <string name="arcade_rounds_started">Megkezdődtek a körök</string>
+    <string name="arcade_rounds_finished">A körök befejeződtek</string>
+    <string name="arcade_rounds_subtitle">%1$d/%2$d kör</string>
+    <string name="arcade_return">Visszatérés</string>
 </resources>

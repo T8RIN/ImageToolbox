@@ -8050,4 +8050,20 @@
     <string name="arcade_flightcontrol_sub">Rita en rutt från varje flygplan till dess matchande landningszon. Håll isär flygplanen och rada upp planen med landningsbanaspilarna</string>
     <string name="arcade_balancetower">Balanstorn</string>
     <string name="arcade_balancetower_sub">Tryck för att släppa det rörliga blocket. Håll den kombinerade vikten ovanför stöden; den markerade änden är tyngre</string>
+    <string name="arcade_paused">Pausad</string>
+    <string name="arcade_game_over">Spelet slut</string>
+    <string name="arcade_new_record">Nytt rekord!</string>
+    <string name="arcade_previous_best">Tidigare bästa: %1$d</string>
+    <string name="arcade_finish">Avsluta spelet</string>
+    <string name="arcade_random_favorite">Slumpmässigt från favoriter</string>
+    <string name="arcade_statistics">Spelstatistik</string>
+    <string name="arcade_no_statistics">Ingen spelstatistik ännu</string>
+    <string name="arcade_no_statistics_sub">Starta en runda och spelet visas här automatiskt.</string>
+    <string name="arcade_statistics_info">Spelstatistik lagras lokalt på din enhet. De visar dina omgångar, höga poäng och när du senast spelade varje spel.</string>
+    <string name="arcade_reset_statistics">Återställ spelstatistik</string>
+    <string name="arcade_reset_statistics_sub">Antal omgångar, höga poäng och senast spelade datum kommer att raderas.</string>
+    <string name="arcade_rounds_started">Omgångarna startade</string>
+    <string name="arcade_rounds_finished">Omgångarna avslutade</string>
+    <string name="arcade_rounds_subtitle">%1$d/%2$d omgångar</string>
+    <string name="arcade_return">Återvända</string>
 </resources>

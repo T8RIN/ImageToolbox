@@ -8049,4 +8049,20 @@
     <string name="arcade_flightcontrol_sub">Vẽ đường đi từ mỗi máy bay đến bãi đáp phù hợp. Giữ các máy bay cách xa nhau và xếp các máy bay thẳng hàng bằng các mũi tên trên đường băng</string>
     <string name="arcade_balancetower">Tháp cân bằng</string>
     <string name="arcade_balancetower_sub">Nhấn để thả khối chuyển động. Giữ trọng lượng tổng hợp phía trên các giá đỡ; phần cuối được đánh dấu nặng hơn</string>
+    <string name="arcade_paused">Đã tạm dừng</string>
+    <string name="arcade_game_over">Trò chơi kết thúc</string>
+    <string name="arcade_new_record">Kỷ lục mới!</string>
+    <string name="arcade_previous_best">Tốt nhất trước đó: %1$d</string>
+    <string name="arcade_finish">Kết thúc trò chơi</string>
+    <string name="arcade_random_favorite">Ngẫu nhiên từ mục yêu thích</string>
+    <string name="arcade_statistics">Thống kê trò chơi</string>
+    <string name="arcade_no_statistics">Chưa có số liệu thống kê về trò chơi</string>
+    <string name="arcade_no_statistics_sub">Bắt đầu một vòng và trò chơi sẽ tự động xuất hiện ở đây.</string>
+    <string name="arcade_statistics_info">Số liệu thống kê trò chơi được lưu trữ cục bộ trên thiết bị của bạn. Chúng hiển thị số vòng đấu của bạn, điểm cao và thời điểm bạn chơi mỗi trận đấu lần cuối.</string>
+    <string name="arcade_reset_statistics">Đặt lại số liệu thống kê trò chơi</string>
+    <string name="arcade_reset_statistics_sub">Số vòng, điểm cao và ngày chơi cuối cùng sẽ bị xóa.</string>
+    <string name="arcade_rounds_started">Vòng bắt đầu</string>
+    <string name="arcade_rounds_finished">Vòng đấu đã kết thúc</string>
+    <string name="arcade_rounds_subtitle">%1$d/%2$d vòng</string>
+    <string name="arcade_return">Trở lại</string>
 </resources>
