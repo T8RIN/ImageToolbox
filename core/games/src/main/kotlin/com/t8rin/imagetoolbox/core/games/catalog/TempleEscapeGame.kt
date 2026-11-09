@@ -476,6 +476,8 @@ internal class TempleEscapeRun : ArcadeRun() {
     var protection = 0f
         private set
     private var begun = false
+    private var floodTime = 0f
+    private var floodSpeed = 0f
     var position = 0
         private set
     var exit = 0
@@ -580,7 +582,9 @@ internal class TempleEscapeRun : ArcadeRun() {
             walls.size == columns * rows && pickups.size == walls.size &&
             position in walls.indices && !walls[position] && exit in walls.indices && !walls[exit] &&
             relics in 0..3 && direction in -1..3 && progress in 0f..1f && camera.isFinite() &&
-            flood.isFinite() && protection >= 0f && motionX in -1f..1f && motionY in -1f..1f &&
+            flood.isFinite() && floodTime.isFinite() && floodTime >= 0f &&
+            floodSpeed.isFinite() && floodSpeed >= 0f && protection >= 0f &&
+            motionX in -1f..1f && motionY in -1f..1f &&
             flutter >= 0f && flutter < 4f &&
             traps.all { it.position in walls.indices && !walls[it.position] && it.side in 0..3 } &&
             guards.all {
@@ -599,6 +603,8 @@ internal class TempleEscapeRun : ArcadeRun() {
         generate()
         flood = rows + 0.5f
         begun = false
+        floodTime = 0f
+        floodSpeed = 0f
         shield = false
         protection = 0f
         camera = (rows - visibleRows).coerceAtLeast(0f)
@@ -830,9 +836,20 @@ internal class TempleEscapeRun : ArcadeRun() {
         val motion = (abs(motionX) + abs(motionY)).coerceAtMost(1f)
         flutter = (flutter + seconds * (4f + motion * 8f)) % 4f
         protection = (protection - seconds).coerceAtLeast(0f)
-        if (begun && time > 3f) {
-            val chase = (flood - playerY - maxOf(7f, visibleRows * 0.55f)).coerceAtLeast(0f)
-            flood -= seconds * (0.45f + minOf(round * 0.025f, 0.5f) + chase)
+        if (begun) {
+            floodTime += seconds
+            val elapsed = (floodTime - 1f).coerceIn(0f, seconds)
+            if (elapsed > 0f) {
+                val pace = 1.1f + minOf((round - 1) * 0.025f, 0.35f) +
+                        minOf((floodTime - 1f) * 0.01f, 0.3f)
+                val chase = ((flood - playerY - 7f) * 0.45f).coerceIn(0f, 2.5f)
+                val speed = floodSpeed + (pace + chase - floodSpeed).coerceIn(
+                    minimumValue = -elapsed * 1.2f,
+                    maximumValue = elapsed * 0.8f
+                )
+                flood -= (floodSpeed + speed) * elapsed / 2f
+                floodSpeed = speed
+            }
         }
         impact = (impact - seconds * 5f).coerceAtLeast(0f)
         trailFade = (trailFade - seconds * 3f).coerceAtLeast(0f)
