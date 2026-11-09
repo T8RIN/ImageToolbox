@@ -8028,6 +8028,10 @@
     <string name="arcade_random_favorite">Random from favorites</string>
     <string name="arcade_statistics">Game Statistics</string>
     <string name="arcade_no_statistics">No game statistics yet</string>
+    <string name="arcade_no_statistics_sub">Start a round and the game will appear here automatically.</string>
+    <string name="arcade_statistics_info">Game statistics are stored locally on your device. They show your round counts, high scores, and when you last played each game.</string>
+    <string name="arcade_reset_statistics">Reset game statistics</string>
+    <string name="arcade_reset_statistics_sub">Round counts, high scores, and last-played dates will be cleared.</string>
     <string name="arcade_rounds_started">Rounds started</string>
     <string name="arcade_rounds_finished">Rounds finished</string>
     <string name="arcade_rounds_subtitle">%1$d/%2$d rounds</string>

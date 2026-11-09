@@ -7984,6 +7984,10 @@
     <string name="arcade_random_favorite">Случайная из избранных</string>
     <string name="arcade_statistics">Статистика игр</string>
     <string name="arcade_no_statistics">Статистики игр пока нет</string>
+    <string name="arcade_no_statistics_sub">Начните раунд, и игра появится здесь автоматически.</string>
+    <string name="arcade_statistics_info">Статистика игр хранится локально на вашем устройстве. Здесь можно посмотреть количество раундов, рекорды и даты последних игр.</string>
+    <string name="arcade_reset_statistics">Сбросить статистику игр</string>
+    <string name="arcade_reset_statistics_sub">Количество раундов, рекорды и даты последних игр будут удалены.</string>
     <string name="arcade_rounds_started">Начато раундов</string>
     <string name="arcade_rounds_finished">Завершено раундов</string>
     <string name="arcade_rounds_subtitle">%1$d/%2$d раундов</string>

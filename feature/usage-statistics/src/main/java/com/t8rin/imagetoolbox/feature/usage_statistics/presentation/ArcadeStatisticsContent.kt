@@ -37,6 +37,9 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -48,14 +51,18 @@ import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.ArrowBack
 import com.t8rin.imagetoolbox.core.resources.icons.Crown
+import com.t8rin.imagetoolbox.core.resources.icons.DeleteSweep
 import com.t8rin.imagetoolbox.core.resources.icons.FinanceMode
 import com.t8rin.imagetoolbox.core.resources.icons.Flag
+import com.t8rin.imagetoolbox.core.resources.icons.Info
 import com.t8rin.imagetoolbox.core.resources.icons.StadiaController
 import com.t8rin.imagetoolbox.core.ui.utils.helper.icon
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.utils.helper.title
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalWindowSizeClass
+import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ResetDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBadge
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedFloatingActionButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBar
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBarType
@@ -67,6 +74,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItemOverload
 import com.t8rin.imagetoolbox.core.ui.widget.text.marquee
 import com.t8rin.imagetoolbox.feature.usage_statistics.presentation.components.UsageStatisticProgressIndicator
 import com.t8rin.imagetoolbox.feature.usage_statistics.presentation.components.UsageStatisticSummaryItem
+import com.t8rin.imagetoolbox.feature.usage_statistics.presentation.components.UsageStatisticsInfoDialog
 import com.t8rin.imagetoolbox.feature.usage_statistics.presentation.components.asReadableDate
 import com.t8rin.imagetoolbox.feature.usage_statistics.presentation.screenLogic.ArcadeStatisticsComponent
 
@@ -78,6 +86,8 @@ fun ArcadeStatisticsContent(component: ArcadeStatisticsComponent) {
     val isPortrait by isPortraitOrientationAsState()
     val useGrid = LocalWindowSizeClass.current.widthSizeClass >= WindowWidthSizeClass.Medium ||
             !isPortrait
+    var showInfoDialog by rememberSaveable { mutableStateOf(false) }
+    var showResetDialog by rememberSaveable { mutableStateOf(false) }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -98,6 +108,16 @@ fun ArcadeStatisticsContent(component: ArcadeStatisticsComponent) {
                 scrollBehavior = scrollBehavior,
                 actions = { TopAppBarEmoji() }
             )
+        },
+        floatingActionButton = {
+            EnhancedFloatingActionButton(
+                onClick = { showInfoDialog = true }
+            ) {
+                Icon(
+                    imageVector = Icons.Outlined.Info,
+                    contentDescription = null
+                )
+            }
         }
     ) { padding ->
         LazyVerticalStaggeredGrid(
@@ -106,7 +126,7 @@ fun ArcadeStatisticsContent(component: ArcadeStatisticsComponent) {
                 .nestedScroll(scrollBehavior.nestedScrollConnection),
             columns = if (useGrid) StaggeredGridCells.Adaptive(400.dp)
             else StaggeredGridCells.Fixed(1),
-            contentPadding = padding + PaddingValues(12.dp),
+            contentPadding = padding + PaddingValues(12.dp) + PaddingValues(bottom = 80.dp),
             horizontalArrangement = Arrangement.spacedBy(4.dp),
             verticalItemSpacing = 4.dp,
             flingBehavior = enhancedFlingBehavior()
@@ -139,9 +159,11 @@ fun ArcadeStatisticsContent(component: ArcadeStatisticsComponent) {
             if (statistics.isEmpty()) {
                 item(span = StaggeredGridItemSpan.FullLine) {
                     PreferenceItem(
+                        modifier = Modifier.fillMaxWidth(),
+                        shape = ShapeDefaults.default,
                         title = stringResource(R.string.arcade_no_statistics),
-                        startIcon = Icons.Outlined.FinanceMode,
-                        modifier = Modifier.fillMaxWidth()
+                        subtitle = stringResource(R.string.arcade_no_statistics_sub),
+                        startIcon = Icons.Outlined.FinanceMode
                     )
                 }
             }
@@ -180,6 +202,28 @@ fun ArcadeStatisticsContent(component: ArcadeStatisticsComponent) {
             }
         }
     }
+
+    UsageStatisticsInfoDialog(
+        visible = showInfoDialog,
+        onDismiss = { showInfoDialog = false },
+        onWantReset = { showResetDialog = true },
+        title = stringResource(R.string.arcade_statistics),
+        text = stringResource(R.string.arcade_statistics_info),
+        resetContentDescription = null
+    )
+
+    ResetDialog(
+        visible = showResetDialog,
+        onDismiss = { showResetDialog = false },
+        onReset = {
+            showInfoDialog = false
+            showResetDialog = false
+            component.resetStatistics()
+        },
+        title = stringResource(R.string.arcade_reset_statistics),
+        text = stringResource(R.string.arcade_reset_statistics_sub),
+        icon = Icons.Outlined.DeleteSweep
+    )
 }
 
 @Composable

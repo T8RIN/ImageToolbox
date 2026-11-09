@@ -36,7 +36,10 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 fun UsageStatisticsInfoDialog(
     visible: Boolean,
     onDismiss: () -> Unit,
-    onWantReset: () -> Unit
+    onWantReset: () -> Unit,
+    title: String = stringResource(R.string.usage_statistics),
+    text: String = stringResource(R.string.usage_statistics_info),
+    resetContentDescription: String? = stringResource(R.string.reset_usage_statistics)
 ) {
     EnhancedAlertDialog(
         visible = visible,
@@ -51,7 +54,7 @@ fun UsageStatisticsInfoDialog(
                 ) {
                     Icon(
                         imageVector = Icons.Outlined.DeleteSweep,
-                        contentDescription = stringResource(R.string.reset_usage_statistics)
+                        contentDescription = resetContentDescription
                     )
                 }
                 EnhancedButton(
@@ -68,10 +71,10 @@ fun UsageStatisticsInfoDialog(
             )
         },
         title = {
-            Text(stringResource(R.string.usage_statistics))
+            Text(title)
         },
         text = {
-            Text(stringResource(R.string.usage_statistics_info))
+            Text(text)
         }
     )
 }

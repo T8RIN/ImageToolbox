@@ -39,6 +39,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridItemInfo
 import androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridState
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
@@ -48,6 +49,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -78,6 +80,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.press
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItemOverload
 import com.t8rin.imagetoolbox.core.ui.widget.text.isKeyboardVisibleAsState
 import com.t8rin.imagetoolbox.feature.arcade_games.presentation.screenLogic.ArcadeGamesComponent
+import kotlinx.coroutines.CoroutineScope
 import sh.calvin.reorderable.ReorderableItem
 import sh.calvin.reorderable.rememberReorderableLazyStaggeredGridState
 
@@ -97,17 +100,20 @@ internal fun ArcadeGameCatalog(
     }
     var games by remember(orderedGames) { mutableStateOf(orderedGames) }
     val haptics = LocalHapticFeedback.current
-    val reorderState = rememberReorderableLazyStaggeredGridState(gridState) { from, to ->
+    val onMove: suspend CoroutineScope.(LazyStaggeredGridItemInfo, LazyStaggeredGridItemInfo) -> Unit =
+        { from, to ->
         val fromIndex = games.indexOfFirst { it.name == from.key }
         val toIndex = games.indexOfFirst { it.name == to.key }
         if (fromIndex >= 0 && toIndex >= 0 && fromIndex != toIndex) {
-            val isFavorite = games[fromIndex] in favorites
-            if (isFavorite == (games[toIndex] in favorites)) {
-                games = games.toMutableList().apply { add(toIndex, removeAt(fromIndex)) }
-                haptics.press()
-            }
+            games = games.toMutableList().apply { add(toIndex, removeAt(fromIndex)) }
+            haptics.press()
         }
+        }
+    val (favoriteReorderState, otherReorderState) = key(favorites) {
+        rememberReorderableLazyStaggeredGridState(gridState, onMove = onMove) to
+                rememberReorderableLazyStaggeredGridState(gridState, onMove = onMove)
     }
+    val isReordering = favoriteReorderState.isAnyItemDragging || otherReorderState.isAnyItemDragging
     val filteredGames = if (query.isEmpty()) games else games.filter {
         stringResource(it.title).contains(query, ignoreCase = true)
     }
@@ -159,7 +165,7 @@ internal fun ArcadeGameCatalog(
             ) { game ->
                 val isFavorite = game in favorites
                 ReorderableItem(
-                    state = reorderState,
+                    state = if (isFavorite) favoriteReorderState else otherReorderState,
                     key = game.name,
                     enabled = canReorder
                 ) { isDragging ->
@@ -175,7 +181,9 @@ internal fun ArcadeGameCatalog(
                         },
                         endIcon = {
                             EnhancedIconButton(
-                                onClick = { component.toggleFavorite(game) },
+                                onClick = {
+                                    if (!isReordering) component.toggleFavorite(game)
+                                },
                                 modifier = Modifier.offset(8.dp)
                             ) {
                                 AnimatedContent(
@@ -195,7 +203,7 @@ internal fun ArcadeGameCatalog(
                         modifier = Modifier
                             .fillMaxWidth()
                             .longPressDraggableHandle(
-                                enabled = canReorder,
+                                enabled = canReorder && (!isReordering || isDragging),
                                 onDragStarted = { haptics.longPress() },
                                 onDragStopped = {
                                     if (games != orderedGames) {

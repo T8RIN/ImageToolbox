@@ -28,11 +28,15 @@ import dagger.assisted.AssistedInject
 class ArcadeStatisticsComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val onGoBack: () -> Unit,
-    repository: ArcadeStatisticsRepository,
+    private val repository: ArcadeStatisticsRepository,
     dispatchersHolder: DispatchersHolder
 ) : BaseComponent(dispatchersHolder, componentContext) {
 
     val statistics = repository.statistics
+
+    fun resetStatistics() {
+        componentScope.launch { repository.resetStatistics() }
+    }
 
     @AssistedFactory
     fun interface Factory {

@@ -28,6 +28,8 @@ interface ArcadeStatisticsRepository {
     suspend fun recordStart(game: ArcadeGame, startedAt: Long)
 
     suspend fun recordFinish(game: ArcadeGame, score: Int, trackRound: Boolean)
+
+    suspend fun resetStatistics()
 }
 
 data class ArcadeGameStatistics(

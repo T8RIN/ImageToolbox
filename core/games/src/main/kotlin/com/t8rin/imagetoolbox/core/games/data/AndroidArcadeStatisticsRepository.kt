@@ -78,6 +78,17 @@ internal class AndroidArcadeStatisticsRepository @Inject constructor(
         }
     }
 
+    override suspend fun resetStatistics() {
+        dataStore.edit { preferences ->
+            keys.values.forEach { keys ->
+                preferences.remove(keys.highScore)
+                preferences.remove(keys.startedRounds)
+                preferences.remove(keys.finishedRounds)
+                preferences.remove(keys.lastPlayed)
+            }
+        }
+    }
+
     private class StatisticsKeys(game: ArcadeGame) {
         private val prefix = "ARCADE_${game.name.uppercase()}"
         val highScore = intPreferencesKey("${prefix}_HIGH_SCORE")
