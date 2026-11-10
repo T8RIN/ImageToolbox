@@ -1660,7 +1660,7 @@ or click one of the badges below.
     - Squircle
     - Smooth
 - Main screen layout customization
-- Mini-Games to play when waiting for result
+- 40 Mini-Games to play when waiting for result
   - Dino
   - Doodle Jump
   - Flappy Bird
