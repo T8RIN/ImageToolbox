@@ -1696,6 +1696,11 @@ or click one of the badges below.
   - Laser Mirrors
   - Flow Connect
   - Balance Tower
+  - Temple Escape
+  - Spiral Shaft
+  - Tint Ascent
+  - Trace And Claim
+  - Orchard Pile
 
 (Yes, the app supports dynamic coloring based on wallpapers for every android version)
 
