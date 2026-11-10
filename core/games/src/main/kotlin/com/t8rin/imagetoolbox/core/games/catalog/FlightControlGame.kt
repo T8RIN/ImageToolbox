@@ -108,6 +108,7 @@ fun FlightControlGame(
     )
 
     val routePath = remember { Path() }
+
     ArcadeBoard(
         game = ArcadeGame.FlightControl,
         run = run,
@@ -226,8 +227,8 @@ fun FlightControlGame(
                 }
                 rotate(degrees = plane.heading * 180f / PI.toFloat() + 90f, pivot = plane.point) {
                     scale(
-                        if (plane.landing > 0f) (plane.landing / 0.6f).coerceAtLeast(0.1f) else 1f,
-                        plane.point
+                        scale = if (plane.landing > 0f) (plane.landing / 0.6f).coerceAtLeast(0.1f) else 1f,
+                        pivot = plane.point
                     ) {
                         val sprite = when (plane.kind) {
                             1 -> FlightJetSprite

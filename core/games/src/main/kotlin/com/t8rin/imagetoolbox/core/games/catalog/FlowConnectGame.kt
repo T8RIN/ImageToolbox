@@ -63,6 +63,7 @@ fun FlowConnectGame(
     )
 
     val routePath = remember { Path() }
+
     ArcadeBoard(
         game = ArcadeGame.FlowConnect,
         run = run,
@@ -303,10 +304,13 @@ internal class FlowConnectRun : ArcadeRun() {
             val candidate = lengths.map { length ->
                 route.subList(start, start + length).toIntArray().also { start += length }
             }
-            val distances =
-                candidate.map { abs(it.first() % columns - it.last() % columns) + abs(it.first() / columns - it.last() / columns) }
-            val bends =
-                candidate.sumOf { part -> (1 until part.lastIndex).count { part[it] - part[it - 1] != part[it + 1] - part[it] } }
+            val distances = candidate.map {
+                abs(it.first() % columns - it.last() % columns) +
+                        abs(it.first() / columns - it.last() / columns)
+            }
+            val bends = candidate.sumOf { part ->
+                (1 until part.lastIndex).count { part[it] - part[it - 1] != part[it + 1] - part[it] }
+            }
             val quality =
                 distances.sum() + bends * 2 - distances.count { it == 1 } * 30 - lengths.count { it < 4 } * 8
             if (quality > best) {
@@ -399,7 +403,10 @@ internal class FlowConnectRun : ArcadeRun() {
         if (old >= 0) {
             while (path.lastIndex > old) path.removeAt(path.lastIndex)
         } else {
-            if (connected(active) || pairs.indices.any { it != active && index in pairs[it] } || paths.indices.any { it != active && index in paths[it] }) return
+            if (connected(active) ||
+                pairs.indices.any { it != active && index in pairs[it] } ||
+                paths.indices.any { it != active && index in paths[it] }
+            ) return
             path += index
             if (connected(active)) effects.burst(
                 point = center(index),

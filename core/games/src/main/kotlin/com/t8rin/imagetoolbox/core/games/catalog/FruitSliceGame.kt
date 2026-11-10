@@ -136,6 +136,7 @@ fun FruitSliceGame(
         initialState = initialState,
         create = ::FruitSliceRun
     )
+
     ArcadeBoard(
         game = ArcadeGame.FruitSlice,
         run = run,
@@ -340,7 +341,6 @@ fun FruitSliceGame(
         }
     }
 }
-
 
 private fun fruitColor(
     style: ArcadeStyle,

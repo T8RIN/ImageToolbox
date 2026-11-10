@@ -82,6 +82,7 @@ fun SnakeGame(
         create = ::SnakeRun
     )
     val bodyPath = remember { Path() }
+
     ArcadeBoard(
         game = ArcadeGame.Snake,
         run = run,
@@ -133,7 +134,7 @@ fun SnakeGame(
             if (run.food >= 0) {
                 val food = center(run.food)
                 translate(left = food.x - cell * 0.42f, top = food.y - cell * 0.48f) {
-                    scale(cell * 0.06f, Offset.Zero) {
+                    scale(scale = cell * 0.06f, pivot = Offset.Zero) {
                         drawArcadeSprite(
                             sprite = SnakeFood,
                             tint = style.accentColor,
@@ -175,7 +176,7 @@ fun SnakeGame(
             )
             rotate(degrees = run.direction.angle, pivot = head) {
                 translate(left = head.x - cell * 0.45f, top = head.y - cell * 0.45f) {
-                    scale(cell * 0.9f / 14f, Offset.Zero) {
+                    scale(scale = cell * 0.9f / 14f, pivot = Offset.Zero) {
                         drawArcadeSprite(
                             sprite = SnakeHead,
                             tint = style.playerColor,

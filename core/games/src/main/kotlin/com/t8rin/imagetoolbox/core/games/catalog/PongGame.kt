@@ -55,6 +55,7 @@ fun PongGame(
         initialState = initialState,
         create = ::PongRun
     )
+
     ArcadeBoard(
         game = ArcadeGame.Pong,
         run = run,

@@ -75,6 +75,7 @@ fun KnifeHitGame(
         initialState = initialState,
         create = ::KnifeHitRun
     )
+
     ArcadeBoard(
         game = ArcadeGame.KnifeHit,
         run = run,

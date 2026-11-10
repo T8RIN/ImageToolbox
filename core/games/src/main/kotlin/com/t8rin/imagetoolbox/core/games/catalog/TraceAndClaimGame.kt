@@ -108,7 +108,10 @@ fun TraceAndClaimGame(
     onGameOver: ((Int) -> Unit)? = null,
     isPaused: Boolean = false
 ) {
-    val run = rememberArcadeRun(initialState, ::TraceAndClaimRun)
+    val run = rememberArcadeRun(
+        initialState = initialState,
+        create = ::TraceAndClaimRun
+    )
     val trail = remember { Path() }
     val arena = remember { Path() }
     val dark = style.textColor.luminance() > 0.5f
@@ -125,6 +128,7 @@ fun TraceAndClaimGame(
             )
         }
     }
+
     ArcadeBoard(
         game = ArcadeGame.TraceAndClaim,
         run = run,
@@ -132,8 +136,8 @@ fun TraceAndClaimGame(
         modifier = modifier,
         initialState = initialState,
         onHighScoreChanged = onHighScoreChanged,
-        onGameOver = onGameOver,
-        isPaused = isPaused
+        isPaused = isPaused,
+        onGameOver = onGameOver
     ) {
         ArcadeField(
             run = run,
@@ -158,10 +162,14 @@ fun TraceAndClaimGame(
             val radius = TraceRadius * unit
             arena.rewind()
             arena.addOval(Rect(center, radius))
-            clipPath(arena) {
-                drawCircle(style.detailColor.copy(alpha = 0.12f), radius, center)
-                translate(origin.x, origin.y) {
-                    scale(unit, Offset.Zero) {
+            clipPath(path = arena) {
+                drawCircle(
+                    color = style.detailColor.copy(alpha = 0.12f),
+                    radius = radius,
+                    center = center
+                )
+                translate(left = origin.x, top = origin.y) {
+                    scale(scale = unit, pivot = Offset.Zero) {
                         for (rider in run.riders) {
                             drawPath(
                                 path = rider.land.path,
@@ -210,7 +218,12 @@ fun TraceAndClaimGame(
                     }
                 }
             }
-            drawCircle(style.borderColor, radius, center, style = Stroke(2.4f))
+            drawCircle(
+                color = style.borderColor,
+                radius = radius,
+                center = center,
+                style = Stroke(width = 2.4f)
+            )
             arcadeJoystick(style, run.touchOrigin, run.stick)
 
             arcadeLives(style, run.lives, run.topInset / 2f)
@@ -594,16 +607,29 @@ internal class TraceAndClaimRun : ArcadeRun() {
         val radius = 2f
         val clearance = radius + 0.65f
         val extent = TraceRadius - clearance
+        val searchArea = Rect(TraceCenter, extent)
+        // Allow time to steer even if the new bot moves straight toward the player.
+        val reactionDistance = speed * 0.85f
+        val playerAhead = traceInside(player.point + heading * reactionDistance)
+        val playerClearance = reactionDistance * 2f + radius
+
         repeat(160) {
-            val point = Rect(TraceCenter, extent).randomPoint()
+            val point = searchArea.randomPoint()
             if ((point - TraceCenter).getDistanceSquared() > extent * extent) return@repeat
+            if (rider !== player) {
+                val nearest = traceClosestPoint(
+                    point = point,
+                    start = player.point,
+                    end = playerAhead
+                )
+                if ((point - nearest).getDistanceSquared() < playerClearance * playerClearance) {
+                    return@repeat
+                }
+            }
             if (riders.any { it.active && (it.point - point).getDistanceSquared() < 100f }) return@repeat
-            if (riders.any {
-                    it.land.near(point, clearance) || it.trailNear(
-                        point,
-                        clearance
-                    )
-                }) return@repeat
+            val occupied =
+                riders.any { it.land.near(point, clearance) || it.trailNear(point, clearance) }
+            if (occupied) return@repeat
             if (spawn(rider, point, radius)) return true
         }
         return false

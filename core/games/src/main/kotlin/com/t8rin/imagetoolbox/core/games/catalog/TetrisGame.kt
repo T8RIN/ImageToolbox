@@ -62,6 +62,7 @@ fun TetrisGame(
         initialState = initialState,
         create = ::TetrisRun
     )
+
     ArcadeBoard(
         game = ArcadeGame.Tetris,
         run = run,

@@ -60,6 +60,7 @@ fun BrickBreakerGame(
         initialState = initialState,
         create = ::BrickBreakerRun
     )
+
     ArcadeBoard(
         game = ArcadeGame.BrickBreaker,
         run = run,

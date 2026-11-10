@@ -62,6 +62,7 @@ fun RicochetGame(
         create = ::RicochetRun
     )
     val measurer = rememberTextMeasurer()
+
     ArcadeBoard(
         game = ArcadeGame.Ricochet,
         run = run,

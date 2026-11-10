@@ -82,6 +82,7 @@ fun LightCyclesGame(
     )
     val boltPath = remember { Path() }
     val beamPath = remember { Path() }
+
     ArcadeBoard(
         game = ArcadeGame.LightCycles,
         run = run,
@@ -200,7 +201,7 @@ fun LightCyclesGame(
                     }
                     val ink = color.copy(alpha = if (cycle.alive) 1f else 0.45f)
                     translate(left = origin.x, top = origin.y) {
-                        scale(cell, Offset.Zero) {
+                        scale(scale = cell, pivot = Offset.Zero) {
                             drawPath(
                                 path = cycle.path,
                                 color = ink.copy(alpha = 0.16f),
@@ -213,8 +214,8 @@ fun LightCyclesGame(
                             )
                         }
                     }
-                    val point =
-                        run.center(cycle.previous) + (run.center(cycle.position) - run.center(cycle.previous)) * run.progress
+                    val point = run.center(cycle.previous) +
+                            (run.center(cycle.position) - run.center(cycle.previous)) * run.progress
                     drawLine(
                         color = ink,
                         start = run.center(cycle.previous),
@@ -369,7 +370,11 @@ internal class LightCyclesRun : ArcadeRun() {
             rows in 11..35 &&
             board.size == columns * rows &&
             cycles.isNotEmpty() &&
-            cycles.all { it.position in board.indices && it.previous in board.indices && it.trail.all { point -> point in board.indices } }
+            cycles.all {
+                it.position in board.indices &&
+                        it.previous in board.indices &&
+                        it.trail.all { point -> point in board.indices }
+            }
 
     override fun reset() {
         round = 1
@@ -383,7 +388,9 @@ internal class LightCyclesRun : ArcadeRun() {
         animateLevel()
         rows = ((height - topInset - 48f) / ((width - 48f) / columns)).toInt().coerceIn(11, 35)
         board = IntArray(columns * rows) {
-            if (it % columns == 0 || it % columns == columns - 1 || it / columns == 0 || it / columns == rows - 1) -1 else 0
+            if (it % columns == 0 || it % columns == columns - 1 ||
+                it / columns == 0 || it / columns == rows - 1
+            ) -1 else 0
         }
         if (round > 1) repeat((1 + round / 3).coerceAtMost(4)) { pillar ->
             val x = 5 + (pillar * 5 + round * 3) % (columns - 10)
@@ -483,7 +490,8 @@ internal class LightCyclesRun : ArcadeRun() {
         val options = (0..3).filter { direction ->
             val position = next(cycle.position, direction)
             direction != (cycle.direction + 2) % 4 && position >= 0 &&
-                    (board[position] == 0 || (cycle.charged || cycle.phaseTime > 0f) && board[position] > 0 && cycles.none { it.alive && it.position == position })
+                    (board[position] == 0 || (cycle.charged || cycle.phaseTime > 0f) &&
+                            board[position] > 0 && cycles.none { it.alive && it.position == position })
         }
         if (options.isEmpty()) return cycle.direction
         if (Random.nextFloat() < (0.18f - round * 0.01f).coerceAtLeast(0.04f)) return options.random()
@@ -495,7 +503,9 @@ internal class LightCyclesRun : ArcadeRun() {
                 distance++
                 position = next(position, direction)
             }
-            space(destination) * 2f + distance + (if (direction == cycle.direction) 1.5f else 0f) + (if (!cycle.charged && destination in pickups) 18f else 0f)
+            space(destination) * 2f + distance +
+                    (if (direction == cycle.direction) 1.5f else 0f) +
+                    (if (!cycle.charged && destination in pickups) 18f else 0f)
         }
     }
 
@@ -572,7 +582,6 @@ internal class LightCyclesRun : ArcadeRun() {
             step()
         }
     }
-
 
     override fun onRestore() {
         visited = IntArray(board.size)

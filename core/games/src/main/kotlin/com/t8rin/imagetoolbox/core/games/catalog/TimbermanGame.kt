@@ -83,6 +83,7 @@ fun TimbermanGame(
         initialState = initialState,
         create = ::TimbermanRun
     )
+
     ArcadeBoard(
         game = ArcadeGame.Timberman,
         run = run,

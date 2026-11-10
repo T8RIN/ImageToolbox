@@ -79,6 +79,7 @@ fun MissileCommandGame(
         initialState = initialState,
         create = ::MissileCommandRun
     )
+
     ArcadeBoard(
         game = ArcadeGame.MissileCommand,
         run = run,

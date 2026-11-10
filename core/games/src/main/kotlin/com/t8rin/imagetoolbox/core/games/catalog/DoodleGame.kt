@@ -114,6 +114,7 @@ fun DoodleGame(
         create = ::DoodleRun
     )
     val ink = style.playerDetailColor
+
     ArcadeBoard(
         game = ArcadeGame.Doodle,
         run = run,
@@ -591,7 +592,9 @@ internal class DoodleRun : ArcadeRun() {
                     y < it.height + it.kind.halfHeight && y + 36f > it.height - it.kind.halfHeight
         }
         if (hit != null) {
-            if (hit.kind != MonsterKind.Guard && velocity < 0 && previousY >= hit.previousHeight + hit.kind.halfHeight) {
+            if (hit.kind != MonsterKind.Guard && velocity < 0 &&
+                previousY >= hit.previousHeight + hit.kind.halfHeight
+            ) {
                 monsters.remove(hit)
                 bursts += DoodleBurst(x = hit.x, height = hit.height)
                 y = hit.height + hit.kind.halfHeight
@@ -682,9 +685,8 @@ internal class DoodleRun : ArcadeRun() {
                     )
                     extra.range = minOf(
                         extra.range,
-                        (abs(extra.origin - platform.origin) - (extra.width + platform.width) / 2 - platform.range - 12f).coerceAtLeast(
-                            0f
-                        )
+                        (abs(extra.origin - platform.origin) - (extra.width + platform.width) / 2 -
+                                platform.range - 12f).coerceAtLeast(0f)
                     )
                     if (row > 10 && row % 7 == 4) {
                         val flying = row % 2 == 0

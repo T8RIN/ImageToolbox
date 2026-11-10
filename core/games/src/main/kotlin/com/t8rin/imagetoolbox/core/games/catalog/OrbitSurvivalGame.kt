@@ -76,6 +76,7 @@ fun OrbitSurvivalGame(
         initialState = initialState,
         create = ::OrbitSurvivalRun
     )
+
     ArcadeBoard(
         game = ArcadeGame.OrbitSurvival,
         run = run,
@@ -339,7 +340,9 @@ internal class OrbitSurvivalRun : ArcadeRun() {
                     return
                 }
             }
-            if (!gate.passed && gate.y > 1f + dotSize + (if (gate.kind >= 3) 0.23f else 0f) + (if (gate.kind == 4) 0.85f else 0f)) {
+            if (!gate.passed && gate.y > 1f + dotSize +
+                (if (gate.kind >= 3) 0.23f else 0f) + (if (gate.kind == 4) 0.85f else 0f)
+            ) {
                 gate.passed = true
                 score++
                 pulse = 1f

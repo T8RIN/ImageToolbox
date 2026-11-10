@@ -50,6 +50,7 @@ fun DinoGame(
         initialState = initialState,
         create = ::DinoRun
     )
+
     ArcadeBoard(
         game = ArcadeGame.Dino,
         run = run,

@@ -83,6 +83,7 @@ fun LunarLanderGame(
     val groundPath = remember { Path() }
     val surfacePath = remember { Path() }
     val flamePath = remember { Path() }
+
     ArcadeBoard(
         game = ArcadeGame.LunarLander,
         run = run,
@@ -108,7 +109,7 @@ fun LunarLanderGame(
             )
             val groundBottom = maxOf(run.worldBottom, (run.height - run.camera.y) / run.zoom + 24f)
             translate(left = run.camera.x, top = run.camera.y) {
-                scale(run.zoom, Offset.Zero) {
+                scale(scale = run.zoom, pivot = Offset.Zero) {
                     val horizon = horizonPath.apply {
                         rewind()
                         moveTo(-30f, groundBottom)
@@ -232,7 +233,7 @@ fun LunarLanderGame(
                     val center = run.shipPoint
                     if (!run.crashed) translate(left = center.x, top = center.y) {
                         rotate(degrees = run.angle * 180f / PI.toFloat(), pivot = Offset.Zero) {
-                            scale(run.shipScale, Offset.Zero) {
+                            scale(scale = run.shipScale, pivot = Offset.Zero) {
                                 if (run.burning) {
                                     val flame = flamePath.apply {
                                         rewind()

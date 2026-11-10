@@ -71,8 +71,12 @@ fun SpiralShaftGame(
     onGameOver: ((Int) -> Unit)? = null,
     isPaused: Boolean = false
 ) {
-    val run = rememberArcadeRun(initialState, ::SpiralShaftRun)
+    val run = rememberArcadeRun(
+        initialState = initialState,
+        create = ::SpiralShaftRun
+    )
     val path = remember { Path() }
+
     ArcadeBoard(
         game = ArcadeGame.SpiralShaft,
         run = run,
@@ -80,8 +84,8 @@ fun SpiralShaftGame(
         modifier = modifier,
         initialState = initialState,
         onHighScoreChanged = onHighScoreChanged,
-        onGameOver = onGameOver,
-        isPaused = isPaused
+        isPaused = isPaused,
+        onGameOver = onGameOver
     ) {
         ArcadeField(
             run = run,
@@ -89,18 +93,30 @@ fun SpiralShaftGame(
             onDrag = { run.spin(it.x) },
             onRelease = run::stopInput
         ) {
-            translate(run.width / 2f, run.anchor) {
-                scale(run.unit, Offset.Zero) {
+            translate(left = run.width / 2f, top = run.anchor) {
+                scale(scale = run.unit, pivot = Offset.Zero) {
                     val top = -run.anchor / run.unit
                     val bottom = (run.height - run.anchor) / run.unit
                     val platforms = run.platforms.asReversed()
                     for (platform in platforms) {
                         val y = run.project(0f, platform.y, 0f).y
                         if (y in top - 52f..bottom + 52f) {
-                            shaftPlatform(run, style, path, platform, front = false)
+                            shaftPlatform(
+                                run = run,
+                                style = style,
+                                path = path,
+                                platform = platform,
+                                front = false
+                            )
                         }
                     }
-                    drawShaft(run, style, path, top, bottom)
+                    drawShaft(
+                        run = run,
+                        style = style,
+                        path = path,
+                        top = top,
+                        bottom = bottom
+                    )
 
                     var ballDrawn = false
                     for (platform in platforms) {
@@ -110,11 +126,20 @@ fun SpiralShaftGame(
                             shaftBall(run, style)
                             ballDrawn = true
                         }
-                        shaftPlatform(run, style, path, platform, front = true)
+                        shaftPlatform(
+                            run = run,
+                            style = style,
+                            path = path,
+                            platform = platform,
+                            front = true
+                        )
                     }
                     if (!ballDrawn) shaftBall(run, style)
                     translate(top = run.project(0f, run.camera, ShaftTrackRadius).y - run.camera) {
-                        run.effects.draw(this, style.accentColor)
+                        run.effects.draw(
+                            scope = this,
+                            color = style.accentColor
+                        )
                     }
                 }
             }
@@ -187,8 +212,13 @@ private fun DrawScope.shaftPlatform(
         if (first >= last) continue
         shaftWedge(run, path, color, y, first, minOf(last, danger), front)
         shaftWedge(
-            run, path, style.hazardColor, y,
-            maxOf(first, danger), minOf(last, danger + platform.dangerWidth), front
+            run = run,
+            path = path,
+            color = style.hazardColor,
+            y = y,
+            first = maxOf(first, danger),
+            last = minOf(last, danger + platform.dangerWidth),
+            front = front
         )
         shaftWedge(run, path, color, y, maxOf(first, danger + platform.dangerWidth), last, front)
     }
@@ -275,8 +305,8 @@ private fun DrawScope.shaftWedge(
     run.traceRim(path, rim, y + ShaftThickness, last, first, steps, move = false)
     path.close()
     drawPath(
-        path,
-        Brush.horizontalGradient(
+        path = path,
+        brush = Brush.horizontalGradient(
             0f to lerp(color, Color.Black, if (front) 0.30f else 0.51f),
             1f to lerp(color, Color.Black, 0.57f),
             startX = -ShaftOuterRadius,
@@ -288,8 +318,8 @@ private fun DrawScope.shaftWedge(
     run.traceRim(path, ShaftInnerRadius, y, last, first, steps, move = false)
     path.close()
     drawPath(
-        path,
-        Brush.linearGradient(
+        path = path,
+        brush = Brush.linearGradient(
             listOf(
                 lerp(color, Color.White, 0.28f),
                 lerp(color, Color.Black, 0.16f)

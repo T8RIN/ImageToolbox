@@ -65,6 +65,7 @@ fun BalanceTowerGame(
     )
 
     val indicatorPath = remember { Path() }
+
     ArcadeBoard(
         game = ArcadeGame.BalanceTower,
         run = run,
@@ -330,8 +331,11 @@ internal class BalanceTowerRun : ArcadeRun() {
             1 -> 13f
             else -> 26f
         }
-        val offset =
-            if (loads.size < 2) 0f else w * (0.12f + 0.1f * loads.size / (loads.size + 20f)) * if (Random.nextBoolean()) 1f else -1f
+        val offset = if (loads.size < 2) {
+            0f
+        } else {
+            w * (0.12f + 0.1f * loads.size / (loads.size + 20f)) * if (Random.nextBoolean()) 1f else -1f
+        }
         current = TowerLoad(
             x = 180f,
             bottom = stackTop + 100f,

@@ -65,6 +65,7 @@ fun RiverHopGame(
         initialState = initialState,
         create = ::RiverHopRun
     )
+
     ArcadeBoard(
         game = ArcadeGame.RiverHop,
         run = run,
@@ -408,7 +409,7 @@ fun RiverHopGame(
             )
             translate(left = point.x, top = point.y - lift) {
                 rotate(degrees = run.facing, pivot = Offset.Zero) {
-                    scale(cell * 0.68f / 24f, Offset.Zero) {
+                    scale(scale = cell * 0.68f / 24f, pivot = Offset.Zero) {
                         repeat(4) { index ->
                             val offset = when (index) {
                                 0 -> Offset(x = -1.5f, y = 0f)

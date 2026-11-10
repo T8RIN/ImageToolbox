@@ -68,6 +68,7 @@ fun BasketballGame(
     )
 
     val netPath = remember { Path() }
+
     ArcadeBoard(
         game = ArcadeGame.Basketball,
         run = run,
@@ -115,7 +116,7 @@ fun BasketballGame(
                 val point = run.project(hoop.center)
                 val color = if (index == 1) style.accentColor else style.obstacleColor
                 translate(left = point.x, top = point.y) {
-                    scale(unit, Offset.Zero) {
+                    scale(scale = unit, pivot = Offset.Zero) {
                         rotate(
                             degrees = -hoop.angle * 180f / kotlin.math.PI.toFloat(),
                             pivot = Offset.Zero
@@ -127,8 +128,9 @@ fun BasketballGame(
                                 35f + (if (index == 0) run.net * 6f else 0f),
                                 -(delta.x * hoop.normal.x + delta.y * hoop.normal.y) + run.radius
                             )
-                            val swing =
-                                if (index == 0 && !run.airborne) delta.x * hoop.tangent.x + delta.y * hoop.tangent.y else 0f
+                            val swing = if (index == 0 && !run.airborne) {
+                                delta.x * hoop.tangent.x + delta.y * hoop.tangent.y
+                            } else 0f
                             val net = netPath.apply {
                                 rewind()
                                 moveTo(-half, 0f)
@@ -191,8 +193,8 @@ fun BasketballGame(
                 style = style
             )
             translate(left = left, top = run.baseline + run.camera * unit) {
-                scale(unit, Offset.Zero) {
-                    scale(1f, -1f, Offset.Zero) {
+                scale(scale = unit, pivot = Offset.Zero) {
+                    scale(scaleX = 1f, scaleY = -1f, pivot = Offset.Zero) {
                         run.effects.draw(
                             scope = this,
                             color = style.accentColor

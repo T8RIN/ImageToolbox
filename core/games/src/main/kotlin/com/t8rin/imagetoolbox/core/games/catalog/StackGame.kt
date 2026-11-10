@@ -52,6 +52,7 @@ fun StackGame(
         initialState = initialState,
         create = ::StackRun
     )
+
     ArcadeBoard(
         game = ArcadeGame.Stack,
         run = run,

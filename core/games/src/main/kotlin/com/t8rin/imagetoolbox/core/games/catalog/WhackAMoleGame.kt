@@ -72,6 +72,7 @@ fun WhackAMoleGame(
         initialState = initialState,
         create = ::WhackAMoleRun
     )
+
     ArcadeBoard(
         game = ArcadeGame.WhackAMole,
         run = run,
@@ -117,7 +118,7 @@ fun WhackAMoleGame(
                 val center = run.hole(index)
                 val unit = run.cell / 76f
                 translate(left = center.x, top = center.y) {
-                    scale(unit, Offset.Zero) {
+                    scale(scale = unit, pivot = Offset.Zero) {
                         drawArcadeSprite(
                             sprite = MoleHole,
                             tint = style.obstacleColor.copy(alpha = 0.16f),

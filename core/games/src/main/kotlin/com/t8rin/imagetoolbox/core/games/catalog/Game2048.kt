@@ -67,6 +67,7 @@ fun Game2048(
         create = ::MergeRun
     )
     val measurer = rememberTextMeasurer(cacheSize = 32)
+
     ArcadeBoard(
         game = ArcadeGame.`2048`,
         run = run,

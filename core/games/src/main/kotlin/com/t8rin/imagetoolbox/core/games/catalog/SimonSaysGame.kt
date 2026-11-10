@@ -63,6 +63,7 @@ fun SimonSaysGame(
     val measurer = rememberTextMeasurer()
     val watch = stringResource(R.string.arcade_watch)
     val repeatPrompt = stringResource(R.string.arcade_repeat)
+
     ArcadeBoard(
         game = ArcadeGame.SimonSays,
         run = run,

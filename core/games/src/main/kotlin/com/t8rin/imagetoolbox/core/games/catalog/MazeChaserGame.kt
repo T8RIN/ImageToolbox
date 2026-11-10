@@ -79,6 +79,7 @@ fun MazeChaserGame(
         create = ::MazeChaserRun
     )
     val outlinePath = remember { Path() }
+
     ArcadeBoard(
         game = ArcadeGame.MazeChaser,
         run = run,

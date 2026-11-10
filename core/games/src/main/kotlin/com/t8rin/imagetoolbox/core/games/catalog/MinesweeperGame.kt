@@ -63,6 +63,7 @@ fun MinesweeperGame(
         create = ::MinesweeperRun
     )
     val measurer = rememberTextMeasurer(cacheSize = 24)
+
     ArcadeBoard(
         game = ArcadeGame.Minesweeper,
         run = run,

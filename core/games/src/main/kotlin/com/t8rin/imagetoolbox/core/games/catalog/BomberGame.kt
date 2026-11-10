@@ -70,6 +70,7 @@ fun BomberGame(
         create = ::BomberRun
     )
     val outlinePath = remember { Path() }
+
     ArcadeBoard(
         game = ArcadeGame.Bomber,
         run = run,
@@ -321,7 +322,7 @@ fun BomberGame(
                     val point = run.enemyPoint(enemy)
                     val unit = cell / 17f
                     translate(left = point.x - unit * 5f, top = point.y - unit * 5.5f) {
-                        scale(unit, Offset.Zero) {
+                        scale(scale = unit, pivot = Offset.Zero) {
                             drawArcadeSprite(
                                 sprite = BomberBug,
                                 tint = style.hazardColor,
@@ -815,7 +816,9 @@ internal class BomberRun : ArcadeRun() {
                 enemy.progress = 0f
             }
         }
-        if (invulnerable <= 0f && (index in blasts || enemies.any { (enemyPoint(it) - playerPoint).getDistance() < cell * 0.55f })) hurt()
+        if (invulnerable <= 0f &&
+            (index in blasts || enemies.any { (enemyPoint(it) - playerPoint).getDistance() < cell * 0.55f })
+        ) hurt()
         if (phase == ArcadePhase.Running && enemies.isEmpty()) {
             score += round * 100
             transition = 1f

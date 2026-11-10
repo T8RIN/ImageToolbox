@@ -90,6 +90,7 @@ fun FishingGame(
         initialState = initialState,
         create = ::FishingRun
     )
+
     ArcadeBoard(
         game = ArcadeGame.Fishing,
         run = run,

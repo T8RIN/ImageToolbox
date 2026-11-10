@@ -90,40 +90,47 @@ private enum class OrchardKind(
 ) {
     Cherry(9f, Color(0xFFCF3268)),
     Strawberry(
-        12f, Color(0xFFFF5D65),
-        "M0,-0.71 C-0.58,-1 -1,-0.69 -0.94,-0.16 C-0.89,0.23 -0.32,1 0,1 C0.32,1 0.89,0.23 " +
+        radius = 12f,
+        color = Color(0xFFFF5D65),
+        silhouette = "M0,-0.71 C-0.58,-1 -1,-0.69 -0.94,-0.16 C-0.89,0.23 -0.32,1 0,1 C0.32,1 0.89,0.23 " +
                 "0.94,-0.16 C1,-0.69 0.58,-1 0,-0.71 Z"
     ),
     Grape(
-        15f, Color(0xFF8C61CB),
-        "M0,-1 C0.32,-1 0.48,-0.82 0.5,-0.63 C0.92,-0.72 1.09,-0.36 0.94,-0.08 C1.08,0.21 " +
+        radius = 15f,
+        color = Color(0xFF8C61CB),
+        silhouette = "M0,-1 C0.32,-1 0.48,-0.82 0.5,-0.63 C0.92,-0.72 1.09,-0.36 0.94,-0.08 C1.08,0.21 " +
                 "0.8,0.58 0.55,0.55 C0.5,0.81 0.29,1 0,1 C-0.29,1 -0.5,0.81 -0.55,0.55 C-0.8,0.58 " +
                 "-1.08,0.21 -0.94,-0.08 C-1.09,-0.36 -0.92,-0.72 -0.5,-0.63 C-0.48,-0.82 -0.32,-1 0,-1 Z"
     ),
     Dekopon(
-        19f, Color(0xFFFFC756),
-        "M-0.32,-0.7 Q-0.26,-1 0,-1 Q0.3,-1 0.33,-0.69 C1.22,-0.36 1.22,0.97 0,1 C-1.15,0.98 " +
+        radius = 19f,
+        color = Color(0xFFFFC756),
+        silhouette = "M-0.32,-0.7 Q-0.26,-1 0,-1 Q0.3,-1 0.33,-0.69 C1.22,-0.36 1.22,0.97 0,1 C-1.15,0.98 " +
                 "-1.24,-0.34 -0.32,-0.7 Z"
     ),
     Orange(23f, Color(0xFFFB8A38)),
     Apple(
-        27f, Color(0xFFE04D3B),
-        "M0,-0.72 C0.53,-1.03 1.04,-0.74 0.99,-0.07 C0.94,0.67 0.48,1.05 0.1,0.86 Q0,0.82 " +
+        radius = 27f,
+        color = Color(0xFFE04D3B),
+        silhouette = "M0,-0.72 C0.53,-1.03 1.04,-0.74 0.99,-0.07 C0.94,0.67 0.48,1.05 0.1,0.86 Q0,0.82 " +
                 "-0.1,0.86 C-0.48,1.05 -0.94,0.67 -0.99,-0.07 C-1.04,-0.74 -0.53,-1.03 0,-0.72 Z"
     ),
     Pear(
-        33f, Color(0xFFF2CB67),
-        "M0,-1 C0.45,-1 0.43,-0.47 0.68,-0.15 C1.21,0.46 0.85,0.97 0,1 C-0.85,0.97 -1.21,0.46 " +
+        radius = 33f,
+        color = Color(0xFFF2CB67),
+        silhouette = "M0,-1 C0.45,-1 0.43,-0.47 0.68,-0.15 C1.21,0.46 0.85,0.97 0,1 C-0.85,0.97 -1.21,0.46 " +
                 "-0.68,-0.15 C-0.43,-0.47 -0.45,-1 0,-1 Z"
     ),
     Peach(
-        38f, Color(0xFFFFAFA0),
-        "M0,-0.78 C0.62,-1.02 1.07,-0.54 0.99,0.06 C0.94,0.53 0.4,0.94 0,1 C-0.4,0.94 -0.94,0.53 " +
+        radius = 38f,
+        color = Color(0xFFFFAFA0),
+        silhouette = "M0,-0.78 C0.62,-1.02 1.07,-0.54 0.99,0.06 C0.94,0.53 0.4,0.94 0,1 C-0.4,0.94 -0.94,0.53 " +
                 "-0.99,0.06 C-1.07,-0.54 -0.62,-1.02 0,-0.78 Z"
     ),
     Pineapple(
-        44f, Color(0xFFF2B536),
-        "M0,-0.86 C0.54,-0.86 0.82,-0.45 0.82,0.08 C0.82,0.65 0.54,1 0,1 C-0.54,1 -0.82,0.65 " +
+        radius = 44f,
+        color = Color(0xFFF2B536),
+        silhouette = "M0,-0.86 C0.54,-0.86 0.82,-0.45 0.82,0.08 C0.82,0.65 0.54,1 0,1 C-0.54,1 -0.82,0.65 " +
                 "-0.82,0.08 C-0.82,-0.45 -0.54,-0.86 0,-0.86 Z"
     ),
     Melon(51f, Color(0xFFB9D78B)),
@@ -148,13 +155,17 @@ fun OrchardPileGame(
     onGameOver: ((Int) -> Unit)? = null,
     isPaused: Boolean = false
 ) {
-    val run = rememberArcadeRun(initialState, ::OrchardPileRun)
+    val run = rememberArcadeRun(
+        initialState = initialState,
+        create = ::OrchardPileRun
+    )
     LaunchedEffect(Unit) {
         val outlines = OrchardKind.entries.map { it.outline }
         withContext(Dispatchers.Default) {
             for (outline in outlines) outline.prepare()
         }
     }
+
     ArcadeBoard(
         game = ArcadeGame.OrchardPile,
         run = run,
@@ -162,8 +173,8 @@ fun OrchardPileGame(
         modifier = modifier,
         initialState = initialState,
         onHighScoreChanged = onHighScoreChanged,
-        onGameOver = onGameOver,
-        isPaused = isPaused
+        isPaused = isPaused,
+        onGameOver = onGameOver
     ) {
         ArcadeField(
             run = run,
@@ -181,8 +192,8 @@ fun OrchardPileGame(
                     y = run.height * (0.13f + index * 0.18f)
                 )
             }
-            translate(run.left, run.top) {
-                scale(run.unit, Offset.Zero) {
+            translate(left = run.left, top = run.top) {
+                scale(scale = run.unit, pivot = Offset.Zero) {
                     val floor = run.floor
                     val walls = style.obstacleColor.copy(alpha = 0.78f)
                     drawRoundRect(
@@ -193,19 +204,19 @@ fun OrchardPileGame(
                     )
                     for (wall in listOf(0f, OrchardWidth)) {
                         drawLine(
-                            walls,
-                            Offset(wall, OrchardLimit),
-                            Offset(wall, floor),
-                            3f,
-                            StrokeCap.Round
+                            color = walls,
+                            start = Offset(wall, OrchardLimit),
+                            end = Offset(wall, floor),
+                            strokeWidth = 3f,
+                            cap = StrokeCap.Round
                         )
                     }
                     drawLine(
-                        walls,
-                        Offset(0f, floor),
-                        Offset(OrchardWidth, floor),
-                        3f,
-                        StrokeCap.Round
+                        color = walls,
+                        start = Offset(0f, floor),
+                        end = Offset(OrchardWidth, floor),
+                        strokeWidth = 3f,
+                        cap = StrokeCap.Round
                     )
                     drawLine(
                         color = if (run.danger > 0f) style.hazardColor else style.detailColor,
@@ -233,11 +244,17 @@ fun OrchardPileGame(
                     }
                     for (fruit in run.fruits) {
                         val kind = OrchardKind.entries[fruit.kind]
-                        rotate(fruit.angle, Offset(fruit.x, fruit.y)) {
+                        rotate(
+                            degrees = fruit.angle,
+                            pivot = Offset(x = fruit.x, y = fruit.y)
+                        ) {
                             orchardFruit(kind, Offset(fruit.x, fruit.y), kind.radius)
                         }
                     }
-                    run.effects.draw(this, style.accentColor)
+                    run.effects.draw(
+                        scope = this,
+                        color = style.accentColor
+                    )
 
                     for ((index, kind) in OrchardKind.entries.withIndex()) {
                         val radius = 4.6f + index * 0.22f
@@ -255,25 +272,33 @@ fun OrchardPileGame(
     }
 }
 
-private fun DrawScope.orchardFruit(kind: OrchardKind, center: Offset, radius: Float) {
+private fun DrawScope.orchardFruit(
+    kind: OrchardKind,
+    center: Offset,
+    radius: Float
+) {
     val ink = OrchardInk
     val leaf = Color(0xFF40864F)
-    translate(center.x, center.y) {
-        scale(radius, Offset.Zero) {
+    translate(left = center.x, top = center.y) {
+        scale(scale = radius, pivot = Offset.Zero) {
             drawPath(kind.shape, kind.fill)
             drawPath(kind.shape, kind.border, style = Stroke(0.085f))
             when (kind) {
                 OrchardKind.Cherry -> {
                     drawArc(
-                        color = leaf, startAngle = 205f, sweepAngle = 103f, useCenter = false,
-                        topLeft = Offset(-0.13f, -1.49f), size = Size(1.08f, 1.28f),
+                        color = leaf,
+                        startAngle = 205f,
+                        sweepAngle = 103f,
+                        useCenter = false,
+                        topLeft = Offset(-0.13f, -1.49f),
+                        size = Size(1.08f, 1.28f),
                         style = Stroke(0.12f, cap = StrokeCap.Round)
                     )
                 }
 
                 OrchardKind.Strawberry -> {
                     for (index in -1..1) {
-                        rotate(index * 41f, Offset(0f, -0.72f)) {
+                        rotate(degrees = index * 41f, pivot = Offset(0f, -0.72f)) {
                             drawOval(leaf, Offset(-0.14f, -1.06f), Size(0.28f, 0.52f))
                         }
                     }
@@ -281,9 +306,9 @@ private fun DrawScope.orchardFruit(kind: OrchardKind, center: Offset, radius: Fl
                         for (col in -1..1) {
                             val seed = Offset(col * (0.42f - row * 0.1f), row * 0.29f - 0.38f)
                             drawOval(
-                                Color(0xFFFFDF90),
-                                seed - Offset(0.045f, 0.075f),
-                                Size(0.09f, 0.15f)
+                                color = Color(0xFFFFDF90),
+                                topLeft = seed - Offset(0.045f, 0.075f),
+                                size = Size(0.09f, 0.15f)
                             )
                         }
                     }
@@ -292,7 +317,7 @@ private fun DrawScope.orchardFruit(kind: OrchardKind, center: Offset, radius: Fl
                 OrchardKind.Grape -> {
                     for (index in 0..4) {
                         val angle = index * 72f
-                        rotate(angle, Offset.Zero) {
+                        rotate(degrees = angle, pivot = Offset.Zero) {
                             drawCircle(Color.White.copy(alpha = 0.15f), 0.28f, Offset(0f, -0.57f))
                         }
                     }
@@ -301,7 +326,7 @@ private fun DrawScope.orchardFruit(kind: OrchardKind, center: Offset, radius: Fl
 
                 OrchardKind.Dekopon, OrchardKind.Apple, OrchardKind.Pear -> {
                     drawLine(ink, Offset(0f, -0.77f), Offset(0.10f, -1.09f), 0.10f, StrokeCap.Round)
-                    rotate(-28f, Offset(0.18f, -0.91f)) {
+                    rotate(degrees = -28f, pivot = Offset(0.18f, -0.91f)) {
                         drawOval(leaf, Offset(0.05f, -1.02f), Size(0.56f, 0.21f))
                     }
                     if (kind == OrchardKind.Pear) {
@@ -330,7 +355,7 @@ private fun DrawScope.orchardFruit(kind: OrchardKind, center: Offset, radius: Fl
                         size = Size(0.62f, 1.64f),
                         style = Stroke(0.065f, cap = StrokeCap.Round)
                     )
-                    rotate(27f, Offset(-0.18f, -0.80f)) {
+                    rotate(degrees = 27f, pivot = Offset(-0.18f, -0.80f)) {
                         drawOval(leaf, Offset(-0.67f, -0.94f), Size(0.60f, 0.23f))
                     }
                 }
@@ -347,7 +372,7 @@ private fun DrawScope.orchardFruit(kind: OrchardKind, center: Offset, radius: Fl
                     }
                     if (pineapple) {
                         for (index in -2..2) {
-                            rotate(index * 24f, Offset(0f, -0.68f)) {
+                            rotate(degrees = index * 24f, pivot = Offset(0f, -0.68f)) {
                                 drawOval(leaf, Offset(-0.115f, -1.3f), Size(0.23f, 0.68f))
                             }
                         }
@@ -356,7 +381,7 @@ private fun DrawScope.orchardFruit(kind: OrchardKind, center: Offset, radius: Fl
 
                 OrchardKind.Watermelon -> {
                     clipPath(kind.shape) {
-                        rotate(-12f, Offset.Zero) {
+                        rotate(degrees = -12f, pivot = Offset.Zero) {
                             for (index in -1..1) {
                                 translate(top = index * 0.55f) {
                                     drawPath(OrchardWatermelonStripe, Color(0xFF367F49))
@@ -610,6 +635,7 @@ internal class OrchardPileRun : ArcadeRun() {
         get() = 1.75f - 0.70f * (drops.toFloat() / (drops + 70f))
     val danger: Float
         get() = (overflow / grace).coerceIn(0f, 1f)
+
     override fun reset() {
         fruits.clear()
         contacts.clear()

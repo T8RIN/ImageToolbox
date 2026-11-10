@@ -58,6 +58,7 @@ fun BubblePopGame(
         initialState = initialState,
         create = ::BubblePopRun
     )
+
     ArcadeBoard(
         game = ArcadeGame.BubblePop,
         run = run,

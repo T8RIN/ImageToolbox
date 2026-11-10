@@ -58,6 +58,7 @@ fun HexagonGame(
         initialState = initialState,
         create = ::HexagonRun
     )
+
     ArcadeBoard(
         game = ArcadeGame.Hexagon,
         run = run,

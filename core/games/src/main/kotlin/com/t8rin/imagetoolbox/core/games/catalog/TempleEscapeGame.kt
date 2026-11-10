@@ -130,6 +130,7 @@ fun TempleEscapeGame(
             endY = 1f
         )
     }
+
     ArcadeBoard(
         game = ArcadeGame.TempleEscape,
         run = run,
@@ -421,7 +422,10 @@ fun TempleEscapeGame(
                         )
                     }
                 }
-                run.effects.draw(scope = this, color = style.accentColor)
+                run.effects.draw(
+                    scope = this,
+                    color = style.accentColor
+                )
                 scale(scaleX = 1f, scaleY = run.topInset, pivot = Offset.Zero) {
                     drawRect(
                         brush = fieldFade,
@@ -589,7 +593,8 @@ internal class TempleEscapeRun : ArcadeRun() {
             traps.all { it.position in walls.indices && !walls[it.position] && it.side in 0..3 } &&
             guards.all {
                 it.from in walls.indices && it.to in walls.indices && !walls[it.from] && !walls[it.to] &&
-                        it.from != it.to && (it.from / columns == it.to / columns || it.from % columns == it.to % columns)
+                        it.from != it.to &&
+                        (it.from / columns == it.to / columns || it.from % columns == it.to % columns)
             }
 
     override fun reset() {

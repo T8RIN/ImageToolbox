@@ -76,6 +76,7 @@ fun AsteroidsGame(
         initialState = initialState,
         create = ::AsteroidsRun
     )
+
     ArcadeBoard(
         game = ArcadeGame.Asteroids,
         run = run,
@@ -282,7 +283,6 @@ internal data class SpaceShot(
     var vy: Float,
     var life: Float
 )
-
 
 @Serializable
 internal data class SpaceInvaderShip(

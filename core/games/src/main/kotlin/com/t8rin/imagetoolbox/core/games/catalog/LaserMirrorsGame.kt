@@ -61,6 +61,7 @@ fun LaserMirrorsGame(
     )
 
     val beamPath = remember { Path() }
+
     ArcadeBoard(
         game = ArcadeGame.LaserMirrors,
         run = run,
@@ -482,8 +483,9 @@ internal class LaserMirrorsRun : ArcadeRun() {
                 newRound()
             }
         }
-        isAnimating =
-            transition > 0f || glow > 0f || angles.indices.any { abs(angles[it] - if (board[it] == 1) -45f else 45f) > 0.1f }
+        isAnimating = transition > 0f || glow > 0f || angles.indices.any {
+            abs(angles[it] - if (board[it] == 1) -45f else 45f) > 0.1f
+        }
     }
 
     override fun onResize(previous: Size) {

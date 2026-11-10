@@ -63,6 +63,7 @@ fun GravityFlipGame(
         initialState = initialState,
         create = ::GravityFlipRun
     )
+
     ArcadeBoard(
         game = ArcadeGame.GravityFlip,
         run = run,
@@ -98,8 +99,8 @@ fun GravityFlipGame(
             repeat(16) { index ->
                 val near = index % 4 == 0
                 val drift = if (near) 0.65f else 0.2f
-                val x =
-                    ((index * 67f - run.distance * drift) % (run.width + 40f) + run.width + 40f) % (run.width + 40f) - 20f
+                val x = ((index * 67f - run.distance * drift) % (run.width + 40f) +
+                        run.width + 40f) % (run.width + 40f) - 20f
                 pixelRect(
                     color = style.detailColor.copy(alpha = 0.15f + pace * 0.1f),
                     x = x,
@@ -423,11 +424,17 @@ internal class GravityFlipRun : ArcadeRun() {
                 passed++
                 score += 5
             }
-            if (!obstacle.broken && obstacle.x < playerX + radius * 0.8f && obstacle.x + obstacle.width > playerX - radius * 0.8f &&
+            if (!obstacle.broken &&
+                obstacle.x < playerX + radius * 0.8f &&
+                obstacle.x + obstacle.width > playerX - radius * 0.8f &&
                 when (obstacle.kind) {
                     1 -> y + margin * 0.8f > 0.38f && y - margin * 0.8f < 0.62f
                     2 -> y - margin * 0.8f < obstacle.depth || y + margin * 0.8f > 1f - obstacle.depth
-                    else -> if (obstacle.ceiling) y - margin * 0.8f < obstacle.depth else y + margin * 0.8f > 1f - obstacle.depth
+                    else -> if (obstacle.ceiling) {
+                        y - margin * 0.8f < obstacle.depth
+                    } else {
+                        y + margin * 0.8f > 1f - obstacle.depth
+                    }
                 }
             ) {
                 effects.burst(

@@ -90,7 +90,10 @@ fun TintAscentGame(
     onGameOver: ((Int) -> Unit)? = null,
     isPaused: Boolean = false
 ) {
-    val run = rememberArcadeRun(initialState, ::TintAscentRun)
+    val run = rememberArcadeRun(
+        initialState = initialState,
+        create = ::TintAscentRun
+    )
     val dark = style.textColor.luminance() > 0.5f
     val colors = remember(dark) {
         if (dark) {
@@ -99,6 +102,7 @@ fun TintAscentGame(
             listOf(Color(0xFFC92963), Color(0xFFAA6600), Color(0xFF008575), Color(0xFF6751C8))
         }
     }
+
     ArcadeBoard(
         game = ArcadeGame.TintAscent,
         run = run,
@@ -106,10 +110,13 @@ fun TintAscentGame(
         modifier = modifier,
         initialState = initialState,
         onHighScoreChanged = onHighScoreChanged,
-        onGameOver = onGameOver,
-        isPaused = isPaused
+        isPaused = isPaused,
+        onGameOver = onGameOver
     ) {
-        ArcadeField(run = run, onPress = { run.jump() }) {
+        ArcadeField(
+            run = run,
+            onPress = { run.jump() }
+        ) {
             val drift = run.camera * run.unit
             arcadeStars(style, run.width, run.height, drift)
             repeat(6) { index ->
@@ -121,8 +128,8 @@ fun TintAscentGame(
                 drawCircle(tint.copy(alpha = 0.10f), radius, Offset(x, y), style = Stroke(1f))
                 drawCircle(tint.copy(alpha = 0.18f), 1.6f, Offset(x, y - radius))
             }
-            translate(run.width / 2f, run.anchor + run.camera * run.unit) {
-                scale(run.unit, Offset.Zero) {
+            translate(left = run.width / 2f, top = run.anchor + run.camera * run.unit) {
+                scale(scale = run.unit, pivot = Offset.Zero) {
                     val top = run.camera + run.anchor / run.unit
                     val bottom = run.camera - (run.height - run.anchor) / run.unit
                     drawLine(
@@ -141,12 +148,12 @@ fun TintAscentGame(
                             val pulse = 1f + 0.13f * sin(gate.angle * 3f * SwitchRadians)
                             val point = Offset(0f, -gate.starY)
                             drawCircle(
-                                style.accentColor.copy(alpha = 0.12f),
-                                15f * pulse,
-                                point
+                                color = style.accentColor.copy(alpha = 0.12f),
+                                radius = 15f * pulse,
+                                center = point
                             )
-                            translate(point.x, point.y) {
-                                scale(9f * pulse, Offset.Zero) {
+                            translate(left = point.x, top = point.y) {
+                                scale(scale = 9f * pulse, pivot = Offset.Zero) {
                                     drawPath(SwitchStar, style.accentColor)
                                 }
                             }
@@ -175,7 +182,10 @@ fun TintAscentGame(
                             cornerRadius = CornerRadius(2f)
                         )
                     }
-                    run.effects.draw(this, colors[run.color])
+                    run.effects.draw(
+                        scope = this,
+                        color = colors[run.color]
+                    )
                     if (run.crash > 0f) return@scale
                     val center = Offset(0f, -run.ball)
                     if (run.launched) {
@@ -236,8 +246,8 @@ private fun DrawScope.drawSwitchGate(gate: SwitchGate, colors: List<Color>, alph
             }
             ring(gate.radius, gate.angle, reverse = false)
             if (gate.kind == SwitchGateKind.DoubleRing) ring(
-                SwitchInnerRing,
-                135f - gate.angle,
+                radius = SwitchInnerRing,
+                angle = 135f - gate.angle,
                 reverse = true
             )
         }
@@ -262,11 +272,11 @@ private fun DrawScope.drawSwitchGate(gate: SwitchGate, colors: List<Color>, alph
         else -> {
             gate.forEachEdge { color, start, end ->
                 drawLine(
-                    colors[color].copy(alpha = alpha),
-                    start,
-                    end,
-                    SwitchStroke,
-                    StrokeCap.Round
+                    color = colors[color].copy(alpha = alpha),
+                    start = start,
+                    end = end,
+                    strokeWidth = SwitchStroke,
+                    cap = StrokeCap.Round
                 )
             }
             if (gate.kind == SwitchGateKind.Spinner || gate.kind == SwitchGateKind.TwinSpinner) {
@@ -363,7 +373,9 @@ internal class SwitchGate(
                 val ballPoint = Offset(0f, dy)
                 val contact = SwitchBallRadius + SwitchDot
                 forEachDot { tint, point ->
-                    if (tint != color && (point - ballPoint).getDistanceSquared() < contact * contact) return true
+                    if (tint != color && (point - ballPoint).getDistanceSquared() < contact * contact) {
+                        return true
+                    }
                 }
             }
 

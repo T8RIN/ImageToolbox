@@ -61,6 +61,7 @@ fun ZigZagGame(
     val tilePath = remember { Path() }
     val edgePath = remember { Path() }
     val gemPath = remember { Path() }
+
     ArcadeBoard(
         game = ArcadeGame.ZigZag,
         run = run,
