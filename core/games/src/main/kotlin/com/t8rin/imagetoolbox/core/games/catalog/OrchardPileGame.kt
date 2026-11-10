@@ -18,6 +18,7 @@
 package com.t8rin.imagetoolbox.core.games.catalog
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
@@ -48,6 +49,8 @@ import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
 import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import kotlin.math.abs
@@ -61,6 +64,7 @@ private const val OrchardFloor = 249f
 private const val OrchardDrop = 20f
 private const val OrchardLimit = 52f
 private const val OrchardCooldown = 0.43f
+private val OrchardInk = Color(0xFF493131)
 private val OrchardDashes = PathEffect.dashPathEffect(floatArrayOf(4f, 4f))
 
 private val OrchardWatermelonStripe = Path().apply {
@@ -126,7 +130,13 @@ private enum class OrchardKind(
     Watermelon(59f, Color(0xFF76BF55));
 
     val shape = PathParser().parsePathString(silhouette).toPath()
-    val outline by lazy(LazyThreadSafetyMode.NONE) { OrchardOutline(shape, radius) }
+    val outline by lazy { OrchardOutline(shape, radius) }
+    val fill = Brush.linearGradient(
+        listOf(lerp(color, Color.White, 0.23f), color, lerp(color, OrchardInk, 0.24f)),
+        start = Offset(-0.8f, -0.9f),
+        end = Offset(0.8f, 0.94f)
+    )
+    val border = lerp(color, OrchardInk, 0.43f)
 }
 
 @Composable
@@ -139,6 +149,12 @@ fun OrchardPileGame(
     isPaused: Boolean = false
 ) {
     val run = rememberArcadeRun(initialState, ::OrchardPileRun)
+    LaunchedEffect(Unit) {
+        val outlines = OrchardKind.entries.map { it.outline }
+        withContext(Dispatchers.Default) {
+            for (outline in outlines) outline.prepare()
+        }
+    }
     ArcadeBoard(
         game = ArcadeGame.OrchardPile,
         run = run,
@@ -240,23 +256,12 @@ fun OrchardPileGame(
 }
 
 private fun DrawScope.orchardFruit(kind: OrchardKind, center: Offset, radius: Float) {
-    val ink = Color(0xFF493131)
+    val ink = OrchardInk
     val leaf = Color(0xFF40864F)
     translate(center.x, center.y) {
         scale(radius, Offset.Zero) {
-            drawPath(
-                path = kind.shape,
-                brush = Brush.linearGradient(
-                    listOf(
-                        lerp(kind.color, Color.White, 0.23f),
-                        kind.color,
-                        lerp(kind.color, ink, 0.24f)
-                    ),
-                    start = Offset(-0.8f, -0.9f),
-                    end = Offset(0.8f, 0.94f)
-                )
-            )
-            drawPath(kind.shape, lerp(kind.color, ink, 0.43f), style = Stroke(0.085f))
+            drawPath(kind.shape, kind.fill)
+            drawPath(kind.shape, kind.border, style = Stroke(0.085f))
             when (kind) {
                 OrchardKind.Cherry -> {
                     drawArc(
@@ -455,7 +460,19 @@ internal class OrchardFruit(
     }
 
     @Transient
-    var supported = false
+    var onFloor = false
+
+    @Transient
+    private var supportLeft = Float.POSITIVE_INFINITY
+
+    @Transient
+    private var supportRight = Float.NEGATIVE_INFINITY
+
+    @Transient
+    private var bracedLeft = false
+
+    @Transient
+    private var bracedRight = false
 
     @Transient
     var asleep = false
@@ -487,9 +504,50 @@ internal class OrchardFruit(
         settleTime = 0f
     }
 
+    fun resetSupport() {
+        onFloor = false
+        supportLeft = Float.POSITIVE_INFINITY
+        supportRight = Float.NEGATIVE_INFINITY
+        bracedLeft = false
+        bracedRight = false
+    }
+
+    fun support(point: Offset, normal: Offset) {
+        if (normal.y > 0.35f) {
+            supportLeft = minOf(supportLeft, point.x)
+            supportRight = maxOf(supportRight, point.x)
+        } else if (normal.x < -0.72f) {
+            bracedLeft = true
+        } else if (normal.x > 0.72f) {
+            bracedRight = true
+        }
+    }
+
     fun settle(seconds: Float) {
-        if (!supported) {
+        if (!onFloor && !supportLeft.isFinite()) {
             wake()
+            return
+        }
+        val tolerance = radius * 0.08f
+        val stable = onFloor ||
+                supportLeft <= tolerance && supportRight >= -tolerance &&
+                supportRight - supportLeft >= radius * 0.18f ||
+                bracedLeft && supportRight >= -tolerance ||
+                bracedRight && supportLeft <= tolerance
+        if (!stable) {
+            wake()
+            // Let a fruit roll off an exposed point of contact, even when it landed dead center.
+            if (abs(vx) < 3f && abs(spin) * radius < 7f) {
+                val support = (supportLeft + supportRight) / 2f
+                val downhill = when {
+                    bracedLeft -> 1f
+                    bracedRight -> -1f
+                    abs(support) > 0.08f -> if (support > 0f) -1f else 1f
+                    vx < -0.1f -> -1f
+                    else -> 1f
+                }
+                vx += downhill * 24f * seconds
+            }
             return
         }
         if (asleep) return
@@ -537,6 +595,9 @@ internal class OrchardPileRun : ArcadeRun() {
     @Transient
     private val contact = OrchardContact()
 
+    @Transient
+    private val contacts = mutableListOf<OrchardContact>()
+
     val unit: Float
         get() = minOf((width - 18f) / OrchardWidth, (height - topInset - 8f) / (floor + 21f))
     val left: Float
@@ -551,6 +612,7 @@ internal class OrchardPileRun : ArcadeRun() {
         get() = (overflow / grace).coerceIn(0f, 1f)
     override fun reset() {
         fruits.clear()
+        contacts.clear()
         bag.clear()
         drops = 0
         cloudTime = 0f
@@ -604,7 +666,7 @@ internal class OrchardPileRun : ArcadeRun() {
         effects.advance(seconds)
         cooldown = (cooldown - seconds).coerceAtLeast(0f)
         for (fruit in fruits) {
-            fruit.supported = false
+            fruit.resetSupport()
             fruit.age += seconds
             if (fruit.asleep) continue
             fruit.vx *= 1f - 0.50f * seconds
@@ -615,9 +677,13 @@ internal class OrchardPileRun : ArcadeRun() {
             fruit.angle = (fruit.angle + fruit.spin * seconds * 57.29578f) % 360f
             fruit.collider.rotate(fruit.angle)
         }
+        var activeContacts = -1
         repeat(8) { pass ->
             for (fruit in fruits) contain(fruit)
-            solveContacts(checkSleeping = pass == 0)
+            if (pass == 4 || activeContacts < 0) {
+                activeContacts = findContacts(checkSleeping = activeContacts < 0)
+            }
+            for (index in 0 until activeContacts) resolveContact(contacts[index])
         }
         for (fruit in fruits) {
             contain(fruit)
@@ -628,58 +694,72 @@ internal class OrchardPileRun : ArcadeRun() {
         if (overflow >= grace) finish()
     }
 
-    private fun solveContacts(checkSleeping: Boolean) {
+    private fun findContacts(checkSleeping: Boolean): Int {
+        var count = 0
         for (i in 0 until fruits.lastIndex) {
             val a = fruits[i]
             for (j in i + 1..fruits.lastIndex) {
                 val b = fruits[j]
                 if (a.asleep && b.asleep && !checkSleeping) continue
-                val delta = Offset(b.x - a.x, b.y - a.y)
-                if (!contact.find(a.collider, b.collider, delta)) continue
+                if (!contact.find(a.collider, b.collider, Offset(b.x - a.x, b.y - a.y))) continue
                 if (a.kind == b.kind && contact.separation <= 0f) {
                     merge(i, j, a, b)
-                    return
+                    return -1
                 }
-
-                val normal = contact.normal
-                if (normal.y > 0.35f) a.supported = true
-                if (normal.y < -0.35f) b.supported = true
-                val armA = contact.point
-                val armB = armA - delta
-                val velocity = (b.contactVelocity(armB) - a.contactVelocity(armA)).dot(normal)
-                if (velocity < -23f || contact.separation < -1.25f) {
-                    if (a.asleep) a.wake()
-                    if (b.asleep) b.wake()
-                }
-                if (a.asleep && b.asleep) continue
-                val overlap = ((-contact.separation - 0.06f) * 0.68f).coerceIn(0f, 1.8f)
-                val correction = normal * (overlap / (a.inverseMass + b.inverseMass))
-                a.x -= correction.x * a.inverseMass
-                a.y -= correction.y * a.inverseMass
-                b.x += correction.x * b.inverseMass
-                b.y += correction.y * b.inverseMass
-
-                if (velocity >= 0f) continue
-                val impact = -velocity * if (velocity < -120f) 1.045f else 1f
-                val impulse = impact / (
-                        a.effectiveInverseMass(normal, armA) + b.effectiveInverseMass(normal, armB)
-                        )
-                a.impulse(normal, armA, -impulse)
-                b.impulse(normal, armB, impulse)
-
-                val tangent = Offset(-normal.y, normal.x)
-                val slip = (b.contactVelocity(armB) - a.contactVelocity(armA)).dot(tangent)
-                val limit = impulse * 0.31f
-                val friction = (-slip / (
-                        a.effectiveInverseMass(tangent, armA) + b.effectiveInverseMass(
-                            tangent,
-                            armB
-                        )
-                        )).coerceIn(-limit, limit)
-                a.impulse(tangent, armA, -friction)
-                b.impulse(tangent, armB, friction)
+                if (count == contacts.size) contacts += OrchardContact()
+                contacts[count++].set(a, b, contact)
             }
         }
+        return count
+    }
+
+    private fun resolveContact(contact: OrchardContact) {
+        val a = contact.a
+        val b = contact.b
+        val delta = Offset(b.x - a.x, b.y - a.y)
+        val shift = delta - contact.delta
+        // Shapes only rotate between steps. Reuse the contact plane for small corrections.
+        if (shift.getDistanceSquared() > 0.64f) {
+            if (!contact.find(a.collider, b.collider, delta)) return
+        }
+        val normal = contact.normal
+        val separation = contact.separation + (delta - contact.delta).dot(normal)
+        if (separation > OrchardContactMargin) return
+        val armA = contact.point
+        val armB = armA - contact.delta
+        a.support(armA, normal)
+        b.support(armB, -normal)
+        val velocity = (b.contactVelocity(armB) - a.contactVelocity(armA)).dot(normal)
+        if (velocity < -23f || separation < -1.25f) {
+            if (a.asleep) a.wake()
+            if (b.asleep) b.wake()
+        }
+        if (a.asleep && b.asleep) return
+        val overlap = ((-separation - 0.06f) * 0.68f).coerceIn(0f, 1.8f)
+        val inverseA = a.inverseMass
+        val inverseB = b.inverseMass
+        val correction = normal * (overlap / (inverseA + inverseB))
+        a.x -= correction.x * inverseA
+        a.y -= correction.y * inverseA
+        b.x += correction.x * inverseB
+        b.y += correction.y * inverseB
+
+        if (velocity >= 0f) return
+        val impact = -velocity * if (velocity < -120f) 1.045f else 1f
+        val impulse = impact / (
+                a.effectiveInverseMass(normal, armA) + b.effectiveInverseMass(normal, armB)
+                )
+        a.impulse(normal, armA, -impulse)
+        b.impulse(normal, armB, impulse)
+
+        val tangent = Offset(-normal.y, normal.x)
+        val slip = (b.contactVelocity(armB) - a.contactVelocity(armA)).dot(tangent)
+        val limit = impulse * 0.31f
+        val friction = (-slip / (
+                a.effectiveInverseMass(tangent, armA) + b.effectiveInverseMass(tangent, armB)
+                )).coerceIn(-limit, limit)
+        a.impulse(tangent, armA, -friction)
+        b.impulse(tangent, armB, friction)
     }
 
     private fun contain(fruit: OrchardFruit) {
@@ -688,15 +768,17 @@ internal class OrchardPileRun : ArcadeRun() {
         val right = OrchardWidth - shape.right.x
         if (fruit.x <= left) {
             fruit.x = left
+            fruit.support(shape.left, Offset(-1f, 0f))
             wallImpulse(fruit, shape.left, Offset(1f, 0f))
         } else if (fruit.x >= right) {
             fruit.x = right
+            fruit.support(shape.right, Offset(1f, 0f))
             wallImpulse(fruit, shape.right, Offset(-1f, 0f))
         }
         val bottom = floor - shape.bottom.y
         if (fruit.y >= bottom) {
             fruit.y = bottom
-            fruit.supported = true
+            fruit.onFloor = true
             wallImpulse(fruit, shape.bottom, Offset(0f, -1f))
         }
     }
@@ -752,15 +834,47 @@ internal class OrchardPileRun : ArcadeRun() {
 
 private const val OrchardContactMargin = 0.10f
 private const val OrchardFieldSide = 65
+private const val OrchardContourPoints = 56
 
 internal class OrchardOutline(path: Path, radius: Float) {
     private val limit = radius * 1.16f
     private val spacing = limit * 2f / (OrchardFieldSide - 1)
-    val points: List<Offset>
+    private val inverseSpacing = 1f / spacing
+    private val vertices = FloatArray(OrchardContourPoints * 2)
     val left: Float
     val right: Float
     val bottom: Float
-    private val field: FloatArray
+
+    private val field by lazy {
+        val dx = FloatArray(OrchardContourPoints)
+        val dy = FloatArray(OrchardContourPoints)
+        val inverseLength = FloatArray(OrchardContourPoints)
+        for (index in dx.indices) {
+            val next = (index + 1) % OrchardContourPoints * 2
+            dx[index] = vertices[next] - vertices[index * 2]
+            dy[index] = vertices[next + 1] - vertices[index * 2 + 1]
+            inverseLength[index] = 1f / (dx[index] * dx[index] + dy[index] * dy[index])
+        }
+        FloatArray(OrchardFieldSide * OrchardFieldSide) { index ->
+            val x = index % OrchardFieldSide * spacing - limit
+            val y = index / OrchardFieldSide * spacing - limit
+            var inside = false
+            var closest = Float.POSITIVE_INFINITY
+            for (edge in dx.indices) {
+                val px = x - vertices[edge * 2]
+                val py = y - vertices[edge * 2 + 1]
+                val vx = dx[edge]
+                val vy = dy[edge]
+                if ((py < 0f) != (py < vy) && px < py * vx / vy) inside = !inside
+                val along = ((px * vx + py * vy) * inverseLength[edge]).coerceIn(0f, 1f)
+                val nx = px - vx * along
+                val ny = py - vy * along
+                closest = minOf(closest, nx * nx + ny * ny)
+            }
+            val distance = sqrt(closest)
+            if (inside) -distance else distance
+        }
+    }
 
     init {
         val scaled = Path().apply {
@@ -768,45 +882,32 @@ internal class OrchardOutline(path: Path, radius: Float) {
             transform(Matrix().apply { scale(64f, 64f) })
         }
         val measure = PathMeasure().apply { setPath(scaled, forceClosed = true) }
-        points = List(56) { index ->
-            measure.getPosition(measure.length * index / 56f) * (radius * 1.012f / 64f)
+        var left = Float.POSITIVE_INFINITY
+        var right = Float.NEGATIVE_INFINITY
+        var bottom = Float.NEGATIVE_INFINITY
+        for (index in 0 until OrchardContourPoints) {
+            val point = measure.getPosition(measure.length * index / OrchardContourPoints) *
+                    (radius * 1.012f / 64f)
+            vertices[index * 2] = point.x
+            vertices[index * 2 + 1] = point.y
+            left = minOf(left, point.x)
+            right = maxOf(right, point.x)
+            bottom = maxOf(bottom, point.y)
         }
-        left = points.minOf { it.x }
-        right = points.maxOf { it.x }
-        bottom = points.maxOf { it.y }
-        field = FloatArray(OrchardFieldSide * OrchardFieldSide) { index ->
-            signedDistance(
-                x = index % OrchardFieldSide * spacing - limit,
-                y = index / OrchardFieldSide * spacing - limit
-            )
-        }
+        this.left = left
+        this.right = right
+        this.bottom = bottom
     }
 
-    private fun signedDistance(x: Float, y: Float): Float {
-        var inside = false
-        var closest = Float.POSITIVE_INFINITY
-        var start = points.last()
-        for (end in points) {
-            val dx = end.x - start.x
-            val dy = end.y - start.y
-            if ((start.y > y) != (end.y > y) && x < start.x + (y - start.y) * dx / dy) {
-                inside = !inside
-            }
-            val px = x - start.x
-            val py = y - start.y
-            val along = ((px * dx + py * dy) / (dx * dx + dy * dy)).coerceIn(0f, 1f)
-            val nx = px - dx * along
-            val ny = py - dy * along
-            closest = minOf(closest, nx * nx + ny * ny)
-            start = end
-        }
-        val distance = sqrt(closest)
-        return if (inside) -distance else distance
+    fun prepare() {
+        distance(Offset.Zero)
     }
+
+    fun vertex(index: Int) = Offset(vertices[index * 2], vertices[index * 2 + 1])
 
     fun distance(point: Offset): Float {
-        val x = (point.x + limit) / spacing
-        val y = (point.y + limit) / spacing
+        val x = (point.x + limit) * inverseSpacing
+        val y = (point.y + limit) * inverseSpacing
         if (x < 0f || y < 0f || x >= OrchardFieldSide - 1 || y >= OrchardFieldSide - 1) {
             return Float.POSITIVE_INFINITY
         }
@@ -815,9 +916,10 @@ internal class OrchardOutline(path: Path, radius: Float) {
         val index = row * OrchardFieldSide + col
         val dx = x - col
         val dy = y - row
-        val top = field[index] + (field[index + 1] - field[index]) * dx
-        val bottom = field[index + OrchardFieldSide] +
-                (field[index + OrchardFieldSide + 1] - field[index + OrchardFieldSide]) * dx
+        val distances = field
+        val top = distances[index] + (distances[index + 1] - distances[index]) * dx
+        val bottom = distances[index + OrchardFieldSide] +
+                (distances[index + OrchardFieldSide + 1] - distances[index + OrchardFieldSide]) * dx
         return top + (bottom - top) * dy
     }
 
@@ -835,9 +937,7 @@ internal class OrchardOutline(path: Path, radius: Float) {
 }
 
 internal class OrchardCollider(private val outline: OrchardOutline) {
-    private val points = FloatArray(outline.points.size * 2)
-    val size: Int
-        get() = outline.points.size
+    private val points = FloatArray(OrchardContourPoints * 2)
 
     private var angle = Float.NaN
     private var cosine = 1f
@@ -869,8 +969,8 @@ internal class OrchardCollider(private val outline: OrchardOutline) {
         val radians = degrees * 0.017453293f
         cosine = cos(radians)
         sine = sin(radians)
-        for (index in outline.points.indices) {
-            val point = toWorld(outline.points[index])
+        for (index in 0 until OrchardContourPoints) {
+            val point = toWorld(outline.vertex(index))
             points[index * 2] = point.x
             points[index * 2 + 1] = point.y
             if (index == 0 || point.x < left.x) left = point
@@ -881,7 +981,13 @@ internal class OrchardCollider(private val outline: OrchardOutline) {
     }
 }
 
-internal class OrchardContact {
+private class OrchardContact {
+    lateinit var a: OrchardFruit
+        private set
+    lateinit var b: OrchardFruit
+        private set
+    var delta = Offset.Zero
+        private set
     var separation = 0f
         private set
     var normal = Offset.Zero
@@ -889,19 +995,30 @@ internal class OrchardContact {
     var point = Offset.Zero
         private set
 
+    fun set(a: OrchardFruit, b: OrchardFruit, contact: OrchardContact) {
+        this.a = a
+        this.b = b
+        delta = contact.delta
+        separation = contact.separation
+        normal = contact.normal
+        point = contact.point
+    }
+
     fun find(a: OrchardCollider, b: OrchardCollider, delta: Offset): Boolean {
-        if (delta.x + b.left.x > a.right.x + OrchardContactMargin ||
-            delta.x + b.right.x < a.left.x - OrchardContactMargin ||
-            delta.y + b.top > a.bottom.y + OrchardContactMargin ||
-            delta.y + b.bottom.y < a.top - OrchardContactMargin
-        ) return false
+        val left = maxOf(a.left.x, delta.x + b.left.x) - OrchardContactMargin
+        val right = minOf(a.right.x, delta.x + b.right.x) + OrchardContactMargin
+        val top = maxOf(a.top, delta.y + b.top) - OrchardContactMargin
+        val bottom = minOf(a.bottom.y, delta.y + b.bottom.y) + OrchardContactMargin
+        if (right - left < OrchardContactMargin || bottom - top < OrchardContactMargin) return false
 
         // Check both contours against the other fruit's signed distance field. The actual
         // indentations between berries and at the neck of a pear remain empty.
-        separation = Float.POSITIVE_INFINITY
+        var separation = Float.POSITIVE_INFINITY
+        var point = Offset.Zero
         var fromA = false
-        for (index in 0 until a.size) {
+        for (index in 0 until OrchardContourPoints) {
             val vertex = a.vertex(index)
+            if (vertex.x < left || vertex.x > right || vertex.y < top || vertex.y > bottom) continue
             val distance = b.distance(vertex - delta)
             if (distance < separation) {
                 separation = distance
@@ -909,8 +1026,9 @@ internal class OrchardContact {
                 fromA = true
             }
         }
-        for (index in 0 until b.size) {
+        for (index in 0 until OrchardContourPoints) {
             val vertex = b.vertex(index) + delta
+            if (vertex.x < left || vertex.x > right || vertex.y < top || vertex.y > bottom) continue
             val distance = a.distance(vertex)
             if (distance < separation) {
                 separation = distance
@@ -924,7 +1042,9 @@ internal class OrchardContact {
             val distance = delta.getDistance()
             normal = if (distance > 0.001f) delta / distance else Offset(1f, 0f)
         }
-        point += normal * (if (fromA) separation * 0.5f else -separation * 0.5f)
+        this.point = point + normal * (if (fromA) separation * 0.5f else -separation * 0.5f)
+        this.separation = separation
+        this.delta = delta
         return true
     }
 }

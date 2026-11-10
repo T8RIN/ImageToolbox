@@ -25,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
@@ -43,7 +44,9 @@ import com.t8rin.imagetoolbox.core.games.ArcadeStyle
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
 import com.t8rin.imagetoolbox.core.games.utils.arcadeAngle
+import com.t8rin.imagetoolbox.core.games.utils.arcadeStars
 import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import kotlinx.serialization.UseSerializers
@@ -66,6 +69,7 @@ private const val SwitchGravity = 430f
 private const val SwitchRhythm = 0.18f
 private const val SwitchRhythmRise = SwitchRhythm * (SwitchJump - SwitchGravity * SwitchRhythm / 2f)
 private const val SwitchRailGap = 23f
+private const val SwitchOrbitSweep = 48f
 
 private val SwitchStar = Path().apply {
     for (index in 0..9) {
@@ -96,6 +100,14 @@ fun TintAscentGame(
             listOf(Color(0xFFC92963), Color(0xFFAA6600), Color(0xFF008575), Color(0xFF6751C8))
         }
     }
+    val backdrop = remember(colors) {
+        Brush.horizontalGradient(
+            0f to colors[3].copy(alpha = 0.09f),
+            0.45f to Color.Transparent,
+            0.55f to Color.Transparent,
+            1f to colors[2].copy(alpha = 0.09f)
+        )
+    }
     ArcadeBoard(
         game = ArcadeGame.TintAscent,
         run = run,
@@ -107,12 +119,24 @@ fun TintAscentGame(
         isPaused = isPaused
     ) {
         ArcadeField(run = run, onPress = { run.jump() }) {
+            drawRect(backdrop)
+            val drift = run.camera * run.unit
+            arcadeStars(style, run.width, run.height, drift)
+            repeat(6) { index ->
+                val radius = 13f + index % 3 * 7f
+                val x = run.width * (if (index % 2 == 0) 0.11f else 0.89f)
+                val span = run.height + 64f
+                val y = (index * span / 6f + drift * (0.12f + index % 3 * 0.08f)) % span - 32f
+                val tint = colors[index and 3]
+                drawCircle(tint.copy(alpha = 0.10f), radius, Offset(x, y), style = Stroke(1f))
+                drawCircle(tint.copy(alpha = 0.18f), 1.6f, Offset(x, y - radius))
+            }
             translate(run.width / 2f, run.anchor + run.camera * run.unit) {
                 scale(run.unit, Offset.Zero) {
                     val top = run.camera + run.anchor / run.unit
                     val bottom = run.camera - (run.height - run.anchor) / run.unit
                     drawLine(
-                        color = style.detailColor.copy(alpha = 0.25f),
+                        color = style.detailColor.copy(alpha = 0.14f),
                         start = Offset(0f, -top),
                         end = Offset(0f, -bottom),
                         strokeWidth = 1f
@@ -228,6 +252,19 @@ private fun DrawScope.drawSwitchGate(gate: SwitchGate, colors: List<Color>, alph
             )
         }
 
+        SwitchGateKind.Orbit -> repeat(4) { index ->
+            val radius = gate.radius
+            drawArc(
+                color = colors[gate.colorAt(index)].copy(alpha = alpha),
+                startAngle = gate.angle + index * 90f,
+                sweepAngle = SwitchOrbitSweep,
+                useCenter = false,
+                topLeft = Offset(-radius, -radius),
+                size = Size(radius * 2f, radius * 2f),
+                style = Stroke(SwitchStroke, cap = StrokeCap.Round)
+            )
+        }
+
         SwitchGateKind.Pulse -> gate.forEachDot { color, point ->
             drawCircle(colors[color].copy(alpha = alpha), SwitchDot, point)
         }
@@ -254,7 +291,8 @@ private fun DrawScope.drawSwitchGate(gate: SwitchGate, colors: List<Color>, alph
 
 @Serializable
 internal enum class SwitchGateKind {
-    Ring, Rail, Square, Triangle, Spinner, Pulse, DoubleRing, Hexagon, TwinSpinner, DoubleRail
+    Ring, Rail, Square, Triangle, Spinner, Pulse, DoubleRing, Hexagon, TwinSpinner, DoubleRail,
+    Orbit, Hourglass
 }
 
 @Serializable
@@ -316,6 +354,21 @@ internal class SwitchGate(
                 }
             }
 
+            SwitchGateKind.Orbit -> {
+                val gap = distance - radius
+                if (abs(gap) > edge) return false
+                val contact = if (dy > 0f) 90f else 270f
+                repeat(4) { index ->
+                    if (colorAt(index) == color) return@repeat
+                    val offset = arcadeAngle(contact - angle - index * 90f)
+                    val excess = if (offset <= SwitchOrbitSweep) 0f else
+                        minOf(offset - SwitchOrbitSweep, 360f - offset)
+                    val distanceSquared =
+                        gap * gap + 2f * radius * distance * (1f - cos(excess * SwitchRadians))
+                    if (distanceSquared < edge * edge) return true
+                }
+            }
+
             SwitchGateKind.Pulse -> {
                 val ballPoint = Offset(0f, dy)
                 val contact = SwitchBallRadius + SwitchDot
@@ -362,6 +415,24 @@ internal class SwitchGate(
             }
             return
         }
+        if (kind == SwitchGateKind.Hourglass) {
+            val axis = switchRay(angle)
+            val cross = Offset(-axis.y, axis.x) * (radius * 0.58f)
+            for (side in -1..1 step 2) {
+                val tip = axis * (14f * side)
+                val end = axis * (radius * 0.8f * side)
+                val left = end - cross
+                val right = end + cross
+                val innerLeft = (tip + left) / 2f
+                val innerRight = (tip + right) / 2f
+                draw(colorAt(0), innerLeft, tip)
+                draw(colorAt(0), tip, innerRight)
+                draw(colorAt(1), left, innerLeft)
+                draw(colorAt(2 + (side + 1) / 2), innerRight, right)
+                draw(colorAt(0), right, left)
+            }
+            return
+        }
         val sides = when (kind) {
             SwitchGateKind.Triangle -> 3
             SwitchGateKind.Hexagon -> 6
@@ -394,8 +465,11 @@ private fun switchRay(angle: Float): Offset {
 @Serializable
 internal class TintAscentRun : ArcadeRun() {
     val gates = ArrayDeque<SwitchGate>()
-    var ball = 0f
-        private set
+
+    @SerialName("ball")
+    private var altitude = 0.0
+    val ball: Float
+        get() = altitude.toFloat()
     var velocity = 0f
         private set
     var camera = 0f
@@ -405,7 +479,7 @@ internal class TintAscentRun : ArcadeRun() {
     var launched = false
         private set
     private var generated = 0
-    private var elapsed = 0f
+    private var elapsed = 0.0
     private val patterns = mutableListOf<SwitchGateKind>()
     var crash = 0f
         private set
@@ -419,13 +493,13 @@ internal class TintAscentRun : ArcadeRun() {
         get() = topInset + (height - topInset) * 0.65f
 
     override fun reset() {
-        ball = 0f
+        altitude = 0.0
         velocity = 0f
         camera = 0f
         color = Random.nextInt(4)
         launched = false
         generated = 0
-        elapsed = 0f
+        elapsed = 0.0
         crash = 0f
         patterns.clear()
         effects.clear()
@@ -456,7 +530,7 @@ internal class TintAscentRun : ArcadeRun() {
         }
         elapsed += seconds
         val nextVelocity = (velocity - SwitchGravity * seconds).coerceAtLeast(-320f)
-        ball += (velocity + nextVelocity) * seconds / 2f
+        altitude += (velocity + nextVelocity) * seconds / 2.0
         velocity = nextVelocity
         camera += (maxOf(camera, ball - 26f) - camera) * minOf(1f, 13f * seconds)
 
@@ -507,6 +581,8 @@ internal class TintAscentRun : ArcadeRun() {
                 SwitchGateKind.Hexagon -> 46f + variation * 15f
                 SwitchGateKind.Triangle -> 69f + variation * 20f
                 SwitchGateKind.Pulse -> 56f + variation * 11f
+                SwitchGateKind.Orbit -> 55f + variation * 12f
+                SwitchGateKind.Hourglass -> 65f + variation * 12f
                 SwitchGateKind.Ring -> 44f + variation * 12f
             }
             val speed = when (kind) {
@@ -515,6 +591,8 @@ internal class TintAscentRun : ArcadeRun() {
                 SwitchGateKind.Spinner, SwitchGateKind.TwinSpinner -> 35f + 57f * difficulty
                 SwitchGateKind.Triangle -> 30f + 52f * difficulty
                 SwitchGateKind.Pulse -> 31f + 40f * difficulty
+                SwitchGateKind.Orbit -> 37f + 42f * difficulty
+                SwitchGateKind.Hourglass -> 22f + 33f * difficulty
                 else -> 24f + 62f * difficulty
             } * if (Random.nextBoolean()) 1f else -1f
 
@@ -551,11 +629,7 @@ internal class TintAscentRun : ArcadeRun() {
                     colorOffset = entryColor,
                     nextColor = nextColor,
                     speed = fallbackSpeed,
-                    angle = arcadeAngle(
-                        67.5f + fallbackSpeed * (elapsed - switchReferenceTime(
-                            center
-                        ))
-                    )
+                    angle = gateAngle(67.5f, fallbackSpeed, switchReferenceTime(center))
                 )
             }
             gates.addLast(gate)
@@ -587,12 +661,15 @@ internal class TintAscentRun : ArcadeRun() {
                 if (!fits) break
             }
             if (fits) {
-                gate.angle = arcadeAngle(phase + gate.speed * (elapsed - middle))
+                gate.angle = gateAngle(phase, gate.speed, middle)
                 return true
             }
         }
         return false
     }
+
+    private fun gateAngle(phase: Float, speed: Float, referenceTime: Float): Float =
+        arcadeAngle(phase + ((elapsed - referenceTime) * speed % 360.0).toFloat())
 
     private fun nextPattern(index: Int, previous: SwitchGateKind?): SwitchGateKind {
         if (index == 0) {

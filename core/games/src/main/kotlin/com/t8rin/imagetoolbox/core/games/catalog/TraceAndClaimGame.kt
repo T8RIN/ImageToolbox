@@ -29,6 +29,7 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.PathFillType
+import androidx.compose.ui.graphics.PointMode
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.drawscope.Stroke
@@ -50,7 +51,11 @@ import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import kotlinx.serialization.UseSerializers
+import kotlin.math.PI
 import kotlin.math.abs
+import kotlin.math.atan2
+import kotlin.math.cos
+import kotlin.math.sin
 import kotlin.random.Random
 
 private const val TraceSide = 96
@@ -67,6 +72,15 @@ private val TracePerimeter = TracePlayable.indices.filter { cell ->
 private val TraceClaimTarget = TracePlayable.count { it }
 private const val TraceTravelRadius = TraceRadius - 0.72f
 private const val TraceTrailWidth = 0.68f
+private const val TraceTurn = 2f * PI.toFloat()
+private val TraceDots = buildList {
+    val random = Random(98)
+    for (row in 0 until TraceSide step 3) for (col in 0 until TraceSide step 3) {
+        val point =
+            Offset(col + 0.7f + random.nextFloat() * 1.6f, row + 0.7f + random.nextFloat() * 1.6f)
+        if ((point - TraceCenter).getDistanceSquared() < TraceRadius * TraceRadius) add(point)
+    }
+}
 
 @Composable
 fun TraceAndClaimGame(
@@ -139,6 +153,13 @@ fun TraceAndClaimGame(
                                 color = colors[index].copy(alpha = if (index == 0) 0.68f else 0.51f)
                             )
                         }
+                        drawPoints(
+                            points = TraceDots,
+                            pointMode = PointMode.Points,
+                            color = style.textColor.copy(alpha = 0.17f),
+                            strokeWidth = 0.18f,
+                            cap = StrokeCap.Round
+                        )
                     }
                 }
 
@@ -172,8 +193,7 @@ fun TraceAndClaimGame(
                         size = Size(radius * 2f, radius * 2f),
                         cornerRadius = CornerRadius(radius * 0.46f)
                     )
-                    val direction = if (rider === player) run.heading else rider.direction?.vector
-                        ?: Offset.Zero
+                    val direction = if (rider === player) run.heading else rider.heading
                     drawCircle(
                         color = if (rider === player) style.playerDetailColor else Color.White,
                         radius = radius * 0.29f,
@@ -208,14 +228,8 @@ fun TraceAndClaimGame(
     }
 }
 
-@Serializable
-internal enum class TraceDirection(val x: Int, val y: Int) {
+private enum class TraceDirection(val x: Int, val y: Int) {
     Up(0, -1), Right(1, 0), Down(0, 1), Left(-1, 0);
-
-    val opposite: TraceDirection
-        get() = entries[(ordinal + 2) % 4]
-
-    val vector = Offset(x.toFloat(), y.toFloat())
 
     fun move(cell: Int): Int {
         val col = cell % TraceSide + x
@@ -230,8 +244,16 @@ internal enum class TraceDirection(val x: Int, val y: Int) {
 internal class TraceRider(val id: Int) {
     var cell = -1
     var point = Offset.Zero
-    var destination = -1
-    var direction: TraceDirection? = null
+    var circleCenter = -1
+    var circleRadius = 0
+    var angle = 0f
+    var curve = 0f
+    var home = -1
+    var target = -1
+    var reconsider = 0f
+
+    val heading: Offset
+        get() = Offset(cos(angle), sin(angle))
     val trail = mutableListOf<Int>()
     val route = mutableListOf<Offset>()
     var respawn = 0f
@@ -311,18 +333,17 @@ internal class TraceAndClaimRun : ArcadeRun() {
         trails.fill(0)
         for (rider in riders) {
             rider.cell = -1
-            rider.destination = -1
-            rider.direction = null
+            rider.circleRadius = 0
             rider.trail.clear()
             rider.route.clear()
             rider.respawn = 0f
         }
-        spawn(player, 48 + 48 * TraceSide, null, radius = 4)
-        spawn(riders[1], 27 + 31 * TraceSide, TraceDirection.Left, radius = 5)
-        spawn(riders[2], 68 + 29 * TraceSide, TraceDirection.Up, radius = 5)
-        spawn(riders[3], 26 + 66 * TraceSide, TraceDirection.Down, radius = 5)
-        spawn(riders[4], 69 + 66 * TraceSide, TraceDirection.Right, radius = 5)
-        spawn(riders[5], 47 + 77 * TraceSide, TraceDirection.Right, radius = 4)
+        spawn(player, 48 + 48 * TraceSide, radius = 4)
+        spawn(riders[1], 38 + 33 * TraceSide, radius = 5)
+        spawn(riders[2], 68 + 29 * TraceSide, radius = 5)
+        spawn(riders[3], 26 + 66 * TraceSide, radius = 5)
+        spawn(riders[4], 59 + 63 * TraceSide, radius = 5)
+        spawn(riders[5], 47 + 77 * TraceSide, radius = 4)
     }
 
     override fun stopInput() = release()
@@ -341,7 +362,11 @@ internal class TraceAndClaimRun : ArcadeRun() {
             riders.size == TraceRiders &&
             riders.all { rider ->
                 (rider.cell == -1 || TracePlayable.getOrElse(rider.cell) { false }) &&
-                        rider.destination in -1 until TraceCells &&
+                        rider.circleRadius in 0..5 &&
+                        (rider.circleRadius == 0 || TracePlayable.getOrElse(rider.circleCenter) { false }) &&
+                        rider.home in -1 until TraceCells &&
+                        rider.target in -1 until TraceCells &&
+                        rider.angle.isFinite() && rider.curve.isFinite() &&
                         rider.trail.all { it in territory.indices } &&
                         rider.trail.isEmpty() == rider.route.isEmpty() &&
                         rider.route.all { it.x.isFinite() && it.y.isFinite() }
@@ -370,11 +395,11 @@ internal class TraceAndClaimRun : ArcadeRun() {
         dead.fill(false)
         for ((index, rider) in riders.withIndex()) {
             if (rider.cell < 0) continue
-            val point =
-                if (rider === player) traceInside(rider.point + heading * step) else moveBot(
-                    rider,
-                    step
-                )
+            val point = if (rider === player) {
+                traceInside(rider.point + heading * step)
+            } else {
+                moveBot(rider, step, seconds)
+            }
             val cell = traceCell(point)
             targets[index] = cell
             positions[index] = point
@@ -416,6 +441,7 @@ internal class TraceAndClaimRun : ArcadeRun() {
             clearTrail(rider)
             rider.cell = -1
             if (rider === player) continue
+            rider.circleRadius = 0
             for (cell in territory.indices) if (territory[cell] == rider.id) territory[cell] = 0
             landRevision++
             rider.respawn = 1.6f + Random.nextFloat() * 1.8f
@@ -454,27 +480,52 @@ internal class TraceAndClaimRun : ArcadeRun() {
         }
     }
 
-    private fun moveBot(rider: TraceRider, step: Float): Offset {
-        if (rider.destination < 0) {
-            rider.direction = chooseDirection(rider)
-            rider.destination = rider.direction?.move(rider.cell) ?: -1
+    private fun moveBot(rider: TraceRider, step: Float, seconds: Float): Offset {
+        val radial = rider.point - TraceCenter
+        val radius = radial.getDistance()
+        val length = rider.trail.size
+        val limit = 18 + rider.id % 4 * 4 + arena.coerceAtMost(8)
+        rider.reconsider -= seconds
+        if (rider.reconsider <= 0f) {
+            rider.reconsider = 0.24f
+            if (rider.home >= 0 && territory[rider.home] != rider.id) rider.home = -1
+            if (rider.home < 0 && (length >= limit || length >= 6 && radius > TraceTravelRadius - 4f)) {
+                rider.home = findHome(rider)
+            }
+            rider.target = if (rider.home < 0 && length < limit / 2) findTrail(rider) else -1
         }
-        if (rider.destination < 0) {
-            return rider.point
+
+        val target = if (rider.home >= 0) rider.home else rider.target
+        var turn = rider.curve + sin(elapsed * 1.9f + rider.id) * 0.4f
+        var travel = step
+        if (target >= 0) {
+            val delta = traceCenter(target) - rider.point
+            turn = traceTurn(rider.angle, delta) * 5f
+            if (rider.home >= 0) {
+                travel *= (delta.getDistance() / 2.6f).coerceIn(0.55f, 1f)
+            }
         }
-        val target = traceCenter(rider.destination)
-        val delta = target - rider.point
-        val distance = delta.getDistance()
-        if (distance <= step) {
-            rider.destination = -1
-            return target
+        val forward = rider.heading
+        if (radius > TraceTravelRadius - 5f && radial.x * forward.x + radial.y * forward.y > 0f) {
+            val inward = -radial / radius
+            val side = if (radial.x * forward.y - radial.y * forward.x > 0f) 1f else -1f
+            val tangent = Offset(inward.y, -inward.x) * side
+            val avoid = traceTurn(rider.angle, tangent + inward * 0.55f)
+            val strength = ((radius - TraceTravelRadius + 5f) / 3f).coerceIn(0f, 1f)
+            turn += (avoid * 5f - turn) * strength
         }
-        return rider.point + delta * (step / distance)
+        rider.angle = (rider.angle + turn.coerceIn(-5.4f, 5.4f) * seconds) % TraceTurn
+        return traceInside(rider.point + rider.heading * travel)
     }
 
     private fun enter(rider: TraceRider, cell: Int) {
         if (territory[cell] == rider.id) {
-            if (rider.trail.isNotEmpty()) claim(rider)
+            if (rider.trail.isNotEmpty()) {
+                claim(rider)
+                rider.home = -1
+                rider.target = -1
+                rider.curve = randomCurve()
+            }
         } else if (trails[cell] != rider.id) {
             if (rider.trail.isEmpty()) rider.route += rider.point
             rider.trail += cell
@@ -561,14 +612,17 @@ internal class TraceAndClaimRun : ArcadeRun() {
             }
         }
         for (cell in territory.indices) {
-            if (!TracePlayable[cell] || territory[cell] == rider.id) continue
+            val previous = territory[cell]
+            if (!TracePlayable[cell] || previous == rider.id) continue
             if (visited[cell] && (!usesRim || firstTurns[cell] == exterior)) continue
             if (rider === player) {
                 owned++
                 score++
-            } else if (territory[cell] == player.id) {
+            } else if (previous == player.id) {
                 owned--
             }
+            if (previous != 0) riders[previous - 1].circleRadius = 0
+            rider.circleRadius = 0
             territory[cell] = rider.id
         }
         landRevision++
@@ -583,67 +637,41 @@ internal class TraceAndClaimRun : ArcadeRun() {
         rider.route.clear()
     }
 
-    private fun chooseDirection(rider: TraceRider): TraceDirection? {
-        val heading = rider.direction ?: return null
-        val reach = 5 + (arena + (elapsed / 23f).toInt()).coerceAtMost(9)
-        val length = rider.trail.size
-        val targetLength = 14 + rider.id % 4 * 3 + arena.coerceAtMost(7)
-        if (length >= targetLength || length >= 4 && heading.move(rider.cell) < 0) {
-            return homeDirection(rider) ?: heading
-        }
-        var victim = -1
-        var closest = reach + 1
-        if (length < targetLength / 2) {
-            for (cell in player.trail) {
-                val distance = traceDistance(rider.cell, cell)
-                if (distance < closest) {
-                    victim = cell
-                    closest = distance
+    private fun findTrail(rider: TraceRider): Int {
+        val reach = 8f + difficulty.coerceAtMost(7f)
+        var nearest = reach * reach
+        var target = -1
+        for (opponent in riders) {
+            if (opponent === rider || opponent.cell < 0) continue
+            for (cell in opponent.trail) {
+                val delta = traceCenter(cell) - rider.point
+                val distance = delta.getDistanceSquared()
+                if (distance < nearest && abs(traceTurn(rider.angle, delta)) < 1.5f) {
+                    nearest = distance
+                    target = cell
                 }
             }
         }
-        var best = Float.NEGATIVE_INFINITY
-        var chosen: TraceDirection? = null
-        for (direction in TraceDirection.entries) {
-            val next = direction.move(rider.cell)
-            if (direction == heading.opposite || next < 0 || trails[next] == rider.id) continue
-            var value = Random.nextFloat() * 3f
-            if (direction == heading) value += 2f
-            if (territory[next] != rider.id) value += if (length < 4) 3f else 0.5f
-            if (victim >= 0) value -= traceDistance(next, victim) * 4f
-            if (direction.move(next) < 0) value -= 1.5f
-            if (value > best) {
-                best = value
-                chosen = direction
-            }
-        }
-        return chosen ?: homeDirection(rider) ?: heading
+        return target
     }
 
-    private fun homeDirection(rider: TraceRider): TraceDirection? {
-        visited.fill(false)
-        visited[rider.cell] = true
-        var start = 0
-        var end = 0
-        for (direction in TraceDirection.entries) {
-            val next = direction.move(rider.cell)
-            if (next < 0 || trails[next] == rider.id) continue
-            queue[end++] = next
-            visited[next] = true
-            firstTurns[next] = direction.ordinal
-        }
-        while (start < end) {
-            val cell = queue[start++]
-            if (territory[cell] == rider.id) return TraceDirection.entries[firstTurns[cell]]
-            for (direction in TraceDirection.entries) {
-                val next = direction.move(cell)
-                if (next < 0 || visited[next] || trails[next] == rider.id) continue
-                queue[end++] = next
-                visited[next] = true
-                firstTurns[next] = firstTurns[cell]
+    private fun findHome(rider: TraceRider): Int {
+        var nearest = Float.POSITIVE_INFINITY
+        var target = -1
+        for (cell in territory.indices) {
+            if (territory[cell] != rider.id) continue
+            val delta = traceCenter(cell) - rider.point
+            val distance = delta.getDistanceSquared()
+            if (distance >= nearest) continue
+            val edge =
+                TraceDirection.entries.count { territory.getOrNull(it.move(cell)) != rider.id }
+            val cost = distance + edge * 18f
+            if (cost < nearest) {
+                nearest = cost
+                target = cell
             }
         }
-        return null
+        return target
     }
 
     private fun respawnPlayer() {
@@ -669,17 +697,17 @@ internal class TraceAndClaimRun : ArcadeRun() {
         }
 
         if (safest >= 0) {
-            spawn(player, safest, null, radius = 0)
-        } else if (!spawnInFreeSpace(player, null)) {
+            spawn(player, safest, radius = 0)
+        } else if (!spawnInFreeSpace(player)) {
             resetArena()
         }
     }
 
     private fun respawn(rider: TraceRider) {
-        if (!spawnInFreeSpace(rider, TraceDirection.entries.random())) rider.respawn = 1.2f
+        if (!spawnInFreeSpace(rider)) rider.respawn = 1.2f
     }
 
-    private fun spawnInFreeSpace(rider: TraceRider, heading: TraceDirection?): Boolean {
+    private fun spawnInFreeSpace(rider: TraceRider): Boolean {
         val start = Random.nextInt(TraceCells)
         for (offset in 0 until TraceCells) {
             val cell = (start + offset) % TraceCells
@@ -697,17 +725,24 @@ internal class TraceAndClaimRun : ArcadeRun() {
                 }
             }
             if (!clear) continue
-            spawn(rider, cell, heading, radius = 2)
+            spawn(rider, cell, radius = 2)
             return true
         }
         return false
     }
 
-    private fun spawn(rider: TraceRider, cell: Int, heading: TraceDirection?, radius: Int) {
+    private fun spawn(rider: TraceRider, cell: Int, radius: Int) {
         rider.cell = cell
         rider.point = traceCenter(cell)
-        rider.destination = -1
-        rider.direction = heading
+        rider.angle = Random.nextFloat() * TraceTurn
+        rider.curve = randomCurve()
+        rider.home = -1
+        rider.target = -1
+        rider.reconsider = 0f
+        if (radius > 0) {
+            rider.circleCenter = cell
+            rider.circleRadius = if (rider !== player || owned == 0) radius else 0
+        }
         val x = cell % TraceSide
         val y = cell / TraceSide
         for (row in y - radius..y + radius) for (col in x - radius..x + radius) {
@@ -720,6 +755,14 @@ internal class TraceAndClaimRun : ArcadeRun() {
         }
         landRevision++
     }
+}
+
+private fun randomCurve(): Float =
+    (0.56f + Random.nextFloat() * 0.53f) * if (Random.nextBoolean()) 1f else -1f
+
+private fun traceTurn(angle: Float, delta: Offset): Float {
+    val difference = atan2(delta.y, delta.x) - angle
+    return atan2(sin(difference), cos(difference))
 }
 
 private fun traceInside(point: Offset): Offset {
@@ -759,6 +802,8 @@ private class TraceLand {
     private val stride = TraceSide + 1
     private val edges = Array(TraceRiders) { IntArray(stride * stride) }
     private val step = intArrayOf(1, stride, -1, -stride)
+    private val vertices = mutableListOf<Offset>()
+    private val smooth = mutableListOf<Offset>()
     val paths = Array(TraceRiders) { Path().apply { fillType = PathFillType.EvenOdd } }
     private var revision = -1
 
@@ -769,7 +814,7 @@ private class TraceLand {
         val territory = run.territory
         for (cell in territory.indices) {
             val owner = territory[cell]
-            if (owner == 0) continue
+            if (owner == 0 || run.riders[owner - 1].circleRadius > 0) continue
             val x = cell % TraceSide
             val y = cell / TraceSide
             val corner = y * stride + x
@@ -791,6 +836,11 @@ private class TraceLand {
             val path = paths[index]
             path.rewind()
             path.fillType = PathFillType.EvenOdd
+            val rider = run.riders[index]
+            if (rider.circleRadius > 0) {
+                path.addOval(Rect(traceCenter(rider.circleCenter), rider.circleRadius.toFloat()))
+                continue
+            }
             for (vertex in boundary.indices) {
                 while (boundary[vertex] != 0) trace(path, boundary, vertex)
             }
@@ -798,25 +848,37 @@ private class TraceLand {
     }
 
     private fun trace(path: Path, boundary: IntArray, start: Int) {
+        vertices.clear()
+        var vertex = start
         var direction = boundary[start].countTrailingZeroBits()
-        var vertex = start + step[direction]
-        boundary[start] = boundary[start] and (1 shl direction).inv()
-        val first = (point(start) + point(vertex)) / 2f
-        path.moveTo(first.x, first.y)
-        while (vertex != start) {
-            val options = boundary[vertex]
-            if (options == 0) break
-            var next = (direction + 1) and 3
-            while (options and (1 shl next) == 0) next = (next + 3) and 3
-            boundary[vertex] = options and (1 shl next).inv()
-            val corner = point(vertex)
-            vertex += step[next]
-            val middle = (corner + point(vertex)) / 2f
-            path.quadraticTo(corner.x, corner.y, middle.x, middle.y)
-            direction = next
+        do {
+            vertices += point(vertex)
+            boundary[vertex] = boundary[vertex] and (1 shl direction).inv()
+            vertex += step[direction]
+            if (vertex == start || boundary[vertex] == 0) break
+            direction = (direction + 1) and 3
+            while (boundary[vertex] and (1 shl direction) == 0) direction = (direction + 3) and 3
+        } while (vertex != start)
+
+        smooth.clear()
+        val size = vertices.size
+        val reach = minOf(4, (size - 1) / 4)
+        // Average a short stretch of the closed contour to take out the raster steps.
+        for (index in vertices.indices) {
+            var sum = Offset.Zero
+            for (offset in -reach..reach) {
+                val weight = reach + 1 - abs(offset)
+                sum += vertices[(index + offset + size) % size] * weight.toFloat()
+            }
+            smooth += sum / ((reach + 1) * (reach + 1)).toFloat()
         }
-        val corner = point(start)
-        path.quadraticTo(corner.x, corner.y, first.x, first.y)
+        val first = (smooth.last() + smooth.first()) / 2f
+        path.moveTo(first.x, first.y)
+        for (index in smooth.indices) {
+            val point = smooth[index]
+            val middle = (point + smooth[(index + 1) % size]) / 2f
+            path.quadraticTo(point.x, point.y, middle.x, middle.y)
+        }
         path.close()
     }
 
