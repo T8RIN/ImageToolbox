@@ -50,10 +50,12 @@ import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantScreenContext
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantSetting
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantTool
 import com.t8rin.imagetoolbox.feature.media_picker.domain.MediaRetriever
+import com.t8rin.imagetoolbox.feature.media_picker.domain.GalleryOcrRepository
 import com.t8rin.imagetoolbox.feature.media_picker.domain.SemanticSearchRepository
-import com.t8rin.imagetoolbox.feature.media_picker.domain.SemanticSearchScheduler
+import com.t8rin.imagetoolbox.feature.media_picker.domain.GalleryIndexScheduler
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.Album
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.AllowedMedia
+import com.t8rin.imagetoolbox.feature.media_picker.domain.model.GalleryOcrState
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.Media
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.SemanticSearchCategory
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.SemanticSearchCategoryResult
@@ -100,6 +102,8 @@ class AssistantGalleryInstrumentedTest {
     private val thresholds = mutableListOf<Float>()
     private var afterSearch: () -> Unit = {}
     private var refresh: suspend () -> Unit = {}
+    private var ocrPending = false
+    private var ocrText = emptyMap<Media, String>()
 
     private fun search(retriever: MediaRetriever? = null) = AndroidAssistantGallerySearch(
         context = object : ContextWrapper(app) {
@@ -139,10 +143,22 @@ class AssistantGalleryInstrumentedTest {
                 return if (noExactMatches && minimumSimilarity > 0f) emptyList() else media
             }
         },
-        scheduler = object : SemanticSearchScheduler {
+        ocr = object : GalleryOcrRepository {
+            override val state = MutableStateFlow(GalleryOcrState())
+            override fun updateWorkState(isQueued: Boolean?, isWaitingForPermission: Boolean?) =
+                Unit
+
+            override suspend fun downloadModels() = Unit
+            override suspend fun index(media: List<Media>, pruneMissing: Boolean) = false
+            override suspend fun search(query: String?, media: List<Media>) =
+                media.filter { photo -> ocrText[photo]?.let { query == null || it.contains(query) } == true }
+
+            override suspend fun hasPending(media: List<Media>) = ocrPending
+        },
+        scheduler = object : GalleryIndexScheduler {
             override fun start() = Unit
             override fun refresh() = Unit
-            override suspend fun stop() = Unit
+            override suspend fun stopSemanticSearch() = Unit
         },
         resources = resources,
         dispatchers = object : DispatchersHolder {
@@ -153,6 +169,41 @@ class AssistantGalleryInstrumentedTest {
             override val encodingDispatcher = Dispatchers.Default
         }
     )
+
+    @Test
+    fun anyTextAndLiteralTextSearchWorkWithSemanticSearchDisabled() = runBlocking {
+        settings.value =
+            settings.value.copy(isGalleryOcrEnabled = true, isSemanticSearchEnabled = false)
+        ocrText = mapOf(photos[0] to "Station", photos[1] to "Exit")
+        val search = search()
+        val anyText = search.search(AssistantGalleryQuery(ocrText = ""), Mode.New, 1)
+        assertEquals(
+            setOf(photos[0].uri, photos[1].uri),
+            anyText.gallery!!.photos.map { it.uri }.toSet()
+        )
+        val literal = search.search(AssistantGalleryQuery(ocrText = "Exit"), Mode.Narrow, 2)
+        assertEquals(listOf(photos[1].uri), literal.gallery!!.photos.map { it.uri })
+        assertEquals(0, searches)
+    }
+
+    @Test
+    fun ocrDistinguishesDisabledPendingAndCompletedEmptySearches() = runBlocking {
+        val search = search()
+        val query = AssistantGalleryQuery(ocrText = "")
+        val disabled = search.search(query, Mode.New, 1)
+        assertEquals(resources.getString(R.string.gallery_ocr_disabled), disabled.text)
+
+        settings.value = settings.value.copy(isGalleryOcrEnabled = true)
+        ocrPending = true
+        val pending = search.retry(1)
+        assertEquals(resources.getString(R.string.gallery_ocr_pending), pending.text)
+        assertFalse(pending.gallery!!.state.complete)
+
+        ocrPending = false
+        val empty = search.retry(1)
+        assertEquals(resources.getString(R.string.assistant_gallery_empty), empty.text)
+        assertTrue(empty.gallery!!.state.complete)
+    }
 
     @Test
     fun capabilitySnapshotDoesNotWaitForBackgroundIndexing() = runBlocking {
@@ -405,10 +456,10 @@ class AssistantGalleryInstrumentedTest {
     }
 
     @Test
-    fun indexedPeopleRemainSearchableAfterAnIndexingFailure() = runBlocking {
+    fun indexedPeopleRemainSearchableWhenIndexingIsStopped() = runBlocking {
         enablePeople()
         groups = listOf(person(1, "Саша", photos.take(2)))
-        state.value = state.value.copy(error = "indexing failed")
+        state.value = state.value.copy(isIndexing = false, isQueued = false)
         val result = search().search(AssistantGalleryQuery(people = listOf("Саша")), Mode.New, 1)
         assertEquals(2, result.gallery!!.total)
         assertEquals(resources.getString(R.string.assistant_gallery_found, 2), result.text)

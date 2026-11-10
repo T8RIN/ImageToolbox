@@ -5637,6 +5637,15 @@
     <string name="gallery_category_beach">Пляж</string>
     <string name="gallery_category_mountains">Горы</string>
     <string name="gallery_category_sunset">Закат</string>
+    <string name="gallery_ocr">Поиск по тексту на фото</string>
+    <string name="gallery_ocr_sub">Находите снимки по словам на вывесках, в документах и на скриншотах.</string>
+    <string name="gallery_ocr_download_hint">Первая загрузка — 228 МБ.</string>
+    <string name="gallery_ocr_permission">Разрешите доступ к фото для индексации текста</string>
+    <string name="gallery_ocr_progress">Индексация текста на фото: %1$d из %2$d</string>
+    <string name="gallery_ocr_pending">Подготовка поиска по тексту…</string>
+    <string name="gallery_ocr_disabled">Включите поиск по тексту на фото, чтобы находить изображения по словам на них.</string>
+    <string name="gallery_ocr_search_hint">Имя файла или текст</string>
+    <string name="gallery_search_content_hint">Имя файла, описание или текст</string>
     <string name="gallery_search_auto">Семантический поиск по фото</string>
     <string name="gallery_search_auto_sub">Находите фото по содержимому и просматривайте автоматические категории в «Галерее» и «Встроенном средстве выбора». При первом включении загружается около 227 МБ.</string>
     <string name="gallery_search_queued">Ожидание подготовки фото…</string>
@@ -5652,7 +5661,7 @@
     <string name="gallery_search_indexing">Подготовка фото: %1$d из %2$d</string>
     <string name="gallery_search_indexed">Подготовлено фото: %1$d</string>
     <string name="gallery_search_searching">Поиск по содержимому фото…</string>
-    <string name="gallery_search_clear">Удалить данные поиска</string>
+    <string name="gallery_search_clear">Удалить данные семантического поиска</string>
     <string name="gallery_search_clear_description">Выключить семантический поиск и удалить загруженные модели, данные поиска и группы людей? Фото, пользовательские категории и их пороги сохранятся. Поиск по имени файла продолжит работать.</string>
     <string name="gallery_grouping">Группировка</string>
     <string name="small">Маленький</string>
@@ -5724,6 +5733,7 @@
     <string name="sam_undo_point">Отменить точку</string>
     <string name="gallery_people_restore_faces">Вернуть исключённые лица</string>
     <string name="gallery_faces_indexing">Подготовка лиц: %1$d из %2$d</string>
+    <string name="gallery_faces_queued">Ожидание подготовки лиц…</string>
     <string name="help_tip_gallery_search_people_title">Группы людей</string>
     <string name="help_tip_gallery_search_people_description">Включите «Группировать людей» в настройках семантического поиска. После разовой загрузки модели лица группируются во время фоновой подготовки фото. Откройте «Группы людей» рядом с автокатегориями. Список зависит от выбранного альбома. Распознавание может ошибаться.</string>
     <string name="help_tip_gallery_search_people_step_1">Нажмите на фото, чтобы открыть группу. Для изменения имени нажмите «Добавить имя» или существующее имя. Над фото нажмите на название группы, чтобы вернуться к списку, или удерживайте его для открытия настроек. Для объединения вручную откройте «Объединить», отметьте другие группы того же человека и нажмите «Применить». При включённой группировке людей вводите имя в общем поиске, чтобы найти фото этого человека в выбранном альбоме.</string>

@@ -327,6 +327,14 @@ internal fun SettingItem(
                 )
             }
 
+            Setting.GalleryOcr -> {
+                val state by component.galleryOcrState.collectAsStateWithLifecycle()
+                GalleryOcrSettingItem(
+                    state = state,
+                    onValueChange = component::setGalleryOcrEnabled
+                )
+            }
+
             Setting.IssueTracker -> {
                 IssueTrackerSettingItem()
             }

@@ -30,10 +30,12 @@ import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
 import com.t8rin.imagetoolbox.core.utils.initAppContext
 import com.t8rin.imagetoolbox.feature.media_picker.domain.MediaActionsManager
 import com.t8rin.imagetoolbox.feature.media_picker.domain.MediaRetriever
+import com.t8rin.imagetoolbox.feature.media_picker.domain.GalleryOcrRepository
 import com.t8rin.imagetoolbox.feature.media_picker.domain.SemanticSearchRepository
-import com.t8rin.imagetoolbox.feature.media_picker.domain.SemanticSearchScheduler
+import com.t8rin.imagetoolbox.feature.media_picker.domain.GalleryIndexScheduler
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.Album
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.AllowedMedia
+import com.t8rin.imagetoolbox.feature.media_picker.domain.model.GalleryOcrState
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.Media
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.MediaAction
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.MediaActionResult
@@ -329,10 +331,16 @@ class MediaPickerActionsInstrumentedTest {
                         else -> error(name)
                     }
                 },
-                semanticSearchScheduler = object : SemanticSearchScheduler {
+                galleryOcrRepository = dependency<GalleryOcrRepository> { name, _ ->
+                    when (name) {
+                        "getState" -> MutableStateFlow(GalleryOcrState())
+                        else -> error(name)
+                    }
+                },
+                galleryIndexScheduler = object : GalleryIndexScheduler {
                     override fun start() = Unit
                     override fun refresh() = Unit
-                    override suspend fun stop() = Unit
+                    override suspend fun stopSemanticSearch() = Unit
                 },
                 dispatchersHolder = dispatchers
             ).also {

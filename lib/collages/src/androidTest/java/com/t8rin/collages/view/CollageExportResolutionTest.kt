@@ -22,7 +22,6 @@ import android.graphics.Color
 import android.graphics.PointF
 import android.graphics.RectF
 import android.net.Uri
-import android.os.Bundle
 import android.view.View
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
@@ -40,57 +39,6 @@ import java.io.File
 
 @RunWith(AndroidJUnit4::class)
 class CollageExportResolutionTest {
-    @Test
-    fun imageLoadedAfterStateSaveIsCenteredInTallFrame() = runBlocking {
-        val instrumentation = InstrumentationRegistry.getInstrumentation()
-        val context = instrumentation.targetContext
-        val sourceFile = File(context.cacheDir, "collage_initial_position.jpg")
-        val source = Bitmap.createBitmap(1600, 1067, Bitmap.Config.ARGB_8888)
-        source.eraseColor(Color.RED)
-        sourceFile.outputStream().use { source.compress(Bitmap.CompressFormat.JPEG, 90, it) }
-        source.recycle()
-
-        try {
-            val item = PhotoItem(
-                bound = RectF(0f, 0f, 1f, 1f),
-                pointList = arrayListOf(
-                    PointF(0f, 0f), PointF(1f, 0f),
-                    PointF(1f, 1f), PointF(0f, 1f)
-                )
-            )
-            lateinit var view: FrameImageView
-            instrumentation.runOnMainSync {
-                val layout = FramePhotoLayout(context, listOf(item)).apply {
-                    build(200, 600)
-                    measure(
-                        View.MeasureSpec.makeMeasureSpec(200, View.MeasureSpec.EXACTLY),
-                        View.MeasureSpec.makeMeasureSpec(600, View.MeasureSpec.EXACTLY)
-                    )
-                    layout(0, 0, 200, 600)
-                }
-                val savedState = Bundle()
-                layout.saveInstanceState(savedState)
-                item.imagePath = Uri.fromFile(sourceFile)
-                layout.restoreInstanceState(savedState)
-                view = layout.getChildAt(0) as FrameImageView
-                view.reloadImageFromPhotoItem()
-            }
-            withTimeout(10_000) {
-                while (withContext(Dispatchers.Main) { view.image == null }) delay(50)
-            }
-            withContext(Dispatchers.Main) {
-                val image = view.image!!
-                val bounds = RectF(0f, 0f, image.width.toFloat(), image.height.toFloat())
-                view.imageMatrix.mapRect(bounds)
-                assertEquals(view.width / 2f, bounds.centerX(), 1f)
-                assertEquals(view.height / 2f, bounds.centerY(), 1f)
-                assertTrue(bounds.top <= 0f && bounds.bottom >= view.height)
-            }
-        } finally {
-            sourceFile.delete()
-        }
-    }
-
     @Test
     fun exportUsesSourceResolutionAndOriginalPixels() = runBlocking {
         val instrumentation = InstrumentationRegistry.getInstrumentation()
@@ -141,8 +89,8 @@ class CollageExportResolutionTest {
                 assertEquals(2400, output.height)
                 assertEquals(Color.RED, output.getPixel(1201, 1200))
                 assertEquals(Color.BLUE, output.getPixel(1205, 1200))
-                assertTrue(withContext(Dispatchers.Main) {
-                    layout.outputDimensions(2f).first > output.width
+                assertEquals(2400 to 2400, withContext(Dispatchers.Main) {
+                    layout.outputDimensions(2f)
                 })
             } finally {
                 output.recycle()

@@ -158,6 +158,7 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.FILENAME_SUFFIX
 import com.t8rin.imagetoolbox.feature.settings.data.keys.FLING_TYPE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.FONT_SCALE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.GALLERY_COLUMNS
+import com.t8rin.imagetoolbox.feature.settings.data.keys.GALLERY_OCR_ENABLED
 import com.t8rin.imagetoolbox.feature.settings.data.keys.GENERATE_PREVIEWS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.GROUP_OPTIONS_BY_TYPE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.HELP_TIPS_BUTTON_HINT_DISMISSED
@@ -411,6 +412,10 @@ internal class AndroidSettingsManager @Inject constructor(
 
     override suspend fun setEmojisCount(count: Int) = edit {
         it[EMOJI_COUNT] = count
+    }
+
+    override suspend fun setGalleryOcrEnabled(enabled: Boolean) = edit {
+        it[GALLERY_OCR_ENABLED] = enabled
     }
 
     override suspend fun setSemanticSearchEnabled(enabled: Boolean) = edit {

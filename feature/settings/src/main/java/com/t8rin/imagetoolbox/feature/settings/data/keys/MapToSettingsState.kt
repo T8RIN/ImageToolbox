@@ -71,6 +71,7 @@ internal fun Preferences.toSettingsState(
     useGalleryStyleSelection = this[USE_GALLERY_STYLE_SELECTION]
         ?: default.useGalleryStyleSelection,
     isSemanticSearchEnabled = this[SEMANTIC_SEARCH_ENABLED] ?: default.isSemanticSearchEnabled,
+    isGalleryOcrEnabled = this[GALLERY_OCR_ENABLED] ?: default.isGalleryOcrEnabled,
     semanticSearchSettings = this[SEMANTIC_SEARCH_SETTINGS]?.let {
         jsonParser.fromJson<SemanticSearchSettings>(
             json = it,

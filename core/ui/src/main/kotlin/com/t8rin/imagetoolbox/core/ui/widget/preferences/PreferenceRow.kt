@@ -89,6 +89,7 @@ fun PreferenceRow(
     additionalContent: (@Composable () -> Unit)? = null,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     drawContainer: Boolean = true,
+    animateSubtitle: Boolean = true,
 ) {
     val scrollAnchor = if (onClick != null) rememberScrollAnchor() else null
     val anchoredOnClick: () -> Unit = {
@@ -192,15 +193,10 @@ fun PreferenceRow(
                         )
                     }
                     Spacer(modifier = Modifier.height(2.dp))
-                    AnimatedContent(
-                        targetState = subtitle,
-                        transitionSpec = {
-                            fadeIn().togetherWith(fadeOut())
-                        }
-                    ) {
-                        it?.let {
+                    val subtitleContent: @Composable (String?) -> Unit = { text ->
+                        if (text != null) {
                             Text(
-                                text = it,
+                                text = text,
                                 fontSize = 12.sp,
                                 textAlign = TextAlign.Start,
                                 fontWeight = FontWeight.Normal,
@@ -208,6 +204,18 @@ fun PreferenceRow(
                                 color = LocalContentColor.current.copy(alpha = 0.5f)
                             )
                         }
+                    }
+                    if (animateSubtitle) {
+                        AnimatedContent(
+                            targetState = subtitle,
+                            transitionSpec = {
+                                fadeIn().togetherWith(fadeOut())
+                            }
+                        ) {
+                            subtitleContent(it)
+                        }
+                    } else {
+                        subtitleContent(subtitle)
                     }
                 }
                 Spacer(Modifier.width(8.dp))

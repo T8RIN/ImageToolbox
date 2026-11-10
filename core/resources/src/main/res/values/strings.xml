@@ -5674,6 +5674,15 @@
     <string name="gallery_category_beach">Beach</string>
     <string name="gallery_category_mountains">Mountains</string>
     <string name="gallery_category_sunset">Sunset</string>
+    <string name="gallery_ocr">Text search in photos</string>
+    <string name="gallery_ocr_sub">Find images by words on signs, in documents, and in screenshots.</string>
+    <string name="gallery_ocr_download_hint">Downloads 228 MB on first use.</string>
+    <string name="gallery_ocr_permission">Allow photo access to index text</string>
+    <string name="gallery_ocr_progress">Indexing text in photos: %1$d of %2$d</string>
+    <string name="gallery_ocr_pending">Preparing text search…</string>
+    <string name="gallery_ocr_disabled">Turn on text search in photos to find images by the words they contain.</string>
+    <string name="gallery_ocr_search_hint">File name or text</string>
+    <string name="gallery_search_content_hint">File name, description or text</string>
     <string name="gallery_search_auto">Semantic photo search</string>
     <string name="gallery_search_auto_sub">Find photos by what is in them and browse automatic categories in Gallery and Embedded Picker. First setup requires a download of about 227 MB.</string>
     <string name="gallery_search_queued">Waiting to prepare photos…</string>
@@ -5689,7 +5698,7 @@
     <string name="gallery_search_indexing">Preparing photos: %1$d of %2$d</string>
     <string name="gallery_search_indexed">Photos prepared: %1$d</string>
     <string name="gallery_search_searching">Searching photo contents…</string>
-    <string name="gallery_search_clear">Delete search data</string>
+    <string name="gallery_search_clear">Delete semantic search data</string>
     <string name="gallery_search_clear_description">Turn off Semantic photo search and delete its downloaded files, search data and people groups? Your photos, custom categories and their thresholds will be kept. File name search will still work.</string>
     <string name="gallery_grouping">Grouping</string>
     <string name="compare_animation">Animated before/after</string>
@@ -5752,6 +5761,7 @@
     <string name="sam_undo_point">Undo point</string>
     <string name="gallery_people_restore_faces">Restore excluded faces</string>
     <string name="gallery_faces_indexing">Preparing faces: %1$d of %2$d</string>
+    <string name="gallery_faces_queued">Waiting to prepare faces…</string>
     <string name="help_tip_gallery_search_people_title">Group photos by person</string>
     <string name="help_tip_gallery_search_people_description">Turn on Group people in Semantic photo search settings. After the one-time model download, faces are grouped during background photo preparation. Open People groups beside the automatic categories. The list follows the selected album. Recognition can make mistakes.</string>
     <string name="help_tip_gallery_search_people_step_1">Tap a photo to open the group. Tap Add name or the existing name to edit it. Above the photos, tap the group name to return to all groups or hold it for settings. To merge groups manually, open Merge, select other groups of the same person and tap Apply. With Group people on, enter a saved name in the main search to find that person’s photos in the selected album.</string>

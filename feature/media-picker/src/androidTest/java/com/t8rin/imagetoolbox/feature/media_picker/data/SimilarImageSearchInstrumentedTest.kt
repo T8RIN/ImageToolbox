@@ -127,7 +127,6 @@ class SimilarImageSearchInstrumentedTest {
 
             assertEquals(uri, listOf(duplicate, similar, lessSimilar), results)
         }
-        assertNull(repository.state.value.error)
     }
 
     @Test
@@ -315,7 +314,6 @@ class SimilarImageSearchInstrumentedTest {
             )?.media?.toSet()
         )
         assertEquals(preview, repository.previewCategory(media, settings, category.id))
-        assertNull(repository.state.value.error)
         assertFalse(repository.state.value.isIndexing)
         SemanticSearchIndex(context).use { assertEquals(4, it.count()) }
     }
@@ -363,7 +361,6 @@ class SimilarImageSearchInstrumentedTest {
         check(reference.delete())
         assertEquals(emptyList<Media>(), preview()?.media)
         assertEquals(1, decoded)
-        assertNull(repository.state.value.error)
         SemanticSearchIndex(context).use { assertEquals(1, it.count()) }
     }
 
@@ -401,7 +398,6 @@ class SimilarImageSearchInstrumentedTest {
             recreated.categories(listOf(candidate), saved).single { it.category.id == category.id }
         )
         assertEquals(saved, recreated.prepareCategoryReferences(saved))
-        assertNull(recreated.state.value.error)
     }
 
     @Test
@@ -428,8 +424,8 @@ class SimilarImageSearchInstrumentedTest {
             try {
                 repository.searchByImage(uri, listOf(source, duplicate))
                 fail("An unresolved source must not reuse the local image's embedding")
-            } catch (_: IllegalStateException) {
-                assertTrue(!repository.state.value.error.isNullOrBlank())
+            } catch (e: IllegalStateException) {
+                assertTrue(!e.message.isNullOrBlank())
             }
         }
 
@@ -550,7 +546,6 @@ class SimilarImageSearchInstrumentedTest {
         }
 
         assertTrue(searching.isCancelled)
-        assertNull(repository.state.value.error)
         SemanticSearchIndex(context).use { index ->
             assertEquals(2, index.count())
             assertArrayEquals(embedding(1f), index.get(source), 0f)
@@ -570,8 +565,8 @@ class SimilarImageSearchInstrumentedTest {
                 media = listOf(candidate)
             )
             fail("An unreadable source must report an error")
-        } catch (_: IllegalStateException) {
-            assertTrue(!repository.state.value.error.isNullOrBlank())
+        } catch (e: IllegalStateException) {
+            assertTrue(!e.message.isNullOrBlank())
         }
 
         SemanticSearchIndex(context).use { assertEquals(1, it.count()) }

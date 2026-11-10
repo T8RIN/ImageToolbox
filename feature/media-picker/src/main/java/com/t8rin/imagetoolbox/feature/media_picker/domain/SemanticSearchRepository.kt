@@ -28,7 +28,11 @@ interface SemanticSearchRepository {
 
     val state: StateFlow<SemanticSearchState>
 
-    fun updateWorkState(isQueued: Boolean, isWaitingForPermission: Boolean, error: String? = null)
+    fun updateWorkState(
+        isQueued: Boolean? = null,
+        isWaitingForPermission: Boolean? = null,
+        isFacesQueued: Boolean? = null
+    )
 
     suspend fun refresh()
 
@@ -53,7 +57,9 @@ interface SemanticSearchRepository {
 
     suspend fun downloadModels()
 
-    suspend fun index(media: List<Media>, groupPeople: Boolean = false)
+    suspend fun index(media: List<Media>)
+
+    suspend fun indexFaces(media: List<Media>)
 
     suspend fun search(
         query: String,

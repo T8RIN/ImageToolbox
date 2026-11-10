@@ -332,15 +332,31 @@ internal class FramePhotoLayout(
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        drawBackgroundGradient(canvas, width.toFloat(), height.toFloat())
+        backgroundShader?.let {
+            drawBackgroundGradient(
+                canvas,
+                width.toFloat(),
+                height.toFloat(),
+                it
+            )
+        }
     }
 
-    private fun drawBackgroundGradient(canvas: Canvas, width: Float, height: Float) {
-        backgroundShader?.let { factory ->
-            canvas.drawRect(0f, 0f, width, height, Paint(Paint.DITHER_FLAG).apply {
+    private fun drawBackgroundGradient(
+        canvas: Canvas,
+        width: Float,
+        height: Float,
+        factory: (Float, Float) -> Shader
+    ) {
+        canvas.drawRect(
+            0f,
+            0f,
+            width,
+            height,
+            Paint(Paint.DITHER_FLAG).apply {
                 shader = factory(width, height)
-            })
-        }
+            }
+        )
     }
 
     fun setOnItemTapListener(listener: ((index: Int) -> Unit)?) {
@@ -525,16 +541,15 @@ internal class FramePhotoLayout(
             return withContext(Dispatchers.Default) {
                 val output = createBitmap(outputWidth, outputHeight).also { rendered = it }
                 val canvas = Canvas(output)
-                canvas.drawColor(color)
-                shader?.let {
-                    canvas.drawRect(
-                        0f,
-                        0f,
+                if (shader == null) {
+                    canvas.drawColor(color)
+                } else {
+                    drawBackgroundGradient(
+                        canvas,
                         outputWidth.toFloat(),
                         outputHeight.toFloat(),
-                        Paint().apply {
-                            this.shader = it(outputWidth.toFloat(), outputHeight.toFloat())
-                        })
+                        shader
+                    )
                 }
                 for (frame in frames) {
                     currentCoroutineContext().ensureActive()

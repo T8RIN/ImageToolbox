@@ -28,4 +28,6 @@ dependencies {
     api(libs.onnx.runtime)
     implementation(libs.onnx.genai)
     implementation(libs.aire)
+    implementation(libs.opencv)
+    implementation(libs.tesseract)
 }

@@ -47,17 +47,18 @@ class GradientBackgroundTest {
         }
         layout.build(160, 80)
         for ((width, height) in listOf(160 to 80, 80 to 160)) {
+            layout.outputAspectRatio = width.toFloat() / height
             layout.resize(width, height)
             layout.layout(0, 0, width, height)
             val preview = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
             layout.draw(Canvas(preview))
-            val output = layout.createImage(1f)
+            val output = layout.createImage(.1f)
             assertTrue(
                 "Preview and export disagree at ${width}x$height",
                 preview.sameAs(output)
             )
             assertEquals(128, Color.alpha(output.getPixel(width / 2, height / 2)))
-            val enlarged = layout.createImage(2f)
+            val enlarged = layout.createImage(.2f)
             assertEquals(width * 2, enlarged.width)
             assertEquals(height * 2, enlarged.height)
             assertEquals(128, Color.alpha(enlarged.getPixel(width, height)))
@@ -69,7 +70,7 @@ class GradientBackgroundTest {
         }
         layout.setBackgroundShader(null)
         layout.setBackgroundColor(ComposeColor.Yellow)
-        val solid = layout.createImage(1f)
+        val solid = layout.createImage(.1f)
         assertEquals(Color.YELLOW, solid.getPixel(0, 0))
         val preview = Bitmap.createBitmap(80, 160, Bitmap.Config.ARGB_8888)
         layout.draw(Canvas(preview))

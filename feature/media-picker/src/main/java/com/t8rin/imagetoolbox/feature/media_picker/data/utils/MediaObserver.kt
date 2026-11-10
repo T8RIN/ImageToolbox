@@ -158,10 +158,13 @@ fun Cursor.getMediaFromCursor(): Media {
         isFavorite = getOptionalInt(MediaStore.MediaColumns.IS_FAVORITE) == 1,
         isTrashed = getOptionalInt(MediaStore.MediaColumns.IS_TRASHED) == 1,
         volumeName = getOptionalString(MediaStore.MediaColumns.VOLUME_NAME) ?: "external",
-        size = getColumnIndex(MediaStore.MediaColumns.SIZE).takeIf { it != -1 && !isNull(it) }
-            ?.let { getLong(it) }
+        size = getOptionalLong(MediaStore.MediaColumns.SIZE),
+        generationModified = getOptionalLong(MediaStore.MediaColumns.GENERATION_MODIFIED)
     )
 }
+
+private fun Cursor.getOptionalLong(column: String): Long? =
+    getColumnIndex(column).takeIf { it != -1 && !isNull(it) }?.let(::getLong)
 
 private fun Cursor.getOptionalInt(column: String): Int =
     getColumnIndex(column).takeIf { it >= 0 && !isNull(it) }?.let(::getInt) ?: 0

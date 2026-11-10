@@ -66,6 +66,7 @@ fun PreferenceRowSwitch(
     drawContainer: Boolean = true,
     contentInsteadOfSwitch: (@Composable () -> Unit)? = null,
     titleFontStyle: TextStyle = PreferenceItemDefaults.TitleFontStyle,
+    animateSubtitle: Boolean = true,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     PreferenceRow(
@@ -119,7 +120,8 @@ fun PreferenceRowSwitch(
         interactionSource = interactionSource,
         drawContainer = drawContainer,
         additionalContent = additionalContent,
-        titleFontStyle = titleFontStyle
+        titleFontStyle = titleFontStyle,
+        animateSubtitle = animateSubtitle
     )
 }
 
@@ -143,6 +145,7 @@ fun PreferenceRowSwitch(
     resultModifier: Modifier = Modifier.padding(16.dp),
     contentInsteadOfSwitch: (@Composable () -> Unit)? = null,
     titleFontStyle: TextStyle = PreferenceItemDefaults.TitleFontStyle,
+    animateSubtitle: Boolean = true,
 ) {
     PreferenceRowSwitch(
         modifier = modifier,
@@ -171,6 +174,7 @@ fun PreferenceRowSwitch(
         additionalContent = additionalContent,
         drawContainer = drawContainer,
         contentInsteadOfSwitch = contentInsteadOfSwitch,
-        titleFontStyle = titleFontStyle
+        titleFontStyle = titleFontStyle,
+        animateSubtitle = animateSubtitle
     )
 }

@@ -76,6 +76,7 @@ import com.t8rin.imagetoolbox.core.settings.presentation.model.UiFontFamily
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
+import com.t8rin.imagetoolbox.feature.media_picker.domain.GalleryOcrRepository
 import com.t8rin.imagetoolbox.feature.media_picker.domain.SemanticSearchRepository
 import com.t8rin.imagetoolbox.feature.settings.presentation.model.description
 import dagger.assisted.Assisted
@@ -102,6 +103,7 @@ class SettingsComponent @AssistedInject internal constructor(
     private val shareProvider: ShareProvider,
     private val keepAliveService: KeepAliveService,
     semanticSearchRepository: SemanticSearchRepository,
+    galleryOcrRepository: GalleryOcrRepository,
     filenameCreator: FilenameCreator,
     dispatchersHolder: DispatchersHolder,
 ) : BaseComponent(dispatchersHolder, componentContext), FilenameCreator by filenameCreator {
@@ -110,6 +112,7 @@ class SettingsComponent @AssistedInject internal constructor(
     val settingsState: SettingsState by _settingsState
 
     val semanticSearchState = semanticSearchRepository.state
+    val galleryOcrState = galleryOcrRepository.state
 
     private val _isBackupLoading = mutableStateOf(false)
     val isBackupLoading by _isBackupLoading
@@ -263,6 +266,9 @@ class SettingsComponent @AssistedInject internal constructor(
 
     fun setUseGalleryStyleSelection(value: Boolean) =
         settingsScope { setUseGalleryStyleSelection(value) }
+
+    fun setGalleryOcrEnabled(enabled: Boolean) =
+        settingsScope { setGalleryOcrEnabled(enabled) }
 
     fun setSemanticSearchEnabled(enabled: Boolean) =
         settingsScope { setSemanticSearchEnabled(enabled) }

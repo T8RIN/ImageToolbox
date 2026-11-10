@@ -17,12 +17,23 @@
 
 package com.t8rin.imagetoolbox.feature.media_picker.domain
 
-interface SemanticSearchScheduler {
+import com.t8rin.imagetoolbox.feature.media_picker.domain.model.GalleryOcrState
+import com.t8rin.imagetoolbox.feature.media_picker.domain.model.Media
+import kotlinx.coroutines.flow.StateFlow
 
-    fun start()
+interface GalleryOcrRepository {
 
-    fun refresh()
+    val state: StateFlow<GalleryOcrState>
 
-    suspend fun stop()
+    fun updateWorkState(isQueued: Boolean? = null, isWaitingForPermission: Boolean? = null)
+
+    suspend fun downloadModels()
+
+    suspend fun index(media: List<Media>, pruneMissing: Boolean): Boolean
+
+    /** A null query matches any recognized text. */
+    suspend fun search(query: String?, media: List<Media>): List<Media>
+
+    suspend fun hasPending(media: List<Media>): Boolean
 
 }

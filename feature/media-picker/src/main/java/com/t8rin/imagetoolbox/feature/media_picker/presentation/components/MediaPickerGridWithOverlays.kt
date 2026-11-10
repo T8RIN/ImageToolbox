@@ -77,6 +77,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -106,6 +107,8 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateContentSizeNoClip
 import com.t8rin.imagetoolbox.core.ui.widget.other.BoxAnimatedVisibility
 import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextField
+import com.t8rin.imagetoolbox.core.ui.widget.text.marquee
+import com.t8rin.imagetoolbox.feature.media_picker.domain.model.isFilenameOnlyQuery
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.Album
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.AlbumState
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.AllowedMedia
@@ -136,9 +139,11 @@ internal fun MediaPickerGridWithOverlays(
     val inTrash = selectedAlbumIndex == Album.TRASH_ID
     val hasTrash = albumsState.albums.any { it.id == Album.TRASH_ID && it.count > 0 }
     val isSemanticSearchEnabled by component.isSemanticSearchEnabled.collectAsStateWithLifecycle()
-    val isSemanticSearching by component.isSemanticSearching.collectAsStateWithLifecycle()
-    val semanticSearchError by component.semanticSearchError.collectAsStateWithLifecycle()
+    val isSearchingContent by component.isSearchingContent.collectAsStateWithLifecycle()
     val semanticSearchState by component.semanticSearchState.collectAsStateWithLifecycle()
+    val ocrState by component.galleryOcrState.collectAsStateWithLifecycle()
+    val ocrEnabled = component.settingsState.isGalleryOcrEnabled &&
+            allowedMedia != AllowedMedia.Videos && !inTrash
     val density = LocalDensity.current
     val focusManager = LocalFocusManager.current
     var searchPanelHeight by remember { mutableStateOf(0.dp) }
@@ -163,11 +168,12 @@ internal fun MediaPickerGridWithOverlays(
         focusManager.clearFocus()
         imagePicker.pickImage()
     }
-    val isFilenameOnlySearch = searchImage == null && (
-            !isSemanticSearchEnabled || searchKeyword.trim().let {
-                it.startsWith("*") || it.endsWith("*")
-            }
-            )
+    val searchesText = searchImage == null && !searchKeyword.trim().isFilenameOnlyQuery()
+    val waitingForOcr = searchesText && ocrEnabled && !ocrState.hasIndexed && ocrState.isPreparing
+    val waitingForSemantic = isSemanticSearchEnabled && (searchesText || searchImage != null) &&
+            (semanticSearchState.isDownloading || semanticSearchState.isWaitingForPermission ||
+                    semanticSearchState.indexedImages == 0 &&
+                    (semanticSearchState.isIndexing || semanticSearchState.isQueued))
 
     val filterMedia = {
         component.filterMedia(
@@ -426,14 +432,7 @@ internal fun MediaPickerGridWithOverlays(
 
         BoxAnimatedVisibility(
             visible = filteredMediaState.media.isEmpty() && !filteredMediaState.isLoading && isSearching &&
-                    (isFilenameOnlySearch || (
-                            !isSemanticSearching && semanticSearchError == null && semanticSearchState.error == null &&
-                                    semanticSearchState.modelsReady && !semanticSearchState.isDownloading &&
-                                    (semanticSearchState.indexedImages > 0 || (
-                                            !semanticSearchState.isIndexing && !semanticSearchState.isQueued &&
-                                                    !semanticSearchState.isWaitingForPermission
-                                            ))
-                            )),
+                    !isSearchingContent && !waitingForSemantic && !waitingForOcr,
             enter = scaleIn() + fadeIn(),
             exit = scaleOut() + fadeOut(),
             modifier = Modifier
@@ -544,15 +543,18 @@ internal fun MediaPickerGridWithOverlays(
                                     Text(
                                         stringResource(
                                             when {
+                                                isSemanticSearchEnabled && ocrEnabled -> R.string.gallery_search_content_hint
                                                 isSemanticSearchEnabled &&
                                                         component.settingsState.semanticSearchSettings.groupPeople -> {
                                                     R.string.gallery_search_people_hint
                                                 }
 
                                                 isSemanticSearchEnabled -> R.string.gallery_search_hint
+                                                ocrEnabled -> R.string.gallery_ocr_search_hint
                                                 else -> R.string.search_here
                                             }
-                                        )
+                                        ),
+                                        modifier = Modifier.marquee()
                                     )
                                 },
                                 keyboardOptions = KeyboardOptions.Default.copy(
