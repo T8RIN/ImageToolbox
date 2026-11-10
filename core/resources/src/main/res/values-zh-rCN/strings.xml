@@ -7969,7 +7969,7 @@
     <string name="collage_style_apply_appearance_sub">保持当前布局。按插槽顺序应用外观和照片设置。</string>
     <string name="gallery_style_selection">画廊风格的选择</string>
     <string name="gallery_style_selection_sub">在嵌入式选择器中，点击进行预览并长按开始选择。选择时，点击可添加或删除图像。</string>
-    <string name="play">玩</string>
+    <string name="play">开始游戏</string>
     <string name="show_loading_game_button">等待时玩游戏</string>
     <string name="show_loading_game_button_sub">在加载对话框中显示游戏按钮。</string>
     <string name="arcade_games">游戏</string>
@@ -8017,7 +8017,7 @@
     <string name="arcade_fishing_sub">点击抛出摆动的鱼钩，钓到的鱼越小，得分越高，连续三次空钩后游戏结束</string>
     <string name="arcade_hexagon">超级六边形</string>
     <string name="arcade_hexagon_sub">按住屏幕左侧或右侧进行旋转，连续穿过六边形墙壁缺口，尽力存活</string>
-    <string name="arcade_watch">手表</string>
+    <string name="arcade_watch">观察</string>
     <string name="arcade_repeat">轮到你了</string>
     <string name="arcade_bomber">炸弹人</string>
     <string name="arcade_bomber_sub">滑动移动一步，长按持续移动，点击放置炸弹；移动时也可以放置炸弹</string>
@@ -8052,12 +8052,12 @@
     <string name="arcade_paused">已暂停</string>
     <string name="arcade_game_over">游戏结束</string>
     <string name="arcade_new_record">新纪录！</string>
-    <string name="arcade_previous_best">往届最佳成绩：%1$d</string>
+    <string name="arcade_previous_best">上次最高分：%1$d</string>
     <string name="arcade_finish">完成游戏</string>
     <string name="arcade_random_favorite">从收藏夹中随机选择</string>
     <string name="arcade_statistics">游戏统计</string>
-    <string name="arcade_no_statistics">还没有比赛统计数据</string>
-    <string name="arcade_no_statistics_sub">开始一轮游戏将自动出现在此处。</string>
+    <string name="arcade_no_statistics">暂无游戏统计数据</string>
+    <string name="arcade_no_statistics_sub">开始游戏后，统计数据将自动显示在这里。</string>
     <string name="arcade_statistics_info">游戏统计数据存储在您的设备本地。它们显示您的回合数、高分以及您上次玩每场比赛的时间。</string>
     <string name="arcade_reset_statistics">重置游戏统计数据</string>
     <string name="arcade_reset_statistics_sub">轮数、高分和最后比赛日期都将被清除。</string>
