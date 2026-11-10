@@ -81,7 +81,7 @@ class SavingRegressionInstrumentedTest {
     }
 
     @Test
-    fun originalFilenameKeepsExistingNumberWhenSequenceIsDisabled() {
+    fun originalFilenameKeepsDotsAndExistingNumberWhenSequenceIsDisabled() {
         val settings = MutableStateFlow(
             SettingsState.Default.copy(
                 addOriginalFilename = true,
@@ -122,20 +122,40 @@ class SavingRegressionInstrumentedTest {
         )
         val target = ImageSaveTarget(
             imageInfo = ImageInfo(width = 16, height = 12, imageFormat = ImageFormat.Jpg),
-            originalUri = File(directory, "Инструкция (4).webp").toUri().toString(),
+            originalUri = File(directory, "Инструкция.RAW-01.COVER (4).webp").toUri().toString(),
             sequenceNumber = 3,
             data = byteArrayOf()
         )
 
-        assertEquals("Инструкция (4).jpg", creator.constructImageFilename(target))
+        assertEquals("Инструкция.RAW-01.COVER (4).jpg", creator.constructImageFilename(target))
         assertEquals(
-            "Инструкция (4).jpg",
+            "Инструкция.RAW-01.COVER (4).jpg",
+            creator.constructImageFilename(target, pattern = "\\o")
+        )
+        assertEquals(
+            "Инструкция.RAW-01.COVER (4).JPG",
+            creator.constructImageFilename(target, pattern = "\\o.\\E")
+        )
+        assertEquals(
+            "Инструкция.RAW-01.COVER (4).jpeg",
+            creator.constructImageFilename(target, pattern = "\\o.jpeg")
+        )
+        assertEquals(
+            "Инструкция.RAW-01.COVER (4).jpg",
             creator.constructImageFilename(target, pattern = "\\o[\\c{10:2:3}].\\e")
         )
-        settings.value = settings.value.copy(addSequenceNumber = true)
-        assertEquals("Инструкция (4)[3].jpg", creator.constructImageFilename(target))
+        val nameEndingInExtension = target.copy(
+            originalUri = File(directory, "photo.jpg.webp").toUri().toString()
+        )
         assertEquals(
-            "Инструкция (4)[014].jpg",
+            "photo.jpg.jpg",
+            creator.constructImageFilename(nameEndingInExtension, pattern = "\\o")
+        )
+
+        settings.value = settings.value.copy(addSequenceNumber = true)
+        assertEquals("Инструкция.RAW-01.COVER (4)[3].jpg", creator.constructImageFilename(target))
+        assertEquals(
+            "Инструкция.RAW-01.COVER (4)[014].jpg",
             creator.constructImageFilename(target, pattern = "\\o[\\c{10:2:3}].\\e")
         )
     }
