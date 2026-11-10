@@ -17,26 +17,25 @@
 
 package com.t8rin.imagetoolbox.feature.filters.data.utils.gpu
 
-import com.t8rin.imagetoolbox.feature.filters.data.AndroidFilterProvider
-import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
-import com.t8rin.imagetoolbox.feature.filters.data.model.GeneratedFilterRegistry
-import com.t8rin.imagetoolbox.feature.filters.data.model.FilterField
-import com.t8rin.imagetoolbox.feature.filters.data.model.StructuredParameters
-import com.t8rin.imagetoolbox.feature.filters.presentation.model.GeneratedFilterCatalog
-import com.t8rin.imagetoolbox.feature.filters.data.utils.serialization.StoredParameterValues
 import android.graphics.Bitmap
 import android.graphics.Color
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
+import com.t8rin.imagetoolbox.feature.filters.data.AndroidFilterProvider
+import com.t8rin.imagetoolbox.feature.filters.data.model.FilterField
+import com.t8rin.imagetoolbox.feature.filters.data.model.GeneratedFilterRegistry
+import com.t8rin.imagetoolbox.feature.filters.data.model.StructuredParameters
+import com.t8rin.imagetoolbox.feature.filters.presentation.model.GeneratedFilterCatalog
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
-import kotlin.math.abs
 import java.io.File
+import kotlin.math.abs
 
 @RunWith(AndroidJUnit4::class)
 class ShaderEffectFilterTest {

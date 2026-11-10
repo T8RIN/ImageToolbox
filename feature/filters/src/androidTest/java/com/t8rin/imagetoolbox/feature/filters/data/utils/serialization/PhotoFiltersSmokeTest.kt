@@ -21,7 +21,6 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.core.filters.domain.model.params.SpectralNotchParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.AdaptiveBinarizationParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.AgxToneMappingParams
@@ -34,6 +33,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.params.LcdSubpixelsParam
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.RetroHardwareParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.RisographParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.SignedDistanceFieldParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.SpectralNotchParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.SstvReceptionParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.WienerDeconvolutionParams
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiAdaptiveBinarizationFilter

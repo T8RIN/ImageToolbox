@@ -37,7 +37,8 @@ class GradientBackgroundTest {
     @Test
     fun previewMatchesExportAfterResizingAndSwitchingBackToColor() = runBlocking(Dispatchers.Main) {
         val instrumentation = InstrumentationRegistry.getInstrumentation()
-        val layout = FramePhotoLayout(instrumentation.targetContext, emptyList())
+        val layout =
+            FramePhotoLayout(instrumentation.targetContext, emptyList(), maxImageZoom = 16f)
         layout.setBackgroundColor(ComposeColor.Green)
         layout.setBackgroundShader { width, height ->
             LinearGradient(

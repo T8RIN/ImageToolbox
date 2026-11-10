@@ -90,6 +90,7 @@ android {
 
     kotlin.compilerOptions {
         jvmTarget.set(JvmTarget.fromTarget(libs.versions.jvmTarget.get()))
+        freeCompilerArgs.add("-Xdont-warn-on-error-suppression")
     }
 
     flavorDimensions += "app"

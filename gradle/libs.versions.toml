@@ -49,6 +49,7 @@ dotlottieAndroid = "0.16.0"
 appCompat = "1.8.0"
 androidxCore = "1.19.1"
 workManager = "2.12.0"
+androidxLifecycle = "2.11.0"
 androidxGraphicsPath = "1.1.0"
 desugaring = "2.1.5"
 activityCompose = "1.13.0"
@@ -104,6 +105,7 @@ coilResvg = "1.1.2"
 runner = "1.7.0"
 
 [libraries]
+androidx-lifecycle-process = { module = "androidx.lifecycle:lifecycle-process", version.ref = "androidxLifecycle" }
 androidx-work-runtime = { module = "androidx.work:work-runtime-ktx", version.ref = "workManager" }
 coil-resvg = { module = "com.hashsequence:coil-resvg", version.ref = "coilResvg" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }

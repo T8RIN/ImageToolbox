@@ -66,7 +66,7 @@ class CollageExportResolutionTest {
             lateinit var layout: FramePhotoLayout
             lateinit var view: FrameImageView
             instrumentation.runOnMainSync {
-                layout = FramePhotoLayout(context, listOf(item)).apply {
+                layout = FramePhotoLayout(context, listOf(item), maxImageZoom = 16f).apply {
                     build(200, 200)
                     measure(
                         View.MeasureSpec.makeMeasureSpec(200, View.MeasureSpec.EXACTLY),
@@ -127,7 +127,7 @@ class CollageExportResolutionTest {
             }
             lateinit var layout: FramePhotoLayout
             instrumentation.runOnMainSync {
-                layout = FramePhotoLayout(context, items).apply {
+                layout = FramePhotoLayout(context, items, maxImageZoom = 16f).apply {
                     build(240, 240)
                     measure(
                         View.MeasureSpec.makeMeasureSpec(240, View.MeasureSpec.EXACTLY),

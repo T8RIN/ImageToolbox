@@ -18,7 +18,6 @@
 package com.t8rin.imagetoolbox.feature.media_picker.data
 
 import android.annotation.SuppressLint
-import android.app.ActivityManager
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -29,6 +28,8 @@ import android.content.pm.ServiceInfo
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.content.getSystemService
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.work.CoroutineWorker
 import androidx.work.ForegroundInfo
 import com.t8rin.imagetoolbox.core.resources.R
@@ -37,8 +38,10 @@ import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.conflate
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.util.UUID
 import java.util.concurrent.TimeUnit
@@ -115,17 +118,26 @@ internal suspend fun <T> CoroutineWorker.indexWithProgress(
     index: suspend (isForeground: () -> Boolean) -> T
 ): T = coroutineScope {
     val foreground = AtomicBoolean()
+    val appVisible = ProcessLifecycleOwner.get().lifecycle.currentStateFlow
+        .map { it.isAtLeast(Lifecycle.State.STARTED) }
+        .distinctUntilChanged()
     val updates = launch(start = CoroutineStart.UNDISPATCHED) {
         var couldStart = false
+        var lastProgress: GalleryIndexProgress? = null
         try {
-            progress.distinctUntilChanged().conflate().collect { current ->
-                val canStart = !foreground.get() && canStartForeground()
-                val started = canStart && !couldStart &&
-                        tryStartForeground(notification, current).also(foreground::set)
-                couldStart = canStart
-                if (!started) notification.show(current, foreground.get())
-                delay(1_000)
-            }
+            progress.distinctUntilChanged().combine(appVisible, ::Pair).conflate()
+                .collect { (current, visible) ->
+                    val canStart = !foreground.get() &&
+                            (Build.VERSION.SDK_INT < Build.VERSION_CODES.S || visible)
+                    val started = canStart && !couldStart &&
+                            tryStartForeground(notification, current).also(foreground::set)
+                    couldStart = canStart
+                    if (!started && current != lastProgress) {
+                        notification.show(current, foreground.get())
+                    }
+                    lastProgress = current
+                    delay(1_000)
+                }
         } finally {
             if (!foreground.get()) notification.dismiss()
         }
@@ -150,12 +162,4 @@ private suspend fun CoroutineWorker.tryStartForeground(
         }
         false
     }
-}
-
-private fun canStartForeground(): Boolean {
-    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) return true
-    val process = ActivityManager.RunningAppProcessInfo()
-    ActivityManager.getMyMemoryState(process)
-    return process.importance <= ActivityManager.RunningAppProcessInfo.IMPORTANCE_VISIBLE &&
-            process.importance != ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND_SERVICE
 }

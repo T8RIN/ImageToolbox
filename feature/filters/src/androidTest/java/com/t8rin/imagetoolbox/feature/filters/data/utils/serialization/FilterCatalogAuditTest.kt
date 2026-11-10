@@ -17,8 +17,8 @@
 
 package com.t8rin.imagetoolbox.feature.filters.data.utils.serialization
 
-import android.graphics.BitmapFactory
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.os.Bundle
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -27,8 +27,8 @@ import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.model.toUiFilter
-import com.t8rin.imagetoolbox.feature.filters.data.AndroidFilterProvider
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.feature.filters.data.AndroidFilterProvider
 import kotlinx.coroutines.runBlocking
 import org.json.JSONObject
 import org.json.JSONTokener
@@ -80,7 +80,7 @@ class FilterCatalogAuditTest {
                 val bitmapTransformation = provider.filterToTransformation(ui)
                 val transformation = bitmapTransformation as Filter<*>
                 val cacheKey = bitmapTransformation.cacheKey
-                org.junit.Assert.assertTrue(
+                assertTrue(
                     "Duplicate cache key for ${ui.serializationKey}",
                     cacheKeys.add(cacheKey)
                 )
@@ -168,7 +168,6 @@ class FilterCatalogAuditTest {
                 }
             }
         }
-        Unit
     }
 
     @Test
@@ -177,7 +176,7 @@ class FilterCatalogAuditTest {
             "com.t8rin.imagetoolbox.core.filters.presentation.model.UiEqualizeHistogramPixelationFilter"
         val filter = requireNotNull(UiFilter.fromSerializationKey(key))
         val result = render(filter, 33, 31)
-        org.junit.Assert.assertTrue(result, result.startsWith("ok 33x31 "))
+        assertTrue(result, result.startsWith("ok 33x31 "))
     }
 
     @Test
@@ -194,7 +193,7 @@ class FilterCatalogAuditTest {
                 val result = render(filter, input)
                 writer.appendLine("$name $result")
                 writer.flush()
-                if (phase != "baseline") org.junit.Assert.assertTrue(
+                if (phase != "baseline") assertTrue(
                     "$name: $result",
                     result.startsWith("ok ")
                 )

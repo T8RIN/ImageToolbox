@@ -39,10 +39,7 @@ class ImageToolboxTestsPlugin : Plugin<Project> {
 
             dependencies {
                 add("testImplementation", libs.junit)
-
-                when (path) {
-                    ":lib:palette" -> add("testImplementation", libs.kotlin.test)
-                }
+                add("testImplementation", libs.kotlin.test)
             }
         }
     }

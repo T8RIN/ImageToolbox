@@ -37,7 +37,6 @@ import com.t8rin.imagetoolbox.core.filters.presentation.model.UiBrightnessFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiDisplacementFilter
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.theme.ImageToolboxThemeForPreview
-import com.t8rin.imagetoolbox.feature.filters.data.model.DisplacementFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.floatParam
 import com.t8rin.imagetoolbox.feature.filters.data.model.seedParam
 import com.t8rin.imagetoolbox.feature.filters.presentation.components.FilterFieldItem

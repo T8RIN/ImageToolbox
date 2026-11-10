@@ -223,6 +223,7 @@ class JxlBackendInstrumentedTest {
         }
     }
 
+    @Suppress("SameParameterValue")
     private fun findBox(data: ByteArray, type: String): ByteArray? {
         val buffer = ByteBuffer.wrap(data)
         while (buffer.remaining() >= 8) {
