@@ -25,7 +25,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
@@ -100,14 +99,6 @@ fun TintAscentGame(
             listOf(Color(0xFFC92963), Color(0xFFAA6600), Color(0xFF008575), Color(0xFF6751C8))
         }
     }
-    val backdrop = remember(colors) {
-        Brush.horizontalGradient(
-            0f to colors[3].copy(alpha = 0.09f),
-            0.45f to Color.Transparent,
-            0.55f to Color.Transparent,
-            1f to colors[2].copy(alpha = 0.09f)
-        )
-    }
     ArcadeBoard(
         game = ArcadeGame.TintAscent,
         run = run,
@@ -119,7 +110,6 @@ fun TintAscentGame(
         isPaused = isPaused
     ) {
         ArcadeField(run = run, onPress = { run.jump() }) {
-            drawRect(backdrop)
             val drift = run.camera * run.unit
             arcadeStars(style, run.width, run.height, drift)
             repeat(6) { index ->
