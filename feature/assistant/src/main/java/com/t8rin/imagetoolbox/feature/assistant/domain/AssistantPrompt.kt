@@ -437,6 +437,10 @@ private fun assistantDetailedInterpretationPrompt(
         31, input("Copy recognized text from a photographed page into my notes."),
         """{"action":"editing_instructions","subject":null,"query":"image OCR extract text preview"}"""
     )
+    val photoText = example(
+        35, input("Покажи фотографии, на которых есть текст."),
+        """{"action":"search_library_photos"}""", "find existing photos with any text"
+    )
     val searchablePdf = example(
         32, input("Turn scanned pages into a PDF whose text can be searched."),
         """{"action":"editing_instructions","subject":null,"query":"OCR searchable PDF from images"}"""
@@ -470,11 +474,11 @@ private fun assistantDetailedInterpretationPrompt(
         (samples.distinctBy { Json.parseToJsonElement(it.answer.text).jsonObject.getValue("action").jsonPrimitive.content } +
                 samples.filter {
                     it.id in setOf(3L, 5L, 6L, 14L, 18L, 21L, 22L, 23L, 24L)
-                } + privacy + fileConcept + animation + ocr + searchablePdf + photoContent + contrasts).distinctBy { it.id }
+                } + privacy + fileConcept + animation + ocr + photoText + searchablePdf + photoContent + contrasts).distinctBy { it.id }
     } else samples.filterNot {
         current == null && it.id in setOf(4L, 7L, 22L, 23L, 24L) ||
                 documentationTopic == null && it.id in setOf(12L, 15L)
-    } + privacy + fileConcept + animation + ocr + searchablePdf + photoContent + contrasts + example(
+    } + privacy + fileConcept + animation + ocr + photoText + searchablePdf + photoContent + contrasts + example(
         34, input("Explain why the seasons change."),
         """{"action":"general_knowledge_or_creative_writing"}""", "explain the cause of seasons"
     )

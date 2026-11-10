@@ -25,6 +25,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.arkivanov.decompose.ComponentContext
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
+import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
@@ -35,10 +36,11 @@ import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.utils.makeLog
 import com.t8rin.imagetoolbox.feature.media_picker.data.utils.getDate
+import com.t8rin.imagetoolbox.feature.media_picker.domain.GalleryIndexScheduler
+import com.t8rin.imagetoolbox.feature.media_picker.domain.GalleryOcrRepository
 import com.t8rin.imagetoolbox.feature.media_picker.domain.MediaActionsManager
 import com.t8rin.imagetoolbox.feature.media_picker.domain.MediaRetriever
 import com.t8rin.imagetoolbox.feature.media_picker.domain.SemanticSearchRepository
-import com.t8rin.imagetoolbox.feature.media_picker.domain.SemanticSearchScheduler
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.Album
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.AlbumState
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.AllowedMedia
@@ -53,6 +55,7 @@ import com.t8rin.imagetoolbox.feature.media_picker.domain.model.MediaState
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.SemanticSearchCategory
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.SemanticSearchCategoryResult
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.groupMedia
+import com.t8rin.imagetoolbox.feature.media_picker.domain.model.isFilenameOnlyQuery
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.mergeMediaSearchResults
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.searchByName
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.searchByPeople
@@ -80,6 +83,7 @@ import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -97,7 +101,8 @@ class MediaPickerComponent @AssistedInject internal constructor(
     private val mediaRetriever: MediaRetriever,
     private val mediaActionsManager: MediaActionsManager,
     private val semanticSearchRepository: SemanticSearchRepository,
-    private val semanticSearchScheduler: SemanticSearchScheduler,
+    private val galleryOcrRepository: GalleryOcrRepository,
+    private val galleryIndexScheduler: GalleryIndexScheduler,
     dispatchersHolder: DispatchersHolder
 ) : BaseComponent(dispatchersHolder, componentContext) {
 
@@ -111,11 +116,10 @@ class MediaPickerComponent @AssistedInject internal constructor(
     private val _isSemanticSearchEnabled = MutableStateFlow(false)
     val isSemanticSearchEnabled = _isSemanticSearchEnabled.asStateFlow()
 
+    val galleryOcrState = galleryOcrRepository.state
     val semanticSearchState = semanticSearchRepository.state
-    private val _isSemanticSearching = MutableStateFlow(false)
-    val isSemanticSearching = _isSemanticSearching.asStateFlow()
-    private val _semanticSearchError = MutableStateFlow<String?>(null)
-    val semanticSearchError = _semanticSearchError.asStateFlow()
+    private val _isSearchingContent = MutableStateFlow(false)
+    val isSearchingContent = _isSearchingContent.asStateFlow()
     private val semanticSearchRevision = MutableStateFlow(0)
     private var semanticSearchJob: Job? by smartJob()
     private val categoryScope = MutableStateFlow(
@@ -159,13 +163,10 @@ class MediaPickerComponent @AssistedInject internal constructor(
         faceDownloadJob = componentScope.launch {
             try {
                 if (enabled) semanticSearchRepository.downloadFaceModels()
-                if (saveSemanticSearchSettings { it.copy(groupPeople = enabled) }) {
-                    if (enabled) semanticSearchScheduler.refresh()
-                    else {
-                        _showPeopleGroups.value = false
-                        if (_selectedSemanticCategory.value?.startsWith("person:") == true) {
-                            selectSemanticCategory(null)
-                        }
+                if (saveSemanticSearchSettings { it.copy(groupPeople = enabled) } && !enabled) {
+                    _showPeopleGroups.value = false
+                    if (_selectedSemanticCategory.value?.startsWith("person:") == true) {
+                        selectSemanticCategory(null)
                     }
                 }
             } catch (e: CancellationException) {
@@ -274,18 +275,16 @@ class MediaPickerComponent @AssistedInject internal constructor(
     fun searchSimilarImages(uri: String) {
         if (!_isSemanticSearchEnabled.value || !semanticSearchState.value.modelsReady) return
         searchKeyword.value = ""
-        _semanticSearchError.value = null
         _semanticSearchImage.value = uri
     }
 
     fun clearSearchImage() {
         _semanticSearchImage.value = null
-        _semanticSearchError.value = null
     }
 
     fun selectSemanticCategory(category: String?) {
         if (_selectedSemanticCategory.value == category) return
-        _filteredMediaState.value = _filteredMediaState.value.copy(isLoading = true)
+        _filteredMediaState.update { it.copy(mediaState = it.mediaState.copy(isLoading = true)) }
         _selectedSemanticCategory.value = category
         if (category?.startsWith("person:") == true) _showPeopleGroups.value = false
     }
@@ -363,7 +362,7 @@ class MediaPickerComponent @AssistedInject internal constructor(
     } catch (e: CancellationException) {
         throw e
     } catch (e: Exception) {
-        _semanticSearchError.value = e.message ?: e.toString()
+        AppToastHost.showFailureToast(e)
         false
     }
 
@@ -377,7 +376,7 @@ class MediaPickerComponent @AssistedInject internal constructor(
             source.isLoading
         ) return null
         if (source.error.isNotEmpty()) {
-            _semanticSearchError.value = source.error
+            AppToastHost.showFailureToast(source.error)
             return null
         }
         val settings = settingsState.semanticSearchSettings
@@ -395,19 +394,25 @@ class MediaPickerComponent @AssistedInject internal constructor(
         } catch (e: CancellationException) {
             throw e
         } catch (e: Exception) {
-            _semanticSearchError.value = e.message ?: e.toString()
+            AppToastHost.showFailureToast(e)
             null
         }
     }
 
+    fun setGalleryOcrEnabled(enabled: Boolean) {
+        componentScope.launch {
+            runSuspendCatching { settingsManager.setGalleryOcrEnabled(enabled) }
+                .onFailure(AppToastHost::showFailureToast)
+        }
+    }
+
     fun setSemanticSearchAutoIndexing(enabled: Boolean) = runSemanticSearchOperation {
+        if (!enabled) faceDownloadJob?.cancel()
         settingsManager.setSemanticSearchEnabled(enabled)
-        if (enabled) {
-            semanticSearchScheduler.refresh()
-        } else {
+        if (!enabled) {
             clearSearchImage()
             _isSemanticSearchEnabled.value = false
-            semanticSearchScheduler.stop()
+            galleryIndexScheduler.stopSemanticSearch()
         }
     }
 
@@ -417,20 +422,19 @@ class MediaPickerComponent @AssistedInject internal constructor(
         clearSearchImage()
         settingsManager.setSemanticSearchEnabled(false)
         _isSemanticSearchEnabled.value = false
-        semanticSearchScheduler.stop()
+        galleryIndexScheduler.stopSemanticSearch()
         semanticSearchRepository.clear()
         _resolvedPeoplePairs.value = emptySet()
     }
 
     private fun runSemanticSearchOperation(action: suspend () -> Unit) {
         semanticSearchJob = componentScope.launch {
-            _semanticSearchError.value = null
             try {
                 action()
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
-                _semanticSearchError.value = e.message ?: e.toString()
+                AppToastHost.showFailureToast(e)
             } finally {
                 semanticSearchRevision.value++
             }
@@ -447,8 +451,8 @@ class MediaPickerComponent @AssistedInject internal constructor(
     private val _mediaState = MutableStateFlow(MediaState())
     val mediaState = _mediaState.asStateFlow()
 
-    private val _filteredMediaState = MutableStateFlow(MediaState())
-    val filteredMediaState = _filteredMediaState.asStateFlow()
+    private val _filteredMediaState = MutableStateFlow(FilteredMediaState())
+    internal val filteredMediaState = _filteredMediaState.asStateFlow()
 
     private val _albumsState = MutableStateFlow(AlbumState())
     val albumsState = _albumsState.asStateFlow()
@@ -585,7 +589,14 @@ class MediaPickerComponent @AssistedInject internal constructor(
         }
         sourceMediaState.value = sourceMediaState.value.updateMedia(uris, transform)
         _mediaState.value = _mediaState.value.updateMedia(uris, transform)
-        _filteredMediaState.value = _filteredMediaState.value.updateMedia(uris, transform)
+        _filteredMediaState.update {
+            it.copy(
+                mediaState = it.mediaState.updateMedia(
+                    uris,
+                    transform
+                )
+            )
+        }
         if (action == MediaAction.Favorite || action == MediaAction.Unfavorite) {
             selectedMedia.indices.forEach { index ->
                 if (selectedMedia[index].uri in uris) {
@@ -685,7 +696,7 @@ class MediaPickerComponent @AssistedInject internal constructor(
         val isRefreshing = categoryScope.value == scope && !current.isLoading
         sourceMediaState.value = if (isRefreshing) current.copy(isRefreshing = true)
         else MediaState()
-        if (!isRefreshing) _filteredMediaState.value = MediaState()
+        if (!isRefreshing) _filteredMediaState.value = FilteredMediaState()
         categoryScope.value = scope
         if (albumId != Album.TRASH_ID && _isSemanticSearchEnabled.value && semanticSearchState.value.modelsReady &&
             semanticSearchState.value.indexedImages > 0
@@ -713,7 +724,11 @@ class MediaPickerComponent @AssistedInject internal constructor(
                     sourceMediaState.emit(
                         MediaState(media = data, error = error, isLoading = false)
                     )
-                    if (result.isSuccess) semanticSearchScheduler.refresh()
+                    if (result.isSuccess && (semanticSearchState.value.isWaitingForPermission ||
+                                galleryOcrState.value.isWaitingForPermission)
+                    ) {
+                        galleryIndexScheduler.refresh()
+                    }
                 }
         }
     }
@@ -724,7 +739,6 @@ class MediaPickerComponent @AssistedInject internal constructor(
     ) {
         val keyword = if (isForceReset) "" else searchKeyword
         if (keyword.isNotBlank()) clearSearchImage()
-        if (this.searchKeyword.value != keyword) _semanticSearchError.value = null
         this.searchKeyword.value = keyword
     }
 
@@ -755,9 +769,6 @@ class MediaPickerComponent @AssistedInject internal constructor(
     }
 
     init {
-        semanticSearchState.map { it.error }.distinctUntilChanged().onEach {
-            if (it != null) _semanticSearchError.value = it
-        }.launchIn(componentScope)
         componentScope.launch {
             combine(
                 sourceMediaState,
@@ -812,7 +823,7 @@ class MediaPickerComponent @AssistedInject internal constructor(
                     throw e
                 } catch (e: Exception) {
                     _isSemanticSearchCategoriesLoading.value = false
-                    _semanticSearchError.value = e.message ?: e.toString()
+                    AppToastHost.showFailureToast(e)
                 }
             }
         }
@@ -860,9 +871,20 @@ class MediaPickerComponent @AssistedInject internal constructor(
                     }
                 )
             }.distinctUntilChanged()
-            val searchInput = combine(searchKeyword, _semanticSearchImage) { keyword, image ->
-                keyword to image
-            }
+            val ocrSearch = combine(
+                settingsManager.settingsState.map { it.isGalleryOcrEnabled }.distinctUntilChanged(),
+                galleryOcrRepository.state.map { it.indexRevision }.distinctUntilChanged()
+            ) { enabled, revision -> revision.takeIf { enabled } }.distinctUntilChanged()
+            val searchInput = combine(
+                searchKeyword,
+                _semanticSearchImage,
+                ocrSearch
+            ) { keyword, image, revision ->
+                Triple(
+                    keyword,
+                    image,
+                    revision.takeIf { image == null && !keyword.isFilenameOnlyQuery() })
+            }.distinctUntilChanged()
             combine(
                 sortedMediaState,
                 _displaySettings,
@@ -877,104 +899,136 @@ class MediaPickerComponent @AssistedInject internal constructor(
                     input.first,
                     semantic,
                     category,
-                    input.second
+                    input.second,
+                    input.third != null
                 )
             }.onCompletion {
-                _isSemanticSearching.value = false
+                _isSearchingContent.value = false
             }.collectLatest { request ->
-                val (state, order, settings, keyword, semantic, selection, image) = request
+                val (state, order, settings, keyword, semantic, selection, image, ocrEnabled) = request
+                fun isCurrentFilter() = keyword == searchKeyword.value &&
+                        image == _semanticSearchImage.value &&
+                        selection.id == _selectedSemanticCategory.value
+
+                fun publishResults(results: MediaState) {
+                    if (isCurrentFilter()) {
+                        _filteredMediaState.value =
+                            FilteredMediaState(results, keyword, image, selection.id)
+                    }
+                }
+
                 val category = selection.result
                 val (enabled, modelsReady, isDownloading) = semantic
-                val isFilenameOnly = image == null &&
-                        (keyword.isBlank() || keyword.startsWith("*") || keyword.endsWith("*"))
-                val canSearch =
-                    selectedAlbumId != Album.TRASH_ID && enabled && !isFilenameOnly && modelsReady &&
-                        !isDownloading && state.error.isEmpty()
-                _isSemanticSearching.value = canSearch
+                val inTrash = selectedAlbumId == Album.TRASH_ID
+                val canSearchSemantic = !inTrash && enabled && modelsReady && !isDownloading &&
+                        (image != null || !keyword.isFilenameOnlyQuery()) && state.error.isEmpty()
+                val canSearchOcr = !inTrash && ocrEnabled &&
+                        categoryScope.value.allowedMedia != AllowedMedia.Videos
                 if (order != settings.mediaOrder) return@collectLatest
                 val mapped = withContext(ioDispatcher) { state.withMappedMedia(settings) }
                 _mediaState.emit(mapped)
-                if (selection.id != _selectedSemanticCategory.value) return@collectLatest
+                if (!isCurrentFilter()) return@collectLatest
                 if (enabled && selection.id != null && category == null) {
                     if (selection.isLoading) {
-                        _filteredMediaState.value = _filteredMediaState.value.copy(isLoading = true)
+                        _filteredMediaState.update {
+                            it.copy(
+                                mediaState = it.mediaState.copy(
+                                    isLoading = true
+                                )
+                            )
+                        }
                     } else {
                         _selectedSemanticCategory.value = null
                     }
                     return@collectLatest
                 }
-                if (canSearch && state.isLoading) return@collectLatest
+                if ((canSearchSemantic || canSearchOcr) && state.isLoading) return@collectLatest
                 val searchState = withContext(ioDispatcher) {
                     if (category != null && enabled) {
                         val categoryUris = category.media.mapTo(hashSetOf(), Media::uri)
                         state.copy(media = state.media.filter { it.uri in categoryUris })
                     } else state
                 }
-                val nameMatches = withContext(ioDispatcher) {
-                    if (image == null) {
-                        val filenames = searchState.media.searchByName(keyword)
-                        if (enabled && semantic.settings.groupPeople) {
-                            mergeMediaSearchResults(
-                                searchState.media.searchByPeople(keyword, selection.namedPeople),
-                                filenames
-                            )
+                _isSearchingContent.value = canSearchSemantic || canSearchOcr
+                try {
+                    val textMatches = withContext(ioDispatcher) {
+                        if (image == null) {
+                            val filenames = searchState.media.searchByName(keyword)
+                            val matches = if (canSearchOcr) {
+                                val recognized = runSuspendCatching {
+                                    galleryOcrRepository.search(keyword, searchState.media)
+                                }.onFailure(AppToastHost::showFailureToast)
+                                    .getOrDefault(emptyList())
+
+                                mergeMediaSearchResults(
+                                    nameMatches = filenames,
+                                    contentMatches = recognized
+                                )
+                            } else filenames
+
+                            if (enabled && !keyword.isFilenameOnlyQuery() && semantic.settings.groupPeople) {
+                                mergeMediaSearchResults(
+                                    nameMatches = searchState.media.searchByPeople(
+                                        keyword,
+                                        selection.namedPeople
+                                    ),
+                                    contentMatches = matches
+                                )
+                            } else {
+                                matches
+                            }
                         } else {
-                            filenames
-                        }
-                    } else {
-                        emptyList()
-                    }
-                }
-                if (!canSearch) {
-                    val filtered = withContext(ioDispatcher) {
-                        if (image == null && keyword.isBlank() && searchState === state) mapped else {
-                            searchState.copy(media = nameMatches).withMappedMedia(settings)
+                            emptyList()
                         }
                     }
-                    if (selection.id != _selectedSemanticCategory.value) return@collectLatest
-                    _filteredMediaState.emit(filtered)
-                } else {
-                    val searchSettings = settings.copy(dateGroup = MediaDateGroup.None)
-                    val source = sourceMediaState.value
-                    try {
-                        delay(350)
-                        val results = if (image == null) {
-                            semanticSearchRepository.search(
-                                query = keyword,
-                                media = searchState.media,
-                                minimumSimilarity = semantic.settings.textThreshold
-                            )
-                        } else {
-                            semanticSearchRepository.searchByImage(
-                                uri = image,
-                                media = searchState.media,
-                                minimumSimilarity = semantic.settings.imageThreshold,
-                                groupPeople = semantic.settings.groupPeople
-                            )
-                        }
+                    if (!canSearchSemantic) {
                         val filtered = withContext(ioDispatcher) {
-                            searchState.copy(
-                                media = mergeMediaSearchResults(nameMatches, results)
-                            ).withMappedMedia(searchSettings)
+                            if (image == null && keyword.isBlank() && searchState === state) mapped else {
+                                searchState.copy(media = textMatches).withMappedMedia(settings)
+                            }
                         }
-                        currentCoroutineContext().ensureActive()
-                        if (source != sourceMediaState.value || keyword != searchKeyword.value ||
-                            image != _semanticSearchImage.value ||
-                            selection.id != _selectedSemanticCategory.value ||
-                            !_isSemanticSearchEnabled.value
-                        ) return@collectLatest
-                        _filteredMediaState.emit(filtered)
-                    } catch (e: CancellationException) {
-                        throw e
-                    } catch (e: Exception) {
-                        if (selection.id != _selectedSemanticCategory.value) return@collectLatest
-                        _semanticSearchError.value = e.message ?: e.toString()
-                        _filteredMediaState.emit(
-                            searchState.copy(media = nameMatches).withMappedMedia(searchSettings)
-                        )
-                    } finally {
-                        _isSemanticSearching.value = false
+                        publishResults(filtered)
+                    } else {
+                        val searchSettings = settings.copy(dateGroup = MediaDateGroup.None)
+                        val source = sourceMediaState.value
+
+                        try {
+                            delay(350)
+                            val results = if (image == null) {
+                                semanticSearchRepository.search(
+                                    query = keyword,
+                                    media = searchState.media,
+                                    minimumSimilarity = semantic.settings.textThreshold
+                                )
+                            } else {
+                                semanticSearchRepository.searchByImage(
+                                    uri = image,
+                                    media = searchState.media,
+                                    minimumSimilarity = semantic.settings.imageThreshold,
+                                    groupPeople = semantic.settings.groupPeople
+                                )
+                            }
+                            val filtered = withContext(ioDispatcher) {
+                                searchState.copy(
+                                    media = mergeMediaSearchResults(textMatches, results)
+                                ).withMappedMedia(searchSettings)
+                            }
+                            currentCoroutineContext().ensureActive()
+                            if (source != sourceMediaState.value || !_isSemanticSearchEnabled.value) return@collectLatest
+                            publishResults(filtered)
+                        } catch (e: CancellationException) {
+                            throw e
+                        } catch (e: Exception) {
+                            if (!isCurrentFilter()) return@collectLatest
+                            AppToastHost.showFailureToast(e)
+                            publishResults(
+                                searchState.copy(media = textMatches)
+                                    .withMappedMedia(searchSettings)
+                            )
+                        }
                     }
+                } finally {
+                    _isSearchingContent.value = false
                 }
             }
         }
@@ -993,6 +1047,13 @@ class MediaPickerComponent @AssistedInject internal constructor(
         }.launchIn(componentScope)
     }
 
+    internal data class FilteredMediaState(
+        val mediaState: MediaState = MediaState(),
+        val keyword: String = "",
+        val image: String? = null,
+        val category: String? = null
+    )
+
     private data class SearchRequest(
         val state: MediaState,
         val order: MediaOrder,
@@ -1000,7 +1061,8 @@ class MediaPickerComponent @AssistedInject internal constructor(
         val keyword: String,
         val semantic: SemanticSearchRequest,
         val category: CategorySelection,
-        val image: String?
+        val image: String?,
+        val ocrEnabled: Boolean
     )
 
     private data class CategorySelection(

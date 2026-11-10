@@ -77,7 +77,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -108,7 +107,6 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateContentSizeNoClip
 import com.t8rin.imagetoolbox.core.ui.widget.other.BoxAnimatedVisibility
 import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextField
 import com.t8rin.imagetoolbox.core.ui.widget.text.marquee
-import com.t8rin.imagetoolbox.feature.media_picker.domain.model.isFilenameOnlyQuery
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.Album
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.AlbumState
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.AllowedMedia
@@ -117,6 +115,7 @@ import com.t8rin.imagetoolbox.feature.media_picker.domain.model.MediaDateGroup
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.MediaGrouping
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.MediaOrder
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.MediaState
+import com.t8rin.imagetoolbox.feature.media_picker.domain.model.isFilenameOnlyQuery
 import com.t8rin.imagetoolbox.feature.media_picker.presentation.screenLogic.MediaPickerComponent
 
 @Composable
@@ -190,7 +189,8 @@ internal fun MediaPickerGridWithOverlays(
         }
     }
 
-    val filteredMediaState by component.filteredMediaState.collectAsState()
+    val (filteredMediaState, appliedKeyword, appliedImage, appliedCategory) =
+        component.filteredMediaState.collectAsState().value
     val displaySettings by component.displaySettings.collectAsStateWithLifecycle()
     val selectedCategory by component.selectedSemanticCategory.collectAsStateWithLifecycle()
     val gridState = rememberLazyGridState()
@@ -199,7 +199,10 @@ internal fun MediaPickerGridWithOverlays(
         displaySettings,
         searchKeyword.trim(),
         searchImage,
-        selectedCategory
+        selectedCategory,
+        appliedKeyword,
+        appliedImage,
+        appliedCategory
     ) {
         gridState.requestScrollToItem(0)
     }

@@ -48,8 +48,8 @@ import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGalleryResult
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGallerySearch
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantKnowledge
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantMessage
-import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantRequest
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantRepository
+import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantRequest
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantScreenContext
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantSearchIndex
 import com.t8rin.imagetoolbox.feature.assistant.presentation.screenLogic.AssistantComponent
@@ -126,8 +126,7 @@ class AssistantRepositoryInstrumentedTest {
     private val lifecycles = mutableListOf<LifecycleRegistry>()
 
     private suspend fun create(
-        realService: Boolean = false,
-        onGallerySearch: ((AssistantGalleryQuery) -> AssistantAnswer)? = null
+        realService: Boolean = false
     ): AndroidAssistantRepository {
         store.load()
         store.update { listOf(fixture) }
@@ -192,14 +191,6 @@ class AssistantRepositoryInstrumentedTest {
 
                     override fun isCurrent(sessionId: Long) = true
 
-                    override suspend fun search(
-                        query: AssistantGalleryQuery,
-                        mode: AssistantGallerySearch.Mode,
-                        sessionId: Long,
-                        language: String?
-                    ): AssistantAnswer = onGallerySearch?.invoke(query)
-                        ?: services.gallerySearch.search(query, mode, sessionId, language)
-
                     override suspend fun retry(sessionId: Long): AssistantAnswer {
                         started.complete(Unit)
                         return reply.await()
@@ -235,24 +226,6 @@ class AssistantRepositoryInstrumentedTest {
         shell("input keyevent KEYCODE_WAKEUP")
         directory.deleteRecursively()
         Unit
-    }
-
-    @Test
-    fun sendsAnyTextSearchDirectlyEvenWhenTheSelectedModelIsNotLoaded() = runBlocking {
-        settingsState.value = settingsState.value.copy(aiAssistantModel = AssistantModel.Advanced)
-        var query: AssistantGalleryQuery? = null
-        val repository = create { search ->
-            query = search
-            AssistantAnswer("Найдены фото с текстом")
-        }
-        withContext(Dispatchers.Main) {
-            repository.newConversation()
-            assertTrue(repository.send(AssistantRequest("найди фотки с любым текстом")))
-        }
-        withTimeout(5_000) { repository.isGenerating.first { !it } }
-        assertEquals(AssistantGalleryQuery(ocrText = ""), query)
-        assertEquals("Найдены фото с текстом", repository.messages.value.last().answer.text)
-        assertEquals(0, catalogCalls)
     }
 
     @Test

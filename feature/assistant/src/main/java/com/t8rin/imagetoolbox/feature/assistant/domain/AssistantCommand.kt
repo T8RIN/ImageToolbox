@@ -38,6 +38,8 @@ import java.time.temporal.TemporalAdjusters
 
 internal object AssistantCommand {
     private const val MAX_SCENE_LENGTH = ClipImageSearch.TEXT_CONTEXT_LENGTH - 2
+    private const val OCR_TEXT =
+        """{"const":true},{"type":"string","minLength":1,"maxLength":300}"""
     private val queryJson = Json { encodeDefaults = true }
 
     sealed interface Action {
@@ -82,16 +84,19 @@ internal object AssistantCommand {
                     else -> error("Unknown photo search mode")
                 }
                 val raw = value.getValue("query").jsonObject
-                require(raw.keys.all {
-                    it in setOf(
-                        "scene",
-                        "people",
-                        "clear",
-                        "date",
-                        "album",
-                        "filename"
-                    )
-                })
+                require(
+                    raw.keys.all {
+                        it in setOf(
+                            "scene",
+                            "people",
+                            "clear",
+                            "date",
+                            "album",
+                            "filename",
+                            "ocrText"
+                        )
+                    }
+                )
                 val personChanges = raw["people"]?.takeUnless { it == JsonNull }
                 require(personChanges == null || personChanges is JsonObject)
                 require(mode == AssistantGallerySearch.Mode.New || current != null)
@@ -103,6 +108,21 @@ internal object AssistantCommand {
                         it,
                         true
                     ) || mode != AssistantGallerySearch.Mode.New && it == current?.filename
+                }
+                val ocrText = raw["ocrText"]?.takeUnless { it == JsonNull }?.jsonPrimitive?.let {
+                    if (!it.isString) {
+                        require(it.booleanOrNull == true)
+                        ""
+                    } else it.content.trim().also { literal ->
+                        require(literal.isNotEmpty())
+                        require(
+                            question.isEmpty() || question.contains(
+                                literal,
+                                ignoreCase = true
+                            ) ||
+                                    mode != AssistantGallerySearch.Mode.New && literal == current?.ocrText
+                        )
+                    }
                 }
                 val rawAlbum = raw["album"]?.takeUnless { it == JsonNull }
                 val albumChanges = (rawAlbum as? JsonObject)?.let {
@@ -124,7 +144,7 @@ internal object AssistantCommand {
                     mode != AssistantGallerySearch.Mode.Narrow ||
                             sceneValue?.booleanOrNull == true || sceneValue?.isString == true ||
                             personChanges?.jsonObject?.values?.any { it.jsonPrimitive.content != "remove" } == true ||
-                            from != null || to != null || album != null || filename != null)
+                            from != null || to != null || album != null || filename != null || ocrText != null)
                 val query = AssistantPhotoPlan(
                     resetFilters = mode == AssistantGallerySearch.Mode.New,
                     withinResults = mode == AssistantGallerySearch.Mode.Narrow,
@@ -139,6 +159,7 @@ internal object AssistantCommand {
                     to = to,
                     album = album,
                     filename = filename,
+                    ocrText = ocrText,
                     clear = raw["clear"]?.takeUnless { it == JsonNull }
                         ?.let { Json.decodeFromString<Set<AssistantPhotoPlan.Filter>>(it.toString()) }
                         .orEmpty() +
@@ -272,8 +293,23 @@ internal object AssistantCommand {
     fun encodeQuery(query: AssistantGalleryQuery): String {
         val fields = queryJson.encodeToJsonElement(query).jsonObject
         return JsonObject(
-            listOf("scene", "people", "excludedPeople", "from", "to", "album", "filename")
-                .associateWith { fields.getValue(if (it == "scene") "semantic" else it) }
+            listOf(
+                "scene",
+                "people",
+                "excludedPeople",
+                "from",
+                "to",
+                "album",
+                "filename",
+                "ocrText"
+            )
+                .associateWith {
+                    when {
+                        it == "scene" -> fields.getValue("semantic")
+                        it == "ocrText" && query.ocrText == "" -> JsonPrimitive(true)
+                        else -> fields.getValue(it)
+                    }
+                }
         ).toString()
     }
 
@@ -310,6 +346,7 @@ internal object AssistantCommand {
                 )
                 if (current.album != null && query.album == null) add(AssistantPhotoPlan.Filter.Album)
                 if (current.filename != null && query.filename == null) add(AssistantPhotoPlan.Filter.Filename)
+                if (current.ocrText != null && query.ocrText == null) add(AssistantPhotoPlan.Filter.OcrText)
             }
         }
         val fields = Json.parseToJsonElement(encodeQuery(query)).jsonObject.toMutableMap()
@@ -330,7 +367,7 @@ internal object AssistantCommand {
         }
         if (current != null) {
             val previous = Json.parseToJsonElement(encodeQuery(current)).jsonObject
-            listOf("scene", "from", "to", "album", "filename").forEach { field ->
+            listOf("scene", "from", "to", "album", "filename", "ocrText").forEach { field ->
                 if (fields[field] == previous[field]) fields[field] = JsonNull
             }
             if (query.from == current.from && query.to == current.to) {
@@ -373,6 +410,7 @@ internal object AssistantCommand {
             "date" to date,
             "album" to album,
             "filename" to fields["filename"],
+            "ocrText" to fields["ocrText"],
             "clear" to (clear - AssistantPhotoPlan.Filter.Album).takeIf { it.isNotEmpty() }
                 ?.let { Json.parseToJsonElement(Json.encodeToString(it)) },
             "scene" to (fields["scene"]?.takeUnless { it == JsonNull }?.let {
@@ -396,11 +434,11 @@ internal object AssistantCommand {
             language
         )
         val availableAlbums = albums(
-                current,
-                catalog,
-                question,
-                language
-            )
+            current,
+            catalog,
+            question,
+            language
+        )
         val namedAlbums = matching(catalog.albums, question, language)
         val albumRoles = availableAlbums.joinToString(",") { name ->
             "${Json.encodeToString(name)}:{\"enum\":${
@@ -415,8 +453,8 @@ internal object AssistantCommand {
         val albumTypes = if (namedAlbums.isEmpty()) listOf("object", "null") else listOf("object")
         val album =
             ""","album":{"type":${Json.encodeToString(albumTypes)},"properties":{$albumRoles},"required":${
-            Json.encodeToString(namedAlbums)
-        },"additionalProperties":false}"""
+                Json.encodeToString(namedAlbums)
+            },"additionalProperties":false}"""
         val removable = buildList {
             if (current?.semantic != null) add("scene")
             if (current != null && (current.people.isNotEmpty() || current.excludedPeople.isNotEmpty())) add(
@@ -425,6 +463,7 @@ internal object AssistantCommand {
             if (current?.from != null || current?.to != null) add("date")
             if (current?.album != null) add("album")
             if (current?.filename != null) add("filename")
+            if (current?.ocrText != null) add("ocrText")
         }
         val clear =
             if (removable.isEmpty()) ",\"clear\":{\"type\":[\"array\",\"null\"],\"maxItems\":0}"
@@ -440,6 +479,7 @@ internal object AssistantCommand {
             namedFiles + if (current?.filename == null) emptyList() else listOf(null)
         val filename =
             if (namedFiles.isEmpty()) text else """{"enum":${Json.encodeToString(filenames)}}"""
+        val ocrText = """{"anyOf":[$OCR_TEXT,{"type":"null"}]}"""
         val dateQuestion = (catalog.files + listOfNotNull(current?.filename)).distinct()
             .fold(question) { text, filename -> text.replace(filename, "", ignoreCase = true) }
         val years = Regex("(?<!\\p{Nd})\\p{Nd}{4}(?!\\p{Nd})").findAll(dateQuestion)
@@ -492,7 +532,7 @@ internal object AssistantCommand {
         val base = """{"type":"object","properties":{
             "people":$people,"date":{"anyOf":[${
             (listOf("""{"type":"null"}""") + relativePeriods + absolute).joinToString(",")
-        }]}$album,"filename":$filename$clear,"scene":$scene
+        }]}$album,"filename":$filename,"ocrText":$ocrText$clear,"scene":$scene
         },"required":${Json.encodeToString(required)},"additionalProperties":false}""".replace(
             "\n",
             ""
@@ -540,6 +580,7 @@ internal object AssistantCommand {
                     }]}"""
                 )
             )
+            add(selected("ocrText", """{"anyOf":[$OCR_TEXT]}"""))
             add(
                 selected(
                     "filename",
@@ -617,9 +658,10 @@ internal object AssistantCommand {
                 }."
 
     fun instructions(copySource: Boolean = false): String = buildString {
+        appendLine("Filter by writing visible in photos with ocrText. Use ocrText=true when any readable text qualifies. When specific words must be visible, copy exactly those words from Request as a string. For a text-only condition set scene=${if (copySource) "false" else "null"}.")
         if (copySource) appendLine("For visible content use scene=true: the app copies the original request into its multilingual encoder without losing colors, objects or actions. For metadata-only changes use scene=false. Only use a scene string when replacing an old visible condition or shortening a request too long for the encoder; include every desired visual detail in that string.")
         appendLine(
-            "Catalog filenames identify existing files; do not ask what a known filename means. Convert each filter change to JSON with action, mode and query. ${if (copySource) "" else "scene is a short positive description of the desired visible objects, attributes and actions, or null for metadata-only changes. "}action=more is only for another page with every condition unchanged; any removal or replacement is action=search. Return only changed metadata filters. Omit unchanged metadata; scene=null leaves visible content unchanged. clear lists filters explicitly removed: scene, people, date, album, filename. For a new search the app starts with empty filters. action=search needs at least one actual condition. action=all explicitly clears every condition and shows the whole gallery; never use it when a person, date or depicted content is requested. The app preserves every unmentioned condition; do not copy current filters into changes. people contains an action for each named person in this request only: include, exclude or remove. Unmentioned people are preserved by the app. Add people to clear only when the user explicitly removes every people condition, never when excluding or removing one person."
+            "Catalog filenames identify existing files; do not ask what a known filename means. Convert each filter change to JSON with action, mode and query. ${if (copySource) "" else "scene is a short positive description of the desired visible objects, attributes and actions, or null for metadata-only changes. "}action=more is only for another page with every condition unchanged; any removal or replacement is action=search. Return only changed metadata filters. Omit unchanged metadata; scene=null leaves visible content unchanged. clear lists filters explicitly removed: scene, people, date, album, filename, ocrText. For a new search the app starts with empty filters. action=search needs at least one actual condition. action=all explicitly clears every condition and shows the whole gallery; never use it when a person, date or depicted content is requested. The app preserves every unmentioned condition; do not copy current filters into changes. people contains an action for each named person in this request only: include, exclude or remove. Unmentioned people are preserved by the app. Add people to clear only when the user explicitly removes every people condition, never when excluding or removing one person."
         )
         appendLine(
             "mode: update preserves all unmentioned conditions and is the default for an active search; reset clears all previous conditions ONLY for an explicitly independent search or when there is no active search; within_results searches only the existing result set when the user asks to search within those results. ${if (copySource) "Never rewrite a short new visible condition: use scene=true. Extract all dates before deciding whether visible content is present." else "Extract scene directly from the original request, preserving colors, objects and actions in its language."} The visual encoder is multilingual. Do not translate it or add search instructions, people names, dates, albums or filenames. A scene string replaces the previous visual condition: when adding or replacing a detail, supply the full desired visual description and preserve every old visual detail that still applies. Use scene=null when depicted content is unchanged. Never copy a scene from the demonstrations. include requires that person in results; exclude forbids them; remove deletes their condition without excluding them. A relative calendar period uses date={unit:day/week/month/year,offset:integer}: 0 is current, negative is past, positive is future. Weeks run Monday through Sunday. For a relative interval use date={fromOffset:days,toOffset:days}, with null for an open boundary. Boundaries are inclusive, so seven days ending today use -6 and 0. Preserve the requested unit and let the app calculate dates. An explicit day is YYYY-MM-DD. For a whole named month use date={unit:month,value:YYYY-MM}; for a whole named year use date={unit:year,value:YYYY}. Never select just the last day of a month or year. The app expands both boundaries. Only a requested interval uses date={from:ISO string or null,to:ISO string or null}; null is an open boundary. Omit date when unchanged. The final Request is authoritative. Never borrow conditions or objects from demonstrations. Relative periods need an offset, not calculated dates. If an absolute year is missing and cannot be resolved from active filters, ask which year. album maps a literal album name to include or remove, using the same operation convention as people. include sets that album; remove deletes its restriction. filename is a literal name or null. action=ask with question clarifies an unavailable identity."
