@@ -1702,6 +1702,7 @@ or click one of the badges below.
   - Tint Ascent
   - Trace & Claim
   - Orchard Pile
+  - Hill Drive
 
 (Yes, the app supports dynamic coloring based on wallpapers for every android version)
 

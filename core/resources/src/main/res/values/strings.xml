@@ -8173,4 +8173,6 @@
     <string name="arcade_traceandclaim_sub">Drag to steer with the floating joystick. You have three lives. Return to your territory to claim the enclosed area. Cross your own trail freely and cut enemy trails. Capture enough land to open a new arena</string>
     <string name="arcade_orchardpile">Orchard Pile</string>
     <string name="arcade_orchardpile_sub">Drag to aim and release to drop a fruit. Matching fruits merge, and two watermelons clear each other. Keep the pile below the dashed line</string>
+    <string name="arcade_hilldrive">Hill Drive</string>
+    <string name="arcade_hilldrive_sub">Drive over hills, collect coins and fuel, and land flips for bonus points</string>
 </resources>
