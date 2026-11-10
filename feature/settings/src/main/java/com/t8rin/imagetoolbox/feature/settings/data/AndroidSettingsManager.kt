@@ -160,6 +160,7 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.FONT_SCALE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.GALLERY_COLUMNS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.GALLERY_OCR_ENABLED
 import com.t8rin.imagetoolbox.feature.settings.data.keys.GENERATE_PREVIEWS
+import com.t8rin.imagetoolbox.feature.settings.data.keys.GROUPED_SCREEN_ORDER
 import com.t8rin.imagetoolbox.feature.settings.data.keys.GROUP_OPTIONS_BY_TYPE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.HELP_TIPS_BUTTON_HINT_DISMISSED
 import com.t8rin.imagetoolbox.feature.settings.data.keys.HIDDEN_FOR_SHARE_SCREENS
@@ -259,6 +260,7 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.VIBRATION_STRENGTH
 import com.t8rin.imagetoolbox.feature.settings.data.keys.WEBLATE_INFO_DIALOG_OPEN_COUNT
 import com.t8rin.imagetoolbox.feature.settings.data.keys.arcadeGameOrder
 import com.t8rin.imagetoolbox.feature.settings.data.keys.toGradientPalettes
+import com.t8rin.imagetoolbox.feature.settings.data.keys.toScreenOrder
 import com.t8rin.imagetoolbox.feature.settings.data.keys.toSettingsState
 import dagger.Lazy
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -553,6 +555,21 @@ internal class AndroidSettingsManager @Inject constructor(
 
     override suspend fun setScreenOrder(data: String) = edit {
         it[SCREEN_ORDER] = data
+    }
+
+    override suspend fun reorderScreens(
+        screenIds: List<Int>,
+        defaultOrder: List<Int>,
+        grouped: Boolean
+    ) = edit { preferences ->
+        val key = if (grouped) GROUPED_SCREEN_ORDER else SCREEN_ORDER
+        val currentOrder = preferences[key].toScreenOrder()
+        val reorderedIds = screenIds.toSet()
+        val reordered = reorderedIds.iterator()
+
+        preferences[key] = (currentOrder + defaultOrder + reorderedIds).distinct().joinToString("/") {
+            if (it in reorderedIds) reordered.next().toString() else it.toString()
+        }
     }
 
     override suspend fun toggleClearCacheOnLaunch() = toggle(

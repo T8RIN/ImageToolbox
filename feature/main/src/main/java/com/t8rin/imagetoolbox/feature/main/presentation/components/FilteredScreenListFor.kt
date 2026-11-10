@@ -37,13 +37,18 @@ internal fun filteredScreenListFor(
 
     val screenList by remember(settingsState.screenList) {
         derivedStateOf {
-            settingsState.screenList.mapNotNull {
-                Screen.entries.find { s -> s.id == it }
-            }.takeIf { it.isNotEmpty() } ?: Screen.entries
+            val screensById = Screen.entries.associateBy { it.id }
+            (settingsState.screenList.mapNotNull(screensById::get) + Screen.entries)
+                .distinctBy { it.id }
         }
     }
 
+    val groupedOrder = remember(settingsState.groupedScreenOrder) {
+        settingsState.groupedScreenOrder.withIndex().associate { it.value to it.index }
+    }
+
     return remember(
+        groupedOrder,
         settingsState.groupOptionsByTypes,
         settingsState.showFavoriteToolsInGroupedMode,
         settingsState.showFavoriteAsLast,
@@ -79,6 +84,7 @@ internal fun filteredScreenListFor(
                         }
                     } else {
                         Screen.typedEntries.getOrNull(screenGroupIndex)?.entries.orEmpty()
+                            .sortedBy { groupedOrder[it.id] ?: Int.MAX_VALUE }
                     }
                 }
 

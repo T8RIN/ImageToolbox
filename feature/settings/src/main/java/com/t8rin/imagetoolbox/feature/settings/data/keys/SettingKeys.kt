@@ -58,6 +58,7 @@ internal val AI_ASSISTANT_ENABLED = booleanPreferencesKey("AI_ASSISTANT_ENABLED"
 internal val AI_ASSISTANT_SETUP_COMPLETE = booleanPreferencesKey("AI_ASSISTANT_SETUP_COMPLETE")
 internal val AI_ASSISTANT_MODEL_TYPE = intPreferencesKey("AI_ASSISTANT_MODEL_TYPE")
 internal val SCREEN_ORDER = stringPreferencesKey("order")
+internal val GROUPED_SCREEN_ORDER = stringPreferencesKey("GROUPED_SCREEN_ORDER")
 internal val EMOJI_COUNT = intPreferencesKey("em_count")
 internal val ADD_ORIGINAL_NAME_TO_FILENAME = booleanPreferencesKey("ADD_ORIGINAL_NAME")
 internal val ADD_SEQ_NUM_TO_FILENAME = booleanPreferencesKey("ADD_SEQ_NUM")

@@ -45,6 +45,7 @@ import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -75,7 +76,7 @@ internal fun MainContentImpl(
     onGetClipList: (List<Uri>) -> Unit,
     onNavigate: (Screen) -> Unit,
     onToggleFavorite: (Screen) -> Unit,
-    onReorderFavorites: (List<Screen>) -> Unit,
+    onReorderScreens: (List<Screen>, Boolean) -> Unit,
     onReorderDragStateChange: (Boolean) -> Unit,
     onShowFeaturesFall: () -> Unit,
     onTryGetUpdate: () -> Unit,
@@ -306,11 +307,16 @@ internal fun MainContentImpl(
                     }
                 }
 
+                val isFavoriteTab = (!settingsState.groupOptionsByTypes || showFavoriteTabInGroupedMode) &&
+                        selectedNavigationItem == favoriteIndex
+                val reorderGroupedScreens by rememberUpdatedState(
+                    settingsState.groupOptionsByTypes && !isFavoriteTab
+                )
+
                 ScreenPreferenceSelection(
                     currentScreenList = currentScreenList,
-                    canReorderFavorites = !showScreenSearch && screenSearchKeyword.isEmpty() &&
-                            (!settingsState.groupOptionsByTypes || showFavoriteTabInGroupedMode) &&
-                            selectedNavigationItem == favoriteIndex,
+                    canReorderScreens = !showScreenSearch && screenSearchKeyword.isEmpty() &&
+                            currentScreenList.size > 1,
                     showScreenSearch = showScreenSearch,
                     screenSearchKeyword = screenSearchKeyword,
                     isGrid = isGrid,
@@ -323,7 +329,9 @@ internal fun MainContentImpl(
                     onNavigateToScreenWithPopUpTo = onNavigate,
                     onNavigationBarItemChange = { selectedNavigationItem = it },
                     onToggleFavorite = onToggleFavorite,
-                    onReorderFavorites = onReorderFavorites,
+                    onReorderScreens = {
+                        onReorderScreens(it, reorderGroupedScreens)
+                    },
                     onReorderDragStateChange = {
                         if (it) blockTopBarScroll = true
                         onReorderDragStateChange(it)
