@@ -8066,4 +8066,14 @@
     <string name="arcade_rounds_finished">Rondas terminadas</string>
     <string name="arcade_rounds_subtitle">%1$d/%2$d rondas</string>
     <string name="arcade_return">Devolver</string>
+    <string name="arcade_templeescape">Escape del templo</string>
+    <string name="arcade_templeescape_sub">Desliza el dedo para correr de pared en pared y sube hasta la salida antes de que la lava te atrape. Esquiva picos y guardianes, recoge reliquias y usa escudos para sobrevivir a un golpe.</string>
+    <string name="arcade_spiralshaft">Eje espiral</string>
+    <string name="arcade_spiralshaft_sub">Arrastra hacia los lados para hacer girar la torre. Salta por tres huecos seguidos para cargar una bola de fuego que destroza dos plataformas. Evita los segmentos rojos y llega al aterrizaje sólido para comenzar la siguiente etapa.</string>
+    <string name="arcade_tintascent">Ascenso de tinte</string>
+    <string name="arcade_tintascent_sub">Toque para rebotar a través de colores coincidentes y recolectar estrellas. Las fichas multicolores cambian el color de tu bola</string>
+    <string name="arcade_traceandclaim">Seguimiento y reclamación</string>
+    <string name="arcade_traceandclaim_sub">Arrastra para conducir con el joystick flotante. Tienes tres vidas. Regresa a tu territorio para reclamar el área cerrada. Cruza tu propio sendero libremente y corta los senderos enemigos. Captura suficiente tierra para abrir una nueva arena.</string>
+    <string name="arcade_orchardpile">Pila de huerto</string>
+    <string name="arcade_orchardpile_sub">Arrastra para apuntar y suelta para soltar una fruta. Las frutas iguales se fusionan y dos sandías se separan. Mantenga la pila debajo de la línea discontinua</string>
 </resources>

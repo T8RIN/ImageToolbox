@@ -8068,4 +8068,14 @@
     <string name="arcade_rounds_finished">סיבובים הסתיימו</string>
     <string name="arcade_rounds_subtitle">%1$d/%2$d סיבובים</string>
     <string name="arcade_return">לַחֲזוֹר</string>
+    <string name="arcade_templeescape">מקדש בריחה</string>
+    <string name="arcade_templeescape_sub">החלק כדי לדפדף מקיר לקיר ולטפס ליציאה לפני שהלבה תופסת אותך. התחמק מקוצים ושומרים, אסוף שרידים והשתמש במגנים כדי לשרוד מכה</string>
+    <string name="arcade_spiralshaft">פיר ספירלה</string>
+    <string name="arcade_spiralshaft_sub">גרור הצידה כדי לסובב את המגדל. זרוק דרך שלושה פערים ברציפות כדי להטעין כדור אש שמנפץ שתי פלטפורמות. הימנע מקטעים אדומים והגע לנחיתה המוצקה כדי להתחיל את השלב הבא</string>
+    <string name="arcade_tintascent">עליית גוון</string>
+    <string name="arcade_tintascent_sub">הקש כדי לקפוץ בין צבעים תואמים ולאסוף כוכבים. אסימונים מרובי צבעים משנים את צבע הכדור שלך</string>
+    <string name="arcade_traceandclaim">מעקב וטענה</string>
+    <string name="arcade_traceandclaim_sub">גרור כדי לנווט עם הג\'ויסטיק הצף. יש לך שלושה חיים. חזור לטריטוריה שלך כדי לתבוע את השטח הסגור. חצו את השביל שלכם בחופשיות וחתכו שבילי האויב. לכבוש מספיק אדמה כדי לפתוח זירה חדשה</string>
+    <string name="arcade_orchardpile">ערימת פרדס</string>
+    <string name="arcade_orchardpile_sub">גרור כדי לכוון ושחרר כדי להפיל פרי. פירות תואמים מתמזגים, ושני אבטיחים מנקים זה את זה. שמור את הערימה מתחת לקו המקווקו</string>
 </resources>

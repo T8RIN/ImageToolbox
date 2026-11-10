@@ -8066,4 +8066,14 @@
     <string name="arcade_rounds_finished">Раундтар аяқталды</string>
     <string name="arcade_rounds_subtitle">%1$d/%2$d раундтар</string>
     <string name="arcade_return">Қайту</string>
+    <string name="arcade_templeescape">Храмнан қашу</string>
+    <string name="arcade_templeescape_sub">Қабырғадан қабырғаға өту үшін сырғытыңыз және лава сізді ұстамас бұрын шығуға көтеріліңіз. Төбешіктерден және қамқоршылардан аулақ болыңыз, реликтерді жинаңыз және соққыдан аман өту үшін қалқандарды пайдаланыңыз</string>
+    <string name="arcade_spiralshaft">Спиральды білік</string>
+    <string name="arcade_spiralshaft_sub">Мұнараны айналдыру үшін бір жаққа қарай сүйреңіз. Екі платформаны қирататын отты шарды зарядтау үшін қатарынан үш саңылаудан өтіңіз. Келесі кезеңді бастау үшін қызыл сегменттерден аулақ болыңыз және қатты қонуға жетіңіз</string>
+    <string name="arcade_tintascent">Реңктің көтерілуі</string>
+    <string name="arcade_tintascent_sub">Сәйкес түстер арқылы өту және жұлдыздарды жинау үшін түртіңіз. Көп түсті белгілер доптың түсін өзгертеді</string>
+    <string name="arcade_traceandclaim">Бақылау және шағым</string>
+    <string name="arcade_traceandclaim_sub">Қалқымалы джойстикпен басқару үшін сүйреңіз. Сізде үш өмір бар. Жабық аумақты талап ету үшін аумағыңызға оралыңыз. Өз ізіңізді еркін кесіп өтіңіз және жау іздерін кесіңіз. Жаңа арена ашу үшін жеткілікті жерді басып алыңыз</string>
+    <string name="arcade_orchardpile">Бақ үйіндісі</string>
+    <string name="arcade_orchardpile_sub">Мақсат қою үшін сүйреңіз және жемісті түсіру үшін жіберіңіз. Сәйкес келетін жемістер біріктіріліп, екі қарбыз бір-бірін тазартады. Үйінді үзік сызықтан төмен ұстаңыз</string>
 </resources>

@@ -8066,4 +8066,14 @@
     <string name="arcade_rounds_finished">Rondes acabades</string>
     <string name="arcade_rounds_subtitle">%1$d/%2$d rondes</string>
     <string name="arcade_return">Tornar</string>
+    <string name="arcade_templeescape">Escapada del temple</string>
+    <string name="arcade_templeescape_sub">Fes lliscar el dit per anar de paret a paret i puja a la sortida abans que la lava t\'atrapi. Esquiva puntes i guardians, recull relíquies i utilitza escuts per sobreviure a un cop</string>
+    <string name="arcade_spiralshaft">Eix espiral</string>
+    <string name="arcade_spiralshaft_sub">Arrossegueu cap als costats per fer girar la torre. Passeu per tres buits seguits per carregar una bola de foc que destrossa dues plataformes. Eviteu els segments vermells i arribeu a l\'aterratge sòlid per començar la següent etapa</string>
+    <string name="arcade_tintascent">Ascensió Tint</string>
+    <string name="arcade_tintascent_sub">Toca per rebotar entre els colors coincidents i recollir estrelles. Les fitxes multicolors canvien el color de la teva pilota</string>
+    <string name="arcade_traceandclaim">Traça i reclamació</string>
+    <string name="arcade_traceandclaim_sub">Arrossegueu per dirigir amb el joystick flotant. Tens tres vides. Torna al teu territori per reclamar la zona tancada. Travessa el teu propi camí lliurement i talla els camins enemics. Captura prou terra per obrir una nova pista</string>
+    <string name="arcade_orchardpile">Pila d\'hort</string>
+    <string name="arcade_orchardpile_sub">Arrossegueu per apuntar i deixeu anar per deixar caure una fruita. Les fruites coincidents es fusionen i dues síndries s\'aclareixen mútuament. Mantingueu la pila per sota de la línia discontínua</string>
 </resources>

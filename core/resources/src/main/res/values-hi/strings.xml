@@ -8066,4 +8066,14 @@
     <string name="arcade_rounds_finished">राउंड ख़त्म हुए</string>
     <string name="arcade_rounds_subtitle">%1$d/%2$d राउंड</string>
     <string name="arcade_return">वापस करना</string>
+    <string name="arcade_templeescape">मंदिर से भागना</string>
+    <string name="arcade_templeescape_sub">इससे पहले कि लावा आपको पकड़ ले, एक दीवार से दूसरी दीवार की ओर तेजी से दौड़ें और बाहर निकलने के लिए चढ़ें। स्पाइक्स और अभिभावकों से बचें, अवशेष एकत्र करें और हिट से बचने के लिए ढाल का उपयोग करें</string>
+    <string name="arcade_spiralshaft">सर्पिल दस्ता</string>
+    <string name="arcade_spiralshaft_sub">टावर को घुमाने के लिए बग़ल में खींचें। दो प्लेटफार्मों को ध्वस्त करने वाले आग के गोले को चार्ज करने के लिए एक पंक्ति में तीन अंतरालों से गुजरें। लाल खंडों से बचें और अगले चरण को शुरू करने के लिए ठोस लैंडिंग तक पहुंचें</string>
+    <string name="arcade_tintascent">टिंट चढ़ाई</string>
+    <string name="arcade_tintascent_sub">मेल खाते रंगों के माध्यम से उछालने और सितारों को इकट्ठा करने के लिए टैप करें। बहुरंगा टोकन आपकी गेंद का रंग बदल देते हैं</string>
+    <string name="arcade_traceandclaim">पता लगाएं और दावा करें</string>
+    <string name="arcade_traceandclaim_sub">फ्लोटिंग जॉयस्टिक के साथ चलाने के लिए खींचें। आपके पास तीन जीवन हैं. संलग्न क्षेत्र पर दावा करने के लिए अपने क्षेत्र पर लौटें। अपने रास्ते को स्वतंत्र रूप से पार करें और दुश्मन के रास्तों को काटें। एक नया अखाड़ा खोलने के लिए पर्याप्त भूमि पर कब्ज़ा करें</string>
+    <string name="arcade_orchardpile">बाग का ढेर</string>
+    <string name="arcade_orchardpile_sub">लक्ष्य करने के लिए खींचें और फल गिराने के लिए छोड़ें। मेल खाने वाले फल विलीन हो जाते हैं, और दो तरबूज़ एक दूसरे को साफ़ कर देते हैं। ढेर को धराशायी रेखा के नीचे रखें</string>
 </resources>

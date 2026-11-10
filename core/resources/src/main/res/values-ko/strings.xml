@@ -8065,4 +8065,14 @@
     <string name="arcade_rounds_finished">라운드 완료</string>
     <string name="arcade_rounds_subtitle">%1$d/%2$d 라운드</string>
     <string name="arcade_return">반품</string>
+    <string name="arcade_templeescape">사원 탈출</string>
+    <string name="arcade_templeescape_sub">스와이프하여 벽에서 벽으로 돌진하고 용암에 휩싸이기 전에 출구로 올라갑니다. 스파이크와 가디언을 피하고, 유물을 수집하고, 방패를 사용해 공격에서 살아남으세요.</string>
+    <string name="arcade_spiralshaft">나선형 샤프트</string>
+    <string name="arcade_spiralshaft_sub">타워를 회전하려면 옆으로 드래그하세요. 연속으로 세 개의 틈새를 통과하여 두 개의 플랫폼을 부수는 불덩어리를 충전하세요. 빨간색 구간을 피하고 단단한 착지 지점에 도달하여 다음 단계를 시작하세요.</string>
+    <string name="arcade_tintascent">틴트 어센트</string>
+    <string name="arcade_tintascent_sub">탭하여 일치하는 색상을 통과하고 별을 수집하세요. 다색 토큰은 공의 색상을 변경합니다.</string>
+    <string name="arcade_traceandclaim">추적 및 청구</string>
+    <string name="arcade_traceandclaim_sub">플로팅 조이스틱으로 드래그하여 조종하세요. 당신에게는 세 개의 생명이 있습니다. 귀하의 영토로 돌아가 폐쇄된 지역을 차지하세요. 자신의 길을 자유롭게 건너고 적의 길을 끊으세요. 새로운 경기장을 열기에 충분한 땅을 확보하세요</string>
+    <string name="arcade_orchardpile">과수원 더미</string>
+    <string name="arcade_orchardpile_sub">드래그하여 조준하고 놓아서 과일을 떨어뜨리세요. 일치하는 과일이 합쳐지고 두 개의 수박이 서로 지워집니다. 점선 아래에 더미를 유지</string>
 </resources>

@@ -8066,4 +8066,14 @@
     <string name="arcade_rounds_finished">Turlar tamamlandı</string>
     <string name="arcade_rounds_subtitle">%1$d/%2$d tur</string>
     <string name="arcade_return">Geri dönmek</string>
+    <string name="arcade_templeescape">Tapınaktan Kaçış</string>
+    <string name="arcade_templeescape_sub">Duvardan duvara atlamak için kaydırın ve lav sizi yakalamadan çıkışa tırmanın. Sivri uçlardan ve koruyuculardan kaç, kutsal emanetleri topla ve bir darbeden sağ çıkmak için kalkanları kullan</string>
+    <string name="arcade_spiralshaft">Spiral Şaft</string>
+    <string name="arcade_spiralshaft_sub">Kuleyi döndürmek için yana doğru sürükleyin. İki platformu parçalayan bir ateş topunu şarj etmek için arka arkaya üç boşluktan geçin. Kırmızı bölümlerden kaçının ve bir sonraki aşamaya başlamak için sağlam inişe ulaşın</string>
+    <string name="arcade_tintascent">Renk Tonu Yükselişi</string>
+    <string name="arcade_tintascent_sub">Eşleşen renkler arasında zıplamak ve yıldızları toplamak için dokunun. Çok renkli jetonlar topunuzun rengini değiştirir</string>
+    <string name="arcade_traceandclaim">Takip Et ve Talep Et</string>
+    <string name="arcade_traceandclaim_sub">Yüzen joystick ile yönlendirmek için sürükleyin. Üç canın var. Kapalı alanı talep etmek için bölgenize dönün. Kendi izinizi özgürce geçin ve düşman izlerini kesin. Yeni bir arena açmak için yeterli araziyi ele geçirin</string>
+    <string name="arcade_orchardpile">Meyve bahçesi yığını</string>
+    <string name="arcade_orchardpile_sub">Nişan almak için sürükleyin ve bir meyveyi düşürmek için bırakın. Eşleşen meyveler birleşir ve iki karpuz birbirini temizler. Yığını kesikli çizginin altında tutun</string>
 </resources>

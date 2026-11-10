@@ -8068,4 +8068,14 @@
     <string name="arcade_rounds_finished">Kola ukončena</string>
     <string name="arcade_rounds_subtitle">%1$d/%2$d kol</string>
     <string name="arcade_return">Návrat</string>
+    <string name="arcade_templeescape">Útěk z chrámu</string>
+    <string name="arcade_templeescape_sub">Přejeďte prstem od stěny ke stěně a vylezte k východu, než vás láva chytí. Vyhýbejte se hrotům a strážcům, sbírejte relikvie a používejte štíty, abyste přežili zásah</string>
+    <string name="arcade_spiralshaft">Spirálová hřídel</string>
+    <string name="arcade_spiralshaft_sub">Přetažením do strany věž roztočíte. Prokloňte se třemi mezerami v řadě a nabijte ohnivou kouli, která rozbije dvě plošiny. Vyhněte se červeným segmentům a dosáhněte pevné přistání, abyste zahájili další fázi</string>
+    <string name="arcade_tintascent">Tint Ascent</string>
+    <string name="arcade_tintascent_sub">Klepnutím procházejte odpovídajícími barvami a sbírejte hvězdy. Vícebarevné žetony mění barvu vašeho míče</string>
+    <string name="arcade_traceandclaim">Trace &amp;amp; Claim</string>
+    <string name="arcade_traceandclaim_sub">Přetažením řiďte pomocí plovoucího joysticku. Máte tři životy. Vraťte se na své území, abyste získali nárok na uzavřenou oblast. Křižte si volně svou vlastní stezku a řežte nepřátelské stezky. Zachyťte dostatek půdy k otevření nové arény</string>
+    <string name="arcade_orchardpile">Hromada sadu</string>
+    <string name="arcade_orchardpile_sub">Přetažením zamiřte a uvolněním pusťte ovoce. Odpovídající ovoce se spojí a dva melouny se navzájem vyčistí. Udržujte hromadu pod přerušovanou čarou</string>
 </resources>

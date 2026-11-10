@@ -8066,4 +8066,14 @@
     <string name="arcade_rounds_finished">Natapos ang mga round</string>
     <string name="arcade_rounds_subtitle">%1$d/%2$d round</string>
     <string name="arcade_return">Bumalik</string>
+    <string name="arcade_templeescape">Pagtakas sa Templo</string>
+    <string name="arcade_templeescape_sub">Mag-swipe upang sugod mula sa dingding patungo sa dingding at umakyat sa exit bago ka mahuli ng lava. Dodge spike at tagapag-alaga, mangolekta ng mga labi at gumamit ng mga kalasag upang makaligtas sa isang hit</string>
+    <string name="arcade_spiralshaft">Spiral Shaft</string>
+    <string name="arcade_spiralshaft_sub">I-drag ang patagilid upang paikutin ang tore. Bumaba sa tatlong magkasunod na puwang upang singilin ang isang bolang apoy na dumurog sa dalawang platform. Iwasan ang mga pulang segment at maabot ang solidong landing upang simulan ang susunod na yugto</string>
+    <string name="arcade_tintascent">Tint Ascent</string>
+    <string name="arcade_tintascent_sub">I-tap upang bounce sa pamamagitan ng pagtutugma ng mga kulay at mangolekta ng mga bituin. Pinapalitan ng maraming kulay na token ang kulay ng iyong bola</string>
+    <string name="arcade_traceandclaim">Trace at Claim</string>
+    <string name="arcade_traceandclaim_sub">I-drag upang umiwas gamit ang lumulutang na joystick. Mayroon kang tatlong buhay. Bumalik sa iyong teritoryo upang kunin ang nakapaloob na lugar. Malayang tumawid sa iyong sariling landas at gupitin ang mga landas ng kaaway. Kumuha ng sapat na lupa upang magbukas ng bagong arena</string>
+    <string name="arcade_orchardpile">Orchard Pile</string>
+    <string name="arcade_orchardpile_sub">I-drag upang maglayon at bitawan upang maghulog ng prutas. Ang magkatugmang prutas ay nagsanib, at dalawang pakwan ang naglilinis sa isa\'t isa. Panatilihin ang pile sa ibaba ng dashed line</string>
 </resources>

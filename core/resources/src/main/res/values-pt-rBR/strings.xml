@@ -8067,4 +8067,14 @@
     <string name="arcade_rounds_finished">Rodadas concluídas</string>
     <string name="arcade_rounds_subtitle">%1$d/%2$d rodadas</string>
     <string name="arcade_return">Retornar</string>
+    <string name="arcade_templeescape">Fuga do Templo</string>
+    <string name="arcade_templeescape_sub">Deslize para correr de parede em parede e suba até a saída antes que a lava o pegue. Desvie de espinhos e guardiões, colete relíquias e use escudos para sobreviver a um ataque</string>
+    <string name="arcade_spiralshaft">Eixo Espiral</string>
+    <string name="arcade_spiralshaft_sub">Arraste para o lado para girar a torre. Passe por três lacunas seguidas para carregar uma bola de fogo que destrói duas plataformas. Evite os segmentos vermelhos e alcance o patamar sólido para iniciar a próxima etapa</string>
+    <string name="arcade_tintascent">Subida de tonalidade</string>
+    <string name="arcade_tintascent_sub">Toque para saltar pelas cores correspondentes e coletar estrelas. Tokens multicoloridos mudam a cor da sua bola</string>
+    <string name="arcade_traceandclaim">Rastrear e reivindicar</string>
+    <string name="arcade_traceandclaim_sub">Arraste para dirigir com o joystick flutuante. Você tem três vidas. Retorne ao seu território para reivindicar a área fechada. Atravesse sua própria trilha livremente e corte as trilhas inimigas. Capture terreno suficiente para abrir uma nova arena</string>
+    <string name="arcade_orchardpile">Pilha de pomar</string>
+    <string name="arcade_orchardpile_sub">Arraste para mirar e solte para soltar uma fruta. As frutas correspondentes se fundem e duas melancias se eliminam. Mantenha a pilha abaixo da linha tracejada</string>
 </resources>

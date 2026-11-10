@@ -8068,4 +8068,14 @@
     <string name="arcade_rounds_finished">Rundy zakończone</string>
     <string name="arcade_rounds_subtitle">%1$d/%2$d rund</string>
     <string name="arcade_return">Powrót</string>
+    <string name="arcade_templeescape">Ucieczka ze świątyni</string>
+    <string name="arcade_templeescape_sub">Przesuń, aby biegać od ściany do ściany i wspiąć się do wyjścia, zanim złapie cię lawa. Unikaj kolców i strażników, zbieraj relikty i używaj tarcz, aby przetrwać trafienie</string>
+    <string name="arcade_spiralshaft">Wał spiralny</string>
+    <string name="arcade_spiralshaft_sub">Przeciągnij w bok, aby obrócić wieżę. Przeskocz przez trzy szczeliny z rzędu, aby naładować kulę ognia, która rozbije dwie platformy. Unikaj czerwonych segmentów i dotrzyj do solidnego podestu, aby rozpocząć kolejny etap</string>
+    <string name="arcade_tintascent">Odcień wzlotu</string>
+    <string name="arcade_tintascent_sub">Stuknij, aby odbijać pasujące kolory i zbierać gwiazdki. Wielokolorowe żetony zmieniają kolor Twojej piłki</string>
+    <string name="arcade_traceandclaim">Śledź i zgłaszaj roszczenia</string>
+    <string name="arcade_traceandclaim_sub">Przeciągnij, aby sterować za pomocą pływającego joysticka. Masz trzy życia. Wróć na swoje terytorium, aby zająć zamknięty obszar. Swobodnie przekraczaj swój własny szlak i przecinaj szlaki wroga. Zdobądź wystarczającą ilość ziemi, aby otworzyć nową arenę</string>
+    <string name="arcade_orchardpile">Stos sadu</string>
+    <string name="arcade_orchardpile_sub">Przeciągnij, aby wycelować i zwolnij, aby upuścić owoc. Pasujące owoce łączą się, a dwa arbuzy oczyszczają się nawzajem. Trzymaj stos poniżej linii przerywanej</string>
 </resources>

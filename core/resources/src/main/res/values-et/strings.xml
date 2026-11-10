@@ -8066,4 +8066,14 @@
     <string name="arcade_rounds_finished">Ringid lõppenud</string>
     <string name="arcade_rounds_subtitle">%1$d/%2$d vooru</string>
     <string name="arcade_return">Tagasi</string>
+    <string name="arcade_templeescape">Templi põgenemine</string>
+    <string name="arcade_templeescape_sub">Pühkige seinast seina ja ronige väljapääsuni, enne kui laava teid haarab. Vältige naelu ja eestkostjaid, koguge säilmeid ja kasutage löögi üleelamiseks kilpe</string>
+    <string name="arcade_spiralshaft">Spiraalvõll</string>
+    <string name="arcade_spiralshaft_sub">Torni keerutamiseks lohistage külili. Laske läbi kolm vahet järjest, et laadida tulekera, mis purustab kaks platvormi. Vältige punaseid segmente ja jõudke kindlale maandumisele, et alustada järgmist etappi</string>
+    <string name="arcade_tintascent">Tint Ascent</string>
+    <string name="arcade_tintascent_sub">Puudutage sobivate värvide hüppamiseks ja tähtede kogumiseks. Mitmevärvilised märgid muudavad teie palli värvi</string>
+    <string name="arcade_traceandclaim">Jälgimine ja nõue</string>
+    <string name="arcade_traceandclaim_sub">Ujuva juhtkangiga juhtimiseks lohistage. Sul on kolm elu. Suletud ala taotlemiseks naaske oma territooriumile. Läbige vabalt oma rada ja lõigake vaenlase jälgi. Võtke piisavalt maad, et avada uus areen</string>
+    <string name="arcade_orchardpile">Viljapuuaia hunnik</string>
+    <string name="arcade_orchardpile_sub">Sihimiseks lohistage ja puuvilja kukutamiseks vabastage. Sobivad puuviljad ühinevad ja kaks arbuusi puhastavad üksteist. Hoidke hunnik katkendjoonest allpool</string>
 </resources>

@@ -8067,4 +8067,14 @@
     <string name="arcade_rounds_finished">Runde terminate</string>
     <string name="arcade_rounds_subtitle">%1$d/%2$d runde</string>
     <string name="arcade_return">Reveni</string>
+    <string name="arcade_templeescape">Evadare din templu</string>
+    <string name="arcade_templeescape_sub">Glisați pentru a alerga de la perete la perete și urcați la ieșire înainte ca lava să vă prindă. Evita vârfurile și gardienii, strânge relicve și folosește scuturi pentru a supraviețui unei lovituri</string>
+    <string name="arcade_spiralshaft">Arbore în spirală</string>
+    <string name="arcade_spiralshaft_sub">Trageți în lateral pentru a învârti turnul. Treceți prin trei goluri la rând pentru a încărca o minge de foc care sparge două platforme. Evitați segmentele roșii și ajungeți la aterizarea solidă pentru a începe etapa următoare</string>
+    <string name="arcade_tintascent">Tint Ascent</string>
+    <string name="arcade_tintascent_sub">Atingeți pentru a sări prin culorile potrivite și pentru a colecta stele. Jetoanele multicolore schimbă culoarea mingii tale</string>
+    <string name="arcade_traceandclaim">Urmăriți și revendicați</string>
+    <string name="arcade_traceandclaim_sub">Trageți pentru a vira cu joystick-ul plutitor. Ai trei vieți. Întoarce-te pe teritoriul tău pentru a revendica zona închisă. Traversează-ți drumul liber și tăiați urmele inamicului. Capturați suficient teren pentru a deschide o nouă arenă</string>
+    <string name="arcade_orchardpile">grămada de livadă</string>
+    <string name="arcade_orchardpile_sub">Trageți pentru a ținti și eliberați pentru a arunca un fruct. Fructele care se potrivesc se îmbină, iar doi pepeni se limpezesc unul pe celălalt. Păstrați grămada sub linia întreruptă</string>
 </resources>

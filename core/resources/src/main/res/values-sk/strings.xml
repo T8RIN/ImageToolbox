@@ -8068,4 +8068,14 @@
     <string name="arcade_rounds_finished">Kolá ukončené</string>
     <string name="arcade_rounds_subtitle">%1$d/%2$d kôl</string>
     <string name="arcade_return">Návrat</string>
+    <string name="arcade_templeescape">Útek z chrámu</string>
+    <string name="arcade_templeescape_sub">Potiahnutím prstom prebehnite od steny k stene a vylezte k východu skôr, ako vás zastihne láva. Vyhýbajte sa hrotom a strážcom, zbierajte relikvie a používajte štíty, aby ste prežili zásah</string>
+    <string name="arcade_spiralshaft">Špirálový hriadeľ</string>
+    <string name="arcade_spiralshaft_sub">Potiahnutím do strany roztočte vežu. Prepadnite cez tri medzery v rade a nabite ohnivú guľu, ktorá rozbije dve plošiny. Vyhnite sa červeným segmentom a dostaňte sa na pevné miesto, aby ste mohli začať ďalšiu fázu</string>
+    <string name="arcade_tintascent">Tint Ascent</string>
+    <string name="arcade_tintascent_sub">Klepnutím sa odrazíte cez zodpovedajúce farby a zbierate hviezdy. Viacfarebné žetóny menia farbu vašej gule</string>
+    <string name="arcade_traceandclaim">Sledovanie a nárokovanie</string>
+    <string name="arcade_traceandclaim_sub">Potiahnutím riadite pomocou plávajúceho joysticku. Máte tri životy. Vráťte sa na svoje územie a nárokujte si uzavretú oblasť. Prejdite si svoju vlastnú stopu voľne a presekajte nepriateľské stopy. Zachyťte dostatok pôdy na otvorenie novej arény</string>
+    <string name="arcade_orchardpile">Sadová hromada</string>
+    <string name="arcade_orchardpile_sub">Potiahnutím namierte a uvoľnením pustíte ovocie. Zodpovedajúce ovocie sa spojí a dva vodné melóny sa navzájom vyčistia. Udržujte hromadu pod prerušovanou čiarou</string>
 </resources>

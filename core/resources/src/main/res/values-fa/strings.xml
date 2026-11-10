@@ -8066,4 +8066,14 @@
     <string name="arcade_rounds_finished">راندها تمام شد</string>
     <string name="arcade_rounds_subtitle">%1$d/%2$d دور</string>
     <string name="arcade_return">بازگشت</string>
+    <string name="arcade_templeescape">فرار از معبد</string>
+    <string name="arcade_templeescape_sub">تند بکشید تا از دیواری به دیوار دیگر حرکت کنید و قبل از اینکه گدازه شما را بگیرد به سمت خروجی بالا بروید. از سنبله ها و نگهبانان طفره بروید، یادگارها را جمع آوری کنید و از سپرها برای زنده ماندن از ضربه استفاده کنید</string>
+    <string name="arcade_spiralshaft">شفت مارپیچی</string>
+    <string name="arcade_spiralshaft_sub">برای چرخاندن برج به طرفین بکشید. از سه شکاف پشت سر هم رها کنید تا یک گلوله آتشین را شارژ کنید که دو سکو را در هم می شکند. از قطعات قرمز رنگ اجتناب کنید و برای شروع مرحله بعدی به فرود جامد برسید</string>
+    <string name="arcade_tintascent">صعود رنگی</string>
+    <string name="arcade_tintascent_sub">برای گزاف گویی از رنگ های مطابق و جمع آوری ستاره ها ضربه بزنید. ژتون های چند رنگ رنگ توپ شما را تغییر می دهند</string>
+    <string name="arcade_traceandclaim">ردیابی و ادعا</string>
+    <string name="arcade_traceandclaim_sub">برای هدایت با جوی استیک شناور بکشید. شما سه زندگی دارید. برای ادعای مالکیت منطقه محصور به قلمرو خود بازگردید. آزادانه از مسیر خود عبور کنید و مسیرهای دشمن را قطع کنید. به اندازه کافی زمین را برای باز کردن یک عرصه جدید تصرف کنید</string>
+    <string name="arcade_orchardpile">توده باغ</string>
+    <string name="arcade_orchardpile_sub">بکشید تا هدف بگیرید و رها کنید تا میوه را رها کنید. میوه های همسان با هم ادغام می شوند و دو هندوانه همدیگر را پاک می کنند. شمع را زیر خط چین نگه دارید</string>
 </resources>

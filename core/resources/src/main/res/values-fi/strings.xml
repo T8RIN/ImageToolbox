@@ -8066,4 +8066,14 @@
     <string name="arcade_rounds_finished">Kierrokset päättyneet</string>
     <string name="arcade_rounds_subtitle">%1$d/%2$d kierrosta</string>
     <string name="arcade_return">Palata</string>
+    <string name="arcade_templeescape">Temppelin pako</string>
+    <string name="arcade_templeescape_sub">Pyyhkäise seinästä seinään ja kiipeä uloskäynnille ennen kuin laava tarttuu sinuun. Vältä piikkejä ja vartijoita, kerää jäänteitä ja käytä kilpiä selviytyäksesi osumasta</string>
+    <string name="arcade_spiralshaft">Spiraaliakseli</string>
+    <string name="arcade_spiralshaft_sub">Pyöritä tornia vetämällä sivuttain. Pudota kolmen aukon läpi peräkkäin ladataksesi tulipallon, joka murskaa kaksi alustaa. Vältä punaisia ​​segmenttejä ja saavuta kiinteä lasku aloittaaksesi seuraavan vaiheen</string>
+    <string name="arcade_tintascent">Sävy Ascent</string>
+    <string name="arcade_tintascent_sub">Napauta pomppiaksesi vastaavien värien läpi ja kerätäksesi tähtiä. Moniväriset rahakkeet muuttavat pallosi väriä</string>
+    <string name="arcade_traceandclaim">Trace &amp;amp; Claim</string>
+    <string name="arcade_traceandclaim_sub">Ohjaa kelluvalla joystickillä vetämällä. Sinulla on kolme elämää. Palaa alueellesi lunastaaksesi suljetun alueen. Ylitä oma polkusi vapaasti ja leikkaa vihollisen polkuja. Ota tarpeeksi maata avataksesi uuden areenan</string>
+    <string name="arcade_orchardpile">Orchard Pile</string>
+    <string name="arcade_orchardpile_sub">Tähtää vetämällä ja pudota hedelmä vapauttamalla. Sopivat hedelmät sulautuvat yhteen, ja kaksi vesimelonia puhdistavat toisiaan. Pidä pino katkoviivan alapuolella</string>
 </resources>

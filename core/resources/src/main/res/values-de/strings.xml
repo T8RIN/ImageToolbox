@@ -8066,4 +8066,14 @@
     <string name="arcade_rounds_finished">Runden beendet</string>
     <string name="arcade_rounds_subtitle">%1$d/%2$d Runden</string>
     <string name="arcade_return">Zurückkehren</string>
+    <string name="arcade_templeescape">Tempelflucht</string>
+    <string name="arcade_templeescape_sub">Wischen Sie, um von Wand zu Wand zu rennen und zum Ausgang zu klettern, bevor die Lava Sie erwischt. Weiche Stacheln und Wächtern aus, sammle Relikte und nutze Schilde, um einen Treffer zu überleben</string>
+    <string name="arcade_spiralshaft">Spiralwelle</string>
+    <string name="arcade_spiralshaft_sub">Ziehen Sie seitwärts, um den Turm zu drehen. Springe durch drei Lücken hintereinander, um einen Feuerball aufzuladen, der zwei Plattformen zerschmettert. Vermeiden Sie rote Segmente und erreichen Sie die feste Landung, um die nächste Etappe zu beginnen</string>
+    <string name="arcade_tintascent">Tönungsaufstieg</string>
+    <string name="arcade_tintascent_sub">Tippen Sie, um durch passende Farben zu hüpfen und Sterne zu sammeln. Mehrfarbige Spielsteine ​​ändern die Farbe Ihres Balls</string>
+    <string name="arcade_traceandclaim">Nachverfolgung und Anspruch</string>
+    <string name="arcade_traceandclaim_sub">Ziehen Sie, um mit dem schwebenden Joystick zu steuern. Du hast drei Leben. Kehren Sie in Ihr Territorium zurück, um das umzäunte Gebiet zu beanspruchen. Überqueren Sie frei Ihre eigene Spur und schneiden Sie feindliche Spuren ab. Erobere genügend Land, um eine neue Arena zu eröffnen</string>
+    <string name="arcade_orchardpile">Obstgartenhaufen</string>
+    <string name="arcade_orchardpile_sub">Zum Zielen ziehen und loslassen, um eine Frucht fallen zu lassen. Passende Früchte verschmelzen und zwei Wassermelonen heben sich voneinander ab. Halten Sie den Stapel unterhalb der gestrichelten Linie</string>
 </resources>

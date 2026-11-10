@@ -8065,4 +8065,14 @@
     <string name="arcade_rounds_finished">終了したラウンド</string>
     <string name="arcade_rounds_subtitle">%1$d/%2$d ラウンド</string>
     <string name="arcade_return">戻る</string>
+    <string name="arcade_templeescape">テンプル エスケープ</string>
+    <string name="arcade_templeescape_sub">スワイプして壁から壁へダッシュし、溶岩に捕まる前に出口まで登ります。スパイクやガーディアンをかわし、レリックを収集し、シールドを使用して攻撃を生き延びます。</string>
+    <string name="arcade_spiralshaft">スパイラルシャフト</string>
+    <string name="arcade_spiralshaft_sub">横にドラッグしてタワーを回転させます。 3 つの隙間を連続して通過し、2 つのプラットフォームを粉砕する火の玉をチャージします。赤いセグメントを回避し、しっかりとした着地に到達して次のステージを開始します</string>
+    <string name="arcade_tintascent">ティントアセント</string>
+    <string name="arcade_tintascent_sub">タップして一致する色を飛び回って星を集めます。多色のトークンでボールの色が変わります</string>
+    <string name="arcade_traceandclaim">トレース＆クレーム</string>
+    <string name="arcade_traceandclaim_sub">フローティングジョイスティックをドラッグして操縦します。あなたには3つの人生があります。自分の領土に戻って、囲まれたエリアを主張してください。自分の足跡を自由に横切り、敵の足跡を切り裂いてください。新しいアリーナを開くのに十分な土地を占領する</string>
+    <string name="arcade_orchardpile">オーチャード・パイル</string>
+    <string name="arcade_orchardpile_sub">ドラッグして狙いを定め、放してフルーツをドロップします。一致するフルーツが結合し、2 つのスイカがお互いを消します。破線よりも下に杭を置くようにしてください</string>
 </resources>

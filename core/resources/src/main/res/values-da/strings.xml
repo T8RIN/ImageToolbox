@@ -8066,4 +8066,14 @@
     <string name="arcade_rounds_finished">runder afsluttet</string>
     <string name="arcade_rounds_subtitle">%1$d/%2$d runder</string>
     <string name="arcade_return">Retur</string>
+    <string name="arcade_templeescape">Tempelflugt</string>
+    <string name="arcade_templeescape_sub">Stryg for at springe fra væg til væg og klatre til udgangen, før lavaen fanger dig. Undgå pigge og vogtere, saml relikvier og brug skjolde for at overleve et hit</string>
+    <string name="arcade_spiralshaft">Spiralskaft</string>
+    <string name="arcade_spiralshaft_sub">Træk sidelæns for at dreje tårnet. Slip gennem tre huller i træk for at oplade en ildkugle, der smadrer to platforme. Undgå røde segmenter og nå den solide landing for at starte næste etape</string>
+    <string name="arcade_tintascent">Farvestigning</string>
+    <string name="arcade_tintascent_sub">Tryk for at hoppe gennem matchende farver og samle stjerner. Flerfarvede tokens ændrer farven på din bold</string>
+    <string name="arcade_traceandclaim">Spor og krav</string>
+    <string name="arcade_traceandclaim_sub">Træk for at styre med det flydende joystick. Du har tre liv. Vend tilbage til dit territorium for at gøre krav på det lukkede område. Kryds dit eget spor frit og klip fjendens stier. Fang nok jord til at åbne en ny arena</string>
+    <string name="arcade_orchardpile">Frugthavebunke</string>
+    <string name="arcade_orchardpile_sub">Træk for at sigte og slip for at slippe en frugt. Matchende frugter smelter sammen, og to vandmeloner rydder hinanden. Hold bunken under den stiplede linje</string>
 </resources>

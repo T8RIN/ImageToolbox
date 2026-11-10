@@ -8065,4 +8065,14 @@
     <string name="arcade_rounds_finished">Vòng đấu đã kết thúc</string>
     <string name="arcade_rounds_subtitle">%1$d/%2$d vòng</string>
     <string name="arcade_return">Trở lại</string>
+    <string name="arcade_templeescape">Thoát khỏi ngôi đền</string>
+    <string name="arcade_templeescape_sub">Vuốt để lao từ bức tường này sang bức tường khác và leo đến lối ra trước khi dung nham bắt được bạn. Né tránh gai và người bảo vệ, thu thập thánh tích và sử dụng khiên để sống sót sau một đòn tấn công</string>
+    <string name="arcade_spiralshaft">Trục xoắn ốc</string>
+    <string name="arcade_spiralshaft_sub">Kéo sang một bên để quay tháp. Nhảy qua ba khoảng trống liên tiếp để phóng một quả cầu lửa đập vỡ hai bệ. Tránh các đoạn màu đỏ và đến bến vững chắc để bắt đầu giai đoạn tiếp theo</string>
+    <string name="arcade_tintascent">Tint đi lên</string>
+    <string name="arcade_tintascent_sub">Nhấn để chuyển qua các màu phù hợp và thu thập các ngôi sao. Thẻ nhiều màu thay đổi màu bóng của bạn</string>
+    <string name="arcade_traceandclaim">Theo dõi &amp;amp; Yêu cầu</string>
+    <string name="arcade_traceandclaim_sub">Kéo để điều khiển bằng phím điều khiển nổi. Bạn có ba cuộc sống. Quay trở lại lãnh thổ của bạn để yêu cầu khu vực kèm theo. Tự do băng qua đường mòn của riêng bạn và cắt đứt đường mòn của kẻ thù. Chiếm đủ đất để mở đấu trường mới</string>
+    <string name="arcade_orchardpile">đống vườn cây ăn quả</string>
+    <string name="arcade_orchardpile_sub">Kéo để nhắm và thả ra để thả trái cây. Các loại trái cây phù hợp hợp nhất và hai quả dưa hấu làm sạch lẫn nhau. Giữ cọc bên dưới đường đứt nét</string>
 </resources>

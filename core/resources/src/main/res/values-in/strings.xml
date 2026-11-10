@@ -8065,4 +8065,14 @@
     <string name="arcade_rounds_finished">Putaran selesai</string>
     <string name="arcade_rounds_subtitle">%1$d/%2$d putaran</string>
     <string name="arcade_return">Kembali</string>
+    <string name="arcade_templeescape">Pelarian Kuil</string>
+    <string name="arcade_templeescape_sub">Gesek untuk berlari dari dinding ke dinding dan naik ke pintu keluar sebelum lahar menangkap Anda. Hindari paku dan penjaga, kumpulkan relik, dan gunakan perisai untuk bertahan dari serangan</string>
+    <string name="arcade_spiralshaft">Poros Spiral</string>
+    <string name="arcade_spiralshaft_sub">Seret ke samping untuk memutar menara. Lewati tiga celah berturut-turut untuk mengisi bola api yang menghancurkan dua platform. Hindari segmen merah dan raih pendaratan padat untuk memulai tahap berikutnya</string>
+    <string name="arcade_tintascent">Pendakian Warna</string>
+    <string name="arcade_tintascent_sub">Ketuk untuk memantulkan warna yang serasi dan mengumpulkan bintang. Token multiwarna mengubah warna bola Anda</string>
+    <string name="arcade_traceandclaim">Pelacakan &amp;amp; Klaim</string>
+    <string name="arcade_traceandclaim_sub">Seret untuk mengemudikan dengan joystick mengambang. Anda memiliki tiga kehidupan. Kembali ke wilayah Anda untuk mengklaim area tertutup. Seberangi jejak Anda sendiri dengan bebas dan potong jejak musuh. Tangkap lahan yang cukup untuk membuka arena baru</string>
+    <string name="arcade_orchardpile">Tumpukan Kebun</string>
+    <string name="arcade_orchardpile_sub">Seret untuk membidik dan lepaskan untuk menjatuhkan buah. Buah-buahan yang cocok bergabung, dan dua semangka saling membersihkan. Jaga tumpukan di bawah garis putus-putus</string>
 </resources>

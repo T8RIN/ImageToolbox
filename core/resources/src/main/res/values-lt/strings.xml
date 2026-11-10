@@ -8068,4 +8068,14 @@
     <string name="arcade_rounds_finished">Raundai baigti</string>
     <string name="arcade_rounds_subtitle">%1$d/%2$d raundų</string>
     <string name="arcade_return">Grįžti</string>
+    <string name="arcade_templeescape">Šventyklos pabėgimas</string>
+    <string name="arcade_templeescape_sub">Braukite, kad brūkšnytumėte nuo sienos iki sienos ir lipkite iki išėjimo, kol lava jus užklumpa. Venkite smaigalių ir globėjų, rinkite relikvijas ir naudokite skydus, kad išgyventumėte nuo smūgio</string>
+    <string name="arcade_spiralshaft">Spiralinis velenas</string>
+    <string name="arcade_spiralshaft_sub">Vilkite į šoną, kad pasuktumėte bokštą. Išeikite per tris tarpus iš eilės ir įkraukite ugnies kamuoliuką, kuris sudaužo dvi platformas. Venkite raudonų segmentų ir pasiekite tvirtą tūpimą, kad pradėtumėte kitą etapą</string>
+    <string name="arcade_tintascent">Atspalvio pakilimas</string>
+    <string name="arcade_tintascent_sub">Bakstelėkite, kad peršoktumėte tinkančias spalvas ir rinktumėte žvaigždes. Daugiaspalviai žetonai keičia jūsų kamuoliuko spalvą</string>
+    <string name="arcade_traceandclaim">Trace &amp;amp; Claim</string>
+    <string name="arcade_traceandclaim_sub">Vilkite, kad vairuotumėte slankiąja vairasvirte. Jūs turite tris gyvenimus. Grįžkite į savo teritoriją, kad gautumėte uždarą teritoriją. Laisvai pereikite savo taką ir nukirskite priešo pėdsakus. Užimkite pakankamai žemės, kad atidarytumėte naują areną</string>
+    <string name="arcade_orchardpile">Sodo krūva</string>
+    <string name="arcade_orchardpile_sub">Vilkite, kad nukreiptumėte, ir atleiskite, kad numestumėte vaisių. Sutampantys vaisiai susilieja, o du arbūzai nuvalo vienas kitą. Laikykite krūvą žemiau punktyrinės linijos</string>
 </resources>

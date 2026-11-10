@@ -8065,4 +8065,14 @@
     <string name="arcade_rounds_finished">回合結束</string>
     <string name="arcade_rounds_subtitle">%1$d/%2$d 輪</string>
     <string name="arcade_return">返回</string>
+    <string name="arcade_templeescape">神殿逃亡</string>
+    <string name="arcade_templeescape_sub">滑動即可從一面牆衝到另一面牆，並在熔岩抓住您之前爬到出口。躲避尖刺和守衛，收集聖物並使用盾牌在攻擊中倖存</string>
+    <string name="arcade_spiralshaft">螺旋軸</string>
+    <string name="arcade_spiralshaft_sub">向側面拖曳以旋轉塔。連續穿過三個缺口，射出一個火球，粉碎兩個平台。避開紅色路段並到達堅實的著陸點開始下一階段</string>
+    <string name="arcade_tintascent">色調上升</string>
+    <string name="arcade_tintascent_sub">點擊以跳躍匹配的顏色並收集星星。多色標記會改變球的顏色</string>
+    <string name="arcade_traceandclaim">追蹤與索賠</string>
+    <string name="arcade_traceandclaim_sub">使用浮動操縱桿拖曳以進行轉向。你有三個生命。返回你的領地並佔領封閉區域。自由穿越自己的足跡，切斷敵人的足跡。佔領足夠的土地來開拓新的競技場</string>
+    <string name="arcade_orchardpile">果園堆</string>
+    <string name="arcade_orchardpile_sub">拖曳以瞄準並釋放以掉落水果。配對的水果合併，兩個西瓜相互清除。將堆放在虛線下方</string>
 </resources>

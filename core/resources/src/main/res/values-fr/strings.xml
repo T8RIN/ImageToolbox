@@ -8066,4 +8066,14 @@
     <string name="arcade_rounds_finished">Tours terminés</string>
     <string name="arcade_rounds_subtitle">%1$d/%2$d tours</string>
     <string name="arcade_return">Retour</string>
+    <string name="arcade_templeescape">Évasion du temple</string>
+    <string name="arcade_templeescape_sub">Glissez pour vous précipiter d\'un mur à l\'autre et grimpez jusqu\'à la sortie avant que la lave ne vous attrape. Esquivez les pointes et les gardiens, collectez des reliques et utilisez des boucliers pour survivre à un coup</string>
+    <string name="arcade_spiralshaft">Arbre en spirale</string>
+    <string name="arcade_spiralshaft_sub">Faites glisser sur le côté pour faire tourner la tour. Traversez trois espaces d\'affilée pour charger une boule de feu qui écrase deux plates-formes. Évitez les segments rouges et atteignez l\'atterrissage solide pour commencer l\'étape suivante</string>
+    <string name="arcade_tintascent">Montée de la teinte</string>
+    <string name="arcade_tintascent_sub">Appuyez pour rebondir à travers les couleurs correspondantes et collecter des étoiles. Les jetons multicolores changent la couleur de votre balle</string>
+    <string name="arcade_traceandclaim">Tracer et réclamer</string>
+    <string name="arcade_traceandclaim_sub">Faites glisser pour diriger avec le joystick flottant. Vous avez trois vies. Retournez sur votre territoire pour réclamer la zone clôturée. Traversez librement votre propre sentier et coupez les sentiers ennemis. Capturez suffisamment de terrain pour ouvrir une nouvelle arène</string>
+    <string name="arcade_orchardpile">Tas de verger</string>
+    <string name="arcade_orchardpile_sub">Faites glisser pour viser et relâchez pour laisser tomber un fruit. Les fruits assortis fusionnent et deux pastèques s\'effacent. Gardez la pile en dessous de la ligne pointillée</string>
 </resources>

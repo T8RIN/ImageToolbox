@@ -8065,4 +8065,14 @@
     <string name="arcade_rounds_finished">รอบเสร็จแล้ว</string>
     <string name="arcade_rounds_subtitle">%1$d/%2$d รอบ</string>
     <string name="arcade_return">กลับ</string>
+    <string name="arcade_templeescape">หนีวัด</string>
+    <string name="arcade_templeescape_sub">ปัดเพื่อพุ่งจากผนังหนึ่งไปอีกผนังหนึ่งแล้วปีนไปที่ทางออกก่อนที่ลาวาจะจับคุณ หลบหนามแหลมและผู้พิทักษ์ รวบรวมวัตถุโบราณ และใช้โล่เพื่อเอาชีวิตรอดจากการถูกโจมตี</string>
+    <string name="arcade_spiralshaft">เพลาเกลียว</string>
+    <string name="arcade_spiralshaft_sub">ลากไปด้านข้างเพื่อหมุนหอคอย ปล่อยผ่านช่องว่างสามช่องติดต่อกันเพื่อชาร์จลูกไฟที่จะทำลายทั้งสองแพลตฟอร์ม หลีกเลี่ยงส่วนสีแดงและไปถึงจุดลงจอดที่มั่นคงเพื่อเริ่มด่านต่อไป</string>
+    <string name="arcade_tintascent">แต้มสีขึ้น</string>
+    <string name="arcade_tintascent_sub">แตะเพื่อกระเด้งไปตามสีที่ตรงกันและรวบรวมดาว โทเค็นหลากสีเปลี่ยนสีของลูกบอลของคุณ</string>
+    <string name="arcade_traceandclaim">ติดตามและการเรียกร้อง</string>
+    <string name="arcade_traceandclaim_sub">ลากเพื่อบังคับเลี้ยวด้วยจอยสติ๊กแบบลอย คุณมีสามชีวิต กลับไปยังดินแดนของคุณเพื่ออ้างสิทธิ์ในพื้นที่ปิดล้อม ข้ามเส้นทางของคุณเองอย่างอิสระและตัดเส้นทางของศัตรู ยึดครองพื้นที่ให้เพียงพอเพื่อเปิดเวทีใหม่</string>
+    <string name="arcade_orchardpile">เสาเข็มออร์ชาร์ด</string>
+    <string name="arcade_orchardpile_sub">ลากเพื่อเล็งและปล่อยเพื่อวางผลไม้ ผลไม้ที่เข้ากันผสานกัน และแตงโม 2 ลูกก็แยกออกจากกัน ให้กองอยู่ใต้เส้นประ</string>
 </resources>

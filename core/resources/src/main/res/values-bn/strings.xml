@@ -8066,4 +8066,14 @@
     <string name="arcade_rounds_finished">রাউন্ড শেষ</string>
     <string name="arcade_rounds_subtitle">%1$d/%2$d রাউন্ড</string>
     <string name="arcade_return">প্রত্যাবর্তন</string>
+    <string name="arcade_templeescape">মন্দির পালানো</string>
+    <string name="arcade_templeescape_sub">প্রাচীর থেকে দেয়ালে ড্যাশ করতে সোয়াইপ করুন এবং লাভা আপনাকে ধরার আগে প্রস্থানে আরোহণ করুন। স্পাইক এবং অভিভাবকদের ডজ করুন, ধ্বংসাবশেষ সংগ্রহ করুন এবং হিট থেকে বাঁচতে ঢাল ব্যবহার করুন</string>
+    <string name="arcade_spiralshaft">সর্পিল খাদ</string>
+    <string name="arcade_spiralshaft_sub">টাওয়ার ঘোরাতে পাশে টেনে আনুন। একটি ফায়ারবল চার্জ করতে একটি সারিতে তিনটি ফাঁক দিয়ে ড্রপ করুন যা দুটি প্ল্যাটফর্মকে ভেঙে দেয়। লাল অংশগুলি এড়িয়ে চলুন এবং পরবর্তী পর্যায়ে শুরু করতে কঠিন অবতরণে পৌঁছান</string>
+    <string name="arcade_tintascent">টিন্ট অ্যাসেন্ট</string>
+    <string name="arcade_tintascent_sub">ম্যাচিং রঙের মাধ্যমে বাউন্স করতে আলতো চাপুন এবং তারা সংগ্রহ করুন। মাল্টিকালার টোকেন আপনার বলের রঙ পরিবর্তন করে</string>
+    <string name="arcade_traceandclaim">ট্রেস এবং দাবি</string>
+    <string name="arcade_traceandclaim_sub">ভাসমান জয়স্টিক দিয়ে স্টিয়ার করতে টেনে আনুন। তোমার তিনটি জীবন আছে। আবদ্ধ এলাকা দাবি করতে আপনার এলাকায় ফিরে যান। অবাধে আপনার নিজস্ব পথ অতিক্রম করুন এবং শত্রু ট্রেইল কাটা. একটি নতুন আখড়া খোলার জন্য পর্যাপ্ত জমি দখল করুন</string>
+    <string name="arcade_orchardpile">বাগানের স্তূপ</string>
+    <string name="arcade_orchardpile_sub">লক্ষ্য করার জন্য টেনে আনুন এবং ফল ফেলতে ছেড়ে দিন। মিলিত ফল একত্রিত হয়, এবং দুটি তরমুজ একে অপরকে পরিষ্কার করে। ড্যাশড লাইনের নীচে গাদা রাখুন</string>
 </resources>

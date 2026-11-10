@@ -8066,4 +8066,14 @@
     <string name="arcade_rounds_finished">Turni finiti</string>
     <string name="arcade_rounds_subtitle">%1$d/%2$d giri</string>
     <string name="arcade_return">Ritorno</string>
+    <string name="arcade_templeescape">Fuga dal tempio</string>
+    <string name="arcade_templeescape_sub">Scorri per correre da un muro all\'altro e sali fino all\'uscita prima che la lava ti raggiunga. Schiva spuntoni e guardiani, raccogli reliquie e usa gli scudi per sopravvivere a un colpo</string>
+    <string name="arcade_spiralshaft">Albero a spirale</string>
+    <string name="arcade_spiralshaft_sub">Trascina lateralmente per far girare la torre. Attraversa tre buchi di fila per caricare una palla di fuoco che distrugge due piattaforme. Evita i segmenti rossi e raggiungi il solido pianerottolo per iniziare la fase successiva</string>
+    <string name="arcade_tintascent">Ascesa della tinta</string>
+    <string name="arcade_tintascent_sub">Tocca per rimbalzare tra i colori corrispondenti e raccogliere le stelle. I gettoni multicolori cambiano il colore della tua palla</string>
+    <string name="arcade_traceandclaim">Traccia e rivendica</string>
+    <string name="arcade_traceandclaim_sub">Trascina per sterzare con il joystick mobile. Hai tre vite. Ritorna nel tuo territorio per rivendicare l\'area recintata. Attraversa liberamente il tuo percorso e taglia i sentieri nemici. Cattura abbastanza terreno per aprire una nuova arena</string>
+    <string name="arcade_orchardpile">Mucchio del frutteto</string>
+    <string name="arcade_orchardpile_sub">Trascina per mirare e rilascia per far cadere un frutto. I frutti abbinati si uniscono e due angurie si liberano a vicenda. Mantieni la pila sotto la linea tratteggiata</string>
 </resources>

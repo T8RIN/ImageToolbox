@@ -8066,4 +8066,14 @@
     <string name="arcade_rounds_finished">Rondes afgelopen</string>
     <string name="arcade_rounds_subtitle">%1$d/%2$d rondes</string>
     <string name="arcade_return">Opbrengst</string>
+    <string name="arcade_templeescape">Tempel ontsnapping</string>
+    <string name="arcade_templeescape_sub">Veeg om van muur naar muur te rennen en klim naar de uitgang voordat de lava je te pakken krijgt. Ontwijk pieken en bewakers, verzamel relikwieën en gebruik schilden om een ​​treffer te overleven</string>
+    <string name="arcade_spiralshaft">Spiraalvormige schacht</string>
+    <string name="arcade_spiralshaft_sub">Sleep zijwaarts om de toren te laten draaien. Spring door drie gaten op rij om een ​​vuurbal op te laden die twee platforms vernietigt. Vermijd rode segmenten en bereik de stevige landing om aan de volgende fase te beginnen</string>
+    <string name="arcade_tintascent">Tint stijging</string>
+    <string name="arcade_tintascent_sub">Tik om door bijpassende kleuren te stuiteren en sterren te verzamelen. Veelkleurige fiches veranderen de kleur van je bal</string>
+    <string name="arcade_traceandclaim">Traceren en claimen</string>
+    <string name="arcade_traceandclaim_sub">Sleep om te sturen met de zwevende joystick. Je hebt drie levens. Keer terug naar je territorium om het afgesloten gebied te claimen. Steek vrij je eigen pad over en snij vijandelijke paden. Verover voldoende land om een ​​nieuwe arena te openen</string>
+    <string name="arcade_orchardpile">Boomgaard stapel</string>
+    <string name="arcade_orchardpile_sub">Sleep om te richten en laat los om een ​​vrucht te laten vallen. Bijpassende vruchten smelten samen en twee watermeloenen maken elkaar schoon. Houd de stapel onder de stippellijn</string>
 </resources>

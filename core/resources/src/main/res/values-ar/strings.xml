@@ -8070,4 +8070,14 @@
     <string name="arcade_rounds_finished">انتهت الجولات</string>
     <string name="arcade_rounds_subtitle">%1$d/%2$d جولات</string>
     <string name="arcade_return">يعود</string>
+    <string name="arcade_templeescape">الهروب من المعبد</string>
+    <string name="arcade_templeescape_sub">اسحب للاندفاع من جدار إلى آخر وتسلق إلى المخرج قبل أن تمسك بك الحمم البركانية. دودج المسامير والأوصياء، وجمع الآثار واستخدام الدروع للبقاء على قيد الحياة</string>
+    <string name="arcade_spiralshaft">رمح دوامة</string>
+    <string name="arcade_spiralshaft_sub">اسحب جانبيًا لتدوير البرج. اسقط من خلال ثلاث فجوات متتالية لشحن كرة نارية تحطم منصتين. تجنب الأجزاء الحمراء ووصل إلى الهبوط الصلب لبدء المرحلة التالية</string>
+    <string name="arcade_tintascent">صعود الصبغة</string>
+    <string name="arcade_tintascent_sub">انقر لترتد من خلال الألوان المطابقة وجمع النجوم. الرموز متعددة الألوان تغير لون كرتك</string>
+    <string name="arcade_traceandclaim">التتبع والمطالبة</string>
+    <string name="arcade_traceandclaim_sub">اسحب للتوجيه باستخدام عصا التحكم العائمة. لديك ثلاثة أرواح. عد إلى أراضيك للمطالبة بالمنطقة المغلقة. عبور المسار الخاص بك بحرية وقطع مسارات العدو. الاستيلاء على ما يكفي من الأرض لفتح ساحة جديدة</string>
+    <string name="arcade_orchardpile">بستان كومة</string>
+    <string name="arcade_orchardpile_sub">اسحب لهدف ثم أطلق لإسقاط الفاكهة. تندمج الثمار المتطابقة، وتنظف بطيختان بعضهما البعض. احتفظ بالكومة أسفل الخط المتقطع</string>
 </resources>

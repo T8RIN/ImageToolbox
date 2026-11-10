@@ -8066,4 +8066,14 @@
     <string name="arcade_rounds_finished">A körök befejeződtek</string>
     <string name="arcade_rounds_subtitle">%1$d/%2$d kör</string>
     <string name="arcade_return">Visszatérés</string>
+    <string name="arcade_templeescape">Temple Escape</string>
+    <string name="arcade_templeescape_sub">Csúsztasson faltól falig, és mássz fel a kijárathoz, mielőtt elkap a láva. Kerüld el a tüskéket és az őrzőket, gyűjts ereklyéket, és használj pajzsokat, hogy túléld a találatot</string>
+    <string name="arcade_spiralshaft">Spirális tengely</string>
+    <string name="arcade_spiralshaft_sub">Húzza oldalra a torony megforgatásához. Ugorj át egymás után három résen, és tölts fel egy tűzgolyót, amely két platformot szétzúz. Kerülje el a piros szegmenseket, és érje el a szilárd leszállást a következő szakasz megkezdéséhez</string>
+    <string name="arcade_tintascent">Tint Ascent</string>
+    <string name="arcade_tintascent_sub">Koppintson a megfelelő színek ugrálásához és csillagok gyűjtéséhez. A többszínű tokenek megváltoztatják a labdád színét</string>
+    <string name="arcade_traceandclaim">Trace &amp;amp; Claim</string>
+    <string name="arcade_traceandclaim_sub">Húzza a kormányzáshoz a lebegő joystickkal. Három életed van. Térj vissza a területedre, hogy megszerezd a zárt területet. Keresztezze át szabadon a saját nyomát, és vágja el az ellenség nyomait. Foglaljon elegendő területet egy új aréna megnyitásához</string>
+    <string name="arcade_orchardpile">Gyümölcsös halom</string>
+    <string name="arcade_orchardpile_sub">Húzza a célhoz, és engedje el, hogy gyümölcsöt dobjon. A megfelelő gyümölcsök összeolvadnak, és két görögdinnye kitisztítja egymást. Tartsa a halmot a szaggatott vonal alatt</string>
 </resources>
