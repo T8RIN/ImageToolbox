@@ -29,6 +29,7 @@ import coil3.intercept.Interceptor
 import coil3.request.ImageResult
 import coil3.request.allowHardware
 import coil3.toBitmap
+import com.t8rin.imagetoolbox.core.data.testImageGetter
 import com.t8rin.imagetoolbox.core.domain.coroutines.AppScope
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.settings.domain.model.CustomSemanticSearchCategory
@@ -583,7 +584,7 @@ class SimilarImageSearchInstrumentedTest {
             override val decodingDispatcher = Dispatchers.Default
             override val defaultDispatcher = Dispatchers.Default
         }
-        val imageGetter = semanticSearchImageGetter(context, loader, appScope, dispatchers)
+        val imageGetter = testImageGetter(context, loader, appScope, dispatchers)
         return AndroidSemanticSearchRepository(
             context = context,
             imageGetter = imageGetter,

@@ -5599,6 +5599,7 @@
     <string name="gallery_show_file_extension_sub">Show the file format on image thumbnails.</string>
     <string name="gallery_style_selection">Gallery-style selection</string>
     <string name="gallery_style_selection_sub">In the embedded picker, tap to preview and long-press to start selecting. While selecting, tap to add or remove images.</string>
+    <string name="help_tip_gallery_style_selection">Enable this setting for the embedded picker. Open a photo with a tap, or hold it to start selecting several photos.</string>
     <string name="gallery_search_similar">Find similar photos</string>
     <string name="gallery_search_similar_description">Choose a photo to find others with similar contents.</string>
     <string name="gallery_search_similar_enable">Turn on Semantic photo search first.</string>
@@ -5682,6 +5683,8 @@
     <string name="gallery_ocr_pending">Preparing text search…</string>
     <string name="gallery_ocr_disabled">Turn on text search in photos to find images by the words they contain.</string>
     <string name="gallery_ocr_search_hint">File name or text</string>
+    <string name="help_tip_gallery_ocr_setup">Turn on text search, allow access to photos, and let the app download the models and index your images.</string>
+    <string name="help_tip_gallery_ocr_query">Open the gallery and enter a word or phrase that appears in the image.</string>
     <string name="gallery_search_content_hint">File name, description or text</string>
     <string name="gallery_search_auto">Semantic photo search</string>
     <string name="gallery_search_auto_sub">Find photos by what is in them and browse automatic categories in Gallery and Embedded Picker. First setup requires a download of about 227 MB.</string>
@@ -8049,6 +8052,8 @@
     <string name="arcade_exit_title">Leave the game?</string>
     <string name="arcade_exit_sub">The current game will end. Your high score will be saved.</string>
     <string name="arcade_games_sub">Play different arcade minigames</string>
+    <string name="help_tip_arcade_games">Open Games and tap a game to play. Tap the bookmark next to a game to add it to favorites.</string>
+    <string name="help_tip_loading_games">Enable Games while waiting, then tap the game button when a loading dialog appears.</string>
     <string name="arcade_games_search">Dino Game, Doodle Jump, Flappy Bird, Tower Builder, Stack, Ping Pong, 2048, Snake, Tetris, Retro Racer, Ricochet, Asteroids, Fruit Slice, Knife Hit, Missile Command, River Hop, Frogger, Whack-a-Mole, Simon Says, Bubble Pop, Fishing, Super Hexagon</string>
     <string name="arcade_dino">Dino</string>
     <string name="arcade_doodle">Doodle Jump</string>

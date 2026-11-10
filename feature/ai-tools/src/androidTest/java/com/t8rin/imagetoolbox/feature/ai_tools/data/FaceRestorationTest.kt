@@ -27,8 +27,8 @@ import android.os.SystemClock
 import androidx.core.graphics.createBitmap
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.t8rin.imagetoolbox.core.data.coroutines.AndroidDispatchersHolder
-import com.t8rin.imagetoolbox.core.data.resource.AndroidResourceManager
+import com.t8rin.imagetoolbox.core.data.testResourceManager
+import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.saving.KeepAliveService
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.AiProgressListener
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralModel
@@ -168,14 +168,14 @@ class FaceRestorationTest {
         val processor = AiProcessor(
             context,
             KeepAliveService.EMPTY,
-            AndroidDispatchersHolder(
-                Dispatchers.Default,
-                Dispatchers.IO,
-                Dispatchers.Default,
-                Dispatchers.Default,
-                Dispatchers.Default
-            ),
-            AndroidResourceManager(context)
+            object : DispatchersHolder {
+                override val uiDispatcher = Dispatchers.Default
+                override val ioDispatcher = Dispatchers.IO
+                override val encodingDispatcher = Dispatchers.Default
+                override val decodingDispatcher = Dispatchers.Default
+                override val defaultDispatcher = Dispatchers.Default
+            },
+            testResourceManager(context)
         )
         val source = createBitmap(321, 237)
         for (y in 0 until source.height) {

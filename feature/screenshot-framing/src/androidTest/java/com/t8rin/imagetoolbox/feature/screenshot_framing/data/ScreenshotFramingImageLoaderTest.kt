@@ -26,16 +26,13 @@ import androidx.test.platform.app.InstrumentationRegistry
 import coil3.ImageLoader
 import coil3.request.allowHardware
 import com.t8rin.exif.ExifInterface
-import com.t8rin.imagetoolbox.core.data.image.AndroidImageGetter
+import com.t8rin.imagetoolbox.core.data.testImageGetter
 import com.t8rin.imagetoolbox.core.domain.coroutines.AppScope
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
-import com.t8rin.imagetoolbox.core.settings.domain.SettingsProvider
-import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
 import com.t8rin.imagetoolbox.core.utils.initAppContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -43,7 +40,6 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.io.File
-import java.lang.reflect.Proxy
 
 @RunWith(AndroidJUnit4::class)
 class ScreenshotFramingImageLoaderTest {
@@ -55,20 +51,17 @@ class ScreenshotFramingImageLoaderTest {
     private val appScope = object : AppScope {
         override val coroutineContext = SupervisorJob() + Dispatchers.Default
     }
-    private val getter = AndroidImageGetter(
+    private val getter = testImageGetter(
         context = context,
         imageLoader = imageLoader,
         appScope = appScope,
-        failureNotifier = dependency { name, args ->
-            if (name == "send") throw args[0] as Throwable
-            error("Unexpected call: $name")
-        },
-        metadataProvider = { error("Metadata is not needed for framing") },
-        settingsProvider = dependency<SettingsProvider> { name, _ ->
-            check(name == "getSettingsState")
-            MutableStateFlow(SettingsState.Default)
-        },
-        dispatchersHolder = dependency<DispatchersHolder> { _, _ -> Dispatchers.Default }
+        dispatchers = object : DispatchersHolder {
+            override val uiDispatcher = Dispatchers.Default
+            override val ioDispatcher = Dispatchers.Default
+            override val encodingDispatcher = Dispatchers.Default
+            override val decodingDispatcher = Dispatchers.Default
+            override val defaultDispatcher = Dispatchers.Default
+        }
     )
 
     @After
@@ -140,14 +133,4 @@ class ScreenshotFramingImageLoaderTest {
         }
         return file
     }
-
-    @Suppress("UNCHECKED_CAST")
-    private inline fun <reified T> dependency(
-        crossinline invoke: (String, Array<out Any?>) -> Any?
-    ): T = Proxy.newProxyInstance(
-        T::class.java.classLoader,
-        arrayOf(T::class.java)
-    ) { _, method, args ->
-        invoke(method.name, args ?: emptyArray())
-    } as T
 }

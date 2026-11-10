@@ -28,6 +28,7 @@ import com.t8rin.imagetoolbox.feature.filters.data.AndroidFilterProvider
 import com.t8rin.imagetoolbox.feature.filters.data.model.FilterField
 import com.t8rin.imagetoolbox.feature.filters.data.model.GeneratedFilterRegistry
 import com.t8rin.imagetoolbox.feature.filters.data.model.StructuredParameters
+import com.t8rin.imagetoolbox.feature.filters.data.utils.serialization.StoredParameterValues
 import com.t8rin.imagetoolbox.feature.filters.presentation.model.GeneratedFilterCatalog
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals

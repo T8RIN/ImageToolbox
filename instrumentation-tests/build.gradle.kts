@@ -27,6 +27,7 @@ plugins {
 
 val testedProjects = listOf(
     "core/data",
+    "core/games",
     "core/ui",
     "core/utils",
     "feature/ai-tools",
@@ -70,6 +71,19 @@ val testedProjects = listOf(
     "lib/opencv-tools"
 )
 
+val testSourceSets = mapOf(
+    "main" to "androidTest",
+    "foss" to "androidTestFoss",
+    "market" to "androidTestMarket"
+)
+val testSources = testSourceSets.mapValues { (_, sourceSet) ->
+    testedProjects.flatMap { projectPath ->
+        listOf("java", "kotlin").map { directory ->
+            rootProject.file("$projectPath/src/$sourceSet/$directory")
+        }
+    }
+}
+
 android {
     namespace = "com.t8rin.imagetoolbox.instrumentation"
     compileSdk = libs.versions.androidCompileSdk.get().toIntOrNull()
@@ -99,41 +113,27 @@ android {
         create("market") { dimension = "app" }
     }
 
-    sourceSets.named("main") {
-        kotlin.directories.addAll(
-            testedProjects.flatMap { projectPath ->
-                listOf(
-                    rootProject.file("$projectPath/src/androidTest/java").absolutePath,
-                    rootProject.file("$projectPath/src/androidTest/kotlin").absolutePath
-                )
-            }
-        )
-        assets.directories.addAll(
-            testedProjects.map { projectPath ->
-                rootProject.file("$projectPath/src/androidTest/assets").absolutePath
-            }
-        )
-    }
-    listOf("foss", "market").forEach { flavorName ->
-        sourceSets.named(flavorName) {
-            val sourceSetName = "androidTest${flavorName.replaceFirstChar(Char::uppercaseChar)}"
-            kotlin.directories.addAll(
-                testedProjects.flatMap { projectPath ->
-                    listOf(
-                        rootProject.file("$projectPath/src/$sourceSetName/java").absolutePath,
-                        rootProject.file("$projectPath/src/$sourceSetName/kotlin").absolutePath
-                    )
-                }
-            )
+    testSourceSets.forEach { (name, sourceSet) ->
+        sourceSets.named(name) {
             assets.directories.addAll(
                 testedProjects.map { projectPath ->
-                    rootProject.file("$projectPath/src/$sourceSetName/assets").absolutePath
+                    rootProject.file("$projectPath/src/$sourceSet/assets").absolutePath
                 }
             )
         }
     }
 
     targetProjectPath = ":app"
+}
+
+androidComponents.onVariants { variant ->
+    val compileTaskName = "compile${variant.name.replaceFirstChar(Char::uppercaseChar)}Kotlin"
+    val sources =
+        testSources.getValue("main") + testSources.getValue(variant.productFlavors.single().second)
+    // Keep the source roots owned by their original androidTest modules in Android Studio.
+    tasks.withType<KotlinCompile>().matching { it.name == compileTaskName }.configureEach {
+        source(sources)
+    }
 }
 
 evaluationDependsOn(":app")
@@ -188,6 +188,8 @@ dependencies {
     implementation(libs.bouncycastle.provider)
     compileOnly(libs.onnx.genai)
     compileOnly(libs.kotlinx.serialization.json)
+
+    implementation(testFixtures(projects.core.data))
 }
 
 tasks.withType<KotlinCompile>().configureEach {

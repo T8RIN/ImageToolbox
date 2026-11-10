@@ -25,6 +25,7 @@ import com.t8rin.collages.layout.generator.ProceduralCollageLayouts
 import com.t8rin.collages.layout.toLayout
 import com.t8rin.collages.model.CollagePoint
 import com.t8rin.collages.model.PhotoItem
+import com.t8rin.collages.view.FrameImageView
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue

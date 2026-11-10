@@ -900,6 +900,31 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
             )
         ),
         tip(
+            id = "gallery-text-search",
+            title = R.string.gallery_ocr,
+            subtitle = R.string.gallery_ocr_sub,
+            icon = Icons.Outlined.TextSearch,
+            category = gettingStarted,
+            deepLink = Screen.Settings(targetSetting = Setting.GalleryOcr),
+            pageTitle = R.string.gallery_ocr,
+            description = R.string.gallery_ocr_sub,
+            steps = listOf(
+                R.string.help_tip_gallery_ocr_setup,
+                R.string.help_tip_gallery_ocr_query
+            )
+        ),
+        tip(
+            id = "setting-gallery-style-selection",
+            title = R.string.gallery_style_selection,
+            subtitle = R.string.gallery_style_selection_sub,
+            icon = Icons.Outlined.ImageSearch,
+            category = gettingStarted,
+            deepLink = Screen.Settings(targetSetting = Setting.UseGalleryStyleSelection),
+            pageTitle = R.string.gallery_style_selection,
+            description = R.string.gallery_style_selection_sub,
+            steps = listOf(R.string.help_tip_gallery_style_selection)
+        ),
+        tip(
             id = TipIds.SkipFilePicking,
             title = R.string.help_tip_skip_file_picking_title,
             subtitle = R.string.help_tip_skip_file_picking_subtitle,
@@ -913,6 +938,28 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
                 R.string.help_tip_skip_file_picking_step_2,
                 R.string.help_tip_skip_file_picking_step_3
             )
+        ),
+        tip(
+            id = "arcade-games",
+            title = R.string.arcade_games,
+            subtitle = R.string.arcade_games_sub,
+            icon = Icons.Outlined.Gamepad,
+            category = gettingStarted,
+            deepLink = Screen.ArcadeGames(),
+            pageTitle = R.string.arcade_games,
+            description = R.string.arcade_games_sub,
+            steps = listOf(R.string.help_tip_arcade_games)
+        ),
+        tip(
+            id = "setting-games-while-waiting",
+            title = R.string.show_loading_game_button,
+            subtitle = R.string.show_loading_game_button_sub,
+            icon = Icons.Outlined.Gamepad,
+            category = customization,
+            deepLink = Screen.Settings(targetSetting = Setting.ShowLoadingGameButton),
+            pageTitle = R.string.show_loading_game_button,
+            description = R.string.show_loading_game_button_sub,
+            steps = listOf(R.string.help_tip_loading_games)
         ),
         tip(
             id = TipIds.OpenEditDirectly,

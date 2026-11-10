@@ -91,7 +91,7 @@ class JxlBackendInstrumentedTest {
                 image = source,
                 quality = Quality.Jxl()
             )
-            assertLosslessRoundTrip(source, encoded, isJixel = false)
+            assertLosslessRoundTrip(source, encoded)
         } finally {
             source.recycle()
         }
@@ -143,7 +143,7 @@ class JxlBackendInstrumentedTest {
             .open("jxl/lossless-alpha05.jxl").use { it.readBytes() }
         val source = testImage()
         try {
-            assertLosslessRoundTrip(source, encoded)
+            assertLosslessRoundTrip(source, encoded, storedPremultiplied = true)
         } finally {
             source.recycle()
         }
@@ -152,11 +152,10 @@ class JxlBackendInstrumentedTest {
     private fun assertLosslessRoundTrip(
         expected: Bitmap,
         encoded: ByteArray,
-        isJixel: Boolean = true
+        storedPremultiplied: Boolean = false
     ) {
-        // Jixel reads Android's stored samples directly. libjxl exposes these as
-        // straight colors, whereas the Rust bitmap path keeps Android's alpha association.
-        val encodedSamples = if (isJixel) {
+        // The alpha05 fixture stored Android's premultiplied samples as straight colors.
+        val encodedSamples = if (storedPremultiplied) {
             expected.copy(Bitmap.Config.ARGB_8888, true).apply { isPremultiplied = false }
         } else expected
         val reference = LibJxlCoder.decode(encoded)

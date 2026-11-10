@@ -28,6 +28,7 @@ class ImageToolboxTestsPlugin : Plugin<Project> {
         with(target) {
             extensions.configure<LibraryExtension> {
                 defaultConfig.testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+                if (path == ":core:data") testFixtures.enable = true
             }
 
             dependencies {
@@ -37,6 +38,29 @@ class ImageToolboxTestsPlugin : Plugin<Project> {
                 add("androidTestImplementation", libs.androidx.test.ext.junit)
                 add("androidTestImplementation", libs.androidx.runner)
                 add("androidTestImplementation", libs.compose.ui.test.junit4)
+
+                when (path) {
+                    ":core:data" -> {
+                        add("androidTestImplementation", project(":core:ui"))
+                        add("testFixturesApi", project(":core:domain"))
+                        add("testFixturesImplementation", project(":core:settings"))
+                        add("testFixturesImplementation", libs.dagger.hilt.android)
+                        add("testFixturesImplementation", libs.toolbox.exif)
+                    }
+
+                    ":feature:ai-tools", ":feature:media-picker" -> {
+                        add("androidTestImplementation", testFixtures(project(":core:data")))
+                    }
+
+                    ":feature:assistant" -> add("androidTestImplementation", libs.onnx.genai)
+                    ":feature:cipher" -> add("androidTestImplementation", libs.bouncycastle.pkix)
+                    ":feature:edit-exif", ":feature:screenshot-framing" -> {
+                        add("androidTestImplementation", libs.toolbox.exif)
+                        add("androidTestImplementation", testFixtures(project(":core:data")))
+                    }
+
+                    ":feature:markup-layers" -> add("androidTestImplementation", libs.moshi)
+                }
             }
         }
     }

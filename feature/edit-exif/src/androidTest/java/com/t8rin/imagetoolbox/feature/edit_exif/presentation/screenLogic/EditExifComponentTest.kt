@@ -27,9 +27,9 @@ import com.arkivanov.decompose.DefaultComponentContext
 import com.arkivanov.essenty.lifecycle.LifecycleRegistry
 import com.arkivanov.essenty.lifecycle.destroy
 import com.t8rin.exif.ExifInterface
-import com.t8rin.imagetoolbox.core.data.image.toMetadata
 import com.t8rin.imagetoolbox.core.data.saving.io.FileWriteable
 import com.t8rin.imagetoolbox.core.data.saving.io.StreamWriteable
+import com.t8rin.imagetoolbox.core.data.testMetadata
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.domain.image.Metadata
@@ -125,7 +125,7 @@ class EditExifComponentTest {
                 "readMetadata" -> {
                     assertNotEquals(Looper.getMainLooper(), Looper.myLooper())
                     reads++
-                    ExifInterface(source).toMetadata().readOnly()
+                    ExifInterface(source).testMetadata().readOnly()
                 }
 
                 "save" -> {
@@ -136,7 +136,7 @@ class EditExifComponentTest {
                     assertTrue(target.readFromUriInsteadOfData)
                     assertTrue(target.data.isEmpty())
                     source.copyTo(saved)
-                    checkNotNull(target.metadata).copyTo(ExifInterface(saved).toMetadata())
+                    checkNotNull(target.metadata).copyTo(ExifInterface(saved).testMetadata())
                     SaveResult.Success(savingPath = directory.path)
                 }
 
@@ -147,7 +147,7 @@ class EditExifComponentTest {
 
                 "writeMetadata" -> {
                     assertNotEquals(Looper.getMainLooper(), Looper.myLooper())
-                    (args[1] as Metadata).copyTo(ExifInterface(shared).toMetadata())
+                    (args[1] as Metadata).copyTo(ExifInterface(shared).testMetadata())
                     Unit
                 }
 
@@ -217,7 +217,7 @@ class EditExifComponentTest {
                     0xd9.toByte()
                 ).inputStream()
             )
-                .toMetadata().readOnly().setAttribute(MetadataTag.Artist, args[0] as String)
+                .testMetadata().readOnly().setAttribute(MetadataTag.Artist, args[0] as String)
         })
         try {
             withContext(Dispatchers.Main) { component.setUri(Uri.parse("file:///slow.jpg")) }

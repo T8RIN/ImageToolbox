@@ -5645,6 +5645,8 @@
     <string name="gallery_ocr_pending">Подготовка поиска по тексту…</string>
     <string name="gallery_ocr_disabled">Включите поиск по тексту на фото, чтобы находить изображения по словам на них.</string>
     <string name="gallery_ocr_search_hint">Имя файла или текст</string>
+    <string name="help_tip_gallery_ocr_setup">Включите поиск по тексту и разрешите доступ к фото. Дождитесь загрузки моделей и индексации снимков.</string>
+    <string name="help_tip_gallery_ocr_query">Откройте галерею и введите слово или фразу, которую видно на снимке.</string>
     <string name="gallery_search_content_hint">Имя файла, описание или текст</string>
     <string name="gallery_search_auto">Семантический поиск по фото</string>
     <string name="gallery_search_auto_sub">Находите фото по содержимому и просматривайте автоматические категории в «Галерее» и «Встроенном средстве выбора». При первом включении загружается около 227 МБ.</string>
@@ -5673,6 +5675,7 @@
     <string name="gallery_show_file_extension_sub">Отображает формат файла на миниатюрах.</string>
     <string name="gallery_style_selection">Выбор как в галерее</string>
     <string name="gallery_style_selection_sub">Во встроенном средстве выбора короткое нажатие открывает предпросмотр, а долгое включает выделение. В режиме выделения короткое нажатие добавляет или убирает изображение.</string>
+    <string name="help_tip_gallery_style_selection">Включите настройку для встроенного средства выбора. Коснитесь фото для предпросмотра или удерживайте его, чтобы выбрать несколько снимков.</string>
     <string name="compare_animation">Анимированное до/после</string>
     <string name="compare_animation_sub">Сохранить зацикленное сравнение в GIF</string>
     <string name="compare_animation_before">До</string>
@@ -8005,6 +8008,8 @@
     <string name="arcade_exit_title">Выйти из игры?</string>
     <string name="arcade_exit_sub">Текущая игра завершится. Рекорд сохранится.</string>
     <string name="arcade_games_sub">Играйте в различные аркадные мини-игры</string>
+    <string name="help_tip_arcade_games">Откройте раздел «Игры» и выберите игру. Чтобы добавить игру в избранное, нажмите на закладку рядом с ней.</string>
+    <string name="help_tip_loading_games">Включите «Игры во время ожидания», затем нажмите кнопку игры в диалоге загрузки.</string>
     <string name="arcade_games_search">Dino Game, Doodle Jump, Flappy Bird, Tower Builder, Stack, Ping Pong, 2048, Snake, Tetris, Retro Racer, Ricochet, Asteroids, Fruit Slice, Knife Hit, Missile Command, River Hop, Frogger, Whack-a-Mole, Simon Says, Bubble Pop, Fishing, Super Hexagon</string>
     <string name="arcade_dino">Dino</string>
     <string name="arcade_doodle">Doodle Jump</string>
