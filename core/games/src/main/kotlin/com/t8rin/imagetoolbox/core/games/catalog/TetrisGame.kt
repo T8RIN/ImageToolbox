@@ -15,8 +15,6 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-@file:UseSerializers(ArcadeOffsetSerializer::class, ArcadeDequeSerializer::class)
-
 package com.t8rin.imagetoolbox.core.games.catalog
 
 import androidx.compose.runtime.Composable
@@ -28,244 +26,246 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.clipRect
 import androidx.compose.ui.graphics.lerp
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
-import com.t8rin.imagetoolbox.core.games.ArcadeDefaults
-import com.t8rin.imagetoolbox.core.games.ArcadeDequeSerializer
+import com.t8rin.imagetoolbox.core.games.ArcadeDeque
 import com.t8rin.imagetoolbox.core.games.ArcadeField
-import com.t8rin.imagetoolbox.core.games.ArcadeGameState
-import com.t8rin.imagetoolbox.core.games.ArcadeOffsetSerializer
+import com.t8rin.imagetoolbox.core.games.ArcadeGameContext
+import com.t8rin.imagetoolbox.core.games.ArcadeGameDefinition
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
-import com.t8rin.imagetoolbox.core.games.ArcadeStyle
+import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
-import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
+import com.t8rin.imagetoolbox.core.resources.Icons
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.ViewQuilt
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
-import kotlinx.serialization.UseSerializers
 import kotlin.math.abs
 import kotlin.math.pow
+
+@RegisterArcadeGame
+internal data object TetrisGame : ArcadeGameDefinition {
+    override val title = R.string.arcade_tetris
+    override val description = R.string.arcade_tetris_sub
+    override val icon get() = Icons.Outlined.ViewQuilt
+    override val order = 7
+
+    @Composable
+    override fun Content(context: ArcadeGameContext, modifier: Modifier) {
+        val style = context.style
+        val run = rememberArcadeRun(
+            startPlaying = context.initialState.isPlaying,
+            create = ::TetrisRun
+        )
+
+        ArcadeBoard(
+            context = context,
+            run = run,
+            modifier = modifier
+        ) {
+            ArcadeField(
+                run = run,
+                onPress = run::beginDrag,
+                onTap = { run.tap() },
+                onDrag = run::drag,
+                onRelease = run::stopInput
+            ) {
+                val cell = run.cellSize
+                val origin = Offset(
+                    x = (run.width - cell * TetrisColumns) / 2,
+                    y = run.topInset + (run.height - run.topInset - cell * TetrisRows) / 2
+                )
+                val boardSize = Size(width = cell * TetrisColumns, height = cell * TetrisRows)
+                drawRect(
+                    color = style.obstacleColor.copy(alpha = 0.035f),
+                    topLeft = origin,
+                    size = boardSize
+                )
+                for (column in 1 until TetrisColumns) {
+                    val x = origin.x + column * cell
+                    drawLine(
+                        color = style.detailColor.copy(alpha = 0.08f),
+                        start = Offset(x = x, y = origin.y),
+                        end = Offset(x = x, y = origin.y + boardSize.height)
+                    )
+                }
+                for (row in 1 until TetrisRows) {
+                    val y = origin.y + row * cell
+                    drawLine(
+                        color = style.detailColor.copy(alpha = 0.08f),
+                        start = Offset(x = origin.x, y = y),
+                        end = Offset(x = origin.x + boardSize.width, y = y)
+                    )
+                }
+                for (x in listOf(origin.x - 3f, origin.x + boardSize.width + 1f)) {
+                    drawRect(
+                        color = style.obstacleColor.copy(alpha = 0.35f),
+                        topLeft = Offset(x = x, y = origin.y),
+                        size = Size(width = 2f, height = boardSize.height + 3f)
+                    )
+                }
+                drawRect(
+                    color = style.obstacleColor.copy(alpha = 0.35f),
+                    topLeft = origin + Offset(x = -3f, y = boardSize.height + 1f),
+                    size = Size(width = boardSize.width + 6f, height = 2f)
+                )
+
+                fun block(
+                    point: Offset,
+                    size: Float,
+                    type: Int,
+                    ghost: Boolean = false,
+                    scale: Float = 1f
+                ) {
+                    if (scale <= 0) return
+                    val color = when (type) {
+                        0 -> style.playerColor
+                        1 -> style.accentColor
+                        2 -> style.obstacleColor
+                        3 -> lerp(
+                            start = style.playerColor,
+                            stop = style.accentColor,
+                            fraction = 0.35f
+                        )
+
+                        4 -> lerp(
+                            start = style.obstacleColor,
+                            stop = style.accentColor,
+                            fraction = 0.6f
+                        )
+
+                        5 -> lerp(
+                            start = style.playerColor,
+                            stop = style.obstacleColor,
+                            fraction = 0.55f
+                        )
+
+                        else -> lerp(
+                            start = style.accentColor,
+                            stop = style.playerColor,
+                            fraction = 0.2f
+                        )
+                    }
+                    val gap = size * 0.045f
+                    val topLeft = point + Offset(x = gap, y = gap + size * (1 - scale) / 2)
+                    val blockSize = Size(width = size - gap * 2, height = (size - gap * 2) * scale)
+                    if (ghost) {
+                        drawRect(
+                            color = color.copy(alpha = 0.06f),
+                            topLeft = topLeft,
+                            size = blockSize
+                        )
+                        drawRect(
+                            color = color.copy(alpha = 0.4f),
+                            topLeft = topLeft,
+                            size = blockSize,
+                            style = Stroke(width = size * 0.06f)
+                        )
+                    } else {
+                        val edge = size * 0.12f
+                        val edgeHeight = edge * scale
+                        drawRect(
+                            color = lerp(start = color, stop = Color.White, fraction = 0.3f),
+                            topLeft = topLeft,
+                            size = blockSize
+                        )
+                        drawRect(
+                            color = lerp(start = color, stop = Color.Black, fraction = 0.3f),
+                            topLeft = topLeft + Offset(x = edge, y = edgeHeight),
+                            size = Size(
+                                width = blockSize.width - edge,
+                                height = blockSize.height - edgeHeight
+                            )
+                        )
+                        drawRect(
+                            color = color,
+                            topLeft = topLeft + Offset(x = edge, y = edgeHeight),
+                            size = Size(
+                                width = blockSize.width - edge * 2f,
+                                height = blockSize.height - edgeHeight * 2f
+                            )
+                        )
+                    }
+                }
+                clipRect(
+                    left = origin.x,
+                    top = origin.y,
+                    right = origin.x + boardSize.width,
+                    bottom = origin.y + boardSize.height
+                ) {
+                    run.board.forEachIndexed { index, value ->
+                        if (value > 0) {
+                            val row = index / TetrisColumns
+                            val scale =
+                                if (row in run.clearing) 1f - run.clearTime / ClearDuration else 1f
+                            block(
+                                point = origin + Offset(
+                                    x = index % TetrisColumns * cell,
+                                    y = row * cell
+                                ),
+                                size = cell,
+                                type = value - 1,
+                                scale = scale
+                            )
+                        }
+                    }
+                    if (run.clearing.isEmpty()) {
+                        val ghostY = run.landingY()
+                        for ((x, y) in run.cells()) {
+                            if (ghostY + y >= 0) {
+                                block(
+                                    point = origin + Offset(
+                                        x = (run.x + x) * cell,
+                                        y = (ghostY + y) * cell
+                                    ),
+                                    size = cell,
+                                    type = run.piece.ordinal,
+                                    ghost = true
+                                )
+                            }
+                            block(
+                                point = origin + Offset(
+                                    x = (run.x + x) * cell,
+                                    y = (run.drawY + y) * cell
+                                ),
+                                size = cell,
+                                type = run.piece.ordinal
+                            )
+                        }
+                    }
+                }
+                val preview = run.next.cells(0)
+                val previewCell = minOf(cell, 12f, run.topInset / 3)
+                val left = preview.minOf { it.x }
+                val top = preview.minOf { it.y }
+                val previewHeight = (preview.maxOf { it.y } - top + 1) * previewCell
+                for ((x, y) in preview) {
+                    block(
+                        point = Offset(
+                            x = 14f + (x - left) * previewCell,
+                            y = (run.topInset - previewHeight) / 2 + (y - top) * previewCell
+                        ),
+                        size = previewCell,
+                        type = run.next.ordinal
+                    )
+                }
+            }
+        }
+    }
+}
 
 private const val TetrisColumns = 10
 private const val TetrisRows = 20
 private const val ClearDuration = 0.2f
 private const val HoldDelay = 0.35f
 
-@Composable
-fun TetrisGame(
-    modifier: Modifier = Modifier,
-    initialState: ArcadeGameState = ArcadeGameState(),
-    style: ArcadeStyle = ArcadeDefaults.style,
-    onHighScoreChanged: ((Int) -> Unit)? = null,
-    onGameOver: ((Int) -> Unit)? = null,
-    isPaused: Boolean = false
-) {
-    val run = rememberArcadeRun(
-        initialState = initialState,
-        create = ::TetrisRun
-    )
-
-    ArcadeBoard(
-        game = ArcadeGame.Tetris,
-        run = run,
-        style = style,
-        modifier = modifier,
-        initialState = initialState,
-        onHighScoreChanged = onHighScoreChanged,
-        isPaused = isPaused,
-        onGameOver = onGameOver
-    ) {
-        ArcadeField(
-            run = run,
-            onPress = run::beginDrag,
-            onTap = { run.tap() },
-            onDrag = run::drag,
-            onRelease = run::stopInput
-        ) {
-            val cell = run.cellSize
-            val origin = Offset(
-                x = (run.width - cell * TetrisColumns) / 2,
-                y = run.topInset + (run.height - run.topInset - cell * TetrisRows) / 2
-            )
-            val boardSize = Size(width = cell * TetrisColumns, height = cell * TetrisRows)
-            drawRect(
-                color = style.obstacleColor.copy(alpha = 0.035f),
-                topLeft = origin,
-                size = boardSize
-            )
-            for (column in 1 until TetrisColumns) {
-                val x = origin.x + column * cell
-                drawLine(
-                    color = style.detailColor.copy(alpha = 0.08f),
-                    start = Offset(x = x, y = origin.y),
-                    end = Offset(x = x, y = origin.y + boardSize.height)
-                )
-            }
-            for (row in 1 until TetrisRows) {
-                val y = origin.y + row * cell
-                drawLine(
-                    color = style.detailColor.copy(alpha = 0.08f),
-                    start = Offset(x = origin.x, y = y),
-                    end = Offset(x = origin.x + boardSize.width, y = y)
-                )
-            }
-            for (x in listOf(origin.x - 3f, origin.x + boardSize.width + 1f)) {
-                drawRect(
-                    color = style.obstacleColor.copy(alpha = 0.35f),
-                    topLeft = Offset(x = x, y = origin.y),
-                    size = Size(width = 2f, height = boardSize.height + 3f)
-                )
-            }
-            drawRect(
-                color = style.obstacleColor.copy(alpha = 0.35f),
-                topLeft = origin + Offset(x = -3f, y = boardSize.height + 1f),
-                size = Size(width = boardSize.width + 6f, height = 2f)
-            )
-
-            fun block(
-                point: Offset,
-                size: Float,
-                type: Int,
-                ghost: Boolean = false,
-                scale: Float = 1f
-            ) {
-                if (scale <= 0) return
-                val color = when (type) {
-                    0 -> style.playerColor
-                    1 -> style.accentColor
-                    2 -> style.obstacleColor
-                    3 -> lerp(start = style.playerColor, stop = style.accentColor, fraction = 0.35f)
-                    4 -> lerp(
-                        start = style.obstacleColor,
-                        stop = style.accentColor,
-                        fraction = 0.6f
-                    )
-
-                    5 -> lerp(
-                        start = style.playerColor,
-                        stop = style.obstacleColor,
-                        fraction = 0.55f
-                    )
-
-                    else -> lerp(
-                        start = style.accentColor,
-                        stop = style.playerColor,
-                        fraction = 0.2f
-                    )
-                }
-                val gap = size * 0.045f
-                val topLeft = point + Offset(x = gap, y = gap + size * (1 - scale) / 2)
-                val blockSize = Size(width = size - gap * 2, height = (size - gap * 2) * scale)
-                if (ghost) {
-                    drawRect(
-                        color = color.copy(alpha = 0.06f),
-                        topLeft = topLeft,
-                        size = blockSize
-                    )
-                    drawRect(
-                        color = color.copy(alpha = 0.4f),
-                        topLeft = topLeft,
-                        size = blockSize,
-                        style = Stroke(width = size * 0.06f)
-                    )
-                } else {
-                    val edge = size * 0.12f
-                    val edgeHeight = edge * scale
-                    drawRect(
-                        color = lerp(start = color, stop = Color.White, fraction = 0.3f),
-                        topLeft = topLeft,
-                        size = blockSize
-                    )
-                    drawRect(
-                        color = lerp(start = color, stop = Color.Black, fraction = 0.3f),
-                        topLeft = topLeft + Offset(x = edge, y = edgeHeight),
-                        size = Size(
-                            width = blockSize.width - edge,
-                            height = blockSize.height - edgeHeight
-                        )
-                    )
-                    drawRect(
-                        color = color,
-                        topLeft = topLeft + Offset(x = edge, y = edgeHeight),
-                        size = Size(
-                            width = blockSize.width - edge * 2f,
-                            height = blockSize.height - edgeHeight * 2f
-                        )
-                    )
-                }
-            }
-            clipRect(
-                left = origin.x,
-                top = origin.y,
-                right = origin.x + boardSize.width,
-                bottom = origin.y + boardSize.height
-            ) {
-                run.board.forEachIndexed { index, value ->
-                    if (value > 0) {
-                        val row = index / TetrisColumns
-                        val scale =
-                            if (row in run.clearing) 1f - run.clearTime / ClearDuration else 1f
-                        block(
-                            point = origin + Offset(
-                                x = index % TetrisColumns * cell,
-                                y = row * cell
-                            ),
-                            size = cell,
-                            type = value - 1,
-                            scale = scale
-                        )
-                    }
-                }
-                if (run.clearing.isEmpty()) {
-                    val ghostY = run.landingY()
-                    for ((x, y) in run.cells()) {
-                        if (ghostY + y >= 0) {
-                            block(
-                                point = origin + Offset(
-                                    x = (run.x + x) * cell,
-                                    y = (ghostY + y) * cell
-                                ),
-                                size = cell,
-                                type = run.piece.ordinal,
-                                ghost = true
-                            )
-                        }
-                        block(
-                            point = origin + Offset(
-                                x = (run.x + x) * cell,
-                                y = (run.drawY + y) * cell
-                            ),
-                            size = cell,
-                            type = run.piece.ordinal
-                        )
-                    }
-                }
-            }
-            val preview = run.next.cells(0)
-            val previewCell = minOf(cell, 12f, run.topInset / 3)
-            val left = preview.minOf { it.x }
-            val top = preview.minOf { it.y }
-            val previewHeight = (preview.maxOf { it.y } - top + 1) * previewCell
-            for ((x, y) in preview) {
-                block(
-                    point = Offset(
-                        x = 14f + (x - left) * previewCell,
-                        y = (run.topInset - previewHeight) / 2 + (y - top) * previewCell
-                    ),
-                    size = previewCell,
-                    type = run.next.ordinal
-                )
-            }
-        }
-    }
-}
-
 @Serializable
-internal data class TetrisCell(
+private data class TetrisCell(
     val x: Int,
     val y: Int
 )
 
 @Serializable
-internal enum class Tetromino(val shape: List<TetrisCell>) {
+private enum class Tetromino(val shape: List<TetrisCell>) {
     I(
         listOf(
             TetrisCell(x = 0, y = 1),
@@ -335,7 +335,7 @@ internal enum class Tetromino(val shape: List<TetrisCell>) {
 }
 
 @Serializable
-internal class TetrisRun : ArcadeRun() {
+private class TetrisRun : ArcadeRun() {
     val board = IntArray(TetrisColumns * TetrisRows)
     val clearing = mutableListOf<Int>()
     var clearTime = 0f
@@ -355,7 +355,7 @@ internal class TetrisRun : ArcadeRun() {
             (width - 28f) / TetrisColumns,
             (height - topInset - 24f) / TetrisRows
         )
-    private val bag = ArrayDeque<Tetromino>()
+    private val bag: ArcadeDeque<Tetromino> = ArrayDeque()
     private var rotation = 0
     private var lines = 0
     private var elapsed = 0f

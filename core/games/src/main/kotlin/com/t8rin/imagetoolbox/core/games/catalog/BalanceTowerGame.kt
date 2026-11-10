@@ -15,8 +15,6 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-@file:UseSerializers(ArcadeOffsetSerializer::class, ArcadeDequeSerializer::class)
-
 package com.t8rin.imagetoolbox.core.games.catalog
 
 import androidx.compose.runtime.Composable
@@ -30,229 +28,227 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.rotate
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
 import com.t8rin.imagetoolbox.core.games.ArcadeCloud
-import com.t8rin.imagetoolbox.core.games.ArcadeDefaults
-import com.t8rin.imagetoolbox.core.games.ArcadeDequeSerializer
+import com.t8rin.imagetoolbox.core.games.ArcadeDeque
 import com.t8rin.imagetoolbox.core.games.ArcadeField
-import com.t8rin.imagetoolbox.core.games.ArcadeGameState
-import com.t8rin.imagetoolbox.core.games.ArcadeOffsetSerializer
+import com.t8rin.imagetoolbox.core.games.ArcadeGameContext
+import com.t8rin.imagetoolbox.core.games.ArcadeGameDefinition
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
-import com.t8rin.imagetoolbox.core.games.ArcadeStyle
+import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.arcadeGround
 import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
-import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
+import com.t8rin.imagetoolbox.core.resources.Icons
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Balance
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
-import kotlinx.serialization.UseSerializers
 import kotlin.math.sin
 import kotlin.random.Random
 
-@Composable
-fun BalanceTowerGame(
-    modifier: Modifier = Modifier,
-    initialState: ArcadeGameState = ArcadeGameState(),
-    style: ArcadeStyle = ArcadeDefaults.style,
-    onHighScoreChanged: ((Int) -> Unit)? = null,
-    onGameOver: ((Int) -> Unit)? = null,
-    isPaused: Boolean = false
-) {
-    val run = rememberArcadeRun(
-        initialState = initialState,
-        create = ::BalanceTowerRun
-    )
+@RegisterArcadeGame
+internal data object BalanceTowerGame : ArcadeGameDefinition {
+    override val title = R.string.arcade_balancetower
+    override val description = R.string.arcade_balancetower_sub
+    override val icon get() = Icons.Outlined.Balance
+    override val order = 34
 
-    val indicatorPath = remember { Path() }
+    @Composable
+    override fun Content(context: ArcadeGameContext, modifier: Modifier) {
+        val style = context.style
+        val run = rememberArcadeRun(
+            startPlaying = context.initialState.isPlaying,
+            create = ::BalanceTowerRun
+        )
 
-    ArcadeBoard(
-        game = ArcadeGame.BalanceTower,
-        run = run,
-        style = style,
-        modifier = modifier,
-        initialState = initialState,
-        onHighScoreChanged = onHighScoreChanged,
-        isPaused = isPaused,
-        onGameOver = onGameOver
-    ) {
-        ArcadeField(
+        val indicatorPath = remember { Path() }
+
+        ArcadeBoard(
+            context = context,
             run = run,
-            onTap = { run.drop() }
+            modifier = modifier
         ) {
-            repeat(7) { index ->
-                val x = (index * 151f + 32f) % run.width
-                val y = ((index * 79f + 39f + run.camera * 0.18f) % run.height)
-                drawArcadeSprite(
-                    sprite = ArcadeCloud,
-                    tint = style.detailColor.copy(alpha = 0.45f),
-                    x = x,
-                    y = y
-                )
-            }
-            val unit = run.unit
-            val ground = run.project(180f, 0f)
-            if (ground.y < run.height + 10f) {
-                pixelRect(
-                    color = style.obstacleColor,
-                    x = ground.x - 52f * unit,
-                    y = ground.y,
-                    width = 104f * unit,
-                    height = 8f * unit
-                )
-                pixelRect(
-                    color = style.detailColor,
-                    x = ground.x - 46f * unit,
-                    y = ground.y + 8f * unit,
-                    width = 92f * unit,
-                    height = 4f * unit
-                )
-                arcadeGround(style, run.width, ground.y + 13f * unit)
-            }
-            fun block(
-                load: TowerLoad,
-                ghost: Boolean = false
+            ArcadeField(
+                run = run,
+                onTap = { run.drop() }
             ) {
-                val p = run.project(load.x, load.bottom + load.height)
-                val size = Size(width = load.width * unit, height = load.height * unit)
-                val color = when (load.kind) {
-                    0 -> style.playerColor
-                    1 -> style.obstacleColor
-                    else -> style.accentColor
+                repeat(7) { index ->
+                    val x = (index * 151f + 32f) % run.width
+                    val y = ((index * 79f + 39f + run.camera * 0.18f) % run.height)
+                    drawArcadeSprite(
+                        sprite = ArcadeCloud,
+                        tint = style.detailColor.copy(alpha = 0.45f),
+                        x = x,
+                        y = y
+                    )
                 }
-                val point = p - Offset(x = size.width / 2f, y = 0f)
-                if (ghost) {
-                    drawRoundRect(
-                        color = color.copy(alpha = 0.25f),
-                        topLeft = point,
-                        size = size,
-                        cornerRadius = CornerRadius(x = unit * 2f),
-                        style = Stroke(width = 1f)
-                    )
-                } else {
-                    drawRoundRect(
-                        color = color.copy(alpha = 0.85f),
-                        topLeft = point,
-                        size = size,
-                        cornerRadius = CornerRadius(x = unit * 2f)
-                    )
+                val unit = run.unit
+                val ground = run.project(180f, 0f)
+                if (ground.y < run.height + 10f) {
                     pixelRect(
-                        color = style.playerDetailColor.copy(alpha = 0.18f),
-                        x = point.x + 3f * unit,
-                        y = point.y + 3f * unit,
-                        width = size.width - 6f * unit,
-                        height = 2f * unit
-                    )
-                    val frame = style.playerDetailColor.copy(alpha = 0.32f)
-                    for (end in listOf(point.x + 3f * unit, point.x + size.width - 5f * unit)) {
-                        pixelRect(
-                            color = frame,
-                            x = end,
-                            y = point.y + 3f * unit,
-                            width = 2f * unit,
-                            height = size.height - 6f * unit
-                        )
-                    }
-                    if (load.kind == 1) {
-                        pixelRect(
-                            color = frame,
-                            x = point.x + 7f * unit,
-                            y = point.y + size.height - 5f * unit,
-                            width = size.width - 14f * unit,
-                            height = 2f * unit
-                        )
-                    } else {
-                        for (section in 1..2) pixelRect(
-                            color = frame.copy(alpha = 0.18f),
-                            x = point.x + size.width * section / 3f,
-                            y = point.y + 5f * unit,
-                            width = unit,
-                            height = size.height - 10f * unit
-                        )
-                    }
-                    val ballast = run.project(load.x + load.offset, load.bottom + load.height / 2f)
-                    pixelRect(
-                        color = style.playerDetailColor.copy(alpha = 0.38f),
-                        x = ballast.x - 7f * unit,
-                        y = ballast.y - 4f * unit,
-                        width = 14f * unit,
+                        color = style.obstacleColor,
+                        x = ground.x - 52f * unit,
+                        y = ground.y,
+                        width = 104f * unit,
                         height = 8f * unit
                     )
-                    drawCircle(
-                        color = color,
-                        radius = 2f * unit,
-                        center = ballast
+                    pixelRect(
+                        color = style.detailColor,
+                        x = ground.x - 46f * unit,
+                        y = ground.y + 8f * unit,
+                        width = 92f * unit,
+                        height = 4f * unit
                     )
-                    for (side in listOf(-1f, 1f)) pixelRect(
-                        color = style.playerDetailColor.copy(alpha = 0.3f),
-                        x = p.x + side * (size.width / 2f - 7f * unit),
-                        y = p.y + size.height - 5f * unit,
-                        width = 2f * unit,
-                        height = 2f * unit
-                    )
+                    arcadeGround(style, run.width, ground.y + 13f * unit)
                 }
-            }
-
-            val pivot = run.project(run.pivotX, run.pivotY)
-            run.loads.forEachIndexed { index, load ->
-                val point = run.project(load.x, load.bottom)
-                if (point.y >= -load.height * unit && point.y <= run.height + load.height * unit) {
-                    val tilt =
-                        if (run.collapsing && index >= run.pivot) run.tilt else if (!run.collapsing) run.wobble else 0f
-                    rotate(degrees = tilt, pivot = if (run.collapsing) pivot else ground) {
-                        block(
-                            load
-                        )
+                fun block(
+                    load: TowerLoad,
+                    ghost: Boolean = false
+                ) {
+                    val p = run.project(load.x, load.bottom + load.height)
+                    val size = Size(width = load.width * unit, height = load.height * unit)
+                    val color = when (load.kind) {
+                        0 -> style.playerColor
+                        1 -> style.obstacleColor
+                        else -> style.accentColor
                     }
-                }
-            }
-            if (!run.collapsing) {
-                val load = run.current
-                if (!run.dropping && run.settle <= 0f) {
-                    block(
-                        load.copy(bottom = run.stackTop),
-                        ghost = true
-                    )
-                    val from = run.project(load.x + load.offset, load.bottom)
-                    val to = run.project(load.x + load.offset, run.stackTop)
-                    var y = from.y + 5f
-                    while (y < to.y - 4f) {
+                    val point = p - Offset(x = size.width / 2f, y = 0f)
+                    if (ghost) {
+                        drawRoundRect(
+                            color = color.copy(alpha = 0.25f),
+                            topLeft = point,
+                            size = size,
+                            cornerRadius = CornerRadius(x = unit * 2f),
+                            style = Stroke(width = 1f)
+                        )
+                    } else {
+                        drawRoundRect(
+                            color = color.copy(alpha = 0.85f),
+                            topLeft = point,
+                            size = size,
+                            cornerRadius = CornerRadius(x = unit * 2f)
+                        )
                         pixelRect(
-                            color = style.detailColor.copy(alpha = 0.5f),
-                            x = from.x,
-                            y = y,
-                            width = 1f,
-                            height = 2f
+                            color = style.playerDetailColor.copy(alpha = 0.18f),
+                            x = point.x + 3f * unit,
+                            y = point.y + 3f * unit,
+                            width = size.width - 6f * unit,
+                            height = 2f * unit
                         )
-                        y += 7f
+                        val frame = style.playerDetailColor.copy(alpha = 0.32f)
+                        for (end in listOf(point.x + 3f * unit, point.x + size.width - 5f * unit)) {
+                            pixelRect(
+                                color = frame,
+                                x = end,
+                                y = point.y + 3f * unit,
+                                width = 2f * unit,
+                                height = size.height - 6f * unit
+                            )
+                        }
+                        if (load.kind == 1) {
+                            pixelRect(
+                                color = frame,
+                                x = point.x + 7f * unit,
+                                y = point.y + size.height - 5f * unit,
+                                width = size.width - 14f * unit,
+                                height = 2f * unit
+                            )
+                        } else {
+                            for (section in 1..2) pixelRect(
+                                color = frame.copy(alpha = 0.18f),
+                                x = point.x + size.width * section / 3f,
+                                y = point.y + 5f * unit,
+                                width = unit,
+                                height = size.height - 10f * unit
+                            )
+                        }
+                        val ballast =
+                            run.project(load.x + load.offset, load.bottom + load.height / 2f)
+                        pixelRect(
+                            color = style.playerDetailColor.copy(alpha = 0.38f),
+                            x = ballast.x - 7f * unit,
+                            y = ballast.y - 4f * unit,
+                            width = 14f * unit,
+                            height = 8f * unit
+                        )
+                        drawCircle(
+                            color = color,
+                            radius = 2f * unit,
+                            center = ballast
+                        )
+                        for (side in listOf(-1f, 1f)) pixelRect(
+                            color = style.playerDetailColor.copy(alpha = 0.3f),
+                            x = p.x + side * (size.width / 2f - 7f * unit),
+                            y = p.y + size.height - 5f * unit,
+                            width = 2f * unit,
+                            height = 2f * unit
+                        )
                     }
                 }
-                if (run.settle <= 0f) block(load)
-                if (run.loads.isNotEmpty()) {
-                    val mark = run.project(run.centerMass, run.stackTop + 7f)
-                    val path = indicatorPath.apply {
-                        rewind()
-                        moveTo(mark.x, mark.y + 3f)
-                        lineTo(mark.x - 3f, mark.y - 2f)
-                        lineTo(mark.x + 3f, mark.y - 2f)
-                        close()
+
+                val pivot = run.project(run.pivotX, run.pivotY)
+                run.loads.forEachIndexed { index, load ->
+                    val point = run.project(load.x, load.bottom)
+                    if (point.y >= -load.height * unit && point.y <= run.height + load.height * unit) {
+                        val tilt =
+                            if (run.collapsing && index >= run.pivot) run.tilt else if (!run.collapsing) run.wobble else 0f
+                        rotate(degrees = tilt, pivot = if (run.collapsing) pivot else ground) {
+                            block(
+                                load
+                            )
+                        }
                     }
-                    drawPath(
-                        path = path,
-                        color = style.accentColor
-                    )
                 }
+                if (!run.collapsing) {
+                    val load = run.current
+                    if (!run.dropping && run.settle <= 0f) {
+                        block(
+                            load.copy(bottom = run.stackTop),
+                            ghost = true
+                        )
+                        val from = run.project(load.x + load.offset, load.bottom)
+                        val to = run.project(load.x + load.offset, run.stackTop)
+                        var y = from.y + 5f
+                        while (y < to.y - 4f) {
+                            pixelRect(
+                                color = style.detailColor.copy(alpha = 0.5f),
+                                x = from.x,
+                                y = y,
+                                width = 1f,
+                                height = 2f
+                            )
+                            y += 7f
+                        }
+                    }
+                    if (run.settle <= 0f) block(load)
+                    if (run.loads.isNotEmpty()) {
+                        val mark = run.project(run.centerMass, run.stackTop + 7f)
+                        val path = indicatorPath.apply {
+                            rewind()
+                            moveTo(mark.x, mark.y + 3f)
+                            lineTo(mark.x - 3f, mark.y - 2f)
+                            lineTo(mark.x + 3f, mark.y - 2f)
+                            close()
+                        }
+                        drawPath(
+                            path = path,
+                            color = style.accentColor
+                        )
+                    }
+                }
+                run.effects.draw(
+                    scope = this,
+                    color = style.accentColor
+                )
             }
-            run.effects.draw(
-                scope = this,
-                color = style.accentColor
-            )
         }
     }
 }
 
 @Serializable
-internal data class TowerLoad(
+private data class TowerLoad(
     var x: Float,
     var bottom: Float,
     val width: Float,
@@ -264,7 +260,7 @@ internal data class TowerLoad(
 }
 
 @Serializable
-internal class BalanceTowerRun : ArcadeRun() {
+private class BalanceTowerRun : ArcadeRun() {
     val loads = mutableListOf<TowerLoad>()
 
     @Transient
@@ -288,7 +284,7 @@ internal class BalanceTowerRun : ArcadeRun() {
     private var angularVelocity = 0f
     private var collapseTime = 0f
     private var fallDirection = 1f
-    private val kinds = ArrayDeque<Int>()
+    private val kinds: ArcadeDeque<Int> = ArrayDeque()
     val stackTop get() = loads.lastOrNull()?.let { it.bottom + it.height } ?: 0f
     val unit get() = minOf(1.2f, width / 360f, (height - topInset - 16f) / 160f)
     fun project(
@@ -354,7 +350,7 @@ internal class BalanceTowerRun : ArcadeRun() {
         velocity = 0f
     }
 
-    internal fun evaluate() {
+    fun evaluate() {
         var mass = 0f
         var moment = 0f
         stability = 1f

@@ -15,8 +15,6 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-@file:UseSerializers(ArcadeOffsetSerializer::class, ArcadeDequeSerializer::class)
-
 package com.t8rin.imagetoolbox.core.games.catalog
 
 import androidx.compose.runtime.Composable
@@ -30,29 +28,242 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.drawscope.scale
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
-import com.t8rin.imagetoolbox.core.games.ArcadeDefaults
-import com.t8rin.imagetoolbox.core.games.ArcadeDequeSerializer
+import com.t8rin.imagetoolbox.core.games.ArcadeDeque
 import com.t8rin.imagetoolbox.core.games.ArcadeField
-import com.t8rin.imagetoolbox.core.games.ArcadeGameState
-import com.t8rin.imagetoolbox.core.games.ArcadeOffsetSerializer
+import com.t8rin.imagetoolbox.core.games.ArcadeGameContext
+import com.t8rin.imagetoolbox.core.games.ArcadeGameDefinition
+import com.t8rin.imagetoolbox.core.games.ArcadeOffset
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.ArcadeSprite
-import com.t8rin.imagetoolbox.core.games.ArcadeStyle
+import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
-import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
+import com.t8rin.imagetoolbox.core.resources.Icons
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Flight
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
-import kotlinx.serialization.UseSerializers
 import kotlin.math.PI
 import kotlin.math.abs
 import kotlin.math.atan2
 import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.random.Random
+
+@RegisterArcadeGame
+internal data object FlightControlGame : ArcadeGameDefinition {
+    override val title = R.string.arcade_flightcontrol
+    override val description = R.string.arcade_flightcontrol_sub
+    override val icon get() = Icons.Outlined.Flight
+    override val order = 30
+
+    @Composable
+    override fun Content(context: ArcadeGameContext, modifier: Modifier) {
+        val style = context.style
+        val run = rememberArcadeRun(
+            startPlaying = context.initialState.isPlaying,
+            create = ::FlightControlRun
+        )
+
+        val routePath = remember { Path() }
+
+        ArcadeBoard(
+            context = context,
+            run = run,
+            modifier = modifier
+        ) {
+            ArcadeField(
+                run = run,
+                onPress = run::begin,
+                onDrag = run::drag,
+                onRelease = run::commit
+            ) {
+                val colors = listOf(style.playerColor, style.hazardColor, style.accentColor)
+                repeat(18) { index ->
+                    val x = ((index * 71 + 37) % 353) / 353f * run.width
+                    val y =
+                        run.topInset + ((index * 101 + 19) % 419) / 419f * (run.height - run.topInset)
+                    pixelRect(
+                        color = style.detailColor.copy(alpha = 0.22f),
+                        x = x,
+                        y = y,
+                        width = if (index % 3 == 0) 6f else 3f,
+                        height = 1f
+                    )
+                    if (index % 3 == 0) pixelRect(
+                        color = style.detailColor.copy(alpha = 0.22f),
+                        x = x + 9f,
+                        y = y - 3f,
+                        width = 2f,
+                        height = 1f
+                    )
+                }
+                repeat(3) { kind ->
+                    val p = run.zone(kind)
+                    val color = colors[kind]
+                    val active = run.planes.any { it.kind == kind && it.cleared }
+                    if (kind == 2) {
+                        drawArcadeSprite(
+                            sprite = FlightHelipad,
+                            tint = color.copy(alpha = if (active) 1f else 0.65f),
+                            x = p.x - FlightHelipad.width / 2f,
+                            y = p.y - FlightHelipad.height / 2f
+                        )
+                    } else rotate(
+                        degrees = run.runways[kind].heading * 180f / PI.toFloat(),
+                        pivot = p
+                    ) {
+                        drawArcadeSprite(
+                            sprite = FlightAirstrip,
+                            tint = color.copy(alpha = if (active) 1f else 0.65f),
+                            x = p.x - FlightAirstrip.width / 2f,
+                            y = p.y - FlightAirstrip.height / 2f
+                        )
+                        repeat(5) {
+                            pixelRect(
+                                color = color.copy(alpha = 0.5f),
+                                x = p.x - 27f + it * 12f,
+                                y = p.y - 1f,
+                                width = 6f,
+                                height = 2f
+                            )
+                        }
+                        for (side in listOf(-1f, 1f)) repeat(3) {
+                            pixelRect(
+                                color = color,
+                                x = p.x - 31f + it * 4f,
+                                y = p.y + side * 7f - 1f,
+                                width = 2f,
+                                height = 3f
+                            )
+                        }
+                        drawArcadeSprite(
+                            sprite = FlightApproach,
+                            tint = color,
+                            x = p.x - 47f,
+                            y = p.y - FlightApproach.height / 2f
+                        )
+                    }
+                }
+                for (plane in run.planes) {
+                    val color = colors[plane.kind]
+                    if (plane.route.isNotEmpty()) {
+                        val path = routePath.apply {
+                            rewind()
+                            moveTo(plane.point.x, plane.point.y)
+                            plane.route.forEach { lineTo(it.x, it.y) }
+                        }
+                        drawPath(
+                            path = path,
+                            color = color.copy(alpha = if (plane.id == run.selected) 0.15f else 0.4f),
+                            style = Stroke(
+                                width = 1f,
+                                cap = StrokeCap.Round
+                            )
+                        )
+                    }
+                    if (plane.warning || plane.id == run.selected) {
+                        val ink = if (plane.warning) style.hazardColor else color
+                        val radius = 18f + if (plane.warning) sin(run.time * 10f) * 2f else 0f
+                        for (side in 0..1) for (end in 0..1) {
+                            val x = plane.point.x + if (side == 0) -radius else radius - 6f
+                            val y = plane.point.y + if (end == 0) -radius else radius - 2f
+                            pixelRect(color = ink, x = x, y = y, width = 6f, height = 2f)
+                            pixelRect(
+                                color = ink,
+                                x = x + if (side == 0) 0f else 4f,
+                                y = y + if (end == 0) 0f else -4f,
+                                width = 2f,
+                                height = 6f
+                            )
+                        }
+                    }
+                    rotate(
+                        degrees = plane.heading * 180f / PI.toFloat() + 90f,
+                        pivot = plane.point
+                    ) {
+                        scale(
+                            scale = if (plane.landing > 0f) (plane.landing / 0.6f).coerceAtLeast(
+                                0.1f
+                            ) else 1f,
+                            pivot = plane.point
+                        ) {
+                            val sprite = when (plane.kind) {
+                                1 -> FlightJetSprite
+                                2 -> FlightHelicopterSprite
+                                else -> FlightPlaneSprite
+                            }
+                            drawArcadeSprite(
+                                sprite = sprite,
+                                tint = color,
+                                x = plane.point.x - sprite.width / 2f,
+                                y = plane.point.y - sprite.height / 2f
+                            )
+                            if (plane.kind == 2) {
+                                val hub = plane.point - Offset(x = 0f, y = 3f)
+                                rotate(degrees = run.time * 900f, pivot = hub) {
+                                    for (side in 0..1) {
+                                        pixelRect(
+                                            color = color.copy(alpha = 0.7f),
+                                            x = hub.x + if (side == 0) -15f else 3f,
+                                            y = hub.y - 1f,
+                                            width = 12f,
+                                            height = 2f
+                                        )
+                                    }
+                                }
+                                pixelRect(
+                                    color = color,
+                                    x = hub.x - 2f,
+                                    y = hub.y - 2f,
+                                    width = 4f,
+                                    height = 4f
+                                )
+                            }
+                        }
+                    }
+                }
+                if (run.drawing.size > 1) {
+                    val color = colors[run.planes.firstOrNull { it.id == run.selected }?.kind ?: 0]
+                    val path = routePath.apply {
+                        rewind()
+                        moveTo(run.drawing.first().x, run.drawing.first().y)
+                        run.drawing.drop(1).forEach { lineTo(it.x, it.y) }
+                    }
+                    drawPath(
+                        path = path,
+                        color = color.copy(alpha = 0.18f),
+                        style = Stroke(
+                            width = 7f,
+                            cap = StrokeCap.Round
+                        )
+                    )
+                    drawPath(
+                        path = path,
+                        color = color,
+                        style = Stroke(
+                            width = 2f,
+                            cap = StrokeCap.Round
+                        )
+                    )
+                    drawCircle(
+                        color = color,
+                        radius = 4f,
+                        center = run.drawing.last(),
+                        style = Stroke(width = 1.5f)
+                    )
+                }
+                run.effects.draw(
+                    scope = this,
+                    color = style.accentColor
+                )
+            }
+        }
+    }
+}
 
 private val FlightPlaneSprite = ArcadeSprite(
     width = 26,
@@ -93,238 +304,28 @@ private val FlightApproach = ArcadeSprite(
     data = "M0 0H2V2H0Z M2 2H4V4H2Z M4 4H6V6H4Z M2 6H4V8H2Z M0 8H2V10H0Z"
 )
 
-@Composable
-fun FlightControlGame(
-    modifier: Modifier = Modifier,
-    initialState: ArcadeGameState = ArcadeGameState(),
-    style: ArcadeStyle = ArcadeDefaults.style,
-    onHighScoreChanged: ((Int) -> Unit)? = null,
-    onGameOver: ((Int) -> Unit)? = null,
-    isPaused: Boolean = false
-) {
-    val run = rememberArcadeRun(
-        initialState = initialState,
-        create = ::FlightControlRun
-    )
-
-    val routePath = remember { Path() }
-
-    ArcadeBoard(
-        game = ArcadeGame.FlightControl,
-        run = run,
-        style = style,
-        modifier = modifier,
-        initialState = initialState,
-        onHighScoreChanged = onHighScoreChanged,
-        isPaused = isPaused,
-        onGameOver = onGameOver
-    ) {
-        ArcadeField(
-            run = run,
-            onPress = run::begin,
-            onDrag = run::drag,
-            onRelease = run::commit
-        ) {
-            val colors = listOf(style.playerColor, style.hazardColor, style.accentColor)
-            repeat(18) { index ->
-                val x = ((index * 71 + 37) % 353) / 353f * run.width
-                val y =
-                    run.topInset + ((index * 101 + 19) % 419) / 419f * (run.height - run.topInset)
-                pixelRect(
-                    color = style.detailColor.copy(alpha = 0.22f),
-                    x = x,
-                    y = y,
-                    width = if (index % 3 == 0) 6f else 3f,
-                    height = 1f
-                )
-                if (index % 3 == 0) pixelRect(
-                    color = style.detailColor.copy(alpha = 0.22f),
-                    x = x + 9f,
-                    y = y - 3f,
-                    width = 2f,
-                    height = 1f
-                )
-            }
-            repeat(3) { kind ->
-                val p = run.zone(kind)
-                val color = colors[kind]
-                val active = run.planes.any { it.kind == kind && it.cleared }
-                if (kind == 2) {
-                    drawArcadeSprite(
-                        sprite = FlightHelipad,
-                        tint = color.copy(alpha = if (active) 1f else 0.65f),
-                        x = p.x - FlightHelipad.width / 2f,
-                        y = p.y - FlightHelipad.height / 2f
-                    )
-                } else rotate(
-                    degrees = run.runways[kind].heading * 180f / PI.toFloat(),
-                    pivot = p
-                ) {
-                    drawArcadeSprite(
-                        sprite = FlightAirstrip,
-                        tint = color.copy(alpha = if (active) 1f else 0.65f),
-                        x = p.x - FlightAirstrip.width / 2f,
-                        y = p.y - FlightAirstrip.height / 2f
-                    )
-                    repeat(5) {
-                        pixelRect(
-                            color = color.copy(alpha = 0.5f),
-                            x = p.x - 27f + it * 12f,
-                            y = p.y - 1f,
-                            width = 6f,
-                            height = 2f
-                        )
-                    }
-                    for (side in listOf(-1f, 1f)) repeat(3) {
-                        pixelRect(
-                            color = color,
-                            x = p.x - 31f + it * 4f,
-                            y = p.y + side * 7f - 1f,
-                            width = 2f,
-                            height = 3f
-                        )
-                    }
-                    drawArcadeSprite(
-                        sprite = FlightApproach,
-                        tint = color,
-                        x = p.x - 47f,
-                        y = p.y - FlightApproach.height / 2f
-                    )
-                }
-            }
-            for (plane in run.planes) {
-                val color = colors[plane.kind]
-                if (plane.route.isNotEmpty()) {
-                    val path = routePath.apply {
-                        rewind()
-                        moveTo(plane.point.x, plane.point.y)
-                        plane.route.forEach { lineTo(it.x, it.y) }
-                    }
-                    drawPath(
-                        path = path,
-                        color = color.copy(alpha = if (plane.id == run.selected) 0.15f else 0.4f),
-                        style = Stroke(
-                            width = 1f,
-                            cap = StrokeCap.Round
-                        )
-                    )
-                }
-                if (plane.warning || plane.id == run.selected) {
-                    val ink = if (plane.warning) style.hazardColor else color
-                    val radius = 18f + if (plane.warning) sin(run.time * 10f) * 2f else 0f
-                    for (side in 0..1) for (end in 0..1) {
-                        val x = plane.point.x + if (side == 0) -radius else radius - 6f
-                        val y = plane.point.y + if (end == 0) -radius else radius - 2f
-                        pixelRect(color = ink, x = x, y = y, width = 6f, height = 2f)
-                        pixelRect(
-                            color = ink,
-                            x = x + if (side == 0) 0f else 4f,
-                            y = y + if (end == 0) 0f else -4f,
-                            width = 2f,
-                            height = 6f
-                        )
-                    }
-                }
-                rotate(degrees = plane.heading * 180f / PI.toFloat() + 90f, pivot = plane.point) {
-                    scale(
-                        scale = if (plane.landing > 0f) (plane.landing / 0.6f).coerceAtLeast(0.1f) else 1f,
-                        pivot = plane.point
-                    ) {
-                        val sprite = when (plane.kind) {
-                            1 -> FlightJetSprite
-                            2 -> FlightHelicopterSprite
-                            else -> FlightPlaneSprite
-                        }
-                        drawArcadeSprite(
-                            sprite = sprite,
-                            tint = color,
-                            x = plane.point.x - sprite.width / 2f,
-                            y = plane.point.y - sprite.height / 2f
-                        )
-                        if (plane.kind == 2) {
-                            val hub = plane.point - Offset(x = 0f, y = 3f)
-                            rotate(degrees = run.time * 900f, pivot = hub) {
-                                for (side in 0..1) {
-                                    pixelRect(
-                                        color = color.copy(alpha = 0.7f),
-                                        x = hub.x + if (side == 0) -15f else 3f,
-                                        y = hub.y - 1f,
-                                        width = 12f,
-                                        height = 2f
-                                    )
-                                }
-                            }
-                            pixelRect(
-                                color = color,
-                                x = hub.x - 2f,
-                                y = hub.y - 2f,
-                                width = 4f,
-                                height = 4f
-                            )
-                        }
-                    }
-                }
-            }
-            if (run.drawing.size > 1) {
-                val color = colors[run.planes.firstOrNull { it.id == run.selected }?.kind ?: 0]
-                val path = routePath.apply {
-                    rewind()
-                    moveTo(run.drawing.first().x, run.drawing.first().y)
-                    run.drawing.drop(1).forEach { lineTo(it.x, it.y) }
-                }
-                drawPath(
-                    path = path,
-                    color = color.copy(alpha = 0.18f),
-                    style = Stroke(
-                        width = 7f,
-                        cap = StrokeCap.Round
-                    )
-                )
-                drawPath(
-                    path = path,
-                    color = color,
-                    style = Stroke(
-                        width = 2f,
-                        cap = StrokeCap.Round
-                    )
-                )
-                drawCircle(
-                    color = color,
-                    radius = 4f,
-                    center = run.drawing.last(),
-                    style = Stroke(width = 1.5f)
-                )
-            }
-            run.effects.draw(
-                scope = this,
-                color = style.accentColor
-            )
-        }
-    }
-}
-
 @Serializable
-internal data class FlightRunway(
-    val position: Offset,
+private data class FlightRunway(
+    val position: ArcadeOffset,
     val heading: Float
 )
 
 @Serializable
-internal class ControlledFlight(
+private class ControlledFlight(
     val id: Int,
     val kind: Int,
-    var point: Offset,
+    var point: ArcadeOffset,
     var heading: Float,
     var entered: Boolean = false,
     var landing: Float = 0f,
     var cleared: Boolean = false
 ) {
-    val route = ArrayDeque<Offset>()
+    val route: ArcadeDeque<ArcadeOffset> = ArrayDeque()
     var warning = false
 }
 
 @Serializable
-internal class FlightControlRun : ArcadeRun() {
+private class FlightControlRun : ArcadeRun() {
     val planes = mutableListOf<ControlledFlight>()
     val runways = mutableListOf<FlightRunway>()
 

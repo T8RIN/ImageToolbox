@@ -15,8 +15,6 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-@file:UseSerializers(ArcadeOffsetSerializer::class, ArcadeDequeSerializer::class)
-
 package com.t8rin.imagetoolbox.core.games.catalog
 
 import androidx.compose.runtime.Composable
@@ -32,21 +30,146 @@ import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.drawscope.translate
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
-import com.t8rin.imagetoolbox.core.games.ArcadeDefaults
-import com.t8rin.imagetoolbox.core.games.ArcadeDequeSerializer
+import com.t8rin.imagetoolbox.core.games.ArcadeDeque
 import com.t8rin.imagetoolbox.core.games.ArcadeField
-import com.t8rin.imagetoolbox.core.games.ArcadeGameState
-import com.t8rin.imagetoolbox.core.games.ArcadeOffsetSerializer
+import com.t8rin.imagetoolbox.core.games.ArcadeGameContext
+import com.t8rin.imagetoolbox.core.games.ArcadeGameDefinition
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.ArcadeSprite
-import com.t8rin.imagetoolbox.core.games.ArcadeStyle
+import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
-import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
+import com.t8rin.imagetoolbox.core.resources.Icons
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Snake
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.UseSerializers
 import kotlin.math.abs
+
+@RegisterArcadeGame
+internal data object SnakeGame : ArcadeGameDefinition {
+    override val title = R.string.arcade_snake
+    override val description = R.string.arcade_snake_sub
+    override val icon get() = Icons.Outlined.Snake
+    override val order = 6
+
+    @Composable
+    override fun Content(context: ArcadeGameContext, modifier: Modifier) {
+        val style = context.style
+        val run = rememberArcadeRun(
+            startPlaying = context.initialState.isPlaying,
+            create = ::SnakeRun
+        )
+        val bodyPath = remember { Path() }
+
+        ArcadeBoard(
+            context = context,
+            run = run,
+            modifier = modifier
+        ) {
+            ArcadeField(
+                run = run,
+                onSwipe = run::steer,
+                swipeOnDrag = true
+            ) {
+                val side = minOf(run.width - 28f, run.height - run.topInset - 28f)
+                val cell = side / SnakeCells
+                val origin = Offset(
+                    x = (run.width - side) / 2,
+                    y = run.topInset + (run.height - run.topInset - side) / 2
+                )
+                drawRect(
+                    color = style.obstacleColor.copy(alpha = 0.06f),
+                    topLeft = origin,
+                    size = Size(width = side, height = side)
+                )
+                for (row in 0 until SnakeCells) {
+                    for (column in 0 until SnakeCells) {
+                        if ((row + column) % 2 == 0) {
+                            drawRect(
+                                color = style.obstacleColor.copy(alpha = 0.07f),
+                                topLeft = origin + Offset(x = column * cell, y = row * cell),
+                                size = Size(width = cell, height = cell)
+                            )
+                        }
+                    }
+                }
+                drawRect(
+                    color = style.detailColor,
+                    topLeft = origin,
+                    size = Size(width = side, height = side),
+                    style = Stroke(width = 1f)
+                )
+                fun center(cellIndex: Int) = origin + Offset(
+                    x = (cellIndex % SnakeCells + 0.5f) * cell,
+                    y = (cellIndex / SnakeCells + 0.5f) * cell
+                )
+
+                if (run.food >= 0) {
+                    val food = center(run.food)
+                    translate(left = food.x - cell * 0.42f, top = food.y - cell * 0.48f) {
+                        scale(scale = cell * 0.06f, pivot = Offset.Zero) {
+                            drawArcadeSprite(
+                                sprite = SnakeFood,
+                                tint = style.accentColor,
+                                x = 0f,
+                                y = 0f
+                            )
+                            drawArcadeSprite(
+                                sprite = SnakeLeaf,
+                                tint = style.obstacleColor,
+                                x = 0f,
+                                y = 0f
+                            )
+                        }
+                    }
+                }
+
+                val fraction = run.progress
+                val head = center(run.previous.first()) +
+                        (center(run.body.first()) - center(run.previous.first())) * fraction
+                val tail = center(run.previous.last()) +
+                        (center(run.body.last()) - center(run.previous.last())) * fraction
+                val body = bodyPath.apply {
+                    rewind()
+                    moveTo(head.x, head.y)
+                    for (index in 1..run.body.lastIndex) {
+                        val point = center(run.body[index])
+                        lineTo(point.x, point.y)
+                    }
+                    lineTo(tail.x, tail.y)
+                }
+                drawPath(
+                    path = body,
+                    color = style.playerColor,
+                    style = Stroke(
+                        width = cell * 0.68f,
+                        cap = StrokeCap.Square,
+                        join = StrokeJoin.Miter
+                    )
+                )
+                rotate(degrees = run.direction.angle, pivot = head) {
+                    translate(left = head.x - cell * 0.45f, top = head.y - cell * 0.45f) {
+                        scale(scale = cell * 0.9f / 14f, pivot = Offset.Zero) {
+                            drawArcadeSprite(
+                                sprite = SnakeHead,
+                                tint = style.playerColor,
+                                x = 0f,
+                                y = 0f
+                            )
+                            drawArcadeSprite(
+                                sprite = SnakeEyes,
+                                tint = style.playerDetailColor,
+                                x = 0f,
+                                y = 0f
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
 
 private const val SnakeCells = 20
 private val SnakeHead = ArcadeSprite(
@@ -68,136 +191,8 @@ private val SnakeLeaf = ArcadeSprite(
     data = "M7 2H9V5H7Z M9 0H13V2H11V3H9Z"
 )
 
-@Composable
-fun SnakeGame(
-    modifier: Modifier = Modifier,
-    initialState: ArcadeGameState = ArcadeGameState(),
-    style: ArcadeStyle = ArcadeDefaults.style,
-    onHighScoreChanged: ((Int) -> Unit)? = null,
-    onGameOver: ((Int) -> Unit)? = null,
-    isPaused: Boolean = false
-) {
-    val run = rememberArcadeRun(
-        initialState = initialState,
-        create = ::SnakeRun
-    )
-    val bodyPath = remember { Path() }
-
-    ArcadeBoard(
-        game = ArcadeGame.Snake,
-        run = run,
-        style = style,
-        modifier = modifier,
-        initialState = initialState,
-        onHighScoreChanged = onHighScoreChanged,
-        isPaused = isPaused,
-        onGameOver = onGameOver
-    ) {
-        ArcadeField(
-            run = run,
-            onSwipe = run::steer,
-            swipeOnDrag = true
-        ) {
-            val side = minOf(run.width - 28f, run.height - run.topInset - 28f)
-            val cell = side / SnakeCells
-            val origin = Offset(
-                x = (run.width - side) / 2,
-                y = run.topInset + (run.height - run.topInset - side) / 2
-            )
-            drawRect(
-                color = style.obstacleColor.copy(alpha = 0.06f),
-                topLeft = origin,
-                size = Size(width = side, height = side)
-            )
-            for (row in 0 until SnakeCells) {
-                for (column in 0 until SnakeCells) {
-                    if ((row + column) % 2 == 0) {
-                        drawRect(
-                            color = style.obstacleColor.copy(alpha = 0.07f),
-                            topLeft = origin + Offset(x = column * cell, y = row * cell),
-                            size = Size(width = cell, height = cell)
-                        )
-                    }
-                }
-            }
-            drawRect(
-                color = style.detailColor,
-                topLeft = origin,
-                size = Size(width = side, height = side),
-                style = Stroke(width = 1f)
-            )
-            fun center(cellIndex: Int) = origin + Offset(
-                x = (cellIndex % SnakeCells + 0.5f) * cell,
-                y = (cellIndex / SnakeCells + 0.5f) * cell
-            )
-
-            if (run.food >= 0) {
-                val food = center(run.food)
-                translate(left = food.x - cell * 0.42f, top = food.y - cell * 0.48f) {
-                    scale(scale = cell * 0.06f, pivot = Offset.Zero) {
-                        drawArcadeSprite(
-                            sprite = SnakeFood,
-                            tint = style.accentColor,
-                            x = 0f,
-                            y = 0f
-                        )
-                        drawArcadeSprite(
-                            sprite = SnakeLeaf,
-                            tint = style.obstacleColor,
-                            x = 0f,
-                            y = 0f
-                        )
-                    }
-                }
-            }
-
-            val fraction = run.progress
-            val head = center(run.previous.first()) +
-                    (center(run.body.first()) - center(run.previous.first())) * fraction
-            val tail = center(run.previous.last()) +
-                    (center(run.body.last()) - center(run.previous.last())) * fraction
-            val body = bodyPath.apply {
-                rewind()
-                moveTo(head.x, head.y)
-                for (index in 1..run.body.lastIndex) {
-                    val point = center(run.body[index])
-                    lineTo(point.x, point.y)
-                }
-                lineTo(tail.x, tail.y)
-            }
-            drawPath(
-                path = body,
-                color = style.playerColor,
-                style = Stroke(
-                    width = cell * 0.68f,
-                    cap = StrokeCap.Square,
-                    join = StrokeJoin.Miter
-                )
-            )
-            rotate(degrees = run.direction.angle, pivot = head) {
-                translate(left = head.x - cell * 0.45f, top = head.y - cell * 0.45f) {
-                    scale(scale = cell * 0.9f / 14f, pivot = Offset.Zero) {
-                        drawArcadeSprite(
-                            sprite = SnakeHead,
-                            tint = style.playerColor,
-                            x = 0f,
-                            y = 0f
-                        )
-                        drawArcadeSprite(
-                            sprite = SnakeEyes,
-                            tint = style.playerDetailColor,
-                            x = 0f,
-                            y = 0f
-                        )
-                    }
-                }
-            }
-        }
-    }
-}
-
 @Serializable
-internal enum class SnakeDirection(
+private enum class SnakeDirection(
     val dx: Int,
     val dy: Int,
     val angle: Float
@@ -211,7 +206,7 @@ internal enum class SnakeDirection(
 }
 
 @Serializable
-internal class SnakeRun : ArcadeRun() {
+private class SnakeRun : ArcadeRun() {
     val body = mutableListOf<Int>()
     val previous = mutableListOf<Int>()
     var food = 0
@@ -221,7 +216,7 @@ internal class SnakeRun : ArcadeRun() {
     val progress get() = (elapsed / interval).coerceIn(0f, 1f)
     private val interval get() = (0.16f / (1f + score * 0.035f)).coerceAtLeast(0.075f)
     private var elapsed = 0f
-    private val turns = ArrayDeque<SnakeDirection>()
+    private val turns: ArcadeDeque<SnakeDirection> = ArrayDeque()
 
     override fun isValid(): Boolean = super.isValid() &&
             body.isNotEmpty() && body.all { it in 0 until SnakeCells * SnakeCells } && previous.isNotEmpty()

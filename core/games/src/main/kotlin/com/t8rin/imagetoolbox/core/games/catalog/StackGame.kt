@@ -22,169 +22,168 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
 import com.t8rin.imagetoolbox.core.games.ArcadeCloud
-import com.t8rin.imagetoolbox.core.games.ArcadeDefaults
 import com.t8rin.imagetoolbox.core.games.ArcadeField
-import com.t8rin.imagetoolbox.core.games.ArcadeGameState
+import com.t8rin.imagetoolbox.core.games.ArcadeGameContext
+import com.t8rin.imagetoolbox.core.games.ArcadeGameDefinition
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
-import com.t8rin.imagetoolbox.core.games.ArcadeStyle
+import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.arcadeGround
 import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
-import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
+import com.t8rin.imagetoolbox.core.resources.Icons
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Stacks
 import kotlinx.serialization.Serializable
 import kotlin.math.abs
 
-private const val BlockHeight = 18f
-private const val InitialBlockWidth = 156f
+@RegisterArcadeGame
+internal data object StackGame : ArcadeGameDefinition {
+    override val title = R.string.arcade_stack
+    override val description = R.string.arcade_stack_sub
+    override val icon get() = Icons.Outlined.Stacks
+    override val order = 3
 
-@Composable
-fun StackGame(
-    modifier: Modifier = Modifier,
-    initialState: ArcadeGameState = ArcadeGameState(),
-    style: ArcadeStyle = ArcadeDefaults.style,
-    onHighScoreChanged: ((Int) -> Unit)? = null,
-    onGameOver: ((Int) -> Unit)? = null,
-    isPaused: Boolean = false
-) {
-    val run = rememberArcadeRun(
-        initialState = initialState,
-        create = ::StackRun
-    )
+    @Composable
+    override fun Content(context: ArcadeGameContext, modifier: Modifier) {
+        val style = context.style
+        val run = rememberArcadeRun(
+            startPlaying = context.initialState.isPlaying,
+            create = ::StackRun
+        )
 
-    ArcadeBoard(
-        game = ArcadeGame.Stack,
-        run = run,
-        style = style,
-        modifier = modifier,
-        initialState = initialState,
-        onHighScoreChanged = onHighScoreChanged,
-        isPaused = isPaused,
-        onGameOver = onGameOver
-    ) {
-        ArcadeField(
+        ArcadeBoard(
+            context = context,
             run = run,
-            onPress = { run.place() }
+            modifier = modifier
         ) {
-            val ground = run.height - 24f
-            var cloudY = run.camera * 0.12f % 180f + run.topInset + 20f
-            while (cloudY < run.height) {
-                drawArcadeSprite(
-                    sprite = ArcadeCloud,
-                    tint = style.detailColor,
-                    x = run.width * 0.12f,
-                    y = cloudY
-                )
-                drawArcadeSprite(
-                    sprite = ArcadeCloud,
-                    tint = style.detailColor,
-                    x = run.width * 0.76f,
-                    y = cloudY + 70f
-                )
-                cloudY += 180f
-            }
-            if (run.camera < 24f) arcadeGround(
-                style = style,
-                width = run.width,
-                y = ground + run.camera
-            )
-
-            fun block(
-                x: Float,
-                y: Float,
-                width: Float,
-                active: Boolean,
-                perfect: Boolean
+            ArcadeField(
+                run = run,
+                onPress = { run.place() }
             ) {
-                val color = when {
-                    active -> style.playerColor
-                    perfect -> style.accentColor
-                    else -> style.obstacleColor
+                val ground = run.height - 24f
+                var cloudY = run.camera * 0.12f % 180f + run.topInset + 20f
+                while (cloudY < run.height) {
+                    drawArcadeSprite(
+                        sprite = ArcadeCloud,
+                        tint = style.detailColor,
+                        x = run.width * 0.12f,
+                        y = cloudY
+                    )
+                    drawArcadeSprite(
+                        sprite = ArcadeCloud,
+                        tint = style.detailColor,
+                        x = run.width * 0.76f,
+                        y = cloudY + 70f
+                    )
+                    cloudY += 180f
                 }
-                pixelRect(
-                    color = color,
-                    x = x,
-                    y = y,
-                    width = width,
-                    height = BlockHeight - 1
+                if (run.camera < 24f) arcadeGround(
+                    style = style,
+                    width = run.width,
+                    y = ground + run.camera
                 )
-                pixelRect(
-                    color = style.playerDetailColor.copy(alpha = 0.35f),
-                    x = x + 2,
-                    y = y + 2,
-                    width = width - 4,
-                    height = 2f
-                )
-                if (width > 4f) pixelRect(
-                    color = style.playerDetailColor.copy(alpha = 0.2f),
-                    x = x + width - 3f,
-                    y = y + 4f,
-                    width = 2f,
-                    height = BlockHeight - 7f
-                )
-                pixelRect(
-                    color = style.detailColor,
-                    x = x + 2,
-                    y = y + BlockHeight - 3,
-                    width = width - 4,
-                    height = 1f
-                )
-            }
 
-            run.blocks.forEach { block ->
-                block(
-                    x = block.x,
-                    y = ground - (block.level + 1) * BlockHeight + run.camera,
-                    width = block.width,
-                    active = false,
-                    perfect = block.perfect
-                )
-            }
-            for ((x, altitude, width) in run.pieces) {
-                block(
-                    x = x,
-                    y = ground - altitude + run.camera,
-                    width = width,
-                    active = true,
-                    perfect = false
-                )
-            }
-            val top = run.blocks.last()
-            if (run.phase != ArcadePhase.Over) {
-                block(
-                    x = run.x,
-                    y = ground - (top.level + 2) * BlockHeight + run.camera,
-                    width = top.width,
-                    active = true,
-                    perfect = false
-                )
-            }
-            if (run.flash > 0f) {
-                val y = ground - (top.level + 1) * BlockHeight + run.camera
-                val color = style.accentColor.copy(alpha = run.flash * 0.5f)
-                val spread = (1f - run.flash) * 12f
-                pixelRect(
-                    color = color,
-                    x = top.x - spread,
-                    y = y - 3 - spread,
-                    width = top.width + spread * 2,
-                    height = 1f
-                )
-                pixelRect(
-                    color = color,
-                    x = top.x - spread,
-                    y = y + BlockHeight + 2 + spread,
-                    width = top.width + spread * 2,
-                    height = 1f
-                )
+                fun block(
+                    x: Float,
+                    y: Float,
+                    width: Float,
+                    active: Boolean,
+                    perfect: Boolean
+                ) {
+                    val color = when {
+                        active -> style.playerColor
+                        perfect -> style.accentColor
+                        else -> style.obstacleColor
+                    }
+                    pixelRect(
+                        color = color,
+                        x = x,
+                        y = y,
+                        width = width,
+                        height = BlockHeight - 1
+                    )
+                    pixelRect(
+                        color = style.playerDetailColor.copy(alpha = 0.35f),
+                        x = x + 2,
+                        y = y + 2,
+                        width = width - 4,
+                        height = 2f
+                    )
+                    if (width > 4f) pixelRect(
+                        color = style.playerDetailColor.copy(alpha = 0.2f),
+                        x = x + width - 3f,
+                        y = y + 4f,
+                        width = 2f,
+                        height = BlockHeight - 7f
+                    )
+                    pixelRect(
+                        color = style.detailColor,
+                        x = x + 2,
+                        y = y + BlockHeight - 3,
+                        width = width - 4,
+                        height = 1f
+                    )
+                }
+
+                run.blocks.forEach { block ->
+                    block(
+                        x = block.x,
+                        y = ground - (block.level + 1) * BlockHeight + run.camera,
+                        width = block.width,
+                        active = false,
+                        perfect = block.perfect
+                    )
+                }
+                for ((x, altitude, width) in run.pieces) {
+                    block(
+                        x = x,
+                        y = ground - altitude + run.camera,
+                        width = width,
+                        active = true,
+                        perfect = false
+                    )
+                }
+                val top = run.blocks.last()
+                if (run.phase != ArcadePhase.Over) {
+                    block(
+                        x = run.x,
+                        y = ground - (top.level + 2) * BlockHeight + run.camera,
+                        width = top.width,
+                        active = true,
+                        perfect = false
+                    )
+                }
+                if (run.flash > 0f) {
+                    val y = ground - (top.level + 1) * BlockHeight + run.camera
+                    val color = style.accentColor.copy(alpha = run.flash * 0.5f)
+                    val spread = (1f - run.flash) * 12f
+                    pixelRect(
+                        color = color,
+                        x = top.x - spread,
+                        y = y - 3 - spread,
+                        width = top.width + spread * 2,
+                        height = 1f
+                    )
+                    pixelRect(
+                        color = color,
+                        x = top.x - spread,
+                        y = y + BlockHeight + 2 + spread,
+                        width = top.width + spread * 2,
+                        height = 1f
+                    )
+                }
             }
         }
     }
 }
 
+private const val BlockHeight = 18f
+private const val InitialBlockWidth = 156f
+
 @Serializable
-internal data class StackBlock(
+private data class StackBlock(
     var x: Float,
     val width: Float,
     val level: Int,
@@ -192,7 +191,7 @@ internal data class StackBlock(
 )
 
 @Serializable
-internal data class StackPiece(
+private data class StackPiece(
     var x: Float,
     var altitude: Float,
     val width: Float,
@@ -201,7 +200,7 @@ internal data class StackPiece(
 )
 
 @Serializable
-internal class StackRun : ArcadeRun() {
+private class StackRun : ArcadeRun() {
     var x = 0f
         private set
     var camera = 0f

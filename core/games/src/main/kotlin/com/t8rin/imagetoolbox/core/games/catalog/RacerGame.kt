@@ -15,8 +15,6 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-@file:UseSerializers(ArcadeOffsetSerializer::class)
-
 package com.t8rin.imagetoolbox.core.games.catalog
 
 import androidx.compose.runtime.Composable
@@ -28,25 +26,147 @@ import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.drawscope.scale
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
-import com.t8rin.imagetoolbox.core.games.ArcadeDefaults
 import com.t8rin.imagetoolbox.core.games.ArcadeField
-import com.t8rin.imagetoolbox.core.games.ArcadeGameState
-import com.t8rin.imagetoolbox.core.games.ArcadeOffsetSerializer
+import com.t8rin.imagetoolbox.core.games.ArcadeGameContext
+import com.t8rin.imagetoolbox.core.games.ArcadeGameDefinition
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.ArcadeSprite
 import com.t8rin.imagetoolbox.core.games.ArcadeStyle
+import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
-import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
+import com.t8rin.imagetoolbox.core.resources.Icons
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.SportsMotorsports
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
-import kotlinx.serialization.UseSerializers
 import kotlin.math.abs
 import kotlin.math.exp
 import kotlin.random.Random
+
+@RegisterArcadeGame
+internal data object RacerGame : ArcadeGameDefinition {
+    override val title = R.string.arcade_racer
+    override val description = R.string.arcade_racer_sub
+    override val icon get() = Icons.Outlined.SportsMotorsports
+    override val order = 8
+
+    @Composable
+    override fun Content(context: ArcadeGameContext, modifier: Modifier) {
+        val style = context.style
+        val run = rememberArcadeRun(
+            startPlaying = context.initialState.isPlaying,
+            create = ::RacerRun
+        )
+
+        ArcadeBoard(
+            context = context,
+            run = run,
+            modifier = modifier
+        ) {
+            ArcadeField(
+                run = run,
+                onPress = run::steer,
+                onDrag = run::steer
+            ) {
+                val left = run.roadLeft
+                val roadWidth = run.laneWidth * 3f
+
+                pixelRect(
+                    color = style.detailColor.copy(alpha = 0.04f),
+                    x = left,
+                    y = 0f,
+                    width = roadWidth,
+                    height = run.height
+                )
+                for (side in 0..1) {
+                    val edge = if (side == 0) left else left + roadWidth
+                    val direction = if (side == 0) -1f else 1f
+                    var y = run.distance % 144f - 144f
+                    while (y < run.height) {
+                        scale(
+                            scaleX = direction,
+                            scaleY = 1f,
+                            pivot = Offset(x = edge, y = 0f)
+                        ) {
+                            drawArcadeSprite(
+                                sprite = RacingShoulder,
+                                tint = style.detailColor,
+                                x = edge,
+                                y = y
+                            )
+                        }
+                        val x = if (side == 0) left / 2f else run.width - left / 2f
+                        drawArcadeSprite(
+                            sprite = RacingBush,
+                            tint = style.detailColor.copy(alpha = 0.3f),
+                            x = x - RacingBush.width / 2f,
+                            y = y + if (side == 0) 60f else 116f
+                        )
+                        y += 144f
+                    }
+                }
+                for (lane in 1..2) {
+                    var y = run.distance % 42f - 42f
+                    while (y < run.height) {
+                        pixelRect(
+                            color = style.detailColor,
+                            x = left + lane * run.laneWidth - 1f,
+                            y = y,
+                            width = 2f,
+                            height = 20f
+                        )
+                        y += 42f
+                    }
+                }
+                for ((lane, y, kind) in run.traffic) {
+                    racingCar(
+                        style = style,
+                        x = run.laneX(lane = lane.toFloat()),
+                        y = y,
+                        color = style.obstacleColor,
+                        kind = kind
+                    )
+                }
+                val x = run.laneX(run.position)
+                if (run.phase == ArcadePhase.Running) {
+                    pixelRect(
+                        color = style.playerColor.copy(alpha = 0.15f),
+                        x = x - 14f,
+                        y = run.playerY + 18f,
+                        width = 3f,
+                        height = 18f
+                    )
+                    pixelRect(
+                        color = style.playerColor.copy(alpha = 0.15f),
+                        x = x + 11f,
+                        y = run.playerY + 18f,
+                        width = 3f,
+                        height = 18f
+                    )
+                }
+                rotate(
+                    degrees = (run.targetLane - run.position) * 9f,
+                    pivot = Offset(x = x, y = run.playerY)
+                ) {
+                    racingCar(
+                        style = style,
+                        x = x,
+                        y = run.playerY,
+                        color = style.playerColor
+                    )
+                }
+                run.effects.draw(
+                    scope = this,
+                    color = style.accentColor
+                )
+            }
+        }
+    }
+}
 
 private val RacingPlayer = ArcadeSprite(
     width = 30,
@@ -125,130 +245,6 @@ private val RacingShoulder = ArcadeSprite(
     data = "M0 0H1V58H3V85H1V144H0V84H2V59H0Z M8 32H11V33H8Z M14 110H16V112H14Z"
 )
 
-@Composable
-fun RacerGame(
-    modifier: Modifier = Modifier,
-    initialState: ArcadeGameState = ArcadeGameState(),
-    style: ArcadeStyle = ArcadeDefaults.style,
-    onHighScoreChanged: ((Int) -> Unit)? = null,
-    onGameOver: ((Int) -> Unit)? = null,
-    isPaused: Boolean = false
-) {
-    val run = rememberArcadeRun(
-        initialState = initialState,
-        create = ::RacerRun
-    )
-
-    ArcadeBoard(
-        game = ArcadeGame.Racer,
-        run = run,
-        style = style,
-        modifier = modifier,
-        initialState = initialState,
-        onHighScoreChanged = onHighScoreChanged,
-        isPaused = isPaused,
-        onGameOver = onGameOver
-    ) {
-        ArcadeField(
-            run = run,
-            onPress = run::steer,
-            onDrag = run::steer
-        ) {
-            val left = run.roadLeft
-            val roadWidth = run.laneWidth * 3f
-
-            pixelRect(
-                color = style.detailColor.copy(alpha = 0.04f),
-                x = left,
-                y = 0f,
-                width = roadWidth,
-                height = run.height
-            )
-            for (side in 0..1) {
-                val edge = if (side == 0) left else left + roadWidth
-                val direction = if (side == 0) -1f else 1f
-                var y = run.distance % 144f - 144f
-                while (y < run.height) {
-                    scale(
-                        scaleX = direction,
-                        scaleY = 1f,
-                        pivot = Offset(x = edge, y = 0f)
-                    ) {
-                        drawArcadeSprite(
-                            sprite = RacingShoulder,
-                            tint = style.detailColor,
-                            x = edge,
-                            y = y
-                        )
-                    }
-                    val x = if (side == 0) left / 2f else run.width - left / 2f
-                    drawArcadeSprite(
-                        sprite = RacingBush,
-                        tint = style.detailColor.copy(alpha = 0.3f),
-                        x = x - RacingBush.width / 2f,
-                        y = y + if (side == 0) 60f else 116f
-                    )
-                    y += 144f
-                }
-            }
-            for (lane in 1..2) {
-                var y = run.distance % 42f - 42f
-                while (y < run.height) {
-                    pixelRect(
-                        color = style.detailColor,
-                        x = left + lane * run.laneWidth - 1f,
-                        y = y,
-                        width = 2f,
-                        height = 20f
-                    )
-                    y += 42f
-                }
-            }
-            for ((lane, y, kind) in run.traffic) {
-                racingCar(
-                    style = style,
-                    x = run.laneX(lane = lane.toFloat()),
-                    y = y,
-                    color = style.obstacleColor,
-                    kind = kind
-                )
-            }
-            val x = run.laneX(run.position)
-            if (run.phase == ArcadePhase.Running) {
-                pixelRect(
-                    color = style.playerColor.copy(alpha = 0.15f),
-                    x = x - 14f,
-                    y = run.playerY + 18f,
-                    width = 3f,
-                    height = 18f
-                )
-                pixelRect(
-                    color = style.playerColor.copy(alpha = 0.15f),
-                    x = x + 11f,
-                    y = run.playerY + 18f,
-                    width = 3f,
-                    height = 18f
-                )
-            }
-            rotate(
-                degrees = (run.targetLane - run.position) * 9f,
-                pivot = Offset(x = x, y = run.playerY)
-            ) {
-                racingCar(
-                    style = style,
-                    x = x,
-                    y = run.playerY,
-                    color = style.playerColor
-                )
-            }
-            run.effects.draw(
-                scope = this,
-                color = style.accentColor
-            )
-        }
-    }
-}
-
 private fun DrawScope.racingCar(
     style: ArcadeStyle,
     x: Float,
@@ -317,7 +313,7 @@ private fun DrawScope.racingCar(
 }
 
 @Serializable
-internal data class RacerCar(
+private data class RacerCar(
     val lane: Int,
     var y: Float,
     val kind: Int,
@@ -325,7 +321,7 @@ internal data class RacerCar(
 )
 
 @Serializable
-internal class RacerRun : ArcadeRun() {
+private class RacerRun : ArcadeRun() {
     val roadLeft get() = (width * 0.14f).coerceAtLeast(24f)
     val laneWidth get() = (width - roadLeft * 2f) / 3f
     val playerY get() = height - 36f

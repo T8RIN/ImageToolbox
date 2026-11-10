@@ -15,8 +15,6 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-@file:UseSerializers(ArcadeOffsetSerializer::class)
-
 package com.t8rin.imagetoolbox.core.games.catalog
 
 import androidx.compose.runtime.Composable
@@ -27,202 +25,200 @@ import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.drawscope.Stroke
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
-import com.t8rin.imagetoolbox.core.games.ArcadeDefaults
 import com.t8rin.imagetoolbox.core.games.ArcadeField
-import com.t8rin.imagetoolbox.core.games.ArcadeGameState
-import com.t8rin.imagetoolbox.core.games.ArcadeOffsetSerializer
+import com.t8rin.imagetoolbox.core.games.ArcadeGameContext
+import com.t8rin.imagetoolbox.core.games.ArcadeGameDefinition
+import com.t8rin.imagetoolbox.core.games.ArcadeOffset
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
-import com.t8rin.imagetoolbox.core.games.ArcadeStyle
+import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
 import com.t8rin.imagetoolbox.core.games.utils.arcadeLives
 import com.t8rin.imagetoolbox.core.games.utils.arcadeStars
-import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
+import com.t8rin.imagetoolbox.core.resources.Icons
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.ViewComfy
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
-import kotlinx.serialization.UseSerializers
 import kotlin.math.abs
 import kotlin.math.sqrt
 import kotlin.random.Random
 
-@Composable
-fun BrickBreakerGame(
-    modifier: Modifier = Modifier,
-    initialState: ArcadeGameState = ArcadeGameState(),
-    style: ArcadeStyle = ArcadeDefaults.style,
-    onHighScoreChanged: ((Int) -> Unit)? = null,
-    onGameOver: ((Int) -> Unit)? = null,
-    isPaused: Boolean = false
-) {
-    val run = rememberArcadeRun(
-        initialState = initialState,
-        create = ::BrickBreakerRun
-    )
+@RegisterArcadeGame
+internal data object BrickBreakerGame : ArcadeGameDefinition {
+    override val title = R.string.arcade_brickbreaker
+    override val description = R.string.arcade_brickbreaker_sub
+    override val icon get() = Icons.Outlined.ViewComfy
+    override val order = 28
 
-    ArcadeBoard(
-        game = ArcadeGame.BrickBreaker,
-        run = run,
-        style = style,
-        modifier = modifier,
-        initialState = initialState,
-        onHighScoreChanged = onHighScoreChanged,
-        isPaused = isPaused,
-        onGameOver = onGameOver
-    ) {
-        ArcadeField(
+    @Composable
+    override fun Content(context: ArcadeGameContext, modifier: Modifier) {
+        val style = context.style
+        val run = rememberArcadeRun(
+            startPlaying = context.initialState.isPlaying,
+            create = ::BrickBreakerRun
+        )
+
+        ArcadeBoard(
+            context = context,
             run = run,
-            transition = { run.transition },
-            onPress = run::steer,
-            onDrag = run::steer
+            modifier = modifier
         ) {
-            arcadeStars(
-                style = style,
-                width = run.width,
-                height = run.height,
-                drift = 0f
-            )
-            for (brick in run.bricks) {
-                val rect = run.bounds(brick)
-                val color = when (brick.row % 3) {
-                    0 -> style.accentColor
-                    1 -> style.obstacleColor
-                    else -> style.playerColor
-                }
-                drawRoundRect(
-                    color = color.copy(alpha = 0.85f + brick.flash.coerceAtMost(0.3f) * 0.5f),
-                    topLeft = rect.topLeft,
-                    size = rect.size,
-                    cornerRadius = CornerRadius(x = 2f)
+            ArcadeField(
+                run = run,
+                transition = { run.transition },
+                onPress = run::steer,
+                onDrag = run::steer
+            ) {
+                arcadeStars(
+                    style = style,
+                    width = run.width,
+                    height = run.height,
+                    drift = 0f
                 )
-                drawRoundRect(
-                    color = color.copy(alpha = 0.8f),
-                    topLeft = rect.topLeft,
-                    size = rect.size,
-                    cornerRadius = CornerRadius(x = 2f),
-                    style = Stroke(width = 1f)
-                )
-                pixelRect(
-                    color = style.playerDetailColor.copy(alpha = 0.4f),
-                    x = rect.left + 2f,
-                    y = rect.top + 2f,
-                    width = rect.width - 4f,
-                    height = 2f
-                )
-                pixelRect(
-                    color = style.playerDetailColor.copy(alpha = 0.2f),
-                    x = rect.left + 2f,
-                    y = rect.top + 4f,
-                    width = 2f,
-                    height = rect.height - 6f
-                )
-                repeat(brick.health - 1) { notch ->
+                for (brick in run.bricks) {
+                    val rect = run.bounds(brick)
+                    val color = when (brick.row % 3) {
+                        0 -> style.accentColor
+                        1 -> style.obstacleColor
+                        else -> style.playerColor
+                    }
+                    drawRoundRect(
+                        color = color.copy(alpha = 0.85f + brick.flash.coerceAtMost(0.3f) * 0.5f),
+                        topLeft = rect.topLeft,
+                        size = rect.size,
+                        cornerRadius = CornerRadius(x = 2f)
+                    )
+                    drawRoundRect(
+                        color = color.copy(alpha = 0.8f),
+                        topLeft = rect.topLeft,
+                        size = rect.size,
+                        cornerRadius = CornerRadius(x = 2f),
+                        style = Stroke(width = 1f)
+                    )
                     pixelRect(
-                        color = style.playerDetailColor,
-                        x = rect.left + 7f + notch * 5f,
+                        color = style.playerDetailColor.copy(alpha = 0.4f),
+                        x = rect.left + 2f,
+                        y = rect.top + 2f,
+                        width = rect.width - 4f,
+                        height = 2f
+                    )
+                    pixelRect(
+                        color = style.playerDetailColor.copy(alpha = 0.2f),
+                        x = rect.left + 2f,
                         y = rect.top + 4f,
                         width = 2f,
-                        height = rect.height - 8f
+                        height = rect.height - 6f
                     )
+                    repeat(brick.health - 1) { notch ->
+                        pixelRect(
+                            color = style.playerDetailColor,
+                            x = rect.left + 7f + notch * 5f,
+                            y = rect.top + 4f,
+                            width = 2f,
+                            height = rect.height - 8f
+                        )
+                    }
                 }
-            }
-            val paddle = Rect(
-                run.paddleX - run.paddleHalf,
-                run.paddleY,
-                run.paddleX + run.paddleHalf,
-                run.paddleY + 7f
-            )
-            drawRoundRect(
-                color = style.playerColor,
-                topLeft = paddle.topLeft,
-                size = paddle.size,
-                cornerRadius = CornerRadius(x = 3f)
-            )
-            pixelRect(
-                color = style.playerDetailColor.copy(alpha = 0.45f),
-                x = paddle.left + 7f,
-                y = paddle.top + 2f,
-                width = paddle.width - 14f,
-                height = 1f
-            )
-            if (run.extension > 0f && (run.wideTime > 2f || (run.wideTime * 6f).toInt() % 2 == 0)) {
-                pixelRect(
-                    color = style.accentColor,
-                    x = paddle.left + 2f,
-                    y = paddle.top + 1f,
-                    width = 4f,
-                    height = 5f
+                val paddle = Rect(
+                    run.paddleX - run.paddleHalf,
+                    run.paddleY,
+                    run.paddleX + run.paddleHalf,
+                    run.paddleY + 7f
                 )
-                pixelRect(
-                    color = style.accentColor,
-                    x = paddle.right - 6f,
-                    y = paddle.top + 1f,
-                    width = 4f,
-                    height = 5f
-                )
-            }
-            run.trail.forEachIndexed { index, point ->
-                drawCircle(
-                    color = style.playerColor.copy(alpha = (index + 1) * 0.035f),
-                    radius = run.ballRadius * 0.7f,
-                    center = point
-                )
-            }
-            drawCircle(
-                color = style.playerColor,
-                radius = run.ballRadius,
-                center = Offset(x = run.ballX, y = run.ballY)
-            )
-            drawCircle(
-                color = style.playerDetailColor.copy(alpha = 0.8f),
-                radius = 1.5f,
-                center = Offset(x = run.ballX - 1f, y = run.ballY - 1.5f)
-            )
-            for ((x, y, kind) in run.gifts) {
                 drawRoundRect(
-                    color = style.accentColor,
-                    topLeft = Offset(x = x - 9f, y = y - 6f),
-                    size = Size(width = 18f, height = 12f),
+                    color = style.playerColor,
+                    topLeft = paddle.topLeft,
+                    size = paddle.size,
                     cornerRadius = CornerRadius(x = 3f)
                 )
                 pixelRect(
-                    color = style.playerDetailColor,
-                    x = x - 4f,
-                    y = y - 1f,
-                    width = 8f,
-                    height = 2f
+                    color = style.playerDetailColor.copy(alpha = 0.45f),
+                    x = paddle.left + 7f,
+                    y = paddle.top + 2f,
+                    width = paddle.width - 14f,
+                    height = 1f
                 )
-                if (kind == 1) pixelRect(
-                    color = style.playerDetailColor,
-                    x = x - 1f,
-                    y = y - 4f,
-                    width = 2f,
-                    height = 8f
+                if (run.extension > 0f && (run.wideTime > 2f || (run.wideTime * 6f).toInt() % 2 == 0)) {
+                    pixelRect(
+                        color = style.accentColor,
+                        x = paddle.left + 2f,
+                        y = paddle.top + 1f,
+                        width = 4f,
+                        height = 5f
+                    )
+                    pixelRect(
+                        color = style.accentColor,
+                        x = paddle.right - 6f,
+                        y = paddle.top + 1f,
+                        width = 4f,
+                        height = 5f
+                    )
+                }
+                run.trail.forEachIndexed { index, point ->
+                    drawCircle(
+                        color = style.playerColor.copy(alpha = (index + 1) * 0.035f),
+                        radius = run.ballRadius * 0.7f,
+                        center = point
+                    )
+                }
+                drawCircle(
+                    color = style.playerColor,
+                    radius = run.ballRadius,
+                    center = Offset(x = run.ballX, y = run.ballY)
                 )
-                else for (side in listOf(-1f, 1f)) pixelRect(
-                    color = style.playerDetailColor,
-                    x = x + side * 4f - 1f,
-                    y = y - 3f,
-                    width = 2f,
-                    height = 6f
+                drawCircle(
+                    color = style.playerDetailColor.copy(alpha = 0.8f),
+                    radius = 1.5f,
+                    center = Offset(x = run.ballX - 1f, y = run.ballY - 1.5f)
+                )
+                for ((x, y, kind) in run.gifts) {
+                    drawRoundRect(
+                        color = style.accentColor,
+                        topLeft = Offset(x = x - 9f, y = y - 6f),
+                        size = Size(width = 18f, height = 12f),
+                        cornerRadius = CornerRadius(x = 3f)
+                    )
+                    pixelRect(
+                        color = style.playerDetailColor,
+                        x = x - 4f,
+                        y = y - 1f,
+                        width = 8f,
+                        height = 2f
+                    )
+                    if (kind == 1) pixelRect(
+                        color = style.playerDetailColor,
+                        x = x - 1f,
+                        y = y - 4f,
+                        width = 2f,
+                        height = 8f
+                    )
+                    else for (side in listOf(-1f, 1f)) pixelRect(
+                        color = style.playerDetailColor,
+                        x = x + side * 4f - 1f,
+                        y = y - 3f,
+                        width = 2f,
+                        height = 6f
+                    )
+                }
+                run.effects.draw(
+                    scope = this,
+                    color = style.accentColor
+                )
+                arcadeLives(
+                    style = style,
+                    remaining = run.lives,
+                    y = run.topInset / 2f
                 )
             }
-            run.effects.draw(
-                scope = this,
-                color = style.accentColor
-            )
-            arcadeLives(
-                style = style,
-                remaining = run.lives,
-                y = run.topInset / 2f
-            )
         }
     }
 }
 
 @Serializable
-internal data class BreakerBrick(
+private data class BreakerBrick(
     val column: Int,
     val row: Int,
     var health: Int,
@@ -230,17 +226,17 @@ internal data class BreakerBrick(
 )
 
 @Serializable
-internal data class BreakerGift(
+private data class BreakerGift(
     var x: Float,
     var y: Float,
     val kind: Int
 )
 
 @Serializable
-internal class BrickBreakerRun : ArcadeRun() {
+private class BrickBreakerRun : ArcadeRun() {
     val bricks = mutableListOf<BreakerBrick>()
     val gifts = mutableListOf<BreakerGift>()
-    val trail = mutableListOf<Offset>()
+    val trail: MutableList<ArcadeOffset> = mutableListOf()
 
     @Transient
     val effects = ArcadeEffects()

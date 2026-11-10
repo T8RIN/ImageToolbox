@@ -58,10 +58,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.games.ArcadeGameContent
+import com.t8rin.imagetoolbox.core.games.ArcadeGameRegistry
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.StadiaController
-import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.BasicEnhancedAlertDialog
@@ -248,7 +248,9 @@ private fun LoadingGameContent(
     }
 
     val preference = settings.loadingGame
-    var game by rememberSaveable { mutableStateOf<ArcadeGame?>(null) }
+    var gameName by rememberSaveable {
+        mutableStateOf<String?>(null)
+    }
     var gameSession by rememberSaveable { mutableIntStateOf(0) }
     val isPortrait by isPortraitOrientationAsState()
     val buttonSize = 48.dp
@@ -290,10 +292,11 @@ private fun LoadingGameContent(
                         EnhancedIconButton(
                             onClick = {
                                 if (!showGame) {
-                                    game = preference.pickGame(
-                                        settings.favoriteArcadeGames,
-                                        previous = game
-                                    )
+                                    gameName = ArcadeGameRegistry.pickGame(
+                                        selection = preference,
+                                        favorites = settings.favoriteArcadeGames,
+                                        previous = gameName
+                                    )?.name
                                     gameSession++
                                 }
                                 onShowGameChange(!showGame)
@@ -336,7 +339,7 @@ private fun LoadingGameContent(
                     shrinkHorizontally(shrinkTowards = Alignment.Start)
                 }
             ) {
-                val selectedGame = game
+                val selectedGame = gameName?.let(ArcadeGameRegistry::find)
                 if (selectedGame != null) {
                     key(gameSession) {
                         ArcadeGameContent(

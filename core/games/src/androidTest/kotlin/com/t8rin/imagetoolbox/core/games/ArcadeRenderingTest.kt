@@ -41,53 +41,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.test.junit4.v2.createComposeRule
 import androidx.compose.ui.unit.dp
 import androidx.test.platform.app.InstrumentationRegistry
-import com.t8rin.imagetoolbox.core.games.catalog.AsteroidsGame
-import com.t8rin.imagetoolbox.core.games.catalog.BalanceTowerGame
-import com.t8rin.imagetoolbox.core.games.catalog.BasketballGame
-import com.t8rin.imagetoolbox.core.games.catalog.BirdGame
-import com.t8rin.imagetoolbox.core.games.catalog.BomberGame
-import com.t8rin.imagetoolbox.core.games.catalog.BrickBreakerGame
-import com.t8rin.imagetoolbox.core.games.catalog.BubblePopGame
-import com.t8rin.imagetoolbox.core.games.catalog.DinoGame
-import com.t8rin.imagetoolbox.core.games.catalog.DoodleGame
-import com.t8rin.imagetoolbox.core.games.catalog.FishingGame
-import com.t8rin.imagetoolbox.core.games.catalog.FlightControlGame
-import com.t8rin.imagetoolbox.core.games.catalog.FlowConnectGame
-import com.t8rin.imagetoolbox.core.games.catalog.FruitSliceGame
-import com.t8rin.imagetoolbox.core.games.catalog.Game2048
-import com.t8rin.imagetoolbox.core.games.catalog.GravityFlipGame
-import com.t8rin.imagetoolbox.core.games.catalog.HexagonGame
-import com.t8rin.imagetoolbox.core.games.catalog.KnifeHitGame
-import com.t8rin.imagetoolbox.core.games.catalog.LaserMirrorsGame
-import com.t8rin.imagetoolbox.core.games.catalog.LightCyclesGame
-import com.t8rin.imagetoolbox.core.games.catalog.LunarLanderGame
-import com.t8rin.imagetoolbox.core.games.catalog.MazeChaserGame
-import com.t8rin.imagetoolbox.core.games.catalog.MinesweeperGame
-import com.t8rin.imagetoolbox.core.games.catalog.MissileCommandGame
-import com.t8rin.imagetoolbox.core.games.catalog.OrbitSurvivalGame
-import com.t8rin.imagetoolbox.core.games.catalog.PongGame
-import com.t8rin.imagetoolbox.core.games.catalog.RacerGame
-import com.t8rin.imagetoolbox.core.games.catalog.RicochetGame
-import com.t8rin.imagetoolbox.core.games.catalog.RiverHopGame
-import com.t8rin.imagetoolbox.core.games.catalog.SimonSaysGame
-import com.t8rin.imagetoolbox.core.games.catalog.SnakeGame
-import com.t8rin.imagetoolbox.core.games.catalog.StackGame
-import com.t8rin.imagetoolbox.core.games.catalog.TempleEscapeGame
-import com.t8rin.imagetoolbox.core.games.catalog.TetrisGame
-import com.t8rin.imagetoolbox.core.games.catalog.TimbermanGame
-import com.t8rin.imagetoolbox.core.games.catalog.WhackAMoleGame
-import com.t8rin.imagetoolbox.core.games.catalog.ZigZagGame
-import com.t8rin.imagetoolbox.core.games.catalog.TintAscentGame
-import com.t8rin.imagetoolbox.core.games.catalog.SpiralShaftGame
-import com.t8rin.imagetoolbox.core.games.catalog.TraceAndClaimGame
-import com.t8rin.imagetoolbox.core.games.catalog.OrchardPileGame
-import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
 import com.t8rin.imagetoolbox.core.ui.theme.ImageToolboxThemeForPreview
-import com.t8rin.imagetoolbox.core.ui.utils.helper.title
-import java.io.File
 import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
+import java.io.File
 
 class ArcadeRenderingTest {
     @get:Rule
@@ -98,7 +56,7 @@ class ArcadeRenderingTest {
         val wide = InstrumentationRegistry.getArguments().getString("arcadeWide") == "true"
         val variants = if (wide) 1 else 3
         val requested = InstrumentationRegistry.getArguments().getString("arcadeGames")?.split(',')
-        val games = ArcadeGame.playable.filter { requested == null || it.name in requested }
+        val games = ArcadeGameRegistry.games.filter { requested == null || it.name in requested }
         assertTrue(games.isNotEmpty())
         var fieldBounds = Rect.Zero
         val sample = mutableIntStateOf(0)
@@ -138,7 +96,7 @@ class ArcadeRenderingTest {
         for (index in 0 until games.size * variants) {
             compose.runOnIdle { sample.intValue = index }
             compose.mainClock.advanceTimeBy(
-                if (games[index % games.size] in ArcadeGame.playable.take(
+                if (games[index % games.size] in ArcadeGameRegistry.games.take(
                         8
                     )
                 ) 300L else 1600L
@@ -166,8 +124,8 @@ class ArcadeRenderingTest {
                 compose.mainClock.advanceTimeBy(duration)
                 send(MotionEvent.ACTION_UP, point)
             }
-            when (games[index % games.size]) {
-                ArcadeGame.Minesweeper -> {
+            when (games[index % games.size].name) {
+                "Minesweeper" -> {
                     touch(
                         fieldBounds.topLeft + Offset(
                             fieldBounds.width * 0.16f,
@@ -178,7 +136,7 @@ class ArcadeRenderingTest {
                     compose.mainClock.advanceTimeBy(500L)
                 }
 
-                ArcadeGame.Bomber -> {
+                "Bomber" -> {
                     touch(fieldBounds.center, 32L)
                     val from = fieldBounds.center
                     val to = from + Offset(fieldBounds.width * 0.2f, 0f)
@@ -190,7 +148,7 @@ class ArcadeRenderingTest {
                     compose.mainClock.advanceTimeBy(80L)
                 }
 
-                ArcadeGame.Timberman -> {
+                "Timberman" -> {
                     val point = fieldBounds.center + Offset(fieldBounds.width * 0.25f, 0f)
                     touch(point, 32L)
                     compose.mainClock.advanceTimeBy(160L)
@@ -198,12 +156,12 @@ class ArcadeRenderingTest {
                     compose.mainClock.advanceTimeBy(48L)
                 }
 
-                ArcadeGame.GravityFlip -> {
+                "GravityFlip" -> {
                     touch(fieldBounds.center, 32L)
                     compose.mainClock.advanceTimeBy(450L)
                 }
 
-                ArcadeGame.LunarLander -> {
+                "LunarLander" -> {
                     val from = fieldBounds.topLeft + Offset(
                         fieldBounds.width * 0.5f,
                         fieldBounds.height * 0.7f
@@ -216,7 +174,7 @@ class ArcadeRenderingTest {
                     heldPoint = to
                 }
 
-                ArcadeGame.BalanceTower -> {
+                "BalanceTower" -> {
                     var elapsed = 1.6
                     repeat(3) { count ->
                         val speed = 0.7 + count.toDouble() / (count + 35)
@@ -228,7 +186,7 @@ class ArcadeRenderingTest {
                     }
                 }
 
-                ArcadeGame.Basketball -> {
+                "Basketball" -> {
                     val scale = minOf(fieldBounds.width / 360f, fieldBounds.height / 220f)
                     val from = fieldBounds.center
                     val to = from + Offset(-38f, 78f) * scale
@@ -239,7 +197,7 @@ class ArcadeRenderingTest {
                     heldPoint = to
                 }
 
-                ArcadeGame.FlightControl -> {
+                "FlightControl" -> {
                     compose.mainClock.advanceTimeBy(7200L)
                 }
 
@@ -261,7 +219,7 @@ class ArcadeRenderingTest {
                 bitmap.recycle()
             }
             heldPoint?.let { send(MotionEvent.ACTION_UP, it) }
-            if (capture && games[index % games.size] == ArcadeGame.LunarLander) {
+            if (capture && games[index % games.size].name == "LunarLander") {
                 compose.mainClock.advanceTimeBy(3600L)
                 compose.waitForIdle()
                 instrumentation.waitForIdleSync()
@@ -280,56 +238,12 @@ class ArcadeRenderingTest {
 
 @Composable
 private fun PlayingGame(game: ArcadeGame, height: Int, onBounds: (Rect) -> Unit) {
-    val style = ArcadeDefaults.style.copy(gameHeight = height.dp)
-    val initial = ArcadeGameState(isPlaying = true)
-    val modifier = Modifier
-        .fillMaxWidth()
-        .onGloballyPositioned { onBounds(it.boundsInWindow()) }
-    when (game) {
-        ArcadeGame.Dino -> DinoGame(modifier, initial, style)
-        ArcadeGame.Doodle -> DoodleGame(modifier, initial, style)
-        ArcadeGame.Bird -> BirdGame(modifier, initial, style)
-        ArcadeGame.Stack -> StackGame(modifier, initial, style)
-        ArcadeGame.Pong -> PongGame(modifier, initial, style)
-        ArcadeGame.`2048` -> Game2048(modifier, initial, style)
-        ArcadeGame.Snake -> SnakeGame(modifier, initial, style)
-        ArcadeGame.Tetris -> TetrisGame(modifier, initial, style)
-        ArcadeGame.Racer -> RacerGame(modifier, initial, style)
-        ArcadeGame.Ricochet -> RicochetGame(modifier, initial, style)
-        ArcadeGame.Asteroids -> AsteroidsGame(modifier, initial, style)
-        ArcadeGame.FruitSlice -> FruitSliceGame(modifier, initial, style)
-        ArcadeGame.KnifeHit -> KnifeHitGame(modifier, initial, style)
-        ArcadeGame.MissileCommand -> MissileCommandGame(modifier, initial, style)
-        ArcadeGame.RiverHop -> RiverHopGame(modifier, initial, style)
-        ArcadeGame.WhackAMole -> WhackAMoleGame(modifier, initial, style)
-        ArcadeGame.SimonSays -> SimonSaysGame(modifier, initial, style)
-        ArcadeGame.BubblePop -> BubblePopGame(modifier, initial, style)
-        ArcadeGame.Fishing -> FishingGame(modifier, initial, style)
-        ArcadeGame.Hexagon -> HexagonGame(modifier, initial, style)
-        ArcadeGame.Bomber -> BomberGame(modifier, initial, style)
-        ArcadeGame.Minesweeper -> MinesweeperGame(modifier, initial, style)
-        ArcadeGame.MazeChaser -> MazeChaserGame(modifier, initial, style)
-        ArcadeGame.GravityFlip -> GravityFlipGame(modifier, initial, style)
-        ArcadeGame.ZigZag -> ZigZagGame(modifier, initial, style)
-        ArcadeGame.Timberman -> TimbermanGame(modifier, initial, style)
-        ArcadeGame.OrbitSurvival -> OrbitSurvivalGame(modifier, initial, style)
-        ArcadeGame.LunarLander -> LunarLanderGame(modifier, initial, style)
-        ArcadeGame.BrickBreaker -> BrickBreakerGame(modifier, initial, style)
-        ArcadeGame.LightCycles -> LightCyclesGame(modifier, initial, style)
-        ArcadeGame.FlightControl -> FlightControlGame(modifier, initial, style)
-        ArcadeGame.Basketball -> BasketballGame(modifier, initial, style)
-        ArcadeGame.LaserMirrors -> LaserMirrorsGame(modifier, initial, style)
-        ArcadeGame.FlowConnect -> FlowConnectGame(modifier, initial, style)
-        ArcadeGame.BalanceTower -> BalanceTowerGame(modifier, initial, style)
-        ArcadeGame.TempleEscape -> TempleEscapeGame(
-            modifier = modifier,
-            initialState = initial,
-            style = style
-        )
-        ArcadeGame.SpiralShaft -> SpiralShaftGame(modifier, initial, style)
-        ArcadeGame.TintAscent -> TintAscentGame(modifier, initial, style)
-        ArcadeGame.TraceAndClaim -> TraceAndClaimGame(modifier, initial, style)
-        ArcadeGame.OrchardPile -> OrchardPileGame(modifier, initial, style)
-        else -> error("Expected a playable game")
-    }
+    ArcadeGameContent(
+        game = game,
+        modifier = Modifier
+            .fillMaxWidth()
+            .onGloballyPositioned { onBounds(it.boundsInWindow()) },
+        height = height.dp,
+        initialState = ArcadeGameState(isPlaying = true)
+    )
 }

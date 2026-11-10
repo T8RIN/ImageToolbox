@@ -40,15 +40,17 @@ import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.graphics.vector.PathParser
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
 import com.t8rin.imagetoolbox.core.games.ArcadeCloud
-import com.t8rin.imagetoolbox.core.games.ArcadeDefaults
 import com.t8rin.imagetoolbox.core.games.ArcadeField
-import com.t8rin.imagetoolbox.core.games.ArcadeGameState
+import com.t8rin.imagetoolbox.core.games.ArcadeGameContext
+import com.t8rin.imagetoolbox.core.games.ArcadeGameDefinition
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
-import com.t8rin.imagetoolbox.core.games.ArcadeStyle
+import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
-import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
+import com.t8rin.imagetoolbox.core.resources.Icons
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.AvocadoBean
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.Serializable
@@ -58,6 +60,129 @@ import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.sqrt
 import kotlin.random.Random
+
+@RegisterArcadeGame
+internal data object OrchardPileGame : ArcadeGameDefinition {
+    override val title = R.string.arcade_orchardpile
+    override val description = R.string.arcade_orchardpile_sub
+    override val icon get() = Icons.Outlined.AvocadoBean
+    override val order = 39
+
+    @Composable
+    override fun Content(context: ArcadeGameContext, modifier: Modifier) {
+        val style = context.style
+        val run = rememberArcadeRun(
+            startPlaying = context.initialState.isPlaying,
+            create = ::OrchardPileRun
+        )
+        LaunchedEffect(Unit) {
+            val outlines = OrchardKind.entries.map { it.outline }
+            withContext(Dispatchers.Default) {
+                for (outline in outlines) outline.prepare()
+            }
+        }
+
+        ArcadeBoard(
+            context = context,
+            run = run,
+            modifier = modifier
+        ) {
+            ArcadeField(
+                run = run,
+                onPress = run::aim,
+                onDrag = run::aim,
+                onRelease = run::drop
+            ) {
+                repeat(5) { index ->
+                    val span = run.width + ArcadeCloud.width
+                    drawArcadeSprite(
+                        sprite = ArcadeCloud,
+                        tint = style.detailColor.copy(alpha = 0.43f + (index % 2) * 0.12f),
+                        x = (index * 131f + run.cloudTime * (7f + index % 3 * 4f)) % span -
+                                ArcadeCloud.width,
+                        y = run.height * (0.13f + index * 0.18f)
+                    )
+                }
+                translate(left = run.left, top = run.top) {
+                    scale(scale = run.unit, pivot = Offset.Zero) {
+                        val floor = run.floor
+                        val walls = style.obstacleColor.copy(alpha = 0.78f)
+                        drawRoundRect(
+                            color = style.obstacleColor.copy(alpha = 0.12f),
+                            topLeft = Offset(0f, OrchardLimit),
+                            size = Size(OrchardWidth, floor - OrchardLimit),
+                            cornerRadius = CornerRadius(4f)
+                        )
+                        for (wall in listOf(0f, OrchardWidth)) {
+                            drawLine(
+                                color = walls,
+                                start = Offset(wall, OrchardLimit),
+                                end = Offset(wall, floor),
+                                strokeWidth = 3f,
+                                cap = StrokeCap.Round
+                            )
+                        }
+                        drawLine(
+                            color = walls,
+                            start = Offset(0f, floor),
+                            end = Offset(OrchardWidth, floor),
+                            strokeWidth = 3f,
+                            cap = StrokeCap.Round
+                        )
+                        drawLine(
+                            color = if (run.danger > 0f) style.hazardColor else style.detailColor,
+                            start = Offset(0f, OrchardLimit),
+                            end = Offset(OrchardWidth, OrchardLimit),
+                            strokeWidth = 1.5f,
+                            pathEffect = OrchardDashes
+                        )
+                        if (run.danger > 0f) {
+                            drawRect(
+                                color = style.hazardColor.copy(alpha = 0.08f + run.danger * 0.16f),
+                                topLeft = Offset(0f, OrchardLimit - 8f),
+                                size = Size(OrchardWidth, 16f)
+                            )
+                        }
+                        if (run.canDrop) {
+                            val kind = OrchardKind.entries[run.current]
+                            drawLine(
+                                color = style.highScoreColor.copy(alpha = 0.44f),
+                                start = Offset(run.aimX, OrchardDrop + kind.outline.bottom),
+                                end = Offset(run.aimX, floor),
+                                strokeWidth = 1.4f
+                            )
+                            orchardFruit(kind, Offset(run.aimX, OrchardDrop), kind.radius)
+                        }
+                        for (fruit in run.fruits) {
+                            val kind = OrchardKind.entries[fruit.kind]
+                            rotate(
+                                degrees = fruit.angle,
+                                pivot = Offset(x = fruit.x, y = fruit.y)
+                            ) {
+                                orchardFruit(kind, Offset(fruit.x, fruit.y), kind.radius)
+                            }
+                        }
+                        run.effects.draw(
+                            scope = this,
+                            color = style.accentColor
+                        )
+
+                        for ((index, kind) in OrchardKind.entries.withIndex()) {
+                            val radius = 4.6f + index * 0.22f
+                            orchardFruit(kind, Offset(12f + index * 20f, floor + 12f), radius)
+                        }
+                    }
+                }
+                val previewRadius = minOf(12f, run.topInset * 0.27f)
+                orchardFruit(
+                    kind = OrchardKind.entries[run.next],
+                    center = Offset(15f + previewRadius, run.topInset / 2f),
+                    radius = previewRadius
+                )
+            }
+        }
+    }
+}
 
 private const val OrchardWidth = 224f
 private const val OrchardFloor = 249f
@@ -144,132 +269,6 @@ private enum class OrchardKind(
         end = Offset(0.8f, 0.94f)
     )
     val border = lerp(color, OrchardInk, 0.43f)
-}
-
-@Composable
-fun OrchardPileGame(
-    modifier: Modifier = Modifier,
-    initialState: ArcadeGameState = ArcadeGameState(),
-    style: ArcadeStyle = ArcadeDefaults.style,
-    onHighScoreChanged: ((Int) -> Unit)? = null,
-    onGameOver: ((Int) -> Unit)? = null,
-    isPaused: Boolean = false
-) {
-    val run = rememberArcadeRun(
-        initialState = initialState,
-        create = ::OrchardPileRun
-    )
-    LaunchedEffect(Unit) {
-        val outlines = OrchardKind.entries.map { it.outline }
-        withContext(Dispatchers.Default) {
-            for (outline in outlines) outline.prepare()
-        }
-    }
-
-    ArcadeBoard(
-        game = ArcadeGame.OrchardPile,
-        run = run,
-        style = style,
-        modifier = modifier,
-        initialState = initialState,
-        onHighScoreChanged = onHighScoreChanged,
-        isPaused = isPaused,
-        onGameOver = onGameOver
-    ) {
-        ArcadeField(
-            run = run,
-            onPress = run::aim,
-            onDrag = run::aim,
-            onRelease = run::drop
-        ) {
-            repeat(5) { index ->
-                val span = run.width + ArcadeCloud.width
-                drawArcadeSprite(
-                    sprite = ArcadeCloud,
-                    tint = style.detailColor.copy(alpha = 0.43f + (index % 2) * 0.12f),
-                    x = (index * 131f + run.cloudTime * (7f + index % 3 * 4f)) % span -
-                            ArcadeCloud.width,
-                    y = run.height * (0.13f + index * 0.18f)
-                )
-            }
-            translate(left = run.left, top = run.top) {
-                scale(scale = run.unit, pivot = Offset.Zero) {
-                    val floor = run.floor
-                    val walls = style.obstacleColor.copy(alpha = 0.78f)
-                    drawRoundRect(
-                        color = style.obstacleColor.copy(alpha = 0.12f),
-                        topLeft = Offset(0f, OrchardLimit),
-                        size = Size(OrchardWidth, floor - OrchardLimit),
-                        cornerRadius = CornerRadius(4f)
-                    )
-                    for (wall in listOf(0f, OrchardWidth)) {
-                        drawLine(
-                            color = walls,
-                            start = Offset(wall, OrchardLimit),
-                            end = Offset(wall, floor),
-                            strokeWidth = 3f,
-                            cap = StrokeCap.Round
-                        )
-                    }
-                    drawLine(
-                        color = walls,
-                        start = Offset(0f, floor),
-                        end = Offset(OrchardWidth, floor),
-                        strokeWidth = 3f,
-                        cap = StrokeCap.Round
-                    )
-                    drawLine(
-                        color = if (run.danger > 0f) style.hazardColor else style.detailColor,
-                        start = Offset(0f, OrchardLimit),
-                        end = Offset(OrchardWidth, OrchardLimit),
-                        strokeWidth = 1.5f,
-                        pathEffect = OrchardDashes
-                    )
-                    if (run.danger > 0f) {
-                        drawRect(
-                            color = style.hazardColor.copy(alpha = 0.08f + run.danger * 0.16f),
-                            topLeft = Offset(0f, OrchardLimit - 8f),
-                            size = Size(OrchardWidth, 16f)
-                        )
-                    }
-                    if (run.canDrop) {
-                        val kind = OrchardKind.entries[run.current]
-                        drawLine(
-                            color = style.highScoreColor.copy(alpha = 0.44f),
-                            start = Offset(run.aimX, OrchardDrop + kind.outline.bottom),
-                            end = Offset(run.aimX, floor),
-                            strokeWidth = 1.4f
-                        )
-                        orchardFruit(kind, Offset(run.aimX, OrchardDrop), kind.radius)
-                    }
-                    for (fruit in run.fruits) {
-                        val kind = OrchardKind.entries[fruit.kind]
-                        rotate(
-                            degrees = fruit.angle,
-                            pivot = Offset(x = fruit.x, y = fruit.y)
-                        ) {
-                            orchardFruit(kind, Offset(fruit.x, fruit.y), kind.radius)
-                        }
-                    }
-                    run.effects.draw(
-                        scope = this,
-                        color = style.accentColor
-                    )
-
-                    for ((index, kind) in OrchardKind.entries.withIndex()) {
-                        val radius = 4.6f + index * 0.22f
-                        orchardFruit(kind, Offset(12f + index * 20f, floor + 12f), radius)
-                    }
-                }
-            }
-            val previewRadius = minOf(12f, run.topInset * 0.27f)
-            orchardFruit(
-                kind = OrchardKind.entries[run.next],
-                center = Offset(15f + previewRadius, run.topInset / 2f),
-                radius = previewRadius
-            )
-        }
-    }
 }
 
 private fun DrawScope.orchardFruit(
@@ -466,7 +465,7 @@ private fun DrawScope.orchardFace(kind: OrchardKind, ink: Color) {
 }
 
 @Serializable
-internal class OrchardFruit(
+private class OrchardFruit(
     val kind: Int,
     var x: Float,
     var y: Float,
@@ -594,7 +593,7 @@ internal class OrchardFruit(
 }
 
 @Serializable
-internal class OrchardPileRun : ArcadeRun() {
+private class OrchardPileRun : ArcadeRun() {
     val fruits = mutableListOf<OrchardFruit>()
     var current = 0
         private set
@@ -862,7 +861,7 @@ private const val OrchardContactMargin = 0.10f
 private const val OrchardFieldSide = 65
 private const val OrchardContourPoints = 56
 
-internal class OrchardOutline(path: Path, radius: Float) {
+private class OrchardOutline(path: Path, radius: Float) {
     private val limit = radius * 1.16f
     private val spacing = limit * 2f / (OrchardFieldSide - 1)
     private val inverseSpacing = 1f / spacing
@@ -962,7 +961,7 @@ internal class OrchardOutline(path: Path, radius: Float) {
     }
 }
 
-internal class OrchardCollider(private val outline: OrchardOutline) {
+private class OrchardCollider(private val outline: OrchardOutline) {
     private val points = FloatArray(OrchardContourPoints * 2)
 
     private var angle = Float.NaN

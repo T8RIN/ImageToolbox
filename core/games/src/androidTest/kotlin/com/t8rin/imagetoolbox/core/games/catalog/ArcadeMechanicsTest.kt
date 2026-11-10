@@ -15,137 +15,128 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.core.games
+// The private game classes are package-private on the JVM.
+@file:Suppress("INVISIBLE_REFERENCE", "INVISIBLE_MEMBER")
+
+package com.t8rin.imagetoolbox.core.games.catalog
 
 import android.os.Bundle
 import androidx.compose.runtime.saveable.SaverScope
-import kotlinx.serialization.KSerializer
 import androidx.compose.ui.geometry.Offset
+import androidx.datastore.preferences.core.PreferenceDataStoreFactory
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.t8rin.imagetoolbox.core.games.catalog.DinoRun
-import com.t8rin.imagetoolbox.core.games.catalog.DoodleRun
-import com.t8rin.imagetoolbox.core.games.catalog.BirdRun
-import com.t8rin.imagetoolbox.core.games.catalog.StackRun
-import com.t8rin.imagetoolbox.core.games.catalog.PongRun
-import com.t8rin.imagetoolbox.core.games.catalog.MergeRun
-import com.t8rin.imagetoolbox.core.games.catalog.SnakeRun
-import com.t8rin.imagetoolbox.core.games.catalog.TempleEscapeRun
-import com.t8rin.imagetoolbox.core.games.catalog.TetrisRun
-import com.t8rin.imagetoolbox.core.games.catalog.AsteroidsRun
-import com.t8rin.imagetoolbox.core.games.catalog.BalanceTowerRun
-import com.t8rin.imagetoolbox.core.games.catalog.BasketballRun
-import com.t8rin.imagetoolbox.core.games.catalog.BomberBomb
-import com.t8rin.imagetoolbox.core.games.catalog.BomberEnemy
-import com.t8rin.imagetoolbox.core.games.catalog.BomberRun
-import com.t8rin.imagetoolbox.core.games.catalog.BreakerBrick
-import com.t8rin.imagetoolbox.core.games.catalog.BreakerGift
-import com.t8rin.imagetoolbox.core.games.catalog.BrickBreakerRun
-import com.t8rin.imagetoolbox.core.games.catalog.BubblePopRun
-import com.t8rin.imagetoolbox.core.games.catalog.ControlledFlight
-import com.t8rin.imagetoolbox.core.games.catalog.FishingRun
-import com.t8rin.imagetoolbox.core.games.catalog.FlightControlRun
-import com.t8rin.imagetoolbox.core.games.catalog.FlightRunway
-import com.t8rin.imagetoolbox.core.games.catalog.FlowConnectRun
-import com.t8rin.imagetoolbox.core.games.catalog.FruitSliceRun
-import com.t8rin.imagetoolbox.core.games.catalog.GravityFlipRun
-import com.t8rin.imagetoolbox.core.games.catalog.GravityObstacle
-import com.t8rin.imagetoolbox.core.games.catalog.HexagonRun
-import com.t8rin.imagetoolbox.core.games.catalog.KnifeHitRun
-import com.t8rin.imagetoolbox.core.games.catalog.LaserMirrorsRun
-import com.t8rin.imagetoolbox.core.games.catalog.LightCyclesRun
-import com.t8rin.imagetoolbox.core.games.catalog.LunarLanderRun
-import com.t8rin.imagetoolbox.core.games.catalog.MazeChaserRun
-import com.t8rin.imagetoolbox.core.games.catalog.MinesweeperRun
-import com.t8rin.imagetoolbox.core.games.catalog.MissileBlast
-import com.t8rin.imagetoolbox.core.games.catalog.MissileCommandRun
-import com.t8rin.imagetoolbox.core.games.catalog.OrbitGate
-import com.t8rin.imagetoolbox.core.games.catalog.OrbitSurvivalRun
-import com.t8rin.imagetoolbox.core.games.catalog.RacerRun
-import com.t8rin.imagetoolbox.core.games.catalog.RicochetBall
-import com.t8rin.imagetoolbox.core.games.catalog.RicochetBrick
-import com.t8rin.imagetoolbox.core.games.catalog.RicochetRun
-import com.t8rin.imagetoolbox.core.games.catalog.RiverHopRun
-import com.t8rin.imagetoolbox.core.games.catalog.RiverLane
-import com.t8rin.imagetoolbox.core.games.catalog.SimonSaysRun
-import com.t8rin.imagetoolbox.core.games.catalog.SliceFruit
-import com.t8rin.imagetoolbox.core.games.catalog.SpaceRock
-import com.t8rin.imagetoolbox.core.games.catalog.SpaceShot
-import com.t8rin.imagetoolbox.core.games.catalog.SwimmingFish
-import com.t8rin.imagetoolbox.core.games.catalog.TimbermanRun
-import com.t8rin.imagetoolbox.core.games.catalog.TowerLoad
-import com.t8rin.imagetoolbox.core.games.catalog.WhackAMoleRun
-import com.t8rin.imagetoolbox.core.games.catalog.ZigZagRun
-import com.t8rin.imagetoolbox.core.games.catalog.ZigZagTile
-import com.t8rin.imagetoolbox.core.games.catalog.TintAscentRun
-import com.t8rin.imagetoolbox.core.games.catalog.SpiralShaftRun
-import com.t8rin.imagetoolbox.core.games.catalog.TraceAndClaimRun
-import com.t8rin.imagetoolbox.core.games.catalog.OrchardPileRun
-import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
-import com.t8rin.imagetoolbox.core.ui.utils.helper.title
-import kotlin.math.abs
+import com.t8rin.imagetoolbox.core.games.ArcadeGameRegistry
+import com.t8rin.imagetoolbox.core.games.ArcadeJson
+import com.t8rin.imagetoolbox.core.games.ArcadePhase
+import com.t8rin.imagetoolbox.core.games.ArcadeRun
+import com.t8rin.imagetoolbox.core.games.arcadeRunSaver
+import com.t8rin.imagetoolbox.core.games.data.AndroidArcadeStatisticsRepository
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.settings.domain.model.LoadingGame
+import com.t8rin.imagetoolbox.core.ui.utils.helper.playable
+import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancelAndJoin
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.job
+import kotlinx.coroutines.runBlocking
+import kotlinx.serialization.KSerializer
+import kotlinx.serialization.json.Json
 import org.junit.Assert.assertArrayEquals
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
+import org.junit.Rule
 import org.junit.Test
+import org.junit.rules.TemporaryFolder
 import org.junit.runner.RunWith
+import kotlin.math.abs
 
 @RunWith(AndroidJUnit4::class)
 class ArcadeMechanicsTest {
-    internal val factories: List<() -> ArcadeRun> = listOf(
-        ::DinoRun,
-        ::DoodleRun,
-        ::BirdRun,
-        ::StackRun,
-        ::PongRun,
-        ::MergeRun,
-        ::SnakeRun,
-        ::TetrisRun,
-        ::RacerRun,
-        ::RicochetRun,
-        ::AsteroidsRun,
-        ::FruitSliceRun,
-        ::KnifeHitRun,
-        ::MissileCommandRun,
-        ::RiverHopRun,
-        ::WhackAMoleRun,
-        ::SimonSaysRun,
-        ::BubblePopRun,
-        ::FishingRun,
-        ::HexagonRun,
-        ::BomberRun,
-        ::MinesweeperRun,
-        ::MazeChaserRun,
-        ::GravityFlipRun,
-        ::ZigZagRun,
-        ::TimbermanRun,
-        ::OrbitSurvivalRun,
-        ::LunarLanderRun,
-        ::BrickBreakerRun,
-        ::LightCyclesRun,
-        ::FlightControlRun,
-        ::BasketballRun,
-        ::LaserMirrorsRun,
-        ::FlowConnectRun,
-        ::BalanceTowerRun,
-        ::TempleEscapeRun,
-        ::SpiralShaftRun,
-        ::TintAscentRun,
-        ::TraceAndClaimRun,
-        ::OrchardPileRun
-    )
+    @get:Rule
+    val temporary = TemporaryFolder()
+
+    private val factories: List<() -> ArcadeRun> = runSerializers.keys.map { runClass ->
+        { runClass.java.getDeclaredConstructor().apply { isAccessible = true }.newInstance() }
+    }
 
     @Test
-    fun collectionContainsFortyDistinctGamesAndTheOriginalEight() {
-        assertEquals(40, ArcadeGame.playable.size)
-        assertEquals(40, ArcadeGame.playable.distinct().size)
+    fun collectionContainsDistinctGamesAndTheOriginalEight() {
+        val games = ArcadeGameRegistry.games
+        assertEquals(games.size, games.distinctBy { it.name }.size)
         assertEquals(
-            listOf(
-                ArcadeGame.Dino, ArcadeGame.Doodle, ArcadeGame.Bird, ArcadeGame.Stack,
-                ArcadeGame.Pong, ArcadeGame.`2048`, ArcadeGame.Snake, ArcadeGame.Tetris
-            ),
-            ArcadeGame.playable.take(8)
+            listOf("Dino", "Doodle", "Bird", "Stack", "Pong", "2048", "Snake", "Tetris"),
+            games.take(8).map { it.name }
         )
-        assertEquals(40, ArcadeGame.playable.map { it.title }.distinct().size)
+        assertEquals(games.size, games.distinctBy { it.title }.size)
+        assertEquals(games.map { it.name }, LoadingGame.playable.map { it.game })
+    }
+
+    @Test
+    fun savedGameNamesResolveInNavigationAndPreferences() {
+        val screen = Json.decodeFromString<Screen>(
+            """
+            {
+                "type": "com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.ArcadeGames",
+                "id": 85,
+                "title": ${R.string.arcade_games},
+                "subtitle": ${R.string.arcade_games_sub},
+                "game": "2048"
+            }
+            """.trimIndent()
+        )
+        assertEquals(Screen.ArcadeGames("2048"), screen)
+
+        val savedOrder = listOf("Snake", "RemovedGame", "2048", "Snake")
+        val order = ArcadeGameRegistry.orderedGames(savedOrder).map { it.name }
+        assertEquals(
+            ArcadeGameRegistry.games.map { it.name }.filterNot { it in savedOrder },
+            order.drop(2)
+        )
+        assertEquals(listOf("Snake", "2048"), order.take(2))
+        assertEquals(
+            "2048",
+            ArcadeGameRegistry.pickGame(
+                selection = LoadingGame.RandomFavorite,
+                favorites = setOf("Snake", "2048"),
+                previous = "Snake"
+            )?.name
+        )
+    }
+
+    @Test
+    fun statisticsReuseTheExistingPreferenceKeys() = runBlocking {
+        val file = temporary.newFolder().resolve("arcade.preferences_pb")
+        val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
+        try {
+            val preferences = PreferenceDataStoreFactory.create(scope = scope) { file }
+            val highScore = intPreferencesKey("ARCADE_2048_HIGH_SCORE")
+            val startedRounds = intPreferencesKey("ARCADE_2048_STARTED_ROUNDS")
+            preferences.edit {
+                it[highScore] = 128
+                it[startedRounds] = 1
+            }
+            val statistics = AndroidArcadeStatisticsRepository(preferences)
+            assertEquals(128, statistics.highScore("2048").first())
+            assertEquals("2048", statistics.statistics.first().single().game.name)
+            statistics.recordFinish("2048", score = 256, trackRound = true)
+            assertEquals(256, preferences.data.first()[highScore])
+        } finally {
+            scope.coroutineContext.job.cancelAndJoin()
+        }
+    }
+
+    @Test
+    fun readsSavedOffsetsAndDequeElements() {
+        val run = ArcadeJson.decodeFromString<BasketballRun>(
+            """{"ball":{"x":10.0,"y":20.0},"trail":[{"x":1.0,"y":2.0}]}"""
+        )
+        assertEquals(Offset(10f, 20f), run.ball)
+        assertEquals(Offset(1f, 2f), run.trail.single())
     }
 
     @Test
@@ -783,7 +774,7 @@ class ArcadeMechanicsTest {
         moving.dots.fill(0)
         repeat(700) { frame ->
             if (frame == 260) moving.power = 0.4f
-            val before = moving.enemies.map(moving::enemyPoint)
+            val before = moving.enemies.map { moving.enemyPoint(it) }
             moving.advance(1f / 120f)
             moving.enemies.forEachIndexed { index, enemy ->
                 assertTrue((moving.enemyPoint(enemy) - before[index]).getDistance() <= moving.cell * 0.05f)
@@ -1444,7 +1435,7 @@ class ArcadeMechanicsTest {
         assertTrue("Future head-on conflicts must prevent spawning", !spawning.canSpawn(incoming))
         spawning.planes.clear()
         assertTrue(spawning.canSpawn(incoming))
-        val layouts = mutableSetOf<List<FlightRunway>>()
+        val layouts = mutableSetOf<List<Any>>()
         repeat(30) {
             spawning.start()
             layouts += spawning.runways.toList()

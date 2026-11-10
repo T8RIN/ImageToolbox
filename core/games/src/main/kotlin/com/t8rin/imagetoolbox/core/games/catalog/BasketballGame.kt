@@ -15,8 +15,6 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-@file:UseSerializers(ArcadeOffsetSerializer::class, ArcadeDequeSerializer::class)
-
 package com.t8rin.imagetoolbox.core.games.catalog
 
 import androidx.compose.runtime.Composable
@@ -32,173 +30,175 @@ import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.drawscope.translate
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
-import com.t8rin.imagetoolbox.core.games.ArcadeDefaults
-import com.t8rin.imagetoolbox.core.games.ArcadeDequeSerializer
+import com.t8rin.imagetoolbox.core.games.ArcadeDeque
 import com.t8rin.imagetoolbox.core.games.ArcadeField
-import com.t8rin.imagetoolbox.core.games.ArcadeGameState
-import com.t8rin.imagetoolbox.core.games.ArcadeOffsetSerializer
+import com.t8rin.imagetoolbox.core.games.ArcadeGameContext
+import com.t8rin.imagetoolbox.core.games.ArcadeGameDefinition
+import com.t8rin.imagetoolbox.core.games.ArcadeOffset
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.ArcadeStyle
+import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
-import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
+import com.t8rin.imagetoolbox.core.resources.Icons
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.SportsBasketball
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
-import kotlinx.serialization.UseSerializers
 import kotlin.math.abs
 import kotlin.math.atan2
 import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.random.Random
 
-@Composable
-fun BasketballGame(
-    modifier: Modifier = Modifier,
-    initialState: ArcadeGameState = ArcadeGameState(),
-    style: ArcadeStyle = ArcadeDefaults.style,
-    onHighScoreChanged: ((Int) -> Unit)? = null,
-    onGameOver: ((Int) -> Unit)? = null,
-    isPaused: Boolean = false
-) {
-    val run = rememberArcadeRun(
-        initialState = initialState,
-        create = ::BasketballRun
-    )
+@RegisterArcadeGame
+internal data object BasketballGame : ArcadeGameDefinition {
+    override val title = R.string.arcade_basketball
+    override val description = R.string.arcade_basketball_sub
+    override val icon get() = Icons.Outlined.SportsBasketball
+    override val order = 31
 
-    val netPath = remember { Path() }
+    @Composable
+    override fun Content(context: ArcadeGameContext, modifier: Modifier) {
+        val style = context.style
+        val run = rememberArcadeRun(
+            startPlaying = context.initialState.isPlaying,
+            create = ::BasketballRun
+        )
 
-    ArcadeBoard(
-        game = ArcadeGame.Basketball,
-        run = run,
-        style = style,
-        modifier = modifier,
-        initialState = initialState,
-        onHighScoreChanged = onHighScoreChanged,
-        isPaused = isPaused,
-        onGameOver = onGameOver
-    ) {
-        ArcadeField(
+        val netPath = remember { Path() }
+
+        ArcadeBoard(
+            context = context,
             run = run,
-            onPress = run::begin,
-            onDrag = run::aim,
-            onRelease = run::shoot
+            modifier = modifier
         ) {
-            val unit = run.unit
-            val left = (run.width - 360f * unit) / 2f
-            for (side in 0..1) {
-                drawLine(
-                    color = style.detailColor.copy(alpha = 0.3f),
-                    start = Offset(x = left + side * 360f * unit, y = 0f),
-                    end = Offset(x = left + side * 360f * unit, y = run.height),
-                    strokeWidth = 1f
-                )
-            }
-            repeat(36) { index ->
-                val point = Offset(
-                    x = left + (index * 79 % 347 + 6) * unit,
-                    y = (index * 53f + run.camera * unit * 0.3f) % run.height
-                )
-                pixelRect(
-                    color = style.detailColor.copy(alpha = 0.2f),
-                    x = point.x,
-                    y = point.y,
-                    width = 2f,
-                    height = 2f
-                )
-            }
-            if (!run.airborne) drawBasketballBall(
+            ArcadeField(
                 run = run,
-                style = style
-            )
-            run.hoops.forEachIndexed { index, hoop ->
-                val point = run.project(hoop.center)
-                val color = if (index == 1) style.accentColor else style.obstacleColor
-                translate(left = point.x, top = point.y) {
-                    scale(scale = unit, pivot = Offset.Zero) {
-                        rotate(
-                            degrees = -hoop.angle * 180f / kotlin.math.PI.toFloat(),
-                            pivot = Offset.Zero
-                        ) {
-                            val half = hoop.halfWidth
-                            val delta =
-                                if (index == 0 && !run.airborne) run.ball - hoop.center else -hoop.normal * 20f
-                            val depth = maxOf(
-                                35f + (if (index == 0) run.net * 6f else 0f),
-                                -(delta.x * hoop.normal.x + delta.y * hoop.normal.y) + run.radius
-                            )
-                            val swing = if (index == 0 && !run.airborne) {
-                                delta.x * hoop.tangent.x + delta.y * hoop.tangent.y
-                            } else 0f
-                            val net = netPath.apply {
-                                rewind()
-                                moveTo(-half, 0f)
-                                quadraticTo(-half * 0.55f + swing, depth, swing, depth)
-                                quadraticTo(half * 0.55f + swing, depth, half, 0f)
-                                close()
-                            }
-                            drawPath(
-                                path = net,
-                                color = color.copy(alpha = 0.06f)
-                            )
-                            clipPath(net) {
-                                for (strand in -5..5) for (side in listOf(-1f, 1f)) {
-                                    val start = Offset(x = strand * half / 3f, y = 0f)
-                                    drawLine(
-                                        color = color.copy(alpha = 0.7f),
-                                        start = start,
-                                        end = start + Offset(x = side * half + swing, y = depth),
-                                        strokeWidth = 1.5f
-                                    )
+                onPress = run::begin,
+                onDrag = run::aim,
+                onRelease = run::shoot
+            ) {
+                val unit = run.unit
+                val left = (run.width - 360f * unit) / 2f
+                for (side in 0..1) {
+                    drawLine(
+                        color = style.detailColor.copy(alpha = 0.3f),
+                        start = Offset(x = left + side * 360f * unit, y = 0f),
+                        end = Offset(x = left + side * 360f * unit, y = run.height),
+                        strokeWidth = 1f
+                    )
+                }
+                repeat(36) { index ->
+                    val point = Offset(
+                        x = left + (index * 79 % 347 + 6) * unit,
+                        y = (index * 53f + run.camera * unit * 0.3f) % run.height
+                    )
+                    pixelRect(
+                        color = style.detailColor.copy(alpha = 0.2f),
+                        x = point.x,
+                        y = point.y,
+                        width = 2f,
+                        height = 2f
+                    )
+                }
+                if (!run.airborne) drawBasketballBall(
+                    run = run,
+                    style = style
+                )
+                run.hoops.forEachIndexed { index, hoop ->
+                    val point = run.project(hoop.center)
+                    val color = if (index == 1) style.accentColor else style.obstacleColor
+                    translate(left = point.x, top = point.y) {
+                        scale(scale = unit, pivot = Offset.Zero) {
+                            rotate(
+                                degrees = -hoop.angle * 180f / kotlin.math.PI.toFloat(),
+                                pivot = Offset.Zero
+                            ) {
+                                val half = hoop.halfWidth
+                                val delta =
+                                    if (index == 0 && !run.airborne) run.ball - hoop.center else -hoop.normal * 20f
+                                val depth = maxOf(
+                                    35f + (if (index == 0) run.net * 6f else 0f),
+                                    -(delta.x * hoop.normal.x + delta.y * hoop.normal.y) + run.radius
+                                )
+                                val swing = if (index == 0 && !run.airborne) {
+                                    delta.x * hoop.tangent.x + delta.y * hoop.tangent.y
+                                } else 0f
+                                val net = netPath.apply {
+                                    rewind()
+                                    moveTo(-half, 0f)
+                                    quadraticTo(-half * 0.55f + swing, depth, swing, depth)
+                                    quadraticTo(half * 0.55f + swing, depth, half, 0f)
+                                    close()
                                 }
-                            }
-                            drawPath(
-                                path = net,
-                                color = color.copy(alpha = 0.75f),
-                                style = Stroke(width = 1.5f)
-                            )
-                            drawOval(
-                                color = color,
-                                topLeft = Offset(x = -half, y = -6f),
-                                size = Size(width = half * 2f, height = 12f),
-                                style = Stroke(width = 4f)
-                            )
+                                drawPath(
+                                    path = net,
+                                    color = color.copy(alpha = 0.06f)
+                                )
+                                clipPath(net) {
+                                    for (strand in -5..5) for (side in listOf(-1f, 1f)) {
+                                        val start = Offset(x = strand * half / 3f, y = 0f)
+                                        drawLine(
+                                            color = color.copy(alpha = 0.7f),
+                                            start = start,
+                                            end = start + Offset(
+                                                x = side * half + swing,
+                                                y = depth
+                                            ),
+                                            strokeWidth = 1.5f
+                                        )
+                                    }
+                                }
+                                drawPath(
+                                    path = net,
+                                    color = color.copy(alpha = 0.75f),
+                                    style = Stroke(width = 1.5f)
+                                )
+                                drawOval(
+                                    color = color,
+                                    topLeft = Offset(x = -half, y = -6f),
+                                    size = Size(width = half * 2f, height = 12f),
+                                    style = Stroke(width = 4f)
+                                )
 
+                            }
                         }
                     }
                 }
-            }
-            run.trail.forEachIndexed { index, point ->
-                drawCircle(
-                    color = (if (run.combo >= 3) style.accentColor else style.playerColor).copy(
-                        alpha = index / 8f * 0.16f
-                    ),
-                    radius = run.radius * unit * if (run.combo >= 3) 0.65f else 0.5f,
-                    center = run.project(point)
-                )
-            }
-            if (run.aiming) {
-                run.preview.forEachIndexed { index, point ->
+                run.trail.forEachIndexed { index, point ->
                     drawCircle(
-                        color = style.accentColor.copy(alpha = 0.7f - index * 0.012f),
-                        radius = 1.7f * unit,
+                        color = (if (run.combo >= 3) style.accentColor else style.playerColor).copy(
+                            alpha = index / 8f * 0.16f
+                        ),
+                        radius = run.radius * unit * if (run.combo >= 3) 0.65f else 0.5f,
                         center = run.project(point)
                     )
                 }
-
-            }
-            if (run.airborne) drawBasketballBall(
-                run = run,
-                style = style
-            )
-            translate(left = left, top = run.baseline + run.camera * unit) {
-                scale(scale = unit, pivot = Offset.Zero) {
-                    scale(scaleX = 1f, scaleY = -1f, pivot = Offset.Zero) {
-                        run.effects.draw(
-                            scope = this,
-                            color = style.accentColor
+                if (run.aiming) {
+                    run.preview.forEachIndexed { index, point ->
+                        drawCircle(
+                            color = style.accentColor.copy(alpha = 0.7f - index * 0.012f),
+                            radius = 1.7f * unit,
+                            center = run.project(point)
                         )
+                    }
+
+                }
+                if (run.airborne) drawBasketballBall(
+                    run = run,
+                    style = style
+                )
+                translate(left = left, top = run.baseline + run.camera * unit) {
+                    scale(scale = unit, pivot = Offset.Zero) {
+                        scale(scaleX = 1f, scaleY = -1f, pivot = Offset.Zero) {
+                            run.effects.draw(
+                                scope = this,
+                                color = style.accentColor
+                            )
+                        }
                     }
                 }
             }
@@ -250,8 +250,8 @@ private fun DrawScope.drawBasketballBall(
 }
 
 @Serializable
-internal data class BasketballHoop(
-    var center: Offset,
+private data class BasketballHoop(
+    var center: ArcadeOffset,
     val halfWidth: Float,
     var angle: Float,
     val anchorX: Float = center.x,
@@ -268,12 +268,12 @@ internal data class BasketballHoop(
 }
 
 @Serializable
-internal class BasketballRun : ArcadeRun() {
+private class BasketballRun : ArcadeRun() {
     val hoops = mutableListOf<BasketballHoop>()
 
     @Transient
     val effects = ArcadeEffects()
-    val trail = ArrayDeque<Offset>()
+    val trail: ArcadeDeque<ArcadeOffset> = ArrayDeque()
 
     @Transient
     val preview = mutableListOf<Offset>()
@@ -287,8 +287,8 @@ internal class BasketballRun : ArcadeRun() {
                     (hoops.firstOrNull()?.center?.y ?: 0f) + 128f)
         )
     val baseline get() = minOf(height - 70f * unit, topInset + (height - topInset) * 0.78f)
-    var ball = Offset.Zero
-    var velocity = Offset.Zero
+    var ball: ArcadeOffset = Offset.Zero
+    var velocity: ArcadeOffset = Offset.Zero
     var camera = 0f
     var time = 0f
     var made = 0
@@ -311,7 +311,7 @@ internal class BasketballRun : ArcadeRun() {
     private var clean = true
     private var banked = false
     private var trailTimer = 0f
-    private var catchFrom = Offset.Zero
+    private var catchFrom: ArcadeOffset = Offset.Zero
 
     fun project(point: Offset): Offset = Offset(
         x = (width - 360f * unit) / 2f + point.x * unit,

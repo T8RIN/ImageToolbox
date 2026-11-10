@@ -64,15 +64,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.t8rin.imagetoolbox.core.games.ArcadeGameRegistry
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Bookmark
 import com.t8rin.imagetoolbox.core.resources.icons.BookmarkRemove
 import com.t8rin.imagetoolbox.core.resources.icons.SearchOff
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
-import com.t8rin.imagetoolbox.core.ui.utils.helper.description
-import com.t8rin.imagetoolbox.core.ui.utils.helper.icon
-import com.t8rin.imagetoolbox.core.ui.utils.helper.title
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.longPress
@@ -95,7 +93,8 @@ internal fun ArcadeGameCatalog(
     val favorites = settings.favoriteArcadeGames
     val order = settings.arcadeGameOrder
     val orderedGames = remember(order, favorites) {
-        val (favoriteGames, otherGames) = order.partition { it in favorites }
+        val (favoriteGames, otherGames) = ArcadeGameRegistry.orderedGames(order)
+            .partition { it.name in favorites }
         favoriteGames + otherGames
     }
     var games by remember(orderedGames) { mutableStateOf(orderedGames) }
@@ -163,7 +162,7 @@ internal fun ArcadeGameCatalog(
                 if (showResultsAboveSearch) filteredGames.asReversed() else filteredGames,
                 key = { it.name }
             ) { game ->
-                val isFavorite = game in favorites
+                val isFavorite = game.name in favorites
                 ReorderableItem(
                     state = if (isFavorite) favoriteReorderState else otherReorderState,
                     key = game.name,
@@ -208,7 +207,7 @@ internal fun ArcadeGameCatalog(
                                 onDragStopped = {
                                     if (games != orderedGames) {
                                         component.reorderGames(
-                                            games.filter { (it in favorites) == isFavorite }
+                                            games.filter { (it.name in favorites) == isFavorite }
                                         )
                                     }
                                 }

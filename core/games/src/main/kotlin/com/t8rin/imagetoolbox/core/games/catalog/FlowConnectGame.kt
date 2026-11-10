@@ -15,8 +15,6 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-@file:UseSerializers(ArcadeOffsetSerializer::class)
-
 package com.t8rin.imagetoolbox.core.games.catalog
 
 import androidx.compose.runtime.Composable
@@ -32,197 +30,194 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.lerp
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
-import com.t8rin.imagetoolbox.core.games.ArcadeDefaults
 import com.t8rin.imagetoolbox.core.games.ArcadeField
-import com.t8rin.imagetoolbox.core.games.ArcadeGameState
-import com.t8rin.imagetoolbox.core.games.ArcadeOffsetSerializer
+import com.t8rin.imagetoolbox.core.games.ArcadeGameContext
+import com.t8rin.imagetoolbox.core.games.ArcadeGameDefinition
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
-import com.t8rin.imagetoolbox.core.games.ArcadeStyle
+import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
-import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
+import com.t8rin.imagetoolbox.core.resources.Icons
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Route
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
-import kotlinx.serialization.UseSerializers
 import kotlin.math.abs
 import kotlin.math.ceil
 import kotlin.random.Random
 
-@Composable
-fun FlowConnectGame(
-    modifier: Modifier = Modifier,
-    initialState: ArcadeGameState = ArcadeGameState(),
-    style: ArcadeStyle = ArcadeDefaults.style,
-    onHighScoreChanged: ((Int) -> Unit)? = null,
-    onGameOver: ((Int) -> Unit)? = null,
-    isPaused: Boolean = false
-) {
-    val run = rememberArcadeRun(
-        initialState = initialState,
-        create = ::FlowConnectRun
-    )
+@RegisterArcadeGame
+internal data object FlowConnectGame : ArcadeGameDefinition {
+    override val title = R.string.arcade_flowconnect
+    override val description = R.string.arcade_flowconnect_sub
+    override val icon get() = Icons.Outlined.Route
+    override val order = 33
 
-    val routePath = remember { Path() }
+    @Composable
+    override fun Content(context: ArcadeGameContext, modifier: Modifier) {
+        val style = context.style
+        val run = rememberArcadeRun(
+            startPlaying = context.initialState.isPlaying,
+            create = ::FlowConnectRun
+        )
 
-    ArcadeBoard(
-        game = ArcadeGame.FlowConnect,
-        run = run,
-        style = style,
-        modifier = modifier,
-        initialState = initialState,
-        onHighScoreChanged = onHighScoreChanged,
-        isPaused = isPaused,
-        onGameOver = onGameOver,
-        turnBased = true
-    ) {
-        ArcadeField(
+        val routePath = remember { Path() }
+
+        ArcadeBoard(
+            context = context,
             run = run,
-            transition = { run.transition },
-            onPress = run::begin,
-            onDrag = run::drag,
-            onRelease = run::stopInput
+            modifier = modifier,
+            turnBased = true
         ) {
-            val cell = run.cell
-            val colors = listOf(
-                style.playerColor,
-                style.accentColor,
-                style.obstacleColor,
-                style.hazardColor,
-                lerp(style.playerColor, style.accentColor, 0.5f),
-                lerp(style.hazardColor, style.obstacleColor, 0.5f)
-            )
-            val area = Size(width = cell * run.columns, height = cell * run.columns)
-            drawRoundRect(
-                color = style.detailColor.copy(alpha = 0.055f),
-                topLeft = run.origin,
-                size = area,
-                cornerRadius = CornerRadius(x = 8f)
-            )
-            drawRoundRect(
-                color = style.detailColor.copy(alpha = 0.4f),
-                topLeft = run.origin,
-                size = area,
-                cornerRadius = CornerRadius(x = 8f),
-                style = Stroke(width = 1f)
-            )
-            for (index in 1 until run.columns) {
-                drawLine(
-                    color = style.detailColor.copy(alpha = 0.16f),
-                    start = run.origin + Offset(x = index * cell, y = 0f),
-                    end = run.origin + Offset(x = index * cell, y = area.height),
-                    strokeWidth = 1f
+            ArcadeField(
+                run = run,
+                transition = { run.transition },
+                onPress = run::begin,
+                onDrag = run::drag,
+                onRelease = run::stopInput
+            ) {
+                val cell = run.cell
+                val colors = listOf(
+                    style.playerColor,
+                    style.accentColor,
+                    style.obstacleColor,
+                    style.hazardColor,
+                    lerp(style.playerColor, style.accentColor, 0.5f),
+                    lerp(style.hazardColor, style.obstacleColor, 0.5f)
                 )
-                drawLine(
-                    color = style.detailColor.copy(alpha = 0.16f),
-                    start = run.origin + Offset(x = 0f, y = index * cell),
-                    end = run.origin + Offset(x = area.width, y = index * cell),
-                    strokeWidth = 1f
+                val area = Size(width = cell * run.columns, height = cell * run.columns)
+                drawRoundRect(
+                    color = style.detailColor.copy(alpha = 0.055f),
+                    topLeft = run.origin,
+                    size = area,
+                    cornerRadius = CornerRadius(x = 8f)
                 )
-            }
-            run.paths.forEachIndexed { kind, points ->
-                if (points.size > 1) {
-                    val path = routePath.apply {
-                        rewind()
-                        moveTo(run.center(points.first()).x, run.center(points.first()).y)
-                        points.drop(1).forEach { lineTo(run.center(it).x, run.center(it).y) }
-                    }
-                    val color = colors[kind]
-                    drawPath(
-                        path = path,
-                        color = color.copy(alpha = 0.12f),
-                        style = Stroke(
-                            width = cell * 0.45f,
-                            cap = StrokeCap.Round,
-                            join = StrokeJoin.Round
-                        )
+                drawRoundRect(
+                    color = style.detailColor.copy(alpha = 0.4f),
+                    topLeft = run.origin,
+                    size = area,
+                    cornerRadius = CornerRadius(x = 8f),
+                    style = Stroke(width = 1f)
+                )
+                for (index in 1 until run.columns) {
+                    drawLine(
+                        color = style.detailColor.copy(alpha = 0.16f),
+                        start = run.origin + Offset(x = index * cell, y = 0f),
+                        end = run.origin + Offset(x = index * cell, y = area.height),
+                        strokeWidth = 1f
                     )
-                    drawPath(
-                        path = path,
-                        color = color.copy(alpha = if (run.connected(kind)) 0.9f else 0.6f),
-                        style = Stroke(
-                            width = cell * 0.22f,
-                            cap = StrokeCap.Round,
-                            join = StrokeJoin.Round
-                        )
-                    )
-                    if (kind == run.active) drawCircle(
-                        color = color.copy(alpha = 0.25f),
-                        radius = cell * 0.32f,
-                        center = run.center(points.last())
+                    drawLine(
+                        color = style.detailColor.copy(alpha = 0.16f),
+                        start = run.origin + Offset(x = 0f, y = index * cell),
+                        end = run.origin + Offset(x = area.width, y = index * cell),
+                        strokeWidth = 1f
                     )
                 }
-            }
-            run.pairs.forEachIndexed { kind, pair ->
-                for (index in pair) {
-                    val p = run.center(index)
-                    val color = colors[kind]
-                    drawCircle(
-                        color = color.copy(alpha = 0.16f),
-                        radius = cell * 0.34f,
-                        center = p
-                    )
-                    drawCircle(
-                        color = color,
-                        radius = cell * 0.27f,
-                        center = p
-                    )
-                    val r = cell * 0.1f
-                    val ink = style.playerDetailColor
-                    when (kind) {
-                        0 -> drawCircle(
-                            color = ink,
-                            radius = r,
+                run.paths.forEachIndexed { kind, points ->
+                    if (points.size > 1) {
+                        val path = routePath.apply {
+                            rewind()
+                            moveTo(run.center(points.first()).x, run.center(points.first()).y)
+                            points.drop(1).forEach { lineTo(run.center(it).x, run.center(it).y) }
+                        }
+                        val color = colors[kind]
+                        drawPath(
+                            path = path,
+                            color = color.copy(alpha = 0.12f),
+                            style = Stroke(
+                                width = cell * 0.45f,
+                                cap = StrokeCap.Round,
+                                join = StrokeJoin.Round
+                            )
+                        )
+                        drawPath(
+                            path = path,
+                            color = color.copy(alpha = if (run.connected(kind)) 0.9f else 0.6f),
+                            style = Stroke(
+                                width = cell * 0.22f,
+                                cap = StrokeCap.Round,
+                                join = StrokeJoin.Round
+                            )
+                        )
+                        if (kind == run.active) drawCircle(
+                            color = color.copy(alpha = 0.25f),
+                            radius = cell * 0.32f,
+                            center = run.center(points.last())
+                        )
+                    }
+                }
+                run.pairs.forEachIndexed { kind, pair ->
+                    for (index in pair) {
+                        val p = run.center(index)
+                        val color = colors[kind]
+                        drawCircle(
+                            color = color.copy(alpha = 0.16f),
+                            radius = cell * 0.34f,
                             center = p
                         )
-
-                        1 -> drawRect(
-                            color = ink,
-                            topLeft = p - Offset(x = r, y = r),
-                            size = Size(width = r * 2f, height = r * 2f)
+                        drawCircle(
+                            color = color,
+                            radius = cell * 0.27f,
+                            center = p
                         )
+                        val r = cell * 0.1f
+                        val ink = style.playerDetailColor
+                        when (kind) {
+                            0 -> drawCircle(
+                                color = ink,
+                                radius = r,
+                                center = p
+                            )
 
-                        2 -> rotate(degrees = 45f, pivot = p) {
-                            drawRect(
+                            1 -> drawRect(
                                 color = ink,
                                 topLeft = p - Offset(x = r, y = r),
                                 size = Size(width = r * 2f, height = r * 2f)
                             )
-                        }
 
-                        3, 4 -> rotate(degrees = if (kind == 3) 0f else 45f, pivot = p) {
-                            drawLine(
+                            2 -> rotate(degrees = 45f, pivot = p) {
+                                drawRect(
+                                    color = ink,
+                                    topLeft = p - Offset(x = r, y = r),
+                                    size = Size(width = r * 2f, height = r * 2f)
+                                )
+                            }
+
+                            3, 4 -> rotate(degrees = if (kind == 3) 0f else 45f, pivot = p) {
+                                drawLine(
+                                    color = ink,
+                                    start = p - Offset(x = r * 1.2f, y = 0f),
+                                    end = p + Offset(x = r * 1.2f, y = 0f),
+                                    strokeWidth = 2f
+                                )
+                                drawLine(
+                                    color = ink,
+                                    start = p - Offset(x = 0f, y = r * 1.2f),
+                                    end = p + Offset(x = 0f, y = r * 1.2f),
+                                    strokeWidth = 2f
+                                )
+                            }
+
+                            else -> drawCircle(
                                 color = ink,
-                                start = p - Offset(x = r * 1.2f, y = 0f),
-                                end = p + Offset(x = r * 1.2f, y = 0f),
-                                strokeWidth = 2f
-                            )
-                            drawLine(
-                                color = ink,
-                                start = p - Offset(x = 0f, y = r * 1.2f),
-                                end = p + Offset(x = 0f, y = r * 1.2f),
-                                strokeWidth = 2f
+                                radius = r * 1.3f,
+                                center = p,
+                                style = Stroke(width = 2f)
                             )
                         }
-
-                        else -> drawCircle(
-                            color = ink,
-                            radius = r * 1.3f,
-                            center = p,
-                            style = Stroke(width = 2f)
-                        )
                     }
                 }
+                run.effects.draw(
+                    scope = this,
+                    color = style.accentColor
+                )
             }
-            run.effects.draw(
-                scope = this,
-                color = style.accentColor
-            )
         }
     }
 }
 
 @Serializable
-internal class FlowConnectRun : ArcadeRun() {
+private class FlowConnectRun : ArcadeRun() {
     var columns = 4
     var round = 1
     val pairs = mutableListOf<IntArray>()
@@ -395,7 +390,7 @@ internal class FlowConnectRun : ArcadeRun() {
         redraw()
     }
 
-    internal fun extend(index: Int) {
+    fun extend(index: Int) {
         if (active < 0 || index < 0 || transition > 0f) return
         val path = paths[active]
         if (index == path.last() || !adjacent(path.last(), index)) return

@@ -15,8 +15,6 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-@file:UseSerializers(ArcadeOffsetSerializer::class)
-
 package com.t8rin.imagetoolbox.core.games.catalog
 
 import androidx.compose.runtime.Composable
@@ -28,162 +26,159 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.lerp
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
-import com.t8rin.imagetoolbox.core.games.ArcadeDefaults
 import com.t8rin.imagetoolbox.core.games.ArcadeField
-import com.t8rin.imagetoolbox.core.games.ArcadeGameState
-import com.t8rin.imagetoolbox.core.games.ArcadeOffsetSerializer
+import com.t8rin.imagetoolbox.core.games.ArcadeGameContext
+import com.t8rin.imagetoolbox.core.games.ArcadeGameDefinition
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
-import com.t8rin.imagetoolbox.core.games.ArcadeStyle
+import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
 import com.t8rin.imagetoolbox.core.games.utils.arcadeStars
-import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
+import com.t8rin.imagetoolbox.core.resources.Icons
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.VectorPolyline
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
-import kotlinx.serialization.UseSerializers
 import kotlin.math.abs
 import kotlin.random.Random
 
-@Composable
-fun ZigZagGame(
-    modifier: Modifier = Modifier,
-    initialState: ArcadeGameState = ArcadeGameState(),
-    style: ArcadeStyle = ArcadeDefaults.style,
-    onHighScoreChanged: ((Int) -> Unit)? = null,
-    onGameOver: ((Int) -> Unit)? = null,
-    isPaused: Boolean = false
-) {
-    val run = rememberArcadeRun(
-        initialState = initialState,
-        create = ::ZigZagRun
-    )
-    val tilePath = remember { Path() }
-    val edgePath = remember { Path() }
-    val gemPath = remember { Path() }
+@RegisterArcadeGame
+internal data object ZigZagGame : ArcadeGameDefinition {
+    override val title = R.string.arcade_zigzag
+    override val description = R.string.arcade_zigzag_sub
+    override val icon get() = Icons.Outlined.VectorPolyline
+    override val order = 24
 
-    ArcadeBoard(
-        game = ArcadeGame.ZigZag,
-        run = run,
-        style = style,
-        modifier = modifier,
-        initialState = initialState,
-        onHighScoreChanged = onHighScoreChanged,
-        isPaused = isPaused,
-        onGameOver = onGameOver
-    ) {
-        ArcadeField(
+    @Composable
+    override fun Content(context: ArcadeGameContext, modifier: Modifier) {
+        val style = context.style
+        val run = rememberArcadeRun(
+            startPlaying = context.initialState.isPlaying,
+            create = ::ZigZagRun
+        )
+        val tilePath = remember { Path() }
+        val edgePath = remember { Path() }
+        val gemPath = remember { Path() }
+
+        ArcadeBoard(
+            context = context,
             run = run,
-            onPress = { run.turn() }
+            modifier = modifier
         ) {
-            arcadeStars(
-                style = style,
-                width = run.width,
-                height = run.height,
-                drift = run.progress * 2f
-            )
-            val tint = lerp(style.playerColor, style.accentColor, run.tint)
+            ArcadeField(
+                run = run,
+                onPress = { run.turn() }
+            ) {
+                arcadeStars(
+                    style = style,
+                    width = run.width,
+                    height = run.height,
+                    drift = run.progress * 2f
+                )
+                val tint = lerp(style.playerColor, style.accentColor, run.tint)
 
-            for ((x, y, hasGem, span) in run.tiles.asReversed()) {
-                val half = run.tileWidth * span / 2f
-                val depth = half / 2f
-                val point = run.project(x.toFloat(), y.toFloat())
-                if (point.y < -depth || point.y > run.height + depth) continue
-                val path = tilePath.apply {
-                    rewind()
-                    moveTo(point.x, point.y - depth)
-                    lineTo(point.x + half, point.y)
-                    lineTo(point.x, point.y + depth)
-                    lineTo(point.x - half, point.y)
-                    close()
-                }
-                val edge = edgePath.apply {
-                    rewind()
-                    moveTo(point.x - half, point.y)
-                    lineTo(point.x, point.y + depth)
-                    lineTo(point.x + half, point.y)
-                    lineTo(point.x + half, point.y + 5f)
-                    lineTo(point.x, point.y + depth + 5f)
-                    lineTo(point.x - half, point.y + 5f)
-                    close()
-                }
-                drawPath(
-                    path = edge,
-                    color = lerp(style.playerDetailColor, tint, 0.6f)
-                )
-                drawPath(
-                    path = path,
-                    color = lerp(style.playerDetailColor, style.obstacleColor, 0.22f)
-                )
-                drawPath(
-                    path = path,
-                    color = tint.copy(alpha = 0.65f),
-                    style = Stroke(width = 1f)
-                )
-                val face = edgePath.apply {
-                    rewind()
-                    moveTo(point.x, point.y + depth)
-                    lineTo(point.x + half, point.y)
-                    lineTo(point.x + half, point.y + 5f)
-                    lineTo(point.x, point.y + depth + 5f)
-                    close()
-                }
-                drawPath(path = face, color = lerp(style.playerDetailColor, tint, 0.4f))
-                if (hasGem) {
-                    val gem = gemPath.apply {
+                for ((x, y, hasGem, span) in run.tiles.asReversed()) {
+                    val half = run.tileWidth * span / 2f
+                    val depth = half / 2f
+                    val point = run.project(x.toFloat(), y.toFloat())
+                    if (point.y < -depth || point.y > run.height + depth) continue
+                    val path = tilePath.apply {
                         rewind()
-                        moveTo(point.x, point.y - 12f)
-                        lineTo(point.x + 5f, point.y - 5f)
-                        lineTo(point.x, point.y + 2f)
-                        lineTo(point.x - 5f, point.y - 5f)
+                        moveTo(point.x, point.y - depth)
+                        lineTo(point.x + half, point.y)
+                        lineTo(point.x, point.y + depth)
+                        lineTo(point.x - half, point.y)
                         close()
                     }
-                    drawCircle(
-                        color = style.accentColor.copy(alpha = 0.12f),
-                        radius = 10f,
-                        center = point - Offset(x = 0f, y = 5f)
+                    val edge = edgePath.apply {
+                        rewind()
+                        moveTo(point.x - half, point.y)
+                        lineTo(point.x, point.y + depth)
+                        lineTo(point.x + half, point.y)
+                        lineTo(point.x + half, point.y + 5f)
+                        lineTo(point.x, point.y + depth + 5f)
+                        lineTo(point.x - half, point.y + 5f)
+                        close()
+                    }
+                    drawPath(
+                        path = edge,
+                        color = lerp(style.playerDetailColor, tint, 0.6f)
                     )
                     drawPath(
-                        path = gem,
-                        color = style.accentColor
+                        path = path,
+                        color = lerp(style.playerDetailColor, style.obstacleColor, 0.22f)
                     )
-                    drawLine(
-                        color = style.playerDetailColor.copy(alpha = 0.55f),
-                        start = point - Offset(x = 0f, y = 10f),
-                        end = point,
-                        strokeWidth = 1f
+                    drawPath(
+                        path = path,
+                        color = tint.copy(alpha = 0.65f),
+                        style = Stroke(width = 1f)
                     )
+                    val face = edgePath.apply {
+                        rewind()
+                        moveTo(point.x, point.y + depth)
+                        lineTo(point.x + half, point.y)
+                        lineTo(point.x + half, point.y + 5f)
+                        lineTo(point.x, point.y + depth + 5f)
+                        close()
+                    }
+                    drawPath(path = face, color = lerp(style.playerDetailColor, tint, 0.4f))
+                    if (hasGem) {
+                        val gem = gemPath.apply {
+                            rewind()
+                            moveTo(point.x, point.y - 12f)
+                            lineTo(point.x + 5f, point.y - 5f)
+                            lineTo(point.x, point.y + 2f)
+                            lineTo(point.x - 5f, point.y - 5f)
+                            close()
+                        }
+                        drawCircle(
+                            color = style.accentColor.copy(alpha = 0.12f),
+                            radius = 10f,
+                            center = point - Offset(x = 0f, y = 5f)
+                        )
+                        drawPath(
+                            path = gem,
+                            color = style.accentColor
+                        )
+                        drawLine(
+                            color = style.playerDetailColor.copy(alpha = 0.55f),
+                            start = point - Offset(x = 0f, y = 10f),
+                            end = point,
+                            strokeWidth = 1f
+                        )
+                    }
                 }
+                val point = run.project(run.x, run.y)
+                val falling = run.fall.coerceAtLeast(0f)
+                val radius = run.tileWidth * 0.12f * (1f - falling * 0.5f)
+                drawOval(
+                    color = style.playerDetailColor.copy(alpha = 0.2f),
+                    topLeft = point - Offset(x = radius, y = 1f),
+                    size = Size(width = radius * 2f, height = radius)
+                )
+                val ball = point + Offset(x = 0f, y = -radius + falling * falling * 100f)
+                drawCircle(
+                    color = style.playerColor.copy(alpha = 1f - falling),
+                    radius = radius,
+                    center = ball
+                )
+                drawCircle(
+                    color = style.playerDetailColor.copy(alpha = (1f - falling) * 0.7f),
+                    radius = radius * 0.28f,
+                    center = ball - Offset(x = radius * 0.28f, y = radius * 0.3f)
+                )
+                run.effects.draw(
+                    scope = this,
+                    color = style.accentColor
+                )
             }
-            val point = run.project(run.x, run.y)
-            val falling = run.fall.coerceAtLeast(0f)
-            val radius = run.tileWidth * 0.12f * (1f - falling * 0.5f)
-            drawOval(
-                color = style.playerDetailColor.copy(alpha = 0.2f),
-                topLeft = point - Offset(x = radius, y = 1f),
-                size = Size(width = radius * 2f, height = radius)
-            )
-            val ball = point + Offset(x = 0f, y = -radius + falling * falling * 100f)
-            drawCircle(
-                color = style.playerColor.copy(alpha = 1f - falling),
-                radius = radius,
-                center = ball
-            )
-            drawCircle(
-                color = style.playerDetailColor.copy(alpha = (1f - falling) * 0.7f),
-                radius = radius * 0.28f,
-                center = ball - Offset(x = radius * 0.28f, y = radius * 0.3f)
-            )
-            run.effects.draw(
-                scope = this,
-                color = style.accentColor
-            )
         }
     }
 }
 
 @Serializable
-internal data class ZigZagTile(
+private data class ZigZagTile(
     val x: Int,
     val y: Int,
     var gem: Boolean,
@@ -191,7 +186,7 @@ internal data class ZigZagTile(
 )
 
 @Serializable
-internal class ZigZagRun : ArcadeRun() {
+private class ZigZagRun : ArcadeRun() {
     val tiles = mutableListOf<ZigZagTile>()
 
     @Transient
@@ -272,7 +267,7 @@ internal class ZigZagRun : ArcadeRun() {
         direction = 1 - direction
     }
 
-    internal fun supported(
+    fun supported(
         x: Float,
         y: Float
     ): Boolean = tiles.any {

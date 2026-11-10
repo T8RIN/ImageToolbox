@@ -22,9 +22,9 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.longPreferencesKey
+import com.t8rin.imagetoolbox.core.games.ArcadeGameRegistry
 import com.t8rin.imagetoolbox.core.games.ArcadeGameStatistics
 import com.t8rin.imagetoolbox.core.games.ArcadeStatisticsRepository
-import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -33,10 +33,11 @@ internal class AndroidArcadeStatisticsRepository @Inject constructor(
     private val dataStore: DataStore<Preferences>
 ) : ArcadeStatisticsRepository {
 
-    private val keys = ArcadeGame.playable.associateWith(::StatisticsKeys)
+    private val keys = ArcadeGameRegistry.games.associate { it.name to StatisticsKeys(it.name) }
 
     override val statistics: Flow<List<ArcadeGameStatistics>> = dataStore.data.map { preferences ->
-        keys.mapNotNull { (game, keys) ->
+        ArcadeGameRegistry.games.mapNotNull { game ->
+            val keys = keys.getValue(game.name)
             val startedRounds = preferences[keys.startedRounds] ?: 0
             val finishedRounds = preferences[keys.finishedRounds] ?: 0
             if (startedRounds == 0 && finishedRounds == 0) {
@@ -53,11 +54,11 @@ internal class AndroidArcadeStatisticsRepository @Inject constructor(
         }.sortedByDescending { it.lastPlayed }
     }
 
-    override fun highScore(game: ArcadeGame): Flow<Int> = dataStore.data.map {
+    override fun highScore(game: String): Flow<Int> = dataStore.data.map {
         it[keys.getValue(game).highScore] ?: 0
     }
 
-    override suspend fun recordStart(game: ArcadeGame, startedAt: Long) {
+    override suspend fun recordStart(game: String, startedAt: Long) {
         val keys = keys.getValue(game)
         dataStore.edit {
             it[keys.startedRounds] = (it[keys.startedRounds] ?: 0) + 1
@@ -65,7 +66,7 @@ internal class AndroidArcadeStatisticsRepository @Inject constructor(
         }
     }
 
-    override suspend fun recordFinish(game: ArcadeGame, score: Int, trackRound: Boolean) {
+    override suspend fun recordFinish(game: String, score: Int, trackRound: Boolean) {
         val keys = keys.getValue(game)
         dataStore.edit {
             val highScore = it[keys.highScore]
@@ -89,8 +90,8 @@ internal class AndroidArcadeStatisticsRepository @Inject constructor(
         }
     }
 
-    private class StatisticsKeys(game: ArcadeGame) {
-        private val prefix = "ARCADE_${game.name.uppercase()}"
+    private class StatisticsKeys(game: String) {
+        private val prefix = "ARCADE_${game.uppercase()}"
         val highScore = intPreferencesKey("${prefix}_HIGH_SCORE")
         val startedRounds = intPreferencesKey("${prefix}_STARTED_ROUNDS")
         val finishedRounds = intPreferencesKey("${prefix}_FINISHED_ROUNDS")

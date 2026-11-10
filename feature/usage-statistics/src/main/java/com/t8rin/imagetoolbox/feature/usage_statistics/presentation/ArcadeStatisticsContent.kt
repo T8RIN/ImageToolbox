@@ -56,9 +56,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.FinanceMode
 import com.t8rin.imagetoolbox.core.resources.icons.Flag
 import com.t8rin.imagetoolbox.core.resources.icons.Info
 import com.t8rin.imagetoolbox.core.resources.icons.StadiaController
-import com.t8rin.imagetoolbox.core.ui.utils.helper.icon
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
-import com.t8rin.imagetoolbox.core.ui.utils.helper.title
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalWindowSizeClass
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ResetDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBadge

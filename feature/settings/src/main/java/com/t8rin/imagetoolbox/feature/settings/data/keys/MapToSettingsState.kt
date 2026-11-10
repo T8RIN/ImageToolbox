@@ -29,7 +29,6 @@ import com.t8rin.imagetoolbox.core.domain.model.AssistantModel
 import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.DomainAspectRatio
 import com.t8rin.imagetoolbox.core.domain.model.SystemBarsVisibility
-import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
 import com.t8rin.imagetoolbox.core.settings.domain.model.CacheAutoClearInterval
 import com.t8rin.imagetoolbox.core.settings.domain.model.ColorHarmonizer
 import com.t8rin.imagetoolbox.core.settings.domain.model.CopyToClipboardMode
@@ -39,6 +38,7 @@ import com.t8rin.imagetoolbox.core.settings.domain.model.FastSettingsSide
 import com.t8rin.imagetoolbox.core.settings.domain.model.FilenameBehavior
 import com.t8rin.imagetoolbox.core.settings.domain.model.FlingType
 import com.t8rin.imagetoolbox.core.settings.domain.model.ImageHeaderState
+import com.t8rin.imagetoolbox.core.settings.domain.model.LoadingGame
 import com.t8rin.imagetoolbox.core.settings.domain.model.MarkupLayerTextDefaults
 import com.t8rin.imagetoolbox.core.settings.domain.model.NightMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.OneTimeSaveLocation
@@ -201,10 +201,12 @@ internal fun Preferences.toSettingsState(
         ?: default.showSettingsInLandscape,
     showLoadingGameButton = this[SHOW_LOADING_GAME_BUTTON]
         ?: default.showLoadingGameButton,
-    loadingGame = ArcadeGame.entries.find { it.name == this[LOADING_GAME] } ?: default.loadingGame,
-    favoriteArcadeGames = this[FAVORITE_ARCADE_GAMES].orEmpty().let { favorites ->
-        ArcadeGame.playable.filterTo(mutableSetOf()) { it.name in favorites }
+    loadingGame = when (val game = this[LOADING_GAME]) {
+        LoadingGame.Random.preferenceValue -> LoadingGame.Random
+        LoadingGame.RandomFavorite.preferenceValue -> LoadingGame.RandomFavorite
+        else -> game?.let { LoadingGame.Specific(it) } ?: default.loadingGame
     },
+    favoriteArcadeGames = this[FAVORITE_ARCADE_GAMES].orEmpty(),
     arcadeGameOrder = arcadeGameOrder(),
     useFullscreenSettings = this[USE_FULLSCREEN_SETTINGS]
         ?: default.useFullscreenSettings,
@@ -486,8 +488,5 @@ private fun Set<String>?.toCustomFonts(): List<DomainFontFamily.Custom> = this?.
 internal fun String?.toScreenOrder(): List<Int> =
     this?.split("/")?.mapNotNull { it.toIntOrNull() }.orEmpty()
 
-internal fun Preferences.arcadeGameOrder(): List<ArcadeGame> {
-    val playable = ArcadeGame.playable.associateBy { it.name }
-    val order = this[ARCADE_GAME_ORDER]?.split("/")?.mapNotNull(playable::get).orEmpty()
-    return (order + ArcadeGame.playable).distinct()
-}
+internal fun Preferences.arcadeGameOrder(): List<String> =
+    this[ARCADE_GAME_ORDER]?.split("/").orEmpty()

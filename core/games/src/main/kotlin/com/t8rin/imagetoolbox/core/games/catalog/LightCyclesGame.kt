@@ -15,8 +15,6 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-@file:UseSerializers(ArcadeOffsetSerializer::class, ArcadeDequeSerializer::class)
-
 package com.t8rin.imagetoolbox.core.games.catalog
 
 import androidx.compose.runtime.Composable
@@ -34,26 +32,276 @@ import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.drawscope.translate
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
-import com.t8rin.imagetoolbox.core.games.ArcadeDefaults
-import com.t8rin.imagetoolbox.core.games.ArcadeDequeSerializer
+import com.t8rin.imagetoolbox.core.games.ArcadeDeque
 import com.t8rin.imagetoolbox.core.games.ArcadeField
-import com.t8rin.imagetoolbox.core.games.ArcadeGameState
-import com.t8rin.imagetoolbox.core.games.ArcadeOffsetSerializer
+import com.t8rin.imagetoolbox.core.games.ArcadeGameContext
+import com.t8rin.imagetoolbox.core.games.ArcadeGameDefinition
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.ArcadeSprite
-import com.t8rin.imagetoolbox.core.games.ArcadeStyle
+import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
-import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
+import com.t8rin.imagetoolbox.core.resources.Icons
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.TwoWheeler
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
-import kotlinx.serialization.UseSerializers
 import kotlin.math.abs
 import kotlin.math.sin
 import kotlin.random.Random
+
+@RegisterArcadeGame
+internal data object LightCyclesGame : ArcadeGameDefinition {
+    override val title = R.string.arcade_lightcycles
+    override val description = R.string.arcade_lightcycles_sub
+    override val icon get() = Icons.Outlined.TwoWheeler
+    override val order = 29
+
+    @Composable
+    override fun Content(context: ArcadeGameContext, modifier: Modifier) {
+        val style = context.style
+        val run = rememberArcadeRun(
+            startPlaying = context.initialState.isPlaying,
+            create = ::LightCyclesRun
+        )
+        val boltPath = remember { Path() }
+        val beamPath = remember { Path() }
+
+        ArcadeBoard(
+            context = context,
+            run = run,
+            modifier = modifier
+        ) {
+            ArcadeField(
+                run = run,
+                transition = { run.transition },
+                onTap = { run.turn(if (it.x < run.width / 2f) -1 else 1) },
+                onSwipe = run::steer,
+                swipeOnDrag = true
+            ) {
+                val cell = run.cell
+                val origin = run.origin
+                val area = Size(width = run.columns * cell, height = run.rows * cell)
+                val outline =
+                    Path().apply {
+                        addRoundRect(
+                            RoundRect(
+                                Rect(origin, area),
+                                CornerRadius(x = 10f)
+                            )
+                        )
+                    }
+                clipPath(outline) {
+                    drawRect(
+                        color = style.detailColor.copy(alpha = 0.035f),
+                        topLeft = origin,
+                        size = area
+                    )
+                    for (index in run.board.indices) {
+                        val point =
+                            origin + Offset(
+                                x = index % run.columns * cell,
+                                y = index / run.columns * cell
+                            )
+                        val x = index % run.columns
+                        val y = index / run.columns
+                        if (run.board[index] < 0 && x in 1 until run.columns - 1 && y in 1 until run.rows - 1) {
+                            pixelRect(
+                                color = style.obstacleColor.copy(alpha = 0.12f),
+                                x = point.x + 1f,
+                                y = point.y + 1f,
+                                width = cell - 2f,
+                                height = cell - 2f
+                            )
+                            val edge = cell * 0.3f
+                            for (dx in listOf(1f, cell - edge - 1f)) {
+                                pixelRect(
+                                    color = style.obstacleColor.copy(alpha = 0.7f),
+                                    x = point.x + dx,
+                                    y = point.y + 1f,
+                                    width = edge,
+                                    height = 1f
+                                )
+                                pixelRect(
+                                    color = style.obstacleColor.copy(alpha = 0.7f),
+                                    x = point.x + dx,
+                                    y = point.y + cell - 2f,
+                                    width = edge,
+                                    height = 1f
+                                )
+                            }
+                            pixelRect(
+                                color = style.obstacleColor.copy(alpha = 0.7f),
+                                x = point.x + 1f,
+                                y = point.y + 1f,
+                                width = 1f,
+                                height = cell - 2f
+                            )
+                            pixelRect(
+                                color = style.obstacleColor.copy(alpha = 0.7f),
+                                x = point.x + cell - 2f,
+                                y = point.y + 1f,
+                                width = 1f,
+                                height = cell - 2f
+                            )
+                        } else if (index % run.columns % 2 == 0 && index / run.columns % 2 == 0) {
+                            pixelRect(
+                                color = style.detailColor.copy(alpha = 0.25f),
+                                x = point.x,
+                                y = point.y,
+                                width = 1f,
+                                height = 1f
+                            )
+                        }
+                    }
+                    for (pickup in run.pickups) {
+                        val point = run.center(pickup)
+                        val r =
+                            cell * (0.48f + sin(run.time * 5f) * 0.06f)
+                        drawCircle(
+                            color = style.accentColor.copy(alpha = 0.15f),
+                            radius = r,
+                            center = point
+                        )
+                        val bolt = boltPath.apply {
+                            rewind()
+                            moveTo(point.x + cell * 0.1f, point.y - cell * 0.38f)
+                            lineTo(point.x - cell * 0.25f, point.y + cell * 0.06f)
+                            lineTo(point.x, point.y + cell * 0.06f)
+                            lineTo(point.x - cell * 0.1f, point.y + cell * 0.38f)
+                            lineTo(point.x + cell * 0.25f, point.y - cell * 0.06f)
+                            lineTo(point.x, point.y - cell * 0.06f)
+                            close()
+                        }
+                        drawPath(
+                            path = bolt,
+                            color = style.accentColor
+                        )
+                    }
+                    run.cycles.forEachIndexed { index, cycle ->
+                        val color = when (index) {
+                            0 -> style.playerColor
+                            1 -> style.hazardColor
+                            2 -> style.accentColor
+                            else -> style.obstacleColor
+                        }
+                        val ink = color.copy(alpha = if (cycle.alive) 1f else 0.45f)
+                        translate(left = origin.x, top = origin.y) {
+                            scale(scale = cell, pivot = Offset.Zero) {
+                                drawPath(
+                                    path = cycle.path,
+                                    color = ink.copy(alpha = 0.16f),
+                                    style = Stroke(width = 0.8f)
+                                )
+                                drawPath(
+                                    path = cycle.path,
+                                    color = ink,
+                                    style = Stroke(width = 0.28f)
+                                )
+                            }
+                        }
+                        val point = run.center(cycle.previous) +
+                                (run.center(cycle.position) - run.center(cycle.previous)) * run.progress
+                        drawLine(
+                            color = ink,
+                            start = run.center(cycle.previous),
+                            end = point,
+                            strokeWidth = cell * 0.28f
+                        )
+                        if (cycle.alive) rotate(degrees = cycle.direction * 90f, pivot = point) {
+                            val beam = beamPath.apply {
+                                rewind()
+                                moveTo(point.x + cell * 0.3f, point.y)
+                                lineTo(point.x + cell * 1.8f, point.y - cell * 0.6f)
+                                lineTo(point.x + cell * 1.8f, point.y + cell * 0.6f)
+                                close()
+                            }
+                            drawPath(
+                                path = beam,
+                                color = ink.copy(alpha = 0.1f)
+                            )
+                            if (cycle.charged) drawCircle(
+                                color = style.accentColor,
+                                radius = cell * 0.6f,
+                                center = point,
+                                style = Stroke(width = 1f)
+                            )
+                            if (cycle.phaseTime > 0f) drawArc(
+                                color = style.accentColor,
+                                startAngle = -90f - cycle.direction * 90f,
+                                sweepAngle = 360f * cycle.phaseTime / 1.6f,
+                                useCenter = false,
+                                topLeft = point - Offset(x = cell * 0.7f, y = cell * 0.7f),
+                                size = Size(width = cell * 1.4f, height = cell * 1.4f),
+                                style = Stroke(width = 2f)
+                            )
+                            scale(scale = cell * 0.95f / 24f, pivot = point) {
+                                drawArcadeSprite(
+                                    sprite = LightCycleBody,
+                                    tint = ink,
+                                    x = point.x - 12f,
+                                    y = point.y - 8f
+                                )
+                                drawArcadeSprite(
+                                    sprite = LightCycleRider,
+                                    tint = style.playerDetailColor,
+                                    x = point.x - 12f,
+                                    y = point.y - 8f
+                                )
+                            }
+                        }
+                    }
+                }
+                val inner = Rect(
+                    origin + Offset(x = cell, y = cell),
+                    Size(width = area.width - cell * 2f, height = area.height - cell * 2f)
+                )
+                drawRoundRect(
+                    color = style.playerColor.copy(alpha = 0.35f),
+                    topLeft = inner.topLeft,
+                    size = inner.size,
+                    cornerRadius = CornerRadius(x = 5f),
+                    style = Stroke(width = 1f)
+                )
+                for (corner in listOf(
+                    inner.topLeft,
+                    inner.topRight,
+                    inner.bottomLeft,
+                    inner.bottomRight
+                )) {
+                    val dx = if (corner.x == inner.left) 1f else -1f
+                    val dy = if (corner.y == inner.top) 1f else -1f
+                    drawLine(
+                        color = style.accentColor.copy(alpha = 0.8f),
+                        start = corner,
+                        end = corner + Offset(x = dx * 12f, y = 0f),
+                        strokeWidth = 2f
+                    )
+                    drawLine(
+                        color = style.accentColor.copy(alpha = 0.8f),
+                        start = corner,
+                        end = corner + Offset(x = 0f, y = dy * 12f),
+                        strokeWidth = 2f
+                    )
+                }
+                drawRoundRect(
+                    color = style.detailColor.copy(alpha = 0.2f),
+                    topLeft = origin,
+                    size = area,
+                    cornerRadius = CornerRadius(x = 10f),
+                    style = Stroke(width = 1f)
+                )
+                run.effects.draw(
+                    scope = this,
+                    color = style.accentColor
+                )
+            }
+        }
+    }
+}
 
 private val LightCycleBody = ArcadeSprite(
     width = 24,
@@ -67,254 +315,8 @@ private val LightCycleRider = ArcadeSprite(
     data = "M9 5H14V6H17V10H14V11H9Z"
 )
 
-@Composable
-fun LightCyclesGame(
-    modifier: Modifier = Modifier,
-    initialState: ArcadeGameState = ArcadeGameState(),
-    style: ArcadeStyle = ArcadeDefaults.style,
-    onHighScoreChanged: ((Int) -> Unit)? = null,
-    onGameOver: ((Int) -> Unit)? = null,
-    isPaused: Boolean = false
-) {
-    val run = rememberArcadeRun(
-        initialState = initialState,
-        create = ::LightCyclesRun
-    )
-    val boltPath = remember { Path() }
-    val beamPath = remember { Path() }
-
-    ArcadeBoard(
-        game = ArcadeGame.LightCycles,
-        run = run,
-        style = style,
-        modifier = modifier,
-        initialState = initialState,
-        onHighScoreChanged = onHighScoreChanged,
-        isPaused = isPaused,
-        onGameOver = onGameOver
-    ) {
-        ArcadeField(
-            run = run,
-            transition = { run.transition },
-            onTap = { run.turn(if (it.x < run.width / 2f) -1 else 1) },
-            onSwipe = run::steer,
-            swipeOnDrag = true
-        ) {
-            val cell = run.cell
-            val origin = run.origin
-            val area = Size(width = run.columns * cell, height = run.rows * cell)
-            val outline =
-                Path().apply { addRoundRect(RoundRect(Rect(origin, area), CornerRadius(x = 10f))) }
-            clipPath(outline) {
-                drawRect(
-                    color = style.detailColor.copy(alpha = 0.035f),
-                    topLeft = origin,
-                    size = area
-                )
-                for (index in run.board.indices) {
-                    val point =
-                        origin + Offset(
-                            x = index % run.columns * cell,
-                            y = index / run.columns * cell
-                        )
-                    val x = index % run.columns
-                    val y = index / run.columns
-                    if (run.board[index] < 0 && x in 1 until run.columns - 1 && y in 1 until run.rows - 1) {
-                        pixelRect(
-                            color = style.obstacleColor.copy(alpha = 0.12f),
-                            x = point.x + 1f,
-                            y = point.y + 1f,
-                            width = cell - 2f,
-                            height = cell - 2f
-                        )
-                        val edge = cell * 0.3f
-                        for (dx in listOf(1f, cell - edge - 1f)) {
-                            pixelRect(
-                                color = style.obstacleColor.copy(alpha = 0.7f),
-                                x = point.x + dx,
-                                y = point.y + 1f,
-                                width = edge,
-                                height = 1f
-                            )
-                            pixelRect(
-                                color = style.obstacleColor.copy(alpha = 0.7f),
-                                x = point.x + dx,
-                                y = point.y + cell - 2f,
-                                width = edge,
-                                height = 1f
-                            )
-                        }
-                        pixelRect(
-                            color = style.obstacleColor.copy(alpha = 0.7f),
-                            x = point.x + 1f,
-                            y = point.y + 1f,
-                            width = 1f,
-                            height = cell - 2f
-                        )
-                        pixelRect(
-                            color = style.obstacleColor.copy(alpha = 0.7f),
-                            x = point.x + cell - 2f,
-                            y = point.y + 1f,
-                            width = 1f,
-                            height = cell - 2f
-                        )
-                    } else if (index % run.columns % 2 == 0 && index / run.columns % 2 == 0) {
-                        pixelRect(
-                            color = style.detailColor.copy(alpha = 0.25f),
-                            x = point.x,
-                            y = point.y,
-                            width = 1f,
-                            height = 1f
-                        )
-                    }
-                }
-                for (pickup in run.pickups) {
-                    val point = run.center(pickup)
-                    val r =
-                        cell * (0.48f + sin(run.time * 5f) * 0.06f)
-                    drawCircle(
-                        color = style.accentColor.copy(alpha = 0.15f),
-                        radius = r,
-                        center = point
-                    )
-                    val bolt = boltPath.apply {
-                        rewind()
-                        moveTo(point.x + cell * 0.1f, point.y - cell * 0.38f)
-                        lineTo(point.x - cell * 0.25f, point.y + cell * 0.06f)
-                        lineTo(point.x, point.y + cell * 0.06f)
-                        lineTo(point.x - cell * 0.1f, point.y + cell * 0.38f)
-                        lineTo(point.x + cell * 0.25f, point.y - cell * 0.06f)
-                        lineTo(point.x, point.y - cell * 0.06f)
-                        close()
-                    }
-                    drawPath(
-                        path = bolt,
-                        color = style.accentColor
-                    )
-                }
-                run.cycles.forEachIndexed { index, cycle ->
-                    val color = when (index) {
-                        0 -> style.playerColor
-                        1 -> style.hazardColor
-                        2 -> style.accentColor
-                        else -> style.obstacleColor
-                    }
-                    val ink = color.copy(alpha = if (cycle.alive) 1f else 0.45f)
-                    translate(left = origin.x, top = origin.y) {
-                        scale(scale = cell, pivot = Offset.Zero) {
-                            drawPath(
-                                path = cycle.path,
-                                color = ink.copy(alpha = 0.16f),
-                                style = Stroke(width = 0.8f)
-                            )
-                            drawPath(
-                                path = cycle.path,
-                                color = ink,
-                                style = Stroke(width = 0.28f)
-                            )
-                        }
-                    }
-                    val point = run.center(cycle.previous) +
-                            (run.center(cycle.position) - run.center(cycle.previous)) * run.progress
-                    drawLine(
-                        color = ink,
-                        start = run.center(cycle.previous),
-                        end = point,
-                        strokeWidth = cell * 0.28f
-                    )
-                    if (cycle.alive) rotate(degrees = cycle.direction * 90f, pivot = point) {
-                        val beam = beamPath.apply {
-                            rewind()
-                            moveTo(point.x + cell * 0.3f, point.y)
-                            lineTo(point.x + cell * 1.8f, point.y - cell * 0.6f)
-                            lineTo(point.x + cell * 1.8f, point.y + cell * 0.6f)
-                            close()
-                        }
-                        drawPath(
-                            path = beam,
-                            color = ink.copy(alpha = 0.1f)
-                        )
-                        if (cycle.charged) drawCircle(
-                            color = style.accentColor,
-                            radius = cell * 0.6f,
-                            center = point,
-                            style = Stroke(width = 1f)
-                        )
-                        if (cycle.phaseTime > 0f) drawArc(
-                            color = style.accentColor,
-                            startAngle = -90f - cycle.direction * 90f,
-                            sweepAngle = 360f * cycle.phaseTime / 1.6f,
-                            useCenter = false,
-                            topLeft = point - Offset(x = cell * 0.7f, y = cell * 0.7f),
-                            size = Size(width = cell * 1.4f, height = cell * 1.4f),
-                            style = Stroke(width = 2f)
-                        )
-                        scale(scale = cell * 0.95f / 24f, pivot = point) {
-                            drawArcadeSprite(
-                                sprite = LightCycleBody,
-                                tint = ink,
-                                x = point.x - 12f,
-                                y = point.y - 8f
-                            )
-                            drawArcadeSprite(
-                                sprite = LightCycleRider,
-                                tint = style.playerDetailColor,
-                                x = point.x - 12f,
-                                y = point.y - 8f
-                            )
-                        }
-                    }
-                }
-            }
-            val inner = Rect(
-                origin + Offset(x = cell, y = cell),
-                Size(width = area.width - cell * 2f, height = area.height - cell * 2f)
-            )
-            drawRoundRect(
-                color = style.playerColor.copy(alpha = 0.35f),
-                topLeft = inner.topLeft,
-                size = inner.size,
-                cornerRadius = CornerRadius(x = 5f),
-                style = Stroke(width = 1f)
-            )
-            for (corner in listOf(
-                inner.topLeft,
-                inner.topRight,
-                inner.bottomLeft,
-                inner.bottomRight
-            )) {
-                val dx = if (corner.x == inner.left) 1f else -1f
-                val dy = if (corner.y == inner.top) 1f else -1f
-                drawLine(
-                    color = style.accentColor.copy(alpha = 0.8f),
-                    start = corner,
-                    end = corner + Offset(x = dx * 12f, y = 0f),
-                    strokeWidth = 2f
-                )
-                drawLine(
-                    color = style.accentColor.copy(alpha = 0.8f),
-                    start = corner,
-                    end = corner + Offset(x = 0f, y = dy * 12f),
-                    strokeWidth = 2f
-                )
-            }
-            drawRoundRect(
-                color = style.detailColor.copy(alpha = 0.2f),
-                topLeft = origin,
-                size = area,
-                cornerRadius = CornerRadius(x = 10f),
-                style = Stroke(width = 1f)
-            )
-            run.effects.draw(
-                scope = this,
-                color = style.accentColor
-            )
-        }
-    }
-}
-
 @Serializable
-internal class LightCycle(
+private class LightCycle(
     var position: Int,
     var previous: Int,
     var direction: Int,
@@ -329,7 +331,7 @@ internal class LightCycle(
 }
 
 @Serializable
-internal class LightCyclesRun : ArcadeRun() {
+private class LightCyclesRun : ArcadeRun() {
     val columns = 25
     var rows = 15
     var board = IntArray(columns * rows)
@@ -344,7 +346,7 @@ internal class LightCyclesRun : ArcadeRun() {
     var transition = 0f
         private set
     private var steps = 0
-    private val turns = ArrayDeque<Int>()
+    private val turns: ArcadeDeque<Int> = ArrayDeque()
 
     @Transient
     private var visited = IntArray(board.size)
@@ -509,7 +511,7 @@ internal class LightCyclesRun : ArcadeRun() {
         }
     }
 
-    internal fun step() {
+    fun step() {
         if (turns.isNotEmpty()) cycles.first().direction = turns.removeFirst()
         cycles.drop(1).filter { it.alive }.forEach { it.direction = choose(it) }
         val destinations = cycles.map { if (it.alive) next(it.position, it.direction) else -1 }

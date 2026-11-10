@@ -16,18 +16,16 @@
  */
 
 package com.t8rin.imagetoolbox.core.games
-
-import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
 import kotlinx.coroutines.flow.Flow
 
 interface ArcadeStatisticsRepository {
     val statistics: Flow<List<ArcadeGameStatistics>>
 
-    fun highScore(game: ArcadeGame): Flow<Int>
+    fun highScore(game: String): Flow<Int>
 
-    suspend fun recordStart(game: ArcadeGame, startedAt: Long)
+    suspend fun recordStart(game: String, startedAt: Long)
 
-    suspend fun recordFinish(game: ArcadeGame, score: Int, trackRound: Boolean)
+    suspend fun recordFinish(game: String, score: Int, trackRound: Boolean)
 
     suspend fun resetStatistics()
 }

@@ -15,8 +15,6 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-@file:UseSerializers(ArcadeOffsetSerializer::class)
-
 package com.t8rin.imagetoolbox.core.games.catalog
 
 import androidx.compose.runtime.Composable
@@ -24,115 +22,113 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
-import com.t8rin.imagetoolbox.core.games.ArcadeDefaults
 import com.t8rin.imagetoolbox.core.games.ArcadeField
-import com.t8rin.imagetoolbox.core.games.ArcadeGameState
-import com.t8rin.imagetoolbox.core.games.ArcadeOffsetSerializer
+import com.t8rin.imagetoolbox.core.games.ArcadeGameContext
+import com.t8rin.imagetoolbox.core.games.ArcadeGameDefinition
+import com.t8rin.imagetoolbox.core.games.ArcadeOffset
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
-import com.t8rin.imagetoolbox.core.games.ArcadeStyle
+import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
-import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
+import com.t8rin.imagetoolbox.core.resources.Icons
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.SportsTennis
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.UseSerializers
 import kotlin.math.abs
 import kotlin.random.Random
 
-private const val BallHalf = 5f
-private const val PaddleEdge = 22f
+@RegisterArcadeGame
+internal data object PongGame : ArcadeGameDefinition {
+    override val title = R.string.arcade_pong
+    override val description = R.string.arcade_pong_sub
+    override val icon get() = Icons.Outlined.SportsTennis
+    override val order = 4
 
-@Composable
-fun PongGame(
-    modifier: Modifier = Modifier,
-    initialState: ArcadeGameState = ArcadeGameState(),
-    style: ArcadeStyle = ArcadeDefaults.style,
-    onHighScoreChanged: ((Int) -> Unit)? = null,
-    onGameOver: ((Int) -> Unit)? = null,
-    isPaused: Boolean = false
-) {
-    val run = rememberArcadeRun(
-        initialState = initialState,
-        create = ::PongRun
-    )
+    @Composable
+    override fun Content(context: ArcadeGameContext, modifier: Modifier) {
+        val style = context.style
+        val run = rememberArcadeRun(
+            startPlaying = context.initialState.isPlaying,
+            create = ::PongRun
+        )
 
-    ArcadeBoard(
-        game = ArcadeGame.Pong,
-        run = run,
-        style = style,
-        modifier = modifier,
-        initialState = initialState,
-        onHighScoreChanged = onHighScoreChanged,
-        isPaused = isPaused,
-        onGameOver = onGameOver
-    ) {
-        ArcadeField(
+        ArcadeBoard(
+            context = context,
             run = run,
-            onPress = { run.steer(it.y) },
-            onDrag = { run.steer(it.y) }
+            modifier = modifier
         ) {
-            var y = run.top
-            while (y < run.bottom) {
+            ArcadeField(
+                run = run,
+                onPress = { run.steer(it.y) },
+                onDrag = { run.steer(it.y) }
+            ) {
+                var y = run.top
+                while (y < run.bottom) {
+                    pixelRect(
+                        color = style.detailColor,
+                        x = run.width / 2 - 1,
+                        y = y,
+                        width = 2f,
+                        height = minOf(8f, run.bottom - y)
+                    )
+                    y += 18f
+                }
                 pixelRect(
                     color = style.detailColor,
-                    x = run.width / 2 - 1,
-                    y = y,
-                    width = 2f,
-                    height = minOf(8f, run.bottom - y)
+                    x = 0f,
+                    y = run.top - 2,
+                    width = run.width,
+                    height = 1f
                 )
-                y += 18f
-            }
-            pixelRect(
-                color = style.detailColor,
-                x = 0f,
-                y = run.top - 2,
-                width = run.width,
-                height = 1f
-            )
-            pixelRect(
-                color = style.detailColor,
-                x = 0f,
-                y = run.bottom + 1,
-                width = run.width,
-                height = 1f
-            )
-            pixelRect(
-                color = style.playerColor,
-                x = PaddleEdge - 7,
-                y = run.playerY - run.paddleHalf,
-                width = 7f,
-                height = run.paddleHalf * 2
-            )
-            pixelRect(
-                color = style.obstacleColor,
-                x = run.width - PaddleEdge,
-                y = run.rivalY - run.paddleHalf,
-                width = 7f,
-                height = run.paddleHalf * 2
-            )
-            run.trail.forEachIndexed { index, point ->
-                val side = 3f + index * 0.8f
                 pixelRect(
-                    color = style.accentColor.copy(alpha = (index + 1) * 0.05f),
-                    x = point.x - side / 2,
-                    y = point.y - side / 2,
-                    width = side,
-                    height = side
+                    color = style.detailColor,
+                    x = 0f,
+                    y = run.bottom + 1,
+                    width = run.width,
+                    height = 1f
+                )
+                pixelRect(
+                    color = style.playerColor,
+                    x = PaddleEdge - 7,
+                    y = run.playerY - run.paddleHalf,
+                    width = 7f,
+                    height = run.paddleHalf * 2
+                )
+                pixelRect(
+                    color = style.obstacleColor,
+                    x = run.width - PaddleEdge,
+                    y = run.rivalY - run.paddleHalf,
+                    width = 7f,
+                    height = run.paddleHalf * 2
+                )
+                run.trail.forEachIndexed { index, point ->
+                    val side = 3f + index * 0.8f
+                    pixelRect(
+                        color = style.accentColor.copy(alpha = (index + 1) * 0.05f),
+                        x = point.x - side / 2,
+                        y = point.y - side / 2,
+                        width = side,
+                        height = side
+                    )
+                }
+                pixelRect(
+                    color = style.accentColor,
+                    x = run.ballX - BallHalf,
+                    y = run.ballY - BallHalf,
+                    width = BallHalf * 2,
+                    height = BallHalf * 2
                 )
             }
-            pixelRect(
-                color = style.accentColor,
-                x = run.ballX - BallHalf,
-                y = run.ballY - BallHalf,
-                width = BallHalf * 2,
-                height = BallHalf * 2
-            )
         }
     }
 }
 
+private const val BallHalf = 5f
+private const val PaddleEdge = 22f
+
 @Serializable
-internal class PongRun : ArcadeRun() {
+private class PongRun : ArcadeRun() {
     val top get() = topInset + 12f
     val bottom get() = height - 18f
     val paddleHalf get() = ((bottom - top) * 0.12f).coerceIn(24f, 42f)
@@ -144,7 +140,7 @@ internal class PongRun : ArcadeRun() {
         private set
     var ballY = playerY
         private set
-    val trail = mutableListOf<Offset>()
+    val trail: MutableList<ArcadeOffset> = mutableListOf()
     private var targetY = playerY
     private var rivalTarget = playerY
     private var velocityX = 0f

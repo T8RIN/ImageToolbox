@@ -48,12 +48,11 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.games.ArcadeGameContent
+import com.t8rin.imagetoolbox.core.games.ArcadeGameRegistry
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.StadiaController
-import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
-import com.t8rin.imagetoolbox.core.ui.utils.helper.title
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBadge
@@ -103,7 +102,7 @@ fun ArcadeGamesContent(component: ArcadeGamesComponent) {
                     EnhancedBadge(
                         content = {
                             Text(
-                                text = ArcadeGame.playable.size.toString()
+                                text = ArcadeGameRegistry.games.size.toString()
                             )
                         },
                         containerColor = MaterialTheme.colorScheme.tertiary,

@@ -84,6 +84,9 @@ internal fun <T : ArcadeRun> arcadeRunSaver(serializer: KSerializer<T>) = Saver<
     }
 )
 
+internal typealias ArcadeOffset = @Serializable(ArcadeOffsetSerializer::class) Offset
+internal typealias ArcadeDeque<T> = @Serializable(ArcadeDequeSerializer::class) ArrayDeque<T>
+
 internal object ArcadeOffsetSerializer : KSerializer<Offset> {
     @Serializable
     private data class Point(val x: Float, val y: Float)

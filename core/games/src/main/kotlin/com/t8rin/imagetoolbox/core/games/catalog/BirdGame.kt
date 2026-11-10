@@ -15,8 +15,6 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-@file:UseSerializers(ArcadeOffsetSerializer::class)
-
 package com.t8rin.imagetoolbox.core.games.catalog
 
 import androidx.compose.runtime.Composable
@@ -27,22 +25,195 @@ import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.luminance
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
 import com.t8rin.imagetoolbox.core.games.ArcadeCloud
-import com.t8rin.imagetoolbox.core.games.ArcadeDefaults
 import com.t8rin.imagetoolbox.core.games.ArcadeField
-import com.t8rin.imagetoolbox.core.games.ArcadeGameState
-import com.t8rin.imagetoolbox.core.games.ArcadeOffsetSerializer
+import com.t8rin.imagetoolbox.core.games.ArcadeGameContext
+import com.t8rin.imagetoolbox.core.games.ArcadeGameDefinition
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.ArcadeSprite
-import com.t8rin.imagetoolbox.core.games.ArcadeStyle
+import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.arcadeGround
 import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
-import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
+import com.t8rin.imagetoolbox.core.resources.Icons
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Raven
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.UseSerializers
 import kotlin.random.Random
+
+@RegisterArcadeGame
+internal data object BirdGame : ArcadeGameDefinition {
+    override val title = R.string.arcade_bird
+    override val description = R.string.arcade_bird_sub
+    override val icon get() = Icons.Outlined.Raven
+    override val order = 2
+
+    @Composable
+    override fun Content(context: ArcadeGameContext, modifier: Modifier) {
+        val style = context.style
+        val run = rememberArcadeRun(
+            startPlaying = context.initialState.isPlaying,
+            create = ::BirdRun
+        )
+        val ink = if (style.playerColor.luminance() < style.playerDetailColor.luminance()) {
+            style.playerColor
+        } else style.playerDetailColor
+        val eye = if (style.playerColor.luminance() > style.playerDetailColor.luminance()) {
+            style.playerColor
+        } else style.playerDetailColor
+
+        ArcadeBoard(
+            context = context,
+            run = run,
+            modifier = modifier
+        ) {
+            ArcadeField(
+                run = run,
+                onPress = { run.flap() }
+            ) {
+                var cloudX = 40f - run.distance * 0.18f % 690f
+                var index = 0
+                while (cloudX < run.width) {
+                    drawArcadeSprite(
+                        sprite = ArcadeCloud,
+                        tint = style.detailColor,
+                        x = cloudX,
+                        y = run.topInset + 25f + index % 3 * (run.ground - run.topInset) * 0.15f
+                    )
+                    cloudX += 230f
+                    index++
+                }
+                for ((x, center1, gap) in run.pipes) {
+                    val top = center1 - gap / 2
+                    val bottom = center1 + gap / 2
+                    pixelRect(
+                        color = style.obstacleColor,
+                        x = x + 3,
+                        y = 0f,
+                        width = PipeWidth - 6,
+                        height = top - 9
+                    )
+                    pixelRect(
+                        color = style.obstacleColor,
+                        x = x,
+                        y = top - 9,
+                        width = PipeWidth,
+                        height = 9f
+                    )
+                    pixelRect(
+                        color = style.obstacleColor,
+                        x = x + 3,
+                        y = bottom + 9,
+                        width = PipeWidth - 6,
+                        height = run.ground - bottom - 9
+                    )
+                    pixelRect(
+                        color = style.obstacleColor,
+                        x = x,
+                        y = bottom,
+                        width = PipeWidth,
+                        height = 9f
+                    )
+                    val highlight = style.buttonContentColor.copy(alpha = 0.3f)
+                    pixelRect(
+                        color = highlight,
+                        x = x + 7,
+                        y = 0f,
+                        width = 3f,
+                        height = top - 11
+                    )
+                    pixelRect(
+                        color = highlight,
+                        x = x + 4,
+                        y = top - 7,
+                        width = PipeWidth - 8,
+                        height = 2f
+                    )
+                    pixelRect(
+                        color = highlight,
+                        x = x + 7,
+                        y = bottom + 11,
+                        width = 3f,
+                        height = run.ground - bottom - 11
+                    )
+                    pixelRect(
+                        color = highlight,
+                        x = x + 4,
+                        y = bottom + 2,
+                        width = PipeWidth - 8,
+                        height = 2f
+                    )
+                }
+                arcadeGround(
+                    style = style,
+                    width = run.width,
+                    y = run.ground,
+                    distance = run.distance
+                )
+                val wingUp = run.wingTime % 0.24f < 0.12f
+                rotate(degrees = run.tilt, pivot = Offset(x = run.birdX, y = run.y)) {
+                    val x = run.birdX - 23
+                    val y = run.y - 16
+                    drawArcadeSprite(
+                        sprite = BirdBody,
+                        tint = ink,
+                        x = x,
+                        y = y
+                    )
+                    drawArcadeSprite(
+                        sprite = BirdFill,
+                        tint = style.playerColor,
+                        x = x,
+                        y = y
+                    )
+                    drawArcadeSprite(
+                        sprite = BirdEye,
+                        tint = ink,
+                        x = x,
+                        y = y
+                    )
+                    drawArcadeSprite(
+                        sprite = BirdEyeWhite,
+                        tint = eye,
+                        x = x,
+                        y = y
+                    )
+                    drawArcadeSprite(
+                        sprite = BirdPupil,
+                        tint = ink,
+                        x = x,
+                        y = y
+                    )
+                    drawArcadeSprite(
+                        sprite = if (wingUp) WingUp else WingDown,
+                        tint = ink,
+                        x = x,
+                        y = y
+                    )
+                    drawArcadeSprite(
+                        sprite = if (wingUp) WingUpColor else WingDownColor,
+                        tint = style.obstacleColor,
+                        x = x,
+                        y = y
+                    )
+                    drawArcadeSprite(
+                        sprite = BirdBeak,
+                        tint = ink,
+                        x = x,
+                        y = y
+                    )
+                    drawArcadeSprite(
+                        sprite = BirdBeakColor,
+                        tint = style.accentColor,
+                        x = x,
+                        y = y
+                    )
+                }
+            }
+        }
+    }
+}
 
 private const val PipeWidth = 52f
 private const val BirdRadiusX = 16f
@@ -114,184 +285,8 @@ private val WingDownColor = ArcadeSprite(
     data = WingDownFill
 )
 
-@Composable
-fun BirdGame(
-    modifier: Modifier = Modifier,
-    initialState: ArcadeGameState = ArcadeGameState(),
-    style: ArcadeStyle = ArcadeDefaults.style,
-    onHighScoreChanged: ((Int) -> Unit)? = null,
-    onGameOver: ((Int) -> Unit)? = null,
-    isPaused: Boolean = false
-) {
-    val run = rememberArcadeRun(
-        initialState = initialState,
-        create = ::BirdRun
-    )
-    val ink = if (style.playerColor.luminance() < style.playerDetailColor.luminance()) {
-        style.playerColor
-    } else style.playerDetailColor
-    val eye = if (style.playerColor.luminance() > style.playerDetailColor.luminance()) {
-        style.playerColor
-    } else style.playerDetailColor
-
-    ArcadeBoard(
-        game = ArcadeGame.Bird,
-        run = run,
-        style = style,
-        modifier = modifier,
-        initialState = initialState,
-        onHighScoreChanged = onHighScoreChanged,
-        isPaused = isPaused,
-        onGameOver = onGameOver
-    ) {
-        ArcadeField(
-            run = run,
-            onPress = { run.flap() }
-        ) {
-            var cloudX = 40f - run.distance * 0.18f % 690f
-            var index = 0
-            while (cloudX < run.width) {
-                drawArcadeSprite(
-                    sprite = ArcadeCloud,
-                    tint = style.detailColor,
-                    x = cloudX,
-                    y = run.topInset + 25f + index % 3 * (run.ground - run.topInset) * 0.15f
-                )
-                cloudX += 230f
-                index++
-            }
-            for ((x, center1, gap) in run.pipes) {
-                val top = center1 - gap / 2
-                val bottom = center1 + gap / 2
-                pixelRect(
-                    color = style.obstacleColor,
-                    x = x + 3,
-                    y = 0f,
-                    width = PipeWidth - 6,
-                    height = top - 9
-                )
-                pixelRect(
-                    color = style.obstacleColor,
-                    x = x,
-                    y = top - 9,
-                    width = PipeWidth,
-                    height = 9f
-                )
-                pixelRect(
-                    color = style.obstacleColor,
-                    x = x + 3,
-                    y = bottom + 9,
-                    width = PipeWidth - 6,
-                    height = run.ground - bottom - 9
-                )
-                pixelRect(
-                    color = style.obstacleColor,
-                    x = x,
-                    y = bottom,
-                    width = PipeWidth,
-                    height = 9f
-                )
-                val highlight = style.buttonContentColor.copy(alpha = 0.3f)
-                pixelRect(
-                    color = highlight,
-                    x = x + 7,
-                    y = 0f,
-                    width = 3f,
-                    height = top - 11
-                )
-                pixelRect(
-                    color = highlight,
-                    x = x + 4,
-                    y = top - 7,
-                    width = PipeWidth - 8,
-                    height = 2f
-                )
-                pixelRect(
-                    color = highlight,
-                    x = x + 7,
-                    y = bottom + 11,
-                    width = 3f,
-                    height = run.ground - bottom - 11
-                )
-                pixelRect(
-                    color = highlight,
-                    x = x + 4,
-                    y = bottom + 2,
-                    width = PipeWidth - 8,
-                    height = 2f
-                )
-            }
-            arcadeGround(
-                style = style,
-                width = run.width,
-                y = run.ground,
-                distance = run.distance
-            )
-            val wingUp = run.wingTime % 0.24f < 0.12f
-            rotate(degrees = run.tilt, pivot = Offset(x = run.birdX, y = run.y)) {
-                val x = run.birdX - 23
-                val y = run.y - 16
-                drawArcadeSprite(
-                    sprite = BirdBody,
-                    tint = ink,
-                    x = x,
-                    y = y
-                )
-                drawArcadeSprite(
-                    sprite = BirdFill,
-                    tint = style.playerColor,
-                    x = x,
-                    y = y
-                )
-                drawArcadeSprite(
-                    sprite = BirdEye,
-                    tint = ink,
-                    x = x,
-                    y = y
-                )
-                drawArcadeSprite(
-                    sprite = BirdEyeWhite,
-                    tint = eye,
-                    x = x,
-                    y = y
-                )
-                drawArcadeSprite(
-                    sprite = BirdPupil,
-                    tint = ink,
-                    x = x,
-                    y = y
-                )
-                drawArcadeSprite(
-                    sprite = if (wingUp) WingUp else WingDown,
-                    tint = ink,
-                    x = x,
-                    y = y
-                )
-                drawArcadeSprite(
-                    sprite = if (wingUp) WingUpColor else WingDownColor,
-                    tint = style.obstacleColor,
-                    x = x,
-                    y = y
-                )
-                drawArcadeSprite(
-                    sprite = BirdBeak,
-                    tint = ink,
-                    x = x,
-                    y = y
-                )
-                drawArcadeSprite(
-                    sprite = BirdBeakColor,
-                    tint = style.accentColor,
-                    x = x,
-                    y = y
-                )
-            }
-        }
-    }
-}
-
 @Serializable
-internal data class BirdPipe(
+private data class BirdPipe(
     var x: Float,
     var center: Float,
     var gap: Float,
@@ -299,7 +294,7 @@ internal data class BirdPipe(
 )
 
 @Serializable
-internal class BirdRun : ArcadeRun() {
+private class BirdRun : ArcadeRun() {
     val birdX get() = (width * 0.25f).coerceIn(72f, 150f)
     val ground get() = height - 20f
     var y = height / 2

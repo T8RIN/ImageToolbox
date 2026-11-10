@@ -15,8 +15,6 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-@file:UseSerializers(ArcadeOffsetSerializer::class, ArcadeDequeSerializer::class)
-
 package com.t8rin.imagetoolbox.core.games.catalog
 
 import androidx.compose.runtime.Composable
@@ -33,437 +31,434 @@ import androidx.compose.ui.graphics.drawscope.clipPath
 import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.drawscope.translate
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
-import com.t8rin.imagetoolbox.core.games.ArcadeDefaults
-import com.t8rin.imagetoolbox.core.games.ArcadeDequeSerializer
 import com.t8rin.imagetoolbox.core.games.ArcadeField
-import com.t8rin.imagetoolbox.core.games.ArcadeGameState
-import com.t8rin.imagetoolbox.core.games.ArcadeOffsetSerializer
+import com.t8rin.imagetoolbox.core.games.ArcadeGameContext
+import com.t8rin.imagetoolbox.core.games.ArcadeGameDefinition
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.ArcadeSprite
-import com.t8rin.imagetoolbox.core.games.ArcadeStyle
+import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
 import com.t8rin.imagetoolbox.core.games.utils.arcadeJoystick
 import com.t8rin.imagetoolbox.core.games.utils.arcadeLives
-import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
+import com.t8rin.imagetoolbox.core.resources.Icons
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Bomb
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
-import kotlinx.serialization.UseSerializers
 import kotlin.math.abs
 import kotlin.math.sin
 import kotlin.random.Random
 
-@Composable
-fun BomberGame(
-    modifier: Modifier = Modifier,
-    initialState: ArcadeGameState = ArcadeGameState(),
-    style: ArcadeStyle = ArcadeDefaults.style,
-    onHighScoreChanged: ((Int) -> Unit)? = null,
-    onGameOver: ((Int) -> Unit)? = null,
-    isPaused: Boolean = false
-) {
-    val run = rememberArcadeRun(
-        initialState = initialState,
-        create = ::BomberRun
-    )
-    val outlinePath = remember { Path() }
+@RegisterArcadeGame
+internal data object BomberGame : ArcadeGameDefinition {
+    override val title = R.string.arcade_bomber
+    override val description = R.string.arcade_bomber_sub
+    override val icon get() = Icons.Outlined.Bomb
+    override val order = 20
 
-    ArcadeBoard(
-        game = ArcadeGame.Bomber,
-        run = run,
-        style = style,
-        modifier = modifier,
-        initialState = initialState,
-        onHighScoreChanged = onHighScoreChanged,
-        isPaused = isPaused,
-        onGameOver = onGameOver
-    ) {
-        ArcadeField(
+    @Composable
+    override fun Content(context: ArcadeGameContext, modifier: Modifier) {
+        val style = context.style
+        val run = rememberArcadeRun(
+            startPlaying = context.initialState.isPlaying,
+            create = ::BomberRun
+        )
+        val outlinePath = remember { Path() }
+
+        ArcadeBoard(
+            context = context,
             run = run,
-            transition = { run.transition },
-            onPress = run::begin,
-            onDrag = run::drag,
-            onSwipe = run::swipe,
-            onTap = { run.placeBomb() },
-            onSecondaryTap = { run.placeBomb() },
-            onRelease = run::release
+            modifier = modifier
         ) {
-            val cell = run.cell
-            val origin = run.origin
-            val bounds = Rect(origin, Size(width = run.columns * cell, height = run.rows * cell))
-            val outline = outlinePath.apply {
-                rewind()
-                addRoundRect(RoundRect(bounds, CornerRadius(x = 10f)))
-            }
-            clipPath(outline) {
-                run.board.forEachIndexed { index, tile ->
-                    val point = run.center(index) - Offset(x = cell / 2f, y = cell / 2f)
-                    when (tile) {
-                        1 -> {
-                            pixelRect(
-                                color = style.obstacleColor.copy(alpha = 0.3f),
-                                x = point.x + 1f,
-                                y = point.y + 3f,
-                                width = cell - 2f,
-                                height = cell - 6f
-                            )
-                            pixelRect(
-                                color = style.obstacleColor.copy(alpha = 0.3f),
-                                x = point.x + 3f,
-                                y = point.y + 1f,
-                                width = cell - 6f,
-                                height = cell - 2f
-                            )
-                            pixelRect(
-                                color = style.detailColor.copy(alpha = 0.65f),
-                                x = point.x + 5f,
-                                y = point.y + 5f,
-                                width = 4f,
-                                height = 2f
-                            )
-                            pixelRect(
-                                color = style.detailColor.copy(alpha = 0.4f),
-                                x = point.x + cell - 8f,
-                                y = point.y + cell - 6f,
-                                width = 3f,
-                                height = 2f
-                            )
-                        }
+            ArcadeField(
+                run = run,
+                transition = { run.transition },
+                onPress = run::begin,
+                onDrag = run::drag,
+                onSwipe = run::swipe,
+                onTap = { run.placeBomb() },
+                onSecondaryTap = { run.placeBomb() },
+                onRelease = run::release
+            ) {
+                val cell = run.cell
+                val origin = run.origin
+                val bounds =
+                    Rect(origin, Size(width = run.columns * cell, height = run.rows * cell))
+                val outline = outlinePath.apply {
+                    rewind()
+                    addRoundRect(RoundRect(bounds, CornerRadius(x = 10f)))
+                }
+                clipPath(outline) {
+                    run.board.forEachIndexed { index, tile ->
+                        val point = run.center(index) - Offset(x = cell / 2f, y = cell / 2f)
+                        when (tile) {
+                            1 -> {
+                                pixelRect(
+                                    color = style.obstacleColor.copy(alpha = 0.3f),
+                                    x = point.x + 1f,
+                                    y = point.y + 3f,
+                                    width = cell - 2f,
+                                    height = cell - 6f
+                                )
+                                pixelRect(
+                                    color = style.obstacleColor.copy(alpha = 0.3f),
+                                    x = point.x + 3f,
+                                    y = point.y + 1f,
+                                    width = cell - 6f,
+                                    height = cell - 2f
+                                )
+                                pixelRect(
+                                    color = style.detailColor.copy(alpha = 0.65f),
+                                    x = point.x + 5f,
+                                    y = point.y + 5f,
+                                    width = 4f,
+                                    height = 2f
+                                )
+                                pixelRect(
+                                    color = style.detailColor.copy(alpha = 0.4f),
+                                    x = point.x + cell - 8f,
+                                    y = point.y + cell - 6f,
+                                    width = 3f,
+                                    height = 2f
+                                )
+                            }
 
-                        2 -> {
-                            pixelRect(
-                                color = style.accentColor.copy(alpha = 0.7f),
-                                x = point.x + 3f,
-                                y = point.y + 2f,
-                                width = cell - 6f,
-                                height = cell - 4f
-                            )
-                            pixelRect(
-                                color = style.playerDetailColor.copy(alpha = 0.45f),
-                                x = point.x + cell * 0.35f,
-                                y = point.y + 4f,
-                                width = 2f,
-                                height = cell - 8f
-                            )
-                            pixelRect(
-                                color = style.playerDetailColor.copy(alpha = 0.45f),
-                                x = point.x + cell * 0.65f,
-                                y = point.y + 4f,
-                                width = 2f,
-                                height = cell - 8f
-                            )
-                            pixelRect(
-                                color = style.obstacleColor,
-                                x = point.x + 2f,
-                                y = point.y + 5f,
-                                width = cell - 4f,
-                                height = 3f
-                            )
-                            pixelRect(
-                                color = style.obstacleColor,
-                                x = point.x + 2f,
-                                y = point.y + cell - 8f,
-                                width = cell - 4f,
-                                height = 3f
-                            )
-                        }
+                            2 -> {
+                                pixelRect(
+                                    color = style.accentColor.copy(alpha = 0.7f),
+                                    x = point.x + 3f,
+                                    y = point.y + 2f,
+                                    width = cell - 6f,
+                                    height = cell - 4f
+                                )
+                                pixelRect(
+                                    color = style.playerDetailColor.copy(alpha = 0.45f),
+                                    x = point.x + cell * 0.35f,
+                                    y = point.y + 4f,
+                                    width = 2f,
+                                    height = cell - 8f
+                                )
+                                pixelRect(
+                                    color = style.playerDetailColor.copy(alpha = 0.45f),
+                                    x = point.x + cell * 0.65f,
+                                    y = point.y + 4f,
+                                    width = 2f,
+                                    height = cell - 8f
+                                )
+                                pixelRect(
+                                    color = style.obstacleColor,
+                                    x = point.x + 2f,
+                                    y = point.y + 5f,
+                                    width = cell - 4f,
+                                    height = 3f
+                                )
+                                pixelRect(
+                                    color = style.obstacleColor,
+                                    x = point.x + 2f,
+                                    y = point.y + cell - 8f,
+                                    width = cell - 4f,
+                                    height = 3f
+                                )
+                            }
 
-                        else -> if (index % 3 == 0) {
-                            pixelRect(
-                                color = style.detailColor.copy(alpha = 0.35f),
-                                x = point.x + cell * 0.3f,
-                                y = point.y + cell * 0.7f,
-                                width = 2f,
-                                height = 1f
-                            )
-                            pixelRect(
-                                color = style.detailColor.copy(alpha = 0.2f),
-                                x = point.x + cell * 0.3f + 3f,
-                                y = point.y + cell * 0.7f + 2f,
-                                width = 1f,
-                                height = 1f
-                            )
+                            else -> if (index % 3 == 0) {
+                                pixelRect(
+                                    color = style.detailColor.copy(alpha = 0.35f),
+                                    x = point.x + cell * 0.3f,
+                                    y = point.y + cell * 0.7f,
+                                    width = 2f,
+                                    height = 1f
+                                )
+                                pixelRect(
+                                    color = style.detailColor.copy(alpha = 0.2f),
+                                    x = point.x + cell * 0.3f + 3f,
+                                    y = point.y + cell * 0.7f + 2f,
+                                    width = 1f,
+                                    height = 1f
+                                )
+                            }
                         }
                     }
-                }
-                for ((index, kind) in run.items) {
-                    val p = run.center(index)
-                    drawCircle(
-                        color = style.accentColor.copy(alpha = 0.18f),
-                        radius = cell * 0.32f,
-                        center = p
-                    )
-                    pixelRect(
-                        color = style.accentColor,
-                        x = p.x - cell * 0.2f,
-                        y = p.y - 1.5f,
-                        width = cell * 0.4f,
-                        height = 3f
-                    )
-                    if (kind == 0) {
-                        pixelRect(
-                            color = style.accentColor,
-                            x = p.x - 1.5f,
-                            y = p.y - cell * 0.2f,
-                            width = 3f,
-                            height = cell * 0.4f
-                        )
-                    } else {
+                    for ((index, kind) in run.items) {
+                        val p = run.center(index)
                         drawCircle(
-                            color = style.accentColor,
-                            radius = cell * 0.18f,
-                            center = p,
-                            style = Stroke(width = 2f)
+                            color = style.accentColor.copy(alpha = 0.18f),
+                            radius = cell * 0.32f,
+                            center = p
                         )
                         pixelRect(
                             color = style.accentColor,
-                            x = p.x + cell * 0.1f,
-                            y = p.y - cell * 0.28f,
-                            width = 3f,
-                            height = 4f
+                            x = p.x - cell * 0.2f,
+                            y = p.y - 1.5f,
+                            width = cell * 0.4f,
+                            height = 3f
                         )
-                    }
-                }
-                for ((position, fuse) in run.bombs) {
-                    val p = run.center(position)
-                    val pulse =
-                        if (fuse < 0.8f) 1f + sin(fuse * 32f) * 0.08f else 1f
-                    val unit = cell * 0.62f * pulse / 24f
-                    translate(left = p.x - 12f * unit, top = p.y - 15f * unit) {
-                        scale(scale = unit, pivot = Offset.Zero) {
-                            drawArcadeSprite(
-                                sprite = BomberBombBody,
-                                tint = style.obstacleColor,
-                                x = 0f,
-                                y = 0f
+                        if (kind == 0) {
+                            pixelRect(
+                                color = style.accentColor,
+                                x = p.x - 1.5f,
+                                y = p.y - cell * 0.2f,
+                                width = 3f,
+                                height = cell * 0.4f
                             )
-                            drawArcadeSprite(
-                                sprite = BomberBombShine,
-                                tint = style.playerDetailColor,
-                                x = 0f,
-                                y = 0f
+                        } else {
+                            drawCircle(
+                                color = style.accentColor,
+                                radius = cell * 0.18f,
+                                center = p,
+                                style = Stroke(width = 2f)
                             )
                             pixelRect(
                                 color = style.accentColor,
-                                x = 12f,
-                                y = 2f,
-                                width = 2f,
+                                x = p.x + cell * 0.1f,
+                                y = p.y - cell * 0.28f,
+                                width = 3f,
                                 height = 4f
                             )
-                            pixelRect(
-                                color = style.accentColor,
-                                x = 14f,
-                                y = 1f,
-                                width = 4f,
-                                height = 2f
-                            )
-                            pixelRect(
-                                color = style.hazardColor,
-                                x = 18f,
-                                y = -2f,
-                                width = 2f,
-                                height = 6f
-                            )
-                            pixelRect(
-                                color = style.hazardColor,
-                                x = 16f,
-                                y = 0f,
-                                width = 6f,
-                                height = 2f
-                            )
                         }
                     }
-                    drawArc(
-                        color = style.accentColor,
-                        startAngle = -90f,
-                        sweepAngle = fuse / 2.2f * 360f,
-                        useCenter = false,
-                        topLeft = p - Offset(x = cell * 0.38f, y = cell * 0.38f),
-                        size = Size(width = cell * 0.76f, height = cell * 0.76f),
-                        style = Stroke(width = 1f)
-                    )
-                }
-                for ((index, life) in run.blasts) {
-                    val p = run.center(index)
-                    val r = cell * (0.3f + life * 0.5f)
-                    pixelRect(
-                        color = style.accentColor.copy(alpha = 0.35f),
-                        x = p.x - cell / 2f,
-                        y = p.y - cell / 2f,
-                        width = cell,
-                        height = cell
-                    )
-                    pixelRect(
-                        color = style.accentColor,
-                        x = p.x - r,
-                        y = p.y - r * 0.45f,
-                        width = r * 2f,
-                        height = r * 0.9f
-                    )
-                    pixelRect(
-                        color = style.accentColor,
-                        x = p.x - r * 0.45f,
-                        y = p.y - r,
-                        width = r * 0.9f,
-                        height = r * 2f
-                    )
-                    pixelRect(
-                        color = style.playerDetailColor,
-                        x = p.x - 2f,
-                        y = p.y - 2f,
-                        width = 4f,
-                        height = 4f
-                    )
-                }
-                for (enemy in run.enemies) {
-                    val point = run.enemyPoint(enemy)
-                    val unit = cell / 17f
-                    translate(left = point.x - unit * 5f, top = point.y - unit * 5.5f) {
-                        scale(scale = unit, pivot = Offset.Zero) {
-                            drawArcadeSprite(
-                                sprite = BomberBug,
-                                tint = style.hazardColor,
-                                x = 0f,
-                                y = 0f
-                            )
-                            pixelRect(
-                                color = style.playerDetailColor,
-                                x = 2f,
-                                y = 4f,
-                                width = 2f,
-                                height = 3f
-                            )
-                            pixelRect(
-                                color = style.playerDetailColor,
-                                x = 6f,
-                                y = 4f,
-                                width = 2f,
-                                height = 3f
-                            )
-                            val step = if ((run.time * 7f).toInt() % 2 == 0) 0f else 1f
-                            pixelRect(
-                                color = style.hazardColor,
-                                x = step,
-                                y = 9f,
-                                width = 2f,
-                                height = 2f
-                            )
-                            pixelRect(
-                                color = style.hazardColor,
-                                x = 8f - step,
-                                y = 9f,
-                                width = 2f,
-                                height = 2f
-                            )
-                        }
-                    }
-                }
-                if (run.invulnerable <= 0f || (run.invulnerable * 9f).toInt() % 2 == 0) {
-                    val point = run.playerPoint
-                    val unit = cell / 31f
-                    translate(left = point.x - unit * 10f, top = point.y - unit * 13f) {
-                        scale(scale = unit, pivot = Offset.Zero) {
-                            drawArcadeSprite(
-                                sprite = BomberBody,
-                                tint = style.playerColor,
-                                x = 0f,
-                                y = 0f
-                            )
-                            drawArcadeSprite(
-                                sprite = BomberVisor,
-                                tint = style.playerDetailColor,
-                                x = 0f,
-                                y = 0f
-                            )
-                            pixelRect(
-                                color = style.accentColor,
-                                x = 8f,
-                                y = 0f,
-                                width = 4f,
-                                height = 3f
-                            )
-                            for (eye in listOf(6f, 12f)) {
+                    for ((position, fuse) in run.bombs) {
+                        val p = run.center(position)
+                        val pulse =
+                            if (fuse < 0.8f) 1f + sin(fuse * 32f) * 0.08f else 1f
+                        val unit = cell * 0.62f * pulse / 24f
+                        translate(left = p.x - 12f * unit, top = p.y - 15f * unit) {
+                            scale(scale = unit, pivot = Offset.Zero) {
+                                drawArcadeSprite(
+                                    sprite = BomberBombBody,
+                                    tint = style.obstacleColor,
+                                    x = 0f,
+                                    y = 0f
+                                )
+                                drawArcadeSprite(
+                                    sprite = BomberBombShine,
+                                    tint = style.playerDetailColor,
+                                    x = 0f,
+                                    y = 0f
+                                )
                                 pixelRect(
-                                    color = style.playerColor,
-                                    x = eye,
-                                    y = 7f,
+                                    color = style.accentColor,
+                                    x = 12f,
+                                    y = 2f,
                                     width = 2f,
                                     height = 4f
                                 )
-                            }
-                            pixelRect(
-                                color = style.obstacleColor,
-                                x = 6f,
-                                y = 19f,
-                                width = 8f,
-                                height = 2f
-                            )
-                            for (hand in listOf(1f, 15f)) {
                                 pixelRect(
                                     color = style.accentColor,
-                                    x = hand,
-                                    y = 16f,
+                                    x = 14f,
+                                    y = 1f,
                                     width = 4f,
-                                    height = 4f
+                                    height = 2f
+                                )
+                                pixelRect(
+                                    color = style.hazardColor,
+                                    x = 18f,
+                                    y = -2f,
+                                    width = 2f,
+                                    height = 6f
+                                )
+                                pixelRect(
+                                    color = style.hazardColor,
+                                    x = 16f,
+                                    y = 0f,
+                                    width = 6f,
+                                    height = 2f
                                 )
                             }
-                            val step =
-                                sin(run.progress * Math.PI.toFloat()) * (if (run.player % 2 == 0) 1f else -1f)
-                            pixelRect(
-                                color = style.accentColor,
-                                x = 3f,
-                                y = 23f + step,
-                                width = 6f,
-                                height = 3f
-                            )
-                            pixelRect(
-                                color = style.accentColor,
-                                x = 11f,
-                                y = 23f - step,
-                                width = 6f,
-                                height = 3f
-                            )
+                        }
+                        drawArc(
+                            color = style.accentColor,
+                            startAngle = -90f,
+                            sweepAngle = fuse / 2.2f * 360f,
+                            useCenter = false,
+                            topLeft = p - Offset(x = cell * 0.38f, y = cell * 0.38f),
+                            size = Size(width = cell * 0.76f, height = cell * 0.76f),
+                            style = Stroke(width = 1f)
+                        )
+                    }
+                    for ((index, life) in run.blasts) {
+                        val p = run.center(index)
+                        val r = cell * (0.3f + life * 0.5f)
+                        pixelRect(
+                            color = style.accentColor.copy(alpha = 0.35f),
+                            x = p.x - cell / 2f,
+                            y = p.y - cell / 2f,
+                            width = cell,
+                            height = cell
+                        )
+                        pixelRect(
+                            color = style.accentColor,
+                            x = p.x - r,
+                            y = p.y - r * 0.45f,
+                            width = r * 2f,
+                            height = r * 0.9f
+                        )
+                        pixelRect(
+                            color = style.accentColor,
+                            x = p.x - r * 0.45f,
+                            y = p.y - r,
+                            width = r * 0.9f,
+                            height = r * 2f
+                        )
+                        pixelRect(
+                            color = style.playerDetailColor,
+                            x = p.x - 2f,
+                            y = p.y - 2f,
+                            width = 4f,
+                            height = 4f
+                        )
+                    }
+                    for (enemy in run.enemies) {
+                        val point = run.enemyPoint(enemy)
+                        val unit = cell / 17f
+                        translate(left = point.x - unit * 5f, top = point.y - unit * 5.5f) {
+                            scale(scale = unit, pivot = Offset.Zero) {
+                                drawArcadeSprite(
+                                    sprite = BomberBug,
+                                    tint = style.hazardColor,
+                                    x = 0f,
+                                    y = 0f
+                                )
+                                pixelRect(
+                                    color = style.playerDetailColor,
+                                    x = 2f,
+                                    y = 4f,
+                                    width = 2f,
+                                    height = 3f
+                                )
+                                pixelRect(
+                                    color = style.playerDetailColor,
+                                    x = 6f,
+                                    y = 4f,
+                                    width = 2f,
+                                    height = 3f
+                                )
+                                val step = if ((run.time * 7f).toInt() % 2 == 0) 0f else 1f
+                                pixelRect(
+                                    color = style.hazardColor,
+                                    x = step,
+                                    y = 9f,
+                                    width = 2f,
+                                    height = 2f
+                                )
+                                pixelRect(
+                                    color = style.hazardColor,
+                                    x = 8f - step,
+                                    y = 9f,
+                                    width = 2f,
+                                    height = 2f
+                                )
+                            }
+                        }
+                    }
+                    if (run.invulnerable <= 0f || (run.invulnerable * 9f).toInt() % 2 == 0) {
+                        val point = run.playerPoint
+                        val unit = cell / 31f
+                        translate(left = point.x - unit * 10f, top = point.y - unit * 13f) {
+                            scale(scale = unit, pivot = Offset.Zero) {
+                                drawArcadeSprite(
+                                    sprite = BomberBody,
+                                    tint = style.playerColor,
+                                    x = 0f,
+                                    y = 0f
+                                )
+                                drawArcadeSprite(
+                                    sprite = BomberVisor,
+                                    tint = style.playerDetailColor,
+                                    x = 0f,
+                                    y = 0f
+                                )
+                                pixelRect(
+                                    color = style.accentColor,
+                                    x = 8f,
+                                    y = 0f,
+                                    width = 4f,
+                                    height = 3f
+                                )
+                                for (eye in listOf(6f, 12f)) {
+                                    pixelRect(
+                                        color = style.playerColor,
+                                        x = eye,
+                                        y = 7f,
+                                        width = 2f,
+                                        height = 4f
+                                    )
+                                }
+                                pixelRect(
+                                    color = style.obstacleColor,
+                                    x = 6f,
+                                    y = 19f,
+                                    width = 8f,
+                                    height = 2f
+                                )
+                                for (hand in listOf(1f, 15f)) {
+                                    pixelRect(
+                                        color = style.accentColor,
+                                        x = hand,
+                                        y = 16f,
+                                        width = 4f,
+                                        height = 4f
+                                    )
+                                }
+                                val step =
+                                    sin(run.progress * Math.PI.toFloat()) * (if (run.player % 2 == 0) 1f else -1f)
+                                pixelRect(
+                                    color = style.accentColor,
+                                    x = 3f,
+                                    y = 23f + step,
+                                    width = 6f,
+                                    height = 3f
+                                )
+                                pixelRect(
+                                    color = style.accentColor,
+                                    x = 11f,
+                                    y = 23f - step,
+                                    width = 6f,
+                                    height = 3f
+                                )
+                            }
                         }
                     }
                 }
-            }
-            arcadeJoystick(style, run.touchOrigin, run.stick)
-            drawRoundRect(
-                color = style.detailColor,
-                topLeft = bounds.topLeft,
-                size = bounds.size,
-                cornerRadius = CornerRadius(x = 10f),
-                style = Stroke(width = 1f)
-            )
-            arcadeLives(
-                style = style,
-                remaining = run.lives,
-                y = run.topInset / 2f
-            )
-            repeat(run.capacity) { index ->
-                val p = Offset(x = 83f + index * 13f, y = run.topInset / 2f)
-                val color =
-                    style.accentColor.copy(alpha = if (index < run.capacity - run.bombs.size) 1f else 0.2f)
-                drawCircle(
-                    color = color,
-                    radius = 4f,
-                    center = p
+                arcadeJoystick(style, run.touchOrigin, run.stick)
+                drawRoundRect(
+                    color = style.detailColor,
+                    topLeft = bounds.topLeft,
+                    size = bounds.size,
+                    cornerRadius = CornerRadius(x = 10f),
+                    style = Stroke(width = 1f)
                 )
-                pixelRect(
-                    color = color,
-                    x = p.x + 1f,
-                    y = p.y - 7f,
-                    width = 2f,
-                    height = 3f
+                arcadeLives(
+                    style = style,
+                    remaining = run.lives,
+                    y = run.topInset / 2f
+                )
+                repeat(run.capacity) { index ->
+                    val p = Offset(x = 83f + index * 13f, y = run.topInset / 2f)
+                    val color =
+                        style.accentColor.copy(alpha = if (index < run.capacity - run.bombs.size) 1f else 0.2f)
+                    drawCircle(
+                        color = color,
+                        radius = 4f,
+                        center = p
+                    )
+                    pixelRect(
+                        color = color,
+                        x = p.x + 1f,
+                        y = p.y - 7f,
+                        width = 2f,
+                        height = 3f
+                    )
+                }
+                run.effects.draw(
+                    scope = this,
+                    color = style.accentColor
                 )
             }
-            run.effects.draw(
-                scope = this,
-                color = style.accentColor
-            )
         }
     }
 }
@@ -496,21 +491,21 @@ private val BomberBug = ArcadeSprite(
 )
 
 @Serializable
-internal data class BomberBomb(
+private data class BomberBomb(
     val position: Int,
     var fuse: Float,
     val range: Int
 )
 
 @Serializable
-internal data class BomberEnemy(
+private data class BomberEnemy(
     var position: Int,
     var previous: Int,
     var progress: Float = 1f
 )
 
 @Serializable
-internal class BomberRun : ArcadeRun() {
+private class BomberRun : ArcadeRun() {
     val columns = 11
     var rows = 9
     var board = IntArray(columns * rows)
@@ -701,7 +696,7 @@ internal class BomberRun : ArcadeRun() {
         return result
     }
 
-    internal fun explode(bomb: BomberBomb) {
+    fun explode(bomb: BomberBomb) {
         val queue = ArrayDeque<BomberBomb>()
         queue += bomb
         while (queue.isNotEmpty()) {

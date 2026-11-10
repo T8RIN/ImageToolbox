@@ -32,18 +32,20 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.drawscope.scale
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
-import com.t8rin.imagetoolbox.core.games.ArcadeDefaults
 import com.t8rin.imagetoolbox.core.games.ArcadeField
-import com.t8rin.imagetoolbox.core.games.ArcadeGameState
+import com.t8rin.imagetoolbox.core.games.ArcadeGameContext
+import com.t8rin.imagetoolbox.core.games.ArcadeGameDefinition
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.ArcadeSprite
-import com.t8rin.imagetoolbox.core.games.ArcadeStyle
+import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
-import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
+import com.t8rin.imagetoolbox.core.resources.Icons
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.ShineDiamond
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import kotlin.math.PI
@@ -53,6 +55,351 @@ import kotlin.math.exp
 import kotlin.math.floor
 import kotlin.math.sin
 import kotlin.random.Random
+
+@RegisterArcadeGame
+internal data object TempleEscapeGame : ArcadeGameDefinition {
+    override val title = R.string.arcade_templeescape
+    override val description = R.string.arcade_templeescape_sub
+    override val icon get() = Icons.Outlined.ShineDiamond
+    override val order = 35
+
+    @Composable
+    override fun Content(context: ArcadeGameContext, modifier: Modifier) {
+        val style = context.style
+        val run = rememberArcadeRun(
+            startPlaying = context.initialState.isPlaying,
+            create = ::TempleEscapeRun
+        )
+        val fieldPaint = remember { Paint() }
+        val wallPath = remember { Path() }
+        val fieldFade = remember {
+            Brush.verticalGradient(
+                colors = listOf(Color.Transparent, Color.Black),
+                endY = 1f
+            )
+        }
+
+        ArcadeBoard(
+            context = context,
+            run = run,
+            modifier = modifier
+        ) {
+            ArcadeField(
+                run = run,
+                transition = { run.transition },
+                onSwipe = run::swipe,
+                swipeOnDrag = true
+            ) {
+                val cell = run.cell
+                val unit = cell / 30f
+                val left = run.left
+                val top = run.topInset + 6f
+                val bottom = run.height
+                val ink = style.obstacleColor
+                val fieldSize = Size(width = run.width, height = run.height)
+                drawContext.canvas.saveLayer(
+                    bounds = Rect(offset = Offset.Zero, size = fieldSize),
+                    paint = fieldPaint
+                )
+                try {
+                    val first = floor(run.camera - top / cell).toInt().coerceAtLeast(0)
+                    val last =
+                        (run.camera + run.visibleRows + 1f).toInt().coerceAtMost(run.rows - 1)
+                    wallPath.rewind()
+                    for (row in first..last) {
+                        var column = 0
+                        while (column < run.columns) {
+                            if (!run.walls[row * run.columns + column]) {
+                                column++
+                                continue
+                            }
+                            val start = column
+                            while (column < run.columns && run.walls[row * run.columns + column]) column++
+                            wallPath.addRect(
+                                rect = Rect(
+                                    left = left + start * cell,
+                                    top = top + (row - run.camera) * cell,
+                                    right = left + column * cell,
+                                    bottom = top + (row + 1f - run.camera) * cell
+                                )
+                            )
+                        }
+                    }
+                    drawPath(path = wallPath, color = ink.copy(alpha = 0.5f))
+                    for (row in first..last) for (column in 0 until run.columns) {
+                        val index = row * run.columns + column
+                        val x = left + column * cell
+                        val y = top + (row - run.camera) * cell
+                        if (run.walls[index]) {
+                            val openLeft = column > 0 && !run.walls[index - 1]
+                            val openRight = column < run.columns - 1 && !run.walls[index + 1]
+                            val openTop = row > 0 && !run.walls[index - run.columns]
+                            val openBottom = row < run.rows - 1 && !run.walls[index + run.columns]
+                            val exposed = openLeft || openRight || openTop || openBottom
+                            if (openTop) {
+                                pixelRect(
+                                    color = ink,
+                                    x = x + if (openLeft) unit * 2f else 0f,
+                                    y = y,
+                                    width = cell - if (openLeft || openRight) unit * 2f else 0f,
+                                    height = unit * 2f
+                                )
+                                pixelRect(
+                                    color = ink.copy(alpha = 0.15f),
+                                    x = x + unit * 3f, y = y + unit * 3f,
+                                    width = cell * 0.55f, height = unit
+                                )
+                            }
+                            if (openBottom) pixelRect(
+                                color = ink.copy(alpha = 0.7f),
+                                x = x, y = y + cell - unit * 2f,
+                                width = cell, height = unit * 2f
+                            )
+                            if (openLeft) pixelRect(
+                                color = ink.copy(alpha = 0.8f),
+                                x = x, y = y + if (openTop) unit * 2f else 0f,
+                                width = unit * 2f, height = cell - if (openTop) unit * 2f else 0f
+                            )
+                            if (openRight) pixelRect(
+                                color = ink.copy(alpha = 0.8f),
+                                x = x + cell - unit * 2f, y = y + if (openTop) unit * 2f else 0f,
+                                width = unit * 2f, height = cell - if (openTop) unit * 2f else 0f
+                            )
+                            if (exposed && (column * 7 + row * 3) % 5 == 0) {
+                                pixelRect(
+                                    color = ink.copy(alpha = 0.45f),
+                                    x = x + cell * 0.28f, y = y + cell * 0.5f,
+                                    width = cell * 0.2f, height = unit
+                                )
+                                pixelRect(
+                                    color = ink.copy(alpha = 0.45f),
+                                    x = x + cell * 0.45f, y = y + cell * 0.5f,
+                                    width = unit, height = unit * 3f
+                                )
+                            }
+                        } else when (run.pickups[index]) {
+                            1 -> pixelRect(
+                                color = style.accentColor.copy(alpha = 0.7f),
+                                x = x + cell * 0.45f,
+                                y = y + cell * 0.45f,
+                                width = unit * 2f,
+                                height = unit * 2f
+                            )
+
+                            2 -> {
+                                val point = Offset(x = x + cell / 2f, y = y + cell / 2f)
+                                scale(scale = unit, pivot = point) {
+                                    drawArcadeSprite(
+                                        sprite = TempleRelic,
+                                        tint = style.accentColor,
+                                        x = point.x - 6f,
+                                        y = point.y - 7f + sin(run.time * 4f) * 0.6f
+                                    )
+                                }
+                            }
+
+                            3 -> {
+                                val point = Offset(x = x + cell / 2f, y = y + cell / 2f)
+                                scale(scale = unit, pivot = point) {
+                                    drawArcadeSprite(
+                                        sprite = TempleShield,
+                                        tint = style.playerColor,
+                                        x = point.x - 7f,
+                                        y = point.y - 8f
+                                    )
+                                }
+                            }
+                        }
+                    }
+                    for ((index, side) in run.traps) {
+                        val point = run.point(index = index)
+                        val active = run.trapActive(index = index)
+                        val warning = run.trapWarning(index = index)
+                        rotate(degrees = side * 90f, pivot = point) {
+                            val reach = if (active) 14f else 2f
+                            pixelRect(
+                                color = style.hazardColor.copy(alpha = if (active || warning) 0.18f else 0.06f),
+                                x = point.x - cell * 0.44f,
+                                y = point.y - cell * 0.44f,
+                                width = cell * 0.88f,
+                                height = cell * 0.88f
+                            )
+                            repeat(3) { tooth ->
+                                val x = point.x + (tooth * 5f - 6f) * unit
+                                val y = point.y - cell / 2f
+                                val color =
+                                    style.hazardColor.copy(alpha = if (active || warning) 1f else 0.4f)
+                                pixelRect(
+                                    color = color,
+                                    x = x - unit,
+                                    y = y,
+                                    width = unit * 3f,
+                                    height = unit * reach
+                                )
+                                pixelRect(
+                                    color = color,
+                                    x = x,
+                                    y = y + unit * reach,
+                                    width = unit,
+                                    height = unit * 2f
+                                )
+                            }
+                        }
+                    }
+                    val door = run.point(index = run.exit)
+                    scale(scale = unit, pivot = door) {
+                        drawArcadeSprite(
+                            sprite = TempleDoor,
+                            tint = style.accentColor,
+                            x = door.x - 12f,
+                            y = door.y - 14f
+                        )
+                        pixelRect(
+                            color = style.accentColor,
+                            x = door.x - 1f,
+                            y = door.y - 4f,
+                            width = 2f,
+                            height = 9f
+                        )
+                        pixelRect(
+                            color = style.accentColor,
+                            x = door.x - 3f,
+                            y = door.y - 2f,
+                            width = 6f,
+                            height = 2f
+                        )
+                    }
+                    for (guard in run.guards) {
+                        val point = run.guardPoint(guard = guard)
+                        scale(scale = unit, pivot = point) {
+                            drawArcadeSprite(
+                                sprite = if ((run.time * 7f + guard.phase).toInt() % 2 == 0) TempleBatUp else TempleBatDown,
+                                tint = style.accentColor,
+                                x = point.x - 16f,
+                                y = point.y - 12f
+                            )
+                        }
+                    }
+                    run.trail.forEachIndexed { index, tile ->
+                        val from = run.point(index = tile)
+                        val to =
+                            run.trail.getOrNull(index = index + 1)?.let { run.point(index = it) }
+                                ?: run.playerPoint
+                        drawLine(
+                            color = style.playerColor.copy(alpha = run.trailFade * (index + 1f) * 0.035f),
+                            start = from,
+                            end = to,
+                            strokeWidth = cell * 0.55f
+                        )
+                    }
+                    val motion = (abs(run.motionX) + abs(run.motionY)).coerceAtMost(1f)
+                    val spiritUnit = cell / 36f
+                    val player = run.playerPoint + Offset(
+                        x = 0f,
+                        y = sin(run.time * 3f) * spiritUnit * (1f - motion)
+                    )
+                    val squash = run.impact * cos((1f - run.impact) * 2f * PI.toFloat()) * 0.18f
+                    scale(
+                        scaleX = spiritUnit * (1f + abs(run.motionX) * 0.12f - abs(run.motionY) * 0.06f) *
+                                (1f + if (run.impactHorizontal) -squash else squash * 0.5f),
+                        scaleY = spiritUnit * (1f + abs(run.motionY) * 0.12f - abs(run.motionX) * 0.06f) *
+                                (1f + if (run.impactHorizontal) squash * 0.5f else -squash),
+                        pivot = player
+                    ) {
+                        val tint =
+                            if (run.phase == ArcadePhase.Over) style.hazardColor else style.playerColor
+                        rotate(degrees = run.motionX * 10f, pivot = player) {
+                            drawArcadeSprite(
+                                sprite = TempleSpirit[run.flutter.toInt()],
+                                tint = tint,
+                                x = player.x - 17f,
+                                y = player.y - 17f
+                            )
+                            drawArcadeSprite(
+                                sprite = TempleFace,
+                                tint = style.playerDetailColor,
+                                x = player.x - 17f,
+                                y = player.y - 17f
+                            )
+                            val blink = motion < 0.1f && run.time % 5.6f > 5.48f
+                            repeat(2) { eye ->
+                                pixelRect(
+                                    color = tint,
+                                    x = player.x - 5f + eye * 8f + run.motionX,
+                                    y = player.y - 3f + run.motionY + if (blink) 2f else 0f,
+                                    width = 3f,
+                                    height = if (blink) 1f else 5f
+                                )
+                            }
+                        }
+                    }
+                    if (run.shield || run.protection > 0f) drawCircle(
+                        color = style.playerColor.copy(alpha = 0.7f),
+                        radius = cell * 0.62f,
+                        center = player,
+                        style = Stroke(width = unit)
+                    )
+                    val lavaUnit = cell / 20f
+                    val floodY = top + (run.flood - run.camera) * cell
+                    if (floodY < bottom) {
+                        pixelRect(
+                            color = style.hazardColor.copy(alpha = 0.85f),
+                            x = left,
+                            y = floodY,
+                            width = cell * run.columns,
+                            height = bottom - floodY
+                        )
+                        for (column in 0 until run.columns) {
+                            val ripple = sin(run.time * 4f + column * 1.3f) * lavaUnit * 1.5f
+                            pixelRect(
+                                color = style.hazardColor,
+                                x = left + column * cell,
+                                y = floodY + ripple - lavaUnit * 2f,
+                                width = cell,
+                                height = lavaUnit * 4f
+                            )
+                            if (column % 3 == 1) pixelRect(
+                                color = style.playerDetailColor.copy(alpha = 0.5f),
+                                x = left + (column + 0.2f) * cell,
+                                y = floodY + ripple + lavaUnit * 3f,
+                                width = cell * 0.35f,
+                                height = lavaUnit
+                            )
+                        }
+                    }
+                    run.effects.draw(
+                        scope = this,
+                        color = style.accentColor
+                    )
+                    scale(scaleX = 1f, scaleY = run.topInset, pivot = Offset.Zero) {
+                        drawRect(
+                            brush = fieldFade,
+                            size = Size(width = run.width, height = run.height / run.topInset),
+                            blendMode = BlendMode.DstIn
+                        )
+                    }
+                } finally {
+                    drawContext.canvas.restore()
+                }
+                scale(
+                    scale = minOf(run.topInset / 44f, run.width / 320f),
+                    pivot = Offset.Zero
+                ) {
+                    repeat(3) { index ->
+                        drawArcadeSprite(
+                            sprite = TempleRelic,
+                            tint = if (index < run.relics) style.accentColor else style.detailColor.copy(
+                                alpha = 0.4f
+                            ),
+                            x = 14f + index * 18f,
+                            y = 15f
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
 
 private const val TempleHood =
     "M3 23H4V16H5V15H6V13H7V9H8V8H9V7H10V6H11V5H12V4H13V3H15V2H16V1H17V2H19V3H22V5H25V9H27V14H30V21H31V22H32V23H33V24H29V26H3Z"
@@ -109,360 +456,14 @@ private val TempleShield = ArcadeSprite(
     data = "M5 0H9V1H14V9H12V12H10V14H8V16H6V14H4V12H2V9H0V1H5ZM3 4V8H4V10H6V12H8V10H10V8H11V4Z"
 )
 
-@Composable
-fun TempleEscapeGame(
-    modifier: Modifier = Modifier,
-    initialState: ArcadeGameState = ArcadeGameState(),
-    style: ArcadeStyle = ArcadeDefaults.style,
-    onHighScoreChanged: ((Int) -> Unit)? = null,
-    onGameOver: ((Int) -> Unit)? = null,
-    isPaused: Boolean = false
-) {
-    val run = rememberArcadeRun(
-        initialState = initialState,
-        create = ::TempleEscapeRun
-    )
-    val fieldPaint = remember { Paint() }
-    val wallPath = remember { Path() }
-    val fieldFade = remember {
-        Brush.verticalGradient(
-            colors = listOf(Color.Transparent, Color.Black),
-            endY = 1f
-        )
-    }
-
-    ArcadeBoard(
-        game = ArcadeGame.TempleEscape,
-        run = run,
-        style = style,
-        modifier = modifier,
-        initialState = initialState,
-        onHighScoreChanged = onHighScoreChanged,
-        isPaused = isPaused,
-        onGameOver = onGameOver
-    ) {
-        ArcadeField(
-            run = run,
-            transition = { run.transition },
-            onSwipe = run::swipe,
-            swipeOnDrag = true
-        ) {
-            val cell = run.cell
-            val unit = cell / 30f
-            val left = run.left
-            val top = run.topInset + 6f
-            val bottom = run.height
-            val ink = style.obstacleColor
-            val fieldSize = Size(width = run.width, height = run.height)
-            drawContext.canvas.saveLayer(
-                bounds = Rect(offset = Offset.Zero, size = fieldSize),
-                paint = fieldPaint
-            )
-            try {
-                val first = floor(run.camera - top / cell).toInt().coerceAtLeast(0)
-                val last = (run.camera + run.visibleRows + 1f).toInt().coerceAtMost(run.rows - 1)
-                wallPath.rewind()
-                for (row in first..last) {
-                    var column = 0
-                    while (column < run.columns) {
-                        if (!run.walls[row * run.columns + column]) {
-                            column++
-                            continue
-                        }
-                        val start = column
-                        while (column < run.columns && run.walls[row * run.columns + column]) column++
-                        wallPath.addRect(
-                            rect = Rect(
-                                left = left + start * cell,
-                                top = top + (row - run.camera) * cell,
-                                right = left + column * cell,
-                                bottom = top + (row + 1f - run.camera) * cell
-                            )
-                        )
-                    }
-                }
-                drawPath(path = wallPath, color = ink.copy(alpha = 0.5f))
-                for (row in first..last) for (column in 0 until run.columns) {
-                    val index = row * run.columns + column
-                    val x = left + column * cell
-                    val y = top + (row - run.camera) * cell
-                    if (run.walls[index]) {
-                        val openLeft = column > 0 && !run.walls[index - 1]
-                        val openRight = column < run.columns - 1 && !run.walls[index + 1]
-                        val openTop = row > 0 && !run.walls[index - run.columns]
-                        val openBottom = row < run.rows - 1 && !run.walls[index + run.columns]
-                        val exposed = openLeft || openRight || openTop || openBottom
-                        if (openTop) {
-                            pixelRect(
-                                color = ink,
-                                x = x + if (openLeft) unit * 2f else 0f,
-                                y = y,
-                                width = cell - if (openLeft || openRight) unit * 2f else 0f,
-                                height = unit * 2f
-                            )
-                            pixelRect(
-                                color = ink.copy(alpha = 0.15f),
-                                x = x + unit * 3f, y = y + unit * 3f,
-                                width = cell * 0.55f, height = unit
-                            )
-                        }
-                        if (openBottom) pixelRect(
-                            color = ink.copy(alpha = 0.7f),
-                            x = x, y = y + cell - unit * 2f,
-                            width = cell, height = unit * 2f
-                        )
-                        if (openLeft) pixelRect(
-                            color = ink.copy(alpha = 0.8f),
-                            x = x, y = y + if (openTop) unit * 2f else 0f,
-                            width = unit * 2f, height = cell - if (openTop) unit * 2f else 0f
-                        )
-                        if (openRight) pixelRect(
-                            color = ink.copy(alpha = 0.8f),
-                            x = x + cell - unit * 2f, y = y + if (openTop) unit * 2f else 0f,
-                            width = unit * 2f, height = cell - if (openTop) unit * 2f else 0f
-                        )
-                        if (exposed && (column * 7 + row * 3) % 5 == 0) {
-                            pixelRect(
-                                color = ink.copy(alpha = 0.45f),
-                                x = x + cell * 0.28f, y = y + cell * 0.5f,
-                                width = cell * 0.2f, height = unit
-                            )
-                            pixelRect(
-                                color = ink.copy(alpha = 0.45f),
-                                x = x + cell * 0.45f, y = y + cell * 0.5f,
-                                width = unit, height = unit * 3f
-                            )
-                        }
-                    } else when (run.pickups[index]) {
-                        1 -> pixelRect(
-                            color = style.accentColor.copy(alpha = 0.7f),
-                            x = x + cell * 0.45f,
-                            y = y + cell * 0.45f,
-                            width = unit * 2f,
-                            height = unit * 2f
-                        )
-
-                        2 -> {
-                            val point = Offset(x = x + cell / 2f, y = y + cell / 2f)
-                            scale(scale = unit, pivot = point) {
-                                drawArcadeSprite(
-                                    sprite = TempleRelic,
-                                    tint = style.accentColor,
-                                    x = point.x - 6f,
-                                    y = point.y - 7f + sin(run.time * 4f) * 0.6f
-                                )
-                            }
-                        }
-
-                        3 -> {
-                            val point = Offset(x = x + cell / 2f, y = y + cell / 2f)
-                            scale(scale = unit, pivot = point) {
-                                drawArcadeSprite(
-                                    sprite = TempleShield,
-                                    tint = style.playerColor,
-                                    x = point.x - 7f,
-                                    y = point.y - 8f
-                                )
-                            }
-                        }
-                    }
-                }
-                for ((index, side) in run.traps) {
-                    val point = run.point(index = index)
-                    val active = run.trapActive(index = index)
-                    val warning = run.trapWarning(index = index)
-                    rotate(degrees = side * 90f, pivot = point) {
-                        val reach = if (active) 14f else 2f
-                        pixelRect(
-                            color = style.hazardColor.copy(alpha = if (active || warning) 0.18f else 0.06f),
-                            x = point.x - cell * 0.44f,
-                            y = point.y - cell * 0.44f,
-                            width = cell * 0.88f,
-                            height = cell * 0.88f
-                        )
-                        repeat(3) { tooth ->
-                            val x = point.x + (tooth * 5f - 6f) * unit
-                            val y = point.y - cell / 2f
-                            val color =
-                                style.hazardColor.copy(alpha = if (active || warning) 1f else 0.4f)
-                            pixelRect(
-                                color = color,
-                                x = x - unit,
-                                y = y,
-                                width = unit * 3f,
-                                height = unit * reach
-                            )
-                            pixelRect(
-                                color = color,
-                                x = x,
-                                y = y + unit * reach,
-                                width = unit,
-                                height = unit * 2f
-                            )
-                        }
-                    }
-                }
-                val door = run.point(index = run.exit)
-                scale(scale = unit, pivot = door) {
-                    drawArcadeSprite(
-                        sprite = TempleDoor,
-                        tint = style.accentColor,
-                        x = door.x - 12f,
-                        y = door.y - 14f
-                    )
-                    pixelRect(
-                        color = style.accentColor,
-                        x = door.x - 1f,
-                        y = door.y - 4f,
-                        width = 2f,
-                        height = 9f
-                    )
-                    pixelRect(
-                        color = style.accentColor,
-                        x = door.x - 3f,
-                        y = door.y - 2f,
-                        width = 6f,
-                        height = 2f
-                    )
-                }
-                for (guard in run.guards) {
-                    val point = run.guardPoint(guard = guard)
-                    scale(scale = unit, pivot = point) {
-                        drawArcadeSprite(
-                            sprite = if ((run.time * 7f + guard.phase).toInt() % 2 == 0) TempleBatUp else TempleBatDown,
-                            tint = style.accentColor,
-                            x = point.x - 16f,
-                            y = point.y - 12f
-                        )
-                    }
-                }
-                run.trail.forEachIndexed { index, tile ->
-                    val from = run.point(index = tile)
-                    val to = run.trail.getOrNull(index = index + 1)?.let { run.point(index = it) }
-                        ?: run.playerPoint
-                    drawLine(
-                        color = style.playerColor.copy(alpha = run.trailFade * (index + 1f) * 0.035f),
-                        start = from,
-                        end = to,
-                        strokeWidth = cell * 0.55f
-                    )
-                }
-                val motion = (abs(run.motionX) + abs(run.motionY)).coerceAtMost(1f)
-                val spiritUnit = cell / 36f
-                val player = run.playerPoint + Offset(
-                    x = 0f,
-                    y = sin(run.time * 3f) * spiritUnit * (1f - motion)
-                )
-                val squash = run.impact * cos((1f - run.impact) * 2f * PI.toFloat()) * 0.18f
-                scale(
-                    scaleX = spiritUnit * (1f + abs(run.motionX) * 0.12f - abs(run.motionY) * 0.06f) *
-                            (1f + if (run.impactHorizontal) -squash else squash * 0.5f),
-                    scaleY = spiritUnit * (1f + abs(run.motionY) * 0.12f - abs(run.motionX) * 0.06f) *
-                            (1f + if (run.impactHorizontal) squash * 0.5f else -squash),
-                    pivot = player
-                ) {
-                    val tint =
-                        if (run.phase == ArcadePhase.Over) style.hazardColor else style.playerColor
-                    rotate(degrees = run.motionX * 10f, pivot = player) {
-                        drawArcadeSprite(
-                            sprite = TempleSpirit[run.flutter.toInt()],
-                            tint = tint,
-                            x = player.x - 17f,
-                            y = player.y - 17f
-                        )
-                        drawArcadeSprite(
-                            sprite = TempleFace,
-                            tint = style.playerDetailColor,
-                            x = player.x - 17f,
-                            y = player.y - 17f
-                        )
-                        val blink = motion < 0.1f && run.time % 5.6f > 5.48f
-                        repeat(2) { eye ->
-                            pixelRect(
-                                color = tint,
-                                x = player.x - 5f + eye * 8f + run.motionX,
-                                y = player.y - 3f + run.motionY + if (blink) 2f else 0f,
-                                width = 3f,
-                                height = if (blink) 1f else 5f
-                            )
-                        }
-                    }
-                }
-                if (run.shield || run.protection > 0f) drawCircle(
-                    color = style.playerColor.copy(alpha = 0.7f),
-                    radius = cell * 0.62f,
-                    center = player,
-                    style = Stroke(width = unit)
-                )
-                val lavaUnit = cell / 20f
-                val floodY = top + (run.flood - run.camera) * cell
-                if (floodY < bottom) {
-                    pixelRect(
-                        color = style.hazardColor.copy(alpha = 0.85f),
-                        x = left,
-                        y = floodY,
-                        width = cell * run.columns,
-                        height = bottom - floodY
-                    )
-                    for (column in 0 until run.columns) {
-                        val ripple = sin(run.time * 4f + column * 1.3f) * lavaUnit * 1.5f
-                        pixelRect(
-                            color = style.hazardColor,
-                            x = left + column * cell,
-                            y = floodY + ripple - lavaUnit * 2f,
-                            width = cell,
-                            height = lavaUnit * 4f
-                        )
-                        if (column % 3 == 1) pixelRect(
-                            color = style.playerDetailColor.copy(alpha = 0.5f),
-                            x = left + (column + 0.2f) * cell,
-                            y = floodY + ripple + lavaUnit * 3f,
-                            width = cell * 0.35f,
-                            height = lavaUnit
-                        )
-                    }
-                }
-                run.effects.draw(
-                    scope = this,
-                    color = style.accentColor
-                )
-                scale(scaleX = 1f, scaleY = run.topInset, pivot = Offset.Zero) {
-                    drawRect(
-                        brush = fieldFade,
-                        size = Size(width = run.width, height = run.height / run.topInset),
-                        blendMode = BlendMode.DstIn
-                    )
-                }
-            } finally {
-                drawContext.canvas.restore()
-            }
-            scale(
-                scale = minOf(run.topInset / 44f, run.width / 320f),
-                pivot = Offset.Zero
-            ) {
-                repeat(3) { index ->
-                    drawArcadeSprite(
-                        sprite = TempleRelic,
-                        tint = if (index < run.relics) style.accentColor else style.detailColor.copy(
-                            alpha = 0.4f
-                        ),
-                        x = 14f + index * 18f,
-                        y = 15f
-                    )
-                }
-            }
-        }
-    }
-}
+@Serializable
+private data class TempleTrap(val position: Int, val side: Int)
 
 @Serializable
-internal data class TempleTrap(val position: Int, val side: Int)
+private data class TempleGuard(val from: Int, val to: Int, val phase: Float)
 
 @Serializable
-internal data class TempleGuard(val from: Int, val to: Int, val phase: Float)
-
-@Serializable
-internal class TempleEscapeRun : ArcadeRun() {
+private class TempleEscapeRun : ArcadeRun() {
     var columns = 13
         private set
     var rows = 33

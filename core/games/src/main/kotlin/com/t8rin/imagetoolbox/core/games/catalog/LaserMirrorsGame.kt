@@ -15,8 +15,6 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-@file:UseSerializers(ArcadeOffsetSerializer::class)
-
 package com.t8rin.imagetoolbox.core.games.catalog
 
 import androidx.compose.runtime.Composable
@@ -30,237 +28,235 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.rotate
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
-import com.t8rin.imagetoolbox.core.games.ArcadeDefaults
 import com.t8rin.imagetoolbox.core.games.ArcadeField
-import com.t8rin.imagetoolbox.core.games.ArcadeGameState
-import com.t8rin.imagetoolbox.core.games.ArcadeOffsetSerializer
+import com.t8rin.imagetoolbox.core.games.ArcadeGameContext
+import com.t8rin.imagetoolbox.core.games.ArcadeGameDefinition
+import com.t8rin.imagetoolbox.core.games.ArcadeOffset
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
-import com.t8rin.imagetoolbox.core.games.ArcadeStyle
+import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
-import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
+import com.t8rin.imagetoolbox.core.resources.Icons
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Flare
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
-import kotlinx.serialization.UseSerializers
 import kotlin.math.abs
 import kotlin.random.Random
 
-@Composable
-fun LaserMirrorsGame(
-    modifier: Modifier = Modifier,
-    initialState: ArcadeGameState = ArcadeGameState(),
-    style: ArcadeStyle = ArcadeDefaults.style,
-    onHighScoreChanged: ((Int) -> Unit)? = null,
-    onGameOver: ((Int) -> Unit)? = null,
-    isPaused: Boolean = false
-) {
-    val run = rememberArcadeRun(
-        initialState = initialState,
-        create = ::LaserMirrorsRun
-    )
+@RegisterArcadeGame
+internal data object LaserMirrorsGame : ArcadeGameDefinition {
+    override val title = R.string.arcade_lasermirrors
+    override val description = R.string.arcade_lasermirrors_sub
+    override val icon get() = Icons.Outlined.Flare
+    override val order = 32
 
-    val beamPath = remember { Path() }
+    @Composable
+    override fun Content(context: ArcadeGameContext, modifier: Modifier) {
+        val style = context.style
+        val run = rememberArcadeRun(
+            startPlaying = context.initialState.isPlaying,
+            create = ::LaserMirrorsRun
+        )
 
-    ArcadeBoard(
-        game = ArcadeGame.LaserMirrors,
-        run = run,
-        style = style,
-        modifier = modifier,
-        initialState = initialState,
-        onHighScoreChanged = onHighScoreChanged,
-        isPaused = isPaused,
-        onGameOver = onGameOver,
-        turnBased = true
-    ) {
-        ArcadeField(
+        val beamPath = remember { Path() }
+
+        ArcadeBoard(
+            context = context,
             run = run,
-            transition = { run.transition },
-            onTap = run::tap
+            modifier = modifier,
+            turnBased = true
         ) {
-            val cell = run.cell
-            val area = Size(width = cell * run.columns, height = cell * run.columns)
-            drawRoundRect(
-                color = style.detailColor.copy(alpha = 0.055f),
-                topLeft = run.origin,
-                size = area,
-                cornerRadius = CornerRadius(x = 7f)
-            )
-            drawRoundRect(
-                color = style.detailColor.copy(alpha = 0.35f),
-                topLeft = run.origin,
-                size = area,
-                cornerRadius = CornerRadius(x = 7f),
-                style = Stroke(width = 1f)
-            )
-            for (index in run.board.indices) {
-                val p = run.center(index)
-                if (run.board[index] == 3) {
-                    pixelRect(
-                        color = style.detailColor.copy(alpha = 0.65f),
-                        x = p.x - cell * 0.25f,
-                        y = p.y - cell * 0.25f,
-                        width = cell * 0.5f,
-                        height = cell * 0.5f
-                    )
-                    pixelRect(
-                        color = style.playerDetailColor.copy(alpha = 0.3f),
-                        x = p.x - cell * 0.12f,
-                        y = p.y - 1f,
-                        width = cell * 0.24f,
-                        height = 2f
-                    )
-                } else if (run.board[index] == 0 && index !in run.targets) drawCircle(
-                    color = style.detailColor.copy(alpha = 0.4f),
-                    radius = 1f,
-                    center = p
+            ArcadeField(
+                run = run,
+                transition = { run.transition },
+                onTap = run::tap
+            ) {
+                val cell = run.cell
+                val area = Size(width = cell * run.columns, height = cell * run.columns)
+                drawRoundRect(
+                    color = style.detailColor.copy(alpha = 0.055f),
+                    topLeft = run.origin,
+                    size = area,
+                    cornerRadius = CornerRadius(x = 7f)
                 )
-            }
-            val source = run.center(run.source) - Offset(x = cell * 0.65f, y = 0f)
-            val beam = beamPath.apply {
-                rewind()
-                moveTo(source.x, source.y)
-                for (index in run.beam) lineTo(run.center(index).x, run.center(index).y)
-                run.exit?.let { lineTo(it.x, it.y) }
-            }
-            drawPath(
-                path = beam,
-                color = style.playerColor.copy(alpha = 0.09f),
-                style = Stroke(
+                drawRoundRect(
+                    color = style.detailColor.copy(alpha = 0.35f),
+                    topLeft = run.origin,
+                    size = area,
+                    cornerRadius = CornerRadius(x = 7f),
+                    style = Stroke(width = 1f)
+                )
+                for (index in run.board.indices) {
+                    val p = run.center(index)
+                    if (run.board[index] == 3) {
+                        pixelRect(
+                            color = style.detailColor.copy(alpha = 0.65f),
+                            x = p.x - cell * 0.25f,
+                            y = p.y - cell * 0.25f,
+                            width = cell * 0.5f,
+                            height = cell * 0.5f
+                        )
+                        pixelRect(
+                            color = style.playerDetailColor.copy(alpha = 0.3f),
+                            x = p.x - cell * 0.12f,
+                            y = p.y - 1f,
+                            width = cell * 0.24f,
+                            height = 2f
+                        )
+                    } else if (run.board[index] == 0 && index !in run.targets) drawCircle(
+                        color = style.detailColor.copy(alpha = 0.4f),
+                        radius = 1f,
+                        center = p
+                    )
+                }
+                val source = run.center(run.source) - Offset(x = cell * 0.65f, y = 0f)
+                val beam = beamPath.apply {
+                    rewind()
+                    moveTo(source.x, source.y)
+                    for (index in run.beam) lineTo(run.center(index).x, run.center(index).y)
+                    run.exit?.let { lineTo(it.x, it.y) }
+                }
+                drawPath(
+                    path = beam,
+                    color = style.playerColor.copy(alpha = 0.09f),
+                    style = Stroke(
+                        width = 8f,
+                        cap = StrokeCap.Round
+                    )
+                )
+                drawPath(
+                    path = beam,
+                    color = style.playerColor.copy(alpha = 0.3f),
+                    style = Stroke(
+                        width = 4f,
+                        cap = StrokeCap.Round
+                    )
+                )
+                drawPath(
+                    path = beam,
+                    color = style.playerColor,
+                    style = Stroke(
+                        width = 1.5f,
+                        cap = StrokeCap.Round
+                    )
+                )
+                pixelRect(
+                    color = style.playerColor,
+                    x = source.x - 4f,
+                    y = source.y - 7f,
                     width = 8f,
-                    cap = StrokeCap.Round
+                    height = 14f
                 )
-            )
-            drawPath(
-                path = beam,
-                color = style.playerColor.copy(alpha = 0.3f),
-                style = Stroke(
-                    width = 4f,
-                    cap = StrokeCap.Round
+                pixelRect(
+                    color = style.accentColor,
+                    x = source.x + 3f,
+                    y = source.y - 3f,
+                    width = 5f,
+                    height = 6f
                 )
-            )
-            drawPath(
-                path = beam,
-                color = style.playerColor,
-                style = Stroke(
-                    width = 1.5f,
-                    cap = StrokeCap.Round
+                pixelRect(
+                    color = style.playerDetailColor.copy(alpha = 0.5f),
+                    x = source.x - 2f,
+                    y = source.y - 5f,
+                    width = 2f,
+                    height = 10f
                 )
-            )
-            pixelRect(
-                color = style.playerColor,
-                x = source.x - 4f,
-                y = source.y - 7f,
-                width = 8f,
-                height = 14f
-            )
-            pixelRect(
-                color = style.accentColor,
-                x = source.x + 3f,
-                y = source.y - 3f,
-                width = 5f,
-                height = 6f
-            )
-            pixelRect(
-                color = style.playerDetailColor.copy(alpha = 0.5f),
-                x = source.x - 2f,
-                y = source.y - 5f,
-                width = 2f,
-                height = 10f
-            )
-            pixelRect(
-                color = style.playerColor,
-                x = source.x + 6f,
-                y = source.y - 4f,
-                width = 2f,
-                height = 8f
-            )
-            for (target in run.targets) {
-                val p = run.center(target)
-                val lit = target in run.lit
-                val color = if (lit) style.accentColor else style.obstacleColor
-                drawCircle(
-                    color = color.copy(alpha = if (lit) 0.18f else 0.06f),
-                    radius = cell * 0.3f,
-                    center = p
+                pixelRect(
+                    color = style.playerColor,
+                    x = source.x + 6f,
+                    y = source.y - 4f,
+                    width = 2f,
+                    height = 8f
                 )
-                drawCircle(
-                    color = color,
-                    radius = cell * 0.21f,
-                    center = p,
-                    style = Stroke(width = 1.5f)
-                )
-                drawCircle(
-                    color = color,
-                    radius = cell * if (lit) 0.11f else 0.045f,
-                    center = p
-                )
-                if (lit) repeat(4) { side ->
-                    rotate(degrees = side * 90f, pivot = p) {
+                for (target in run.targets) {
+                    val p = run.center(target)
+                    val lit = target in run.lit
+                    val color = if (lit) style.accentColor else style.obstacleColor
+                    drawCircle(
+                        color = color.copy(alpha = if (lit) 0.18f else 0.06f),
+                        radius = cell * 0.3f,
+                        center = p
+                    )
+                    drawCircle(
+                        color = color,
+                        radius = cell * 0.21f,
+                        center = p,
+                        style = Stroke(width = 1.5f)
+                    )
+                    drawCircle(
+                        color = color,
+                        radius = cell * if (lit) 0.11f else 0.045f,
+                        center = p
+                    )
+                    if (lit) repeat(4) { side ->
+                        rotate(degrees = side * 90f, pivot = p) {
+                            drawLine(
+                                color = color,
+                                start = p + Offset(x = 0f, y = -cell * 0.3f),
+                                end = p + Offset(x = 0f, y = -cell * 0.36f),
+                                strokeWidth = 1f
+                            )
+                        }
+                    }
+                }
+                for (index in run.board.indices) if (run.board[index] in 1..2) {
+                    val p = run.center(index)
+                    drawCircle(
+                        color = style.detailColor.copy(alpha = 0.12f),
+                        radius = cell * 0.32f,
+                        center = p
+                    )
+                    val angle = run.angles[index]
+                    rotate(degrees = angle, pivot = p) {
                         drawLine(
-                            color = color,
-                            start = p + Offset(x = 0f, y = -cell * 0.3f),
-                            end = p + Offset(x = 0f, y = -cell * 0.36f),
+                            color = style.obstacleColor.copy(alpha = 0.2f),
+                            start = p - Offset(x = cell * 0.34f, y = 0f),
+                            end = p + Offset(x = cell * 0.34f, y = 0f),
+                            strokeWidth = 6f,
+                            cap = StrokeCap.Round
+                        )
+                        drawLine(
+                            color = style.obstacleColor,
+                            start = p - Offset(x = cell * 0.32f, y = 0f),
+                            end = p + Offset(x = cell * 0.32f, y = 0f),
+                            strokeWidth = 3f,
+                            cap = StrokeCap.Round
+                        )
+                        for (end in listOf(-1f, 1f)) {
+                            pixelRect(
+                                color = style.obstacleColor,
+                                x = p.x + end * cell * 0.32f - 1.5f,
+                                y = p.y - 4f,
+                                width = 3f,
+                                height = 8f
+                            )
+                        }
+                        drawLine(
+                            color = style.accentColor,
+                            start = p + Offset(x = -cell * 0.25f, y = -1f),
+                            end = p + Offset(x = cell * 0.25f, y = -1f),
                             strokeWidth = 1f
                         )
                     }
-                }
-            }
-            for (index in run.board.indices) if (run.board[index] in 1..2) {
-                val p = run.center(index)
-                drawCircle(
-                    color = style.detailColor.copy(alpha = 0.12f),
-                    radius = cell * 0.32f,
-                    center = p
-                )
-                val angle = run.angles[index]
-                rotate(degrees = angle, pivot = p) {
-                    drawLine(
-                        color = style.obstacleColor.copy(alpha = 0.2f),
-                        start = p - Offset(x = cell * 0.34f, y = 0f),
-                        end = p + Offset(x = cell * 0.34f, y = 0f),
-                        strokeWidth = 6f,
-                        cap = StrokeCap.Round
-                    )
-                    drawLine(
-                        color = style.obstacleColor,
-                        start = p - Offset(x = cell * 0.32f, y = 0f),
-                        end = p + Offset(x = cell * 0.32f, y = 0f),
-                        strokeWidth = 3f,
-                        cap = StrokeCap.Round
-                    )
-                    for (end in listOf(-1f, 1f)) {
-                        pixelRect(
-                            color = style.obstacleColor,
-                            x = p.x + end * cell * 0.32f - 1.5f,
-                            y = p.y - 4f,
-                            width = 3f,
-                            height = 8f
-                        )
-                    }
-                    drawLine(
-                        color = style.accentColor,
-                        start = p + Offset(x = -cell * 0.25f, y = -1f),
-                        end = p + Offset(x = cell * 0.25f, y = -1f),
-                        strokeWidth = 1f
+                    drawCircle(
+                        color = style.playerDetailColor,
+                        radius = 1.5f,
+                        center = p
                     )
                 }
-                drawCircle(
-                    color = style.playerDetailColor,
-                    radius = 1.5f,
-                    center = p
+                run.effects.draw(
+                    scope = this,
+                    color = style.accentColor
                 )
             }
-            run.effects.draw(
-                scope = this,
-                color = style.accentColor
-            )
         }
     }
 }
 
 @Serializable
-internal class LaserMirrorsRun : ArcadeRun() {
+private class LaserMirrorsRun : ArcadeRun() {
     var columns = 5
     var board = IntArray(25)
     var angles = FloatArray(25)
@@ -289,7 +285,7 @@ internal class LaserMirrorsRun : ArcadeRun() {
     fun center(index: Int) =
         origin + Offset(x = (index % columns + 0.5f) * cell, y = (index / columns + 0.5f) * cell)
 
-    var exit: Offset? = null
+    var exit: ArcadeOffset? = null
         private set
 
     fun neighbor(
@@ -395,7 +391,7 @@ internal class LaserMirrorsRun : ArcadeRun() {
         restartPuzzle()
     }
 
-    internal fun trace() {
+    fun trace() {
         beam.clear()
         lit.clear()
         exit = null
@@ -445,7 +441,7 @@ internal class LaserMirrorsRun : ArcadeRun() {
         if (x in 0 until columns && y in 0 until columns) turn(y * columns + x)
     }
 
-    internal fun turn(index: Int) {
+    fun turn(index: Int) {
         if (transition > 0f || index !in board.indices || board[index] !in 1..2) return
         board[index] = 3 - board[index]
         turns++

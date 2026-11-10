@@ -24,6 +24,8 @@ plugins {
 android.namespace = "com.t8rin.imagetoolbox.core.games"
 
 dependencies {
+    ksp(projects.core.ksp)
+
     implementation(projects.core.di)
     implementation(projects.core.domain)
     implementation(projects.core.resources)

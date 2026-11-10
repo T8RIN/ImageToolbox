@@ -52,12 +52,11 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -104,46 +103,6 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.repeatOnLifecycle
 import com.t8rin.imagetoolbox.core.di.entryPoint
-import com.t8rin.imagetoolbox.core.games.catalog.AsteroidsGame
-import com.t8rin.imagetoolbox.core.games.catalog.BalanceTowerGame
-import com.t8rin.imagetoolbox.core.games.catalog.BasketballGame
-import com.t8rin.imagetoolbox.core.games.catalog.BirdGame
-import com.t8rin.imagetoolbox.core.games.catalog.BomberGame
-import com.t8rin.imagetoolbox.core.games.catalog.BrickBreakerGame
-import com.t8rin.imagetoolbox.core.games.catalog.BubblePopGame
-import com.t8rin.imagetoolbox.core.games.catalog.DinoGame
-import com.t8rin.imagetoolbox.core.games.catalog.DoodleGame
-import com.t8rin.imagetoolbox.core.games.catalog.FishingGame
-import com.t8rin.imagetoolbox.core.games.catalog.FlightControlGame
-import com.t8rin.imagetoolbox.core.games.catalog.FlowConnectGame
-import com.t8rin.imagetoolbox.core.games.catalog.FruitSliceGame
-import com.t8rin.imagetoolbox.core.games.catalog.Game2048
-import com.t8rin.imagetoolbox.core.games.catalog.GravityFlipGame
-import com.t8rin.imagetoolbox.core.games.catalog.HexagonGame
-import com.t8rin.imagetoolbox.core.games.catalog.KnifeHitGame
-import com.t8rin.imagetoolbox.core.games.catalog.LaserMirrorsGame
-import com.t8rin.imagetoolbox.core.games.catalog.LightCyclesGame
-import com.t8rin.imagetoolbox.core.games.catalog.LunarLanderGame
-import com.t8rin.imagetoolbox.core.games.catalog.MazeChaserGame
-import com.t8rin.imagetoolbox.core.games.catalog.MinesweeperGame
-import com.t8rin.imagetoolbox.core.games.catalog.MissileCommandGame
-import com.t8rin.imagetoolbox.core.games.catalog.OrbitSurvivalGame
-import com.t8rin.imagetoolbox.core.games.catalog.OrchardPileGame
-import com.t8rin.imagetoolbox.core.games.catalog.PongGame
-import com.t8rin.imagetoolbox.core.games.catalog.RacerGame
-import com.t8rin.imagetoolbox.core.games.catalog.RicochetGame
-import com.t8rin.imagetoolbox.core.games.catalog.RiverHopGame
-import com.t8rin.imagetoolbox.core.games.catalog.SimonSaysGame
-import com.t8rin.imagetoolbox.core.games.catalog.SnakeGame
-import com.t8rin.imagetoolbox.core.games.catalog.SpiralShaftGame
-import com.t8rin.imagetoolbox.core.games.catalog.StackGame
-import com.t8rin.imagetoolbox.core.games.catalog.TempleEscapeGame
-import com.t8rin.imagetoolbox.core.games.catalog.TetrisGame
-import com.t8rin.imagetoolbox.core.games.catalog.TimbermanGame
-import com.t8rin.imagetoolbox.core.games.catalog.TintAscentGame
-import com.t8rin.imagetoolbox.core.games.catalog.TraceAndClaimGame
-import com.t8rin.imagetoolbox.core.games.catalog.WhackAMoleGame
-import com.t8rin.imagetoolbox.core.games.catalog.ZigZagGame
 import com.t8rin.imagetoolbox.core.games.components.LocalArcadeButton
 import com.t8rin.imagetoolbox.core.games.components.longPress
 import com.t8rin.imagetoolbox.core.games.di.GamesEntryPoint
@@ -151,7 +110,6 @@ import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Pause
 import com.t8rin.imagetoolbox.core.resources.icons.PlayCircle
-import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
 import com.t8rin.imagetoolbox.core.utils.appContext
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -166,266 +124,34 @@ fun ArcadeGameContent(
     height: Dp = Dp.Unspecified,
     isPaused: Boolean = false,
     allowNewRound: Boolean = true,
-    onPlayingChanged: ((Boolean) -> Unit)? = null
+    onPlayingChanged: ((Boolean) -> Unit)? = null,
+    initialState: ArcadeGameState = ArcadeGameState()
 ) {
     val style = ArcadeDefaults.style.let {
         if (height == Dp.Unspecified) it else it.copy(gameHeight = height)
     }
-    val selected = rememberSaveable(game) {
-        game.pickGame()
-    }
-    CompositionLocalProvider(
-        LocalArcadePlayingChanged provides onPlayingChanged,
-        LocalArcadeAllowNewRound provides allowNewRound
-    ) {
-        when (selected) {
-            ArcadeGame.Dino -> DinoGame(
-                modifier = modifier,
-                style = style,
-                isPaused = isPaused
-            )
-
-            ArcadeGame.Doodle -> DoodleGame(
-                modifier = modifier,
-                style = style,
-                isPaused = isPaused
-            )
-
-            ArcadeGame.Bird -> BirdGame(
-                modifier = modifier,
-                style = style,
-                isPaused = isPaused
-            )
-
-            ArcadeGame.Stack -> StackGame(
-                modifier = modifier,
-                style = style,
-                isPaused = isPaused
-            )
-
-            ArcadeGame.Pong -> PongGame(
-                modifier = modifier,
-                style = style,
-                isPaused = isPaused
-            )
-
-            ArcadeGame.`2048` -> Game2048(
-                modifier = modifier,
-                style = style,
-                isPaused = isPaused
-            )
-
-            ArcadeGame.Snake -> SnakeGame(
-                modifier = modifier,
-                style = style,
-                isPaused = isPaused
-            )
-
-            ArcadeGame.Tetris -> TetrisGame(
-                modifier = modifier,
-                style = style,
-                isPaused = isPaused
-            )
-
-            ArcadeGame.Racer -> RacerGame(
-                modifier = modifier,
-                style = style,
-                isPaused = isPaused
-            )
-
-            ArcadeGame.Ricochet -> RicochetGame(
-                modifier = modifier,
-                style = style,
-                isPaused = isPaused
-            )
-
-            ArcadeGame.Asteroids -> AsteroidsGame(
-                modifier = modifier,
-                style = style,
-                isPaused = isPaused
-            )
-
-            ArcadeGame.FruitSlice -> FruitSliceGame(
-                modifier = modifier,
-                style = style,
-                isPaused = isPaused
-            )
-
-            ArcadeGame.KnifeHit -> KnifeHitGame(
-                modifier = modifier,
-                style = style,
-                isPaused = isPaused
-            )
-
-            ArcadeGame.MissileCommand -> MissileCommandGame(
-                modifier = modifier,
-                style = style,
-                isPaused = isPaused
-            )
-
-            ArcadeGame.RiverHop -> RiverHopGame(
-                modifier = modifier,
-                style = style,
-                isPaused = isPaused
-            )
-
-            ArcadeGame.WhackAMole -> WhackAMoleGame(
-                modifier = modifier,
-                style = style,
-                isPaused = isPaused
-            )
-
-            ArcadeGame.SimonSays -> SimonSaysGame(
-                modifier = modifier,
-                style = style,
-                isPaused = isPaused
-            )
-
-            ArcadeGame.BubblePop -> BubblePopGame(
-                modifier = modifier,
-                style = style,
-                isPaused = isPaused
-            )
-
-            ArcadeGame.Fishing -> FishingGame(
-                modifier = modifier,
-                style = style,
-                isPaused = isPaused
-            )
-
-            ArcadeGame.Hexagon -> HexagonGame(
-                modifier = modifier,
-                style = style,
-                isPaused = isPaused
-            )
-
-            ArcadeGame.Basketball -> BasketballGame(
-                modifier = modifier,
-                style = style,
-                isPaused = isPaused
-            )
-
-            ArcadeGame.LaserMirrors -> LaserMirrorsGame(
-                modifier = modifier,
-                style = style,
-                isPaused = isPaused
-            )
-
-            ArcadeGame.FlowConnect -> FlowConnectGame(
-                modifier = modifier,
-                style = style,
-                isPaused = isPaused
-            )
-
-            ArcadeGame.FlightControl -> FlightControlGame(
-                modifier = modifier,
-                style = style,
-                isPaused = isPaused
-            )
-
-            ArcadeGame.TempleEscape -> TempleEscapeGame(
-                modifier = modifier,
-                style = style,
-                isPaused = isPaused
-            )
-
-            ArcadeGame.BalanceTower -> BalanceTowerGame(
-                modifier = modifier,
-                style = style,
-                isPaused = isPaused
-            )
-
-            ArcadeGame.Bomber -> BomberGame(
-                modifier = modifier,
-                style = style,
-                isPaused = isPaused
-            )
-
-            ArcadeGame.Minesweeper -> MinesweeperGame(
-                modifier = modifier,
-                style = style,
-                isPaused = isPaused
-            )
-
-            ArcadeGame.MazeChaser -> MazeChaserGame(
-                modifier = modifier,
-                style = style,
-                isPaused = isPaused
-            )
-
-            ArcadeGame.GravityFlip -> GravityFlipGame(
-                modifier = modifier,
-                style = style,
-                isPaused = isPaused
-            )
-
-            ArcadeGame.ZigZag -> ZigZagGame(
-                modifier = modifier,
-                style = style,
-                isPaused = isPaused
-            )
-
-            ArcadeGame.Timberman -> TimbermanGame(
-                modifier = modifier,
-                style = style,
-                isPaused = isPaused
-            )
-
-            ArcadeGame.OrbitSurvival -> OrbitSurvivalGame(
-                modifier = modifier,
-                style = style,
-                isPaused = isPaused
-            )
-
-            ArcadeGame.LunarLander -> LunarLanderGame(
-                modifier = modifier,
-                style = style,
-                isPaused = isPaused
-            )
-
-            ArcadeGame.BrickBreaker -> BrickBreakerGame(
-                modifier = modifier,
-                style = style,
-                isPaused = isPaused
-            )
-
-            ArcadeGame.LightCycles -> LightCyclesGame(
-                modifier = modifier,
-                style = style,
-                isPaused = isPaused
-            )
-
-            ArcadeGame.SpiralShaft -> SpiralShaftGame(
-                modifier = modifier,
-                style = style,
-                isPaused = isPaused
-            )
-
-            ArcadeGame.TintAscent -> TintAscentGame(
-                modifier = modifier,
-                style = style,
-                isPaused = isPaused
-            )
-
-            ArcadeGame.TraceAndClaim -> TraceAndClaimGame(
-                modifier = modifier,
-                style = style,
-                isPaused = isPaused
-            )
-
-            ArcadeGame.OrchardPile -> OrchardPileGame(
-                modifier = modifier,
-                style = style,
-                isPaused = isPaused
-            )
-
-            ArcadeGame.Random, ArcadeGame.RandomFavorite -> Unit
-        }
+    val context = ArcadeGameContext(
+        name = game.name,
+        initialState = initialState,
+        style = style,
+        isPaused = isPaused,
+        allowNewRound = allowNewRound,
+        onPlayingChanged = onPlayingChanged
+    )
+    key(game.name) {
+        game.definition.Content(context = context, modifier = modifier)
     }
 }
 
-private val LocalArcadePlayingChanged = compositionLocalOf<((Boolean) -> Unit)?> { null }
-private val LocalArcadeAllowNewRound = compositionLocalOf { true }
+@Immutable
+internal data class ArcadeGameContext(
+    val name: String,
+    val initialState: ArcadeGameState,
+    val style: ArcadeStyle,
+    val isPaused: Boolean,
+    val allowNewRound: Boolean,
+    val onPlayingChanged: ((Boolean) -> Unit)?
+)
 
 @Immutable
 data class ArcadeGameState(
@@ -585,34 +311,31 @@ internal abstract class ArcadeRun {
 
 @Composable
 internal inline fun <reified T : ArcadeRun> rememberArcadeRun(
-    initialState: ArcadeGameState,
+    startPlaying: Boolean,
     noinline create: () -> T
 ): T = rememberSaveable(saver = arcadeRunSaver(serializer<T>())) {
-    create().apply { startWhenReady = initialState.isPlaying }
+    create().apply { startWhenReady = startPlaying }
 }
 
 @Composable
 internal fun ArcadeBoard(
-    game: ArcadeGame,
+    context: ArcadeGameContext,
     run: ArcadeRun,
-    style: ArcadeStyle,
     modifier: Modifier,
-    initialState: ArcadeGameState,
-    onHighScoreChanged: ((Int) -> Unit)?,
-    onGameOver: ((Int) -> Unit)?,
     turnBased: Boolean = false,
-    isPaused: Boolean = false,
     field: @Composable () -> Unit
 ) {
+    val game = context.name
+    val style = context.style
+    val initialState = context.initialState
+    val isPaused = context.isPaused
+    val allowNewRound = context.allowNewRound
+    val playingChanged by rememberUpdatedState(context.onPlayingChanged)
     val phase = run.phase
-    val playingChanged by rememberUpdatedState(LocalArcadePlayingChanged.current)
     var starting by rememberSaveable(run) { mutableStateOf(false) }
-    val allowNewRound = LocalArcadeAllowNewRound.current
     val haptics = LocalHapticFeedback.current
     val score = run.score
     var record by rememberSaveable { mutableIntStateOf(initialState.highScore.coerceAtLeast(0)) }
-    val highScoreChanged by rememberUpdatedState(onHighScoreChanged)
-    val gameOver by rememberUpdatedState(onGameOver)
     val isPreview = LocalInspectionMode.current
     val storage = remember(isPreview) {
         if (isPreview) null else appContext.entryPoint<GamesEntryPoint>()
@@ -664,9 +387,7 @@ internal fun ArcadeBoard(
             }
             if (score > record) {
                 record = score
-                highScoreChanged?.invoke(score)
             }
-            gameOver?.invoke(score)
         }
     }
 

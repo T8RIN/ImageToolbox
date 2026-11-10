@@ -15,8 +15,6 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-@file:UseSerializers(ArcadeOffsetSerializer::class)
-
 package com.t8rin.imagetoolbox.core.games.catalog
 
 import androidx.compose.runtime.Composable
@@ -28,452 +26,454 @@ import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.drawscope.translate
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
-import com.t8rin.imagetoolbox.core.games.ArcadeDefaults
 import com.t8rin.imagetoolbox.core.games.ArcadeField
-import com.t8rin.imagetoolbox.core.games.ArcadeGameState
-import com.t8rin.imagetoolbox.core.games.ArcadeOffsetSerializer
+import com.t8rin.imagetoolbox.core.games.ArcadeGameContext
+import com.t8rin.imagetoolbox.core.games.ArcadeGameDefinition
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.ArcadeSprite
-import com.t8rin.imagetoolbox.core.games.ArcadeStyle
+import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
-import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
+import com.t8rin.imagetoolbox.core.resources.Icons
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Water
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.UseSerializers
 import kotlin.math.abs
 import kotlin.math.ceil
 import kotlin.math.sin
 import kotlin.random.Random
+
+@RegisterArcadeGame
+internal data object RiverHopGame : ArcadeGameDefinition {
+    override val title = R.string.arcade_riverhop
+    override val description = R.string.arcade_riverhop_sub
+    override val icon get() = Icons.Rounded.Water
+    override val order = 14
+
+    @Composable
+    override fun Content(context: ArcadeGameContext, modifier: Modifier) {
+        val style = context.style
+        val run = rememberArcadeRun(
+            startPlaying = context.initialState.isPlaying,
+            create = ::RiverHopRun
+        )
+
+        ArcadeBoard(
+            context = context,
+            run = run,
+            modifier = modifier
+        ) {
+            ArcadeField(
+                run = run,
+                onTap = {
+                    run.hop(
+                        dx = 0,
+                        dy = 1
+                    )
+                },
+                onSwipe = run::swipe,
+                swipeOnDrag = true
+            ) {
+                val cell = run.cell
+                val left = run.left
+                for ((index, kind, speed, length, period, offset) in run.lanes) {
+                    val y = run.screenY(index.toFloat()) - cell / 2f
+                    if (y < -cell || y > run.height) continue
+                    val tint = when (kind) {
+                        1 -> style.textColor
+                        2 -> style.playerColor
+                        else -> style.obstacleColor
+                    }
+                    pixelRect(
+                        color = tint.copy(
+                            alpha = when (kind) {
+                                0 -> 0.22f
+                                2 -> 0.18f
+                                else -> 0.035f
+                            }
+                        ),
+                        x = 0f,
+                        y = y,
+                        width = run.width,
+                        height = cell
+                    )
+                    if (kind == 0) {
+                        pixelRect(
+                            color = style.obstacleColor.copy(alpha = 0.45f),
+                            x = 0f,
+                            y = y,
+                            width = run.width,
+                            height = 2f
+                        )
+                        pixelRect(
+                            color = style.playerDetailColor.copy(alpha = 0.18f),
+                            x = 0f,
+                            y = y + cell - 3f,
+                            width = run.width,
+                            height = 3f
+                        )
+                        repeat(9) { column ->
+                            val x = left + (column + 0.3f) * cell
+                            pixelRect(
+                                color = style.obstacleColor.copy(alpha = 0.7f),
+                                x = x,
+                                y = y + cell * 0.7f,
+                                width = 2f,
+                                height = 4f
+                            )
+                            pixelRect(
+                                color = style.obstacleColor.copy(alpha = 0.5f),
+                                x = x + 4f,
+                                y = y + cell * 0.75f,
+                                width = 2f,
+                                height = 3f
+                            )
+                        }
+                        continue
+                    }
+                    if (kind == 1) {
+                        repeat(9) { column ->
+                            pixelRect(
+                                color = style.textColor.copy(alpha = 0.3f),
+                                x = left + column * cell,
+                                y = y + 1f,
+                                width = cell * 0.4f,
+                                height = 2f
+                            )
+                        }
+                    } else {
+                        repeat(18) { index ->
+                            val x =
+                                left + ((index / 2f + run.water * speed * 0.15f + 90f) % 9f) * cell
+                            val waveY = y + cell * if (index % 2 == 0) 0.12f else 0.86f
+                            pixelRect(
+                                color = style.playerColor.copy(alpha = 0.4f),
+                                x = x,
+                                y = waveY,
+                                width = 8f,
+                                height = 1f
+                            )
+                            pixelRect(
+                                color = style.playerColor.copy(alpha = 0.25f),
+                                x = x + 8f,
+                                y = waveY - 1f,
+                                width = 4f,
+                                height = 1f
+                            )
+                        }
+                    }
+                    var start = offset % period - period
+                    while (start < 9f) {
+                        val x = left + start * cell
+                        val length = length * cell
+                        if (kind == 2) {
+                            val top = y + cell * 0.22f
+                            val height = cell * 0.58f
+                            pixelRect(
+                                color = style.accentColor,
+                                x = x + 5f,
+                                y = top,
+                                width = length - 10f,
+                                height = height
+                            )
+                            pixelRect(
+                                color = style.accentColor,
+                                x = x + 2f,
+                                y = top + 3f,
+                                width = length - 4f,
+                                height = height - 6f
+                            )
+                            val grain = style.playerDetailColor.copy(alpha = 0.35f)
+                            for (end in listOf(x + 5f, x + length - 9f)) {
+                                pixelRect(
+                                    color = grain,
+                                    x = end,
+                                    y = top + 3f,
+                                    width = 2f,
+                                    height = height - 6f
+                                )
+                                pixelRect(
+                                    color = grain,
+                                    x = end + 2f,
+                                    y = top + 6f,
+                                    width = 2f,
+                                    height = height - 12f
+                                )
+                            }
+                            pixelRect(
+                                color = grain,
+                                x = x + 12f,
+                                y = top + 4f,
+                                width = length * 0.35f,
+                                height = 1f
+                            )
+                            pixelRect(
+                                color = grain,
+                                x = x + length * 0.45f,
+                                y = top + height - 5f,
+                                width = length * 0.3f,
+                                height = 1f
+                            )
+                            val knot = x + length * 0.6f
+                            pixelRect(
+                                color = grain,
+                                x = knot,
+                                y = top + height / 2f - 2f,
+                                width = 6f,
+                                height = 1f
+                            )
+                            pixelRect(
+                                color = grain,
+                                x = knot - 2f,
+                                y = top + height / 2f - 1f,
+                                width = 2f,
+                                height = 3f
+                            )
+                            pixelRect(
+                                color = grain,
+                                x = knot,
+                                y = top + height / 2f + 2f,
+                                width = 6f,
+                                height = 1f
+                            )
+                        } else {
+                            val color =
+                                if (index % 2 == 0) style.accentColor else style.obstacleColor
+                            val center = Offset(x = x + length / 2f, y = y + cell / 2f)
+                            scale(
+                                scaleX = if (speed > 0f) 1f else -1f,
+                                scaleY = 1f,
+                                pivot = center
+                            ) {
+                                val top = y + cell * 0.22f
+                                val height = cell * 0.56f
+                                val truck = length > cell * 1.8f
+                                val detail = style.playerDetailColor
+                                val trim = detail.copy(alpha = 0.25f)
+                                val axles =
+                                    if (truck) listOf(0.14f, 0.3f, 0.78f) else listOf(0.18f, 0.76f)
+                                for (axle in axles) {
+                                    pixelRect(
+                                        color = Color.Black.copy(alpha = 0.65f),
+                                        x = x + length * axle,
+                                        y = top - 3f,
+                                        width = length * 0.1f,
+                                        height = height + 6f
+                                    )
+                                }
+                                if (truck) {
+                                    val cargo = length * 0.66f
+                                    val cab = x + length * 0.72f
+                                    pixelRect(
+                                        color = color,
+                                        x = x + 2f,
+                                        y = top,
+                                        width = cargo,
+                                        height = height
+                                    )
+                                    pixelRect(
+                                        color = color,
+                                        x = x + cargo,
+                                        y = top + 5f,
+                                        width = length * 0.1f,
+                                        height = height - 10f
+                                    )
+                                    pixelRect(
+                                        color = color,
+                                        x = cab,
+                                        y = top + 1f,
+                                        width = length * 0.28f - 4f,
+                                        height = height - 2f
+                                    )
+                                    pixelRect(
+                                        color = color,
+                                        x = cab + 2f,
+                                        y = top + 3f,
+                                        width = length * 0.28f - 4f,
+                                        height = height - 6f
+                                    )
+                                    for (pane in listOf(top + 3f, top + height / 2f + 1f)) {
+                                        pixelRect(
+                                            color = detail,
+                                            x = x + length * 0.83f,
+                                            y = pane,
+                                            width = length * 0.09f,
+                                            height = height / 2f - 4f
+                                        )
+                                    }
+                                    for (edge in listOf(top + 3f, top + height - 4f)) {
+                                        pixelRect(
+                                            color = trim,
+                                            x = x + 5f,
+                                            y = edge,
+                                            width = cargo - 6f,
+                                            height = 1f
+                                        )
+                                    }
+                                } else {
+                                    pixelRect(
+                                        color = color,
+                                        x = x + 4f,
+                                        y = top,
+                                        width = length * 0.72f - 4f,
+                                        height = height
+                                    )
+                                    pixelRect(
+                                        color = color,
+                                        x = x + length * 0.72f,
+                                        y = top + 2f,
+                                        width = length * 0.28f - 3f,
+                                        height = height - 4f
+                                    )
+                                    pixelRect(
+                                        color = color,
+                                        x = x + 2f,
+                                        y = top + 2f,
+                                        width = 2f,
+                                        height = height - 4f
+                                    )
+                                    pixelRect(
+                                        color = color,
+                                        x = x + length - 3f,
+                                        y = top + 4f,
+                                        width = 2f,
+                                        height = height - 8f
+                                    )
+                                    pixelRect(
+                                        color = detail,
+                                        x = x + length * 0.61f,
+                                        y = top + 3f,
+                                        width = length * 0.14f,
+                                        height = height - 6f
+                                    )
+                                    pixelRect(
+                                        color = detail,
+                                        x = x + length * 0.23f,
+                                        y = top + 4f,
+                                        width = length * 0.12f,
+                                        height = height - 8f
+                                    )
+                                    for (mirror in listOf(top - 1f, top + height - 1f)) {
+                                        pixelRect(
+                                            color = color,
+                                            x = x + length * 0.6f,
+                                            y = mirror,
+                                            width = 3f,
+                                            height = 2f
+                                        )
+                                    }
+                                    pixelRect(
+                                        color = trim,
+                                        x = x + length * 0.79f,
+                                        y = top + 4f,
+                                        width = 1f,
+                                        height = height - 8f
+                                    )
+                                }
+                                for (edge in listOf(top + 2f, top + height - 5f)) {
+                                    pixelRect(
+                                        color = style.playerDetailColor,
+                                        x = x + length - if (truck) 6f else 5f,
+                                        y = edge,
+                                        width = 2f,
+                                        height = 3f
+                                    )
+                                    pixelRect(
+                                        color = style.hazardColor,
+                                        x = x + 2f,
+                                        y = edge,
+                                        width = 2f,
+                                        height = 3f
+                                    )
+                                }
+                            }
+                        }
+                        start += period
+                    }
+                }
+                val point = Offset(x = left + run.drawX * cell, y = run.screenY(run.drawRow))
+                val lift =
+                    sin(run.hopProgress * kotlin.math.PI.toFloat()) * 7f
+                drawOval(
+                    color = style.textColor.copy(alpha = 0.18f),
+                    topLeft = point - Offset(x = 9f, y = -5f),
+                    size = Size(width = 18f, height = 6f)
+                )
+                translate(left = point.x, top = point.y - lift) {
+                    rotate(degrees = run.facing, pivot = Offset.Zero) {
+                        scale(scale = cell * 0.68f / 24f, pivot = Offset.Zero) {
+                            repeat(4) { index ->
+                                val offset = when (index) {
+                                    0 -> Offset(x = -1.5f, y = 0f)
+                                    1 -> Offset(x = 1.5f, y = 0f)
+                                    2 -> Offset(x = 0f, y = -1.5f)
+                                    else -> Offset(x = 0f, y = 1.5f)
+                                }
+                                drawArcadeSprite(
+                                    sprite = RiverFrog,
+                                    tint = style.playerDetailColor,
+                                    x = -12f + offset.x,
+                                    y = -12f + offset.y
+                                )
+                            }
+                            drawArcadeSprite(
+                                sprite = RiverFrog,
+                                tint = style.playerColor,
+                                x = -12f,
+                                y = -12f
+                            )
+                            pixelRect(
+                                color = style.playerDetailColor,
+                                x = -7f,
+                                y = -8f,
+                                width = 3f,
+                                height = 3f
+                            )
+                            pixelRect(
+                                color = style.playerDetailColor,
+                                x = 4f,
+                                y = -8f,
+                                width = 3f,
+                                height = 3f
+                            )
+                            pixelRect(
+                                color = style.playerDetailColor.copy(alpha = 0.4f),
+                                x = -4f,
+                                y = 1f,
+                                width = 8f,
+                                height = 3f
+                            )
+                        }
+                    }
+                }
+                pixelRect(
+                    color = style.detailColor.copy(alpha = 0.25f),
+                    x = 12f,
+                    y = run.height - 7f,
+                    width = run.width - 24f,
+                    height = 2f
+                )
+                pixelRect(
+                    color = if (run.remaining < 2f) style.hazardColor else style.accentColor,
+                    x = 12f,
+                    y = run.height - 7f,
+                    width = (run.width - 24f) * run.remaining / 8f,
+                    height = 2f
+                )
+            }
+        }
+    }
+}
 
 private val RiverFrog = ArcadeSprite(
     width = 24, height = 24,
     data = "M3 1H8V5H16V1H21V8H18V11H22V15H24V21H19V18H16V22H8V18H5V21H0V15H2V11H6V8H3Z"
 )
 
-@Composable
-fun RiverHopGame(
-    modifier: Modifier = Modifier,
-    initialState: ArcadeGameState = ArcadeGameState(),
-    style: ArcadeStyle = ArcadeDefaults.style,
-    onHighScoreChanged: ((Int) -> Unit)? = null,
-    onGameOver: ((Int) -> Unit)? = null,
-    isPaused: Boolean = false
-) {
-    val run = rememberArcadeRun(
-        initialState = initialState,
-        create = ::RiverHopRun
-    )
-
-    ArcadeBoard(
-        game = ArcadeGame.RiverHop,
-        run = run,
-        style = style,
-        modifier = modifier,
-        initialState = initialState,
-        onHighScoreChanged = onHighScoreChanged,
-        isPaused = isPaused,
-        onGameOver = onGameOver
-    ) {
-        ArcadeField(
-            run = run,
-            onTap = {
-                run.hop(
-                    dx = 0,
-                    dy = 1
-                )
-            },
-            onSwipe = run::swipe,
-            swipeOnDrag = true
-        ) {
-            val cell = run.cell
-            val left = run.left
-            for ((index, kind, speed, length, period, offset) in run.lanes) {
-                val y = run.screenY(index.toFloat()) - cell / 2f
-                if (y < -cell || y > run.height) continue
-                val tint = when (kind) {
-                    1 -> style.textColor
-                    2 -> style.playerColor
-                    else -> style.obstacleColor
-                }
-                pixelRect(
-                    color = tint.copy(
-                        alpha = when (kind) {
-                            0 -> 0.22f
-                            2 -> 0.18f
-                            else -> 0.035f
-                        }
-                    ),
-                    x = 0f,
-                    y = y,
-                    width = run.width,
-                    height = cell
-                )
-                if (kind == 0) {
-                    pixelRect(
-                        color = style.obstacleColor.copy(alpha = 0.45f),
-                        x = 0f,
-                        y = y,
-                        width = run.width,
-                        height = 2f
-                    )
-                    pixelRect(
-                        color = style.playerDetailColor.copy(alpha = 0.18f),
-                        x = 0f,
-                        y = y + cell - 3f,
-                        width = run.width,
-                        height = 3f
-                    )
-                    repeat(9) { column ->
-                        val x = left + (column + 0.3f) * cell
-                        pixelRect(
-                            color = style.obstacleColor.copy(alpha = 0.7f),
-                            x = x,
-                            y = y + cell * 0.7f,
-                            width = 2f,
-                            height = 4f
-                        )
-                        pixelRect(
-                            color = style.obstacleColor.copy(alpha = 0.5f),
-                            x = x + 4f,
-                            y = y + cell * 0.75f,
-                            width = 2f,
-                            height = 3f
-                        )
-                    }
-                    continue
-                }
-                if (kind == 1) {
-                    repeat(9) { column ->
-                        pixelRect(
-                            color = style.textColor.copy(alpha = 0.3f),
-                            x = left + column * cell,
-                            y = y + 1f,
-                            width = cell * 0.4f,
-                            height = 2f
-                        )
-                    }
-                } else {
-                    repeat(18) { index ->
-                        val x =
-                            left + ((index / 2f + run.water * speed * 0.15f + 90f) % 9f) * cell
-                        val waveY = y + cell * if (index % 2 == 0) 0.12f else 0.86f
-                        pixelRect(
-                            color = style.playerColor.copy(alpha = 0.4f),
-                            x = x,
-                            y = waveY,
-                            width = 8f,
-                            height = 1f
-                        )
-                        pixelRect(
-                            color = style.playerColor.copy(alpha = 0.25f),
-                            x = x + 8f,
-                            y = waveY - 1f,
-                            width = 4f,
-                            height = 1f
-                        )
-                    }
-                }
-                var start = offset % period - period
-                while (start < 9f) {
-                    val x = left + start * cell
-                    val length = length * cell
-                    if (kind == 2) {
-                        val top = y + cell * 0.22f
-                        val height = cell * 0.58f
-                        pixelRect(
-                            color = style.accentColor,
-                            x = x + 5f,
-                            y = top,
-                            width = length - 10f,
-                            height = height
-                        )
-                        pixelRect(
-                            color = style.accentColor,
-                            x = x + 2f,
-                            y = top + 3f,
-                            width = length - 4f,
-                            height = height - 6f
-                        )
-                        val grain = style.playerDetailColor.copy(alpha = 0.35f)
-                        for (end in listOf(x + 5f, x + length - 9f)) {
-                            pixelRect(
-                                color = grain,
-                                x = end,
-                                y = top + 3f,
-                                width = 2f,
-                                height = height - 6f
-                            )
-                            pixelRect(
-                                color = grain,
-                                x = end + 2f,
-                                y = top + 6f,
-                                width = 2f,
-                                height = height - 12f
-                            )
-                        }
-                        pixelRect(
-                            color = grain,
-                            x = x + 12f,
-                            y = top + 4f,
-                            width = length * 0.35f,
-                            height = 1f
-                        )
-                        pixelRect(
-                            color = grain,
-                            x = x + length * 0.45f,
-                            y = top + height - 5f,
-                            width = length * 0.3f,
-                            height = 1f
-                        )
-                        val knot = x + length * 0.6f
-                        pixelRect(
-                            color = grain,
-                            x = knot,
-                            y = top + height / 2f - 2f,
-                            width = 6f,
-                            height = 1f
-                        )
-                        pixelRect(
-                            color = grain,
-                            x = knot - 2f,
-                            y = top + height / 2f - 1f,
-                            width = 2f,
-                            height = 3f
-                        )
-                        pixelRect(
-                            color = grain,
-                            x = knot,
-                            y = top + height / 2f + 2f,
-                            width = 6f,
-                            height = 1f
-                        )
-                    } else {
-                        val color = if (index % 2 == 0) style.accentColor else style.obstacleColor
-                        val center = Offset(x = x + length / 2f, y = y + cell / 2f)
-                        scale(scaleX = if (speed > 0f) 1f else -1f, scaleY = 1f, pivot = center) {
-                            val top = y + cell * 0.22f
-                            val height = cell * 0.56f
-                            val truck = length > cell * 1.8f
-                            val detail = style.playerDetailColor
-                            val trim = detail.copy(alpha = 0.25f)
-                            val axles =
-                                if (truck) listOf(0.14f, 0.3f, 0.78f) else listOf(0.18f, 0.76f)
-                            for (axle in axles) {
-                                pixelRect(
-                                    color = Color.Black.copy(alpha = 0.65f),
-                                    x = x + length * axle,
-                                    y = top - 3f,
-                                    width = length * 0.1f,
-                                    height = height + 6f
-                                )
-                            }
-                            if (truck) {
-                                val cargo = length * 0.66f
-                                val cab = x + length * 0.72f
-                                pixelRect(
-                                    color = color,
-                                    x = x + 2f,
-                                    y = top,
-                                    width = cargo,
-                                    height = height
-                                )
-                                pixelRect(
-                                    color = color,
-                                    x = x + cargo,
-                                    y = top + 5f,
-                                    width = length * 0.1f,
-                                    height = height - 10f
-                                )
-                                pixelRect(
-                                    color = color,
-                                    x = cab,
-                                    y = top + 1f,
-                                    width = length * 0.28f - 4f,
-                                    height = height - 2f
-                                )
-                                pixelRect(
-                                    color = color,
-                                    x = cab + 2f,
-                                    y = top + 3f,
-                                    width = length * 0.28f - 4f,
-                                    height = height - 6f
-                                )
-                                for (pane in listOf(top + 3f, top + height / 2f + 1f)) {
-                                    pixelRect(
-                                        color = detail,
-                                        x = x + length * 0.83f,
-                                        y = pane,
-                                        width = length * 0.09f,
-                                        height = height / 2f - 4f
-                                    )
-                                }
-                                for (edge in listOf(top + 3f, top + height - 4f)) {
-                                    pixelRect(
-                                        color = trim,
-                                        x = x + 5f,
-                                        y = edge,
-                                        width = cargo - 6f,
-                                        height = 1f
-                                    )
-                                }
-                            } else {
-                                pixelRect(
-                                    color = color,
-                                    x = x + 4f,
-                                    y = top,
-                                    width = length * 0.72f - 4f,
-                                    height = height
-                                )
-                                pixelRect(
-                                    color = color,
-                                    x = x + length * 0.72f,
-                                    y = top + 2f,
-                                    width = length * 0.28f - 3f,
-                                    height = height - 4f
-                                )
-                                pixelRect(
-                                    color = color,
-                                    x = x + 2f,
-                                    y = top + 2f,
-                                    width = 2f,
-                                    height = height - 4f
-                                )
-                                pixelRect(
-                                    color = color,
-                                    x = x + length - 3f,
-                                    y = top + 4f,
-                                    width = 2f,
-                                    height = height - 8f
-                                )
-                                pixelRect(
-                                    color = detail,
-                                    x = x + length * 0.61f,
-                                    y = top + 3f,
-                                    width = length * 0.14f,
-                                    height = height - 6f
-                                )
-                                pixelRect(
-                                    color = detail,
-                                    x = x + length * 0.23f,
-                                    y = top + 4f,
-                                    width = length * 0.12f,
-                                    height = height - 8f
-                                )
-                                for (mirror in listOf(top - 1f, top + height - 1f)) {
-                                    pixelRect(
-                                        color = color,
-                                        x = x + length * 0.6f,
-                                        y = mirror,
-                                        width = 3f,
-                                        height = 2f
-                                    )
-                                }
-                                pixelRect(
-                                    color = trim,
-                                    x = x + length * 0.79f,
-                                    y = top + 4f,
-                                    width = 1f,
-                                    height = height - 8f
-                                )
-                            }
-                            for (edge in listOf(top + 2f, top + height - 5f)) {
-                                pixelRect(
-                                    color = style.playerDetailColor,
-                                    x = x + length - if (truck) 6f else 5f,
-                                    y = edge,
-                                    width = 2f,
-                                    height = 3f
-                                )
-                                pixelRect(
-                                    color = style.hazardColor,
-                                    x = x + 2f,
-                                    y = edge,
-                                    width = 2f,
-                                    height = 3f
-                                )
-                            }
-                        }
-                    }
-                    start += period
-                }
-            }
-            val point = Offset(x = left + run.drawX * cell, y = run.screenY(run.drawRow))
-            val lift =
-                sin(run.hopProgress * kotlin.math.PI.toFloat()) * 7f
-            drawOval(
-                color = style.textColor.copy(alpha = 0.18f),
-                topLeft = point - Offset(x = 9f, y = -5f),
-                size = Size(width = 18f, height = 6f)
-            )
-            translate(left = point.x, top = point.y - lift) {
-                rotate(degrees = run.facing, pivot = Offset.Zero) {
-                    scale(scale = cell * 0.68f / 24f, pivot = Offset.Zero) {
-                        repeat(4) { index ->
-                            val offset = when (index) {
-                                0 -> Offset(x = -1.5f, y = 0f)
-                                1 -> Offset(x = 1.5f, y = 0f)
-                                2 -> Offset(x = 0f, y = -1.5f)
-                                else -> Offset(x = 0f, y = 1.5f)
-                            }
-                            drawArcadeSprite(
-                                sprite = RiverFrog,
-                                tint = style.playerDetailColor,
-                                x = -12f + offset.x,
-                                y = -12f + offset.y
-                            )
-                        }
-                        drawArcadeSprite(
-                            sprite = RiverFrog,
-                            tint = style.playerColor,
-                            x = -12f,
-                            y = -12f
-                        )
-                        pixelRect(
-                            color = style.playerDetailColor,
-                            x = -7f,
-                            y = -8f,
-                            width = 3f,
-                            height = 3f
-                        )
-                        pixelRect(
-                            color = style.playerDetailColor,
-                            x = 4f,
-                            y = -8f,
-                            width = 3f,
-                            height = 3f
-                        )
-                        pixelRect(
-                            color = style.playerDetailColor.copy(alpha = 0.4f),
-                            x = -4f,
-                            y = 1f,
-                            width = 8f,
-                            height = 3f
-                        )
-                    }
-                }
-            }
-            pixelRect(
-                color = style.detailColor.copy(alpha = 0.25f),
-                x = 12f,
-                y = run.height - 7f,
-                width = run.width - 24f,
-                height = 2f
-            )
-            pixelRect(
-                color = if (run.remaining < 2f) style.hazardColor else style.accentColor,
-                x = 12f,
-                y = run.height - 7f,
-                width = (run.width - 24f) * run.remaining / 8f,
-                height = 2f
-            )
-        }
-    }
-}
-
 @Serializable
-internal data class RiverLane(
+private data class RiverLane(
     val index: Int,
     val kind: Int,
     val speed: Float,
@@ -483,7 +483,7 @@ internal data class RiverLane(
 )
 
 @Serializable
-internal class RiverHopRun : ArcadeRun() {
+private class RiverHopRun : ArcadeRun() {
     val lanes = mutableListOf<RiverLane>()
     val cell get() = minOf(width / 9f, (height - topInset - 12f) / 5f)
     val left get() = (width - cell * 9f) / 2f

@@ -15,8 +15,6 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-@file:UseSerializers(ArcadeDequeSerializer::class)
-
 package com.t8rin.imagetoolbox.core.games.catalog
 
 import androidx.compose.runtime.Composable
@@ -32,24 +30,114 @@ import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.graphics.lerp
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
-import com.t8rin.imagetoolbox.core.games.ArcadeDefaults
-import com.t8rin.imagetoolbox.core.games.ArcadeDequeSerializer
+import com.t8rin.imagetoolbox.core.games.ArcadeDeque
 import com.t8rin.imagetoolbox.core.games.ArcadeField
-import com.t8rin.imagetoolbox.core.games.ArcadeGameState
+import com.t8rin.imagetoolbox.core.games.ArcadeGameContext
+import com.t8rin.imagetoolbox.core.games.ArcadeGameDefinition
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.ArcadeStyle
+import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
 import com.t8rin.imagetoolbox.core.games.utils.arcadeAngle
 import com.t8rin.imagetoolbox.core.games.utils.arcadeAngleDistance
-import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
+import com.t8rin.imagetoolbox.core.resources.Icons
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Laps
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
-import kotlinx.serialization.UseSerializers
 import kotlin.math.ceil
 import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.random.Random
+
+@RegisterArcadeGame
+internal data object SpiralShaftGame : ArcadeGameDefinition {
+    override val title = R.string.arcade_spiralshaft
+    override val description = R.string.arcade_spiralshaft_sub
+    override val icon get() = Icons.Outlined.Laps
+    override val order = 36
+
+    @Composable
+    override fun Content(context: ArcadeGameContext, modifier: Modifier) {
+        val style = context.style
+        val run = rememberArcadeRun(
+            startPlaying = context.initialState.isPlaying,
+            create = ::SpiralShaftRun
+        )
+        val path = remember { Path() }
+
+        ArcadeBoard(
+            context = context,
+            run = run,
+            modifier = modifier
+        ) {
+            ArcadeField(
+                run = run,
+                onPress = { run.grab(it.x) },
+                onDrag = { run.spin(it.x) },
+                onRelease = run::stopInput
+            ) {
+                translate(left = run.width / 2f, top = run.anchor) {
+                    scale(scale = run.unit, pivot = Offset.Zero) {
+                        val top = -run.anchor / run.unit
+                        val bottom = (run.height - run.anchor) / run.unit
+                        val platforms = run.platforms.asReversed()
+                        for (platform in platforms) {
+                            val y = run.project(0f, platform.y, 0f).y
+                            if (y in top - 52f..bottom + 52f) {
+                                shaftPlatform(
+                                    run = run,
+                                    style = style,
+                                    path = path,
+                                    platform = platform,
+                                    front = false
+                                )
+                            }
+                        }
+                        drawShaft(
+                            run = run,
+                            style = style,
+                            path = path,
+                            top = top,
+                            bottom = bottom
+                        )
+
+                        var ballDrawn = false
+                        for (platform in platforms) {
+                            val y = run.project(0f, platform.y, 0f).y
+                            if (y !in top - 52f..bottom + 52f) continue
+                            if (!ballDrawn && run.ball > platform.y) {
+                                shaftBall(run, style)
+                                ballDrawn = true
+                            }
+                            shaftPlatform(
+                                run = run,
+                                style = style,
+                                path = path,
+                                platform = platform,
+                                front = true
+                            )
+                        }
+                        if (!ballDrawn) shaftBall(run, style)
+                        translate(
+                            top = run.project(
+                                0f,
+                                run.camera,
+                                ShaftTrackRadius
+                            ).y - run.camera
+                        ) {
+                            run.effects.draw(
+                                scope = this,
+                                color = style.accentColor
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
 
 private const val ShaftOuterRadius = 83f
 private const val ShaftInnerRadius = 17f
@@ -61,91 +149,6 @@ private const val ShaftSpacing = 84f
 private const val ShaftCombo = 3
 private const val ShaftStageSize = 11
 private const val ShaftShatterTime = 0.46f
-
-@Composable
-fun SpiralShaftGame(
-    modifier: Modifier = Modifier,
-    initialState: ArcadeGameState = ArcadeGameState(),
-    style: ArcadeStyle = ArcadeDefaults.style,
-    onHighScoreChanged: ((Int) -> Unit)? = null,
-    onGameOver: ((Int) -> Unit)? = null,
-    isPaused: Boolean = false
-) {
-    val run = rememberArcadeRun(
-        initialState = initialState,
-        create = ::SpiralShaftRun
-    )
-    val path = remember { Path() }
-
-    ArcadeBoard(
-        game = ArcadeGame.SpiralShaft,
-        run = run,
-        style = style,
-        modifier = modifier,
-        initialState = initialState,
-        onHighScoreChanged = onHighScoreChanged,
-        isPaused = isPaused,
-        onGameOver = onGameOver
-    ) {
-        ArcadeField(
-            run = run,
-            onPress = { run.grab(it.x) },
-            onDrag = { run.spin(it.x) },
-            onRelease = run::stopInput
-        ) {
-            translate(left = run.width / 2f, top = run.anchor) {
-                scale(scale = run.unit, pivot = Offset.Zero) {
-                    val top = -run.anchor / run.unit
-                    val bottom = (run.height - run.anchor) / run.unit
-                    val platforms = run.platforms.asReversed()
-                    for (platform in platforms) {
-                        val y = run.project(0f, platform.y, 0f).y
-                        if (y in top - 52f..bottom + 52f) {
-                            shaftPlatform(
-                                run = run,
-                                style = style,
-                                path = path,
-                                platform = platform,
-                                front = false
-                            )
-                        }
-                    }
-                    drawShaft(
-                        run = run,
-                        style = style,
-                        path = path,
-                        top = top,
-                        bottom = bottom
-                    )
-
-                    var ballDrawn = false
-                    for (platform in platforms) {
-                        val y = run.project(0f, platform.y, 0f).y
-                        if (y !in top - 52f..bottom + 52f) continue
-                        if (!ballDrawn && run.ball > platform.y) {
-                            shaftBall(run, style)
-                            ballDrawn = true
-                        }
-                        shaftPlatform(
-                            run = run,
-                            style = style,
-                            path = path,
-                            platform = platform,
-                            front = true
-                        )
-                    }
-                    if (!ballDrawn) shaftBall(run, style)
-                    translate(top = run.project(0f, run.camera, ShaftTrackRadius).y - run.camera) {
-                        run.effects.draw(
-                            scope = this,
-                            color = style.accentColor
-                        )
-                    }
-                }
-            }
-        }
-    }
-}
 
 private fun DrawScope.drawShaft(
     run: SpiralShaftRun,
@@ -381,7 +384,7 @@ private fun DrawScope.shaftBall(run: SpiralShaftRun, style: ArcadeStyle) {
 }
 
 @Serializable
-internal class ShaftPlatform(
+private class ShaftPlatform(
     val y: Float,
     val gap: Float,
     val opening: Float,
@@ -396,8 +399,8 @@ internal class ShaftPlatform(
 )
 
 @Serializable
-internal class SpiralShaftRun : ArcadeRun() {
-    val platforms = ArrayDeque<ShaftPlatform>()
+private class SpiralShaftRun : ArcadeRun() {
+    val platforms: ArcadeDeque<ShaftPlatform> = ArrayDeque()
     var ball = -46f
         private set
     var velocity = 0f

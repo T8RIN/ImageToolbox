@@ -22,105 +22,104 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
-import com.t8rin.imagetoolbox.core.games.ArcadeDefaults
 import com.t8rin.imagetoolbox.core.games.ArcadeField
-import com.t8rin.imagetoolbox.core.games.ArcadeGameState
+import com.t8rin.imagetoolbox.core.games.ArcadeGameContext
+import com.t8rin.imagetoolbox.core.games.ArcadeGameDefinition
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.ArcadeSprite
-import com.t8rin.imagetoolbox.core.games.ArcadeStyle
+import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
-import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
+import com.t8rin.imagetoolbox.core.resources.Icons
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Dinosaur
 import kotlinx.serialization.Serializable
 import kotlin.math.exp
 import kotlin.math.sqrt
 import kotlin.random.Random
 
-@Composable
-fun DinoGame(
-    modifier: Modifier = Modifier,
-    initialState: ArcadeGameState = ArcadeGameState(),
-    style: ArcadeStyle = ArcadeDefaults.style,
-    onHighScoreChanged: ((Int) -> Unit)? = null,
-    onGameOver: ((Int) -> Unit)? = null,
-    isPaused: Boolean = false
-) {
-    val run = rememberArcadeRun(
-        initialState = initialState,
-        create = ::DinoRun
-    )
+@RegisterArcadeGame
+internal data object DinoGame : ArcadeGameDefinition {
+    override val title = R.string.arcade_dino
+    override val description = R.string.arcade_dino_sub
+    override val icon get() = Icons.Outlined.Dinosaur
+    override val order = 0
 
-    ArcadeBoard(
-        game = ArcadeGame.Dino,
-        run = run,
-        style = style,
-        modifier = modifier,
-        initialState = initialState,
-        onHighScoreChanged = onHighScoreChanged,
-        isPaused = isPaused,
-        onGameOver = onGameOver
-    ) {
-        ArcadeField(
+    @Composable
+    override fun Content(context: ArcadeGameContext, modifier: Modifier) {
+        val style = context.style
+        val run = rememberArcadeRun(
+            startPlaying = context.initialState.isPlaying,
+            create = ::DinoRun
+        )
+
+        ArcadeBoard(
+            context = context,
             run = run,
-            worldSize = Size(width = 320f, height = 210f),
-            onPress = { run.jump() }
+            modifier = modifier
         ) {
-            val width = run.width
-            val ground = run.height - 25f
-            val distance = run.distance
+            ArcadeField(
+                run = run,
+                worldSize = Size(width = 320f, height = 210f),
+                onPress = { run.jump() }
+            ) {
+                val width = run.width
+                val ground = run.height - 25f
+                val distance = run.distance
 
-            var cloudX = 130f - (distance * 0.16f) % 380f
-            while (cloudX < width) {
-                drawArcadeSprite(
-                    sprite = DinoCloud,
-                    x = cloudX,
-                    y = ground - 112f,
-                    tint = style.detailColor
-                )
-                drawArcadeSprite(
-                    sprite = DinoCloud,
-                    x = cloudX + 188f,
-                    y = ground - 144f,
-                    tint = style.detailColor
-                )
-                cloudX += 380f
-            }
+                var cloudX = 130f - (distance * 0.16f) % 380f
+                while (cloudX < width) {
+                    drawArcadeSprite(
+                        sprite = DinoCloud,
+                        x = cloudX,
+                        y = ground - 112f,
+                        tint = style.detailColor
+                    )
+                    drawArcadeSprite(
+                        sprite = DinoCloud,
+                        x = cloudX + 188f,
+                        y = ground - 144f,
+                        tint = style.detailColor
+                    )
+                    cloudX += 380f
+                }
 
-            val groundSprite = DinoGround
-            var groundX = -(distance % groundSprite.width)
-            while (groundX < width) {
-                drawArcadeSprite(
-                    sprite = groundSprite,
-                    x = groundX,
-                    y = ground,
-                    tint = style.detailColor.copy(alpha = 0.8f)
-                )
-                groundX += groundSprite.width
-            }
+                val groundSprite = DinoGround
+                var groundX = -(distance % groundSprite.width)
+                while (groundX < width) {
+                    drawArcadeSprite(
+                        sprite = groundSprite,
+                        x = groundX,
+                        y = ground,
+                        tint = style.detailColor.copy(alpha = 0.8f)
+                    )
+                    groundX += groundSprite.width
+                }
 
-            for (obstacle in run.obstacles) {
-                val sprite = obstacle.type.sprite(distance)
+                for (obstacle in run.obstacles) {
+                    val sprite = obstacle.type.sprite(distance)
+                    drawArcadeSprite(
+                        sprite = sprite,
+                        x = obstacle.x,
+                        y = ground - obstacle.type.altitude - sprite.height,
+                        tint = if (obstacle.type == ObstacleType.Bird) style.accentColor else style.obstacleColor
+                    )
+                }
+
+                val dino = when {
+                    run.phase == ArcadePhase.Over -> DinoCrashed
+                    run.phase == ArcadePhase.Ready || run.jumpHeight > 0f -> DinoStanding
+                    (distance / 24f).toInt() % 2 == 0 -> DinoRunningLeft
+                    else -> DinoRunningRight
+                }
                 drawArcadeSprite(
-                    sprite = sprite,
-                    x = obstacle.x,
-                    y = ground - obstacle.type.altitude - sprite.height,
-                    tint = if (obstacle.type == ObstacleType.Bird) style.accentColor else style.obstacleColor
+                    sprite = dino,
+                    x = DinoX,
+                    y = ground - dino.height - run.jumpHeight,
+                    tint = style.playerColor
                 )
             }
-
-            val dino = when {
-                run.phase == ArcadePhase.Over -> DinoCrashed
-                run.phase == ArcadePhase.Ready || run.jumpHeight > 0f -> DinoStanding
-                (distance / 24f).toInt() % 2 == 0 -> DinoRunningLeft
-                else -> DinoRunningRight
-            }
-            drawArcadeSprite(
-                sprite = dino,
-                x = DinoX,
-                y = ground - dino.height - run.jumpHeight,
-                tint = style.playerColor
-            )
         }
     }
 }
@@ -128,7 +127,7 @@ fun DinoGame(
 private const val DinoX = 24f
 
 @Serializable
-internal class DinoRun : ArcadeRun() {
+private class DinoRun : ArcadeRun() {
     var distance = 0f
         private set
     var jumpHeight = 0f
@@ -227,13 +226,13 @@ internal class DinoRun : ArcadeRun() {
 }
 
 @Serializable
-internal class DinoObstacle(
+private class DinoObstacle(
     var x: Float,
     val type: ObstacleType
 )
 
 @Serializable
-internal enum class ObstacleType(
+private enum class ObstacleType(
     private val sprite: ArcadeSprite,
     val altitude: Float = 0f
 ) {

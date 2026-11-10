@@ -328,7 +328,7 @@ internal class ChildProvider @Inject constructor(
         is Screen.ArcadeGames -> NavigationChild.ArcadeGames(
             arcadeGamesComponentFactory(
                 componentContext = componentContext,
-                initialGame = config.game,
+                config = config,
                 onGoBack = ::navigateBack,
                 onNavigate = ::navigateTo
             )

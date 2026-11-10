@@ -15,8 +15,6 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-@file:UseSerializers(ArcadeOffsetSerializer::class)
-
 package com.t8rin.imagetoolbox.core.games.catalog
 
 import androidx.compose.runtime.Composable
@@ -27,28 +25,226 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.drawscope.scale
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
-import com.t8rin.imagetoolbox.core.games.ArcadeDefaults
 import com.t8rin.imagetoolbox.core.games.ArcadeField
-import com.t8rin.imagetoolbox.core.games.ArcadeGameState
-import com.t8rin.imagetoolbox.core.games.ArcadeOffsetSerializer
+import com.t8rin.imagetoolbox.core.games.ArcadeGameContext
+import com.t8rin.imagetoolbox.core.games.ArcadeGameDefinition
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.ArcadeSprite
-import com.t8rin.imagetoolbox.core.games.ArcadeStyle
+import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
 import com.t8rin.imagetoolbox.core.games.utils.arcadeLives
 import com.t8rin.imagetoolbox.core.games.utils.arcadeStars
-import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
+import com.t8rin.imagetoolbox.core.resources.Icons
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Planet
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
-import kotlinx.serialization.UseSerializers
 import kotlin.math.PI
 import kotlin.math.hypot
 import kotlin.math.sin
 import kotlin.random.Random
+
+@RegisterArcadeGame
+internal data object AsteroidsGame : ArcadeGameDefinition {
+    override val title = R.string.arcade_asteroids
+    override val description = R.string.arcade_asteroids_sub
+    override val icon get() = Icons.Outlined.Planet
+    override val order = 10
+
+    @Composable
+    override fun Content(context: ArcadeGameContext, modifier: Modifier) {
+        val style = context.style
+        val run = rememberArcadeRun(
+            startPlaying = context.initialState.isPlaying,
+            create = ::AsteroidsRun
+        )
+
+        ArcadeBoard(
+            context = context,
+            run = run,
+            modifier = modifier
+        ) {
+            ArcadeField(
+                run = run,
+                onPress = run::aim,
+                onDrag = run::aim,
+                onRelease = run::stopInput
+            ) {
+                arcadeStars(
+                    style = style,
+                    width = run.width,
+                    height = run.height,
+                    drift = run.distance
+                )
+                for ((x, y, _, _, radius, spin) in run.rocks) {
+                    rotate(degrees = spin * 180f / PI.toFloat(), pivot = Offset(x = x, y = y)) {
+                        scale(radius / 24f, Offset(x = x, y = y)) {
+                            drawArcadeSprite(
+                                sprite = SpaceBoulder,
+                                tint = style.obstacleColor,
+                                x = x - 24f,
+                                y = y - 24f
+                            )
+                            pixelRect(
+                                color = style.playerDetailColor,
+                                x = x - 12f,
+                                y = y - 11f,
+                                width = 8f,
+                                height = 3f
+                            )
+                            pixelRect(
+                                color = style.playerDetailColor,
+                                x = x - 15f,
+                                y = y - 8f,
+                                width = 3f,
+                                height = 7f
+                            )
+                            pixelRect(
+                                color = style.playerDetailColor,
+                                x = x + 6f,
+                                y = y + 8f,
+                                width = 7f,
+                                height = 3f
+                            )
+                        }
+                    }
+                }
+                for ((x, y, _, cooldown) in run.invaders) {
+                    drawArcadeSprite(
+                        sprite = SpaceInvader,
+                        tint = style.accentColor,
+                        x = x - 20f,
+                        y = y - 12f
+                    )
+                    pixelRect(
+                        color = style.playerDetailColor,
+                        x = x - 7f,
+                        y = y - 7f,
+                        width = 14f,
+                        height = 5f
+                    )
+                    repeat(3) { index ->
+                        pixelRect(
+                            color = style.playerDetailColor,
+                            x = x - 12f + index * 10f,
+                            y = y + 2f,
+                            width = 4f,
+                            height = 3f
+                        )
+                    }
+                    if (cooldown < 0.35f) {
+                        drawCircle(
+                            color = style.hazardColor.copy(alpha = 0.25f),
+                            radius = 9f,
+                            center = Offset(x = x, y = y + 10f)
+                        )
+                        pixelRect(
+                            color = style.hazardColor,
+                            x = x - 2f,
+                            y = y + 7f,
+                            width = 4f,
+                            height = 7f
+                        )
+                    }
+                }
+                for ((x, y, vx, vy) in run.enemyShots) {
+                    val point = Offset(x = x, y = y)
+                    val tail = Offset(x = vx, y = vy) * 0.06f
+                    drawLine(
+                        color = style.hazardColor.copy(alpha = 0.3f),
+                        start = point - tail,
+                        end = point,
+                        strokeWidth = 5f
+                    )
+                    pixelRect(
+                        color = style.hazardColor,
+                        x = x - 2f,
+                        y = y - 3f,
+                        width = 4f,
+                        height = 6f
+                    )
+                }
+                for ((x, y) in run.shots) {
+                    pixelRect(
+                        color = style.accentColor.copy(alpha = 0.2f),
+                        x = x - 2f,
+                        y = y,
+                        width = 4f,
+                        height = 15f
+                    )
+                    pixelRect(
+                        color = style.accentColor,
+                        x = x - 1.5f,
+                        y = y - 5f,
+                        width = 3f,
+                        height = 10f
+                    )
+                }
+                if (run.invincible <= 0f || (run.invincible * 12).toInt() % 2 == 0) {
+                    drawArcadeSprite(
+                        sprite = SpaceShip,
+                        tint = style.playerColor,
+                        x = run.x - 13f,
+                        y = run.y - 16f
+                    )
+                    pixelRect(
+                        color = style.playerDetailColor,
+                        x = run.x - 2f,
+                        y = run.y - 7f,
+                        width = 4f,
+                        height = 10f
+                    )
+                    for (side in listOf(-1f, 1f)) {
+                        pixelRect(
+                            color = style.playerDetailColor.copy(alpha = 0.5f),
+                            x = run.x + side * 8f - 1f,
+                            y = run.y,
+                            width = 2f,
+                            height = 7f
+                        )
+                    }
+                    if (run.phase == ArcadePhase.Running) {
+                        pixelRect(
+                            color = style.accentColor,
+                            x = run.x - 3f,
+                            y = run.y + 12f,
+                            width = 6f,
+                            height = 5f
+                        )
+                        pixelRect(
+                            color = style.accentColor,
+                            x = run.x - 1f,
+                            y = run.y + 17f,
+                            width = 2f,
+                            height = 4f
+                        )
+                    }
+                }
+                if (run.invincible > 0f) {
+                    drawCircle(
+                        color = style.playerColor.copy(alpha = 0.4f),
+                        radius = 22f,
+                        center = Offset(x = run.x, y = run.y),
+                        style = Stroke(width = 1.5f)
+                    )
+                }
+                run.effects.draw(
+                    scope = this,
+                    color = style.accentColor
+                )
+                arcadeLives(
+                    style = style,
+                    remaining = run.lives,
+                    y = run.topInset / 2f
+                )
+            }
+        }
+    }
+}
 
 private val SpaceShip = ArcadeSprite(
     width = 26, height = 30,
@@ -63,209 +259,8 @@ private val SpaceBoulder = ArcadeSprite(
     data = "M12 1H29V5H39V11H44V24H48V31H42V40H33V46H17V42H7V35H2V25H0V15H6V7H12Z"
 )
 
-@Composable
-fun AsteroidsGame(
-    modifier: Modifier = Modifier,
-    initialState: ArcadeGameState = ArcadeGameState(),
-    style: ArcadeStyle = ArcadeDefaults.style,
-    onHighScoreChanged: ((Int) -> Unit)? = null,
-    onGameOver: ((Int) -> Unit)? = null,
-    isPaused: Boolean = false
-) {
-    val run = rememberArcadeRun(
-        initialState = initialState,
-        create = ::AsteroidsRun
-    )
-
-    ArcadeBoard(
-        game = ArcadeGame.Asteroids,
-        run = run,
-        style = style,
-        modifier = modifier,
-        initialState = initialState,
-        onHighScoreChanged = onHighScoreChanged,
-        isPaused = isPaused,
-        onGameOver = onGameOver
-    ) {
-        ArcadeField(
-            run = run,
-            onPress = run::aim,
-            onDrag = run::aim,
-            onRelease = run::stopInput
-        ) {
-            arcadeStars(
-                style = style,
-                width = run.width,
-                height = run.height,
-                drift = run.distance
-            )
-            for ((x, y, _, _, radius, spin) in run.rocks) {
-                rotate(degrees = spin * 180f / PI.toFloat(), pivot = Offset(x = x, y = y)) {
-                    scale(radius / 24f, Offset(x = x, y = y)) {
-                        drawArcadeSprite(
-                            sprite = SpaceBoulder,
-                            tint = style.obstacleColor,
-                            x = x - 24f,
-                            y = y - 24f
-                        )
-                        pixelRect(
-                            color = style.playerDetailColor,
-                            x = x - 12f,
-                            y = y - 11f,
-                            width = 8f,
-                            height = 3f
-                        )
-                        pixelRect(
-                            color = style.playerDetailColor,
-                            x = x - 15f,
-                            y = y - 8f,
-                            width = 3f,
-                            height = 7f
-                        )
-                        pixelRect(
-                            color = style.playerDetailColor,
-                            x = x + 6f,
-                            y = y + 8f,
-                            width = 7f,
-                            height = 3f
-                        )
-                    }
-                }
-            }
-            for ((x, y, _, cooldown) in run.invaders) {
-                drawArcadeSprite(
-                    sprite = SpaceInvader,
-                    tint = style.accentColor,
-                    x = x - 20f,
-                    y = y - 12f
-                )
-                pixelRect(
-                    color = style.playerDetailColor,
-                    x = x - 7f,
-                    y = y - 7f,
-                    width = 14f,
-                    height = 5f
-                )
-                repeat(3) { index ->
-                    pixelRect(
-                        color = style.playerDetailColor,
-                        x = x - 12f + index * 10f,
-                        y = y + 2f,
-                        width = 4f,
-                        height = 3f
-                    )
-                }
-                if (cooldown < 0.35f) {
-                    drawCircle(
-                        color = style.hazardColor.copy(alpha = 0.25f),
-                        radius = 9f,
-                        center = Offset(x = x, y = y + 10f)
-                    )
-                    pixelRect(
-                        color = style.hazardColor,
-                        x = x - 2f,
-                        y = y + 7f,
-                        width = 4f,
-                        height = 7f
-                    )
-                }
-            }
-            for ((x, y, vx, vy) in run.enemyShots) {
-                val point = Offset(x = x, y = y)
-                val tail = Offset(x = vx, y = vy) * 0.06f
-                drawLine(
-                    color = style.hazardColor.copy(alpha = 0.3f),
-                    start = point - tail,
-                    end = point,
-                    strokeWidth = 5f
-                )
-                pixelRect(
-                    color = style.hazardColor,
-                    x = x - 2f,
-                    y = y - 3f,
-                    width = 4f,
-                    height = 6f
-                )
-            }
-            for ((x, y) in run.shots) {
-                pixelRect(
-                    color = style.accentColor.copy(alpha = 0.2f),
-                    x = x - 2f,
-                    y = y,
-                    width = 4f,
-                    height = 15f
-                )
-                pixelRect(
-                    color = style.accentColor,
-                    x = x - 1.5f,
-                    y = y - 5f,
-                    width = 3f,
-                    height = 10f
-                )
-            }
-            if (run.invincible <= 0f || (run.invincible * 12).toInt() % 2 == 0) {
-                drawArcadeSprite(
-                    sprite = SpaceShip,
-                    tint = style.playerColor,
-                    x = run.x - 13f,
-                    y = run.y - 16f
-                )
-                pixelRect(
-                    color = style.playerDetailColor,
-                    x = run.x - 2f,
-                    y = run.y - 7f,
-                    width = 4f,
-                    height = 10f
-                )
-                for (side in listOf(-1f, 1f)) {
-                    pixelRect(
-                        color = style.playerDetailColor.copy(alpha = 0.5f),
-                        x = run.x + side * 8f - 1f,
-                        y = run.y,
-                        width = 2f,
-                        height = 7f
-                    )
-                }
-                if (run.phase == ArcadePhase.Running) {
-                    pixelRect(
-                        color = style.accentColor,
-                        x = run.x - 3f,
-                        y = run.y + 12f,
-                        width = 6f,
-                        height = 5f
-                    )
-                    pixelRect(
-                        color = style.accentColor,
-                        x = run.x - 1f,
-                        y = run.y + 17f,
-                        width = 2f,
-                        height = 4f
-                    )
-                }
-            }
-            if (run.invincible > 0f) {
-                drawCircle(
-                    color = style.playerColor.copy(alpha = 0.4f),
-                    radius = 22f,
-                    center = Offset(x = run.x, y = run.y),
-                    style = Stroke(width = 1.5f)
-                )
-            }
-            run.effects.draw(
-                scope = this,
-                color = style.accentColor
-            )
-            arcadeLives(
-                style = style,
-                remaining = run.lives,
-                y = run.topInset / 2f
-            )
-        }
-    }
-}
-
 @Serializable
-internal data class SpaceRock(
+private data class SpaceRock(
     var x: Float,
     var y: Float,
     var vx: Float,
@@ -276,7 +271,7 @@ internal data class SpaceRock(
 )
 
 @Serializable
-internal data class SpaceShot(
+private data class SpaceShot(
     var x: Float,
     var y: Float,
     var vx: Float,
@@ -285,7 +280,7 @@ internal data class SpaceShot(
 )
 
 @Serializable
-internal data class SpaceInvaderShip(
+private data class SpaceInvaderShip(
     var x: Float,
     var y: Float,
     val vx: Float,
@@ -294,7 +289,7 @@ internal data class SpaceInvaderShip(
 )
 
 @Serializable
-internal class AsteroidsRun : ArcadeRun() {
+private class AsteroidsRun : ArcadeRun() {
     val rocks = mutableListOf<SpaceRock>()
     val invaders = mutableListOf<SpaceInvaderShip>()
     val enemyShots = mutableListOf<SpaceShot>()

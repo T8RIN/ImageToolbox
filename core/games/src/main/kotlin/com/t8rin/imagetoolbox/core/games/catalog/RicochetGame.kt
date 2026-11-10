@@ -15,8 +15,6 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-@file:UseSerializers(ArcadeOffsetSerializer::class)
-
 package com.t8rin.imagetoolbox.core.games.catalog
 
 import androidx.compose.runtime.Composable
@@ -30,197 +28,204 @@ import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.sp
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
-import com.t8rin.imagetoolbox.core.games.ArcadeDefaults
 import com.t8rin.imagetoolbox.core.games.ArcadeField
-import com.t8rin.imagetoolbox.core.games.ArcadeGameState
-import com.t8rin.imagetoolbox.core.games.ArcadeOffsetSerializer
+import com.t8rin.imagetoolbox.core.games.ArcadeGameContext
+import com.t8rin.imagetoolbox.core.games.ArcadeGameDefinition
+import com.t8rin.imagetoolbox.core.games.ArcadeOffset
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
-import com.t8rin.imagetoolbox.core.games.ArcadeStyle
+import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
-import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
+import com.t8rin.imagetoolbox.core.resources.Icons
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Brick
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
-import kotlinx.serialization.UseSerializers
 import kotlin.math.abs
 import kotlin.math.hypot
 import kotlin.random.Random
 
-@Composable
-fun RicochetGame(
-    modifier: Modifier = Modifier,
-    initialState: ArcadeGameState = ArcadeGameState(),
-    style: ArcadeStyle = ArcadeDefaults.style,
-    onHighScoreChanged: ((Int) -> Unit)? = null,
-    onGameOver: ((Int) -> Unit)? = null,
-    isPaused: Boolean = false
-) {
-    val run = rememberArcadeRun(
-        initialState = initialState,
-        create = ::RicochetRun
-    )
-    val measurer = rememberTextMeasurer()
+@RegisterArcadeGame
+internal data object RicochetGame : ArcadeGameDefinition {
+    override val title = R.string.arcade_ricochet
+    override val description = R.string.arcade_ricochet_sub
+    override val icon get() = Icons.Outlined.Brick
+    override val order = 9
 
-    ArcadeBoard(
-        game = ArcadeGame.Ricochet,
-        run = run,
-        style = style,
-        modifier = modifier,
-        initialState = initialState,
-        onHighScoreChanged = onHighScoreChanged,
-        isPaused = isPaused,
-        onGameOver = onGameOver
-    ) {
-        ArcadeField(
+    @Composable
+    override fun Content(context: ArcadeGameContext, modifier: Modifier) {
+        val style = context.style
+        val run = rememberArcadeRun(
+            startPlaying = context.initialState.isPlaying,
+            create = ::RicochetRun
+        )
+        val measurer = rememberTextMeasurer()
+
+        ArcadeBoard(
+            context = context,
             run = run,
-            onPress = run::aim,
-            onDrag = run::aim,
-            onTap = { run.shoot() },
-            onSwipe = { run.shoot() },
-            onRelease = run::stopInput
+            modifier = modifier
         ) {
-            val cell = run.cell
-            val radius = run.ballRadius
-            val rowHeight = run.rowHeight
-            for (row in 0..6) for (column in 0..6) {
-                drawCircle(
-                    color = style.detailColor.copy(alpha = 0.2f),
-                    radius = 1f,
-                    center = run.origin + Offset(
-                        x = (column + 0.5f) * cell,
-                        y = (row + 0.5f) * rowHeight
-                    )
-                )
-            }
-            for ((column, row, health) in run.bricks) {
-                val point = run.origin + Offset(
-                    x = column * cell + 2f,
-                    y = (row - run.shift) * rowHeight + 2f
-                )
-                val center = point + Offset(x = cell / 2f - 2f, y = rowHeight / 2f - 2f)
-                if (health == 0) {
+            ArcadeField(
+                run = run,
+                onPress = run::aim,
+                onDrag = run::aim,
+                onTap = { run.shoot() },
+                onSwipe = { run.shoot() },
+                onRelease = run::stopInput
+            ) {
+                val cell = run.cell
+                val radius = run.ballRadius
+                val rowHeight = run.rowHeight
+                for (row in 0..6) for (column in 0..6) {
                     drawCircle(
-                        color = style.accentColor.copy(alpha = 0.14f),
-                        radius = minOf(cell, rowHeight) * 0.28f,
-                        center = center
-                    )
-                    drawCircle(
-                        color = style.accentColor,
-                        radius = minOf(cell, rowHeight) * 0.22f,
-                        center = center,
-                        style = Stroke(width = 1.5f)
-                    )
-                    drawLine(
-                        color = style.accentColor,
-                        start = center - Offset(x = minOf(cell, rowHeight) * 0.1f, y = 0f),
-                        end = center + Offset(x = minOf(cell, rowHeight) * 0.1f, y = 0f),
-                        strokeWidth = 2f
-                    )
-                    drawLine(
-                        color = style.accentColor,
-                        start = center - Offset(x = 0f, y = minOf(cell, rowHeight) * 0.1f),
-                        end = center + Offset(x = 0f, y = minOf(cell, rowHeight) * 0.1f),
-                        strokeWidth = 2f
-                    )
-                } else {
-                    val color =
-                        if (health > run.ballCount) style.accentColor else style.obstacleColor
-                    drawRoundRect(
-                        color = color,
-                        topLeft = point,
-                        size = Size(width = cell - 4f, height = rowHeight - 4f),
-                        cornerRadius = CornerRadius(x = 3f)
-                    )
-                    drawRoundRect(
-                        color = color,
-                        topLeft = point,
-                        size = Size(width = cell - 4f, height = rowHeight - 4f),
-                        cornerRadius = CornerRadius(x = 3f),
-                        style = Stroke(width = 1.5f)
-                    )
-                    pixelRect(
-                        color = style.playerDetailColor.copy(alpha = 0.4f),
-                        x = point.x + 2f,
-                        y = point.y + 2f,
-                        width = cell - 8f,
-                        height = 1.5f
-                    )
-                    val label = measurer.measure(
-                        health.toString(),
-                        style.scoreTextStyle.copy(fontSize = (minOf(cell, rowHeight) * 0.46f).sp),
-                        density = Density(1f)
-                    )
-                    drawText(
-                        label,
-                        style.playerDetailColor,
-                        center - Offset(x = label.size.width / 2f, y = label.size.height / 2f)
+                        color = style.detailColor.copy(alpha = 0.2f),
+                        radius = 1f,
+                        center = run.origin + Offset(
+                            x = (column + 0.5f) * cell,
+                            y = (row + 0.5f) * rowHeight
+                        )
                     )
                 }
-            }
-            val left = run.origin.x
-            drawLine(
-                color = style.hazardColor.copy(alpha = 0.5f),
-                start = Offset(x = left, y = run.launchY - rowHeight * 0.35f),
-                end = Offset(x = left + cell * 7f, y = run.launchY - rowHeight * 0.35f),
-                strokeWidth = 1f
-            )
-            if (!run.flying) {
-                var point = Offset(x = run.launchX, y = run.launchY)
-                repeat(18) { index ->
-                    point += run.direction * (rowHeight * 0.32f)
-                    if (point.x in (left + radius)..(left + cell * 7f - radius) && point.y > run.origin.y) {
+                for ((column, row, health) in run.bricks) {
+                    val point = run.origin + Offset(
+                        x = column * cell + 2f,
+                        y = (row - run.shift) * rowHeight + 2f
+                    )
+                    val center = point + Offset(x = cell / 2f - 2f, y = rowHeight / 2f - 2f)
+                    if (health == 0) {
                         drawCircle(
-                            color = style.playerColor.copy(alpha = 0.55f * (1f - index / 20f)),
-                            radius = radius * 0.48f,
-                            center = point
+                            color = style.accentColor.copy(alpha = 0.14f),
+                            radius = minOf(cell, rowHeight) * 0.28f,
+                            center = center
+                        )
+                        drawCircle(
+                            color = style.accentColor,
+                            radius = minOf(cell, rowHeight) * 0.22f,
+                            center = center,
+                            style = Stroke(width = 1.5f)
+                        )
+                        drawLine(
+                            color = style.accentColor,
+                            start = center - Offset(x = minOf(cell, rowHeight) * 0.1f, y = 0f),
+                            end = center + Offset(x = minOf(cell, rowHeight) * 0.1f, y = 0f),
+                            strokeWidth = 2f
+                        )
+                        drawLine(
+                            color = style.accentColor,
+                            start = center - Offset(x = 0f, y = minOf(cell, rowHeight) * 0.1f),
+                            end = center + Offset(x = 0f, y = minOf(cell, rowHeight) * 0.1f),
+                            strokeWidth = 2f
+                        )
+                    } else {
+                        val color =
+                            if (health > run.ballCount) style.accentColor else style.obstacleColor
+                        drawRoundRect(
+                            color = color,
+                            topLeft = point,
+                            size = Size(width = cell - 4f, height = rowHeight - 4f),
+                            cornerRadius = CornerRadius(x = 3f)
+                        )
+                        drawRoundRect(
+                            color = color,
+                            topLeft = point,
+                            size = Size(width = cell - 4f, height = rowHeight - 4f),
+                            cornerRadius = CornerRadius(x = 3f),
+                            style = Stroke(width = 1.5f)
+                        )
+                        pixelRect(
+                            color = style.playerDetailColor.copy(alpha = 0.4f),
+                            x = point.x + 2f,
+                            y = point.y + 2f,
+                            width = cell - 8f,
+                            height = 1.5f
+                        )
+                        val label = measurer.measure(
+                            health.toString(),
+                            style.scoreTextStyle.copy(
+                                fontSize = (minOf(
+                                    cell,
+                                    rowHeight
+                                ) * 0.46f).sp
+                            ),
+                            density = Density(1f)
+                        )
+                        drawText(
+                            label,
+                            style.playerDetailColor,
+                            center - Offset(x = label.size.width / 2f, y = label.size.height / 2f)
                         )
                     }
                 }
-            }
-            for ((x, y, vx, vy) in run.balls) {
+                val left = run.origin.x
                 drawLine(
-                    color = style.playerColor.copy(alpha = 0.2f),
-                    start = Offset(x = x - vx * 0.025f, y = y - vy * 0.025f),
-                    end = Offset(x = x, y = y),
-                    strokeWidth = radius * 1.5f
+                    color = style.hazardColor.copy(alpha = 0.5f),
+                    start = Offset(x = left, y = run.launchY - rowHeight * 0.35f),
+                    end = Offset(x = left + cell * 7f, y = run.launchY - rowHeight * 0.35f),
+                    strokeWidth = 1f
                 )
+                if (!run.flying) {
+                    var point = Offset(x = run.launchX, y = run.launchY)
+                    repeat(18) { index ->
+                        point += run.direction * (rowHeight * 0.32f)
+                        if (point.x in (left + radius)..(left + cell * 7f - radius) && point.y > run.origin.y) {
+                            drawCircle(
+                                color = style.playerColor.copy(alpha = 0.55f * (1f - index / 20f)),
+                                radius = radius * 0.48f,
+                                center = point
+                            )
+                        }
+                    }
+                }
+                for ((x, y, vx, vy) in run.balls) {
+                    drawLine(
+                        color = style.playerColor.copy(alpha = 0.2f),
+                        start = Offset(x = x - vx * 0.025f, y = y - vy * 0.025f),
+                        end = Offset(x = x, y = y),
+                        strokeWidth = radius * 1.5f
+                    )
+                    drawCircle(
+                        color = style.playerColor,
+                        radius = radius,
+                        center = Offset(x = x, y = y)
+                    )
+                }
                 drawCircle(
                     color = style.playerColor,
-                    radius = radius,
-                    center = Offset(x = x, y = y)
+                    radius = radius * 1.3f,
+                    center = Offset(x = run.launchX, y = run.launchY)
+                )
+                val count =
+                    measurer.measure(
+                        "×${run.ballCount}",
+                        style.scoreTextStyle,
+                        density = Density(1f)
+                    )
+                drawText(
+                    count,
+                    style.playerColor,
+                    Offset(x = run.launchX - count.size.width / 2f, y = run.launchY + radius + 3f)
+                )
+                run.effects.draw(
+                    scope = this,
+                    color = style.accentColor
                 )
             }
-            drawCircle(
-                color = style.playerColor,
-                radius = radius * 1.3f,
-                center = Offset(x = run.launchX, y = run.launchY)
-            )
-            val count =
-                measurer.measure("×${run.ballCount}", style.scoreTextStyle, density = Density(1f))
-            drawText(
-                count,
-                style.playerColor,
-                Offset(x = run.launchX - count.size.width / 2f, y = run.launchY + radius + 3f)
-            )
-            run.effects.draw(
-                scope = this,
-                color = style.accentColor
-            )
         }
     }
 }
 
 @Serializable
-internal data class RicochetBrick(
+private data class RicochetBrick(
     val column: Int,
     var row: Int,
     var health: Int
 )
 
 @Serializable
-internal data class RicochetBall(
+private data class RicochetBall(
     var x: Float,
     var y: Float,
     var vx: Float,
@@ -228,7 +233,7 @@ internal data class RicochetBall(
 )
 
 @Serializable
-internal class RicochetRun : ArcadeRun() {
+private class RicochetRun : ArcadeRun() {
     val cell get() = (width - 32f) / 7f
     val rowHeight get() = (height - topInset - 44f) / 8f
     val origin get() = Offset(x = (width - cell * 7f) / 2f, y = topInset + 6f)
@@ -240,7 +245,7 @@ internal class RicochetRun : ArcadeRun() {
     @Transient
     val effects = ArcadeEffects()
     var launchX = width / 2f
-    var direction = Offset(x = 0.25f, y = -0.97f)
+    var direction: ArcadeOffset = Offset(x = 0.25f, y = -0.97f)
     var ballCount = 3
     var flying = false
     var shift = 0f

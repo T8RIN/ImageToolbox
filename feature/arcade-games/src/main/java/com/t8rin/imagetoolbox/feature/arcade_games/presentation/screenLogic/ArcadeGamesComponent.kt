@@ -21,8 +21,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import com.arkivanov.decompose.ComponentContext
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
+import com.t8rin.imagetoolbox.core.games.ArcadeGame
+import com.t8rin.imagetoolbox.core.games.ArcadeGameRegistry
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
-import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
@@ -32,13 +33,14 @@ import dagger.assisted.AssistedInject
 
 class ArcadeGamesComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
-    @Assisted private val initialGame: ArcadeGame?,
+    @Assisted config: Screen.ArcadeGames,
     @Assisted val onGoBack: () -> Unit,
     @Assisted private val onNavigate: (Screen) -> Unit,
     private val settingsManager: SettingsManager,
     dispatchersHolder: DispatchersHolder
 ) : BaseComponent(dispatchersHolder, componentContext) {
 
+    private val initialGame = config.game?.let(ArcadeGameRegistry::find)
     private val _selectedGame = mutableStateOf(initialGame)
     val selectedGame by _selectedGame
 
@@ -87,18 +89,23 @@ class ArcadeGamesComponent @AssistedInject internal constructor(
     fun openStatistics() = onNavigate(Screen.ArcadeStatistics)
 
     fun toggleFavorite(game: ArcadeGame) {
-        componentScope.launch { settingsManager.toggleFavoriteArcadeGame(game) }
+        componentScope.launch { settingsManager.toggleFavoriteArcadeGame(game.name) }
     }
 
     fun reorderGames(games: List<ArcadeGame>) {
-        componentScope.launch { settingsManager.reorderArcadeGames(games) }
+        componentScope.launch {
+            settingsManager.reorderArcadeGames(
+                games = games.map(ArcadeGame::name),
+                defaultOrder = ArcadeGameRegistry.games.map(ArcadeGame::name)
+            )
+        }
     }
 
     @AssistedFactory
     fun interface Factory {
         operator fun invoke(
             componentContext: ComponentContext,
-            initialGame: ArcadeGame?,
+            config: Screen.ArcadeGames,
             onGoBack: () -> Unit,
             onNavigate: (Screen) -> Unit,
         ): ArcadeGamesComponent

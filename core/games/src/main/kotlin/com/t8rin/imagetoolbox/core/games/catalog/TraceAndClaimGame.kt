@@ -15,8 +15,6 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-@file:UseSerializers(ArcadeOffsetSerializer::class)
-
 package com.t8rin.imagetoolbox.core.games.catalog
 
 import android.graphics.Paint
@@ -48,20 +46,21 @@ import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.graphics.toSvg
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
-import com.t8rin.imagetoolbox.core.games.ArcadeDefaults
 import com.t8rin.imagetoolbox.core.games.ArcadeField
-import com.t8rin.imagetoolbox.core.games.ArcadeGameState
-import com.t8rin.imagetoolbox.core.games.ArcadeOffsetSerializer
+import com.t8rin.imagetoolbox.core.games.ArcadeGameContext
+import com.t8rin.imagetoolbox.core.games.ArcadeGameDefinition
+import com.t8rin.imagetoolbox.core.games.ArcadeOffset
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
-import com.t8rin.imagetoolbox.core.games.ArcadeStyle
+import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.arcadeJoystick
 import com.t8rin.imagetoolbox.core.games.utils.arcadeLives
-import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
+import com.t8rin.imagetoolbox.core.resources.Icons
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.LassoSelect
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
-import kotlinx.serialization.UseSerializers
 import kotlinx.serialization.descriptors.PrimitiveKind
 import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
 import kotlinx.serialization.encoding.Decoder
@@ -74,6 +73,151 @@ import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.sqrt
 import kotlin.random.Random
+
+@RegisterArcadeGame
+internal data object TraceAndClaimGame : ArcadeGameDefinition {
+    override val title = R.string.arcade_traceandclaim
+    override val description = R.string.arcade_traceandclaim_sub
+    override val icon get() = Icons.Outlined.LassoSelect
+    override val order = 38
+
+    @Composable
+    override fun Content(context: ArcadeGameContext, modifier: Modifier) {
+        val style = context.style
+        val run = rememberArcadeRun(
+            startPlaying = context.initialState.isPlaying,
+            create = ::TraceAndClaimRun
+        )
+        val trail = remember { Path() }
+        val arena = remember { Path() }
+        val dark = style.textColor.luminance() > 0.5f
+        val colors = remember(style.playerColor, dark) {
+            if (dark) {
+                listOf(
+                    style.playerColor, Color(0xFFFF8980), Color(0xFFFFC168), Color(0xFF60D5A7),
+                    Color(0xFF6BCCFF), Color(0xFFF18FC6), Color(0xFFB2CE73)
+                )
+            } else {
+                listOf(
+                    style.playerColor, Color(0xFFBA3C38), Color(0xFFAE6700), Color(0xFF008456),
+                    Color(0xFF087EAA), Color(0xFFAA3D84), Color(0xFF607A18)
+                )
+            }
+        }
+
+        ArcadeBoard(
+            context = context,
+            run = run,
+            modifier = modifier
+        ) {
+            ArcadeField(
+                run = run,
+                onPress = run::grab,
+                onDrag = run::steer,
+                onRelease = run::release
+            ) {
+                val unit = maxOf(
+                    run.width / 58f,
+                    run.height / 52f,
+                    minOf(run.width / 41f, run.height / 24f)
+                )
+                val player = run.riders.first()
+                val camera = player.point * unit
+                val world = TraceSize * unit
+                val scroll = Offset(
+                    (camera.x - run.width / 2f).coerceIn(0f, world - run.width),
+                    (camera.y - run.height / 2f).coerceIn(0f, world - run.height)
+                )
+                val origin = -scroll
+                val center = origin + TraceCenter * unit
+                val radius = TraceRadius * unit
+                arena.rewind()
+                arena.addOval(Rect(center, radius))
+                clipPath(path = arena) {
+                    drawCircle(
+                        color = style.detailColor.copy(alpha = 0.12f),
+                        radius = radius,
+                        center = center
+                    )
+                    translate(left = origin.x, top = origin.y) {
+                        scale(scale = unit, pivot = Offset.Zero) {
+                            for (rider in run.riders) {
+                                drawPath(
+                                    path = rider.land.path,
+                                    color = colors[rider.id - 1].copy(
+                                        alpha = if (rider === player) 0.68f else 0.51f
+                                    )
+                                )
+                            }
+                            drawPoints(
+                                points = TraceDots,
+                                pointMode = PointMode.Points,
+                                color = style.textColor.copy(alpha = 0.17f),
+                                strokeWidth = 0.18f,
+                                cap = StrokeCap.Round
+                            )
+                            for (rider in run.riders) {
+                                if (!rider.active) continue
+                                val tint = colors[rider.id - 1]
+                                val point = rider.point
+                                if (rider.route.isNotEmpty()) {
+                                    trail.followTrace(rider.route, point)
+                                    drawPath(
+                                        path = trail,
+                                        color = tint,
+                                        style = Stroke(
+                                            TraceTrailWidth,
+                                            cap = StrokeCap.Round,
+                                            join = StrokeJoin.Round
+                                        )
+                                    )
+                                }
+                                val size = if (rider === player) 0.97f else 0.88f
+                                drawRoundRect(
+                                    color = tint,
+                                    topLeft = point - Offset(size, size),
+                                    size = Size(size * 2f, size * 2f),
+                                    cornerRadius = CornerRadius(size * 0.46f)
+                                )
+                                val direction = if (rider === player) run.heading else rider.heading
+                                drawCircle(
+                                    color = if (rider === player) style.playerDetailColor else Color.White,
+                                    radius = size * 0.29f,
+                                    center = point + direction * (size * 0.36f)
+                                )
+                            }
+                        }
+                    }
+                }
+                drawCircle(
+                    color = style.borderColor,
+                    radius = radius,
+                    center = center,
+                    style = Stroke(width = 2.4f)
+                )
+                arcadeJoystick(style, run.touchOrigin, run.stick)
+
+                arcadeLives(style, run.lives, run.topInset / 2f)
+                val progressStart = Offset(14f, run.topInset - 3f)
+                val progressWidth = run.width - 28f
+                drawLine(
+                    color = style.detailColor,
+                    start = progressStart,
+                    end = progressStart + Offset(progressWidth, 0f),
+                    strokeWidth = 2f,
+                    cap = StrokeCap.Round
+                )
+                drawLine(
+                    color = colors.first(),
+                    start = progressStart,
+                    end = progressStart + Offset(progressWidth * run.progress, 0f),
+                    strokeWidth = 2f,
+                    cap = StrokeCap.Round
+                )
+            }
+        }
+    }
+}
 
 private const val TraceSize = 96f
 private const val TraceRiders = 7
@@ -99,165 +243,17 @@ private val TraceDots = buildList {
     }
 }
 
-@Composable
-fun TraceAndClaimGame(
-    modifier: Modifier = Modifier,
-    initialState: ArcadeGameState = ArcadeGameState(),
-    style: ArcadeStyle = ArcadeDefaults.style,
-    onHighScoreChanged: ((Int) -> Unit)? = null,
-    onGameOver: ((Int) -> Unit)? = null,
-    isPaused: Boolean = false
-) {
-    val run = rememberArcadeRun(
-        initialState = initialState,
-        create = ::TraceAndClaimRun
-    )
-    val trail = remember { Path() }
-    val arena = remember { Path() }
-    val dark = style.textColor.luminance() > 0.5f
-    val colors = remember(style.playerColor, dark) {
-        if (dark) {
-            listOf(
-                style.playerColor, Color(0xFFFF8980), Color(0xFFFFC168), Color(0xFF60D5A7),
-                Color(0xFF6BCCFF), Color(0xFFF18FC6), Color(0xFFB2CE73)
-            )
-        } else {
-            listOf(
-                style.playerColor, Color(0xFFBA3C38), Color(0xFFAE6700), Color(0xFF008456),
-                Color(0xFF087EAA), Color(0xFFAA3D84), Color(0xFF607A18)
-            )
-        }
-    }
-
-    ArcadeBoard(
-        game = ArcadeGame.TraceAndClaim,
-        run = run,
-        style = style,
-        modifier = modifier,
-        initialState = initialState,
-        onHighScoreChanged = onHighScoreChanged,
-        isPaused = isPaused,
-        onGameOver = onGameOver
-    ) {
-        ArcadeField(
-            run = run,
-            onPress = run::grab,
-            onDrag = run::steer,
-            onRelease = run::release
-        ) {
-            val unit = maxOf(
-                run.width / 58f,
-                run.height / 52f,
-                minOf(run.width / 41f, run.height / 24f)
-            )
-            val player = run.riders.first()
-            val camera = player.point * unit
-            val world = TraceSize * unit
-            val scroll = Offset(
-                (camera.x - run.width / 2f).coerceIn(0f, world - run.width),
-                (camera.y - run.height / 2f).coerceIn(0f, world - run.height)
-            )
-            val origin = -scroll
-            val center = origin + TraceCenter * unit
-            val radius = TraceRadius * unit
-            arena.rewind()
-            arena.addOval(Rect(center, radius))
-            clipPath(path = arena) {
-                drawCircle(
-                    color = style.detailColor.copy(alpha = 0.12f),
-                    radius = radius,
-                    center = center
-                )
-                translate(left = origin.x, top = origin.y) {
-                    scale(scale = unit, pivot = Offset.Zero) {
-                        for (rider in run.riders) {
-                            drawPath(
-                                path = rider.land.path,
-                                color = colors[rider.id - 1].copy(
-                                    alpha = if (rider === player) 0.68f else 0.51f
-                                )
-                            )
-                        }
-                        drawPoints(
-                            points = TraceDots,
-                            pointMode = PointMode.Points,
-                            color = style.textColor.copy(alpha = 0.17f),
-                            strokeWidth = 0.18f,
-                            cap = StrokeCap.Round
-                        )
-                        for (rider in run.riders) {
-                            if (!rider.active) continue
-                            val tint = colors[rider.id - 1]
-                            val point = rider.point
-                            if (rider.route.isNotEmpty()) {
-                                trail.followTrace(rider.route, point)
-                                drawPath(
-                                    path = trail,
-                                    color = tint,
-                                    style = Stroke(
-                                        TraceTrailWidth,
-                                        cap = StrokeCap.Round,
-                                        join = StrokeJoin.Round
-                                    )
-                                )
-                            }
-                            val size = if (rider === player) 0.97f else 0.88f
-                            drawRoundRect(
-                                color = tint,
-                                topLeft = point - Offset(size, size),
-                                size = Size(size * 2f, size * 2f),
-                                cornerRadius = CornerRadius(size * 0.46f)
-                            )
-                            val direction = if (rider === player) run.heading else rider.heading
-                            drawCircle(
-                                color = if (rider === player) style.playerDetailColor else Color.White,
-                                radius = size * 0.29f,
-                                center = point + direction * (size * 0.36f)
-                            )
-                        }
-                    }
-                }
-            }
-            drawCircle(
-                color = style.borderColor,
-                radius = radius,
-                center = center,
-                style = Stroke(width = 2.4f)
-            )
-            arcadeJoystick(style, run.touchOrigin, run.stick)
-
-            arcadeLives(style, run.lives, run.topInset / 2f)
-            val progressStart = Offset(14f, run.topInset - 3f)
-            val progressWidth = run.width - 28f
-            drawLine(
-                color = style.detailColor,
-                start = progressStart,
-                end = progressStart + Offset(progressWidth, 0f),
-                strokeWidth = 2f,
-                cap = StrokeCap.Round
-            )
-            drawLine(
-                color = colors.first(),
-                start = progressStart,
-                end = progressStart + Offset(progressWidth * run.progress, 0f),
-                strokeWidth = 2f,
-                cap = StrokeCap.Round
-            )
-        }
-    }
-}
-
 @Serializable
-internal class TraceRider(val id: Int) {
+private class TraceRider(val id: Int) {
     var active = false
-    var point = Offset.Zero
+    var point: ArcadeOffset = Offset.Zero
     var land = TraceLand()
     var angle = 0f
     var curve = 0f
-    var home: Offset? = null
-    var target: Offset? = null
+    var home: ArcadeOffset? = null
+    var target: ArcadeOffset? = null
     var reconsider = 0f
-    val route = mutableListOf<Offset>()
+    val route: MutableList<ArcadeOffset> = mutableListOf()
     var excursion = 0f
     var respawn = 0f
 
@@ -277,12 +273,12 @@ internal class TraceRider(val id: Int) {
 }
 
 @Serializable
-internal class TraceAndClaimRun : ArcadeRun() {
+private class TraceAndClaimRun : ArcadeRun() {
     val riders = List(TraceRiders) { TraceRider(it + 1) }
     private var arena = 0
     private var elapsed = 0f
     private var scoreRemainder = 0f
-    var heading = Offset.Zero
+    var heading: ArcadeOffset = Offset.Zero
         private set
     var lives = 3
         private set
@@ -710,7 +706,7 @@ private fun TraceRider.trailNear(point: Offset, reach: Float): Boolean {
 }
 
 @Serializable(with = TraceLandSerializer::class)
-internal class TraceLand(val path: Path = Path(), snapshot: String? = null) {
+private class TraceLand(val path: Path = Path(), snapshot: String? = null) {
     private val contours = path.traceContours()
     val bounds = path.getBounds()
     val area = contours.sumOf { if (it.depth % 2 == 0) it.area else -it.area }.toFloat()
@@ -804,7 +800,7 @@ internal class TraceLand(val path: Path = Path(), snapshot: String? = null) {
     }
 }
 
-internal object TraceLandSerializer : KSerializer<TraceLand> {
+private object TraceLandSerializer : KSerializer<TraceLand> {
     override val descriptor = PrimitiveSerialDescriptor("TraceLand", PrimitiveKind.STRING)
 
     override fun serialize(encoder: Encoder, value: TraceLand) {

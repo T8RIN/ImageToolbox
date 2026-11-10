@@ -26,7 +26,6 @@ import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.HashingType
 import com.t8rin.imagetoolbox.core.domain.model.SystemBarsVisibility
 import com.t8rin.imagetoolbox.core.domain.saving.io.Writeable
-import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
 import com.t8rin.imagetoolbox.core.settings.domain.model.BackupProgress
 import com.t8rin.imagetoolbox.core.settings.domain.model.CacheAutoClearInterval
 import com.t8rin.imagetoolbox.core.settings.domain.model.ColorHarmonizer
@@ -35,6 +34,7 @@ import com.t8rin.imagetoolbox.core.settings.domain.model.DialogPosition
 import com.t8rin.imagetoolbox.core.settings.domain.model.DomainFontFamily
 import com.t8rin.imagetoolbox.core.settings.domain.model.FastSettingsSide
 import com.t8rin.imagetoolbox.core.settings.domain.model.FlingType
+import com.t8rin.imagetoolbox.core.settings.domain.model.LoadingGame
 import com.t8rin.imagetoolbox.core.settings.domain.model.MarkupLayerTextDefaults
 import com.t8rin.imagetoolbox.core.settings.domain.model.NightMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.SemanticSearchSettings
@@ -236,11 +236,14 @@ interface SettingsInteractor : SimpleSettingsInteractor {
 
     suspend fun toggleShowLoadingGameButton()
 
-    suspend fun setLoadingGame(game: ArcadeGame)
+    suspend fun setLoadingGame(game: LoadingGame)
 
-    suspend fun toggleFavoriteArcadeGame(game: ArcadeGame)
+    suspend fun toggleFavoriteArcadeGame(game: String)
 
-    suspend fun reorderArcadeGames(games: List<ArcadeGame>)
+    suspend fun reorderArcadeGames(
+        games: List<String>,
+        defaultOrder: List<String>
+    )
 
     suspend fun toggleUseFullscreenSettings()
 

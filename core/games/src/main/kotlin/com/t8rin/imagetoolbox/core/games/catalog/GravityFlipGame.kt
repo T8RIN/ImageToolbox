@@ -15,8 +15,6 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-@file:UseSerializers(ArcadeOffsetSerializer::class, ArcadeDequeSerializer::class)
-
 package com.t8rin.imagetoolbox.core.games.catalog
 
 import androidx.compose.runtime.Composable
@@ -29,272 +27,270 @@ import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.drawscope.translate
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
-import com.t8rin.imagetoolbox.core.games.ArcadeDefaults
-import com.t8rin.imagetoolbox.core.games.ArcadeDequeSerializer
+import com.t8rin.imagetoolbox.core.games.ArcadeDeque
 import com.t8rin.imagetoolbox.core.games.ArcadeField
-import com.t8rin.imagetoolbox.core.games.ArcadeGameState
-import com.t8rin.imagetoolbox.core.games.ArcadeOffsetSerializer
+import com.t8rin.imagetoolbox.core.games.ArcadeGameContext
+import com.t8rin.imagetoolbox.core.games.ArcadeGameDefinition
+import com.t8rin.imagetoolbox.core.games.ArcadeOffset
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.ArcadeSprite
-import com.t8rin.imagetoolbox.core.games.ArcadeStyle
+import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
-import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
+import com.t8rin.imagetoolbox.core.resources.Icons
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.SwapVerticalCircle
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
-import kotlinx.serialization.UseSerializers
 import kotlin.math.abs
 import kotlin.math.exp
 import kotlin.random.Random
 
-@Composable
-fun GravityFlipGame(
-    modifier: Modifier = Modifier,
-    initialState: ArcadeGameState = ArcadeGameState(),
-    style: ArcadeStyle = ArcadeDefaults.style,
-    onHighScoreChanged: ((Int) -> Unit)? = null,
-    onGameOver: ((Int) -> Unit)? = null,
-    isPaused: Boolean = false
-) {
-    val run = rememberArcadeRun(
-        initialState = initialState,
-        create = ::GravityFlipRun
-    )
+@RegisterArcadeGame
+internal data object GravityFlipGame : ArcadeGameDefinition {
+    override val title = R.string.arcade_gravityflip
+    override val description = R.string.arcade_gravityflip_sub
+    override val icon get() = Icons.Outlined.SwapVerticalCircle
+    override val order = 22
 
-    ArcadeBoard(
-        game = ArcadeGame.GravityFlip,
-        run = run,
-        style = style,
-        modifier = modifier,
-        initialState = initialState,
-        onHighScoreChanged = onHighScoreChanged,
-        isPaused = isPaused,
-        onGameOver = onGameOver
-    ) {
-        ArcadeField(
+    @Composable
+    override fun Content(context: ArcadeGameContext, modifier: Modifier) {
+        val style = context.style
+        val run = rememberArcadeRun(
+            startPlaying = context.initialState.isPlaying,
+            create = ::GravityFlipRun
+        )
+
+        ArcadeBoard(
+            context = context,
             run = run,
-            onPress = { run.flip() }
+            modifier = modifier
         ) {
-            val top = run.top
-            val bottom = run.bottom
-            val span = run.span
-            val pace = run.pace
-            pixelRect(
-                color = style.obstacleColor.copy(alpha = 0.07f),
-                x = 0f,
-                y = 0f,
-                width = run.width,
-                height = top
-            )
-            pixelRect(
-                color = style.obstacleColor.copy(alpha = 0.07f),
-                x = 0f,
-                y = bottom,
-                width = run.width,
-                height = run.height - bottom
-            )
-            repeat(16) { index ->
-                val near = index % 4 == 0
-                val drift = if (near) 0.65f else 0.2f
-                val x = ((index * 67f - run.distance * drift) % (run.width + 40f) +
-                        run.width + 40f) % (run.width + 40f) - 20f
+            ArcadeField(
+                run = run,
+                onPress = { run.flip() }
+            ) {
+                val top = run.top
+                val bottom = run.bottom
+                val span = run.span
+                val pace = run.pace
                 pixelRect(
-                    color = style.detailColor.copy(alpha = 0.15f + pace * 0.1f),
-                    x = x,
-                    y = top + (index * 37 % 89) / 89f * span,
-                    width = if (near) 3f + pace * 9f else 1f,
-                    height = 1f
-                )
-            }
-            for (edge in listOf(top, bottom)) {
-                val floor = edge == bottom
-                pixelRect(
-                    color = style.obstacleColor,
+                    color = style.obstacleColor.copy(alpha = 0.07f),
                     x = 0f,
-                    y = edge,
+                    y = 0f,
                     width = run.width,
-                    height = 2f
+                    height = top
                 )
-                var x = -(run.distance % 432f) - 72f
-                var index = 0
-                while (x < run.width) {
-                    val depth = 4f + index % 3 * 2f
+                pixelRect(
+                    color = style.obstacleColor.copy(alpha = 0.07f),
+                    x = 0f,
+                    y = bottom,
+                    width = run.width,
+                    height = run.height - bottom
+                )
+                repeat(16) { index ->
+                    val near = index % 4 == 0
+                    val drift = if (near) 0.65f else 0.2f
+                    val x = ((index * 67f - run.distance * drift) % (run.width + 40f) +
+                            run.width + 40f) % (run.width + 40f) - 20f
                     pixelRect(
-                        color = style.obstacleColor.copy(alpha = 0.25f),
+                        color = style.detailColor.copy(alpha = 0.15f + pace * 0.1f),
                         x = x,
-                        y = if (floor) edge + 2f else edge - depth,
-                        width = 28f + index % 2 * 12f,
-                        height = depth
+                        y = top + (index * 37 % 89) / 89f * span,
+                        width = if (near) 3f + pace * 9f else 1f,
+                        height = 1f
                     )
-                    pixelRect(
-                        color = style.detailColor.copy(alpha = 0.4f),
-                        x = x + 13f,
-                        y = edge + if (floor) 12f else -12f,
-                        width = 19f,
-                        height = 2f
-                    )
-                    pixelRect(
-                        color = style.detailColor.copy(alpha = 0.25f),
-                        x = x + 48f,
-                        y = edge + if (floor) 20f else -20f,
-                        width = 5f,
-                        height = 2f
-                    )
-                    x += 72f
-                    index++
                 }
-            }
-            for ((x, width, depth, ceiling, _, broken, kind) in run.obstacles) {
-                if (broken) continue
-                val ranges = when (kind) {
-                    1 -> listOf(0.38f to 0.62f)
-                    2 -> listOf(0f to depth, 1f - depth to 1f)
-                    else -> if (ceiling) listOf(0f to depth) else listOf(1f - depth to 1f)
+                for (edge in listOf(top, bottom)) {
+                    val floor = edge == bottom
+                    pixelRect(
+                        color = style.obstacleColor,
+                        x = 0f,
+                        y = edge,
+                        width = run.width,
+                        height = 2f
+                    )
+                    var x = -(run.distance % 432f) - 72f
+                    var index = 0
+                    while (x < run.width) {
+                        val depth = 4f + index % 3 * 2f
+                        pixelRect(
+                            color = style.obstacleColor.copy(alpha = 0.25f),
+                            x = x,
+                            y = if (floor) edge + 2f else edge - depth,
+                            width = 28f + index % 2 * 12f,
+                            height = depth
+                        )
+                        pixelRect(
+                            color = style.detailColor.copy(alpha = 0.4f),
+                            x = x + 13f,
+                            y = edge + if (floor) 12f else -12f,
+                            width = 19f,
+                            height = 2f
+                        )
+                        pixelRect(
+                            color = style.detailColor.copy(alpha = 0.25f),
+                            x = x + 48f,
+                            y = edge + if (floor) 20f else -20f,
+                            width = 5f,
+                            height = 2f
+                        )
+                        x += 72f
+                        index++
+                    }
                 }
-                for ((start, end) in ranges) {
-                    val y = top + span * start
-                    val h = span * (end - start)
-                    val ink = if (kind == 2) style.hazardColor else style.obstacleColor
-                    pixelRect(
-                        color = ink,
-                        x = x,
-                        y = y + 2f,
-                        width = width,
-                        height = h - 4f
-                    )
-                    pixelRect(
-                        color = ink,
-                        x = x + 2f,
-                        y = y,
-                        width = width - 4f,
-                        height = h
-                    )
-                    pixelRect(
-                        color = style.playerDetailColor.copy(alpha = 0.3f),
-                        x = x + 4f,
-                        y = y + 4f,
-                        width = 7f,
-                        height = 2f
-                    )
-                    val crack = y + h * 0.38f
-                    pixelRect(
-                        color = style.playerDetailColor.copy(alpha = 0.4f),
-                        x = x,
-                        y = crack,
-                        width = width * 0.42f,
-                        height = 2f
-                    )
-                    pixelRect(
-                        color = style.playerDetailColor.copy(alpha = 0.4f),
-                        x = x + width * 0.42f - 2f,
-                        y = crack + 2f,
-                        width = 2f,
-                        height = 5f
-                    )
-                    pixelRect(
-                        color = style.playerDetailColor.copy(alpha = 0.3f),
-                        x = x + width * 0.65f,
-                        y = y + h * 0.74f,
-                        width = width * 0.35f,
-                        height = 2f
-                    )
-                    if (kind == 1) {
-                        for (index in 0..2) {
-                            pixelRect(
-                                color = style.accentColor,
-                                x = x + width / 2f - 3f + index * 2f,
-                                y = y + h / 2f - 4f + index * 3f,
-                                width = 3f,
-                                height = 4f
-                            )
+                for ((x, width, depth, ceiling, _, broken, kind) in run.obstacles) {
+                    if (broken) continue
+                    val ranges = when (kind) {
+                        1 -> listOf(0.38f to 0.62f)
+                        2 -> listOf(0f to depth, 1f - depth to 1f)
+                        else -> if (ceiling) listOf(0f to depth) else listOf(1f - depth to 1f)
+                    }
+                    for ((start, end) in ranges) {
+                        val y = top + span * start
+                        val h = span * (end - start)
+                        val ink = if (kind == 2) style.hazardColor else style.obstacleColor
+                        pixelRect(
+                            color = ink,
+                            x = x,
+                            y = y + 2f,
+                            width = width,
+                            height = h - 4f
+                        )
+                        pixelRect(
+                            color = ink,
+                            x = x + 2f,
+                            y = y,
+                            width = width - 4f,
+                            height = h
+                        )
+                        pixelRect(
+                            color = style.playerDetailColor.copy(alpha = 0.3f),
+                            x = x + 4f,
+                            y = y + 4f,
+                            width = 7f,
+                            height = 2f
+                        )
+                        val crack = y + h * 0.38f
+                        pixelRect(
+                            color = style.playerDetailColor.copy(alpha = 0.4f),
+                            x = x,
+                            y = crack,
+                            width = width * 0.42f,
+                            height = 2f
+                        )
+                        pixelRect(
+                            color = style.playerDetailColor.copy(alpha = 0.4f),
+                            x = x + width * 0.42f - 2f,
+                            y = crack + 2f,
+                            width = 2f,
+                            height = 5f
+                        )
+                        pixelRect(
+                            color = style.playerDetailColor.copy(alpha = 0.3f),
+                            x = x + width * 0.65f,
+                            y = y + h * 0.74f,
+                            width = width * 0.35f,
+                            height = 2f
+                        )
+                        if (kind == 1) {
+                            for (index in 0..2) {
+                                pixelRect(
+                                    color = style.accentColor,
+                                    x = x + width / 2f - 3f + index * 2f,
+                                    y = y + h / 2f - 4f + index * 3f,
+                                    width = 3f,
+                                    height = 4f
+                                )
+                            }
                         }
                     }
                 }
-            }
-            for ((x, y) in run.beacons) {
-                val center = Offset(x = x, y = top + y * span)
-                val path = Path().apply {
-                    moveTo(center.x, center.y - 6f)
-                    lineTo(center.x + 5f, center.y)
-                    lineTo(center.x, center.y + 6f)
-                    lineTo(center.x - 5f, center.y)
-                    close()
+                for ((x, y) in run.beacons) {
+                    val center = Offset(x = x, y = top + y * span)
+                    val path = Path().apply {
+                        moveTo(center.x, center.y - 6f)
+                        lineTo(center.x + 5f, center.y)
+                        lineTo(center.x, center.y + 6f)
+                        lineTo(center.x - 5f, center.y)
+                        close()
+                    }
+                    drawCircle(
+                        color = style.accentColor.copy(alpha = 0.13f),
+                        radius = 10f,
+                        center = center
+                    )
+                    drawPath(
+                        path = path,
+                        color = style.accentColor
+                    )
                 }
-                drawCircle(
-                    color = style.accentColor.copy(alpha = 0.13f),
-                    radius = 10f,
-                    center = center
+                val center = Offset(x = run.playerX, y = top + run.y * span)
+                run.trail.forEachIndexed { index, point ->
+                    if (index == 0) return@forEachIndexed
+                    val previous = run.trail[index - 1]
+                    drawLine(
+                        color = style.playerColor.copy(alpha = (index + 1) * 0.035f),
+                        start = Offset(x = previous.x, y = top + previous.y * span),
+                        end = Offset(x = point.x, y = top + point.y * span),
+                        strokeWidth = run.radius * (0.15f + index * 0.035f)
+                    )
+                }
+                if (run.shield) drawCircle(
+                    color = style.accentColor,
+                    radius = run.radius + 5f,
+                    center = center,
+                    style = Stroke(width = 1.5f)
                 )
-                drawPath(
-                    path = path,
+                val tilt = if (run.velocity == 0f) 0f else run.velocity * 4f
+                rotate(degrees = tilt, pivot = center) {
+                    scale(
+                        scaleX = 1f,
+                        scaleY = if (run.gravity == 1) 1f else -1f,
+                        pivot = center
+                    ) {
+                        val unit = run.radius / 14f
+                        val stride = run.velocity == 0f && (run.distance / 18f).toInt() % 2 == 0
+                        translate(left = center.x - 12f * unit, top = center.y - 14f * unit) {
+                            scale(scale = unit, pivot = Offset.Zero) {
+                                drawArcadeSprite(
+                                    sprite = if (stride) GravityStride else GravityLeap,
+                                    tint = style.playerColor,
+                                    x = 0f,
+                                    y = 0f
+                                )
+                                drawArcadeSprite(
+                                    sprite = GravityRunner,
+                                    tint = style.playerColor,
+                                    x = 0f,
+                                    y = 0f
+                                )
+                                pixelRect(
+                                    color = style.playerDetailColor,
+                                    x = 17f,
+                                    y = 3f,
+                                    width = 6f,
+                                    height = 4f
+                                )
+                                pixelRect(
+                                    color = style.accentColor,
+                                    x = 11f,
+                                    y = 11f,
+                                    width = 4f,
+                                    height = 2f
+                                )
+                            }
+                        }
+                    }
+                }
+                run.effects.draw(
+                    scope = this,
                     color = style.accentColor
                 )
             }
-            val center = Offset(x = run.playerX, y = top + run.y * span)
-            run.trail.forEachIndexed { index, point ->
-                if (index == 0) return@forEachIndexed
-                val previous = run.trail[index - 1]
-                drawLine(
-                    color = style.playerColor.copy(alpha = (index + 1) * 0.035f),
-                    start = Offset(x = previous.x, y = top + previous.y * span),
-                    end = Offset(x = point.x, y = top + point.y * span),
-                    strokeWidth = run.radius * (0.15f + index * 0.035f)
-                )
-            }
-            if (run.shield) drawCircle(
-                color = style.accentColor,
-                radius = run.radius + 5f,
-                center = center,
-                style = Stroke(width = 1.5f)
-            )
-            val tilt = if (run.velocity == 0f) 0f else run.velocity * 4f
-            rotate(degrees = tilt, pivot = center) {
-                scale(
-                    scaleX = 1f,
-                    scaleY = if (run.gravity == 1) 1f else -1f,
-                    pivot = center
-                ) {
-                    val unit = run.radius / 14f
-                    val stride = run.velocity == 0f && (run.distance / 18f).toInt() % 2 == 0
-                    translate(left = center.x - 12f * unit, top = center.y - 14f * unit) {
-                        scale(scale = unit, pivot = Offset.Zero) {
-                            drawArcadeSprite(
-                                sprite = if (stride) GravityStride else GravityLeap,
-                                tint = style.playerColor,
-                                x = 0f,
-                                y = 0f
-                            )
-                            drawArcadeSprite(
-                                sprite = GravityRunner,
-                                tint = style.playerColor,
-                                x = 0f,
-                                y = 0f
-                            )
-                            pixelRect(
-                                color = style.playerDetailColor,
-                                x = 17f,
-                                y = 3f,
-                                width = 6f,
-                                height = 4f
-                            )
-                            pixelRect(
-                                color = style.accentColor,
-                                x = 11f,
-                                y = 11f,
-                                width = 4f,
-                                height = 2f
-                            )
-                        }
-                    }
-                }
-            }
-            run.effects.draw(
-                scope = this,
-                color = style.accentColor
-            )
         }
     }
 }
@@ -319,7 +315,7 @@ private val GravityLeap = ArcadeSprite(
 )
 
 @Serializable
-internal data class GravityObstacle(
+private data class GravityObstacle(
     var x: Float,
     val width: Float,
     val depth: Float,
@@ -330,16 +326,16 @@ internal data class GravityObstacle(
 )
 
 @Serializable
-internal data class GravityBeacon(
+private data class GravityBeacon(
     var x: Float,
     val y: Float
 )
 
 @Serializable
-internal class GravityFlipRun : ArcadeRun() {
+private class GravityFlipRun : ArcadeRun() {
     val obstacles = mutableListOf<GravityObstacle>()
     val beacons = mutableListOf<GravityBeacon>()
-    val trail = mutableListOf<Offset>()
+    val trail: MutableList<ArcadeOffset> = mutableListOf()
 
     @Transient
     val effects = ArcadeEffects()
@@ -358,7 +354,7 @@ internal class GravityFlipRun : ArcadeRun() {
     private var passed = 0
     private var timer = 0.7f
     private var nextCeiling = false
-    private val patterns = ArrayDeque<Int>()
+    private val patterns: ArcadeDeque<Int> = ArrayDeque()
     private var previousPattern = -1
     private var trailTime = 0f
     private var flipTime = 0f

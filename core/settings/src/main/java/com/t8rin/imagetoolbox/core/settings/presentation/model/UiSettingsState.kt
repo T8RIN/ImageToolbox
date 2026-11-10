@@ -55,7 +55,6 @@ import com.t8rin.imagetoolbox.core.resources.BuildConfig
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.emoji.Emoji
 import com.t8rin.imagetoolbox.core.resources.emoji.Emoji.initEmoji
-import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
 import com.t8rin.imagetoolbox.core.settings.domain.model.CacheAutoClearInterval
 import com.t8rin.imagetoolbox.core.settings.domain.model.ColorHarmonizer
 import com.t8rin.imagetoolbox.core.settings.domain.model.CopyToClipboardMode
@@ -64,6 +63,7 @@ import com.t8rin.imagetoolbox.core.settings.domain.model.FastSettingsSide
 import com.t8rin.imagetoolbox.core.settings.domain.model.FilenameBehavior
 import com.t8rin.imagetoolbox.core.settings.domain.model.FlingType
 import com.t8rin.imagetoolbox.core.settings.domain.model.ImageHeaderState
+import com.t8rin.imagetoolbox.core.settings.domain.model.LoadingGame
 import com.t8rin.imagetoolbox.core.settings.domain.model.MarkupLayerTextDefaults
 import com.t8rin.imagetoolbox.core.settings.domain.model.NightMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.OneTimeSaveLocation
@@ -169,9 +169,9 @@ data class UiSettingsState(
     val sheetNestedScrollEnabled: Boolean,
     val showSettingsInLandscape: Boolean,
     val showLoadingGameButton: Boolean,
-    val loadingGame: ArcadeGame,
-    val favoriteArcadeGames: Set<ArcadeGame>,
-    val arcadeGameOrder: List<ArcadeGame>,
+    val loadingGame: LoadingGame,
+    val favoriteArcadeGames: Set<String>,
+    val arcadeGameOrder: List<String>,
     val useFullscreenSettings: Boolean,
     val allowCollapsingSettingsGroups: Boolean,
     val useCategorizedSettings: Boolean,

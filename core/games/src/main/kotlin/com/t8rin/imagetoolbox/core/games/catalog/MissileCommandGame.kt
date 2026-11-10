@@ -15,8 +15,6 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-@file:UseSerializers(ArcadeOffsetSerializer::class)
-
 package com.t8rin.imagetoolbox.core.games.catalog
 
 import androidx.compose.runtime.Composable
@@ -25,28 +23,223 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.drawscope.Stroke
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
-import com.t8rin.imagetoolbox.core.games.ArcadeDefaults
 import com.t8rin.imagetoolbox.core.games.ArcadeField
-import com.t8rin.imagetoolbox.core.games.ArcadeGameState
-import com.t8rin.imagetoolbox.core.games.ArcadeOffsetSerializer
+import com.t8rin.imagetoolbox.core.games.ArcadeGameContext
+import com.t8rin.imagetoolbox.core.games.ArcadeGameDefinition
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.ArcadeSprite
-import com.t8rin.imagetoolbox.core.games.ArcadeStyle
+import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.arcadeGround
 import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
 import com.t8rin.imagetoolbox.core.games.utils.arcadeStars
-import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
+import com.t8rin.imagetoolbox.core.resources.Icons
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Shield
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
-import kotlinx.serialization.UseSerializers
 import kotlin.math.PI
 import kotlin.math.hypot
 import kotlin.math.sin
 import kotlin.random.Random
+
+@RegisterArcadeGame
+internal data object MissileCommandGame : ArcadeGameDefinition {
+    override val title = R.string.arcade_missilecommand
+    override val description = R.string.arcade_missilecommand_sub
+    override val icon get() = Icons.Outlined.Shield
+    override val order = 13
+
+    @Composable
+    override fun Content(context: ArcadeGameContext, modifier: Modifier) {
+        val style = context.style
+        val run = rememberArcadeRun(
+            startPlaying = context.initialState.isPlaying,
+            create = ::MissileCommandRun
+        )
+
+        ArcadeBoard(
+            context = context,
+            run = run,
+            modifier = modifier
+        ) {
+            ArcadeField(
+                run = run,
+                onPress = run::fire
+            ) {
+                arcadeStars(
+                    style = style,
+                    width = run.width,
+                    height = run.height,
+                    drift = 0f
+                )
+                arcadeGround(
+                    style = style,
+                    width = run.width,
+                    y = run.ground
+                )
+                for (index in run.cities.indices) {
+                    val x = run.cityX(index)
+                    if (run.cities[index] == 0) {
+                        pixelRect(
+                            color = style.detailColor,
+                            x = x - 13f,
+                            y = run.ground - 4f,
+                            width = 9f,
+                            height = 4f
+                        )
+                        pixelRect(
+                            color = style.detailColor,
+                            x = x + 1f,
+                            y = run.ground - 7f,
+                            width = 5f,
+                            height = 7f
+                        )
+                        pixelRect(
+                            color = style.detailColor,
+                            x = x + 8f,
+                            y = run.ground - 3f,
+                            width = 6f,
+                            height = 3f
+                        )
+                        continue
+                    }
+                    drawArcadeSprite(
+                        sprite = if (index % 2 == 0) MissileCity else MissileFactory,
+                        tint = style.obstacleColor,
+                        x = x - 17f,
+                        y = run.ground - 30f
+                    )
+                    if (index % 2 == 0) {
+                        repeat(3) { row ->
+                            for (column in 0..1) pixelRect(
+                                color = style.playerDetailColor.copy(alpha = 0.75f),
+                                x = x - 2f + column * 5f,
+                                y = run.ground - 19f + row * 6f,
+                                width = 2f,
+                                height = 3f
+                            )
+                        }
+                        pixelRect(
+                            color = style.playerDetailColor.copy(alpha = 0.5f),
+                            x = x - 13f,
+                            y = run.ground - 15f,
+                            width = 4f,
+                            height = 2f
+                        )
+                    } else {
+                        repeat(4) { window ->
+                            pixelRect(
+                                color = style.playerDetailColor.copy(alpha = 0.7f),
+                                x = x - 13f + window * 7f,
+                                y = run.ground - 9f,
+                                width = 4f,
+                                height = 4f
+                            )
+                        }
+                    }
+                }
+                for ((x, y, start) in run.missiles) {
+                    val point = Offset(x = x, y = y)
+                    drawLine(
+                        color = style.hazardColor.copy(alpha = 0.4f),
+                        start = Offset(x = start, y = 0f),
+                        end = point,
+                        strokeWidth = 1f
+                    )
+                    drawCircle(
+                        color = style.hazardColor.copy(alpha = 0.15f),
+                        radius = 6f,
+                        center = point
+                    )
+                    drawCircle(
+                        color = style.hazardColor,
+                        radius = 2.5f,
+                        center = point
+                    )
+                }
+                for ((x, y, targetX, targetY) in run.shots) {
+                    val point = Offset(x = x, y = y)
+                    drawLine(
+                        color = style.playerColor.copy(alpha = 0.5f),
+                        start = run.launch,
+                        end = point,
+                        strokeWidth = 1f
+                    )
+                    drawCircle(
+                        color = style.playerColor,
+                        radius = 2.5f,
+                        center = point
+                    )
+                    val target = Offset(x = targetX, y = targetY)
+                    drawLine(
+                        color = style.detailColor,
+                        start = target - Offset(x = 3f, y = 3f),
+                        end = target + Offset(x = 3f, y = 3f),
+                        strokeWidth = 1f
+                    )
+                    drawLine(
+                        color = style.detailColor,
+                        start = target + Offset(x = 3f, y = -3f),
+                        end = target + Offset(x = -3f, y = 3f),
+                        strokeWidth = 1f
+                    )
+                }
+                for (blast in run.blasts) {
+                    val radius = blast.radius * run.blastSize
+                    val point = Offset(x = blast.x, y = blast.y)
+                    val color = if (blast.chain) style.accentColor else style.playerColor
+                    drawCircle(
+                        color = color.copy(alpha = 0.12f),
+                        radius = radius,
+                        center = point
+                    )
+                    drawCircle(
+                        color = color,
+                        radius = radius,
+                        center = point,
+                        style = Stroke(width = 1.5f)
+                    )
+                    drawCircle(
+                        color = color.copy(alpha = 0.3f),
+                        radius = radius * 0.72f,
+                        center = point,
+                        style = Stroke(width = 1f)
+                    )
+                }
+                drawArcadeSprite(
+                    sprite = MissileBunker,
+                    tint = style.playerColor,
+                    x = run.launch.x - 14f,
+                    y = run.launch.y - 22f
+                )
+                pixelRect(
+                    color = style.playerDetailColor.copy(alpha = 0.5f),
+                    x = run.launch.x - 1f,
+                    y = run.launch.y - 20f,
+                    width = 2f,
+                    height = 9f
+                )
+                repeat(4) { index ->
+                    pixelRect(
+                        color = if (run.charge >= index + 1) style.accentColor else style.detailColor,
+                        x = run.launch.x - 14f + index * 8f,
+                        y = run.ground + 6f,
+                        width = 5f,
+                        height = 3f
+                    )
+                }
+                run.effects.draw(
+                    scope = this,
+                    color = style.accentColor
+                )
+            }
+        }
+    }
+}
 
 private val MissileCity = ArcadeSprite(
     width = 34,
@@ -66,206 +259,8 @@ private val MissileBunker = ArcadeSprite(
     data = "M11 0H17V12H21V14H25V17H28V22H0V17H3V14H7V12H11Z M5 18H9V20H5Z M19 18H23V20H19Z"
 )
 
-@Composable
-fun MissileCommandGame(
-    modifier: Modifier = Modifier,
-    initialState: ArcadeGameState = ArcadeGameState(),
-    style: ArcadeStyle = ArcadeDefaults.style,
-    onHighScoreChanged: ((Int) -> Unit)? = null,
-    onGameOver: ((Int) -> Unit)? = null,
-    isPaused: Boolean = false
-) {
-    val run = rememberArcadeRun(
-        initialState = initialState,
-        create = ::MissileCommandRun
-    )
-
-    ArcadeBoard(
-        game = ArcadeGame.MissileCommand,
-        run = run,
-        style = style,
-        modifier = modifier,
-        initialState = initialState,
-        onHighScoreChanged = onHighScoreChanged,
-        isPaused = isPaused,
-        onGameOver = onGameOver
-    ) {
-        ArcadeField(
-            run = run,
-            onPress = run::fire
-        ) {
-            arcadeStars(
-                style = style,
-                width = run.width,
-                height = run.height,
-                drift = 0f
-            )
-            arcadeGround(
-                style = style,
-                width = run.width,
-                y = run.ground
-            )
-            for (index in run.cities.indices) {
-                val x = run.cityX(index)
-                if (run.cities[index] == 0) {
-                    pixelRect(
-                        color = style.detailColor,
-                        x = x - 13f,
-                        y = run.ground - 4f,
-                        width = 9f,
-                        height = 4f
-                    )
-                    pixelRect(
-                        color = style.detailColor,
-                        x = x + 1f,
-                        y = run.ground - 7f,
-                        width = 5f,
-                        height = 7f
-                    )
-                    pixelRect(
-                        color = style.detailColor,
-                        x = x + 8f,
-                        y = run.ground - 3f,
-                        width = 6f,
-                        height = 3f
-                    )
-                    continue
-                }
-                drawArcadeSprite(
-                    sprite = if (index % 2 == 0) MissileCity else MissileFactory,
-                    tint = style.obstacleColor,
-                    x = x - 17f,
-                    y = run.ground - 30f
-                )
-                if (index % 2 == 0) {
-                    repeat(3) { row ->
-                        for (column in 0..1) pixelRect(
-                            color = style.playerDetailColor.copy(alpha = 0.75f),
-                            x = x - 2f + column * 5f,
-                            y = run.ground - 19f + row * 6f,
-                            width = 2f,
-                            height = 3f
-                        )
-                    }
-                    pixelRect(
-                        color = style.playerDetailColor.copy(alpha = 0.5f),
-                        x = x - 13f,
-                        y = run.ground - 15f,
-                        width = 4f,
-                        height = 2f
-                    )
-                } else {
-                    repeat(4) { window ->
-                        pixelRect(
-                            color = style.playerDetailColor.copy(alpha = 0.7f),
-                            x = x - 13f + window * 7f,
-                            y = run.ground - 9f,
-                            width = 4f,
-                            height = 4f
-                        )
-                    }
-                }
-            }
-            for ((x, y, start) in run.missiles) {
-                val point = Offset(x = x, y = y)
-                drawLine(
-                    color = style.hazardColor.copy(alpha = 0.4f),
-                    start = Offset(x = start, y = 0f),
-                    end = point,
-                    strokeWidth = 1f
-                )
-                drawCircle(
-                    color = style.hazardColor.copy(alpha = 0.15f),
-                    radius = 6f,
-                    center = point
-                )
-                drawCircle(
-                    color = style.hazardColor,
-                    radius = 2.5f,
-                    center = point
-                )
-            }
-            for ((x, y, targetX, targetY) in run.shots) {
-                val point = Offset(x = x, y = y)
-                drawLine(
-                    color = style.playerColor.copy(alpha = 0.5f),
-                    start = run.launch,
-                    end = point,
-                    strokeWidth = 1f
-                )
-                drawCircle(
-                    color = style.playerColor,
-                    radius = 2.5f,
-                    center = point
-                )
-                val target = Offset(x = targetX, y = targetY)
-                drawLine(
-                    color = style.detailColor,
-                    start = target - Offset(x = 3f, y = 3f),
-                    end = target + Offset(x = 3f, y = 3f),
-                    strokeWidth = 1f
-                )
-                drawLine(
-                    color = style.detailColor,
-                    start = target + Offset(x = 3f, y = -3f),
-                    end = target + Offset(x = -3f, y = 3f),
-                    strokeWidth = 1f
-                )
-            }
-            for (blast in run.blasts) {
-                val radius = blast.radius * run.blastSize
-                val point = Offset(x = blast.x, y = blast.y)
-                val color = if (blast.chain) style.accentColor else style.playerColor
-                drawCircle(
-                    color = color.copy(alpha = 0.12f),
-                    radius = radius,
-                    center = point
-                )
-                drawCircle(
-                    color = color,
-                    radius = radius,
-                    center = point,
-                    style = Stroke(width = 1.5f)
-                )
-                drawCircle(
-                    color = color.copy(alpha = 0.3f),
-                    radius = radius * 0.72f,
-                    center = point,
-                    style = Stroke(width = 1f)
-                )
-            }
-            drawArcadeSprite(
-                sprite = MissileBunker,
-                tint = style.playerColor,
-                x = run.launch.x - 14f,
-                y = run.launch.y - 22f
-            )
-            pixelRect(
-                color = style.playerDetailColor.copy(alpha = 0.5f),
-                x = run.launch.x - 1f,
-                y = run.launch.y - 20f,
-                width = 2f,
-                height = 9f
-            )
-            repeat(4) { index ->
-                pixelRect(
-                    color = if (run.charge >= index + 1) style.accentColor else style.detailColor,
-                    x = run.launch.x - 14f + index * 8f,
-                    y = run.ground + 6f,
-                    width = 5f,
-                    height = 3f
-                )
-            }
-            run.effects.draw(
-                scope = this,
-                color = style.accentColor
-            )
-        }
-    }
-}
-
 @Serializable
-internal data class IncomingMissile(
+private data class IncomingMissile(
     var x: Float,
     var y: Float,
     var start: Float,
@@ -274,7 +269,7 @@ internal data class IncomingMissile(
 )
 
 @Serializable
-internal data class Interceptor(
+private data class Interceptor(
     var x: Float,
     var y: Float,
     var targetX: Float,
@@ -282,7 +277,7 @@ internal data class Interceptor(
 )
 
 @Serializable
-internal data class MissileBlast(
+private data class MissileBlast(
     var x: Float,
     var y: Float,
     var age: Float = 0f,
@@ -292,7 +287,7 @@ internal data class MissileBlast(
 }
 
 @Serializable
-internal class MissileCommandRun : ArcadeRun() {
+private class MissileCommandRun : ArcadeRun() {
     val cities = IntArray(4) { 1 }
     val missiles = mutableListOf<IncomingMissile>()
     val shots = mutableListOf<Interceptor>()

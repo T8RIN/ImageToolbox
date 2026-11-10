@@ -15,8 +15,6 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-@file:UseSerializers(ArcadeOffsetSerializer::class, ArcadeDequeSerializer::class)
-
 package com.t8rin.imagetoolbox.core.games.catalog
 
 import androidx.compose.runtime.Composable
@@ -34,180 +32,176 @@ import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.sp
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
-import com.t8rin.imagetoolbox.core.games.ArcadeDefaults
-import com.t8rin.imagetoolbox.core.games.ArcadeDequeSerializer
 import com.t8rin.imagetoolbox.core.games.ArcadeField
-import com.t8rin.imagetoolbox.core.games.ArcadeGameState
-import com.t8rin.imagetoolbox.core.games.ArcadeOffsetSerializer
+import com.t8rin.imagetoolbox.core.games.ArcadeGameContext
+import com.t8rin.imagetoolbox.core.games.ArcadeGameDefinition
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
-import com.t8rin.imagetoolbox.core.games.ArcadeStyle
+import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
-import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
+import com.t8rin.imagetoolbox.core.resources.Icons
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Flag
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.UseSerializers
 import kotlin.math.abs
 
-@Composable
-fun MinesweeperGame(
-    modifier: Modifier = Modifier,
-    initialState: ArcadeGameState = ArcadeGameState(),
-    style: ArcadeStyle = ArcadeDefaults.style,
-    onHighScoreChanged: ((Int) -> Unit)? = null,
-    onGameOver: ((Int) -> Unit)? = null,
-    isPaused: Boolean = false
-) {
-    val run = rememberArcadeRun(
-        initialState = initialState,
-        create = ::MinesweeperRun
-    )
-    val measurer = rememberTextMeasurer(cacheSize = 24)
+@RegisterArcadeGame
+internal data object MinesweeperGame : ArcadeGameDefinition {
+    override val title = R.string.arcade_minesweeper
+    override val description = R.string.arcade_minesweeper_sub
+    override val icon get() = Icons.Outlined.Flag
+    override val order = 21
 
-    ArcadeBoard(
-        game = ArcadeGame.Minesweeper,
-        run = run,
-        style = style,
-        modifier = modifier,
-        initialState = initialState,
-        onHighScoreChanged = onHighScoreChanged,
-        isPaused = isPaused,
-        onGameOver = onGameOver,
-        turnBased = true
-    ) {
-        ArcadeField(
+    @Composable
+    override fun Content(context: ArcadeGameContext, modifier: Modifier) {
+        val style = context.style
+        val run = rememberArcadeRun(
+            startPlaying = context.initialState.isPlaying,
+            create = ::MinesweeperRun
+        )
+        val measurer = rememberTextMeasurer(cacheSize = 24)
+
+        ArcadeBoard(
+            context = context,
             run = run,
-            transition = { run.transition },
-            onTap = run::tap,
-            onLongPress = run::hold
+            modifier = modifier,
+            turnBased = true
         ) {
-            val cell = run.cell
-            for (index in run.board.indices) {
-                val point =
-                    run.origin + Offset(
-                        x = index % run.columns * cell,
-                        y = index / run.columns * cell
-                    )
-                val opened = run.cover[index] == 1
-                val mine =
-                    run.board[index] == -1 && (opened || run.phase == ArcadePhase.Over)
-                val color = when {
-                    index == run.exploded -> style.hazardColor.copy(alpha = 0.3f)
-                    run.transition > 0f -> style.accentColor.copy(alpha = 0.2f)
-                    opened -> style.detailColor.copy(alpha = 0.05f)
-                    else -> style.playerColor.copy(alpha = 0.14f)
-                }
-                drawRoundRect(
-                    color = color,
-                    topLeft = point + Offset(x = 1f, y = 1f),
-                    size = Size(width = cell - 2f, height = cell - 2f),
-                    cornerRadius = CornerRadius(x = 3f)
-                )
-                if (!opened) {
-                    drawRoundRect(
-                        color = style.playerColor.copy(alpha = 0.38f),
-                        topLeft = point + Offset(x = 1f, y = 1f),
-                        size = Size(width = cell - 2f, height = cell - 2f),
-                        cornerRadius = CornerRadius(x = 3f),
-                        style = Stroke(width = 1f)
-                    )
-                    pixelRect(
-                        color = style.playerColor.copy(alpha = 0.25f),
-                        x = point.x + 3f,
-                        y = point.y + cell - 4f,
-                        width = cell - 6f,
-                        height = 2f
-                    )
-                    pixelRect(
-                        color = style.playerDetailColor.copy(alpha = 0.5f),
-                        x = point.x + 3f,
-                        y = point.y + 3f,
-                        width = cell - 6f,
-                        height = 2f
-                    )
-                }
-                val center = point + Offset(x = cell / 2f, y = cell / 2f)
-                when {
-                    mine -> {
-                        drawCircle(
-                            color = style.hazardColor,
-                            radius = cell * 0.17f,
-                            center = center
+            ArcadeField(
+                run = run,
+                transition = { run.transition },
+                onTap = run::tap,
+                onLongPress = run::hold
+            ) {
+                val cell = run.cell
+                for (index in run.board.indices) {
+                    val point =
+                        run.origin + Offset(
+                            x = index % run.columns * cell,
+                            y = index / run.columns * cell
                         )
-                        repeat(4) {
-                            val delta = when (it) {
-                                0 -> Offset(x = cell * 0.26f, y = 0f)
-                                1 -> Offset(x = 0f, y = cell * 0.26f)
-                                2 -> Offset(x = cell * 0.19f, y = cell * 0.19f)
-                                else -> Offset(x = cell * 0.19f, y = -cell * 0.19f)
-                            }
-                            drawLine(
-                                color = style.hazardColor,
-                                start = center - delta,
-                                end = center + delta,
-                                strokeWidth = 2f
-                            )
-                        }
-                        drawCircle(
-                            color = style.playerDetailColor,
-                            radius = cell * 0.04f,
-                            center = center - Offset(x = cell * 0.05f, y = cell * 0.05f)
-                        )
+                    val opened = run.cover[index] == 1
+                    val mine =
+                        run.board[index] == -1 && (opened || run.phase == ArcadePhase.Over)
+                    val color = when {
+                        index == run.exploded -> style.hazardColor.copy(alpha = 0.3f)
+                        run.transition > 0f -> style.accentColor.copy(alpha = 0.2f)
+                        opened -> style.detailColor.copy(alpha = 0.05f)
+                        else -> style.playerColor.copy(alpha = 0.14f)
                     }
-
-                    run.cover[index] == 2 -> minesweeperFlag(
-                        style.accentColor,
-                        center,
-                        cell * 0.25f
-                    )
-
-                    opened && run.board[index] > 0 -> {
-                        val ink = when (run.board[index]) {
-                            1 -> style.playerColor
-                            2 -> style.obstacleColor
-                            3 -> style.accentColor
-                            else -> style.hazardColor
-                        }
-                        val label = measurer.measure(
-                            text = run.board[index].toString(),
-                            style = style.scoreTextStyle.copy(
-                                fontSize = (cell * 0.48f).sp,
-                                fontWeight = FontWeight.Bold
-                            ),
-                            density = Density(1f)
-                        )
-                        drawText(
-                            textLayoutResult = label,
-                            color = ink,
-                            topLeft = center - Offset(
-                                x = label.size.width / 2f,
-                                y = label.size.height / 2f
-                            )
-                        )
-                    }
-
-                }
-                if (run.revealAge[index] in 0f..0.3f) {
                     drawRoundRect(
-                        color = style.playerColor.copy(alpha = (1f - run.revealAge[index] / 0.3f) * 0.35f),
+                        color = color,
                         topLeft = point + Offset(x = 1f, y = 1f),
                         size = Size(width = cell - 2f, height = cell - 2f),
                         cornerRadius = CornerRadius(x = 3f)
                     )
+                    if (!opened) {
+                        drawRoundRect(
+                            color = style.playerColor.copy(alpha = 0.38f),
+                            topLeft = point + Offset(x = 1f, y = 1f),
+                            size = Size(width = cell - 2f, height = cell - 2f),
+                            cornerRadius = CornerRadius(x = 3f),
+                            style = Stroke(width = 1f)
+                        )
+                        pixelRect(
+                            color = style.playerColor.copy(alpha = 0.25f),
+                            x = point.x + 3f,
+                            y = point.y + cell - 4f,
+                            width = cell - 6f,
+                            height = 2f
+                        )
+                        pixelRect(
+                            color = style.playerDetailColor.copy(alpha = 0.5f),
+                            x = point.x + 3f,
+                            y = point.y + 3f,
+                            width = cell - 6f,
+                            height = 2f
+                        )
+                    }
+                    val center = point + Offset(x = cell / 2f, y = cell / 2f)
+                    when {
+                        mine -> {
+                            drawCircle(
+                                color = style.hazardColor,
+                                radius = cell * 0.17f,
+                                center = center
+                            )
+                            repeat(4) {
+                                val delta = when (it) {
+                                    0 -> Offset(x = cell * 0.26f, y = 0f)
+                                    1 -> Offset(x = 0f, y = cell * 0.26f)
+                                    2 -> Offset(x = cell * 0.19f, y = cell * 0.19f)
+                                    else -> Offset(x = cell * 0.19f, y = -cell * 0.19f)
+                                }
+                                drawLine(
+                                    color = style.hazardColor,
+                                    start = center - delta,
+                                    end = center + delta,
+                                    strokeWidth = 2f
+                                )
+                            }
+                            drawCircle(
+                                color = style.playerDetailColor,
+                                radius = cell * 0.04f,
+                                center = center - Offset(x = cell * 0.05f, y = cell * 0.05f)
+                            )
+                        }
+
+                        run.cover[index] == 2 -> minesweeperFlag(
+                            style.accentColor,
+                            center,
+                            cell * 0.25f
+                        )
+
+                        opened && run.board[index] > 0 -> {
+                            val ink = when (run.board[index]) {
+                                1 -> style.playerColor
+                                2 -> style.obstacleColor
+                                3 -> style.accentColor
+                                else -> style.hazardColor
+                            }
+                            val label = measurer.measure(
+                                text = run.board[index].toString(),
+                                style = style.scoreTextStyle.copy(
+                                    fontSize = (cell * 0.48f).sp,
+                                    fontWeight = FontWeight.Bold
+                                ),
+                                density = Density(1f)
+                            )
+                            drawText(
+                                textLayoutResult = label,
+                                color = ink,
+                                topLeft = center - Offset(
+                                    x = label.size.width / 2f,
+                                    y = label.size.height / 2f
+                                )
+                            )
+                        }
+
+                    }
+                    if (run.revealAge[index] in 0f..0.3f) {
+                        drawRoundRect(
+                            color = style.playerColor.copy(alpha = (1f - run.revealAge[index] / 0.3f) * 0.35f),
+                            topLeft = point + Offset(x = 1f, y = 1f),
+                            size = Size(width = cell - 2f, height = cell - 2f),
+                            cornerRadius = CornerRadius(x = 3f)
+                        )
+                    }
                 }
+                minesweeperFlag(style.accentColor, Offset(x = 22f, y = run.topInset / 2f), 7f)
+                val flags = run.remainingFlags
+                val remaining = measurer.measure(
+                    text = flags.toString(),
+                    style = style.scoreTextStyle,
+                    density = Density(1f)
+                )
+                drawText(
+                    textLayoutResult = remaining,
+                    color = if (flags == 0) style.hazardColor else style.textColor,
+                    topLeft = Offset(x = 35f, y = (run.topInset - remaining.size.height) / 2f)
+                )
             }
-            minesweeperFlag(style.accentColor, Offset(x = 22f, y = run.topInset / 2f), 7f)
-            val flags = run.remainingFlags
-            val remaining = measurer.measure(
-                text = flags.toString(),
-                style = style.scoreTextStyle,
-                density = Density(1f)
-            )
-            drawText(
-                textLayoutResult = remaining,
-                color = if (flags == 0) style.hazardColor else style.textColor,
-                topLeft = Offset(x = 35f, y = (run.topInset - remaining.size.height) / 2f)
-            )
         }
     }
 }
@@ -242,7 +236,7 @@ private fun DrawScope.minesweeperFlag(
 }
 
 @Serializable
-internal class MinesweeperRun : ArcadeRun() {
+private class MinesweeperRun : ArcadeRun() {
     val columns = 8
     var rows = 5
     var board = IntArray(columns * rows)
@@ -291,7 +285,7 @@ internal class MinesweeperRun : ArcadeRun() {
         isAnimating = false
     }
 
-    internal fun neighbors(index: Int): List<Int> {
+    fun neighbors(index: Int): List<Int> {
         val result = ArrayList<Int>(8)
         for (y in -1..1) for (x in -1..1) {
             val column = index % columns + x
@@ -325,7 +319,7 @@ internal class MinesweeperRun : ArcadeRun() {
         flag(indexAt(point))
     }
 
-    internal fun flag(index: Int) {
+    fun flag(index: Int) {
         if (index !in cover.indices || cover[index] == 1 || transition > 0f) return
         if (cover[index] == 2) cover[index] = 0
         else if (remainingFlags > 0) cover[index] = 2
@@ -338,7 +332,7 @@ internal class MinesweeperRun : ArcadeRun() {
             transition > 0f || revealAge.indices.any { cover[it] == 1 && revealAge[it] < 0.4f }
     }
 
-    internal fun open(index: Int) {
+    fun open(index: Int) {
         if (index !in board.indices || transition > 0f || phase != ArcadePhase.Running) return
         if (cover[index] == 2) return
         if (!generated) generate(index)

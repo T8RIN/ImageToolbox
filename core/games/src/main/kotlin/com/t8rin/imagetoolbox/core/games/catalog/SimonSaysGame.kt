@@ -15,8 +15,6 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-@file:UseSerializers(ArcadeOffsetSerializer::class)
-
 package com.t8rin.imagetoolbox.core.games.catalog
 
 import androidx.compose.runtime.Composable
@@ -32,148 +30,145 @@ import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.Density
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
-import com.t8rin.imagetoolbox.core.games.ArcadeDefaults
 import com.t8rin.imagetoolbox.core.games.ArcadeField
-import com.t8rin.imagetoolbox.core.games.ArcadeGameState
-import com.t8rin.imagetoolbox.core.games.ArcadeOffsetSerializer
+import com.t8rin.imagetoolbox.core.games.ArcadeGameContext
+import com.t8rin.imagetoolbox.core.games.ArcadeGameDefinition
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
-import com.t8rin.imagetoolbox.core.games.ArcadeStyle
+import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
+import com.t8rin.imagetoolbox.core.resources.icons.Neurology
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.UseSerializers
 import kotlin.random.Random
 
-@Composable
-fun SimonSaysGame(
-    modifier: Modifier = Modifier,
-    initialState: ArcadeGameState = ArcadeGameState(),
-    style: ArcadeStyle = ArcadeDefaults.style,
-    onHighScoreChanged: ((Int) -> Unit)? = null,
-    onGameOver: ((Int) -> Unit)? = null,
-    isPaused: Boolean = false
-) {
-    val run = rememberArcadeRun(
-        initialState = initialState,
-        create = ::SimonSaysRun
-    )
-    val measurer = rememberTextMeasurer()
-    val watch = stringResource(R.string.arcade_watch)
-    val repeatPrompt = stringResource(R.string.arcade_repeat)
+@RegisterArcadeGame
+internal data object SimonSaysGame : ArcadeGameDefinition {
+    override val title = R.string.arcade_simonsays
+    override val description = R.string.arcade_simonsays_sub
+    override val icon get() = Icons.Outlined.Neurology
+    override val order = 16
 
-    ArcadeBoard(
-        game = ArcadeGame.SimonSays,
-        run = run,
-        style = style,
-        modifier = modifier,
-        initialState = initialState,
-        onHighScoreChanged = onHighScoreChanged,
-        isPaused = isPaused,
-        onGameOver = onGameOver,
-        turnBased = true
-    ) {
-        ArcadeField(
+    @Composable
+    override fun Content(context: ArcadeGameContext, modifier: Modifier) {
+        val style = context.style
+        val run = rememberArcadeRun(
+            startPlaying = context.initialState.isPlaying,
+            create = ::SimonSaysRun
+        )
+        val measurer = rememberTextMeasurer()
+        val watch = stringResource(R.string.arcade_watch)
+        val repeatPrompt = stringResource(R.string.arcade_repeat)
+
+        ArcadeBoard(
+            context = context,
             run = run,
-            onPress = run::tap
+            modifier = modifier,
+            turnBased = true
         ) {
-            val side = run.side
-            val origin = run.origin
-            val cell = side / 2f
-            repeat(30) { index ->
-                val x = ((index * 71 + index * index * 13 + 19) % 353) / 353f * run.width
-                val y = ((index * 97 + index * index * 23 + 41) % 439) / 439f * run.height
-                if (x < origin.x - 14f || x > origin.x + side + 14f ||
-                    y < origin.y - 36f || y > origin.y + side + 24f
-                ) {
-                    val color = if (index % 2 == 0) style.playerColor else style.accentColor
-                    if (index % 3 == 0) {
-                        drawSimonSymbol(
-                            index = index % 4,
-                            color = color.copy(alpha = 0.18f),
-                            center = Offset(x = x, y = y),
-                            radius = 4f + index % 4 * 2f,
-                            stroke = 1f
-                        )
-                    } else {
-                        pixelRect(
-                            color = color.copy(alpha = 0.12f),
-                            x = x,
-                            y = y,
-                            width = 2f,
-                            height = 2f
-                        )
+            ArcadeField(
+                run = run,
+                onPress = run::tap
+            ) {
+                val side = run.side
+                val origin = run.origin
+                val cell = side / 2f
+                repeat(30) { index ->
+                    val x = ((index * 71 + index * index * 13 + 19) % 353) / 353f * run.width
+                    val y = ((index * 97 + index * index * 23 + 41) % 439) / 439f * run.height
+                    if (x < origin.x - 14f || x > origin.x + side + 14f ||
+                        y < origin.y - 36f || y > origin.y + side + 24f
+                    ) {
+                        val color = if (index % 2 == 0) style.playerColor else style.accentColor
+                        if (index % 3 == 0) {
+                            drawSimonSymbol(
+                                index = index % 4,
+                                color = color.copy(alpha = 0.18f),
+                                center = Offset(x = x, y = y),
+                                radius = 4f + index % 4 * 2f,
+                                stroke = 1f
+                            )
+                        } else {
+                            pixelRect(
+                                color = color.copy(alpha = 0.12f),
+                                x = x,
+                                y = y,
+                                width = 2f,
+                                height = 2f
+                            )
+                        }
                     }
                 }
-            }
-            val caption = measurer.measure(
-                text = if (run.accepting) repeatPrompt else watch,
-                style = style.scoreTextStyle,
-                density = Density(1f)
-            )
-            drawText(
-                caption,
-                style.textColor,
-                Offset(
-                    x = (run.width - caption.size.width) / 2f,
-                    y = origin.y - caption.size.height - 8f
+                val caption = measurer.measure(
+                    text = if (run.accepting) repeatPrompt else watch,
+                    style = style.scoreTextStyle,
+                    density = Density(1f)
                 )
-            )
-            for (index in 0..3) {
-                val color = when (index) {
-                    0 -> style.playerColor
-                    1 -> style.accentColor
-                    2 -> style.obstacleColor
-                    else -> style.textColor
-                }
-                val active = run.lit == index
-                val point = origin + Offset(x = index % 2 * cell + 4f, y = index / 2 * cell + 4f)
-                val pad = Size(width = cell - 8f, height = cell - 8f)
-                drawRoundRect(
-                    color = color.copy(alpha = if (active) 1f else 0.1f),
-                    topLeft = point,
-                    size = pad,
-                    cornerRadius = CornerRadius(x = 4f)
-                )
-                drawRoundRect(
-                    color = color.copy(alpha = if (active || run.accepting) 0.8f else 0.3f),
-                    topLeft = point,
-                    size = pad,
-                    cornerRadius = CornerRadius(x = 4f),
-                    style = Stroke(width = if (active) 2f else 1f)
-                )
-                pixelRect(
-                    color = color.copy(alpha = if (active) 0.35f else 0.3f),
-                    x = point.x + 3f,
-                    y = point.y + pad.height - 4f,
-                    width = pad.width - 6f,
-                    height = 2f
-                )
-                val center = point + Offset(x = pad.width / 2f, y = pad.height / 2f)
-                val ink = if (active) style.playerDetailColor else color
-                val r = cell * 0.15f
-                drawSimonSymbol(
-                    index = index,
-                    color = ink,
-                    center = center,
-                    radius = r,
-                    stroke = 2.5f
-                )
-            }
-            val count = minOf(run.sequence.size, 16)
-            val progress = if (run.accepting) run.input else run.playback
-            repeat(count) { index ->
-                val filled = index < (progress.toFloat() / run.sequence.size * count).toInt()
-                drawCircle(
-                    color = if (filled) style.accentColor else style.detailColor.copy(alpha = 0.4f),
-                    radius = 2.5f,
-                    center = Offset(
-                        x = run.width / 2f + (index - (count - 1) / 2f) * 9f,
-                        y = origin.y + side + 9f
+                drawText(
+                    caption,
+                    style.textColor,
+                    Offset(
+                        x = (run.width - caption.size.width) / 2f,
+                        y = origin.y - caption.size.height - 8f
                     )
                 )
+                for (index in 0..3) {
+                    val color = when (index) {
+                        0 -> style.playerColor
+                        1 -> style.accentColor
+                        2 -> style.obstacleColor
+                        else -> style.textColor
+                    }
+                    val active = run.lit == index
+                    val point =
+                        origin + Offset(x = index % 2 * cell + 4f, y = index / 2 * cell + 4f)
+                    val pad = Size(width = cell - 8f, height = cell - 8f)
+                    drawRoundRect(
+                        color = color.copy(alpha = if (active) 1f else 0.1f),
+                        topLeft = point,
+                        size = pad,
+                        cornerRadius = CornerRadius(x = 4f)
+                    )
+                    drawRoundRect(
+                        color = color.copy(alpha = if (active || run.accepting) 0.8f else 0.3f),
+                        topLeft = point,
+                        size = pad,
+                        cornerRadius = CornerRadius(x = 4f),
+                        style = Stroke(width = if (active) 2f else 1f)
+                    )
+                    pixelRect(
+                        color = color.copy(alpha = if (active) 0.35f else 0.3f),
+                        x = point.x + 3f,
+                        y = point.y + pad.height - 4f,
+                        width = pad.width - 6f,
+                        height = 2f
+                    )
+                    val center = point + Offset(x = pad.width / 2f, y = pad.height / 2f)
+                    val ink = if (active) style.playerDetailColor else color
+                    val r = cell * 0.15f
+                    drawSimonSymbol(
+                        index = index,
+                        color = ink,
+                        center = center,
+                        radius = r,
+                        stroke = 2.5f
+                    )
+                }
+                val count = minOf(run.sequence.size, 16)
+                val progress = if (run.accepting) run.input else run.playback
+                repeat(count) { index ->
+                    val filled = index < (progress.toFloat() / run.sequence.size * count).toInt()
+                    drawCircle(
+                        color = if (filled) style.accentColor else style.detailColor.copy(alpha = 0.4f),
+                        radius = 2.5f,
+                        center = Offset(
+                            x = run.width / 2f + (index - (count - 1) / 2f) * 9f,
+                            y = origin.y + side + 9f
+                        )
+                    )
+                }
             }
         }
     }
@@ -234,7 +229,7 @@ private fun DrawScope.drawSimonSymbol(
 }
 
 @Serializable
-internal class SimonSaysRun : ArcadeRun() {
+private class SimonSaysRun : ArcadeRun() {
     val sequence = mutableListOf<Int>()
     val side get() = minOf(width - 40f, height - topInset - 58f)
     val origin

@@ -15,8 +15,6 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-@file:UseSerializers(ArcadeOffsetSerializer::class)
-
 package com.t8rin.imagetoolbox.core.games.catalog
 
 import androidx.compose.runtime.Composable
@@ -30,27 +28,334 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.drawscope.translate
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
-import com.t8rin.imagetoolbox.core.games.ArcadeDefaults
 import com.t8rin.imagetoolbox.core.games.ArcadeField
-import com.t8rin.imagetoolbox.core.games.ArcadeGameState
-import com.t8rin.imagetoolbox.core.games.ArcadeOffsetSerializer
+import com.t8rin.imagetoolbox.core.games.ArcadeGameContext
+import com.t8rin.imagetoolbox.core.games.ArcadeGameDefinition
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.ArcadeSprite
-import com.t8rin.imagetoolbox.core.games.ArcadeStyle
+import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
 import com.t8rin.imagetoolbox.core.games.utils.arcadeLives
-import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
+import com.t8rin.imagetoolbox.core.resources.Icons
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Phishing
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
-import kotlinx.serialization.UseSerializers
 import kotlin.math.abs
 import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.random.Random
+
+@RegisterArcadeGame
+internal data object FishingGame : ArcadeGameDefinition {
+    override val title = R.string.arcade_fishing
+    override val description = R.string.arcade_fishing_sub
+    override val icon get() = Icons.Outlined.Phishing
+    override val order = 18
+
+    @Composable
+    override fun Content(context: ArcadeGameContext, modifier: Modifier) {
+        val style = context.style
+        val run = rememberArcadeRun(
+            startPlaying = context.initialState.isPlaying,
+            create = ::FishingRun
+        )
+
+        ArcadeBoard(
+            context = context,
+            run = run,
+            modifier = modifier
+        ) {
+            ArcadeField(
+                run = run,
+                onPress = { run.cast() }
+            ) {
+                val water = run.waterline
+                pixelRect(
+                    color = style.playerColor.copy(alpha = 0.06f),
+                    x = 0f,
+                    y = water,
+                    width = run.width,
+                    height = run.height - water
+                )
+                var x = -20f
+                while (x < run.width) {
+                    val y = water + sin(x * 0.06f + run.time * 2f) * 2f
+                    drawLine(
+                        color = style.playerColor.copy(alpha = 0.4f),
+                        start = Offset(x = x, y = y),
+                        end = Offset(x = x + 12f, y = y + 1f),
+                        strokeWidth = 1f
+                    )
+                    x += 20f
+                }
+                repeat(14) { index ->
+                    val x = (index * 83f + 17f) % run.width
+                    val depth = run.height - water - 12f
+                    val y = water + depth - (index * 41f + run.time * 9f) % depth
+                    drawCircle(
+                        color = style.playerColor.copy(alpha = 0.15f),
+                        radius = 1.5f + index % 2,
+                        center = Offset(x = x, y = y),
+                        style = Stroke(width = 0.8f)
+                    )
+                }
+                val bottom = run.height - 8f
+                pixelRect(
+                    color = style.detailColor.copy(alpha = 0.3f),
+                    x = 0f,
+                    y = bottom,
+                    width = run.width,
+                    height = 1f
+                )
+                repeat(7) { index ->
+                    val x = (index + 0.4f) * run.width / 7f
+                    val bend = sin(run.time * 1.4f + index) * 3f
+                    drawLine(
+                        color = style.obstacleColor.copy(alpha = 0.4f),
+                        start = Offset(x = x, y = bottom),
+                        end = Offset(x = x + bend, y = bottom - 15f - index % 3 * 5f),
+                        strokeWidth = 2f
+                    )
+                    drawLine(
+                        color = style.obstacleColor.copy(alpha = 0.4f),
+                        start = Offset(x = x, y = bottom - 5f),
+                        end = Offset(x = x - 4f + bend, y = bottom - 13f),
+                        strokeWidth = 1.5f
+                    )
+                }
+                fun fish(
+                    point: Offset,
+                    kind: Int,
+                    direction: Int
+                ) {
+                    val color = when (kind) {
+                        1 -> style.obstacleColor
+                        2 -> style.playerColor
+                        else -> style.accentColor
+                    }
+                    translate(left = point.x, top = point.y) {
+                        scale(
+                            scaleX = direction * (1.1f - kind * 0.13f),
+                            scaleY = 1.1f - kind * 0.13f,
+                            pivot = Offset.Zero
+                        ) {
+                            drawArcadeSprite(
+                                sprite = when (kind) {
+                                    1 -> FishingPerch
+                                    2 -> FishingMinnow
+                                    else -> ArcadeFish
+                                },
+                                tint = color,
+                                x = -20f,
+                                y = -11f
+                            )
+                            pixelRect(
+                                color = style.playerDetailColor,
+                                x = 10f,
+                                y = -5f,
+                                width = 3f,
+                                height = 3f
+                            )
+                            pixelRect(
+                                color = style.playerDetailColor.copy(alpha = 0.4f),
+                                x = 5f,
+                                y = -5f,
+                                width = 2f,
+                                height = 10f
+                            )
+                            pixelRect(
+                                color = style.playerDetailColor.copy(alpha = 0.2f),
+                                x = -6f,
+                                y = 4f,
+                                width = 15f,
+                                height = 2f
+                            )
+                            pixelRect(
+                                color = style.playerDetailColor.copy(alpha = 0.35f),
+                                x = -4f,
+                                y = -1f,
+                                width = 5f,
+                                height = 4f
+                            )
+                            pixelRect(
+                                color = color,
+                                x = -1f,
+                                y = 0f,
+                                width = 4f,
+                                height = 3f
+                            )
+                            repeat(kind) { index ->
+                                pixelRect(
+                                    color = style.playerDetailColor,
+                                    x = -8f + index * 4f,
+                                    y = -1f,
+                                    width = 2f,
+                                    height = 2f
+                                )
+                            }
+                        }
+                    }
+                }
+                for ((x, row, kind, direction) in run.fish) fish(
+                    point = Offset(x = x, y = run.fishY(row)),
+                    kind = kind,
+                    direction = direction
+                )
+                val point = run.hook
+                fishingLine(
+                    start = run.anchor,
+                    end = point,
+                    color = style.textColor.copy(alpha = 0.45f),
+                    width = 1f
+                )
+                pixelRect(
+                    color = style.textColor,
+                    x = point.x - 1f,
+                    y = point.y - 3f,
+                    width = 2f,
+                    height = 10f
+                )
+                pixelRect(
+                    color = style.textColor,
+                    x = point.x - 5f,
+                    y = point.y + 5f,
+                    width = 5f,
+                    height = 2f
+                )
+                pixelRect(
+                    color = style.textColor,
+                    x = point.x - 6f,
+                    y = point.y + 1f,
+                    width = 2f,
+                    height = 5f
+                )
+                if (run.caught > 0) fish(
+                    point = point + Offset(x = 0f, y = 8f),
+                    kind = run.caught,
+                    direction = 1
+                )
+                val boatX = run.anchor.x - 18f
+                val boatY = water - 9f + sin(run.time * 2f)
+                pixelRect(
+                    color = style.obstacleColor,
+                    x = boatX - 22f,
+                    y = boatY,
+                    width = 44f,
+                    height = 5f
+                )
+                pixelRect(
+                    color = style.obstacleColor,
+                    x = boatX - 17f,
+                    y = boatY + 5f,
+                    width = 34f,
+                    height = 5f
+                )
+                pixelRect(
+                    color = style.playerDetailColor,
+                    x = boatX - 15f,
+                    y = boatY + 1f,
+                    width = 26f,
+                    height = 2f
+                )
+                pixelRect(
+                    color = style.accentColor,
+                    x = boatX - 4f,
+                    y = boatY - 26f,
+                    width = 9f,
+                    height = 9f
+                )
+                pixelRect(
+                    color = style.accentColor,
+                    x = boatX + 5f,
+                    y = boatY - 23f,
+                    width = 3f,
+                    height = 4f
+                )
+                pixelRect(
+                    color = style.playerDetailColor,
+                    x = boatX + 3f,
+                    y = boatY - 24f,
+                    width = 2f,
+                    height = 2f
+                )
+                drawArcadeSprite(
+                    sprite = FishingCap,
+                    tint = style.playerColor,
+                    x = boatX - 9f,
+                    y = boatY - 32f
+                )
+                pixelRect(
+                    color = style.playerDetailColor.copy(alpha = 0.4f),
+                    x = boatX - 6f,
+                    y = boatY - 27f,
+                    width = 15f,
+                    height = 2f
+                )
+                drawArcadeSprite(
+                    sprite = FishingCoat,
+                    tint = style.playerColor,
+                    x = boatX - 8f,
+                    y = boatY - 18f
+                )
+                pixelRect(
+                    color = style.playerDetailColor,
+                    x = boatX - 5f,
+                    y = boatY - 5f,
+                    width = 10f,
+                    height = 4f
+                )
+                pixelRect(
+                    color = style.accentColor,
+                    x = boatX + 7f,
+                    y = boatY - 12f,
+                    width = 4f,
+                    height = 3f
+                )
+                fishingLine(
+                    start = Offset(x = boatX + 9f, y = boatY - 10f),
+                    end = run.anchor,
+                    color = style.obstacleColor,
+                    width = 2f
+                )
+                pixelRect(
+                    color = style.accentColor,
+                    x = boatX + 6f,
+                    y = boatY - 11f,
+                    width = 3f,
+                    height = 7f
+                )
+                pixelRect(
+                    color = style.playerDetailColor,
+                    x = boatX + 4f,
+                    y = boatY - 8f,
+                    width = 5f,
+                    height = 4f
+                )
+                pixelRect(
+                    color = style.obstacleColor,
+                    x = boatX + 5f,
+                    y = boatY - 7f,
+                    width = 2f,
+                    height = 2f
+                )
+                run.effects.draw(
+                    scope = this,
+                    color = style.accentColor
+                )
+                arcadeLives(
+                    style = style,
+                    remaining = 3 - run.misses,
+                    y = run.topInset / 2f
+                )
+            }
+        }
+    }
+}
 
 private val ArcadeFish = ArcadeSprite(
     width = 40, height = 22,
@@ -77,316 +382,6 @@ private val FishingMinnow = ArcadeSprite(
     data = "M0 5H3V8H8V10H13V8H21V5H25V8H31V9H36V11H40V13H35V15H29V17H23V20H19V17H13V15H8V13H5V16H1V18H0Z"
 )
 
-@Composable
-fun FishingGame(
-    modifier: Modifier = Modifier,
-    initialState: ArcadeGameState = ArcadeGameState(),
-    style: ArcadeStyle = ArcadeDefaults.style,
-    onHighScoreChanged: ((Int) -> Unit)? = null,
-    onGameOver: ((Int) -> Unit)? = null,
-    isPaused: Boolean = false
-) {
-    val run = rememberArcadeRun(
-        initialState = initialState,
-        create = ::FishingRun
-    )
-
-    ArcadeBoard(
-        game = ArcadeGame.Fishing,
-        run = run,
-        style = style,
-        modifier = modifier,
-        initialState = initialState,
-        onHighScoreChanged = onHighScoreChanged,
-        isPaused = isPaused,
-        onGameOver = onGameOver
-    ) {
-        ArcadeField(
-            run = run,
-            onPress = { run.cast() }
-        ) {
-            val water = run.waterline
-            pixelRect(
-                color = style.playerColor.copy(alpha = 0.06f),
-                x = 0f,
-                y = water,
-                width = run.width,
-                height = run.height - water
-            )
-            var x = -20f
-            while (x < run.width) {
-                val y = water + sin(x * 0.06f + run.time * 2f) * 2f
-                drawLine(
-                    color = style.playerColor.copy(alpha = 0.4f),
-                    start = Offset(x = x, y = y),
-                    end = Offset(x = x + 12f, y = y + 1f),
-                    strokeWidth = 1f
-                )
-                x += 20f
-            }
-            repeat(14) { index ->
-                val x = (index * 83f + 17f) % run.width
-                val depth = run.height - water - 12f
-                val y = water + depth - (index * 41f + run.time * 9f) % depth
-                drawCircle(
-                    color = style.playerColor.copy(alpha = 0.15f),
-                    radius = 1.5f + index % 2,
-                    center = Offset(x = x, y = y),
-                    style = Stroke(width = 0.8f)
-                )
-            }
-            val bottom = run.height - 8f
-            pixelRect(
-                color = style.detailColor.copy(alpha = 0.3f),
-                x = 0f,
-                y = bottom,
-                width = run.width,
-                height = 1f
-            )
-            repeat(7) { index ->
-                val x = (index + 0.4f) * run.width / 7f
-                val bend = sin(run.time * 1.4f + index) * 3f
-                drawLine(
-                    color = style.obstacleColor.copy(alpha = 0.4f),
-                    start = Offset(x = x, y = bottom),
-                    end = Offset(x = x + bend, y = bottom - 15f - index % 3 * 5f),
-                    strokeWidth = 2f
-                )
-                drawLine(
-                    color = style.obstacleColor.copy(alpha = 0.4f),
-                    start = Offset(x = x, y = bottom - 5f),
-                    end = Offset(x = x - 4f + bend, y = bottom - 13f),
-                    strokeWidth = 1.5f
-                )
-            }
-            fun fish(
-                point: Offset,
-                kind: Int,
-                direction: Int
-            ) {
-                val color = when (kind) {
-                    1 -> style.obstacleColor
-                    2 -> style.playerColor
-                    else -> style.accentColor
-                }
-                translate(left = point.x, top = point.y) {
-                    scale(
-                        scaleX = direction * (1.1f - kind * 0.13f),
-                        scaleY = 1.1f - kind * 0.13f,
-                        pivot = Offset.Zero
-                    ) {
-                        drawArcadeSprite(
-                            sprite = when (kind) {
-                                1 -> FishingPerch
-                                2 -> FishingMinnow
-                                else -> ArcadeFish
-                            },
-                            tint = color,
-                            x = -20f,
-                            y = -11f
-                        )
-                        pixelRect(
-                            color = style.playerDetailColor,
-                            x = 10f,
-                            y = -5f,
-                            width = 3f,
-                            height = 3f
-                        )
-                        pixelRect(
-                            color = style.playerDetailColor.copy(alpha = 0.4f),
-                            x = 5f,
-                            y = -5f,
-                            width = 2f,
-                            height = 10f
-                        )
-                        pixelRect(
-                            color = style.playerDetailColor.copy(alpha = 0.2f),
-                            x = -6f,
-                            y = 4f,
-                            width = 15f,
-                            height = 2f
-                        )
-                        pixelRect(
-                            color = style.playerDetailColor.copy(alpha = 0.35f),
-                            x = -4f,
-                            y = -1f,
-                            width = 5f,
-                            height = 4f
-                        )
-                        pixelRect(
-                            color = color,
-                            x = -1f,
-                            y = 0f,
-                            width = 4f,
-                            height = 3f
-                        )
-                        repeat(kind) { index ->
-                            pixelRect(
-                                color = style.playerDetailColor,
-                                x = -8f + index * 4f,
-                                y = -1f,
-                                width = 2f,
-                                height = 2f
-                            )
-                        }
-                    }
-                }
-            }
-            for ((x, row, kind, direction) in run.fish) fish(
-                point = Offset(x = x, y = run.fishY(row)),
-                kind = kind,
-                direction = direction
-            )
-            val point = run.hook
-            fishingLine(
-                start = run.anchor,
-                end = point,
-                color = style.textColor.copy(alpha = 0.45f),
-                width = 1f
-            )
-            pixelRect(
-                color = style.textColor,
-                x = point.x - 1f,
-                y = point.y - 3f,
-                width = 2f,
-                height = 10f
-            )
-            pixelRect(
-                color = style.textColor,
-                x = point.x - 5f,
-                y = point.y + 5f,
-                width = 5f,
-                height = 2f
-            )
-            pixelRect(
-                color = style.textColor,
-                x = point.x - 6f,
-                y = point.y + 1f,
-                width = 2f,
-                height = 5f
-            )
-            if (run.caught > 0) fish(
-                point = point + Offset(x = 0f, y = 8f),
-                kind = run.caught,
-                direction = 1
-            )
-            val boatX = run.anchor.x - 18f
-            val boatY = water - 9f + sin(run.time * 2f)
-            pixelRect(
-                color = style.obstacleColor,
-                x = boatX - 22f,
-                y = boatY,
-                width = 44f,
-                height = 5f
-            )
-            pixelRect(
-                color = style.obstacleColor,
-                x = boatX - 17f,
-                y = boatY + 5f,
-                width = 34f,
-                height = 5f
-            )
-            pixelRect(
-                color = style.playerDetailColor,
-                x = boatX - 15f,
-                y = boatY + 1f,
-                width = 26f,
-                height = 2f
-            )
-            pixelRect(
-                color = style.accentColor,
-                x = boatX - 4f,
-                y = boatY - 26f,
-                width = 9f,
-                height = 9f
-            )
-            pixelRect(
-                color = style.accentColor,
-                x = boatX + 5f,
-                y = boatY - 23f,
-                width = 3f,
-                height = 4f
-            )
-            pixelRect(
-                color = style.playerDetailColor,
-                x = boatX + 3f,
-                y = boatY - 24f,
-                width = 2f,
-                height = 2f
-            )
-            drawArcadeSprite(
-                sprite = FishingCap,
-                tint = style.playerColor,
-                x = boatX - 9f,
-                y = boatY - 32f
-            )
-            pixelRect(
-                color = style.playerDetailColor.copy(alpha = 0.4f),
-                x = boatX - 6f,
-                y = boatY - 27f,
-                width = 15f,
-                height = 2f
-            )
-            drawArcadeSprite(
-                sprite = FishingCoat,
-                tint = style.playerColor,
-                x = boatX - 8f,
-                y = boatY - 18f
-            )
-            pixelRect(
-                color = style.playerDetailColor,
-                x = boatX - 5f,
-                y = boatY - 5f,
-                width = 10f,
-                height = 4f
-            )
-            pixelRect(
-                color = style.accentColor,
-                x = boatX + 7f,
-                y = boatY - 12f,
-                width = 4f,
-                height = 3f
-            )
-            fishingLine(
-                start = Offset(x = boatX + 9f, y = boatY - 10f),
-                end = run.anchor,
-                color = style.obstacleColor,
-                width = 2f
-            )
-            pixelRect(
-                color = style.accentColor,
-                x = boatX + 6f,
-                y = boatY - 11f,
-                width = 3f,
-                height = 7f
-            )
-            pixelRect(
-                color = style.playerDetailColor,
-                x = boatX + 4f,
-                y = boatY - 8f,
-                width = 5f,
-                height = 4f
-            )
-            pixelRect(
-                color = style.obstacleColor,
-                x = boatX + 5f,
-                y = boatY - 7f,
-                width = 2f,
-                height = 2f
-            )
-            run.effects.draw(
-                scope = this,
-                color = style.accentColor
-            )
-            arcadeLives(
-                style = style,
-                remaining = 3 - run.misses,
-                y = run.topInset / 2f
-            )
-        }
-    }
-}
-
 private fun DrawScope.fishingLine(
     start: Offset,
     end: Offset,
@@ -409,7 +404,7 @@ private fun DrawScope.fishingLine(
 }
 
 @Serializable
-internal data class SwimmingFish(
+private data class SwimmingFish(
     var x: Float,
     val row: Int,
     val kind: Int,
@@ -417,7 +412,7 @@ internal data class SwimmingFish(
 )
 
 @Serializable
-internal class FishingRun : ArcadeRun() {
+private class FishingRun : ArcadeRun() {
     val fish = mutableListOf<SwimmingFish>()
 
     @Transient

@@ -50,7 +50,6 @@ import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.domain.utils.timestamp
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
-import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
 import com.t8rin.imagetoolbox.core.settings.domain.model.BackupProgress
 import com.t8rin.imagetoolbox.core.settings.domain.model.CacheAutoClearInterval
 import com.t8rin.imagetoolbox.core.settings.domain.model.ColorHarmonizer
@@ -61,6 +60,7 @@ import com.t8rin.imagetoolbox.core.settings.domain.model.FastSettingsSide
 import com.t8rin.imagetoolbox.core.settings.domain.model.FilenameBehavior
 import com.t8rin.imagetoolbox.core.settings.domain.model.FlingType
 import com.t8rin.imagetoolbox.core.settings.domain.model.ImageHeaderState
+import com.t8rin.imagetoolbox.core.settings.domain.model.LoadingGame
 import com.t8rin.imagetoolbox.core.settings.domain.model.MarkupLayerTextDefaults
 import com.t8rin.imagetoolbox.core.settings.domain.model.NightMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.OneTimeSaveLocation
@@ -1001,26 +1001,29 @@ internal class AndroidSettingsManager @Inject constructor(
         defaultValue = default.showLoadingGameButton
     )
 
-    override suspend fun setLoadingGame(game: ArcadeGame) = edit {
-        it[LOADING_GAME] = game.name
+    override suspend fun setLoadingGame(game: LoadingGame) = edit {
+        it[LOADING_GAME] = game.preferenceValue
     }
 
-    override suspend fun toggleFavoriteArcadeGame(game: ArcadeGame) = edit { preferences ->
-        if (game !in ArcadeGame.playable) return@edit
-
+    override suspend fun toggleFavoriteArcadeGame(game: String) = edit { preferences ->
         val favorites = preferences[FAVORITE_ARCADE_GAMES].orEmpty()
-        preferences[FAVORITE_ARCADE_GAMES] = if (game.name in favorites) {
-            favorites - game.name
+        preferences[FAVORITE_ARCADE_GAMES] = if (game in favorites) {
+            favorites - game
         } else {
-            favorites + game.name
+            favorites + game
         }
     }
 
-    override suspend fun reorderArcadeGames(games: List<ArcadeGame>) = edit { preferences ->
-        val reorderedGames = games.filter { it in ArcadeGame.playable }.distinct()
+    override suspend fun reorderArcadeGames(
+        games: List<String>,
+        defaultOrder: List<String>
+    ) = edit { preferences ->
+        val registered = defaultOrder.toSet()
+        val reorderedGames = games.filter { it in registered }.distinct()
         val reordered = reorderedGames.iterator()
-        preferences[ARCADE_GAME_ORDER] = preferences.arcadeGameOrder().joinToString("/") {
-            if (it in reorderedGames) reordered.next().name else it.name
+        val savedOrder = preferences.arcadeGameOrder().filter { it in registered }
+        preferences[ARCADE_GAME_ORDER] = (savedOrder + defaultOrder).distinct().joinToString("/") {
+            if (it in reorderedGames) reordered.next() else it
         }
     }
 

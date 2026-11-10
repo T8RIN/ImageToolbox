@@ -15,8 +15,6 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-@file:UseSerializers(ArcadeOffsetSerializer::class)
-
 package com.t8rin.imagetoolbox.core.games.catalog
 
 import androidx.compose.runtime.Composable
@@ -26,183 +24,181 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.rotate
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
-import com.t8rin.imagetoolbox.core.games.ArcadeDefaults
 import com.t8rin.imagetoolbox.core.games.ArcadeField
-import com.t8rin.imagetoolbox.core.games.ArcadeGameState
-import com.t8rin.imagetoolbox.core.games.ArcadeOffsetSerializer
+import com.t8rin.imagetoolbox.core.games.ArcadeGameContext
+import com.t8rin.imagetoolbox.core.games.ArcadeGameDefinition
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
-import com.t8rin.imagetoolbox.core.games.ArcadeStyle
+import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
-import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
+import com.t8rin.imagetoolbox.core.resources.Icons
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Hexagon
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
-import kotlinx.serialization.UseSerializers
 import kotlin.math.PI
 import kotlin.math.abs
 import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.random.Random
 
-@Composable
-fun HexagonGame(
-    modifier: Modifier = Modifier,
-    initialState: ArcadeGameState = ArcadeGameState(),
-    style: ArcadeStyle = ArcadeDefaults.style,
-    onHighScoreChanged: ((Int) -> Unit)? = null,
-    onGameOver: ((Int) -> Unit)? = null,
-    isPaused: Boolean = false
-) {
-    val run = rememberArcadeRun(
-        initialState = initialState,
-        create = ::HexagonRun
-    )
+@RegisterArcadeGame
+internal data object HexagonGame : ArcadeGameDefinition {
+    override val title = R.string.arcade_hexagon
+    override val description = R.string.arcade_hexagon_sub
+    override val icon get() = Icons.Outlined.Hexagon
+    override val order = 19
 
-    ArcadeBoard(
-        game = ArcadeGame.Hexagon,
-        run = run,
-        style = style,
-        modifier = modifier,
-        initialState = initialState,
-        onHighScoreChanged = onHighScoreChanged,
-        isPaused = isPaused,
-        onGameOver = onGameOver
-    ) {
-        ArcadeField(
+    @Composable
+    override fun Content(context: ArcadeGameContext, modifier: Modifier) {
+        val style = context.style
+        val run = rememberArcadeRun(
+            startPlaying = context.initialState.isPlaying,
+            create = ::HexagonRun
+        )
+
+        ArcadeBoard(
+            context = context,
             run = run,
-            onPress = run::steer,
-            onDrag = run::steer,
-            onRelease = run::stopInput
+            modifier = modifier
         ) {
-            val center = run.center
-            val extent = run.extent
-            val path = run.outline
-            fun point(
-                angle: Float,
-                radius: Float
-            ) =
-                center + Offset(x = cos(angle), y = sin(angle)) * radius * extent
+            ArcadeField(
+                run = run,
+                onPress = run::steer,
+                onDrag = run::steer,
+                onRelease = run::stopInput
+            ) {
+                val center = run.center
+                val extent = run.extent
+                val path = run.outline
+                fun point(
+                    angle: Float,
+                    radius: Float
+                ) =
+                    center + Offset(x = cos(angle), y = sin(angle)) * radius * extent
 
-            val backdropRadius = maxOf(run.width, run.height) * 2f / extent
-            for (sector in 0..5) {
-                val a = sector * PI.toFloat() / 3f + run.rotation * 0.45f
-                val b = a + PI.toFloat() / 3f
-                path.reset()
-                path.moveTo(center.x, center.y)
-                val first = point(
-                    angle = a,
-                    radius = backdropRadius
-                )
-                val second = point(
-                    angle = b,
-                    radius = backdropRadius
-                )
-                path.lineTo(first.x, first.y)
-                path.lineTo(second.x, second.y)
-                path.close()
-                drawPath(
-                    path = path, color = if (sector % 2 == 0) style.playerColor.copy(alpha = 0.035f)
-                    else style.obstacleColor.copy(alpha = 0.05f)
-                )
-            }
-            repeat(24) { index ->
-                val x = ((index * 71 + index * index * 19 + 23) % 359) / 359f * run.width
-                val y = ((index * 97 + index * index * 31 + 11) % 443) / 443f * run.height
-                if ((Offset(x = x, y = y) - center).getDistance() > extent * 0.6f) {
-                    pixelRect(
-                        color = style.obstacleColor.copy(alpha = 0.18f),
-                        x = x,
-                        y = y,
-                        width = 2f,
-                        height = 2f
-                    )
-                }
-            }
-            drawCircle(
-                color = style.detailColor.copy(alpha = 0.35f),
-                radius = extent * 0.46f,
-                center = center,
-                style = Stroke(width = 1f)
-            )
-            for ((radius, gap, passed) in run.walls) {
-                for (side in 0..5) {
-                    if (side == gap) continue
-                    val a = side * PI.toFloat() / 3f + run.rotation
+                val backdropRadius = maxOf(run.width, run.height) * 2f / extent
+                for (sector in 0..5) {
+                    val a = sector * PI.toFloat() / 3f + run.rotation * 0.45f
                     val b = a + PI.toFloat() / 3f
+                    path.reset()
+                    path.moveTo(center.x, center.y)
                     val first = point(
                         angle = a,
-                        radius = radius
+                        radius = backdropRadius
                     )
                     val second = point(
                         angle = b,
-                        radius = radius
+                        radius = backdropRadius
                     )
-                    val third = point(
-                        angle = b,
-                        radius = radius + 0.1f
-                    )
-                    val fourth = point(
-                        angle = a,
-                        radius = radius + 0.1f
-                    )
-                    path.reset()
-                    path.moveTo(first.x, first.y)
+                    path.lineTo(first.x, first.y)
                     path.lineTo(second.x, second.y)
-                    path.lineTo(third.x, third.y)
-                    path.lineTo(fourth.x, fourth.y)
                     path.close()
-                    val color = if (passed) style.detailColor else style.obstacleColor
-                    drawPath(path = path, color = color)
-                    drawLine(
-                        color = style.playerDetailColor.copy(alpha = 0.35f),
-                        start = third,
-                        end = fourth,
-                        strokeWidth = 1f
+                    drawPath(
+                        path = path,
+                        color = if (sector % 2 == 0) style.playerColor.copy(alpha = 0.035f)
+                        else style.obstacleColor.copy(alpha = 0.05f)
                     )
                 }
-            }
-            path.reset()
-            for (index in 0..5) {
-                val point =
-                    point(
-                        angle = index * PI.toFloat() / 3f + run.rotation,
-                        radius = 0.18f + run.pulse * 0.025f
-                    )
-                if (index == 0) path.moveTo(point.x, point.y) else path.lineTo(point.x, point.y)
-            }
-            path.close()
-            drawPath(path = path, color = style.accentColor)
-            drawPath(
-                path = path,
-                color = style.playerDetailColor.copy(alpha = 0.35f),
-                style = Stroke(width = 1.5f)
-            )
-            val player = point(
-                angle = run.angle,
-                radius = 0.46f
-            )
-            rotate(degrees = run.angle * 180f / PI.toFloat() + 90f, pivot = player) {
+                repeat(24) { index ->
+                    val x = ((index * 71 + index * index * 19 + 23) % 359) / 359f * run.width
+                    val y = ((index * 97 + index * index * 31 + 11) % 443) / 443f * run.height
+                    if ((Offset(x = x, y = y) - center).getDistance() > extent * 0.6f) {
+                        pixelRect(
+                            color = style.obstacleColor.copy(alpha = 0.18f),
+                            x = x,
+                            y = y,
+                            width = 2f,
+                            height = 2f
+                        )
+                    }
+                }
+                drawCircle(
+                    color = style.detailColor.copy(alpha = 0.35f),
+                    radius = extent * 0.46f,
+                    center = center,
+                    style = Stroke(width = 1f)
+                )
+                for ((radius, gap, passed) in run.walls) {
+                    for (side in 0..5) {
+                        if (side == gap) continue
+                        val a = side * PI.toFloat() / 3f + run.rotation
+                        val b = a + PI.toFloat() / 3f
+                        val first = point(
+                            angle = a,
+                            radius = radius
+                        )
+                        val second = point(
+                            angle = b,
+                            radius = radius
+                        )
+                        val third = point(
+                            angle = b,
+                            radius = radius + 0.1f
+                        )
+                        val fourth = point(
+                            angle = a,
+                            radius = radius + 0.1f
+                        )
+                        path.reset()
+                        path.moveTo(first.x, first.y)
+                        path.lineTo(second.x, second.y)
+                        path.lineTo(third.x, third.y)
+                        path.lineTo(fourth.x, fourth.y)
+                        path.close()
+                        val color = if (passed) style.detailColor else style.obstacleColor
+                        drawPath(path = path, color = color)
+                        drawLine(
+                            color = style.playerDetailColor.copy(alpha = 0.35f),
+                            start = third,
+                            end = fourth,
+                            strokeWidth = 1f
+                        )
+                    }
+                }
                 path.reset()
-                path.moveTo(player.x, player.y - 7f)
-                path.lineTo(player.x - 5.5f, player.y + 5f)
-                path.lineTo(player.x + 5.5f, player.y + 5f)
+                for (index in 0..5) {
+                    val point =
+                        point(
+                            angle = index * PI.toFloat() / 3f + run.rotation,
+                            radius = 0.18f + run.pulse * 0.025f
+                        )
+                    if (index == 0) path.moveTo(point.x, point.y) else path.lineTo(point.x, point.y)
+                }
                 path.close()
-                drawPath(path = path, color = style.playerColor)
+                drawPath(path = path, color = style.accentColor)
+                drawPath(
+                    path = path,
+                    color = style.playerDetailColor.copy(alpha = 0.35f),
+                    style = Stroke(width = 1.5f)
+                )
+                val player = point(
+                    angle = run.angle,
+                    radius = 0.46f
+                )
+                rotate(degrees = run.angle * 180f / PI.toFloat() + 90f, pivot = player) {
+                    path.reset()
+                    path.moveTo(player.x, player.y - 7f)
+                    path.lineTo(player.x - 5.5f, player.y + 5f)
+                    path.lineTo(player.x + 5.5f, player.y + 5f)
+                    path.close()
+                    drawPath(path = path, color = style.playerColor)
+                }
             }
         }
     }
 }
 
 @Serializable
-internal data class HexagonWall(
+private data class HexagonWall(
     var radius: Float,
     val gap: Int,
     var passed: Boolean = false
 )
 
 @Serializable
-internal class HexagonRun : ArcadeRun() {
+private class HexagonRun : ArcadeRun() {
     val walls = mutableListOf<HexagonWall>()
 
     @Transient

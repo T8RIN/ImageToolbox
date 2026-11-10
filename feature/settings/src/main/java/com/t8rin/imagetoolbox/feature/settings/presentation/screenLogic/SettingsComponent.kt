@@ -50,7 +50,6 @@ import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
-import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
 import com.t8rin.imagetoolbox.core.settings.domain.model.BackupProgress
 import com.t8rin.imagetoolbox.core.settings.domain.model.CacheAutoClearInterval
 import com.t8rin.imagetoolbox.core.settings.domain.model.ColorHarmonizer
@@ -59,6 +58,7 @@ import com.t8rin.imagetoolbox.core.settings.domain.model.DialogPosition
 import com.t8rin.imagetoolbox.core.settings.domain.model.DomainFontFamily
 import com.t8rin.imagetoolbox.core.settings.domain.model.FastSettingsSide
 import com.t8rin.imagetoolbox.core.settings.domain.model.FlingType
+import com.t8rin.imagetoolbox.core.settings.domain.model.LoadingGame
 import com.t8rin.imagetoolbox.core.settings.domain.model.MarkupLayerTextDefaults
 import com.t8rin.imagetoolbox.core.settings.domain.model.NightMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.RawDemosaicQuality
@@ -539,7 +539,7 @@ class SettingsComponent @AssistedInject internal constructor(
 
     fun toggleShowLoadingGameButton() = settingsScope { toggleShowLoadingGameButton() }
 
-    fun setLoadingGame(game: ArcadeGame) = settingsScope { setLoadingGame(game) }
+    fun setLoadingGame(game: LoadingGame) = settingsScope { setLoadingGame(game) }
 
     fun toggleUseFullscreenSettings() = settingsScope { toggleUseFullscreenSettings() }
 

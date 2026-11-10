@@ -15,8 +15,6 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-@file:UseSerializers(ArcadeOffsetSerializer::class)
-
 package com.t8rin.imagetoolbox.core.games.catalog
 
 import androidx.compose.animation.core.FastOutSlowInEasing
@@ -34,176 +32,177 @@ import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.sp
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
-import com.t8rin.imagetoolbox.core.games.ArcadeDefaults
 import com.t8rin.imagetoolbox.core.games.ArcadeField
-import com.t8rin.imagetoolbox.core.games.ArcadeGameState
-import com.t8rin.imagetoolbox.core.games.ArcadeOffsetSerializer
+import com.t8rin.imagetoolbox.core.games.ArcadeGameContext
+import com.t8rin.imagetoolbox.core.games.ArcadeGameDefinition
+import com.t8rin.imagetoolbox.core.games.ArcadeOffset
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
-import com.t8rin.imagetoolbox.core.games.ArcadeStyle
+import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
-import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
+import com.t8rin.imagetoolbox.core.resources.Icons
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Filter2
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.UseSerializers
 import kotlin.math.abs
 import kotlin.math.sin
 import kotlin.random.Random
 
-private const val GridSize = 4
-private const val SlideDuration = 0.13f
-private const val MoveDuration = 0.27f
+@RegisterArcadeGame
+internal data object Game2048 : ArcadeGameDefinition {
+    override val title = R.string.arcade_2048
+    override val description = R.string.arcade_2048_sub
+    override val icon get() = Icons.Outlined.Filter2
+    override val order = 5
 
-@Composable
-fun Game2048(
-    modifier: Modifier = Modifier,
-    initialState: ArcadeGameState = ArcadeGameState(),
-    style: ArcadeStyle = ArcadeDefaults.style,
-    onHighScoreChanged: ((Int) -> Unit)? = null,
-    onGameOver: ((Int) -> Unit)? = null,
-    isPaused: Boolean = false
-) {
-    val run = rememberArcadeRun(
-        initialState = initialState,
-        create = ::MergeRun
-    )
-    val measurer = rememberTextMeasurer(cacheSize = 32)
+    @Composable
+    override fun Content(context: ArcadeGameContext, modifier: Modifier) {
+        val style = context.style
+        val run = rememberArcadeRun(
+            startPlaying = context.initialState.isPlaying,
+            create = ::MergeRun
+        )
+        val measurer = rememberTextMeasurer(cacheSize = 32)
 
-    ArcadeBoard(
-        game = ArcadeGame.`2048`,
-        run = run,
-        style = style,
-        modifier = modifier,
-        initialState = initialState,
-        onHighScoreChanged = onHighScoreChanged,
-        isPaused = isPaused,
-        onGameOver = onGameOver,
-        turnBased = true
-    ) {
-        ArcadeField(
+        ArcadeBoard(
+            context = context,
             run = run,
-            onSwipe = run::swipe
+            modifier = modifier,
+            turnBased = true
         ) {
-            val side = minOf(run.width - 24f, run.height - run.topInset - 24f)
-            val gap = side * 0.018f
-            val cell = (side - gap * (GridSize + 1)) / GridSize
-            val origin = Offset(
-                x = (run.width - side) / 2,
-                y = run.topInset + (run.height - run.topInset - side) / 2
-            )
-
-            fun position(index: Int) = origin + Offset(
-                x = gap + index % GridSize * (cell + gap),
-                y = gap + index / GridSize * (cell + gap)
-            )
-
-            val radius = CornerRadius(x = cell * 0.06f)
-            drawRoundRect(
-                color = style.detailColor.copy(alpha = 0.2f),
-                topLeft = origin,
-                size = Size(width = side, height = side),
-                cornerRadius = CornerRadius(x = gap)
-            )
-            for (index in run.tiles.indices) {
-                val point = position(index)
-                drawRoundRect(
-                    color = style.detailColor.copy(alpha = 0.16f),
-                    topLeft = point,
-                    size = Size(width = cell, height = cell),
-                    cornerRadius = radius
-                )
-            }
-
-            fun tile(
-                value: Int,
-                point: Offset,
-                scale: Float = 1f
+            ArcadeField(
+                run = run,
+                onSwipe = run::swipe
             ) {
-                if (value == 0 || scale <= 0f) return
-                val color = when (value) {
-                    2 -> style.obstacleColor.copy(alpha = 0.14f)
-                    4 -> style.obstacleColor.copy(alpha = 0.24f)
-                    8 -> style.playerColor.copy(alpha = 0.24f)
-                    16 -> style.playerColor.copy(alpha = 0.36f)
-                    32 -> style.accentColor.copy(alpha = 0.3f)
-                    64 -> style.accentColor.copy(alpha = 0.44f)
-                    else -> style.playerColor.copy(alpha = 0.5f)
-                }
-                val inset = cell * (1 - scale) / 2
-                val topLeft = point + Offset(x = inset, y = inset)
-                val size = cell * scale
-                drawRoundRect(
-                    color = color,
-                    topLeft = topLeft,
-                    size = Size(width = size, height = size),
-                    cornerRadius = radius * scale
+                val side = minOf(run.width - 24f, run.height - run.topInset - 24f)
+                val gap = side * 0.018f
+                val cell = (side - gap * (GridSize + 1)) / GridSize
+                val origin = Offset(
+                    x = (run.width - side) / 2,
+                    y = run.topInset + (run.height - run.topInset - side) / 2
                 )
-                drawRoundRect(
-                    color = style.detailColor.copy(alpha = 0.3f),
-                    topLeft = topLeft,
-                    size = Size(width = size, height = size),
-                    cornerRadius = radius * scale,
-                    style = Stroke(width = 1f)
-                )
-                val digits = value.toString().length
-                val label = measurer.measure(
-                    text = value.toString(),
-                    style = TextStyle(
-                        fontSize = (cell * if (digits < 3) 0.42f else if (digits < 5) 0.32f else 0.25f).sp,
-                        fontFamily = FontFamily.Monospace,
-                        fontWeight = FontWeight.Bold
-                    ),
-                    density = Density(1f)
-                )
-                drawText(
-                    textLayoutResult = label,
-                    color = style.textColor.copy(alpha = scale.coerceIn(0f, 1f)),
-                    topLeft = point + Offset(
-                        x = (cell - label.size.width) / 2,
-                        y = (cell - label.size.height) / 2
-                    )
-                )
-            }
 
-            if (run.isAnimating && run.time < SlideDuration) {
-                val fraction =
-                    FastOutSlowInEasing.transform((run.time / SlideDuration).coerceIn(0f, 1f))
-                run.slides.forEach {
-                    val from = position(it.from)
-                    tile(
-                        value = it.value,
-                        point = from + (position(it.to) - from) * fraction
+                fun position(index: Int) = origin + Offset(
+                    x = gap + index % GridSize * (cell + gap),
+                    y = gap + index / GridSize * (cell + gap)
+                )
+
+                val radius = CornerRadius(x = cell * 0.06f)
+                drawRoundRect(
+                    color = style.detailColor.copy(alpha = 0.2f),
+                    topLeft = origin,
+                    size = Size(width = side, height = side),
+                    cornerRadius = CornerRadius(x = gap)
+                )
+                for (index in run.tiles.indices) {
+                    val point = position(index)
+                    drawRoundRect(
+                        color = style.detailColor.copy(alpha = 0.16f),
+                        topLeft = point,
+                        size = Size(width = cell, height = cell),
+                        cornerRadius = radius
                     )
                 }
-            } else {
-                val fraction =
-                    ((run.time - SlideDuration) / (MoveDuration - SlideDuration)).coerceIn(0f, 1f)
-                run.tiles.forEachIndexed { index, value ->
-                    val scale = when {
-                        !run.isAnimating -> 1f
-                        index == run.spawned -> FastOutSlowInEasing.transform(fraction)
-                        index in run.merged -> 1f + sin(fraction * Math.PI).toFloat() * 0.1f
-                        else -> 1f
+
+                fun tile(
+                    value: Int,
+                    point: Offset,
+                    scale: Float = 1f
+                ) {
+                    if (value == 0 || scale <= 0f) return
+                    val color = when (value) {
+                        2 -> style.obstacleColor.copy(alpha = 0.14f)
+                        4 -> style.obstacleColor.copy(alpha = 0.24f)
+                        8 -> style.playerColor.copy(alpha = 0.24f)
+                        16 -> style.playerColor.copy(alpha = 0.36f)
+                        32 -> style.accentColor.copy(alpha = 0.3f)
+                        64 -> style.accentColor.copy(alpha = 0.44f)
+                        else -> style.playerColor.copy(alpha = 0.5f)
                     }
-                    tile(
-                        value = value,
-                        point = position(index),
-                        scale = scale
+                    val inset = cell * (1 - scale) / 2
+                    val topLeft = point + Offset(x = inset, y = inset)
+                    val size = cell * scale
+                    drawRoundRect(
+                        color = color,
+                        topLeft = topLeft,
+                        size = Size(width = size, height = size),
+                        cornerRadius = radius * scale
                     )
+                    drawRoundRect(
+                        color = style.detailColor.copy(alpha = 0.3f),
+                        topLeft = topLeft,
+                        size = Size(width = size, height = size),
+                        cornerRadius = radius * scale,
+                        style = Stroke(width = 1f)
+                    )
+                    val digits = value.toString().length
+                    val label = measurer.measure(
+                        text = value.toString(),
+                        style = TextStyle(
+                            fontSize = (cell * if (digits < 3) 0.42f else if (digits < 5) 0.32f else 0.25f).sp,
+                            fontFamily = FontFamily.Monospace,
+                            fontWeight = FontWeight.Bold
+                        ),
+                        density = Density(1f)
+                    )
+                    drawText(
+                        textLayoutResult = label,
+                        color = style.textColor.copy(alpha = scale.coerceIn(0f, 1f)),
+                        topLeft = point + Offset(
+                            x = (cell - label.size.width) / 2,
+                            y = (cell - label.size.height) / 2
+                        )
+                    )
+                }
+
+                if (run.isAnimating && run.time < SlideDuration) {
+                    val fraction =
+                        FastOutSlowInEasing.transform((run.time / SlideDuration).coerceIn(0f, 1f))
+                    run.slides.forEach {
+                        val from = position(it.from)
+                        tile(
+                            value = it.value,
+                            point = from + (position(it.to) - from) * fraction
+                        )
+                    }
+                } else {
+                    val fraction =
+                        ((run.time - SlideDuration) / (MoveDuration - SlideDuration)).coerceIn(
+                            0f,
+                            1f
+                        )
+                    run.tiles.forEachIndexed { index, value ->
+                        val scale = when {
+                            !run.isAnimating -> 1f
+                            index == run.spawned -> FastOutSlowInEasing.transform(fraction)
+                            index in run.merged -> 1f + sin(fraction * Math.PI).toFloat() * 0.1f
+                            else -> 1f
+                        }
+                        tile(
+                            value = value,
+                            point = position(index),
+                            scale = scale
+                        )
+                    }
                 }
             }
         }
     }
 }
 
+private const val GridSize = 4
+private const val SlideDuration = 0.13f
+private const val MoveDuration = 0.27f
+
 @Serializable
-internal data class TileSlide(
+private data class TileSlide(
     val value: Int,
     val from: Int,
     val to: Int
 )
 
 @Serializable
-internal class MergeRun : ArcadeRun() {
+private class MergeRun : ArcadeRun() {
     val tiles = IntArray(GridSize * GridSize)
     val slides = mutableListOf<TileSlide>()
     val merged = mutableSetOf<Int>()
@@ -211,7 +210,7 @@ internal class MergeRun : ArcadeRun() {
         private set
     var time = MoveDuration
         private set
-    private var queuedSwipe: Offset? = null
+    private var queuedSwipe: ArcadeOffset? = null
 
     override fun isValid(): Boolean = super.isValid() &&
             tiles.size == GridSize * GridSize && tiles.all { it >= 0 }

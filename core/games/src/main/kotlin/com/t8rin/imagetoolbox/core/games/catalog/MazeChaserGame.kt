@@ -15,8 +15,6 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-@file:UseSerializers(ArcadeOffsetSerializer::class, ArcadeDequeSerializer::class)
-
 package com.t8rin.imagetoolbox.core.games.catalog
 
 import androidx.compose.runtime.Composable
@@ -32,26 +30,210 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.clipPath
 import androidx.compose.ui.graphics.drawscope.scale
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
-import com.t8rin.imagetoolbox.core.games.ArcadeDefaults
-import com.t8rin.imagetoolbox.core.games.ArcadeDequeSerializer
 import com.t8rin.imagetoolbox.core.games.ArcadeField
-import com.t8rin.imagetoolbox.core.games.ArcadeGameState
-import com.t8rin.imagetoolbox.core.games.ArcadeOffsetSerializer
+import com.t8rin.imagetoolbox.core.games.ArcadeGameContext
+import com.t8rin.imagetoolbox.core.games.ArcadeGameDefinition
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.ArcadeSprite
-import com.t8rin.imagetoolbox.core.games.ArcadeStyle
+import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
 import com.t8rin.imagetoolbox.core.games.utils.arcadeLives
-import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
+import com.t8rin.imagetoolbox.core.resources.Icons
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Explore
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
-import kotlinx.serialization.UseSerializers
 import kotlin.math.abs
 import kotlin.math.sin
 import kotlin.random.Random
+
+@RegisterArcadeGame
+internal data object MazeChaserGame : ArcadeGameDefinition {
+    override val title = R.string.arcade_mazechaser
+    override val description = R.string.arcade_mazechaser_sub
+    override val icon get() = Icons.Outlined.Explore
+    override val order = 23
+
+    @Composable
+    override fun Content(context: ArcadeGameContext, modifier: Modifier) {
+        val style = context.style
+        val run = rememberArcadeRun(
+            startPlaying = context.initialState.isPlaying,
+            create = ::MazeChaserRun
+        )
+        val outlinePath = remember { Path() }
+
+        ArcadeBoard(
+            context = context,
+            run = run,
+            modifier = modifier
+        ) {
+            ArcadeField(
+                run = run,
+                transition = { run.transition },
+                onTap = { run.steer(it - run.playerPoint) },
+                onSwipe = run::steer,
+                swipeOnDrag = true
+            ) {
+                val cell = run.cell
+                val origin = run.origin
+                val area = Size(width = cell * run.columns, height = cell * run.rows)
+                val outline = outlinePath.apply {
+                    rewind()
+                    addRoundRect(RoundRect(Rect(origin, area), CornerRadius(x = 10f)))
+                }
+                clipPath(outline) {
+                    for (index in run.walls.indices) {
+                        val point =
+                            origin + Offset(
+                                x = index % run.columns * cell,
+                                y = index / run.columns * cell
+                            )
+                        if (run.walls[index]) {
+                            drawRect(
+                                color = style.playerColor.copy(alpha = 0.1f),
+                                topLeft = point,
+                                size = Size(width = cell, height = cell)
+                            )
+                            val ink = style.playerColor.copy(alpha = 0.65f)
+                            if (index % run.columns > 0 && !run.walls[index - 1]) drawLine(
+                                color = ink,
+                                start = point,
+                                end = point + Offset(x = 0f, y = cell),
+                                strokeWidth = 1.5f
+                            )
+                            if (index % run.columns < run.columns - 1 && !run.walls[index + 1]) drawLine(
+                                color = ink,
+                                start = point + Offset(x = cell, y = 0f),
+                                end = point + Offset(x = cell, y = cell),
+                                strokeWidth = 1.5f
+                            )
+                            if (index >= run.columns && !run.walls[index - run.columns]) drawLine(
+                                color = ink,
+                                start = point,
+                                end = point + Offset(x = cell, y = 0f),
+                                strokeWidth = 1.5f
+                            )
+                            if (index + run.columns < run.walls.size && !run.walls[index + run.columns]) drawLine(
+                                color = ink,
+                                start = point + Offset(x = 0f, y = cell),
+                                end = point + Offset(x = cell, y = cell),
+                                strokeWidth = 1.5f
+                            )
+                        } else if (run.dots[index] > 0) {
+                            val center = point + Offset(x = cell / 2f, y = cell / 2f)
+                            if (run.dots[index] == 2) {
+                                val radius =
+                                    cell * (0.19f + sin(run.time * 5f) * 0.025f)
+                                drawCircle(
+                                    color = style.accentColor.copy(alpha = 0.18f),
+                                    radius = radius * 1.6f,
+                                    center = center
+                                )
+                                drawCircle(
+                                    color = style.accentColor,
+                                    radius = radius,
+                                    center = center
+                                )
+                            } else drawCircle(
+                                color = style.obstacleColor.copy(alpha = 0.8f),
+                                radius = cell * 0.065f,
+                                center = center
+                            )
+                        }
+                    }
+                    for ((index, enemy) in run.enemies.withIndex()) {
+                        if (enemy.cooldown > 0f) continue
+                        val point = run.enemyPoint(enemy)
+                        val r = cell * 0.35f
+                        val frightened =
+                            run.power > 0f && (run.power > 1.5f || run.time % 0.25f < 0.15f)
+                        val ink = if (frightened) style.detailColor else when (index % 3) {
+                            0 -> style.accentColor
+                            1 -> style.hazardColor
+                            else -> style.obstacleColor
+                        }
+                        scale(scale = r / 8f, pivot = point) {
+                            drawArcadeSprite(
+                                sprite = if ((run.time * 6f).toInt() % 2 == 0) MazeGhost else MazeGhostStep,
+                                tint = ink,
+                                x = point.x - 8f,
+                                y = point.y - 8f
+                            )
+                        }
+                        val looking = Offset(
+                            x = (enemy.position % run.columns - enemy.previous % run.columns).coerceIn(
+                                -1,
+                                1
+                            ) * r * 0.12f,
+                            y = (enemy.position / run.columns - enemy.previous / run.columns).coerceIn(
+                                -1,
+                                1
+                            ) * r * 0.12f
+                        )
+                        for (side in listOf(-1, 1)) {
+                            drawRect(
+                                color = style.playerDetailColor,
+                                topLeft = point + Offset(
+                                    x = side * r * 0.45f - r * 0.18f,
+                                    y = -r * 0.4f
+                                ),
+                                size = Size(width = r * 0.36f, height = r * 0.5f)
+                            )
+                            if (!frightened) drawRect(
+                                color = style.textColor,
+                                topLeft = point + Offset(
+                                    x = side * r * 0.45f - r * 0.07f + looking.x,
+                                    y = -r * 0.25f + looking.y
+                                ),
+                                size = Size(width = r * 0.17f, height = r * 0.25f)
+                            )
+                        }
+                    }
+                    if (run.invulnerable <= 0f || run.time % 0.2f < 0.13f) {
+                        val radius = cell * 0.36f
+                        val mouth = 12f + abs(
+                            sin(run.time * 13f)
+                        ) * 28f
+                        val point = run.playerPoint
+                        drawArc(
+                            color = style.playerColor,
+                            startAngle = run.direction * 90f + mouth,
+                            sweepAngle = 360f - mouth * 2f,
+                            useCenter = true,
+                            topLeft = point - Offset(x = radius, y = radius),
+                            size = Size(width = radius * 2f, height = radius * 2f)
+                        )
+                    }
+                    if (run.transition > 0f) drawRect(
+                        color = style.accentColor.copy(alpha = run.transition * 0.12f),
+                        topLeft = origin,
+                        size = Size(width = cell * run.columns, height = cell * run.rows)
+                    )
+                }
+                drawRoundRect(
+                    color = style.playerColor.copy(alpha = 0.35f),
+                    topLeft = origin,
+                    size = area,
+                    cornerRadius = CornerRadius(x = 10f),
+                    style = Stroke(width = 1f)
+                )
+                run.effects.draw(
+                    scope = this,
+                    color = style.accentColor
+                )
+                arcadeLives(
+                    style = style,
+                    remaining = run.lives,
+                    y = run.topInset / 2f
+                )
+            }
+        }
+    }
+}
 
 private val MazeGhost = ArcadeSprite(
     width = 16,
@@ -65,196 +247,8 @@ private val MazeGhostStep = ArcadeSprite(
     data = "M5 0H11V1H13V3H15V6H16V14H14V16H11V14H8V16H6V14H3V16H0V6H1V3H3V1H5Z"
 )
 
-@Composable
-fun MazeChaserGame(
-    modifier: Modifier = Modifier,
-    initialState: ArcadeGameState = ArcadeGameState(),
-    style: ArcadeStyle = ArcadeDefaults.style,
-    onHighScoreChanged: ((Int) -> Unit)? = null,
-    onGameOver: ((Int) -> Unit)? = null,
-    isPaused: Boolean = false
-) {
-    val run = rememberArcadeRun(
-        initialState = initialState,
-        create = ::MazeChaserRun
-    )
-    val outlinePath = remember { Path() }
-
-    ArcadeBoard(
-        game = ArcadeGame.MazeChaser,
-        run = run,
-        style = style,
-        modifier = modifier,
-        initialState = initialState,
-        onHighScoreChanged = onHighScoreChanged,
-        isPaused = isPaused,
-        onGameOver = onGameOver
-    ) {
-        ArcadeField(
-            run = run,
-            transition = { run.transition },
-            onTap = { run.steer(it - run.playerPoint) },
-            onSwipe = run::steer,
-            swipeOnDrag = true
-        ) {
-            val cell = run.cell
-            val origin = run.origin
-            val area = Size(width = cell * run.columns, height = cell * run.rows)
-            val outline = outlinePath.apply {
-                rewind()
-                addRoundRect(RoundRect(Rect(origin, area), CornerRadius(x = 10f)))
-            }
-            clipPath(outline) {
-                for (index in run.walls.indices) {
-                    val point =
-                        origin + Offset(
-                            x = index % run.columns * cell,
-                            y = index / run.columns * cell
-                        )
-                    if (run.walls[index]) {
-                        drawRect(
-                            color = style.playerColor.copy(alpha = 0.1f),
-                            topLeft = point,
-                            size = Size(width = cell, height = cell)
-                        )
-                        val ink = style.playerColor.copy(alpha = 0.65f)
-                        if (index % run.columns > 0 && !run.walls[index - 1]) drawLine(
-                            color = ink,
-                            start = point,
-                            end = point + Offset(x = 0f, y = cell),
-                            strokeWidth = 1.5f
-                        )
-                        if (index % run.columns < run.columns - 1 && !run.walls[index + 1]) drawLine(
-                            color = ink,
-                            start = point + Offset(x = cell, y = 0f),
-                            end = point + Offset(x = cell, y = cell),
-                            strokeWidth = 1.5f
-                        )
-                        if (index >= run.columns && !run.walls[index - run.columns]) drawLine(
-                            color = ink,
-                            start = point,
-                            end = point + Offset(x = cell, y = 0f),
-                            strokeWidth = 1.5f
-                        )
-                        if (index + run.columns < run.walls.size && !run.walls[index + run.columns]) drawLine(
-                            color = ink,
-                            start = point + Offset(x = 0f, y = cell),
-                            end = point + Offset(x = cell, y = cell),
-                            strokeWidth = 1.5f
-                        )
-                    } else if (run.dots[index] > 0) {
-                        val center = point + Offset(x = cell / 2f, y = cell / 2f)
-                        if (run.dots[index] == 2) {
-                            val radius =
-                                cell * (0.19f + sin(run.time * 5f) * 0.025f)
-                            drawCircle(
-                                color = style.accentColor.copy(alpha = 0.18f),
-                                radius = radius * 1.6f,
-                                center = center
-                            )
-                            drawCircle(
-                                color = style.accentColor,
-                                radius = radius,
-                                center = center
-                            )
-                        } else drawCircle(
-                            color = style.obstacleColor.copy(alpha = 0.8f),
-                            radius = cell * 0.065f,
-                            center = center
-                        )
-                    }
-                }
-                for ((index, enemy) in run.enemies.withIndex()) {
-                    if (enemy.cooldown > 0f) continue
-                    val point = run.enemyPoint(enemy)
-                    val r = cell * 0.35f
-                    val frightened =
-                        run.power > 0f && (run.power > 1.5f || run.time % 0.25f < 0.15f)
-                    val ink = if (frightened) style.detailColor else when (index % 3) {
-                        0 -> style.accentColor
-                        1 -> style.hazardColor
-                        else -> style.obstacleColor
-                    }
-                    scale(scale = r / 8f, pivot = point) {
-                        drawArcadeSprite(
-                            sprite = if ((run.time * 6f).toInt() % 2 == 0) MazeGhost else MazeGhostStep,
-                            tint = ink,
-                            x = point.x - 8f,
-                            y = point.y - 8f
-                        )
-                    }
-                    val looking = Offset(
-                        x = (enemy.position % run.columns - enemy.previous % run.columns).coerceIn(
-                            -1,
-                            1
-                        ) * r * 0.12f,
-                        y = (enemy.position / run.columns - enemy.previous / run.columns).coerceIn(
-                            -1,
-                            1
-                        ) * r * 0.12f
-                    )
-                    for (side in listOf(-1, 1)) {
-                        drawRect(
-                            color = style.playerDetailColor,
-                            topLeft = point + Offset(
-                                x = side * r * 0.45f - r * 0.18f,
-                                y = -r * 0.4f
-                            ),
-                            size = Size(width = r * 0.36f, height = r * 0.5f)
-                        )
-                        if (!frightened) drawRect(
-                            color = style.textColor,
-                            topLeft = point + Offset(
-                                x = side * r * 0.45f - r * 0.07f + looking.x,
-                                y = -r * 0.25f + looking.y
-                            ),
-                            size = Size(width = r * 0.17f, height = r * 0.25f)
-                        )
-                    }
-                }
-                if (run.invulnerable <= 0f || run.time % 0.2f < 0.13f) {
-                    val radius = cell * 0.36f
-                    val mouth = 12f + abs(
-                        sin(run.time * 13f)
-                    ) * 28f
-                    val point = run.playerPoint
-                    drawArc(
-                        color = style.playerColor,
-                        startAngle = run.direction * 90f + mouth,
-                        sweepAngle = 360f - mouth * 2f,
-                        useCenter = true,
-                        topLeft = point - Offset(x = radius, y = radius),
-                        size = Size(width = radius * 2f, height = radius * 2f)
-                    )
-                }
-                if (run.transition > 0f) drawRect(
-                    color = style.accentColor.copy(alpha = run.transition * 0.12f),
-                    topLeft = origin,
-                    size = Size(width = cell * run.columns, height = cell * run.rows)
-                )
-            }
-            drawRoundRect(
-                color = style.playerColor.copy(alpha = 0.35f),
-                topLeft = origin,
-                size = area,
-                cornerRadius = CornerRadius(x = 10f),
-                style = Stroke(width = 1f)
-            )
-            run.effects.draw(
-                scope = this,
-                color = style.accentColor
-            )
-            arcadeLives(
-                style = style,
-                remaining = run.lives,
-                y = run.topInset / 2f
-            )
-        }
-    }
-}
-
 @Serializable
-internal data class MazeEnemy(
+private data class MazeEnemy(
     var position: Int,
     var previous: Int,
     var elapsed: Float = 0f,
@@ -262,7 +256,7 @@ internal data class MazeEnemy(
 )
 
 @Serializable
-internal class MazeChaserRun : ArcadeRun() {
+private class MazeChaserRun : ArcadeRun() {
     val columns = 13
     var rows = 9
     var walls = BooleanArray(columns * rows) { true }
@@ -423,7 +417,7 @@ internal class MazeChaserRun : ArcadeRun() {
         }
     }
 
-    internal fun distances(target: Int): IntArray {
+    fun distances(target: Int): IntArray {
         val distances = IntArray(walls.size) { Int.MAX_VALUE }
         val queue = IntArray(walls.size)
         var head = 0

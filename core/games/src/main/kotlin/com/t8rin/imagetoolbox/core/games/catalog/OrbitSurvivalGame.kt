@@ -15,8 +15,6 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-@file:UseSerializers(ArcadeOffsetSerializer::class, ArcadeDequeSerializer::class)
-
 package com.t8rin.imagetoolbox.core.games.catalog
 
 import androidx.compose.runtime.Composable
@@ -28,28 +26,189 @@ import androidx.compose.ui.graphics.drawscope.clipRect
 import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.drawscope.scale
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
-import com.t8rin.imagetoolbox.core.games.ArcadeDefaults
-import com.t8rin.imagetoolbox.core.games.ArcadeDequeSerializer
+import com.t8rin.imagetoolbox.core.games.ArcadeDeque
 import com.t8rin.imagetoolbox.core.games.ArcadeField
-import com.t8rin.imagetoolbox.core.games.ArcadeGameState
-import com.t8rin.imagetoolbox.core.games.ArcadeOffsetSerializer
+import com.t8rin.imagetoolbox.core.games.ArcadeGameContext
+import com.t8rin.imagetoolbox.core.games.ArcadeGameDefinition
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.ArcadeSprite
-import com.t8rin.imagetoolbox.core.games.ArcadeStyle
+import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
 import com.t8rin.imagetoolbox.core.games.utils.arcadeStars
-import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
+import com.t8rin.imagetoolbox.core.resources.Icons
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Orbit
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
-import kotlinx.serialization.UseSerializers
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.sqrt
+
+@RegisterArcadeGame
+internal data object OrbitSurvivalGame : ArcadeGameDefinition {
+    override val title = R.string.arcade_orbitsurvival
+    override val description = R.string.arcade_orbitsurvival_sub
+    override val icon get() = Icons.Outlined.Orbit
+    override val order = 26
+
+    @Composable
+    override fun Content(context: ArcadeGameContext, modifier: Modifier) {
+        val style = context.style
+        val run = rememberArcadeRun(
+            startPlaying = context.initialState.isPlaying,
+            create = ::OrbitSurvivalRun
+        )
+
+        ArcadeBoard(
+            context = context,
+            run = run,
+            modifier = modifier
+        ) {
+            ArcadeField(
+                run = run,
+                onPress = run::steer,
+                onDrag = run::steer,
+                onRelease = run::stopInput
+            ) {
+                arcadeStars(
+                    style = style,
+                    width = run.width,
+                    height = run.height,
+                    drift = run.time * 9f
+                )
+                val center = run.center
+                val radius = run.radius
+                drawCircle(
+                    color = style.detailColor.copy(alpha = 0.25f),
+                    radius = radius,
+                    center = center,
+                    style = Stroke(width = 1f)
+                )
+                drawCircle(
+                    color = style.playerColor.copy(alpha = run.pulse * 0.16f),
+                    radius = radius * (1f + run.pulse * 0.15f),
+                    center = center,
+                    style = Stroke(width = 2f)
+                )
+                clipRect(top = 0f, bottom = run.height) {
+                    for (gate in run.gates) {
+                        rotate(degrees = gate.angle * 180f / PI.toFloat(), pivot = center) {
+                            if (gate.kind < 3) {
+                                for ((left, right) in run.segments(gate.kind)) {
+                                    val point =
+                                        Offset(
+                                            x = center.x + left * radius,
+                                            y = center.y + gate.y * radius
+                                        )
+                                    val size =
+                                        Size(
+                                            width = (right - left) * radius,
+                                            height = radius * 0.22f
+                                        )
+                                    drawRect(
+                                        color = style.obstacleColor,
+                                        topLeft = point,
+                                        size = size
+                                    )
+                                    pixelRect(
+                                        color = style.playerDetailColor.copy(alpha = 0.2f),
+                                        x = point.x + size.width - 2f,
+                                        y = point.y,
+                                        width = 2f,
+                                        height = size.height
+                                    )
+                                }
+                            } else {
+                                for (meteor in run.meteors(gate)) {
+                                    val point = center + meteor * radius
+                                    drawCircle(
+                                        color = style.hazardColor.copy(alpha = 0.13f),
+                                        radius = radius * 0.32f,
+                                        center = point
+                                    )
+                                    scale(scale = radius * 0.46f / 32f, pivot = point) {
+                                        drawArcadeSprite(
+                                            sprite = OrbitMeteor,
+                                            tint = style.obstacleColor,
+                                            x = point.x - 16f,
+                                            y = point.y - 16f
+                                        )
+                                    }
+                                    drawCircle(
+                                        color = style.playerDetailColor.copy(alpha = 0.35f),
+                                        radius = radius * 0.07f,
+                                        center = point + Offset(
+                                            x = -radius * 0.06f,
+                                            y = -radius * 0.07f
+                                        )
+                                    )
+                                    drawCircle(
+                                        color = style.detailColor,
+                                        radius = radius * 0.045f,
+                                        center = point + Offset(
+                                            x = radius * 0.08f,
+                                            y = radius * 0.06f
+                                        )
+                                    )
+                                    drawLine(
+                                        color = style.hazardColor.copy(alpha = 0.3f),
+                                        start = point - Offset(x = 0f, y = radius * 0.28f),
+                                        end = point - Offset(x = 0f, y = radius * 0.6f),
+                                        strokeWidth = 2f
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
+                for (side in listOf(-1f, 1f)) {
+                    val color = if (side > 0f) style.playerColor else style.accentColor
+                    run.trail.forEachIndexed { index, angle ->
+                        val point = center + Offset(
+                            x = cos(angle),
+                            y = sin(angle)
+                        ) * radius * side
+                        drawCircle(
+                            color = color.copy(alpha = (index + 1) * 0.025f),
+                            radius = run.dotRadius * 0.75f,
+                            center = point
+                        )
+                    }
+                    val point = run.dot(side)
+                    drawCircle(
+                        color = color.copy(alpha = 0.14f),
+                        radius = run.dotRadius * 1.8f,
+                        center = point
+                    )
+                    drawCircle(
+                        color = color,
+                        radius = run.dotRadius,
+                        center = point
+                    )
+                    drawCircle(
+                        color = style.playerDetailColor.copy(alpha = 0.8f),
+                        radius = run.dotRadius * 0.3f,
+                        center = point - Offset(x = 1f, y = 1.5f)
+                    )
+                }
+                drawCircle(
+                    color = style.detailColor,
+                    radius = 2f,
+                    center = center
+                )
+                run.effects.draw(
+                    scope = this,
+                    color = style.accentColor
+                )
+            }
+        }
+    }
+}
 
 private val OrbitSegments = listOf(
     listOf(-0.62f to 0.62f),
@@ -63,166 +222,8 @@ private val OrbitMeteor = ArcadeSprite(
     data = "M9 1H19V3H25V7H29V12H32V20H28V24H25V28H18V31H11V28H5V24H2V17H0V10H4V5H9Z"
 )
 
-@Composable
-fun OrbitSurvivalGame(
-    modifier: Modifier = Modifier,
-    initialState: ArcadeGameState = ArcadeGameState(),
-    style: ArcadeStyle = ArcadeDefaults.style,
-    onHighScoreChanged: ((Int) -> Unit)? = null,
-    onGameOver: ((Int) -> Unit)? = null,
-    isPaused: Boolean = false
-) {
-    val run = rememberArcadeRun(
-        initialState = initialState,
-        create = ::OrbitSurvivalRun
-    )
-
-    ArcadeBoard(
-        game = ArcadeGame.OrbitSurvival,
-        run = run,
-        style = style,
-        modifier = modifier,
-        initialState = initialState,
-        onHighScoreChanged = onHighScoreChanged,
-        isPaused = isPaused,
-        onGameOver = onGameOver
-    ) {
-        ArcadeField(
-            run = run,
-            onPress = run::steer,
-            onDrag = run::steer,
-            onRelease = run::stopInput
-        ) {
-            arcadeStars(
-                style = style,
-                width = run.width,
-                height = run.height,
-                drift = run.time * 9f
-            )
-            val center = run.center
-            val radius = run.radius
-            drawCircle(
-                color = style.detailColor.copy(alpha = 0.25f),
-                radius = radius,
-                center = center,
-                style = Stroke(width = 1f)
-            )
-            drawCircle(
-                color = style.playerColor.copy(alpha = run.pulse * 0.16f),
-                radius = radius * (1f + run.pulse * 0.15f),
-                center = center,
-                style = Stroke(width = 2f)
-            )
-            clipRect(top = 0f, bottom = run.height) {
-                for (gate in run.gates) {
-                    rotate(degrees = gate.angle * 180f / PI.toFloat(), pivot = center) {
-                        if (gate.kind < 3) {
-                            for ((left, right) in run.segments(gate.kind)) {
-                                val point =
-                                    Offset(
-                                        x = center.x + left * radius,
-                                        y = center.y + gate.y * radius
-                                    )
-                                val size =
-                                    Size(width = (right - left) * radius, height = radius * 0.22f)
-                                drawRect(
-                                    color = style.obstacleColor,
-                                    topLeft = point,
-                                    size = size
-                                )
-                                pixelRect(
-                                    color = style.playerDetailColor.copy(alpha = 0.2f),
-                                    x = point.x + size.width - 2f,
-                                    y = point.y,
-                                    width = 2f,
-                                    height = size.height
-                                )
-                            }
-                        } else {
-                            for (meteor in run.meteors(gate)) {
-                                val point = center + meteor * radius
-                                drawCircle(
-                                    color = style.hazardColor.copy(alpha = 0.13f),
-                                    radius = radius * 0.32f,
-                                    center = point
-                                )
-                                scale(scale = radius * 0.46f / 32f, pivot = point) {
-                                    drawArcadeSprite(
-                                        sprite = OrbitMeteor,
-                                        tint = style.obstacleColor,
-                                        x = point.x - 16f,
-                                        y = point.y - 16f
-                                    )
-                                }
-                                drawCircle(
-                                    color = style.playerDetailColor.copy(alpha = 0.35f),
-                                    radius = radius * 0.07f,
-                                    center = point + Offset(
-                                        x = -radius * 0.06f,
-                                        y = -radius * 0.07f
-                                    )
-                                )
-                                drawCircle(
-                                    color = style.detailColor,
-                                    radius = radius * 0.045f,
-                                    center = point + Offset(x = radius * 0.08f, y = radius * 0.06f)
-                                )
-                                drawLine(
-                                    color = style.hazardColor.copy(alpha = 0.3f),
-                                    start = point - Offset(x = 0f, y = radius * 0.28f),
-                                    end = point - Offset(x = 0f, y = radius * 0.6f),
-                                    strokeWidth = 2f
-                                )
-                            }
-                        }
-                    }
-                }
-            }
-            for (side in listOf(-1f, 1f)) {
-                val color = if (side > 0f) style.playerColor else style.accentColor
-                run.trail.forEachIndexed { index, angle ->
-                    val point = center + Offset(
-                        x = cos(angle),
-                        y = sin(angle)
-                    ) * radius * side
-                    drawCircle(
-                        color = color.copy(alpha = (index + 1) * 0.025f),
-                        radius = run.dotRadius * 0.75f,
-                        center = point
-                    )
-                }
-                val point = run.dot(side)
-                drawCircle(
-                    color = color.copy(alpha = 0.14f),
-                    radius = run.dotRadius * 1.8f,
-                    center = point
-                )
-                drawCircle(
-                    color = color,
-                    radius = run.dotRadius,
-                    center = point
-                )
-                drawCircle(
-                    color = style.playerDetailColor.copy(alpha = 0.8f),
-                    radius = run.dotRadius * 0.3f,
-                    center = point - Offset(x = 1f, y = 1.5f)
-                )
-            }
-            drawCircle(
-                color = style.detailColor,
-                radius = 2f,
-                center = center
-            )
-            run.effects.draw(
-                scope = this,
-                color = style.accentColor
-            )
-        }
-    }
-}
-
 @Serializable
-internal data class OrbitGate(
+private data class OrbitGate(
     var y: Float,
     val kind: Int,
     var passed: Boolean = false,
@@ -231,7 +232,7 @@ internal data class OrbitGate(
 )
 
 @Serializable
-internal class OrbitSurvivalRun : ArcadeRun() {
+private class OrbitSurvivalRun : ArcadeRun() {
     val gates = mutableListOf<OrbitGate>()
     val trail = mutableListOf<Float>()
 
@@ -249,7 +250,7 @@ internal class OrbitSurvivalRun : ArcadeRun() {
     private var timer = 0f
     private var previousKind = -1
     private var previousAngle = 0f
-    private val patterns = ArrayDeque<Int>()
+    private val patterns: ArcadeDeque<Int> = ArrayDeque()
     private var trailTime = 0f
     val speed get() = 1.45f + (time * 0.004f).coerceAtMost(1f)
 

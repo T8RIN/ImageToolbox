@@ -105,6 +105,7 @@ import androidx.core.net.toUri
 import com.gigamole.composefadingedges.FadingEdgesGravity
 import com.t8rin.imagetoolbox.core.domain.model.AssistantModel
 import com.t8rin.imagetoolbox.core.games.ArcadeGameContent
+import com.t8rin.imagetoolbox.core.games.ArcadeGameRegistry
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Add
@@ -157,9 +158,10 @@ fun AssistantContent(component: AssistantComponent) {
         mutableStateOf(false)
     }
     val preference = settings.loadingGame
-    var game by rememberSaveable {
-        mutableStateOf(preference.pickGame(settings.favoriteArcadeGames))
+    var gameName by rememberSaveable {
+        mutableStateOf(ArcadeGameRegistry.pickGame(preference, settings.favoriteArcadeGames)?.name)
     }
+    val game = gameName?.let(ArcadeGameRegistry::find)
     val gameVisible = showGame && settings.showLoadingGameButton
     val gameState = rememberSaveableStateHolder()
     LaunchedEffect(gameVisible) {
@@ -259,8 +261,11 @@ fun AssistantContent(component: AssistantComponent) {
                         if (!showGame) {
                             focus.clearFocus()
                             keyboard?.hide()
-                            game =
-                                preference.pickGame(settings.favoriteArcadeGames, previous = game)
+                            gameName = ArcadeGameRegistry.pickGame(
+                                selection = preference,
+                                favorites = settings.favoriteArcadeGames,
+                                previous = gameName
+                            )?.name
                         }
                         showGame = !showGame
                     },
@@ -277,7 +282,7 @@ fun AssistantContent(component: AssistantComponent) {
                 .clipToBounds()
         ) {
             val hasRoom = if (isLandscape) maxHeight >= 204.dp else maxHeight >= 440.dp
-            val displayGame = gameVisible && (!keyboardVisible || hasRoom)
+            val displayGame = game != null && gameVisible && (!keyboardVisible || hasRoom)
             val gameWidth = if (isLandscape) minOf(420.dp, maxWidth / 2) else maxWidth
             val gameHeight = if (isLandscape) {
                 maxHeight.coerceAtLeast(204.dp)
@@ -331,7 +336,7 @@ fun AssistantContent(component: AssistantComponent) {
                 ) {
                     gameState.SaveableStateProvider("game") {
                         ArcadeGameContent(
-                            game = game,
+                            game = game ?: return@SaveableStateProvider,
                             modifier = Modifier.widthIn(max = 420.dp),
                             height = gameHeight - 24.dp,
                             isPaused = !displayGame || showModels || showClearConversation ||

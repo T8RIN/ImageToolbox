@@ -15,8 +15,6 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-@file:UseSerializers(ArcadeOffsetSerializer::class)
-
 package com.t8rin.imagetoolbox.core.games.catalog
 
 import androidx.compose.runtime.Composable
@@ -26,25 +24,311 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.drawscope.scale
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
 import com.t8rin.imagetoolbox.core.games.ArcadeCloud
-import com.t8rin.imagetoolbox.core.games.ArcadeDefaults
 import com.t8rin.imagetoolbox.core.games.ArcadeField
-import com.t8rin.imagetoolbox.core.games.ArcadeGameState
-import com.t8rin.imagetoolbox.core.games.ArcadeOffsetSerializer
+import com.t8rin.imagetoolbox.core.games.ArcadeGameContext
+import com.t8rin.imagetoolbox.core.games.ArcadeGameDefinition
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.ArcadeSprite
-import com.t8rin.imagetoolbox.core.games.ArcadeStyle
+import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
-import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
+import com.t8rin.imagetoolbox.core.resources.Icons
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Alien
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
-import kotlinx.serialization.UseSerializers
 import kotlin.math.abs
 import kotlin.math.sin
 import kotlin.math.sqrt
 import kotlin.random.Random
+
+@RegisterArcadeGame
+internal data object DoodleGame : ArcadeGameDefinition {
+    override val title = R.string.arcade_doodle
+    override val description = R.string.arcade_doodle_sub
+    override val icon get() = Icons.Outlined.Alien
+    override val order = 1
+
+    @Composable
+    override fun Content(context: ArcadeGameContext, modifier: Modifier) {
+        val style = context.style
+        val run = rememberArcadeRun(
+            startPlaying = context.initialState.isPlaying,
+            create = ::DoodleRun
+        )
+        val ink = style.playerDetailColor
+
+        ArcadeBoard(
+            context = context,
+            run = run,
+            modifier = modifier
+        ) {
+            ArcadeField(
+                run = run,
+                onPress = { run.beginDrag(it.x) },
+                onTap = run::shoot,
+                onSecondaryTap = run::shoot,
+                onDrag = { run.drag(it.x) },
+                onRelease = run::stopInput
+            ) {
+                var cloudY = run.camera * 0.2f % 420f - 16f
+                var index = 0
+                while (cloudY < run.height) {
+                    drawArcadeSprite(
+                        sprite = ArcadeCloud,
+                        tint = style.detailColor,
+                        x = if (index % 2 == 0) run.width * 0.16f else run.width * 0.7f,
+                        y = cloudY
+                    )
+                    cloudY += 210f
+                    index++
+                }
+                for ((_, centerX, height, width, kind, _, _, _, _, falling) in run.platforms) {
+                    val y = run.height - height + run.camera + falling * falling * 280f
+                    val x = centerX - width / 2
+                    val color = when (kind) {
+                        PlatformKind.Crumbling -> style.accentColor
+                        PlatformKind.Moving -> style.playerColor
+                        else -> style.obstacleColor
+                    }
+                    val tint = color.copy(alpha = (1 - falling * 1.8f).coerceIn(0f, 1f))
+                    if (falling > 0) {
+                        val half = width / 2 - 2
+                        pixelRect(
+                            color = tint,
+                            x = x - falling * 35,
+                            y = y,
+                            width = half,
+                            height = 7f
+                        )
+                        pixelRect(
+                            color = tint,
+                            x = centerX + 2 + falling * 35,
+                            y = y + falling * 12,
+                            width = half,
+                            height = 7f
+                        )
+                    } else {
+                        pixelRect(
+                            color = tint,
+                            x = x + 2,
+                            y = y,
+                            width = width - 4,
+                            height = 7f
+                        )
+                        pixelRect(
+                            color = tint,
+                            x = x,
+                            y = y + 2,
+                            width = width,
+                            height = 3f
+                        )
+                        pixelRect(
+                            color = style.detailColor,
+                            x = x + 6,
+                            y = y + 7,
+                            width = width - 12,
+                            height = 2f
+                        )
+                        if (kind == PlatformKind.Crumbling) {
+                            pixelRect(
+                                color = style.playerDetailColor,
+                                x = centerX,
+                                y = y,
+                                width = 2f,
+                                height = 3f
+                            )
+                            pixelRect(
+                                color = style.playerDetailColor,
+                                x = centerX - 2,
+                                y = y + 3,
+                                width = 2f,
+                                height = 2f
+                            )
+                            pixelRect(
+                                color = style.playerDetailColor,
+                                x = centerX,
+                                y = y + 5,
+                                width = 2f,
+                                height = 2f
+                            )
+                        }
+                        if (kind == PlatformKind.Moving) {
+                            pixelRect(
+                                color = style.playerDetailColor,
+                                x = centerX - 9,
+                                y = y + 2,
+                                width = 18f,
+                                height = 2f
+                            )
+                            pixelRect(
+                                color = style.playerDetailColor,
+                                x = centerX - 12,
+                                y = y + 3,
+                                width = 3f,
+                                height = 2f
+                            )
+                            pixelRect(
+                                color = style.playerDetailColor,
+                                x = centerX + 9,
+                                y = y + 3,
+                                width = 3f,
+                                height = 2f
+                            )
+                        }
+                        if (kind == PlatformKind.Spring) {
+                            pixelRect(
+                                color = style.accentColor,
+                                x = centerX - 6,
+                                y = y - 12,
+                                width = 12f,
+                                height = 2f
+                            )
+                            pixelRect(
+                                color = style.accentColor,
+                                x = centerX - 4,
+                                y = y - 8,
+                                width = 8f,
+                                height = 2f
+                            )
+                            pixelRect(
+                                color = style.accentColor,
+                                x = centerX - 6,
+                                y = y - 4,
+                                width = 12f,
+                                height = 2f
+                            )
+                            pixelRect(
+                                color = style.accentColor,
+                                x = centerX - 4,
+                                y = y - 11,
+                                width = 2f,
+                                height = 11f
+                            )
+                            pixelRect(
+                                color = style.accentColor,
+                                x = centerX + 2,
+                                y = y - 11,
+                                width = 2f,
+                                height = 11f
+                            )
+                        }
+                    }
+                }
+                for ((x, y) in run.bullets) {
+                    pixelRect(
+                        color = style.playerColor,
+                        x = x - 2,
+                        y = run.height - y + run.camera,
+                        width = 4f,
+                        height = 7f
+                    )
+                }
+                for ((centerX, height, kind, _, _, _, _, _, hitTime) in run.monsters) {
+                    val sprite = when (kind) {
+                        MonsterKind.Flyer -> FlyingMonster
+                        MonsterKind.Jumper -> JumpingMonster
+                        MonsterKind.Guard -> PlatformMonster
+                    }
+                    val face = when (kind) {
+                        MonsterKind.Flyer -> FlyingMonsterFace
+                        MonsterKind.Jumper -> JumpingMonsterFace
+                        MonsterKind.Guard -> PlatformMonsterFace
+                    }
+                    val color = if (hitTime > 0f) style.playerColor else style.accentColor
+                    val x = centerX - kind.halfWidth
+                    val y = run.height - height + run.camera - kind.halfHeight
+                    drawArcadeSprite(
+                        sprite = sprite,
+                        tint = color,
+                        x = x,
+                        y = y
+                    )
+                    drawArcadeSprite(
+                        sprite = face,
+                        tint = style.playerDetailColor,
+                        x = x,
+                        y = y
+                    )
+                }
+                for ((x, height, time) in run.bursts) {
+                    val spread = time * 65f
+                    val color = style.accentColor.copy(alpha = (1 - time / 0.3f).coerceIn(0f, 1f))
+                    for (direction in listOf(-1f, 1f)) {
+                        pixelRect(
+                            color = color,
+                            x = x + spread * direction,
+                            y = run.height - height + run.camera - spread,
+                            width = 3f,
+                            height = 3f
+                        )
+                        pixelRect(
+                            color = color,
+                            x = x + spread * direction,
+                            y = run.height - height + run.camera + spread,
+                            width = 3f,
+                            height = 3f
+                        )
+                    }
+                }
+                val feet = run.height - run.y + run.camera
+                fun player(x: Float) {
+                    scale(
+                        scaleX = if (run.facingRight || run.shooting) 1f else -1f,
+                        scaleY = 1f,
+                        pivot = Offset(x = x, y = feet)
+                    ) {
+                        drawArcadeSprite(
+                            sprite = if (run.shooting) DoodleShootingBody else DoodleBody,
+                            tint = style.playerColor,
+                            x = x - 22,
+                            y = feet - 44
+                        )
+                        drawArcadeSprite(
+                            sprite = DoodleStripes,
+                            tint = ink.copy(alpha = 0.4f),
+                            x = x - 22,
+                            y = feet - 44
+                        )
+                        if (run.shooting) {
+                            pixelRect(
+                                color = ink,
+                                x = x - 2f,
+                                y = feet - 44f,
+                                width = 4f,
+                                height = 2f
+                            )
+                            pixelRect(
+                                color = ink,
+                                x = x - 10,
+                                y = feet - 30,
+                                width = 2f,
+                                height = 5f
+                            )
+                            pixelRect(
+                                color = ink,
+                                x = x + 4,
+                                y = feet - 30,
+                                width = 2f,
+                                height = 5f
+                            )
+                        } else drawArcadeSprite(
+                            sprite = DoodleFace,
+                            tint = ink,
+                            x = x - 22,
+                            y = feet - 44
+                        )
+                    }
+                }
+                player(run.x)
+                if (run.x < 22) player(run.x + run.width)
+                if (run.x > run.width - 22) player(run.x - run.width)
+            }
+        }
+    }
+}
 
 private const val PlatformWidth = 64f
 private const val JumpVelocity = 365f
@@ -100,300 +384,11 @@ private val DoodleShootingBody = ArcadeSprite(
             "H12V43H9V37H6V33H4V28H2V20H3V13H5V8H8V5H14V8H19Z"
 )
 
-@Composable
-fun DoodleGame(
-    modifier: Modifier = Modifier,
-    initialState: ArcadeGameState = ArcadeGameState(),
-    style: ArcadeStyle = ArcadeDefaults.style,
-    onHighScoreChanged: ((Int) -> Unit)? = null,
-    onGameOver: ((Int) -> Unit)? = null,
-    isPaused: Boolean = false
-) {
-    val run = rememberArcadeRun(
-        initialState = initialState,
-        create = ::DoodleRun
-    )
-    val ink = style.playerDetailColor
-
-    ArcadeBoard(
-        game = ArcadeGame.Doodle,
-        run = run,
-        style = style,
-        modifier = modifier,
-        initialState = initialState,
-        onHighScoreChanged = onHighScoreChanged,
-        isPaused = isPaused,
-        onGameOver = onGameOver
-    ) {
-        ArcadeField(
-            run = run,
-            onPress = { run.beginDrag(it.x) },
-            onTap = run::shoot,
-            onSecondaryTap = run::shoot,
-            onDrag = { run.drag(it.x) },
-            onRelease = run::stopInput
-        ) {
-            var cloudY = run.camera * 0.2f % 420f - 16f
-            var index = 0
-            while (cloudY < run.height) {
-                drawArcadeSprite(
-                    sprite = ArcadeCloud,
-                    tint = style.detailColor,
-                    x = if (index % 2 == 0) run.width * 0.16f else run.width * 0.7f,
-                    y = cloudY
-                )
-                cloudY += 210f
-                index++
-            }
-            for ((_, centerX, height, width, kind, _, _, _, _, falling) in run.platforms) {
-                val y = run.height - height + run.camera + falling * falling * 280f
-                val x = centerX - width / 2
-                val color = when (kind) {
-                    PlatformKind.Crumbling -> style.accentColor
-                    PlatformKind.Moving -> style.playerColor
-                    else -> style.obstacleColor
-                }
-                val tint = color.copy(alpha = (1 - falling * 1.8f).coerceIn(0f, 1f))
-                if (falling > 0) {
-                    val half = width / 2 - 2
-                    pixelRect(
-                        color = tint,
-                        x = x - falling * 35,
-                        y = y,
-                        width = half,
-                        height = 7f
-                    )
-                    pixelRect(
-                        color = tint,
-                        x = centerX + 2 + falling * 35,
-                        y = y + falling * 12,
-                        width = half,
-                        height = 7f
-                    )
-                } else {
-                    pixelRect(
-                        color = tint,
-                        x = x + 2,
-                        y = y,
-                        width = width - 4,
-                        height = 7f
-                    )
-                    pixelRect(
-                        color = tint,
-                        x = x,
-                        y = y + 2,
-                        width = width,
-                        height = 3f
-                    )
-                    pixelRect(
-                        color = style.detailColor,
-                        x = x + 6,
-                        y = y + 7,
-                        width = width - 12,
-                        height = 2f
-                    )
-                    if (kind == PlatformKind.Crumbling) {
-                        pixelRect(
-                            color = style.playerDetailColor,
-                            x = centerX,
-                            y = y,
-                            width = 2f,
-                            height = 3f
-                        )
-                        pixelRect(
-                            color = style.playerDetailColor,
-                            x = centerX - 2,
-                            y = y + 3,
-                            width = 2f,
-                            height = 2f
-                        )
-                        pixelRect(
-                            color = style.playerDetailColor,
-                            x = centerX,
-                            y = y + 5,
-                            width = 2f,
-                            height = 2f
-                        )
-                    }
-                    if (kind == PlatformKind.Moving) {
-                        pixelRect(
-                            color = style.playerDetailColor,
-                            x = centerX - 9,
-                            y = y + 2,
-                            width = 18f,
-                            height = 2f
-                        )
-                        pixelRect(
-                            color = style.playerDetailColor,
-                            x = centerX - 12,
-                            y = y + 3,
-                            width = 3f,
-                            height = 2f
-                        )
-                        pixelRect(
-                            color = style.playerDetailColor,
-                            x = centerX + 9,
-                            y = y + 3,
-                            width = 3f,
-                            height = 2f
-                        )
-                    }
-                    if (kind == PlatformKind.Spring) {
-                        pixelRect(
-                            color = style.accentColor,
-                            x = centerX - 6,
-                            y = y - 12,
-                            width = 12f,
-                            height = 2f
-                        )
-                        pixelRect(
-                            color = style.accentColor,
-                            x = centerX - 4,
-                            y = y - 8,
-                            width = 8f,
-                            height = 2f
-                        )
-                        pixelRect(
-                            color = style.accentColor,
-                            x = centerX - 6,
-                            y = y - 4,
-                            width = 12f,
-                            height = 2f
-                        )
-                        pixelRect(
-                            color = style.accentColor,
-                            x = centerX - 4,
-                            y = y - 11,
-                            width = 2f,
-                            height = 11f
-                        )
-                        pixelRect(
-                            color = style.accentColor,
-                            x = centerX + 2,
-                            y = y - 11,
-                            width = 2f,
-                            height = 11f
-                        )
-                    }
-                }
-            }
-            for ((x, y) in run.bullets) {
-                pixelRect(
-                    color = style.playerColor,
-                    x = x - 2,
-                    y = run.height - y + run.camera,
-                    width = 4f,
-                    height = 7f
-                )
-            }
-            for ((centerX, height, kind, _, _, _, _, _, hitTime) in run.monsters) {
-                val sprite = when (kind) {
-                    MonsterKind.Flyer -> FlyingMonster
-                    MonsterKind.Jumper -> JumpingMonster
-                    MonsterKind.Guard -> PlatformMonster
-                }
-                val face = when (kind) {
-                    MonsterKind.Flyer -> FlyingMonsterFace
-                    MonsterKind.Jumper -> JumpingMonsterFace
-                    MonsterKind.Guard -> PlatformMonsterFace
-                }
-                val color = if (hitTime > 0f) style.playerColor else style.accentColor
-                val x = centerX - kind.halfWidth
-                val y = run.height - height + run.camera - kind.halfHeight
-                drawArcadeSprite(
-                    sprite = sprite,
-                    tint = color,
-                    x = x,
-                    y = y
-                )
-                drawArcadeSprite(
-                    sprite = face,
-                    tint = style.playerDetailColor,
-                    x = x,
-                    y = y
-                )
-            }
-            for ((x, height, time) in run.bursts) {
-                val spread = time * 65f
-                val color = style.accentColor.copy(alpha = (1 - time / 0.3f).coerceIn(0f, 1f))
-                for (direction in listOf(-1f, 1f)) {
-                    pixelRect(
-                        color = color,
-                        x = x + spread * direction,
-                        y = run.height - height + run.camera - spread,
-                        width = 3f,
-                        height = 3f
-                    )
-                    pixelRect(
-                        color = color,
-                        x = x + spread * direction,
-                        y = run.height - height + run.camera + spread,
-                        width = 3f,
-                        height = 3f
-                    )
-                }
-            }
-            val feet = run.height - run.y + run.camera
-            fun player(x: Float) {
-                scale(
-                    scaleX = if (run.facingRight || run.shooting) 1f else -1f,
-                    scaleY = 1f,
-                    pivot = Offset(x = x, y = feet)
-                ) {
-                    drawArcadeSprite(
-                        sprite = if (run.shooting) DoodleShootingBody else DoodleBody,
-                        tint = style.playerColor,
-                        x = x - 22,
-                        y = feet - 44
-                    )
-                    drawArcadeSprite(
-                        sprite = DoodleStripes,
-                        tint = ink.copy(alpha = 0.4f),
-                        x = x - 22,
-                        y = feet - 44
-                    )
-                    if (run.shooting) {
-                        pixelRect(
-                            color = ink,
-                            x = x - 2f,
-                            y = feet - 44f,
-                            width = 4f,
-                            height = 2f
-                        )
-                        pixelRect(
-                            color = ink,
-                            x = x - 10,
-                            y = feet - 30,
-                            width = 2f,
-                            height = 5f
-                        )
-                        pixelRect(
-                            color = ink,
-                            x = x + 4,
-                            y = feet - 30,
-                            width = 2f,
-                            height = 5f
-                        )
-                    } else drawArcadeSprite(
-                        sprite = DoodleFace,
-                        tint = ink,
-                        x = x - 22,
-                        y = feet - 44
-                    )
-                }
-            }
-            player(run.x)
-            if (run.x < 22) player(run.x + run.width)
-            if (run.x > run.width - 22) player(run.x - run.width)
-        }
-    }
-}
+@Serializable
+private enum class PlatformKind { Standard, Spring, Crumbling, Moving }
 
 @Serializable
-internal enum class PlatformKind { Standard, Spring, Crumbling, Moving }
-
-@Serializable
-internal enum class MonsterKind(
+private enum class MonsterKind(
     val halfWidth: Float,
     val halfHeight: Float
 ) {
@@ -401,7 +396,7 @@ internal enum class MonsterKind(
 }
 
 @Serializable
-internal data class DoodlePlatform(
+private data class DoodlePlatform(
     val id: Int,
     var x: Float,
     val height: Float,
@@ -415,7 +410,7 @@ internal data class DoodlePlatform(
 )
 
 @Serializable
-internal data class DoodleMonster(
+private data class DoodleMonster(
     var x: Float,
     var height: Float,
     val kind: MonsterKind,
@@ -431,7 +426,7 @@ internal data class DoodleMonster(
 }
 
 @Serializable
-internal data class DoodleBullet(
+private data class DoodleBullet(
     var x: Float,
     var y: Float,
     val vx: Float,
@@ -439,14 +434,14 @@ internal data class DoodleBullet(
 )
 
 @Serializable
-internal data class DoodleBurst(
+private data class DoodleBurst(
     val x: Float,
     val height: Float,
     var time: Float = 0f
 )
 
 @Serializable
-internal class DoodleRun : ArcadeRun() {
+private class DoodleRun : ArcadeRun() {
     var x = width / 2
         private set
     var y = 24f

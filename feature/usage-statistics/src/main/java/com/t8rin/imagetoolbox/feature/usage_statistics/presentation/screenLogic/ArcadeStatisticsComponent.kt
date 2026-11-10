@@ -19,8 +19,8 @@ package com.t8rin.imagetoolbox.feature.usage_statistics.presentation.screenLogic
 
 import com.arkivanov.decompose.ComponentContext
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
+import com.t8rin.imagetoolbox.core.games.ArcadeGame
 import com.t8rin.imagetoolbox.core.games.ArcadeStatisticsRepository
-import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import dagger.assisted.Assisted
@@ -43,7 +43,7 @@ class ArcadeStatisticsComponent @AssistedInject internal constructor(
         initialValue = emptyList()
     )
 
-    fun openGame(game: ArcadeGame) = onNavigate(Screen.ArcadeGames(game))
+    fun openGame(game: ArcadeGame) = onNavigate(Screen.ArcadeGames(game.name))
 
     fun resetStatistics() {
         componentScope.launch { repository.resetStatistics() }
