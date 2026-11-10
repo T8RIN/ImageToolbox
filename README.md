@@ -1455,6 +1455,7 @@ or click one of the badges below.
   - Adjustable similarity thresholds and live category preview
   - Automatic indexing and offline search after downloading the models
   - People groups with names, face covers, matching thresholds, merging and photo exclusions
+  - OCR indexing to search text in images
 - AI Assistant
   - On-device answers grounded in Help & Tips, with tool navigation and contextual settings help
 - Emoji Kitchen
