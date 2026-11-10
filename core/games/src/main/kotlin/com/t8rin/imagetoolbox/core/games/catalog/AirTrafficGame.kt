@@ -54,9 +54,9 @@ import kotlin.math.sin
 import kotlin.random.Random
 
 @RegisterArcadeGame
-internal data object FlightControlGame : ArcadeGameDefinition {
-    override val title = R.string.arcade_flightcontrol
-    override val description = R.string.arcade_flightcontrol_sub
+internal data object AirTrafficGame : ArcadeGameDefinition {
+    override val title = R.string.arcade_airtraffic
+    override val description = R.string.arcade_airtraffic_sub
     override val icon get() = Icons.Outlined.Flight
     override val order = 30
 
@@ -65,7 +65,7 @@ internal data object FlightControlGame : ArcadeGameDefinition {
         val style = context.style
         val run = rememberArcadeRun(
             startPlaying = context.initialState.isPlaying,
-            create = ::FlightControlRun
+            create = ::AirTrafficRun
         )
 
         val routePath = remember { Path() }
@@ -325,7 +325,7 @@ private class ControlledFlight(
 }
 
 @Serializable
-private class FlightControlRun : ArcadeRun() {
+private class AirTrafficRun : ArcadeRun() {
     val planes = mutableListOf<ControlledFlight>()
     val runways = mutableListOf<FlightRunway>()
 

@@ -45,9 +45,9 @@ import kotlin.math.sqrt
 import kotlin.random.Random
 
 @RegisterArcadeGame
-internal data object DoodleGame : ArcadeGameDefinition {
-    override val title = R.string.arcade_doodle
-    override val description = R.string.arcade_doodle_sub
+internal data object DoodleHopperGame : ArcadeGameDefinition {
+    override val title = R.string.arcade_doodlehopper
+    override val description = R.string.arcade_doodlehopper_sub
     override val icon get() = Icons.Outlined.Alien
     override val order = 1
 
@@ -56,7 +56,7 @@ internal data object DoodleGame : ArcadeGameDefinition {
         val style = context.style
         val run = rememberArcadeRun(
             startPlaying = context.initialState.isPlaying,
-            create = ::DoodleRun
+            create = ::DoodleHopperRun
         )
         val ink = style.playerDetailColor
 
@@ -281,45 +281,26 @@ internal data object DoodleGame : ArcadeGameDefinition {
                         pivot = Offset(x = x, y = feet)
                     ) {
                         drawArcadeSprite(
-                            sprite = if (run.shooting) DoodleShootingBody else DoodleBody,
+                            sprite = HopperBody,
                             tint = style.playerColor,
-                            x = x - 22,
-                            y = feet - 44
+                            x = x - 22f,
+                            y = feet - 44f
                         )
                         drawArcadeSprite(
-                            sprite = DoodleStripes,
-                            tint = ink.copy(alpha = 0.4f),
-                            x = x - 22,
-                            y = feet - 44
+                            sprite = HopperMarkings,
+                            tint = style.accentColor,
+                            x = x - 22f,
+                            y = feet - 44f
+                        )
+                        drawArcadeSprite(
+                            sprite = HopperDetails,
+                            tint = ink,
+                            x = x - 22f,
+                            y = feet - 44f
                         )
                         if (run.shooting) {
-                            pixelRect(
-                                color = ink,
-                                x = x - 2f,
-                                y = feet - 44f,
-                                width = 4f,
-                                height = 2f
-                            )
-                            pixelRect(
-                                color = ink,
-                                x = x - 10,
-                                y = feet - 30,
-                                width = 2f,
-                                height = 5f
-                            )
-                            pixelRect(
-                                color = ink,
-                                x = x + 4,
-                                y = feet - 30,
-                                width = 2f,
-                                height = 5f
-                            )
-                        } else drawArcadeSprite(
-                            sprite = DoodleFace,
-                            tint = ink,
-                            x = x - 22,
-                            y = feet - 44
-                        )
+                            pixelRect(style.accentColor, x - 3f, feet - 44f, 6f, 5f)
+                        }
                     }
                 }
                 player(run.x)
@@ -333,25 +314,20 @@ internal data object DoodleGame : ArcadeGameDefinition {
 private const val PlatformWidth = 64f
 private const val JumpVelocity = 365f
 
-private const val DoodleBodyPath =
-    "M11 2H24V4H28V7H31V13H33V16H41V17H44V21H41V22H33V30H31V34H29V37H28V43H25V38" +
-            "H23V44H20V39H17V44H14V38H12V43H9V37H6V33H4V28H2V20H3V13H5V8H8V5H11Z"
-private const val DoodleFacePath = "M20 9H22V14H20Z M27 11H29V16H27Z M40 18H44V20H40Z"
-private const val DoodleStripesPath = "M5 27H30V29H5Z M8 33H27V35H8Z"
-private val DoodleBody = ArcadeSprite(
+private val HopperBody = ArcadeSprite(
     width = 44,
     height = 44,
-    data = DoodleBodyPath
+    data = "M12 2H18V6H20V13H24V7H26V4H32V7H34V13H36V17H39V23H36V27H32V32H34V36H37V41H29V44H22V40H18V44H8V40H10V36H13V31H11V28H7V24H3V20H9V22H12V17H14V12H12Z"
 )
-private val DoodleFace = ArcadeSprite(
+private val HopperMarkings = ArcadeSprite(
     width = 44,
     height = 44,
-    data = DoodleFacePath
+    data = "M14 5H16V10H18V13H15V10H14Z M27 7H31V12H28V14H26V10H27Z M14 26H34V29H28V32H24V28H14Z"
 )
-private val DoodleStripes = ArcadeSprite(
+private val HopperDetails = ArcadeSprite(
     width = 44,
     height = 44,
-    data = DoodleStripesPath
+    data = "M29 17H33V21H29Z M35 22H38V24H35Z M10 39H17V41H10Z M26 39H34V41H26Z"
 )
 
 private val FlyingMonster = ArcadeSprite(
@@ -378,11 +354,6 @@ private val PlatformMonsterFace = ArcadeSprite(
     width = 56, height = 38,
     data = "M8 12H16V21H8Z M24 10H32V19H24Z M40 12H48V21H40Z M12 27H18V30H23V27H33V30H38V27H44V32H12Z"
 )
-private val DoodleShootingBody = ArcadeSprite(
-    width = 44, height = 44,
-    data = "M19 0H25V9H29V12H32V18H33V30H31V34H29V37H28V43H25V38H23V44H20V39H17V44H14V38" +
-            "H12V43H9V37H6V33H4V28H2V20H3V13H5V8H8V5H14V8H19Z"
-)
 
 @Serializable
 private enum class PlatformKind { Standard, Spring, Crumbling, Moving }
@@ -396,7 +367,7 @@ private enum class MonsterKind(
 }
 
 @Serializable
-private data class DoodlePlatform(
+private data class DoodleHopperPlatform(
     val id: Int,
     var x: Float,
     val height: Float,
@@ -410,7 +381,7 @@ private data class DoodlePlatform(
 )
 
 @Serializable
-private data class DoodleMonster(
+private data class DoodleHopperMonster(
     var x: Float,
     var height: Float,
     val kind: MonsterKind,
@@ -426,7 +397,7 @@ private data class DoodleMonster(
 }
 
 @Serializable
-private data class DoodleBullet(
+private data class DoodleHopperBullet(
     var x: Float,
     var y: Float,
     val vx: Float,
@@ -434,14 +405,14 @@ private data class DoodleBullet(
 )
 
 @Serializable
-private data class DoodleBurst(
+private data class DoodleHopperBurst(
     val x: Float,
     val height: Float,
     var time: Float = 0f
 )
 
 @Serializable
-private class DoodleRun : ArcadeRun() {
+private class DoodleHopperRun : ArcadeRun() {
     var x = width / 2
         private set
     var y = 24f
@@ -453,10 +424,10 @@ private class DoodleRun : ArcadeRun() {
     var facingRight = true
         private set
     val shooting get() = shotTime > 0f
-    val platforms = mutableListOf<DoodlePlatform>()
-    val monsters = mutableListOf<DoodleMonster>()
-    val bullets = mutableListOf<DoodleBullet>()
-    val bursts = mutableListOf<DoodleBurst>()
+    val platforms = mutableListOf<DoodleHopperPlatform>()
+    val monsters = mutableListOf<DoodleHopperMonster>()
+    val bullets = mutableListOf<DoodleHopperBullet>()
+    val bursts = mutableListOf<DoodleHopperBurst>()
 
     @Transient
     private var touchX: Float? = null
@@ -487,7 +458,7 @@ private class DoodleRun : ArcadeRun() {
         monsters.clear()
         bullets.clear()
         bursts.clear()
-        platforms += DoodlePlatform(
+        platforms += DoodleHopperPlatform(
             id = platformId++,
             x = x,
             height = y,
@@ -514,7 +485,7 @@ private class DoodleRun : ArcadeRun() {
         if (shotTime > 0.04f) return
         val rise = (height - y + camera - 44f - target.y).coerceAtLeast(120f)
         val vx = ((target.x - x) / rise * 520f).coerceIn(-200f, 200f)
-        bullets += DoodleBullet(x = x, y = y + 44f, vx = vx, vy = sqrt(520f * 520f - vx * vx))
+        bullets += DoodleHopperBullet(x = x, y = y + 44f, vx = vx, vy = sqrt(520f * 520f - vx * vx))
         shotTime = 0.18f
     }
 
@@ -572,7 +543,7 @@ private class DoodleRun : ArcadeRun() {
                 hit.health--
                 hit.hitTime = 0.1f
                 if (hit.health == 0) {
-                    bursts += DoodleBurst(x = hit.x, height = hit.height)
+                    bursts += DoodleHopperBurst(x = hit.x, height = hit.height)
                     monsters.remove(hit)
                 }
             } else if (bullet.y > camera + height + 120 || bullet.x < -10 || bullet.x > width + 10) shots.remove()
@@ -591,7 +562,7 @@ private class DoodleRun : ArcadeRun() {
                 previousY >= hit.previousHeight + hit.kind.halfHeight
             ) {
                 monsters.remove(hit)
-                bursts += DoodleBurst(x = hit.x, height = hit.height)
+                bursts += DoodleHopperBurst(x = hit.x, height = hit.height)
                 y = hit.height + hit.kind.halfHeight
                 velocity = JumpVelocity
             } else {
@@ -656,7 +627,7 @@ private class DoodleRun : ArcadeRun() {
                 kind = kind
             )
             if (gate) {
-                monsters += DoodleMonster(
+                monsters += DoodleHopperMonster(
                     x = platform.x,
                     height = platform.height + MonsterKind.Guard.halfHeight,
                     kind = MonsterKind.Guard,
@@ -685,7 +656,7 @@ private class DoodleRun : ArcadeRun() {
                     )
                     if (row > 10 && row % 7 == 4) {
                         val flying = row % 2 == 0
-                        monsters += DoodleMonster(
+                        monsters += DoodleHopperMonster(
                             x = extra.x,
                             height = extra.height + if (flying) 40f else 16f,
                             kind = if (flying) MonsterKind.Flyer else MonsterKind.Jumper,
@@ -704,13 +675,13 @@ private class DoodleRun : ArcadeRun() {
         height: Float,
         width: Float,
         kind: PlatformKind
-    ): DoodlePlatform {
+    ): DoodleHopperPlatform {
         val range = if (kind == PlatformKind.Moving) minOf(
             42f,
             x - width / 2 - 4,
             this.width - x - width / 2 - 4
         ) else 0f
-        return DoodlePlatform(
+        return DoodleHopperPlatform(
             id = platformId++,
             x = x,
             height = height,

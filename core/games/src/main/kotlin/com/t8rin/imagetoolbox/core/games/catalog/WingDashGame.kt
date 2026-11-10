@@ -43,9 +43,9 @@ import kotlinx.serialization.Serializable
 import kotlin.random.Random
 
 @RegisterArcadeGame
-internal data object BirdGame : ArcadeGameDefinition {
-    override val title = R.string.arcade_bird
-    override val description = R.string.arcade_bird_sub
+internal data object WingDashGame : ArcadeGameDefinition {
+    override val title = R.string.arcade_wingdash
+    override val description = R.string.arcade_wingdash_sub
     override val icon get() = Icons.Outlined.Raven
     override val order = 2
 
@@ -54,7 +54,7 @@ internal data object BirdGame : ArcadeGameDefinition {
         val style = context.style
         val run = rememberArcadeRun(
             startPlaying = context.initialState.isPlaying,
-            create = ::BirdRun
+            create = ::WingDashRun
         )
         val ink = if (style.playerColor.luminance() < style.playerDetailColor.luminance()) {
             style.playerColor
@@ -174,14 +174,8 @@ internal data object BirdGame : ArcadeGameDefinition {
                         y = y
                     )
                     drawArcadeSprite(
-                        sprite = BirdEyeWhite,
+                        sprite = BirdEyeGlint,
                         tint = eye,
-                        x = x,
-                        y = y
-                    )
-                    drawArcadeSprite(
-                        sprite = BirdPupil,
-                        tint = ink,
                         x = x,
                         y = y
                     )
@@ -199,12 +193,6 @@ internal data object BirdGame : ArcadeGameDefinition {
                     )
                     drawArcadeSprite(
                         sprite = BirdBeak,
-                        tint = ink,
-                        x = x,
-                        y = y
-                    )
-                    drawArcadeSprite(
-                        sprite = BirdBeakColor,
                         tint = style.accentColor,
                         x = x,
                         y = y
@@ -219,70 +207,50 @@ private const val PipeWidth = 52f
 private const val BirdRadiusX = 16f
 private const val BirdRadiusY = 12f
 
-private const val BirdOutlinePath =
-    "M13 1H27V3H33V6H36V12H38V16H44V19H46V23H44V27H35V29H30V32H14V30H8V27H4V23H1V16H3V11H7V6H13Z"
-private const val BirdFillPath =
-    "M14 3H27V5H32V8H34V14H36V18H42V21H44V23H42V25H34V27H29V30H14V28H9V25H6V22H3V16H5V12H9V8H14Z"
-private const val BirdEyePath = "M25 4H32V6H35V17H32V19H25V17H23V7H25Z"
-private const val BirdEyeFill = "M26 6H31V8H33V16H31V17H26V15H25V8H26Z"
-private const val BirdPupilPath = "M30 9H33V15H30Z"
-private const val BirdBeakPath = "M29 18H43V20H45V23H42V26H30V24H27V21H29Z"
-private const val BirdBeakFill = "M30 20H42V22H29V21H30Z M31 24H41V25H31Z"
-private const val WingUpPath = "M3 12H13V14H18V18H16V21H7V19H3V17H1V14H3Z"
-private const val WingUpFill = "M4 14H12V16H16V18H14V19H8V17H4Z"
-private const val WingDownPath = "M3 17H8V19H15V22H18V26H14V29H7V26H4V22H2V19H3Z"
-private const val WingDownFill = "M4 19H7V21H13V23H16V25H13V27H8V24H6V21H4Z"
 private val BirdBody = ArcadeSprite(
     width = 46,
     height = 32,
-    data = BirdOutlinePath
+    data = "M28 4H32V6H36V8H38V12H40V14H44V18H40V22H36V26H30V28H18V26H14V24H8V26H2V22H6V18H4V14H10V16H16V14H20V12H24V8H28Z"
 )
 private val BirdFill = ArcadeSprite(
     width = 46,
     height = 32,
-    data = BirdFillPath
+    data = "M28 8H34V10H36V14H38V20H34V24H28V26H20V24H16V22H10V20H8V18H12V20H18V16H22V14H26V10H28Z"
 )
 private val BirdEye = ArcadeSprite(
     width = 46,
     height = 32,
-    data = BirdEyePath
+    data = "M32 10H36V14H32Z"
 )
-private val BirdEyeWhite = ArcadeSprite(
+private val BirdEyeGlint = ArcadeSprite(
     width = 46,
     height = 32,
-    data = BirdEyeFill
-)
-private val BirdPupil = ArcadeSprite(
-    width = 46,
-    height = 32,
-    data = BirdPupilPath
+    data = "M34 10H36V12H34Z"
 )
 private val BirdBeak = ArcadeSprite(
     width = 46,
     height = 32,
-    data = BirdBeakPath
+    data = "M38 14H42V15H44V17H40V18H38Z"
 )
-private val BirdBeakColor = ArcadeSprite(
+private val WingUp = ArcadeSprite(
     width = 46,
     height = 32,
-    data = BirdBeakFill
+    data = "M10 2H16V4H20V8H24V12H28V18H26V22H20V20H16V16H12V10H10Z"
 )
-private val WingUp =
-    ArcadeSprite(width = 46, height = 32, data = WingUpPath)
 private val WingUpColor = ArcadeSprite(
     width = 46,
     height = 32,
-    data = WingUpFill
+    data = "M12 4H15V6H18V10H22V14H26V18H24V20H21V18H18V14H14V8H12Z"
 )
 private val WingDown = ArcadeSprite(
     width = 46,
     height = 32,
-    data = WingDownPath
+    data = "M16 16H26V18H28V24H24V28H20V30H14V26H12V20H16Z"
 )
 private val WingDownColor = ArcadeSprite(
     width = 46,
     height = 32,
-    data = WingDownFill
+    data = "M17 18H24V20H26V22H22V26H18V28H16V24H14V22H17Z"
 )
 
 @Serializable
@@ -294,7 +262,7 @@ private data class BirdPipe(
 )
 
 @Serializable
-private class BirdRun : ArcadeRun() {
+private class WingDashRun : ArcadeRun() {
     val birdX get() = (width * 0.25f).coerceIn(72f, 150f)
     val ground get() = height - 20f
     var y = height / 2

@@ -44,9 +44,9 @@ import kotlin.math.sin
 import kotlin.random.Random
 
 @RegisterArcadeGame
-internal data object HexagonGame : ArcadeGameDefinition {
-    override val title = R.string.arcade_hexagon
-    override val description = R.string.arcade_hexagon_sub
+internal data object HexagonRushGame : ArcadeGameDefinition {
+    override val title = R.string.arcade_hexagonrush
+    override val description = R.string.arcade_hexagonrush_sub
     override val icon get() = Icons.Outlined.Hexagon
     override val order = 19
 
@@ -55,7 +55,7 @@ internal data object HexagonGame : ArcadeGameDefinition {
         val style = context.style
         val run = rememberArcadeRun(
             startPlaying = context.initialState.isPlaying,
-            create = ::HexagonRun
+            create = ::HexagonRushRun
         )
 
         ArcadeBoard(
@@ -191,15 +191,15 @@ internal data object HexagonGame : ArcadeGameDefinition {
 }
 
 @Serializable
-private data class HexagonWall(
+private data class RimWall(
     var radius: Float,
     val gap: Int,
     var passed: Boolean = false
 )
 
 @Serializable
-private class HexagonRun : ArcadeRun() {
-    val walls = mutableListOf<HexagonWall>()
+private class HexagonRushRun : ArcadeRun() {
+    val walls = mutableListOf<RimWall>()
 
     @Transient
     val outline = Path()
@@ -244,7 +244,7 @@ private class HexagonRun : ArcadeRun() {
         val speed = 0.26f + minOf(elapsed * 0.0016f, 0.2f)
         if (timer <= 0f) {
             previousGap = (previousGap + Random.nextInt(-2, 3) + 6) % 6
-            walls += HexagonWall(radius = 1.12f, gap = previousGap)
+            walls += RimWall(radius = 1.12f, gap = previousGap)
             timer += maxOf(1.05f, 1.85f - elapsed * 0.006f)
         }
         val relative = ((angle - rotation) % full + full) % full

@@ -47,9 +47,9 @@ import kotlin.math.sin
 import kotlin.random.Random
 
 @RegisterArcadeGame
-internal data object MissileCommandGame : ArcadeGameDefinition {
-    override val title = R.string.arcade_missilecommand
-    override val description = R.string.arcade_missilecommand_sub
+internal data object MissileDefenseGame : ArcadeGameDefinition {
+    override val title = R.string.arcade_missiledefense
+    override val description = R.string.arcade_missiledefense_sub
     override val icon get() = Icons.Outlined.Shield
     override val order = 13
 
@@ -58,7 +58,7 @@ internal data object MissileCommandGame : ArcadeGameDefinition {
         val style = context.style
         val run = rememberArcadeRun(
             startPlaying = context.initialState.isPlaying,
-            create = ::MissileCommandRun
+            create = ::MissileDefenseRun
         )
 
         ArcadeBoard(
@@ -287,7 +287,7 @@ private data class MissileBlast(
 }
 
 @Serializable
-private class MissileCommandRun : ArcadeRun() {
+private class MissileDefenseRun : ArcadeRun() {
     val cities = IntArray(4) { 1 }
     val missiles = mutableListOf<IncomingMissile>()
     val shots = mutableListOf<Interceptor>()

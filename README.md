@@ -1663,36 +1663,36 @@ or click one of the badges below.
 - Main screen layout customization
 - 40 Mini-Games to play when waiting for result
   - Dino
-  - Doodle Jump
-  - Flappy Bird
+  - Doodle Hopper
+  - Wing Dash
   - Tower Builder
   - Ping Pong
   - 2048
   - Snake
-  - Tetris
+  - Block Stack
   - Retro Racer
   - Ricochet
-  - Asteroids
+  - Space Rocks
   - Fruit Slice
-  - Knife Hit
-  - Missile Command
+  - Blade Toss
+  - Missile Defense
   - River Hop
-  - Whack-a-Mole
+  - Mole Smash
   - Simon Says
   - Bubble Pop
   - Fishing
-  - Super Hexagon
+  - Hexagon Rush
   - Bomber
   - Minesweeper
   - Gravity Flip
   - Maze Chaser
-  - ZigZag
-  - Timberman
+  - Sharp Turns
+  - Timber Chop
   - Orbit Survival
-  - Lunar Lander
+  - Moon Landing
   - Brick Breaker
   - Light Cycles
-  - Flight Control
+  - Air Traffic
   - Basketball
   - Laser Mirrors
   - Flow Connect
@@ -1700,7 +1700,7 @@ or click one of the badges below.
   - Temple Escape
   - Spiral Shaft
   - Tint Ascent
-  - Trace And Claim
+  - Trace & Claim
   - Orchard Pile
 
 (Yes, the app supports dynamic coloring based on wallpapers for every android version)

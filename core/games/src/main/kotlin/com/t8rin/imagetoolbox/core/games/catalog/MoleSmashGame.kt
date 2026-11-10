@@ -44,9 +44,9 @@ import kotlinx.serialization.Transient
 import kotlin.random.Random
 
 @RegisterArcadeGame
-internal data object WhackAMoleGame : ArcadeGameDefinition {
-    override val title = R.string.arcade_whackamole
-    override val description = R.string.arcade_whackamole_sub
+internal data object MoleSmashGame : ArcadeGameDefinition {
+    override val title = R.string.arcade_molesmash
+    override val description = R.string.arcade_molesmash_sub
     override val icon get() = Icons.Outlined.PestControlRodent
     override val order = 15
 
@@ -55,7 +55,7 @@ internal data object WhackAMoleGame : ArcadeGameDefinition {
         val style = context.style
         val run = rememberArcadeRun(
             startPlaying = context.initialState.isPlaying,
-            create = ::WhackAMoleRun
+            create = ::MoleSmashRun
         )
 
         ArcadeBoard(
@@ -353,7 +353,7 @@ private val MoleMine = ArcadeSprite(
 )
 
 @Serializable
-private class WhackAMoleRun : ArcadeRun() {
+private class MoleSmashRun : ArcadeRun() {
     val timers = FloatArray(9)
     val hits = FloatArray(9)
     val ages = FloatArray(9)

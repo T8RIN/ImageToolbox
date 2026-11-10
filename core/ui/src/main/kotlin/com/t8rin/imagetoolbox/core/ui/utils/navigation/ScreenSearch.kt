@@ -18,6 +18,7 @@
 package com.t8rin.imagetoolbox.core.ui.utils.navigation
 
 import androidx.annotation.StringRes
+import com.t8rin.imagetoolbox.core.games.ArcadeGameRegistry
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.getStringEnglish
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.AiTools
@@ -112,6 +113,7 @@ fun Screen.matchesSearchQuery(query: String): Boolean {
 
 fun Screen.searchText(resolveString: (Int) -> String): String {
     val typeStrings = when (this) {
+        is Screen.ArcadeGames -> ArcadeGameRegistry.games.map { it.title }
         is ApngTools -> type?.let { listOf(it.title, it.subtitle) }
         is Filter -> type?.let { listOf(it.title, it.subtitle) }
         is GifTools -> type?.let { listOf(it.title, it.subtitle) }
@@ -153,7 +155,6 @@ private fun Screen.searchKeywordsRes(): Int? = when (this) {
     is CodePreview -> R.string.search_keywords_code_preview
     is ScreenshotFraming -> R.string.screenshot_framing_search
     is Screen.EmojiKitchen -> R.string.emoji_kitchen_search_keywords
-    is Screen.ArcadeGames -> R.string.arcade_games_search
     is LimitResize -> R.string.search_keywords_limit_resize
     is PdfTools -> R.string.search_keywords_pdf_tools
     is RecognizeText -> R.string.search_keywords_recognize_text
@@ -229,5 +230,6 @@ private fun Screen.searchKeywordsRes(): Int? = when (this) {
     is Screen.Assistant,
     is Help,
     is UsageStatistics,
+    is Screen.ArcadeGames,
     is Screen.ArcadeStatistics -> null
 }

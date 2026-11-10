@@ -44,9 +44,9 @@ import kotlin.math.abs
 import kotlin.random.Random
 
 @RegisterArcadeGame
-internal data object ZigZagGame : ArcadeGameDefinition {
-    override val title = R.string.arcade_zigzag
-    override val description = R.string.arcade_zigzag_sub
+internal data object SharpTurnsGame : ArcadeGameDefinition {
+    override val title = R.string.arcade_sharpturns
+    override val description = R.string.arcade_sharpturns_sub
     override val icon get() = Icons.Outlined.VectorPolyline
     override val order = 24
 
@@ -55,7 +55,7 @@ internal data object ZigZagGame : ArcadeGameDefinition {
         val style = context.style
         val run = rememberArcadeRun(
             startPlaying = context.initialState.isPlaying,
-            create = ::ZigZagRun
+            create = ::SharpTurnsRun
         )
         val tilePath = remember { Path() }
         val edgePath = remember { Path() }
@@ -178,7 +178,7 @@ internal data object ZigZagGame : ArcadeGameDefinition {
 }
 
 @Serializable
-private data class ZigZagTile(
+private data class SharpTurnsTile(
     val x: Int,
     val y: Int,
     var gem: Boolean,
@@ -186,8 +186,8 @@ private data class ZigZagTile(
 )
 
 @Serializable
-private class ZigZagRun : ArcadeRun() {
-    val tiles = mutableListOf<ZigZagTile>()
+private class SharpTurnsRun : ArcadeRun() {
+    val tiles = mutableListOf<SharpTurnsTile>()
 
     @Transient
     val effects = ArcadeEffects()
@@ -236,8 +236,8 @@ private class ZigZagRun : ArcadeRun() {
         remaining = 4
         gems = 0
         grace = 0.7f
-        tiles += ZigZagTile(x = -1, y = 0, gem = false)
-        tiles += ZigZagTile(x = 0, y = 0, gem = false)
+        tiles += SharpTurnsTile(x = -1, y = 0, gem = false)
+        tiles += SharpTurnsTile(x = 0, y = 0, gem = false)
         populate()
     }
 
@@ -253,7 +253,7 @@ private class ZigZagRun : ArcadeRun() {
             val nextX = last.x + if (generatedDirection == 0) 1 else 0
             val nextY = last.y + if (generatedDirection == 1) 1 else 0
             val index = nextX + nextY
-            tiles += ZigZagTile(
+            tiles += SharpTurnsTile(
                 x = nextX, y = nextY, gem = index % 5 == 0 || index % 36 == 16,
                 span = if (remaining == 1 && index % 24 < 6 && index > 10) 1.35f else 1f
             )

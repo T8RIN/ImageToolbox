@@ -69,7 +69,16 @@ class ArcadeMechanicsTest {
         val games = ArcadeGameRegistry.games
         assertEquals(games.size, games.distinctBy { it.name }.size)
         assertEquals(
-            listOf("Dino", "Doodle", "Bird", "Stack", "Pong", "2048", "Snake", "Tetris"),
+            listOf(
+                "Dino",
+                "DoodleHopper",
+                "WingDash",
+                "Stack",
+                "Pong",
+                "2048",
+                "Snake",
+                "BlockStack"
+            ),
             games.take(8).map { it.name }
         )
         assertEquals(games.size, games.distinctBy { it.title }.size)
@@ -302,7 +311,7 @@ class ArcadeMechanicsTest {
                 repeat(120 * 20) { if (racer.phase == ArcadePhase.Running) racer.advance(1f / 120f) }
                 assertEquals(ArcadePhase.Over, racer.phase)
             }
-            val space = AsteroidsRun().apply { resize(360f, height); start() }
+            val space = SpaceRocksRun().apply { resize(360f, height); start() }
             repeat(120 * 45) { if (space.phase == ArcadePhase.Running) space.advance(1f / 120f) }
             assertEquals("Idle ship survived at $height", ArcadePhase.Over, space.phase)
         }
@@ -310,7 +319,7 @@ class ArcadeMechanicsTest {
 
     @Test
     fun giantAsteroidsTakeMultipleHitsBeforeBreakingIntoFragments() {
-        val run = AsteroidsRun().apply { start() }
+        val run = SpaceRocksRun().apply { start() }
         val rock = SpaceRock(100f, 100f, 0f, 0f, 34f, 0f, 4)
         run.rocks += rock
         repeat(4) { hit ->
@@ -326,7 +335,7 @@ class ArcadeMechanicsTest {
     @Test
     fun hexagonGapsRemainPassableAtCompactAndTallSizes() {
         for (height in listOf(220f, 680f)) {
-            val run = HexagonRun().apply { resize(360f, height); start() }
+            val run = HexagonRushRun().apply { resize(360f, height); start() }
             repeat(120 * 30) {
                 run.walls.firstOrNull { !it.passed }?.let {
                     run.angle = run.rotation + (it.gap + 0.5f) * kotlin.math.PI.toFloat() / 3f
@@ -349,7 +358,7 @@ class ArcadeMechanicsTest {
         repeat(240) { fishing.advance(1f / 120f) }
         assertEquals(1, fishing.score)
         assertEquals(0, fishing.misses)
-        val moles = WhackAMoleRun().apply { resize(360f, 220f); start() }
+        val moles = MoleSmashRun().apply { resize(360f, 220f); start() }
         moles.types[4] = 1
         moles.hit(moles.hole(4))
         assertEquals(1, moles.score)
@@ -458,7 +467,7 @@ class ArcadeMechanicsTest {
 
     @Test
     fun missileWavesKeepBlastsAndInputRunningWithoutFadingTheField() {
-        val run = MissileCommandRun().apply { start() }
+        val run = MissileDefenseRun().apply { start() }
         var steps = 0
         while (run.score == 0 && steps++ < 2000) {
             run.missiles.clear()
@@ -477,7 +486,7 @@ class ArcadeMechanicsTest {
 
     @Test
     fun incomingMissilesEnterFromOutsideTheTopEdge() {
-        val run = MissileCommandRun().apply { resize(360f, 680f); start() }
+        val run = MissileDefenseRun().apply { resize(360f, 680f); start() }
         var frames = 0
         while (run.missiles.isEmpty() && frames++ < 150) run.advance(1f / 120f)
         assertTrue(run.missiles.isNotEmpty())
@@ -585,12 +594,12 @@ class ArcadeMechanicsTest {
 
     @Test
     fun knifeCollisionAndMissileRechargeCannotBeBypassedByRapidTaps() {
-        val knife = KnifeHitRun().apply { start() }
+        val knife = BladeTossRun().apply { start() }
         repeat(100) { knife.throwKnife() }
         repeat(20) { knife.advance(1f / 120f) }
         assertEquals(1, knife.score)
         assertEquals(5, knife.remaining)
-        val missile = MissileCommandRun().apply { start() }
+        val missile = MissileDefenseRun().apply { start() }
         repeat(100) { missile.fire(Offset(100f, 100f)) }
         assertEquals(4, missile.shots.size)
         assertEquals(0f, missile.charge, 0f)
@@ -870,8 +879,8 @@ class ArcadeMechanicsTest {
     }
 
     @Test
-    fun zigzagTileEdgesAreContinuousAndGeneratedCornersRemainTraversable() {
-        val run = ZigZagRun().apply { start() }
+    fun sharpTurnsTileEdgesAreContinuousAndGeneratedCornersRemainTraversable() {
+        val run = SharpTurnsRun().apply { start() }
         assertTrue(run.supported(0.5f, 0f))
         assertTrue(run.supported(0.49f, 0.49f))
         assertTrue(!run.supported(0.56f, 0.56f))
@@ -889,10 +898,10 @@ class ArcadeMechanicsTest {
         }
         assertTrue(run.progress > 150f)
         assertTrue(run.tiles.size < 60)
-        val corner = ZigZagRun().apply { start(); advance(0.8f) }
+        val corner = SharpTurnsRun().apply { start(); advance(0.8f) }
         corner.tiles.clear()
-        for (x in 0..4) corner.tiles += ZigZagTile(x, 0, false)
-        for (y in 1..5) corner.tiles += ZigZagTile(4, y, false)
+        for (x in 0..4) corner.tiles += SharpTurnsTile(x, 0, false)
+        for (y in 1..5) corner.tiles += SharpTurnsTile(4, y, false)
         corner.x = 4.45f
         corner.y = 0f
         corner.direction = 0
@@ -906,8 +915,8 @@ class ArcadeMechanicsTest {
     }
 
     @Test
-    fun timbermanAlwaysLeavesASafeSideAndRequiresAChoppingRhythm() {
-        val run = TimbermanRun().apply { start() }
+    fun timberChopAlwaysLeavesASafeSideAndRequiresAChoppingRhythm() {
+        val run = TimberChopRun().apply { start() }
         run.resize(360f, 1400f)
         assertTrue(run.branches.size * run.segment > run.base + run.segment)
         run.resize(360f, 280f)
@@ -975,7 +984,7 @@ class ArcadeMechanicsTest {
     @Test
     fun landerRewardsGentleLandingsAndRejectsHardOrOffPadImpacts() {
         for (height in listOf(220f, 680f)) {
-            val run = LunarLanderRun().apply { resize(360f, height); start() }
+            val run = MoonLandingRun().apply { resize(360f, height); start() }
             assertTrue(run.worldWidth >= run.width * 2.5f)
             assertTrue(run.span > (run.height - run.topInset) * 1.5f)
             assertTrue(run.zoom < 0.6f)
@@ -1012,7 +1021,7 @@ class ArcadeMechanicsTest {
             assertTrue(run.crashed)
             assertEquals(1, run.lives)
         }
-        val controlled = LunarLanderRun().apply { start() }
+        val controlled = MoonLandingRun().apply { start() }
         val finger = Offset(180f, 120f)
         controlled.beginThrust(finger)
         repeat(3600) {
@@ -1335,7 +1344,7 @@ class ArcadeMechanicsTest {
 
     @Test
     fun flightRoutesRequireMatchingLandingZonesAndAirborneCollisionsEndTheRun() {
-        val joining = FlightControlRun().apply { start(); planes.clear() }
+        val joining = AirTrafficRun().apply { start(); planes.clear() }
         joining.runways[0] = FlightRunway(Offset(0f, 1f), 0f)
         val moving = ControlledFlight(100, 0, Offset(80f, 120f), 0f, true)
         joining.planes += moving
@@ -1354,7 +1363,7 @@ class ArcadeMechanicsTest {
             assertEquals(0f, moving.heading, 0.01f)
         }
         for (kind in 0..2) {
-            val run = FlightControlRun().apply { start(); planes.clear() }
+            val run = AirTrafficRun().apply { start(); planes.clear() }
             val target = run.zone(kind)
             val from = target - if (kind == 1) Offset(0f, 65f) else Offset(65f, 0f)
             val plane = ControlledFlight(
@@ -1378,7 +1387,7 @@ class ArcadeMechanicsTest {
             assertEquals(ArcadePhase.Running, run.phase)
         }
         for (kind in 0..2) for (landed in listOf(0, 100)) for (heading in 0..3) {
-            val guided = FlightControlRun().apply { start(); planes.clear(); this.landed = landed }
+            val guided = AirTrafficRun().apply { start(); planes.clear(); this.landed = landed }
             val aircraft = ControlledFlight(
                 100,
                 kind,
@@ -1408,7 +1417,7 @@ class ArcadeMechanicsTest {
                 guided.landed
             )
         }
-        val drawing = FlightControlRun().apply { start(); planes.clear() }
+        val drawing = AirTrafficRun().apply { start(); planes.clear() }
         drawing.runways[0] = FlightRunway(Offset(1f, 1f), 0f)
         val guidedPlane = ControlledFlight(100, 0, Offset(60f, 120f), 0f, true)
         drawing.planes += guidedPlane
@@ -1429,7 +1438,7 @@ class ArcadeMechanicsTest {
             1,
             drawing.landed
         )
-        val spawning = FlightControlRun().apply { start(); planes.clear() }
+        val spawning = AirTrafficRun().apply { start(); planes.clear() }
         val incoming = ControlledFlight(100, 0, Offset(-18f, 120f), 0f)
         spawning.planes += ControlledFlight(101, 1, Offset(95f, 120f), Math.PI.toFloat(), true)
         assertTrue("Future head-on conflicts must prevent spawning", !spawning.canSpawn(incoming))
@@ -1447,7 +1456,7 @@ class ArcadeMechanicsTest {
             }
         }
         assertTrue(layouts.size > 25)
-        val run = FlightControlRun().apply { start(); planes.clear() }
+        val run = AirTrafficRun().apply { start(); planes.clear() }
         val wrong = ControlledFlight(100, 0, Offset(100f, 100f), 0f, true)
         run.planes += wrong
         run.begin(wrong.point)
@@ -1506,36 +1515,36 @@ class ArcadeMechanicsTest {
 
 private val runSerializers = mapOf(
     DinoRun::class to DinoRun.serializer(),
-    DoodleRun::class to DoodleRun.serializer(),
-    BirdRun::class to BirdRun.serializer(),
+    DoodleHopperRun::class to DoodleHopperRun.serializer(),
+    WingDashRun::class to WingDashRun.serializer(),
     StackRun::class to StackRun.serializer(),
     PongRun::class to PongRun.serializer(),
     MergeRun::class to MergeRun.serializer(),
     SnakeRun::class to SnakeRun.serializer(),
-    TetrisRun::class to TetrisRun.serializer(),
+    BlockStackRun::class to BlockStackRun.serializer(),
     RacerRun::class to RacerRun.serializer(),
     RicochetRun::class to RicochetRun.serializer(),
-    AsteroidsRun::class to AsteroidsRun.serializer(),
+    SpaceRocksRun::class to SpaceRocksRun.serializer(),
     FruitSliceRun::class to FruitSliceRun.serializer(),
-    KnifeHitRun::class to KnifeHitRun.serializer(),
-    MissileCommandRun::class to MissileCommandRun.serializer(),
+    BladeTossRun::class to BladeTossRun.serializer(),
+    MissileDefenseRun::class to MissileDefenseRun.serializer(),
     RiverHopRun::class to RiverHopRun.serializer(),
-    WhackAMoleRun::class to WhackAMoleRun.serializer(),
+    MoleSmashRun::class to MoleSmashRun.serializer(),
     SimonSaysRun::class to SimonSaysRun.serializer(),
     BubblePopRun::class to BubblePopRun.serializer(),
     FishingRun::class to FishingRun.serializer(),
-    HexagonRun::class to HexagonRun.serializer(),
+    HexagonRushRun::class to HexagonRushRun.serializer(),
     BomberRun::class to BomberRun.serializer(),
     MinesweeperRun::class to MinesweeperRun.serializer(),
     MazeChaserRun::class to MazeChaserRun.serializer(),
     GravityFlipRun::class to GravityFlipRun.serializer(),
-    ZigZagRun::class to ZigZagRun.serializer(),
-    TimbermanRun::class to TimbermanRun.serializer(),
+    SharpTurnsRun::class to SharpTurnsRun.serializer(),
+    TimberChopRun::class to TimberChopRun.serializer(),
     OrbitSurvivalRun::class to OrbitSurvivalRun.serializer(),
-    LunarLanderRun::class to LunarLanderRun.serializer(),
+    MoonLandingRun::class to MoonLandingRun.serializer(),
     BrickBreakerRun::class to BrickBreakerRun.serializer(),
     LightCyclesRun::class to LightCyclesRun.serializer(),
-    FlightControlRun::class to FlightControlRun.serializer(),
+    AirTrafficRun::class to AirTrafficRun.serializer(),
     BasketballRun::class to BasketballRun.serializer(),
     LaserMirrorsRun::class to LaserMirrorsRun.serializer(),
     FlowConnectRun::class to FlowConnectRun.serializer(),

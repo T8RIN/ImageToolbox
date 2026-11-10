@@ -51,9 +51,9 @@ import kotlin.math.sin
 import kotlin.random.Random
 
 @RegisterArcadeGame
-internal data object KnifeHitGame : ArcadeGameDefinition {
-    override val title = R.string.arcade_knifehit
-    override val description = R.string.arcade_knifehit_sub
+internal data object BladeTossGame : ArcadeGameDefinition {
+    override val title = R.string.arcade_bladetoss
+    override val description = R.string.arcade_bladetoss_sub
     override val icon get() = Icons.Outlined.TrackChanges
     override val order = 12
 
@@ -62,7 +62,7 @@ internal data object KnifeHitGame : ArcadeGameDefinition {
         val style = context.style
         val run = rememberArcadeRun(
             startPlaying = context.initialState.isPlaying,
-            create = ::KnifeHitRun
+            create = ::BladeTossRun
         )
 
         ArcadeBoard(
@@ -304,7 +304,7 @@ private fun DrawScope.drawKnife(
 }
 
 @Serializable
-private class KnifeHitRun : ArcadeRun() {
+private class BladeTossRun : ArcadeRun() {
     val knives = mutableListOf<Float>()
     val bonuses = mutableListOf<Float>()
 

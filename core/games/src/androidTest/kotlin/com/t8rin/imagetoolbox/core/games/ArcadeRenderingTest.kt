@@ -148,7 +148,7 @@ class ArcadeRenderingTest {
                     compose.mainClock.advanceTimeBy(80L)
                 }
 
-                "Timberman" -> {
+                "TimberChop" -> {
                     val point = fieldBounds.center + Offset(fieldBounds.width * 0.25f, 0f)
                     touch(point, 32L)
                     compose.mainClock.advanceTimeBy(160L)
@@ -161,7 +161,7 @@ class ArcadeRenderingTest {
                     compose.mainClock.advanceTimeBy(450L)
                 }
 
-                "LunarLander" -> {
+                "MoonLanding" -> {
                     val from = fieldBounds.topLeft + Offset(
                         fieldBounds.width * 0.5f,
                         fieldBounds.height * 0.7f
@@ -197,7 +197,7 @@ class ArcadeRenderingTest {
                     heldPoint = to
                 }
 
-                "FlightControl" -> {
+                "AirTraffic" -> {
                     compose.mainClock.advanceTimeBy(7200L)
                 }
 
@@ -219,7 +219,7 @@ class ArcadeRenderingTest {
                 bitmap.recycle()
             }
             heldPoint?.let { send(MotionEvent.ACTION_UP, it) }
-            if (capture && games[index % games.size].name == "LunarLander") {
+            if (capture && games[index % games.size].name == "MoonLanding") {
                 compose.mainClock.advanceTimeBy(3600L)
                 compose.waitForIdle()
                 instrumentation.waitForIdleSync()
@@ -227,7 +227,7 @@ class ArcadeRenderingTest {
                 val bitmap = instrumentation.uiAutomation.takeScreenshot()
                 File(
                     directory,
-                    "approach-${if (wide) "wide" else index / games.size}-LunarLander.png"
+                    "approach-${if (wide) "wide" else index / games.size}-MoonLanding.png"
                 )
                     .outputStream().use { bitmap.compress(Bitmap.CompressFormat.PNG, 100, it) }
                 bitmap.recycle()

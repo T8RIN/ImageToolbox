@@ -54,9 +54,9 @@ import kotlin.math.sin
 import kotlin.random.Random
 
 @RegisterArcadeGame
-internal data object LunarLanderGame : ArcadeGameDefinition {
-    override val title = R.string.arcade_lunarlander
-    override val description = R.string.arcade_lunarlander_sub
+internal data object MoonLandingGame : ArcadeGameDefinition {
+    override val title = R.string.arcade_moonlanding
+    override val description = R.string.arcade_moonlanding_sub
     override val icon get() = Icons.Outlined.Rocket
     override val order = 27
 
@@ -65,7 +65,7 @@ internal data object LunarLanderGame : ArcadeGameDefinition {
         val style = context.style
         val run = rememberArcadeRun(
             startPlaying = context.initialState.isPlaying,
-            create = ::LunarLanderRun
+            create = ::MoonLandingRun
         )
         val horizonPath = remember { Path() }
         val groundPath = remember { Path() }
@@ -390,7 +390,7 @@ private data class LandingPad(
 )
 
 @Serializable
-private class LunarLanderRun : ArcadeRun() {
+private class MoonLandingRun : ArcadeRun() {
     val terrain: MutableList<ArcadeOffset> = mutableListOf()
 
     @Transient

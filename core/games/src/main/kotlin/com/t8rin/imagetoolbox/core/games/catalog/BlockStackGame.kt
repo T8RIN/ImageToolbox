@@ -43,9 +43,9 @@ import kotlin.math.abs
 import kotlin.math.pow
 
 @RegisterArcadeGame
-internal data object TetrisGame : ArcadeGameDefinition {
-    override val title = R.string.arcade_tetris
-    override val description = R.string.arcade_tetris_sub
+internal data object BlockStackGame : ArcadeGameDefinition {
+    override val title = R.string.arcade_blockstack
+    override val description = R.string.arcade_blockstack_sub
     override val icon get() = Icons.Outlined.ViewQuilt
     override val order = 7
 
@@ -54,7 +54,7 @@ internal data object TetrisGame : ArcadeGameDefinition {
         val style = context.style
         val run = rememberArcadeRun(
             startPlaying = context.initialState.isPlaying,
-            create = ::TetrisRun
+            create = ::BlockStackRun
         )
 
         ArcadeBoard(
@@ -71,16 +71,17 @@ internal data object TetrisGame : ArcadeGameDefinition {
             ) {
                 val cell = run.cellSize
                 val origin = Offset(
-                    x = (run.width - cell * TetrisColumns) / 2,
-                    y = run.topInset + (run.height - run.topInset - cell * TetrisRows) / 2
+                    x = (run.width - cell * BlockStackColumns) / 2,
+                    y = run.topInset + (run.height - run.topInset - cell * BlockStackRows) / 2
                 )
-                val boardSize = Size(width = cell * TetrisColumns, height = cell * TetrisRows)
+                val boardSize =
+                    Size(width = cell * BlockStackColumns, height = cell * BlockStackRows)
                 drawRect(
                     color = style.obstacleColor.copy(alpha = 0.035f),
                     topLeft = origin,
                     size = boardSize
                 )
-                for (column in 1 until TetrisColumns) {
+                for (column in 1 until BlockStackColumns) {
                     val x = origin.x + column * cell
                     drawLine(
                         color = style.detailColor.copy(alpha = 0.08f),
@@ -88,7 +89,7 @@ internal data object TetrisGame : ArcadeGameDefinition {
                         end = Offset(x = x, y = origin.y + boardSize.height)
                     )
                 }
-                for (row in 1 until TetrisRows) {
+                for (row in 1 until BlockStackRows) {
                     val y = origin.y + row * cell
                     drawLine(
                         color = style.detailColor.copy(alpha = 0.08f),
@@ -194,12 +195,12 @@ internal data object TetrisGame : ArcadeGameDefinition {
                 ) {
                     run.board.forEachIndexed { index, value ->
                         if (value > 0) {
-                            val row = index / TetrisColumns
+                            val row = index / BlockStackColumns
                             val scale =
                                 if (row in run.clearing) 1f - run.clearTime / ClearDuration else 1f
                             block(
                                 point = origin + Offset(
-                                    x = index % TetrisColumns * cell,
+                                    x = index % BlockStackColumns * cell,
                                     y = row * cell
                                 ),
                                 size = cell,
@@ -253,90 +254,90 @@ internal data object TetrisGame : ArcadeGameDefinition {
     }
 }
 
-private const val TetrisColumns = 10
-private const val TetrisRows = 20
+private const val BlockStackColumns = 10
+private const val BlockStackRows = 20
 private const val ClearDuration = 0.2f
 private const val HoldDelay = 0.35f
 
 @Serializable
-private data class TetrisCell(
+private data class BlockStackCell(
     val x: Int,
     val y: Int
 )
 
 @Serializable
-private enum class Tetromino(val shape: List<TetrisCell>) {
+private enum class Tetromino(val shape: List<BlockStackCell>) {
     I(
         listOf(
-            TetrisCell(x = 0, y = 1),
-            TetrisCell(x = 1, y = 1),
-            TetrisCell(x = 2, y = 1),
-            TetrisCell(x = 3, y = 1)
+            BlockStackCell(x = 0, y = 1),
+            BlockStackCell(x = 1, y = 1),
+            BlockStackCell(x = 2, y = 1),
+            BlockStackCell(x = 3, y = 1)
         )
     ),
     O(
         listOf(
-            TetrisCell(x = 1, y = 0),
-            TetrisCell(x = 2, y = 0),
-            TetrisCell(x = 1, y = 1),
-            TetrisCell(x = 2, y = 1)
+            BlockStackCell(x = 1, y = 0),
+            BlockStackCell(x = 2, y = 0),
+            BlockStackCell(x = 1, y = 1),
+            BlockStackCell(x = 2, y = 1)
         )
     ),
     T(
         listOf(
-            TetrisCell(x = 1, y = 0),
-            TetrisCell(x = 0, y = 1),
-            TetrisCell(x = 1, y = 1),
-            TetrisCell(x = 2, y = 1)
+            BlockStackCell(x = 1, y = 0),
+            BlockStackCell(x = 0, y = 1),
+            BlockStackCell(x = 1, y = 1),
+            BlockStackCell(x = 2, y = 1)
         )
     ),
     S(
         listOf(
-            TetrisCell(x = 1, y = 0),
-            TetrisCell(x = 2, y = 0),
-            TetrisCell(x = 0, y = 1),
-            TetrisCell(x = 1, y = 1)
+            BlockStackCell(x = 1, y = 0),
+            BlockStackCell(x = 2, y = 0),
+            BlockStackCell(x = 0, y = 1),
+            BlockStackCell(x = 1, y = 1)
         )
     ),
     Z(
         listOf(
-            TetrisCell(x = 0, y = 0),
-            TetrisCell(x = 1, y = 0),
-            TetrisCell(x = 1, y = 1),
-            TetrisCell(x = 2, y = 1)
+            BlockStackCell(x = 0, y = 0),
+            BlockStackCell(x = 1, y = 0),
+            BlockStackCell(x = 1, y = 1),
+            BlockStackCell(x = 2, y = 1)
         )
     ),
     J(
         listOf(
-            TetrisCell(x = 0, y = 0),
-            TetrisCell(x = 0, y = 1),
-            TetrisCell(x = 1, y = 1),
-            TetrisCell(x = 2, y = 1)
+            BlockStackCell(x = 0, y = 0),
+            BlockStackCell(x = 0, y = 1),
+            BlockStackCell(x = 1, y = 1),
+            BlockStackCell(x = 2, y = 1)
         )
     ),
     L(
         listOf(
-            TetrisCell(x = 2, y = 0),
-            TetrisCell(x = 0, y = 1),
-            TetrisCell(x = 1, y = 1),
-            TetrisCell(x = 2, y = 1)
+            BlockStackCell(x = 2, y = 0),
+            BlockStackCell(x = 0, y = 1),
+            BlockStackCell(x = 1, y = 1),
+            BlockStackCell(x = 2, y = 1)
         )
     );
 
-    fun cells(rotation: Int): List<TetrisCell> {
+    fun cells(rotation: Int): List<BlockStackCell> {
         if (this == O) return shape
         val edge = if (this == I) 3 else 2
         return shape.map { cell ->
             var point = cell
-            repeat(rotation % 4) { point = TetrisCell(x = edge - point.y, y = point.x) }
+            repeat(rotation % 4) { point = BlockStackCell(x = edge - point.y, y = point.x) }
             point
         }
     }
 }
 
 @Serializable
-private class TetrisRun : ArcadeRun() {
-    val board = IntArray(TetrisColumns * TetrisRows)
+private class BlockStackRun : ArcadeRun() {
+    val board = IntArray(BlockStackColumns * BlockStackRows)
     val clearing = mutableListOf<Int>()
     var clearTime = 0f
         private set
@@ -352,8 +353,8 @@ private class TetrisRun : ArcadeRun() {
         private set
     val cellSize
         get() = minOf(
-            (width - 28f) / TetrisColumns,
-            (height - topInset - 24f) / TetrisRows
+            (width - 28f) / BlockStackColumns,
+            (height - topInset - 24f) / BlockStackRows
         )
     private val bag: ArcadeDeque<Tetromino> = ArrayDeque()
     private var rotation = 0
@@ -382,7 +383,7 @@ private class TetrisRun : ArcadeRun() {
     private var dropDuration = 0f
 
     override fun isValid(): Boolean = super.isValid() &&
-            board.size == TetrisColumns * TetrisRows && clearing.all { it in 0 until TetrisRows }
+            board.size == BlockStackColumns * BlockStackRows && clearing.all { it in 0 until BlockStackRows }
 
     override fun reset() {
         board.fill(0)
@@ -429,8 +430,8 @@ private class TetrisRun : ArcadeRun() {
     ): Boolean = piece.cells(rotation).all {
         val px = x + it.x
         val py = y + it.y
-        px in 0 until TetrisColumns && py in -2 until TetrisRows &&
-                (py < 0 || board[py * TetrisColumns + px] == 0)
+        px in 0 until BlockStackColumns && py in -2 until BlockStackRows &&
+                (py < 0 || board[py * BlockStackColumns + px] == 0)
     }
 
     fun beginDrag(point: Offset) {
@@ -456,7 +457,7 @@ private class TetrisRun : ArcadeRun() {
             pressTime = 0f
             val amount = ((point.x - dragX) / cellSize).toInt()
             val direction = if (amount > 0) 1 else -1
-            repeat(abs(amount).coerceAtMost(TetrisColumns)) {
+            repeat(abs(amount).coerceAtMost(BlockStackColumns)) {
                 val grounded = !fits(
                     x = x,
                     y = y + 1,
@@ -571,18 +572,18 @@ private class TetrisRun : ArcadeRun() {
         if (clearing.isNotEmpty()) {
             clearTime += seconds
             if (clearTime >= ClearDuration) {
-                var destination = TetrisRows - 1
-                for (row in TetrisRows - 1 downTo 0) {
+                var destination = BlockStackRows - 1
+                for (row in BlockStackRows - 1 downTo 0) {
                     if (row !in clearing) {
-                        for (column in 0 until TetrisColumns) {
-                            board[destination * TetrisColumns + column] =
-                                board[row * TetrisColumns + column]
+                        for (column in 0 until BlockStackColumns) {
+                            board[destination * BlockStackColumns + column] =
+                                board[row * BlockStackColumns + column]
                         }
                         destination--
                     }
                 }
                 while (destination >= 0) {
-                    for (column in 0 until TetrisColumns) board[destination * TetrisColumns + column] =
+                    for (column in 0 until BlockStackColumns) board[destination * BlockStackColumns + column] =
                         0
                     destination--
                 }
@@ -628,9 +629,9 @@ private class TetrisRun : ArcadeRun() {
             phase = ArcadePhase.Over
             return
         }
-        cells.forEach { board[(y + it.y) * TetrisColumns + x + it.x] = piece.ordinal + 1 }
-        for (row in 0 until TetrisRows) {
-            if ((0 until TetrisColumns).all { board[row * TetrisColumns + it] != 0 }) clearing += row
+        cells.forEach { board[(y + it.y) * BlockStackColumns + x + it.x] = piece.ordinal + 1 }
+        for (row in 0 until BlockStackRows) {
+            if ((0 until BlockStackColumns).all { board[row * BlockStackColumns + it] != 0 }) clearing += row
         }
         if (clearing.isEmpty()) {
             spawn()

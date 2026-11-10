@@ -49,9 +49,9 @@ import kotlin.math.sin
 import kotlin.random.Random
 
 @RegisterArcadeGame
-internal data object AsteroidsGame : ArcadeGameDefinition {
-    override val title = R.string.arcade_asteroids
-    override val description = R.string.arcade_asteroids_sub
+internal data object SpaceRocksGame : ArcadeGameDefinition {
+    override val title = R.string.arcade_spacerocks
+    override val description = R.string.arcade_spacerocks_sub
     override val icon get() = Icons.Outlined.Planet
     override val order = 10
 
@@ -60,7 +60,7 @@ internal data object AsteroidsGame : ArcadeGameDefinition {
         val style = context.style
         val run = rememberArcadeRun(
             startPlaying = context.initialState.isPlaying,
-            create = ::AsteroidsRun
+            create = ::SpaceRocksRun
         )
 
         ArcadeBoard(
@@ -289,7 +289,7 @@ private data class SpaceInvaderShip(
 )
 
 @Serializable
-private class AsteroidsRun : ArcadeRun() {
+private class SpaceRocksRun : ArcadeRun() {
     val rocks = mutableListOf<SpaceRock>()
     val invaders = mutableListOf<SpaceInvaderShip>()
     val enemyShots = mutableListOf<SpaceShot>()

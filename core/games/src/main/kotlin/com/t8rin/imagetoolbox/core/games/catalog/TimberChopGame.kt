@@ -45,9 +45,9 @@ import kotlin.math.ceil
 import kotlin.random.Random
 
 @RegisterArcadeGame
-internal data object TimbermanGame : ArcadeGameDefinition {
-    override val title = R.string.arcade_timberman
-    override val description = R.string.arcade_timberman_sub
+internal data object TimberChopGame : ArcadeGameDefinition {
+    override val title = R.string.arcade_timberchop
+    override val description = R.string.arcade_timberchop_sub
     override val icon get() = Icons.Outlined.Forest
     override val order = 25
 
@@ -56,7 +56,7 @@ internal data object TimbermanGame : ArcadeGameDefinition {
         val style = context.style
         val run = rememberArcadeRun(
             startPlaying = context.initialState.isPlaying,
-            create = ::TimbermanRun
+            create = ::TimberChopRun
         )
 
         ArcadeBoard(
@@ -348,7 +348,7 @@ private data class TimberChip(
 )
 
 @Serializable
-private class TimbermanRun : ArcadeRun() {
+private class TimberChopRun : ArcadeRun() {
     val branches = mutableListOf<Int>()
     val chips = mutableListOf<TimberChip>()
 
