@@ -276,7 +276,7 @@ fun MarkupLayersContent(
         },
         mainContent = {
             val direction = LocalLayoutDirection.current
-            val zoomState = rememberZoomState(maxScale = 10f)
+            val zoomState = rememberZoomState()
             Box(
                 modifier = Modifier
                     .fillMaxSize()

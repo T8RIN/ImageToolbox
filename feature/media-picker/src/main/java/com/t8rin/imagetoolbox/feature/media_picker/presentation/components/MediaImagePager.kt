@@ -239,7 +239,7 @@ internal fun MediaImagePager(
                     ) {
                         val model = media.getOrNull(page)?.uri
                         var isImageLoaded by remember(model) { mutableStateOf(false) }
-                        val zoomState = rememberZoomState(20f)
+                        val zoomState = rememberZoomState()
                         LaunchedEffect(isImageLoaded) {
                             if (!isImageLoaded) zoomState.reset()
                         }

@@ -65,6 +65,7 @@ import kotlin.math.min
 internal class FrameImageView(
     private val context: Context,
     val photoItem: PhotoItem,
+    maxImageZoom: Float,
     private val previewSize: Int
 ) : AppCompatImageView(context) {
 
@@ -117,6 +118,13 @@ internal class FrameImageView(
         borderShader = factory?.invoke(viewWidth, viewHeight)
         invalidate()
     }
+
+    var maxImageZoom: Float = maxImageZoom
+        set(value) {
+            if (field == value) return
+            field = value
+            updateScaleRange()
+        }
 
     var outerPadding: Float = 0f
     fun setStyle(value: CollageSlotStyle) {
@@ -474,7 +482,7 @@ internal class FrameImageView(
     private fun updateScaleRange() {
         image?.let {
             val cover = max(viewWidth / it.width, viewHeight / it.height).coerceAtLeast(0.001f)
-            mTouchHandler?.setScaleRange(cover * 0.2f, cover * 16f)
+            mTouchHandler?.setScaleRange(cover * 0.2f, cover * maxImageZoom)
         }
     }
 

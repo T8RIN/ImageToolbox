@@ -1,17 +1,18 @@
 /*
- * Copyright 2022 usuiat
+ * ImageToolbox is an image editor for android
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * You should have received a copy of the Apache License
+ * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
 package net.engawapg.lib.zoomable
@@ -48,7 +49,7 @@ import kotlin.math.abs
  */
 @Stable
 class ZoomState(
-    @FloatRange(from = 1.0) val maxScale: Float = 5f,
+    @FloatRange(from = 1.0) val maxScale: Float = ZoomDefaults.MaxZoom,
     @FloatRange(from = 0.0) val minScale: Float = 1f,
     private var contentSize: Size = Size.Zero,
     private val velocityDecay: DecayAnimationSpec<Float> = exponentialDecay(),
@@ -399,7 +400,7 @@ class ZoomState(
  */
 @Composable
 fun rememberZoomState(
-    @FloatRange(from = 1.0) maxScale: Float = 5f,
+    @FloatRange(from = 1.0) maxScale: Float = ZoomDefaults.MaxZoom,
     @FloatRange(from = 0.0) minScale: Float = 1f,
     contentSize: Size = Size.Zero,
     velocityDecay: DecayAnimationSpec<Float> = exponentialDecay(),

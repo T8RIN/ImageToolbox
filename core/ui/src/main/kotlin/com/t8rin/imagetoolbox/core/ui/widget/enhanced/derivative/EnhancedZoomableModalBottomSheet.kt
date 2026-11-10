@@ -77,7 +77,7 @@ fun EnhancedZoomableModalBottomSheet(
 ) {
     EnhancedModalBottomSheet(
         sheetContent = {
-            val currentZoomState = zoomState ?: rememberZoomState(maxScale = 20f)
+            val currentZoomState = zoomState ?: rememberZoomState()
 
             Column(
                 modifier = Modifier

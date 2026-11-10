@@ -221,7 +221,7 @@ fun ImagePager(
                     ) {
                         val model = uris?.getOrNull(page)
                         var isImageLoaded by remember(model) { mutableStateOf(false) }
-                        val zoomState = rememberZoomState(20f)
+                        val zoomState = rememberZoomState()
                         LaunchedEffect(isImageLoaded) {
                             if (!isImageLoaded) zoomState.reset()
                         }

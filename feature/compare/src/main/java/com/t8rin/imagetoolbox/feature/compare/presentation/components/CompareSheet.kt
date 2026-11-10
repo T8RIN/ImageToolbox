@@ -45,7 +45,7 @@ fun CompareSheet(
     onDismiss: () -> Unit
 ) {
     var progress by rememberSaveable(visible) { mutableFloatStateOf(50f) }
-    val zoomState = rememberZoomState(maxScale = 20f, key = visible)
+    val zoomState = rememberZoomState(key = visible)
 
     if (data != null) {
         EnhancedZoomableModalBottomSheet(
@@ -98,7 +98,7 @@ fun CompareSheet(
     onDismiss: () -> Unit
 ) {
     var progress by rememberSaveable(visible) { mutableFloatStateOf(50f) }
-    val zoomState = rememberZoomState(maxScale = 20f, key = visible)
+    val zoomState = rememberZoomState(key = visible)
 
     EnhancedZoomableModalBottomSheet(
         visible = visible,

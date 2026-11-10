@@ -84,6 +84,7 @@ import com.t8rin.image.ImageWithConstraints
 import com.t8rin.opencv_tools.free_corners_crop.FreeCrop
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import net.engawapg.lib.zoomable.ZoomDefaults
 import kotlin.math.exp
 import kotlin.math.roundToInt
 
@@ -249,7 +250,8 @@ fun FreeCornersCropper(
                         } else {
                             MINIMUM_CROP_ZOOM
                         }
-                        val zoomedScale = DEFAULT_DOUBLE_TAP_SCALE.coerceIn(minScale, MAX_ZOOM)
+                        val zoomedScale =
+                            DEFAULT_DOUBLE_TAP_SCALE.coerceIn(minScale, ZoomDefaults.MaxZoom)
                         val targetScale = if (
                             imageScale >= zoomedScale - SCALE_COMPARISON_TOLERANCE
                         ) {
@@ -299,7 +301,7 @@ fun FreeCornersCropper(
                         }
                         val targetScale = (imageScale * zoom).coerceIn(
                             minimumValue = minScale * MIN_SCALE_GESTURE_RESISTANCE,
-                            maximumValue = MAX_ZOOM
+                            maximumValue = ZoomDefaults.MaxZoom
                         )
                         val target = calculateTransformAfterZoom(
                             currentScale = imageScale,
@@ -332,7 +334,7 @@ fun FreeCornersCropper(
                                 cropBounds = drawPoints.boundingRect(),
                                 imageBounds = baseImageBounds
                             )
-                            val targetScale = imageScale.coerceIn(minScale, MAX_ZOOM)
+                            val targetScale = imageScale.coerceIn(minScale, ZoomDefaults.MaxZoom)
                             val targetTranslation = coerceImageTranslation(
                                 translation = imageTranslation,
                                 scale = targetScale,
@@ -376,7 +378,7 @@ fun FreeCornersCropper(
                         }
                         val targetScale = (imageScale * zoom).coerceIn(
                             minimumValue = minScale * MIN_SCALE_GESTURE_RESISTANCE,
-                            maximumValue = MAX_ZOOM
+                            maximumValue = ZoomDefaults.MaxZoom
                         )
                         val target = calculateTransformAfterZoom(
                             currentScale = imageScale,
@@ -402,7 +404,7 @@ fun FreeCornersCropper(
                                 cropBounds = drawPoints.boundingRect(),
                                 imageBounds = baseImageBounds
                             )
-                            val targetScale = imageScale.coerceIn(minScale, MAX_ZOOM)
+                            val targetScale = imageScale.coerceIn(minScale, ZoomDefaults.MaxZoom)
                             val targetTranslation = coerceImageTranslation(
                                 translation = imageTranslation,
                                 scale = targetScale,
@@ -1024,7 +1026,7 @@ private fun calculateMinimumScale(
     return maxOf(
         cropBounds.width / imageBounds.width,
         cropBounds.height / imageBounds.height
-    ).coerceIn(MINIMUM_CROP_ZOOM, MAX_ZOOM)
+    ).coerceIn(MINIMUM_CROP_ZOOM, ZoomDefaults.MaxZoom)
 }
 
 private fun calculateTransformAfterZoom(
@@ -1375,7 +1377,7 @@ internal fun restoreFreeCornersCropSnapshot(
     val imageScale = minOf(
         viewportBounds.width * fillFraction / imageCropBounds.width,
         viewportBounds.height * fillFraction / imageCropBounds.height,
-        MAX_ZOOM
+        ZoomDefaults.MaxZoom
     ).coerceAtLeast(MINIMUM_CROP_ZOOM)
     val scaledCropSize = imageCropBounds.size * imageScale
     val halfCropWidth = scaledCropSize.width / 2f
@@ -1433,7 +1435,6 @@ private const val DOUBLE_TAP_POSITION_TOLERANCE_MULTIPLIER = 4f
 private const val MINIMUM_CROP_ZOOM = 0.05f
 private const val MIN_VIEWPORT_FILL_FRACTION = 0.1f
 private const val CROP_POINTS_COUNT = 4
-private const val MAX_ZOOM = 20f
 private const val DEFAULT_DOUBLE_TAP_SCALE = 3f
 private const val MIN_SCALE_GESTURE_RESISTANCE = 0.85f
 private const val SCALE_COMPARISON_TOLERANCE = 0.01f

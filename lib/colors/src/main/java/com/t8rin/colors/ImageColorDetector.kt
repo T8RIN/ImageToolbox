@@ -95,7 +95,7 @@ fun ImageColorDetector(
     isMagnifierEnabled: Boolean,
     boxModifier: Modifier = Modifier,
     onColorChange: (Color) -> Unit,
-    zoomState: ZoomState? = rememberZoomState(maxScale = 20f)
+    zoomState: ZoomState? = rememberZoomState()
 ) {
     var pickerOffset by remember {
         mutableStateOf(Offset.Unspecified)

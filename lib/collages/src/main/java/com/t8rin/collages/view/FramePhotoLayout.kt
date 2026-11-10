@@ -66,7 +66,8 @@ import androidx.compose.ui.graphics.Color as ComposeColor
 @SuppressLint("ViewConstructor")
 internal class FramePhotoLayout(
     context: Context,
-    var mPhotoItems: List<PhotoItem>
+    var mPhotoItems: List<PhotoItem>,
+    maxImageZoom: Float
 ) : RelativeLayout(context), FrameImageView.OnImageClickListener {
 
     private data class FrameMetrics(
@@ -177,6 +178,12 @@ internal class FramePhotoLayout(
 
     private val mItemImageViews: MutableList<FrameImageView> = ArrayList()
     var outputAspectRatio: Float = 1f
+    var maxImageZoom: Float = maxImageZoom
+        set(value) {
+            if (field == value) return
+            field = value
+            mItemImageViews.forEach { it.maxImageZoom = value }
+        }
 
     var layoutDesign: CollageDesign? = null
     var slotStyles: List<CollageSlotStyle> = emptyList()
@@ -468,6 +475,7 @@ internal class FramePhotoLayout(
         val imageView = FrameImageView(
             context = context,
             photoItem = item,
+            maxImageZoom = maxImageZoom,
             previewSize = collagePreviewSize(
                 imageCount = mPhotoItems.size,
                 relativeArea = item.bound.width() * item.bound.height() /

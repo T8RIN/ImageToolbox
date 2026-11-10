@@ -96,7 +96,7 @@ fun BitmapEraser(
     panEnabled: Boolean,
     helperGridParams: HelperGridParams = remember { HelperGridParams() },
 ) {
-    val zoomState = rememberZoomState(maxScale = 30f)
+    val zoomState = rememberZoomState()
     val scope = rememberCoroutineScope()
 
     val settingsState = LocalSettingsState.current
