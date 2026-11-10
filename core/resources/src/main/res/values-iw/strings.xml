@@ -8078,4 +8078,14 @@
     <string name="arcade_traceandclaim_sub">גרור כדי לנווט עם הג\'ויסטיק הצף. יש לך שלושה חיים. חזור לטריטוריה שלך כדי לתבוע את השטח הסגור. חצו את השביל שלכם בחופשיות וחתכו שבילי האויב. לכבוש מספיק אדמה כדי לפתוח זירה חדשה</string>
     <string name="arcade_orchardpile">ערימת פרדס</string>
     <string name="arcade_orchardpile_sub">גרור כדי לכוון ושחרר כדי להפיל פרי. פירות תואמים מתמזגים, ושני אבטיחים מנקים זה את זה. שמור את הערימה מתחת לקו המקווקו</string>
+    <string name="gallery_ocr">חיפוש טקסט בתמונות</string>
+    <string name="gallery_ocr_sub">מצא תמונות לפי מילים על שלטים, במסמכים ובצילומי מסך.</string>
+    <string name="gallery_ocr_download_hint">מוריד 228 MB בשימוש ראשון.</string>
+    <string name="gallery_ocr_permission">אפשר גישה לתמונה לאינדקס טקסט</string>
+    <string name="gallery_ocr_progress">הוספת טקסט בתמונות לאינדקס: %1$d מתוך %2$d</string>
+    <string name="gallery_ocr_pending">מכין חיפוש טקסט...</string>
+    <string name="gallery_ocr_disabled">הפעל חיפוש טקסט בתמונות כדי למצוא תמונות לפי המילים שהן מכילות.</string>
+    <string name="gallery_ocr_search_hint">שם קובץ או טקסט</string>
+    <string name="gallery_search_content_hint">שם קובץ, תיאור או טקסט</string>
+    <string name="gallery_faces_queued">מחכה להכין פרצופים...</string>
 </resources>

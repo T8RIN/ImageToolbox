@@ -8076,4 +8076,14 @@
     <string name="arcade_traceandclaim_sub">Faites glisser pour diriger avec le joystick flottant. Vous avez trois vies. Retournez sur votre territoire pour réclamer la zone clôturée. Traversez librement votre propre sentier et coupez les sentiers ennemis. Capturez suffisamment de terrain pour ouvrir une nouvelle arène</string>
     <string name="arcade_orchardpile">Tas de verger</string>
     <string name="arcade_orchardpile_sub">Faites glisser pour viser et relâchez pour laisser tomber un fruit. Les fruits assortis fusionnent et deux pastèques s\'effacent. Gardez la pile en dessous de la ligne pointillée</string>
+    <string name="gallery_ocr">Recherche de texte dans les photos</string>
+    <string name="gallery_ocr_sub">Recherchez des images à l\'aide de mots sur des panneaux, dans des documents et dans des captures d\'écran.</string>
+    <string name="gallery_ocr_download_hint">Télécharge 228 Mo lors de la première utilisation.</string>
+    <string name="gallery_ocr_permission">Autoriser l\'accès aux photos au texte de l\'index</string>
+    <string name="gallery_ocr_progress">Indexation du texte dans les photos : %1$d sur %2$d</string>
+    <string name="gallery_ocr_pending">Préparation de la recherche de texte…</string>
+    <string name="gallery_ocr_disabled">Activez la recherche de texte dans les photos pour rechercher des images en fonction des mots qu\'elles contiennent.</string>
+    <string name="gallery_ocr_search_hint">Nom du fichier ou texte</string>
+    <string name="gallery_search_content_hint">Nom du fichier, description ou texte</string>
+    <string name="gallery_faces_queued">En attendant de préparer les visages…</string>
 </resources>

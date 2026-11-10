@@ -8078,4 +8078,14 @@
     <string name="arcade_traceandclaim_sub">Potiahnutím riadite pomocou plávajúceho joysticku. Máte tri životy. Vráťte sa na svoje územie a nárokujte si uzavretú oblasť. Prejdite si svoju vlastnú stopu voľne a presekajte nepriateľské stopy. Zachyťte dostatok pôdy na otvorenie novej arény</string>
     <string name="arcade_orchardpile">Sadová hromada</string>
     <string name="arcade_orchardpile_sub">Potiahnutím namierte a uvoľnením pustíte ovocie. Zodpovedajúce ovocie sa spojí a dva vodné melóny sa navzájom vyčistia. Udržujte hromadu pod prerušovanou čiarou</string>
+    <string name="gallery_ocr">Textové vyhľadávanie vo fotografiách</string>
+    <string name="gallery_ocr_sub">Nájdite obrázky podľa slov na znakoch, v dokumentoch a na snímkach obrazovky.</string>
+    <string name="gallery_ocr_download_hint">Stiahne 228 MB pri prvom použití.</string>
+    <string name="gallery_ocr_permission">Povoliť prístup fotografie k indexovanému textu</string>
+    <string name="gallery_ocr_progress">Indexovanie textu vo fotografiách: %1$d z %2$d</string>
+    <string name="gallery_ocr_pending">Pripravuje sa textové vyhľadávanie…</string>
+    <string name="gallery_ocr_disabled">Zapnite textové vyhľadávanie vo fotografiách, aby ste našli obrázky podľa slov, ktoré obsahujú.</string>
+    <string name="gallery_ocr_search_hint">Názov súboru alebo text</string>
+    <string name="gallery_search_content_hint">Názov súboru, popis alebo text</string>
+    <string name="gallery_faces_queued">Čaká sa na prípravu tvárí…</string>
 </resources>

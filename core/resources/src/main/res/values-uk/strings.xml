@@ -8078,4 +8078,14 @@
     <string name="arcade_traceandclaim_sub">Перетягніть, щоб керувати за допомогою плаваючого джойстика. У вас є три життя. Поверніться на свою територію, щоб отримати закриту територію. Вільно переходьте власний слід і рубайте ворожі стежки. Захопіть достатньо землі, щоб відкрити нову арену</string>
     <string name="arcade_orchardpile">Фруктовий сад</string>
     <string name="arcade_orchardpile_sub">Перетягніть, щоб прицілитися, і відпустіть, щоб скинути фрукт. Відповідні фрукти зливаються, і два кавуни очищають один одного. Тримайте купу нижче пунктирної лінії</string>
+    <string name="gallery_ocr">Пошук тексту в фотографіях</string>
+    <string name="gallery_ocr_sub">Знаходьте зображення за словами на вивісках, документах і на скріншотах.</string>
+    <string name="gallery_ocr_download_hint">Завантажує 228 МБ під час першого використання.</string>
+    <string name="gallery_ocr_permission">Дозволити доступ фотографії до тексту індексу</string>
+    <string name="gallery_ocr_progress">Індексація тексту на фотографіях: %1$d з %2$d</string>
+    <string name="gallery_ocr_pending">Підготовка текстового пошуку…</string>
+    <string name="gallery_ocr_disabled">Увімкніть текстовий пошук у фотографіях, щоб знаходити зображення за словами, які вони містять.</string>
+    <string name="gallery_ocr_search_hint">Назва файлу або текст</string>
+    <string name="gallery_search_content_hint">Назва файлу, опис або текст</string>
+    <string name="gallery_faces_queued">Чекаємо, щоб підготувати обличчя…</string>
 </resources>

@@ -8075,4 +8075,14 @@
     <string name="arcade_traceandclaim_sub">フローティングジョイスティックをドラッグして操縦します。あなたには3つの人生があります。自分の領土に戻って、囲まれたエリアを主張してください。自分の足跡を自由に横切り、敵の足跡を切り裂いてください。新しいアリーナを開くのに十分な土地を占領する</string>
     <string name="arcade_orchardpile">オーチャード・パイル</string>
     <string name="arcade_orchardpile_sub">ドラッグして狙いを定め、放してフルーツをドロップします。一致するフルーツが結合し、2 つのスイカがお互いを消します。破線よりも下に杭を置くようにしてください</string>
+    <string name="gallery_ocr">写真内のテキスト検索</string>
+    <string name="gallery_ocr_sub">標識、文書、スクリーンショットの単語から画像を検索します。</string>
+    <string name="gallery_ocr_download_hint">初回使用時に 228 MB をダウンロードします。</string>
+    <string name="gallery_ocr_permission">インデックステキストへの写真へのアクセスを許可する</string>
+    <string name="gallery_ocr_progress">写真内のテキストのインデックス作成: %1$d/%2$d</string>
+    <string name="gallery_ocr_pending">テキスト検索を準備しています…</string>
+    <string name="gallery_ocr_disabled">写真のテキスト検索をオンにすると、含まれる単語で画像を検索できます。</string>
+    <string name="gallery_ocr_search_hint">ファイル名またはテキスト</string>
+    <string name="gallery_search_content_hint">ファイル名、説明、またはテキスト</string>
+    <string name="gallery_faces_queued">顔を準備するのを待っています…</string>
 </resources>

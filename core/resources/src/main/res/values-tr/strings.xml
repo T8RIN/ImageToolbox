@@ -8076,4 +8076,14 @@
     <string name="arcade_traceandclaim_sub">Yüzen joystick ile yönlendirmek için sürükleyin. Üç canın var. Kapalı alanı talep etmek için bölgenize dönün. Kendi izinizi özgürce geçin ve düşman izlerini kesin. Yeni bir arena açmak için yeterli araziyi ele geçirin</string>
     <string name="arcade_orchardpile">Meyve bahçesi yığını</string>
     <string name="arcade_orchardpile_sub">Nişan almak için sürükleyin ve bir meyveyi düşürmek için bırakın. Eşleşen meyveler birleşir ve iki karpuz birbirini temizler. Yığını kesikli çizginin altında tutun</string>
+    <string name="gallery_ocr">Fotoğraflarda metin arama</string>
+    <string name="gallery_ocr_sub">Tabelalardaki, belgelerdeki ve ekran görüntülerindeki görselleri kelimelere göre bulun.</string>
+    <string name="gallery_ocr_download_hint">İlk kullanımda 228 MB indirilir.</string>
+    <string name="gallery_ocr_permission">Dizin metnine fotoğraf erişimine izin ver</string>
+    <string name="gallery_ocr_progress">Fotoğraflardaki metin dizine ekleniyor: %1$d / %2$d</string>
+    <string name="gallery_ocr_pending">Metin araması hazırlanıyor…</string>
+    <string name="gallery_ocr_disabled">Görselleri içerdikleri kelimelere göre bulmak için fotoğraflarda metin aramayı açın.</string>
+    <string name="gallery_ocr_search_hint">Dosya adı veya metni</string>
+    <string name="gallery_search_content_hint">Dosya adı, açıklama veya metin</string>
+    <string name="gallery_faces_queued">Yüzlerin hazırlanması bekleniyor…</string>
 </resources>

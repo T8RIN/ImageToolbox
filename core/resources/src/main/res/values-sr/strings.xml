@@ -8077,4 +8077,14 @@
     <string name="arcade_traceandclaim_sub">Повуците за управљање помоћу плутајућег џојстика. Имате три живота. Вратите се на своју територију да преузмете ограђено подручје. Пређите слободно сопственим трагом и пресеците непријатељске стазе. Ухватите довољно земље да отворите нову арену</string>
     <string name="arcade_orchardpile">Орцхард Пиле</string>
     <string name="arcade_orchardpile_sub">Превуците да бисте циљали и пустите да бисте испустили воће. Одговарајући плодови се спајају, а две лубенице чисте једна другу. Држите гомилу испод испрекидане линије</string>
+    <string name="gallery_ocr" />
+    <string name="gallery_ocr_sub">Пронађите слике по речима на знаковима, у документима и на снимцима екрана.</string>
+    <string name="gallery_ocr_download_hint">Преузима 228 МБ при првој употреби.</string>
+    <string name="gallery_ocr_permission">Дозволите приступ фотографији индексном тексту</string>
+    <string name="gallery_ocr_progress">Индексирање текста на фотографијама: __ПХ_0__ од __ПХ_1__</string>
+    <string name="gallery_ocr_pending" />
+    <string name="gallery_ocr_disabled">Укључите претрагу текста на фотографијама да бисте пронашли слике према речима које садрже.</string>
+    <string name="gallery_ocr_search_hint" />
+    <string name="gallery_search_content_hint">Име датотеке, опис или текст</string>
+    <string name="gallery_faces_queued">Чека се припрема лица…</string>
 </resources>

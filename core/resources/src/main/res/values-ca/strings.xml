@@ -8076,4 +8076,14 @@
     <string name="arcade_traceandclaim_sub">Arrossegueu per dirigir amb el joystick flotant. Tens tres vides. Torna al teu territori per reclamar la zona tancada. Travessa el teu propi camí lliurement i talla els camins enemics. Captura prou terra per obrir una nova pista</string>
     <string name="arcade_orchardpile">Pila d\'hort</string>
     <string name="arcade_orchardpile_sub">Arrossegueu per apuntar i deixeu anar per deixar caure una fruita. Les fruites coincidents es fusionen i dues síndries s\'aclareixen mútuament. Mantingueu la pila per sota de la línia discontínua</string>
+    <string name="gallery_ocr">Cerca de text a les fotos</string>
+    <string name="gallery_ocr_sub">Cerqueu imatges per paraules als rètols, als documents i a les captures de pantalla.</string>
+    <string name="gallery_ocr_download_hint">Baixa 228 MB el primer ús.</string>
+    <string name="gallery_ocr_permission">Permet l\'accés de fotos al text de l\'índex</string>
+    <string name="gallery_ocr_progress">S\'està indexant el text de les fotos: %1$d de %2$d</string>
+    <string name="gallery_ocr_pending">S\'està preparant la cerca de text...</string>
+    <string name="gallery_ocr_disabled">Activa la cerca de text a les fotos per trobar imatges per les paraules que contenen.</string>
+    <string name="gallery_ocr_search_hint">Nom del fitxer o text</string>
+    <string name="gallery_search_content_hint">Nom del fitxer, descripció o text</string>
+    <string name="gallery_faces_queued">Esperant per preparar cares...</string>
 </resources>

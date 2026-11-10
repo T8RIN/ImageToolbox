@@ -8076,4 +8076,14 @@
     <string name="arcade_traceandclaim_sub">फ्लोटिंग जॉयस्टिक के साथ चलाने के लिए खींचें। आपके पास तीन जीवन हैं. संलग्न क्षेत्र पर दावा करने के लिए अपने क्षेत्र पर लौटें। अपने रास्ते को स्वतंत्र रूप से पार करें और दुश्मन के रास्तों को काटें। एक नया अखाड़ा खोलने के लिए पर्याप्त भूमि पर कब्ज़ा करें</string>
     <string name="arcade_orchardpile">बाग का ढेर</string>
     <string name="arcade_orchardpile_sub">लक्ष्य करने के लिए खींचें और फल गिराने के लिए छोड़ें। मेल खाने वाले फल विलीन हो जाते हैं, और दो तरबूज़ एक दूसरे को साफ़ कर देते हैं। ढेर को धराशायी रेखा के नीचे रखें</string>
+    <string name="gallery_ocr">फ़ोटो में टेक्स्ट खोजें</string>
+    <string name="gallery_ocr_sub">संकेतों, दस्तावेज़ों और स्क्रीनशॉट में शब्दों के आधार पर छवियां ढूंढें।</string>
+    <string name="gallery_ocr_download_hint">पहली बार उपयोग करने पर 228 एमबी डाउनलोड होता है।</string>
+    <string name="gallery_ocr_permission">इंडेक्स टेक्स्ट तक फोटो पहुंच की अनुमति दें</string>
+    <string name="gallery_ocr_progress">फ़ोटो में टेक्स्ट को अनुक्रमित करना: %1$d में से %2$d</string>
+    <string name="gallery_ocr_pending">पाठ खोज तैयार की जा रही है...</string>
+    <string name="gallery_ocr_disabled">तस्वीरों में शब्दों के आधार पर तस्वीरें ढूंढने के लिए उनमें टेक्स्ट सर्च चालू करें।</string>
+    <string name="gallery_ocr_search_hint">फ़ाइल का नाम या पाठ</string>
+    <string name="gallery_search_content_hint">फ़ाइल का नाम, विवरण या पाठ</string>
+    <string name="gallery_faces_queued">चेहरे तैयार होने का इंतजार...</string>
 </resources>

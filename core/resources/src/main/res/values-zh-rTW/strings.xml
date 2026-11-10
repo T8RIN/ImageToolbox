@@ -8075,4 +8075,14 @@
     <string name="arcade_traceandclaim_sub">使用浮動操縱桿拖曳以進行轉向。你有三個生命。返回你的領地並佔領封閉區域。自由穿越自己的足跡，切斷敵人的足跡。佔領足夠的土地來開拓新的競技場</string>
     <string name="arcade_orchardpile">果園堆</string>
     <string name="arcade_orchardpile_sub">拖曳以瞄準並釋放以掉落水果。配對的水果合併，兩個西瓜相互清除。將堆放在虛線下方</string>
+    <string name="gallery_ocr">照片中的文字搜尋</string>
+    <string name="gallery_ocr_sub">透過標誌、文件和螢幕截圖中的文字找到圖像。</string>
+    <string name="gallery_ocr_download_hint">首次使用時下載 228 MB。</string>
+    <string name="gallery_ocr_permission">允許照片存取索引文本</string>
+    <string name="gallery_ocr_progress">為照片中的文字編製索引：%1$d（共 %2$d）</string>
+    <string name="gallery_ocr_pending">正在準備文字搜尋...</string>
+    <string name="gallery_ocr_disabled">開啟照片中的文字搜尋功能，可按圖像中包含的文字尋找圖像。</string>
+    <string name="gallery_ocr_search_hint">檔案名稱或文字</string>
+    <string name="gallery_search_content_hint">檔案名稱、描述或文字</string>
+    <string name="gallery_faces_queued">等待準備面孔...</string>
 </resources>

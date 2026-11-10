@@ -8080,4 +8080,14 @@
     <string name="arcade_traceandclaim_sub">اسحب للتوجيه باستخدام عصا التحكم العائمة. لديك ثلاثة أرواح. عد إلى أراضيك للمطالبة بالمنطقة المغلقة. عبور المسار الخاص بك بحرية وقطع مسارات العدو. الاستيلاء على ما يكفي من الأرض لفتح ساحة جديدة</string>
     <string name="arcade_orchardpile">بستان كومة</string>
     <string name="arcade_orchardpile_sub">اسحب لهدف ثم أطلق لإسقاط الفاكهة. تندمج الثمار المتطابقة، وتنظف بطيختان بعضهما البعض. احتفظ بالكومة أسفل الخط المتقطع</string>
+    <string name="gallery_ocr">البحث عن النص في الصور</string>
+    <string name="gallery_ocr_sub">ابحث عن الصور بالكلمات الموجودة على اللافتات وفي المستندات وفي لقطات الشاشة.</string>
+    <string name="gallery_ocr_download_hint">تنزيلات بسعة 228 ميغابايت عند الاستخدام الأول.</string>
+    <string name="gallery_ocr_permission">السماح للصور بالوصول إلى نص الفهرس</string>
+    <string name="gallery_ocr_progress">فهرسة النص في الصور: %1$d من %2$d</string>
+    <string name="gallery_ocr_pending">جارٍ تحضير البحث عن النص…</string>
+    <string name="gallery_ocr_disabled">قم بتشغيل البحث النصي في الصور للعثور على الصور حسب الكلمات التي تحتوي عليها.</string>
+    <string name="gallery_ocr_search_hint">اسم الملف أو النص</string>
+    <string name="gallery_search_content_hint">اسم الملف أو الوصف أو النص</string>
+    <string name="gallery_faces_queued">في انتظار تجهيز الوجوه…</string>
 </resources>

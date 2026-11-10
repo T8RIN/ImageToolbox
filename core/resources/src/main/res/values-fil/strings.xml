@@ -8076,4 +8076,14 @@
     <string name="arcade_traceandclaim_sub">I-drag upang umiwas gamit ang lumulutang na joystick. Mayroon kang tatlong buhay. Bumalik sa iyong teritoryo upang kunin ang nakapaloob na lugar. Malayang tumawid sa iyong sariling landas at gupitin ang mga landas ng kaaway. Kumuha ng sapat na lupa upang magbukas ng bagong arena</string>
     <string name="arcade_orchardpile">Orchard Pile</string>
     <string name="arcade_orchardpile_sub">I-drag upang maglayon at bitawan upang maghulog ng prutas. Ang magkatugmang prutas ay nagsanib, at dalawang pakwan ang naglilinis sa isa\'t isa. Panatilihin ang pile sa ibaba ng dashed line</string>
+    <string name="gallery_ocr">Paghahanap ng teksto sa mga larawan</string>
+    <string name="gallery_ocr_sub">Maghanap ng mga larawan sa pamamagitan ng mga salita sa mga karatula, sa mga dokumento, at sa mga screenshot.</string>
+    <string name="gallery_ocr_download_hint">Nagda-download ng 228 MB sa unang paggamit.</string>
+    <string name="gallery_ocr_permission">Payagan ang pag-access ng larawan sa index ng teksto</string>
+    <string name="gallery_ocr_progress">Pag-index ng teksto sa mga larawan: %1$d ng %2$d</string>
+    <string name="gallery_ocr_pending">Inihahanda ang paghahanap ng teksto...</string>
+    <string name="gallery_ocr_disabled">I-on ang paghahanap ng teksto sa mga larawan upang makahanap ng mga larawan sa pamamagitan ng mga salitang naglalaman ng mga ito.</string>
+    <string name="gallery_ocr_search_hint">Pangalan ng file o teksto</string>
+    <string name="gallery_search_content_hint">Pangalan ng file, paglalarawan o teksto</string>
+    <string name="gallery_faces_queued">Naghihintay na ihanda ang mga mukha...</string>
 </resources>

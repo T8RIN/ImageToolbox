@@ -8076,4 +8076,14 @@
     <string name="arcade_traceandclaim_sub">Sleep om te sturen met de zwevende joystick. Je hebt drie levens. Keer terug naar je territorium om het afgesloten gebied te claimen. Steek vrij je eigen pad over en snij vijandelijke paden. Verover voldoende land om een ​​nieuwe arena te openen</string>
     <string name="arcade_orchardpile">Boomgaard stapel</string>
     <string name="arcade_orchardpile_sub">Sleep om te richten en laat los om een ​​vrucht te laten vallen. Bijpassende vruchten smelten samen en twee watermeloenen maken elkaar schoon. Houd de stapel onder de stippellijn</string>
+    <string name="gallery_ocr">Tekst zoeken in foto\'s</string>
+    <string name="gallery_ocr_sub">Zoek afbeeldingen op woorden op borden, in documenten en in schermafbeeldingen.</string>
+    <string name="gallery_ocr_download_hint">Downloadt 228 MB bij eerste gebruik.</string>
+    <string name="gallery_ocr_permission">Sta fototoegang tot indextekst toe</string>
+    <string name="gallery_ocr_progress">Tekst in foto\'s indexeren: %1$d van %2$d</string>
+    <string name="gallery_ocr_pending">Tekstzoekopdracht voorbereiden…</string>
+    <string name="gallery_ocr_disabled">Schakel tekstzoeken in foto\'s in om afbeeldingen te vinden op basis van de woorden die ze bevatten.</string>
+    <string name="gallery_ocr_search_hint">Bestandsnaam of tekst</string>
+    <string name="gallery_search_content_hint">Bestandsnaam, beschrijving of tekst</string>
+    <string name="gallery_faces_queued">Wachten om gezichten voor te bereiden...</string>
 </resources>

@@ -8075,4 +8075,14 @@
     <string name="arcade_traceandclaim_sub">ลากเพื่อบังคับเลี้ยวด้วยจอยสติ๊กแบบลอย คุณมีสามชีวิต กลับไปยังดินแดนของคุณเพื่ออ้างสิทธิ์ในพื้นที่ปิดล้อม ข้ามเส้นทางของคุณเองอย่างอิสระและตัดเส้นทางของศัตรู ยึดครองพื้นที่ให้เพียงพอเพื่อเปิดเวทีใหม่</string>
     <string name="arcade_orchardpile">เสาเข็มออร์ชาร์ด</string>
     <string name="arcade_orchardpile_sub">ลากเพื่อเล็งและปล่อยเพื่อวางผลไม้ ผลไม้ที่เข้ากันผสานกัน และแตงโม 2 ลูกก็แยกออกจากกัน ให้กองอยู่ใต้เส้นประ</string>
+    <string name="gallery_ocr">ค้นหาข้อความในภาพถ่าย</string>
+    <string name="gallery_ocr_sub">ค้นหารูปภาพตามคำบนป้าย ในเอกสาร และในภาพหน้าจอ</string>
+    <string name="gallery_ocr_download_hint">ดาวน์โหลด 228 MB เมื่อใช้ครั้งแรก</string>
+    <string name="gallery_ocr_permission">อนุญาตให้รูปภาพเข้าถึงข้อความดัชนี</string>
+    <string name="gallery_ocr_progress">การจัดทำดัชนีข้อความในรูปภาพ: %1$d จาก %2$d</string>
+    <string name="gallery_ocr_pending">กำลังเตรียมการค้นหาข้อความ...</string>
+    <string name="gallery_ocr_disabled">เปิดการค้นหาข้อความในรูปภาพเพื่อค้นหารูปภาพจากคำที่มีอยู่</string>
+    <string name="gallery_ocr_search_hint">ชื่อไฟล์หรือข้อความ</string>
+    <string name="gallery_search_content_hint">ชื่อไฟล์ คำอธิบาย หรือข้อความ</string>
+    <string name="gallery_faces_queued">กำลังรอเตรียมใบหน้า...</string>
 </resources>

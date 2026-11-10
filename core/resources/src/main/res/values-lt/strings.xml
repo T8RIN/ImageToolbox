@@ -8078,4 +8078,14 @@
     <string name="arcade_traceandclaim_sub">Vilkite, kad vairuotumėte slankiąja vairasvirte. Jūs turite tris gyvenimus. Grįžkite į savo teritoriją, kad gautumėte uždarą teritoriją. Laisvai pereikite savo taką ir nukirskite priešo pėdsakus. Užimkite pakankamai žemės, kad atidarytumėte naują areną</string>
     <string name="arcade_orchardpile">Sodo krūva</string>
     <string name="arcade_orchardpile_sub">Vilkite, kad nukreiptumėte, ir atleiskite, kad numestumėte vaisių. Sutampantys vaisiai susilieja, o du arbūzai nuvalo vienas kitą. Laikykite krūvą žemiau punktyrinės linijos</string>
+    <string name="gallery_ocr">Teksto paieška nuotraukose</string>
+    <string name="gallery_ocr_sub">Raskite vaizdus pagal žodžius iškabose, dokumentuose ir ekrano kopijose.</string>
+    <string name="gallery_ocr_download_hint">Pirmą kartą naudojant atsisiunčiama 228 MB.</string>
+    <string name="gallery_ocr_permission">Leisti nuotraukai pasiekti indekso tekstą</string>
+    <string name="gallery_ocr_progress">Indeksuojamas tekstas nuotraukose: %1$d iš %2$d</string>
+    <string name="gallery_ocr_pending">Ruošiama teksto paieška…</string>
+    <string name="gallery_ocr_disabled">Įjunkite teksto paiešką nuotraukose, kad rastumėte vaizdus pagal juose esančius žodžius.</string>
+    <string name="gallery_ocr_search_hint">Failo pavadinimas arba tekstas</string>
+    <string name="gallery_search_content_hint">Failo pavadinimas, aprašymas arba tekstas</string>
+    <string name="gallery_faces_queued">Laukiama paruošti veidus…</string>
 </resources>

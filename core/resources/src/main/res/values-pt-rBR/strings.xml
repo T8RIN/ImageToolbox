@@ -8077,4 +8077,14 @@
     <string name="arcade_traceandclaim_sub">Arraste para dirigir com o joystick flutuante. Você tem três vidas. Retorne ao seu território para reivindicar a área fechada. Atravesse sua própria trilha livremente e corte as trilhas inimigas. Capture terreno suficiente para abrir uma nova arena</string>
     <string name="arcade_orchardpile">Pilha de pomar</string>
     <string name="arcade_orchardpile_sub">Arraste para mirar e solte para soltar uma fruta. As frutas correspondentes se fundem e duas melancias se eliminam. Mantenha a pilha abaixo da linha tracejada</string>
+    <string name="gallery_ocr">Pesquisa de texto em fotos</string>
+    <string name="gallery_ocr_sub">Encontre imagens por palavras em placas, documentos e capturas de tela.</string>
+    <string name="gallery_ocr_download_hint">Baixa 228 MB no primeiro uso.</string>
+    <string name="gallery_ocr_permission">Permitir acesso de fotos ao texto do índice</string>
+    <string name="gallery_ocr_progress">Indexação de texto em fotos: %1$d de %2$d</string>
+    <string name="gallery_ocr_pending">Preparando pesquisa de texto…</string>
+    <string name="gallery_ocr_disabled">Ative a pesquisa de texto em fotos para encontrar imagens pelas palavras que elas contêm.</string>
+    <string name="gallery_ocr_search_hint">Nome do arquivo ou texto</string>
+    <string name="gallery_search_content_hint">Nome do arquivo, descrição ou texto</string>
+    <string name="gallery_faces_queued">Esperando para preparar rostos…</string>
 </resources>

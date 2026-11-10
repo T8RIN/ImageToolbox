@@ -8076,4 +8076,14 @@
     <string name="arcade_traceandclaim_sub">Ujuva juhtkangiga juhtimiseks lohistage. Sul on kolm elu. Suletud ala taotlemiseks naaske oma territooriumile. Läbige vabalt oma rada ja lõigake vaenlase jälgi. Võtke piisavalt maad, et avada uus areen</string>
     <string name="arcade_orchardpile">Viljapuuaia hunnik</string>
     <string name="arcade_orchardpile_sub">Sihimiseks lohistage ja puuvilja kukutamiseks vabastage. Sobivad puuviljad ühinevad ja kaks arbuusi puhastavad üksteist. Hoidke hunnik katkendjoonest allpool</string>
+    <string name="gallery_ocr">Tekstiotsing fotodel</string>
+    <string name="gallery_ocr_sub">Otsige pilte sõnade järgi siltidelt, dokumentidelt ja ekraanipiltidelt.</string>
+    <string name="gallery_ocr_download_hint">Laadib esimesel kasutamisel alla 228 MB.</string>
+    <string name="gallery_ocr_permission">Lubage fotodele juurdepääs registritekstile</string>
+    <string name="gallery_ocr_progress">Fotode teksti indekseerimine: %1$d/%2$d</string>
+    <string name="gallery_ocr_pending">Tekstiotsingu ettevalmistamine…</string>
+    <string name="gallery_ocr_disabled">Lülitage sisse fotode tekstiotsing, et leida pilte nendes sisalduvate sõnade järgi.</string>
+    <string name="gallery_ocr_search_hint">Faili nimi või tekst</string>
+    <string name="gallery_search_content_hint">Faili nimi, kirjeldus või tekst</string>
+    <string name="gallery_faces_queued">Nägude ettevalmistamise ootel…</string>
 </resources>

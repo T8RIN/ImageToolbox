@@ -8078,4 +8078,14 @@
     <string name="arcade_traceandclaim_sub">Přetažením řiďte pomocí plovoucího joysticku. Máte tři životy. Vraťte se na své území, abyste získali nárok na uzavřenou oblast. Křižte si volně svou vlastní stezku a řežte nepřátelské stezky. Zachyťte dostatek půdy k otevření nové arény</string>
     <string name="arcade_orchardpile">Hromada sadu</string>
     <string name="arcade_orchardpile_sub">Přetažením zamiřte a uvolněním pusťte ovoce. Odpovídající ovoce se spojí a dva melouny se navzájem vyčistí. Udržujte hromadu pod přerušovanou čarou</string>
+    <string name="gallery_ocr">Textové vyhledávání ve fotkách</string>
+    <string name="gallery_ocr_sub">Najděte obrázky podle slov na značkách, v dokumentech a na snímcích obrazovky.</string>
+    <string name="gallery_ocr_download_hint">Stáhne 228 MB při prvním použití.</string>
+    <string name="gallery_ocr_permission">Povolit přístup k fotografiím k textu indexu</string>
+    <string name="gallery_ocr_progress">Indexování textu ve fotkách: %1$d z %2$d</string>
+    <string name="gallery_ocr_pending">Příprava textového vyhledávání…</string>
+    <string name="gallery_ocr_disabled">Zapněte textové vyhledávání ve fotografiích, abyste našli obrázky podle slov, která obsahují.</string>
+    <string name="gallery_ocr_search_hint">Název souboru nebo text</string>
+    <string name="gallery_search_content_hint">Název souboru, popis nebo text</string>
+    <string name="gallery_faces_queued">Čekání na přípravu obličejů…</string>
 </resources>

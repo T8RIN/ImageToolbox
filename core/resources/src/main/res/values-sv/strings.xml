@@ -8076,4 +8076,14 @@
     <string name="arcade_traceandclaim_sub">Dra för att styra med den flytande joysticken. Du har tre liv. Återvänd till ditt territorium för att göra anspråk på det instängda området. Korsa din egen stig fritt och skär fiendens spår. Fånga tillräckligt med land för att öppna en ny arena</string>
     <string name="arcade_orchardpile">Trädgårdshög</string>
     <string name="arcade_orchardpile_sub">Dra för att sikta och släpp för att släppa en frukt. Matchande frukter smälter samman och två vattenmeloner rensar varandra. Håll högen under den streckade linjen</string>
+    <string name="gallery_ocr">Textsökning i bilder</string>
+    <string name="gallery_ocr_sub">Hitta bilder efter ord på skyltar, i dokument och i skärmdumpar.</string>
+    <string name="gallery_ocr_download_hint">Nedladdningar 228 MB vid första användningen.</string>
+    <string name="gallery_ocr_permission">Tillåt fotoåtkomst till indextext</string>
+    <string name="gallery_ocr_progress">Indexering av text i foton: %1$d av %2$d</string>
+    <string name="gallery_ocr_pending">Förbereder textsökning...</string>
+    <string name="gallery_ocr_disabled">Aktivera textsökning i foton för att hitta bilder efter orden de innehåller.</string>
+    <string name="gallery_ocr_search_hint">Filnamn eller text</string>
+    <string name="gallery_search_content_hint">Filnamn, beskrivning eller text</string>
+    <string name="gallery_faces_queued">Väntar på att förbereda ansikten...</string>
 </resources>

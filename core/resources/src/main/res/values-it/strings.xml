@@ -8076,4 +8076,14 @@
     <string name="arcade_traceandclaim_sub">Trascina per sterzare con il joystick mobile. Hai tre vite. Ritorna nel tuo territorio per rivendicare l\'area recintata. Attraversa liberamente il tuo percorso e taglia i sentieri nemici. Cattura abbastanza terreno per aprire una nuova arena</string>
     <string name="arcade_orchardpile">Mucchio del frutteto</string>
     <string name="arcade_orchardpile_sub">Trascina per mirare e rilascia per far cadere un frutto. I frutti abbinati si uniscono e due angurie si liberano a vicenda. Mantieni la pila sotto la linea tratteggiata</string>
+    <string name="gallery_ocr">Ricerca di testo nelle foto</string>
+    <string name="gallery_ocr_sub">Trova immagini tramite parole sui cartelli, nei documenti e negli screenshot.</string>
+    <string name="gallery_ocr_download_hint">Scarica 228 MB al primo utilizzo.</string>
+    <string name="gallery_ocr_permission">Consenti l\'accesso alle foto al testo dell\'indice</string>
+    <string name="gallery_ocr_progress">Indicizzazione del testo nelle foto: %1$d di %2$d</string>
+    <string name="gallery_ocr_pending">Preparazione della ricerca testuale…</string>
+    <string name="gallery_ocr_disabled">Attiva la ricerca testuale nelle foto per trovare le immagini in base alle parole che contengono.</string>
+    <string name="gallery_ocr_search_hint">Nome del file o testo</string>
+    <string name="gallery_search_content_hint">Nome del file, descrizione o testo</string>
+    <string name="gallery_faces_queued">In attesa di preparare i volti…</string>
 </resources>

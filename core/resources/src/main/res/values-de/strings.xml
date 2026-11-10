@@ -8076,4 +8076,14 @@
     <string name="arcade_traceandclaim_sub">Ziehen Sie, um mit dem schwebenden Joystick zu steuern. Du hast drei Leben. Kehren Sie in Ihr Territorium zurück, um das umzäunte Gebiet zu beanspruchen. Überqueren Sie frei Ihre eigene Spur und schneiden Sie feindliche Spuren ab. Erobere genügend Land, um eine neue Arena zu eröffnen</string>
     <string name="arcade_orchardpile">Obstgartenhaufen</string>
     <string name="arcade_orchardpile_sub">Zum Zielen ziehen und loslassen, um eine Frucht fallen zu lassen. Passende Früchte verschmelzen und zwei Wassermelonen heben sich voneinander ab. Halten Sie den Stapel unterhalb der gestrichelten Linie</string>
+    <string name="gallery_ocr" />
+    <string name="gallery_ocr_sub">Finden Sie Bilder anhand von Wörtern auf Schildern, in Dokumenten und in Screenshots.</string>
+    <string name="gallery_ocr_download_hint">Lädt bei der ersten Verwendung 228 MB herunter.</string>
+    <string name="gallery_ocr_permission">Erlauben Sie Fotozugriff auf Indextext</string>
+    <string name="gallery_ocr_progress">Text in Fotos indizieren: %1$d von %2$d</string>
+    <string name="gallery_ocr_pending" />
+    <string name="gallery_ocr_disabled">Aktivieren Sie die Textsuche in Fotos, um Bilder anhand der darin enthaltenen Wörter zu finden.</string>
+    <string name="gallery_ocr_search_hint" />
+    <string name="gallery_search_content_hint">Dateiname, Beschreibung oder Text</string>
+    <string name="gallery_faces_queued">Ich warte darauf, Gesichter vorzubereiten …</string>
 </resources>

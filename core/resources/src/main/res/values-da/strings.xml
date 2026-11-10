@@ -8076,4 +8076,14 @@
     <string name="arcade_traceandclaim_sub">Træk for at styre med det flydende joystick. Du har tre liv. Vend tilbage til dit territorium for at gøre krav på det lukkede område. Kryds dit eget spor frit og klip fjendens stier. Fang nok jord til at åbne en ny arena</string>
     <string name="arcade_orchardpile">Frugthavebunke</string>
     <string name="arcade_orchardpile_sub">Træk for at sigte og slip for at slippe en frugt. Matchende frugter smelter sammen, og to vandmeloner rydder hinanden. Hold bunken under den stiplede linje</string>
+    <string name="gallery_ocr">Tekstsøgning i billeder</string>
+    <string name="gallery_ocr_sub">Find billeder efter ord på skilte, i dokumenter og i skærmbilleder.</string>
+    <string name="gallery_ocr_download_hint">Downloader 228 MB ved første brug.</string>
+    <string name="gallery_ocr_permission">Tillad fotoadgang til indekstekst</string>
+    <string name="gallery_ocr_progress">Indeksering af tekst i billeder: %1$d af %2$d</string>
+    <string name="gallery_ocr_pending">Forbereder tekstsøgning...</string>
+    <string name="gallery_ocr_disabled">Slå tekstsøgning til i billeder for at finde billeder efter de ord, de indeholder.</string>
+    <string name="gallery_ocr_search_hint">Filnavn eller tekst</string>
+    <string name="gallery_search_content_hint">Filnavn, beskrivelse eller tekst</string>
+    <string name="gallery_faces_queued">Venter på at forberede ansigter...</string>
 </resources>

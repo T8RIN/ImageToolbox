@@ -8075,4 +8075,14 @@
     <string name="arcade_traceandclaim_sub">플로팅 조이스틱으로 드래그하여 조종하세요. 당신에게는 세 개의 생명이 있습니다. 귀하의 영토로 돌아가 폐쇄된 지역을 차지하세요. 자신의 길을 자유롭게 건너고 적의 길을 끊으세요. 새로운 경기장을 열기에 충분한 땅을 확보하세요</string>
     <string name="arcade_orchardpile">과수원 더미</string>
     <string name="arcade_orchardpile_sub">드래그하여 조준하고 놓아서 과일을 떨어뜨리세요. 일치하는 과일이 합쳐지고 두 개의 수박이 서로 지워집니다. 점선 아래에 더미를 유지</string>
+    <string name="gallery_ocr">사진에서 텍스트 검색</string>
+    <string name="gallery_ocr_sub">표지판, 문서, 스크린샷에 있는 단어로 이미지를 찾아보세요.</string>
+    <string name="gallery_ocr_download_hint">처음 사용 시 228MB를 다운로드합니다.</string>
+    <string name="gallery_ocr_permission">색인 텍스트에 대한 사진 액세스 허용</string>
+    <string name="gallery_ocr_progress">사진의 색인 생성 텍스트: %1$d/%2$d</string>
+    <string name="gallery_ocr_pending">텍스트 검색 준비 중…</string>
+    <string name="gallery_ocr_disabled">사진에서 텍스트 검색을 켜면 사진에 포함된 단어로 이미지를 찾을 수 있습니다.</string>
+    <string name="gallery_ocr_search_hint">파일 이름 또는 텍스트</string>
+    <string name="gallery_search_content_hint">파일 이름, 설명 또는 텍스트</string>
+    <string name="gallery_faces_queued">얼굴 준비를 기다리는 중...</string>
 </resources>

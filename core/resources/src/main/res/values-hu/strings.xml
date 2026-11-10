@@ -8076,4 +8076,14 @@
     <string name="arcade_traceandclaim_sub">Húzza a kormányzáshoz a lebegő joystickkal. Három életed van. Térj vissza a területedre, hogy megszerezd a zárt területet. Keresztezze át szabadon a saját nyomát, és vágja el az ellenség nyomait. Foglaljon elegendő területet egy új aréna megnyitásához</string>
     <string name="arcade_orchardpile">Gyümölcsös halom</string>
     <string name="arcade_orchardpile_sub">Húzza a célhoz, és engedje el, hogy gyümölcsöt dobjon. A megfelelő gyümölcsök összeolvadnak, és két görögdinnye kitisztítja egymást. Tartsa a halmot a szaggatott vonal alatt</string>
+    <string name="gallery_ocr">Szöveges keresés a fényképek között</string>
+    <string name="gallery_ocr_sub">Keressen képeket szavak alapján a táblákon, a dokumentumokban és a képernyőképeken.</string>
+    <string name="gallery_ocr_download_hint">228 MB-ot tölt le első használatkor.</string>
+    <string name="gallery_ocr_permission">A fényképekhez való hozzáférés engedélyezése az indexszöveghez</string>
+    <string name="gallery_ocr_progress">Szöveg indexelése a fényképeken: %1$d / %2$d</string>
+    <string name="gallery_ocr_pending">Szöveges keresés előkészítése…</string>
+    <string name="gallery_ocr_disabled">Kapcsolja be a szöveges keresést a fényképeken, hogy a bennük lévő szavak alapján keresse meg a képeket.</string>
+    <string name="gallery_ocr_search_hint">Fájlnév vagy szöveg</string>
+    <string name="gallery_search_content_hint">Fájlnév, leírás vagy szöveg</string>
+    <string name="gallery_faces_queued">Várakozás az arcok előkészítésére…</string>
 </resources>

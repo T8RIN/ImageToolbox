@@ -8076,4 +8076,14 @@
     <string name="arcade_traceandclaim_sub">Ohjaa kelluvalla joystickillä vetämällä. Sinulla on kolme elämää. Palaa alueellesi lunastaaksesi suljetun alueen. Ylitä oma polkusi vapaasti ja leikkaa vihollisen polkuja. Ota tarpeeksi maata avataksesi uuden areenan</string>
     <string name="arcade_orchardpile">Orchard Pile</string>
     <string name="arcade_orchardpile_sub">Tähtää vetämällä ja pudota hedelmä vapauttamalla. Sopivat hedelmät sulautuvat yhteen, ja kaksi vesimelonia puhdistavat toisiaan. Pidä pino katkoviivan alapuolella</string>
+    <string name="gallery_ocr">Tekstihaku kuvista</string>
+    <string name="gallery_ocr_sub">Etsi kuvia sanojen perusteella kylteistä, asiakirjoista ja kuvakaappauksista.</string>
+    <string name="gallery_ocr_download_hint">Lataa 228 Mt ensimmäisellä käyttökerralla.</string>
+    <string name="gallery_ocr_permission">Salli kuvien käyttöoikeus hakemistotekstiin</string>
+    <string name="gallery_ocr_progress">Valokuvien tekstin indeksointi: %1$d/%2$d</string>
+    <string name="gallery_ocr_pending">Valmistellaan tekstihakua…</string>
+    <string name="gallery_ocr_disabled">Ota valokuvien tekstihaku käyttöön löytääksesi kuvia niiden sisältämien sanojen perusteella.</string>
+    <string name="gallery_ocr_search_hint">Tiedoston nimi tai teksti</string>
+    <string name="gallery_search_content_hint">Tiedoston nimi, kuvaus tai teksti</string>
+    <string name="gallery_faces_queued">Odotetaan kasvojen valmistelua…</string>
 </resources>

@@ -8075,4 +8075,14 @@
     <string name="arcade_traceandclaim_sub">拖动悬浮摇杆控制方向，共有三条命。返回自己的领地即可占领围出的区域。可自由穿过自己的轨迹，并切断敌人的轨迹。占领足够的土地即可开启新场地。</string>
     <string name="arcade_orchardpile">水果合成</string>
     <string name="arcade_orchardpile_sub">拖动瞄准，松手放下水果，相同水果会合并，两个西瓜会相互消除。不要让水果堆超过虚线</string>
+    <string name="gallery_ocr">照片中的文字搜索</string>
+    <string name="gallery_ocr_sub">通过标志、文档和屏幕截图中的文字查找图像。</string>
+    <string name="gallery_ocr_download_hint">首次使用时下载 228 MB。</string>
+    <string name="gallery_ocr_permission">允许照片访问索引文本</string>
+    <string name="gallery_ocr_progress">为照片中的文本编制索引：%1$d（共 %2$d）</string>
+    <string name="gallery_ocr_pending">正在准备文本搜索...</string>
+    <string name="gallery_ocr_disabled">打开照片中的文本搜索功能，可按图像中包含的文字查找图像。</string>
+    <string name="gallery_ocr_search_hint">文件名或文本</string>
+    <string name="gallery_search_content_hint">文件名、描述或文本</string>
+    <string name="gallery_faces_queued">等待准备面孔...</string>
 </resources>

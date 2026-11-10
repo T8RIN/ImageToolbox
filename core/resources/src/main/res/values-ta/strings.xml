@@ -8076,4 +8076,14 @@
     <string name="arcade_traceandclaim_sub">மிதக்கும் ஜாய்ஸ்டிக் மூலம் திசைதிருப்ப இழுக்கவும். உங்களுக்கு மூன்று உயிர்கள் உள்ளன. மூடப்பட்ட பகுதியை உரிமைகோர உங்கள் பிரதேசத்திற்கு திரும்பவும். உங்கள் சொந்த பாதையை சுதந்திரமாக கடந்து எதிரி பாதைகளை வெட்டுங்கள். புதிய அரங்கைத் திறக்க போதுமான நிலத்தைக் கைப்பற்றவும்</string>
     <string name="arcade_orchardpile">பழத்தோட்டம் குவியல்</string>
     <string name="arcade_orchardpile_sub">இலக்கை நோக்கி இழுத்து ஒரு பழத்தை கைவிட விடுங்கள். பொருந்தும் பழங்கள் ஒன்றிணைகின்றன, மேலும் இரண்டு தர்பூசணிகள் ஒன்றையொன்று துடைக்கின்றன. கோடு கோட்டிற்கு கீழே குவியலை வைக்கவும்</string>
+    <string name="gallery_ocr">புகைப்படங்களில் உரை தேடல்</string>
+    <string name="gallery_ocr_sub">அடையாளங்கள், ஆவணங்கள் மற்றும் ஸ்கிரீன்ஷாட்களில் வார்த்தைகள் மூலம் படங்களைக் கண்டறியவும்.</string>
+    <string name="gallery_ocr_download_hint">முதல் பயன்பாட்டில் 228 MB பதிவிறக்கம்.</string>
+    <string name="gallery_ocr_permission">குறியீட்டு உரைக்கு புகைப்பட அணுகலை அனுமதிக்கவும்</string>
+    <string name="gallery_ocr_progress">புகைப்படங்களில் உரை அட்டவணைப்படுத்துதல்: %1$d / %2$d</string>
+    <string name="gallery_ocr_pending">உரைத் தேடலைத் தயார் செய்கிறது…</string>
+    <string name="gallery_ocr_disabled">படங்களில் உள்ள உரைத் தேடலை இயக்கவும், அதில் உள்ள சொற்களின் மூலம் படங்களைக் கண்டறியவும்.</string>
+    <string name="gallery_ocr_search_hint">கோப்பு பெயர் அல்லது உரை</string>
+    <string name="gallery_search_content_hint">கோப்பு பெயர், விளக்கம் அல்லது உரை</string>
+    <string name="gallery_faces_queued">முகங்களைத் தயாரிக்கக் காத்திருக்கிறது…</string>
 </resources>

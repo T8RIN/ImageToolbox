@@ -8075,4 +8075,14 @@
     <string name="arcade_traceandclaim_sub">Kéo để điều khiển bằng phím điều khiển nổi. Bạn có ba cuộc sống. Quay trở lại lãnh thổ của bạn để yêu cầu khu vực kèm theo. Tự do băng qua đường mòn của riêng bạn và cắt đứt đường mòn của kẻ thù. Chiếm đủ đất để mở đấu trường mới</string>
     <string name="arcade_orchardpile">đống vườn cây ăn quả</string>
     <string name="arcade_orchardpile_sub">Kéo để nhắm và thả ra để thả trái cây. Các loại trái cây phù hợp hợp nhất và hai quả dưa hấu làm sạch lẫn nhau. Giữ cọc bên dưới đường đứt nét</string>
+    <string name="gallery_ocr">Tìm kiếm văn bản trong ảnh</string>
+    <string name="gallery_ocr_sub">Tìm hình ảnh theo từ trên bảng hiệu, trong tài liệu và trong ảnh chụp màn hình.</string>
+    <string name="gallery_ocr_download_hint">Tải xuống 228 MB trong lần sử dụng đầu tiên.</string>
+    <string name="gallery_ocr_permission">Cho phép truy cập ảnh vào văn bản chỉ mục</string>
+    <string name="gallery_ocr_progress">Lập chỉ mục văn bản trong ảnh: %1$d trong số %2$d</string>
+    <string name="gallery_ocr_pending">Đang chuẩn bị tìm kiếm văn bản…</string>
+    <string name="gallery_ocr_disabled">Bật tìm kiếm văn bản trong ảnh để tìm hình ảnh theo từ chứa trong ảnh.</string>
+    <string name="gallery_ocr_search_hint">Tên tệp hoặc văn bản</string>
+    <string name="gallery_search_content_hint">Tên tệp, mô tả hoặc văn bản</string>
+    <string name="gallery_faces_queued">Chờ đợi để chuẩn bị khuôn mặt…</string>
 </resources>
