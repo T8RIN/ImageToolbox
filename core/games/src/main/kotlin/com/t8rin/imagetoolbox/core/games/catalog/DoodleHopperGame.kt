@@ -58,7 +58,6 @@ internal data object DoodleHopperGame : ArcadeGameDefinition {
             startPlaying = context.initialState.isPlaying,
             create = ::DoodleHopperRun
         )
-        val ink = style.playerDetailColor
 
         ArcadeBoard(
             context = context,
@@ -274,33 +273,39 @@ internal data object DoodleHopperGame : ArcadeGameDefinition {
                     }
                 }
                 val feet = run.height - run.y + run.camera
+                val shooting = run.shooting
                 fun player(x: Float) {
                     scale(
-                        scaleX = if (run.facingRight || run.shooting) 1f else -1f,
+                        scaleX = if (run.facingRight || shooting) 1f else -1f,
                         scaleY = 1f,
                         pivot = Offset(x = x, y = feet)
                     ) {
+                        val spriteX = x - 22f
+                        val spriteY = feet - 44f
                         drawArcadeSprite(
-                            sprite = HopperBody,
+                            sprite = if (shooting) HopperShootingBody else HopperBody,
                             tint = style.playerColor,
-                            x = x - 22f,
-                            y = feet - 44f
+                            x = spriteX,
+                            y = spriteY
                         )
                         drawArcadeSprite(
-                            sprite = HopperMarkings,
+                            sprite = if (shooting) HopperShootingAntenna else HopperAntenna,
                             tint = style.accentColor,
-                            x = x - 22f,
-                            y = feet - 44f
+                            x = spriteX,
+                            y = spriteY
                         )
                         drawArcadeSprite(
-                            sprite = HopperDetails,
-                            tint = ink,
-                            x = x - 22f,
-                            y = feet - 44f
+                            sprite = if (shooting) HopperShootingEye else HopperEye,
+                            tint = style.playerDetailColor,
+                            x = spriteX,
+                            y = spriteY
                         )
-                        if (run.shooting) {
-                            pixelRect(style.accentColor, x - 3f, feet - 44f, 6f, 5f)
-                        }
+                        drawArcadeSprite(
+                            sprite = if (shooting) HopperShootingFace else HopperFace,
+                            tint = style.textColor,
+                            x = spriteX,
+                            y = spriteY
+                        )
                     }
                 }
                 player(run.x)
@@ -317,17 +322,45 @@ private const val JumpVelocity = 365f
 private val HopperBody = ArcadeSprite(
     width = 44,
     height = 44,
-    data = "M12 2H18V6H20V13H24V7H26V4H32V7H34V13H36V17H39V23H36V27H32V32H34V36H37V41H29V44H22V40H18V44H8V40H10V36H13V31H11V28H7V24H3V20H9V22H12V17H14V12H12Z"
+    data = "M4 28H8V24H6V16H8V12H10V10H12V8H16V6H20V4H24V6H28V8H32V10H34V12H36V14H38V18H40V26H38V28" +
+            "H36V32H34V34H32V36H34V42H38V44H24V38H20V42H22V44H10V32H4Z"
 )
-private val HopperMarkings = ArcadeSprite(
+private val HopperAntenna = ArcadeSprite(
     width = 44,
     height = 44,
-    data = "M14 5H16V10H18V13H15V10H14Z M27 7H31V12H28V14H26V10H27Z M14 26H34V29H28V32H24V28H14Z"
+    data = "M18 2H26V4H18Z"
 )
-private val HopperDetails = ArcadeSprite(
+private val HopperEye = ArcadeSprite(
     width = 44,
     height = 44,
-    data = "M29 17H33V21H29Z M35 22H38V24H35Z M10 39H17V41H10Z M26 39H34V41H26Z"
+    data = "M20 18H22V16H24V14H34V16H36V24H34V26H22V24H20Z"
+)
+private val HopperFace = ArcadeSprite(
+    width = 44,
+    height = 44,
+    data = "M30 16H36V24H30Z M30 28H34V30H30Z"
+)
+
+private val HopperShootingBody = ArcadeSprite(
+    width = 44,
+    height = 44,
+    data = "M2 22H6V16H8V12H10V10H12V8H16V6H20V4H24V6H28V8H32V10H34V12H36V16H38V22H42V26H40V28" +
+            "H36V30H34V34H32V36H34V42H36V44H24V38H20V44H8V42H10V36H12V34H10V30H8V28H4V26H2Z"
+)
+private val HopperShootingAntenna = ArcadeSprite(
+    width = 44,
+    height = 44,
+    data = "M14 0H16V2H14Z M18 2H26V4H18Z M28 0H30V2H28Z"
+)
+private val HopperShootingEye = ArcadeSprite(
+    width = 44,
+    height = 44,
+    data = "M14 12H16V10H28V12H30V20H28V22H16V20H14Z"
+)
+private val HopperShootingFace = ArcadeSprite(
+    width = 44,
+    height = 44,
+    data = "M18 10H26V16H18Z M20 26H24V30H20Z"
 )
 
 private val FlyingMonster = ArcadeSprite(
