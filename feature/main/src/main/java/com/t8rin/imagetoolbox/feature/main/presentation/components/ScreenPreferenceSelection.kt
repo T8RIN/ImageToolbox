@@ -106,6 +106,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItemOverload
 import com.t8rin.imagetoolbox.core.utils.getString
 import sh.calvin.reorderable.ReorderableItem
 import sh.calvin.reorderable.rememberReorderableLazyStaggeredGridState
+import sh.calvin.reorderable.rememberScroller
 
 @Composable
 internal fun RowScope.ScreenPreferenceSelection(
@@ -218,21 +219,29 @@ internal fun RowScope.ScreenPreferenceSelection(
                         val data = rememberReorderableScreenList(currentScreenList)
                         var dragStartOrder by remember { mutableStateOf(data.value) }
                         val gridState = rememberLazyStaggeredGridState()
+                        val reorderScroll = rememberToolReorderScroll(gridState)
                         val haptics = LocalHapticFeedback.current
                         val state = rememberReorderableLazyStaggeredGridState(
                             lazyStaggeredGridState = gridState,
+                            scroller = rememberScroller(
+                                scrollableState = reorderScroll,
+                                pixelAmountProvider = { gridState.layoutInfo.viewportSize.height * 0.05f }
+                            ),
                             onMove = { from, to ->
-                                haptics.press()
-                                data.value = data.value.toMutableList().apply {
-                                    add(
-                                        indexOfFirst { it.first == to.key },
-                                        removeAt(indexOfFirst { it.first == from.key })
-                                    )
+                                val fromIndex = data.value.indexOfFirst { it.first == from.key }
+                                val toIndex = data.value.indexOfFirst { it.first == to.key }
+                                if (fromIndex >= 0 && toIndex >= 0 && fromIndex != toIndex) {
+                                    data.value = data.value.toMutableList().apply {
+                                        add(toIndex, removeAt(fromIndex))
+                                    }
+                                    haptics.press()
                                 }
                             }
                         )
+                        reorderScroll.LockWhileDragging(state.isAnyItemDragging)
                         LazyVerticalStaggeredGrid(
                             state = gridState,
+                            userScrollEnabled = !state.isAnyItemDragging,
                             reverseLayout = showScreenSearch && screenSearchKeyword.isNotEmpty() && canSearchScreens,
                             modifier = Modifier.fillMaxSize(),
                             columns = StaggeredGridCells.Adaptive(220.dp),
@@ -273,16 +282,20 @@ internal fun RowScope.ScreenPreferenceSelection(
                                             modifier = Modifier
                                                 .widthIn(min = 1.dp)
                                                 .fillMaxWidth()
-                                                .longPressDraggableHandle(
+                                                .draggableHandle(
                                                     enabled = canReorderScreens,
+                                                    dragGestureDetector = reorderScroll.detector(key),
                                                     onDragStarted = {
                                                         dragStartOrder = data.value
                                                         onReorderDragStateChange(true)
                                                         haptics.longPress()
                                                     },
                                                     onDragStopped = {
+                                                        val released = reorderScroll.finish(key)
                                                         onReorderDragStateChange(false)
-                                                        if (data.value != dragStartOrder) {
+                                                        if (!released) {
+                                                            data.value = dragStartOrder
+                                                        } else if (data.value != dragStartOrder) {
                                                             onReorderScreens(data.value.map { it.second })
                                                         }
                                                     }

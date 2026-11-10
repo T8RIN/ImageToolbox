@@ -92,6 +92,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.shapeByInteraction
 import com.t8rin.imagetoolbox.core.ui.widget.other.BoxAnimatedVisibility
 import sh.calvin.reorderable.ReorderableItem
 import sh.calvin.reorderable.rememberReorderableLazyGridState
+import sh.calvin.reorderable.rememberScroller
 
 @Composable
 internal fun LauncherScreenSelector(
@@ -111,22 +112,30 @@ internal fun LauncherScreenSelector(
     val data = rememberReorderableScreenList(screenList)
     var dragStartOrder by remember { mutableStateOf(data.value) }
     val gridState = rememberLazyGridState()
+    val reorderScroll = rememberToolReorderScroll(gridState)
     val haptics = LocalHapticFeedback.current
     val state = rememberReorderableLazyGridState(
         lazyGridState = gridState,
+        scroller = rememberScroller(
+            scrollableState = reorderScroll,
+            pixelAmountProvider = { gridState.layoutInfo.viewportSize.height * 0.05f }
+        ),
         onMove = { from, to ->
-            haptics.press()
-            data.value = data.value.toMutableList().apply {
-                add(
-                    indexOfFirst { it.first == to.key },
-                    removeAt(indexOfFirst { it.first == from.key })
-                )
+            val fromIndex = data.value.indexOfFirst { it.first == from.key }
+            val toIndex = data.value.indexOfFirst { it.first == to.key }
+            if (fromIndex >= 0 && toIndex >= 0 && fromIndex != toIndex) {
+                data.value = data.value.toMutableList().apply {
+                    add(toIndex, removeAt(fromIndex))
+                }
+                haptics.press()
             }
         }
     )
+    reorderScroll.LockWhileDragging(state.isAnyItemDragging)
 
     LazyVerticalGrid(
         state = gridState,
+        userScrollEnabled = !state.isAnyItemDragging,
         columns = GridCells.Adaptive(80.dp),
         contentPadding = contentPadding,
         verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -168,16 +177,20 @@ internal fun LauncherScreenSelector(
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier
-                        .longPressDraggableHandle(
+                        .draggableHandle(
                             enabled = canReorderScreens,
+                            dragGestureDetector = reorderScroll.detector(key),
                             onDragStarted = {
                                 dragStartOrder = data.value
                                 onReorderDragStateChange(true)
                                 haptics.longPress()
                             },
                             onDragStopped = {
+                                val released = reorderScroll.finish(key)
                                 onReorderDragStateChange(false)
-                                if (data.value != dragStartOrder) {
+                                if (!released) {
+                                    data.value = dragStartOrder
+                                } else if (data.value != dragStartOrder) {
                                     onReorderScreens(data.value.map { it.second })
                                 }
                             }
