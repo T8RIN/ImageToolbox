@@ -19,7 +19,6 @@
 
 package com.t8rin.imagetoolbox.feature.recognize.text.presentation.screenLogic
 
-import com.t8rin.imagetoolbox.core.filters.presentation.model.createUiFilter
 import android.graphics.Bitmap
 import android.net.Uri
 import androidx.compose.runtime.MutableState
@@ -61,13 +60,13 @@ import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.domain.utils.timestamp
 import com.t8rin.imagetoolbox.core.filters.domain.FilterProvider
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
+import com.t8rin.imagetoolbox.core.filters.presentation.model.createUiFilter
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Language
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
-import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.safeAspectRatio
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.core.utils.imageSize
@@ -91,6 +90,8 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.ensureActive
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlin.math.roundToInt
@@ -168,7 +169,11 @@ class RecognizeTextComponent @AssistedInject internal constructor(
     val onGoBack: () -> Unit = {
         if (type == null) onGoBack()
         else {
-            _recognitionData.update { null }
+            if (type is Screen.RecognizeText.Type.Extraction) {
+                clearExtraction()
+            } else {
+                _recognitionData.update { null }
+            }
             _type.update { null }
         }
     }
@@ -207,8 +212,9 @@ class RecognizeTextComponent @AssistedInject internal constructor(
     private val _previewBitmap: MutableState<Bitmap?> = mutableStateOf(null)
     val previewBitmap: Bitmap? by _previewBitmap
 
-    private val _currentImageSize = mutableStateOf(IntegerSize.Zero)
-    val currentImageSize by _currentImageSize
+    private val _originalImage = mutableStateOf<OriginalImage?>(null)
+    internal val originalImage by _originalImage
+    private var imageLoadingJob: Job? by smartJob()
 
     val currentImageUri: Uri?
         get() = (type as? Screen.RecognizeText.Type.Extraction)?.uri
@@ -347,28 +353,39 @@ class RecognizeTextComponent @AssistedInject internal constructor(
     fun updateType(
         type: Screen.RecognizeText.Type?
     ) {
-        type?.let {
-            componentScope.launch {
-                _isImageLoading.value = true
-                _type.update { type }
-                if (type is Screen.RecognizeText.Type.Extraction) {
-                    _currentImageSize.update {
-                        type.uri?.imageSize() ?: IntegerSize.Zero
-                    }
-                    type.uri?.let { uri ->
-                        loadImagePreview(uri)?.let {
-                            updateBitmap(
-                                bitmap = it,
-                                onComplete = ::startRecognition
-                            )
-                        }
-                    }
-                } else {
-                    _currentImageSize.update { IntegerSize.Zero }
-                }
-                _isImageLoading.value = false
-            }
+        if (type == null) return
+        if (this.type is Screen.RecognizeText.Type.Extraction ||
+            type is Screen.RecognizeText.Type.Extraction
+        ) {
+            clearExtraction()
         }
+        _type.update { type }
+        val uri = (type as? Screen.RecognizeText.Type.Extraction)?.uri ?: return
+
+        loadExtractionImage(uri) { bitmap ->
+            val size = uri.imageSize() ?: IntegerSize(bitmap.width, bitmap.height)
+            val orientedSize = if ((size.width > size.height) != (bitmap.width > bitmap.height)) {
+                IntegerSize(size.height, size.width)
+            } else {
+                size
+            }
+            _originalImage.update { OriginalImage(uri, orientedSize) }
+            setCropAspectRatio(selectedAspectRatio, cropProperties.aspectRatio)
+        }
+    }
+
+    private fun clearExtraction() {
+        imageLoadingJob = null
+        _isImageLoading.value = false
+        _originalImage.update { null }
+        updateBitmapInternal(null)
+        clearRecognition()
+    }
+
+    private fun clearRecognition() {
+        recognitionJob = null
+        _recognitionData.update { null }
+        _editedText.update { null }
     }
 
     fun save(
@@ -522,36 +539,33 @@ class RecognizeTextComponent @AssistedInject internal constructor(
         }
     }
 
-    fun updateBitmap(
-        bitmap: Bitmap,
-        onComplete: () -> Unit = {}
+    private fun loadExtractionImage(
+        uri: Uri,
+        onLoaded: (Bitmap) -> Unit
     ) {
-        componentScope.launch {
-            _isImageLoading.value = true
-            updateBitmapInternal(bitmap)
-            _isImageLoading.value = false
-            onComplete()
+        _isImageLoading.value = true
+        imageLoadingJob = componentScope.launch {
+            try {
+                val bitmap = loadImagePreview(uri) ?: return@launch
+                ensureActive()
+                onLoaded(bitmap)
+                updateBitmapInternal(bitmap)
+            } finally {
+                if (isActive) _isImageLoading.value = false
+            }
         }
     }
 
-    private suspend fun updateBitmapInternal(bitmap: Bitmap) {
-        _previewBitmap.value = imageScaler.scaleUntilCanShow(bitmap)
-        internalBitmap.update { previewBitmap }
+    private fun updateBitmapInternal(bitmap: Bitmap?) {
+        internalBitmap.update { bitmap }
+        _previewBitmap.update { bitmap }
     }
 
     fun updateImageUriAfterEditing(uri: Uri) {
-        componentScope.launch {
-            _isImageLoading.value = true
-            val imageSize = uri.imageSize()
-            val preview = loadImagePreview(uri)
-
+        if (originalImage == null) return
+        loadExtractionImage(uri) {
+            clearRecognition()
             _type.update { Screen.RecognizeText.Type.Extraction(uri) }
-            _currentImageSize.update { size ->
-                imageSize ?: preview?.let { IntegerSize(it.width, it.height) } ?: size
-            }
-            preview?.let { updateBitmapInternal(it) }
-            _isImageLoading.value = false
-            startRecognition()
         }
     }
 
@@ -745,14 +759,16 @@ class RecognizeTextComponent @AssistedInject internal constructor(
     }
 
     private suspend fun checkBitmapAndUpdate() {
-        _previewBitmap.value = internalBitmap.value?.let {
-            imageTransformer.flip(
-                image = imageTransformer.rotate(
-                    image = it,
-                    degrees = _rotation.value
-                ),
-                isFlipped = _isFlipped.value
-            )
+        val bitmap = internalBitmap.value ?: return
+        val transformed = imageTransformer.flip(
+            image = imageTransformer.rotate(
+                image = bitmap,
+                degrees = _rotation.value
+            ),
+            isFlipped = _isFlipped.value
+        )
+        if (internalBitmap.value === bitmap) {
+            _previewBitmap.value = transformed
         }
     }
 
@@ -764,8 +780,8 @@ class RecognizeTextComponent @AssistedInject internal constructor(
             properties.copy(
                 aspectRatio = aspectRatio.takeIf {
                     domainAspectRatio != DomainAspectRatio.Original
-                } ?: _previewBitmap.value?.let {
-                    AspectRatio(it.safeAspectRatio)
+                } ?: originalImage?.size?.let {
+                    AspectRatio(it.width.toFloat() / it.height)
                 } ?: aspectRatio,
                 fixedAspectRatio = domainAspectRatio != DomainAspectRatio.Free
             )
@@ -1165,6 +1181,11 @@ class RecognizeTextComponent @AssistedInject internal constructor(
     private companion object {
         const val MAX_PREVIEW_SIZE = 3096L * 3096L * 3L
     }
+
+    internal data class OriginalImage(
+        val uri: Uri,
+        val size: IntegerSize
+    )
 
     @AssistedFactory
     fun interface Factory {

@@ -161,7 +161,8 @@ fun RecognizeTextContent(
         onSuccess = component::saveContentToTxt
     )
 
-    var showCropper by rememberSaveable { mutableStateOf(false) }
+    val originalImage = component.originalImage
+    var showCropper by rememberSaveable(originalImage?.uri) { mutableStateOf(false) }
 
     AdaptiveLayoutScreen(
         shouldDisableBackHandler = true,
@@ -300,19 +301,22 @@ fun RecognizeTextContent(
         canCancel = component.isSaving
     )
 
-    CropEditOption(
-        visible = showCropper,
-        onDismiss = { showCropper = false },
-        useScaffold = isPortrait,
-        bitmap = component.previewBitmap,
-        imageUri = component.currentImageUri,
-        imageSize = component.currentImageSize.run { IntSize(width, height) },
-        onGetImageUri = component::updateImageUriAfterEditing,
-        cropProperties = component.cropProperties,
-        setCropAspectRatio = component::setCropAspectRatio,
-        setCropMask = component::setCropMask,
-        selectedAspectRatio = component.selectedAspectRatio,
-        loadImage = component::loadImage,
-        loadImagePreview = component::loadImagePreview
-    )
+
+    originalImage?.let { image ->
+        CropEditOption(
+            visible = showCropper,
+            onDismiss = { showCropper = false },
+            useScaffold = isPortrait,
+            bitmap = null,
+            imageUri = image.uri,
+            imageSize = image.size.run { IntSize(width, height) },
+            onGetImageUri = component::updateImageUriAfterEditing,
+            cropProperties = component.cropProperties,
+            setCropAspectRatio = component::setCropAspectRatio,
+            setCropMask = component::setCropMask,
+            selectedAspectRatio = component.selectedAspectRatio,
+            loadImage = component::loadImage,
+            loadImagePreview = component::loadImagePreview
+        )
+    }
 }

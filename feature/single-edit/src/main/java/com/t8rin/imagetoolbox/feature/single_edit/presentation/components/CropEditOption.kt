@@ -38,9 +38,11 @@ import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -137,9 +139,10 @@ fun CropEditOption(
     }
 
     val scope = rememberCoroutineScope()
-    if (bitmap != null && imageUri != null) {
+    if (imageUri != null) {
         var crop by remember(visible) { mutableStateOf(false) }
         var stateBitmap by remember(bitmap, imageUri, visible) { mutableStateOf(bitmap) }
+        var sourceReady by remember(bitmap, imageUri, visible) { mutableStateOf(bitmap != null) }
         var stateUri by remember(imageUri, visible) { mutableStateOf(imageUri) }
         var stateImageSize by remember(imageSize, imageUri, visible) { mutableStateOf(imageSize) }
         var loading by remember(bitmap, imageUri, visible) { mutableStateOf(false) }
@@ -261,6 +264,7 @@ fun CropEditOption(
                 }
                 Spacer(modifier = Modifier.height(16.dp))
             },
+            fabButtonsVisible = sourceReady,
             fabButtons = {
                 var job by remember { mutableStateOf<Job?>(null) }
                 EnhancedFloatingActionButton(
@@ -309,9 +313,19 @@ fun CropEditOption(
                 )
             }
         ) {
+            val sourceBitmap by produceState(bitmap, bitmap, imageUri) {
+                value = bitmap
+                if (bitmap == null) {
+                    value = loadImagePreview(imageUri)
+                    if (value == null) onDismiss()
+                }
+            }
+            val cropBitmap = stateBitmap ?: sourceBitmap
+            SideEffect { sourceReady = cropBitmap != null }
+
             Box(contentAlignment = Alignment.Center) {
-                Cropper(
-                    bitmap = stateBitmap,
+                if (cropBitmap != null) Cropper(
+                    bitmap = cropBitmap,
                     imageUri = stateUri,
                     imageSize = stateImageSize,
                     crop = crop,
@@ -344,7 +358,7 @@ fun CropEditOption(
                     coercePointsToImageArea = coercePointsToImageArea
                 )
                 AnimatedVisibility(
-                    visible = loading,
+                    visible = loading || cropBitmap == null,
                     modifier = Modifier.fillMaxSize(),
                     enter = fadeIn(),
                     exit = fadeOut()
