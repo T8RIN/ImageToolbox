@@ -304,9 +304,9 @@ internal object AssistantCommand {
                 "ocrText"
             )
                 .associateWith {
-                    when {
-                        it == "scene" -> fields.getValue("semantic")
-                        it == "ocrText" && query.ocrText == "" -> JsonPrimitive(true)
+                    when (it) {
+                        "scene" -> fields.getValue("semantic")
+                        "ocrText" if query.ocrText == "" -> JsonPrimitive(true)
                         else -> fields.getValue(it)
                     }
                 }
