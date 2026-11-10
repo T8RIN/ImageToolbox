@@ -87,9 +87,8 @@ internal fun Preferences.toSettingsState(
     showUpdateDialogOnStartup = this[SHOW_UPDATE_DIALOG]
         ?: default.showUpdateDialogOnStartup,
     selectedEmoji = this[SELECTED_EMOJI_INDEX] ?: default.selectedEmoji,
-    screenList = this[SCREEN_ORDER]?.split("/")?.mapNotNull {
-        it.toIntOrNull()
-    }?.takeIf { it.isNotEmpty() } ?: default.screenList,
+    screenList = this[SCREEN_ORDER].toScreenOrder().ifEmpty { default.screenList },
+    groupedScreenOrder = this[GROUPED_SCREEN_ORDER].toScreenOrder(),
     emojisCount = this[EMOJI_COUNT] ?: default.emojisCount,
     clearCacheOnLaunch = this[AUTO_CACHE_CLEAR] ?: default.clearCacheOnLaunch,
     cacheAutoClearLimitBytes = this[CACHE_AUTO_CLEAR_LIMIT_BYTES]
@@ -483,6 +482,9 @@ private fun Set<String>?.toCustomFonts(): List<DomainFontFamily.Custom> = this?.
         filePath = split[1]
     )
 } ?: emptyList()
+
+internal fun String?.toScreenOrder(): List<Int> =
+    this?.split("/")?.mapNotNull { it.toIntOrNull() }.orEmpty()
 
 internal fun Preferences.arcadeGameOrder(): List<ArcadeGame> {
     val playable = ArcadeGame.playable.associateBy { it.name }

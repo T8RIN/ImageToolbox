@@ -58,7 +58,9 @@ import androidx.compose.material3.rememberTooltipState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
@@ -94,11 +96,11 @@ import sh.calvin.reorderable.rememberReorderableLazyGridState
 @Composable
 internal fun LauncherScreenSelector(
     screenList: List<Screen>,
-    canReorderFavorites: Boolean,
+    canReorderScreens: Boolean,
     onNavigateToScreenWithPopUpTo: (Screen) -> Unit,
     contentPadding: PaddingValues,
     onToggleFavorite: (Screen) -> Unit,
-    onReorderFavorites: (List<Screen>) -> Unit,
+    onReorderScreens: (List<Screen>) -> Unit,
     onReorderDragStateChange: (Boolean) -> Unit,
     lastUsedTools: List<UiLastUsedTool>
 ) {
@@ -107,6 +109,7 @@ internal fun LauncherScreenSelector(
         !settingsState.groupOptionsByTypes || settingsState.showFavoriteToolsInGroupedMode
 
     val data = rememberReorderableScreenList(screenList)
+    var dragStartOrder by remember { mutableStateOf(data.value) }
     val gridState = rememberLazyGridState()
     val haptics = LocalHapticFeedback.current
     val state = rememberReorderableLazyGridState(
@@ -149,7 +152,7 @@ internal fun LauncherScreenSelector(
             ReorderableItem(
                 state = state,
                 key = key,
-                enabled = canReorderFavorites
+                enabled = canReorderScreens
             ) { isDragging ->
                 val containerColor by animateColorAsState(
                     if (settingsState.isNightMode) {
@@ -166,14 +169,17 @@ internal fun LauncherScreenSelector(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier
                         .longPressDraggableHandle(
-                            enabled = canReorderFavorites,
+                            enabled = canReorderScreens,
                             onDragStarted = {
+                                dragStartOrder = data.value
                                 onReorderDragStateChange(true)
                                 haptics.longPress()
                             },
                             onDragStopped = {
                                 onReorderDragStateChange(false)
-                                onReorderFavorites(data.value.map { it.second })
+                                if (data.value != dragStartOrder) {
+                                    onReorderScreens(data.value.map { it.second })
+                                }
                             }
                         )
                         .scale(
@@ -209,7 +215,8 @@ internal fun LauncherScreenSelector(
                                 ),
                             )
                         },
-                        state = rememberTooltipState()
+                        state = rememberTooltipState(),
+                        enableUserInput = !isDragging
                     ) {
                         BadgedBox(
                             badge = {

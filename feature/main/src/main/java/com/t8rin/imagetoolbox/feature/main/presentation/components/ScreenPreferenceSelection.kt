@@ -63,7 +63,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
@@ -108,7 +110,7 @@ import sh.calvin.reorderable.rememberReorderableLazyStaggeredGridState
 @Composable
 internal fun RowScope.ScreenPreferenceSelection(
     currentScreenList: List<Screen>,
-    canReorderFavorites: Boolean,
+    canReorderScreens: Boolean,
     showScreenSearch: Boolean,
     screenSearchKeyword: String,
     isGrid: Boolean,
@@ -118,7 +120,7 @@ internal fun RowScope.ScreenPreferenceSelection(
     onNavigateToScreenWithPopUpTo: (Screen) -> Unit,
     onChangeShowScreenSearch: (Boolean) -> Unit,
     onToggleFavorite: (Screen) -> Unit,
-    onReorderFavorites: (List<Screen>) -> Unit,
+    onReorderScreens: (List<Screen>) -> Unit,
     onReorderDragStateChange: (Boolean) -> Unit,
     showNavRail: Boolean,
     lastUsedTools: List<UiLastUsedTool>
@@ -204,16 +206,17 @@ internal fun RowScope.ScreenPreferenceSelection(
                     if (isLauncherMode) {
                         LauncherScreenSelector(
                             screenList = currentScreenList,
-                            canReorderFavorites = canReorderFavorites,
+                            canReorderScreens = canReorderScreens,
                             onNavigateToScreenWithPopUpTo = onNavigateToScreenWithPopUpTo,
                             contentPadding = contentPadding,
                             onToggleFavorite = onToggleFavorite,
-                            onReorderFavorites = onReorderFavorites,
+                            onReorderScreens = onReorderScreens,
                             onReorderDragStateChange = onReorderDragStateChange,
                             lastUsedTools = lastUsedTools
                         )
                     } else {
                         val data = rememberReorderableScreenList(currentScreenList)
+                        var dragStartOrder by remember { mutableStateOf(data.value) }
                         val gridState = rememberLazyStaggeredGridState()
                         val haptics = LocalHapticFeedback.current
                         val state = rememberReorderableLazyStaggeredGridState(
@@ -260,7 +263,7 @@ internal fun RowScope.ScreenPreferenceSelection(
                                     ReorderableItem(
                                         state = state,
                                         key = key,
-                                        enabled = canReorderFavorites
+                                        enabled = canReorderScreens
                                     ) { isDragging ->
                                         PreferenceItemOverload(
                                             onClick = {
@@ -271,14 +274,17 @@ internal fun RowScope.ScreenPreferenceSelection(
                                                 .widthIn(min = 1.dp)
                                                 .fillMaxWidth()
                                                 .longPressDraggableHandle(
-                                                    enabled = canReorderFavorites,
+                                                    enabled = canReorderScreens,
                                                     onDragStarted = {
+                                                        dragStartOrder = data.value
                                                         onReorderDragStateChange(true)
                                                         haptics.longPress()
                                                     },
                                                     onDragStopped = {
                                                         onReorderDragStateChange(false)
-                                                        onReorderFavorites(data.value.map { it.second })
+                                                        if (data.value != dragStartOrder) {
+                                                            onReorderScreens(data.value.map { it.second })
+                                                        }
                                                     }
                                                 )
                                                 .scale(

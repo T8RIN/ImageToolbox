@@ -105,6 +105,12 @@ interface SettingsInteractor : SimpleSettingsInteractor {
 
     suspend fun setScreenOrder(data: String)
 
+    suspend fun reorderScreens(
+        screenIds: List<Int>,
+        defaultOrder: List<Int>,
+        grouped: Boolean = false
+    )
+
     suspend fun toggleClearCacheOnLaunch()
 
     suspend fun setCacheAutoClearLimitBytes(bytes: Long)
