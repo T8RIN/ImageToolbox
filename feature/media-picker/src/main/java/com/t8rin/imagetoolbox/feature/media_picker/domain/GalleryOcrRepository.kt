@@ -29,7 +29,11 @@ interface GalleryOcrRepository {
 
     suspend fun downloadModels()
 
-    suspend fun index(media: List<Media>, pruneMissing: Boolean): Boolean
+    suspend fun index(
+        media: List<Media>,
+        pruneMissing: Boolean,
+        shouldYield: () -> Boolean
+    ): Boolean
 
     /** A null query matches any recognized text. */
     suspend fun search(query: String?, media: List<Media>): List<Media>

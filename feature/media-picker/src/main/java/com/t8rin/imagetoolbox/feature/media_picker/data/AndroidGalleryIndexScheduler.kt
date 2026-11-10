@@ -189,7 +189,9 @@ internal class AndroidGalleryIndexScheduler @Inject constructor(
                         return@supervisorScope
                     }
                     async {
-                        withTimeoutOrNull(TimeUnit.MINUTES.toMillis(8)) { action() } ?: true
+                        // OCR yields between photos when running without a foreground service.
+                        if (index == GalleryIndex.Ocr) action()
+                        else withTimeoutOrNull(TimeUnit.MINUTES.toMillis(8)) { action() } ?: true
                     }.also { tasks.getValue(index).indexing = it }
                 }
                 if (task.await()) enqueue(index, append = true)

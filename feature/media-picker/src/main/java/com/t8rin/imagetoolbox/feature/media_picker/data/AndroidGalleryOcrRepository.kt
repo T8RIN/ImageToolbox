@@ -18,7 +18,6 @@
 package com.t8rin.imagetoolbox.feature.media_picker.data
 
 import android.content.Context
-import android.os.SystemClock
 import androidx.core.net.toUri
 import coil3.ImageLoader
 import coil3.request.CachePolicy
@@ -44,7 +43,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.withContext
 import java.io.File
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 internal class AndroidGalleryOcrRepository @Inject constructor(
@@ -82,11 +80,14 @@ internal class AndroidGalleryOcrRepository @Inject constructor(
         }
     }
 
-    override suspend fun index(media: List<Media>, pruneMissing: Boolean): Boolean =
+    override suspend fun index(
+        media: List<Media>,
+        pruneMissing: Boolean,
+        shouldYield: () -> Boolean
+    ): Boolean =
         withContext(ioDispatcher) {
             val images = media.filter { !it.isTrashed && it.mimeType.startsWith("image/") }
                 .distinctBy(Media::uri)
-            val deadline = SystemClock.elapsedRealtime() + TimeUnit.MINUTES.toMillis(5)
             GalleryOcrIndex(context).use { index ->
                 val pending =
                     index.pending(images, pruneMissing && context.hasFullGalleryPhotoAccess())
@@ -102,7 +103,7 @@ internal class AndroidGalleryOcrRepository @Inject constructor(
                     if (pending.isNotEmpty()) GalleryOcr(models).use { ocr ->
                         for ((position, item) in pending.withIndex()) {
                             currentCoroutineContext().ensureActive()
-                            if (SystemClock.elapsedRealtime() >= deadline) return@withContext true
+                            if (shouldYield()) return@withContext true
                             if (!context.hasSemanticSearchPermission()) {
                                 updateWorkState(isWaitingForPermission = true)
                                 return@withContext false

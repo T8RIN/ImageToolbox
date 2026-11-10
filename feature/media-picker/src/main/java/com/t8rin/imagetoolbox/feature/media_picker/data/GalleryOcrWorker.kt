@@ -18,6 +18,7 @@
 package com.t8rin.imagetoolbox.feature.media_picker.data
 
 import android.content.Context
+import android.os.SystemClock
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.t8rin.imagetoolbox.core.resources.R
@@ -25,6 +26,7 @@ import com.t8rin.imagetoolbox.feature.media_picker.domain.model.AllowedMedia
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import java.util.concurrent.TimeUnit
 
 internal class GalleryOcrWorker(
     context: Context,
@@ -36,10 +38,6 @@ internal class GalleryOcrWorker(
         val repository = dependencies.galleryOcr()
 
         dependencies.scheduler().runIndex(GalleryIndex.Ocr) {
-            val fullAccess = applicationContext.hasFullGalleryPhotoAccess()
-            val media = dependencies.mediaRetriever().getMediaByType(AllowedMedia.Photos(null))
-                .first().getOrThrow()
-
             indexWithProgress(
                 notification = GalleryIndexNotification(
                     context = applicationContext,
@@ -54,8 +52,19 @@ internal class GalleryOcrWorker(
                         text = R.string.gallery_ocr_progress
                     )
                 }
-            ) {
-                repository.index(media, pruneMissing = fullAccess)
+            ) { isForeground ->
+                val deadline = SystemClock.elapsedRealtime() + TimeUnit.MINUTES.toMillis(5)
+                var hasPending: Boolean
+                do {
+                    val fullAccess = applicationContext.hasFullGalleryPhotoAccess()
+                    val media =
+                        dependencies.mediaRetriever().getMediaByType(AllowedMedia.Photos(null))
+                            .first().getOrThrow()
+                    hasPending = repository.index(media, pruneMissing = fullAccess) {
+                        !isForeground() && SystemClock.elapsedRealtime() >= deadline
+                    }
+                } while (hasPending && isForeground())
+                hasPending
             }
         }
         return Result.success()

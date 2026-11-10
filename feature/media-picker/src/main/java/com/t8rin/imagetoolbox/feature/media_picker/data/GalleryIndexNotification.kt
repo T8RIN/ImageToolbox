@@ -42,6 +42,7 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import java.util.UUID
 import java.util.concurrent.TimeUnit
+import java.util.concurrent.atomic.AtomicBoolean
 
 @SuppressLint("NewApi") //Embedded picker is >= 26 by default
 internal class GalleryIndexNotification(
@@ -111,25 +112,26 @@ internal data class GalleryIndexProgress(val processed: Int, val total: Int, val
 internal suspend fun <T> CoroutineWorker.indexWithProgress(
     notification: GalleryIndexNotification,
     progress: Flow<GalleryIndexProgress>,
-    index: suspend () -> T
+    index: suspend (isForeground: () -> Boolean) -> T
 ): T = coroutineScope {
+    val foreground = AtomicBoolean()
     val updates = launch(start = CoroutineStart.UNDISPATCHED) {
-        var foreground: Boolean? = null
+        var couldStart = false
         try {
             progress.distinctUntilChanged().conflate().collect { current ->
-                val started = foreground
-                val isForeground = started ?: tryStartForeground(notification, current).also {
-                    foreground = it
-                }
-                if (started != null || !isForeground) notification.show(current, isForeground)
+                val canStart = !foreground.get() && canStartForeground()
+                val started = canStart && !couldStart &&
+                        tryStartForeground(notification, current).also(foreground::set)
+                couldStart = canStart
+                if (!started) notification.show(current, foreground.get())
                 delay(1_000)
             }
         } finally {
-            if (foreground == false) notification.dismiss()
+            if (!foreground.get()) notification.dismiss()
         }
     }
     try {
-        index()
+        index(foreground::get)
     } finally {
         updates.cancelAndJoin()
     }
@@ -139,7 +141,7 @@ private suspend fun CoroutineWorker.tryStartForeground(
     notification: GalleryIndexNotification,
     progress: GalleryIndexProgress
 ): Boolean {
-    return canStartForeground() && try {
+    return try {
         setForeground(notification.info(progress))
         true
     } catch (error: IllegalStateException) {
@@ -154,5 +156,6 @@ private fun canStartForeground(): Boolean {
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) return true
     val process = ActivityManager.RunningAppProcessInfo()
     ActivityManager.getMyMemoryState(process)
-    return process.importance <= ActivityManager.RunningAppProcessInfo.IMPORTANCE_VISIBLE
+    return process.importance <= ActivityManager.RunningAppProcessInfo.IMPORTANCE_VISIBLE &&
+            process.importance != ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND_SERVICE
 }

@@ -45,14 +45,13 @@ import com.t8rin.imagetoolbox.feature.assistant.di.AssistantEntryPoint
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGalleryQuery
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGalleryResult.Companion.PREVIEW_COUNT
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGallerySearch.Mode
-import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantPhotoPlan
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantScreenContext
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantSetting
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantTool
-import com.t8rin.imagetoolbox.feature.media_picker.domain.MediaRetriever
-import com.t8rin.imagetoolbox.feature.media_picker.domain.GalleryOcrRepository
-import com.t8rin.imagetoolbox.feature.media_picker.domain.SemanticSearchRepository
 import com.t8rin.imagetoolbox.feature.media_picker.domain.GalleryIndexScheduler
+import com.t8rin.imagetoolbox.feature.media_picker.domain.GalleryOcrRepository
+import com.t8rin.imagetoolbox.feature.media_picker.domain.MediaRetriever
+import com.t8rin.imagetoolbox.feature.media_picker.domain.SemanticSearchRepository
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.Album
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.AllowedMedia
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.GalleryOcrState
@@ -149,7 +148,13 @@ class AssistantGalleryInstrumentedTest {
                 Unit
 
             override suspend fun downloadModels() = Unit
-            override suspend fun index(media: List<Media>, pruneMissing: Boolean) = false
+
+            override suspend fun index(
+                media: List<Media>,
+                pruneMissing: Boolean,
+                shouldYield: () -> Boolean
+            ) = false
+
             override suspend fun search(query: String?, media: List<Media>) =
                 media.filter { photo -> ocrText[photo]?.let { query == null || it.contains(query) } == true }
 
