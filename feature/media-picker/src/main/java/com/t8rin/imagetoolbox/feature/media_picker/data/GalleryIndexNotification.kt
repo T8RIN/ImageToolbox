@@ -19,10 +19,10 @@ package com.t8rin.imagetoolbox.feature.media_picker.data
 
 import android.annotation.SuppressLint
 import android.app.ActivityManager
-import android.app.ForegroundServiceStartNotAllowedException
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
+import android.app.ServiceStartNotAllowedException
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ServiceInfo
@@ -89,8 +89,9 @@ internal class GalleryIndexNotification(
         } else 0
     )
 
-    fun show(progress: GalleryIndexProgress) {
-        manager?.notify(id, build(progress, timeout = TimeUnit.MINUTES.toMillis(10)))
+    fun show(progress: GalleryIndexProgress, foreground: Boolean) {
+        val timeout = if (foreground) 0L else TimeUnit.MINUTES.toMillis(10)
+        manager?.notify(id, build(progress, timeout))
     }
 
     fun dismiss() {
@@ -113,30 +114,39 @@ internal suspend fun <T> CoroutineWorker.indexWithProgress(
     index: suspend () -> T
 ): T = coroutineScope {
     val updates = launch(start = CoroutineStart.UNDISPATCHED) {
-        var foreground = canStartForeground()
+        var foreground: Boolean? = null
         try {
-            progress.distinctUntilChanged().conflate().collect {
-                if (foreground) {
-                    try {
-                        setForeground(notification.info(it))
-                    } catch (error: IllegalStateException) {
-                        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S ||
-                            error !is ForegroundServiceStartNotAllowedException
-                        ) throw error
-                        foreground = false
-                    }
+            progress.distinctUntilChanged().conflate().collect { current ->
+                val started = foreground
+                val isForeground = started ?: tryStartForeground(notification, current).also {
+                    foreground = it
                 }
-                if (!foreground) notification.show(it)
+                if (started != null || !isForeground) notification.show(current, isForeground)
                 delay(1_000)
             }
         } finally {
-            if (!foreground) notification.dismiss()
+            if (foreground == false) notification.dismiss()
         }
     }
     try {
         index()
     } finally {
         updates.cancelAndJoin()
+    }
+}
+
+private suspend fun CoroutineWorker.tryStartForeground(
+    notification: GalleryIndexNotification,
+    progress: GalleryIndexProgress
+): Boolean {
+    return canStartForeground() && try {
+        setForeground(notification.info(progress))
+        true
+    } catch (error: IllegalStateException) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S || error !is ServiceStartNotAllowedException) {
+            throw error
+        }
+        false
     }
 }
 
