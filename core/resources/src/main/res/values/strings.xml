@@ -191,14 +191,17 @@
     <string name="help_tip_gallery_search_step_3">The first setup downloads about 227 MB of files for recognizing photo contents. After that, preparation and search work on your device without internet. Your photos and search queries are not sent to a server.</string>
     <string name="help_tip_gallery_search_page_2_title">Search by name or description</string>
     <string name="help_tip_gallery_search_page_2_description">File name search always works. With Semantic photo search on, you can also describe what you want to find in the same field. File name matches appear first, followed by photos that best match your description. Each photo appears only once.</string>
+    <string name="help_tip_gallery_search_query_types">The same field searches file names and, when enabled, recognized text and photo contents. Enter a word from a sign to find readable text, or describe the scene to find visually relevant photos.</string>
     <string name="help_tip_gallery_search_page_2_step_1">To search photo contents, use a short, specific description, such as “a cat on a sofa” or “a red car in snow”. Semantic search supports more than 50 languages, including English and Russian. If the results are not what you expected, try different words.</string>
     <string name="help_tip_gallery_search_page_2_step_2">File name search ignores case and finds text anywhere in the name. Use IMG* for names starting with IMG, or *.jpg for names ending in .jpg. A query with an asterisk at the start or end searches file names only.</string>
     <string name="help_tip_gallery_search_page_2_step_3">Search looks within the current album and selected category. Choose All in the album row to search all available photos. File name search works even while files are downloading or photos are being prepared. Clear the search field to return to browsing.</string>
     <string name="help_tip_gallery_search_page_3_title">Prepare photos for semantic search</string>
     <string name="help_tip_gallery_search_page_3_description">The app analyzes photo contents and saves data for semantic search and automatic categories on your device. A large library may take time to prepare. Search by contents becomes available as photos are prepared; file name search works throughout. Saved data is kept between app launches.</string>
     <string name="help_tip_gallery_search_page_3_step_1">Open Search settings to see preparation progress and the number of prepared photos. While downloading, a progress indicator replaces the switch; tap it to cancel. Photos and completed downloads are kept. Turn Semantic photo search back on to continue setup.</string>
+    <string name="help_tip_gallery_search_index_progress">Open Search settings to see progress beside each feature. While photos are being indexed, progress also appears in a notification if notifications are allowed. Tap the download indicator to cancel a model download.</string>
     <string name="help_tip_gallery_search_page_3_step_2">While Semantic photo search is on, new and changed photos are prepared automatically in the background. Unchanged photos use the saved search data. You do not need to start preparation manually each time.</string>
     <string name="help_tip_gallery_search_page_3_step_3">Android may delay preparation when battery or storage is low. If an error appears, check photo access and free space. An internet connection is also needed while files are downloading. Then tap Try again; data for already prepared photos is kept.</string>
+    <string name="help_tip_gallery_search_resume_index">If preparation stops after an error, check photo access and free space. Model downloads also need internet access. Turn the affected feature off and back on to resume preparation.</string>
     <string name="help_tip_gallery_search_page_4_title">Browse automatic categories</string>
     <string name="help_tip_gallery_search_page_4_description">Semantic photo search groups prepared photos by their contents into 16 built-in categories: People, Animals, Nature, Food, Documents, Screenshots, Vehicles, Travel, Architecture, Art, Sports, Events, Night, Beach, Mountains, and Sunset. Categories can make mistakes or miss some photos.</string>
     <string name="help_tip_gallery_search_page_4_step_1">Categories appear below the albums, beside the brain icon, and stay visible while searching. Categories appear when they have matches in the current album or are selected. The count shows photos in the category and current album, regardless of your search query.</string>
@@ -272,6 +275,7 @@
     <string name="help_tip_favorites_share_tools_step_1">Pin frequent tools so they stay easy to reach even when tools are grouped by category.</string>
     <string name="help_tip_favorites_share_tools_step_2">Hide tools from share flows when they are irrelevant for files coming from another app.</string>
     <string name="help_tip_favorites_share_tools_step_3">Use the favorite ordering settings if you prefer favorites at the end or grouped with related tools.</string>
+    <string name="help_tip_favorites_reorder">Open the Favorites tab with search closed, then touch and drag a tool to change its position.</string>
     <string name="help_tip_backup_restore_settings_title">Back up settings</string>
     <string name="help_tip_backup_restore_settings_subtitle">Move presets, preferences, and app behavior to another install safely</string>
     <string name="help_tip_backup_restore_settings_page_title">Keep your setup portable</string>
@@ -321,6 +325,7 @@
     <string name="help_tip_resize_type_step_1">Use Explicit only when distortion is acceptable or the source already has the same aspect ratio as the target.</string>
     <string name="help_tip_resize_type_step_2">Use Flexible to keep proportions by resizing from the important side, especially for photos and mixed batches.</string>
     <string name="help_tip_resize_type_step_3">Use Crop for strict frames without borders, or Fit when the whole image must remain visible inside a fixed canvas.</string>
+    <string name="help_tip_resize_flexible_sides">In Flexible resize, choose Short Side or Long Side as the anchor to set the same target edge for both portrait and landscape photos while keeping their proportions.</string>
     <string name="help_tip_image_scale_mode_title">Pick image scale mode</string>
     <string name="help_tip_image_scale_mode_subtitle">Choose the resampling filter that controls sharpness, smoothness, speed, and edge artifacts</string>
     <string name="help_tip_image_scale_mode_page_title">Resize without accidental softness</string>
@@ -413,6 +418,7 @@
     <string name="help_tip_duplicate_finder_page_title">Verify before removing</string>
     <string name="help_tip_duplicate_finder_description">Duplicate Finder helps narrow a large selection down to images that deserve a closer look. Similar filenames, thumbnails, or dimensions are useful clues, but they are not always proof that two files are interchangeable: one copy may have different metadata, quality, crop, or edits.</string>
     <string name="help_tip_duplicate_finder_step_1">Run it on a focused folder or export set first, rather than mixing unrelated albums into one large cleanup job.</string>
+    <string name="help_tip_duplicate_manual_analysis">To prepare the selection and scan mode first, turn off Automatic analysis. Tap Find duplicates when ready and run it again after changing the selection or mode.</string>
     <string name="help_tip_duplicate_finder_step_2">Open or compare candidates at a useful zoom before deleting anything, especially if text, edits, transparency, or metadata matter.</string>
     <string name="help_tip_duplicate_finder_step_3">Keep the copy with the best quality, most useful filename, or preferred location, then remove other copies only after that choice is clear.</string>
     <string name="help_tip_raw_development_title">Develop RAW photos</string>
@@ -481,6 +487,11 @@
     <string name="help_tip_collage_stitch_stack_step_1">Use Collage Maker for designed layouts with several images in one composition.</string>
     <string name="help_tip_collage_stitch_stack_step_2">Use Image Stitching or Stacking when images should become one long vertical or horizontal strip.</string>
     <string name="help_tip_collage_stitch_stack_step_3">Use Image Splitting when one large image needs to become several smaller pieces.</string>
+    <string name="help_tip_collage_project_title">Collage layouts, styles and projects</string>
+    <string name="help_tip_collage_layout">Choose a layout for the selected photos. Collages can hold up to 100 photos, and the bookmark next to the layout keeps it in Favorites.</string>
+    <string name="help_tip_collage_slots">Tap a photo and open its slot settings to adjust how it fits, its corners and its border. Move or zoom the photo inside the slot to adjust the crop.</string>
+    <string name="help_tip_collage_styles">Save a look in Saved styles. Apply everything restores the layout and dividers when the photo count matches. Style only keeps your current layout and applies the appearance by slot order.</string>
+    <string name="help_tip_collage_project">Use Save project to keep the source photos, layout and edit history in an editable file. To continue later, select Open project in Collage Maker.</string>
     <string name="help_tip_image_splitting_title">Split one image into tiles</string>
     <string name="help_tip_image_splitting_subtitle">Cut a single image by rows, columns, custom percentages, format, and quality</string>
     <string name="help_tip_image_splitting_page_title">Prepare grids and ordered pieces</string>
@@ -586,6 +597,7 @@
     <string name="help_tip_save_original_folder_step_1">Enable it when each source folder is already meaningful and outputs should remain grouped there.</string>
     <string name="help_tip_save_original_folder_step_2">Use filename suffixes, prefixes, timestamps, or patterns so edited copies are easy to separate from originals.</string>
     <string name="help_tip_save_original_folder_step_3">Disable it for mixed batches when you want all generated files collected in one export folder.</string>
+    <string name="help_tip_save_original_folder_subfolders">When processing photos from nested folders, each output goes beside its own source. An image created without a source uses the regular save location.</string>
     <string name="help_tip_one_time_save_location_title">One-time save folders</string>
     <string name="help_tip_one_time_save_location_subtitle">Send the next exports to a temporary folder without changing your normal destination</string>
     <string name="help_tip_one_time_save_location_page_title">Keep special jobs separate</string>
@@ -934,8 +946,11 @@
     <string name="help_tip_tool_arrangement_subtitle">Group, order, search, and pin tools so the main screen matches your real workflow</string>
     <string name="help_tip_tool_arrangement_page_title">Make the main screen faster</string>
     <string name="help_tip_tool_arrangement_description">Custom tool order is available when tools are not grouped by type. The arrangement sheet lets you place frequently used tools earlier in the list.</string>
+    <string name="help_tip_tool_arrangement_main_screen">Drag tools directly on the main screen to change their order. The order within categories is saved separately from the ungrouped list.</string>
     <string name="help_tip_tool_arrangement_step_1">Turn off Group Tools By Type if the order setting is disabled, then open Tool Order.</string>
+    <string name="help_tip_tool_arrangement_drag">Close search and open the list or category you want to arrange. Touch and drag a tool to move it.</string>
     <string name="help_tip_tool_arrangement_step_2">Long-press and drag a tool row to its new position. The order is updated when you release it.</string>
+    <string name="help_tip_tool_arrangement_settings">To arrange tools in Settings, turn off Group tools by type, open Order and drag the rows into place.</string>
     <string name="help_tip_tool_arrangement_step_3">Close the sheet and inspect the main tool list. Configure grouping and favorites separately if you prefer category tabs.</string>
     <string name="help_tip_large_files_title">Handle large files</string>
     <string name="help_tip_large_files_subtitle">Avoid slow exports, memory pressure, and unexpectedly large output</string>
@@ -5685,6 +5700,7 @@
     <string name="gallery_ocr_search_hint">File name or text</string>
     <string name="help_tip_gallery_ocr_setup">Turn on text search, allow access to photos, and let the app download the models and index your images.</string>
     <string name="help_tip_gallery_ocr_query">Open the gallery and enter a word or phrase that appears in the image.</string>
+    <string name="help_tip_gallery_ocr_assistant">In Assistant, ask for a specific inscription or for photos with any text. You can combine this with an album or date range.</string>
     <string name="gallery_search_content_hint">File name, description or text</string>
     <string name="gallery_search_auto">Semantic photo search</string>
     <string name="gallery_search_auto_sub">Find photos by what is in them and browse automatic categories in Gallery and Embedded Picker. First setup requires a download of about 227 MB.</string>
@@ -5893,6 +5909,7 @@
     <string name="help_tip_screenshot_framing_step_2">Choose a gradient preset or set the two colors yourself. Disable the gradient for a solid background.</string>
     <string name="help_tip_screenshot_framing_step_3">Tune corner radius, shadow blur, and shadow opacity. Check that the shadow remains visible against the chosen background.</string>
     <string name="help_tip_screenshot_framing_step_4">Read small interface text in the exported image. Decorative space can make the actual screenshot too small when a website scales the final card.</string>
+    <string name="help_tip_screenshot_framing_saved_style">Open Saved styles to name and save the current frame. Apply that style to another screenshot to reuse its canvas, background, padding and shadow.</string>
     <string name="help_tip_code_preview_title">Turn code into an image</string>
     <string name="help_tip_code_preview_subtitle">Control syntax, line wrapping, window decoration, and transparent export</string>
     <string name="help_tip_code_preview_page_title">Prepare a readable code card</string>
@@ -5905,6 +5922,7 @@
     <string name="help_tip_code_preview_page_2_step_1">Choose the background colors and adjust rotation or shadow only after the code is readable. Leave enough outer space for a rotated card.</string>
     <string name="help_tip_code_preview_page_2_step_2">Disable the canvas background for transparent output and choose an alpha-capable format such as PNG.</string>
     <string name="help_tip_code_preview_page_2_step_3">Check the exported picture at the intended display size. A short snippet with a larger font is often clearer than a whole file compressed into one card.</string>
+    <string name="help_tip_code_preview_saved_style">In the Style section, open Saved styles to name and save the current look. Apply it to another snippet to reuse the formatting while keeping its code.</string>
     <string name="help_tip_fractal_generation_title">Explore and render fractals</string>
     <string name="help_tip_fractal_generation_subtitle">Understand formulas, zoom, iteration policies, coloring, and 3D cameras</string>
     <string name="help_tip_fractal_generation_page_title">Navigate a fractal</string>
@@ -5997,6 +6015,10 @@
     <string name="help_tip_gallery_workflow_step_3">If a new file is missing, check its folder, media permissions, and whether the source app has finished saving it. A file picker can reach sources not shown in the media library.</string>
     <string name="help_tip_gallery_workflow_grid_settings">Open Settings → Gallery to set the grid to Auto or choose 1–20 columns. Pinch with two fingers to resize the grid until you close it. The file size and format labels can be turned off separately.</string>
     <string name="help_tip_gallery_workflow_fast_scroll">Scroll to reveal the handle on the right. Drag it to move through the gallery by date and time.</string>
+    <string name="help_tip_gallery_library_title">Favorites and Trash</string>
+    <string name="help_tip_gallery_library_description">On Android 11 and later, Gallery includes Favorites and Trash. Move photos to Trash if you might want them back.</string>
+    <string name="help_tip_gallery_library_favorites">Open a photo and tap the favorite button in its details. To find it later, open the Favorites album.</string>
+    <string name="help_tip_gallery_library_trash">Use Move to Trash from the photo actions. Once Trash has photos, open it with the button beside the search field. Restore selected photos or delete them permanently.</string>
     <string name="help_tip_archive_workflow_title">Create and extract archives</string>
     <string name="help_tip_archive_workflow_subtitle">Choose a container, compression method, password, and extraction options</string>
     <string name="help_tip_archive_workflow_page_title">Archive or extract</string>
@@ -6403,6 +6425,7 @@
     <string name="help_tip_setting_amoled_mode_description">AMOLED mode makes app surfaces black in the dark theme without changing exported images.</string>
     <string name="help_tip_setting_amoled_mode_step_1">Choose a dark Night Mode, or use the system theme while Android is dark.</string>
     <string name="help_tip_setting_amoled_mode_step_2">Enable AMOLED mode and inspect backgrounds; turn it off if you prefer the normal tinted dark surfaces.</string>
+    <string name="help_tip_setting_amoled_extended">Choose Extended if you also want black app bars, sheets and menus in the dark theme.</string>
     <string name="help_tip_setting_icon_shape_description">Icon containers can be customized separately from the shapes of cards and buttons.</string>
     <string name="help_tip_setting_icon_shape_step_1">Open Icon Shape and choose a container in its preview sheet.</string>
     <string name="help_tip_setting_icon_shape_step_2">Adjust the available icon/container options there; use Shapes Type for the rest of the interface.</string>
@@ -7342,6 +7365,11 @@
     <string name="help_tip_assistant_workflow_page_2_step_1">State the tool, format or parameter you mean if the answer loses context.</string>
     <string name="help_tip_assistant_workflow_page_2_step_2">Use Stop to interrupt generation. You can change models for the next request without deleting the conversation.</string>
     <string name="help_tip_assistant_workflow_page_2_step_3">Start a new conversation when changing to a different task. Attach the image again when asking a new question about its contents.</string>
+    <string name="help_tip_assistant_gallery_title">Find gallery photos with Assistant</string>
+    <string name="help_tip_assistant_gallery_description">Ask Assistant to find photos by scene, people, date, album, file name or visible text. You can combine these conditions and refine results in the chat.</string>
+    <string name="help_tip_assistant_gallery_setup">Enable Semantic photo search for scenes, group and name people for searches by name, or enable Text search in photos for inscriptions. Wait for the required index to be prepared.</string>
+    <string name="help_tip_assistant_gallery_refine">Ask, for example, “Find sunsets in Vacation from July”, then “From these, only photos without Alex”. Say which condition to change, or ask to start a new search.</string>
+    <string name="help_tip_assistant_gallery_results">Tap a result to preview it, then open an editing tool when needed. If Assistant offers similar matches, check them before using them.</string>
     <string name="help_tip_assistant_models_title">Assistant models</string>
     <string name="help_tip_assistant_models_subtitle">Lite, Advanced, Max and three Vision models</string>
     <string name="help_tip_assistant_models_description">The ordinary models answer questions about ImageToolbox using documented tools, settings and file metadata. They do not see attached image pixels. Model downloads and installed sizes are shown in the model selector.</string>
@@ -7357,6 +7385,7 @@
     <string name="help_tip_assistant_models_page_3_description">Downloaded file size is not the amount of RAM needed during a conversation. Loading the model, processing a photo and generating an answer also use memory. Response speed depends on the model, device and request length.</string>
     <string name="help_tip_assistant_models_page_3_step_1">Use Lite or Vision Lite first to check responsiveness on your device, then compare the same request with a larger model.</string>
     <string name="help_tip_assistant_models_page_3_step_2">Choose the smallest model that answers your task well. Delete unused downloads from the model selector to free storage.</string>
+    <string name="help_tip_assistant_models_ram">Check the recommended RAM and any low-memory notice in the model selector before downloading a large model.</string>
     <string name="help_tip_assistant_models_page_3_step_3">If generation is interrupted or the app closes under memory pressure, use a smaller model, close other heavy apps and shorten the question.</string>
     <string name="help_tip_assistant_images_title">Ask about a photo</string>
     <string name="help_tip_assistant_images_subtitle">Descriptions, captions, visible details and editing suggestions</string>
@@ -7495,6 +7524,11 @@
     <string name="help_tip_format_jpegli_step_1">Compare Jpegli, MozJPEG, and JPEG using the same source and dimensions, judging both visible quality and file size.</string>
     <string name="help_tip_format_jpegli_step_2">Inspect gradients and fine textures at a useful zoom; larger quality values may produce substantially larger files.</string>
     <string name="help_tip_format_jpegli_step_3">Use a format with alpha for transparent artwork and keep a lossless master for further edits.</string>
+    <string name="help_tip_format_jhm17_title">Jhm17</string>
+    <string name="help_tip_format_jhm17_subtitle">JPEG encoder with progressive output and chroma controls</string>
+    <string name="help_tip_format_jhm17_description">Jhm17 saves standard JPG files. Set the quality and choose how much color detail to keep. Progressive JPEG displays a coarse preview first when a compatible viewer loads the file.</string>
+    <string name="help_tip_format_jhm17_step_1">Start with automatic chroma. Compare file size and color edges on the exported image before changing subsampling.</string>
+    <string name="help_tip_format_jhm17_step_2">Try Coefficient Polish on smaller images if file size matters. It can take longer and use considerably more memory.</string>
     <string name="help_tip_format_png_title">PNG Lossless</string>
     <string name="help_tip_format_png_subtitle">Exact raster pixels and full transparency</string>
     <string name="help_tip_format_png_description">PNG Lossless preserves the pixels supplied to the encoder without lossy quantization. It is a good choice for screenshots, diagrams, text, and transparent assets, though photos can be much larger than JPEG or WebP. Full alpha is supported. The app’s PNG Lossless option has no quality slider, and supported EXIF can be retained. Pixel preservation applies after any resizing, filters, and background compositing.</string>
@@ -8053,7 +8087,10 @@
     <string name="arcade_exit_sub">The current game will end. Your high score will be saved.</string>
     <string name="arcade_games_sub">Play different arcade minigames</string>
     <string name="help_tip_arcade_games">Open Games and tap a game to play. Tap the bookmark next to a game to add it to favorites.</string>
+    <string name="help_tip_arcade_catalog">Use search to find a game by name. Close search, then touch and drag a game to reorder it within Favorites or within the rest of the catalog.</string>
+    <string name="help_tip_arcade_statistics">Open Game Statistics from the Games screen to see your scores, rounds played and the last time you played each game.</string>
     <string name="help_tip_loading_games">Enable Games while waiting, then tap the game button when a loading dialog appears.</string>
+    <string name="help_tip_loading_game_choice">Choose one game, a random game or a random game from Favorites in the setting. You can also open a game while Assistant is preparing a reply.</string>
     <string name="arcade_games_search">Dino Game, Doodle Jump, Flappy Bird, Tower Builder, Stack, Ping Pong, 2048, Snake, Tetris, Retro Racer, Ricochet, Asteroids, Fruit Slice, Knife Hit, Missile Command, River Hop, Frogger, Whack-a-Mole, Simon Says, Bubble Pop, Fishing, Super Hexagon</string>
     <string name="arcade_dino">Dino</string>
     <string name="arcade_doodle">Doodle Jump</string>

@@ -202,6 +202,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.Snowflake
 import com.t8rin.imagetoolbox.core.resources.icons.Speed
 import com.t8rin.imagetoolbox.core.resources.icons.SplitAlt
 import com.t8rin.imagetoolbox.core.resources.icons.Stacks
+import com.t8rin.imagetoolbox.core.resources.icons.StadiaController
 import com.t8rin.imagetoolbox.core.resources.icons.Stylus
 import com.t8rin.imagetoolbox.core.resources.icons.Suffix
 import com.t8rin.imagetoolbox.core.resources.icons.SwapVerticalCircle
@@ -825,7 +826,7 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
                 ),
                 page(
                     title = R.string.help_tip_gallery_search_page_2_title,
-                    description = R.string.help_tip_gallery_search_page_2_description,
+                    description = R.string.help_tip_gallery_search_query_types,
                     steps = listOf(
                         R.string.help_tip_gallery_search_page_2_step_1,
                         R.string.help_tip_gallery_search_page_2_step_2,
@@ -874,9 +875,9 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
                     title = R.string.help_tip_gallery_search_page_3_title,
                     description = R.string.help_tip_gallery_search_page_3_description,
                     steps = listOf(
-                        R.string.help_tip_gallery_search_page_3_step_1,
+                        R.string.help_tip_gallery_search_index_progress,
                         R.string.help_tip_gallery_search_page_3_step_2,
-                        R.string.help_tip_gallery_search_page_3_step_3
+                        R.string.help_tip_gallery_search_resume_index
                     )
                 ),
                 page(
@@ -910,7 +911,8 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
             description = R.string.gallery_ocr_sub,
             steps = listOf(
                 R.string.help_tip_gallery_ocr_setup,
-                R.string.help_tip_gallery_ocr_query
+                R.string.help_tip_gallery_ocr_query,
+                R.string.help_tip_gallery_ocr_assistant
             )
         ),
         tip(
@@ -943,23 +945,30 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
             id = "arcade-games",
             title = R.string.arcade_games,
             subtitle = R.string.arcade_games_sub,
-            icon = Icons.Outlined.Gamepad,
+            icon = Icons.Outlined.StadiaController,
             category = gettingStarted,
             deepLink = Screen.ArcadeGames(),
             pageTitle = R.string.arcade_games,
             description = R.string.arcade_games_sub,
-            steps = listOf(R.string.help_tip_arcade_games)
+            steps = listOf(
+                R.string.help_tip_arcade_games,
+                R.string.help_tip_arcade_catalog,
+                R.string.help_tip_arcade_statistics
+            )
         ),
         tip(
             id = "setting-games-while-waiting",
             title = R.string.show_loading_game_button,
             subtitle = R.string.show_loading_game_button_sub,
-            icon = Icons.Outlined.Gamepad,
+            icon = Icons.Outlined.StadiaController,
             category = customization,
             deepLink = Screen.Settings(targetSetting = Setting.ShowLoadingGameButton),
             pageTitle = R.string.show_loading_game_button,
             description = R.string.show_loading_game_button_sub,
-            steps = listOf(R.string.help_tip_loading_games)
+            steps = listOf(
+                R.string.help_tip_loading_games,
+                R.string.help_tip_loading_game_choice
+            )
         ),
         tip(
             id = TipIds.OpenEditDirectly,
@@ -988,7 +997,8 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
             steps = listOf(
                 R.string.help_tip_favorites_share_tools_step_1,
                 R.string.help_tip_favorites_share_tools_step_2,
-                R.string.help_tip_favorites_share_tools_step_3
+                R.string.help_tip_favorites_share_tools_step_3,
+                R.string.help_tip_favorites_reorder
             )
         ),
         tip(
@@ -999,10 +1009,10 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
             category = gettingStarted,
             deepLink = Screen.Settings(targetSetting = Setting.ScreenOrder),
             pageTitle = R.string.help_tip_tool_arrangement_page_title,
-            description = R.string.help_tip_tool_arrangement_description,
+            description = R.string.help_tip_tool_arrangement_main_screen,
             steps = listOf(
-                R.string.help_tip_tool_arrangement_step_1,
-                R.string.help_tip_tool_arrangement_step_2,
+                R.string.help_tip_tool_arrangement_drag,
+                R.string.help_tip_tool_arrangement_settings,
                 R.string.help_tip_tool_arrangement_step_3
             )
         ),
@@ -1134,7 +1144,8 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
             steps = listOf(
                 R.string.help_tip_resize_type_step_1,
                 R.string.help_tip_resize_type_step_2,
-                R.string.help_tip_resize_type_step_3
+                R.string.help_tip_resize_type_step_3,
+                R.string.help_tip_resize_flexible_sides
             )
         ),
         tip(
@@ -1370,6 +1381,7 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
             description = R.string.help_tip_duplicate_finder_description,
             steps = listOf(
                 R.string.help_tip_duplicate_finder_step_1,
+                R.string.help_tip_duplicate_manual_analysis,
                 R.string.help_tip_duplicate_finder_step_2,
                 R.string.help_tip_duplicate_finder_step_3
             )
@@ -1542,6 +1554,22 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
                 R.string.help_tip_collage_stitch_stack_step_1,
                 R.string.help_tip_collage_stitch_stack_step_2,
                 R.string.help_tip_collage_stitch_stack_step_3
+            )
+        ),
+        tip(
+            id = "collage-projects",
+            title = R.string.help_tip_collage_project_title,
+            subtitle = R.string.collage_maker_sub,
+            icon = Icons.Outlined.Collage,
+            category = imageEditing,
+            deepLink = Screen.CollageMaker(),
+            pageTitle = R.string.help_tip_collage_project_title,
+            description = R.string.collage_maker_sub,
+            steps = listOf(
+                R.string.help_tip_collage_layout,
+                R.string.help_tip_collage_slots,
+                R.string.help_tip_collage_styles,
+                R.string.help_tip_collage_project
             )
         ),
         tip(
@@ -1777,7 +1805,8 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
             steps = listOf(
                 R.string.help_tip_save_original_folder_step_1,
                 R.string.help_tip_save_original_folder_step_2,
-                R.string.help_tip_save_original_folder_step_3
+                R.string.help_tip_save_original_folder_step_3,
+                R.string.help_tip_save_original_folder_subfolders
             )
         ),
         tip(
@@ -2480,6 +2509,21 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
                 )
             )
         ),
+        tip(
+            id = "assistant-gallery-search",
+            title = R.string.help_tip_assistant_gallery_title,
+            subtitle = R.string.help_tip_assistant_gallery_description,
+            icon = Icons.Outlined.ImageSearch,
+            category = aiTools,
+            deepLink = Screen.Assistant(),
+            pageTitle = R.string.help_tip_assistant_gallery_title,
+            description = R.string.help_tip_assistant_gallery_description,
+            steps = listOf(
+                R.string.help_tip_assistant_gallery_setup,
+                R.string.help_tip_assistant_gallery_refine,
+                R.string.help_tip_assistant_gallery_results
+            )
+        ),
         pagesTip(
             id = "assistant-models",
             title = R.string.help_tip_assistant_models_title,
@@ -2512,6 +2556,7 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
                     steps = listOf(
                         R.string.help_tip_assistant_models_page_3_step_1,
                         R.string.help_tip_assistant_models_page_3_step_2,
+                        R.string.help_tip_assistant_models_ram,
                         R.string.help_tip_assistant_models_page_3_step_3
                     )
                 )
@@ -3095,7 +3140,8 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
                         R.string.help_tip_screenshot_framing_step_1,
                         R.string.help_tip_screenshot_framing_step_2,
                         R.string.help_tip_screenshot_framing_step_3,
-                        R.string.help_tip_screenshot_framing_step_4
+                        R.string.help_tip_screenshot_framing_step_4,
+                        R.string.help_tip_screenshot_framing_saved_style
                     )
                 )
             )
@@ -3143,7 +3189,8 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
                     steps = listOf(
                         R.string.help_tip_code_preview_page_2_step_1,
                         R.string.help_tip_code_preview_page_2_step_2,
-                        R.string.help_tip_code_preview_page_2_step_3
+                        R.string.help_tip_code_preview_page_2_step_3,
+                        R.string.help_tip_code_preview_saved_style
                     )
                 )
             )
@@ -3382,6 +3429,14 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
                         R.string.help_tip_gallery_workflow_step_3,
                         R.string.help_tip_gallery_workflow_grid_settings,
                         R.string.help_tip_gallery_workflow_fast_scroll
+                    )
+                ),
+                page(
+                    title = R.string.help_tip_gallery_library_title,
+                    description = R.string.help_tip_gallery_library_description,
+                    steps = listOf(
+                        R.string.help_tip_gallery_library_favorites,
+                        R.string.help_tip_gallery_library_trash
                     )
                 )
             )
@@ -4486,7 +4541,8 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
             description = R.string.help_tip_setting_amoled_mode_description,
             steps = listOf(
                 R.string.help_tip_setting_amoled_mode_step_1,
-                R.string.help_tip_setting_amoled_mode_step_2
+                R.string.help_tip_setting_amoled_mode_step_2,
+                R.string.help_tip_setting_amoled_extended
             )
         ),
         tip(

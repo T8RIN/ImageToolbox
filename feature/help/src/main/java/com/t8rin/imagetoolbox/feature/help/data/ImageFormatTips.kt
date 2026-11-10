@@ -67,6 +67,18 @@ internal fun imageFormatTips(category: HelpCategory): List<HelpTip> = listOf(
         deepLink = Screen.FormatConversion()
     ),
     formatTip(
+        id = "format-jhm17",
+        category = category,
+        title = R.string.help_tip_format_jhm17_title,
+        subtitle = R.string.help_tip_format_jhm17_subtitle,
+        description = R.string.help_tip_format_jhm17_description,
+        steps = listOf(
+            R.string.help_tip_format_jhm17_step_1,
+            R.string.help_tip_format_jhm17_step_2
+        ),
+        deepLink = Screen.FormatConversion()
+    ),
+    formatTip(
         id = "format-png",
         category = category,
         title = R.string.help_tip_format_png_title,
