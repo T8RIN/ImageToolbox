@@ -167,32 +167,6 @@ class ArcadeRenderingTest {
                 send(MotionEvent.ACTION_UP, point)
             }
             when (games[index % games.size]) {
-                ArcadeGame.TraceAndClaim -> {
-                    val from = fieldBounds.center
-                    val to = from + Offset(fieldBounds.width * 0.025f, -fieldBounds.height * 0.2f)
-                    downTime = SystemClock.uptimeMillis()
-                    send(MotionEvent.ACTION_DOWN, from)
-                    send(MotionEvent.ACTION_MOVE, to)
-                    compose.mainClock.advanceTimeBy(3650L)
-                    heldPoint = to
-                }
-
-                ArcadeGame.OrchardPile -> {
-                    repeat(18) { index ->
-                        val spread = minOf(fieldBounds.width, fieldBounds.height) * 0.07f
-                        touch(fieldBounds.center + Offset(((index * 3) % 5 - 2) * spread, 0f), 16L)
-                        compose.mainClock.advanceTimeBy(480L)
-                    }
-                    compose.mainClock.advanceTimeBy(1400L)
-                }
-
-                ArcadeGame.TintAscent -> {
-                    repeat(7) {
-                        touch(fieldBounds.center, 16L)
-                        compose.mainClock.advanceTimeBy(165L)
-                    }
-                }
-
                 ArcadeGame.Minesweeper -> {
                     touch(
                         fieldBounds.topLeft + Offset(
