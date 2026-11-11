@@ -433,3 +433,53 @@ internal fun DrawScope.arcadeOrchard(style: ArcadeStyle, width: Float, height: F
         )
     }
 }
+
+internal fun DrawScope.arcadeShaft(
+    style: ArcadeStyle,
+    width: Float,
+    height: Float,
+    top: Float,
+    drift: Float
+) {
+    val color = style.detailColor.copy(alpha = 0.15f)
+    for (side in 0..1) {
+        val edge = if (side == 0) 0f else width
+        val direction = if (side == 0) 1f else -1f
+        val inner = edge + width * 0.16f * direction
+        val outer = edge + width * 0.035f * direction
+        val wall = Path().apply {
+            moveTo(edge, top)
+            lineTo(inner, top)
+            lineTo(inner - width * 0.035f * direction, height)
+            lineTo(edge, height)
+            close()
+        }
+        drawPath(wall, color.copy(alpha = 0.045f))
+        drawLine(
+            color.copy(alpha = 0.09f), Offset(inner, top),
+            Offset(inner - width * 0.035f * direction, height), 1f
+        )
+        drawLine(color.copy(alpha = 0.08f), Offset(outer, top), Offset(outer, height), 1f)
+        var y = top - drift % 82f - 82f
+        while (y < height) {
+            val x = edge + width * 0.08f * direction
+            val half = width * 0.025f
+            val niche = Path().apply {
+                moveTo(x - half, y + 31f)
+                lineTo(x - half, y + 9f)
+                lineTo(x, y + 3f)
+                lineTo(x + half, y + 9f)
+                lineTo(x + half, y + 31f)
+                close()
+            }
+            drawPath(niche, color.copy(alpha = 0.07f))
+            drawPath(niche, color, style = Stroke(0.8f))
+            pixelRect(style.accentColor.copy(alpha = 0.12f), x - 1f, y + 14f, 2f, 9f)
+            drawLine(
+                color.copy(alpha = 0.08f), Offset(outer, y + 54f),
+                Offset(inner - width * 0.02f * direction, y + 58f), 0.8f
+            )
+            y += 82f
+        }
+    }
+}

@@ -43,6 +43,8 @@ import com.t8rin.imagetoolbox.core.resources.icons.VectorPolyline
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import kotlin.math.abs
+import kotlin.math.ceil
+import kotlin.math.floor
 import kotlin.random.Random
 
 @RegisterArcadeGame
@@ -80,11 +82,12 @@ internal data object SharpTurnsGame : ArcadeGameDefinition {
                 arcadePrisms(style, run.width, run.height, run.topInset)
                 val tint = lerp(style.playerColor, style.accentColor, run.tint)
 
-                for ((x, y, hasGem, span) in run.tiles.asReversed()) {
+                for (index in run.visibleTiles.reversed()) {
+                    val (x, y, hasGem, span) = run.tiles[index]
                     val half = run.tileWidth * span / 2f
                     val depth = half / 2f
                     val point = run.project(x.toFloat(), y.toFloat())
-                    if (point.y < -depth || point.y > run.height + depth) continue
+                    if (point.y + depth + 5f < 0f || point.y - depth > run.height) continue
                     val path = tilePath.apply {
                         rewind()
                         moveTo(point.x, point.y - depth)
@@ -188,6 +191,17 @@ private class SharpTurnsRun : ArcadeRun() {
     private var gems = 0
     private var grace = 0.7f
     val tileWidth get() = minOf(58f, width * 0.17f, (height - topInset) * 0.32f)
+    val visibleTiles: IntRange
+        get() {
+            if (tiles.isEmpty()) return IntRange.EMPTY
+            val step = tileWidth / 4f
+            val anchor = topInset + (height - topInset) * 0.76f
+            val margin = tileWidth / 2f + 8f
+            val origin = tiles.first().x + tiles.first().y
+            val first = floor(progress + (anchor - height - margin) / step).toInt() - origin
+            val last = ceil(progress + (anchor + margin) / step).toInt() - origin
+            return first.coerceAtLeast(0)..last.coerceAtMost(tiles.lastIndex)
+        }
     val speed get() = 2.1f + 2f * progress / (progress + 240f)
     val tint: Float
         get() {
@@ -227,7 +241,8 @@ private class SharpTurnsRun : ArcadeRun() {
     }
 
     private fun populate() {
-        val ahead = ((height - topInset) / (tileWidth / 4f)).toInt().coerceIn(14, 50)
+        val ahead = ceil((height - topInset) / (tileWidth / 4f)).toInt().coerceAtLeast(14) + 3
+        // Keep the travelled path: a taller layout can bring old tiles back into view.
         while (tiles.last().x + tiles.last().y < progress + ahead) {
             val last = tiles.last()
             if (remaining == 0) {
@@ -244,7 +259,6 @@ private class SharpTurnsRun : ArcadeRun() {
             )
             remaining--
         }
-        tiles.removeAll { it.x + it.y < progress - 5f }
     }
 
     fun turn() {
@@ -255,9 +269,10 @@ private class SharpTurnsRun : ArcadeRun() {
     fun supported(
         x: Float,
         y: Float
-    ): Boolean = tiles.any {
+    ): Boolean = visibleTiles.any { index ->
+        val tile = tiles[index]
         // The contact point supports the ball even when part of it overhangs an edge.
-        abs(x - it.x) <= it.span * 0.5f && abs(y - it.y) <= it.span * 0.5f
+        abs(x - tile.x) <= tile.span * 0.5f && abs(y - tile.y) <= tile.span * 0.5f
     }
 
     override fun advance(seconds: Float) {
@@ -279,7 +294,8 @@ private class SharpTurnsRun : ArcadeRun() {
             fall = 0f
             return
         }
-        for (tile in tiles) {
+        for (index in visibleTiles) {
+            val tile = tiles[index]
             if (tile.gem && abs(x - tile.x) < 0.3f && abs(y - tile.y) < 0.3f) {
                 tile.gem = false
                 gems++

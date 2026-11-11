@@ -46,6 +46,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.graphics.vector.PathParser
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
+import androidx.core.graphics.ColorUtils
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
 import com.t8rin.imagetoolbox.core.games.ArcadeCloud
 import com.t8rin.imagetoolbox.core.games.ArcadeField
@@ -66,11 +67,9 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import kotlin.math.abs
 import kotlin.math.cos
-import kotlin.math.roundToInt
 import kotlin.math.sin
 import kotlin.math.sqrt
 import kotlin.random.Random
-import android.graphics.Color as AndroidColor
 
 @RegisterArcadeGame
 internal data object OrchardPileGame : ArcadeGameDefinition {
@@ -292,17 +291,8 @@ private enum class OrchardKind(
     val outline by lazy { OrchardOutline(shape, radius) }
 }
 
-private fun Color.orchardColor(primary: Color): Color {
-    val source = FloatArray(3)
-    val target = FloatArray(3)
-    AndroidColor.colorToHSV(toArgb(), source)
-    AndroidColor.colorToHSV(primary.toArgb(), target)
-    val delta = (target[0] - source[0] + 540f) % 360f - 180f
-    source[0] = (source[0] + delta.coerceIn(-12f, 12f) + 360f) % 360f
-    source[1] *= 0.88f
-    source[2] = source[2] * 0.94f + target[2] * 0.06f
-    return Color(AndroidColor.HSVToColor((alpha * 255f).roundToInt(), source))
-}
+private fun Color.orchardColor(primary: Color): Color =
+    Color(ColorUtils.blendARGB(toArgb(), primary.toArgb(), 0.2f))
 
 private fun orchardSprite(kind: OrchardKind, primary: Color): ImageBitmap {
     val image = ImageBitmap(width = 80, height = 100)
@@ -331,7 +321,7 @@ private fun orchardSprite(kind: OrchardKind, primary: Color): ImageBitmap {
         Color(0xFFFFDF90).orchardColor(primary),
         Color(0xFFCB5F75).orchardColor(primary),
         Color(0xFFE8EBC3).orchardColor(primary),
-        lerp(color, Color(0xFFCA4E66), 0.35f)
+        lerp(color, Color(0xFFCA4E66).orchardColor(primary), 0.35f)
     ).map(Color::toArgb)
     val bitmap = image.asAndroidBitmap()
     val pixels = IntArray(bitmap.width * bitmap.height)
@@ -506,13 +496,13 @@ private fun DrawScope.drawOrchardFruit(
             drawOval(Color.White.copy(alpha = 0.45f), Offset(-0.62f, -0.50f), Size(0.25f, 0.15f))
             if (radius >= 8f) {
                 drawCircle(Color.White.copy(alpha = 0.36f), 0.049f, Offset(-0.66f, -0.34f))
-                orchardFace(kind, lerp(color, ink, 0.86f))
+                orchardFace(kind, lerp(color, ink, 0.86f), primary)
             }
         }
     }
 }
 
-private fun DrawScope.orchardFace(kind: OrchardKind, ink: Color) {
+private fun DrawScope.orchardFace(kind: OrchardKind, ink: Color, primary: Color) {
     val eyesY = if (kind == OrchardKind.Pear) 0.21f else 0.05f
     for (side in -1..1 step 2) {
         val eye = Offset(side * 0.26f, eyesY)
@@ -540,7 +530,7 @@ private fun DrawScope.orchardFace(kind: OrchardKind, ink: Color) {
 
         if (kind == OrchardKind.Peach || kind == OrchardKind.Strawberry || kind == OrchardKind.Pear) {
             drawOval(
-                color = Color(0xFFCA4E66).copy(alpha = 0.35f),
+                color = Color(0xFFCA4E66).orchardColor(primary).copy(alpha = 0.35f),
                 topLeft = eye + Offset(side * 0.13f - 0.09f, 0.14f),
                 size = Size(0.18f, 0.10f)
             )
