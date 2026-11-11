@@ -51,7 +51,10 @@ internal class AndroidArcadeStatisticsRepository @Inject constructor(
                 finishedRounds = finishedRounds,
                 lastPlayed = preferences[keys.lastPlayed]
             )
-        }.sortedByDescending { it.lastPlayed }
+        }.sortedWith(
+            compareByDescending<ArcadeGameStatistics> { it.startedRounds }
+                .thenByDescending { it.lastPlayed }
+        )
     }
 
     override fun highScore(game: String): Flow<Int> = dataStore.data.map {
