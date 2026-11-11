@@ -822,7 +822,7 @@ private class HillDriveSection(
 }
 
 @Serializable
-internal class HillDrivePickup(
+private class HillDrivePickup(
     val x: Double,
     val y: Float,
     val fuel: Boolean,
@@ -830,7 +830,7 @@ internal class HillDrivePickup(
 )
 
 @Serializable
-internal class HillDriveWheel {
+private class HillDriveWheel {
     var x = 0.0
     var y = 0f
     var velocity: ArcadeOffset = Offset.Zero
