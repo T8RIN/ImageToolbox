@@ -117,25 +117,6 @@ internal fun DrawScope.arcadeLives(
     }
 }
 
-internal fun DrawScope.arcadeStars(
-    style: ArcadeStyle,
-    width: Float,
-    height: Float,
-    drift: Float
-) {
-    repeat(28) { index ->
-        val x = (index * 79f + 17f) % width
-        val y = (index * 137f + drift * (1f + index % 3) * 0.15f) % height
-        pixelRect(
-            color = style.detailColor.copy(alpha = if (index % 4 == 0) 0.5f else 0.25f),
-            x = x,
-            y = y,
-            width = 2f,
-            height = 2f
-        )
-    }
-}
-
 internal fun arcadeAngle(angle: Float): Float = (angle % 360f + 360f) % 360f
 
 internal fun arcadeAngleDistance(

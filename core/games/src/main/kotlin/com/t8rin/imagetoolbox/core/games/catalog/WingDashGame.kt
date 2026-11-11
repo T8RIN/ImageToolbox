@@ -21,21 +21,22 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.lerp
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
-import com.t8rin.imagetoolbox.core.games.ArcadeCloud
 import com.t8rin.imagetoolbox.core.games.ArcadeField
 import com.t8rin.imagetoolbox.core.games.ArcadeGameContext
 import com.t8rin.imagetoolbox.core.games.ArcadeGameDefinition
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.ArcadeSprite
+import com.t8rin.imagetoolbox.core.games.ArcadeStyle
 import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
-import com.t8rin.imagetoolbox.core.games.arcadeGround
 import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
+import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Raven
@@ -68,18 +69,7 @@ internal data object WingDashGame : ArcadeGameDefinition {
                 run = run,
                 onPress = { run.flap() }
             ) {
-                var cloudX = 40f - run.distance * 0.18f % 690f
-                var index = 0
-                while (cloudX < run.width) {
-                    drawArcadeSprite(
-                        sprite = ArcadeCloud,
-                        tint = style.detailColor,
-                        x = cloudX,
-                        y = run.topInset + 25f + index % 3 * (run.ground - run.topInset) * 0.15f
-                    )
-                    cloudX += 230f
-                    index++
-                }
+                drawFlappyBackground(run, style)
                 for ((x, center1, gap) in run.pipes) {
                     val top = center1 - gap / 2
                     val bottom = center1 + gap / 2
@@ -146,12 +136,7 @@ internal data object WingDashGame : ArcadeGameDefinition {
                         height = 2f
                     )
                 }
-                arcadeGround(
-                    style = style,
-                    width = run.width,
-                    y = run.ground,
-                    distance = run.distance
-                )
+                drawFlappyGround(run, style)
                 val wingUp = run.wingTime % 0.24f < 0.12f
                 rotate(degrees = run.tilt, pivot = Offset(x = run.birdX, y = run.y)) {
                     val x = run.birdX - 23
@@ -253,6 +238,59 @@ private val WingDownColor = ArcadeSprite(
     height = 32,
     data = "M17 18H24V20H26V22H22V26H18V28H16V24H14V22H17Z"
 )
+
+private val FlappyCloud = ArcadeSprite(
+    width = 42, height = 19,
+    data = "M0 12H3V8H8V4H14V1H24V4H30V8H35V11H39V14H42V19H0Z"
+)
+
+private fun DrawScope.drawFlappyBackground(run: WingDashRun, style: ArcadeStyle) {
+    var cloudX = -(run.distance * 0.08f % 173f) - 42f
+    var index = 0
+    while (cloudX < run.width) {
+        val y = run.height * (0.12f + index % 3 * 0.1f)
+        drawArcadeSprite(FlappyCloud, style.detailColor.copy(alpha = 0.15f), cloudX, y)
+        pixelRect(style.detailColor.copy(alpha = 0.11f), cloudX + 2f, y + 16f, 38f, 3f)
+        cloudX += 173f
+        index++
+    }
+    var x = -(run.distance * 0.035f % 106f) - 20f
+    index = 0
+    while (x < run.width) {
+        val height = 17f + index % 4 * 7f
+        val y = run.ground - height
+        pixelRect(style.detailColor.copy(alpha = 0.07f), x, y, 23f, height)
+        pixelRect(style.detailColor.copy(alpha = 0.13f), x + 2f, y - 2f, 19f, 2f)
+        for (row in 0..2) for (column in 0..2) {
+            pixelRect(
+                style.detailColor.copy(alpha = 0.12f), x + 4f + column * 6f,
+                y + 5f + row * 7f, 2f, 3f
+            )
+        }
+        x += 35f
+        index++
+    }
+    x = -(run.distance * 0.06f % 39f) - 20f
+    while (x < run.width + 20f) {
+        pixelCircle(style.obstacleColor.copy(alpha = 0.09f), 15f, Offset(x, run.ground + 5f))
+        pixelCircle(style.detailColor.copy(alpha = 0.08f), 10f, Offset(x + 17f, run.ground + 3f))
+        x += 39f
+    }
+}
+
+private fun DrawScope.drawFlappyGround(run: WingDashRun, style: ArcadeStyle) {
+    val y = run.ground
+    pixelRect(style.detailColor.copy(alpha = 0.12f), 0f, y, run.width, run.height - y)
+    pixelRect(style.obstacleColor.copy(alpha = 0.85f), 0f, y, run.width, 2f)
+    pixelRect(style.playerDetailColor.copy(alpha = 0.25f), 0f, y + 5f, run.width, 1f)
+    var x = -(run.distance % 12f).toInt().toFloat()
+    while (x < run.width) {
+        pixelRect(style.obstacleColor.copy(alpha = 0.45f), x, y + 2f, 5f, 2f)
+        pixelRect(style.obstacleColor.copy(alpha = 0.35f), x + 3f, y + 4f, 5f, 1f)
+        pixelRect(style.detailColor.copy(alpha = 0.14f), x + 7f, y + 10f, 1f, 5f)
+        x += 12f
+    }
+}
 
 @Serializable
 private data class BirdPipe(

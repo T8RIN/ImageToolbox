@@ -78,6 +78,7 @@ internal data object SpiralShaftGame : ArcadeGameDefinition {
                 onDrag = { run.spin(it.x) },
                 onRelease = run::stopInput
             ) {
+                drawShaftBackground(style, run.width, run.height, run.camera * run.unit * 0.12f)
                 translate(left = run.width / 2f, top = run.anchor) {
                     scale(scale = run.unit, pivot = Offset.Zero) {
                         val top = -run.anchor / run.unit
@@ -381,6 +382,47 @@ private fun DrawScope.shaftBall(run: SpiralShaftRun, style: ArcadeStyle) {
         topLeft = center - Offset(radius + squash, radius - squash),
         size = Size((radius + squash) * 2f, (radius - squash) * 2f)
     )
+}
+
+private fun DrawScope.drawShaftBackground(
+    style: ArcadeStyle,
+    width: Float,
+    height: Float,
+    drift: Float
+) {
+    val span = height + 70f
+    repeat(4) { index ->
+        val left = index % 2 == 0
+        val x = width * if (left) 0.08f + index * 0.012f else 0.93f - index * 0.012f
+        val y = ((index + 0.3f) * span / 4f - drift % span + span) % span - 35f
+        val radius = minOf(width, height) * (0.035f + index % 2 * 0.015f)
+        val depth = radius * 0.42f
+        val color = style.detailColor
+        val upper = Path().apply {
+            moveTo(x, y - radius * 0.4f)
+            lineTo(x + radius, y)
+            lineTo(x, y + radius * 0.5f)
+            lineTo(x - radius, y + radius * 0.1f)
+            close()
+        }
+        drawPath(upper, color.copy(alpha = 0.13f))
+        val near = Path().apply {
+            moveTo(x - radius, y + radius * 0.1f)
+            lineTo(x, y + radius * 0.5f)
+            lineTo(x, y + radius * 0.5f + depth)
+            lineTo(x - radius, y + radius * 0.1f + depth)
+            close()
+        }
+        drawPath(near, color.copy(alpha = 0.06f))
+        val far = Path().apply {
+            moveTo(x, y + radius * 0.5f)
+            lineTo(x + radius, y)
+            lineTo(x + radius, y + depth)
+            lineTo(x, y + radius * 0.5f + depth)
+            close()
+        }
+        drawPath(far, color.copy(alpha = 0.09f))
+    }
 }
 
 @Serializable

@@ -21,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.clipRect
 import androidx.compose.ui.graphics.lerp
@@ -31,9 +32,9 @@ import com.t8rin.imagetoolbox.core.games.ArcadeGameContext
 import com.t8rin.imagetoolbox.core.games.ArcadeGameDefinition
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
+import com.t8rin.imagetoolbox.core.games.ArcadeStyle
 import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
-import com.t8rin.imagetoolbox.core.games.utils.arcadeBlocks
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.ViewQuilt
@@ -69,7 +70,7 @@ internal data object BlockStackGame : ArcadeGameDefinition {
                 onDrag = run::drag,
                 onRelease = run::stopInput
             ) {
-                arcadeBlocks(style, run.width, run.height, run.topInset)
+                drawBlockStackBackground(style, run.width, run.height)
                 val cell = run.cellSize
                 val origin = Offset(
                     x = (run.width - cell * BlockStackColumns) / 2,
@@ -267,6 +268,35 @@ private const val BlockStackColumns = 10
 private const val BlockStackRows = 20
 private const val ClearDuration = 0.2f
 private const val HoldDelay = 0.35f
+
+private fun DrawScope.drawBlockStackBackground(style: ArcadeStyle, width: Float, height: Float) {
+    val shapes = listOf(
+        listOf(0 to 0, 0 to 1, 1 to 1, 2 to 1),
+        listOf(1 to 0, 2 to 0, 0 to 1, 1 to 1),
+        listOf(0 to 0, 1 to 0, 2 to 0, 1 to 1)
+    )
+    for (side in 0..1) repeat(4) { index ->
+        val left = width * if (side == 0) 0.075f else 0.82f
+        val y = height * (index + 0.5f) / 4f
+        for ((x, row) in shapes[(index + side) % shapes.size]) {
+            val point = Offset(left + x * 11f, y + row * 11f)
+            drawRect(style.detailColor.copy(alpha = 0.05f), point + Offset(2f, 2f), Size(10f, 10f))
+            drawRect(style.detailColor.copy(alpha = 0.06f), point, Size(10f, 10f))
+            drawRect(
+                style.detailColor.copy(alpha = 0.19f),
+                point,
+                Size(10f, 10f),
+                style = Stroke(0.8f)
+            )
+            drawLine(
+                style.detailColor.copy(alpha = 0.13f),
+                point + Offset(2f, 2f),
+                point + Offset(8f, 2f),
+                0.8f
+            )
+        }
+    }
+}
 
 @Serializable
 private data class BlockStackCell(

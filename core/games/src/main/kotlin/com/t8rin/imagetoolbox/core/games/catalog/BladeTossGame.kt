@@ -40,7 +40,6 @@ import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
 import com.t8rin.imagetoolbox.core.games.utils.arcadeAngle
 import com.t8rin.imagetoolbox.core.games.utils.arcadeAngleDistance
-import com.t8rin.imagetoolbox.core.games.utils.arcadePlanks
 import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
@@ -77,7 +76,7 @@ internal data object BladeTossGame : ArcadeGameDefinition {
                 transition = { run.transition },
                 onPress = { run.throwKnife() }
             ) {
-                arcadePlanks(style, run.width, run.height, run.topInset)
+                drawBladeBackground(style, run.width, run.height)
                 val center = run.center + Offset(
                     x = 0f,
                     y = sin(run.impact * PI.toFloat()) * 3f
@@ -309,6 +308,27 @@ private fun DrawScope.drawKnife(
                 y = y + rivet,
                 width = 1f,
                 height = 1f
+            )
+        }
+    }
+}
+
+private fun DrawScope.drawBladeBackground(style: ArcadeStyle, width: Float, height: Float) {
+    val color = style.detailColor.copy(alpha = 0.13f)
+    val plank = height / 4f
+    repeat(4) { index ->
+        val y = index * plank + 12f
+        pixelRect(color.copy(alpha = 0.075f), 8f, y, width - 16f, 1f)
+        for (x in listOf(13f, width - 14f)) {
+            pixelRect(color, x, y + 5f, 2f, 2f)
+            val direction = if (x < width / 2f) 1f else -1f
+            pixelRect(color, x + (if (direction > 0f) 4f else -18f), y + 18f, 14f, 1f)
+            pixelRect(
+                color.copy(alpha = 0.08f),
+                x + (if (direction > 0f) 9f else -27f),
+                y + 21f,
+                18f,
+                1f
             )
         }
     }

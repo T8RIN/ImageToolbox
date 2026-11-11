@@ -19,10 +19,13 @@ package com.t8rin.imagetoolbox.core.games.catalog
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.DrawScope
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.text.drawText
@@ -37,10 +40,10 @@ import com.t8rin.imagetoolbox.core.games.ArcadeGameDefinition
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.ArcadeSprite
+import com.t8rin.imagetoolbox.core.games.ArcadeStyle
 import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
-import com.t8rin.imagetoolbox.core.games.utils.arcadeSurvey
 import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
 import com.t8rin.imagetoolbox.core.games.utils.pixelPanel
 import com.t8rin.imagetoolbox.core.resources.Icons
@@ -77,8 +80,14 @@ internal data object MinesweeperGame : ArcadeGameDefinition {
                 onTap = run::tap,
                 onLongPress = run::hold
             ) {
-                arcadeSurvey(style, run.width, run.height, run.topInset)
+                drawMinesweeperBackground(style, run.width, run.height)
                 val cell = run.cell
+                drawRoundRect(
+                    brush = style.background,
+                    topLeft = run.origin,
+                    size = Size(cell * run.columns, cell * run.rows),
+                    cornerRadius = CornerRadius(3f)
+                )
                 for (index in run.board.indices) {
                     val point =
                         run.origin + Offset(
@@ -226,6 +235,38 @@ private val MinesweeperFlag = ArcadeSprite(
     data = "M2 0H8V1H10V2H12V4H10V5H8V6H4V10H7V12H0V10H2Z"
 )
 
+private fun DrawScope.drawMinesweeperBackground(style: ArcadeStyle, width: Float, height: Float) {
+    val ink = style.detailColor.copy(alpha = 0.17f)
+    val contour = listOf(
+        Offset(-1f, -0.2f), Offset(-0.72f, -0.68f), Offset(-0.23f, -0.73f),
+        Offset(0.08f, -1f), Offset(0.59f, -0.78f), Offset(0.9f, -0.24f),
+        Offset(0.8f, 0.3f), Offset(0.42f, 0.49f), Offset(0.16f, 0.87f),
+        Offset(-0.42f, 0.72f), Offset(-0.62f, 0.35f), Offset(-0.91f, 0.21f)
+    )
+    for ((center, radius) in listOf(
+        Offset(width * 0.04f, height * 0.08f) to minOf(width, height) * 0.25f,
+        Offset(width * 0.97f, height * 0.72f) to minOf(width, height) * 0.28f,
+        Offset(width * 0.09f, height * 0.93f) to minOf(width, height) * 0.13f
+    )) {
+        for (scale in listOf(1f, 0.77f, 0.54f, 0.31f)) {
+            val path = Path().apply {
+                contour.forEachIndexed { index, point ->
+                    val target = center + point * radius * scale
+                    if (index == 0) moveTo(target.x, target.y) else lineTo(target.x, target.y)
+                }
+                close()
+            }
+            drawPath(path, ink, style = Stroke(0.8f))
+        }
+    }
+    for (point in listOf(
+        Offset(width * 0.3f, height * 0.06f), Offset(width * 0.9f, height * 0.13f),
+        Offset(width * 0.06f, height * 0.48f), Offset(width * 0.69f, height * 0.94f)
+    )) {
+        drawLine(ink.copy(alpha = 0.24f), point - Offset(3f, 0f), point + Offset(3f, 0f), 0.7f)
+        drawLine(ink.copy(alpha = 0.24f), point - Offset(0f, 3f), point + Offset(0f, 3f), 0.7f)
+    }
+}
 @Serializable
 private class MinesweeperRun : ArcadeRun() {
     val columns = 8

@@ -26,6 +26,7 @@ import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.RoundRect
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.clipPath
 import androidx.compose.ui.graphics.drawscope.scale
@@ -38,6 +39,7 @@ import com.t8rin.imagetoolbox.core.games.ArcadeGameDefinition
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.ArcadeSprite
+import com.t8rin.imagetoolbox.core.games.ArcadeStyle
 import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
 import com.t8rin.imagetoolbox.core.games.pixelRect
@@ -87,6 +89,7 @@ internal data object BomberGame : ArcadeGameDefinition {
                 onSecondaryTap = { run.placeBomb() },
                 onRelease = run::release
             ) {
+                drawBomberBackground(style, run.width, run.height)
                 val cell = run.cell
                 val origin = run.origin
                 val bounds =
@@ -498,6 +501,21 @@ private val BomberBug = ArcadeSprite(
     height = 11,
     data = "M1 0H3V2H7V0H9V3H10V8H8V10H6V9H4V10H2V8H0V3H1Z"
 )
+
+private fun DrawScope.drawBomberBackground(style: ArcadeStyle, width: Float, height: Float) {
+    val color = style.detailColor.copy(alpha = 0.07f)
+    var y = 0f
+    var row = 0
+    while (y < height) {
+        drawLine(color, Offset(0f, y), Offset(width, y), 0.7f)
+        var x = if (row++ % 2 == 0) 0f else -18f
+        while (x < width) {
+            drawLine(color, Offset(x, y), Offset(x, y + 16f), 0.7f)
+            x += 36f
+        }
+        y += 16f
+    }
+}
 
 @Serializable
 private data class BomberBomb(

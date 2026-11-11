@@ -20,8 +20,11 @@ package com.t8rin.imagetoolbox.core.games.catalog
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.drawscope.DrawScope
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.drawText
@@ -37,9 +40,10 @@ import com.t8rin.imagetoolbox.core.games.ArcadeGameDefinition
 import com.t8rin.imagetoolbox.core.games.ArcadeOffset
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
+import com.t8rin.imagetoolbox.core.games.ArcadeStyle
 import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
+import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
-import com.t8rin.imagetoolbox.core.games.utils.arcadeTiles
 import com.t8rin.imagetoolbox.core.games.utils.pixelPanel
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
@@ -75,7 +79,7 @@ internal data object Game2048 : ArcadeGameDefinition {
                 run = run,
                 onSwipe = run::swipe
             ) {
-                arcadeTiles(style, run.width, run.height, run.topInset)
+                draw2048Background(style, run.width, run.height)
                 val side = minOf(run.width - 24f, run.height - run.topInset - 24f)
                 val gap = side * 0.018f
                 val cell = (side - gap * (GridSize + 1)) / GridSize
@@ -220,6 +224,30 @@ internal data object Game2048 : ArcadeGameDefinition {
 private const val GridSize = 4
 private const val SlideDuration = 0.13f
 private const val MoveDuration = 0.27f
+
+private fun DrawScope.draw2048Background(style: ArcadeStyle, width: Float, height: Float) {
+    for (side in 0..1) repeat(4) { index ->
+        val x = if (side == 0) 6f else width - 31f
+        val y = height * (index + 0.4f) / 4f
+        val color = style.detailColor.copy(alpha = 0.16f)
+        drawRoundRect(
+            color.copy(alpha = 0.05f),
+            Offset(x + 4f, y + 5f),
+            Size(21f, 21f),
+            CornerRadius(2f)
+        )
+        drawRoundRect(
+            color,
+            Offset(x + 4f, y + 5f),
+            Size(21f, 21f),
+            CornerRadius(2f),
+            style = Stroke(0.7f)
+        )
+        drawRoundRect(color.copy(alpha = 0.04f), Offset(x, y), Size(21f, 21f), CornerRadius(2f))
+        drawRoundRect(color, Offset(x, y), Size(21f, 21f), CornerRadius(2f), style = Stroke(0.7f))
+        pixelRect(color, x + 6f, y + 5f, 9f, 1f)
+    }
+}
 
 @Serializable
 private data class TileSlide(

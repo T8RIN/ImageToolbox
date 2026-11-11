@@ -26,6 +26,7 @@ import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.RoundRect
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.clipPath
 import androidx.compose.ui.graphics.drawscope.rotate
@@ -37,6 +38,7 @@ import com.t8rin.imagetoolbox.core.games.ArcadeGameDefinition
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.ArcadeSprite
+import com.t8rin.imagetoolbox.core.games.ArcadeStyle
 import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
 import com.t8rin.imagetoolbox.core.games.pixelRect
@@ -81,6 +83,7 @@ internal data object MazeChaserGame : ArcadeGameDefinition {
                 onSwipe = run::steer,
                 swipeOnDrag = true
             ) {
+                drawMazeBackground(style, run.width, run.height)
                 val cell = run.cell
                 val origin = run.origin
                 val area = Size(width = cell * run.columns, height = cell * run.rows)
@@ -264,6 +267,24 @@ private val MazeGhostStep = ArcadeSprite(
     height = 16,
     data = "M5 0H11V1H13V3H15V6H16V14H14V16H11V14H8V16H6V14H3V16H0V6H1V3H3V1H5Z"
 )
+
+private fun DrawScope.drawMazeBackground(style: ArcadeStyle, width: Float, height: Float) {
+    val color = style.detailColor.copy(alpha = 0.18f)
+    for (side in 0..1) repeat(5) { index ->
+        val edge = if (side == 0) 4f else width - 4f
+        val direction = if (side == 0) 1f else -1f
+        val y = height * (index + 0.3f) / 5f
+        val path = Path().apply {
+            moveTo(edge, y)
+            lineTo(edge + direction * 12f, y)
+            lineTo(edge + direction * 12f, y + 7f)
+            lineTo(edge + direction * 6f, y + 7f)
+            lineTo(edge + direction * 6f, y + 18f)
+            lineTo(edge + direction * 16f, y + 18f)
+        }
+        drawPath(path, color, style = Stroke(1f))
+    }
+}
 
 @Serializable
 private data class MazeEnemy(

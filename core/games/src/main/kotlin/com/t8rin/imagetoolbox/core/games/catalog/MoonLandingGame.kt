@@ -23,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.drawscope.scale
@@ -36,13 +37,13 @@ import com.t8rin.imagetoolbox.core.games.ArcadeOffset
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.ArcadeSprite
+import com.t8rin.imagetoolbox.core.games.ArcadeStyle
 import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
 import com.t8rin.imagetoolbox.core.games.utils.arcadeLives
-import com.t8rin.imagetoolbox.core.games.utils.arcadeStars
 import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
 import com.t8rin.imagetoolbox.core.games.utils.reliefSprite
 import com.t8rin.imagetoolbox.core.resources.Icons
@@ -87,12 +88,7 @@ internal data object MoonLandingGame : ArcadeGameDefinition {
                 onDrag = run::steer,
                 onRelease = run::stopInput
             ) {
-                arcadeStars(
-                    style = style,
-                    width = run.width,
-                    height = run.height,
-                    drift = 0f
-                )
+                drawLunarSky(style, run.width, run.height)
                 val groundBottom =
                     maxOf(run.worldBottom, (run.height - run.camera.y) / run.zoom + 24f)
                 translate(left = run.camera.x, top = run.camera.y) {
@@ -389,6 +385,17 @@ private val LanderWindow = ArcadeSprite(
     height = 16,
     data = "M4 3H12V5H13V8H3V5H4Z M5 11H11V12H5Z"
 )
+
+private fun DrawScope.drawLunarSky(style: ArcadeStyle, width: Float, height: Float) {
+    repeat(19) { index ->
+        val x = ((index * 83 + index * index * 11 + 17) % 367) / 367f * width
+        val y = ((index * 127 + 31) % 419) / 419f * height
+        val color = style.detailColor.copy(alpha = if (index % 6 == 0) 0.44f else 0.22f)
+        pixelRect(color, x, y, 1f, if (index % 6 == 0) 3f else 1f)
+        if (index % 6 == 0) pixelRect(color, x - 1f, y + 1f, 3f, 1f)
+    }
+
+}
 
 @Serializable
 private data class LandingPad(

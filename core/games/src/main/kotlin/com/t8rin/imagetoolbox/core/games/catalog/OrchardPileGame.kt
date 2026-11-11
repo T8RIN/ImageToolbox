@@ -48,16 +48,15 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.core.graphics.ColorUtils
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
-import com.t8rin.imagetoolbox.core.games.ArcadeCloud
 import com.t8rin.imagetoolbox.core.games.ArcadeField
 import com.t8rin.imagetoolbox.core.games.ArcadeGameContext
 import com.t8rin.imagetoolbox.core.games.ArcadeGameDefinition
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
+import com.t8rin.imagetoolbox.core.games.ArcadeStyle
 import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
-import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
+import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
-import com.t8rin.imagetoolbox.core.games.utils.arcadeOrchard
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.AvocadoBean
@@ -106,17 +105,7 @@ internal data object OrchardPileGame : ArcadeGameDefinition {
                 onDrag = run::aim,
                 onRelease = run::drop
             ) {
-                arcadeOrchard(style, run.width, run.height, run.topInset)
-                repeat(5) { index ->
-                    val span = run.width + ArcadeCloud.width
-                    drawArcadeSprite(
-                        sprite = ArcadeCloud,
-                        tint = style.detailColor.copy(alpha = 0.43f + (index % 2) * 0.12f),
-                        x = (index * 131f + run.cloudTime * (7f + index % 3 * 4f)) % span -
-                                ArcadeCloud.width,
-                        y = run.height * (0.13f + index * 0.18f)
-                    )
-                }
+                drawOrchardBackground(run, style)
                 translate(left = run.left, top = run.top) {
                     scale(scale = run.unit, pivot = Offset.Zero) {
                         val floor = run.floor
@@ -567,6 +556,90 @@ private fun DrawScope.orchardFace(kind: OrchardKind, ink: Color, primary: Color)
     }
 }
 
+private fun DrawScope.drawOrchardBackground(run: OrchardPileRun, style: ArcadeStyle) {
+    val width = run.width
+    val height = run.height
+    val ink = style.detailColor.copy(alpha = 0.16f)
+    val canopy = minOf(height * 0.23f, 79f)
+    val stripe = width / 15f
+    repeat(15) { index ->
+        val x = index * stripe
+        val cloth = Path().apply {
+            moveTo(x, canopy - 17f)
+            lineTo(x + stripe, canopy - 17f)
+            lineTo(x + stripe, canopy)
+            lineTo(x + stripe - 3f, canopy + 3f)
+            lineTo(x + 3f, canopy + 3f)
+            lineTo(x, canopy)
+            close()
+        }
+        drawPath(cloth, style.detailColor.copy(alpha = if (index % 2 == 0) 0.09f else 0.04f))
+        drawLine(ink.copy(alpha = 0.1f), Offset(x, canopy - 17f), Offset(x, canopy), 0.7f)
+    }
+    drawLine(ink, Offset(0f, canopy - 18f), Offset(width, canopy - 18f), 1f)
+    for (x in listOf(7f, width - 8f)) {
+        pixelRect(ink.copy(alpha = 0.12f), x, 0f, 2f, height)
+        pixelRect(ink.copy(alpha = 0.06f), x + 3f, 0f, 1f, height)
+    }
+    val counter = height - 9f
+    drawLine(ink.copy(alpha = 0.11f), Offset(0f, counter), Offset(width, counter), 1f)
+    drawLine(ink.copy(alpha = 0.07f), Offset(0f, counter + 4f), Offset(width, counter + 4f), 1f)
+
+    fun crate(x: Float, y: Float, size: Float) {
+        val depth = size * 0.24f
+        val bodyHeight = size * 0.7f
+        val lid = Path().apply {
+            moveTo(x, y - bodyHeight)
+            lineTo(x + size * 0.7f, y - bodyHeight - depth)
+            lineTo(x + size, y - bodyHeight)
+            lineTo(x + size * 0.3f, y - bodyHeight + depth)
+            close()
+        }
+        drawPath(lid, style.detailColor.copy(alpha = 0.11f))
+        drawPath(lid, ink.copy(alpha = 0.18f), style = Stroke(0.7f))
+        val front = Path().apply {
+            moveTo(x, y - bodyHeight)
+            lineTo(x + size * 0.3f, y - bodyHeight + depth)
+            lineTo(x + size * 0.3f, y + depth)
+            lineTo(x, y)
+            close()
+        }
+        drawPath(front, style.detailColor.copy(alpha = 0.07f))
+        val side = Path().apply {
+            moveTo(x + size * 0.3f, y - bodyHeight + depth)
+            lineTo(x + size, y - bodyHeight)
+            lineTo(x + size, y)
+            lineTo(x + size * 0.3f, y + depth)
+            close()
+        }
+        drawPath(side, style.detailColor.copy(alpha = 0.14f))
+        for (slat in 1..2) {
+            val lineY = y - bodyHeight + bodyHeight * slat / 3f
+            drawLine(
+                ink.copy(alpha = 0.24f),
+                Offset(x, lineY),
+                Offset(x + size * 0.3f, lineY + depth),
+                0.8f
+            )
+            drawLine(
+                ink.copy(alpha = 0.21f),
+                Offset(x + size * 0.3f, lineY + depth),
+                Offset(x + size, lineY),
+                0.8f
+            )
+        }
+        drawLine(
+            ink.copy(alpha = 0.2f), Offset(x + size * 0.3f, y - bodyHeight + depth),
+            Offset(x + size * 0.3f, y + depth), 0.7f
+        )
+    }
+
+    val size = minOf(38f, maxOf(24f, run.left * 0.75f))
+    crate(1f, height * 0.78f, size)
+    crate(3f, height * 0.78f - size * 0.85f, size * 0.8f)
+    crate(width - size - 1f, height * 0.88f, size)
+    crate(width - size * 0.8f - 3f, height * 0.88f - size * 0.85f, size * 0.8f)
+}
 @Serializable
 private class OrchardFruit(
     val kind: Int,
@@ -707,8 +780,6 @@ private class OrchardPileRun : ArcadeRun() {
     private var cooldown = 0f
     private var overflow = 0f
     private var drops = 0
-    var cloudTime = 0f
-        private set
     var floor = OrchardFloor
         private set
     private val bag = mutableListOf<Int>()
@@ -743,7 +814,6 @@ private class OrchardPileRun : ArcadeRun() {
         contacts.clear()
         bag.clear()
         drops = 0
-        cloudTime = 0f
         val fullWidthUnit = (width - 18f) / OrchardWidth
         floor = ((height - topInset - 8f) / fullWidthUnit - 21f).coerceIn(OrchardFloor, 460f)
         cooldown = 0f
@@ -790,7 +860,6 @@ private class OrchardPileRun : ArcadeRun() {
     }
 
     override fun advance(seconds: Float) {
-        cloudTime += seconds
         effects.advance(seconds)
         cooldown = (cooldown - seconds).coerceAtLeast(0f)
         for (fruit in fruits) {

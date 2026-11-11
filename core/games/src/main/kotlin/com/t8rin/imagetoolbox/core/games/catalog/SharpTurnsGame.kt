@@ -23,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.lerp
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
@@ -31,11 +32,10 @@ import com.t8rin.imagetoolbox.core.games.ArcadeGameContext
 import com.t8rin.imagetoolbox.core.games.ArcadeGameDefinition
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
+import com.t8rin.imagetoolbox.core.games.ArcadeStyle
 import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
-import com.t8rin.imagetoolbox.core.games.utils.arcadePrisms
-import com.t8rin.imagetoolbox.core.games.utils.arcadeStars
 import com.t8rin.imagetoolbox.core.games.utils.pixelGem
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
@@ -73,13 +73,7 @@ internal data object SharpTurnsGame : ArcadeGameDefinition {
                 run = run,
                 onPress = { run.turn() }
             ) {
-                arcadeStars(
-                    style = style,
-                    width = run.width,
-                    height = run.height,
-                    drift = run.progress * 2f
-                )
-                arcadePrisms(style, run.width, run.height, run.topInset)
+                drawZigzagBackground(style, run.width, run.height)
                 val tint = lerp(style.playerColor, style.accentColor, run.tint)
 
                 for (index in run.visibleTiles.reversed()) {
@@ -87,7 +81,11 @@ internal data object SharpTurnsGame : ArcadeGameDefinition {
                     val half = run.tileWidth * span / 2f
                     val depth = half / 2f
                     val point = run.project(x.toFloat(), y.toFloat())
-                    if (point.y + depth + 5f < 0f || point.y - depth > run.height) continue
+                    if (point.y + depth + 5f < 0f || point.y - maxOf(
+                            depth,
+                            if (hasGem) 12f else 0f
+                        ) > run.height
+                    ) continue
                     val path = tilePath.apply {
                         rewind()
                         moveTo(point.x, point.y - depth)
@@ -165,6 +163,34 @@ internal data object SharpTurnsGame : ArcadeGameDefinition {
     }
 }
 
+private fun DrawScope.drawZigzagBackground(style: ArcadeStyle, width: Float, height: Float) {
+    for (side in 0..1) repeat(4) { index ->
+        val x = if (side == 0) width * 0.07f else width * 0.93f
+        val y = height * (index + 0.4f) / 4f
+        val span = 9f + index % 2 * 5f
+        val path = Path().apply {
+            moveTo(x, y - span / 2f)
+            lineTo(x + span, y)
+            lineTo(x, y + span / 2f)
+            lineTo(x - span, y)
+            close()
+        }
+        drawPath(path, style.detailColor.copy(alpha = 0.2f), style = Stroke(0.8f))
+        drawLine(
+            style.detailColor.copy(alpha = 0.12f),
+            Offset(x - span, y + 4f),
+            Offset(x, y + span / 2f + 4f),
+            0.8f
+        )
+        drawLine(
+            style.detailColor.copy(alpha = 0.12f),
+            Offset(x, y + span / 2f + 4f),
+            Offset(x + span, y + 4f),
+            0.8f
+        )
+    }
+}
+
 @Serializable
 private data class SharpTurnsTile(
     val x: Int,
@@ -189,7 +215,6 @@ private class SharpTurnsRun : ArcadeRun() {
     private var generatedDirection = 0
     private var remaining = 4
     private var gems = 0
-    private var grace = 0.7f
     val tileWidth get() = minOf(58f, width * 0.17f, (height - topInset) * 0.32f)
     val visibleTiles: IntRange
         get() {
@@ -234,7 +259,6 @@ private class SharpTurnsRun : ArcadeRun() {
         generatedDirection = 0
         remaining = 4
         gems = 0
-        grace = 0.7f
         tiles += SharpTurnsTile(x = -1, y = 0, gem = false)
         tiles += SharpTurnsTile(x = 0, y = 0, gem = false)
         populate()
@@ -280,10 +304,6 @@ private class SharpTurnsRun : ArcadeRun() {
         if (fall >= 0f) {
             fall += seconds * 1.6f
             if (fall >= 0.9f) phase = ArcadePhase.Over
-            return
-        }
-        if (grace > 0f) {
-            grace -= seconds
             return
         }
         if (direction == 0) x += speed * seconds else y += speed * seconds

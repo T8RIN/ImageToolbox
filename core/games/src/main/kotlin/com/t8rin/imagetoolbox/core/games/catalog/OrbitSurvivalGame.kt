@@ -22,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.clipRect
 import androidx.compose.ui.graphics.drawscope.rotate
@@ -33,12 +34,11 @@ import com.t8rin.imagetoolbox.core.games.ArcadeGameContext
 import com.t8rin.imagetoolbox.core.games.ArcadeGameDefinition
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
+import com.t8rin.imagetoolbox.core.games.ArcadeStyle
 import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
-import com.t8rin.imagetoolbox.core.games.utils.arcadeOrbits
-import com.t8rin.imagetoolbox.core.games.utils.arcadeStars
 import com.t8rin.imagetoolbox.core.games.utils.pixelAsteroid
 import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
 import com.t8rin.imagetoolbox.core.resources.Icons
@@ -77,13 +77,7 @@ internal data object OrbitSurvivalGame : ArcadeGameDefinition {
                 onDrag = run::steer,
                 onRelease = run::stopInput
             ) {
-                arcadeOrbits(style, run.width, run.height, run.topInset)
-                arcadeStars(
-                    style = style,
-                    width = run.width,
-                    height = run.height,
-                    drift = run.time * 9f
-                )
+                drawOrbitBackground(style, run.width, run.height)
                 val center = run.center
                 val radius = run.radius
                 pixelCircle(
@@ -245,6 +239,30 @@ private val OrbitSegments = listOf(
     listOf(-1.5f to -0.27f, 0.27f to 1.5f),
     listOf(-1.5f to -1.02f, -0.4f to 0.4f, 1.02f to 1.5f)
 )
+
+private fun DrawScope.drawOrbitBackground(style: ArcadeStyle, width: Float, height: Float) {
+    val stars = listOf(
+        Offset(width * 0.06f, height * 0.16f),
+        Offset(width * 0.18f, height * 0.22f), Offset(width * 0.14f, height * 0.36f)
+    )
+    for (index in 0..1) {
+        drawLine(style.detailColor.copy(alpha = 0.1f), stars[index], stars[index + 1], 0.7f)
+    }
+    for (star in stars) pixelCircle(style.detailColor.copy(alpha = 0.3f), 1.5f, star)
+
+    val color = style.detailColor.copy(alpha = 0.08f)
+    val radius = minOf(width, height) * 0.36f
+    val center = Offset(width * 0.92f, height * 0.17f)
+    for (scale in listOf(0.52f, 0.76f, 1f)) {
+        drawOval(
+            color,
+            center - Offset(radius, radius * scale),
+            Size(radius * 2f, radius * scale * 2f),
+            style = Stroke(0.7f)
+        )
+    }
+    pixelRect(color, center.x - radius - 1.5f, center.y - 1.5f, 3f, 3f)
+}
 
 @Serializable
 private data class OrbitGate(

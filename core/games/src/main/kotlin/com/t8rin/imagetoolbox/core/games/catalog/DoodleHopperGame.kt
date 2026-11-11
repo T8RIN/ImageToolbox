@@ -21,23 +21,23 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.lerp
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
-import com.t8rin.imagetoolbox.core.games.ArcadeCloud
 import com.t8rin.imagetoolbox.core.games.ArcadeField
 import com.t8rin.imagetoolbox.core.games.ArcadeGameContext
 import com.t8rin.imagetoolbox.core.games.ArcadeGameDefinition
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.ArcadeSprite
+import com.t8rin.imagetoolbox.core.games.ArcadeStyle
 import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
-import com.t8rin.imagetoolbox.core.games.utils.arcadeNotebook
 import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
 import com.t8rin.imagetoolbox.core.games.utils.reliefSprite
 import com.t8rin.imagetoolbox.core.resources.Icons
@@ -80,19 +80,7 @@ internal data object DoodleHopperGame : ArcadeGameDefinition {
                 onDrag = { run.drag(it.x) },
                 onRelease = run::stopInput
             ) {
-                arcadeNotebook(style, run.width, run.height, run.topInset)
-                var cloudY = run.camera * 0.2f % 420f - 16f
-                var index = 0
-                while (cloudY < run.height) {
-                    drawArcadeSprite(
-                        sprite = ArcadeCloud,
-                        tint = style.detailColor,
-                        x = if (index % 2 == 0) run.width * 0.16f else run.width * 0.7f,
-                        y = cloudY
-                    )
-                    cloudY += 210f
-                    index++
-                }
+                drawDoodleBackground(style, run.width, run.height)
                 for ((_, centerX, height, width, kind, _, _, _, _, falling) in run.platforms) {
                     val y = run.height - height + run.camera + falling * falling * 280f
                     val x = centerX - width / 2
@@ -486,6 +474,27 @@ private val PlatformMonsterFace = ArcadeSprite(
     width = 56, height = 38,
     data = "M8 12H16V21H8Z M24 10H32V19H24Z M40 12H48V21H40Z M12 27H18V30H23V27H33V30H38V27H44V32H12Z"
 )
+
+private fun DrawScope.drawDoodleBackground(style: ArcadeStyle, width: Float, height: Float) {
+    val color = style.detailColor.copy(alpha = 0.055f)
+    var y = 8f
+    while (y < height) {
+        drawLine(color, Offset(0f, y), Offset(width, y), 0.6f)
+        y += 18f
+    }
+    var x = 17f
+    while (x < width) {
+        drawLine(color, Offset(x, 0f), Offset(x, height), 0.6f)
+        x += 18f
+    }
+    drawLine(style.detailColor.copy(alpha = 0.16f), Offset(17f, 0f), Offset(17f, height), 1f)
+    for (hole in 0..3) {
+        pixelCircle(
+            style.detailColor.copy(alpha = 0.2f), 2f,
+            Offset(7f, height * (hole + 0.5f) / 4f), style = Stroke(0.8f)
+        )
+    }
+}
 
 @Serializable
 private enum class PlatformKind { Standard, Spring, Crumbling, Moving }

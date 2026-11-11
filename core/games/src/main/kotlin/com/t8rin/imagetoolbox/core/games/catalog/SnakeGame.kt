@@ -44,7 +44,6 @@ import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
-import com.t8rin.imagetoolbox.core.games.utils.arcadeGarden
 import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
@@ -89,7 +88,7 @@ private fun DrawScope.drawSnakeScene(run: SnakeRun, style: ArcadeStyle, bodyPath
     val cell = side / SnakeCells
     val origin =
         Offset((run.width - side) / 2f, run.topInset + (run.height - run.topInset - side) / 2f)
-    arcadeGarden(style, run.width, run.height, run.topInset, origin, side)
+    drawSnakeBackground(style, run.width, run.height, origin, side)
     val shade = lerp(style.playerColor, style.playerDetailColor, 0.42f)
     val glint = lerp(style.playerColor, style.obstacleColor, 0.68f)
     drawRect(style.overlayColor.copy(alpha = 0.18f), origin + Offset(0f, 3f), Size(side, side))
@@ -99,6 +98,16 @@ private fun DrawScope.drawSnakeScene(run: SnakeRun, style: ArcadeStyle, bodyPath
             style.obstacleColor.copy(alpha = 0.12f),
             origin.x + (column + 0.5f) * cell, origin.y + (row + 0.5f) * cell, 1f, 1f
         )
+    }
+    repeat(13) { index ->
+        val point = origin + Offset(
+            (index * 59 % 101 + 8) / 117f * side,
+            (index * 73 % 107 + 8) / 123f * side
+        )
+        val ink = style.detailColor.copy(alpha = 0.08f)
+        pixelRect(ink, point.x, point.y, 1f, 3f)
+        pixelRect(ink, point.x - 2f, point.y + 1f, 1f, 2f)
+        pixelRect(ink, point.x + 2f, point.y, 1f, 3f)
     }
     drawRect(style.obstacleColor.copy(alpha = 0.5f), origin, Size(side, side), style = Stroke(1f))
     for (x in listOf(origin.x - 2f, origin.x + side - 2f)) {
@@ -231,6 +240,33 @@ private val SnakeLeaf = ArcadeSprite(
     height = 16,
     data = "M7 2H9V5H7Z M9 0H13V2H11V3H9Z"
 )
+
+private fun DrawScope.drawSnakeBackground(
+    style: ArcadeStyle,
+    width: Float,
+    height: Float,
+    origin: Offset,
+    side: Float
+) {
+    val color = style.detailColor.copy(alpha = 0.22f)
+    for (edge in 0..1) {
+        val x = if (edge == 0) (origin.x / 2f).coerceAtLeast(5f)
+        else width - (origin.x / 2f).coerceAtLeast(5f)
+        repeat(5) { index ->
+            val y = height * (index + 0.55f) / 5f
+            pixelRect(color, x, y - 4f, 1f, 9f)
+            pixelRect(color, x - 3f, y - 3f, 3f, 2f)
+            pixelRect(color, x + 1f, y, 3f, 2f)
+            pixelRect(color.copy(alpha = 0.12f), x - 3f, y + 5f, 7f, 1f)
+        }
+    }
+    for (x in listOf(origin.x + side * 0.22f, origin.x + side * 0.72f)) {
+        val y = origin.y + side + 6f
+        pixelRect(color, x, y, 7f, 1f)
+        pixelRect(color, x + 2f, y - 2f, 1f, 2f)
+        pixelRect(color, x + 5f, y - 3f, 1f, 3f)
+    }
+}
 
 @Serializable
 private enum class SnakeDirection(

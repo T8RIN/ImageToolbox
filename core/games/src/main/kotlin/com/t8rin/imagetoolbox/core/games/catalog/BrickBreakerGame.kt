@@ -22,6 +22,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.drawscope.DrawScope
+import androidx.compose.ui.graphics.drawscope.Stroke
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
 import com.t8rin.imagetoolbox.core.games.ArcadeField
 import com.t8rin.imagetoolbox.core.games.ArcadeGameContext
@@ -29,11 +31,11 @@ import com.t8rin.imagetoolbox.core.games.ArcadeGameDefinition
 import com.t8rin.imagetoolbox.core.games.ArcadeOffset
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
+import com.t8rin.imagetoolbox.core.games.ArcadeStyle
 import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
-import com.t8rin.imagetoolbox.core.games.utils.arcadeCabinet
 import com.t8rin.imagetoolbox.core.games.utils.arcadeLives
 import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
 import com.t8rin.imagetoolbox.core.games.utils.pixelPanel
@@ -72,7 +74,7 @@ internal data object BrickBreakerGame : ArcadeGameDefinition {
                 onPress = run::steer,
                 onDrag = run::steer
             ) {
-                arcadeCabinet(style, run.width, run.height, run.topInset)
+                drawBrickBreakerBackground(style, run.width, run.height)
                 for (brick in run.bricks) {
                     val rect = run.bounds(brick)
                     val color = when (brick.row % 3) {
@@ -188,6 +190,30 @@ internal data object BrickBreakerGame : ArcadeGameDefinition {
                 )
             }
         }
+    }
+}
+
+private fun DrawScope.drawBrickBreakerBackground(style: ArcadeStyle, width: Float, height: Float) {
+    val color = style.detailColor.copy(alpha = 0.22f)
+    for (side in 0..1) {
+        val x = if (side == 0) 4f else width - 6f
+        pixelRect(color.copy(alpha = 0.1f), x, 6f, 2f, height - 16f)
+        var y = 10f
+        while (y < height - 15f) {
+            pixelRect(color, x - 1f, y, 4f, 7f)
+            pixelRect(color.copy(alpha = 0.1f), x - 1f, y + 8f, 4f, 1f)
+            y += 23f
+        }
+    }
+    val center = Offset(width / 2f, height * 0.67f)
+    for (radius in listOf(22f, 29f)) {
+        drawArc(
+            color.copy(alpha = 0.09f), 20f, 140f, false,
+            center - Offset(radius, radius), Size(radius * 2f, radius * 2f), style = Stroke(1f)
+        )
+    }
+    repeat(3) { index ->
+        pixelRect(color.copy(alpha = 0.12f), center.x - 8f + index * 7f, center.y + 8f, 2f, 5f)
     }
 }
 

@@ -21,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.rememberTextMeasurer
@@ -33,10 +34,10 @@ import com.t8rin.imagetoolbox.core.games.ArcadeGameDefinition
 import com.t8rin.imagetoolbox.core.games.ArcadeOffset
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
+import com.t8rin.imagetoolbox.core.games.ArcadeStyle
 import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
-import com.t8rin.imagetoolbox.core.games.utils.arcadeBankshot
 import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
 import com.t8rin.imagetoolbox.core.games.utils.pixelPanel
 import com.t8rin.imagetoolbox.core.resources.Icons
@@ -77,7 +78,7 @@ internal data object RicochetGame : ArcadeGameDefinition {
                 onSwipe = { run.shoot() },
                 onRelease = run::stopInput
             ) {
-                arcadeBankshot(style, run.width, run.height, run.topInset)
+                drawRicochetBackground(style, run.width, run.height)
                 val cell = run.cell
                 val radius = run.ballRadius
                 val rowHeight = run.rowHeight
@@ -214,6 +215,23 @@ internal data object RicochetGame : ArcadeGameDefinition {
             }
         }
     }
+}
+
+private fun DrawScope.drawRicochetBackground(style: ArcadeStyle, width: Float, height: Float) {
+    val color = style.detailColor.copy(alpha = 0.21f)
+    for (side in 0..1) {
+        val x = if (side == 0) 6f else width - 6f
+        val direction = if (side == 0) 1f else -1f
+        drawLine(color, Offset(x, 8f), Offset(x, height - 15f), 1f)
+        repeat(6) { index ->
+            val y = height * (index + 0.5f) / 6f
+            drawLine(color, Offset(x - direction * 2f, y - 3f), Offset(x + direction * 2f, y), 1f)
+            drawLine(color, Offset(x + direction * 2f, y), Offset(x - direction * 2f, y + 3f), 1f)
+        }
+    }
+    val center = Offset(width * 0.5f, height * 0.55f)
+    drawCircle(color.copy(alpha = 0.06f), 22f, center, style = Stroke(1f))
+    drawCircle(color.copy(alpha = 0.06f), 16f, center, style = Stroke(1f))
 }
 
 @Serializable

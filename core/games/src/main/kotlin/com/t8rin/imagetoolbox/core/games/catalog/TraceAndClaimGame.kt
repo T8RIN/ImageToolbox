@@ -137,6 +137,11 @@ internal data object TraceAndClaimGame : ArcadeGameDefinition {
                     )
                     translate(left = origin.x, top = origin.y) {
                         scale(scale = unit, pivot = Offset.Zero) {
+                            drawPath(
+                                TraceTiles,
+                                style.detailColor.copy(alpha = 0.14f),
+                                style = Stroke(0.07f)
+                            )
                             for (rider in run.riders) {
                                 drawPath(
                                     path = rider.land.path,
@@ -286,6 +291,26 @@ private val TraceStroke = Paint().apply {
     strokeCap = Paint.Cap.ROUND
     strokeJoin = Paint.Join.ROUND
 }
+private val TraceTiles = Path().apply {
+    val radius = 3.5f
+    var column = 0
+    var x = -radius
+    while (x < TraceSize + radius) {
+        var y = if (column++ % 2 == 0) 0f else radius * 0.8660254f
+        while (y < TraceSize + radius * 2f) {
+            for (side in 0..5) {
+                val angle = side * PI.toFloat() / 3f
+                val px = x + cos(angle) * radius
+                val py = y + sin(angle) * radius
+                if (side == 0) moveTo(px, py) else lineTo(px, py)
+            }
+            close()
+            y += radius * 1.7320508f
+        }
+        x += radius * 1.5f
+    }
+}
+
 private val TraceDots = buildList {
     val random = Random(98)
     for (row in 0 until TraceSize.toInt() step 3) for (col in 0 until TraceSize.toInt() step 3) {

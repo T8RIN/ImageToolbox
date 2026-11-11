@@ -292,7 +292,12 @@ private fun DrawScope.drawHillDriveScene(
         val variant = hillDriveHash(cloud, 115)
         val x = (cloud * 227.0 - cloudScroll).toFloat() + (variant and 31)
         val y = height * (0.23f + (variant ushr 8 and 3) * 0.065f) - run.cameraY * 0.06f
-        drawArcadeSprite(HillDriveCloud, palette.cloud, x, y)
+        val sprite = if (variant and 32 == 0) HillDriveCloud else HillDriveCloudSmall
+        drawArcadeSprite(sprite, palette.cloud.copy(alpha = palette.cloud.alpha * 0.36f), x, y)
+        pixelRect(
+            palette.cloud.copy(alpha = palette.cloud.alpha * 0.32f),
+            x + 5f, y + sprite.height - 3f, sprite.width - 10f, 2f
+        )
         cloud++
     }
 
@@ -540,8 +545,13 @@ private val HillDriveFuelIcon = ArcadeSprite(
 )
 
 private val HillDriveCloud = ArcadeSprite(
-    width = 56, height = 14,
-    data = "M0 12H5V10H11V8H17V6H23V3H28V0H34V2H38V5H42V8H48V10H52V12H56V14H51V12H47V10H41V8H37V5H33V2H29V5H24V8H18V10H12V12H6V14H0Z"
+    width = 68, height = 25,
+    data = "M0 17H5V12H12V7H22V3H29V0H41V3H48V8H55V12H62V17H68V23H63V25H5V23H0Z"
+)
+
+private val HillDriveCloudSmall = ArcadeSprite(
+    width = 47, height = 20,
+    data = "M0 13H5V8H12V3H19V0H29V4H36V8H42V13H47V18H42V20H4V18H0Z"
 )
 
 private val HillDriveGrass = ArcadeSprite(

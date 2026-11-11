@@ -24,6 +24,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.drawscope.scale
@@ -36,12 +37,12 @@ import com.t8rin.imagetoolbox.core.games.ArcadeOffset
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.ArcadeSprite
+import com.t8rin.imagetoolbox.core.games.ArcadeStyle
 import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
-import com.t8rin.imagetoolbox.core.games.utils.arcadeRadar
 import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
@@ -83,7 +84,7 @@ internal data object AirTrafficGame : ArcadeGameDefinition {
                 onDrag = run::drag,
                 onRelease = run::commit
             ) {
-                arcadeRadar(style, run.width, run.height, run.topInset)
+                drawAirTrafficBackground(style, run.width, run.height)
                 val colors = listOf(style.playerColor, style.hazardColor, style.accentColor)
                 repeat(18) { index ->
                     val x = ((index * 71 + 37) % 353) / 353f * run.width
@@ -313,6 +314,23 @@ private val FlightApproach = ArcadeSprite(
     height = 10,
     data = "M0 0H2V2H0Z M2 2H4V4H2Z M4 4H6V6H4Z M2 6H4V8H2Z M0 8H2V10H0Z"
 )
+
+private fun DrawScope.drawAirTrafficBackground(style: ArcadeStyle, width: Float, height: Float) {
+    val center = Offset(width * 0.08f, height * 0.67f)
+    val radius = minOf(width, height) * 0.4f
+    val color = style.detailColor.copy(alpha = 0.08f)
+    for (ring in 1..3) drawCircle(color, radius * ring / 3f, center, style = Stroke(0.7f))
+    drawLine(color, center - Offset(radius, 0f), center + Offset(radius, 0f), 0.7f)
+    drawLine(color, center - Offset(0f, radius), center + Offset(0f, radius), 0.7f)
+    val coast = Path().apply {
+        moveTo(width, height * 0.42f)
+        lineTo(width * 0.92f, height * 0.49f)
+        lineTo(width * 0.96f, height * 0.61f)
+        lineTo(width * 0.88f, height * 0.72f)
+        lineTo(width * 0.91f, height)
+    }
+    drawPath(coast, color, style = Stroke(1f))
+}
 
 @Serializable
 private data class FlightRunway(

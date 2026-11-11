@@ -21,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.drawscope.DrawScope
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
 import com.t8rin.imagetoolbox.core.games.ArcadeField
 import com.t8rin.imagetoolbox.core.games.ArcadeGameContext
@@ -28,8 +29,10 @@ import com.t8rin.imagetoolbox.core.games.ArcadeGameDefinition
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.ArcadeSprite
+import com.t8rin.imagetoolbox.core.games.ArcadeStyle
 import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
+import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
@@ -68,6 +71,7 @@ internal data object DinoGame : ArcadeGameDefinition {
                 val ground = run.height - 25f
                 val distance = run.distance
 
+                drawDinoSky(style, width, ground, distance)
                 var cloudX = 130f - (distance * 0.16f) % 380f
                 while (cloudX < width) {
                     drawArcadeSprite(
@@ -125,6 +129,22 @@ internal data object DinoGame : ArcadeGameDefinition {
 }
 
 private const val DinoX = 24f
+
+private fun DrawScope.drawDinoSky(
+    style: ArcadeStyle,
+    width: Float,
+    ground: Float,
+    distance: Float
+) {
+    repeat(7) { index ->
+        val x =
+            ((index * 71f + 37f - distance * 0.025f) % (width + 20f) + width + 20f) % (width + 20f) - 10f
+        val y = ground * (0.1f + (index * 29 % 67) / 200f)
+        val color = style.detailColor.copy(alpha = if (index % 3 == 0) 0.4f else 0.26f)
+        pixelRect(color, x, y, 1f, if (index % 3 == 0) 4f else 1f)
+        if (index % 3 == 0) pixelRect(color, x - 1f, y + 1f, 3f, 1f)
+    }
+}
 
 @Serializable
 private class DinoRun : ArcadeRun() {

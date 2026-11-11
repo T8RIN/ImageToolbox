@@ -21,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.lerp
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
@@ -30,13 +31,13 @@ import com.t8rin.imagetoolbox.core.games.ArcadeGameDefinition
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.ArcadeSprite
+import com.t8rin.imagetoolbox.core.games.ArcadeStyle
 import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
 import com.t8rin.imagetoolbox.core.games.utils.arcadeLives
-import com.t8rin.imagetoolbox.core.games.utils.arcadeStars
 import com.t8rin.imagetoolbox.core.games.utils.pixelAsteroid
 import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
 import com.t8rin.imagetoolbox.core.games.utils.pixelGem
@@ -77,25 +78,7 @@ internal data object SpaceRocksGame : ArcadeGameDefinition {
                 onDrag = run::aim,
                 onRelease = run::stopInput
             ) {
-                arcadeStars(
-                    style = style,
-                    width = run.width,
-                    height = run.height,
-                    drift = run.distance
-                )
-                val planet =
-                    Offset(run.width * 0.82f, run.topInset + (run.height - run.topInset) * 0.2f)
-                val planetRadius = minOf(run.width, run.height) * 0.16f
-                pixelCircle(style.detailColor.copy(alpha = 0.09f), planetRadius, planet)
-                pixelCircle(
-                    style.detailColor.copy(alpha = 0.12f), planetRadius * 0.32f,
-                    planet + Offset(-planetRadius * 0.3f, -planetRadius * 0.25f)
-                )
-                drawOval(
-                    style.detailColor.copy(alpha = 0.14f),
-                    planet - Offset(planetRadius * 1.5f, planetRadius * 0.28f),
-                    Size(planetRadius * 3f, planetRadius * 0.55f), style = Stroke(1f)
-                )
+                drawSpaceBackground(style, run.width, run.height, run.distance)
                 for ((x, y, _, _, radius, spin) in run.rocks) {
                     pixelAsteroid(
                         color = style.obstacleColor,
@@ -269,6 +252,33 @@ private val SpaceInvader = ArcadeSprite(
     width = 40, height = 24,
     data = "M14 0H26V2H30V6H32V10H37V12H40V16H37V18H29V21H25V24H22V20H18V24H15V21H11V18H3V16H0V12H3V10H8V6H10V2H14Z"
 )
+
+private fun DrawScope.drawSpaceBackground(
+    style: ArcadeStyle,
+    width: Float,
+    height: Float,
+    distance: Float
+) {
+    repeat(24) { index ->
+        val x = ((index * 79 + index * index * 17 + 31) % 359) / 359f * width
+        val y = (index * 113f + distance * (0.025f + index % 3 * 0.035f)) % (height + 8f) - 4f
+        val tint = style.detailColor.copy(alpha = if (index % 5 == 0) 0.4f else 0.18f)
+        pixelRect(tint, x, y, if (index % 5 == 0) 2f else 1f, if (index % 5 == 0) 2f else 1f)
+    }
+    val planet =
+        Offset(width * 0.82f, height * 0.24f)
+    val planetRadius = minOf(width, height) * 0.16f
+    pixelCircle(style.detailColor.copy(alpha = 0.09f), planetRadius, planet)
+    pixelCircle(
+        style.detailColor.copy(alpha = 0.12f), planetRadius * 0.32f,
+        planet + Offset(-planetRadius * 0.3f, -planetRadius * 0.25f)
+    )
+    drawOval(
+        style.detailColor.copy(alpha = 0.14f),
+        planet - Offset(planetRadius * 1.5f, planetRadius * 0.28f),
+        Size(planetRadius * 3f, planetRadius * 0.55f), style = Stroke(1f)
+    )
+}
 
 @Serializable
 private data class SpaceRock(

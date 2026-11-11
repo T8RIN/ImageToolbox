@@ -29,7 +29,6 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.lerp
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
-import com.t8rin.imagetoolbox.core.games.ArcadeCloud
 import com.t8rin.imagetoolbox.core.games.ArcadeDeque
 import com.t8rin.imagetoolbox.core.games.ArcadeField
 import com.t8rin.imagetoolbox.core.games.ArcadeGameContext
@@ -38,8 +37,6 @@ import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.ArcadeStyle
 import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
-import com.t8rin.imagetoolbox.core.games.arcadeGround
-import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
@@ -79,16 +76,6 @@ internal data object BalanceTowerGame : ArcadeGameDefinition {
                 run = run,
                 onTap = { run.drop() }
             ) {
-                repeat(7) { index ->
-                    val x = (index * 151f + 32f) % run.width
-                    val y = ((index * 79f + 39f + run.camera * 0.18f) % run.height)
-                    drawArcadeSprite(
-                        sprite = ArcadeCloud,
-                        tint = style.detailColor.copy(alpha = 0.45f),
-                        x = x,
-                        y = y
-                    )
-                }
                 val unit = run.unit
                 val ground = run.project(180f, 0f)
                 val boomY = drawTowerCrane(run, style, ground)
@@ -107,7 +94,7 @@ internal data object BalanceTowerGame : ArcadeGameDefinition {
                         width = 92f * unit,
                         height = 4f * unit
                     )
-                    arcadeGround(style, run.width, ground.y + 13f * unit)
+                    drawConstructionGround(style, run.width, run.height, ground.y + 13f * unit)
                 }
                 fun block(
                     load: TowerLoad,
@@ -286,6 +273,23 @@ internal data object BalanceTowerGame : ArcadeGameDefinition {
                 )
             }
         }
+    }
+}
+
+private fun DrawScope.drawConstructionGround(
+    style: ArcadeStyle,
+    width: Float,
+    height: Float,
+    y: Float
+) {
+    pixelRect(style.detailColor.copy(alpha = 0.12f), 0f, y, width, height - y)
+    pixelRect(style.detailColor.copy(alpha = 0.4f), 0f, y, width, 1f)
+    var x = 0f
+    while (x < width) {
+        pixelRect(style.detailColor.copy(alpha = 0.21f), x + 2f, y + 3f, 16f, 1f)
+        pixelRect(style.detailColor.copy(alpha = 0.18f), x + 21f, y + 1f, 1f, 9f)
+        pixelRect(style.detailColor.copy(alpha = 0.2f), x + 9f, y + 7f, 3f, 2f)
+        x += 28f
     }
 }
 

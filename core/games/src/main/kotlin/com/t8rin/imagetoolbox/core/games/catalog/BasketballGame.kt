@@ -44,7 +44,6 @@ import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
-import com.t8rin.imagetoolbox.core.games.utils.arcadePennants
 import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
@@ -85,7 +84,7 @@ internal data object BasketballGame : ArcadeGameDefinition {
                 onDrag = run::aim,
                 onRelease = run::shoot
             ) {
-                arcadePennants(style, run.width, run.topInset)
+                drawBasketballBackground(style, run.width, run.height)
                 val unit = run.unit
                 val left = (run.width - 360f * unit) / 2f
                 for (side in 0..1) {
@@ -259,6 +258,66 @@ private fun DrawScope.drawBasketballBall(
         )
     }
     drawCircle(ink.copy(alpha = 0.4f), radius, center, style = Stroke(unit * 0.7f))
+}
+
+private fun DrawScope.drawBasketballBackground(style: ArcadeStyle, width: Float, height: Float) {
+    val color = style.detailColor.copy(alpha = 0.14f)
+    val y = 8f
+    drawLine(color, Offset(7f, y), Offset(width - 7f, y), 0.7f)
+    repeat(9) { index ->
+        val x = 17f + index * (width - 34f) / 8f
+        val path = Path().apply {
+            moveTo(x - 3f, y)
+            lineTo(x + 3f, y)
+            lineTo(x + 3f, y + 5f)
+            lineTo(x, y + 8f)
+            lineTo(x - 3f, y + 5f)
+            close()
+        }
+        drawPath(path, color, style = Stroke(0.7f))
+    }
+    val ballInk = style.detailColor.copy(alpha = 0.2f)
+    for (center in listOf(
+        Offset(width * 0.14f, height * 0.28f),
+        Offset(width * 0.86f, height * 0.76f)
+    )) {
+        val radius = minOf(width, height) * 0.052f
+        pixelCircle(style.detailColor.copy(alpha = 0.04f), radius, center)
+        pixelCircle(ballInk, radius, center, style = Stroke(0.9f))
+        drawLine(ballInk, center - Offset(radius, 0f), center + Offset(radius, 0f), 0.8f)
+        drawLine(ballInk, center - Offset(0f, radius), center + Offset(0f, radius), 0.8f)
+        val seam = Path().apply {
+            moveTo(center.x - radius * 0.65f, center.y - radius * 0.75f)
+            cubicTo(
+                center.x + radius * 0.2f, center.y - radius * 0.4f,
+                center.x + radius * 0.2f, center.y + radius * 0.4f,
+                center.x - radius * 0.65f, center.y + radius * 0.75f
+            )
+        }
+        drawPath(seam, ballInk, style = Stroke(0.8f))
+    }
+    for (center in listOf(
+        Offset(width * 0.83f, height * 0.24f),
+        Offset(width * 0.17f, height * 0.7f)
+    )) {
+        val radius = minOf(width, height) * 0.039f
+        for (side in -1..1 step 2) {
+            val ribbon = Path().apply {
+                moveTo(center.x + side * radius * 0.12f, center.y - radius * 0.55f)
+                lineTo(center.x + side * radius * 0.44f, center.y - radius * 2f)
+                lineTo(center.x + side * radius * 0.95f, center.y - radius * 2f)
+                lineTo(center.x + side * radius * 0.7f, center.y)
+                close()
+            }
+            drawPath(ribbon, style.detailColor.copy(alpha = 0.1f))
+            drawPath(ribbon, ballInk, style = Stroke(0.7f))
+        }
+        pixelCircle(style.detailColor.copy(alpha = 0.07f), radius, center)
+        pixelCircle(ballInk, radius, center, style = Stroke(0.9f))
+        pixelCircle(ballInk, radius * 0.62f, center, style = Stroke(0.7f))
+        pixelRect(ballInk, center.x - 0.6f, center.y - radius * 0.32f, 1.2f, radius * 0.64f)
+    }
+
 }
 
 @Serializable

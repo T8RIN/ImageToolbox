@@ -25,6 +25,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.rotate
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
@@ -33,11 +34,11 @@ import com.t8rin.imagetoolbox.core.games.ArcadeGameContext
 import com.t8rin.imagetoolbox.core.games.ArcadeGameDefinition
 import com.t8rin.imagetoolbox.core.games.ArcadeOffset
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
+import com.t8rin.imagetoolbox.core.games.ArcadeStyle
 import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
-import com.t8rin.imagetoolbox.core.games.utils.arcadeCircuit
 import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
@@ -75,7 +76,7 @@ internal data object LaserMirrorsGame : ArcadeGameDefinition {
                 transition = { run.transition },
                 onTap = run::tap
             ) {
-                arcadeCircuit(style, run.width, run.height, run.topInset)
+                drawLaserBackground(style, run.width, run.height)
                 val cell = run.cell
                 val area = Size(width = cell * run.columns, height = cell * run.columns)
                 drawRoundRect(
@@ -254,6 +255,22 @@ internal data object LaserMirrorsGame : ArcadeGameDefinition {
                     color = style.accentColor
                 )
             }
+        }
+    }
+}
+
+private fun DrawScope.drawLaserBackground(style: ArcadeStyle, width: Float, height: Float) {
+    val color = style.detailColor.copy(alpha = 0.19f)
+    for (side in 0..1) {
+        val edge = if (side == 0) 7f else width - 7f
+        val direction = if (side == 0) 1f else -1f
+        repeat(6) { index ->
+            val y = height * (index + 0.4f) / 6f
+            val reach = (11f + index % 3 * 5f) * direction
+            drawLine(color, Offset(edge, y), Offset(edge + reach, y), 1f)
+            drawLine(color, Offset(edge + reach, y), Offset(edge + reach, y + 8f), 1f)
+            pixelRect(color, edge + reach - 1f, y + 8f, 2f, 2f)
+            pixelRect(color.copy(alpha = 0.1f), edge - direction * 2f, y + 17f, 4f, 1f)
         }
     }
 }

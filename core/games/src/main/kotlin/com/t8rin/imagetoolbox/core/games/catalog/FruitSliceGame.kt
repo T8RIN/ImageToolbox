@@ -22,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.lerp
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
@@ -39,7 +40,6 @@ import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
 import com.t8rin.imagetoolbox.core.games.utils.arcadeAngle
-import com.t8rin.imagetoolbox.core.games.utils.arcadeBamboo
 import com.t8rin.imagetoolbox.core.games.utils.arcadeLives
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
@@ -76,7 +76,7 @@ internal data object FruitSliceGame : ArcadeGameDefinition {
                 onDrag = run::slice,
                 onRelease = run::stopInput
             ) {
-                arcadeBamboo(style, run.width, run.height, run.topInset)
+                drawFruitSliceBackground(style, run.width, run.height)
                 val plank = 58f
                 repeat((run.width / plank).toInt() + 1) { index ->
                     val x = index * plank
@@ -350,6 +350,29 @@ private fun fruitColor(
     2 -> lerp(style.playerColor, style.accentColor, 0.5f)
     3 -> style.obstacleColor
     else -> lerp(style.accentColor, style.textColor, 0.35f)
+}
+
+private fun DrawScope.drawFruitSliceBackground(style: ArcadeStyle, width: Float, height: Float) {
+    val color = style.detailColor.copy(alpha = 0.12f)
+    for (side in 0..1) {
+        val x = if (side == 0) 10f else width - 11f
+        val direction = if (side == 0) 1f else -1f
+        val bottom = height - 5f
+        val stemTop = height * if (side == 0) 0.22f else 0.4f
+        pixelRect(color, x, stemTop, 2f, bottom - stemTop)
+        var y = bottom - 14f
+        while (y > stemTop + 8f) {
+            pixelRect(color, x - 1f, y, 4f, 1f)
+            drawLine(color, Offset(x, y), Offset(x + 10f * direction, y - 7f), 2f)
+            drawLine(
+                color,
+                Offset(x + 5f * direction, y - 3f),
+                Offset(x + 14f * direction, y - 3f),
+                2f
+            )
+            y -= 27f
+        }
+    }
 }
 
 @Serializable

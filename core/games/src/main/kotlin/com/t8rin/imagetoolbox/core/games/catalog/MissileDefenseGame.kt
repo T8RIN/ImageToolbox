@@ -21,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
 import com.t8rin.imagetoolbox.core.games.ArcadeField
@@ -29,14 +30,12 @@ import com.t8rin.imagetoolbox.core.games.ArcadeGameDefinition
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.ArcadeSprite
+import com.t8rin.imagetoolbox.core.games.ArcadeStyle
 import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
-import com.t8rin.imagetoolbox.core.games.arcadeGround
 import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
-import com.t8rin.imagetoolbox.core.games.utils.arcadeSkyline
-import com.t8rin.imagetoolbox.core.games.utils.arcadeStars
 import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
@@ -72,18 +71,8 @@ internal data object MissileDefenseGame : ArcadeGameDefinition {
                 run = run,
                 onPress = run::fire
             ) {
-                arcadeStars(
-                    style = style,
-                    width = run.width,
-                    height = run.height,
-                    drift = 0f
-                )
-                arcadeSkyline(style, run.width, run.ground, run.topInset)
-                arcadeGround(
-                    style = style,
-                    width = run.width,
-                    y = run.ground
-                )
+                drawMissileBackground(style, run.width, run.ground)
+                drawMissileGround(style, run.width, run.height, run.ground)
                 for (index in run.cities.indices) {
                     val x = run.cityX(index)
                     if (run.cities[index] == 0) {
@@ -261,6 +250,46 @@ private val MissileBunker = ArcadeSprite(
     height = 22,
     data = "M11 0H17V12H21V14H25V17H28V22H0V17H3V14H7V12H11Z M5 18H9V20H5Z M19 18H23V20H19Z"
 )
+
+private fun DrawScope.drawMissileGround(style: ArcadeStyle, width: Float, height: Float, y: Float) {
+    pixelRect(style.detailColor.copy(alpha = 0.14f), 0f, y, width, height - y)
+    pixelRect(style.obstacleColor.copy(alpha = 0.5f), 0f, y, width, 1.5f)
+    var x = 0f
+    while (x < width) {
+        pixelRect(style.detailColor.copy(alpha = 0.3f), x, y + 2f, 1f, height - y - 2f)
+        pixelRect(style.detailColor.copy(alpha = 0.2f), x + 8f, y + 5f, 29f, 1f)
+        pixelRect(style.detailColor.copy(alpha = 0.15f), x + 9f, y + 9f, 27f, 5f)
+        x += 48f
+    }
+}
+
+private fun DrawScope.drawMissileBackground(style: ArcadeStyle, width: Float, ground: Float) {
+    repeat(13) { index ->
+        val x = ((index * 89 + 19) % 347) / 347f * width
+        val y = ((index * 61 + 13) % 181) / 181f * ground * 0.7f
+        pixelRect(style.detailColor.copy(alpha = 0.24f), x, y, 1f, 1f)
+    }
+    val color = style.detailColor.copy(alpha = 0.16f)
+    val moon = Offset(width * 0.14f, ground * 0.16f)
+    pixelCircle(color.copy(alpha = 0.08f), 18f, moon)
+    pixelCircle(color, 2.5f, moon + Offset(-5f, -4f))
+    pixelCircle(color.copy(alpha = 0.1f), 4f, moon + Offset(4f, 5f))
+    var x = -5f
+    var index = 0
+    while (x < width) {
+        val buildingWidth = 12f + index % 3 * 5f
+        val buildingHeight = 16f + (index * 17 % 31)
+        val y = ground - buildingHeight
+        pixelRect(color.copy(alpha = 0.08f), x, y, buildingWidth, buildingHeight)
+        pixelRect(color, x, y, buildingWidth, 1f)
+        if (index % 3 == 0) pixelRect(color, x + buildingWidth / 2f, y - 5f, 1f, 5f)
+        for (row in 0..2) for (column in 0..1) {
+            pixelRect(color.copy(alpha = 0.1f), x + 3f + column * 5f, y + 5f + row * 8f, 2f, 2f)
+        }
+        x += buildingWidth + 3f
+        index++
+    }
+}
 
 @Serializable
 private data class IncomingMissile(

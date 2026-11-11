@@ -22,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.drawscope.scale
@@ -36,12 +37,12 @@ import com.t8rin.imagetoolbox.core.games.ArcadeOffset
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.ArcadeSprite
+import com.t8rin.imagetoolbox.core.games.ArcadeStyle
 import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
-import com.t8rin.imagetoolbox.core.games.utils.arcadeTunnel
 import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
 import com.t8rin.imagetoolbox.core.games.utils.reliefSprite
 import com.t8rin.imagetoolbox.core.resources.Icons
@@ -77,7 +78,7 @@ internal data object GravityFlipGame : ArcadeGameDefinition {
                 run = run,
                 onPress = { run.flip() }
             ) {
-                arcadeTunnel(style, run.width, run.height, run.topInset)
+                drawGravityBackground(style, run.width, run.height)
                 val top = run.top
                 val bottom = run.bottom
                 val span = run.span
@@ -324,6 +325,19 @@ private val GravityLeap = ArcadeSprite(
     data = "M10 17H14V21H11V24H9V26H12V28H5V25H7V22H9V20H10Z " +
             "M13 17H16V19H21V21H22V24H19V25H17V23H18V22H14V21H12V19Z"
 )
+
+private fun DrawScope.drawGravityBackground(style: ArcadeStyle, width: Float, height: Float) {
+    val color = style.detailColor.copy(alpha = 0.10f)
+    repeat(5) { index ->
+        val x = (index + 0.5f) * width / 5f
+        val inset = height * 0.18f
+        drawLine(color, Offset(x - 9f, 3f), Offset(x, inset), 2f)
+        drawLine(color, Offset(x, inset), Offset(x, height - inset), 1f)
+        drawLine(color, Offset(x, height - inset), Offset(x + 9f, height - 3f), 2f)
+        pixelRect(color, x - 2f, inset + 6f, 4f, 2f)
+        pixelRect(color, x - 2f, height - inset - 8f, 4f, 2f)
+    }
+}
 
 @Serializable
 private data class GravityObstacle(

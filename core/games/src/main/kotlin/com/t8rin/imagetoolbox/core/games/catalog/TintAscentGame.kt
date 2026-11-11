@@ -41,7 +41,6 @@ import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
 import com.t8rin.imagetoolbox.core.games.utils.arcadeAngle
-import com.t8rin.imagetoolbox.core.games.utils.arcadeStars
 import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
@@ -88,7 +87,6 @@ internal data object TintAscentGame : ArcadeGameDefinition {
                 onPress = { run.jump() }
             ) {
                 val drift = run.camera * run.unit
-                arcadeStars(style, run.width, run.height, drift)
                 repeat(6) { index ->
                     val radius = 13f + index % 3 * 7f
                     val x = run.width * (if (index % 2 == 0) 0.11f else 0.89f)

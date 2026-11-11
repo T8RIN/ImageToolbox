@@ -26,6 +26,7 @@ import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.RoundRect
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.clipPath
 import androidx.compose.ui.graphics.drawscope.rotate
@@ -39,12 +40,12 @@ import com.t8rin.imagetoolbox.core.games.ArcadeGameDefinition
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.ArcadeSprite
+import com.t8rin.imagetoolbox.core.games.ArcadeStyle
 import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
-import com.t8rin.imagetoolbox.core.games.utils.arcadeGrid
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.TwoWheeler
@@ -83,7 +84,7 @@ internal data object LightCyclesGame : ArcadeGameDefinition {
                 onSwipe = run::steer,
                 swipeOnDrag = true
             ) {
-                arcadeGrid(style, run.width, run.height, run.topInset)
+                drawLightCyclesBackground(style, run.width, run.height)
                 val cell = run.cell
                 val origin = run.origin
                 val area = Size(width = run.columns * cell, height = run.rows * cell)
@@ -316,6 +317,20 @@ private val LightCycleRider = ArcadeSprite(
     height = 16,
     data = "M9 5H14V6H17V10H14V11H9Z"
 )
+
+private fun DrawScope.drawLightCyclesBackground(style: ArcadeStyle, width: Float, height: Float) {
+    val color = style.accentColor.copy(alpha = 0.035f)
+    var x = width / 2f % 24f
+    while (x < width) {
+        drawLine(color, Offset(x, 0f), Offset(x, height), 0.6f)
+        x += 24f
+    }
+    var y = 12f
+    while (y < height) {
+        drawLine(color, Offset(0f, y), Offset(width, y), 0.6f)
+        y += 24f
+    }
+}
 
 @Serializable
 private class LightCycle(
