@@ -35,6 +35,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.PathSegment
 import androidx.compose.ui.graphics.drawscope.DrawScope
+import androidx.compose.ui.graphics.drawscope.clipPath
 import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.drawscope.translate
@@ -68,12 +69,15 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import kotlin.math.PI
 import kotlin.math.abs
+import kotlin.math.asinh
 import kotlin.math.atan2
 import kotlin.math.cos
+import kotlin.math.cosh
 import kotlin.math.exp
 import kotlin.math.floor
 import kotlin.math.roundToInt
 import kotlin.math.sin
+import kotlin.math.sinh
 import kotlin.math.sqrt
 import kotlin.random.Random
 
@@ -105,7 +109,7 @@ internal data object HillDriveGame : ArcadeGameDefinition {
             modifier = modifier
         ) {
             Box(Modifier.fillMaxSize()) {
-                ArcadeField(run = run, worldSize = Size(420f, 156f)) {
+                ArcadeField(run = run, worldSize = Size(480f, 220f)) {
                     drawHillDriveScene(run, palette, road, details)
                     val fieldScale = size.width / run.width
                     if (fieldScale > 0f) {
@@ -213,9 +217,11 @@ private class HillDrivePalette(colors: ColorScheme, style: ArcadeStyle) {
     val glint = lerp(style.accentColor, light, 0.82f)
     val gold = style.accentColor
     val goldShade = lerp(gold, ink, 0.35f)
-    val goldMark = colors.onTertiary
-    val can = style.hazardColor
-    val canShade = lerp(ink, can, 0.24f)
+    val goldMark = lerp(gold, ink, 0.78f)
+    val can = lerp(colors.errorContainer, style.hazardColor, if (dark) 0.36f else 0.88f)
+    val canShade = lerp(can, ink, 0.28f)
+    val bridge = lerp(colors.secondary, bodyShade, 0.4f)
+    val bridgeLight = lerp(bridge, body, 0.36f)
     val hud = colors.surfaceContainerHigh
     val pedal = lerp(colors.secondaryContainer, light, 0.78f)
     val pedalLight = lerp(pedal, light, 0.55f)
@@ -234,12 +240,13 @@ private class HillDrivePalette(colors: ColorScheme, style: ArcadeStyle) {
         lerp(body, paint, 0.45f), bodyLight, bodyShade, metal
     )
     val canColors = listOf(
-        canShade, can, lerp(can, light, 0.38f),
-        lerp(can, canShade, 0.18f), canShade, metal
+        canShade, can, lerp(can, light, 0.3f),
+        lerp(can, canShade, 0.32f), lerp(can, ink, 0.82f)
     )
     val coinColors = listOf(
-        lerp(goldShade, colors.onTertiary, 0.16f), goldShade,
-        lerp(gold, glint, 0.55f), gold, glint, lerp(gold, goldShade, 0.42f), goldMark
+        goldShade, lerp(gold, goldShade, 0.55f),
+        lerp(gold, glint, 0.28f), gold, lerp(gold, glint, 0.55f),
+        lerp(gold, goldShade, 0.25f), goldMark
     )
     val pedalColors = listOf(
         pedalHole, lerp(pedalRim, ink, 0.28f), pedalShade,
@@ -294,7 +301,7 @@ private fun DrawScope.drawHillDriveScene(
     var screenX = (column * 2.0 - left).toFloat()
     road.moveTo(screenX, height + 160f)
     while (screenX <= width + 2f) {
-        val y = run.groundHeight(column * 2.0).roundToInt().toFloat() + ground
+        val y = run.terrainHeight(column * 2.0).roundToInt().toFloat() + ground
         road.lineTo(screenX, y)
         road.lineTo(screenX + 2f, y)
         column++
@@ -312,14 +319,14 @@ private fun DrawScope.drawHillDriveScene(
         val tileX = tile * HillDriveSoil.width.toDouble()
         val iterator = HillDriveSoil.path.iterator()
         while (iterator.hasNext()) {
-            val segment = iterator.next(coordinates)
-            when (segment) {
+            when (val segment = iterator.next(coordinates)) {
                 PathSegment.Type.Move, PathSegment.Type.Line -> {
                     val index = if (segment == PathSegment.Type.Move) 0 else 2
                     val worldX = tileX + coordinates[index]
                     val x = (worldX - left).toFloat()
                     val y =
-                        ground + run.groundHeight(worldX).roundToInt() + 6f + coordinates[index + 1]
+                        ground + run.terrainHeight(worldX)
+                            .roundToInt() + 6f + coordinates[index + 1]
                     if (segment == PathSegment.Type.Move) details.moveTo(x, y)
                     else details.lineTo(x, y)
                 }
@@ -330,12 +337,12 @@ private fun DrawScope.drawHillDriveScene(
         }
         tile++
     }
-    drawPath(details, palette.earth)
+    clipPath(road) { drawPath(details, palette.earth) }
     column = floor(left / 16.0).toLong()
     while (column * 16.0 - left < width) {
         val worldX = column * 16.0
-        if (hillDriveHash(column, 72) and 7 == 3) {
-            val y = ground + run.groundHeight(worldX).roundToInt()
+        if (!run.isOnBridge(worldX) && hillDriveHash(column, 72) and 7 == 3) {
+            val y = ground + run.terrainHeight(worldX).roundToInt()
             drawArcadeSprite(
                 HillDriveGrass,
                 palette.grassLight,
@@ -346,6 +353,7 @@ private fun DrawScope.drawHillDriveScene(
         column++
     }
 
+    run.drawBridges(this, left, ground, palette)
     for (pickup in run.pickups) {
         val x = (pickup.x - left).toFloat()
         if (x < -20f || x > width + 20f) continue
@@ -371,6 +379,7 @@ private fun DrawScope.drawHillDriveScene(
     }
     run.drawDust(this, left, ground, palette.dust)
     drawHillDriveCar(run, left, ground, palette)
+    run.drawCollections(this, left, ground, palette)
 }
 
 private fun DrawScope.drawHillDriveCar(
@@ -400,19 +409,34 @@ private fun DrawScope.drawHillDriveCar(
         }
         drawLine(palette.bodyShade, previous, axle, strokeWidth = 1.6f)
 
-        drawHillDriveSprite(
-            HillDriveWheelSprite,
-            palette.wheelColors,
-            axle.x - HillDriveWheelRadius,
-            axle.y - HillDriveWheelRadius,
-            HillDriveWheelPixelSize
-        )
-
+        drawCircle(palette.tire, HillDriveWheelRadius, axle)
+        drawCircle(palette.wheelColors[1], HillDriveWheelRadius - 1f, axle)
+        drawCircle(palette.tire, HillDriveWheelRadius - 2.5f, axle)
+        drawCircle(palette.wheelColors[3], 5f, axle)
+        rotate(wheel.rotation * HillDriveDegrees, axle) {
+            repeat(12) { tread ->
+                val angle = tread * HillDriveTurn / 12f
+                val direction = Offset(cos(angle), sin(angle))
+                drawLine(
+                    palette.wheelColors[2],
+                    axle + direction * (HillDriveWheelRadius - 1.8f),
+                    axle + direction * (HillDriveWheelRadius - 0.5f),
+                    strokeWidth = 1f
+                )
+            }
+            drawHillDriveSprite(
+                HillDriveWheelSprite,
+                palette.wheelColors,
+                axle.x - HillDriveWheelRadius,
+                axle.y - HillDriveWheelRadius,
+                HillDriveWheelPixelSize
+            )
+        }
     }
 
     rotate(run.angle * HillDriveDegrees, car) {
         val x = car.x - 42f
-        val y = car.y + HillDriveVisualAxleY - 30f
+        val y = car.y + HillDriveVisualAxleY - HillDriveBodyLift - 30f
         drawHillDriveSprite(HillDriveCar, palette.carColors, x, y, HillDriveCarPixelSize)
     }
 }
@@ -448,9 +472,9 @@ private fun DrawScope.drawHillDriveHud(
     fieldScale: Float
 ) {
     if (run.phase != ArcadePhase.Ready) {
-        scale(fieldScale, Offset.Zero) {
+        scale(density, Offset.Zero) {
             val color = if (run.fuel < 0.25f) style.hazardColor else style.accentColor
-            val can = Offset(22f, run.topInset / 2f)
+            val can = Offset(22f, 22f)
             drawArcadeSprite(HillDriveFuelIcon, color, can.x - 6f, can.y - 8f)
             pixelRect(
                 color = style.detailColor.copy(alpha = 0.3f),
@@ -573,18 +597,6 @@ private val HillDriveCar = mapOf(
 )
 
 private val HillDriveWheelSprite = mapOf(
-    0 to ArcadeSprite(
-        width = 18, height = 18,
-        data = "M6 0H12V1H15V3H17V6H18V12H17V15H15V17H12V18H6V17H3V15H1V12H0V6H1V3H3V1H6Z"
-    ),
-    1 to ArcadeSprite(
-        width = 18, height = 18,
-        data = "M6 1H12V2H14V4H16V6H17V12H16V14H14V16H12V17H6V16H4V14H2V12H1V6H2V4H4V2H6Z"
-    ),
-    2 to ArcadeSprite(
-        width = 18, height = 18,
-        data = "M14 4H16V6H17V12H16V14H14V16H12V17H6V16H4V14H6V15H12V14H14V12H15V6H14Z"
-    ),
     3 to ArcadeSprite(
         width = 18, height = 18,
         data = "M7 5H11V6H12V7H13V11H12V12H11V13H7V12H6V11H5V7H6V6H7Z"
@@ -596,48 +608,56 @@ private val HillDriveWheelSprite = mapOf(
     5 to ArcadeSprite(
         width = 18, height = 18,
         data = "M8 7H10V8H11V10H10V11H8V10H7V8H8Z"
+    ),
+    6 to ArcadeSprite(
+        width = 18, height = 18,
+        data = "M8 6H10V8H12V10H10V12H8V10H6V8H8Z"
     )
 )
 
 private val HillDriveCan = mapOf(
-    3 to ArcadeSprite(
+    0 to ArcadeSprite(
         width = 26, height = 32,
-        data = "M4 0H13V1H15V3H17V6H20V5H21V6H22V5H23V6H25V8H26V10H24V11H23V29H22V30H2V29H1V28H0V10H1V8H3V7H4Z M6 2H12V3H14V6H6Z"
+        data = "M4 0H14V1H16V3H18V7H20V5H22V6H24V8H26V11H24V13H23V29H21V31H3V30H1V28H0V10H2V8H4Z M6 2V7H14V4H12V2Z"
     ),
     1 to ArcadeSprite(
         width = 26, height = 32,
-        data = "M4 1H13V2H15V4H16V7H19V8H21V10H22V28H21V29H3V28H1V10H2V8H4Z M6 2H12V3H14V6H6Z"
+        data = "M4 1H13V2H15V4H17V8H20V7H22V9H24V11H22V28H20V30H4V29H2V27H1V11H3V9H5V8H4Z M6 2V7H14V4H12V2Z"
     ),
     2 to ArcadeSprite(
         width = 26, height = 32,
-        data = "M4 0H13V1H15V3H13V2H6V6H4Z M3 7H17V8H19V9H4V10H2V28H1V10H2V8H3Z M20 5H22V6H23V5H24V6H25V8H26V10H24V9H23V8H22V7H20Z"
+        data = "M4 0H13V1H15V2H6V7H4Z M3 9H17V10H3V27H2V11H3Z M20 5H22V6H24V8H25V10H23V8H21V7H20Z"
+    ),
+    3 to ArcadeSprite(
+        width = 26, height = 32,
+        data = "M21 13H23V29H21V31H4V30H20V28H21Z"
     ),
     4 to ArcadeSprite(
         width = 26, height = 32,
-        data = "M6 14H8V15H9V16H10V17H11V18H12V19H13V18H14V17H15V16H16V15H17V14H19V15H18V16H17V17H16V18H15V19H14V21H15V22H16V23H17V24H18V25H19V26H17V25H16V24H15V23H14V22H13V21H12V22H11V23H10V24H9V25H8V26H6V25H7V24H8V23H9V22H10V21H11V19H10V18H9V17H8V16H7V15H6Z"
+        data = "M6 14H8V16H10V18H12V19H13V18H15V16H17V14H19V16H18V18H16V20H14V22H16V24H18V26H19V28H17V26H15V24H13V23H12V24H10V26H8V28H6V26H7V24H9V22H11V20H9V18H7V16H6Z"
     )
 )
 
 private val HillDriveCoin = mapOf(
-    1 to ArcadeSprite(
+    0 to ArcadeSprite(
         width = 26, height = 26,
         data = "M8 0H18V1H21V3H23V5H25V8H26V18H25V21H23V23H21V25H18V26H8V25H5V23H3V21H1V18H0V8H1V5H3V3H5V1H8Z"
     ),
     3 to ArcadeSprite(
         width = 26, height = 26,
-        data = "M8 2H18V3H21V5H23V8H24V18H23V21H21V23H18V24H8V23H5V21H3V18H2V8H3V5H5V3H8Z"
+        data = "M8 1H18V2H21V4H23V8H25V18H23V22H21V24H18V25H8V24H5V22H3V18H1V8H3V4H5V2H8Z"
     ),
     4 to ArcadeSprite(
         width = 26, height = 26,
-        data = "M8 0H18V1H21V3H18V2H8V3H5V5H3V8H2V18H1V21H0V8H1V5H3V3H5V1H8Z"
+        data = "M8 0H18V2H8V3H5V5H3V8H2V18H0V8H1V5H3V3H5V1H8Z"
     ),
     2 to ArcadeSprite(
         width = 26, height = 26,
-        data = "M8 2H18V3H21V5H18V4H8V5H5V8H4V18H3V8H2V5H3V3H8Z"
+        data = "M8 3H18V4H21V6H22V8H23V18H22V21H20V23H8V22H5V20H4V8H5V5H8Z"
     ),
     5 to ArcadeSprite(
         width = 26, height = 26,
-        data = "M3 18H4V21H7V23H18V22H21V20H23V8H24V18H23V21H21V23H18V24H8V23H5V21H3Z"
+        data = "M3 18H4V21H7V23H18V22H21V20H23V8H25V18H23V22H21V24H18V25H8V24H5V22H3Z"
     )
 )
 
@@ -737,19 +757,24 @@ private const val HillDriveCarPixelSize = 1f
 private const val HillDriveWheelPixelSize = 1f
 private const val HillDrivePickupPixelSize = 0.9f
 private const val HillDriveSectionLength = 600.0
+private const val HillDriveMountainLength = 3000.0
+private const val HillDriveBridgeInterval = 4800.0
+private const val HillDriveBridgeApproach = 80f
+private const val HillDriveBridgeNodeMass = 0.06f
 private const val HillDriveReverseLimit = -75.0
 private const val HillDrivePhysicsStep = 1f / 240f
 private const val HillDriveWheelbase = 23f
 private const val HillDriveWheelRadius = 9f
 private const val HillDriveBodyY = -3f
+private const val HillDriveBodyLift = 3f
 private const val HillDriveMountY = HillDriveBodyY + 4f
-private const val HillDriveRest = 12.5f
-private const val HillDriveDroop = 17f
+private const val HillDriveRest = 15.5f
+private const val HillDriveDroop = 21f
 private const val HillDriveBumpStop = 5.5f
-private const val HillDriveGravity = 260f
-private const val HillDriveSpring = 76f
-private const val HillDriveDamping = 5.1f
-private const val HillDriveInertia = 540f
+private const val HillDriveGravity = 300f
+private const val HillDriveSpring = 85f
+private const val HillDriveDamping = 8.5f
+private const val HillDriveInertia = 780f
 private const val HillDriveWheelMass = 0.18f
 private const val HillDriveRotatingMass = 0.12f
 private const val HillDriveVisualAxleY =
@@ -763,10 +788,10 @@ private val HillDriveHull = arrayOf(
     Offset(6f, -28f), Offset(14f, -18f), Offset(30f, -16f), Offset(37f, -11f),
     Offset(38f, 0f), Offset(31f, -2f), Offset(17f, -4f), Offset(0f, -4f),
     Offset(-13f, -4f), Offset(-33f, -2f)
-).map { it + Offset(0f, HillDriveVisualAxleY - HillDriveBodyY) }
+).map { it + Offset(0f, HillDriveVisualAxleY - HillDriveBodyLift - HillDriveBodyY) }
 
-private val HillDriveStartKnots = floatArrayOf(0f, 55f, 167f, 258f, 370f, 480f, 548f, 600f)
-private val HillDriveStartHeights = floatArrayOf(0f, 0f, -19f, 15f, -22f, 13f, 5f, 0f)
+private val HillDriveStartKnots = floatArrayOf(0f, 65f, 185f, 300f, 425f, 535f, 600f)
+private val HillDriveStartHeights = floatArrayOf(0f, 0f, 20f, 24f, -22f, -8f, 0f)
 private val HillDriveHillKnots = floatArrayOf(0f, 87f, 190f, 293f, 402f, 509f, 600f)
 private val HillDriveHills = arrayOf(
     floatArrayOf(0f, 0.30f, -0.51f, -0.82f, 0.38f, 0.20f, 0f),
@@ -821,6 +846,185 @@ private class HillDriveSection(
     }
 }
 
+private class HillDriveBridge(
+    val start: Double,
+    val end: Double,
+    from: Offset,
+    to: Offset,
+    before: Offset,
+    after: Offset
+) {
+    private val length = (end - start).toFloat()
+    val plankCount = (length / 12f).toInt()
+    private val pointX = FloatArray(plankCount + 1)
+    private val pointY = FloatArray(pointX.size)
+    private val previousX = FloatArray(pointX.size)
+    private val previousY = FloatArray(pointX.size)
+    private val velocityX = FloatArray(pointX.size)
+    private val velocityY = FloatArray(pointX.size)
+    private val restLengths = FloatArray(plankCount)
+    private val arcLengths = FloatArray(pointX.size)
+    private val initialX: FloatArray
+    private val initialY: FloatArray
+    private val entrance: HillDriveSection
+    private val exit: HillDriveSection
+
+    init {
+        val rise = (to.x - from.x).toDouble()
+        val ropeLength = sqrt(length.toDouble() * length + rise * rise) * 1.10
+        val horizontal = sqrt(ropeLength * ropeLength - rise * rise) / length
+        var low = 0.001
+        var high = 3.0
+        repeat(32) {
+            val middle = (low + high) / 2.0
+            if (sinh(middle) / middle < horizontal) low = middle else high = middle
+        }
+        val a = length / (low + high)
+        val center = length / 2.0 + a * asinh(rise / (2.0 * a * sinh(length / (2.0 * a))))
+        val origin = sinh(-center / a)
+        val bottom = from.x + a * cosh(center / a)
+        for (index in pointX.indices) {
+            val x = center + a * asinh(origin + ropeLength * index / plankCount / a)
+            pointX[index] = x.toFloat()
+            pointY[index] = (bottom - a * cosh((x - center) / a)).toFloat()
+        }
+        pointX[0] = 0f
+        pointY[0] = from.x
+        pointX[plankCount] = length
+        pointY[plankCount] = to.x
+        initialX = pointX.copyOf()
+        initialY = pointY.copyOf()
+        for (index in restLengths.indices) {
+            restLengths[index] = (point(index + 1) - point(index)).getDistance()
+            arcLengths[index + 1] = arcLengths[index] + restLengths[index]
+        }
+        val first = point(1) - point(0)
+        val last = point(plankCount) - point(plankCount - 1)
+        entrance = HillDriveSection(
+            floatArrayOf(0f, HillDriveBridgeApproach),
+            floatArrayOf(before.x, from.x),
+            floatArrayOf(before.y, first.y / first.x)
+        )
+        exit = HillDriveSection(
+            floatArrayOf(0f, HillDriveBridgeApproach),
+            floatArrayOf(to.x, after.x),
+            floatArrayOf(last.y / last.x, after.y)
+        )
+    }
+
+    fun advance(seconds: Float) {
+        val damping = exp(-seconds * 0.9f)
+        for (index in 1 until plankCount) {
+            previousX[index] = pointX[index]
+            previousY[index] = pointY[index]
+            velocityX[index] *= damping
+            velocityY[index] = velocityY[index] * damping + HillDriveGravity * seconds
+            pointX[index] += velocityX[index] * seconds
+            pointY[index] += velocityY[index] * seconds
+        }
+        repeat(20) { iteration ->
+            for (step in restLengths.indices) {
+                val index = if (iteration % 2 == 0) step else restLengths.lastIndex - step
+                val dx = pointX[index + 1] - pointX[index]
+                val dy = pointY[index + 1] - pointY[index]
+                val distance = sqrt(dx * dx + dy * dy).coerceAtLeast(0.01f)
+                val first = if (index == 0) 0f else 1f
+                val second = if (index + 1 == plankCount) 0f else 1f
+                val correction = (distance - restLengths[index]) / (distance * (first + second))
+                pointX[index] += dx * correction * first
+                pointY[index] += dy * correction * first
+                pointX[index + 1] -= dx * correction * second
+                pointY[index + 1] -= dy * correction * second
+            }
+            for (index in 1 until plankCount) {
+                limitLength(index, pointX.first(), pointY.first(), arcLengths[index])
+                limitLength(
+                    index,
+                    pointX.last(),
+                    pointY.last(),
+                    arcLengths.last() - arcLengths[index]
+                )
+            }
+        }
+        for (index in 1 until plankCount) {
+            velocityX[index] = ((pointX[index] - previousX[index]) / seconds).coerceIn(-350f, 350f)
+            velocityY[index] = ((pointY[index] - previousY[index]) / seconds).coerceIn(-350f, 350f)
+        }
+    }
+
+    private fun limitLength(index: Int, x: Float, y: Float, maximum: Float) {
+        val dx = pointX[index] - x
+        val dy = pointY[index] - y
+        val distance = sqrt(dx * dx + dy * dy)
+        if (distance > maximum) {
+            pointX[index] = x + dx * (maximum / distance)
+            pointY[index] = y + dy * (maximum / distance)
+        }
+    }
+
+    fun point(index: Int): Offset = Offset(pointX[index], pointY[index])
+
+    fun segment(x: Double): Int = segment((x - start).toFloat(), pointX)
+
+    private fun segment(x: Float, nodes: FloatArray): Int {
+        var low = 0
+        var high = plankCount - 1
+        while (low < high) {
+            val middle = (low + high) ushr 1
+            if (x >= nodes[middle + 1]) low = middle + 1 else high = middle
+        }
+        return low
+    }
+
+    fun fraction(index: Int, x: Double): Float =
+        (((x - start).toFloat() - pointX[index]) /
+                (pointX[index + 1] - pointX[index]).coerceAtLeast(0.1f)).coerceIn(0f, 1f)
+
+    fun sample(x: Double, terrain: Boolean = false): Offset {
+        val local = (x - start).toFloat()
+        val xs = if (terrain) initialX else pointX
+        val ys = if (terrain) initialY else pointY
+        val index = segment(local, xs)
+        val dx = (xs[index + 1] - xs[index]).coerceAtLeast(0.1f)
+        val dy = ys[index + 1] - ys[index]
+        val t = ((local - xs[index]) / dx).coerceIn(0f, 1f)
+        val height = ys[index] + dy * t
+        if (terrain) {
+            val edge = (minOf(local, length - local) / 28f).coerceIn(0f, 1f)
+            return Offset(height + edge * (90f + length * 0.06f), 0f)
+        }
+        return Offset(height, dy / dx)
+    }
+
+    fun inverseMass(index: Int, fraction: Float): Float {
+        val first = if (index == 0) 0f else (1f - fraction) * (1f - fraction)
+        val second = if (index + 1 == plankCount) 0f else fraction * fraction
+        return (first + second) / HillDriveBridgeNodeMass
+    }
+
+    fun surfaceVelocity(index: Int, fraction: Float): Offset = Offset(
+        velocityX[index] * (1f - fraction) + velocityX[index + 1] * fraction,
+        velocityY[index] * (1f - fraction) + velocityY[index + 1] * fraction
+    )
+
+    fun applyImpulse(index: Int, fraction: Float, impulse: Offset) {
+        if (index > 0) {
+            velocityX[index] += impulse.x * ((1f - fraction) / HillDriveBridgeNodeMass)
+            velocityY[index] += impulse.y * ((1f - fraction) / HillDriveBridgeNodeMass)
+        }
+        if (index + 1 < plankCount) {
+            velocityX[index + 1] += impulse.x * (fraction / HillDriveBridgeNodeMass)
+            velocityY[index + 1] += impulse.y * (fraction / HillDriveBridgeNodeMass)
+        }
+    }
+
+    fun approach(x: Double): Offset = if (x < start) {
+        entrance.sample((x - start + HillDriveBridgeApproach).toFloat())
+    } else {
+        exit.sample((x - end).toFloat())
+    }
+}
+
 @Serializable
 private class HillDrivePickup(
     val x: Double,
@@ -853,6 +1057,15 @@ private class HillDriveWheel {
 
     @Transient
     var bounceSpeed = 0f
+
+    @Transient
+    var bridge: HillDriveBridge? = null
+
+    @Transient
+    var bridgeSegment = 0
+
+    @Transient
+    var bridgeFraction = 0f
 }
 
 private class HillDriveDust(
@@ -860,6 +1073,14 @@ private class HillDriveDust(
     var y: Float,
     val drift: Float,
     var life: Float = 0.42f
+)
+
+private class HillDriveCollection(
+    val x: Double,
+    val y: Float,
+    val fuel: Boolean,
+    val value: Int,
+    var age: Float = 0f
 )
 
 @Serializable
@@ -916,7 +1137,16 @@ private class HillDriveRun : ArcadeRun() {
     private val sections = LinkedHashMap<Long, HillDriveSection>()
 
     @Transient
+    private val mountains = LinkedHashMap<Long, HillDriveSection>()
+
+    @Transient
+    private val bridges = LinkedHashMap<Long, HillDriveBridge>()
+
+    @Transient
     private val dust = ArrayList<HillDriveDust>(20)
+
+    @Transient
+    private val collections = ArrayList<HillDriveCollection>(24)
 
     @Transient
     private var dustTimer = 0f
@@ -956,7 +1186,10 @@ private class HillDriveRun : ArcadeRun() {
         trickTime = 0f
         nextSection = 0
         sections.clear()
+        mountains.clear()
+        bridges.clear()
         dust.clear()
+        collections.clear()
         dustTimer = 0f
         pickups.clear()
         placeWheels()
@@ -1014,6 +1247,8 @@ private class HillDriveRun : ArcadeRun() {
             particle.life -= seconds
         }
         dust.removeAll { it.life <= 0f }
+        for (collection in collections) collection.age += seconds
+        collections.removeAll { it.age >= 0.65f }
         farthestX = maxOf(farthestX, x)
         val targetX = x + velocity.x.coerceIn(-60f, 180f) * 0.25f
         cameraX += (targetX - cameraX) * (1f - exp(-seconds * 4.7f))
@@ -1022,13 +1257,14 @@ private class HillDriveRun : ArcadeRun() {
         cameraY += (targetY - cameraY) * (1f - exp(-seconds * 3.1f))
         cameraY = cameraY.coerceIn(y - 40f, y + (cameraAnchorY - topInset - 38f).coerceAtLeast(28f))
         extendRoute()
-        fuel = (fuel - seconds * (0.022f + throttle * 0.025f)).coerceAtLeast(0f)
+        fuel = (fuel - seconds / 32f).coerceAtLeast(0f)
         score =
             (distance + collectedPoints + trickPoints).coerceAtMost(Int.MAX_VALUE.toLong()).toInt()
         if (fuel == 0f) finish()
     }
 
     private fun simulate(step: Float): Boolean {
+        advanceBridges(step)
         val facing = Offset(cos(angle), sin(angle))
         val down = Offset(-facing.y, facing.x)
         throttle += ((if (gas && !brake) 1f else 0f) - throttle) * (1f - exp(-step * 18f))
@@ -1039,7 +1275,7 @@ private class HillDriveRun : ArcadeRun() {
             brakeTime = 0f
             backing = false
         }
-        velocity += Offset(-velocity.x * 0.10f, HillDriveGravity) * step
+        velocity += Offset(-velocity.x * 0.035f, HillDriveGravity) * step
         val bodyVelocity = velocity
         val bodySpin = spin
         for (side in -1..1 step 2) {
@@ -1061,9 +1297,9 @@ private class HillDriveRun : ArcadeRun() {
                 HillDriveGravity * step
             ) - springImpulse / HillDriveWheelMass
 
-            val ratio = if (side < 0) 0.56f else 0.44f
+            val ratio = if (side < 0) 0.62f else 0.38f
             if (brake && !backing) {
-                val braking = 1300f * step
+                val braking = 850f * step
                 val change = wheel.surfaceSpeed.coerceIn(-braking, braking)
                 wheel.surfaceSpeed -= change
                 if (wheel.grounded) {
@@ -1073,15 +1309,15 @@ private class HillDriveRun : ArcadeRun() {
                 val motor = when {
                     backing && x <= HillDriveReverseLimit + 0.5 -> 0f
                     backing -> -135f * (1f + wheel.surfaceSpeed / 72f).coerceIn(0f, 1f)
-                    else -> throttle * 345f * (1f - wheel.surfaceSpeed / 245f).coerceIn(0f, 1.1f)
+                    else -> throttle * 285f * (1f - wheel.surfaceSpeed / 290f).coerceIn(0f, 1.1f)
                 }
                 val impulse = motor * ratio * step
                 wheel.surfaceSpeed += impulse / HillDriveRotatingMass
                 if (wheel.grounded) spin -= impulse * HillDriveWheelRadius * 0.35f / HillDriveInertia
             }
-            val rolling = 12f * step
+            val rolling = 7f * step
             wheel.surfaceSpeed -= wheel.surfaceSpeed.coerceIn(-rolling, rolling)
-            wheel.surfaceSpeed *= exp(-step * 0.11f)
+            wheel.surfaceSpeed *= exp(-step * 0.045f)
             prepareContact(wheel)
         }
 
@@ -1096,9 +1332,9 @@ private class HillDriveRun : ArcadeRun() {
         if (airborne) {
             if (airTime > 0.15f) pendingBonus = 0
             val input = (if (brake) 1f else 0f) - (if (gas) 1f else 0f)
-            spin += input * 8f * step
+            spin += input * 4.6f * step
         }
-        spin = (spin * exp(-step * 0.3f)).coerceIn(-5.5f, 5.5f)
+        spin = (spin * exp(-step * 0.18f)).coerceIn(-5.5f, 5.5f)
         val turn = spin * step
         angle = (angle + turn) % HillDriveTurn
         x += velocity.x * step
@@ -1219,30 +1455,44 @@ private class HillDriveRun : ArcadeRun() {
         wheel.normalImpulse = 0f
         wheel.tangentImpulse = 0f
         wheel.grounded = false
-        val approach = dot(wheel.velocity, normal)
+        wheel.bridge = bridgeAt(pointX)
+        wheel.bridge?.let { bridge ->
+            wheel.bridgeSegment = bridge.segment(pointX)
+            wheel.bridgeFraction = bridge.fraction(wheel.bridgeSegment, pointX)
+        }
+        val approach = dot(wheel.velocity - bridgeVelocity(wheel), normal)
         wheel.bounceSpeed = if (approach < -35f) -approach * 0.08f else 0f
     }
+
+    private fun bridgeVelocity(wheel: HillDriveWheel): Offset =
+        wheel.bridge?.surfaceVelocity(wheel.bridgeSegment, wheel.bridgeFraction) ?: Offset.Zero
 
     private fun solveWheelContact(wheel: HillDriveWheel, step: Float) {
         if (wheel.penetration < -0.35f) return
         val normal = wheel.normal
-        val speed = dot(wheel.velocity, normal)
+        val bridge = wheel.bridge
+        val bridgeMass = bridge?.inverseMass(wheel.bridgeSegment, wheel.bridgeFraction) ?: 0f
+        val speed = dot(wheel.velocity - bridgeVelocity(wheel), normal)
         val bias = (wheel.penetration - 0.15f).coerceAtLeast(0f) * 0.15f / step
-        val impulse = (bias.coerceAtMost(60f) + wheel.bounceSpeed - speed) * HillDriveWheelMass
+        val impulse = (bias.coerceAtMost(60f) + wheel.bounceSpeed - speed) /
+                (1f / HillDriveWheelMass + bridgeMass)
         val accumulated = (wheel.normalImpulse + impulse).coerceAtLeast(0f)
         val change = accumulated - wheel.normalImpulse
         wheel.normalImpulse = accumulated
         wheel.velocity += normal * (change / HillDriveWheelMass)
+        bridge?.applyImpulse(wheel.bridgeSegment, wheel.bridgeFraction, normal * -change)
 
         val tangent = Offset(-normal.y, normal.x)
-        val slip = dot(wheel.velocity, tangent) - wheel.surfaceSpeed
+        val slip = dot(wheel.velocity - bridgeVelocity(wheel), tangent) - wheel.surfaceSpeed
         val grip = accumulated * 1.35f
-        val tangentImpulse = -slip / (1f / HillDriveWheelMass + 1f / HillDriveRotatingMass)
+        val tangentImpulse = -slip /
+                (1f / HillDriveWheelMass + 1f / HillDriveRotatingMass + bridgeMass)
         val traction = (wheel.tangentImpulse + tangentImpulse).coerceIn(-grip, grip)
         val applied = traction - wheel.tangentImpulse
         wheel.tangentImpulse = traction
         wheel.velocity += tangent * (applied / HillDriveWheelMass)
         wheel.surfaceSpeed -= applied / HillDriveRotatingMass
+        bridge?.applyImpulse(wheel.bridgeSegment, wheel.bridgeFraction, tangent * -applied)
         wheel.grounded = accumulated > 0.015f
     }
 
@@ -1318,14 +1568,22 @@ private class HillDriveRun : ArcadeRun() {
             y += normal.y * correction
             angle += lever * correction / HillDriveInertia
 
-            val impactSpeed = dot(velocity + Offset(-contact.y, contact.x) * spin, normal)
-            val impulse = (-impactSpeed * 1.04f / inverseMass).coerceAtLeast(0f)
+            val contactX = x + contact.x
+            val bridge = bridgeAt(contactX)
+            val segment = bridge?.segment(contactX) ?: 0
+            val fraction = bridge?.fraction(segment, contactX) ?: 0f
+            val surface = bridge?.surfaceVelocity(segment, fraction) ?: Offset.Zero
+            val bridgeMass = bridge?.inverseMass(segment, fraction) ?: 0f
+            val relative = velocity + Offset(-contact.y, contact.x) * spin - surface
+            val impactSpeed = dot(relative, normal)
+            val impulse = (-impactSpeed * 1.04f / (inverseMass + bridgeMass)).coerceAtLeast(0f)
             val tangent = Offset(-normal.y, normal.x)
-            val tangentSpeed = dot(velocity + Offset(-contact.y, contact.x) * spin, tangent)
+            val tangentSpeed = dot(relative, tangent)
             val friction = (-tangentSpeed * 0.22f).coerceIn(-0.5f * impulse, 0.5f * impulse)
             val change = normal * impulse + tangent * friction
             velocity += change
             spin += cross(contact, change) / HillDriveInertia
+            bridge?.applyImpulse(segment, fraction, -change)
         }
         rolloverTime = if (roofTouch) rolloverTime + step else 0f
         return rolloverTime > 0.26f
@@ -1344,28 +1602,200 @@ private class HillDriveRun : ArcadeRun() {
         }
     }
 
+    fun drawCollections(
+        scope: DrawScope,
+        left: Double,
+        ground: Float,
+        palette: HillDrivePalette
+    ) = with(scope) {
+        for (collection in collections) {
+            val progress = collection.age / 0.65f
+            val alpha = (1f - progress).coerceIn(0f, 1f)
+            val center = Offset((collection.x - left).toFloat(), ground + collection.y)
+            val color = if (collection.fuel) palette.can else palette.gold
+            repeat(8) { index ->
+                val angle = index * HillDriveTurn / 8f
+                val point = center + Offset(cos(angle), sin(angle)) * (5f + progress * 23f)
+                val radius = if (index % 2 == 0) 1.5f else 1f
+                pixelRect(
+                    color.copy(alpha = alpha),
+                    point.x.roundToInt() - radius,
+                    point.y.roundToInt() - radius - progress * 8f,
+                    radius * 2f,
+                    radius * 2f
+                )
+            }
+            if (!collection.fuel) {
+                val sprite = HillDriveCoinSprites.getValue(collection.value).getValue(6)
+                drawArcadeSprite(
+                    sprite,
+                    palette.gold.copy(alpha = alpha),
+                    center.x - 13f,
+                    center.y - 22f - progress * 24f
+                )
+            }
+        }
+    }
+
+    private fun advanceBridges(seconds: Float) {
+        val margin = maxOf(width, 240f)
+        for (bridge in bridges.values) {
+            if (x in (bridge.start - margin)..(bridge.end + margin)) bridge.advance(seconds)
+        }
+    }
+
+    fun drawBridges(
+        scope: DrawScope,
+        left: Double,
+        ground: Float,
+        palette: HillDrivePalette
+    ) = with(scope) {
+        val first = floor(left / HillDriveBridgeInterval).toLong().coerceAtLeast(0L)
+        val last = ((left + width) / HillDriveBridgeInterval).toLong()
+        for (index in first..last) {
+            val bridge = bridge(index)
+            val start = bridge.start
+            val end = bridge.end
+            if (end < left || start > left + width) continue
+            val firstPlank = bridge.segment(maxOf(left - 16.0, start))
+            val lastPlank = bridge.segment(minOf(left + width + 16.0, end))
+            for (plank in firstPlank..lastPlank) {
+                val from = bridge.point(plank) + Offset((start - left).toFloat(), ground)
+                val to = bridge.point(plank + 1) + Offset((start - left).toFloat(), ground)
+                val delta = to - from
+                val center = (from + to) / 2f
+                val length = delta.getDistance()
+                rotate(atan2(delta.y, delta.x) * HillDriveDegrees, center) {
+                    pixelRect(palette.ink, center.x - length / 2f, center.y, length, 5f)
+                    pixelRect(
+                        palette.bridge,
+                        center.x - length / 2f + 0.5f,
+                        center.y,
+                        length - 1f,
+                        3f
+                    )
+                    pixelRect(
+                        palette.bridgeLight,
+                        center.x - length / 2f + 0.5f,
+                        center.y,
+                        length - 1f,
+                        1f
+                    )
+                    pixelRect(palette.metal, center.x - 1f, center.y + 1f, 1f, 1f)
+                }
+                drawLine(
+                    palette.bridge,
+                    from + Offset(0f, 8f),
+                    to + Offset(0f, 8f),
+                    strokeWidth = 1.5f
+                )
+            }
+            for (edge in 0..1) {
+                val x = if (edge == 0) start else end
+                val y = ground + groundHeight(x)
+                pixelRect(palette.bridge, (x - left).toFloat() - 2f, y - 5f, 4f, 22f)
+                pixelRect(palette.bridgeLight, (x - left).toFloat() - 2f, y - 5f, 1f, 22f)
+            }
+        }
+    }
+
     fun groundHeight(x: Double): Float = sampleRoad(x).x
 
-    private fun sampleRoad(x: Double): Offset {
-        if (x <= 0.0) return Offset.Zero
-        val section = (x / HillDriveSectionLength).toLong()
-        val local = (x - section * HillDriveSectionLength).toFloat()
-        val shape = sections.getOrPut(section) { makeSection(section) }
+    fun terrainHeight(x: Double): Float = sampleRoad(x, terrain = true).x
+
+    fun isOnBridge(x: Double): Boolean {
+        return bridgeAt(x) != null
+    }
+
+    private fun bridgeAt(x: Double): HillDriveBridge? {
+        if (x < 0.0) return null
+        val bridge = bridge((x / HillDriveBridgeInterval).toLong())
+        return bridge.takeIf { x in it.start..it.end }
+    }
+
+    private fun bridge(index: Long): HillDriveBridge {
+        val bridge = bridges.getOrPut(index) {
+            val variant = hillDriveHash(index, seed xor 2713)
+            val start = index * HillDriveBridgeInterval + 1980.0
+            val difficulty = (index / 6f).coerceAtMost(1f)
+            val length = 600.0 + (variant and 3) * 120.0 + difficulty * 600.0
+            val end = start + length
+            HillDriveBridge(
+                start = start,
+                end = end,
+                from = sampleGround(start),
+                to = sampleGround(end),
+                before = sampleGround(start - HillDriveBridgeApproach),
+                after = sampleGround(end + HillDriveBridgeApproach)
+            )
+        }
+        if (bridges.size > 8) bridges.remove(bridges.keys.first())
+        return bridge
+    }
+
+    private fun section(index: Long): HillDriveSection {
+        val section = sections.getOrPut(index) { makeSection(index) }
         if (sections.size > 16) sections.remove(sections.keys.first())
-        val t = local / HillDriveSectionLength.toFloat()
-        val start = boundary(section)
-        val rise = boundary(section + 1) - start
-        val sample = shape.sample(local)
-        return Offset(
-            x = sample.x + start + rise * t * t * (3f - 2f * t),
-            y = sample.y + rise * 6f * t * (1f - t) / HillDriveSectionLength.toFloat()
-        )
+        return section
+    }
+
+    private fun sampleRoad(x: Double, terrain: Boolean = false): Offset {
+        if (x < 0.0) return Offset.Zero
+        val bridge = bridge((x / HillDriveBridgeInterval).toLong())
+        return when (x) {
+            in bridge.start..bridge.end -> bridge.sample(x, terrain)
+            in (bridge.start - HillDriveBridgeApproach)..bridge.start,
+            in bridge.end..(bridge.end + HillDriveBridgeApproach) -> bridge.approach(x)
+
+            else -> sampleGround(x)
+        }
+    }
+
+    private fun sampleGround(x: Double): Offset {
+        if (x <= 0.0) return Offset.Zero
+        val index = (x / HillDriveSectionLength).toLong()
+        val local = (x - index * HillDriveSectionLength).toFloat()
+        val shape = section(index)
+        return shape.sample(local) + sampleMountain(x)
+    }
+
+    private fun sampleMountain(x: Double): Offset {
+        val index = (x / HillDriveMountainLength).toLong()
+        val mountain = mountains.getOrPut(index) {
+            fun slope(point: Long): Float {
+                val left = mountainHeight(point) - mountainHeight(point - 1)
+                val right = mountainHeight(point + 1) - mountainHeight(point)
+                return if (left * right > 0f) {
+                    (2f * left * right / (left + right) / HillDriveMountainLength).toFloat()
+                } else 0f
+            }
+            HillDriveSection(
+                floatArrayOf(0f, HillDriveMountainLength.toFloat()),
+                floatArrayOf(mountainHeight(index), mountainHeight(index + 1)),
+                floatArrayOf(slope(index), slope(index + 1))
+            )
+        }
+        if (mountains.size > 8) mountains.remove(mountains.keys.first())
+        return mountain.sample((x - index * HillDriveMountainLength).toFloat())
+    }
+
+    private fun mountainHeight(index: Long): Float {
+        if (index <= 0L) return 0f
+        val variant = hillDriveHash(index, seed xor 6949)
+        val amplitude = (65f + (index / 6f).coerceAtMost(1f) * 625f) *
+                (0.85f + (variant and 255) / 850f)
+        return amplitude * when (index % 4L) {
+            1L -> -1f
+            2L -> -0.28f
+            3L -> 0.35f
+            else -> -0.12f
+        }
     }
 
     private fun makeSection(index: Long): HillDriveSection {
         val difficulty = (index / 30f).coerceAtMost(1f)
         val variant = hillDriveHash(index, seed)
-        if (index % 3L == 2L || index > 10L && index % 2L == 0L && variant and 3 == 0) {
+        if (index % 7L == 5L) {
             val relief = 0.79f + difficulty * 0.26f + (variant and 7) * 0.013f
             return HillDriveSection(
                 HillDriveRampKnots,
@@ -1373,13 +1803,21 @@ private class HillDriveRun : ArcadeRun() {
                 FloatArray(HillDriveRampSlopes.size) { HillDriveRampSlopes[it] * relief }
             )
         }
-        val knots = if (index == 0L) HillDriveStartKnots else HillDriveHillKnots
+        val random = Random(variant)
+        val knots = if (index == 0L) HillDriveStartKnots else {
+            FloatArray(HillDriveHillKnots.size) { point ->
+                HillDriveHillKnots[point] +
+                        if (point in 1 until HillDriveHillKnots.lastIndex) random.nextFloat() * 44f - 22f else 0f
+            }
+        }
         val heights = if (index == 0L) {
             HillDriveStartHeights
         } else {
             val profile = HillDriveHills[(variant and Int.MAX_VALUE) % HillDriveHills.size]
-            val relief = 31f + difficulty * 36f + (variant ushr 8 and 7)
-            FloatArray(profile.size) { profile[it] * relief }
+            val relief = 38f + difficulty * 55f + (variant ushr 8 and 15)
+            FloatArray(profile.size) { point ->
+                profile[point] * relief * (0.8f + random.nextFloat() * 0.4f)
+            }
         }
         val slopes = FloatArray(knots.size)
         for (i in 1 until knots.lastIndex) {
@@ -1390,36 +1828,38 @@ private class HillDriveRun : ArcadeRun() {
         return HillDriveSection(knots, heights, slopes)
     }
 
-    private fun boundary(index: Long): Float =
-        if (index == 0L) 0f else (hillDriveHash(index, seed xor 6949) and 63) * 0.66f - 20f
-
     private fun extendRoute() {
         val right = maxOf(farthestX + HillDriveSectionLength, cameraX + width - cameraAnchorX + 80f)
         while (nextSection * HillDriveSectionLength <= right) {
             val start = nextSection * HillDriveSectionLength
             val variant = hillDriveHash(nextSection, seed)
-            for (row in 0..1) {
-                val first = if (row == 0) 92 + (variant and 63) else 318 + (variant ushr 6 and 63)
-                repeat(5) { index ->
-                    val coinX = start + first + index * 26.0
-                    val arch = 4 - (index - 2) * (index - 2)
-                    val value = when {
-                        index != 2 -> 5
-                        row == 0 -> 25
-                        nextSection > 0L && nextSection % 6L == 0L -> 500
-                        else -> 100
+            for (group in 0..1) {
+                val first =
+                    if (group == 0) 105 + (variant and 31) else 340 + (variant ushr 6 and 31)
+                val rows =
+                    if (nextSection == 0L && group == 0) 1 else 2 + (variant ushr (group + 12) and 1)
+                val columns = 4 + (variant ushr (group + 16) and 1)
+                for (column in 0 until columns) {
+                    val coinX = start + first + column * 25.0
+                    val baseY = groundHeight(coinX) - 25f
+                    for (row in 0 until rows) {
+                        val value = when {
+                            row == 0 -> if (column % 3 == 0) 5 else 10
+                            row == 1 -> if (column % 2 == 0) 100 else 25
+                            else -> 500
+                        }
+                        pickups += HillDrivePickup(
+                            x = coinX,
+                            y = baseY - row * 25f,
+                            fuel = false,
+                            value = value
+                        )
                     }
-                    pickups += HillDrivePickup(
-                        x = coinX,
-                        y = groundHeight(coinX) - 27f - arch * 2f,
-                        fuel = false,
-                        value = value
-                    )
                 }
             }
-            if (nextSection % 2L == 0L) {
-                val canX = start + 549.0
-                pickups += HillDrivePickup(canX, groundHeight(canX) - 27f, fuel = true)
+            if (nextSection % 3L == 1L) {
+                val canX = start + 530.0
+                pickups += HillDrivePickup(canX, groundHeight(canX) - 23f, fuel = true)
             }
             nextSection++
         }
@@ -1444,6 +1884,8 @@ private class HillDriveRun : ArcadeRun() {
             val touchesWheel = rearX * rearX + rearY * rearY <= wheelRadius * wheelRadius ||
                     frontX * frontX + frontY * frontY <= wheelRadius * wheelRadius
             if (!touchesWheel && !touchesBody(local, radius)) return@removeAll false
+            if (collections.size >= 24) collections.removeAt(0)
+            collections += HillDriveCollection(pickup.x, pickup.y, pickup.fuel, pickup.value)
             if (pickup.fuel) fuel = 1f
             else {
                 coins++
