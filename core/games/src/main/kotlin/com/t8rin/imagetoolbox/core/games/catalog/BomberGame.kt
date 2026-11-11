@@ -30,6 +30,7 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.clipPath
 import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.drawscope.translate
+import androidx.compose.ui.graphics.lerp
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
 import com.t8rin.imagetoolbox.core.games.ArcadeField
 import com.t8rin.imagetoolbox.core.games.ArcadeGameContext
@@ -45,6 +46,7 @@ import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
 import com.t8rin.imagetoolbox.core.games.utils.arcadeJoystick
 import com.t8rin.imagetoolbox.core.games.utils.arcadeLives
 import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
+import com.t8rin.imagetoolbox.core.games.utils.reliefSprite
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Bomb
@@ -318,9 +320,15 @@ internal data object BomberGame : ArcadeGameDefinition {
                         val unit = cell / 17f
                         translate(left = point.x - unit * 5f, top = point.y - unit * 5.5f) {
                             scale(scale = unit, pivot = Offset.Zero) {
-                                drawArcadeSprite(
+                                reliefSprite(
                                     sprite = BomberBug,
-                                    tint = style.hazardColor,
+                                    color = style.hazardColor,
+                                    shade = lerp(
+                                        style.hazardColor,
+                                        style.overlayColor.copy(alpha = 1f),
+                                        0.25f
+                                    ),
+                                    light = lerp(style.hazardColor, style.textColor, 0.2f),
                                     x = 0f,
                                     y = 0f
                                 )

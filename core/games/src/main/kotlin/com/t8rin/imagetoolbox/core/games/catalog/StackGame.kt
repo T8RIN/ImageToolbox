@@ -150,8 +150,13 @@ private fun DrawScope.drawStackScene(run: StackRun, palette: StackPalette, path:
     block(0f, 0f, InitialBlockWidth, InitialBlockWidth, 0f, palette.color(0), 80f)
     for (slab in run.blocks) {
         val altitude = (slab.level + 1) * BlockHeight
-        val center = run.project(slab.x + slab.width / 2f, slab.z + slab.depth / 2f, altitude)
-        if (center.y < -100f || center.y > run.height + 100f) continue
+        val upper = run.project(slab.x, slab.z, altitude).y
+        val lower = run.project(
+            slab.x + slab.width,
+            slab.z + slab.depth,
+            altitude
+        ).y + BlockHeight * run.unit
+        if (lower < -2f || upper > run.height + 2f) continue
         block(slab.x, slab.z, slab.width, slab.depth, altitude, palette.color(slab.level))
     }
     for (piece in run.pieces) {
@@ -351,7 +356,6 @@ private class StackRun : ArcadeRun() {
             piece.tilt += piece.direction * seconds * 45f
         }
         pieces.removeAll { it.altitude < camera - 160f }
-        blocks.removeAll { (it.level + 1) * BlockHeight < camera - 65f }
         if (missTime > 0f) {
             missTime = (missTime - seconds).coerceAtLeast(0f)
             if (missTime == 0f) finish()

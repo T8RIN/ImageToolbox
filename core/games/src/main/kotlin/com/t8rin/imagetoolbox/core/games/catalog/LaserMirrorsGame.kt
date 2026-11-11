@@ -37,6 +37,7 @@ import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
+import com.t8rin.imagetoolbox.core.games.utils.arcadeCircuit
 import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
@@ -74,6 +75,7 @@ internal data object LaserMirrorsGame : ArcadeGameDefinition {
                 transition = { run.transition },
                 onTap = run::tap
             ) {
+                arcadeCircuit(style, run.width, run.height, run.topInset)
                 val cell = run.cell
                 val area = Size(width = cell * run.columns, height = cell * run.columns)
                 drawRoundRect(

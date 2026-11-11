@@ -124,6 +124,14 @@ internal data object BladeTossGame : ArcadeGameDefinition {
                         radius = radius,
                         center = center
                     )
+                    if (run.boss) {
+                        pixelCircle(style.accentColor, radius, center, style = Stroke(5f))
+                        repeat(8) { index ->
+                            val theta = (run.angle + index * 45f) * PI.toFloat() / 180f
+                            val point = center + Offset(cos(theta), sin(theta)) * (radius - 2f)
+                            pixelRect(style.playerDetailColor, point.x - 1f, point.y - 1f, 2f, 2f)
+                        }
+                    }
                     rotate(degrees = run.angle, pivot = center) {
                         pixelCircle(
                             color = style.playerDetailColor.copy(alpha = 0.35f),
@@ -321,6 +329,7 @@ private class BladeTossRun : ArcadeRun() {
     var transition = 0f
     var impact = 0f
     private var flying = false
+    val boss get() = targets % 5 == 4
     private var targets = 0
     private var time = 0f
 
@@ -338,9 +347,9 @@ private class BladeTossRun : ArcadeRun() {
         animateLevel()
         knives.clear()
         bonuses.clear()
-        total = minOf(10, 6 + targets / 3)
+        total = if (boss) 10 else minOf(10, 6 + targets / 3)
         remaining = total
-        repeat(minOf(3, targets / 2)) { knives += it * 90f + 30f }
+        repeat(if (boss) 4 else minOf(3, targets / 2)) { knives += it * 90f + 30f }
         for (index in 0..minOf(2, targets / 2)) {
             val bonus = arcadeAngle(210f + index * 115f + Random.nextFloat() * 25f)
             if (knives.none {
@@ -363,7 +372,8 @@ private class BladeTossRun : ArcadeRun() {
         effects.advance(seconds)
         impact = (impact - seconds * 7f).coerceAtLeast(0f)
         val speed = 65f + minOf(targets * 6f, 70f)
-        val rhythm = when (targets % 3) {
+        val rhythm =
+            if (boss) sin(time * 1.15f) * 0.9f + sin(time * 2.3f) * 0.45f else when (targets % 3) {
             0 -> 1f + sin(time * 2f) * 0.25f
             1 -> -0.9f + sin(time * 1.7f) * 0.4f
             else -> cos(time * (0.6f + minOf(targets, 10) * 0.05f)) * 1.3f
@@ -411,9 +421,9 @@ private class BladeTossRun : ArcadeRun() {
             count = 5
         )
         if (remaining == 0) {
+            score += if (boss) 30 else 5
             targets++
             transition = 0.6f
-            score += 5
             effects.burst(
                 point = center,
                 count = 16

@@ -26,6 +26,7 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.drawscope.translate
+import androidx.compose.ui.graphics.lerp
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
 import com.t8rin.imagetoolbox.core.games.ArcadeDeque
 import com.t8rin.imagetoolbox.core.games.ArcadeField
@@ -41,6 +42,7 @@ import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
 import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
+import com.t8rin.imagetoolbox.core.games.utils.reliefSprite
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.SwapVerticalCircle
@@ -263,9 +265,15 @@ internal data object GravityFlipGame : ArcadeGameDefinition {
                                     x = 0f,
                                     y = 0f
                                 )
-                                drawArcadeSprite(
+                                reliefSprite(
                                     sprite = GravityRunner,
-                                    tint = style.playerColor,
+                                    color = style.playerColor,
+                                    shade = lerp(
+                                        style.playerColor,
+                                        style.overlayColor.copy(alpha = 1f),
+                                        0.25f
+                                    ),
+                                    light = lerp(style.playerColor, style.textColor, 0.2f),
                                     x = 0f,
                                     y = 0f
                                 )

@@ -27,6 +27,7 @@ import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.drawscope.translate
+import androidx.compose.ui.graphics.lerp
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
 import com.t8rin.imagetoolbox.core.games.ArcadeField
 import com.t8rin.imagetoolbox.core.games.ArcadeGameContext
@@ -41,6 +42,7 @@ import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
 import com.t8rin.imagetoolbox.core.games.utils.arcadeLives
 import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
+import com.t8rin.imagetoolbox.core.games.utils.reliefSprite
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Phishing
@@ -145,13 +147,15 @@ internal data object FishingGame : ArcadeGameDefinition {
                             scaleY = 1.1f - kind * 0.13f,
                             pivot = Offset.Zero
                         ) {
-                            drawArcadeSprite(
+                            reliefSprite(
                                 sprite = when (kind) {
                                     1 -> FishingPerch
                                     2 -> FishingMinnow
                                     else -> ArcadeFish
                                 },
-                                tint = color,
+                                color = color,
+                                shade = lerp(color, style.overlayColor.copy(alpha = 1f), 0.25f),
+                                light = lerp(color, style.textColor, 0.2f),
                                 x = -20f,
                                 y = -11f
                             )

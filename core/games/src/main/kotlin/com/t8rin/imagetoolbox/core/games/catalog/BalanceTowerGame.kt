@@ -88,6 +88,43 @@ internal data object BalanceTowerGame : ArcadeGameDefinition {
                 }
                 val unit = run.unit
                 val ground = run.project(180f, 0f)
+                val boomY = run.topInset + 6f * unit
+                val crane = style.detailColor.copy(alpha = 0.34f)
+                val mast = 17f * unit
+                for (x in listOf(mast, mast + 7f * unit)) {
+                    pixelRect(crane, x, 0f, unit, run.height)
+                }
+                val boomLeft = mast - 9f * unit
+                val boomRight = run.width - 14f * unit
+                for (y in listOf(boomY - 8f * unit, boomY)) {
+                    pixelRect(crane, boomLeft, y, boomRight - boomLeft, unit)
+                }
+                var beamX = boomLeft
+                while (beamX < boomRight - 12f * unit) {
+                    drawLine(
+                        crane,
+                        Offset(beamX, boomY),
+                        Offset(beamX + 6f * unit, boomY - 8f * unit),
+                        unit
+                    )
+                    drawLine(
+                        crane,
+                        Offset(beamX + 6f * unit, boomY - 8f * unit),
+                        Offset(beamX + 12f * unit, boomY),
+                        unit
+                    )
+                    beamX += 12f * unit
+                }
+                var braceY = boomY + 5f * unit
+                while (braceY < run.height) {
+                    drawLine(
+                        crane,
+                        Offset(mast, braceY),
+                        Offset(mast + 7f * unit, braceY + 11f * unit),
+                        unit
+                    )
+                    braceY += 14f * unit
+                }
                 if (ground.y < run.height + 10f) {
                     pixelRect(
                         color = style.obstacleColor,
@@ -230,9 +267,15 @@ internal data object BalanceTowerGame : ArcadeGameDefinition {
                             pixelRect(
                                 style.detailColor,
                                 hook.x - unit,
-                                run.topInset,
+                                boomY,
                                 unit * 2f,
-                                (hook.y - run.topInset).coerceAtLeast(0f)
+                                (hook.y - boomY).coerceAtLeast(0f)
+                            )
+                            pixelPanel(
+                                style.obstacleColor,
+                                style.playerDetailColor,
+                                Offset(hook.x - 5f * unit, boomY - 4f * unit),
+                                Size(10f * unit, 6f * unit)
                             )
                             pixelRect(
                                 style.accentColor,

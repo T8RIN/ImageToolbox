@@ -25,7 +25,6 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.clipRect
 import androidx.compose.ui.graphics.drawscope.rotate
-import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.lerp
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
 import com.t8rin.imagetoolbox.core.games.ArcadeDeque
@@ -34,13 +33,12 @@ import com.t8rin.imagetoolbox.core.games.ArcadeGameContext
 import com.t8rin.imagetoolbox.core.games.ArcadeGameDefinition
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
-import com.t8rin.imagetoolbox.core.games.ArcadeSprite
 import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
-import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
 import com.t8rin.imagetoolbox.core.games.utils.arcadeStars
+import com.t8rin.imagetoolbox.core.games.utils.pixelAsteroid
 import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
@@ -177,29 +175,13 @@ internal data object OrbitSurvivalGame : ArcadeGameDefinition {
                                         radius = radius * 0.32f,
                                         center = point
                                     )
-                                    scale(scale = radius * 0.46f / 32f, pivot = point) {
-                                        drawArcadeSprite(
-                                            sprite = OrbitMeteor,
-                                            tint = style.obstacleColor,
-                                            x = point.x - 16f,
-                                            y = point.y - 16f
-                                        )
-                                    }
-                                    pixelCircle(
-                                        color = style.playerDetailColor.copy(alpha = 0.35f),
-                                        radius = radius * 0.07f,
-                                        center = point + Offset(
-                                            x = -radius * 0.06f,
-                                            y = -radius * 0.07f
-                                        )
-                                    )
-                                    pixelCircle(
-                                        color = style.detailColor,
-                                        radius = radius * 0.045f,
-                                        center = point + Offset(
-                                            x = radius * 0.08f,
-                                            y = radius * 0.06f
-                                        )
+                                    pixelAsteroid(
+                                        style.obstacleColor,
+                                        style.overlayColor.copy(alpha = 1f),
+                                        style.textColor,
+                                        point,
+                                        radius * 0.23f,
+                                        gate.y * 35f
                                     )
                                     drawLine(
                                         color = style.hazardColor.copy(alpha = 0.3f),
@@ -260,12 +242,6 @@ private val OrbitSegments = listOf(
     listOf(-0.62f to 0.62f),
     listOf(-1.5f to -0.27f, 0.27f to 1.5f),
     listOf(-1.5f to -1.02f, -0.4f to 0.4f, 1.02f to 1.5f)
-)
-
-private val OrbitMeteor = ArcadeSprite(
-    width = 32,
-    height = 32,
-    data = "M9 1H19V3H25V7H29V12H32V20H28V24H25V28H18V31H11V28H5V24H2V17H0V10H4V5H9Z"
 )
 
 @Serializable

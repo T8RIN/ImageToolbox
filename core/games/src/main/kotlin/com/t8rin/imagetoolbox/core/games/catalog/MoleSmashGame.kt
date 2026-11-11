@@ -23,6 +23,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.drawscope.clipRect
 import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.drawscope.translate
+import androidx.compose.ui.graphics.lerp
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
 import com.t8rin.imagetoolbox.core.games.ArcadeField
 import com.t8rin.imagetoolbox.core.games.ArcadeGameContext
@@ -36,6 +37,7 @@ import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
 import com.t8rin.imagetoolbox.core.games.utils.arcadeLives
+import com.t8rin.imagetoolbox.core.games.utils.reliefSprite
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.PestControlRodent
@@ -126,9 +128,19 @@ internal data object MoleSmashGame : ArcadeGameDefinition {
                                 val y = 15f - rise * 42f
                                 clipRect(left = -30f, top = -42f, right = 30f, bottom = 12f) {
                                     if (type == 1) {
-                                        drawArcadeSprite(
+                                        reliefSprite(
                                             sprite = ArcadeMole,
-                                            tint = style.obstacleColor,
+                                            color = style.obstacleColor,
+                                            shade = lerp(
+                                                style.obstacleColor,
+                                                style.overlayColor.copy(alpha = 1f),
+                                                0.25f
+                                            ),
+                                            light = lerp(
+                                                style.obstacleColor,
+                                                style.textColor,
+                                                0.2f
+                                            ),
                                             x = -20f,
                                             y = y
                                         )

@@ -22,8 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.graphics.drawscope.rotate
-import androidx.compose.ui.graphics.drawscope.scale
+import androidx.compose.ui.graphics.lerp
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
 import com.t8rin.imagetoolbox.core.games.ArcadeField
 import com.t8rin.imagetoolbox.core.games.ArcadeGameContext
@@ -38,7 +37,10 @@ import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
 import com.t8rin.imagetoolbox.core.games.utils.arcadeLives
 import com.t8rin.imagetoolbox.core.games.utils.arcadeStars
+import com.t8rin.imagetoolbox.core.games.utils.pixelAsteroid
 import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
+import com.t8rin.imagetoolbox.core.games.utils.pixelGem
+import com.t8rin.imagetoolbox.core.games.utils.reliefSprite
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Planet
@@ -81,43 +83,55 @@ internal data object SpaceRocksGame : ArcadeGameDefinition {
                     height = run.height,
                     drift = run.distance
                 )
+                val planet =
+                    Offset(run.width * 0.82f, run.topInset + (run.height - run.topInset) * 0.2f)
+                val planetRadius = minOf(run.width, run.height) * 0.16f
+                pixelCircle(style.detailColor.copy(alpha = 0.09f), planetRadius, planet)
+                pixelCircle(
+                    style.detailColor.copy(alpha = 0.12f), planetRadius * 0.32f,
+                    planet + Offset(-planetRadius * 0.3f, -planetRadius * 0.25f)
+                )
+                drawOval(
+                    style.detailColor.copy(alpha = 0.14f),
+                    planet - Offset(planetRadius * 1.5f, planetRadius * 0.28f),
+                    Size(planetRadius * 3f, planetRadius * 0.55f), style = Stroke(1f)
+                )
                 for ((x, y, _, _, radius, spin) in run.rocks) {
-                    rotate(degrees = spin * 180f / PI.toFloat(), pivot = Offset(x = x, y = y)) {
-                        scale(radius / 24f, Offset(x = x, y = y)) {
-                            drawArcadeSprite(
-                                sprite = SpaceBoulder,
-                                tint = style.obstacleColor,
-                                x = x - 24f,
-                                y = y - 24f
-                            )
-                            pixelRect(
-                                color = style.playerDetailColor,
-                                x = x - 12f,
-                                y = y - 11f,
-                                width = 8f,
-                                height = 3f
-                            )
-                            pixelRect(
-                                color = style.playerDetailColor,
-                                x = x - 15f,
-                                y = y - 8f,
-                                width = 3f,
-                                height = 7f
-                            )
-                            pixelRect(
-                                color = style.playerDetailColor,
-                                x = x + 6f,
-                                y = y + 8f,
-                                width = 7f,
-                                height = 3f
-                            )
-                        }
-                    }
+                    pixelAsteroid(
+                        color = style.obstacleColor,
+                        ink = style.overlayColor.copy(alpha = 1f),
+                        light = style.textColor,
+                        center = Offset(x, y), radius = radius,
+                        angle = spin * 180f / PI.toFloat()
+                    )
+                }
+                for (pickup in run.pickups) {
+                    val point = Offset(pickup.x, pickup.y)
+                    pixelCircle(style.accentColor.copy(alpha = 0.14f), 12f, point)
+                    pixelGem(style.accentColor, style.textColor, point, 7f)
+                }
+                if (run.boost > 0f) {
+                    pixelRect(
+                        style.accentColor.copy(alpha = 0.18f),
+                        82f,
+                        run.topInset / 2f - 3f,
+                        44f,
+                        6f
+                    )
+                    pixelRect(
+                        style.accentColor,
+                        82f,
+                        run.topInset / 2f - 3f,
+                        44f * run.boost / 6f,
+                        6f
+                    )
                 }
                 for ((x, y, _, cooldown) in run.invaders) {
-                    drawArcadeSprite(
+                    reliefSprite(
                         sprite = SpaceInvader,
-                        tint = style.accentColor,
+                        color = style.accentColor,
+                        shade = lerp(style.accentColor, style.overlayColor.copy(alpha = 1f), 0.25f),
+                        light = lerp(style.accentColor, style.textColor, 0.2f),
                         x = x - 20f,
                         y = y - 12f
                     )
@@ -255,10 +269,6 @@ private val SpaceInvader = ArcadeSprite(
     width = 40, height = 24,
     data = "M14 0H26V2H30V6H32V10H37V12H40V16H37V18H29V21H25V24H22V20H18V24H15V21H11V18H3V16H0V12H3V10H8V6H10V2H14Z"
 )
-private val SpaceBoulder = ArcadeSprite(
-    width = 48, height = 48,
-    data = "M12 1H29V5H39V11H44V24H48V31H42V40H33V46H17V42H7V35H2V25H0V15H6V7H12Z"
-)
 
 @Serializable
 private data class SpaceRock(
@@ -290,11 +300,19 @@ private data class SpaceInvaderShip(
 )
 
 @Serializable
+private data class SpacePickup(var x: Float, var y: Float)
+
+@Serializable
 private class SpaceRocksRun : ArcadeRun() {
     val rocks = mutableListOf<SpaceRock>()
     val invaders = mutableListOf<SpaceInvaderShip>()
     val enemyShots = mutableListOf<SpaceShot>()
     val shots = mutableListOf<SpaceShot>()
+    val pickups = mutableListOf<SpacePickup>()
+    var boost = 0f
+        private set
+    private var chain = 0
+    private var chainTime = 0f
 
     @Transient
     val effects = ArcadeEffects()
@@ -313,6 +331,10 @@ private class SpaceRocksRun : ArcadeRun() {
     override fun reset() {
         rocks.clear()
         shots.clear()
+        pickups.clear()
+        boost = 0f
+        chain = 0
+        chainTime = 0f
         invaders.clear()
         enemyShots.clear()
         effects.clear()
@@ -338,6 +360,19 @@ private class SpaceRocksRun : ArcadeRun() {
 
     override fun advance(seconds: Float) {
         elapsed += seconds
+        boost = (boost - seconds).coerceAtLeast(0f)
+        chainTime = (chainTime - seconds).coerceAtLeast(0f)
+        if (chainTime == 0f) chain = 0
+        val salvage = pickups.iterator()
+        while (salvage.hasNext()) {
+            val pickup = salvage.next()
+            pickup.y += (height - topInset) * 0.24f * seconds
+            if (hypot(pickup.x - x, pickup.y - y) < 23f) {
+                boost = 6f
+                effects.burst(Offset(x, y), 14)
+                salvage.remove()
+            } else if (pickup.y > height + 14f) salvage.remove()
+        }
         distance = (distance + seconds * 35f) % 10000f
         effects.advance(seconds)
         invincible = (invincible - seconds).coerceAtLeast(0f)
@@ -351,7 +386,16 @@ private class SpaceRocksRun : ArcadeRun() {
                 vy = -440f,
                 life = (height + 30f) / 440f
             )
-            cooldown += 0.19f
+            if (boost > 0f) for (side in listOf(-1f, 1f)) {
+                shots += SpaceShot(
+                    x = x,
+                    y = y - 17f,
+                    vx = side * 115f,
+                    vy = -420f,
+                    life = (height + 30f) / 420f
+                )
+            }
+            cooldown += if (boost > 0f) 0.14f else 0.19f
         }
         spawn -= seconds
         if (spawn <= 0f) {
@@ -369,7 +413,7 @@ private class SpaceRocksRun : ArcadeRun() {
                 )
             }
             wave++
-            spawn += maxOf(0.48f, 1.1f - elapsed * 0.006f)
+            spawn += maxOf(0.48f, 1.1f - elapsed * 0.006f) + if (wave % 10 == 0) 0.7f else 0f
         }
         invaderTimer -= seconds
         if (invaderTimer <= 0f && invaders.size < 2) {
@@ -429,6 +473,7 @@ private class SpaceRocksRun : ArcadeRun() {
         val iterator = shots.iterator()
         while (iterator.hasNext()) {
             val shot = iterator.next()
+            shot.x += shot.vx * seconds
             shot.y += shot.vy * seconds
             shot.life -= seconds
             val hit = rocks.indexOfFirst { hypot(it.x - shot.x, it.y - shot.y) < it.radius + 3f }
@@ -442,7 +487,11 @@ private class SpaceRocksRun : ArcadeRun() {
                 )
                 if (rock.health <= 0) {
                     rocks.removeAt(hit)
-                    score += if (rock.radius > 30f) 30 else 10
+                    reward(if (rock.radius > 30f) 30 else 10)
+                    if (rock.radius > 30f && pickups.size < 3) pickups += SpacePickup(
+                        rock.x,
+                        rock.y
+                    )
                     effects.burst(point = Offset(x = rock.x, y = rock.y))
                     if (rock.radius > 15f) {
                         for (sign in -1..1 step 2) {
@@ -462,7 +511,11 @@ private class SpaceRocksRun : ArcadeRun() {
                 )
                 if (ship.health <= 0) {
                     invaders.remove(ship)
-                    score += 50
+                    reward(50)
+                    if (pickups.size < 3) pickups += SpacePickup(
+                        ship.x.coerceIn(14f, width - 14f),
+                        ship.y
+                    )
                     effects.burst(
                         point = Offset(x = ship.x, y = ship.y),
                         count = 16
@@ -473,9 +526,18 @@ private class SpaceRocksRun : ArcadeRun() {
         }
     }
 
+    private fun reward(points: Int) {
+        chain++
+        chainTime = 2.8f
+        score += points * (1 + (chain / 4).coerceAtMost(3))
+    }
+
     private fun damage() {
         if (invincible > 0f) return
         lives--
+        chain = 0
+        chainTime = 0f
+        boost = 0f
         invincible = 1.25f
         effects.burst(
             point = Offset(x = x, y = y),
@@ -491,6 +553,10 @@ private class SpaceRocksRun : ArcadeRun() {
             rock.x *= width / previous.width
             rock.y *= height / previous.height
             rock.vy *= height / previous.height
+        }
+        for (pickup in pickups) {
+            pickup.x *= width / previous.width
+            pickup.y *= height / previous.height
         }
         for (invader in invaders) {
             invader.x *= width / previous.width

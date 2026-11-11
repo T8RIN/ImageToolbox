@@ -66,6 +66,19 @@ internal data object PongGame : ArcadeGameDefinition {
                 onPress = { run.steer(it.y) },
                 onDrag = { run.steer(it.y) }
             ) {
+                val arena = style.detailColor.copy(alpha = 0.13f)
+                for (side in 0..1) {
+                    val edge = if (side == 0) 5f else run.width - 8f
+                    var seat = run.top + 8f
+                    while (seat < run.bottom - 6f) {
+                        pixelRect(arena, edge, seat, 3f, 5f)
+                        seat += 12f
+                    }
+                }
+                for (y in listOf(run.top + 18f, run.bottom - 18f)) {
+                    pixelRect(arena, 22f, y, run.width * 0.2f, 1f)
+                    pixelRect(arena, run.width * 0.8f - 22f, y, run.width * 0.2f, 1f)
+                }
                 var y = run.top
                 while (y < run.bottom) {
                     pixelRect(

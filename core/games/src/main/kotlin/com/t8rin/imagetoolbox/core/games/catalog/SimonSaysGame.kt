@@ -170,7 +170,7 @@ private fun DrawScope.drawSimonSymbol(
     stroke: Float
 ) {
     when (index) {
-        0 -> pixelCircle(
+        0 -> drawCircle(
             color = color,
             radius = radius,
             center = center,

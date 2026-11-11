@@ -40,6 +40,7 @@ import com.t8rin.imagetoolbox.core.games.ArcadeSprite
 import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
+import com.t8rin.imagetoolbox.core.games.utils.arcadeCircuit
 import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
 import com.t8rin.imagetoolbox.core.games.utils.pixelPanel
 import com.t8rin.imagetoolbox.core.resources.Icons
@@ -76,6 +77,7 @@ internal data object MinesweeperGame : ArcadeGameDefinition {
                 onTap = run::tap,
                 onLongPress = run::hold
             ) {
+                arcadeCircuit(style, run.width, run.height, run.topInset)
                 val cell = run.cell
                 for (index in run.board.indices) {
                     val point =

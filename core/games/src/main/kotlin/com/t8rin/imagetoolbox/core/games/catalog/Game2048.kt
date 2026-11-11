@@ -39,6 +39,7 @@ import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
+import com.t8rin.imagetoolbox.core.games.utils.arcadeCircuit
 import com.t8rin.imagetoolbox.core.games.utils.pixelPanel
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
@@ -74,6 +75,7 @@ internal data object Game2048 : ArcadeGameDefinition {
                 run = run,
                 onSwipe = run::swipe
             ) {
+                arcadeCircuit(style, run.width, run.height, run.topInset)
                 val side = minOf(run.width - 24f, run.height - run.topInset - 24f)
                 val gap = side * 0.018f
                 val cell = (side - gap * (GridSize + 1)) / GridSize
@@ -88,16 +90,16 @@ internal data object Game2048 : ArcadeGameDefinition {
                 )
 
                 pixelPanel(
-                    color = lerp(style.playerDetailColor, style.obstacleColor, 0.2f),
-                    ink = style.textColor,
+                    color = style.borderColor.copy(alpha = 0.25f),
+                    ink = style.detailColor,
                     topLeft = origin,
                     size = Size(width = side, height = side),
                     inset = true
                 )
                 for (index in run.tiles.indices) {
                     pixelPanel(
-                        color = style.playerDetailColor,
-                        ink = style.textColor,
+                        color = style.textColor.copy(alpha = 0.035f),
+                        ink = style.detailColor.copy(alpha = 0.45f),
                         topLeft = position(index),
                         size = Size(width = cell, height = cell),
                         inset = true

@@ -24,7 +24,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Canvas
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.FilterQuality
@@ -66,9 +65,11 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import kotlin.math.abs
 import kotlin.math.cos
+import kotlin.math.roundToInt
 import kotlin.math.sin
 import kotlin.math.sqrt
 import kotlin.random.Random
+import android.graphics.Color as AndroidColor
 
 @RegisterArcadeGame
 internal data object OrchardPileGame : ArcadeGameDefinition {
@@ -289,18 +290,30 @@ private enum class OrchardKind(
     val outline by lazy { OrchardOutline(shape, radius) }
 }
 
+private fun Color.orchardColor(primary: Color): Color {
+    val source = FloatArray(3)
+    val target = FloatArray(3)
+    AndroidColor.colorToHSV(toArgb(), source)
+    AndroidColor.colorToHSV(primary.toArgb(), target)
+    val delta = (target[0] - source[0] + 540f) % 360f - 180f
+    source[0] = (source[0] + delta.coerceIn(-12f, 12f) + 360f) % 360f
+    source[1] *= 0.88f
+    source[2] = source[2] * 0.94f + target[2] * 0.06f
+    return Color(AndroidColor.HSVToColor((alpha * 255f).roundToInt(), source))
+}
+
 private fun orchardSprite(kind: OrchardKind, primary: Color): ImageBitmap {
-    val image = ImageBitmap(width = 56, height = 72)
+    val image = ImageBitmap(width = 80, height = 100)
     CanvasDrawScope().draw(
         density = Density(1f),
         layoutDirection = LayoutDirection.Ltr,
         canvas = Canvas(image),
-        size = Size(56f, 72f)
+        size = Size(80f, 100f)
     ) {
-        drawOrchardFruit(kind, Offset(28f, 42f), 24f, primary)
+        drawOrchardFruit(kind, Offset(40f, 60f), 34f, primary)
     }
-    val color = lerp(kind.color, primary, 0.2f)
-    val ink = lerp(OrchardInk, primary, 0.2f)
+    val color = kind.color.orchardColor(primary)
+    val ink = OrchardInk.orchardColor(primary)
     val palette = listOf(
         color,
         lerp(color, Color.White, 0.12f),
@@ -310,12 +323,12 @@ private fun orchardSprite(kind: OrchardKind, primary: Color): ImageBitmap {
         lerp(color, ink, 0.43f),
         lerp(color, ink, 0.86f),
         ink,
-        lerp(Color.White, primary, 0.2f),
-        lerp(Color(0xFF40864F), primary, 0.2f),
-        lerp(Color(0xFF367F49), primary, 0.2f),
-        lerp(Color(0xFFFFDF90), primary, 0.2f),
-        lerp(Color(0xFFCB5F75), primary, 0.2f),
-        lerp(Color(0xFFE8EBC3), primary, 0.2f),
+        Color.White.orchardColor(primary),
+        Color(0xFF40864F).orchardColor(primary),
+        Color(0xFF367F49).orchardColor(primary),
+        Color(0xFFFFDF90).orchardColor(primary),
+        Color(0xFFCB5F75).orchardColor(primary),
+        Color(0xFFE8EBC3).orchardColor(primary),
         lerp(color, Color(0xFFCA4E66), 0.35f)
     ).map(Color::toArgb)
     val bitmap = image.asAndroidBitmap()
@@ -343,8 +356,8 @@ private fun orchardSprite(kind: OrchardKind, primary: Color): ImageBitmap {
 
 private fun DrawScope.orchardFruit(sprite: ImageBitmap, center: Offset, radius: Float) {
     translate(left = center.x, top = center.y) {
-        scale(scale = radius / 24f, pivot = Offset.Zero) {
-            translate(left = -28f, top = -42f) {
+        scale(scale = radius / 34f, pivot = Offset.Zero) {
+            translate(left = -40f, top = -60f) {
                 drawImage(image = sprite, filterQuality = FilterQuality.None)
             }
         }
@@ -357,18 +370,23 @@ private fun DrawScope.drawOrchardFruit(
     radius: Float,
     primary: Color
 ) {
-    val ink = lerp(OrchardInk, primary, 0.2f)
-    val leaf = lerp(Color(0xFF40864F), primary, 0.2f)
-    val color = lerp(kind.color, primary, 0.2f)
-    val fill = Brush.linearGradient(
-        listOf(lerp(color, Color.White, 0.23f), color, lerp(color, ink, 0.24f)),
-        start = Offset(-0.8f, -0.9f),
-        end = Offset(0.8f, 0.94f)
-    )
+    val ink = OrchardInk.orchardColor(primary)
+    val leaf = Color(0xFF40864F).orchardColor(primary)
+    val color = kind.color.orchardColor(primary)
     translate(left = center.x, top = center.y) {
         scale(scale = radius, pivot = Offset.Zero) {
-            drawPath(kind.shape, fill)
-            drawPath(kind.shape, lerp(color, ink, 0.43f), style = Stroke(0.085f))
+            drawPath(kind.shape, lerp(color, ink, 0.18f))
+            clipPath(kind.shape) {
+                translate(left = -0.09f, top = -0.10f) {
+                    drawPath(kind.shape, color)
+                }
+                drawOval(
+                    lerp(color, Color.White, 0.12f),
+                    Offset(-0.75f, -0.83f),
+                    Size(1.18f, 0.92f)
+                )
+            }
+            drawPath(kind.shape, lerp(color, ink, 0.3f), style = Stroke(0.055f))
             when (kind) {
                 OrchardKind.Cherry -> {
                     drawArc(
@@ -392,7 +410,7 @@ private fun DrawScope.drawOrchardFruit(
                         for (col in -1..1) {
                             val seed = Offset(col * (0.42f - row * 0.1f), row * 0.29f - 0.38f)
                             drawOval(
-                                color = Color(0xFFFFDF90),
+                                color = Color(0xFFFFDF90).orchardColor(primary),
                                 topLeft = seed - Offset(0.045f, 0.075f),
                                 size = Size(0.09f, 0.15f)
                             )
@@ -433,7 +451,7 @@ private fun DrawScope.drawOrchardFruit(
 
                 OrchardKind.Peach -> {
                     drawArc(
-                        color = Color(0xFFCB5F75),
+                        color = Color(0xFFCB5F75).orchardColor(primary),
                         startAngle = -77f,
                         sweepAngle = 150f,
                         useCenter = false,
@@ -448,7 +466,10 @@ private fun DrawScope.drawOrchardFruit(
 
                 OrchardKind.Pineapple, OrchardKind.Melon -> {
                     val pineapple = kind == OrchardKind.Pineapple
-                    val lines = if (pineapple) ink.copy(alpha = 0.29f) else Color(0xFFE8EBC3)
+                    val lines =
+                        if (pineapple) ink.copy(alpha = 0.29f) else Color(0xFFE8EBC3).orchardColor(
+                            primary
+                        )
                     clipPath(kind.shape) {
                         for (index in -5..5) {
                             val x = index * 0.33f
@@ -470,7 +491,10 @@ private fun DrawScope.drawOrchardFruit(
                         rotate(degrees = -12f, pivot = Offset.Zero) {
                             for (index in -1..1) {
                                 translate(top = index * 0.55f) {
-                                    drawPath(OrchardWatermelonStripe, Color(0xFF367F49))
+                                    drawPath(
+                                        OrchardWatermelonStripe,
+                                        Color(0xFF367F49).orchardColor(primary)
+                                    )
                                 }
                             }
                         }

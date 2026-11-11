@@ -38,6 +38,7 @@ import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
+import com.t8rin.imagetoolbox.core.games.utils.reliefSprite
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Alien
@@ -300,9 +301,11 @@ internal data object DoodleHopperGame : ArcadeGameDefinition {
                     val color = if (hitTime > 0f) style.playerColor else style.accentColor
                     val x = centerX - kind.halfWidth
                     val y = run.height - height + run.camera - kind.halfHeight
-                    drawArcadeSprite(
+                    reliefSprite(
                         sprite = sprite,
-                        tint = color,
+                        color = color,
+                        shade = lerp(color, style.overlayColor.copy(alpha = 1f), 0.28f),
+                        light = lerp(color, style.textColor, 0.24f),
                         x = x,
                         y = y
                     )

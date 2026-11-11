@@ -27,6 +27,7 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.drawscope.translate
+import androidx.compose.ui.graphics.lerp
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
 import com.t8rin.imagetoolbox.core.games.ArcadeField
 import com.t8rin.imagetoolbox.core.games.ArcadeGameContext
@@ -43,6 +44,7 @@ import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
 import com.t8rin.imagetoolbox.core.games.utils.arcadeLives
 import com.t8rin.imagetoolbox.core.games.utils.arcadeStars
 import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
+import com.t8rin.imagetoolbox.core.games.utils.reliefSprite
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Rocket
@@ -244,9 +246,15 @@ internal data object MoonLandingGame : ArcadeGameDefinition {
                                             height = 4f
                                         )
                                     }
-                                    drawArcadeSprite(
+                                    reliefSprite(
                                         sprite = LanderCabin,
-                                        tint = style.playerColor,
+                                        color = style.playerColor,
+                                        shade = lerp(
+                                            style.playerColor,
+                                            style.overlayColor.copy(alpha = 1f),
+                                            0.25f
+                                        ),
+                                        light = lerp(style.playerColor, style.textColor, 0.2f),
                                         x = -8f,
                                         y = -10f
                                     )

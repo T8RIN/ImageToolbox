@@ -33,6 +33,7 @@ import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
+import com.t8rin.imagetoolbox.core.games.utils.arcadeCircuit
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.ViewQuilt
@@ -68,6 +69,7 @@ internal data object BlockStackGame : ArcadeGameDefinition {
                 onDrag = run::drag,
                 onRelease = run::stopInput
             ) {
+                arcadeCircuit(style, run.width, run.height, run.topInset)
                 val cell = run.cellSize
                 val origin = Offset(
                     x = (run.width - cell * BlockStackColumns) / 2,

@@ -21,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.DrawScope
@@ -29,6 +30,7 @@ import androidx.compose.ui.graphics.drawscope.clipPath
 import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.drawscope.translate
+import androidx.compose.ui.graphics.lerp
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
 import com.t8rin.imagetoolbox.core.games.ArcadeDeque
 import com.t8rin.imagetoolbox.core.games.ArcadeField
@@ -42,7 +44,6 @@ import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
-import com.t8rin.imagetoolbox.core.games.utils.clipPixelCircle
 import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
@@ -215,38 +216,47 @@ private fun DrawScope.drawBasketballBall(
     val unit = run.unit
     val center = run.project(run.ball)
     val radius = run.radius * unit
-    pixelCircle(color = style.playerColor, radius = radius, center = center)
-    clipPixelCircle(radius = radius, center = center) {
-        rotate(degrees = run.spin, pivot = center) {
-            drawLine(
-                color = style.playerDetailColor.copy(alpha = 0.65f),
-                start = center - Offset(x = radius, y = 0f),
-                end = center + Offset(x = radius, y = 0f),
-                strokeWidth = unit
+    val ink = style.overlayColor.copy(alpha = 1f)
+    val silhouette = Path().apply {
+        addOval(
+            Rect(
+                center - Offset(radius, radius),
+                Size(radius * 2f, radius * 2f)
             )
+        )
+    }
+    drawCircle(lerp(style.playerColor, ink, 0.25f), radius, center)
+    clipPath(silhouette) {
+        drawCircle(
+            style.playerColor,
+            radius * 0.96f,
+            center - Offset(radius * 0.12f, radius * 0.14f)
+        )
+        rotate(degrees = run.spin, pivot = center) {
+            val seam = lerp(style.playerColor, ink, 0.62f)
+            for (vertical in listOf(false, true)) {
+                val delta = if (vertical) Offset(0f, radius) else Offset(radius, 0f)
+                drawLine(seam, center - delta, center + delta, strokeWidth = unit * 0.8f)
+            }
             for (side in listOf(-1f, 1f)) {
-                val seam = Path().apply {
-                    moveTo(center.x, center.y - radius)
+                val curve = Path().apply {
+                    moveTo(center.x - radius * 0.78f, center.y - radius * 0.63f * side)
                     cubicTo(
-                        center.x + side * radius * 0.9f, center.y - radius * 0.3f,
-                        center.x + side * radius * 0.9f, center.y + radius * 0.3f,
-                        center.x, center.y + radius
+                        center.x - radius * 0.3f, center.y - radius * 0.15f * side,
+                        center.x + radius * 0.3f, center.y - radius * 0.15f * side,
+                        center.x + radius * 0.78f, center.y - radius * 0.63f * side
                     )
                 }
-                drawPath(
-                    path = seam,
-                    color = style.playerDetailColor.copy(alpha = 0.65f),
-                    style = Stroke(width = unit)
-                )
+                drawPath(curve, seam, style = Stroke(unit * 0.75f))
             }
         }
+        drawOval(
+            style.obstacleColor.copy(alpha = 0.28f),
+            center - Offset(radius * 0.57f, radius * 0.67f),
+            Size(radius * 0.35f, radius * 0.17f)
+        )
     }
-    pixelCircle(
-        color = style.playerDetailColor.copy(alpha = 0.5f),
-        radius = radius,
-        center = center,
-        style = Stroke(width = unit)
-    )
+    drawCircle(ink.copy(alpha = 0.4f), radius, center, style = Stroke(unit * 0.7f))
 }
 
 @Serializable

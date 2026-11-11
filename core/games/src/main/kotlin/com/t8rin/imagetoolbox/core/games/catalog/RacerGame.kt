@@ -164,6 +164,12 @@ internal data object RacerGame : ArcadeGameDefinition {
                         color = style.playerColor
                     )
                 }
+                if (run.closeFlash > 0f) for (side in listOf(-1f, 1f)) {
+                    pixelRect(
+                        style.accentColor.copy(alpha = run.closeFlash * 0.6f),
+                        x + side * 21f, run.playerY - 17f, 2f, 34f
+                    )
+                }
                 run.effects.draw(
                     scope = this,
                     color = style.accentColor
@@ -326,7 +332,8 @@ private data class RacerCar(
     val lane: Int,
     var y: Float,
     val kind: Int,
-    var passed: Boolean = false
+    var passed: Boolean = false,
+    var nearest: Float = Float.MAX_VALUE
 )
 
 @Serializable
@@ -338,6 +345,10 @@ private class RacerRun : ArcadeRun() {
 
     @Transient
     val effects = ArcadeEffects()
+    var closeFlash = 0f
+        private set
+    private var chain = 0
+    private var chainTime = 0f
     var position = 1f
     var targetLane = 1
     var distance = 0f
@@ -352,6 +363,9 @@ private class RacerRun : ArcadeRun() {
         traffic.clear()
         effects.clear()
         position = 1f
+        closeFlash = 0f
+        chain = 0
+        chainTime = 0f
         targetLane = 1
         distance = 0f
         elapsed = 0f
@@ -366,6 +380,9 @@ private class RacerRun : ArcadeRun() {
 
     override fun advance(seconds: Float) {
         elapsed += seconds
+        closeFlash = (closeFlash - seconds * 2.5f).coerceAtLeast(0f)
+        chainTime = (chainTime - seconds).coerceAtLeast(0f)
+        if (chainTime == 0f) chain = 0
         effects.advance(seconds)
         // Keep the same reaction window in a loading dialog and in the full screen.
         val speed = (height - topInset + 50f) / (2.5f - 1.1f * (1f - exp(-elapsed / 65f)))
@@ -399,9 +416,17 @@ private class RacerRun : ArcadeRun() {
                 phase = ArcadePhase.Over
                 return
             }
+            if (abs(car.y - playerY) < clearance + 7f) car.nearest = minOf(car.nearest, separation)
             if (!car.passed && car.y > playerY + clearance + 3f) {
                 car.passed = true
                 score += if (car.kind == 2) 20 else 10
+                if (car.nearest < 45f) {
+                    chain = (chain + 1).coerceAtMost(5)
+                    chainTime = 4f
+                    score += chain * 10
+                    closeFlash = 1f
+                    effects.burst(Offset(laneX(position), playerY), 10)
+                }
                 effects.burst(Offset(x = laneX(car.lane.toFloat()), y = playerY + 25f), 4)
             }
             if (car.y > height + 46f) iterator.remove()
