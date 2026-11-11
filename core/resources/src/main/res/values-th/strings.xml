@@ -8126,4 +8126,6 @@
     <string name="help_tip_arcade_statistics">เปิดสถิติเกมจากหน้าจอเกมเพื่อดูคะแนน รอบที่เล่น และครั้งสุดท้ายที่คุณเล่นแต่ละเกม</string>
     <string name="help_tip_loading_games">เปิดใช้งานเกมในขณะที่รอ จากนั้นแตะปุ่มเกมเมื่อกล่องโต้ตอบการโหลดปรากฏขึ้น</string>
     <string name="help_tip_loading_game_choice">เลือกหนึ่งเกม เกมสุ่ม หรือเกมสุ่มจากรายการโปรดในฉาก คุณยังเปิดเกมในขณะที่ Assistant กำลังเตรียมการตอบกลับได้อีกด้วย</string>
+    <string name="arcade_hilldrive">ฮิลล์ไดรฟ์</string>
+    <string name="arcade_hilldrive_sub">ขับรถข้ามเนินเขา เก็บเหรียญและเชื้อเพลิง และพลิกแผ่นดินเพื่อรับคะแนนโบนัส</string>
 </resources>

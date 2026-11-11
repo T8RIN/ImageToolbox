@@ -8126,4 +8126,6 @@
     <string name="help_tip_arcade_statistics">Buka Statistik Game dari layar Game untuk melihat skor Anda, putaran yang dimainkan, dan terakhir kali Anda memainkan setiap game.</string>
     <string name="help_tip_loading_games">Aktifkan Game sambil menunggu, lalu ketuk tombol game saat dialog pemuatan muncul.</string>
     <string name="help_tip_loading_game_choice">Pilih satu game, game acak, atau game acak dari Favorit di pengaturan. Anda juga bisa membuka game saat Asisten sedang menyiapkan balasan.</string>
+    <string name="arcade_hilldrive">Drive Bukit</string>
+    <string name="arcade_hilldrive_sub">Berkendara melintasi bukit, kumpulkan koin dan bahan bakar, dan mendaratkan lompatan untuk mendapatkan poin bonus</string>
 </resources>

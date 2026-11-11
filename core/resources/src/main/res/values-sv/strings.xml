@@ -8127,4 +8127,6 @@
     <string name="help_tip_arcade_statistics">Öppna Spelstatistik från spelskärmen för att se dina poäng, spelade rundor och senast du spelade varje spel.</string>
     <string name="help_tip_loading_games">Aktivera spel medan du väntar och tryck sedan på spelknappen när en inläsningsdialogruta visas.</string>
     <string name="help_tip_loading_game_choice">Välj ett spel, ett slumpmässigt spel eller ett slumpmässigt spel från Favoriter i inställningen. Du kan också öppna ett spel medan assistenten förbereder ett svar.</string>
+    <string name="arcade_hilldrive">Hill Drive</string>
+    <string name="arcade_hilldrive_sub">Kör över kullar, samla mynt och bränsle och landa vändningar för bonuspoäng</string>
 </resources>

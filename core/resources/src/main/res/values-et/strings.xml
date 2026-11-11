@@ -8127,4 +8127,6 @@
     <string name="help_tip_arcade_statistics">Avage mängustatistika mängude ekraanilt, et näha oma tulemusi, mängitud voorusid ja iga mängu viimast korda.</string>
     <string name="help_tip_loading_games">Lubage ooteajal mängud, seejärel puudutage laadimisdialoogi kuvamisel mängunuppu.</string>
     <string name="help_tip_loading_game_choice">Valige seadetest üks mäng, juhuslik mäng või juhuslik mäng lemmikute hulgast. Saate mängu avada ka ajal, mil assistent vastust valmistab.</string>
+    <string name="arcade_hilldrive">Hill Drive</string>
+    <string name="arcade_hilldrive_sub">Sõitke üle mägede, koguge münte ja kütust ning maanduge boonuspunktide saamiseks</string>
 </resources>

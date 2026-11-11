@@ -8129,4 +8129,6 @@
     <string name="help_tip_arcade_statistics">Otvorte štatistiku hry na obrazovke Hry, aby ste videli svoje skóre, odohrané kolá a čas, kedy ste každú hru hrali naposledy.</string>
     <string name="help_tip_loading_games">Povoľte hry počas čakania a potom klepnite na tlačidlo hry, keď sa zobrazí dialógové okno načítania.</string>
     <string name="help_tip_loading_game_choice">Vyberte si jednu hru, náhodnú hru alebo náhodnú hru z obľúbených v nastavení. Môžete tiež otvoriť hru, keď Asistent pripravuje odpoveď.</string>
+    <string name="arcade_hilldrive">Hill Drive</string>
+    <string name="arcade_hilldrive_sub">Jazdite cez kopce, zbierajte mince a palivo a získavajte bonusové body</string>
 </resources>

@@ -8129,4 +8129,6 @@
     <string name="help_tip_arcade_statistics">פתח את סטטיסטיקת המשחקים ממסך המשחקים כדי לראות את התוצאות שלך, את הסיבובים ששיחקת ואת הפעם האחרונה ששיחקת בכל משחק.</string>
     <string name="help_tip_loading_games">הפעל משחקים בזמן ההמתנה, ולאחר מכן הקש על לחצן המשחק כאשר מופיעה תיבת דו-שיח טעינה.</string>
     <string name="help_tip_loading_game_choice">בחר משחק אחד, משחק אקראי או משחק אקראי מתוך מועדפים בהגדרה. אתה יכול גם לפתוח משחק בזמן שה-Assistant מכין תשובה.</string>
+    <string name="arcade_hilldrive">היל דרייב</string>
+    <string name="arcade_hilldrive_sub">סעו על גבעות, אספו מטבעות ודלק, והיפוכו קרקעות לקבלת נקודות בונוס</string>
 </resources>

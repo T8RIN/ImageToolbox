@@ -8131,4 +8131,6 @@
     <string name="help_tip_arcade_statistics">افتح إحصائيات اللعبة من شاشة الألعاب لرؤية نتائجك والجولات التي لعبتها وآخر مرة لعبت فيها كل لعبة.</string>
     <string name="help_tip_loading_games">قم بتمكين الألعاب أثناء الانتظار، ثم اضغط على زر اللعبة عندما يظهر مربع حوار التحميل.</string>
     <string name="help_tip_loading_game_choice">اختر لعبة واحدة أو لعبة عشوائية أو لعبة عشوائية من المفضلة في الإعداد. يمكنك أيضًا فتح لعبة بينما يقوم المساعد بإعداد الرد.</string>
+    <string name="arcade_hilldrive">هيل درايف</string>
+    <string name="arcade_hilldrive_sub">قم بالقيادة فوق التلال، وجمع العملات المعدنية والوقود، وقلب الأرض للحصول على نقاط إضافية</string>
 </resources>

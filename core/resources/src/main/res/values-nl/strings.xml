@@ -8127,4 +8127,6 @@
     <string name="help_tip_arcade_statistics">Open Spelstatistieken vanuit het Spellenscherm om uw scores, gespeelde rondes en de laatste keer dat u elk spel speelde te zien.</string>
     <string name="help_tip_loading_games">Schakel Games in terwijl u wacht en tik vervolgens op de gameknop wanneer een laaddialoogvenster verschijnt.</string>
     <string name="help_tip_loading_game_choice">Kies één spel, een willekeurig spel of een willekeurig spel uit Favorieten in de setting. Je kunt ook een game openen terwijl de Assistent een antwoord voorbereidt.</string>
+    <string name="arcade_hilldrive">Heuvel rijden</string>
+    <string name="arcade_hilldrive_sub">Rijd over heuvels, verzamel munten en brandstof en landflips voor bonuspunten</string>
 </resources>

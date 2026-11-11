@@ -8127,4 +8127,6 @@
     <string name="help_tip_arcade_statistics">Obriu Estadístiques de joc des de la pantalla Jocs per veure les vostres puntuacions, les rondes jugades i l\'última vegada que vau jugar a cada joc.</string>
     <string name="help_tip_loading_games">Activa els jocs mentre esperes i, a continuació, toca el botó del joc quan aparegui un diàleg de càrrega.</string>
     <string name="help_tip_loading_game_choice">Trieu un joc, un joc aleatori o un joc aleatori de Preferits a la configuració. També pots obrir un joc mentre l\'Assistent està preparant una resposta.</string>
+    <string name="arcade_hilldrive">Hill Drive</string>
+    <string name="arcade_hilldrive_sub">Conduïu per turons, recolliu monedes i combustible i aterritzeu per obtenir punts de bonificació</string>
 </resources>

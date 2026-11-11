@@ -8127,4 +8127,6 @@
     <string name="help_tip_arcade_statistics">Ouvrez les statistiques de jeu depuis l\'écran Jeux pour voir vos scores, les tours joués et la dernière fois que vous avez joué à chaque jeu.</string>
     <string name="help_tip_loading_games">Activez les jeux en attendant, puis appuyez sur le bouton de jeu lorsqu\'une boîte de dialogue de chargement apparaît.</string>
     <string name="help_tip_loading_game_choice">Choisissez un jeu, un jeu aléatoire ou un jeu aléatoire parmi les Favoris dans le paramètre. Vous pouvez également ouvrir un jeu pendant que l\'Assistant prépare une réponse.</string>
+    <string name="arcade_hilldrive">Promenade en colline</string>
+    <string name="arcade_hilldrive_sub">Conduisez sur des collines, collectez des pièces et du carburant, et effectuez des lancers pour obtenir des points bonus</string>
 </resources>

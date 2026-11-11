@@ -8127,4 +8127,6 @@
     <string name="help_tip_arcade_statistics">Skorlarınızı, oynadığınız turları ve her oyunu en son ne zaman oynadığınızı görmek için Oyunlar ekranından Oyun İstatistiklerini açın.</string>
     <string name="help_tip_loading_games">Beklerken Oyunları etkinleştirin, ardından yükleme iletişim kutusu göründüğünde oyun düğmesine dokunun.</string>
     <string name="help_tip_loading_game_choice">Ayarlardaki Favoriler\'den bir oyun, rastgele bir oyun veya rastgele bir oyun seçin. Asistan yanıt hazırlarken de bir oyun açabilirsiniz.</string>
+    <string name="arcade_hilldrive">Tepe Sürüşü</string>
+    <string name="arcade_hilldrive_sub">Tepelerin üzerinden geçin, para ve yakıt toplayın ve bonus puanlar için dönüşler yapın</string>
 </resources>

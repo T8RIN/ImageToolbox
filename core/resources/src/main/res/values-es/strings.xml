@@ -8127,4 +8127,6 @@
     <string name="help_tip_arcade_statistics">Abra Estadísticas de juego desde la pantalla Juegos para ver sus puntuaciones, las rondas jugadas y la última vez que jugó cada juego.</string>
     <string name="help_tip_loading_games">Habilite Juegos mientras espera, luego toque el botón del juego cuando aparezca un cuadro de diálogo de carga.</string>
     <string name="help_tip_loading_game_choice">Elija un juego, un juego aleatorio o un juego aleatorio de Favoritos en la configuración. También puedes abrir un juego mientras el Asistente prepara una respuesta.</string>
+    <string name="arcade_hilldrive">Colina Drive</string>
+    <string name="arcade_hilldrive_sub">Conduce sobre colinas, recoge monedas y combustible, y realiza volteretas para obtener puntos extra.</string>
 </resources>

@@ -8127,4 +8127,6 @@
     <string name="help_tip_arcade_statistics">Nyissa meg a Játékstatisztikát a Játékok képernyőn, hogy megtekinthesse pontszámait, lejátszott fordulóit és az egyes játékok utolsó játékát.</string>
     <string name="help_tip_loading_games">Várakozás közben engedélyezze a játékokat, majd koppintson a játék gombra, amikor megjelenik egy betöltési párbeszédpanel.</string>
     <string name="help_tip_loading_game_choice">Válasszon egy játékot, egy véletlenszerű játékot vagy egy véletlenszerű játékot a Kedvencek közül a beállításban. Akkor is megnyithat egy játékot, amikor a Segéd választ készít.</string>
+    <string name="arcade_hilldrive">Hill Drive</string>
+    <string name="arcade_hilldrive_sub">Hajtson át a dombokon, gyűjtsön érméket és üzemanyagot, és bónuszpontokért szálljon le</string>
 </resources>

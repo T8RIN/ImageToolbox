@@ -8126,4 +8126,6 @@
     <string name="help_tip_arcade_statistics">게임 화면에서 게임 통계를 열어 점수, 플레이한 라운드, 각 게임을 마지막으로 플레이한 시간을 확인하세요.</string>
     <string name="help_tip_loading_games">기다리는 동안 게임을 활성화한 다음 로딩 대화상자가 나타나면 게임 버튼을 탭하세요.</string>
     <string name="help_tip_loading_game_choice">설정의 즐겨찾기에서 하나의 게임, 임의 게임 또는 임의 게임을 선택하십시오. 어시스턴트가 답장을 준비하는 동안 게임을 열 수도 있습니다.</string>
+    <string name="arcade_hilldrive">힐 드라이브</string>
+    <string name="arcade_hilldrive_sub">언덕을 넘어 운전하고, 동전과 연료를 모으고, 땅을 뒤집어 보너스 포인트를 획득하세요</string>
 </resources>

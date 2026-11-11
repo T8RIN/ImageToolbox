@@ -8127,4 +8127,6 @@
     <string name="help_tip_arcade_statistics">Öffnen Sie die Spielstatistiken auf dem Bildschirm „Spiele“, um Ihre Ergebnisse, gespielten Runden und den Zeitpunkt, zu dem Sie jedes Spiel zuletzt gespielt haben, anzuzeigen.</string>
     <string name="help_tip_loading_games">Aktivieren Sie Spiele während des Wartens und tippen Sie dann auf die Spielschaltfläche, wenn ein Ladedialog erscheint.</string>
     <string name="help_tip_loading_game_choice">Wählen Sie in der Einstellung ein Spiel, ein Zufallsspiel oder ein Zufallsspiel aus den Favoriten aus. Sie können ein Spiel auch öffnen, während Assistant eine Antwort vorbereitet.</string>
+    <string name="arcade_hilldrive">Hill Drive</string>
+    <string name="arcade_hilldrive_sub">Fahren Sie über Hügel, sammeln Sie Münzen und Treibstoff und landen Sie Flips, um Bonuspunkte zu erhalten</string>
 </resources>

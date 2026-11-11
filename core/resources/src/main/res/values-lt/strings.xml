@@ -8129,4 +8129,6 @@
     <string name="help_tip_arcade_statistics">Žaidimų ekrane atidarykite žaidimo statistiką, kad pamatytumėte savo rezultatus, žaistus raundus ir paskutinį kartą, kai žaidėte kiekvieną žaidimą.</string>
     <string name="help_tip_loading_games">Laukdami įgalinkite žaidimus, tada bakstelėkite žaidimo mygtuką, kai pasirodys įkėlimo dialogo langas.</string>
     <string name="help_tip_loading_game_choice">Nustatyme pasirinkite vieną žaidimą, atsitiktinį žaidimą arba atsitiktinį žaidimą iš mėgstamiausių. Taip pat galite atidaryti žaidimą, kol Padėjėjas ruošia atsakymą.</string>
+    <string name="arcade_hilldrive">Hill Drive</string>
+    <string name="arcade_hilldrive_sub">Važiuokite per kalvas, rinkkite monetas ir degalus ir nusileisk, kad gautumėte papildomų taškų</string>
 </resources>

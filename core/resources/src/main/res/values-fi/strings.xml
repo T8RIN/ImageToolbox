@@ -8127,4 +8127,6 @@
     <string name="help_tip_arcade_statistics">Avaa Pelitilastot Pelit-näytöltä nähdäksesi tuloksesi, pelatut kierrokset ja pelin viimeinen pelikerta.</string>
     <string name="help_tip_loading_games">Ota pelit käyttöön odottaessasi ja napauta sitten pelipainiketta, kun latausikkuna tulee näkyviin.</string>
     <string name="help_tip_loading_game_choice">Valitse asetuksista yksi peli, satunnainen peli tai satunnainen peli suosikeista. Voit myös avata pelin, kun Assistant valmistelee vastausta.</string>
+    <string name="arcade_hilldrive">Hill Drive</string>
+    <string name="arcade_hilldrive_sub">Aja kukkuloiden yli, kerää kolikoita ja polttoainetta ja laskeudu käännät bonuspisteitä varten</string>
 </resources>

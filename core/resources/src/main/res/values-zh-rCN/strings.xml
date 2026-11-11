@@ -8126,4 +8126,6 @@
     <string name="help_tip_arcade_statistics">从“游戏”屏幕打开游戏统计信息，查看您的分数、玩的回合以及您上次玩每场游戏的时间。</string>
     <string name="help_tip_loading_games">在等待时启用游戏，然后在出现加载对话框时点击游戏按钮。</string>
     <string name="help_tip_loading_game_choice">在设置中选择一个游戏、随机游戏或收藏夹中的随机游戏。您还可以在 Google 助理准备回复时打开游戏。</string>
+    <string name="arcade_hilldrive">希尔大道</string>
+    <string name="arcade_hilldrive_sub">开车翻山越岭，收集金币和燃料，翻转土地以获得奖励积分</string>
 </resources>

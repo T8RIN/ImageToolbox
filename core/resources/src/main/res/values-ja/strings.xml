@@ -8126,4 +8126,6 @@
     <string name="help_tip_arcade_statistics">「ゲーム」画面から「ゲーム統計」を開くと、スコア、プレイしたラウンド、最後に各ゲームをプレイした時間を確認できます。</string>
     <string name="help_tip_loading_games">待機中にゲームを有効にし、読み込みダイアログが表示されたらゲーム ボタンをタップします。</string>
     <string name="help_tip_loading_game_choice">設定のお気に入りから 1 つのゲーム、ランダム ゲーム、またはランダム ゲームを選択します。アシスタントが返信を準備している間にゲームを開くこともできます。</string>
+    <string name="arcade_hilldrive">ヒルドライブ</string>
+    <string name="arcade_hilldrive_sub">丘を越えてドライブし、コインと燃料を集め、フリップを着地してボーナスポイントを獲得しましょう</string>
 </resources>

@@ -8127,4 +8127,6 @@
     <string name="help_tip_arcade_statistics">Buksan ang Mga Istatistika ng Laro mula sa screen ng Mga Laro upang makita ang iyong mga marka, mga round na nilaro at ang huling beses na naglaro ka sa bawat laro.</string>
     <string name="help_tip_loading_games">Paganahin ang Mga Laro habang naghihintay, pagkatapos ay i-tap ang button ng laro kapag may lumabas na dialog sa paglo-load.</string>
     <string name="help_tip_loading_game_choice">Pumili ng isang laro, isang random na laro o isang random na laro mula sa Mga Paborito sa setting. Maaari ka ring magbukas ng laro habang naghahanda ang Assistant ng tugon.</string>
+    <string name="arcade_hilldrive">Hill Drive</string>
+    <string name="arcade_hilldrive_sub">Magmaneho sa mga burol, mangolekta ng mga barya at gasolina, at mag-land flip para sa mga bonus na puntos</string>
 </resources>

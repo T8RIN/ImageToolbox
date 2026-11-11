@@ -8127,4 +8127,6 @@
     <string name="help_tip_arcade_statistics">Ұпайларыңызды, ойналған раундтарды және әр ойынды соңғы рет ойнағаныңызды көру үшін Ойындар экранынан Ойын статистикасын ашыңыз.</string>
     <string name="help_tip_loading_games">Күту кезінде ойындарды қосыңыз, содан кейін жүктеу диалогы пайда болған кезде ойын түймесін түртіңіз.</string>
     <string name="help_tip_loading_game_choice">Параметрдегі Таңдаулылардан бір ойынды, кездейсоқ ойынды немесе кездейсоқ ойынды таңдаңыз. Assistant жауап дайындап жатқанда, ойынды ашуға болады.</string>
+    <string name="arcade_hilldrive">Hill Drive</string>
+    <string name="arcade_hilldrive_sub">Төбеден өтіп, монеталар мен жанармай жинаңыз және бонустық ұпайлар үшін жер аударыңыз</string>
 </resources>

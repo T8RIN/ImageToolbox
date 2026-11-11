@@ -1661,7 +1661,7 @@ or click one of the badges below.
     - Squircle
     - Smooth
 - Main screen layout customization
-- 40 Mini-Games to play when waiting for result
+- 41 Mini-Games to play when waiting for result
   - Dino
   - Doodle Hopper
   - Wing Dash

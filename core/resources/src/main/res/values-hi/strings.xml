@@ -8127,4 +8127,6 @@
     <string name="help_tip_arcade_statistics">अपने स्कोर, खेले गए राउंड और पिछली बार प्रत्येक गेम कब खेला था यह देखने के लिए गेम स्क्रीन से गेम सांख्यिकी खोलें।</string>
     <string name="help_tip_loading_games">प्रतीक्षा करते समय गेम्स सक्षम करें, फिर लोडिंग डायलॉग दिखाई देने पर गेम बटन पर टैप करें।</string>
     <string name="help_tip_loading_game_choice">सेटिंग में पसंदीदा में से एक गेम, एक रैंडम गेम या एक रैंडम गेम चुनें। जब Assistant उत्तर तैयार कर रही हो तब भी आप गेम खोल सकते हैं।</string>
+    <string name="arcade_hilldrive">हिल ड्राइव</string>
+    <string name="arcade_hilldrive_sub">पहाड़ियों पर ड्राइव करें, सिक्के और ईंधन इकट्ठा करें, और बोनस अंकों के लिए ज़मीन पलटें</string>
 </resources>

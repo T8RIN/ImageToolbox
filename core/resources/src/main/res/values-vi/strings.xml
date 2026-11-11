@@ -8126,4 +8126,6 @@
     <string name="help_tip_arcade_statistics">Mở Thống kê trò chơi từ màn hình Trò chơi để xem điểm số, số vòng đã chơi và lần cuối cùng bạn chơi mỗi trò chơi.</string>
     <string name="help_tip_loading_games">Bật Trò chơi trong khi chờ, sau đó nhấn vào nút trò chơi khi hộp thoại tải xuất hiện.</string>
     <string name="help_tip_loading_game_choice">Chọn một trò chơi, trò chơi ngẫu nhiên hoặc trò chơi ngẫu nhiên từ Mục yêu thích trong cài đặt. Bạn cũng có thể mở trò chơi trong khi Trợ lý đang chuẩn bị trả lời.</string>
+    <string name="arcade_hilldrive">Lái xe trên đồi</string>
+    <string name="arcade_hilldrive_sub">Lái xe qua những ngọn đồi, thu thập tiền xu và nhiên liệu và lật đất để nhận điểm thưởng</string>
 </resources>

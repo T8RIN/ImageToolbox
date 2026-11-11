@@ -8128,4 +8128,6 @@
     <string name="help_tip_arcade_statistics">Deschide Statisticile jocului din ecranul Jocuri pentru a vedea scorurile tale, rundele jucate și ultima dată când ai jucat fiecare joc.</string>
     <string name="help_tip_loading_games">Activați Jocuri în timp ce așteptați, apoi atingeți butonul de joc când apare un dialog de încărcare.</string>
     <string name="help_tip_loading_game_choice">Alegeți un joc, un joc aleatoriu sau un joc aleatoriu din Favorite în setare. De asemenea, puteți deschide un joc în timp ce Asistentul pregătește un răspuns.</string>
+    <string name="arcade_hilldrive">Hill Drive</string>
+    <string name="arcade_hilldrive_sub">Conduceți peste dealuri, adunați monede și combustibil și aterizați pentru puncte bonus</string>
 </resources>

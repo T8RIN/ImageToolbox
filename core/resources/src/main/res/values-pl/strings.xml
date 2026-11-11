@@ -8129,4 +8129,6 @@
     <string name="help_tip_arcade_statistics">Otwórz Statystyki gier na ekranie Gry, aby zobaczyć swoje wyniki, rozegrane rundy i ostatni raz, kiedy grałeś w każdą grę.</string>
     <string name="help_tip_loading_games">Włącz gry podczas oczekiwania, a następnie dotknij przycisku gry, gdy pojawi się okno dialogowe ładowania.</string>
     <string name="help_tip_loading_game_choice">Wybierz jedną grę, grę losową lub grę losową z Ulubionych w ustawieniach. Możesz też otworzyć grę, gdy Asystent przygotowuje odpowiedź.</string>
+    <string name="arcade_hilldrive">Napęd na wzgórze</string>
+    <string name="arcade_hilldrive_sub">Jedź po wzgórzach, zbieraj monety i paliwo oraz ląduj, aby zdobyć dodatkowe punkty</string>
 </resources>

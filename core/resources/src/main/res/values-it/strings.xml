@@ -8127,4 +8127,6 @@
     <string name="help_tip_arcade_statistics">Apri Statistiche di gioco dalla schermata Giochi per vedere i tuoi punteggi, i round giocati e l\'ultima volta che hai giocato a ogni partita.</string>
     <string name="help_tip_loading_games">Abilita i giochi durante l\'attesa, quindi tocca il pulsante del gioco quando viene visualizzata una finestra di dialogo di caricamento.</string>
     <string name="help_tip_loading_game_choice">Scegli un gioco, un gioco casuale o un gioco casuale dai Preferiti nelle impostazioni. Puoi anche aprire un gioco mentre l\'assistente prepara una risposta.</string>
+    <string name="arcade_hilldrive">Hill Drive</string>
+    <string name="arcade_hilldrive_sub">Guida sulle colline, raccogli monete e carburante e fai capriole per ottenere punti bonus</string>
 </resources>
