@@ -76,7 +76,7 @@ internal data object SimonSaysGame : ArcadeGameDefinition {
                 val side = run.side
                 val origin = run.origin
                 val cell = side / 2f
-                repeat(30) { index ->
+                repeat((run.width * run.height / 4300f).toInt().coerceAtLeast(34)) { index ->
                     val x = ((index * 71 + index * index * 13 + 19) % 353) / 353f * run.width
                     val y = ((index * 97 + index * index * 23 + 41) % 439) / 439f * run.height
                     if (x < origin.x - 14f || x > origin.x + side + 14f ||

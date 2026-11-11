@@ -21,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.clipRect
 import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.drawscope.scale
@@ -31,6 +32,7 @@ import com.t8rin.imagetoolbox.core.games.ArcadeGameDefinition
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.ArcadeSprite
+import com.t8rin.imagetoolbox.core.games.ArcadeStyle
 import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
 import com.t8rin.imagetoolbox.core.games.pixelRect
@@ -67,26 +69,12 @@ internal data object TimberChopGame : ArcadeGameDefinition {
             ArcadeField(
                 run = run,
                 onPress = { run.chop(if (it.x < run.width / 2f) -1 else 1) }) {
+
                 val center = run.width / 2f
                 val base = run.base
                 val segment = run.segment
                 clipRect(top = 0f, bottom = run.height) {
-                    repeat(6) { tree ->
-                        val x = (tree * 83f + 13f) % run.width
-                        val height = 90f + tree % 3 * 24f
-                        scale(
-                            scaleX = height / 72f,
-                            scaleY = height / 72f,
-                            pivot = Offset(x = x, y = base)
-                        ) {
-                            drawArcadeSprite(
-                                sprite = TimberPine,
-                                tint = style.detailColor.copy(alpha = 0.16f),
-                                x = x - 20f,
-                                y = base - 72f
-                            )
-                        }
-                    }
+                    drawTimberForest(style, run.width, base)
                     run.branches.forEachIndexed { index, side ->
                         val y = base - (index + 1f + run.cut) * segment
                         if (y + segment >= 0f && y < run.height) {
@@ -253,8 +241,8 @@ internal data object TimberChopGame : ArcadeGameDefinition {
                         height = 14f
                     )
                 }
-                repeat(17) {
-                    val x = (it * 37f + 9f) % run.width
+                repeat(ceil(run.width / 37f).toInt()) {
+                    val x = it * 37f + 9f
                     pixelRect(
                         color = style.detailColor.copy(alpha = 0.45f),
                         x = x,
@@ -336,6 +324,25 @@ private val TimberAxe = ArcadeSprite(
     height = 14,
     data = "M0 0H5V2H11V4H18V10H11V12H5V14H0Z"
 )
+
+private fun DrawScope.drawTimberForest(style: ArcadeStyle, width: Float, base: Float) {
+    for (layer in 0..1) {
+        val spacing = if (layer == 0) 67f else 83f
+        val count = ceil(width / spacing).toInt() + 2
+        for (tree in 0 until count) {
+            val x = tree * spacing - 19f + layer * 24f
+            val height = (if (layer == 0) 65f else 91f) + (tree * 7 + layer) % 3 * 22f
+            scale(height / 72f, pivot = Offset(x, base)) {
+                drawArcadeSprite(
+                    sprite = TimberPine,
+                    tint = style.detailColor.copy(alpha = if (layer == 0) 0.085f else 0.17f),
+                    x = x - 20f,
+                    y = base - 72f
+                )
+            }
+        }
+    }
+}
 
 @Serializable
 private data class TimberChip(

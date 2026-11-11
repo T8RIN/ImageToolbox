@@ -50,7 +50,11 @@ import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Flag
 import kotlinx.serialization.Serializable
+import kotlin.math.PI
 import kotlin.math.abs
+import kotlin.math.ceil
+import kotlin.math.cos
+import kotlin.math.sin
 
 @RegisterArcadeGame
 internal data object MinesweeperGame : ArcadeGameDefinition {
@@ -236,35 +240,31 @@ private val MinesweeperFlag = ArcadeSprite(
 )
 
 private fun DrawScope.drawMinesweeperBackground(style: ArcadeStyle, width: Float, height: Float) {
-    val ink = style.detailColor.copy(alpha = 0.17f)
-    val contour = listOf(
-        Offset(-1f, -0.2f), Offset(-0.72f, -0.68f), Offset(-0.23f, -0.73f),
-        Offset(0.08f, -1f), Offset(0.59f, -0.78f), Offset(0.9f, -0.24f),
-        Offset(0.8f, 0.3f), Offset(0.42f, 0.49f), Offset(0.16f, 0.87f),
-        Offset(-0.42f, 0.72f), Offset(-0.62f, 0.35f), Offset(-0.91f, 0.21f)
-    )
-    for ((center, radius) in listOf(
-        Offset(width * 0.04f, height * 0.08f) to minOf(width, height) * 0.25f,
-        Offset(width * 0.97f, height * 0.72f) to minOf(width, height) * 0.28f,
-        Offset(width * 0.09f, height * 0.93f) to minOf(width, height) * 0.13f
-    )) {
-        for (scale in listOf(1f, 0.77f, 0.54f, 0.31f)) {
+    val columns = ceil(width / 215f).toInt()
+    val rows = ceil(height / 167f).toInt()
+    val ink = style.detailColor.copy(alpha = 0.15f)
+    for (row in 0 until rows) for (column in 0 until columns) {
+        val center = Offset(column * 215f + 53f + row % 2 * 37f, row * 167f + 41f)
+        for (ring in 0..3) {
+            val radius = 21f + ring * 12f
             val path = Path().apply {
-                contour.forEachIndexed { index, point ->
-                    val target = center + point * radius * scale
-                    if (index == 0) moveTo(target.x, target.y) else lineTo(target.x, target.y)
+                repeat(16) { point ->
+                    val angle = point * PI.toFloat() / 8f
+                    val rough = 0.8f + ((point * 17 + column * 7 + row * 11) % 9) * 0.045f
+                    val p = center + Offset(
+                        cos(angle) * radius * rough,
+                        sin(angle) * radius * rough * 0.71f
+                    )
+                    if (point == 0) moveTo(p.x, p.y) else lineTo(p.x, p.y)
                 }
                 close()
             }
+            if (ring == 0) drawPath(path, ink.copy(alpha = 0.045f))
             drawPath(path, ink, style = Stroke(0.8f))
         }
-    }
-    for (point in listOf(
-        Offset(width * 0.3f, height * 0.06f), Offset(width * 0.9f, height * 0.13f),
-        Offset(width * 0.06f, height * 0.48f), Offset(width * 0.69f, height * 0.94f)
-    )) {
-        drawLine(ink.copy(alpha = 0.24f), point - Offset(3f, 0f), point + Offset(3f, 0f), 0.7f)
-        drawLine(ink.copy(alpha = 0.24f), point - Offset(0f, 3f), point + Offset(0f, 3f), 0.7f)
+        val cross = center + Offset(83f, 47f)
+        drawLine(ink, cross - Offset(3f, 0f), cross + Offset(3f, 0f), 0.8f)
+        drawLine(ink, cross - Offset(0f, 3f), cross + Offset(0f, 3f), 0.8f)
     }
 }
 @Serializable

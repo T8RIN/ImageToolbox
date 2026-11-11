@@ -35,6 +35,7 @@ import com.t8rin.imagetoolbox.core.games.ArcadeGameDefinition
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.ArcadeSprite
+import com.t8rin.imagetoolbox.core.games.ArcadeStyle
 import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
 import com.t8rin.imagetoolbox.core.games.pixelRect
@@ -49,6 +50,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.Phishing
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import kotlin.math.abs
+import kotlin.math.ceil
 import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.random.Random
@@ -77,6 +79,7 @@ internal data object FishingGame : ArcadeGameDefinition {
                 run = run,
                 onPress = { run.cast() }
             ) {
+                drawFishingDepths(style, run.width, run.height, run.waterline)
                 val water = run.waterline
                 pixelRect(
                     color = style.playerColor.copy(alpha = 0.06f),
@@ -406,6 +409,62 @@ private fun DrawScope.fishingLine(
         }
     }
     drawPath(path = path, color = color, style = Stroke(width = width))
+}
+
+private fun DrawScope.drawFishingDepths(
+    style: ArcadeStyle,
+    width: Float,
+    height: Float,
+    water: Float
+) {
+    val ink = style.detailColor.copy(alpha = 0.17f)
+    val columns = ceil(width / 113f).toInt()
+    for (column in 0 until columns) {
+        val x = column * 113f - 13f
+        val depth = 22f + column % 3 * 11f
+        val ridge = Path().apply {
+            moveTo(x - 9f, height)
+            lineTo(x + 2f, height - depth * 0.6f)
+            lineTo(x + 15f, height - depth)
+            lineTo(x + 31f, height - depth * 0.9f)
+            lineTo(x + 47f, height - depth * 0.35f)
+            lineTo(x + 76f, height - depth * 0.6f)
+            lineTo(x + 103f, height)
+            close()
+        }
+        drawPath(ridge, ink.copy(alpha = 0.08f))
+        drawPath(ridge, ink, style = Stroke(0.7f))
+        for (weed in 0..2) {
+            val base = Offset(x + 55f + weed * 11f, height - 3f)
+            val stem = Path().apply {
+                moveTo(base.x, base.y)
+                cubicTo(
+                    base.x - 11f,
+                    base.y - 13f,
+                    base.x + 9f,
+                    base.y - 27f,
+                    base.x - 3f,
+                    base.y - 39f - weed * 5f
+                )
+            }
+            drawPath(stem, ink.copy(alpha = 0.15f), style = Stroke(1.3f))
+        }
+        val far = Path().apply {
+            moveTo(x, water - 3f)
+            lineTo(x + 18f, water - 12f)
+            lineTo(x + 39f, water - 7f)
+            lineTo(x + 55f, water - 17f)
+            lineTo(x + 96f, water - 3f)
+            close()
+        }
+        drawPath(far, ink.copy(alpha = 0.1f))
+        drawLine(
+            ink.copy(alpha = 0.07f),
+            Offset(x + 11f, water + 34f),
+            Offset(x + 65f, water + 34f),
+            0.7f
+        )
+    }
 }
 
 @Serializable

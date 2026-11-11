@@ -88,9 +88,10 @@ private fun DrawScope.drawSnakeScene(run: SnakeRun, style: ArcadeStyle, bodyPath
     val cell = side / SnakeCells
     val origin =
         Offset((run.width - side) / 2f, run.topInset + (run.height - run.topInset - side) / 2f)
-    drawSnakeBackground(style, run.width, run.height, origin, side)
+    drawSnakeBackground(style, run.width, run.height)
     val shade = lerp(style.playerColor, style.playerDetailColor, 0.42f)
     val glint = lerp(style.playerColor, style.obstacleColor, 0.68f)
+    drawRect(brush = style.background, topLeft = origin, size = Size(side, side))
     drawRect(style.overlayColor.copy(alpha = 0.18f), origin + Offset(0f, 3f), Size(side, side))
     drawRect(style.detailColor.copy(alpha = 0.05f), origin, Size(side, side))
     for (row in 0 until SnakeCells) for (column in 0 until SnakeCells) {
@@ -241,30 +242,17 @@ private val SnakeLeaf = ArcadeSprite(
     data = "M7 2H9V5H7Z M9 0H13V2H11V3H9Z"
 )
 
-private fun DrawScope.drawSnakeBackground(
-    style: ArcadeStyle,
-    width: Float,
-    height: Float,
-    origin: Offset,
-    side: Float
-) {
-    val color = style.detailColor.copy(alpha = 0.22f)
-    for (edge in 0..1) {
-        val x = if (edge == 0) (origin.x / 2f).coerceAtLeast(5f)
-        else width - (origin.x / 2f).coerceAtLeast(5f)
-        repeat(5) { index ->
-            val y = height * (index + 0.55f) / 5f
-            pixelRect(color, x, y - 4f, 1f, 9f)
-            pixelRect(color, x - 3f, y - 3f, 3f, 2f)
-            pixelRect(color, x + 1f, y, 3f, 2f)
-            pixelRect(color.copy(alpha = 0.12f), x - 3f, y + 5f, 7f, 1f)
-        }
-    }
-    for (x in listOf(origin.x + side * 0.22f, origin.x + side * 0.72f)) {
-        val y = origin.y + side + 6f
-        pixelRect(color, x, y, 7f, 1f)
-        pixelRect(color, x + 2f, y - 2f, 1f, 2f)
-        pixelRect(color, x + 5f, y - 3f, 1f, 3f)
+private fun DrawScope.drawSnakeBackground(style: ArcadeStyle, width: Float, height: Float) {
+    val count = (width * height / 17000f).toInt().coerceAtLeast(6)
+    repeat(count) { index ->
+        val point =
+            Offset((index + 0.25f) * width / count, height * (0.13f + (index * 43 % 71) / 100f))
+        val ink = style.detailColor.copy(alpha = 0.12f)
+        pixelRect(ink, point.x, point.y - 6f, 1f, 12f)
+        pixelRect(ink, point.x - 4f, point.y - 4f, 4f, 2f)
+        pixelRect(ink, point.x + 1f, point.y, 4f, 2f)
+        pixelRect(ink.copy(alpha = 0.08f), point.x + 17f, point.y + 14f, 8f, 2f)
+        pixelRect(ink.copy(alpha = 0.07f), point.x + 19f, point.y + 12f, 4f, 2f)
     }
 }
 

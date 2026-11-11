@@ -19,6 +19,7 @@ package com.t8rin.imagetoolbox.core.games.catalog
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Path
@@ -50,8 +51,12 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.SwapVerticalCircle
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
+import kotlin.math.PI
 import kotlin.math.abs
+import kotlin.math.ceil
+import kotlin.math.cos
 import kotlin.math.exp
+import kotlin.math.sin
 import kotlin.random.Random
 
 @RegisterArcadeGame
@@ -327,15 +332,29 @@ private val GravityLeap = ArcadeSprite(
 )
 
 private fun DrawScope.drawGravityBackground(style: ArcadeStyle, width: Float, height: Float) {
-    val color = style.detailColor.copy(alpha = 0.10f)
-    repeat(5) { index ->
-        val x = (index + 0.5f) * width / 5f
-        val inset = height * 0.18f
-        drawLine(color, Offset(x - 9f, 3f), Offset(x, inset), 2f)
-        drawLine(color, Offset(x, inset), Offset(x, height - inset), 1f)
-        drawLine(color, Offset(x, height - inset), Offset(x + 9f, height - 3f), 2f)
-        pixelRect(color, x - 2f, inset + 6f, 4f, 2f)
-        pixelRect(color, x - 2f, height - inset - 8f, 4f, 2f)
+    val columns = ceil(width / 107f).toInt()
+    val rows = ceil(height / 91f).toInt()
+    val ink = style.detailColor.copy(alpha = 0.11f)
+    for (row in 0 until rows) for (column in 0 until columns) {
+        val point = Offset(column * 107f + 6f, row * 91f + 5f)
+        drawRoundRect(ink.copy(alpha = 0.045f), point, Size(99f, 82f), CornerRadius(4f))
+        drawRoundRect(ink, point, Size(99f, 82f), CornerRadius(4f), style = Stroke(0.8f))
+        val center = point + Offset(48f, 39f)
+        drawCircle(ink.copy(alpha = 0.15f), 22f, center, style = Stroke(0.8f))
+        drawCircle(ink, 17f, center, style = Stroke(0.8f))
+        for (blade in 0..3) {
+            val angle = blade * PI.toFloat() / 2f + 0.45f
+            val a = center + Offset(cos(angle), sin(angle)) * 6f
+            val b = center + Offset(cos(angle + 0.5f), sin(angle + 0.5f)) * 16f
+            drawLine(ink, a, b, 2f)
+        }
+        for (screw in listOf(point + Offset(6f, 6f), point + Offset(92f, 75f))) pixelRect(
+            ink,
+            screw.x,
+            screw.y,
+            2f,
+            2f
+        )
     }
 }
 

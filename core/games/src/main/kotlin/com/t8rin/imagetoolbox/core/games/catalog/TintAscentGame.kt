@@ -87,14 +87,21 @@ internal data object TintAscentGame : ArcadeGameDefinition {
                 onPress = { run.jump() }
             ) {
                 val drift = run.camera * run.unit
-                repeat(6) { index ->
-                    val radius = 13f + index % 3 * 7f
-                    val x = run.width * (if (index % 2 == 0) 0.11f else 0.89f)
-                    val span = run.height + 64f
-                    val y = (index * span / 6f + drift * (0.12f + index % 3 * 0.08f)) % span - 32f
+                val backdropCount = (run.width * run.height / 21000f).toInt().coerceAtLeast(5)
+                repeat(backdropCount) { index ->
+                    val radius = 12f + index % 3 * 4f
+                    val span = run.height + 48f
+                    val x = (index + 0.35f) * run.width / backdropCount
+                    val y =
+                        (run.height * (0.1f + (index * 41 % 83) / 100f) + drift * 0.12f) % span - 17f
                     val tint = colors[index and 3]
-                    pixelCircle(tint.copy(alpha = 0.10f), radius, Offset(x, y), style = Stroke(1f))
-                    pixelCircle(tint.copy(alpha = 0.18f), 1.6f, Offset(x, y - radius))
+                    pixelCircle(
+                        tint.copy(alpha = 0.09f),
+                        radius,
+                        Offset(x, y),
+                        style = Stroke(0.8f)
+                    )
+                    pixelCircle(tint.copy(alpha = 0.14f), 1.3f, Offset(x, y - radius))
                 }
                 translate(left = run.width / 2f, top = run.anchor + run.camera * run.unit) {
                     scale(scale = run.unit, pivot = Offset.Zero) {

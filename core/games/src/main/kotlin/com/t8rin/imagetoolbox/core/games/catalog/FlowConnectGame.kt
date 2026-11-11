@@ -37,7 +37,6 @@ import com.t8rin.imagetoolbox.core.games.ArcadeGameDefinition
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.ArcadeStyle
 import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
-import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
 import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
@@ -90,7 +89,13 @@ internal data object FlowConnectGame : ArcadeGameDefinition {
                     lerp(style.hazardColor, style.obstacleColor, 0.5f)
                 )
                 val area = Size(width = cell * run.columns, height = cell * run.columns)
-                drawFlowBackground(style, run.width, run.height, run.origin, area.width)
+                drawFlowBackground(style, run.width, run.height)
+                drawRoundRect(
+                    brush = style.background,
+                    topLeft = run.origin,
+                    size = area,
+                    cornerRadius = CornerRadius(8f)
+                )
                 drawRoundRect(
                     color = style.detailColor.copy(alpha = 0.055f),
                     topLeft = run.origin,
@@ -221,43 +226,28 @@ internal data object FlowConnectGame : ArcadeGameDefinition {
     }
 }
 
-private fun DrawScope.drawFlowBackground(
-    style: ArcadeStyle,
-    width: Float,
-    height: Float,
-    origin: Offset,
-    side: Float
-) {
-    val color = style.detailColor.copy(alpha = 0.24f)
-    val margin = (origin.x - 9f).coerceIn(7f, 38f)
-    for (edge in 0..1) {
-        val direction = if (edge == 0) 1f else -1f
-        val x = if (edge == 0) 7f else width - 7f
-        repeat(3) { index ->
-            val y = height * (index + 0.25f) / 3f
-            val reach = margin * if (index % 2 == 0) 0.9f else 0.55f
-            val endY = minOf(y + 27f, height - 11f)
-            val path = Path().apply {
-                moveTo(x, y)
-                lineTo(x + reach * direction, y)
-                lineTo(x + reach * direction, endY)
-                lineTo(x + margin * 0.25f * direction, endY)
-            }
-            drawPath(
-                path,
-                color,
-                style = Stroke(1f, cap = StrokeCap.Round, join = StrokeJoin.Round)
-            )
-            for (point in listOf(Offset(x, y), Offset(x + margin * 0.25f * direction, endY))) {
-                pixelCircle(color, 2.5f, point, style = Stroke(1f))
-            }
+private fun DrawScope.drawFlowBackground(style: ArcadeStyle, width: Float, height: Float) {
+    val columns = ceil(width / 156f).toInt()
+    val rows = ceil(height / 128f).toInt()
+    val ink = style.detailColor.copy(alpha = 0.12f)
+    for (row in 0 until rows) for (column in 0 until columns) {
+        val x = column * 156f + 14f + row % 2 * 13f
+        val y = row * 128f + 19f
+        val path = Path().apply {
+            moveTo(x, y)
+            lineTo(x + 42f, y)
+            lineTo(x + 42f, y + 22f)
+            lineTo(x + 70f, y + 22f)
+            lineTo(x + 70f, y + 51f)
+            lineTo(x + 18f, y + 51f)
         }
-    }
-    for (y in listOf(origin.y - 6f, origin.y + side + 6f)) {
-        pixelRect(color.copy(alpha = 0.12f), origin.x + side * 0.25f, y, side * 0.5f, 1f)
-        for (x in listOf(origin.x + side * 0.25f, origin.x + side * 0.75f)) {
-            pixelRect(color, x - 1f, y - 1f, 3f, 3f)
+        drawPath(path, ink.copy(alpha = 0.035f), style = Stroke(6f, join = StrokeJoin.Round))
+        drawPath(path, ink, style = Stroke(0.8f, cap = StrokeCap.Round, join = StrokeJoin.Round))
+        for (point in listOf(Offset(x, y), Offset(x + 18f, y + 51f))) {
+            pixelCircle(ink.copy(alpha = 0.06f), 5f, point)
+            pixelCircle(ink, 3.3f, point, style = Stroke(0.9f))
         }
+        drawLine(ink.copy(alpha = 0.14f), Offset(x + 58f, y - 4f), Offset(x + 87f, y - 4f), 0.7f)
     }
 }
 

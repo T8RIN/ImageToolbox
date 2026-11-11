@@ -53,6 +53,7 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import kotlin.math.PI
 import kotlin.math.abs
+import kotlin.math.ceil
 import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.random.Random
@@ -387,14 +388,33 @@ private val LanderWindow = ArcadeSprite(
 )
 
 private fun DrawScope.drawLunarSky(style: ArcadeStyle, width: Float, height: Float) {
-    repeat(19) { index ->
-        val x = ((index * 83 + index * index * 11 + 17) % 367) / 367f * width
-        val y = ((index * 127 + 31) % 419) / 419f * height
-        val color = style.detailColor.copy(alpha = if (index % 6 == 0) 0.44f else 0.22f)
-        pixelRect(color, x, y, 1f, if (index % 6 == 0) 3f else 1f)
-        if (index % 6 == 0) pixelRect(color, x - 1f, y + 1f, 3f, 1f)
+    val columns = ceil(width / 145f).toInt()
+    for (column in 0 until columns) {
+        val origin = Offset(column * 145f + 19f, height * (0.16f + column % 3 * 0.12f))
+        val stars = listOf(
+            origin,
+            origin + Offset(29f, -12f),
+            origin + Offset(57f, 9f),
+            origin + Offset(79f, -6f)
+        )
+        for (index in 0..2) drawLine(
+            style.detailColor.copy(alpha = 0.1f),
+            stars[index],
+            stars[index + 1],
+            0.6f
+        )
+        for ((index, point) in stars.withIndex()) {
+            val ink = style.detailColor.copy(alpha = if (index == 1) 0.36f else 0.22f)
+            pixelRect(ink, point.x, point.y, 1f, if (index == 1) 3f else 1f)
+            if (index == 1) pixelRect(ink, point.x - 1f, point.y + 1f, 3f, 1f)
+        }
     }
-
+    val count = (width * height / 2100f).toInt().coerceAtLeast(25)
+    repeat(count) { index ->
+        val x = ((index * 83 + index * index * 11 + 17) % 997) / 997f * width
+        val y = ((index * 127 + 31) % 419) / 419f * height
+        pixelRect(style.detailColor.copy(alpha = 0.16f + index % 3 * 0.04f), x, y, 1f, 1f)
+    }
 }
 
 @Serializable

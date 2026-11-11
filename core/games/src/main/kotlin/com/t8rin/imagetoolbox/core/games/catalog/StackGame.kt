@@ -35,7 +35,6 @@ import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.ArcadeStyle
 import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
-import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
@@ -128,23 +127,27 @@ private fun DrawScope.drawStackScene(run: StackRun, palette: StackPalette, path:
         drawPath(path, palette.edge.copy(alpha = alpha * 0.28f), style = Stroke(run.unit * 0.65f))
     }
 
-    repeat(28) { index ->
-        val x = ((index * 71 + index * index * 13 + 23) % 359) / 359f * run.width
-        val span = run.height + 32f
-        val y = (index * 79f + run.camera * 0.12f * run.unit) % span - 16f
-        pixelRect(palette.detail.copy(alpha = 0.22f), x, y, if (index % 5 == 0) 5f else 2f, 2f)
-    }
-    repeat(5) { index ->
-        val span = run.height + 80f
-        val x = run.width * if (index % 2 == 0) 0.13f else 0.87f
-        val y = (index * span / 5f + run.camera * 0.08f * run.unit) % span - 40f
-        val half = 12f + index % 3 * 6f
+    val backdropCount = (run.width * run.height / 18000f).toInt().coerceAtLeast(6)
+    repeat(backdropCount) { index ->
+        val span = run.height + 70f
+        val x = (index + 0.4f) * run.width / backdropCount
+        val y =
+            (run.height * (0.14f + (index * 43 % 79) / 100f) + run.camera * 0.06f * run.unit) % span - 25f
+        val half = 13f + index % 3 * 5f
+        val lower = 6f + index % 2 * 3f
+        face(
+            palette.detail.copy(alpha = 0.045f), Offset(x - half, y), Offset(x, y + half * 0.5f),
+            Offset(x, y + half * 0.5f + lower), Offset(x - half, y + lower)
+        )
+        face(
+            palette.detail.copy(alpha = 0.075f), Offset(x, y + half * 0.5f), Offset(x + half, y),
+            Offset(x + half, y + lower), Offset(x, y + half * 0.5f + lower)
+        )
         face(
             palette.detail.copy(alpha = 0.06f), Offset(x, y - half * 0.5f),
             Offset(x + half, y), Offset(x, y + half * 0.5f), Offset(x - half, y)
         )
-        drawPath(path, palette.detail.copy(alpha = 0.24f), style = Stroke(1f))
-        pixelRect(palette.detail.copy(alpha = 0.2f), x - 1f, y + half * 0.5f + 3f, 2f, 3f)
+        drawPath(path, palette.detail.copy(alpha = 0.17f), style = Stroke(0.7f))
     }
 
     block(0f, 0f, InitialBlockWidth, InitialBlockWidth, 0f, palette.color(0), 80f)

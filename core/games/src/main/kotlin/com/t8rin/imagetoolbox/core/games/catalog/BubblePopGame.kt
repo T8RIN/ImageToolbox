@@ -72,7 +72,8 @@ internal data object BubblePopGame : ArcadeGameDefinition {
             ) {
                 val cell = run.cell
                 val origin = run.origin
-                repeat(16) { index ->
+                val backdropCount = (run.width * run.height / 6500f).toInt().coerceAtLeast(16)
+                repeat(backdropCount) { index ->
                     val radius = 12f + index % 4 * 9f
                     val x = ((index * 73 + index * index * 17 + 7) % 347) / 347f * run.width
                     val y = ((index * 113 + index * index * 29 + 31) % 431) / 431f * run.height

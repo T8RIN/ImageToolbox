@@ -21,6 +21,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.drawscope.DrawScope
+import androidx.compose.ui.graphics.drawscope.Stroke
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
 import com.t8rin.imagetoolbox.core.games.ArcadeField
 import com.t8rin.imagetoolbox.core.games.ArcadeGameContext
@@ -28,6 +31,7 @@ import com.t8rin.imagetoolbox.core.games.ArcadeGameDefinition
 import com.t8rin.imagetoolbox.core.games.ArcadeOffset
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
+import com.t8rin.imagetoolbox.core.games.ArcadeStyle
 import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
@@ -66,6 +70,7 @@ internal data object PongGame : ArcadeGameDefinition {
                 onPress = { run.steer(it.y) },
                 onDrag = { run.steer(it.y) }
             ) {
+                drawPongCourt(style, run.width, run.height, run.top, run.bottom)
                 val arena = style.detailColor.copy(alpha = 0.13f)
                 for (side in 0..1) {
                     val edge = if (side == 0) 5f else run.width - 8f
@@ -141,6 +146,47 @@ internal data object PongGame : ArcadeGameDefinition {
 
 private const val BallHalf = 5f
 private const val PaddleEdge = 22f
+
+private fun DrawScope.drawPongCourt(
+    style: ArcadeStyle,
+    width: Float,
+    height: Float,
+    top: Float,
+    bottom: Float
+) {
+    val ink = style.detailColor.copy(alpha = 0.2f)
+    var x = 0f
+    while (x < width) {
+        pixelRect(style.detailColor.copy(alpha = 0.025f), x, 0f, 17f, height)
+        drawLine(ink.copy(alpha = 0.07f), Offset(x, 0f), Offset(x, height), 0.5f)
+        x += 36f
+    }
+    val center = Offset(width / 2f, (top + bottom) / 2f)
+    val radius = (bottom - top) * 0.23f
+    drawCircle(ink, radius, center, style = Stroke(0.8f))
+    drawCircle(ink.copy(alpha = 0.1f), radius * 0.12f, center)
+    for (side in 0..1) {
+        val edge = if (side == 0) 18f else width - 18f
+        val direction = if (side == 0) 1f else -1f
+        val area = Path().apply {
+            moveTo(edge, center.y - radius * 1.1f)
+            lineTo(edge + direction * radius, center.y - radius * 1.1f)
+            lineTo(edge + direction * radius, center.y + radius * 1.1f)
+            lineTo(edge, center.y + radius * 1.1f)
+        }
+        drawPath(area, ink, style = Stroke(0.8f))
+
+    }
+    for (row in 0..2) {
+        var seat = 25f
+        while (seat < width - 18f) {
+            for (y in listOf(top - 8f - row * 5f, bottom + 7f + row * 5f)) {
+                pixelRect(ink.copy(alpha = 0.14f), seat, y, 6f, 2f)
+            }
+            seat += 17f
+        }
+    }
+}
 
 @Serializable
 private class PongRun : ArcadeRun() {

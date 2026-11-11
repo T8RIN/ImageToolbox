@@ -36,6 +36,7 @@ import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.ArcadeStyle
 import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
+import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
 import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
@@ -218,20 +219,34 @@ internal data object RicochetGame : ArcadeGameDefinition {
 }
 
 private fun DrawScope.drawRicochetBackground(style: ArcadeStyle, width: Float, height: Float) {
-    val color = style.detailColor.copy(alpha = 0.21f)
+    val ink = style.detailColor.copy(alpha = 0.13f)
+    var x = 0f
+    while (x < width) {
+        pixelRect(style.detailColor.copy(alpha = 0.018f), x, 0f, 43f, height)
+        drawLine(ink.copy(alpha = 0.035f), Offset(x, 0f), Offset(x, height), 0.5f)
+        x += 86f
+    }
     for (side in 0..1) {
-        val x = if (side == 0) 6f else width - 6f
+        val edge = if (side == 0) 6f else width - 6f
         val direction = if (side == 0) 1f else -1f
-        drawLine(color, Offset(x, 8f), Offset(x, height - 15f), 1f)
-        repeat(6) { index ->
-            val y = height * (index + 0.5f) / 6f
-            drawLine(color, Offset(x - direction * 2f, y - 3f), Offset(x + direction * 2f, y), 1f)
-            drawLine(color, Offset(x + direction * 2f, y), Offset(x - direction * 2f, y + 3f), 1f)
+        drawLine(ink, Offset(edge, 8f), Offset(edge, height - 15f), 0.8f)
+        var y = 26f
+        while (y < height - 18f) {
+            drawLine(
+                ink,
+                Offset(edge - direction * 2f, y - 3f),
+                Offset(edge + direction * 2f, y),
+                0.7f
+            )
+            drawLine(
+                ink,
+                Offset(edge + direction * 2f, y),
+                Offset(edge - direction * 2f, y + 3f),
+                0.7f
+            )
+            y += 39f
         }
     }
-    val center = Offset(width * 0.5f, height * 0.55f)
-    drawCircle(color.copy(alpha = 0.06f), 22f, center, style = Stroke(1f))
-    drawCircle(color.copy(alpha = 0.06f), 16f, center, style = Stroke(1f))
 }
 
 @Serializable

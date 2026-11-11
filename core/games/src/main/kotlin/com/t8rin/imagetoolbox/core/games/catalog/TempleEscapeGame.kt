@@ -20,12 +20,14 @@ package com.t8rin.imagetoolbox.core.games.catalog
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.drawscope.scale
@@ -36,6 +38,7 @@ import com.t8rin.imagetoolbox.core.games.ArcadeGameDefinition
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.ArcadeSprite
+import com.t8rin.imagetoolbox.core.games.ArcadeStyle
 import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
 import com.t8rin.imagetoolbox.core.games.pixelRect
@@ -48,6 +51,7 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import kotlin.math.PI
 import kotlin.math.abs
+import kotlin.math.ceil
 import kotlin.math.cos
 import kotlin.math.exp
 import kotlin.math.floor
@@ -82,6 +86,7 @@ internal data object TempleEscapeGame : ArcadeGameDefinition {
                 onSwipe = run::swipe,
                 swipeOnDrag = true
             ) {
+                drawTempleBackground(style, run.width, run.height)
                 val cell = run.cell
                 val unit = cell / 30f
                 val left = run.left
@@ -448,6 +453,47 @@ private val TempleShield = ArcadeSprite(
     width = 14, height = 16,
     data = "M5 0H9V1H14V9H12V12H10V14H8V16H6V14H4V12H2V9H0V1H5ZM3 4V8H4V10H6V12H8V10H10V8H11V4Z"
 )
+
+private fun DrawScope.drawTempleBackground(style: ArcadeStyle, width: Float, height: Float) {
+    val columns = ceil(width / 141f).toInt()
+    val rows = ceil(height / 119f).toInt()
+    val ink = style.detailColor.copy(alpha = 0.1f)
+    for (row in 0 until rows) for (column in 0 until columns) {
+        val point = Offset(column * 141f + 9f + row % 2 * 19f, row * 119f + 8f)
+        drawRoundRect(ink.copy(alpha = 0.025f), point, Size(123f, 103f), CornerRadius(3f))
+        drawRoundRect(
+            ink.copy(alpha = 0.12f),
+            point,
+            Size(123f, 103f),
+            CornerRadius(3f),
+            style = Stroke(0.8f)
+        )
+        for (x in listOf(point.x + 10f, point.x + 108f)) {
+            pixelRect(ink.copy(alpha = 0.15f), x, point.y + 11f, 5f, 76f)
+            pixelRect(ink, x - 2f, point.y + 9f, 9f, 3f)
+            pixelRect(ink, x - 2f, point.y + 87f, 9f, 3f)
+        }
+        val center = point + Offset(62f, 49f)
+        val glyph = Path().apply {
+            moveTo(center.x - 19f, center.y + 15f)
+            lineTo(center.x, center.y - 19f)
+            lineTo(center.x + 19f, center.y + 15f)
+            close()
+            moveTo(center.x - 10f, center.y + 1f)
+            lineTo(center.x + 10f, center.y + 1f)
+            moveTo(center.x, center.y - 7f)
+            lineTo(center.x, center.y + 21f)
+        }
+        drawPath(glyph, ink, style = Stroke(1f))
+        for (dot in -1..1) pixelRect(
+            ink.copy(alpha = 0.14f),
+            center.x + dot * 10f - 1f,
+            center.y + 31f,
+            2f,
+            2f
+        )
+    }
+}
 
 @Serializable
 private data class TempleTrap(val position: Int, val side: Int)

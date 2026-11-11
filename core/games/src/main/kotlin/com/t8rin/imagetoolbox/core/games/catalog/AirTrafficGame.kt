@@ -52,6 +52,7 @@ import kotlinx.serialization.Transient
 import kotlin.math.PI
 import kotlin.math.abs
 import kotlin.math.atan2
+import kotlin.math.ceil
 import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.random.Random
@@ -316,20 +317,47 @@ private val FlightApproach = ArcadeSprite(
 )
 
 private fun DrawScope.drawAirTrafficBackground(style: ArcadeStyle, width: Float, height: Float) {
-    val center = Offset(width * 0.08f, height * 0.67f)
-    val radius = minOf(width, height) * 0.4f
-    val color = style.detailColor.copy(alpha = 0.08f)
-    for (ring in 1..3) drawCircle(color, radius * ring / 3f, center, style = Stroke(0.7f))
-    drawLine(color, center - Offset(radius, 0f), center + Offset(radius, 0f), 0.7f)
-    drawLine(color, center - Offset(0f, radius), center + Offset(0f, radius), 0.7f)
-    val coast = Path().apply {
-        moveTo(width, height * 0.42f)
-        lineTo(width * 0.92f, height * 0.49f)
-        lineTo(width * 0.96f, height * 0.61f)
-        lineTo(width * 0.88f, height * 0.72f)
-        lineTo(width * 0.91f, height)
+    val ink = style.detailColor.copy(alpha = 0.105f)
+    val count = if (width > height * 2f) 2 else 1
+    repeat(count) { index ->
+        val center = Offset(
+            width * (if (index == 0) 0.16f else 0.83f),
+            height * (if (index == 0) 0.27f else 0.7f)
+        )
+        val radius = minOf(width, height) * 0.3f
+        for (ring in 1..3) drawCircle(ink, radius * ring / 3f, center, style = Stroke(0.7f))
+        drawLine(
+            ink.copy(alpha = 0.06f),
+            center - Offset(radius + 13f, 0f),
+            center + Offset(radius + 13f, 0f),
+            0.6f
+        )
+        drawLine(
+            ink.copy(alpha = 0.06f),
+            center - Offset(0f, radius + 13f),
+            center + Offset(0f, radius + 13f),
+            0.6f
+        )
     }
-    drawPath(coast, color, style = Stroke(1f))
+    val marks = ceil(width / 79f).toInt()
+    repeat(marks) { index ->
+        val point = Offset(index * 79f + 19f, height * (0.12f + (index * 29 % 73) / 100f))
+        drawLine(ink, point - Offset(2f, 0f), point + Offset(2f, 0f), 0.6f)
+        drawLine(ink, point - Offset(0f, 2f), point + Offset(0f, 2f), 0.6f)
+    }
+    val coast = Path().apply {
+        moveTo(0f, height)
+        lineTo(0f, height * 0.79f)
+        var x = 0f
+        while (x < width + 30f) {
+            lineTo(x, height * 0.8f + sin(x * 0.018f) * height * 0.07f)
+            x += 20f
+        }
+        lineTo(width, height)
+        close()
+    }
+    drawPath(coast, ink.copy(alpha = 0.03f))
+    drawPath(coast, ink, style = Stroke(0.7f))
 }
 
 @Serializable

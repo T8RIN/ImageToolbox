@@ -52,6 +52,7 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import kotlin.math.abs
 import kotlin.math.atan2
+import kotlin.math.ceil
 import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.random.Random
@@ -261,27 +262,24 @@ private fun DrawScope.drawBasketballBall(
 }
 
 private fun DrawScope.drawBasketballBackground(style: ArcadeStyle, width: Float, height: Float) {
-    val color = style.detailColor.copy(alpha = 0.14f)
-    val y = 8f
-    drawLine(color, Offset(7f, y), Offset(width - 7f, y), 0.7f)
-    repeat(9) { index ->
-        val x = 17f + index * (width - 34f) / 8f
+    val color = style.detailColor.copy(alpha = 0.17f)
+    drawLine(color, Offset(7f, 8f), Offset(width - 7f, 8f), 0.7f)
+    val flags = ceil(width / 37f).toInt()
+    repeat(flags) { index ->
+        val x = 17f + index * 37f
         val path = Path().apply {
-            moveTo(x - 3f, y)
-            lineTo(x + 3f, y)
-            lineTo(x + 3f, y + 5f)
-            lineTo(x, y + 8f)
-            lineTo(x - 3f, y + 5f)
+            moveTo(x - 3f, 8f)
+            lineTo(x + 3f, 8f)
+            lineTo(x + 3f, 13f)
+            lineTo(x, 16f)
+            lineTo(x - 3f, 13f)
             close()
         }
         drawPath(path, color, style = Stroke(0.7f))
     }
-    val ballInk = style.detailColor.copy(alpha = 0.2f)
-    for (center in listOf(
-        Offset(width * 0.14f, height * 0.28f),
-        Offset(width * 0.86f, height * 0.76f)
-    )) {
-        val radius = minOf(width, height) * 0.052f
+    val ballInk = style.detailColor.copy(alpha = 0.17f)
+    fun ball(center: Offset) {
+        val radius = 15f
         pixelCircle(style.detailColor.copy(alpha = 0.04f), radius, center)
         pixelCircle(ballInk, radius, center, style = Stroke(0.9f))
         drawLine(ballInk, center - Offset(radius, 0f), center + Offset(radius, 0f), 0.8f)
@@ -296,11 +294,9 @@ private fun DrawScope.drawBasketballBackground(style: ArcadeStyle, width: Float,
         }
         drawPath(seam, ballInk, style = Stroke(0.8f))
     }
-    for (center in listOf(
-        Offset(width * 0.83f, height * 0.24f),
-        Offset(width * 0.17f, height * 0.7f)
-    )) {
-        val radius = minOf(width, height) * 0.039f
+
+    fun medal(center: Offset) {
+        val radius = 11f
         for (side in -1..1 step 2) {
             val ribbon = Path().apply {
                 moveTo(center.x + side * radius * 0.12f, center.y - radius * 0.55f)
@@ -318,6 +314,12 @@ private fun DrawScope.drawBasketballBackground(style: ArcadeStyle, width: Float,
         pixelRect(ballInk, center.x - 0.6f, center.y - radius * 0.32f, 1.2f, radius * 0.64f)
     }
 
+    val columns = ceil(width / 163f).toInt()
+    val rows = ceil(height / 143f).toInt()
+    for (row in 0 until rows) for (column in 0 until columns) {
+        val center = Offset(column * 163f + 41f + row % 2 * 31f, row * 143f + 62f)
+        if ((column + row) % 2 == 0) ball(center) else medal(center)
+    }
 }
 
 @Serializable

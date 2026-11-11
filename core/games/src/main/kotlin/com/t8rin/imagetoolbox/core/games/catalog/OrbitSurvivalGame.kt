@@ -241,27 +241,34 @@ private val OrbitSegments = listOf(
 )
 
 private fun DrawScope.drawOrbitBackground(style: ArcadeStyle, width: Float, height: Float) {
-    val stars = listOf(
-        Offset(width * 0.06f, height * 0.16f),
-        Offset(width * 0.18f, height * 0.22f), Offset(width * 0.14f, height * 0.36f)
-    )
-    for (index in 0..1) {
-        drawLine(style.detailColor.copy(alpha = 0.1f), stars[index], stars[index + 1], 0.7f)
-    }
-    for (star in stars) pixelCircle(style.detailColor.copy(alpha = 0.3f), 1.5f, star)
-
-    val color = style.detailColor.copy(alpha = 0.08f)
-    val radius = minOf(width, height) * 0.36f
-    val center = Offset(width * 0.92f, height * 0.17f)
-    for (scale in listOf(0.52f, 0.76f, 1f)) {
-        drawOval(
-            color,
-            center - Offset(radius, radius * scale),
-            Size(radius * 2f, radius * scale * 2f),
-            style = Stroke(0.7f)
+    val count = if (width > height * 2f) 2 else 1
+    repeat(count) { index ->
+        val center = Offset(
+            width * (if (index == 0) 0.86f else 0.13f),
+            height * (if (index == 0) 0.23f else 0.76f)
+        )
+        val radius = minOf(width, height) * 0.25f
+        val ink = style.detailColor.copy(alpha = 0.1f)
+        for (squash in listOf(0.5f, 0.8f, 1f)) {
+            drawOval(
+                ink,
+                center - Offset(radius, radius * squash),
+                Size(radius * 2f, radius * squash * 2f),
+                style = Stroke(0.7f)
+            )
+        }
+        pixelCircle(
+            style.detailColor.copy(alpha = 0.18f),
+            1.7f,
+            center + Offset(radius * 0.6f, -radius * 0.8f)
         )
     }
-    pixelRect(color, center.x - radius - 1.5f, center.y - 1.5f, 3f, 3f)
+    val stars = (width * height / 7000f).toInt().coerceAtLeast(12)
+    repeat(stars) { index ->
+        val x = ((index * 83 + index * index * 17) % 991) / 991f * width
+        val y = ((index * 79 + 31) % 431) / 431f * height
+        pixelRect(style.detailColor.copy(alpha = 0.16f), x, y, 1f, 1f)
+    }
 }
 
 @Serializable

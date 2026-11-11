@@ -21,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.lerp
@@ -48,6 +49,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.Planet
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import kotlin.math.PI
+import kotlin.math.ceil
 import kotlin.math.hypot
 import kotlin.math.sin
 import kotlin.random.Random
@@ -259,25 +261,43 @@ private fun DrawScope.drawSpaceBackground(
     height: Float,
     distance: Float
 ) {
-    repeat(24) { index ->
-        val x = ((index * 79 + index * index * 17 + 31) % 359) / 359f * width
+    val count = (width * height / 2300f).toInt().coerceAtLeast(28)
+    repeat(count) { index ->
+        val x = ((index * 79 + index * index * 17 + 31) % 991) / 991f * width
         val y = (index * 113f + distance * (0.025f + index % 3 * 0.035f)) % (height + 8f) - 4f
-        val tint = style.detailColor.copy(alpha = if (index % 5 == 0) 0.4f else 0.18f)
-        pixelRect(tint, x, y, if (index % 5 == 0) 2f else 1f, if (index % 5 == 0) 2f else 1f)
+        val ink = style.detailColor.copy(alpha = if (index % 5 == 0) 0.38f else 0.18f)
+        pixelRect(ink, x, y, if (index % 5 == 0) 2f else 1f, if (index % 5 == 0) 2f else 1f)
     }
-    val planet =
-        Offset(width * 0.82f, height * 0.24f)
-    val planetRadius = minOf(width, height) * 0.16f
-    pixelCircle(style.detailColor.copy(alpha = 0.09f), planetRadius, planet)
+    val planet = Offset(width * 0.82f, height * 0.24f)
+    val radius = minOf(width, height) * 0.16f
+    pixelCircle(style.detailColor.copy(alpha = 0.1f), radius, planet)
     pixelCircle(
-        style.detailColor.copy(alpha = 0.12f), planetRadius * 0.32f,
-        planet + Offset(-planetRadius * 0.3f, -planetRadius * 0.25f)
+        style.detailColor.copy(alpha = 0.15f),
+        radius * 0.32f,
+        planet + Offset(-radius * 0.3f, -radius * 0.25f)
     )
     drawOval(
-        style.detailColor.copy(alpha = 0.14f),
-        planet - Offset(planetRadius * 1.5f, planetRadius * 0.28f),
-        Size(planetRadius * 3f, planetRadius * 0.55f), style = Stroke(1f)
+        style.detailColor.copy(alpha = 0.2f), planet - Offset(radius * 1.5f, radius * 0.28f),
+        Size(radius * 3f, radius * 0.55f), style = Stroke(0.9f)
     )
+    val columns = ceil(width / 107f).toInt() + 1
+    for (column in 0 until columns) {
+        val center =
+            Offset(column * 107f + 23f, height * 0.57f + sin(column * 1.7f) * height * 0.19f)
+        val size = 7f + column % 3 * 3f
+        val rock = Path().apply {
+            moveTo(center.x - size, center.y)
+            lineTo(center.x - size * 0.5f, center.y - size * 0.8f)
+            lineTo(center.x + size * 0.4f, center.y - size)
+            lineTo(center.x + size, center.y - size * 0.1f)
+            lineTo(center.x + size * 0.6f, center.y + size * 0.7f)
+            lineTo(center.x - size * 0.45f, center.y + size)
+            close()
+        }
+        drawPath(rock, style.detailColor.copy(alpha = 0.085f))
+        drawPath(rock, style.detailColor.copy(alpha = 0.18f), style = Stroke(0.8f))
+        pixelRect(style.detailColor.copy(alpha = 0.15f), center.x - 2f, center.y - 3f, 3f, 2f)
+    }
 }
 
 @Serializable

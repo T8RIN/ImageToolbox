@@ -34,6 +34,7 @@ import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.ArcadeStyle
 import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
+import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
 import com.t8rin.imagetoolbox.core.games.utils.pixelGem
@@ -164,30 +165,31 @@ internal data object SharpTurnsGame : ArcadeGameDefinition {
 }
 
 private fun DrawScope.drawZigzagBackground(style: ArcadeStyle, width: Float, height: Float) {
-    for (side in 0..1) repeat(4) { index ->
-        val x = if (side == 0) width * 0.07f else width * 0.93f
-        val y = height * (index + 0.4f) / 4f
-        val span = 9f + index % 2 * 5f
-        val path = Path().apply {
-            moveTo(x, y - span / 2f)
-            lineTo(x + span, y)
-            lineTo(x, y + span / 2f)
-            lineTo(x - span, y)
+    val count = (width * height / 20000f).toInt().coerceAtLeast(5)
+    repeat(count) { index ->
+        val x = (index + 0.2f) * width / count
+        val y = height * (0.12f + (index * 37 % 79) / 100f)
+        val half = 13f + index % 3 * 4f
+        val top = Path().apply {
+            moveTo(x, y - half * 0.5f)
+            lineTo(x + half, y)
+            lineTo(x, y + half * 0.5f)
+            lineTo(x - half, y)
             close()
         }
-        drawPath(path, style.detailColor.copy(alpha = 0.2f), style = Stroke(0.8f))
-        drawLine(
-            style.detailColor.copy(alpha = 0.12f),
-            Offset(x - span, y + 4f),
-            Offset(x, y + span / 2f + 4f),
-            0.8f
-        )
-        drawLine(
-            style.detailColor.copy(alpha = 0.12f),
-            Offset(x, y + span / 2f + 4f),
-            Offset(x + span, y + 4f),
-            0.8f
-        )
+        drawPath(top, style.detailColor.copy(alpha = 0.035f))
+        drawPath(top, style.detailColor.copy(alpha = 0.14f), style = Stroke(0.8f))
+        val side = Path().apply {
+            moveTo(x - half, y)
+            lineTo(x, y + half * 0.5f)
+            lineTo(x + half, y)
+            lineTo(x + half, y + 6f)
+            lineTo(x, y + half * 0.5f + 6f)
+            lineTo(x - half, y + 6f)
+            close()
+        }
+        drawPath(side, style.detailColor.copy(alpha = 0.065f))
+        pixelRect(style.detailColor.copy(alpha = 0.1f), x - 8f, y + half * 0.5f + 13f, 4f, 2f)
     }
 }
 

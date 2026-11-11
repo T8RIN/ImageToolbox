@@ -42,7 +42,6 @@ import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.ArcadeStyle
 import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
-import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.pixelPanel
 import com.t8rin.imagetoolbox.core.resources.Icons
@@ -93,6 +92,7 @@ internal data object Game2048 : ArcadeGameDefinition {
                     y = gap + index / GridSize * (cell + gap)
                 )
 
+                drawRect(brush = style.background, topLeft = origin, size = Size(side, side))
                 pixelPanel(
                     color = style.borderColor.copy(alpha = 0.25f),
                     ink = style.detailColor,
@@ -226,26 +226,27 @@ private const val SlideDuration = 0.13f
 private const val MoveDuration = 0.27f
 
 private fun DrawScope.draw2048Background(style: ArcadeStyle, width: Float, height: Float) {
-    for (side in 0..1) repeat(4) { index ->
-        val x = if (side == 0) 6f else width - 31f
-        val y = height * (index + 0.4f) / 4f
-        val color = style.detailColor.copy(alpha = 0.16f)
-        drawRoundRect(
-            color.copy(alpha = 0.05f),
-            Offset(x + 4f, y + 5f),
-            Size(21f, 21f),
-            CornerRadius(2f)
-        )
-        drawRoundRect(
-            color,
-            Offset(x + 4f, y + 5f),
-            Size(21f, 21f),
-            CornerRadius(2f),
-            style = Stroke(0.7f)
-        )
-        drawRoundRect(color.copy(alpha = 0.04f), Offset(x, y), Size(21f, 21f), CornerRadius(2f))
-        drawRoundRect(color, Offset(x, y), Size(21f, 21f), CornerRadius(2f), style = Stroke(0.7f))
-        pixelRect(color, x + 6f, y + 5f, 9f, 1f)
+    val count = (width * height / 22000f).toInt().coerceAtLeast(5)
+    repeat(count) { index ->
+        val point =
+            Offset((index + 0.3f) * width / count, height * (0.1f + (index * 31 % 77) / 100f))
+        val edge = 21f + index % 2 * 5f
+        for (layer in 1 downTo 0) {
+            val origin = point + Offset(layer * 4f, layer * 5f)
+            drawRoundRect(
+                style.detailColor.copy(alpha = 0.018f),
+                origin,
+                Size(edge, edge),
+                CornerRadius(2f)
+            )
+            drawRoundRect(
+                style.detailColor.copy(alpha = 0.12f),
+                origin,
+                Size(edge, edge),
+                CornerRadius(2f),
+                style = Stroke(0.7f)
+            )
+        }
     }
 }
 

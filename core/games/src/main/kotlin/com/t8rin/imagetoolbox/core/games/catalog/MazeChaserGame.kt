@@ -52,6 +52,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.Explore
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import kotlin.math.abs
+import kotlin.math.ceil
 import kotlin.math.sin
 import kotlin.random.Random
 
@@ -92,6 +93,7 @@ internal data object MazeChaserGame : ArcadeGameDefinition {
                     addRoundRect(RoundRect(Rect(origin, area), CornerRadius(x = 10f)))
                 }
                 clipPath(outline) {
+                    drawRect(brush = style.background, topLeft = origin, size = area)
                     for (index in run.walls.indices) {
                         val point =
                             origin + Offset(
@@ -269,20 +271,26 @@ private val MazeGhostStep = ArcadeSprite(
 )
 
 private fun DrawScope.drawMazeBackground(style: ArcadeStyle, width: Float, height: Float) {
-    val color = style.detailColor.copy(alpha = 0.18f)
-    for (side in 0..1) repeat(5) { index ->
-        val edge = if (side == 0) 4f else width - 4f
-        val direction = if (side == 0) 1f else -1f
-        val y = height * (index + 0.3f) / 5f
+    val columns = ceil(width / 151f).toInt()
+    val rows = ceil(height / 122f).toInt()
+    val ink = style.detailColor.copy(alpha = 0.13f)
+    for (row in 0 until rows) for (column in 0 until columns) {
+        val x = column * 151f + 12f + row % 2 * 18f
+        val y = row * 122f + 16f
         val path = Path().apply {
-            moveTo(edge, y)
-            lineTo(edge + direction * 12f, y)
-            lineTo(edge + direction * 12f, y + 7f)
-            lineTo(edge + direction * 6f, y + 7f)
-            lineTo(edge + direction * 6f, y + 18f)
-            lineTo(edge + direction * 16f, y + 18f)
+            moveTo(x, y + 53f)
+            lineTo(x, y)
+            lineTo(x + 74f, y)
+            lineTo(x + 74f, y + 18f)
+            lineTo(x + 23f, y + 18f)
+            lineTo(x + 23f, y + 39f)
+            lineTo(x + 93f, y + 39f)
+            lineTo(x + 93f, y + 62f)
+            lineTo(x + 43f, y + 62f)
+            lineTo(x + 43f, y + 51f)
         }
-        drawPath(path, color, style = Stroke(1f))
+        drawPath(path, ink.copy(alpha = 0.04f), style = Stroke(5f))
+        drawPath(path, ink, style = Stroke(0.9f))
     }
 }
 

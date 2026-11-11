@@ -46,6 +46,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.Flare
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import kotlin.math.abs
+import kotlin.math.ceil
 import kotlin.random.Random
 
 @RegisterArcadeGame
@@ -79,6 +80,12 @@ internal data object LaserMirrorsGame : ArcadeGameDefinition {
                 drawLaserBackground(style, run.width, run.height)
                 val cell = run.cell
                 val area = Size(width = cell * run.columns, height = cell * run.columns)
+                drawRoundRect(
+                    brush = style.background,
+                    topLeft = run.origin,
+                    size = area,
+                    cornerRadius = CornerRadius(7f)
+                )
                 drawRoundRect(
                     color = style.detailColor.copy(alpha = 0.055f),
                     topLeft = run.origin,
@@ -260,18 +267,41 @@ internal data object LaserMirrorsGame : ArcadeGameDefinition {
 }
 
 private fun DrawScope.drawLaserBackground(style: ArcadeStyle, width: Float, height: Float) {
-    val color = style.detailColor.copy(alpha = 0.19f)
-    for (side in 0..1) {
-        val edge = if (side == 0) 7f else width - 7f
-        val direction = if (side == 0) 1f else -1f
-        repeat(6) { index ->
-            val y = height * (index + 0.4f) / 6f
-            val reach = (11f + index % 3 * 5f) * direction
-            drawLine(color, Offset(edge, y), Offset(edge + reach, y), 1f)
-            drawLine(color, Offset(edge + reach, y), Offset(edge + reach, y + 8f), 1f)
-            pixelRect(color, edge + reach - 1f, y + 8f, 2f, 2f)
-            pixelRect(color.copy(alpha = 0.1f), edge - direction * 2f, y + 17f, 4f, 1f)
+    val columns = ceil(width / 176f).toInt()
+    val rows = ceil(height / 138f).toInt()
+    val ink = style.detailColor.copy(alpha = 0.13f)
+    for (row in 0 until rows) for (column in 0 until columns) {
+        val x = column * 176f + 20f + row % 2 * 14f
+        val y = row * 138f + 21f
+        drawRoundRect(
+            ink.copy(alpha = 0.055f),
+            Offset(x + 24f, y + 13f),
+            Size(27f, 31f),
+            CornerRadius(1f)
+        )
+        drawRoundRect(
+            ink,
+            Offset(x + 24f, y + 13f),
+            Size(27f, 31f),
+            CornerRadius(1f),
+            style = Stroke(0.9f)
+        )
+        for (pin in 0..3) {
+            val py = y + 17f + pin * 7f
+            drawLine(ink, Offset(x + 18f, py), Offset(x + 24f, py), 0.8f)
+            drawLine(ink, Offset(x + 51f, py), Offset(x + 57f, py), 0.8f)
         }
+        val route = Path().apply {
+            moveTo(x, y)
+            lineTo(x + 10f, y)
+            lineTo(x + 10f, y + 55f)
+            lineTo(x + 70f, y + 55f)
+            lineTo(x + 70f, y + 28f)
+            lineTo(x + 92f, y + 28f)
+        }
+        drawPath(route, ink.copy(alpha = 0.17f), style = Stroke(0.9f))
+        pixelRect(ink, x - 2f, y - 2f, 4f, 4f)
+        pixelCircle(ink, 2f, Offset(x + 92f, y + 28f), style = Stroke(0.8f))
     }
 }
 

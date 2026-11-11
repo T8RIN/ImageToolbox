@@ -47,6 +47,7 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Balance
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
+import kotlin.math.ceil
 import kotlin.math.sin
 import kotlin.random.Random
 
@@ -310,16 +311,31 @@ private fun DrawScope.drawTowerCrane(
     val shade = lerp(metal, style.overlayColor.copy(alpha = 1f), 0.25f)
     val edge = style.obstacleColor.copy(alpha = 0.65f)
     val bottom = minOf(run.height, ground.y + 12f * unit)
-    val skyline = style.detailColor.copy(alpha = 0.09f)
-    repeat(11) { index ->
-        val x = index * run.width / 10f - 8f
-        val height = (14f + (index * 17 % 43)) * unit
-        pixelRect(skyline, x, run.height - height, 19f * unit, height)
-        repeat(3) { floor ->
-            pixelRect(
-                skyline.copy(alpha = 0.13f), x + 4f * unit,
-                run.height - height + 6f * unit + floor * 8f * unit, 3f * unit, 2f * unit
+    val skylineColumns = ceil(run.width / 51f).toInt() + 1
+    for (index in 0 until skylineColumns) {
+        val x = index * 51f - 12f
+        val buildingHeight = (35f + index * 23 % 72) * unit
+        val top = run.height - buildingHeight
+        val ink = style.detailColor.copy(alpha = 0.18f)
+        pixelRect(ink.copy(alpha = 0.075f), x, top, 39f, buildingHeight)
+        pixelRect(ink, x, top, 39f, 1f)
+        pixelRect(ink.copy(alpha = 0.14f), x + 3f, top + 2f, 1f, buildingHeight - 2f)
+        pixelRect(ink.copy(alpha = 0.14f), x + 35f, top + 2f, 1f, buildingHeight - 2f)
+        var floor = top + 12f
+        while (floor < run.height) {
+            pixelRect(ink.copy(alpha = 0.12f), x + 2f, floor, 35f, 1f)
+            for (window in 0..2) pixelRect(
+                ink.copy(alpha = 0.13f),
+                x + 7f + window * 10f,
+                floor - 6f,
+                4f,
+                3f
             )
+            floor += 13f
+        }
+        if (index % 3 == 0) {
+            drawLine(ink, Offset(x + 7f, top), Offset(x + 7f, top - 12f), 0.8f)
+            drawLine(ink, Offset(x + 7f, top - 11f), Offset(x + 33f, top - 7f), 0.8f)
         }
     }
     pixelRect(shade, mastX - 3f * unit, boomY - 22f * unit, 12f * unit, bottom - boomY + 22f * unit)

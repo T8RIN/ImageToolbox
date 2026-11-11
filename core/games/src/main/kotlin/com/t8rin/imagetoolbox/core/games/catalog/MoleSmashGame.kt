@@ -20,6 +20,9 @@ package com.t8rin.imagetoolbox.core.games.catalog
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.drawscope.DrawScope
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.clipRect
 import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.drawscope.translate
@@ -31,6 +34,7 @@ import com.t8rin.imagetoolbox.core.games.ArcadeGameDefinition
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.ArcadeSprite
+import com.t8rin.imagetoolbox.core.games.ArcadeStyle
 import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
 import com.t8rin.imagetoolbox.core.games.pixelRect
@@ -43,6 +47,7 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.PestControlRodent
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
+import kotlin.math.ceil
 import kotlin.random.Random
 
 @RegisterArcadeGame
@@ -69,6 +74,7 @@ internal data object MoleSmashGame : ArcadeGameDefinition {
                 run = run,
                 onPress = run::hit
             ) {
+                drawMoleGarden(style, run.width, run.height)
                 repeat(28) { index ->
                     val x = ((index * 73 + index * index * 17 + 29) % 347) / 347f * run.width
                     val y =
@@ -363,6 +369,40 @@ private val MoleMine = ArcadeSprite(
     width = 40, height = 40,
     data = "M17 0H23V6H29V3H35V10H32V15H40V23H33V29H36V36H29V33H23V40H17V33H10V36H3V29H6V23H0V17H7V11H4V4H11V7H17Z"
 )
+
+private fun DrawScope.drawMoleGarden(style: ArcadeStyle, width: Float, height: Float) {
+    val fenceY = height * 0.22f
+    val ink = style.detailColor.copy(alpha = 0.17f)
+    pixelRect(ink.copy(alpha = 0.1f), 0f, fenceY + 13f, width, 2f)
+    pixelRect(ink.copy(alpha = 0.1f), 0f, fenceY + 24f, width, 2f)
+    var x = 9f
+    while (x < width) {
+        val post = Path().apply {
+            moveTo(x, fenceY + 32f)
+            lineTo(x, fenceY + 5f)
+            lineTo(x + 4f, fenceY)
+            lineTo(x + 8f, fenceY + 5f)
+            lineTo(x + 8f, fenceY + 32f)
+            close()
+        }
+        drawPath(post, ink.copy(alpha = 0.065f))
+        drawPath(post, ink, style = Stroke(0.7f))
+        x += 31f
+    }
+    val columns = ceil(width / 101f).toInt()
+    val rows = ceil(height / 99f).toInt()
+    for (row in 0 until rows) for (column in 0 until columns) {
+        val x = column * 101f + row % 2 * 39f + 23f
+        val y = row * 99f + 69f
+        pixelRect(ink, x, y, 1f, 13f)
+        pixelRect(ink, x - 4f, y + 4f, 4f, 2f)
+        pixelRect(ink, x + 1f, y + 8f, 4f, 2f)
+        for (offset in listOf(Offset(-3f, 0f), Offset(1f, 0f), Offset(-1f, -2f), Offset(-1f, 2f))) {
+            pixelRect(ink.copy(alpha = 0.22f), x + offset.x, y + offset.y, 2f, 2f)
+        }
+        pixelRect(ink.copy(alpha = 0.12f), x + 29f, y + 24f, 13f, 3f)
+    }
+}
 
 @Serializable
 private class MoleSmashRun : ArcadeRun() {

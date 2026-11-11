@@ -52,6 +52,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.TwoWheeler
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import kotlin.math.abs
+import kotlin.math.ceil
 import kotlin.math.sin
 import kotlin.random.Random
 
@@ -319,16 +320,26 @@ private val LightCycleRider = ArcadeSprite(
 )
 
 private fun DrawScope.drawLightCyclesBackground(style: ArcadeStyle, width: Float, height: Float) {
-    val color = style.accentColor.copy(alpha = 0.035f)
-    var x = width / 2f % 24f
+    val ink = style.detailColor.copy(alpha = 0.065f)
+    var x = 0f
     while (x < width) {
-        drawLine(color, Offset(x, 0f), Offset(x, height), 0.6f)
-        x += 24f
+        drawLine(ink, Offset(x, 0f), Offset(x, height), 0.6f)
+        x += 32f
     }
     var y = 12f
     while (y < height) {
-        drawLine(color, Offset(0f, y), Offset(width, y), 0.6f)
-        y += 24f
+        drawLine(ink, Offset(0f, y), Offset(width, y), 0.6f)
+        y += 32f
+    }
+    val count = ceil(width / 129f).toInt()
+    for (index in 0 until count) {
+        val x = index * 129f + 31f
+        val color = style.detailColor.copy(alpha = 0.12f)
+        for (y in listOf(18f, height - 21f)) {
+            pixelRect(color, x, y, 19f, 1f)
+            pixelRect(color, x, y - 3f, 1f, 7f)
+            pixelRect(color, x + 18f, y - 3f, 1f, 7f)
+        }
     }
 }
 

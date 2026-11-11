@@ -390,38 +390,38 @@ private fun DrawScope.drawShaftBackground(
     height: Float,
     drift: Float
 ) {
-    val span = height + 70f
-    repeat(4) { index ->
-        val left = index % 2 == 0
-        val x = width * if (left) 0.08f + index * 0.012f else 0.93f - index * 0.012f
-        val y = ((index + 0.3f) * span / 4f - drift % span + span) % span - 35f
-        val radius = minOf(width, height) * (0.035f + index % 2 * 0.015f)
-        val depth = radius * 0.42f
-        val color = style.detailColor
+    val columns = ceil(width / 179f).toInt() + 1
+    val rows = ceil(height / 149f).toInt() + 1
+    for (row in 0 until rows) for (column in 0 until columns) {
+        val span = height + 149f
+        val x = column * 179f + row % 2 * 61f - 7f
+        val y = (row * 149f + 36f - drift % span + span) % span - 38f
+        val radius = 13f + (row + column) % 3 * 6f
+        val depth = radius * 0.5f
         val upper = Path().apply {
-            moveTo(x, y - radius * 0.4f)
-            lineTo(x + radius, y)
-            lineTo(x, y + radius * 0.5f)
-            lineTo(x - radius, y + radius * 0.1f)
+            moveTo(x - radius, y)
+            lineTo(x - radius * 0.25f, y - radius * 0.62f)
+            lineTo(x + radius, y - radius * 0.17f)
+            lineTo(x + radius * 0.35f, y + radius * 0.5f)
             close()
         }
-        drawPath(upper, color.copy(alpha = 0.13f))
+        drawPath(upper, style.detailColor.copy(alpha = 0.12f))
         val near = Path().apply {
-            moveTo(x - radius, y + radius * 0.1f)
-            lineTo(x, y + radius * 0.5f)
-            lineTo(x, y + radius * 0.5f + depth)
-            lineTo(x - radius, y + radius * 0.1f + depth)
+            moveTo(x - radius, y)
+            lineTo(x + radius * 0.35f, y + radius * 0.5f)
+            lineTo(x + radius * 0.35f, y + radius * 0.5f + depth)
+            lineTo(x - radius, y + depth)
             close()
         }
-        drawPath(near, color.copy(alpha = 0.06f))
+        drawPath(near, style.detailColor.copy(alpha = 0.055f))
         val far = Path().apply {
-            moveTo(x, y + radius * 0.5f)
-            lineTo(x + radius, y)
-            lineTo(x + radius, y + depth)
-            lineTo(x, y + radius * 0.5f + depth)
+            moveTo(x + radius * 0.35f, y + radius * 0.5f)
+            lineTo(x + radius, y - radius * 0.17f)
+            lineTo(x + radius, y - radius * 0.17f + depth)
+            lineTo(x + radius * 0.35f, y + radius * 0.5f + depth)
             close()
         }
-        drawPath(far, color.copy(alpha = 0.09f))
+        drawPath(far, style.detailColor.copy(alpha = 0.085f))
     }
 }
 

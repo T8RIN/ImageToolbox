@@ -22,7 +22,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.DrawScope
+import androidx.compose.ui.graphics.drawscope.clipRect
 import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.lerp
@@ -73,11 +75,12 @@ internal data object RacerGame : ArcadeGameDefinition {
                 onPress = run::steer,
                 onDrag = run::steer
             ) {
+                drawRacingSurroundings(run, style)
                 val left = run.roadLeft
                 val roadWidth = run.laneWidth * 3f
 
                 pixelRect(
-                    color = style.detailColor.copy(alpha = 0.04f),
+                    color = style.detailColor.copy(alpha = 0.075f),
                     x = left,
                     y = 0f,
                     width = roadWidth,
@@ -324,6 +327,64 @@ private fun DrawScope.racingCar(
             width = 18f,
             height = 1f
         )
+    }
+}
+
+private fun DrawScope.drawRacingSurroundings(run: RacerRun, style: ArcadeStyle) {
+    val left = run.roadLeft
+    val height = run.height
+    val roadWidth = run.laneWidth * 3f
+    for (lane in 0..2) for (track in listOf(0.25f, 0.72f)) {
+        pixelRect(
+            style.detailColor.copy(alpha = 0.025f),
+            left + run.laneWidth * (lane + track),
+            0f,
+            2f,
+            height
+        )
+    }
+    var y = run.distance * 0.5f % 61f - 61f
+    var row = 0
+    while (y < height) {
+        for (lane in 0..2) {
+            val x = left + run.laneWidth * (lane + 0.24f) + row % 2 * 9f
+            pixelRect(style.detailColor.copy(alpha = 0.055f), x, y, run.laneWidth * 0.31f, 1f)
+            pixelRect(
+                style.detailColor.copy(alpha = 0.035f),
+                x + 11f,
+                y + 19f,
+                run.laneWidth * 0.16f,
+                2f
+            )
+        }
+        y += 61f
+        row++
+    }
+    val columns = if (left >= 47f) ((left - 47f) / 47f).toInt() + 1 else 0
+    for (side in 0..1) {
+        val clipLeft = if (side == 0) 0f else left + roadWidth + 3f
+        val clipRight = if (side == 0) left - 3f else run.width
+        clipRect(left = clipLeft, top = 0f, right = clipRight, bottom = height) {
+            for (column in 0 until columns) {
+                val x = if (side == 0) column * 47f + 5f else run.width - 35f - column * 47f
+                var top = run.distance * 0.12f % 104f - 104f
+                while (top < height) {
+                    val ink = style.detailColor.copy(alpha = 0.12f)
+                    drawRect(ink.copy(alpha = 0.045f), Offset(x, top + 19f), Size(27f, 24f))
+                    val roof = Path().apply {
+                        moveTo(x - 3f, top + 19f)
+                        lineTo(x + 13f, top + 7f)
+                        lineTo(x + 30f, top + 19f)
+                        close()
+                    }
+                    drawPath(roof, ink)
+                    pixelRect(ink.copy(alpha = 0.15f), x + 5f, top + 25f, 5f, 5f)
+                    pixelRect(ink.copy(alpha = 0.15f), x + 17f, top + 25f, 5f, 5f)
+                    pixelRect(ink.copy(alpha = 0.1f), x + 11f, top + 35f, 6f, 8f)
+                    top += 104f
+                }
+            }
+        }
     }
 }
 

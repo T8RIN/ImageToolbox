@@ -78,6 +78,7 @@ internal data object BlockStackGame : ArcadeGameDefinition {
                 )
                 val boardSize =
                     Size(width = cell * BlockStackColumns, height = cell * BlockStackRows)
+                drawRect(brush = style.background, topLeft = origin, size = boardSize)
                 drawRect(
                     color = style.obstacleColor.copy(alpha = 0.035f),
                     topLeft = origin,
@@ -273,26 +274,27 @@ private fun DrawScope.drawBlockStackBackground(style: ArcadeStyle, width: Float,
     val shapes = listOf(
         listOf(0 to 0, 0 to 1, 1 to 1, 2 to 1),
         listOf(1 to 0, 2 to 0, 0 to 1, 1 to 1),
-        listOf(0 to 0, 1 to 0, 2 to 0, 1 to 1)
+        listOf(0 to 0, 1 to 0, 2 to 0, 1 to 1),
+        listOf(0 to 0, 1 to 0, 0 to 1, 1 to 1)
     )
-    for (side in 0..1) repeat(4) { index ->
-        val left = width * if (side == 0) 0.075f else 0.82f
-        val y = height * (index + 0.5f) / 4f
-        for ((x, row) in shapes[(index + side) % shapes.size]) {
-            val point = Offset(left + x * 11f, y + row * 11f)
-            drawRect(style.detailColor.copy(alpha = 0.05f), point + Offset(2f, 2f), Size(10f, 10f))
-            drawRect(style.detailColor.copy(alpha = 0.06f), point, Size(10f, 10f))
+    val count = (width * height / 21000f).toInt().coerceAtLeast(6)
+    repeat(count) { index ->
+        val left = (index + 0.32f) * width / count
+        val top = height * (0.12f + (index * 37 % 73) / 100f)
+        val unit = 8f + index % 2
+        for ((x, y) in shapes[index % shapes.size]) {
+            val point = Offset(left + x * unit, top + y * unit)
             drawRect(
-                style.detailColor.copy(alpha = 0.19f),
-                point,
-                Size(10f, 10f),
-                style = Stroke(0.8f)
+                style.detailColor.copy(alpha = 0.025f),
+                point + Offset(1f, 2f),
+                Size(unit - 1f, unit - 1f)
             )
-            drawLine(
-                style.detailColor.copy(alpha = 0.13f),
-                point + Offset(2f, 2f),
-                point + Offset(8f, 2f),
-                0.8f
+            drawRect(style.detailColor.copy(alpha = 0.025f), point, Size(unit - 1f, unit - 1f))
+            drawRect(
+                style.detailColor.copy(alpha = 0.12f),
+                point,
+                Size(unit - 1f, unit - 1f),
+                style = Stroke(0.7f)
             )
         }
     }

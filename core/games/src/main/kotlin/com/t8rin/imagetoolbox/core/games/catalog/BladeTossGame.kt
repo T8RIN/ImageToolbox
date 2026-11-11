@@ -21,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.rotate
@@ -47,6 +48,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.TrackChanges
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import kotlin.math.PI
+import kotlin.math.ceil
 import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.random.Random
@@ -314,22 +316,39 @@ private fun DrawScope.drawKnife(
 }
 
 private fun DrawScope.drawBladeBackground(style: ArcadeStyle, width: Float, height: Float) {
-    val color = style.detailColor.copy(alpha = 0.13f)
-    val plank = height / 4f
-    repeat(4) { index ->
-        val y = index * plank + 12f
-        pixelRect(color.copy(alpha = 0.075f), 8f, y, width - 16f, 1f)
-        for (x in listOf(13f, width - 14f)) {
-            pixelRect(color, x, y + 5f, 2f, 2f)
-            val direction = if (x < width / 2f) 1f else -1f
-            pixelRect(color, x + (if (direction > 0f) 4f else -18f), y + 18f, 14f, 1f)
-            pixelRect(
-                color.copy(alpha = 0.08f),
-                x + (if (direction > 0f) 9f else -27f),
-                y + 21f,
-                18f,
-                1f
+    val rows = ceil(height / 73f).toInt()
+    val columns = ceil(width / 124f).toInt()
+    for (row in 0 until rows) {
+        val top = row * 73f
+        pixelRect(
+            style.detailColor.copy(alpha = if (row % 2 == 0) 0.035f else 0.02f),
+            0f,
+            top,
+            width,
+            71f
+        )
+        drawLine(style.detailColor.copy(alpha = 0.17f), Offset(0f, top), Offset(width, top), 0.8f)
+        for (column in 0 until columns) {
+            val x = column * 124f + 16f + row % 2 * 43f
+            val ink = style.detailColor.copy(alpha = 0.18f)
+            for (grain in 0..2) {
+                val y = top + 16f + grain * 14f
+                val path = Path().apply {
+                    moveTo(x - 13f, y)
+                    cubicTo(x + 4f, y - 3f, x + 20f, y + 3f, x + 39f, y)
+                    cubicTo(x + 54f, y - 2f, x + 68f, y + 3f, x + 84f, y)
+                }
+                drawPath(path, ink.copy(alpha = 0.1f + grain * 0.025f), style = Stroke(0.7f))
+            }
+            val center = Offset(x + 40f, top + 36f)
+            for (radius in listOf(5f, 11f, 18f)) drawOval(
+                ink,
+                center - Offset(radius, radius * 0.3f),
+                Size(radius * 2f, radius * 0.6f),
+                style = Stroke(0.7f)
             )
+            pixelRect(ink.copy(alpha = 0.23f), x, top + 7f, 2f, 2f)
+            pixelRect(ink.copy(alpha = 0.23f), x + 91f, top + 64f, 2f, 2f)
         }
     }
 }

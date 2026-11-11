@@ -22,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
@@ -45,6 +46,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.ViewComfy
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import kotlin.math.abs
+import kotlin.math.ceil
 import kotlin.math.sqrt
 import kotlin.random.Random
 
@@ -194,26 +196,26 @@ internal data object BrickBreakerGame : ArcadeGameDefinition {
 }
 
 private fun DrawScope.drawBrickBreakerBackground(style: ArcadeStyle, width: Float, height: Float) {
-    val color = style.detailColor.copy(alpha = 0.22f)
-    for (side in 0..1) {
-        val x = if (side == 0) 4f else width - 6f
-        pixelRect(color.copy(alpha = 0.1f), x, 6f, 2f, height - 16f)
-        var y = 10f
-        while (y < height - 15f) {
-            pixelRect(color, x - 1f, y, 4f, 7f)
-            pixelRect(color.copy(alpha = 0.1f), x - 1f, y + 8f, 4f, 1f)
-            y += 23f
+    val columns = ceil(width / 183f).toInt()
+    val rows = ceil(height / 139f).toInt()
+    val ink = style.detailColor.copy(alpha = 0.11f)
+    for (row in 0 until rows) for (column in 0 until columns) {
+        val point = Offset(column * 183f + 12f, row * 139f + 9f)
+        val panel = Path().apply {
+            moveTo(point.x + 12f, point.y)
+            lineTo(point.x + 145f, point.y)
+            lineTo(point.x + 157f, point.y + 12f)
+            lineTo(point.x + 157f, point.y + 106f)
+            lineTo(point.x + 145f, point.y + 118f)
+            lineTo(point.x + 12f, point.y + 118f)
+            lineTo(point.x, point.y + 106f)
+            lineTo(point.x, point.y + 12f)
+            close()
         }
-    }
-    val center = Offset(width / 2f, height * 0.67f)
-    for (radius in listOf(22f, 29f)) {
-        drawArc(
-            color.copy(alpha = 0.09f), 20f, 140f, false,
-            center - Offset(radius, radius), Size(radius * 2f, radius * 2f), style = Stroke(1f)
-        )
-    }
-    repeat(3) { index ->
-        pixelRect(color.copy(alpha = 0.12f), center.x - 8f + index * 7f, center.y + 8f, 2f, 5f)
+        drawPath(panel, ink.copy(alpha = 0.018f))
+        drawPath(panel, ink, style = Stroke(0.7f))
+        for (slot in 0..2) pixelRect(ink, point.x + 17f + slot * 7f, point.y + 105f, 3f, 1f)
+        pixelRect(ink.copy(alpha = 0.14f), point.x + 145f, point.y + 12f, 2f, 2f)
     }
 }
 

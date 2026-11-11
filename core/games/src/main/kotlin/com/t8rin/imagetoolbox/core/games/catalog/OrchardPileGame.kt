@@ -65,6 +65,7 @@ import kotlinx.coroutines.withContext
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import kotlin.math.abs
+import kotlin.math.ceil
 import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.sqrt
@@ -106,6 +107,12 @@ internal data object OrchardPileGame : ArcadeGameDefinition {
                 onRelease = run::drop
             ) {
                 drawOrchardBackground(run, style)
+                drawRoundRect(
+                    brush = style.background,
+                    topLeft = Offset(run.left, run.top + OrchardLimit * run.unit),
+                    size = Size(OrchardWidth * run.unit, (run.floor - OrchardLimit) * run.unit),
+                    cornerRadius = CornerRadius(4f * run.unit)
+                )
                 translate(left = run.left, top = run.top) {
                     scale(scale = run.unit, pivot = Offset.Zero) {
                         val floor = run.floor
@@ -595,7 +602,7 @@ private fun DrawScope.drawOrchardBackground(run: OrchardPileRun, style: ArcadeSt
             lineTo(x + size * 0.3f, y - bodyHeight + depth)
             close()
         }
-        drawPath(lid, style.detailColor.copy(alpha = 0.11f))
+        drawPath(lid, style.detailColor.copy(alpha = 0.15f))
         drawPath(lid, ink.copy(alpha = 0.18f), style = Stroke(0.7f))
         val front = Path().apply {
             moveTo(x, y - bodyHeight)
@@ -604,7 +611,7 @@ private fun DrawScope.drawOrchardBackground(run: OrchardPileRun, style: ArcadeSt
             lineTo(x, y)
             close()
         }
-        drawPath(front, style.detailColor.copy(alpha = 0.07f))
+        drawPath(front, style.detailColor.copy(alpha = 0.09f))
         val side = Path().apply {
             moveTo(x + size * 0.3f, y - bodyHeight + depth)
             lineTo(x + size, y - bodyHeight)
@@ -612,7 +619,7 @@ private fun DrawScope.drawOrchardBackground(run: OrchardPileRun, style: ArcadeSt
             lineTo(x + size * 0.3f, y + depth)
             close()
         }
-        drawPath(side, style.detailColor.copy(alpha = 0.14f))
+        drawPath(side, style.detailColor.copy(alpha = 0.19f))
         for (slat in 1..2) {
             val lineY = y - bodyHeight + bodyHeight * slat / 3f
             drawLine(
@@ -634,11 +641,24 @@ private fun DrawScope.drawOrchardBackground(run: OrchardPileRun, style: ArcadeSt
         )
     }
 
-    val size = minOf(38f, maxOf(24f, run.left * 0.75f))
-    crate(1f, height * 0.78f, size)
-    crate(3f, height * 0.78f - size * 0.85f, size * 0.8f)
-    crate(width - size - 1f, height * 0.88f, size)
-    crate(width - size * 0.8f - 3f, height * 0.88f - size * 0.85f, size * 0.8f)
+    val shelfRows = ceil((height - canopy - 12f) / 83f).toInt().coerceAtLeast(1)
+    val columns = ceil(width / 69f).toInt()
+    for (row in 0 until shelfRows) {
+        val y = canopy + 68f + row * 83f
+        pixelRect(ink.copy(alpha = 0.16f), 0f, y + 6f, width, 3f)
+        pixelRect(ink.copy(alpha = 0.07f), 0f, y + 10f, width, 6f)
+        for (column in 0 until columns) {
+            val x = column * 69f + 12f + row % 2 * 9f
+            val size = 35f + (column + row) % 2 * 7f
+            crate(x, y - 2f, size)
+            for (fruit in 0..2) {
+                val point = Offset(x + 11f + fruit * 9f, y - size * 0.75f - 3f - fruit % 2 * 2f)
+                drawCircle(style.detailColor.copy(alpha = 0.21f), 4f, point, style = Stroke(0.8f))
+                pixelRect(style.detailColor.copy(alpha = 0.22f), point.x, point.y - 6f, 1f, 2f)
+            }
+        }
+    }
+
 }
 @Serializable
 private class OrchardFruit(
