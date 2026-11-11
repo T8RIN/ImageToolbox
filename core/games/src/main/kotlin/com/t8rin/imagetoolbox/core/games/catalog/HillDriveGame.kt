@@ -124,14 +124,18 @@ internal data object HillDriveGame : ArcadeGameDefinition {
                                     val gestureSize = size
                                     val width = gestureSize.width.toFloat()
                                     val height = gestureSize.height.toFloat()
-                                    val brakeBounds = hillDrivePedalBounds(width, height, density, gas = false)
-                                    val gasBounds = hillDrivePedalBounds(width, height, density, gas = true)
+                                    val brakeBounds =
+                                        hillDrivePedalBounds(width, height, density, gas = false)
+                                    val gasBounds =
+                                        hillDrivePedalBounds(width, height, density, gas = true)
                                     var gasFinger: PointerId? = null
                                     var brakeFinger: PointerId? = null
                                     try {
                                         val down = awaitFirstDown()
                                         when {
-                                            brakeBounds.contains(down.position) -> brakeFinger = down.id
+                                            brakeBounds.contains(down.position) -> brakeFinger =
+                                                down.id
+
                                             gasBounds.contains(down.position) -> gasFinger = down.id
                                         }
                                         if (brakeFinger != null || gasFinger != null) {
@@ -150,14 +154,20 @@ internal data object HillDriveGame : ArcadeGameDefinition {
                                                         change.position.y !in 0f..height
                                                     ) {
                                                         if (change.id == gasFinger) gasFinger = null
-                                                        if (change.id == brakeFinger) brakeFinger = null
+                                                        if (change.id == brakeFinger) brakeFinger =
+                                                            null
                                                     }
                                                     change.consume()
                                                 } else if (change.pressed && !change.previousPressed && !change.isConsumed) {
                                                     when {
-                                                        brakeFinger == null && brakeBounds.contains(change.position) ->
+                                                        brakeFinger == null && brakeBounds.contains(
+                                                            change.position
+                                                        ) ->
                                                             brakeFinger = change.id
-                                                        gasFinger == null && gasBounds.contains(change.position) ->
+
+                                                        gasFinger == null && gasBounds.contains(
+                                                            change.position
+                                                        ) ->
                                                             gasFinger = change.id
                                                     }
                                                     if (change.id == gasFinger || change.id == brakeFinger) {
@@ -186,7 +196,8 @@ private class HillDrivePalette(colors: ColorScheme, style: ArcadeStyle) {
     private val light = if (dark) colors.onSurface else colors.surfaceBright
     val sky = lerp(colors.surfaceContainerLow, style.playerColor, 0.025f)
     val skyLow = lerp(colors.surfaceContainer, style.playerColor, 0.035f)
-    val ink = lerp(if (dark) colors.surfaceContainerLowest else colors.inverseSurface, colors.scrim, 0.1f)
+    val ink =
+        lerp(if (dark) colors.surfaceContainerLowest else colors.inverseSurface, colors.scrim, 0.1f)
     val body = lerp(colors.primaryContainer, light, 0.88f)
     val bodyLight = lerp(body, light, 0.6f)
     val bodyShade = lerp(style.playerColor, colors.surfaceContainerHigh, 0.48f)
@@ -307,7 +318,8 @@ private fun DrawScope.drawHillDriveScene(
                     val index = if (segment == PathSegment.Type.Move) 0 else 2
                     val worldX = tileX + coordinates[index]
                     val x = (worldX - left).toFloat()
-                    val y = ground + run.groundHeight(worldX).roundToInt() + 6f + coordinates[index + 1]
+                    val y =
+                        ground + run.groundHeight(worldX).roundToInt() + 6f + coordinates[index + 1]
                     if (segment == PathSegment.Type.Move) details.moveTo(x, y)
                     else details.lineTo(x, y)
                 }
@@ -324,7 +336,12 @@ private fun DrawScope.drawHillDriveScene(
         val worldX = column * 16.0
         if (hillDriveHash(column, 72) and 7 == 3) {
             val y = ground + run.groundHeight(worldX).roundToInt()
-            drawArcadeSprite(HillDriveGrass, palette.grassLight, (worldX - left).toFloat() - 6f, y - 7f)
+            drawArcadeSprite(
+                HillDriveGrass,
+                palette.grassLight,
+                (worldX - left).toFloat() - 6f,
+                y - 7f
+            )
         }
         column++
     }
@@ -334,10 +351,22 @@ private fun DrawScope.drawHillDriveScene(
         if (x < -20f || x > width + 20f) continue
         val y = ground + pickup.y
         if (pickup.fuel) {
-            drawHillDriveSprite(HillDriveCan, palette.canColors, x - 11.7f, y - 14.4f, HillDrivePickupPixelSize)
+            drawHillDriveSprite(
+                HillDriveCan,
+                palette.canColors,
+                x - 11.7f,
+                y - 14.4f,
+                HillDrivePickupPixelSize
+            )
         } else {
             val coin = HillDriveCoinSprites[pickup.value] ?: HillDriveCoinSprites.getValue(10)
-            drawHillDriveSprite(coin, palette.coinColors, x - 11.7f, y - 11.7f, HillDrivePickupPixelSize)
+            drawHillDriveSprite(
+                coin,
+                palette.coinColors,
+                x - 11.7f,
+                y - 11.7f,
+                HillDrivePickupPixelSize
+            )
         }
     }
     run.drawDust(this, left, ground, palette.dust)
@@ -364,7 +393,8 @@ private fun DrawScope.drawHillDriveCar(
         val perpendicular = Offset(-spring.y, spring.x) / length * 1.8f
         var previous = mount
         for (coil in 1..6) {
-            val point = mount + spring * (coil / 7f) + perpendicular * if (coil % 2 == 0) -1f else 1f
+            val point =
+                mount + spring * (coil / 7f) + perpendicular * if (coil % 2 == 0) -1f else 1f
             drawLine(palette.bodyShade, previous, point, strokeWidth = 1.6f)
             previous = point
         }
@@ -405,7 +435,8 @@ private fun DrawScope.drawHillDrivePedal(
     val sprite = if (gas) HillDriveGas else HillDriveBrake
     val unit = minOf(3.4f * density, bounds.height / 32f)
     val x = bounds.center.x - sprite.values.first().width * unit / 2f
-    val y = bounds.bottom + 8.dp.toPx() - sprite.values.first().height * unit + if (pressed) 3.dp.toPx() else 0f
+    val y =
+        bounds.bottom + 8.dp.toPx() - sprite.values.first().height * unit + if (pressed) 3.dp.toPx() else 0f
     drawHillDriveSprite(sprite, palette.pedalColors, x, y, unit)
 }
 
@@ -455,9 +486,14 @@ private fun DrawScope.drawHillDriveHud(
     val bonus = run.trickBonus
     if (bonus > 0) {
         val text = measurer.measure("+$bonus", style.scoreTextStyle, maxLines = 1)
-        val x = ((run.x - run.cameraX + run.cameraAnchorX).toFloat() * fieldScale - text.size.width / 2f)
-            .coerceIn(8.dp.toPx(), (size.width - text.size.width - 8.dp.toPx()).coerceAtLeast(8.dp.toPx()))
-        val y = ((run.cameraAnchorY - run.cameraY + run.y - 46f) * fieldScale).coerceAtLeast(39.dp.toPx())
+        val x =
+            ((run.x - run.cameraX + run.cameraAnchorX).toFloat() * fieldScale - text.size.width / 2f)
+                .coerceIn(
+                    8.dp.toPx(),
+                    (size.width - text.size.width - 8.dp.toPx()).coerceAtLeast(8.dp.toPx())
+                )
+        val y =
+            ((run.cameraAnchorY - run.cameraY + run.y - 46f) * fieldScale).coerceAtLeast(39.dp.toPx())
         val pad = 4.dp.toPx()
         drawRoundRect(
             color = palette.hud.copy(alpha = 0.87f * run.bonusAlpha),
@@ -465,7 +501,11 @@ private fun DrawScope.drawHillDriveHud(
             size = Size(text.size.width + pad * 2f, text.size.height + pad),
             cornerRadius = CornerRadius(pad)
         )
-        drawText(text, color = style.accentColor.copy(alpha = run.bonusAlpha), topLeft = Offset(x, y))
+        drawText(
+            text,
+            color = style.accentColor.copy(alpha = run.bonusAlpha),
+            topLeft = Offset(x, y)
+        )
     }
 }
 
@@ -712,7 +752,8 @@ private const val HillDriveDamping = 5.1f
 private const val HillDriveInertia = 540f
 private const val HillDriveWheelMass = 0.18f
 private const val HillDriveRotatingMass = 0.12f
-private const val HillDriveVisualAxleY = HillDriveMountY + HillDriveRest - HillDriveGravity / (2f * HillDriveSpring)
+private const val HillDriveVisualAxleY =
+    HillDriveMountY + HillDriveRest - HillDriveGravity / (2f * HillDriveSpring)
 private const val HillDriveTurn = 2f * PI.toFloat()
 private const val HillDriveDegrees = 180f / PI.toFloat()
 
@@ -734,9 +775,11 @@ private val HillDriveHills = arrayOf(
     floatArrayOf(0f, 0.51f, 0.60f, -0.53f, -0.67f, 0.10f, 0f),
     floatArrayOf(0f, -0.24f, -0.79f, 0.32f, 0.54f, -0.34f, 0f)
 )
-private val HillDriveRampKnots = floatArrayOf(0f, 77f, 171f, 225f, 280f, 305f, 321f, 430f, 505f, 600f)
+private val HillDriveRampKnots =
+    floatArrayOf(0f, 77f, 171f, 225f, 280f, 305f, 321f, 430f, 505f, 600f)
 private val HillDriveRampHeights = floatArrayOf(0f, -16f, 29f, 27f, -5f, -24f, -22f, 88f, 60f, 0f)
-private val HillDriveRampSlopes = floatArrayOf(0f, 0f, 0.36f, -0.27f, -0.67f, -0.75f, 1.05f, 0.25f, -0.58f, 0f)
+private val HillDriveRampSlopes =
+    floatArrayOf(0f, 0f, 0.36f, -0.27f, -0.67f, -0.75f, 1.05f, 0.25f, -0.58f, 0f)
 
 private class HillDriveSection(
     private val knots: FloatArray,
@@ -823,7 +866,8 @@ private class HillDriveDust(
 private class HillDriveRun : ArcadeRun() {
     var x = 0.0
         private set
-    var y = -HillDriveMountY - HillDriveRest + HillDriveGravity / (2f * HillDriveSpring) - HillDriveWheelRadius
+    var y =
+        -HillDriveMountY - HillDriveRest + HillDriveGravity / (2f * HillDriveSpring) - HillDriveWheelRadius
         private set
     var angle = 0f
         private set
@@ -886,7 +930,8 @@ private class HillDriveRun : ArcadeRun() {
 
     override fun reset() {
         x = 0.0
-        y = -HillDriveMountY - HillDriveRest + HillDriveGravity / (2f * HillDriveSpring) - HillDriveWheelRadius
+        y =
+            -HillDriveMountY - HillDriveRest + HillDriveGravity / (2f * HillDriveSpring) - HillDriveWheelRadius
         angle = 0f
         velocity = Offset.Zero
         spin = 0f
@@ -978,7 +1023,8 @@ private class HillDriveRun : ArcadeRun() {
         cameraY = cameraY.coerceIn(y - 40f, y + (cameraAnchorY - topInset - 38f).coerceAtLeast(28f))
         extendRoute()
         fuel = (fuel - seconds * (0.022f + throttle * 0.025f)).coerceAtLeast(0f)
-        score = (distance + collectedPoints + trickPoints).coerceAtMost(Int.MAX_VALUE.toLong()).toInt()
+        score =
+            (distance + collectedPoints + trickPoints).coerceAtMost(Int.MAX_VALUE.toLong()).toInt()
         if (fuel == 0f) finish()
     }
 
@@ -1002,12 +1048,18 @@ private class HillDriveRun : ArcadeRun() {
             val travel = dot(arm, down) - HillDriveMountY
             val relative = wheel.velocity - bodyVelocity - Offset(-arm.y, arm.x) * bodySpin
             val spring = (
-                    (travel - HillDriveRest) * HillDriveSpring + dot(relative, down) * HillDriveDamping
+                    (travel - HillDriveRest) * HillDriveSpring + dot(
+                        relative,
+                        down
+                    ) * HillDriveDamping
                     ).coerceIn(-2200f, 1600f)
             val springImpulse = down * (spring * step)
             velocity += springImpulse
             spin += cross(arm, springImpulse) / HillDriveInertia
-            wheel.velocity += Offset(0f, HillDriveGravity * step) - springImpulse / HillDriveWheelMass
+            wheel.velocity += Offset(
+                0f,
+                HillDriveGravity * step
+            ) - springImpulse / HillDriveWheelMass
 
             val ratio = if (side < 0) 0.56f else 0.44f
             if (brake && !backing) {
@@ -1092,13 +1144,18 @@ private class HillDriveRun : ArcadeRun() {
         }
         for (side in -1..1 step 2) {
             val wheel = if (side < 0) rear else front
-            wheel.rotation = (wheel.rotation + wheel.surfaceSpeed / HillDriveWheelRadius * step) % HillDriveTurn
+            wheel.rotation =
+                (wheel.rotation + wheel.surfaceSpeed / HillDriveWheelRadius * step) % HillDriveTurn
             val arm = Offset((wheel.x - x).toFloat(), wheel.y - y)
             wheel.travel = dot(arm, Offset(-sin(angle), cos(angle))) - HillDriveMountY
         }
         if (rear.grounded && abs(rear.velocity.x) > 52f && dustTimer <= 0f) {
             if (dust.size >= 20) dust.removeAt(0)
-            dust += HillDriveDust(rear.x, rear.y + HillDriveWheelRadius - 1f, -rear.velocity.x * 0.12f)
+            dust += HillDriveDust(
+                rear.x,
+                rear.y + HillDriveWheelRadius - 1f,
+                -rear.velocity.x * 0.12f
+            )
             dustTimer = 0.065f
         }
         if (x < HillDriveReverseLimit) {
