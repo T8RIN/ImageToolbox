@@ -19,11 +19,9 @@ package com.t8rin.imagetoolbox.core.games.catalog
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.drawscope.Stroke
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
 import com.t8rin.imagetoolbox.core.games.ArcadeField
 import com.t8rin.imagetoolbox.core.games.ArcadeGameContext
@@ -37,6 +35,8 @@ import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
 import com.t8rin.imagetoolbox.core.games.utils.arcadeLives
 import com.t8rin.imagetoolbox.core.games.utils.arcadeStars
+import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
+import com.t8rin.imagetoolbox.core.games.utils.pixelPanel
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.ViewComfy
@@ -85,32 +85,11 @@ internal data object BrickBreakerGame : ArcadeGameDefinition {
                         1 -> style.obstacleColor
                         else -> style.playerColor
                     }
-                    drawRoundRect(
+                    pixelPanel(
                         color = color.copy(alpha = 0.85f + brick.flash.coerceAtMost(0.3f) * 0.5f),
+                        ink = style.playerDetailColor,
                         topLeft = rect.topLeft,
-                        size = rect.size,
-                        cornerRadius = CornerRadius(x = 2f)
-                    )
-                    drawRoundRect(
-                        color = color.copy(alpha = 0.8f),
-                        topLeft = rect.topLeft,
-                        size = rect.size,
-                        cornerRadius = CornerRadius(x = 2f),
-                        style = Stroke(width = 1f)
-                    )
-                    pixelRect(
-                        color = style.playerDetailColor.copy(alpha = 0.4f),
-                        x = rect.left + 2f,
-                        y = rect.top + 2f,
-                        width = rect.width - 4f,
-                        height = 2f
-                    )
-                    pixelRect(
-                        color = style.playerDetailColor.copy(alpha = 0.2f),
-                        x = rect.left + 2f,
-                        y = rect.top + 4f,
-                        width = 2f,
-                        height = rect.height - 6f
+                        size = rect.size
                     )
                     repeat(brick.health - 1) { notch ->
                         pixelRect(
@@ -128,11 +107,11 @@ internal data object BrickBreakerGame : ArcadeGameDefinition {
                     run.paddleX + run.paddleHalf,
                     run.paddleY + 7f
                 )
-                drawRoundRect(
+                pixelPanel(
                     color = style.playerColor,
+                    ink = style.playerDetailColor,
                     topLeft = paddle.topLeft,
-                    size = paddle.size,
-                    cornerRadius = CornerRadius(x = 3f)
+                    size = paddle.size
                 )
                 pixelRect(
                     color = style.playerDetailColor.copy(alpha = 0.45f),
@@ -158,28 +137,28 @@ internal data object BrickBreakerGame : ArcadeGameDefinition {
                     )
                 }
                 run.trail.forEachIndexed { index, point ->
-                    drawCircle(
+                    pixelCircle(
                         color = style.playerColor.copy(alpha = (index + 1) * 0.035f),
                         radius = run.ballRadius * 0.7f,
                         center = point
                     )
                 }
-                drawCircle(
+                pixelCircle(
                     color = style.playerColor,
                     radius = run.ballRadius,
                     center = Offset(x = run.ballX, y = run.ballY)
                 )
-                drawCircle(
+                pixelCircle(
                     color = style.playerDetailColor.copy(alpha = 0.8f),
                     radius = 1.5f,
                     center = Offset(x = run.ballX - 1f, y = run.ballY - 1.5f)
                 )
                 for ((x, y, kind) in run.gifts) {
-                    drawRoundRect(
+                    pixelPanel(
                         color = style.accentColor,
+                        ink = style.playerDetailColor,
                         topLeft = Offset(x = x - 9f, y = y - 6f),
-                        size = Size(width = 18f, height = 12f),
-                        cornerRadius = CornerRadius(x = 3f)
+                        size = Size(width = 18f, height = 12f)
                     )
                     pixelRect(
                         color = style.playerDetailColor,

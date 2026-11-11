@@ -22,7 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.drawscope.rotate
-import androidx.compose.ui.graphics.luminance
+import androidx.compose.ui.graphics.lerp
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
 import com.t8rin.imagetoolbox.core.games.ArcadeCloud
 import com.t8rin.imagetoolbox.core.games.ArcadeField
@@ -56,12 +56,8 @@ internal data object WingDashGame : ArcadeGameDefinition {
             startPlaying = context.initialState.isPlaying,
             create = ::WingDashRun
         )
-        val ink = if (style.playerColor.luminance() < style.playerDetailColor.luminance()) {
-            style.playerColor
-        } else style.playerDetailColor
-        val eye = if (style.playerColor.luminance() > style.playerDetailColor.luminance()) {
-            style.playerColor
-        } else style.playerDetailColor
+        val ink = style.playerDetailColor
+        val eye = style.textColor
 
         ArcadeBoard(
             context = context,
@@ -130,6 +126,11 @@ internal data object WingDashGame : ArcadeGameDefinition {
                         width = PipeWidth - 8,
                         height = 2f
                     )
+                    val shade = lerp(style.obstacleColor, style.playerDetailColor, 0.28f)
+                    pixelRect(shade, x + PipeWidth - 9f, 0f, 3f, top - 9f)
+                    pixelRect(shade, x + PipeWidth - 9f, bottom + 9f, 3f, run.ground - bottom - 9f)
+                    pixelRect(shade, x + 2f, top - 3f, PipeWidth - 4f, 2f)
+                    pixelRect(shade, x + 2f, bottom + 6f, PipeWidth - 4f, 2f)
                     pixelRect(
                         color = highlight,
                         x = x + 7,
@@ -301,7 +302,7 @@ private class WingDashRun : ArcadeRun() {
         y += velocity * seconds
         wingTime += seconds
         tilt += ((velocity / 7f).coerceIn(-18f, 65f) - tilt) * minOf(1f, seconds * 10f)
-        val step = 185f * seconds
+        val step = (185f + (score * 1.2f).coerceAtMost(45f)) * seconds
         distance += step
         pipes.forEach { pipe ->
             pipe.x -= step
@@ -319,7 +320,7 @@ private class WingDashRun : ArcadeRun() {
         ) phase = ArcadePhase.Over
     }
 
-    private fun gap() = minOf(90f, (ground - topInset) * 0.58f)
+    private fun gap() = minOf((92f - score * 0.45f).coerceAtLeast(74f), (ground - topInset) * 0.58f)
 
     private fun addPipes() {
         while (pipes.last().x < width + PipeWidth) {
@@ -328,7 +329,7 @@ private class WingDashRun : ArcadeRun() {
             val low = maxOf(last.center - 120f, topInset + gap / 2 + 12f)
             val high = minOf(last.center + 120f, ground - gap / 2 - 16f)
             pipes += BirdPipe(
-                x = last.x + 190f,
+                x = last.x + 190f + (score * 0.8f).coerceAtMost(28f),
                 center = low + Random.nextFloat() * (high - low),
                 gap = gap
             )

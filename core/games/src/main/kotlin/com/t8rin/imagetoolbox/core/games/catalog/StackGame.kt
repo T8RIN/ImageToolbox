@@ -18,18 +18,23 @@
 package com.t8rin.imagetoolbox.core.games.catalog
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.drawscope.DrawScope
+import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.drawscope.rotate
+import androidx.compose.ui.graphics.lerp
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
-import com.t8rin.imagetoolbox.core.games.ArcadeCloud
 import com.t8rin.imagetoolbox.core.games.ArcadeField
 import com.t8rin.imagetoolbox.core.games.ArcadeGameContext
 import com.t8rin.imagetoolbox.core.games.ArcadeGameDefinition
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
+import com.t8rin.imagetoolbox.core.games.ArcadeStyle
 import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
-import com.t8rin.imagetoolbox.core.games.arcadeGround
-import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.resources.Icons
@@ -37,6 +42,7 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Stacks
 import kotlinx.serialization.Serializable
 import kotlin.math.abs
+import kotlin.math.exp
 
 @RegisterArcadeGame
 internal data object StackGame : ArcadeGameDefinition {
@@ -47,255 +53,315 @@ internal data object StackGame : ArcadeGameDefinition {
 
     @Composable
     override fun Content(context: ArcadeGameContext, modifier: Modifier) {
-        val style = context.style
         val run = rememberArcadeRun(
             startPlaying = context.initialState.isPlaying,
             create = ::StackRun
         )
+        val style = context.style
+        val palette = remember(style) { StackPalette(style) }
+        val path = remember { Path() }
 
-        ArcadeBoard(
-            context = context,
-            run = run,
-            modifier = modifier
-        ) {
-            ArcadeField(
-                run = run,
-                onPress = { run.place() }
-            ) {
-                val ground = run.height - 24f
-                var cloudY = run.camera * 0.12f % 180f + run.topInset + 20f
-                while (cloudY < run.height) {
-                    drawArcadeSprite(
-                        sprite = ArcadeCloud,
-                        tint = style.detailColor,
-                        x = run.width * 0.12f,
-                        y = cloudY
-                    )
-                    drawArcadeSprite(
-                        sprite = ArcadeCloud,
-                        tint = style.detailColor,
-                        x = run.width * 0.76f,
-                        y = cloudY + 70f
-                    )
-                    cloudY += 180f
-                }
-                if (run.camera < 24f) arcadeGround(
-                    style = style,
-                    width = run.width,
-                    y = ground + run.camera
-                )
-
-                fun block(
-                    x: Float,
-                    y: Float,
-                    width: Float,
-                    active: Boolean,
-                    perfect: Boolean
-                ) {
-                    val color = when {
-                        active -> style.playerColor
-                        perfect -> style.accentColor
-                        else -> style.obstacleColor
-                    }
-                    pixelRect(
-                        color = color,
-                        x = x,
-                        y = y,
-                        width = width,
-                        height = BlockHeight - 1
-                    )
-                    pixelRect(
-                        color = style.playerDetailColor.copy(alpha = 0.35f),
-                        x = x + 2,
-                        y = y + 2,
-                        width = width - 4,
-                        height = 2f
-                    )
-                    if (width > 4f) pixelRect(
-                        color = style.playerDetailColor.copy(alpha = 0.2f),
-                        x = x + width - 3f,
-                        y = y + 4f,
-                        width = 2f,
-                        height = BlockHeight - 7f
-                    )
-                    pixelRect(
-                        color = style.detailColor,
-                        x = x + 2,
-                        y = y + BlockHeight - 3,
-                        width = width - 4,
-                        height = 1f
-                    )
-                }
-
-                run.blocks.forEach { block ->
-                    block(
-                        x = block.x,
-                        y = ground - (block.level + 1) * BlockHeight + run.camera,
-                        width = block.width,
-                        active = false,
-                        perfect = block.perfect
-                    )
-                }
-                for ((x, altitude, width) in run.pieces) {
-                    block(
-                        x = x,
-                        y = ground - altitude + run.camera,
-                        width = width,
-                        active = true,
-                        perfect = false
-                    )
-                }
-                val top = run.blocks.last()
-                if (run.phase != ArcadePhase.Over) {
-                    block(
-                        x = run.x,
-                        y = ground - (top.level + 2) * BlockHeight + run.camera,
-                        width = top.width,
-                        active = true,
-                        perfect = false
-                    )
-                }
-                if (run.flash > 0f) {
-                    val y = ground - (top.level + 1) * BlockHeight + run.camera
-                    val color = style.accentColor.copy(alpha = run.flash * 0.5f)
-                    val spread = (1f - run.flash) * 12f
-                    pixelRect(
-                        color = color,
-                        x = top.x - spread,
-                        y = y - 3 - spread,
-                        width = top.width + spread * 2,
-                        height = 1f
-                    )
-                    pixelRect(
-                        color = color,
-                        x = top.x - spread,
-                        y = y + BlockHeight + 2 + spread,
-                        width = top.width + spread * 2,
-                        height = 1f
-                    )
-                }
+        ArcadeBoard(context = context, run = run, modifier = modifier) {
+            ArcadeField(run = run, onPress = { run.place() }) {
+                drawStackScene(run, palette, path)
             }
         }
     }
 }
 
-private const val BlockHeight = 18f
-private const val InitialBlockWidth = 156f
+private class StackPalette(style: ArcadeStyle) {
+    val light = style.obstacleColor
+    val shade = style.overlayColor.copy(alpha = 1f)
+    val edge = style.borderColor
+    val accent = style.accentColor
+    val detail = style.detailColor
+    private val layers = listOf(
+        style.playerColor, style.obstacleColor, style.accentColor,
+        lerp(style.accentColor, style.playerColor, 0.35f),
+        lerp(style.playerColor, style.obstacleColor, 0.5f)
+    )
+
+    fun color(level: Int) = layers[(level / 3) % layers.size]
+}
+
+private fun DrawScope.drawStackScene(run: StackRun, palette: StackPalette, path: Path) {
+    fun face(color: Color, a: Offset, b: Offset, c: Offset, d: Offset) {
+        path.rewind()
+        path.moveTo(a.x, a.y)
+        path.lineTo(b.x, b.y)
+        path.lineTo(c.x, c.y)
+        path.lineTo(d.x, d.y)
+        path.close()
+        drawPath(path, color)
+    }
+
+    fun block(
+        x: Float,
+        z: Float,
+        width: Float,
+        depth: Float,
+        altitude: Float,
+        color: Color,
+        thickness: Float = BlockHeight,
+        alpha: Float = 1f
+    ) {
+        val back = run.project(x, z, altitude)
+        val right = run.project(x + width, z, altitude)
+        val front = run.project(x + width, z + depth, altitude)
+        val left = run.project(x, z + depth, altitude)
+        val lower = Offset(0f, thickness * run.unit)
+        face(
+            lerp(color, palette.shade, 0.36f).copy(alpha = alpha),
+            left,
+            front,
+            front + lower,
+            left + lower
+        )
+        face(
+            lerp(color, palette.shade, 0.2f).copy(alpha = alpha),
+            right,
+            front,
+            front + lower,
+            right + lower
+        )
+        face(color.copy(alpha = alpha), back, right, front, left)
+        drawPath(path, palette.edge.copy(alpha = alpha * 0.28f), style = Stroke(run.unit * 0.65f))
+    }
+
+    repeat(28) { index ->
+        val x = ((index * 71 + index * index * 13 + 23) % 359) / 359f * run.width
+        val span = run.height + 32f
+        val y = (index * 79f + run.camera * 0.12f * run.unit) % span - 16f
+        pixelRect(palette.detail.copy(alpha = 0.22f), x, y, if (index % 5 == 0) 5f else 2f, 2f)
+    }
+    repeat(5) { index ->
+        val span = run.height + 80f
+        val x = run.width * if (index % 2 == 0) 0.13f else 0.87f
+        val y = (index * span / 5f + run.camera * 0.08f * run.unit) % span - 40f
+        val half = 12f + index % 3 * 6f
+        face(
+            palette.detail.copy(alpha = 0.06f), Offset(x, y - half * 0.5f),
+            Offset(x + half, y), Offset(x, y + half * 0.5f), Offset(x - half, y)
+        )
+        drawPath(path, palette.detail.copy(alpha = 0.24f), style = Stroke(1f))
+        pixelRect(palette.detail.copy(alpha = 0.2f), x - 1f, y + half * 0.5f + 3f, 2f, 3f)
+    }
+
+    block(0f, 0f, InitialBlockWidth, InitialBlockWidth, 0f, palette.color(0), 80f)
+    for (slab in run.blocks) {
+        val altitude = (slab.level + 1) * BlockHeight
+        val center = run.project(slab.x + slab.width / 2f, slab.z + slab.depth / 2f, altitude)
+        if (center.y < -100f || center.y > run.height + 100f) continue
+        block(slab.x, slab.z, slab.width, slab.depth, altitude, palette.color(slab.level))
+    }
+    for (piece in run.pieces) {
+        val center =
+            run.project(piece.x + piece.width / 2f, piece.z + piece.depth / 2f, piece.altitude)
+        val alpha = ((run.height + 50f - center.y) / 70f).coerceIn(0f, 1f)
+        rotate(piece.tilt, center) {
+            block(
+                piece.x,
+                piece.z,
+                piece.width,
+                piece.depth,
+                piece.altitude,
+                palette.color(piece.level),
+                alpha = alpha
+            )
+        }
+    }
+    val top = run.blocks.last()
+    if (run.phase != ArcadePhase.Over && run.missTime == 0f) {
+        block(
+            x = if (run.axis == 0) run.x else top.x,
+            z = if (run.axis == 1) run.x else top.z,
+            width = top.width,
+            depth = top.depth,
+            altitude = (top.level + 2) * BlockHeight,
+            color = palette.color(top.level + 1)
+        )
+    }
+    if (run.flash > 0f) {
+        val altitude = (top.level + 1) * BlockHeight
+        val spread = (1f - run.flash) * 9f
+        face(
+            palette.accent.copy(alpha = run.flash * 0.2f),
+            run.project(top.x - spread, top.z - spread, altitude + 1f),
+            run.project(top.x + top.width + spread, top.z - spread, altitude + 1f),
+            run.project(top.x + top.width + spread, top.z + top.depth + spread, altitude + 1f),
+            run.project(top.x - spread, top.z + top.depth + spread, altitude + 1f)
+        )
+        drawPath(
+            path,
+            palette.light.copy(alpha = run.flash * 0.9f),
+            style = Stroke(run.unit * 1.5f)
+        )
+    }
+}
+
+private const val BlockHeight = 14f
+private const val InitialBlockWidth = 120f
+private const val StackTravel = 140f
 
 @Serializable
 private data class StackBlock(
     var x: Float,
     val width: Float,
     val level: Int,
-    val perfect: Boolean
+    val perfect: Boolean,
+    var z: Float = 0f,
+    val depth: Float = InitialBlockWidth
 )
 
 @Serializable
 private data class StackPiece(
     var x: Float,
+    var z: Float,
     var altitude: Float,
     val width: Float,
-    var velocity: Float,
-    val direction: Int
+    val depth: Float,
+    val level: Int,
+    val axis: Int,
+    val direction: Int,
+    var velocity: Float = 0f,
+    var tilt: Float = 0f
 )
 
 @Serializable
 private class StackRun : ArcadeRun() {
-    var x = 0f
+    var x = -StackTravel
+        private set
+    var axis = 0
         private set
     var camera = 0f
         private set
+    private var cameraX = InitialBlockWidth / 2f
+    private var cameraZ = InitialBlockWidth / 2f
     var flash = 0f
+        private set
+    var missTime = 0f
         private set
     val blocks = mutableListOf<StackBlock>()
     val pieces = mutableListOf<StackPiece>()
     private var direction = 1
     private var perfectStreak = 0
     private var cooldown = 0f
+    val unit get() = minOf(width / 200f, (height - topInset) / 170f)
 
-    override fun isValid(): Boolean = super.isValid() &&
-            blocks.isNotEmpty() && blocks.all { it.width > 0f }
+    fun project(x: Float, z: Float, altitude: Float): Offset = Offset(
+        width / 2f + (x - cameraX - z + cameraZ) * 0.70710677f * unit,
+        height - 22f - InitialBlockWidth * 0.5f * unit +
+                (x + z - cameraX - cameraZ) * 0.5f * unit - (altitude - camera) * unit
+    )
+
+    override fun isValid(): Boolean = super.isValid() && blocks.isNotEmpty() &&
+            blocks.all {
+                it.width in 3f..InitialBlockWidth && it.depth in 3f..InitialBlockWidth &&
+                        it.x >= -0.01f && it.z >= -0.01f &&
+                        it.x + it.width <= InitialBlockWidth + 0.01f &&
+                        it.z + it.depth <= InitialBlockWidth + 0.01f
+            }
 
     override fun reset() {
-        x = 0f
+        x = -StackTravel
+        axis = 0
         camera = 0f
+        cameraX = InitialBlockWidth / 2f
+        cameraZ = InitialBlockWidth / 2f
         flash = 0f
+        missTime = 0f
         direction = 1
         perfectStreak = 0
         cooldown = 0f
         pieces.clear()
         blocks.clear()
-        blocks += StackBlock(
-            x = (width - InitialBlockWidth) / 2,
-            width = InitialBlockWidth,
-            level = 0,
-            perfect = false
-        )
+        blocks += StackBlock(x = 0f, width = InitialBlockWidth, level = 0, perfect = false)
     }
 
     fun place() {
-        if (cooldown > 0f) return
+        if (cooldown > 0f || missTime > 0f) return
         val last = blocks.last()
-        val left = maxOf(x, last.x)
-        val right = minOf(x + last.width, last.x + last.width)
-        if (right - left < 3f) {
-            phase = ArcadePhase.Over
+        val start = if (axis == 0) last.x else last.z
+        val span = if (axis == 0) last.width else last.depth
+        val left = maxOf(x, start)
+        val right = minOf(x + span, start + span)
+        val overlap = right - left
+        val perfect = abs(x - start) <= minOf(2.8f, span * 0.18f)
+        if (!perfect) {
+            val cutStart = if (overlap < 3f) x else if (x < start) x else right
+            val cutSize = if (overlap < 3f) span else span - overlap
+            pieces += StackPiece(
+                x = if (axis == 0) cutStart else last.x,
+                z = if (axis == 1) cutStart else last.z,
+                altitude = (last.level + 2) * BlockHeight,
+                width = if (axis == 0) cutSize else last.width,
+                depth = if (axis == 1) cutSize else last.depth,
+                level = last.level + 1,
+                axis = axis,
+                direction = if (x < start) -1 else 1
+            )
+        }
+        if (!perfect && overlap < 3f) {
+            missTime = 0.65f
             return
         }
-        val perfect = abs(x - last.x) <= 4f
         perfectStreak = if (perfect) perfectStreak + 1 else 0
-        val next = if (perfect) {
-            val restored = if (perfectStreak >= 3) 8f else 0f
-            val newWidth = minOf(last.width + restored, InitialBlockWidth)
-            StackBlock(
-                x = (last.x - (newWidth - last.width) / 2).coerceIn(0f, width - newWidth),
-                width = newWidth, level = score + 1, perfect = true
-            )
-        } else {
-            val cutX = if (x < last.x) x else right
-            pieces += StackPiece(
-                x = cutX,
-                altitude = (score + 2) * BlockHeight,
-                width = last.width - (right - left),
-                velocity = 0f,
-                direction = if (x < last.x) -1 else 1
-            )
-            StackBlock(x = left, width = right - left, level = score + 1, perfect = false)
-        }
+        val restored = if (perfect && perfectStreak % 3 == 0) 4f else 0f
+        val nextWidth = if (perfect) minOf(last.width + restored, InitialBlockWidth)
+        else if (axis == 0) overlap else last.width
+        val nextDepth = if (perfect) minOf(last.depth + restored, InitialBlockWidth)
+        else if (axis == 1) overlap else last.depth
+        val next = StackBlock(
+            x = if (perfect) (last.x - restored / 2f).coerceIn(0f, InitialBlockWidth - nextWidth)
+            else if (axis == 0) left else last.x,
+            z = if (perfect) (last.z - restored / 2f).coerceIn(0f, InitialBlockWidth - nextDepth)
+            else if (axis == 1) left else last.z,
+            width = nextWidth,
+            depth = nextDepth,
+            level = last.level + 1,
+            perfect = perfect
+        )
         if (perfect) flash = 1f
         blocks += next
         score++
-        cooldown = 0.13f
-        direction = if (score % 2 == 0) 1 else -1
-        x = if (direction > 0) 0f else width - next.width
+        cooldown = 0.16f
+        axis = 1 - axis
+        direction = if (score % 4 < 2) 1 else -1
+        x = (if (axis == 0) next.x else next.z) - direction * StackTravel
     }
 
     override fun advance(seconds: Float) {
         flash = (flash - seconds * 3f).coerceAtLeast(0f)
         cooldown = (cooldown - seconds).coerceAtLeast(0f)
-        val target = maxOf(0f, (score + 2) * BlockHeight - (height - topInset) * 0.58f)
-        camera += (target - camera) * minOf(1f, seconds * 8f)
-        val edge = width - blocks.last().width
-        if (cooldown == 0f) {
-            x += direction * (145f + score.coerceAtMost(50) * 5f) * seconds
-            if (x <= 0f || x >= edge) {
-                x = x.coerceIn(0f, edge)
-                direction = if (x == 0f) 1 else -1
-            }
+        val targetY = topInset + (height - topInset) * 0.44f
+        val target = maxOf(
+            0f, (score + 2) * BlockHeight -
+                    (height - 22f - InitialBlockWidth * 0.5f * unit - targetY) / unit
+        )
+        val follow = 1f - exp(-seconds * 8f)
+        camera += (target - camera) * follow
+        val top = blocks.last()
+        cameraX += (top.x + top.width / 2f - cameraX) * follow
+        cameraZ += (top.z + top.depth / 2f - cameraZ) * follow
+        for (piece in pieces) {
+            piece.velocity += 680f * seconds
+            piece.altitude -= piece.velocity * seconds
+            if (piece.axis == 0) piece.x += piece.direction * 42f * seconds
+            else piece.z += piece.direction * 42f * seconds
+            piece.tilt += piece.direction * seconds * 45f
         }
-        pieces.forEach {
-            it.velocity += 760f * seconds
-            it.altitude -= it.velocity * seconds
-            it.x += it.direction * 45f * seconds
+        pieces.removeAll { it.altitude < camera - 160f }
+        blocks.removeAll { (it.level + 1) * BlockHeight < camera - 65f }
+        if (missTime > 0f) {
+            missTime = (missTime - seconds).coerceAtLeast(0f)
+            if (missTime == 0f) finish()
+            return
         }
-        pieces.removeAll { it.altitude < camera - 40f }
-        blocks.removeAll { (it.level + 1) * BlockHeight < camera - 40f }
-    }
-
-    override fun onResize(previous: Size) {
-        val shift = (width - previous.width) / 2
-        blocks.forEach { it.x = (it.x + shift).coerceIn(0f, width - it.width) }
-        pieces.forEach { it.x += shift }
-        x = (x + shift).coerceIn(0f, width - (blocks.lastOrNull()?.width ?: InitialBlockWidth))
+        val start = if (axis == 0) top.x else top.z
+        x += direction * (125f + 85f * (1f - exp(-score / 25f))) * seconds
+        if (x < start - StackTravel || x > start + StackTravel) {
+            x = x.coerceIn(start - StackTravel, start + StackTravel)
+            direction = -direction
+        }
     }
 }

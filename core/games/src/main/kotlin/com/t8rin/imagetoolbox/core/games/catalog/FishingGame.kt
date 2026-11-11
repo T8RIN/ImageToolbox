@@ -40,6 +40,7 @@ import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
 import com.t8rin.imagetoolbox.core.games.utils.arcadeLives
+import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Phishing
@@ -97,7 +98,7 @@ internal data object FishingGame : ArcadeGameDefinition {
                     val x = (index * 83f + 17f) % run.width
                     val depth = run.height - water - 12f
                     val y = water + depth - (index * 41f + run.time * 9f) % depth
-                    drawCircle(
+                    pixelCircle(
                         color = style.playerColor.copy(alpha = 0.15f),
                         radius = 1.5f + index % 2,
                         center = Offset(x = x, y = y),

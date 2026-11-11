@@ -19,7 +19,6 @@ package com.t8rin.imagetoolbox.core.games.catalog
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.drawscope.Stroke
@@ -35,9 +34,10 @@ import com.t8rin.imagetoolbox.core.games.ArcadeOffset
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
-import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
+import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
+import com.t8rin.imagetoolbox.core.games.utils.pixelPanel
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Brick
@@ -80,7 +80,7 @@ internal data object RicochetGame : ArcadeGameDefinition {
                 val radius = run.ballRadius
                 val rowHeight = run.rowHeight
                 for (row in 0..6) for (column in 0..6) {
-                    drawCircle(
+                    pixelCircle(
                         color = style.detailColor.copy(alpha = 0.2f),
                         radius = 1f,
                         center = run.origin + Offset(
@@ -96,12 +96,12 @@ internal data object RicochetGame : ArcadeGameDefinition {
                     )
                     val center = point + Offset(x = cell / 2f - 2f, y = rowHeight / 2f - 2f)
                     if (health == 0) {
-                        drawCircle(
+                        pixelCircle(
                             color = style.accentColor.copy(alpha = 0.14f),
                             radius = minOf(cell, rowHeight) * 0.28f,
                             center = center
                         )
-                        drawCircle(
+                        pixelCircle(
                             color = style.accentColor,
                             radius = minOf(cell, rowHeight) * 0.22f,
                             center = center,
@@ -122,25 +122,11 @@ internal data object RicochetGame : ArcadeGameDefinition {
                     } else {
                         val color =
                             if (health > run.ballCount) style.accentColor else style.obstacleColor
-                        drawRoundRect(
+                        pixelPanel(
                             color = color,
+                            ink = style.playerDetailColor,
                             topLeft = point,
-                            size = Size(width = cell - 4f, height = rowHeight - 4f),
-                            cornerRadius = CornerRadius(x = 3f)
-                        )
-                        drawRoundRect(
-                            color = color,
-                            topLeft = point,
-                            size = Size(width = cell - 4f, height = rowHeight - 4f),
-                            cornerRadius = CornerRadius(x = 3f),
-                            style = Stroke(width = 1.5f)
-                        )
-                        pixelRect(
-                            color = style.playerDetailColor.copy(alpha = 0.4f),
-                            x = point.x + 2f,
-                            y = point.y + 2f,
-                            width = cell - 8f,
-                            height = 1.5f
+                            size = Size(width = cell - 4f, height = rowHeight - 4f)
                         )
                         val label = measurer.measure(
                             health.toString(),
@@ -168,15 +154,26 @@ internal data object RicochetGame : ArcadeGameDefinition {
                 )
                 if (!run.flying) {
                     var point = Offset(x = run.launchX, y = run.launchY)
-                    repeat(18) { index ->
-                        point += run.direction * (rowHeight * 0.32f)
-                        if (point.x in (left + radius)..(left + cell * 7f - radius) && point.y > run.origin.y) {
-                            drawCircle(
-                                color = style.playerColor.copy(alpha = 0.55f * (1f - index / 20f)),
-                                radius = radius * 0.48f,
-                                center = point
-                            )
+                    var direction = run.direction
+                    val right = left + cell * 7f - radius
+                    repeat(24) { index ->
+                        point += direction * (rowHeight * 0.28f)
+                        if (point.x < left + radius) {
+                            point = point.copy(x = (left + radius) * 2f - point.x)
+                            direction = direction.copy(x = -direction.x)
+                        } else if (point.x > right) {
+                            point = point.copy(x = right * 2f - point.x)
+                            direction = direction.copy(x = -direction.x)
                         }
+                        if (point.y < run.origin.y + radius) {
+                            point = point.copy(y = (run.origin.y + radius) * 2f - point.y)
+                            direction = direction.copy(y = -direction.y)
+                        }
+                        if (point.y <= run.launchY) pixelCircle(
+                            color = style.playerColor.copy(alpha = 0.6f * (1f - index / 26f)),
+                            radius = radius * 0.48f,
+                            center = point
+                        )
                     }
                 }
                 for ((x, y, vx, vy) in run.balls) {
@@ -186,13 +183,13 @@ internal data object RicochetGame : ArcadeGameDefinition {
                         end = Offset(x = x, y = y),
                         strokeWidth = radius * 1.5f
                     )
-                    drawCircle(
+                    pixelCircle(
                         color = style.playerColor,
                         radius = radius,
                         center = Offset(x = x, y = y)
                     )
                 }
-                drawCircle(
+                pixelCircle(
                     color = style.playerColor,
                     radius = radius * 1.3f,
                     center = Offset(x = run.launchX, y = run.launchY)

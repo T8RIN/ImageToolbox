@@ -40,6 +40,7 @@ import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
 import com.t8rin.imagetoolbox.core.games.utils.arcadeAngle
 import com.t8rin.imagetoolbox.core.games.utils.arcadeAngleDistance
+import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.TrackChanges
@@ -113,36 +114,36 @@ internal data object BladeTossGame : ArcadeGameDefinition {
                         )
                     }
                 } else {
-                    drawCircle(
+                    pixelCircle(
                         color = style.detailColor.copy(alpha = 0.2f),
                         radius = radius + 3f,
                         center = center + Offset(x = 0f, y = 3f)
                     )
-                    drawCircle(
+                    pixelCircle(
                         color = style.obstacleColor,
                         radius = radius,
                         center = center
                     )
                     rotate(degrees = run.angle, pivot = center) {
-                        drawCircle(
+                        pixelCircle(
                             color = style.playerDetailColor.copy(alpha = 0.35f),
                             radius = radius - 5f,
                             center = center,
                             style = Stroke(width = 1.5f)
                         )
-                        drawCircle(
+                        pixelCircle(
                             color = style.playerDetailColor.copy(alpha = 0.25f),
                             radius = radius * 0.62f,
                             center = center + Offset(x = 3f, y = -2f),
                             style = Stroke(width = 2f)
                         )
-                        drawCircle(
+                        pixelCircle(
                             color = style.playerDetailColor.copy(alpha = 0.25f),
                             radius = radius * 0.31f,
                             center = center + Offset(x = 4f, y = -3f),
                             style = Stroke(width = 1f)
                         )
-                        drawCircle(
+                        pixelCircle(
                             color = style.playerDetailColor.copy(alpha = 0.3f),
                             radius = 3f,
                             center = center + Offset(x = 5f, y = -4f)

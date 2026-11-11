@@ -21,7 +21,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.drawscope.translate
@@ -256,7 +255,7 @@ internal data object RiverHopGame : ArcadeGameDefinition {
                                     if (truck) listOf(0.14f, 0.3f, 0.78f) else listOf(0.18f, 0.76f)
                                 for (axle in axles) {
                                     pixelRect(
-                                        color = Color.Black.copy(alpha = 0.65f),
+                                        color = style.overlayColor.copy(alpha = 0.65f),
                                         x = x + length * axle,
                                         y = top - 3f,
                                         width = length * 0.1f,

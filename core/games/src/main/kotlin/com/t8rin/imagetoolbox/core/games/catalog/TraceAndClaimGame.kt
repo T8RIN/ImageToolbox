@@ -22,10 +22,8 @@ import android.graphics.PathMeasure
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.geometry.isFinite
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Matrix
@@ -39,11 +37,13 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.addSvg
 import androidx.compose.ui.graphics.asAndroidPath
+import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.clipPath
+import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.drawscope.translate
-import androidx.compose.ui.graphics.luminance
+import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.graphics.toSvg
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
 import com.t8rin.imagetoolbox.core.games.ArcadeField
@@ -51,7 +51,11 @@ import com.t8rin.imagetoolbox.core.games.ArcadeGameContext
 import com.t8rin.imagetoolbox.core.games.ArcadeGameDefinition
 import com.t8rin.imagetoolbox.core.games.ArcadeOffset
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
+import com.t8rin.imagetoolbox.core.games.ArcadeSprite
+import com.t8rin.imagetoolbox.core.games.ArcadeStyle
 import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
+import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
+import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.arcadeJoystick
 import com.t8rin.imagetoolbox.core.games.utils.arcadeLives
@@ -90,19 +94,11 @@ internal data object TraceAndClaimGame : ArcadeGameDefinition {
         )
         val trail = remember { Path() }
         val arena = remember { Path() }
-        val dark = style.textColor.luminance() > 0.5f
-        val colors = remember(style.playerColor, dark) {
-            if (dark) {
-                listOf(
-                    style.playerColor, Color(0xFFFF8980), Color(0xFFFFC168), Color(0xFF60D5A7),
-                    Color(0xFF6BCCFF), Color(0xFFF18FC6), Color(0xFFB2CE73)
-                )
-            } else {
-                listOf(
-                    style.playerColor, Color(0xFFBA3C38), Color(0xFFAE6700), Color(0xFF008456),
-                    Color(0xFF087EAA), Color(0xFFAA3D84), Color(0xFF607A18)
-                )
-            }
+        val colors = remember(style.playerColor) {
+            listOf(
+                style.playerColor, Color(0xFFFF8980), Color(0xFFFFC168), Color(0xFF60D5A7),
+                Color(0xFF6BCCFF), Color(0xFFF18FC6), Color(0xFFB2CE73)
+            ).map { lerp(it, style.playerColor, 0.2f) }
         }
 
         ArcadeBoard(
@@ -148,6 +144,11 @@ internal data object TraceAndClaimGame : ArcadeGameDefinition {
                                         alpha = if (rider === player) 0.68f else 0.51f
                                     )
                                 )
+                                drawPath(
+                                    path = rider.land.path,
+                                    color = colors[rider.id - 1].copy(alpha = 0.8f),
+                                    style = Stroke(0.12f)
+                                )
                             }
                             drawPoints(
                                 points = TraceDots,
@@ -172,18 +173,15 @@ internal data object TraceAndClaimGame : ArcadeGameDefinition {
                                         )
                                     )
                                 }
-                                val size = if (rider === player) 0.97f else 0.88f
-                                drawRoundRect(
-                                    color = tint,
-                                    topLeft = point - Offset(size, size),
-                                    size = Size(size * 2f, size * 2f),
-                                    cornerRadius = CornerRadius(size * 0.46f)
-                                )
                                 val direction = if (rider === player) run.heading else rider.heading
-                                drawCircle(
-                                    color = if (rider === player) style.playerDetailColor else Color.White,
-                                    radius = size * 0.29f,
-                                    center = point + direction * (size * 0.36f)
+                                drawTraceScout(
+                                    style = style,
+                                    color = tint,
+                                    point = point,
+                                    direction = direction,
+                                    radius = if (rider === player) 1.05f else 0.95f,
+                                    kind = rider.id,
+                                    step = if (direction == Offset.Zero || (run.frame / 12 + rider.id) % 2 == 0) 0f else 1f
                                 )
                             }
                         }
@@ -218,6 +216,60 @@ internal data object TraceAndClaimGame : ArcadeGameDefinition {
         }
     }
 }
+
+private fun DrawScope.drawTraceScout(
+    style: ArcadeStyle,
+    color: Color,
+    point: Offset,
+    direction: Offset,
+    radius: Float,
+    kind: Int,
+    step: Float
+) {
+    rotate(degrees = atan2(direction.y, direction.x) * 180f / PI.toFloat(), pivot = point) {
+        translate(left = point.x - radius, top = point.y - radius) {
+            scale(scale = radius / 8f, pivot = Offset.Zero) {
+                val ink = style.playerDetailColor
+                for (x in listOf(3f, 7f, 11f)) {
+                    val offset = if (x == 7f) 1f - step else step
+                    pixelRect(ink, x, 1f - offset, 2f, 4f)
+                    pixelRect(ink, x + 1f, 12f + offset, 2f, 4f)
+                }
+                drawArcadeSprite(TraceScout, ink.copy(alpha = 0.4f), 0f, 1f)
+                drawArcadeSprite(TraceScout, color, 0f, 0f)
+                drawArcadeSprite(TraceScoutShade, lerp(color, ink, 0.35f), 0f, 0f)
+                pixelRect(lerp(color, style.obstacleColor, 0.6f), 4f, 4f, 5f, 2f)
+                repeat((kind - 1) % 3 + 1) { index ->
+                    pixelRect(
+                        ink.copy(alpha = 0.5f),
+                        3f + index * 2f,
+                        8f,
+                        1f,
+                        3f
+                    )
+                }
+                drawArcadeSprite(TraceScoutEyes, style.textColor, 0f, 0f)
+                pixelRect(ink, 13f, 4f, 1f, 2f)
+                pixelRect(ink, 13f, 10f, 1f, 2f)
+                pixelRect(color, 15f, 2f, 2f, 1f)
+                pixelRect(color, 15f, 13f, 2f, 1f)
+            }
+        }
+    }
+}
+
+private val TraceScout = ArcadeSprite(
+    width = 16, height = 16,
+    data = "M4 2H9V3H12V4H14V6H16V10H14V12H12V13H9V14H4V13H2V11H1V5H2V3H4Z"
+)
+private val TraceScoutShade = ArcadeSprite(
+    width = 16, height = 16,
+    data = "M14 7H16V10H14V12H12V13H9V14H4V13H2V11H9V12H12V10H14Z"
+)
+private val TraceScoutEyes = ArcadeSprite(
+    width = 16, height = 16,
+    data = "M11 3H14V7H11Z M11 9H14V13H11Z"
+)
 
 private const val TraceSize = 96f
 private const val TraceRiders = 7

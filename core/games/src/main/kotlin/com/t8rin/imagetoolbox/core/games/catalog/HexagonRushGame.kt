@@ -29,9 +29,12 @@ import com.t8rin.imagetoolbox.core.games.ArcadeGameContext
 import com.t8rin.imagetoolbox.core.games.ArcadeGameDefinition
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
+import com.t8rin.imagetoolbox.core.games.ArcadeSprite
 import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
+import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
+import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Hexagon
@@ -114,7 +117,7 @@ internal data object HexagonRushGame : ArcadeGameDefinition {
                         )
                     }
                 }
-                drawCircle(
+                pixelCircle(
                     color = style.detailColor.copy(alpha = 0.35f),
                     radius = extent * 0.46f,
                     center = center,
@@ -178,17 +181,18 @@ internal data object HexagonRushGame : ArcadeGameDefinition {
                     radius = 0.46f
                 )
                 rotate(degrees = run.angle * 180f / PI.toFloat() + 90f, pivot = player) {
-                    path.reset()
-                    path.moveTo(player.x, player.y - 7f)
-                    path.lineTo(player.x - 5.5f, player.y + 5f)
-                    path.lineTo(player.x + 5.5f, player.y + 5f)
-                    path.close()
-                    drawPath(path = path, color = style.playerColor)
+                    drawArcadeSprite(HexagonShip, style.playerColor, player.x - 5f, player.y - 7f)
+                    pixelRect(style.playerDetailColor, player.x - 1f, player.y - 1f, 2f, 3f)
                 }
             }
         }
     }
 }
+
+private val HexagonShip = ArcadeSprite(
+    width = 10, height = 12,
+    data = "M4 0H6V3H8V6H10V12H7V10H3V12H0V6H2V3H4Z"
+)
 
 @Serializable
 private data class RimWall(

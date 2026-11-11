@@ -40,6 +40,7 @@ import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
+import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.SwapVerticalCircle
@@ -218,7 +219,7 @@ internal data object GravityFlipGame : ArcadeGameDefinition {
                         lineTo(center.x - 5f, center.y)
                         close()
                     }
-                    drawCircle(
+                    pixelCircle(
                         color = style.accentColor.copy(alpha = 0.13f),
                         radius = 10f,
                         center = center
@@ -239,7 +240,7 @@ internal data object GravityFlipGame : ArcadeGameDefinition {
                         strokeWidth = run.radius * (0.15f + index * 0.035f)
                     )
                 }
-                if (run.shield) drawCircle(
+                if (run.shield) pixelCircle(
                     color = style.accentColor,
                     radius = run.radius + 5f,
                     center = center,

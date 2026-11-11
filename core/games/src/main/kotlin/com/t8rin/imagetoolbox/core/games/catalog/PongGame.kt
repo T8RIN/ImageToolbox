@@ -31,11 +31,14 @@ import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
+import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
+import com.t8rin.imagetoolbox.core.games.utils.pixelPanel
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.SportsTennis
 import kotlinx.serialization.Serializable
 import kotlin.math.abs
+import kotlin.math.sin
 import kotlin.random.Random
 
 @RegisterArcadeGame
@@ -88,19 +91,17 @@ internal data object PongGame : ArcadeGameDefinition {
                     width = run.width,
                     height = 1f
                 )
-                pixelRect(
-                    color = style.playerColor,
-                    x = PaddleEdge - 7,
-                    y = run.playerY - run.paddleHalf,
-                    width = 7f,
-                    height = run.paddleHalf * 2
+                pixelPanel(
+                    style.playerColor,
+                    style.playerDetailColor,
+                    Offset(PaddleEdge - 7f, run.playerY - run.paddleHalf),
+                    Size(7f, run.paddleHalf * 2f)
                 )
-                pixelRect(
-                    color = style.obstacleColor,
-                    x = run.width - PaddleEdge,
-                    y = run.rivalY - run.paddleHalf,
-                    width = 7f,
-                    height = run.paddleHalf * 2
+                pixelPanel(
+                    style.obstacleColor,
+                    style.playerDetailColor,
+                    Offset(run.width - PaddleEdge, run.rivalY - run.paddleHalf),
+                    Size(7f, run.paddleHalf * 2f)
                 )
                 run.trail.forEachIndexed { index, point ->
                     val side = 3f + index * 0.8f
@@ -112,12 +113,13 @@ internal data object PongGame : ArcadeGameDefinition {
                         height = side
                     )
                 }
+                pixelCircle(style.accentColor, BallHalf, Offset(run.ballX, run.ballY))
                 pixelRect(
-                    color = style.accentColor,
-                    x = run.ballX - BallHalf,
-                    y = run.ballY - BallHalf,
-                    width = BallHalf * 2,
-                    height = BallHalf * 2
+                    style.playerDetailColor.copy(alpha = 0.45f),
+                    run.ballX - 2f,
+                    run.ballY - 3f,
+                    2f,
+                    2f
                 )
             }
         }
@@ -172,13 +174,23 @@ private class PongRun : ArcadeRun() {
     }
 
     override fun advance(seconds: Float) {
-        playerY += (targetY - playerY).coerceIn(-650f * seconds, 650f * seconds)
+        val motion = (targetY - playerY).coerceIn(-650f * seconds, 650f * seconds)
+        playerY += motion
         reaction -= seconds
         if (reaction <= 0f) {
-            rivalTarget = if (velocityX > 0) ballY else (top + bottom) / 2
-            reaction = 0.16f
+            rivalTarget = if (velocityX > 0f) {
+                val span = bottom - top - BallHalf * 2f
+                val travel = (width - PaddleEdge - BallHalf - ballX) / velocityX
+                val predicted = ballY + velocityY * travel - top - BallHalf
+                val folded = ((predicted % (span * 2f)) + span * 2f) % (span * 2f)
+                top + BallHalf + (if (folded < span) folded else span * 2f - folded) +
+                        sin(score * 0.91f + ballX * 0.02f) * paddleHalf * 0.18f
+            } else (top + bottom) / 2f
+            reaction = (0.2f - score * 0.0015f).coerceAtLeast(0.11f)
         }
-        rivalY = (rivalY + (rivalTarget - rivalY).coerceIn(-205f * seconds, 205f * seconds))
+        val rivalSpeed = (205f + score * 2f).coerceAtMost(310f)
+        rivalY =
+            (rivalY + (rivalTarget - rivalY).coerceIn(-rivalSpeed * seconds, rivalSpeed * seconds))
             .coerceIn(top + paddleHalf, bottom - paddleHalf)
         if (serveDelay > 0f) {
             serveDelay -= seconds
@@ -200,7 +212,8 @@ private class PongRun : ArcadeRun() {
                 ballX = PaddleEdge + BallHalf
                 bounce(
                     paddleY = playerY,
-                    direction = 1
+                    direction = 1,
+                    spin = motion / seconds.coerceAtLeast(0.0001f) * 0.16f
                 )
                 score++
             }
@@ -232,11 +245,12 @@ private class PongRun : ArcadeRun() {
 
     private fun bounce(
         paddleY: Float,
-        direction: Int
+        direction: Int,
+        spin: Float = 0f
     ) {
         velocityX = (abs(velocityX) + 18f).coerceAtMost(620f) * direction
         val offset = ((ballY - paddleY) / paddleHalf).coerceIn(-1f, 1f)
-        velocityY = offset * minOf(370f, abs(velocityX) * 0.85f)
+        velocityY = (offset * minOf(370f, abs(velocityX) * 0.85f) + spin).coerceIn(-420f, 420f)
         if (abs(velocityY) < 35f) velocityY = if (velocityY < 0) -35f else 35f
     }
 

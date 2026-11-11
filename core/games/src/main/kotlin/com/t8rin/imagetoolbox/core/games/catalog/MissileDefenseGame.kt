@@ -36,6 +36,7 @@ import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
 import com.t8rin.imagetoolbox.core.games.utils.arcadeStars
+import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Shield
@@ -150,12 +151,12 @@ internal data object MissileDefenseGame : ArcadeGameDefinition {
                         end = point,
                         strokeWidth = 1f
                     )
-                    drawCircle(
+                    pixelCircle(
                         color = style.hazardColor.copy(alpha = 0.15f),
                         radius = 6f,
                         center = point
                     )
-                    drawCircle(
+                    pixelCircle(
                         color = style.hazardColor,
                         radius = 2.5f,
                         center = point
@@ -169,7 +170,7 @@ internal data object MissileDefenseGame : ArcadeGameDefinition {
                         end = point,
                         strokeWidth = 1f
                     )
-                    drawCircle(
+                    pixelCircle(
                         color = style.playerColor,
                         radius = 2.5f,
                         center = point
@@ -192,18 +193,18 @@ internal data object MissileDefenseGame : ArcadeGameDefinition {
                     val radius = blast.radius * run.blastSize
                     val point = Offset(x = blast.x, y = blast.y)
                     val color = if (blast.chain) style.accentColor else style.playerColor
-                    drawCircle(
+                    pixelCircle(
                         color = color.copy(alpha = 0.12f),
                         radius = radius,
                         center = point
                     )
-                    drawCircle(
+                    pixelCircle(
                         color = color,
                         radius = radius,
                         center = point,
                         style = Stroke(width = 1.5f)
                     )
-                    drawCircle(
+                    pixelCircle(
                         color = color.copy(alpha = 0.3f),
                         radius = radius * 0.72f,
                         center = point,

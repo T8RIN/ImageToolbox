@@ -42,6 +42,7 @@ import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
 import com.t8rin.imagetoolbox.core.games.utils.arcadeLives
 import com.t8rin.imagetoolbox.core.games.utils.arcadeStars
+import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Rocket
@@ -320,7 +321,7 @@ internal data object MoonLandingGame : ArcadeGameDefinition {
                         x = run.stick.x.coerceIn(-34f, 34f),
                         y = run.stick.y.coerceIn(-34f, 34f)
                     )
-                    drawCircle(
+                    pixelCircle(
                         color = style.detailColor.copy(alpha = 0.4f),
                         radius = 27f,
                         center = origin,
@@ -332,7 +333,7 @@ internal data object MoonLandingGame : ArcadeGameDefinition {
                         end = point,
                         strokeWidth = 2f
                     )
-                    drawCircle(
+                    pixelCircle(
                         color = style.accentColor.copy(alpha = 0.5f),
                         radius = 5f,
                         center = point

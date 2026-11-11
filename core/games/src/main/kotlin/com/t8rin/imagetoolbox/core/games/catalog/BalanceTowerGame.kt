@@ -40,6 +40,8 @@ import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
+import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
+import com.t8rin.imagetoolbox.core.games.utils.pixelPanel
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Balance
@@ -124,11 +126,11 @@ internal data object BalanceTowerGame : ArcadeGameDefinition {
                             style = Stroke(width = 1f)
                         )
                     } else {
-                        drawRoundRect(
-                            color = color.copy(alpha = 0.85f),
+                        pixelPanel(
+                            color = color,
+                            ink = style.playerDetailColor,
                             topLeft = point,
-                            size = size,
-                            cornerRadius = CornerRadius(x = unit * 2f)
+                            size = size
                         )
                         pixelRect(
                             color = style.playerDetailColor.copy(alpha = 0.18f),
@@ -137,7 +139,7 @@ internal data object BalanceTowerGame : ArcadeGameDefinition {
                             width = size.width - 6f * unit,
                             height = 2f * unit
                         )
-                        val frame = style.playerDetailColor.copy(alpha = 0.32f)
+                        val frame = style.playerDetailColor.copy(alpha = 0.48f)
                         for (end in listOf(point.x + 3f * unit, point.x + size.width - 5f * unit)) {
                             pixelRect(
                                 color = frame,
@@ -167,13 +169,13 @@ internal data object BalanceTowerGame : ArcadeGameDefinition {
                         val ballast =
                             run.project(load.x + load.offset, load.bottom + load.height / 2f)
                         pixelRect(
-                            color = style.playerDetailColor.copy(alpha = 0.38f),
+                            color = style.playerDetailColor.copy(alpha = 0.7f),
                             x = ballast.x - 7f * unit,
                             y = ballast.y - 4f * unit,
                             width = 14f * unit,
                             height = 8f * unit
                         )
-                        drawCircle(
+                        pixelCircle(
                             color = color,
                             radius = 2f * unit,
                             center = ballast
@@ -222,7 +224,26 @@ internal data object BalanceTowerGame : ArcadeGameDefinition {
                             y += 7f
                         }
                     }
-                    if (run.settle <= 0f) block(load)
+                    if (run.settle <= 0f) {
+                        if (!run.dropping) {
+                            val hook = run.project(load.x, load.bottom + load.height)
+                            pixelRect(
+                                style.detailColor,
+                                hook.x - unit,
+                                run.topInset,
+                                unit * 2f,
+                                (hook.y - run.topInset).coerceAtLeast(0f)
+                            )
+                            pixelRect(
+                                style.accentColor,
+                                hook.x - 4f * unit,
+                                hook.y - 3f * unit,
+                                8f * unit,
+                                3f * unit
+                            )
+                        }
+                        block(load)
+                    }
                     if (run.loads.isNotEmpty()) {
                         val mark = run.project(run.centerMass, run.stackTop + 7f)
                         val path = indicatorPath.apply {

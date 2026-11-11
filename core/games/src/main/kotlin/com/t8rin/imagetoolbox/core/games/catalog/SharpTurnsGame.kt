@@ -35,6 +35,7 @@ import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
 import com.t8rin.imagetoolbox.core.games.utils.arcadeStars
+import com.t8rin.imagetoolbox.core.games.utils.pixelGem
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.VectorPolyline
@@ -59,7 +60,6 @@ internal data object SharpTurnsGame : ArcadeGameDefinition {
         )
         val tilePath = remember { Path() }
         val edgePath = remember { Path() }
-        val gemPath = remember { Path() }
 
         ArcadeBoard(
             context = context,
@@ -124,28 +124,11 @@ internal data object SharpTurnsGame : ArcadeGameDefinition {
                     }
                     drawPath(path = face, color = lerp(style.playerDetailColor, tint, 0.4f))
                     if (hasGem) {
-                        val gem = gemPath.apply {
-                            rewind()
-                            moveTo(point.x, point.y - 12f)
-                            lineTo(point.x + 5f, point.y - 5f)
-                            lineTo(point.x, point.y + 2f)
-                            lineTo(point.x - 5f, point.y - 5f)
-                            close()
-                        }
-                        drawCircle(
-                            color = style.accentColor.copy(alpha = 0.12f),
-                            radius = 10f,
-                            center = point - Offset(x = 0f, y = 5f)
-                        )
-                        drawPath(
-                            path = gem,
-                            color = style.accentColor
-                        )
-                        drawLine(
-                            color = style.playerDetailColor.copy(alpha = 0.55f),
-                            start = point - Offset(x = 0f, y = 10f),
-                            end = point,
-                            strokeWidth = 1f
+                        pixelGem(
+                            color = style.accentColor,
+                            light = style.playerDetailColor,
+                            center = point - Offset(x = 0f, y = 5f),
+                            radius = 6.5f
                         )
                     }
                 }

@@ -41,6 +41,7 @@ import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
+import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Flight
@@ -202,6 +203,13 @@ internal data object AirTrafficGame : ArcadeGameDefinition {
                                 x = plane.point.x - sprite.width / 2f,
                                 y = plane.point.y - sprite.height / 2f
                             )
+                            pixelRect(
+                                color = style.playerDetailColor,
+                                x = plane.point.x - 1f,
+                                y = plane.point.y - if (plane.kind == 2) 7f else 9f,
+                                width = 2f,
+                                height = 4f
+                            )
                             if (plane.kind == 2) {
                                 val hub = plane.point - Offset(x = 0f, y = 3f)
                                 rotate(degrees = run.time * 900f, pivot = hub) {
@@ -249,7 +257,7 @@ internal data object AirTrafficGame : ArcadeGameDefinition {
                             cap = StrokeCap.Round
                         )
                     )
-                    drawCircle(
+                    pixelCircle(
                         color = color,
                         radius = 4f,
                         center = run.drawing.last(),

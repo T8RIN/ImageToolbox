@@ -19,7 +19,6 @@ package com.t8rin.imagetoolbox.core.games.catalog
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
@@ -38,6 +37,8 @@ import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
+import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
+import com.t8rin.imagetoolbox.core.games.utils.pixelPanel
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Neurology
@@ -125,25 +126,12 @@ internal data object SimonSaysGame : ArcadeGameDefinition {
                     val point =
                         origin + Offset(x = index % 2 * cell + 4f, y = index / 2 * cell + 4f)
                     val pad = Size(width = cell - 8f, height = cell - 8f)
-                    drawRoundRect(
-                        color = color.copy(alpha = if (active) 1f else 0.1f),
+                    pixelPanel(
+                        color = color.copy(alpha = if (active) 1f else if (run.accepting) 0.22f else 0.12f),
+                        ink = color,
                         topLeft = point,
                         size = pad,
-                        cornerRadius = CornerRadius(x = 4f)
-                    )
-                    drawRoundRect(
-                        color = color.copy(alpha = if (active || run.accepting) 0.8f else 0.3f),
-                        topLeft = point,
-                        size = pad,
-                        cornerRadius = CornerRadius(x = 4f),
-                        style = Stroke(width = if (active) 2f else 1f)
-                    )
-                    pixelRect(
-                        color = color.copy(alpha = if (active) 0.35f else 0.3f),
-                        x = point.x + 3f,
-                        y = point.y + pad.height - 4f,
-                        width = pad.width - 6f,
-                        height = 2f
+                        inset = active
                     )
                     val center = point + Offset(x = pad.width / 2f, y = pad.height / 2f)
                     val ink = if (active) style.playerDetailColor else color
@@ -160,7 +148,7 @@ internal data object SimonSaysGame : ArcadeGameDefinition {
                 val progress = if (run.accepting) run.input else run.playback
                 repeat(count) { index ->
                     val filled = index < (progress.toFloat() / run.sequence.size * count).toInt()
-                    drawCircle(
+                    pixelCircle(
                         color = if (filled) style.accentColor else style.detailColor.copy(alpha = 0.4f),
                         radius = 2.5f,
                         center = Offset(
@@ -182,7 +170,7 @@ private fun DrawScope.drawSimonSymbol(
     stroke: Float
 ) {
     when (index) {
-        0 -> drawCircle(
+        0 -> pixelCircle(
             color = color,
             radius = radius,
             center = center,

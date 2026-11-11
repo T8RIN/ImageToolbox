@@ -37,6 +37,7 @@ import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
+import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Route
@@ -126,8 +127,8 @@ internal data object FlowConnectGame : ArcadeGameDefinition {
                             color = color.copy(alpha = 0.12f),
                             style = Stroke(
                                 width = cell * 0.45f,
-                                cap = StrokeCap.Round,
-                                join = StrokeJoin.Round
+                                cap = StrokeCap.Square,
+                                join = StrokeJoin.Miter
                             )
                         )
                         drawPath(
@@ -135,11 +136,11 @@ internal data object FlowConnectGame : ArcadeGameDefinition {
                             color = color.copy(alpha = if (run.connected(kind)) 0.9f else 0.6f),
                             style = Stroke(
                                 width = cell * 0.22f,
-                                cap = StrokeCap.Round,
-                                join = StrokeJoin.Round
+                                cap = StrokeCap.Square,
+                                join = StrokeJoin.Miter
                             )
                         )
-                        if (kind == run.active) drawCircle(
+                        if (kind == run.active) pixelCircle(
                             color = color.copy(alpha = 0.25f),
                             radius = cell * 0.32f,
                             center = run.center(points.last())
@@ -150,12 +151,12 @@ internal data object FlowConnectGame : ArcadeGameDefinition {
                     for (index in pair) {
                         val p = run.center(index)
                         val color = colors[kind]
-                        drawCircle(
+                        pixelCircle(
                             color = color.copy(alpha = 0.16f),
                             radius = cell * 0.34f,
                             center = p
                         )
-                        drawCircle(
+                        pixelCircle(
                             color = color,
                             radius = cell * 0.27f,
                             center = p
@@ -163,7 +164,7 @@ internal data object FlowConnectGame : ArcadeGameDefinition {
                         val r = cell * 0.1f
                         val ink = style.playerDetailColor
                         when (kind) {
-                            0 -> drawCircle(
+                            0 -> pixelCircle(
                                 color = ink,
                                 radius = r,
                                 center = p
@@ -198,7 +199,7 @@ internal data object FlowConnectGame : ArcadeGameDefinition {
                                 )
                             }
 
-                            else -> drawCircle(
+                            else -> pixelCircle(
                                 color = ink,
                                 radius = r * 1.3f,
                                 center = p,

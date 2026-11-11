@@ -30,7 +30,7 @@ import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.drawscope.translate
-import androidx.compose.ui.graphics.luminance
+import androidx.compose.ui.graphics.lerp
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
 import com.t8rin.imagetoolbox.core.games.ArcadeDeque
 import com.t8rin.imagetoolbox.core.games.ArcadeField
@@ -42,6 +42,7 @@ import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
 import com.t8rin.imagetoolbox.core.games.utils.arcadeAngle
 import com.t8rin.imagetoolbox.core.games.utils.arcadeStars
+import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.DonutLarge
@@ -69,13 +70,13 @@ internal data object TintAscentGame : ArcadeGameDefinition {
             startPlaying = context.initialState.isPlaying,
             create = ::TintAscentRun
         )
-        val dark = style.textColor.luminance() > 0.5f
-        val colors = remember(dark) {
-            if (dark) {
-                listOf(Color(0xFFFF709B), Color(0xFFFFCC66), Color(0xFF60DFCE), Color(0xFFAA9BFF))
-            } else {
-                listOf(Color(0xFFC92963), Color(0xFFAA6600), Color(0xFF008575), Color(0xFF6751C8))
-            }
+        val colors = remember(style.playerColor) {
+            listOf(
+                Color(0xFFFF709B),
+                Color(0xFFFFCC66),
+                Color(0xFF60DFCE),
+                Color(0xFFAA9BFF)
+            ).map { lerp(it, style.playerColor, 0.2f) }
         }
 
         ArcadeBoard(
@@ -95,8 +96,8 @@ internal data object TintAscentGame : ArcadeGameDefinition {
                     val span = run.height + 64f
                     val y = (index * span / 6f + drift * (0.12f + index % 3 * 0.08f)) % span - 32f
                     val tint = colors[index and 3]
-                    drawCircle(tint.copy(alpha = 0.10f), radius, Offset(x, y), style = Stroke(1f))
-                    drawCircle(tint.copy(alpha = 0.18f), 1.6f, Offset(x, y - radius))
+                    pixelCircle(tint.copy(alpha = 0.10f), radius, Offset(x, y), style = Stroke(1f))
+                    pixelCircle(tint.copy(alpha = 0.18f), 1.6f, Offset(x, y - radius))
                 }
                 translate(left = run.width / 2f, top = run.anchor + run.camera * run.unit) {
                     scale(scale = run.unit, pivot = Offset.Zero) {
@@ -117,7 +118,7 @@ internal data object TintAscentGame : ArcadeGameDefinition {
                             if (!gate.collected) {
                                 val pulse = 1f + 0.13f * sin(gate.angle * 3f * SwitchRadians)
                                 val point = Offset(0f, -gate.starY)
-                                drawCircle(
+                                pixelCircle(
                                     color = style.accentColor.copy(alpha = 0.12f),
                                     radius = 15f * pulse,
                                     center = point
@@ -141,7 +142,7 @@ internal data object TintAscentGame : ArcadeGameDefinition {
                                         style = Stroke(2.8f)
                                     )
                                 }
-                                drawCircle(colors[gate.nextColor], 5f, center)
+                                pixelCircle(colors[gate.nextColor], 5f, center)
                             }
                         }
                         if (!run.launched) {
@@ -160,15 +161,19 @@ internal data object TintAscentGame : ArcadeGameDefinition {
                         val center = Offset(0f, -run.ball)
                         if (run.launched) {
                             repeat(3) { index ->
-                                drawCircle(
+                                pixelCircle(
                                     color = colors[run.color].copy(alpha = 0.16f - index * 0.04f),
                                     radius = SwitchBallRadius - index,
                                     center = center + Offset(0f, (index + 1) * run.velocity / 48f)
                                 )
                             }
                         }
-                        drawCircle(colors[run.color], SwitchBallRadius, center)
-                        drawCircle(Color.White.copy(alpha = 0.8f), 2f, center - Offset(2f, 2f))
+                        pixelCircle(colors[run.color], SwitchBallRadius, center)
+                        pixelCircle(
+                            style.playerDetailColor.copy(alpha = 0.8f),
+                            2f,
+                            center - Offset(2f, 2f)
+                        )
                     }
                 }
             }
@@ -257,12 +262,12 @@ private fun DrawScope.drawSwitchGate(gate: SwitchGate, colors: List<Color>, alph
                 useCenter = false,
                 topLeft = Offset(-radius, -radius),
                 size = Size(radius * 2f, radius * 2f),
-                style = Stroke(SwitchStroke, cap = StrokeCap.Round)
+                style = Stroke(SwitchStroke, cap = StrokeCap.Butt)
             )
         }
 
         SwitchGateKind.Pulse -> gate.forEachDot { color, point ->
-            drawCircle(colors[color].copy(alpha = alpha), SwitchDot, point)
+            pixelCircle(colors[color].copy(alpha = alpha), SwitchDot, point)
         }
 
         else -> {
@@ -272,13 +277,13 @@ private fun DrawScope.drawSwitchGate(gate: SwitchGate, colors: List<Color>, alph
                     start = start,
                     end = end,
                     strokeWidth = SwitchStroke,
-                    cap = StrokeCap.Round
+                    cap = StrokeCap.Butt
                 )
             }
             if (gate.kind == SwitchGateKind.Spinner || gate.kind == SwitchGateKind.TwinSpinner) {
-                drawCircle(colors[gate.colorOffset].copy(alpha = alpha), 6f, gate.hub)
+                pixelCircle(colors[gate.colorOffset].copy(alpha = alpha), 6f, gate.hub)
                 if (gate.kind == SwitchGateKind.TwinSpinner) {
-                    drawCircle(colors[gate.colorOffset].copy(alpha = alpha), 6f, -gate.hub)
+                    pixelCircle(colors[gate.colorOffset].copy(alpha = alpha), 6f, -gate.hub)
                 }
             }
         }

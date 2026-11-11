@@ -37,6 +37,7 @@ import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
+import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Flare
@@ -105,7 +106,7 @@ internal data object LaserMirrorsGame : ArcadeGameDefinition {
                             width = cell * 0.24f,
                             height = 2f
                         )
-                    } else if (run.board[index] == 0 && index !in run.targets) drawCircle(
+                    } else if (run.board[index] == 0 && index !in run.targets) pixelCircle(
                         color = style.detailColor.copy(alpha = 0.4f),
                         radius = 1f,
                         center = p
@@ -123,7 +124,7 @@ internal data object LaserMirrorsGame : ArcadeGameDefinition {
                     color = style.playerColor.copy(alpha = 0.09f),
                     style = Stroke(
                         width = 8f,
-                        cap = StrokeCap.Round
+                        cap = StrokeCap.Square
                     )
                 )
                 drawPath(
@@ -131,7 +132,7 @@ internal data object LaserMirrorsGame : ArcadeGameDefinition {
                     color = style.playerColor.copy(alpha = 0.3f),
                     style = Stroke(
                         width = 4f,
-                        cap = StrokeCap.Round
+                        cap = StrokeCap.Square
                     )
                 )
                 drawPath(
@@ -139,7 +140,7 @@ internal data object LaserMirrorsGame : ArcadeGameDefinition {
                     color = style.playerColor,
                     style = Stroke(
                         width = 1.5f,
-                        cap = StrokeCap.Round
+                        cap = StrokeCap.Square
                     )
                 )
                 pixelRect(
@@ -174,18 +175,18 @@ internal data object LaserMirrorsGame : ArcadeGameDefinition {
                     val p = run.center(target)
                     val lit = target in run.lit
                     val color = if (lit) style.accentColor else style.obstacleColor
-                    drawCircle(
+                    pixelCircle(
                         color = color.copy(alpha = if (lit) 0.18f else 0.06f),
                         radius = cell * 0.3f,
                         center = p
                     )
-                    drawCircle(
+                    pixelCircle(
                         color = color,
                         radius = cell * 0.21f,
                         center = p,
                         style = Stroke(width = 1.5f)
                     )
-                    drawCircle(
+                    pixelCircle(
                         color = color,
                         radius = cell * if (lit) 0.11f else 0.045f,
                         center = p
@@ -203,7 +204,7 @@ internal data object LaserMirrorsGame : ArcadeGameDefinition {
                 }
                 for (index in run.board.indices) if (run.board[index] in 1..2) {
                     val p = run.center(index)
-                    drawCircle(
+                    pixelCircle(
                         color = style.detailColor.copy(alpha = 0.12f),
                         radius = cell * 0.32f,
                         center = p
@@ -215,14 +216,14 @@ internal data object LaserMirrorsGame : ArcadeGameDefinition {
                             start = p - Offset(x = cell * 0.34f, y = 0f),
                             end = p + Offset(x = cell * 0.34f, y = 0f),
                             strokeWidth = 6f,
-                            cap = StrokeCap.Round
+                            cap = StrokeCap.Square
                         )
                         drawLine(
                             color = style.obstacleColor,
                             start = p - Offset(x = cell * 0.32f, y = 0f),
                             end = p + Offset(x = cell * 0.32f, y = 0f),
                             strokeWidth = 3f,
-                            cap = StrokeCap.Round
+                            cap = StrokeCap.Square
                         )
                         for (end in listOf(-1f, 1f)) {
                             pixelRect(
@@ -240,7 +241,7 @@ internal data object LaserMirrorsGame : ArcadeGameDefinition {
                             strokeWidth = 1f
                         )
                     }
-                    drawCircle(
+                    pixelCircle(
                         color = style.playerDetailColor,
                         radius = 1.5f,
                         center = p

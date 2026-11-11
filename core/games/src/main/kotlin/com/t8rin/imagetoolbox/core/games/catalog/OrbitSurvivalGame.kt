@@ -19,12 +19,14 @@ package com.t8rin.imagetoolbox.core.games.catalog
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.clipRect
 import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.drawscope.scale
+import androidx.compose.ui.graphics.lerp
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
 import com.t8rin.imagetoolbox.core.games.ArcadeDeque
 import com.t8rin.imagetoolbox.core.games.ArcadeField
@@ -39,6 +41,7 @@ import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
 import com.t8rin.imagetoolbox.core.games.utils.arcadeStars
+import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Orbit
@@ -83,13 +86,13 @@ internal data object OrbitSurvivalGame : ArcadeGameDefinition {
                 )
                 val center = run.center
                 val radius = run.radius
-                drawCircle(
+                pixelCircle(
                     color = style.detailColor.copy(alpha = 0.25f),
                     radius = radius,
                     center = center,
                     style = Stroke(width = 1f)
                 )
-                drawCircle(
+                pixelCircle(
                     color = style.playerColor.copy(alpha = run.pulse * 0.16f),
                     radius = radius * (1f + run.pulse * 0.15f),
                     center = center,
@@ -110,23 +113,66 @@ internal data object OrbitSurvivalGame : ArcadeGameDefinition {
                                             width = (right - left) * radius,
                                             height = radius * 0.22f
                                         )
-                                    drawRect(
+                                    val corner = CornerRadius(2f)
+                                    drawRoundRect(
+                                        color = lerp(
+                                            style.obstacleColor,
+                                            style.playerDetailColor,
+                                            0.28f
+                                        ),
+                                        topLeft = point + Offset(0f, 2f),
+                                        size = size,
+                                        cornerRadius = corner
+                                    )
+                                    drawRoundRect(
                                         color = style.obstacleColor,
                                         topLeft = point,
-                                        size = size
+                                        size = size,
+                                        cornerRadius = corner
+                                    )
+                                    drawRoundRect(
+                                        color = style.playerDetailColor.copy(alpha = 0.3f),
+                                        topLeft = point,
+                                        size = size,
+                                        cornerRadius = corner,
+                                        style = Stroke(1f)
                                     )
                                     pixelRect(
-                                        color = style.playerDetailColor.copy(alpha = 0.2f),
-                                        x = point.x + size.width - 2f,
-                                        y = point.y,
-                                        width = 2f,
-                                        height = size.height
+                                        style.playerDetailColor.copy(alpha = 0.22f),
+                                        point.x + 3f,
+                                        point.y + size.height - 3f,
+                                        size.width - 6f,
+                                        2f
                                     )
+                                    pixelRect(
+                                        style.textColor.copy(alpha = 0.24f),
+                                        point.x + 3f, point.y + 2f, size.width - 6f, 1f
+                                    )
+                                    val panels = (size.width / 27f).toInt().coerceAtLeast(1)
+                                    for (panel in 1 until panels) {
+                                        val seam = point.x + size.width * panel / panels
+                                        pixelRect(
+                                            style.playerDetailColor.copy(alpha = 0.22f),
+                                            seam,
+                                            point.y + 4f,
+                                            1f,
+                                            size.height - 8f
+                                        )
+                                    }
+                                    for (end in listOf(5f, size.width - 7f)) {
+                                        pixelRect(
+                                            style.playerDetailColor.copy(alpha = 0.45f),
+                                            point.x + end,
+                                            point.y + size.height / 2f - 1f,
+                                            2f,
+                                            2f
+                                        )
+                                    }
                                 }
                             } else {
                                 for (meteor in run.meteors(gate)) {
                                     val point = center + meteor * radius
-                                    drawCircle(
+                                    pixelCircle(
                                         color = style.hazardColor.copy(alpha = 0.13f),
                                         radius = radius * 0.32f,
                                         center = point
@@ -139,7 +185,7 @@ internal data object OrbitSurvivalGame : ArcadeGameDefinition {
                                             y = point.y - 16f
                                         )
                                     }
-                                    drawCircle(
+                                    pixelCircle(
                                         color = style.playerDetailColor.copy(alpha = 0.35f),
                                         radius = radius * 0.07f,
                                         center = point + Offset(
@@ -147,7 +193,7 @@ internal data object OrbitSurvivalGame : ArcadeGameDefinition {
                                             y = -radius * 0.07f
                                         )
                                     )
-                                    drawCircle(
+                                    pixelCircle(
                                         color = style.detailColor,
                                         radius = radius * 0.045f,
                                         center = point + Offset(
@@ -173,30 +219,30 @@ internal data object OrbitSurvivalGame : ArcadeGameDefinition {
                             x = cos(angle),
                             y = sin(angle)
                         ) * radius * side
-                        drawCircle(
+                        pixelCircle(
                             color = color.copy(alpha = (index + 1) * 0.025f),
                             radius = run.dotRadius * 0.75f,
                             center = point
                         )
                     }
                     val point = run.dot(side)
-                    drawCircle(
+                    pixelCircle(
                         color = color.copy(alpha = 0.14f),
                         radius = run.dotRadius * 1.8f,
                         center = point
                     )
-                    drawCircle(
+                    pixelCircle(
                         color = color,
                         radius = run.dotRadius,
                         center = point
                     )
-                    drawCircle(
+                    pixelCircle(
                         color = style.playerDetailColor.copy(alpha = 0.8f),
                         radius = run.dotRadius * 0.3f,
                         center = point - Offset(x = 1f, y = 1.5f)
                     )
                 }
-                drawCircle(
+                pixelCircle(
                     color = style.detailColor,
                     radius = 2f,
                     center = center

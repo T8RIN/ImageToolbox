@@ -24,8 +24,6 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.BlendMode
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.Stroke
@@ -72,12 +70,6 @@ internal data object TempleEscapeGame : ArcadeGameDefinition {
         )
         val fieldPaint = remember { Paint() }
         val wallPath = remember { Path() }
-        val fieldFade = remember {
-            Brush.verticalGradient(
-                colors = listOf(Color.Transparent, Color.Black),
-                endY = 1f
-            )
-        }
 
         ArcadeBoard(
             context = context,
@@ -371,10 +363,11 @@ internal data object TempleEscapeGame : ArcadeGameDefinition {
                         scope = this,
                         color = style.accentColor
                     )
-                    scale(scaleX = 1f, scaleY = run.topInset, pivot = Offset.Zero) {
+                    repeat(8) { band ->
                         drawRect(
-                            brush = fieldFade,
-                            size = Size(width = run.width, height = run.height / run.topInset),
+                            color = style.textColor.copy(alpha = band / 8f),
+                            topLeft = Offset(0f, run.topInset * band / 8f),
+                            size = Size(run.width, run.topInset / 8f),
                             blendMode = BlendMode.DstIn
                         )
                     }

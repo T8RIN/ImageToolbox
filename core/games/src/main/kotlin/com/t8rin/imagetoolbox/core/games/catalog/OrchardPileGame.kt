@@ -19,17 +19,23 @@ package com.t8rin.imagetoolbox.core.games.catalog
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Canvas
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.FilterQuality
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.Matrix
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.PathMeasure
 import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.asAndroidBitmap
+import androidx.compose.ui.graphics.drawscope.CanvasDrawScope
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.clipPath
@@ -37,7 +43,10 @@ import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.graphics.lerp
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.graphics.vector.PathParser
+import androidx.compose.ui.unit.Density
+import androidx.compose.ui.unit.LayoutDirection
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
 import com.t8rin.imagetoolbox.core.games.ArcadeCloud
 import com.t8rin.imagetoolbox.core.games.ArcadeField
@@ -71,6 +80,9 @@ internal data object OrchardPileGame : ArcadeGameDefinition {
     @Composable
     override fun Content(context: ArcadeGameContext, modifier: Modifier) {
         val style = context.style
+        val fruits = remember(style.playerColor) {
+            OrchardKind.entries.map { kind -> orchardSprite(kind, style.playerColor) }
+        }
         val run = rememberArcadeRun(
             startPlaying = context.initialState.isPlaying,
             create = ::OrchardPileRun
@@ -151,7 +163,11 @@ internal data object OrchardPileGame : ArcadeGameDefinition {
                                 end = Offset(run.aimX, floor),
                                 strokeWidth = 1.4f
                             )
-                            orchardFruit(kind, Offset(run.aimX, OrchardDrop), kind.radius)
+                            orchardFruit(
+                                fruits[kind.ordinal],
+                                Offset(run.aimX, OrchardDrop),
+                                kind.radius
+                            )
                         }
                         for (fruit in run.fruits) {
                             val kind = OrchardKind.entries[fruit.kind]
@@ -159,7 +175,11 @@ internal data object OrchardPileGame : ArcadeGameDefinition {
                                 degrees = fruit.angle,
                                 pivot = Offset(x = fruit.x, y = fruit.y)
                             ) {
-                                orchardFruit(kind, Offset(fruit.x, fruit.y), kind.radius)
+                                orchardFruit(
+                                    fruits[kind.ordinal],
+                                    Offset(fruit.x, fruit.y),
+                                    kind.radius
+                                )
                             }
                         }
                         run.effects.draw(
@@ -167,15 +187,19 @@ internal data object OrchardPileGame : ArcadeGameDefinition {
                             color = style.accentColor
                         )
 
-                        for ((index, kind) in OrchardKind.entries.withIndex()) {
+                        for ((index, _) in OrchardKind.entries.withIndex()) {
                             val radius = 4.6f + index * 0.22f
-                            orchardFruit(kind, Offset(12f + index * 20f, floor + 12f), radius)
+                            orchardFruit(
+                                fruits[index],
+                                Offset(12f + index * 20f, floor + 12f),
+                                radius
+                            )
                         }
                     }
                 }
                 val previewRadius = minOf(12f, run.topInset * 0.27f)
                 orchardFruit(
-                    kind = OrchardKind.entries[run.next],
+                    sprite = fruits[run.next],
                     center = Offset(15f + previewRadius, run.topInset / 2f),
                     radius = previewRadius
                 )
@@ -263,25 +287,88 @@ private enum class OrchardKind(
 
     val shape = PathParser().parsePathString(silhouette).toPath()
     val outline by lazy { OrchardOutline(shape, radius) }
+}
+
+private fun orchardSprite(kind: OrchardKind, primary: Color): ImageBitmap {
+    val image = ImageBitmap(width = 56, height = 72)
+    CanvasDrawScope().draw(
+        density = Density(1f),
+        layoutDirection = LayoutDirection.Ltr,
+        canvas = Canvas(image),
+        size = Size(56f, 72f)
+    ) {
+        drawOrchardFruit(kind, Offset(28f, 42f), 24f, primary)
+    }
+    val color = lerp(kind.color, primary, 0.2f)
+    val ink = lerp(OrchardInk, primary, 0.2f)
+    val palette = listOf(
+        color,
+        lerp(color, Color.White, 0.12f),
+        lerp(color, Color.White, 0.23f),
+        lerp(color, ink, 0.12f),
+        lerp(color, ink, 0.24f),
+        lerp(color, ink, 0.43f),
+        lerp(color, ink, 0.86f),
+        ink,
+        lerp(Color.White, primary, 0.2f),
+        lerp(Color(0xFF40864F), primary, 0.2f),
+        lerp(Color(0xFF367F49), primary, 0.2f),
+        lerp(Color(0xFFFFDF90), primary, 0.2f),
+        lerp(Color(0xFFCB5F75), primary, 0.2f),
+        lerp(Color(0xFFE8EBC3), primary, 0.2f),
+        lerp(color, Color(0xFFCA4E66), 0.35f)
+    ).map(Color::toArgb)
+    val bitmap = image.asAndroidBitmap()
+    val pixels = IntArray(bitmap.width * bitmap.height)
+    bitmap.getPixels(pixels, 0, bitmap.width, 0, 0, bitmap.width, bitmap.height)
+    for (index in pixels.indices) {
+        val pixel = pixels[index]
+        if (pixel ushr 24 < 128) {
+            pixels[index] = 0
+            continue
+        }
+        val red = pixel shr 16 and 255
+        val green = pixel shr 8 and 255
+        val blue = pixel and 255
+        pixels[index] = palette.minBy { candidate ->
+            val dr = red - (candidate shr 16 and 255)
+            val dg = green - (candidate shr 8 and 255)
+            val db = blue - (candidate and 255)
+            dr * dr + dg * dg + db * db
+        }
+    }
+    bitmap.setPixels(pixels, 0, bitmap.width, 0, 0, bitmap.width, bitmap.height)
+    return image
+}
+
+private fun DrawScope.orchardFruit(sprite: ImageBitmap, center: Offset, radius: Float) {
+    translate(left = center.x, top = center.y) {
+        scale(scale = radius / 24f, pivot = Offset.Zero) {
+            translate(left = -28f, top = -42f) {
+                drawImage(image = sprite, filterQuality = FilterQuality.None)
+            }
+        }
+    }
+}
+
+private fun DrawScope.drawOrchardFruit(
+    kind: OrchardKind,
+    center: Offset,
+    radius: Float,
+    primary: Color
+) {
+    val ink = lerp(OrchardInk, primary, 0.2f)
+    val leaf = lerp(Color(0xFF40864F), primary, 0.2f)
+    val color = lerp(kind.color, primary, 0.2f)
     val fill = Brush.linearGradient(
-        listOf(lerp(color, Color.White, 0.23f), color, lerp(color, OrchardInk, 0.24f)),
+        listOf(lerp(color, Color.White, 0.23f), color, lerp(color, ink, 0.24f)),
         start = Offset(-0.8f, -0.9f),
         end = Offset(0.8f, 0.94f)
     )
-    val border = lerp(color, OrchardInk, 0.43f)
-}
-
-private fun DrawScope.orchardFruit(
-    kind: OrchardKind,
-    center: Offset,
-    radius: Float
-) {
-    val ink = OrchardInk
-    val leaf = Color(0xFF40864F)
     translate(left = center.x, top = center.y) {
         scale(scale = radius, pivot = Offset.Zero) {
-            drawPath(kind.shape, kind.fill)
-            drawPath(kind.shape, kind.border, style = Stroke(0.085f))
+            drawPath(kind.shape, fill)
+            drawPath(kind.shape, lerp(color, ink, 0.43f), style = Stroke(0.085f))
             when (kind) {
                 OrchardKind.Cherry -> {
                     drawArc(
@@ -393,7 +480,7 @@ private fun DrawScope.orchardFruit(
             drawOval(Color.White.copy(alpha = 0.45f), Offset(-0.62f, -0.50f), Size(0.25f, 0.15f))
             if (radius >= 8f) {
                 drawCircle(Color.White.copy(alpha = 0.36f), 0.049f, Offset(-0.66f, -0.34f))
-                orchardFace(kind, lerp(kind.color, ink, 0.86f))
+                orchardFace(kind, lerp(color, ink, 0.86f))
             }
         }
     }
@@ -991,7 +1078,7 @@ private class OrchardCollider(private val outline: OrchardOutline) {
     fun rotate(degrees: Float) {
         if (angle == degrees) return
         angle = degrees
-        val radians = degrees * 0.017453293f
+        val radians = degrees * 0.017453292f
         cosine = cos(radians)
         sine = sin(radians)
         for (index in 0 until OrchardContourPoints) {
@@ -1043,7 +1130,7 @@ private class OrchardContact {
         var fromA = false
         for (index in 0 until OrchardContourPoints) {
             val vertex = a.vertex(index)
-            if (vertex.x < left || vertex.x > right || vertex.y < top || vertex.y > bottom) continue
+            if (vertex.x !in left..right || vertex.y < top || vertex.y > bottom) continue
             val distance = b.distance(vertex - delta)
             if (distance < separation) {
                 separation = distance
@@ -1053,7 +1140,7 @@ private class OrchardContact {
         }
         for (index in 0 until OrchardContourPoints) {
             val vertex = b.vertex(index) + delta
-            if (vertex.x < left || vertex.x > right || vertex.y < top || vertex.y > bottom) continue
+            if (vertex.x !in left..right || vertex.y < top || vertex.y > bottom) continue
             val distance = a.distance(vertex)
             if (distance < separation) {
                 separation = distance

@@ -38,6 +38,7 @@ import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
 import com.t8rin.imagetoolbox.core.games.utils.arcadeLives
 import com.t8rin.imagetoolbox.core.games.utils.arcadeStars
+import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Planet
@@ -137,7 +138,7 @@ internal data object SpaceRocksGame : ArcadeGameDefinition {
                         )
                     }
                     if (cooldown < 0.35f) {
-                        drawCircle(
+                        pixelCircle(
                             color = style.hazardColor.copy(alpha = 0.25f),
                             radius = 9f,
                             center = Offset(x = x, y = y + 10f)
@@ -225,7 +226,7 @@ internal data object SpaceRocksGame : ArcadeGameDefinition {
                     }
                 }
                 if (run.invincible > 0f) {
-                    drawCircle(
+                    pixelCircle(
                         color = style.playerColor.copy(alpha = 0.4f),
                         radius = 22f,
                         center = Offset(x = run.x, y = run.y),

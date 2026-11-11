@@ -44,6 +44,7 @@ import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
 import com.t8rin.imagetoolbox.core.games.utils.arcadeJoystick
 import com.t8rin.imagetoolbox.core.games.utils.arcadeLives
+import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Bomb
@@ -185,7 +186,7 @@ internal data object BomberGame : ArcadeGameDefinition {
                     }
                     for ((index, kind) in run.items) {
                         val p = run.center(index)
-                        drawCircle(
+                        pixelCircle(
                             color = style.accentColor.copy(alpha = 0.18f),
                             radius = cell * 0.32f,
                             center = p
@@ -206,7 +207,7 @@ internal data object BomberGame : ArcadeGameDefinition {
                                 height = cell * 0.4f
                             )
                         } else {
-                            drawCircle(
+                            pixelCircle(
                                 color = style.accentColor,
                                 radius = cell * 0.18f,
                                 center = p,
@@ -441,7 +442,7 @@ internal data object BomberGame : ArcadeGameDefinition {
                     val p = Offset(x = 83f + index * 13f, y = run.topInset / 2f)
                     val color =
                         style.accentColor.copy(alpha = if (index < run.capacity - run.bombs.size) 1f else 0.2f)
-                    drawCircle(
+                    pixelCircle(
                         color = color,
                         radius = 4f,
                         center = p

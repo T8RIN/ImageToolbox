@@ -42,6 +42,8 @@ import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
+import com.t8rin.imagetoolbox.core.games.utils.clipPixelCircle
+import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.SportsBasketball
@@ -169,7 +171,7 @@ internal data object BasketballGame : ArcadeGameDefinition {
                     }
                 }
                 run.trail.forEachIndexed { index, point ->
-                    drawCircle(
+                    pixelCircle(
                         color = (if (run.combo >= 3) style.accentColor else style.playerColor).copy(
                             alpha = index / 8f * 0.16f
                         ),
@@ -179,7 +181,7 @@ internal data object BasketballGame : ArcadeGameDefinition {
                 }
                 if (run.aiming) {
                     run.preview.forEachIndexed { index, point ->
-                        drawCircle(
+                        pixelCircle(
                             color = style.accentColor.copy(alpha = 0.7f - index * 0.012f),
                             radius = 1.7f * unit,
                             center = run.project(point)
@@ -213,40 +215,38 @@ private fun DrawScope.drawBasketballBall(
     val unit = run.unit
     val center = run.project(run.ball)
     val radius = run.radius * unit
-    rotate(degrees = run.spin, pivot = center) {
-        drawCircle(
-            color = style.playerColor,
-            radius = radius,
-            center = center
-        )
-        drawCircle(
-            color = style.playerDetailColor.copy(alpha = 0.5f),
-            radius = radius,
-            center = center,
-            style = Stroke(width = unit)
-        )
-        drawLine(
-            color = style.playerDetailColor.copy(alpha = 0.65f),
-            start = center - Offset(x = radius, y = 0f),
-            end = center + Offset(x = radius, y = 0f),
-            strokeWidth = unit
-        )
-        for (side in listOf(-1f, 1f)) {
-            val seam = Path().apply {
-                moveTo(center.x, center.y - radius)
-                cubicTo(
-                    center.x + side * radius * 0.9f, center.y - radius * 0.3f,
-                    center.x + side * radius * 0.9f, center.y + radius * 0.3f,
-                    center.x, center.y + radius
+    pixelCircle(color = style.playerColor, radius = radius, center = center)
+    clipPixelCircle(radius = radius, center = center) {
+        rotate(degrees = run.spin, pivot = center) {
+            drawLine(
+                color = style.playerDetailColor.copy(alpha = 0.65f),
+                start = center - Offset(x = radius, y = 0f),
+                end = center + Offset(x = radius, y = 0f),
+                strokeWidth = unit
+            )
+            for (side in listOf(-1f, 1f)) {
+                val seam = Path().apply {
+                    moveTo(center.x, center.y - radius)
+                    cubicTo(
+                        center.x + side * radius * 0.9f, center.y - radius * 0.3f,
+                        center.x + side * radius * 0.9f, center.y + radius * 0.3f,
+                        center.x, center.y + radius
+                    )
+                }
+                drawPath(
+                    path = seam,
+                    color = style.playerDetailColor.copy(alpha = 0.65f),
+                    style = Stroke(width = unit)
                 )
             }
-            drawPath(
-                path = seam,
-                color = style.playerDetailColor.copy(alpha = 0.65f),
-                style = Stroke(width = unit)
-            )
         }
     }
+    pixelCircle(
+        color = style.playerDetailColor.copy(alpha = 0.5f),
+        radius = radius,
+        center = center,
+        style = Stroke(width = unit)
+    )
 }
 
 @Serializable

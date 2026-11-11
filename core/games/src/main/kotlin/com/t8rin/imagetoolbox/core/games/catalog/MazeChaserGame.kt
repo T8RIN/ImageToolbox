@@ -28,6 +28,7 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.clipPath
+import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.drawscope.scale
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
 import com.t8rin.imagetoolbox.core.games.ArcadeField
@@ -38,9 +39,11 @@ import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.ArcadeSprite
 import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
+import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
 import com.t8rin.imagetoolbox.core.games.utils.arcadeLives
+import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Explore
@@ -128,17 +131,17 @@ internal data object MazeChaserGame : ArcadeGameDefinition {
                             if (run.dots[index] == 2) {
                                 val radius =
                                     cell * (0.19f + sin(run.time * 5f) * 0.025f)
-                                drawCircle(
+                                pixelCircle(
                                     color = style.accentColor.copy(alpha = 0.18f),
                                     radius = radius * 1.6f,
                                     center = center
                                 )
-                                drawCircle(
+                                pixelCircle(
                                     color = style.accentColor,
                                     radius = radius,
                                     center = center
                                 )
-                            } else drawCircle(
+                            } else pixelCircle(
                                 color = style.obstacleColor.copy(alpha = 0.8f),
                                 radius = cell * 0.065f,
                                 center = center
@@ -195,18 +198,24 @@ internal data object MazeChaserGame : ArcadeGameDefinition {
                     }
                     if (run.invulnerable <= 0f || run.time % 0.2f < 0.13f) {
                         val radius = cell * 0.36f
-                        val mouth = 12f + abs(
-                            sin(run.time * 13f)
-                        ) * 28f
                         val point = run.playerPoint
-                        drawArc(
-                            color = style.playerColor,
-                            startAngle = run.direction * 90f + mouth,
-                            sweepAngle = 360f - mouth * 2f,
-                            useCenter = true,
-                            topLeft = point - Offset(x = radius, y = radius),
-                            size = Size(width = radius * 2f, height = radius * 2f)
-                        )
+                        rotate(degrees = run.direction * 90f, pivot = point) {
+                            scale(scale = radius / 8f, pivot = point) {
+                                drawArcadeSprite(
+                                    sprite = if (abs(sin(run.time * 13f)) > 0.45f) MazePlayerOpen else MazePlayerClosed,
+                                    tint = style.playerColor,
+                                    x = point.x - 8f,
+                                    y = point.y - 8f
+                                )
+                                pixelRect(
+                                    color = style.playerDetailColor,
+                                    x = point.x + 1f,
+                                    y = point.y - 5f,
+                                    width = 2f,
+                                    height = 2f
+                                )
+                            }
+                        }
                     }
                     if (run.transition > 0f) drawRect(
                         color = style.accentColor.copy(alpha = run.transition * 0.12f),
@@ -234,6 +243,15 @@ internal data object MazeChaserGame : ArcadeGameDefinition {
         }
     }
 }
+
+private val MazePlayerOpen = ArcadeSprite(
+    width = 16, height = 16,
+    data = "M5 0H11V1H14V3H16V5H13V6H10V7H8V9H10V10H13V11H16V13H14V15H11V16H5V15H2V13H0V3H2V1H5Z"
+)
+private val MazePlayerClosed = ArcadeSprite(
+    width = 16, height = 16,
+    data = "M5 0H11V1H14V3H16V7H11V9H16V13H14V15H11V16H5V15H2V13H0V3H2V1H5Z"
+)
 
 private val MazeGhost = ArcadeSprite(
     width = 16,

@@ -25,6 +25,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.drawscope.scale
+import androidx.compose.ui.graphics.lerp
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
 import com.t8rin.imagetoolbox.core.games.ArcadeField
 import com.t8rin.imagetoolbox.core.games.ArcadeGameContext
@@ -127,7 +128,11 @@ internal data object RacerGame : ArcadeGameDefinition {
                         style = style,
                         x = run.laneX(lane = lane.toFloat()),
                         y = y,
-                        color = style.obstacleColor,
+                        color = lerp(
+                            style.obstacleColor,
+                            style.accentColor,
+                            if (kind == 1) 0.32f else if (kind == 2) 0.12f else 0f
+                        ),
                         kind = kind
                     )
                 }
@@ -266,9 +271,11 @@ private fun DrawScope.racingCar(
     }
     val left = x - sprite.width / 2f
     val top = y - sprite.height / 2f
+    val ink = style.overlayColor.copy(alpha = 1f)
+    drawArcadeSprite(sprite, ink.copy(alpha = 0.18f), left + 2f, top + 3f)
     drawArcadeSprite(
         sprite = if (kind == 2) RacingTruckTires else RacingTires,
-        tint = Color.Black.copy(alpha = 0.65f),
+        tint = ink.copy(alpha = 0.85f),
         x = left,
         y = top
     )
@@ -284,6 +291,8 @@ private fun DrawScope.racingCar(
         x = left,
         y = top
     )
+    pixelRect(style.hazardColor, left + 6f, top + sprite.height - 4f, 3f, 2f)
+    pixelRect(style.hazardColor, left + sprite.width - 9f, top + sprite.height - 4f, 3f, 2f)
     val trim = style.playerDetailColor.copy(alpha = 0.25f)
     if (kind == 2) {
         pixelRect(color = trim, x = left + 8f, y = top + 21f, width = 22f, height = 2f)
@@ -367,7 +376,8 @@ private class RacerRun : ArcadeRun() {
             val gap = if (lastGap == 1) {
                 if (Random.nextBoolean()) 0 else 2
             } else 1
-            val blocked = (0..2).filter { it != gap }
+            val options = (0..2).filter { it != gap }
+            val blocked = if (waves % 5 == 2) listOf(options.random()) else options
             var longest = 46f
             for (lane in blocked) {
                 val kind = if (waves >= 3 && Random.nextFloat() < 0.4f) 2 else Random.nextInt(2)

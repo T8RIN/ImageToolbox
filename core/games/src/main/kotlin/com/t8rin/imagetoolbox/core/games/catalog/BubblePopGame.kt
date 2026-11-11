@@ -36,6 +36,7 @@ import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
+import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.BubbleChart
@@ -76,18 +77,18 @@ internal data object BubblePopGame : ArcadeGameDefinition {
                     val x = ((index * 73 + index * index * 17 + 7) % 347) / 347f * run.width
                     val y = ((index * 113 + index * index * 29 + 31) % 431) / 431f * run.height
                     val color = if (index % 2 == 0) style.playerColor else style.accentColor
-                    drawCircle(
+                    pixelCircle(
                         color = color.copy(alpha = 0.025f),
                         radius = radius,
                         center = Offset(x = x, y = y)
                     )
-                    drawCircle(
+                    pixelCircle(
                         color = color.copy(alpha = 0.09f),
                         radius = radius,
                         center = Offset(x = x, y = y),
                         style = Stroke(width = 1f)
                     )
-                    drawCircle(
+                    pixelCircle(
                         color = color.copy(alpha = 0.1f),
                         radius = 1.5f,
                         center = Offset(x = x + radius + 6f, y = y - radius * 0.4f)
@@ -127,7 +128,7 @@ internal data object BubblePopGame : ArcadeGameDefinition {
                         )
                     }
                     for ((point, life) in run.bursts) {
-                        drawCircle(
+                        pixelCircle(
                             color = style.accentColor.copy(alpha = life * 2f),
                             radius = cell * (0.7f - life * 0.5f),
                             center = point,
@@ -156,38 +157,34 @@ private fun DrawScope.drawBubble(
         2 -> style.obstacleColor
         else -> style.textColor
     }
-    drawCircle(
+    pixelCircle(
         color = color.copy(alpha = 0.24f),
         radius = radius,
         center = point
     )
-    drawCircle(
+    pixelCircle(
         color = color,
         radius = radius,
         center = point,
         style = Stroke(width = 1.8f)
     )
-    drawArc(
-        color = color.copy(alpha = 0.55f),
-        startAngle = 205f,
-        sweepAngle = 55f,
-        useCenter = false,
-        topLeft = point - Offset(x = radius * 0.68f, y = radius * 0.68f),
-        size = Size(width = radius * 1.36f, height = radius * 1.36f),
-        style = Stroke(width = 1.5f)
+    pixelRect(
+        color = color.copy(alpha = 0.7f),
+        x = point.x - radius * 0.45f,
+        y = point.y - radius * 0.65f,
+        width = radius * 0.5f,
+        height = 2f
     )
-    drawArc(
-        color = color.copy(alpha = 0.25f),
-        startAngle = 25f,
-        sweepAngle = 70f,
-        useCenter = false,
-        topLeft = point - Offset(x = radius * 0.83f, y = radius * 0.83f),
-        size = Size(width = radius * 1.66f, height = radius * 1.66f),
-        style = Stroke(width = radius * 0.12f)
+    pixelRect(
+        color = color.copy(alpha = 0.7f),
+        x = point.x - radius * 0.65f,
+        y = point.y - radius * 0.45f,
+        width = 2f,
+        height = radius * 0.3f
     )
     val r = radius * 0.25f
     when (kind) {
-        0 -> drawCircle(
+        0 -> pixelCircle(
             color = color,
             radius = r,
             center = point

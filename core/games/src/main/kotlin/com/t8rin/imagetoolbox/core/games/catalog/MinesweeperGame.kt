@@ -19,13 +19,12 @@ package com.t8rin.imagetoolbox.core.games.catalog
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.DrawScope
-import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.drawscope.scale
+import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.rememberTextMeasurer
@@ -37,9 +36,12 @@ import com.t8rin.imagetoolbox.core.games.ArcadeGameContext
 import com.t8rin.imagetoolbox.core.games.ArcadeGameDefinition
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
+import com.t8rin.imagetoolbox.core.games.ArcadeSprite
 import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
-import com.t8rin.imagetoolbox.core.games.pixelRect
+import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
+import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
+import com.t8rin.imagetoolbox.core.games.utils.pixelPanel
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Flag
@@ -85,44 +87,51 @@ internal data object MinesweeperGame : ArcadeGameDefinition {
                     val mine =
                         run.board[index] == -1 && (opened || run.phase == ArcadePhase.Over)
                     val color = when {
-                        index == run.exploded -> style.hazardColor.copy(alpha = 0.3f)
-                        run.transition > 0f -> style.accentColor.copy(alpha = 0.2f)
-                        opened -> style.detailColor.copy(alpha = 0.05f)
-                        else -> style.playerColor.copy(alpha = 0.14f)
+                        index == run.exploded -> lerp(
+                            style.playerDetailColor,
+                            style.hazardColor,
+                            0.55f
+                        )
+
+                        run.transition > 0f -> lerp(
+                            style.playerDetailColor,
+                            style.accentColor,
+                            0.35f
+                        )
+
+                        opened -> style.playerDetailColor
+                        else -> lerp(style.playerDetailColor, style.obstacleColor, 0.32f)
                     }
-                    drawRoundRect(
+                    pixelPanel(
                         color = color,
+                        ink = if (opened) style.textColor else style.obstacleColor,
                         topLeft = point + Offset(x = 1f, y = 1f),
                         size = Size(width = cell - 2f, height = cell - 2f),
-                        cornerRadius = CornerRadius(x = 3f)
+                        inset = opened
                     )
-                    if (!opened) {
-                        drawRoundRect(
-                            color = style.playerColor.copy(alpha = 0.38f),
-                            topLeft = point + Offset(x = 1f, y = 1f),
-                            size = Size(width = cell - 2f, height = cell - 2f),
-                            cornerRadius = CornerRadius(x = 3f),
-                            style = Stroke(width = 1f)
-                        )
-                        pixelRect(
-                            color = style.playerColor.copy(alpha = 0.25f),
-                            x = point.x + 3f,
-                            y = point.y + cell - 4f,
-                            width = cell - 6f,
-                            height = 2f
-                        )
-                        pixelRect(
-                            color = style.playerDetailColor.copy(alpha = 0.5f),
-                            x = point.x + 3f,
-                            y = point.y + 3f,
-                            width = cell - 6f,
-                            height = 2f
-                        )
-                    }
                     val center = point + Offset(x = cell / 2f, y = cell / 2f)
                     when {
+                        run.cover[index] == 2 -> {
+                            minesweeperFlag(style.accentColor, center, cell * 0.25f)
+                            if (run.phase == ArcadePhase.Over && run.board[index] != -1) {
+                                val r = cell * 0.24f
+                                drawLine(
+                                    style.hazardColor,
+                                    center - Offset(r, r),
+                                    center + Offset(r, r),
+                                    2f
+                                )
+                                drawLine(
+                                    style.hazardColor,
+                                    center + Offset(-r, r),
+                                    center + Offset(r, -r),
+                                    2f
+                                )
+                            }
+                        }
+
                         mine -> {
-                            drawCircle(
+                            pixelCircle(
                                 color = style.hazardColor,
                                 radius = cell * 0.17f,
                                 center = center
@@ -141,18 +150,12 @@ internal data object MinesweeperGame : ArcadeGameDefinition {
                                     strokeWidth = 2f
                                 )
                             }
-                            drawCircle(
+                            pixelCircle(
                                 color = style.playerDetailColor,
                                 radius = cell * 0.04f,
                                 center = center - Offset(x = cell * 0.05f, y = cell * 0.05f)
                             )
                         }
-
-                        run.cover[index] == 2 -> minesweeperFlag(
-                            style.accentColor,
-                            center,
-                            cell * 0.25f
-                        )
 
                         opened && run.board[index] > 0 -> {
                             val ink = when (run.board[index]) {
@@ -181,11 +184,10 @@ internal data object MinesweeperGame : ArcadeGameDefinition {
 
                     }
                     if (run.revealAge[index] in 0f..0.3f) {
-                        drawRoundRect(
+                        drawRect(
                             color = style.playerColor.copy(alpha = (1f - run.revealAge[index] / 0.3f) * 0.35f),
                             topLeft = point + Offset(x = 1f, y = 1f),
-                            size = Size(width = cell - 2f, height = cell - 2f),
-                            cornerRadius = CornerRadius(x = 3f)
+                            size = Size(width = cell - 2f, height = cell - 2f)
                         )
                     }
                 }
@@ -211,29 +213,21 @@ private fun DrawScope.minesweeperFlag(
     center: Offset,
     radius: Float
 ) {
-    val path = Path().apply {
-        moveTo(center.x - radius * 0.6f, center.y - radius)
-        lineTo(center.x + radius, center.y - radius * 0.35f)
-        lineTo(center.x - radius * 0.6f, center.y + radius * 0.25f)
-        close()
+    scale(scale = radius / 6f, pivot = center) {
+        drawArcadeSprite(
+            sprite = MinesweeperFlag,
+            tint = color,
+            x = center.x - 6f,
+            y = center.y - 6f
+        )
     }
-    drawPath(
-        path = path,
-        color = color
-    )
-    drawLine(
-        color = color,
-        start = center + Offset(x = -radius * 0.6f, y = -radius),
-        end = center + Offset(x = -radius * 0.6f, y = radius),
-        strokeWidth = 2f
-    )
-    drawLine(
-        color = color,
-        start = center + Offset(x = -radius, y = radius),
-        end = center + Offset(x = radius * 0.3f, y = radius),
-        strokeWidth = 2f
-    )
 }
+
+private val MinesweeperFlag = ArcadeSprite(
+    width = 12,
+    height = 12,
+    data = "M2 0H8V1H10V2H12V4H10V5H8V6H4V10H7V12H0V10H2Z"
+)
 
 @Serializable
 private class MinesweeperRun : ArcadeRun() {

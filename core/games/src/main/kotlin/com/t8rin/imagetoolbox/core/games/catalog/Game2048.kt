@@ -20,10 +20,9 @@ package com.t8rin.imagetoolbox.core.games.catalog
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.font.FontFamily
@@ -40,6 +39,7 @@ import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
+import com.t8rin.imagetoolbox.core.games.utils.pixelPanel
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Filter2
@@ -87,20 +87,20 @@ internal data object Game2048 : ArcadeGameDefinition {
                     y = gap + index / GridSize * (cell + gap)
                 )
 
-                val radius = CornerRadius(x = cell * 0.06f)
-                drawRoundRect(
-                    color = style.detailColor.copy(alpha = 0.2f),
+                pixelPanel(
+                    color = lerp(style.playerDetailColor, style.obstacleColor, 0.2f),
+                    ink = style.textColor,
                     topLeft = origin,
                     size = Size(width = side, height = side),
-                    cornerRadius = CornerRadius(x = gap)
+                    inset = true
                 )
                 for (index in run.tiles.indices) {
-                    val point = position(index)
-                    drawRoundRect(
-                        color = style.detailColor.copy(alpha = 0.16f),
-                        topLeft = point,
+                    pixelPanel(
+                        color = style.playerDetailColor,
+                        ink = style.textColor,
+                        topLeft = position(index),
                         size = Size(width = cell, height = cell),
-                        cornerRadius = radius
+                        inset = true
                     )
                 }
 
@@ -110,36 +110,61 @@ internal data object Game2048 : ArcadeGameDefinition {
                     scale: Float = 1f
                 ) {
                     if (value == 0 || scale <= 0f) return
-                    val color = when (value) {
-                        2 -> style.obstacleColor.copy(alpha = 0.14f)
-                        4 -> style.obstacleColor.copy(alpha = 0.24f)
-                        8 -> style.playerColor.copy(alpha = 0.24f)
-                        16 -> style.playerColor.copy(alpha = 0.36f)
-                        32 -> style.accentColor.copy(alpha = 0.3f)
-                        64 -> style.accentColor.copy(alpha = 0.44f)
-                        else -> style.playerColor.copy(alpha = 0.5f)
+                    val (color, ink) = when (value) {
+                        2 -> lerp(
+                            style.playerDetailColor,
+                            style.obstacleColor,
+                            0.3f
+                        ) to style.textColor
+
+                        4 -> lerp(
+                            style.playerDetailColor,
+                            style.playerColor,
+                            0.45f
+                        ) to style.textColor
+
+                        8 -> lerp(
+                            style.playerDetailColor,
+                            style.accentColor,
+                            0.55f
+                        ) to style.textColor
+
+                        16 -> style.obstacleColor to style.playerDetailColor
+                        32 -> style.playerColor to style.playerDetailColor
+                        64 -> style.accentColor to style.playerDetailColor
+                        128 -> lerp(
+                            style.playerColor,
+                            style.obstacleColor,
+                            0.5f
+                        ) to style.playerDetailColor
+
+                        256 -> lerp(
+                            style.playerColor,
+                            style.accentColor,
+                            0.5f
+                        ) to style.playerDetailColor
+
+                        512 -> lerp(
+                            style.obstacleColor,
+                            style.accentColor,
+                            0.5f
+                        ) to style.playerDetailColor
+
+                        1024 -> style.textColor to style.playerDetailColor
+                        else -> style.hazardColor to style.playerDetailColor
                     }
                     val inset = cell * (1 - scale) / 2
-                    val topLeft = point + Offset(x = inset, y = inset)
-                    val size = cell * scale
-                    drawRoundRect(
+                    pixelPanel(
                         color = color,
-                        topLeft = topLeft,
-                        size = Size(width = size, height = size),
-                        cornerRadius = radius * scale
-                    )
-                    drawRoundRect(
-                        color = style.detailColor.copy(alpha = 0.3f),
-                        topLeft = topLeft,
-                        size = Size(width = size, height = size),
-                        cornerRadius = radius * scale,
-                        style = Stroke(width = 1f)
+                        ink = ink,
+                        topLeft = point + Offset(x = inset, y = inset),
+                        size = Size(width = cell * scale, height = cell * scale)
                     )
                     val digits = value.toString().length
                     val label = measurer.measure(
                         text = value.toString(),
                         style = TextStyle(
-                            fontSize = (cell * if (digits < 3) 0.42f else if (digits < 5) 0.32f else 0.25f).sp,
+                            fontSize = (cell * scale.coerceAtMost(1f) * if (digits < 3) 0.42f else if (digits < 5) 0.32f else 0.25f).sp,
                             fontFamily = FontFamily.Monospace,
                             fontWeight = FontWeight.Bold
                         ),
@@ -147,7 +172,7 @@ internal data object Game2048 : ArcadeGameDefinition {
                     )
                     drawText(
                         textLayoutResult = label,
-                        color = style.textColor.copy(alpha = scale.coerceIn(0f, 1f)),
+                        color = ink.copy(alpha = scale.coerceIn(0f, 1f)),
                         topLeft = point + Offset(
                             x = (cell - label.size.width) / 2,
                             y = (cell - label.size.height) / 2

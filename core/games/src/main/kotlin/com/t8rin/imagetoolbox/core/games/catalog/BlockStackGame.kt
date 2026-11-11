@@ -21,7 +21,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.clipRect
 import androidx.compose.ui.graphics.lerp
@@ -165,12 +164,20 @@ internal data object BlockStackGame : ArcadeGameDefinition {
                         val edge = size * 0.12f
                         val edgeHeight = edge * scale
                         drawRect(
-                            color = lerp(start = color, stop = Color.White, fraction = 0.3f),
+                            color = lerp(
+                                start = color,
+                                stop = style.obstacleColor,
+                                fraction = 0.3f
+                            ),
                             topLeft = topLeft,
                             size = blockSize
                         )
                         drawRect(
-                            color = lerp(start = color, stop = Color.Black, fraction = 0.3f),
+                            color = lerp(
+                                start = color,
+                                stop = style.playerDetailColor,
+                                fraction = 0.3f
+                            ),
                             topLeft = topLeft + Offset(x = edge, y = edgeHeight),
                             size = Size(
                                 width = blockSize.width - edge,
