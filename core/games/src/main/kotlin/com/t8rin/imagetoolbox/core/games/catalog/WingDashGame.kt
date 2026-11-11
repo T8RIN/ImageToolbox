@@ -302,7 +302,7 @@ private class WingDashRun : ArcadeRun() {
         y += velocity * seconds
         wingTime += seconds
         tilt += ((velocity / 7f).coerceIn(-18f, 65f) - tilt) * minOf(1f, seconds * 10f)
-        val step = (185f + (score * 1.2f).coerceAtMost(45f)) * seconds
+        val step = 185f * seconds
         distance += step
         pipes.forEach { pipe ->
             pipe.x -= step
@@ -320,7 +320,7 @@ private class WingDashRun : ArcadeRun() {
         ) phase = ArcadePhase.Over
     }
 
-    private fun gap() = minOf((92f - score * 0.45f).coerceAtLeast(74f), (ground - topInset) * 0.58f)
+    private fun gap() = minOf(92f, (ground - topInset) * 0.58f)
 
     private fun addPipes() {
         while (pipes.last().x < width + PipeWidth) {
@@ -329,7 +329,7 @@ private class WingDashRun : ArcadeRun() {
             val low = maxOf(last.center - 120f, topInset + gap / 2 + 12f)
             val high = minOf(last.center + 120f, ground - gap / 2 - 16f)
             pipes += BirdPipe(
-                x = last.x + 190f + (score * 0.8f).coerceAtMost(28f),
+                x = last.x + 190f,
                 center = low + Random.nextFloat() * (high - low),
                 gap = gap
             )

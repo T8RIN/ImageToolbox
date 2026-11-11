@@ -51,7 +51,6 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import kotlin.math.abs
 import kotlin.math.cos
-import kotlin.math.floor
 import kotlin.math.sin
 import kotlin.math.sqrt
 import kotlin.random.Random
@@ -185,7 +184,7 @@ private const val SwitchBallRadius = 6.5f
 private const val SwitchStroke = 10f
 private const val SwitchStripeWidth = 44f
 private const val SwitchRailWidth = 96f
-private const val SwitchInnerRing = 31f
+private const val SwitchInnerRing = 40f
 private const val SwitchDot = 4.4f
 private const val SwitchRadians = 0.017453293f
 private const val SwitchJump = 176f
@@ -216,10 +215,11 @@ private fun DrawScope.drawSwitchGate(gate: SwitchGate, colors: List<Color>, alph
                     val right = minOf(SwitchRailWidth, (stripe + 1) * SwitchStripeWidth + offset)
                     if (left >= right) continue
                     val color = gate.colorAt(if (mirrored) -stripe - 1 else stripe)
-                    drawRect(
+                    drawRoundRect(
                         color = colors[color].copy(alpha = alpha),
                         topLeft = Offset(left, y - SwitchStroke / 2f),
-                        size = Size(right - left, SwitchStroke)
+                        size = Size(right - left, SwitchStroke),
+                        cornerRadius = CornerRadius(2.5f)
                     )
                 }
             }
@@ -241,7 +241,7 @@ private fun DrawScope.drawSwitchGate(gate: SwitchGate, colors: List<Color>, alph
                         useCenter = false,
                         topLeft = Offset(-radius, -radius),
                         size = Size(radius * 2f, radius * 2f),
-                        style = Stroke(SwitchStroke)
+                        style = Stroke(SwitchStroke, cap = StrokeCap.Round)
                     )
                 }
             }
@@ -262,12 +262,12 @@ private fun DrawScope.drawSwitchGate(gate: SwitchGate, colors: List<Color>, alph
                 useCenter = false,
                 topLeft = Offset(-radius, -radius),
                 size = Size(radius * 2f, radius * 2f),
-                style = Stroke(SwitchStroke, cap = StrokeCap.Butt)
+                style = Stroke(SwitchStroke, cap = StrokeCap.Round)
             )
         }
 
-        SwitchGateKind.Pulse -> gate.forEachDot { color, point ->
-            pixelCircle(colors[color].copy(alpha = alpha), SwitchDot, point)
+        SwitchGateKind.Pulse, SwitchGateKind.Beads -> gate.forEachDot { color, point ->
+            drawCircle(colors[color].copy(alpha = alpha), SwitchDot, point)
         }
 
         else -> {
@@ -277,7 +277,7 @@ private fun DrawScope.drawSwitchGate(gate: SwitchGate, colors: List<Color>, alph
                     start = start,
                     end = end,
                     strokeWidth = SwitchStroke,
-                    cap = StrokeCap.Butt
+                    cap = StrokeCap.Round
                 )
             }
             if (gate.kind == SwitchGateKind.Spinner || gate.kind == SwitchGateKind.TwinSpinner) {
@@ -293,7 +293,7 @@ private fun DrawScope.drawSwitchGate(gate: SwitchGate, colors: List<Color>, alph
 @Serializable
 private enum class SwitchGateKind {
     Ring, Rail, Square, Triangle, Spinner, Pulse, DoubleRing, Hexagon, TwinSpinner, DoubleRail,
-    Orbit, Hourglass
+    Orbit, Hourglass, Cross, Beads
 }
 
 @Serializable
@@ -311,6 +311,7 @@ private class SwitchGate(
     val extent: Float
         get() = when (kind) {
             SwitchGateKind.Pulse -> radius + 9f
+            SwitchGateKind.Beads -> radius + 3f
             SwitchGateKind.DoubleRail -> SwitchRailGap
             else -> radius
         }
@@ -335,24 +336,54 @@ private class SwitchGate(
         if (distance > extent + edge) return false
         when (kind) {
             SwitchGateKind.Rail, SwitchGateKind.DoubleRail -> {
-                if (abs(distance - extent) > edge) return false
-                val stripe = if (kind == SwitchGateKind.DoubleRail && dy < 0f) {
-                    -floor(railOffset / SwitchStripeWidth).toInt() - 1
-                } else {
-                    floor(-railOffset / SwitchStripeWidth).toInt()
+                fun hits(row: Float, mirrored: Boolean): Boolean {
+                    if (abs(dy - row) > edge) return false
+                    val offset = if (mirrored) -railOffset else railOffset
+                    for (stripe in -7..7) {
+                        if (colorAt(if (mirrored) -stripe - 1 else stripe) == color) continue
+                        val left = maxOf(-SwitchRailWidth, stripe * SwitchStripeWidth + offset)
+                        val right =
+                            minOf(SwitchRailWidth, (stripe + 1) * SwitchStripeWidth + offset)
+                        if (right <= left) continue
+                        val corner = minOf(2.5f, (right - left) / 2f)
+                        val dx = 0f.coerceIn(left + corner, right - corner)
+                        val closest = dy.coerceIn(
+                            row - SwitchStroke / 2f + corner,
+                            row + SwitchStroke / 2f - corner
+                        )
+                        val contact = SwitchBallRadius + corner
+                        if (dx * dx + (dy - closest) * (dy - closest) < contact * contact) return true
+                    }
+                    return false
                 }
-                return colorAt(stripe) != color
+                if (kind == SwitchGateKind.DoubleRail) {
+                    return hits(-SwitchRailGap, true) || hits(SwitchRailGap, false)
+                }
+                return hits(0f, false)
             }
 
             SwitchGateKind.Ring, SwitchGateKind.DoubleRing -> {
-                val contact = if (dy > 0f) 90f else 270f
-                if (abs(distance - radius) <= edge) {
-                    return colorAt((arcadeAngle(contact - angle) / 45f).toInt()) != color
+                fun hits(radius: Float, rotation: Float, reverse: Boolean): Boolean {
+                    val gap = distance - radius
+                    if (abs(gap) > edge) return false
+                    val contact = if (dy > 0f) 90f else 270f
+                    repeat(8) { index ->
+                        if (colorAt(if (reverse) -index else index) == color) return@repeat
+                        val offset = arcadeAngle(contact - rotation - index * 45f)
+                        val excess = if (offset <= 45f) 0f else minOf(offset - 45f, 360f - offset)
+                        val separation =
+                            gap * gap + 2f * radius * distance * (1f - cos(excess * SwitchRadians))
+                        if (separation < edge * edge) return true
+                    }
+                    return false
                 }
-                if (kind == SwitchGateKind.DoubleRing && abs(distance - SwitchInnerRing) <= edge) {
-                    val segment = (arcadeAngle(contact - 135f + angle) / 45f).toInt()
-                    return colorAt(-segment) != color
-                }
+                if (hits(radius, angle, false)) return true
+                if (kind == SwitchGateKind.DoubleRing && hits(
+                        SwitchInnerRing,
+                        135f - angle,
+                        true
+                    )
+                ) return true
             }
 
             SwitchGateKind.Orbit -> {
@@ -370,7 +401,7 @@ private class SwitchGate(
                 }
             }
 
-            SwitchGateKind.Pulse -> {
+            SwitchGateKind.Pulse, SwitchGateKind.Beads -> {
                 val ballPoint = Offset(0f, dy)
                 val contact = SwitchBallRadius + SwitchDot
                 forEachDot { tint, point ->
@@ -398,6 +429,13 @@ private class SwitchGate(
     }
 
     inline fun forEachDot(draw: (Int, Offset) -> Unit) {
+        if (kind == SwitchGateKind.Beads) {
+            val extent = radius + sin(angle * 2f * SwitchRadians) * 3f
+            repeat(16) { index ->
+                draw(colorAt(index / 2), switchRay(angle + index * 22.5f) * extent)
+            }
+            return
+        }
         forEachEdge { color, start, end ->
             repeat(4) { index ->
                 draw(color, start + (end - start) * ((index + 0.5f) / 4f))
@@ -406,6 +444,13 @@ private class SwitchGate(
     }
 
     inline fun forEachEdge(draw: (Int, Offset, Offset) -> Unit) {
+        if (kind == SwitchGateKind.Cross) {
+            repeat(4) { index ->
+                val ray = switchRay(angle + index * 90f)
+                draw(colorAt(index and 1), ray * 18f, ray * radius)
+            }
+            return
+        }
         if (kind == SwitchGateKind.Spinner || kind == SwitchGateKind.TwinSpinner) {
             val pivot = hub
             repeat(4) { index ->
@@ -578,7 +623,7 @@ private class TintAscentRun : ArcadeRun() {
             val variation = Random.nextFloat()
             val radius = when (kind) {
                 SwitchGateKind.Rail, SwitchGateKind.DoubleRail -> 0f
-                SwitchGateKind.DoubleRing -> 62f + variation * 6f
+                SwitchGateKind.DoubleRing -> 74f + variation * 8f
                 SwitchGateKind.Spinner, SwitchGateKind.TwinSpinner -> 49f + variation * 8f
                 SwitchGateKind.Square -> 53f + variation * 12f
                 SwitchGateKind.Hexagon -> 46f + variation * 15f
@@ -586,6 +631,8 @@ private class TintAscentRun : ArcadeRun() {
                 SwitchGateKind.Pulse -> 56f + variation * 11f
                 SwitchGateKind.Orbit -> 55f + variation * 12f
                 SwitchGateKind.Hourglass -> 65f + variation * 12f
+                SwitchGateKind.Cross -> 51f + variation * 12f
+                SwitchGateKind.Beads -> 48f + variation * 12f
                 SwitchGateKind.Ring -> 44f + variation * 12f
             }
             val speed = when (kind) {
@@ -596,6 +643,8 @@ private class TintAscentRun : ArcadeRun() {
                 SwitchGateKind.Pulse -> 31f + 40f * difficulty
                 SwitchGateKind.Orbit -> 37f + 42f * difficulty
                 SwitchGateKind.Hourglass -> 22f + 33f * difficulty
+                SwitchGateKind.Cross -> 29f + 44f * difficulty
+                SwitchGateKind.Beads -> 28f + 40f * difficulty
                 else -> 24f + 62f * difficulty
             } * if (Random.nextBoolean()) 1f else -1f
 
@@ -603,10 +652,11 @@ private class TintAscentRun : ArcadeRun() {
             val extent = when (kind) {
                 SwitchGateKind.DoubleRail -> SwitchRailGap
                 SwitchGateKind.Pulse -> radius + 9f
+                SwitchGateKind.Beads -> radius + 3f
                 else -> radius
             }
             var gate: SwitchGate? = null
-            for (attempt in 0..2) {
+            for (attempt in 0..3) {
                 val candidate = SwitchGate(
                     y = base + extent,
                     radius = radius,
@@ -622,9 +672,9 @@ private class TintAscentRun : ArcadeRun() {
                 }
             }
             if (gate == null) {
-                val fallbackRadius = 43f + variation * 7f
+                val fallbackRadius = 48f + variation * 8f
                 val center = base + fallbackRadius
-                val fallbackSpeed = if (speed > 0f) 23f else -23f
+                val fallbackSpeed = if (speed > 0f) 16f else -16f
                 gate = SwitchGate(
                     y = center,
                     radius = fallbackRadius,
@@ -648,8 +698,9 @@ private class TintAscentRun : ArcadeRun() {
         // Each gate must leave a window for the same repeating tap rhythm, so an
         // individually valid opening also lines up with the rest of the course.
         val samples = ((to - from) * 120f).toInt() + 1
-        for (candidate in 0 until 36) {
-            val phase = firstAngle + candidate * 10f
+        val angles = if (gate.kind == SwitchGateKind.DoubleRing) 180 else 72
+        for (candidate in 0 until angles) {
+            val phase = firstAngle + candidate * 360f / angles
             var fits = true
             for (sample in 0..samples) {
                 val time = from + (to - from) * sample / samples
@@ -678,7 +729,10 @@ private class TintAscentRun : ArcadeRun() {
         if (index == 0) {
             return listOf(
                 SwitchGateKind.Ring, SwitchGateKind.Rail, SwitchGateKind.Square,
-                SwitchGateKind.Hexagon, SwitchGateKind.Spinner
+                SwitchGateKind.Hexagon,
+                SwitchGateKind.Spinner,
+                SwitchGateKind.Cross,
+                SwitchGateKind.Beads
             ).random()
         }
         if (patterns.isEmpty()) {

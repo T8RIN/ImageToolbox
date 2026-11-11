@@ -100,8 +100,24 @@ internal data object HexagonRushGame : ArcadeGameDefinition {
                     path.close()
                     drawPath(
                         path = path,
-                        color = if (sector % 2 == 0) style.playerColor.copy(alpha = 0.035f)
-                        else style.obstacleColor.copy(alpha = 0.05f)
+                        color = if (sector % 2 == 0) style.playerColor.copy(alpha = 0.065f)
+                        else style.obstacleColor.copy(alpha = 0.08f)
+                    )
+                }
+                for (sector in 0..5) {
+                    val angle = sector * PI.toFloat() / 3f + run.rotation * 0.45f
+                    val edge = point(angle, 1.65f)
+                    drawLine(
+                        color = style.detailColor.copy(alpha = 0.14f),
+                        start = point(angle - 0.035f, 1.65f),
+                        end = edge,
+                        strokeWidth = 2f
+                    )
+                    drawLine(
+                        color = style.detailColor.copy(alpha = 0.14f),
+                        start = edge,
+                        end = point(angle, 1.8f),
+                        strokeWidth = 1f
                     )
                 }
                 repeat(24) { index ->

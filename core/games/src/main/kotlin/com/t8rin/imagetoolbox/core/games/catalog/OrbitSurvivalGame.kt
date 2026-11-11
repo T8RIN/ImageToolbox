@@ -37,6 +37,7 @@ import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
+import com.t8rin.imagetoolbox.core.games.utils.arcadeOrbits
 import com.t8rin.imagetoolbox.core.games.utils.arcadeStars
 import com.t8rin.imagetoolbox.core.games.utils.pixelAsteroid
 import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
@@ -76,6 +77,7 @@ internal data object OrbitSurvivalGame : ArcadeGameDefinition {
                 onDrag = run::steer,
                 onRelease = run::stopInput
             ) {
+                arcadeOrbits(style, run.width, run.height, run.topInset)
                 arcadeStars(
                     style = style,
                     width = run.width,

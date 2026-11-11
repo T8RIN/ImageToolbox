@@ -41,6 +41,7 @@ import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
+import com.t8rin.imagetoolbox.core.games.utils.arcadeTunnel
 import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
 import com.t8rin.imagetoolbox.core.games.utils.reliefSprite
 import com.t8rin.imagetoolbox.core.resources.Icons
@@ -76,6 +77,7 @@ internal data object GravityFlipGame : ArcadeGameDefinition {
                 run = run,
                 onPress = { run.flip() }
             ) {
+                arcadeTunnel(style, run.width, run.height, run.topInset)
                 val top = run.top
                 val bottom = run.bottom
                 val span = run.span

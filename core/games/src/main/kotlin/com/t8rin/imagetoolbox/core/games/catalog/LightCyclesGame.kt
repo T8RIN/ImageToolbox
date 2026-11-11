@@ -44,6 +44,7 @@ import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
+import com.t8rin.imagetoolbox.core.games.utils.arcadeGrid
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.TwoWheeler
@@ -82,6 +83,7 @@ internal data object LightCyclesGame : ArcadeGameDefinition {
                 onSwipe = run::steer,
                 swipeOnDrag = true
             ) {
+                arcadeGrid(style, run.width, run.height, run.topInset)
                 val cell = run.cell
                 val origin = run.origin
                 val area = Size(width = run.columns * cell, height = run.rows * cell)

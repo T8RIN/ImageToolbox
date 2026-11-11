@@ -40,7 +40,7 @@ import com.t8rin.imagetoolbox.core.games.ArcadeSprite
 import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
-import com.t8rin.imagetoolbox.core.games.utils.arcadeCircuit
+import com.t8rin.imagetoolbox.core.games.utils.arcadeSurvey
 import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
 import com.t8rin.imagetoolbox.core.games.utils.pixelPanel
 import com.t8rin.imagetoolbox.core.resources.Icons
@@ -77,7 +77,7 @@ internal data object MinesweeperGame : ArcadeGameDefinition {
                 onTap = run::tap,
                 onLongPress = run::hold
             ) {
-                arcadeCircuit(style, run.width, run.height, run.topInset)
+                arcadeSurvey(style, run.width, run.height, run.topInset)
                 val cell = run.cell
                 for (index in run.board.indices) {
                     val point =
@@ -95,18 +95,13 @@ internal data object MinesweeperGame : ArcadeGameDefinition {
                             0.55f
                         )
 
-                        run.transition > 0f -> lerp(
-                            style.playerDetailColor,
-                            style.accentColor,
-                            0.35f
-                        )
-
-                        opened -> style.playerDetailColor
+                        run.transition > 0f -> style.accentColor.copy(alpha = 0.12f)
+                        opened -> style.textColor.copy(alpha = 0.045f)
                         else -> lerp(style.playerDetailColor, style.obstacleColor, 0.32f)
                     }
                     pixelPanel(
                         color = color,
-                        ink = if (opened) style.textColor else style.obstacleColor,
+                        ink = if (opened) style.detailColor.copy(alpha = 0.3f) else style.obstacleColor,
                         topLeft = point + Offset(x = 1f, y = 1f),
                         size = Size(width = cell - 2f, height = cell - 2f),
                         inset = opened
@@ -187,7 +182,7 @@ internal data object MinesweeperGame : ArcadeGameDefinition {
                     }
                     if (run.revealAge[index] in 0f..0.3f) {
                         drawRect(
-                            color = style.playerColor.copy(alpha = (1f - run.revealAge[index] / 0.3f) * 0.35f),
+                            color = style.textColor.copy(alpha = (1f - run.revealAge[index] / 0.3f) * 0.08f),
                             topLeft = point + Offset(x = 1f, y = 1f),
                             size = Size(width = cell - 2f, height = cell - 2f)
                         )

@@ -37,6 +37,7 @@ import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
+import com.t8rin.imagetoolbox.core.games.utils.arcadeNotebook
 import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
 import com.t8rin.imagetoolbox.core.games.utils.reliefSprite
 import com.t8rin.imagetoolbox.core.resources.Icons
@@ -79,6 +80,7 @@ internal data object DoodleHopperGame : ArcadeGameDefinition {
                 onDrag = { run.drag(it.x) },
                 onRelease = run::stopInput
             ) {
+                arcadeNotebook(style, run.width, run.height, run.topInset)
                 var cloudY = run.camera * 0.2f % 420f - 16f
                 var index = 0
                 while (cloudY < run.height) {

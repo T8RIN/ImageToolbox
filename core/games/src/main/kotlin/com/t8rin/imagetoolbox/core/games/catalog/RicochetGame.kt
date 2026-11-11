@@ -36,6 +36,7 @@ import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
+import com.t8rin.imagetoolbox.core.games.utils.arcadeBankshot
 import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
 import com.t8rin.imagetoolbox.core.games.utils.pixelPanel
 import com.t8rin.imagetoolbox.core.resources.Icons
@@ -76,6 +77,7 @@ internal data object RicochetGame : ArcadeGameDefinition {
                 onSwipe = { run.shoot() },
                 onRelease = run::stopInput
             ) {
+                arcadeBankshot(style, run.width, run.height, run.topInset)
                 val cell = run.cell
                 val radius = run.ballRadius
                 val rowHeight = run.rowHeight

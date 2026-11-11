@@ -44,6 +44,7 @@ import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
+import com.t8rin.imagetoolbox.core.games.utils.arcadeGarden
 import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
@@ -88,6 +89,7 @@ private fun DrawScope.drawSnakeScene(run: SnakeRun, style: ArcadeStyle, bodyPath
     val cell = side / SnakeCells
     val origin =
         Offset((run.width - side) / 2f, run.topInset + (run.height - run.topInset - side) / 2f)
+    arcadeGarden(style, run.width, run.height, run.topInset, origin, side)
     val shade = lerp(style.playerColor, style.playerDetailColor, 0.42f)
     val glint = lerp(style.playerColor, style.obstacleColor, 0.68f)
     drawRect(style.overlayColor.copy(alpha = 0.18f), origin + Offset(0f, 3f), Size(side, side))

@@ -39,6 +39,7 @@ import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
 import com.t8rin.imagetoolbox.core.games.utils.arcadeAngle
+import com.t8rin.imagetoolbox.core.games.utils.arcadeBamboo
 import com.t8rin.imagetoolbox.core.games.utils.arcadeLives
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
@@ -75,6 +76,7 @@ internal data object FruitSliceGame : ArcadeGameDefinition {
                 onDrag = run::slice,
                 onRelease = run::stopInput
             ) {
+                arcadeBamboo(style, run.width, run.height, run.topInset)
                 val plank = 58f
                 repeat((run.width / plank).toInt() + 1) { index ->
                     val x = index * plank

@@ -40,6 +40,7 @@ import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
 import com.t8rin.imagetoolbox.core.games.utils.arcadeAngle
 import com.t8rin.imagetoolbox.core.games.utils.arcadeAngleDistance
+import com.t8rin.imagetoolbox.core.games.utils.arcadePlanks
 import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
@@ -76,6 +77,7 @@ internal data object BladeTossGame : ArcadeGameDefinition {
                 transition = { run.transition },
                 onPress = { run.throwKnife() }
             ) {
+                arcadePlanks(style, run.width, run.height, run.topInset)
                 val center = run.center + Offset(
                     x = 0f,
                     y = sin(run.impact * PI.toFloat()) * 3f
@@ -372,11 +374,12 @@ private class BladeTossRun : ArcadeRun() {
         effects.advance(seconds)
         impact = (impact - seconds * 7f).coerceAtLeast(0f)
         val speed = 65f + minOf(targets * 6f, 70f)
-        val rhythm =
-            if (boss) sin(time * 1.15f) * 0.9f + sin(time * 2.3f) * 0.45f else when (targets % 3) {
+        val rhythm = if (boss) {
+            0.72f + sin(time * 1.15f) * 0.92f + sin(time * 2.3f) * 0.28f
+        } else when (targets % 3) {
             0 -> 1f + sin(time * 2f) * 0.25f
             1 -> -0.9f + sin(time * 1.7f) * 0.4f
-            else -> cos(time * (0.6f + minOf(targets, 10) * 0.05f)) * 1.3f
+            else -> 0.65f + cos(time * (0.6f + minOf(targets, 10) * 0.05f)) * 1.05f
         }
         angle = arcadeAngle(angle + speed * rhythm * seconds)
         if (transition > 0f) {

@@ -37,6 +37,7 @@ import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
+import com.t8rin.imagetoolbox.core.games.utils.arcadeRoutes
 import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
@@ -87,6 +88,7 @@ internal data object FlowConnectGame : ArcadeGameDefinition {
                     lerp(style.hazardColor, style.obstacleColor, 0.5f)
                 )
                 val area = Size(width = cell * run.columns, height = cell * run.columns)
+                arcadeRoutes(style, run.width, run.height, run.topInset, run.origin, area.width)
                 drawRoundRect(
                     color = style.detailColor.copy(alpha = 0.055f),
                     topLeft = run.origin,

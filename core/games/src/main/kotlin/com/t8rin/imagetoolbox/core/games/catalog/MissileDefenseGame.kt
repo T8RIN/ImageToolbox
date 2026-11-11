@@ -35,6 +35,7 @@ import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
+import com.t8rin.imagetoolbox.core.games.utils.arcadeSkyline
 import com.t8rin.imagetoolbox.core.games.utils.arcadeStars
 import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
 import com.t8rin.imagetoolbox.core.resources.Icons
@@ -77,6 +78,7 @@ internal data object MissileDefenseGame : ArcadeGameDefinition {
                     height = run.height,
                     drift = 0f
                 )
+                arcadeSkyline(style, run.width, run.ground, run.topInset)
                 arcadeGround(
                     style = style,
                     width = run.width,

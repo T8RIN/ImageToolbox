@@ -34,6 +34,7 @@ import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
+import com.t8rin.imagetoolbox.core.games.utils.arcadePrisms
 import com.t8rin.imagetoolbox.core.games.utils.arcadeStars
 import com.t8rin.imagetoolbox.core.games.utils.pixelGem
 import com.t8rin.imagetoolbox.core.resources.Icons
@@ -76,6 +77,7 @@ internal data object SharpTurnsGame : ArcadeGameDefinition {
                     height = run.height,
                     drift = run.progress * 2f
                 )
+                arcadePrisms(style, run.width, run.height, run.topInset)
                 val tint = lerp(style.playerColor, style.accentColor, run.tint)
 
                 for ((x, y, hasGem, span) in run.tiles.asReversed()) {

@@ -33,8 +33,8 @@ import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
+import com.t8rin.imagetoolbox.core.games.utils.arcadeCabinet
 import com.t8rin.imagetoolbox.core.games.utils.arcadeLives
-import com.t8rin.imagetoolbox.core.games.utils.arcadeStars
 import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
 import com.t8rin.imagetoolbox.core.games.utils.pixelPanel
 import com.t8rin.imagetoolbox.core.resources.Icons
@@ -72,12 +72,7 @@ internal data object BrickBreakerGame : ArcadeGameDefinition {
                 onPress = run::steer,
                 onDrag = run::steer
             ) {
-                arcadeStars(
-                    style = style,
-                    width = run.width,
-                    height = run.height,
-                    drift = 0f
-                )
+                arcadeCabinet(style, run.width, run.height, run.topInset)
                 for (brick in run.bricks) {
                     val rect = run.bounds(brick)
                     val color = when (brick.row % 3) {

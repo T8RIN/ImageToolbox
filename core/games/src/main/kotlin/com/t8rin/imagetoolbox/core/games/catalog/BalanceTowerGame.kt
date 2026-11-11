@@ -24,8 +24,10 @@ import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.rotate
+import androidx.compose.ui.graphics.lerp
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
 import com.t8rin.imagetoolbox.core.games.ArcadeCloud
 import com.t8rin.imagetoolbox.core.games.ArcadeDeque
@@ -34,6 +36,7 @@ import com.t8rin.imagetoolbox.core.games.ArcadeGameContext
 import com.t8rin.imagetoolbox.core.games.ArcadeGameDefinition
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
+import com.t8rin.imagetoolbox.core.games.ArcadeStyle
 import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.arcadeGround
 import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
@@ -88,43 +91,7 @@ internal data object BalanceTowerGame : ArcadeGameDefinition {
                 }
                 val unit = run.unit
                 val ground = run.project(180f, 0f)
-                val boomY = run.topInset + 6f * unit
-                val crane = style.detailColor.copy(alpha = 0.34f)
-                val mast = 17f * unit
-                for (x in listOf(mast, mast + 7f * unit)) {
-                    pixelRect(crane, x, 0f, unit, run.height)
-                }
-                val boomLeft = mast - 9f * unit
-                val boomRight = run.width - 14f * unit
-                for (y in listOf(boomY - 8f * unit, boomY)) {
-                    pixelRect(crane, boomLeft, y, boomRight - boomLeft, unit)
-                }
-                var beamX = boomLeft
-                while (beamX < boomRight - 12f * unit) {
-                    drawLine(
-                        crane,
-                        Offset(beamX, boomY),
-                        Offset(beamX + 6f * unit, boomY - 8f * unit),
-                        unit
-                    )
-                    drawLine(
-                        crane,
-                        Offset(beamX + 6f * unit, boomY - 8f * unit),
-                        Offset(beamX + 12f * unit, boomY),
-                        unit
-                    )
-                    beamX += 12f * unit
-                }
-                var braceY = boomY + 5f * unit
-                while (braceY < run.height) {
-                    drawLine(
-                        crane,
-                        Offset(mast, braceY),
-                        Offset(mast + 7f * unit, braceY + 11f * unit),
-                        unit
-                    )
-                    braceY += 14f * unit
-                }
+                val boomY = drawTowerCrane(run, style, ground)
                 if (ground.y < run.height + 10f) {
                     pixelRect(
                         color = style.obstacleColor,
@@ -267,16 +234,27 @@ internal data object BalanceTowerGame : ArcadeGameDefinition {
                             pixelRect(
                                 style.detailColor,
                                 hook.x - unit,
-                                boomY,
-                                unit * 2f,
-                                (hook.y - boomY).coerceAtLeast(0f)
+                                boomY + 4f * unit,
+                                unit * 1.4f,
+                                (hook.y - boomY - 13f * unit).coerceAtLeast(0f)
                             )
                             pixelPanel(
                                 style.obstacleColor,
                                 style.playerDetailColor,
-                                Offset(hook.x - 5f * unit, boomY - 4f * unit),
-                                Size(10f * unit, 6f * unit)
+                                Offset(hook.x - 6f * unit, boomY - 3f * unit),
+                                Size(12f * unit, 7f * unit)
                             )
+                            for (side in listOf(-1f, 1f)) {
+                                pixelCircle(
+                                    style.playerDetailColor, 1.4f * unit,
+                                    Offset(hook.x + side * 3.5f * unit, boomY - 3f * unit)
+                                )
+                                drawLine(
+                                    style.detailColor,
+                                    Offset(hook.x, hook.y - 9f * unit),
+                                    Offset(hook.x + side * 13f * unit, hook.y), 1.4f * unit
+                                )
+                            }
                             pixelRect(
                                 style.accentColor,
                                 hook.x - 4f * unit,
@@ -309,6 +287,92 @@ internal data object BalanceTowerGame : ArcadeGameDefinition {
             }
         }
     }
+}
+
+private const val TowerBoomHeight = 13f
+private const val TowerHoistClearance = 26f
+
+private fun DrawScope.drawTowerCrane(
+    run: BalanceTowerRun,
+    style: ArcadeStyle,
+    ground: Offset
+): Float {
+    val unit = run.unit
+    val boomY = run.topInset + TowerBoomHeight * unit
+    val mastX = 23f * unit
+    val left = 4f * unit
+    val right = run.width - 13f * unit
+    val metal = lerp(style.borderColor, style.obstacleColor, 0.3f)
+    val shade = lerp(metal, style.overlayColor.copy(alpha = 1f), 0.25f)
+    val edge = style.obstacleColor.copy(alpha = 0.65f)
+    val bottom = minOf(run.height, ground.y + 12f * unit)
+    val skyline = style.detailColor.copy(alpha = 0.09f)
+    repeat(11) { index ->
+        val x = index * run.width / 10f - 8f
+        val height = (14f + (index * 17 % 43)) * unit
+        pixelRect(skyline, x, run.height - height, 19f * unit, height)
+        repeat(3) { floor ->
+            pixelRect(
+                skyline.copy(alpha = 0.13f), x + 4f * unit,
+                run.height - height + 6f * unit + floor * 8f * unit, 3f * unit, 2f * unit
+            )
+        }
+    }
+    pixelRect(shade, mastX - 3f * unit, boomY - 22f * unit, 12f * unit, bottom - boomY + 22f * unit)
+    pixelRect(metal, mastX - 3f * unit, boomY - 22f * unit, 3f * unit, bottom - boomY + 22f * unit)
+    pixelRect(edge, mastX + 6f * unit, boomY - 22f * unit, 2f * unit, bottom - boomY + 22f * unit)
+    var y = boomY + 4f * unit
+    while (y + 11f * unit < bottom) {
+        drawLine(edge, Offset(mastX, y), Offset(mastX + 5f * unit, y + 11f * unit), unit)
+        drawLine(edge, Offset(mastX + 5f * unit, y), Offset(mastX, y + 11f * unit), unit)
+        y += 14f * unit
+    }
+    pixelPanel(
+        metal,
+        style.obstacleColor,
+        Offset(left, boomY - 10f * unit),
+        Size(right - left, 11f * unit)
+    )
+    pixelRect(shade, left + 2f * unit, boomY - 7f * unit, right - left - 4f * unit, 5f * unit)
+    var x = left + 3f * unit
+    while (x < right - 10f * unit) {
+        drawLine(edge, Offset(x, boomY - 2f * unit), Offset(x + 5f * unit, boomY - 7f * unit), unit)
+        drawLine(
+            edge,
+            Offset(x + 5f * unit, boomY - 7f * unit),
+            Offset(x + 10f * unit, boomY - 2f * unit),
+            unit
+        )
+        x += 10f * unit
+    }
+    val peak = Offset(mastX + 2f * unit, boomY - 22f * unit)
+    drawLine(edge, peak, Offset(right - 20f * unit, boomY - 10f * unit), unit)
+    drawLine(edge, peak, Offset(left + 3f * unit, boomY - 10f * unit), unit)
+    pixelPanel(
+        shade,
+        style.obstacleColor,
+        Offset(left, boomY - 8f * unit),
+        Size(13f * unit, 14f * unit)
+    )
+    for (panel in 1..2) pixelRect(
+        metal,
+        left + 2f * unit,
+        boomY + (panel * 3f - 7f) * unit,
+        9f * unit,
+        unit
+    )
+    val cab = Offset(mastX + 8f * unit, boomY - 15f * unit)
+    pixelPanel(style.obstacleColor, style.playerDetailColor, cab, Size(17f * unit, 15f * unit))
+    pixelRect(
+        style.accentColor.copy(alpha = 0.65f),
+        cab.x + 3f * unit,
+        cab.y + 3f * unit,
+        11f * unit,
+        5f * unit
+    )
+    pixelRect(shade, cab.x + 8f * unit, cab.y + 3f * unit, unit, 5f * unit)
+    pixelRect(shade, cab.x + 3f * unit, cab.y + 11f * unit, 11f * unit, 2f * unit)
+    return boomY
 }
 
 @Serializable
@@ -448,11 +512,26 @@ private class BalanceTowerRun : ArcadeRun() {
         }
     }
 
+    private val cameraTarget
+        get() = (stackTop - (height - topInset - 72f) / unit * 0.6f).coerceAtLeast(0f)
+
+    private fun liftLoad() {
+        val hanging = stackTop + minOf(100f, (height - topInset - 55f) / unit * 0.65f)
+        val ceiling = camera + (height - topInset - 24f) / unit -
+                TowerBoomHeight - TowerHoistClearance - current.height
+        current.bottom = minOf(hanging, maxOf(stackTop + 18f, ceiling))
+    }
+
+    override fun onResize(previous: Size) {
+        camera = cameraTarget
+        if (!dropping && !collapsing && settle <= 0f) liftLoad()
+        effects.clear()
+    }
+
     override fun advance(seconds: Float) {
         time = (time + seconds) % 600f
         effects.advance(seconds)
-        val targetCamera = (stackTop - (height - topInset - 72f) / unit * 0.6f).coerceAtLeast(0f)
-        camera += (targetCamera - camera) * minOf(1f, seconds * 6f)
+        camera += (cameraTarget - camera) * minOf(1f, seconds * 6f)
         angularVelocity += (-wobble * 45f - angularVelocity * 9f) * seconds
         wobble += angularVelocity * seconds
         if (collapsing) {
@@ -467,7 +546,7 @@ private class BalanceTowerRun : ArcadeRun() {
             return
         }
         if (!dropping) {
-            current.bottom = stackTop + minOf(100f, (height - topInset - 55f) / unit * 0.65f)
+            liftLoad()
             current.x =
                 180f + sin(time * (0.7f + loads.size / (loads.size + 35f))) * 83f
             return

@@ -41,6 +41,7 @@ import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
+import com.t8rin.imagetoolbox.core.games.utils.arcadeRadar
 import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
@@ -82,6 +83,7 @@ internal data object AirTrafficGame : ArcadeGameDefinition {
                 onDrag = run::drag,
                 onRelease = run::commit
             ) {
+                arcadeRadar(style, run.width, run.height, run.topInset)
                 val colors = listOf(style.playerColor, style.hazardColor, style.accentColor)
                 repeat(18) { index ->
                     val x = ((index * 71 + 37) % 353) / 353f * run.width

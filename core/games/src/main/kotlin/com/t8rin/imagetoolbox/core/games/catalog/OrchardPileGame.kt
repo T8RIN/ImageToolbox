@@ -56,6 +56,7 @@ import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
+import com.t8rin.imagetoolbox.core.games.utils.arcadeOrchard
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.AvocadoBean
@@ -106,6 +107,7 @@ internal data object OrchardPileGame : ArcadeGameDefinition {
                 onDrag = run::aim,
                 onRelease = run::drop
             ) {
+                arcadeOrchard(style, run.width, run.height, run.topInset)
                 repeat(5) { index ->
                     val span = run.width + ArcadeCloud.width
                     drawArcadeSprite(

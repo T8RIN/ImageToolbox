@@ -44,6 +44,7 @@ import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
+import com.t8rin.imagetoolbox.core.games.utils.arcadePennants
 import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
@@ -84,6 +85,7 @@ internal data object BasketballGame : ArcadeGameDefinition {
                 onDrag = run::aim,
                 onRelease = run::shoot
             ) {
+                arcadePennants(style, run.width, run.topInset)
                 val unit = run.unit
                 val left = (run.width - 360f * unit) / 2f
                 for (side in 0..1) {
@@ -94,7 +96,7 @@ internal data object BasketballGame : ArcadeGameDefinition {
                         strokeWidth = 1f
                     )
                 }
-                repeat(36) { index ->
+                repeat(18) { index ->
                     val point = Offset(
                         x = left + (index * 79 % 347 + 6) * unit,
                         y = (index * 53f + run.camera * unit * 0.3f) % run.height
