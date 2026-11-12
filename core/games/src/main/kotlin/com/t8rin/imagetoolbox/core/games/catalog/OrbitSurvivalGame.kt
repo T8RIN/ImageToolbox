@@ -349,7 +349,15 @@ private class OrbitSurvivalRun : ArcadeRun() {
         angle = (angle + direction * 3.5f * seconds + full) % full
         timer -= seconds
         if (timer <= 0f) {
-            if (patterns.isEmpty()) patterns.addAll((0..4).shuffled())
+            if (patterns.isEmpty()) {
+                val kinds = when {
+                    score < 3 -> 0..1
+                    score < 6 -> 0..2
+                    score < 10 -> 0..3
+                    else -> 0..4
+                }
+                patterns.addAll(kinds.shuffled())
+            }
             if (patterns.first() == previousKind) patterns.addLast(patterns.removeFirst())
             val kind = if (previousKind < 0) 1 else patterns.removeFirst()
             val angles =

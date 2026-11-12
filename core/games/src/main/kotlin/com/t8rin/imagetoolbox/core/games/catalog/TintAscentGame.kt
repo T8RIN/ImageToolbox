@@ -732,16 +732,22 @@ private class TintAscentRun : ArcadeRun() {
 
     private fun nextPattern(index: Int, previous: SwitchGateKind?): SwitchGateKind {
         if (index == 0) {
-            return listOf(
-                SwitchGateKind.Ring, SwitchGateKind.Rail, SwitchGateKind.Square,
-                SwitchGateKind.Hexagon,
-                SwitchGateKind.Spinner,
-                SwitchGateKind.Cross,
-                SwitchGateKind.Beads
-            ).random()
+            return SwitchGateKind.Ring
         }
         if (patterns.isEmpty()) {
-            patterns += SwitchGateKind.entries
+            patterns += when {
+                index < 4 -> listOf(
+                    SwitchGateKind.Ring, SwitchGateKind.Rail, SwitchGateKind.Square
+                )
+
+                index < 10 -> listOf(
+                    SwitchGateKind.Ring, SwitchGateKind.Rail, SwitchGateKind.Square,
+                    SwitchGateKind.Hexagon, SwitchGateKind.Spinner,
+                    SwitchGateKind.Cross, SwitchGateKind.Beads
+                )
+
+                else -> SwitchGateKind.entries
+            }
             patterns.shuffle(Random)
         }
         if (patterns.size > 1 && patterns.last() == previous) {

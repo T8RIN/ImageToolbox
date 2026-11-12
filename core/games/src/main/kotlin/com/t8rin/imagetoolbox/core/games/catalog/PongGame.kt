@@ -209,6 +209,7 @@ private class PongRun : ArcadeRun() {
     private var serveDelay = 0f
     private var reaction = 0f
     private var trailTime = 0f
+    private var rallies = 0
 
     override fun reset() {
         playerY = (top + bottom) / 2
@@ -216,6 +217,7 @@ private class PongRun : ArcadeRun() {
         targetY = playerY
         rivalTarget = playerY
         reaction = 0f
+        rallies = 0
         serve()
     }
 
@@ -226,7 +228,7 @@ private class PongRun : ArcadeRun() {
     private fun serve() {
         ballX = width / 2
         ballY = (top + bottom) / 2
-        velocityX = -(270f + score * 5f).coerceAtMost(620f)
+        velocityX = -(270f + rallies * 5f).coerceAtMost(620f)
         velocityY = Random.nextFloat() * 150f - 75f
         serveDelay = 0.8f
         trail.clear()
@@ -243,11 +245,11 @@ private class PongRun : ArcadeRun() {
                 val predicted = ballY + velocityY * travel - top - BallHalf
                 val folded = ((predicted % (span * 2f)) + span * 2f) % (span * 2f)
                 top + BallHalf + (if (folded < span) folded else span * 2f - folded) +
-                        sin(score * 0.91f + ballX * 0.02f) * paddleHalf * 0.18f
+                        sin(rallies * 0.91f + ballX * 0.02f) * paddleHalf * 0.18f
             } else (top + bottom) / 2f
-            reaction = (0.2f - score * 0.0015f).coerceAtLeast(0.11f)
+            reaction = (0.2f - rallies * 0.0015f).coerceAtLeast(0.11f)
         }
-        val rivalSpeed = (205f + score * 2f).coerceAtMost(310f)
+        val rivalSpeed = (205f + rallies * 2f).coerceAtMost(310f)
         rivalY =
             (rivalY + (rivalTarget - rivalY).coerceIn(-rivalSpeed * seconds, rivalSpeed * seconds))
             .coerceIn(top + paddleHalf, bottom - paddleHalf)
@@ -275,6 +277,7 @@ private class PongRun : ArcadeRun() {
                     spin = motion / seconds.coerceAtLeast(0.0001f) * 0.16f
                 )
                 score++
+                rallies++
             }
 
             velocityX > 0 && oldX <= width - PaddleEdge - BallHalf && ballX >= width - PaddleEdge - BallHalf &&
@@ -291,6 +294,7 @@ private class PongRun : ArcadeRun() {
             }
 
             ballX > width + BallHalf -> {
+                score += 5
                 serve()
             }
         }

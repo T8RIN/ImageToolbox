@@ -400,6 +400,8 @@ private class BlockStackRun : ArcadeRun() {
     private val bag: ArcadeDeque<Tetromino> = ArrayDeque()
     private var rotation = 0
     private var lines = 0
+    private var combo = -1
+    private var backToBack = false
     private var elapsed = 0f
     private var lockTime = 0f
     private var lockResets = 0
@@ -431,6 +433,8 @@ private class BlockStackRun : ArcadeRun() {
         bag.clear()
         clearing.clear()
         lines = 0
+        combo = -1
+        backToBack = false
         clearTime = 0f
         dropTarget = -1
         stopInput()
@@ -675,9 +679,15 @@ private class BlockStackRun : ArcadeRun() {
             if ((0 until BlockStackColumns).all { board[row * BlockStackColumns + it] != 0 }) clearing += row
         }
         if (clearing.isEmpty()) {
+            combo = -1
             spawn()
         } else {
-            score += listOf(0, 100, 300, 500, 800)[clearing.size] * (lines / 10 + 1)
+            combo++
+            val level = lines / 10 + 1
+            val base = listOf(0, 100, 300, 500, 800)[clearing.size]
+            val bonus = if (clearing.size == 4 && backToBack) base / 2 else 0
+            score += (base + bonus + combo * 50) * level
+            backToBack = clearing.size == 4
             lines += clearing.size
             clearTime = 0f
         }

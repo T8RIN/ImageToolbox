@@ -323,6 +323,7 @@ private class MazeChaserRun : ArcadeRun() {
     var invulnerable = 0f
     var transition = 0f
     private var elapsed = 0f
+    private var ghostChain = 0
     private val playerInterval get() = (0.145f - round.coerceAtMost(12) * 0.002f)
     private val enemyInterval get() = (0.25f - round.coerceAtMost(15) * 0.005f) * if (power > 0f) 1.55f else 1f
     val cell get() = minOf((width - 48f) / columns, (height - topInset - 48f) / rows)
@@ -425,6 +426,7 @@ private class MazeChaserRun : ArcadeRun() {
         queued = 0
         elapsed = 0f
         power = 0f
+        ghostChain = 0
         invulnerable = if (protect) 1.8f else 0f
         enemies.clear()
         val choices =
@@ -502,7 +504,8 @@ private class MazeChaserRun : ArcadeRun() {
             elapsed -= playerInterval
             if (dots[player] > 0) {
                 if (dots[player] == 2) {
-                    power = 6f
+                    power = (6f - (round - 1) * 0.2f).coerceAtLeast(3f)
+                    ghostChain = 0
                     score += 25
                     effects.burst(point = center(player))
                 } else score += 5
@@ -543,7 +546,8 @@ private class MazeChaserRun : ArcadeRun() {
             }
             if ((playerPoint - enemyPoint(enemy)).getDistance() < cell * 0.6f) {
                 if (power > 0f) {
-                    score += 100
+                    score += 100 * (1 shl ghostChain.coerceAtMost(3))
+                    ghostChain++
                     effects.burst(
                         point = enemyPoint(enemy),
                         count = 12

@@ -247,6 +247,15 @@ internal data object FishingGame : ArcadeGameDefinition {
                     kind = run.caught,
                     direction = 1
                 )
+                repeat(5) { index ->
+                    pixelRect(
+                        color = if (index < run.streak % 5) style.accentColor else style.detailColor,
+                        x = run.anchor.x - 20f + index * 5f,
+                        y = water + 8f,
+                        width = 3f,
+                        height = 3f
+                    )
+                }
                 val boatX = run.anchor.x - 18f
                 val boatY = water - 9f + sin(run.time * 2f)
                 pixelRect(
@@ -488,6 +497,9 @@ private class FishingRun : ArcadeRun() {
     var caught = 0
     var misses = 0
     var time = 0f
+    var streak = 0
+        private set
+    private var catches = 0
     val hook get() = anchor + Offset(x = sin(angle), y = cos(angle)) * length
     private var casting = false
     private var returning = false
@@ -502,6 +514,8 @@ private class FishingRun : ArcadeRun() {
         caught = 0
         misses = 0
         time = 0f
+        streak = 0
+        catches = 0
         casting = false
         returning = false
         repeat(4) { row ->
@@ -523,7 +537,10 @@ private class FishingRun : ArcadeRun() {
         time += seconds
         effects.advance(seconds)
         for (item in fish) {
-            item.x += item.direction * (22f + item.kind * 12f + minOf(score * 0.5f, 55f)) * seconds
+            item.x += item.direction * (22f + item.kind * 12f + minOf(
+                catches * 0.75f,
+                55f
+            )) * seconds
             if (item.x > width + 30f) item.x = -30f
             if (item.x < -30f) item.x = width + 30f
         }
@@ -539,9 +556,18 @@ private class FishingRun : ArcadeRun() {
                 casting = false
                 returning = false
                 if (caught > 0) {
-                    score += caught
-                    effects.burst(point = Offset(x = width / 2f, y = waterline))
-                } else misses++
+                    catches++
+                    streak++
+                    score += caught * (1 + minOf(streak / 3, 2))
+                    if (streak % 5 == 0) misses = (misses - 1).coerceAtLeast(0)
+                    effects.burst(
+                        point = Offset(x = width / 2f, y = waterline),
+                        count = if (streak % 5 == 0) 18 else 9
+                    )
+                } else {
+                    misses++
+                    streak = 0
+                }
                 caught = 0
                 if (misses >= 3) phase = ArcadePhase.Over
             }
