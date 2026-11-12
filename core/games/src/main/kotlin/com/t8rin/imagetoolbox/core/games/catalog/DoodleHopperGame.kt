@@ -81,7 +81,8 @@ internal data object DoodleHopperGame : ArcadeGameDefinition {
                 onRelease = run::stopInput
             ) {
                 drawDoodleBackground(style, run.width, run.height)
-                for ((_, centerX, height, width, kind, _, _, _, _, falling) in run.platforms) {
+                for (platform in run.platforms) {
+                    val (_, centerX, height, width, kind, _, _, _, _, falling) = platform
                     val y = run.height - height + run.camera + falling * falling * 280f
                     val x = centerX - width / 2
                     val color = when (kind) {
@@ -239,6 +240,15 @@ internal data object DoodleHopperGame : ArcadeGameDefinition {
                                 height = 11f
                             )
                         }
+                        if (platform.jetpack) {
+                            pixelRect(style.accentColor, centerX - 8f, y - 22f, 6f, 15f)
+                            pixelRect(style.accentColor, centerX + 2f, y - 22f, 6f, 15f)
+                            pixelRect(style.textColor, centerX - 5f, y - 25f, 10f, 4f)
+                            pixelRect(style.playerDetailColor, centerX - 6f, y - 19f, 2f, 7f)
+                            pixelRect(style.playerDetailColor, centerX + 4f, y - 19f, 2f, 7f)
+                            pixelRect(style.hazardColor, centerX - 7f, y - 6f, 4f, 4f)
+                            pixelRect(style.hazardColor, centerX + 3f, y - 6f, 4f, 4f)
+                        }
                     }
                 }
                 for (hole in run.holes) {
@@ -336,6 +346,19 @@ internal data object DoodleHopperGame : ArcadeGameDefinition {
                     ) {
                         val spriteX = x - 22f
                         val spriteY = feet - 44f
+                        if (run.boost > 0f) {
+                            val flame = 11f + (run.time * 30f).toInt() % 3 * 3f
+                            pixelRect(style.accentColor, spriteX - 5f, spriteY + 11f, 8f, 20f)
+                            pixelRect(style.playerDetailColor, spriteX - 3f, spriteY + 14f, 2f, 10f)
+                            pixelRect(style.hazardColor, spriteX - 4f, spriteY + 31f, 6f, flame)
+                            pixelRect(
+                                style.playerDetailColor,
+                                spriteX - 2f,
+                                spriteY + 31f,
+                                2f,
+                                flame - 4f
+                            )
+                        }
                         drawArcadeSprite(
                             sprite = if (shooting) HopperShootingBody else HopperBody,
                             tint = style.playerDetailColor.copy(alpha = 0.45f),
@@ -518,7 +541,8 @@ private data class DoodleHopperPlatform(
     var range: Float = 0f,
     val phase: Float = 0f,
     val speed: Float = 0f,
-    var breakTime: Float = 0f
+    var breakTime: Float = 0f,
+    var jetpack: Boolean = false
 )
 
 @Serializable
@@ -578,6 +602,9 @@ private class DoodleHopperRun : ArcadeRun() {
     val holes = mutableListOf<DoodleHopperHole>()
     var sinking = 0f
         private set
+    var boost = 0f
+        private set
+    private var protection = 0f
     private var sinkX = 0f
     private var sinkHeight = 0f
     val bursts = mutableListOf<DoodleHopperBurst>()
@@ -612,6 +639,8 @@ private class DoodleHopperRun : ArcadeRun() {
         bullets.clear()
         holes.clear()
         sinking = 0f
+        boost = 0f
+        protection = 0f
         bursts.clear()
         platforms += DoodleHopperPlatform(
             id = platformId++,
@@ -673,7 +702,9 @@ private class DoodleHopperRun : ArcadeRun() {
         }
         shotTime = (shotTime - seconds).coerceAtLeast(0f)
         val previousY = y
-        velocity -= 670f * seconds
+        boost = (boost - seconds).coerceAtLeast(0f)
+        protection = (protection - seconds).coerceAtLeast(0f)
+        if (boost > 0f) velocity = 510f else velocity -= 670f * seconds
         y += velocity * seconds
         platforms.forEach {
             if (it.kind == PlatformKind.Moving) it.x =
@@ -727,13 +758,23 @@ private class DoodleHopperRun : ArcadeRun() {
         }
         bursts.forEach { it.time += seconds }
         bursts.removeAll { it.time >= 0.3f }
+        platforms.firstOrNull {
+            it.jetpack && horizontalDistance(x, it.x) < 20f &&
+                    y < it.height + 26f && y + 36f > it.height + 7f
+        }?.let {
+            it.jetpack = false
+            boost = 1.65f
+            protection = 2.25f
+            velocity = 510f
+            bursts += DoodleHopperBurst(x = x, height = y)
+        }
         val hole = holes.firstOrNull {
             val dx = horizontalDistance(x, it.x)
             val dy = y + 22f - it.height
             val radius = it.radius * 0.8f + 10f
             dx * dx + dy * dy < radius * radius
         }
-        if (hole != null) {
+        if (hole != null && protection <= 0f) {
             sinking = 0.001f
             sinkX = hole.x
             sinkHeight = hole.height
@@ -747,7 +788,7 @@ private class DoodleHopperRun : ArcadeRun() {
             ) < 13f + it.kind.halfWidth &&
                     y < it.height + it.kind.halfHeight && y + 36f > it.height - it.kind.halfHeight
         }
-        if (hit != null) {
+        if (hit != null && protection <= 0f) {
             if (hit.kind != MonsterKind.Guard && velocity < 0 &&
                 previousY >= hit.previousHeight + hit.kind.halfHeight
             ) {
@@ -824,6 +865,7 @@ private class DoodleHopperRun : ArcadeRun() {
                 width = PlatformWidth - difficulty * 10f,
                 kind = kind
             )
+            if (row % 36 == 22 && !nearGate && !holeRow) platform.jetpack = true
             if (gate) {
                 monsters += DoodleHopperMonster(
                     x = platform.x,

@@ -153,6 +153,25 @@ internal data object MazeChaserGame : ArcadeGameDefinition {
                             )
                         }
                     }
+                    if (run.bonus >= 0) {
+                        val center = run.center(run.bonus)
+                        val radius = cell * 0.15f
+                        for (side in listOf(-1f, 1f)) {
+                            val fruit = center + Offset(side * radius, radius * 0.55f)
+                            drawLine(
+                                style.obstacleColor, center - Offset(0f, radius * 1.5f), fruit,
+                                strokeWidth = maxOf(1f, cell * 0.05f)
+                            )
+                            pixelCircle(style.accentColor, radius, fruit)
+                            pixelRect(
+                                style.playerDetailColor,
+                                fruit.x - radius / 2f,
+                                fruit.y - radius / 2f,
+                                1f,
+                                1f
+                            )
+                        }
+                    }
                     for ((index, enemy) in run.enemies.withIndex()) {
                         if (enemy.cooldown > 0f) continue
                         val point = run.enemyPoint(enemy)
@@ -320,6 +339,13 @@ private class MazeChaserRun : ArcadeRun() {
     var round = 1
     var time = 0f
     var power = 0f
+    var bonus = -1
+        private set
+    private var bonusTime = 0f
+    private var bonusStage = 0
+    private var lastBonus = -1
+    private var eaten = 0
+    private var totalDots = 0
     var invulnerable = 0f
     var transition = 0f
     private var elapsed = 0f
@@ -359,6 +385,7 @@ private class MazeChaserRun : ArcadeRun() {
         round = 1
         lives = 3
         time = 0f
+        lastBonus = -1
         effects.clear()
         newRound()
     }
@@ -415,6 +442,11 @@ private class MazeChaserRun : ArcadeRun() {
             (rows - 1) * columns - 2
         ).forEach { dots[it] = 2 }
         dots[columns + 1] = 0
+        totalDots = dots.count { it > 0 }
+        eaten = 0
+        bonusStage = 0
+        bonus = -1
+        bonusTime = 0f
         transition = 0f
         respawn(protect = false)
     }
@@ -498,10 +530,18 @@ private class MazeChaserRun : ArcadeRun() {
             return
         }
         power = (power - seconds).coerceAtLeast(0f)
+        bonusTime = (bonusTime - seconds).coerceAtLeast(0f)
+        if (bonusTime == 0f) bonus = -1
         invulnerable = (invulnerable - seconds).coerceAtLeast(0f)
         elapsed += seconds
         if (elapsed >= playerInterval) {
             elapsed -= playerInterval
+            if (player == bonus) {
+                score += 100 + round.coerceAtMost(16) * 25
+                bonus = -1
+                bonusTime = 0f
+                effects.burst(point = center(player), count = 14)
+            }
             if (dots[player] > 0) {
                 if (dots[player] == 2) {
                     power = (6f - (round - 1) * 0.2f).coerceAtLeast(3f)
@@ -510,6 +550,17 @@ private class MazeChaserRun : ArcadeRun() {
                     effects.burst(point = center(player))
                 } else score += 5
                 dots[player] = 0
+                eaten++
+                if (bonusStage < 2 && eaten >= totalDots * (bonusStage + 1) / 3) {
+                    bonusStage++
+                    val distance = distances(player)
+                    val limit = (7f / playerInterval).toInt()
+                    bonus = walls.indices.filter {
+                        !walls[it] && it != lastBonus && distance[it] in 4..limit
+                    }.randomOrNull() ?: -1
+                    lastBonus = bonus
+                    bonusTime = 9f
+                }
                 if (dots.none { it > 0 }) {
                     score += 100 * round
                     transition = 1f

@@ -234,6 +234,7 @@ private class HexagonRushRun : ArcadeRun() {
     private var timer = 0.7f
     private var elapsed = 0f
     private var previousGap = 0
+    private var spawned = 0
 
     override fun reset() {
         walls.clear()
@@ -244,6 +245,7 @@ private class HexagonRushRun : ArcadeRun() {
         timer = 0.7f
         elapsed = 0f
         previousGap = 0
+        spawned = 0
     }
 
     fun steer(point: Offset) {
@@ -263,9 +265,17 @@ private class HexagonRushRun : ArcadeRun() {
         angle = (angle + direction * 3.6f * seconds + full) % full
         val speed = 0.26f + minOf(elapsed * 0.0016f, 0.2f)
         if (timer <= 0f) {
-            previousGap = (previousGap + Random.nextInt(-2, 3) + 6) % 6
+            val shift = when {
+                spawned < 8 -> Random.nextInt(-1, 2)
+                spawned / 6 % 4 == 0 -> 1
+                spawned / 6 % 4 == 1 -> if (spawned % 2 == 0) 2 else -2
+                spawned / 6 % 4 == 2 -> -1
+                else -> Random.nextInt(-2, 3)
+            }
+            spawned++
+            previousGap = (previousGap + shift + 6) % 6
             walls += RimWall(radius = 1.12f, gap = previousGap)
-            timer += maxOf(1.05f, 1.85f - elapsed * 0.006f)
+            timer += maxOf(1.4f, 1.85f - elapsed * 0.004f) + if (spawned % 24 == 0) 0.4f else 0f
         }
         val relative = ((angle - rotation) % full + full) % full
         val sector = (relative / (PI.toFloat() / 3f)).toInt().coerceIn(0, 5)
@@ -283,7 +293,7 @@ private class HexagonRushRun : ArcadeRun() {
                     return
                 }
             }
-            if (!wall.passed && outer < 0.46f - playerRadius) {
+            if (!wall.passed && wall.radius + 0.1f < 0.46f - playerRadius) {
                 wall.passed = true
                 score++
                 pulse = 1f

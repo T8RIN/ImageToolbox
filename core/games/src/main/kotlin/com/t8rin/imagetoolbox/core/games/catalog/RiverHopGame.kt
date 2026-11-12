@@ -35,6 +35,7 @@ import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
+import com.t8rin.imagetoolbox.core.games.utils.pixelGem
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Water
@@ -77,7 +78,7 @@ internal data object RiverHopGame : ArcadeGameDefinition {
             ) {
                 val cell = run.cell
                 val left = run.left
-                for ((index, kind, speed, length, period, offset) in run.lanes) {
+                for ((index, kind, speed, length, period, offset, coin) in run.lanes) {
                     val y = run.screenY(index.toFloat()) - cell / 2f
                     if (y < -cell || y > run.height) continue
                     val tint = when (kind) {
@@ -97,6 +98,12 @@ internal data object RiverHopGame : ArcadeGameDefinition {
                         y = y,
                         width = run.width,
                         height = cell
+                    )
+                    if (coin >= 0) pixelGem(
+                        color = style.accentColor,
+                        light = style.playerDetailColor,
+                        center = Offset(left + (coin + 0.5f) * cell, y + cell * 0.45f),
+                        radius = cell * 0.15f
                     )
                     if (kind == 0) {
                         pixelRect(
@@ -478,7 +485,8 @@ private data class RiverLane(
     val speed: Float,
     val length: Float,
     val period: Float,
-    var offset: Float
+    var offset: Float,
+    var coin: Int = -1
 )
 
 @Serializable
@@ -553,7 +561,8 @@ private class RiverHopRun : ArcadeRun() {
                 speed = speed,
                 length = length,
                 period = period,
-                offset = Random.nextFloat() * period
+                offset = Random.nextFloat() * period,
+                coin = if (kind == 0 && index > 1 && index % 2 == 1) Random.nextInt(1, 8) else -1
             )
         }
         lanes.removeAll { it.index < camera.toInt() - 2 }
@@ -608,6 +617,11 @@ private class RiverHopRun : ArcadeRun() {
             if (collision || frogX !in 0.15f..8.85f || remaining <= 0f) {
                 phase = ArcadePhase.Over
                 return
+            }
+            if (lane.coin >= 0 && abs(frogX - lane.coin - 0.5f) < 0.35f) {
+                lane.coin = -1
+                score += 5
+                remaining = (remaining + 2f).coerceAtMost(8f)
             }
             if (row > highest) {
                 score += row - highest

@@ -165,15 +165,15 @@ internal data object TintAscentGame : ArcadeGameDefinition {
                         val center = Offset(0f, -run.ball)
                         if (run.launched) {
                             repeat(3) { index ->
-                                pixelCircle(
+                                drawCircle(
                                     color = colors[run.color].copy(alpha = 0.16f - index * 0.04f),
                                     radius = SwitchBallRadius - index,
                                     center = center + Offset(0f, (index + 1) * run.velocity / 48f)
                                 )
                             }
                         }
-                        pixelCircle(colors[run.color], SwitchBallRadius, center)
-                        pixelCircle(
+                        drawCircle(colors[run.color], SwitchBallRadius, center)
+                        drawCircle(
                             style.playerDetailColor.copy(alpha = 0.8f),
                             2f,
                             center - Offset(2f, 2f)
@@ -532,7 +532,6 @@ private class TintAscentRun : ArcadeRun() {
     var launched = false
         private set
     private var generated = 0
-    private var elapsed = 0.0
     private val patterns = mutableListOf<SwitchGateKind>()
     var crash = 0f
         private set
@@ -552,7 +551,6 @@ private class TintAscentRun : ArcadeRun() {
         color = Random.nextInt(4)
         launched = false
         generated = 0
-        elapsed = 0.0
         crash = 0f
         patterns.clear()
         effects.clear()
@@ -581,7 +579,6 @@ private class TintAscentRun : ArcadeRun() {
             }
             return
         }
-        elapsed += seconds
         val nextVelocity = (velocity - SwitchGravity * seconds).coerceAtLeast(-320f)
         altitude += (velocity + nextVelocity) * seconds / 2.0
         velocity = nextVelocity
@@ -728,7 +725,8 @@ private class TintAscentRun : ArcadeRun() {
     }
 
     private fun gateAngle(phase: Float, speed: Float, referenceTime: Float): Float =
-        arcadeAngle(phase + ((elapsed - referenceTime) * speed % 360.0).toFloat())
+        // Anchor new gates to the actual climb, including pauses between taps.
+        arcadeAngle(phase + (switchReferenceTime(ball) - referenceTime) * speed % 360f)
 
     private fun nextPattern(index: Int, previous: SwitchGateKind?): SwitchGateKind {
         if (index == 0) {
