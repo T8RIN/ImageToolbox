@@ -165,15 +165,15 @@ internal data object TintAscentGame : ArcadeGameDefinition {
                         val center = Offset(0f, -run.ball)
                         if (run.launched) {
                             repeat(3) { index ->
-                                drawCircle(
+                                drawSwitchBall(
                                     color = colors[run.color].copy(alpha = 0.16f - index * 0.04f),
                                     radius = SwitchBallRadius - index,
                                     center = center + Offset(0f, (index + 1) * run.velocity / 48f)
                                 )
                             }
                         }
-                        drawCircle(colors[run.color], SwitchBallRadius, center)
-                        drawCircle(
+                        drawSwitchBall(colors[run.color], SwitchBallRadius, center)
+                        drawSwitchBall(
                             style.playerDetailColor.copy(alpha = 0.8f),
                             2f,
                             center - Offset(2f, 2f)
@@ -186,6 +186,13 @@ internal data object TintAscentGame : ArcadeGameDefinition {
 }
 
 private const val SwitchBallRadius = 6.5f
+
+private fun DrawScope.drawSwitchBall(color: Color, radius: Float, center: Offset) {
+    scale(0.5f, center) {
+        pixelCircle(color, radius * 2f, center)
+    }
+}
+
 private const val SwitchStroke = 10f
 private const val SwitchStripeWidth = 44f
 private const val SwitchRailWidth = 96f
