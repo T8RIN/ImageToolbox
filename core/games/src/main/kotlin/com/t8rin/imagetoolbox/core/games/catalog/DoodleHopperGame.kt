@@ -48,6 +48,7 @@ import kotlinx.serialization.Transient
 import kotlin.math.abs
 import kotlin.math.cos
 import kotlin.math.exp
+import kotlin.math.hypot
 import kotlin.math.sin
 import kotlin.math.sqrt
 import kotlin.random.Random
@@ -669,8 +670,9 @@ private class DoodleHopperRun : ArcadeRun() {
     fun shoot(target: Offset) {
         if (sinking > 0f) return
         if (shotTime > 0.04f) return
-        val rise = (height - y + camera - 44f - target.y).coerceAtLeast(120f)
-        val vx = ((target.x - x) / rise * 520f).coerceIn(-200f, 200f)
+        val rise = (height - y + camera - 44f - target.y).coerceAtLeast(24f)
+        val dx = target.x - x
+        val vx = (dx / hypot(dx, rise) * 520f).coerceIn(-200f, 200f)
         bullets += DoodleHopperBullet(x = x, y = y + 44f, vx = vx, vy = sqrt(520f * 520f - vx * vx))
         shotTime = 0.18f
     }

@@ -215,10 +215,22 @@ internal data object FruitSliceGame : ArcadeGameDefinition {
                             )
                         } else {
                             scale(
-                                if (kind == 5) SlicePomegranateScale + fruit.flash else 1f,
+                                fruit.scale + fruit.flash,
                                 Offset(x1, y1)
                             ) {
                                 drawSliceFruit(style, kind, Offset(x1, y1))
+                            }
+                            if (fruit.explosive) {
+                                val glow = Color(0xFFFFB657).sliceColor(style.playerColor)
+                                val pulse = 1f + sin(fruit.angle * PI.toFloat() / 90f) * 0.08f
+                                pixelCircle(
+                                    glow.copy(alpha = 0.18f),
+                                    fruit.radius * pulse + 5f,
+                                    Offset(x1, y1)
+                                )
+                                pixelRect(glow, x1 + 12f, y1 - 23f, 3f, 9f)
+                                pixelRect(glow, x1 + 9f, y1 - 20f, 9f, 3f)
+                                pixelRect(style.playerDetailColor, x1 + 12f, y1 - 20f, 3f, 3f)
                             }
                         }
                     }
@@ -243,7 +255,7 @@ internal data object FruitSliceGame : ArcadeGameDefinition {
                             ) {
                                 rotate(-piece.cut, center) {
                                     scale(
-                                        if (piece.kind == 5) SlicePomegranateScale else 1f,
+                                        SliceFruitArts[piece.kind].scale * piece.size,
                                         center
                                     ) {
                                         drawSliceFruit(
@@ -259,6 +271,19 @@ internal data object FruitSliceGame : ArcadeGameDefinition {
                                 }
                             }
                         }
+                    }
+                }
+                for ((point, radius, life) in run.blasts) {
+                    val progress = 1f - life / 0.35f
+                    val color = Color(0xFFFFB657).sliceColor(style.playerColor)
+                    repeat(12) { index ->
+                        val angle = index * PI.toFloat() / 6f
+                        val center = point + Offset(cos(angle), sin(angle)) * radius * progress
+                        pixelCircle(
+                            color.copy(alpha = 1f - progress),
+                            4f * (1f - progress) + 1f,
+                            center
+                        )
                     }
                 }
                 for ((point, amount, combo, life) in run.rewards) {
@@ -625,7 +650,8 @@ private data class SliceFruitArt(
     val seeds: ArcadeSprite? = null,
     val leaf: ArcadeSprite? = SliceLeaf,
     val rind: Int = 3,
-    val pivot: Offset = Offset(18f, 18f)
+    val pivot: Offset = Offset(18f, 18f),
+    val scale: Float = 1f
 ) {
     val surface by lazy { sliceInset(body.path, 1) }
     val rim by lazy { sliceInset(body.path, rind - 1) }
@@ -666,35 +692,35 @@ private val SliceFruitArts = listOf(
     ),
     SliceFruitArt(
         SlicePear, Color(0xFFB6C869), Color(0xFFFFEFCA), SlicePearDetail,
-        SlicePearCore, SlicePearSeeds
+        SlicePearCore, SlicePearSeeds, scale = 1.05f
     ),
     SliceFruitArt(
         SliceMelon, Color(0xFF6EA55B), Color(0xFFF16C79), SliceMelonDetail,
-        seeds = SliceMelonSeeds, leaf = null, rind = 4
+        seeds = SliceMelonSeeds, leaf = null, rind = 4, scale = 1.35f
     ),
     SliceFruitArt(
         SliceBerry, Color(0xFFD95068), Color(0xFFF094A0), SliceBerryDetail,
-        SliceBerryCore, leaf = SliceBerryCrown
+        SliceBerryCore, leaf = SliceBerryCrown, scale = 0.88f
     ),
     SliceFruitArt(
         SlicePomegranate, Color(0xFFC8455F), Color(0xFFF39A9B), SlicePomegranateDetail,
-        SlicePomegranateCore, SlicePomegranateSeeds, leaf = null
+        SlicePomegranateCore, SlicePomegranateSeeds, leaf = null, scale = SlicePomegranateScale
     ),
     SliceFruitArt(
         SliceBanana, Color(0xFFE9C95C), Color(0xFFFFEDB2), SliceBananaDetail,
-        seeds = SliceBananaSeeds, leaf = null, rind = 2, pivot = Offset(20f, 22f)
+        seeds = SliceBananaSeeds, leaf = null, rind = 2, pivot = Offset(20f, 22f), scale = 1.05f
     ),
     SliceFruitArt(
         SlicePineapple, Color(0xFFD4AB58), Color(0xFFFFDF85), SlicePineappleDetail,
-        SlicePineappleCore, leaf = SlicePineappleCrown, rind = 4
+        SlicePineappleCore, leaf = SlicePineappleCrown, rind = 4, scale = 1.18f
     ),
     SliceFruitArt(
         SliceKiwi, Color(0xFF9C835C), Color(0xFFB4D578), SliceKiwiDetail,
-        SliceKiwiCore, SliceKiwiSeeds, leaf = null
+        SliceKiwiCore, SliceKiwiSeeds, leaf = null, scale = 0.93f
     ),
     SliceFruitArt(
         SliceLemon, Color(0xFFE5D45F), Color(0xFFFFEC94), SliceOrangeDetail,
-        SliceCitrusSegments, SliceCitrusSeeds
+        SliceCitrusSegments, SliceCitrusSeeds, scale = 0.95f
     ),
     SliceFruitArt(
         SlicePeach, Color(0xFFEA9A86), Color(0xFFFFD89C), SlicePeachDetail,
@@ -702,23 +728,23 @@ private val SliceFruitArts = listOf(
     ),
     SliceFruitArt(
         SliceCoconut, Color(0xFFA4805D), Color(0xFFFFF0DA), SliceCoconutDetail,
-        SliceCoconutCore, leaf = null, rind = 4
+        SliceCoconutCore, leaf = null, rind = 4, scale = 1.18f
     ),
     SliceFruitArt(
         SliceMango, Color(0xFFE8AB58), Color(0xFFFFD578), SliceMangoDetail,
-        seeds = SliceMangoStone
+        seeds = SliceMangoStone, scale = 1.08f
     ),
     SliceFruitArt(
         SliceLime, Color(0xFF94BE64), Color(0xFFE0EB9F), SliceOrangeDetail,
-        SliceLimeSegments, SliceCitrusSeeds
+        SliceLimeSegments, SliceCitrusSeeds, scale = 0.9f
     ),
     SliceFruitArt(
         SlicePlum, Color(0xFF926DA8), Color(0xFFF2C973), SlicePlumDetail,
-        seeds = SlicePlumStone
+        seeds = SlicePlumStone, scale = 0.88f
     ),
     SliceFruitArt(
         SlicePassionFruit, Color(0xFF97638D), Color(0xFFF6D574), SlicePassionDetail,
-        seeds = SlicePassionSeeds, leaf = null, rind = 4
+        seeds = SlicePassionSeeds, leaf = null, rind = 4, scale = 0.95f
     ),
     SliceFruitArt(
         SliceApple, Color(0xFF8BB967), Color(0xFFF2EFC7), SliceAppleDetail,
@@ -726,15 +752,15 @@ private val SliceFruitArts = listOf(
     ),
     SliceFruitArt(
         SliceBanana, Color(0xFF97DDEB), Color(0xFFE8F7F5), SliceBananaDetail,
-        seeds = SliceBananaSeeds, leaf = null, rind = 2, pivot = Offset(20f, 22f)
+        seeds = SliceBananaSeeds, leaf = null, rind = 2, pivot = Offset(20f, 22f), scale = 1.05f
     ),
     SliceFruitArt(
         SliceBanana, Color(0xFFF1D166), Color(0xFFFFEFBA), SliceBananaDetail,
-        seeds = SliceBananaSeeds, leaf = null, rind = 2, pivot = Offset(20f, 22f)
+        seeds = SliceBananaSeeds, leaf = null, rind = 2, pivot = Offset(20f, 22f), scale = 1.05f
     ),
     SliceFruitArt(
         SliceBanana, Color(0xFFF1D166), Color(0xFFFFEFBA), SliceBananaDetail,
-        seeds = SliceBananaSeeds, leaf = null, rind = 2, pivot = Offset(20f, 22f)
+        seeds = SliceBananaSeeds, leaf = null, rind = 2, pivot = Offset(20f, 22f), scale = 1.05f
     )
 )
 private val SliceFruitKinds = (0 until SliceFreeze).filter { it != 5 }
@@ -887,7 +913,19 @@ private data class SliceFruit(
     val kind: Int, var angle: Float = 0f, val spin: Float = 0f, var delay: Float = 0f,
     var hang: Float = 0f, var hits: Int = 0, var stroke: Int = -1,
     var touching: Boolean = false, var flash: Float = 0f,
-    var frenzy: Boolean = false
+    var frenzy: Boolean = false,
+    val size: Float = 1f,
+    val explosive: Boolean = false
+) {
+    val scale get() = if (bomb) 1f else SliceFruitArts[kind].scale * size
+    val radius get() = (if (!bomb && (kind == 6 || kind >= SliceFreeze)) 22f else 19f) * scale
+}
+
+@Serializable
+private data class SliceBlast(
+    val point: ArcadeOffset,
+    val radius: Float,
+    var life: Float = 0.35f
 )
 
 @Serializable
@@ -917,7 +955,8 @@ private data class SlicePiece(
     val kind: Int,
     val cut: Float = 0f,
     val side: Int = 1,
-    val spin: Float = 0f
+    val spin: Float = 0f,
+    val size: Float = 1f
 )
 
 @Serializable
@@ -934,6 +973,7 @@ private class FruitSliceRun : ArcadeRun() {
     val trail = mutableListOf<SliceTrace>()
     val stains = mutableListOf<SliceStain>()
     val rewards = mutableListOf<SliceReward>()
+    val blasts = mutableListOf<SliceBlast>()
 
     @Transient
     val effects = ArcadeEffects()
@@ -955,7 +995,7 @@ private class FruitSliceRun : ArcadeRun() {
     private var criticalIn = 30
     private var pomegranateIn = 30f
     private var stroke = 0
-    private var bonusIn = 12f
+    private var bonusIn = 22f
     private var frenzyIn = 0f
     private val patterns: ArcadeDeque<Int> = ArrayDeque()
     private val bonuses: ArcadeDeque<Int> = ArrayDeque()
@@ -967,6 +1007,7 @@ private class FruitSliceRun : ArcadeRun() {
         trail.clear()
         stains.clear()
         rewards.clear()
+        blasts.clear()
         patterns.clear()
         bonuses.clear()
         effects.clear()
@@ -980,7 +1021,7 @@ private class FruitSliceRun : ArcadeRun() {
         freeze = 0f
         doublePoints = 0f
         frenzy = 0f
-        bonusIn = 11f + Random.nextFloat() * 4f
+        bonusIn = 18f + Random.nextFloat() * 8f
         frenzyIn = 0f
         comboTime = 0f
         stopInput()
@@ -1000,6 +1041,9 @@ private class FruitSliceRun : ArcadeRun() {
         if (trail.size >= 18) trail.removeAt(0)
         trail += SliceTrace(start = start, end = point)
         finger = point
+        val explosions = ArrayDeque<Offset>()
+        val normal = Offset(-delta.y, delta.x) / sqrt(length)
+        val angle = atan2(delta.y, delta.x) * 180f / PI.toFloat()
         val iterator = fruits.iterator()
         while (iterator.hasNext()) {
             val fruit = iterator.next()
@@ -1013,11 +1057,7 @@ private class FruitSliceRun : ArcadeRun() {
                     0f,
                     1f
                 )
-            val radius = when {
-                fruit.kind == 5 -> 19f * SlicePomegranateScale
-                fruit.kind == 6 || fruit.kind >= SliceFreeze -> 22f
-                else -> 19f
-            }
+            val radius = fruit.radius
             val crossed =
                 hypot(fruit.x - start.x - t * delta.x, fruit.y - start.y - t * delta.y) < radius
             if (fruit.kind == 5) {
@@ -1039,73 +1079,97 @@ private class FruitSliceRun : ArcadeRun() {
                     phase = ArcadePhase.Over
                     return
                 }
-                when (fruit.kind) {
-                    SliceFreeze -> freeze = 6f
-                    SliceDouble -> doublePoints = 6f
-                    SliceFrenzy -> {
-                        frenzy = 6f
-                        frenzyIn = 0f
-                        fruits.forEach { it.frenzy = true }
-                    }
-                }
-                if (comboTime <= 0f) combo = 0
-                combo++
-                comboTime = 0.14f
-                var points = 1
-                if (combo >= 3) {
-                    points += if (combo == 3) 3 else 1
-                    val reward = rewards.lastOrNull { it.combo && it.life > 0.5f }
-                    if (reward == null) rewards += SliceReward(
-                        Offset(fruit.x, fruit.y),
-                        combo,
-                        true
-                    )
-                    else {
-                        reward.point = Offset(fruit.x, fruit.y)
-                        reward.amount = combo
-                        reward.life = 0.75f
-                    }
-                }
-                criticalIn--
-                if (criticalIn <= 0) {
-                    criticalIn = Random.nextInt(25, 55)
-                    points += 10
-                    rewards += SliceReward(
-                        Offset(fruit.x, fruit.y),
-                        if (doublePoints > 0f) 20 else 10,
-                        false
-                    )
-                }
-                addScore(points)
-                effects.burst(
-                    point = Offset(x = fruit.x, y = fruit.y),
-                    count = if (combo >= 3) 12 else 7
-                )
-                if (stains.size >= 18) stains.removeAt(0)
-                stains += SliceStain(
-                    Offset(fruit.x, fruit.y),
-                    fruit.kind,
-                    radius = 7f + Random.nextFloat() * 6f
-                )
-                val normal = Offset(-delta.y, delta.x) / sqrt(length)
-                val angle = atan2(delta.y, delta.x) * 180f / PI.toFloat()
-                for (sign in -1..1 step 2) {
-                    pieces += SlicePiece(
-                        x = fruit.x, y = fruit.y,
-                        vx = fruit.vx * 0.25f + normal.x * sign * 65f,
-                        vy = fruit.vy * 0.2f + normal.y * sign * 65f - 40f,
-                        life = 0.8f,
-                        angle = fruit.angle,
-                        kind = fruit.kind,
-                        cut = angle - fruit.angle,
-                        side = sign,
-                        spin = sign * 95f + fruit.spin * 0.2f
-                    )
-                }
                 iterator.remove()
+                cutFruit(fruit, normal, angle)
+                if (fruit.explosive) explosions += Offset(fruit.x, fruit.y)
+            }
+        }
+        while (explosions.isNotEmpty()) {
+            val center = explosions.removeFirst()
+            val radius = minOf(76f, width * 0.22f)
+            blasts += SliceBlast(center, radius)
+            effects.burst(center, 20)
+            val nearby = fruits.filter {
+                !it.bomb && it.kind != 5 && it.delay <= 0f &&
+                        it.y in topInset..height &&
+                        (Offset(it.x, it.y) - center).getDistance() <= radius
+            }
+            for (fruit in nearby) {
+                fruits.remove(fruit)
+                val direction = Offset(fruit.x, fruit.y) - center
+                val distance = direction.getDistance()
+                val outward = if (distance > 1f) direction / distance else normal
+                cutFruit(fruit, outward, atan2(outward.y, outward.x) * 180f / PI.toFloat() + 90f)
+                if (fruit.explosive) explosions += Offset(fruit.x, fruit.y)
             }
         }
         if (frenzy > 0f) fruits.removeAll { it.bomb }
+    }
+
+    private fun cutFruit(fruit: SliceFruit, normal: Offset, angle: Float) {
+        when (fruit.kind) {
+            SliceFreeze -> freeze = 6f
+            SliceDouble -> doublePoints = 6f
+            SliceFrenzy -> {
+                frenzy = 6f
+                frenzyIn = 0f
+                fruits.forEach { it.frenzy = true }
+            }
+        }
+        if (comboTime <= 0f) combo = 0
+        combo++
+        comboTime = 0.14f
+        var points = 1
+        var extra = if (fruit.explosive) 5 else 0
+        if (combo >= 3) {
+            points += if (combo == 3) 3 else 1
+            val reward = rewards.lastOrNull { it.combo && it.life > 0.5f }
+            if (reward == null) rewards += SliceReward(
+                Offset(fruit.x, fruit.y),
+                combo,
+                true
+            )
+            else {
+                reward.point = Offset(fruit.x, fruit.y)
+                reward.amount = combo
+                reward.life = 0.75f
+            }
+        }
+        criticalIn--
+        if (criticalIn <= 0) {
+            criticalIn = Random.nextInt(25, 55)
+            extra += 10
+        }
+        if (extra > 0) rewards += SliceReward(
+            Offset(fruit.x, fruit.y),
+            extra * if (doublePoints > 0f) 2 else 1,
+            false
+        )
+        addScore(points + extra)
+        effects.burst(
+            point = Offset(x = fruit.x, y = fruit.y),
+            count = if (combo >= 3) 12 else 7
+        )
+        if (stains.size >= 18) stains.removeAt(0)
+        stains += SliceStain(
+            Offset(fruit.x, fruit.y),
+            fruit.kind,
+            radius = (7f + Random.nextFloat() * 6f) * fruit.scale
+        )
+        for (sign in -1..1 step 2) {
+            pieces += SlicePiece(
+                x = fruit.x, y = fruit.y,
+                vx = fruit.vx * 0.25f + normal.x * sign * 65f,
+                vy = fruit.vy * 0.2f + normal.y * sign * 65f - 40f,
+                life = 0.8f,
+                angle = fruit.angle,
+                kind = fruit.kind,
+                cut = angle - fruit.angle,
+                side = sign,
+                spin = sign * 95f + fruit.spin * 0.2f,
+                size = fruit.size
+            )
+        }
     }
 
     override fun stopInput() {
@@ -1129,6 +1193,8 @@ private class FruitSliceRun : ArcadeRun() {
         stains.removeAll { it.life <= 0f }
         rewards.forEach { it.life -= seconds }
         rewards.removeAll { it.life <= 0f }
+        blasts.forEach { it.life -= seconds }
+        blasts.removeAll { it.life <= 0f }
         for (trace in trail) trace.life -= seconds * 5f
         trail.removeAll { it.life <= 0f }
         if (pomegranateIn <= 0f && frenzy == 0f && fruits.isEmpty()) {
@@ -1138,7 +1204,7 @@ private class FruitSliceRun : ArcadeRun() {
                 rise = (height - topInset) * 0.72f,
                 delay = 0f,
                 bomb = false
-            ).copy(kind = 5, spin = 15f, hang = 3.2f)
+            ).copy(kind = 5, spin = 15f, hang = 3.2f, explosive = false)
             pomegranateIn = 35f + Random.nextFloat() * 20f
         }
         val pomegranate = fruits.any { it.kind == 5 }
@@ -1185,7 +1251,8 @@ private class FruitSliceRun : ArcadeRun() {
                         for (side in -1..1 step 2) pieces += SlicePiece(
                             x = fruit.x, y = fruit.y, vx = -side * 80f, vy = -70f,
                             life = 0.8f, angle = fruit.angle, kind = 5,
-                            cut = 90f - fruit.angle, side = side, spin = -side * 95f
+                            cut = 90f - fruit.angle, side = side, spin = -side * 95f,
+                            size = fruit.size
                         )
                         iterator.remove()
                     }
@@ -1218,31 +1285,31 @@ private class FruitSliceRun : ArcadeRun() {
     }
 
     private fun throwBonus() {
-        if (bonuses.isEmpty()) bonuses.addAll(
-            listOf(
-                SliceFreeze,
-                SliceDouble,
-                SliceFrenzy
-            ).shuffled()
-        )
-        val kind = bonuses.first()
-        repeat(16) {
-            val fruit = thrownFruit(
-                x = width * (0.2f + Random.nextFloat() * 0.6f),
-                landing = width * (0.3f + Random.nextFloat() * 0.4f),
-                rise = (height - topInset) * 0.7f,
-                delay = 0f,
-                bomb = false
-            ).copy(kind = kind)
-            if (fruits.none { it.bomb && conflicts(fruit, it) }) {
-                fruits += fruit
-                bonuses.removeFirst()
-                bonusIn = if (bonuses.isEmpty()) 14f + Random.nextFloat() * 6f
-                else 2.2f + Random.nextFloat() * 1f
-                return
+        val roll = Random.nextFloat()
+        val count = if (roll < 0.03f) 3 else if (roll < 0.25f) 2 else 1
+        val spawned = mutableSetOf<Int>()
+        repeat(minOf(count, 24 - fruits.size)) { index ->
+            if (bonuses.isEmpty()) bonuses.addAll(
+                listOf(SliceFreeze, SliceDouble, SliceFrenzy).shuffled()
+            )
+            val kind = bonuses.firstOrNull { it !in spawned } ?: return@repeat
+            for (attempt in 0 until 24) {
+                val fruit = thrownFruit(
+                    x = width * (0.15f + Random.nextFloat() * 0.7f),
+                    landing = width * (0.25f + Random.nextFloat() * 0.5f),
+                    rise = (height - topInset) * 0.7f,
+                    delay = index * 0.12f,
+                    bomb = false
+                ).copy(kind = kind, explosive = false)
+                if (fruits.none { it.bomb && conflicts(fruit, it) }) {
+                    fruits += fruit
+                    bonuses.remove(kind)
+                    spawned += kind
+                    break
+                }
             }
         }
-        bonusIn = 0.4f
+        bonusIn = if (spawned.isEmpty()) 0.4f else 22f + Random.nextFloat() * 12f
     }
 
     private fun throwWave() {
@@ -1286,19 +1353,24 @@ private class FruitSliceRun : ArcadeRun() {
                 }
             }
         }
-        if (elapsed > 10f && Random.nextFloat() < 0.18f + pace * 0.28f && fruits.count { it.bomb } < 2) {
-            for (attempt in 0 until 24) {
-                val x = width * (0.12f + Random.nextFloat() * 0.76f)
-                val bomb = thrownFruit(
-                    x = x,
-                    landing = width * (0.18f + Random.nextFloat() * 0.64f),
-                    rise = rise * (0.8f + Random.nextFloat() * 0.15f),
-                    delay = Random.nextFloat() * 0.25f,
-                    bomb = true
-                )
-                if (fruits.none { !it.bomb && conflicts(bomb, it) }) {
-                    fruits += bomb
-                    break
+        val bombLimit = if (elapsed < 30f) 1 else if (elapsed < 75f) 2 else 3
+        if (elapsed > 10f && Random.nextFloat() < 0.18f + pace * 0.28f) {
+            val roll = Random.nextFloat()
+            val count = if (bombLimit == 3 && roll < 0.12f) 3
+            else if (bombLimit >= 2 && roll < 0.4f) 2 else 1
+            repeat(minOf(count, bombLimit - fruits.count { it.bomb }).coerceAtLeast(0)) { index ->
+                for (attempt in 0 until 48) {
+                    val bomb = thrownFruit(
+                        x = width * (0.1f + Random.nextFloat() * 0.8f),
+                        landing = width * (0.12f + Random.nextFloat() * 0.76f),
+                        rise = rise * (0.65f + Random.nextFloat() * 0.3f),
+                        delay = index * 0.18f + Random.nextFloat() * 0.3f,
+                        bomb = true
+                    )
+                    if (fruits.none { conflicts(bomb, it) }) {
+                        fruits += bomb
+                        break
+                    }
                 }
             }
         }
@@ -1314,18 +1386,21 @@ private class FruitSliceRun : ArcadeRun() {
     ): SliceFruit {
         val speed = sqrt(2f * gravity * rise)
         val airtime = 2f * speed / gravity
+        val kind = if (bomb) 0 else SliceFruitKinds.random()
         return SliceFruit(
             x = x, y = height + 20f, vx = (landing - x) / airtime, vy = -speed,
             bomb = bomb,
-            kind = if (bomb) 0 else SliceFruitKinds.random(),
+            kind = kind,
             angle = Random.nextFloat() * 360f,
-            spin = (Random.nextFloat() - 0.5f) * 180f, delay = delay
+            spin = (Random.nextFloat() - 0.5f) * 180f, delay = delay,
+            size = if (bomb) 1f else 0.96f + Random.nextFloat() * 0.08f,
+            explosive = !bomb && kind == 4 && elapsed > 15f && Random.nextInt(4) == 0
         )
     }
 
     private fun conflicts(first: SliceFruit, second: SliceFruit): Boolean {
-        for (sample in 0..75) {
-            val time = sample / 30f
+        for (sample in 0..150) {
+            val time = sample / 60f
             fun position(fruit: SliceFruit): Offset {
                 val elapsed = (time - fruit.delay.coerceAtLeast(0f)).coerceAtLeast(0f)
                 return Offset(
@@ -1336,7 +1411,10 @@ private class FruitSliceRun : ArcadeRun() {
 
             val a = position(first)
             val b = position(second)
-            if (a.y in topInset..height && b.y in topInset..height && (a - b).getDistance() < 45f) return true
+            if (a.y in topInset - first.radius..height + first.radius &&
+                b.y in topInset - second.radius..height + second.radius &&
+                (a - b).getDistance() < first.radius + second.radius + 6f
+            ) return true
         }
         return false
     }
@@ -1352,6 +1430,7 @@ private class FruitSliceRun : ArcadeRun() {
         trail.clear()
         stains.clear()
         rewards.clear()
+        blasts.clear()
         effects.clear()
         stopInput()
     }
