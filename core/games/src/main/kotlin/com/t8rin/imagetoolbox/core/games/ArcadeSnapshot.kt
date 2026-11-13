@@ -29,13 +29,13 @@ import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import kotlinx.serialization.json.Json
 
-internal val ArcadeJson = Json {
+private val ArcadeJson = Json {
     encodeDefaults = true
     ignoreUnknownKeys = true
 }
 
 @Serializable
-internal data class ArcadeSnapshot<T : ArcadeRun>(
+private data class ArcadeSnapshot<T : ArcadeRun>(
     val run: T,
     val phase: ArcadePhase,
     val score: Int,
