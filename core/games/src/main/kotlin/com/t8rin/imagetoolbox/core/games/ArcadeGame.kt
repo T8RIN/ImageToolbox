@@ -41,7 +41,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -85,6 +88,7 @@ import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.PathParser
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.pointer.PointerId
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
@@ -477,6 +481,7 @@ internal fun ArcadeBoard(
             modifier = Modifier
                 .align(Alignment.TopEnd)
                 .padding(end = 12.dp, top = 8.dp)
+                .height(IntrinsicSize.Min)
                 .graphicsLayer {
                     scaleX = hudScale
                     scaleY = hudScale
@@ -500,19 +505,25 @@ internal fun ArcadeBoard(
             ) {
                 Box(
                     Modifier
-                        .size(28.dp)
+                        .fillMaxHeight()
+                        .aspectRatio(1f)
                         .clip(MaterialTheme.shapes.small)
                         .background(style.background)
                         .clickable(enabled = phase == ArcadePhase.Running && !isPaused) {
                             run.pause()
                             haptics.longPress()
-                        }
-                        .padding(6.dp)
-                        .paint(
-                            painter = rememberVectorPainter(Icons.Rounded.Pause),
-                            colorFilter = ColorFilter.tint(style.accentColor)
-                        )
-                )
+                        },
+                    contentAlignment = Alignment.Center
+                ) {
+                    Box(
+                        Modifier
+                            .size(with(LocalDensity.current) { style.scoreTextStyle.fontSize.toDp() } * 1.25f)
+                            .paint(
+                                painter = rememberVectorPainter(Icons.Rounded.Pause),
+                                colorFilter = ColorFilter.tint(style.accentColor)
+                            )
+                    )
+                }
             }
             Row(
                 modifier = Modifier
@@ -688,6 +699,7 @@ internal fun ArcadeField(
     onRelease: (() -> Unit)? = null,
     onSwipe: ((Offset) -> Unit)? = null,
     swipeOnDrag: Boolean = false,
+    lightFeedback: Boolean = false,
     draw: DrawScope.() -> Unit
 ) {
     val levelEnding by rememberUpdatedState(transition)
@@ -699,6 +711,9 @@ internal fun ArcadeField(
     val release by rememberUpdatedState(onRelease)
     val swipe by rememberUpdatedState(onSwipe)
     val haptics = LocalHapticFeedback.current
+    val feedback by rememberUpdatedState(
+        if (lightFeedback) HapticFeedbackType.TextHandleMove else HapticFeedbackType.LongPress
+    )
     val topInset = with(LocalDensity.current) { 44.dp.toPx() }
     Canvas(
         modifier = Modifier
@@ -741,7 +756,7 @@ internal fun ArcadeField(
                     down.consume()
                     press?.let {
                         it(down.position / scale)
-                        haptics.longPress()
+                        haptics.performHapticFeedback(feedback)
                     }
                     var swiped = false
                     var dragged = false
@@ -779,7 +794,7 @@ internal fun ArcadeField(
                                             } else if (!change.pressed) {
                                                 if (change.uptimeMillis - time < viewConfiguration.longPressTimeoutMillis) {
                                                     fire(change.position / scale)
-                                                    haptics.longPress()
+                                                    haptics.performHapticFeedback(feedback)
                                                 }
                                                 secondaryTouches.remove(change.id)
                                             }
@@ -796,7 +811,7 @@ internal fun ArcadeField(
                                 if (delta.getDistance() > viewConfiguration.touchSlop) {
                                     swipe?.let {
                                         it(delta / scale)
-                                        haptics.longPress()
+                                        haptics.performHapticFeedback(feedback)
                                         swiped = true
                                     }
                                 }
@@ -806,7 +821,7 @@ internal fun ArcadeField(
                                 if (!held && !swiped && !dragged && change.uptimeMillis - down.uptimeMillis < viewConfiguration.longPressTimeoutMillis) {
                                     tap?.let {
                                         it(change.position / scale)
-                                        if (press == null) haptics.longPress()
+                                        if (press == null) haptics.performHapticFeedback(feedback)
                                     }
                                 }
                                 change.consume()

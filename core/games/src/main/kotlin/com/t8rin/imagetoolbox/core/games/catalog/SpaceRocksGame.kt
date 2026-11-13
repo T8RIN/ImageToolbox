@@ -50,6 +50,7 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import kotlin.math.PI
 import kotlin.math.ceil
+import kotlin.math.cos
 import kotlin.math.hypot
 import kotlin.math.sin
 import kotlin.random.Random
@@ -76,6 +77,7 @@ internal data object SpaceRocksGame : ArcadeGameDefinition {
         ) {
             ArcadeField(
                 run = run,
+                lightFeedback = true,
                 onPress = run::aim,
                 onDrag = run::aim,
                 onRelease = run::stopInput
@@ -93,7 +95,10 @@ internal data object SpaceRocksGame : ArcadeGameDefinition {
                 for (pickup in run.pickups) {
                     val point = Offset(pickup.x, pickup.y)
                     pixelCircle(style.accentColor.copy(alpha = 0.14f), 12f, point)
-                    pixelGem(style.accentColor, style.textColor, point, 7f)
+                    if (pickup.kind == 1) {
+                        pixelCircle(style.playerColor, 7f, point, style = Stroke(2f))
+                        pixelRect(style.playerColor, point.x - 2f, point.y - 3f, 4f, 6f)
+                    } else pixelGem(style.accentColor, style.textColor, point, 7f)
                 }
                 if (run.boost > 0f) {
                     pixelRect(
@@ -111,7 +116,18 @@ internal data object SpaceRocksGame : ArcadeGameDefinition {
                         6f
                     )
                 }
-                for ((x, y, _, cooldown) in run.invaders) {
+                for (invader in run.invaders) {
+                    val (x, y, _, cooldown) = invader
+                    if (invader.elite) {
+                        pixelRect(style.hazardColor.copy(alpha = 0.2f), x - 23f, y - 16f, 46f, 32f)
+                        pixelRect(
+                            style.hazardColor,
+                            x - 20f,
+                            y - 19f,
+                            40f * invader.health / 14f,
+                            2f
+                        )
+                    }
                     reliefSprite(
                         sprite = SpaceInvader,
                         color = style.accentColor,
@@ -326,11 +342,12 @@ private data class SpaceInvaderShip(
     var y: Float,
     val vx: Float,
     var cooldown: Float,
-    var health: Int = 4
+    var health: Int = 4,
+    val elite: Boolean = false
 )
 
 @Serializable
-private data class SpacePickup(var x: Float, var y: Float)
+private data class SpacePickup(var x: Float, var y: Float, val kind: Int = 0)
 
 @Serializable
 private class SpaceRocksRun : ArcadeRun() {
@@ -357,6 +374,7 @@ private class SpaceRocksRun : ArcadeRun() {
     private var spawn = 0.7f
     private var invaderTimer = 3.5f
     private var wave = 0
+    private var invaderWave = 0
 
     override fun reset() {
         rocks.clear()
@@ -375,6 +393,7 @@ private class SpaceRocksRun : ArcadeRun() {
         spawn = 0.7f
         invaderTimer = 3.5f
         wave = 0
+        invaderWave = 0
         distance = 0f
         lives = 3
         invincible = 0f
@@ -398,7 +417,7 @@ private class SpaceRocksRun : ArcadeRun() {
             val pickup = salvage.next()
             pickup.y += (height - topInset) * 0.24f * seconds
             if (hypot(pickup.x - x, pickup.y - y) < 23f) {
-                boost = 6f
+                if (pickup.kind == 1) invincible = maxOf(invincible, 4f) else boost = 6f
                 effects.burst(Offset(x, y), 14)
                 salvage.remove()
             } else if (pickup.y > height + 14f) salvage.remove()
@@ -430,12 +449,13 @@ private class SpaceRocksRun : ArcadeRun() {
         spawn -= seconds
         if (spawn <= 0f) {
             val speed = (height + 40f) / maxOf(1.8f, 3.5f - elapsed * 0.014f)
-            val count = if (elapsed > 12f) 2 else 1
+            val formation = wave / 8 % 4
+            val count = if (elapsed > 12f && formation != 3) 2 else 1
             repeat(count) { index ->
-                val large = wave % 3 == 2 && index == 0
+                val large = (formation == 1 || wave % 3 == 2) && index == 0
                 val radius = if (large) 34f else 22f
                 val px = if (large) x.coerceIn(40f, width - 40f)
-                else 35f + Random.nextFloat() * (width - 70f)
+                else 35f + (width - 70f) * ((wave + index * 2) % 5) / 4f
                 rocks += SpaceRock(
                     x = px, y = -radius - index * 35f,
                     vx = (Random.nextFloat() - 0.5f) * 50f, vy = speed,
@@ -443,15 +463,21 @@ private class SpaceRocksRun : ArcadeRun() {
                 )
             }
             wave++
-            spawn += maxOf(0.48f, 1.1f - elapsed * 0.006f) + if (wave % 10 == 0) 0.7f else 0f
+            spawn += maxOf(0.48f, 1.1f - elapsed * 0.006f) +
+                    if (formation == 3) 0.35f else if (wave % 10 == 0) 0.7f else 0f
         }
         invaderTimer -= seconds
-        if (invaderTimer <= 0f && invaders.size < 2) {
+        if (invaderTimer <= 0f && invaders.size < 2 && wave / 8 % 4 != 3) {
             val fromLeft = Random.nextBoolean()
+            val elite = elapsed > 45f && invaderWave % 7 == 6
+            invaderWave++
             invaders += SpaceInvaderShip(
                 x = if (fromLeft) -24f else width + 24f,
                 y = topInset + 26f + Random.nextFloat() * (height - topInset) * 0.15f,
-                vx = (if (fromLeft) 1f else -1f) * width / 5.5f, cooldown = 0.8f
+                vx = (if (fromLeft) 1f else -1f) * width / (if (elite) 8f else 5.5f),
+                cooldown = 0.8f,
+                health = if (elite) 14 else 4,
+                elite = elite
             )
             invaderTimer = maxOf(2.8f, 6f - elapsed * 0.03f)
         }
@@ -464,11 +490,17 @@ private class SpaceRocksRun : ArcadeRun() {
                 val dy = y - invader.y
                 val distance = hypot(dx, dy).coerceAtLeast(1f)
                 val speed = maxOf(130f, (height - topInset) / 1.5f)
-                enemyShots += SpaceShot(
-                    x = invader.x, y = invader.y + 10f, vx = dx / distance * speed,
-                    vy = dy / distance * speed, life = distance / speed + 1f
-                )
-                invader.cooldown = maxOf(0.85f, 1.55f - elapsed * 0.006f)
+                for (side in if (invader.elite) -1..1 else 0..0) {
+                    val spread = side * 0.22f
+                    enemyShots += SpaceShot(
+                        x = invader.x, y = invader.y + 10f,
+                        vx = (dx * cos(spread) - dy * sin(spread)) / distance * speed,
+                        vy = (dx * sin(spread) + dy * cos(spread)) / distance * speed,
+                        life = distance / speed + 1f
+                    )
+                }
+                invader.cooldown =
+                    if (invader.elite) 1.3f else maxOf(0.85f, 1.55f - elapsed * 0.006f)
             }
         }
         invaders.removeAll { it.x < -40f || it.x > width + 40f }
@@ -507,7 +539,12 @@ private class SpaceRocksRun : ArcadeRun() {
             shot.y += shot.vy * seconds
             shot.life -= seconds
             val hit = rocks.indexOfFirst { hypot(it.x - shot.x, it.y - shot.y) < it.radius + 3f }
-            val ship = invaders.firstOrNull { hypot(it.x - shot.x, it.y - shot.y) < 20f }
+            val ship = invaders.firstOrNull {
+                hypot(
+                    it.x - shot.x,
+                    it.y - shot.y
+                ) < if (it.elite) 26f else 20f
+            }
             if (hit >= 0) {
                 val rock = rocks[hit]
                 rock.health--
@@ -541,7 +578,12 @@ private class SpaceRocksRun : ArcadeRun() {
                 )
                 if (ship.health <= 0) {
                     invaders.remove(ship)
-                    reward(50)
+                    reward(if (ship.elite) 150 else 50)
+                    if (ship.elite && pickups.size < 3) pickups += SpacePickup(
+                        ship.x,
+                        ship.y + 18f,
+                        kind = 1
+                    )
                     if (pickups.size < 3) pickups += SpacePickup(
                         ship.x.coerceIn(14f, width - 14f),
                         ship.y

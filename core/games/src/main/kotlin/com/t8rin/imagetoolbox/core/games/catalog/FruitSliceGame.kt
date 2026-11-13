@@ -102,6 +102,7 @@ internal data object FruitSliceGame : ArcadeGameDefinition {
         ) {
             ArcadeField(
                 run = run,
+                lightFeedback = true,
                 onPress = run::begin,
                 onDrag = run::slice,
                 onRelease = run::stopInput
@@ -1181,7 +1182,9 @@ private class FruitSliceRun : ArcadeRun() {
         val motion = seconds * if (freeze > 0f) 0.45f else 1f
         freeze = (freeze - seconds).coerceAtLeast(0f)
         doublePoints = (doublePoints - seconds).coerceAtLeast(0f)
+        val wasFrenzy = frenzy > 0f
         frenzy = (frenzy - seconds).coerceAtLeast(0f)
+        if (wasFrenzy && frenzy == 0f) timer = maxOf(timer, 1.15f)
         elapsed += seconds
         pomegranateIn -= seconds
         bonusIn -= seconds
@@ -1315,11 +1318,13 @@ private class FruitSliceRun : ArcadeRun() {
     private fun throwWave() {
         val pace = 1f - exp(-elapsed / 75f)
         if (patterns.isEmpty()) patterns.addAll((0..if (elapsed < 35f) 3 else 4).shuffled())
-        val pattern = when (waves++) {
-            0, 1 -> 0
-            2 -> 1
+        val recovery = waves >= 8 && waves % 8 == 0
+        val pattern = when {
+            recovery || waves < 2 -> 0
+            waves == 2 -> 1
             else -> patterns.removeFirst()
         }
+        waves++
         val count = when (pattern) {
             0 -> if (pace < 0.4f) 1 else Random.nextInt(1, 3)
             1 -> Random.nextInt(3, if (pace < 0.5f) 5 else 6)
@@ -1354,7 +1359,7 @@ private class FruitSliceRun : ArcadeRun() {
             }
         }
         val bombLimit = if (elapsed < 30f) 1 else if (elapsed < 75f) 2 else 3
-        if (elapsed > 10f && Random.nextFloat() < 0.18f + pace * 0.28f) {
+        if (!recovery && elapsed > 10f && Random.nextFloat() < 0.18f + pace * 0.28f) {
             val roll = Random.nextFloat()
             val count = if (bombLimit == 3 && roll < 0.12f) 3
             else if (bombLimit >= 2 && roll < 0.4f) 2 else 1
@@ -1374,7 +1379,8 @@ private class FruitSliceRun : ArcadeRun() {
                 }
             }
         }
-        timer += 2.35f - pace * 0.95f + Random.nextFloat() * 0.5f + if (pattern == 4) 0.35f else 0f
+        timer += 2.35f - pace * 0.95f + Random.nextFloat() * 0.5f +
+                if (recovery) 0.65f else if (pattern == 4) 0.35f else 0f
     }
 
     private fun thrownFruit(

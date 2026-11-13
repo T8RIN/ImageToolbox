@@ -74,6 +74,7 @@ internal data object FlowConnectGame : ArcadeGameDefinition {
         ) {
             ArcadeField(
                 run = run,
+                lightFeedback = true,
                 transition = { run.transition },
                 onPress = run::begin,
                 onDrag = run::drag,
@@ -434,9 +435,14 @@ private class FlowConnectRun : ArcadeRun() {
             while (path.lastIndex > old) path.removeAt(path.lastIndex)
         } else {
             if (connected(active) ||
-                pairs.indices.any { it != active && index in pairs[it] } ||
-                paths.indices.any { it != active && index in paths[it] }
+                pairs.indices.any { it != active && index in pairs[it] }
             ) return
+            paths.forEachIndexed { kind, other ->
+                if (kind != active) {
+                    val crossing = other.indexOf(index)
+                    if (crossing >= 0) while (other.size > crossing) other.removeAt(other.lastIndex)
+                }
+            }
             path += index
             if (connected(active)) effects.burst(
                 point = center(index),

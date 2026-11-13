@@ -74,6 +74,7 @@ internal data object LaserMirrorsGame : ArcadeGameDefinition {
         ) {
             ArcadeField(
                 run = run,
+                lightFeedback = true,
                 transition = { run.transition },
                 onTap = run::tap
             ) {
@@ -125,9 +126,12 @@ internal data object LaserMirrorsGame : ArcadeGameDefinition {
                 val source = run.center(run.source) - Offset(x = cell * 0.65f, y = 0f)
                 val beam = beamPath.apply {
                     rewind()
-                    moveTo(source.x, source.y)
-                    for (index in run.beam) lineTo(run.center(index).x, run.center(index).y)
-                    run.exit?.let { lineTo(it.x, it.y) }
+                    for (ray in run.rays) {
+                        if (ray.isEmpty()) continue
+                        val start = run.center(ray.first()) - Offset(cell * 0.65f, 0f)
+                        moveTo(start.x, start.y)
+                        for (index in ray) lineTo(run.center(index).x, run.center(index).y)
+                    }
                 }
                 drawPath(
                     path = beam,
@@ -181,6 +185,11 @@ internal data object LaserMirrorsGame : ArcadeGameDefinition {
                     width = 2f,
                     height = 8f
                 )
+                for (origin in run.sources.drop(1)) {
+                    val point = run.center(origin) - Offset(cell * 0.65f, 0f)
+                    pixelRect(style.playerColor, point.x - 4f, point.y - 7f, 8f, 14f)
+                    pixelRect(style.accentColor, point.x + 4f, point.y - 3f, 3f, 6f)
+                }
                 for (target in run.targets) {
                     val p = run.center(target)
                     val lit = target in run.lit
@@ -312,6 +321,8 @@ private class LaserMirrorsRun : ArcadeRun() {
     var angles = FloatArray(25)
     var targets = intArrayOf()
     var source = 0
+    var sources = intArrayOf()
+    val rays = mutableListOf<List<Int>>()
     var round = 1
     var turns = 0
     val beam = mutableListOf<Int>()
@@ -404,6 +415,7 @@ private class LaserMirrorsRun : ArcadeRun() {
             (0 until columns).map { col -> row * columns + if (row % 2 == 0) col else columns - 1 - col }
         }
         source = bestPath.first()
+        sources = intArrayOf(source)
         solution = IntArray(columns * columns)
         var direction = 0
         for (i in 0 until bestPath.lastIndex) {
@@ -424,8 +436,70 @@ private class LaserMirrorsRun : ArcadeRun() {
                 else -> 0
             }
         }
+        if (round >= 8) {
+            val preserved = bestPath.toSet()
+            val entries = (0 until columns).map { it * columns }.filter {
+                it !in preserved && solution[it] == 0
+            }.shuffled()
+            for (entry in entries) {
+                var found = false
+                repeat(24) {
+                    if (found) return@repeat
+                    val candidate = solution.copyOf()
+                    val path = mutableListOf<Int>()
+                    var at = entry
+                    var heading = 0
+                    var bends = 0
+                    while (at >= 0 && at !in path && candidate[at] != 3) {
+                        path += at
+                        val incoming = heading
+                        heading = when (candidate[at]) {
+                            1 -> 3 - heading
+                            2 -> heading xor 1
+                            else -> {
+                                val choices = if (at in preserved || path.size == 1) listOf(heading)
+                                else listOf(heading, (heading + 1) % 4, (heading + 3) % 4)
+                                choices.filter { direction ->
+                                    val next = neighbor(at, direction)
+                                    next >= 0 && next !in path && candidate[next] != 3
+                                }.randomOrNull() ?: heading
+                            }
+                        }
+                        if (heading != incoming) {
+                            bends++
+                            if (candidate[at] == 0) candidate[at] =
+                                if (3 - incoming == heading) 1 else 2
+                        }
+                        at = neighbor(at, heading)
+                    }
+                    val primary = mutableSetOf<Int>()
+                    val visited = mutableSetOf<Int>()
+                    var cell = source
+                    var direction = 0
+                    while (cell >= 0 && visited.add(cell * 4 + direction)) {
+                        primary += cell
+                        if (candidate[cell] == 3) break
+                        direction = when (candidate[cell]) {
+                            1 -> 3 - direction
+                            2 -> direction xor 1
+                            else -> direction
+                        }
+                        cell = neighbor(cell, direction)
+                    }
+                    val extra = path.filter { it !in primary && candidate[it] == 0 }
+                    if (bends >= 2 && path.size >= columns + 2 && extra.size >= 2) {
+                        solution = candidate
+                        sources = intArrayOf(source, entry)
+                        targets =
+                            (targets.toList() + extra.shuffled().take(2)).distinct().toIntArray()
+                        found = true
+                    }
+                }
+                if (found) break
+            }
+        }
         board = solution.copyOf()
-        val mirrors = bestPath.filter { solution[it] in 1..2 }.shuffled()
+        val mirrors = solution.indices.filter { solution[it] in 1..2 }.shuffled()
         mirrors.take((2 + round / 2).coerceAtMost(mirrors.size))
             .forEach { board[it] = 3 - board[it] }
         trace()
@@ -441,34 +515,44 @@ private class LaserMirrorsRun : ArcadeRun() {
         restartPuzzle()
     }
 
+    override fun onRestore() {
+        trace()
+    }
+
     fun trace() {
         beam.clear()
+        rays.clear()
         lit.clear()
         exit = null
-        val visited = BooleanArray(board.size * 4)
-        var at = source
-        var direction = 0
-        while (at >= 0 && !visited[at * 4 + direction]) {
-            visited[at * 4 + direction] = true
-            beam += at
-            if (board[at] == 3) break
-            if (at in targets) lit += at
-            direction = when (board[at]) {
-                1 -> 3 - direction
-                2 -> direction xor 1
-                else -> direction
-            }
-            val next = neighbor(at, direction)
-            if (next < 0) {
-                val delta = when (direction) {
-                    0 -> Offset(x = 1f, y = 0f)
-                    1 -> Offset(x = 0f, y = 1f)
-                    2 -> Offset(x = -1f, y = 0f)
-                    else -> Offset(x = 0f, y = -1f)
+        for (origin in if (sources.isEmpty()) intArrayOf(source) else sources) {
+            val visited = BooleanArray(board.size * 4)
+            val ray = mutableListOf<Int>()
+            var at = origin
+            var direction = 0
+            while (at >= 0 && !visited[at * 4 + direction]) {
+                visited[at * 4 + direction] = true
+                ray += at
+                if (board[at] == 3) break
+                if (at in targets) lit += at
+                direction = when (board[at]) {
+                    1 -> 3 - direction
+                    2 -> direction xor 1
+                    else -> direction
                 }
-                exit = center(at) + delta * cell * 0.5f
+                val next = neighbor(at, direction)
+                if (next < 0) {
+                    val delta = when (direction) {
+                        0 -> Offset(1f, 0f)
+                        1 -> Offset(0f, 1f)
+                        2 -> Offset(-1f, 0f)
+                        else -> Offset(0f, -1f)
+                    }
+                    exit = center(at) + delta * cell * 0.5f
+                }
+                at = next
             }
-            at = next
+            rays.add(ray.toList())
+            beam.addAll(ray)
         }
     }
 

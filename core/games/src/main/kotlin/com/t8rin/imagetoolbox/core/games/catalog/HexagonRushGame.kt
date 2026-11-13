@@ -68,6 +68,7 @@ internal data object HexagonRushGame : ArcadeGameDefinition {
         ) {
             ArcadeField(
                 run = run,
+                lightFeedback = true,
                 onPress = run::steer,
                 onDrag = run::steer,
                 onRelease = run::stopInput
@@ -139,9 +140,10 @@ internal data object HexagonRushGame : ArcadeGameDefinition {
                     center = center,
                     style = Stroke(width = 1f)
                 )
-                for ((radius, gap, passed) in run.walls) {
+                for (wall in run.walls) {
+                    val (radius, gap, passed) = wall
                     for (side in 0..5) {
-                        if (side == gap) continue
+                        if ((side - gap + 6) % 6 < wall.opening) continue
                         val a = side * PI.toFloat() / 3f + run.rotation
                         val b = a + PI.toFloat() / 3f
                         val first = point(
@@ -214,7 +216,8 @@ private val HexagonShip = ArcadeSprite(
 private data class RimWall(
     var radius: Float,
     val gap: Int,
-    var passed: Boolean = false
+    var passed: Boolean = false,
+    val opening: Int = 1
 )
 
 @Serializable
@@ -265,16 +268,19 @@ private class HexagonRushRun : ArcadeRun() {
         angle = (angle + direction * 3.6f * seconds + full) % full
         val speed = 0.26f + minOf(elapsed * 0.0016f, 0.2f)
         if (timer <= 0f) {
-            val shift = when {
-                spawned < 8 -> Random.nextInt(-1, 2)
-                spawned / 6 % 4 == 0 -> 1
-                spawned / 6 % 4 == 1 -> if (spawned % 2 == 0) 2 else -2
-                spawned / 6 % 4 == 2 -> -1
-                else -> Random.nextInt(-2, 3)
-            }
+            val phrase = listOf(
+                listOf(1, 1, 1, 1, 0, -1), listOf(2, -2, 2, -2, 1, -1),
+                listOf(-1, -1, 0, -1, -1, 1), listOf(0, 2, 0, -2, 1, 1),
+                listOf(1, 2, 1, -1, -2, -1), listOf(-2, 0, 2, 1, 0, -1),
+                listOf(0, 1, -1, 0, 2, -2), listOf(-1, 1, -2, 2, -1, 1)
+            )[spawned / 6 % 8]
+            val shift = if (spawned < 8) Random.nextInt(-1, 2) else phrase[spawned % 6]
             spawned++
             previousGap = (previousGap + shift + 6) % 6
-            walls += RimWall(radius = 1.12f, gap = previousGap)
+            walls += RimWall(
+                radius = 1.12f, gap = previousGap,
+                opening = if (spawned > 8 && spawned % 24 in 1..2) 2 else 1
+            )
             timer += maxOf(1.4f, 1.85f - elapsed * 0.004f) + if (spawned % 24 == 0) 0.4f else 0f
         }
         val relative = ((angle - rotation) % full + full) % full
@@ -286,9 +292,9 @@ private class HexagonRushRun : ArcadeRun() {
             val inner = wall.radius * cos(PI.toFloat() / 6f) / cos(local)
             val outer = (wall.radius + 0.1f) * cos(PI.toFloat() / 6f) / cos(local)
             if (inner < 0.46f + playerRadius && outer > 0.46f - playerRadius) {
-                val gapCenter = (wall.gap + 0.5f) * PI.toFloat() / 3f
+                val gapCenter = (wall.gap + wall.opening / 2f) * PI.toFloat() / 3f
                 val delta = abs(((relative - gapCenter + 3f * PI.toFloat()) % full) - PI.toFloat())
-                if (delta > PI.toFloat() / 6f - playerRadius / 0.46f) {
+                if (delta > wall.opening * PI.toFloat() / 6f - playerRadius / 0.46f) {
                     phase = ArcadePhase.Over
                     return
                 }

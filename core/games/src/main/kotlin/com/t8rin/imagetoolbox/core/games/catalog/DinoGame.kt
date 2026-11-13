@@ -64,8 +64,10 @@ internal data object DinoGame : ArcadeGameDefinition {
         ) {
             ArcadeField(
                 run = run,
+                lightFeedback = true,
                 worldSize = Size(width = 320f, height = 210f),
-                onPress = { run.jump() }
+                onPress = { run.jump() },
+                onRelease = run::releaseJump
             ) {
                 val width = run.width
                 val ground = run.height - 25f
@@ -157,11 +159,13 @@ private class DinoRun : ArcadeRun() {
     private var isJumping = false
     private var jumpSpeed = 0f
     private var nextObstacle = 0f
+    private var released = false
 
     override fun reset() {
         jumpHeight = 0f
         jumpSpeed = 0f
         isJumping = false
+        released = false
         obstacles.clear()
         distance = 0f
         score = 0
@@ -173,8 +177,13 @@ private class DinoRun : ArcadeRun() {
         if (phase != ArcadePhase.Running || isJumping) return false
 
         jumpSpeed = 424f
+        released = false
         isJumping = true
         return true
+    }
+
+    fun releaseJump() {
+        released = true
     }
 
     override fun advance(seconds: Float) {
@@ -192,6 +201,7 @@ private class DinoRun : ArcadeRun() {
         val nextDistance = distance + step
 
         if (isJumping) {
+            if (released && jumpHeight >= 34f && jumpSpeed > 150f) jumpSpeed = 150f
             jumpHeight =
                 (jumpHeight + jumpSpeed * seconds - 550f * seconds * seconds).coerceAtLeast(0f)
             jumpSpeed -= 1100f * seconds
@@ -214,10 +224,11 @@ private class DinoRun : ArcadeRun() {
     }
 
     private fun addObstacle(nextDistance: Float, speed: Float) {
-        val type = when (Random.nextInt(if (score >= 80) 5 else 3)) {
+        val type = when (Random.nextInt(if (score >= 200) 6 else if (score >= 80) 5 else 3)) {
             0 -> ObstacleType.SmallCactus
             1 -> ObstacleType.LargeCactus
             2 -> ObstacleType.CactusGroup
+            5 -> ObstacleType.HighBird
             else -> ObstacleType.Bird
         }
         obstacles += DinoObstacle(x = nextObstacle - nextDistance, type = type)
@@ -259,13 +270,14 @@ private enum class ObstacleType(
     SmallCactus(DinoSmallCactus),
     LargeCactus(DinoLargeCactus),
     CactusGroup(DinoCactusGroup),
-    Bird(DinoBirdUp, altitude = 8f);
+    Bird(DinoBirdUp, altitude = 8f),
+    HighBird(DinoBirdUp, altitude = 62f);
 
     val width: Float get() = sprite.width.toFloat()
     val height: Float get() = sprite.height.toFloat()
 
     fun sprite(distance: Float): ArcadeSprite =
-        if (this == Bird && (distance / 36f).toInt() % 2 == 1) {
+        if ((this == Bird || this == HighBird) && (distance / 36f).toInt() % 2 == 1) {
             DinoBirdDown
         } else {
             sprite

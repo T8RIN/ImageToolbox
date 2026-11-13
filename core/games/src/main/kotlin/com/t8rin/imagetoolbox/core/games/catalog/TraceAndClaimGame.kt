@@ -108,6 +108,7 @@ internal data object TraceAndClaimGame : ArcadeGameDefinition {
         ) {
             ArcadeField(
                 run = run,
+                lightFeedback = true,
                 onPress = run::grab,
                 onDrag = run::steer,
                 onRelease = run::release
@@ -355,6 +356,7 @@ private class TraceAndClaimRun : ArcadeRun() {
     private var arena = 0
     private var elapsed = 0f
     private var scoreRemainder = 0f
+    private var milestone = 0
     var heading: ArcadeOffset = Offset.Zero
         private set
     var lives = 3
@@ -394,6 +396,7 @@ private class TraceAndClaimRun : ArcadeRun() {
     }
 
     private fun resetArena() {
+        milestone = 0
         elapsed = 0f
         heading = Offset.Zero
         for (rider in riders) {
@@ -520,10 +523,12 @@ private class TraceAndClaimRun : ArcadeRun() {
     private fun moveBot(rider: TraceRider, step: Float, seconds: Float): Offset {
         val radial = rider.point - TraceCenter
         val radius = radial.getDistance()
-        val limit = 16f + rider.id % 4 * 3f + arena.coerceAtMost(8)
+        val limit = when (rider.id % 3) {
+            0 -> 12f; 1 -> 24f; else -> 17f
+        } + arena.coerceAtMost(8)
         rider.reconsider -= seconds
         if (rider.reconsider <= 0f) {
-            rider.reconsider = 0.24f
+            rider.reconsider = if (rider.id % 3 == 2) 0.18f else 0.3f
             if (rider.home?.let { it !in rider.land } == true) rider.home = null
             if (rider.home == null &&
                 (rider.excursion >= limit || rider.excursion >= 5f && radius > TraceTravelRadius - 4f)
@@ -623,10 +628,17 @@ private class TraceAndClaimRun : ArcadeRun() {
         }
         for ((index, opponent) in riders.withIndex()) opponent.land = otherLands[index]
         rider.land = next
+        if (rider === player) {
+            val reached = (progress * 4f).toInt()
+            if (reached > milestone) {
+                score += (reached - milestone) * 25
+                milestone = reached
+            }
+        }
     }
 
     private fun findTrail(rider: TraceRider): Offset? {
-        val reach = 8f + difficulty.coerceAtMost(7f)
+        val reach = (8f + difficulty.coerceAtMost(7f)) * if (rider.id % 3 == 2) 1.3f else 0.8f
         var nearest = reach * reach
         var target: Offset? = null
         for (opponent in riders) {

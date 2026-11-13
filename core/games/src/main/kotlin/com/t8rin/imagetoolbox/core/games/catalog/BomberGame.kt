@@ -81,6 +81,7 @@ internal data object BomberGame : ArcadeGameDefinition {
         ) {
             ArcadeField(
                 run = run,
+                lightFeedback = true,
                 transition = { run.transition },
                 onPress = run::begin,
                 onDrag = run::drag,
@@ -321,17 +322,22 @@ internal data object BomberGame : ArcadeGameDefinition {
                     for (enemy in run.enemies) {
                         val point = run.enemyPoint(enemy)
                         val unit = cell / 17f
+                        val enemyColor = when (enemy.kind) {
+                            1 -> style.hazardColor
+                            2 -> style.accentColor
+                            else -> style.obstacleColor
+                        }
                         translate(left = point.x - unit * 5f, top = point.y - unit * 5.5f) {
                             scale(scale = unit, pivot = Offset.Zero) {
                                 reliefSprite(
                                     sprite = BomberBug,
-                                    color = style.hazardColor,
+                                    color = enemyColor,
                                     shade = lerp(
-                                        style.hazardColor,
+                                        enemyColor,
                                         style.overlayColor.copy(alpha = 1f),
                                         0.25f
                                     ),
-                                    light = lerp(style.hazardColor, style.textColor, 0.2f),
+                                    light = lerp(enemyColor, style.textColor, 0.2f),
                                     x = 0f,
                                     y = 0f
                                 )
@@ -351,14 +357,14 @@ internal data object BomberGame : ArcadeGameDefinition {
                                 )
                                 val step = if ((run.time * 7f).toInt() % 2 == 0) 0f else 1f
                                 pixelRect(
-                                    color = style.hazardColor,
+                                    color = enemyColor,
                                     x = step,
                                     y = 9f,
                                     width = 2f,
                                     height = 2f
                                 )
                                 pixelRect(
-                                    color = style.hazardColor,
+                                    color = enemyColor,
                                     x = 8f - step,
                                     y = 9f,
                                     width = 2f,
@@ -528,7 +534,8 @@ private data class BomberBomb(
 private data class BomberEnemy(
     var position: Int,
     var previous: Int,
-    var progress: Float = 1f
+    var progress: Float = 1f,
+    val kind: Int = 0
 )
 
 @Serializable
@@ -626,7 +633,13 @@ private class BomberRun : ArcadeRun() {
         items.clear()
         enemies.clear()
         starts.shuffled().take((1 + round / 2).coerceAtMost(3))
-            .forEach { enemies += BomberEnemy(position = it, previous = it) }
+            .forEachIndexed { index, position ->
+                enemies += BomberEnemy(
+                    position = position,
+                    previous = position,
+                    kind = if (round < 3) 0 else (round + index) % 3
+                )
+            }
         player = columns + 1
         previous = player
         progress = 1f
@@ -811,10 +824,13 @@ private class BomberRun : ArcadeRun() {
         val enemyIterator = enemies.iterator()
         while (enemyIterator.hasNext()) {
             val enemy = enemyIterator.next()
-            enemy.progress =
-                (enemy.progress + seconds / (0.39f - 0.15f * (round - 1) / (round + 9f))).coerceAtMost(
-                    1f
-                )
+            val pace = when (enemy.kind) {
+                1 -> 0.95f
+                2 -> 1.08f
+                else -> 1f
+            }
+            val interval = (0.39f - 0.15f * (round - 1) / (round + 9f)) * pace
+            enemy.progress = (enemy.progress + seconds / interval).coerceAtMost(1f)
             val enemyIndex = if (enemy.progress < 0.5f) enemy.previous else enemy.position
             if (enemyIndex in blasts) {
                 score += 50
@@ -830,9 +846,18 @@ private class BomberRun : ArcadeRun() {
                     (0..3).map { next(enemy.position, it) }.filter { open(it) && it !in blasts }
                 val safe = options.filter { it !in danger }.ifEmpty { options }
                 val onward = safe.filter { it != enemy.previous }.ifEmpty { safe }
-                val destination = if (Random.nextFloat() < 0.55f) onward.minByOrNull {
-                    abs(it % columns - player % columns) + abs(it / columns - player / columns)
-                } else onward.randomOrNull()
+                val ahead = (player + (player - previous) * 2).coerceIn(board.indices)
+                val target = if (enemy.kind == 1) ahead else player
+                val destination = when {
+                    enemy.kind == 2 -> onward.firstOrNull { it - enemy.position == enemy.position - enemy.previous }
+                        ?: onward.randomOrNull()
+
+                    Random.nextFloat() < if (enemy.kind == 1) 0.85f else 0.35f -> onward.minByOrNull {
+                        abs(it % columns - target % columns) + abs(it / columns - target / columns)
+                    }
+
+                    else -> onward.randomOrNull()
+                }
                 enemy.previous = enemy.position
                 enemy.position = destination ?: enemy.position
                 enemy.progress = 0f

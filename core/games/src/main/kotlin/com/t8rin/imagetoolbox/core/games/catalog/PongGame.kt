@@ -67,6 +67,7 @@ internal data object PongGame : ArcadeGameDefinition {
         ) {
             ArcadeField(
                 run = run,
+                lightFeedback = true,
                 onPress = { run.steer(it.y) },
                 onDrag = { run.steer(it.y) }
             ) {
@@ -238,6 +239,7 @@ private class PongRun : ArcadeRun() {
         val motion = (targetY - playerY).coerceIn(-650f * seconds, 650f * seconds)
         playerY += motion
         reaction -= seconds
+        val style = rallies / 8 % 3
         if (reaction <= 0f) {
             rivalTarget = if (velocityX > 0f) {
                 val span = bottom - top - BallHalf * 2f
@@ -245,9 +247,10 @@ private class PongRun : ArcadeRun() {
                 val predicted = ballY + velocityY * travel - top - BallHalf
                 val folded = ((predicted % (span * 2f)) + span * 2f) % (span * 2f)
                 top + BallHalf + (if (folded < span) folded else span * 2f - folded) +
-                        sin(rallies * 0.91f + ballX * 0.02f) * paddleHalf * 0.18f
+                        sin(rallies * 0.91f + ballX * 0.02f) * paddleHalf * if (style == 2) 0.38f else 0.18f
             } else (top + bottom) / 2f
-            reaction = (0.2f - rallies * 0.0015f).coerceAtLeast(0.11f)
+            reaction =
+                (0.2f - rallies * 0.0015f).coerceAtLeast(0.11f) + if (style == 2) 0.05f else 0f
         }
         val rivalSpeed = (205f + rallies * 2f).coerceAtMost(310f)
         rivalY =
@@ -285,7 +288,12 @@ private class PongRun : ArcadeRun() {
                 ballX = width - PaddleEdge - BallHalf
                 bounce(
                     paddleY = rivalY,
-                    direction = -1
+                    direction = -1,
+                    spin = when (style) {
+                        1 -> sin(rallies * 0.8f) * 95f
+                        2 -> -velocityY * 0.3f
+                        else -> 0f
+                    }
                 )
             }
 

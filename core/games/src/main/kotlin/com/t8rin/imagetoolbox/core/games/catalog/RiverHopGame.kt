@@ -67,6 +67,7 @@ internal data object RiverHopGame : ArcadeGameDefinition {
         ) {
             ArcadeField(
                 run = run,
+                lightFeedback = true,
                 onTap = {
                     run.hop(
                         dx = 0,
@@ -105,6 +106,59 @@ internal data object RiverHopGame : ArcadeGameDefinition {
                         center = Offset(left + (coin + 0.5f) * cell, y + cell * 0.45f),
                         radius = cell * 0.15f
                     )
+                    if (kind == 3) {
+                        val lane = run.lanes.first { it.index == index }
+                        for (rail in listOf(0.28f, 0.72f)) pixelRect(
+                            style.detailColor, left, y + cell * rail, cell * 9f, 2f
+                        )
+                        repeat(18) { tie ->
+                            pixelRect(
+                                style.obstacleColor.copy(alpha = 0.5f), left + tie * cell / 2f,
+                                y + cell * 0.18f, 3f, cell * 0.64f
+                            )
+                        }
+                        val warning = lane.trainTime in -1.5f..1.25f
+                        for (post in listOf(left + 7f, left + cell * 9f - 7f)) {
+                            pixelRect(
+                                style.obstacleColor,
+                                post - 2f,
+                                y + cell * 0.05f,
+                                4f,
+                                cell * 0.9f
+                            )
+                            pixelRect(
+                                if (warning && (run.water * 6f).toInt() % 2 == 0) style.hazardColor else style.detailColor,
+                                post - 4f, y + cell * 0.12f, 8f, 5f
+                            )
+                        }
+                        if (lane.trainTime <= 0f) repeat(5) { carriage ->
+                            val x = left + (lane.trainX + carriage * 2.4f) * cell
+                            pixelRect(
+                                style.obstacleColor,
+                                x,
+                                y + cell * 0.13f,
+                                cell * 2.3f,
+                                cell * 0.74f
+                            )
+                            pixelRect(
+                                style.accentColor,
+                                x + 3f,
+                                y + cell * 0.16f,
+                                cell * 2.3f - 6f,
+                                cell * 0.12f
+                            )
+                            repeat(4) { window ->
+                                pixelRect(
+                                    style.playerDetailColor,
+                                    x + cell * (0.18f + window * 0.53f),
+                                    y + cell * 0.38f,
+                                    cell * 0.32f,
+                                    cell * 0.23f
+                                )
+                            }
+                        }
+                        continue
+                    }
                     if (kind == 0) {
                         pixelRect(
                             color = style.obstacleColor.copy(alpha = 0.45f),
@@ -486,8 +540,11 @@ private data class RiverLane(
     val length: Float,
     val period: Float,
     var offset: Float,
-    var coin: Int = -1
-)
+    var coin: Int = -1,
+    var trainTime: Float = 4f
+) {
+    val trainX get() = if (speed > 0f) -13f - trainTime * 16f else 9f + trainTime * 16f
+}
 
 @Serializable
 private class RiverHopRun : ArcadeRun() {
@@ -541,8 +598,10 @@ private class RiverHopRun : ArcadeRun() {
             val kind: Int
             if (sectionLeft == 0) {
                 kind = 0
-                sectionKind = if (Random.nextBoolean()) 1 else 2
-                sectionLeft = if (index < 12) 2 else Random.nextInt(2, 4)
+                sectionKind =
+                    if (index >= 15 && Random.nextFloat() < 0.22f) 3 else if (Random.nextBoolean()) 1 else 2
+                sectionLeft =
+                    if (sectionKind == 3) 1 else if (index < 12) 2 else Random.nextInt(2, 4)
             } else {
                 kind = sectionKind
                 sectionLeft--
@@ -562,7 +621,8 @@ private class RiverHopRun : ArcadeRun() {
                 length = length,
                 period = period,
                 offset = Random.nextFloat() * period,
-                coin = if (kind == 0 && index > 1 && index % 2 == 1) Random.nextInt(1, 8) else -1
+                coin = if (kind == 0 && index > 1 && index % 2 == 1) Random.nextInt(1, 8) else -1,
+                trainTime = 3f + Random.nextFloat() * 4f
             )
         }
         lanes.removeAll { it.index < camera.toInt() - 2 }
@@ -604,6 +664,10 @@ private class RiverHopRun : ArcadeRun() {
         remaining -= seconds
         for (lane in lanes) lane.offset =
             (lane.offset + lane.speed * seconds + lane.period) % lane.period
+        for (lane in lanes) if (lane.kind == 3) {
+            lane.trainTime -= seconds
+            if (lane.trainTime < -1.5f) lane.trainTime = 4f + Random.nextFloat() * 3f
+        }
         hopTime = (hopTime - seconds).coerceAtLeast(0f)
         if (hopTime == 0f) {
             val lane = lanes.firstOrNull { it.index == row } ?: return
@@ -612,6 +676,7 @@ private class RiverHopRun : ArcadeRun() {
             val collision = when (lane.kind) {
                 1 -> local < lane.length + 0.22f || local > lane.period - 0.22f
                 2 -> local !in 0.12f..(lane.length - 0.12f)
+                3 -> lane.trainTime <= 0f && frogX > lane.trainX - 0.22f && frogX < lane.trainX + 12f + 0.22f
                 else -> false
             }
             if (collision || frogX !in 0.15f..8.85f || remaining <= 0f) {

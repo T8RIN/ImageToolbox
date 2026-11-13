@@ -47,6 +47,8 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import kotlin.math.abs
 import kotlin.math.ceil
+import kotlin.math.cos
+import kotlin.math.sin
 import kotlin.math.sqrt
 import kotlin.random.Random
 
@@ -72,6 +74,7 @@ internal data object BrickBreakerGame : ArcadeGameDefinition {
         ) {
             ArcadeField(
                 run = run,
+                lightFeedback = true,
                 transition = { run.transition },
                 onPress = run::steer,
                 onDrag = run::steer
@@ -164,6 +167,10 @@ internal data object BrickBreakerGame : ArcadeGameDefinition {
                     radius = 1.5f,
                     center = Offset(x = run.ballX - 1f, y = run.ballY - 1.5f)
                 )
+                for (ball in run.extraBalls) {
+                    pixelCircle(style.accentColor, run.ballRadius, Offset(ball.x, ball.y))
+                    pixelCircle(style.playerDetailColor, 1.5f, Offset(ball.x - 1f, ball.y - 1.5f))
+                }
                 for ((x, y, kind) in run.gifts) {
                     pixelPanel(
                         color = style.accentColor,
@@ -184,6 +191,9 @@ internal data object BrickBreakerGame : ArcadeGameDefinition {
                         y = y - 4f,
                         width = 2f,
                         height = 8f
+                    )
+                    else if (kind == 3) for (side in -1..1) pixelCircle(
+                        style.playerDetailColor, 1.7f, Offset(x + side * 5f, y)
                     )
                     else if (kind == 2) for (side in listOf(-1f, 1f)) {
                         pixelRect(style.playerDetailColor, x + side * 4f - 1f, y - 4f, 2f, 8f)
@@ -254,9 +264,13 @@ private data class BreakerGift(
 private data class BreakerLaser(val x: Float, var y: Float)
 
 @Serializable
+private data class BreakerBall(var x: Float, var y: Float, var vx: Float, var vy: Float)
+
+@Serializable
 private class BrickBreakerRun : ArcadeRun() {
     val bricks = mutableListOf<BreakerBrick>()
     val gifts = mutableListOf<BreakerGift>()
+    val extraBalls = mutableListOf<BreakerBall>()
     val lasers = mutableListOf<BreakerLaser>()
     val trail: MutableList<ArcadeOffset> = mutableListOf()
 
@@ -318,6 +332,7 @@ private class BrickBreakerRun : ArcadeRun() {
         animateLevel()
         bricks.clear()
         lasers.clear()
+        extraBalls.clear()
         val rows = (4 + round / 4).coerceAtMost(5)
         for (row in 0 until rows) for (column in 0..7) {
             if (round > 1 && (column + row * 2 + round) % 7 == 0) continue
@@ -361,6 +376,7 @@ private class BrickBreakerRun : ArcadeRun() {
             if (gift.y + 6f >= paddleY && gift.y - 6f <= paddleY + 7f && abs(gift.x - paddleX) < paddleHalf + 9f) {
                 when (gift.kind) {
                     0 -> wideTime = 10f
+                    3 -> splitBall()
                     2 -> {
                         laserTime = 8f
                         laserIn = 0f
@@ -416,35 +432,81 @@ private class BrickBreakerRun : ArcadeRun() {
             transition = 0.9f
             return
         }
-        val oldX = ballX
-        val oldY = ballY
-        ballX += vx * seconds
-        ballY += vy * seconds
-        if (ballX < 16f + ballRadius || ballX > width - 16f - ballRadius) {
-            ballX = ballX.coerceIn(16f + ballRadius, width - 16f - ballRadius)
-            vx = if (ballX < width / 2f) abs(vx) else -abs(vx)
+        val primary = BreakerBall(ballX, ballY, vx, vy)
+        val moving = mutableListOf(primary).apply { addAll(extraBalls) }
+        moving.removeAll { ball ->
+            advanceBall(ball, seconds, oldPaddleX)
+            ball.y > height + ballRadius
         }
-        if (ballY < topInset + ballRadius) {
-            ballY = topInset + ballRadius
-            vy = abs(vy)
+        val survived = moving.isNotEmpty()
+        extraBalls.clear()
+        if (survived) {
+            val ball = moving.removeAt(0)
+            ballX = ball.x
+            ballY = ball.y
+            vx = ball.vx
+            vy = ball.vy
+            extraBalls.addAll(moving)
         }
-        if (vy > 0f && oldY + ballRadius <= paddleY && ballY + ballRadius >= paddleY) {
-            val fraction = (paddleY - ballRadius - oldY) / (ballY - oldY)
-            val impactX = oldX + (ballX - oldX) * fraction
+        if (bricks.isEmpty()) {
+            score += round * 50
+            transition = 0.9f
+        } else if (!survived) {
+            laserTime = 0f
+            lasers.clear()
+            lives--
+            if (lives <= 0) phase = ArcadePhase.Over else serveBall()
+        }
+        trailTime += seconds
+        if (trailTime > 0.025f) {
+            trailTime = 0f
+            trail += Offset(x = ballX, y = ballY)
+            if (trail.size > 6) trail.removeAt(0)
+        }
+    }
+
+    private fun splitBall() {
+        if (extraBalls.isNotEmpty()) return
+        for (side in listOf(-1f, 1f)) {
+            val angle = side * 0.32f
+            extraBalls += BreakerBall(
+                ballX, ballY,
+                vx * cos(angle) - vy * sin(angle), vx * sin(angle) + vy * cos(angle)
+            )
+        }
+    }
+
+    private fun advanceBall(ball: BreakerBall, seconds: Float, oldPaddleX: Float) {
+        val oldX = ball.x
+        val oldY = ball.y
+        ball.x += ball.vx * seconds
+        ball.y += ball.vy * seconds
+        if (ball.x < 16f + ballRadius || ball.x > width - 16f - ballRadius) {
+            ball.x = ball.x.coerceIn(16f + ballRadius, width - 16f - ballRadius)
+            ball.vx = if (ball.x < width / 2f) abs(ball.vx) else -abs(ball.vx)
+        }
+        if (ball.y < topInset + ballRadius) {
+            ball.y = topInset + ballRadius
+            ball.vy = abs(ball.vy)
+        }
+        if (ball.vy > 0f && oldY + ballRadius <= paddleY && ball.y + ballRadius >= paddleY) {
+            val fraction = (paddleY - ballRadius - oldY) / (ball.y - oldY)
+            val impactX = oldX + (ball.x - oldX) * fraction
             val impactPaddleX = oldPaddleX + (paddleX - oldPaddleX) * fraction
             if (abs(impactX - impactPaddleX) <= paddleHalf + ballRadius) {
-                ballY = paddleY - ballRadius
-                vx = ((impactX - impactPaddleX) / paddleHalf).coerceIn(-1f, 1f) * speed * 0.85f
-                if (abs(vx) < speed * 0.14f) vx = speed * 0.14f * if (vx < 0f) -1f else 1f
-                vy = -sqrt(speed * speed - vx * vx)
+                ball.y = paddleY - ballRadius
+                ball.vx = ((impactX - impactPaddleX) / paddleHalf).coerceIn(-1f, 1f) * speed * 0.85f
+                if (abs(ball.vx) < speed * 0.14f) ball.vx =
+                    speed * 0.14f * if (ball.vx < 0f) -1f else 1f
+                ball.vy = -sqrt(speed * speed - ball.vx * ball.vx)
             }
         }
         val iterator = bricks.iterator()
         while (iterator.hasNext()) {
             val brick = iterator.next()
             val rect = bounds(brick)
-            val dx = ballX - ballX.coerceIn(rect.left, rect.right)
-            val dy = ballY - ballY.coerceIn(rect.top, rect.bottom)
+            val dx = ball.x - ball.x.coerceIn(rect.left, rect.right)
+            val dy = ball.y - ball.y.coerceIn(rect.top, rect.bottom)
             val distance = sqrt(dx * dx + dy * dy)
             if (distance >= ballRadius) continue
             val nx: Float
@@ -456,34 +518,19 @@ private class BrickBreakerRun : ArcadeRun() {
                 nx = if (oldX < rect.left) -1f else if (oldX > rect.right) 1f else 0f
                 ny = if (nx == 0f) if (oldY < rect.center.y) -1f else 1f else 0f
             }
-            ballX += nx * (ballRadius - distance + 0.1f)
-            ballY += ny * (ballRadius - distance + 0.1f)
-            val dot = vx * nx + vy * ny
+            ball.x += nx * (ballRadius - distance + 0.1f)
+            ball.y += ny * (ballRadius - distance + 0.1f)
+            val dot = ball.vx * nx + ball.vy * ny
             if (dot < 0f) {
-                vx -= 2f * dot * nx
-                vy -= 2f * dot * ny
+                ball.vx -= 2f * dot * nx
+                ball.vy -= 2f * dot * ny
             }
-            if (abs(vy) < speed * 0.25f) {
-                vy = speed * 0.25f * if (vy < 0f) -1f else 1f
-                vx = sqrt(speed * speed - vy * vy) * if (vx < 0f) -1f else 1f
+            if (abs(ball.vy) < speed * 0.25f) {
+                ball.vy = speed * 0.25f * if (ball.vy < 0f) -1f else 1f
+                ball.vx = sqrt(speed * speed - ball.vy * ball.vy) * if (ball.vx < 0f) -1f else 1f
             }
             if (hitBrick(brick)) iterator.remove()
             break
-        }
-        if (bricks.isEmpty()) {
-            score += round * 50
-            transition = 0.9f
-        } else if (ballY > height + ballRadius) {
-            laserTime = 0f
-            lasers.clear()
-            lives--
-            if (lives <= 0) phase = ArcadePhase.Over else serveBall()
-        }
-        trailTime += seconds
-        if (trailTime > 0.025f) {
-            trailTime = 0f
-            trail += Offset(x = ballX, y = ballY)
-            if (trail.size > 6) trail.removeAt(0)
         }
     }
 
@@ -500,6 +547,7 @@ private class BrickBreakerRun : ArcadeRun() {
             x = center.x,
             y = center.y,
             kind = when {
+                broken % 36 == 0 -> 3
                 broken % 27 == 0 -> 2
                 broken % 18 == 0 -> 1
                 else -> 0
@@ -525,6 +573,13 @@ private class BrickBreakerRun : ArcadeRun() {
         if (length > 0f) {
             vx = vx / length * speed
             vy = vy / length * speed
+        }
+        extraBalls.forEach {
+            it.x *= width / previous.width
+            it.y *= height / previous.height
+            val length = sqrt(it.vx * it.vx + it.vy * it.vy).coerceAtLeast(1f)
+            it.vx = it.vx / length * speed
+            it.vy = it.vy / length * speed
         }
         gifts.forEach {
             it.x *= width / previous.width

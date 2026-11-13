@@ -27,6 +27,7 @@ import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.lerp
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
+import com.t8rin.imagetoolbox.core.games.ArcadeDeque
 import com.t8rin.imagetoolbox.core.games.ArcadeField
 import com.t8rin.imagetoolbox.core.games.ArcadeGameContext
 import com.t8rin.imagetoolbox.core.games.ArcadeGameDefinition
@@ -72,6 +73,7 @@ internal data object SharpTurnsGame : ArcadeGameDefinition {
         ) {
             ArcadeField(
                 run = run,
+                lightFeedback = true,
                 onPress = { run.turn() }
             ) {
                 drawZigzagBackground(style, run.width, run.height)
@@ -216,6 +218,7 @@ private class SharpTurnsRun : ArcadeRun() {
     private var edgeTime = 0f
     private var generatedDirection = 0
     private var remaining = 4
+    private val lengths: ArcadeDeque<Int> = ArrayDeque()
     private var gems = 0
     val tileWidth get() = minOf(58f, width * 0.17f, (height - topInset) * 0.32f)
     val visibleTiles: IntRange
@@ -260,6 +263,7 @@ private class SharpTurnsRun : ArcadeRun() {
         edgeTime = 0f
         generatedDirection = 0
         remaining = 4
+        lengths.clear()
         gems = 0
         tiles += SharpTurnsTile(x = -1, y = 0, gem = false)
         tiles += SharpTurnsTile(x = 0, y = 0, gem = false)
@@ -273,8 +277,15 @@ private class SharpTurnsRun : ArcadeRun() {
             val last = tiles.last()
             if (remaining == 0) {
                 generatedDirection = 1 - generatedDirection
+                if (lengths.isEmpty()) lengths.addAll(
+                    listOf(
+                        listOf(2, 2, 4, 3, 5, 3, 2, 4),
+                        listOf(3, 5, 2, 2, 4, 2, 3, 4),
+                        listOf(4, 2, 3, 2, 5, 4, 2, 3)
+                    ).random()
+                )
                 remaining =
-                    if ((last.x + last.y) % 36 < 6) Random.nextInt(5, 7) else Random.nextInt(2, 5)
+                    if ((last.x + last.y) % 36 < 6) Random.nextInt(5, 7) else lengths.removeFirst()
             }
             val nextX = last.x + if (generatedDirection == 0) 1 else 0
             val nextY = last.y + if (generatedDirection == 1) 1 else 0

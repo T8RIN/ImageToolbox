@@ -74,6 +74,7 @@ internal data object SpiralShaftGame : ArcadeGameDefinition {
         ) {
             ArcadeField(
                 run = run,
+                lightFeedback = true,
                 onPress = { run.grab(it.x) },
                 onDrag = { run.spin(it.x) },
                 onRelease = run::stopInput
@@ -604,10 +605,15 @@ private class SpiralShaftRun : ArcadeRun() {
             val gap = when {
                 previous == null -> 36f
                 section in 1..2 -> previous.gap + Random.nextFloat() * 26f - 13f
+                stage % 4 == 1 -> previous.gap + (28f + Random.nextFloat() * 22f) * if (stage % 2 == 0) 1f else -1f
+                stage % 4 == 2 -> previous.gap + (if (section % 2 == 0) 54f else -54f)
+                stage % 4 == 3 && section % 3 != 0 -> previous.gap + Random.nextFloat() * 20f - 10f
                 section in 3..4 -> previous.gap + Random.nextFloat() * 114f - 57f
                 else -> previous.gap + Random.nextFloat() * 196f - 98f
             }
-            val opening = if (checkpoint) 0f else 102f - difficulty * 48f + Random.nextFloat() * 10f
+            val opening =
+                if (checkpoint) 0f else 102f - difficulty * 48f + Random.nextFloat() * 10f +
+                        if (stage % 4 == 3 && section % 3 == 0) 14f else 0f
             val danger = if (checkpoint || index < 3 || section == 5) {
                 0f
             } else {

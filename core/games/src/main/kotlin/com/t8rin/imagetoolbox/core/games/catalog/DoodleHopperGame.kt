@@ -75,6 +75,7 @@ internal data object DoodleHopperGame : ArcadeGameDefinition {
         ) {
             ArcadeField(
                 run = run,
+                lightFeedback = true,
                 onPress = { run.beginDrag(it.x) },
                 onTap = run::shoot,
                 onSecondaryTap = run::shoot,
@@ -853,6 +854,7 @@ private class DoodleHopperRun : ArcadeRun() {
             } ?: candidates.firstOrNull(::clearOfHoles)
             ?: (if (lastX < width / 2) lastX + width * 0.2f else lastX - width * 0.2f)
                 .coerceIn(margin, width - margin)
+            val entryX = lastX
             lastHeight += gap
             lastX = nextX
             val kind = when {
@@ -869,6 +871,10 @@ private class DoodleHopperRun : ArcadeRun() {
             )
             if (row % 36 == 22 && !nearGate && !holeRow) platform.jetpack = true
             if (gate) {
+                newPlatform(
+                    x = entryX, height = lastHeight - 16f,
+                    width = PlatformWidth - 4f, kind = PlatformKind.Standard
+                )
                 monsters += DoodleHopperMonster(
                     x = platform.x,
                     height = platform.height + MonsterKind.Guard.halfHeight,

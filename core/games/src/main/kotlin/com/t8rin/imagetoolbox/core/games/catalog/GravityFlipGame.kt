@@ -81,6 +81,7 @@ internal data object GravityFlipGame : ArcadeGameDefinition {
         ) {
             ArcadeField(
                 run = run,
+                lightFeedback = true,
                 onPress = { run.flip() }
             ) {
                 drawGravityBackground(style, run.width, run.height)
@@ -220,7 +221,7 @@ internal data object GravityFlipGame : ArcadeGameDefinition {
                         }
                     }
                 }
-                for ((x, y) in run.beacons) {
+                for ((x, y, value) in run.beacons) {
                     val center = Offset(x = x, y = top + y * span)
                     val path = Path().apply {
                         moveTo(center.x, center.y - 6f)
@@ -238,6 +239,10 @@ internal data object GravityFlipGame : ArcadeGameDefinition {
                         path = path,
                         color = style.accentColor
                     )
+                    if (value > 1) {
+                        pixelRect(style.playerDetailColor, center.x - 2f, center.y - 3f, 1f, 6f)
+                        pixelRect(style.playerDetailColor, center.x + 1f, center.y - 3f, 1f, 6f)
+                    }
                 }
                 val center = Offset(x = run.playerX, y = top + run.y * span)
                 run.trail.forEachIndexed { index, point ->
@@ -372,7 +377,8 @@ private data class GravityObstacle(
 @Serializable
 private data class GravityBeacon(
     var x: Float,
-    val y: Float
+    val y: Float,
+    val value: Int = 1
 )
 
 @Serializable
@@ -496,9 +502,9 @@ private class GravityFlipRun : ArcadeRun() {
             val beacon = iterator.next()
             beacon.x -= step
             if (abs(beacon.x - playerX) < radius + 5f && abs(beacon.y - y) * span < radius + 6f) {
-                score += 3
+                score += 3 * beacon.value
                 if (!shield) {
-                    charge++
+                    charge += beacon.value
                     if (charge >= 12) {
                         shield = true
                         charge = 0
@@ -565,6 +571,11 @@ private class GravityFlipRun : ArcadeRun() {
                 y = if (kind == 2) 0.5f else if (nextCeiling) 1f - bank else bank
             )
         }
+        if (passed >= 12 && pattern % 2 == 0) beacons += GravityBeacon(
+            x = x + w + speed * 0.42f,
+            y = if (nextCeiling) 0.68f else 0.32f,
+            value = 2
+        )
         // A middle gate asks for a timed flip. The next obstacle leaves a full crossing to settle.
         if (kind == 0 || kind == 2) nextCeiling = !nextCeiling
         timer += w / speed + 1.05f - pace * 0.3f + Random.nextFloat() * 0.25f +

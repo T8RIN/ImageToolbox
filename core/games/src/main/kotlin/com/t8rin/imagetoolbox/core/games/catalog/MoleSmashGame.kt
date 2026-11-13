@@ -72,6 +72,7 @@ internal data object MoleSmashGame : ArcadeGameDefinition {
         ) {
             ArcadeField(
                 run = run,
+                lightFeedback = true,
                 onPress = run::hit
             ) {
                 drawMoleGarden(style, run.width, run.height)
@@ -133,7 +134,7 @@ internal data object MoleSmashGame : ArcadeGameDefinition {
                                     minOf(1f, run.ages[index] / 0.12f, run.timers[index] / 0.18f)
                                 val y = 15f - rise * 42f
                                 clipRect(left = -30f, top = -42f, right = 30f, bottom = 12f) {
-                                    if (type == 1) {
+                                    if (type == 1 || type == 3) {
                                         reliefSprite(
                                             sprite = ArcadeMole,
                                             color = style.obstacleColor,
@@ -150,6 +151,13 @@ internal data object MoleSmashGame : ArcadeGameDefinition {
                                             x = -20f,
                                             y = y
                                         )
+                                        if (type == 3) {
+                                            pixelRect(style.accentColor, -10f, y + 1f, 20f, 5f)
+                                            for (crown in -1..1) pixelRect(
+                                                style.accentColor,
+                                                crown * 8f - 2f, y - 4f, 4f, 7f
+                                            )
+                                        }
                                         pixelRect(
                                             color = style.playerDetailColor.copy(alpha = 0.25f),
                                             x = -16f,
@@ -425,6 +433,7 @@ private class MoleSmashRun : ArcadeRun() {
     private var timer = 0.45f
     private var elapsed = 0f
     private var last = -1
+    private var spawned = 0
 
     fun hole(index: Int) =
         origin + Offset(x = (index % 3 + 0.5f) * cell, y = (index / 3 + 0.62f) * cell)
@@ -443,6 +452,7 @@ private class MoleSmashRun : ArcadeRun() {
         timer = 0.45f
         elapsed = 0f
         last = -1
+        spawned = 0
     }
 
     fun hit(point: Offset) {
@@ -450,10 +460,12 @@ private class MoleSmashRun : ArcadeRun() {
         if (local.x !in 0f..<side || local.y !in 0f..<side) return
         val index = (local.y / cell).toInt() * 3 + (local.x / cell).toInt()
         when (types[index]) {
-            1 -> {
+            1, 3 -> {
+                val bonus = types[index] == 3
                 hits[index] = 0.3f
                 combo++
-                score += 1 + minOf(combo / 5, 4)
+                score += (1 + minOf(combo / 5, 4)) * if (bonus) 5 else 1
+                if (bonus) misses = (misses - 1).coerceAtLeast(0)
                 effects.burst(point = hole(index) - Offset(x = 0f, y = cell * 0.2f))
             }
 
@@ -496,11 +508,17 @@ private class MoleSmashRun : ArcadeRun() {
             if (empty.isNotEmpty()) {
                 val index = empty.random()
                 last = index
-                types[index] = if (elapsed > 7f && Random.nextFloat() < 0.22f) 2 else 1
-                timers[index] = maxOf(0.85f, 1.65f - elapsed * 0.008f)
+                types[index] = when {
+                    elapsed > 15f && spawned % 17 == 16 -> 3
+                    elapsed > 7f && Random.nextFloat() < 0.22f -> 2
+                    else -> 1
+                }
+                spawned++
+                timers[index] =
+                    maxOf(0.85f, 1.65f - elapsed * 0.008f) * if (types[index] == 3) 1.3f else 1f
                 ages[index] = 0f
             }
-            timer += maxOf(0.4f, 0.95f - elapsed * 0.006f)
+            timer += maxOf(0.4f, 0.95f - elapsed * 0.006f) + if (spawned % 16 == 0) 0.45f else 0f
         }
     }
 }

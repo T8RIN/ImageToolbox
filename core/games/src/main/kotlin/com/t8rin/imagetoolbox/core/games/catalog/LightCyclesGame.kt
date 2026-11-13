@@ -80,6 +80,7 @@ internal data object LightCyclesGame : ArcadeGameDefinition {
         ) {
             ArcadeField(
                 run = run,
+                lightFeedback = true,
                 transition = { run.transition },
                 onTap = { run.turn(if (it.x < run.width / 2f) -1 else 1) },
                 onSwipe = run::steer,
@@ -425,7 +426,25 @@ private class LightCyclesRun : ArcadeRun() {
         if (round > 1) repeat((1 + round / 3).coerceAtMost(4)) { pillar ->
             val x = 5 + (pillar * 5 + round * 3) % (columns - 10)
             val y = 4 + (pillar * 7 + round) % (rows - 8).coerceAtLeast(1)
-            for (dy in 0..1) for (dx in 0..1) board[(y + dy) * columns + x + dx] = -1
+            val shape = when (round % 4) {
+                1 -> listOf(0 to 0, 1 to 0, 2 to 0, 3 to 0)
+                2 -> listOf(0 to 0, 0 to 1, 0 to 2)
+                3 -> listOf(1 to 0, 0 to 1, 1 to 1, 2 to 1, 1 to 2)
+                else -> listOf(0 to 0, 1 to 0, 0 to 1, 1 to 1)
+            }
+            val starts = listOf(
+                (rows - 3) * columns + columns / 4,
+                2 * columns + columns * 3 / 4,
+                rows / 2 * columns + columns - 3,
+                rows / 2 * columns + 2
+            )
+            for ((dx, dy) in shape) {
+                val px = x + dx
+                val py = y + dy
+                if (px in 1 until columns - 1 && py in 1 until rows - 1 && starts.none {
+                        abs(it % columns - px) + abs(it / columns - py) <= 3
+                    }) board[py * columns + px] = -1
+            }
         }
         cycles.clear()
         val starts = listOf(

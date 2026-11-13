@@ -84,6 +84,7 @@ internal data object MoonLandingGame : ArcadeGameDefinition {
         ) {
             ArcadeField(
                 run = run,
+                lightFeedback = true,
                 transition = { run.transition },
                 onPress = run::beginThrust,
                 onDrag = run::steer,
@@ -466,6 +467,7 @@ private class MoonLandingRun : ArcadeRun() {
         private set
     var round = 1
     var lives = 3
+    private var cleanLandings = 0
     var time = 0f
     var landed = false
     var crashed = false
@@ -493,6 +495,7 @@ private class MoonLandingRun : ArcadeRun() {
     override fun reset() {
         round = 1
         lives = 3
+        cleanLandings = 0
         time = 0f
         effects.clear()
         newRound()
@@ -637,6 +640,8 @@ private class MoonLandingRun : ArcadeRun() {
                 vx = 0f
                 vy = 0f
                 landed = true
+                cleanLandings++
+                if (cleanLandings % 3 == 0) lives = (lives + 1).coerceAtMost(3)
                 score += (100 + round * 20 + (fuel * 60f).toInt()) * pad.multiplier
                 transition = 1f
                 effects.burst(
@@ -645,6 +650,7 @@ private class MoonLandingRun : ArcadeRun() {
                 )
             } else {
                 lives--
+                cleanLandings = 0
                 crashed = true
                 effects.burst(
                     point = shipPoint,

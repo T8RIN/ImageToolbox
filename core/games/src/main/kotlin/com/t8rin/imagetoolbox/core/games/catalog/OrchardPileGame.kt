@@ -102,6 +102,7 @@ internal data object OrchardPileGame : ArcadeGameDefinition {
         ) {
             ArcadeField(
                 run = run,
+                lightFeedback = true,
                 onPress = run::aim,
                 onDrag = run::aim,
                 onRelease = run::drop
@@ -1028,7 +1029,7 @@ private class OrchardPileRun : ArcadeRun() {
                 y = y,
                 vx = (a.vx + b.vx) * 0.40f,
                 vy = ((a.vy + b.vy) * 0.32f).coerceAtLeast(-22f),
-                age = maxOf(a.age, b.age),
+                age = 0f,
                 angle = a.angle,
                 spin = (a.spin + b.spin) * 0.32f
             )

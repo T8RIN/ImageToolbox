@@ -65,6 +65,7 @@ internal data object BlockStackGame : ArcadeGameDefinition {
         ) {
             ArcadeField(
                 run = run,
+                lightFeedback = true,
                 onPress = run::beginDrag,
                 onTap = { run.tap() },
                 onDrag = run::drag,
@@ -260,6 +261,46 @@ internal data object BlockStackGame : ArcadeGameDefinition {
                         type = run.next.ordinal
                     )
                 }
+                val holdLeft = 82f
+                drawRect(
+                    style.detailColor.copy(alpha = if (run.holdUsed) 0.12f else 0.3f),
+                    Offset(holdLeft, 4f), Size(60f, run.topInset - 8f),
+                    style = Stroke(1f)
+                )
+                val held = run.held
+                if (held != null) {
+                    val shape = held.cells(0)
+                    val left = shape.minOf { it.x }
+                    val top = shape.minOf { it.y }
+                    val shapeWidth = (shape.maxOf { it.x } - left + 1) * previewCell
+                    val shapeHeight = (shape.maxOf { it.y } - top + 1) * previewCell
+                    for ((x, y) in shape) block(
+                        point = Offset(
+                            holdLeft + (60f - shapeWidth) / 2f + (x - left) * previewCell,
+                            (run.topInset - shapeHeight) / 2f + (y - top) * previewCell
+                        ),
+                        size = previewCell,
+                        type = held.ordinal,
+                        ghost = run.holdUsed
+                    )
+                } else {
+                    val center = Offset(holdLeft + 30f, run.topInset / 2f)
+                    for (side in listOf(-1f, 1f)) {
+                        val point = center + Offset(0f, side * 4f)
+                        drawLine(
+                            style.accentColor,
+                            point - Offset(side * 8f, 0f),
+                            point + Offset(side * 8f, 0f),
+                            1.5f
+                        )
+                        drawLine(
+                            style.accentColor,
+                            point + Offset(side * 8f, 0f),
+                            point + Offset(side * 4f, -side * 4f),
+                            1.5f
+                        )
+                    }
+                }
             }
         }
     }
@@ -386,6 +427,10 @@ private class BlockStackRun : ArcadeRun() {
         private set
     var next = Tetromino.I
         private set
+    var held: Tetromino? = null
+        private set
+    var holdUsed = false
+        private set
     var x = 3
         private set
     var y = 0
@@ -437,6 +482,8 @@ private class BlockStackRun : ArcadeRun() {
         backToBack = false
         clearTime = 0f
         dropTarget = -1
+        held = null
+        holdUsed = false
         stopInput()
         next = takePiece()
         spawn()
@@ -448,9 +495,15 @@ private class BlockStackRun : ArcadeRun() {
     }
 
     private fun spawn() {
-        stopInput()
-        piece = next
+        val incoming = next
         next = takePiece()
+        holdUsed = false
+        spawn(incoming)
+    }
+
+    private fun spawn(incoming: Tetromino) {
+        stopInput()
+        piece = incoming
         rotation = 0
         x = 3
         y = 0
@@ -481,6 +534,10 @@ private class BlockStackRun : ArcadeRun() {
 
     fun beginDrag(point: Offset) {
         if (clearing.isNotEmpty() || dropTarget >= 0) return
+        if (point.y < topInset && point.x in 78f..146f) {
+            hold()
+            return
+        }
         dragOrigin = point
         dragX = point.x
         horizontalDrag = null
@@ -519,6 +576,9 @@ private class BlockStackRun : ArcadeRun() {
                 }
             }
             dragX += amount * cellSize
+        } else if (pressTime < HoldDelay && dy < -maxOf(cellSize * 1.5f, 24f)) {
+            dropped = true
+            hold()
         } else if (pressTime < HoldDelay && dy > maxOf(cellSize * 1.5f, 24f)) {
             dropped = true
             drop()
@@ -533,6 +593,15 @@ private class BlockStackRun : ArcadeRun() {
 
     fun tap() {
         if (dragOrigin != null && pressTime < HoldDelay && !dropped) rotate()
+    }
+
+    fun hold() {
+        if (holdUsed || clearing.isNotEmpty() || dropTarget >= 0 || phase != ArcadePhase.Running) return
+        val saved = held
+        held = piece
+        if (saved == null) spawn() else spawn(saved)
+        holdUsed = true
+        redraw()
     }
 
     fun rotate() {

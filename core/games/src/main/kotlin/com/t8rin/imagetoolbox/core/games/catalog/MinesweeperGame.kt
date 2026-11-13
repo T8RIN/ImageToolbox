@@ -80,6 +80,7 @@ internal data object MinesweeperGame : ArcadeGameDefinition {
         ) {
             ArcadeField(
                 run = run,
+                lightFeedback = true,
                 transition = { run.transition },
                 onTap = run::tap,
                 onLongPress = run::hold
@@ -328,12 +329,63 @@ private class MinesweeperRun : ArcadeRun() {
     }
 
     private fun generate(first: Int) {
-        val safe = neighbors(first) + first
-        val mines = mineOrder.filterNot { it in safe }.take(mineCount)
-        mines.forEach { board[it] = -1 }
-        for (index in board.indices) if (board[index] != -1) board[index] =
-            neighbors(index).count { board[it] == -1 }
+        val safe = (neighbors(first) + first).toSet()
+        var attempts = 0
+        do {
+            board.fill(0)
+            mineOrder.filterNot { it in safe }.take(mineCount).forEach { board[it] = -1 }
+            for (index in board.indices) if (board[index] != -1) board[index] =
+                neighbors(index).count { board[it] == -1 }
+            if (solvable(first)) break
+            mineOrder.shuffle()
+            attempts++
+            if (attempts % 64 == 0) mineCount--
+        } while (mineCount > 0)
+        if (mineCount == 0) board.fill(0)
         generated = true
+    }
+
+    private fun solvable(first: Int): Boolean {
+        val known = IntArray(board.size)
+        fun reveal(index: Int) {
+            val queue = ArrayDeque<Int>()
+            queue.addLast(index)
+            while (queue.isNotEmpty()) {
+                val cell = queue.removeFirst()
+                if (known[cell] != 0) continue
+                known[cell] = 1
+                if (board[cell] == 0) neighbors(cell).filter { known[it] == 0 }
+                    .forEach(queue::addLast)
+            }
+        }
+        reveal(first)
+        while (true) {
+            val constraints = mutableListOf<Pair<Set<Int>, Int>>()
+            for (index in board.indices) if (known[index] == 1) {
+                val adjacent = neighbors(index)
+                val hidden = adjacent.filter { known[it] == 0 }.toSet()
+                if (hidden.isNotEmpty()) constraints += hidden to (board[index] - adjacent.count { known[it] == 2 })
+            }
+            val hidden = known.indices.filter { known[it] == 0 }.toSet()
+            if (hidden.isEmpty()) return true
+            constraints += hidden to (mineCount - known.count { it == 2 })
+            var changed = false
+            fun deduce(cells: Set<Int>, mines: Int) {
+                if (mines != 0 && mines != cells.size) return
+                for (cell in cells) if (known[cell] == 0) {
+                    if (mines == 0) reveal(cell) else known[cell] = 2
+                    changed = true
+                }
+            }
+            constraints.forEach { (cells, mines) -> deduce(cells, mines) }
+            if (!changed) for ((small, count) in constraints) for ((large, total) in constraints) {
+                if (small.size < large.size && large.containsAll(small)) deduce(
+                    large - small,
+                    total - count
+                )
+            }
+            if (!changed) return false
+        }
     }
 
     private fun indexAt(point: Offset): Int {

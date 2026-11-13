@@ -38,6 +38,7 @@ import com.t8rin.imagetoolbox.core.games.ArcadeGameContext
 import com.t8rin.imagetoolbox.core.games.ArcadeGameDefinition
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
+import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
 import com.t8rin.imagetoolbox.core.games.utils.arcadeAngle
@@ -84,6 +85,7 @@ internal data object TintAscentGame : ArcadeGameDefinition {
         ) {
             ArcadeField(
                 run = run,
+                lightFeedback = true,
                 onPress = { run.jump() }
             ) {
                 val drift = run.camera * run.unit
@@ -149,14 +151,13 @@ internal data object TintAscentGame : ArcadeGameDefinition {
                                 pixelCircle(colors[gate.nextColor], 5f, center)
                             }
                         }
-                        if (!run.launched) {
-                            drawRoundRect(
-                                color = style.detailColor,
-                                topLeft = Offset(-22f, SwitchBallRadius + 6f),
-                                size = Size(44f, 4f),
-                                cornerRadius = CornerRadius(2f)
-                            )
-                        }
+                        pixelRect(
+                            color = style.detailColor.copy(alpha = 0.7f),
+                            x = -18f,
+                            y = -run.restHeight + SwitchBallRadius,
+                            width = 36f,
+                            height = 3f
+                        )
                         run.effects.draw(
                             scope = this,
                             color = colors[run.color]
@@ -202,7 +203,6 @@ private const val SwitchRadians = 0.017453293f
 private const val SwitchJump = 176f
 private const val SwitchGravity = 430f
 private const val SwitchRhythm = 0.18f
-private const val SwitchRhythmRise = SwitchRhythm * (SwitchJump - SwitchGravity * SwitchRhythm / 2f)
 private const val SwitchRailGap = 23f
 private const val SwitchOrbitSweep = 48f
 
@@ -539,6 +539,8 @@ private class TintAscentRun : ArcadeRun() {
     var launched = false
         private set
     private var generated = 0
+    var restHeight = 0f
+        private set
     private val patterns = mutableListOf<SwitchGateKind>()
     var crash = 0f
         private set
@@ -558,6 +560,7 @@ private class TintAscentRun : ArcadeRun() {
         color = Random.nextInt(4)
         launched = false
         generated = 0
+        restHeight = 0f
         crash = 0f
         patterns.clear()
         effects.clear()
@@ -589,6 +592,10 @@ private class TintAscentRun : ArcadeRun() {
         val nextVelocity = (velocity - SwitchGravity * seconds).coerceAtLeast(-320f)
         altitude += (velocity + nextVelocity) * seconds / 2.0
         velocity = nextVelocity
+        if (ball < restHeight) {
+            altitude = restHeight.toDouble()
+            velocity = 0f
+        }
         camera += (maxOf(camera, ball - 26f) - camera) * minOf(1f, 13f * seconds)
 
         for (gate in gates) {
@@ -606,6 +613,7 @@ private class TintAscentRun : ArcadeRun() {
             if (!gate.switched && abs(ball - gate.switchY) < SwitchBallRadius + 10f) {
                 gate.switched = true
                 color = gate.nextColor
+                restHeight = gate.switchY - 20f
                 effects.burst(Offset(0f, -gate.switchY), 12)
             }
         }
@@ -664,6 +672,15 @@ private class TintAscentRun : ArcadeRun() {
                 SwitchGateKind.Beads -> radius + 3f
                 else -> radius
             }
+            val minimumSpeed = when {
+                index == 0 -> 16f
+                kind in listOf(
+                    SwitchGateKind.Triangle, SwitchGateKind.Spinner,
+                    SwitchGateKind.TwinSpinner, SwitchGateKind.Hourglass, SwitchGateKind.Orbit
+                ) -> 48f
+
+                else -> 32f
+            }
             var gate: SwitchGate? = null
             for (attempt in 0..3) {
                 val candidate = SwitchGate(
@@ -672,40 +689,53 @@ private class TintAscentRun : ArcadeRun() {
                     kind = kind,
                     colorOffset = entryColor,
                     nextColor = nextColor,
-                    speed = speed * (1f - attempt * 0.24f),
+                    speed = (abs(speed) * (1f - attempt * 0.24f)).coerceAtLeast(minimumSpeed) * if (speed > 0f) 1f else -1f,
                     angle = 0f
                 )
-                if (findPlayableAngle(candidate, entryColor, if (index == 0) 0.13f else 0.08f)) {
+                val rhythm = listOf(0.18f, 0.22f, 0.25f, 0.28f)[index % 4]
+                if (findPlayableAngle(
+                        gate = candidate,
+                        color = entryColor,
+                        margin = if (index == 0) 0.14f else 0.11f,
+                        rhythm = rhythm,
+                        floor = previous?.switchY?.minus(20f) ?: 0f
+                    )
+                ) {
                     gate = candidate
                     break
                 }
             }
             if (gate == null) {
-                val fallbackRadius = 48f + variation * 8f
-                val center = base + fallbackRadius
-                val fallbackSpeed = if (speed > 0f) 16f else -16f
+                val fallbackSpeed = if (speed > 0f) 104f else -104f
                 gate = SwitchGate(
-                    y = center,
-                    radius = fallbackRadius,
-                    kind = SwitchGateKind.Ring,
+                    y = base,
+                    radius = 0f,
+                    kind = SwitchGateKind.Rail,
                     colorOffset = entryColor,
                     nextColor = nextColor,
                     speed = fallbackSpeed,
-                    angle = gateAngle(67.5f, fallbackSpeed, switchReferenceTime(center))
+                    angle = Random.nextFloat() * 360f
                 )
             }
+            if (index == 0) findPlayableAngle(gate, entryColor, 0.14f, SwitchRhythm, 0f)
             gates.addLast(gate)
         }
     }
 
-    private fun findPlayableAngle(gate: SwitchGate, color: Int, margin: Float): Boolean {
+    private fun findPlayableAngle(
+        gate: SwitchGate,
+        color: Int,
+        margin: Float,
+        rhythm: Float,
+        floor: Float
+    ): Boolean {
         val edge = gate.extent + SwitchStroke / 2f + SwitchBallRadius
-        val from = switchReferenceTime(gate.y - edge)
-        val to = switchReferenceTime(gate.y + edge)
+        val from = switchReferenceTime(gate.y - edge - floor, rhythm)
+        val to = switchReferenceTime(gate.y + edge - floor, rhythm)
         val middle = (from + to) / 2f
         val firstAngle = Random.nextFloat() * 360f
-        // Each gate must leave a window for the same repeating tap rhythm, so an
-        // individually valid opening also lines up with the rest of the course.
+        // Certify a complete crossing, then give it an independent phase. The
+        // cleared gate leaves a ledge from which the player can choose a window.
         val samples = ((to - from) * 120f).toInt() + 1
         val angles = if (gate.kind == SwitchGateKind.DoubleRing) 180 else 72
         for (candidate in 0 until angles) {
@@ -713,7 +743,7 @@ private class TintAscentRun : ArcadeRun() {
             var fits = true
             for (sample in 0..samples) {
                 val time = from + (to - from) * sample / samples
-                val ball = switchReferenceHeight(time)
+                val ball = floor + switchReferenceHeight(time, rhythm)
                 for (offset in -1..1) {
                     gate.angle = arcadeAngle(phase + gate.speed * (time - middle + margin * offset))
                     if (gate.collides(ball, color)) {
@@ -724,16 +754,13 @@ private class TintAscentRun : ArcadeRun() {
                 if (!fits) break
             }
             if (fits) {
-                gate.angle = gateAngle(phase, gate.speed, middle)
+                gate.angle = if (floor == 0f) arcadeAngle(phase - gate.speed * middle)
+                else Random.nextFloat() * 360f
                 return true
             }
         }
         return false
     }
-
-    private fun gateAngle(phase: Float, speed: Float, referenceTime: Float): Float =
-        // Anchor new gates to the actual climb, including pauses between taps.
-        arcadeAngle(phase + (switchReferenceTime(ball) - referenceTime) * speed % 360f)
 
     private fun nextPattern(index: Int, previous: SwitchGateKind?): SwitchGateKind {
         if (index == 0) {
@@ -765,15 +792,17 @@ private class TintAscentRun : ArcadeRun() {
     }
 }
 
-private fun switchReferenceHeight(time: Float): Float {
-    val cycle = (time / SwitchRhythm).toInt()
-    val sinceTap = time - cycle * SwitchRhythm
-    return cycle * SwitchRhythmRise + sinceTap * (SwitchJump - SwitchGravity * sinceTap / 2f)
+private fun switchReferenceHeight(time: Float, rhythm: Float = SwitchRhythm): Float {
+    val rise = rhythm * (SwitchJump - SwitchGravity * rhythm / 2f)
+    val cycle = (time / rhythm).toInt()
+    val sinceTap = time - cycle * rhythm
+    return cycle * rise + sinceTap * (SwitchJump - SwitchGravity * sinceTap / 2f)
 }
 
-private fun switchReferenceTime(height: Float): Float {
-    val cycle = (height / SwitchRhythmRise).toInt()
-    val remainder = height - cycle * SwitchRhythmRise
+private fun switchReferenceTime(height: Float, rhythm: Float = SwitchRhythm): Float {
+    val rise = rhythm * (SwitchJump - SwitchGravity * rhythm / 2f)
+    val cycle = (height / rise).toInt()
+    val remainder = height - cycle * rise
     val speed = sqrt((SwitchJump * SwitchJump - 2f * SwitchGravity * remainder).coerceAtLeast(0f))
-    return cycle * SwitchRhythm + (SwitchJump - speed) / SwitchGravity
+    return cycle * rhythm + (SwitchJump - speed) / SwitchGravity
 }

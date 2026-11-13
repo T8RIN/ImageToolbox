@@ -77,6 +77,7 @@ internal data object FishingGame : ArcadeGameDefinition {
         ) {
             ArcadeField(
                 run = run,
+                lightFeedback = true,
                 onPress = { run.cast() }
             ) {
                 drawFishingDepths(style, run.width, run.height, run.waterline)
@@ -162,6 +163,13 @@ internal data object FishingGame : ArcadeGameDefinition {
                                 x = -20f,
                                 y = -11f
                             )
+                            if (kind == 4) {
+                                for (spot in -1..1) pixelRect(
+                                    style.playerDetailColor,
+                                    spot * 9f - 2f, -7f, 4f, 11f
+                                )
+                                pixelRect(style.accentColor, -7f, -18f, 14f, 3f)
+                            }
                             pixelRect(
                                 color = style.playerDetailColor,
                                 x = 10f,
@@ -558,7 +566,7 @@ private class FishingRun : ArcadeRun() {
                 if (caught > 0) {
                     catches++
                     streak++
-                    score += caught * (1 + minOf(streak / 3, 2))
+                    score += (if (caught == 4) 12 else caught) * (1 + minOf(streak / 3, 2))
                     if (streak % 5 == 0) misses = (misses - 1).coerceAtLeast(0)
                     effects.burst(
                         point = Offset(x = width / 2f, y = waterline),
@@ -590,7 +598,12 @@ private class FishingRun : ArcadeRun() {
                 )
                 fish[hit] = SwimmingFish(
                     x = if (item.direction > 0) -32f else width + 32f,
-                    row = item.row, kind = Random.nextInt(1, 4), direction = item.direction
+                    row = item.row,
+                    kind = if (item.row >= 2 && catches >= 5 && Random.nextFloat() < 0.12f) 4 else Random.nextInt(
+                        1,
+                        4
+                    ),
+                    direction = item.direction
                 )
             } else if (point.x !in 10f..(width - 10f) || point.y >= height - 14f) returning = true
         }

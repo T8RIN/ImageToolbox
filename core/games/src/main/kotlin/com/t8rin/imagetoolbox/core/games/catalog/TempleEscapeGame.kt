@@ -82,11 +82,13 @@ internal data object TempleEscapeGame : ArcadeGameDefinition {
         ) {
             ArcadeField(
                 run = run,
+                lightFeedback = true,
                 transition = { run.transition },
                 onSwipe = run::swipe,
                 swipeOnDrag = true
             ) {
                 drawTempleBackground(style, run.width, run.height)
+                if (run.freeze > 0f) drawRect(style.accentColor.copy(alpha = 0.07f), size = size)
                 val cell = run.cell
                 val unit = cell / 30f
                 val left = run.left
@@ -191,6 +193,21 @@ internal data object TempleEscapeGame : ArcadeGameDefinition {
                                         tint = style.accentColor,
                                         x = point.x - 6f,
                                         y = point.y - 7f + sin(run.time * 4f) * 0.6f
+                                    )
+                                }
+                            }
+
+                            4 -> {
+                                val point = Offset(x + cell / 2f, y + cell / 2f)
+                                for (axis in listOf(
+                                    Offset(1f, 0f),
+                                    Offset(0f, 1f),
+                                    Offset(0.7f, 0.7f),
+                                    Offset(0.7f, -0.7f)
+                                )) {
+                                    drawLine(
+                                        style.accentColor, point - axis * cell * 0.28f,
+                                        point + axis * cell * 0.28f, unit * 2f
                                     )
                                 }
                             }
@@ -519,6 +536,8 @@ private class TempleEscapeRun : ArcadeRun() {
         private set
     var protection = 0f
         private set
+    var freeze = 0f
+        private set
     private var begun = false
     private var floodTime = 0f
     private var floodSpeed = 0f
@@ -618,7 +637,7 @@ private class TempleEscapeRun : ArcadeRun() {
     }
 
     fun trapActive(index: Int): Boolean =
-        time > 2f && (time + index / columns * 0.17f) % 3.6f < 1.2f
+        freeze <= 0f && time > 2f && (time + index / columns * 0.17f) % 3.6f < 1.2f
 
     fun trapWarning(index: Int): Boolean = (time + index / columns * 0.17f) % 3.6f > 3.1f
 
@@ -652,6 +671,7 @@ private class TempleEscapeRun : ArcadeRun() {
         floodSpeed = 0f
         shield = false
         protection = 0f
+        freeze = 0f
         camera = (rows - visibleRows).coerceAtLeast(0f)
         direction = -1
         queued = -1
@@ -710,6 +730,7 @@ private class TempleEscapeRun : ArcadeRun() {
         for (index in bonuses.take(3)) pickups[index] = 2
         val shield = stops.filter { route[it] && it != exit }.maxBy { it / columns }
         pickups[shield] = 3
+        if (round >= 3) bonuses.drop(3).firstOrNull { pickups[it] == 0 }?.let { pickups[it] = 4 }
         for ((top, bottom) in chambers.drop(1)) {
             val hazards = stops.filter {
                 it / columns in top + 2 until bottom - 1 && it != shield && it != exit && !route[it]
@@ -864,7 +885,8 @@ private class TempleEscapeRun : ArcadeRun() {
             }
             return
         }
-        time += seconds
+        freeze = (freeze - seconds).coerceAtLeast(0f)
+        if (freeze == 0f) time += seconds
         val blend = 1f - exp(-seconds * 24f)
         val targetX = when (direction) {
             0 -> 1f
@@ -881,7 +903,7 @@ private class TempleEscapeRun : ArcadeRun() {
         val motion = (abs(motionX) + abs(motionY)).coerceAtMost(1f)
         flutter = (flutter + seconds * (4f + motion * 8f)) % 4f
         protection = (protection - seconds).coerceAtLeast(0f)
-        if (begun) {
+        if (begun && freeze == 0f) {
             floodTime += seconds
             val elapsed = (floodTime - 1f).coerceIn(0f, seconds)
             if (elapsed > 0f) {
@@ -910,10 +932,15 @@ private class TempleEscapeRun : ArcadeRun() {
                     1 -> score++
                     2 -> {
                         relics++
-                        score += 15
+                        score += 15 + relics * 5
+                        if (relics == 3) freeze = maxOf(freeze, 2f)
                         effects.burst(point = playerPoint, count = 10)
                     }
 
+                    4 -> {
+                        freeze = 4.5f
+                        effects.burst(point = playerPoint, count = 16)
+                    }
                     3 -> {
                         shield = true
                         effects.burst(point = playerPoint, count = 8)

@@ -81,6 +81,7 @@ internal data object AirTrafficGame : ArcadeGameDefinition {
         ) {
             ArcadeField(
                 run = run,
+                lightFeedback = true,
                 onPress = run::begin,
                 onDrag = run::drag,
                 onRelease = run::commit
@@ -496,7 +497,27 @@ private class AirTrafficRun : ArcadeRun() {
             }
         }
         plane.route.clear()
-        drawing.drop(nearest + 1).forEach(plane.route::addLast)
+        val points = drawing.drop(nearest + 1)
+        var start = plane.point
+        for (index in points.indices) {
+            val control = points[index]
+            val end = points.getOrNull(index + 1)?.let { (control + it) / 2f } ?: control
+            val steps =
+                ceil(((control - start).getDistance() + (end - control).getDistance()) / 6f).toInt()
+                    .coerceIn(1, 12)
+            repeat(steps) { step ->
+                val t = (step + 1f) / steps
+                plane.route += start * ((1f - t) * (1f - t)) + control * (2f * t * (1f - t)) + end * (t * t)
+            }
+            start = end
+        }
+        if (plane.route.size > 256) {
+            val route = plane.route.toList()
+            plane.route.clear()
+            repeat(256) { index ->
+                plane.route += route[index * route.lastIndex / 255]
+            }
+        }
         while (plane.route.isNotEmpty() && (plane.route.first() - plane.point).getDistance() < 3f) {
             plane.route.removeFirst()
         }
@@ -650,6 +671,7 @@ private class AirTrafficRun : ArcadeRun() {
                 plane.landing = 0.6f
                 plane.route.clear()
                 landed++
+                if (landed % 8 == 0) timer = maxOf(timer, 3.8f)
                 score += if (plane.kind == 1) 20 else 10
                 effects.burst(
                     point = zone(plane.kind),
@@ -663,7 +685,22 @@ private class AirTrafficRun : ArcadeRun() {
             val b = planes[j]
             if (a.landing > 0f || b.landing > 0f || !a.entered || !b.entered) continue
             val distance = (a.point - b.point).getDistance()
-            if (distance < 38f) {
+            fun velocity(plane: ControlledFlight): Offset {
+                val delta = plane.route.firstOrNull()?.minus(plane.point)
+                val direction =
+                    if (delta != null && delta.getDistance() > 0.01f) delta / delta.getDistance()
+                    else Offset(cos(plane.heading), sin(plane.heading))
+                val speed = (30f + pace * 12f) * when (plane.kind) {
+                    1 -> 1.12f; 2 -> 0.75f; else -> 1f
+                }
+                return direction * speed
+            }
+
+            val relative = a.point - b.point
+            val motion = velocity(a) - velocity(b)
+            val encounter = (-(relative.x * motion.x + relative.y * motion.y) /
+                    motion.getDistanceSquared().coerceAtLeast(0.001f)).coerceIn(0f, 1.6f)
+            if (distance < 38f || (relative + motion * encounter).getDistance() < 24f) {
                 a.warning = true
                 b.warning = true
             }

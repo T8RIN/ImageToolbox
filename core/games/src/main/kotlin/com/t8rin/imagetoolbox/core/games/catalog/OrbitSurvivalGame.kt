@@ -50,6 +50,7 @@ import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.sqrt
+import kotlin.random.Random
 
 @RegisterArcadeGame
 internal data object OrbitSurvivalGame : ArcadeGameDefinition {
@@ -73,6 +74,7 @@ internal data object OrbitSurvivalGame : ArcadeGameDefinition {
         ) {
             ArcadeField(
                 run = run,
+                lightFeedback = true,
                 onPress = run::steer,
                 onDrag = run::steer,
                 onRelease = run::stopInput
@@ -299,6 +301,7 @@ private class OrbitSurvivalRun : ArcadeRun() {
     private var timer = 0f
     private var previousKind = -1
     private var previousAngle = 0f
+    private var spawned = 0
     private val patterns: ArcadeDeque<Int> = ArrayDeque()
     private var trailTime = 0f
     val speed get() = 1.45f + (time * 0.004f).coerceAtMost(1f)
@@ -324,6 +327,7 @@ private class OrbitSurvivalRun : ArcadeRun() {
         direction = 0
         previousKind = -1
         previousAngle = 0f
+        spawned = 0
         patterns.clear()
         timer = 0f
         trailTime = 0f
@@ -356,22 +360,35 @@ private class OrbitSurvivalRun : ArcadeRun() {
                     score < 10 -> 0..3
                     else -> 0..4
                 }
-                patterns.addAll(kinds.shuffled())
+                patterns.addAll(
+                    if (score < 10) kinds.shuffled() else listOf(
+                        listOf(1, 0, 1, 2, 0, 2),
+                        listOf(3, 1, 4, 0, 3, 2),
+                        listOf(0, 2, 1, 3, 1, 4),
+                        listOf(2, 0, 3, 1, 4, 1)
+                    ).random()
+                )
             }
             if (patterns.first() == previousKind) patterns.addLast(patterns.removeFirst())
             val kind = if (previousKind < 0) 1 else patterns.removeFirst()
-            val angles =
-                listOf(0f, PI.toFloat() / 4f, -PI.toFloat() / 4f, PI.toFloat() / 2f, PI.toFloat())
-            val angle = if (previousKind < 0) 0f else angles.filter { it != previousAngle }.random()
+            val turn = when (spawned / 6 % 4) {
+                0 -> PI.toFloat() / 6f
+                1 -> if (spawned % 2 == 0) PI.toFloat() / 4f else -PI.toFloat() / 4f
+                2 -> -PI.toFloat() / 6f
+                else -> (Random.nextFloat() - 0.5f) * PI.toFloat() * 0.7f
+            }
+            val angle =
+                if (previousKind < 0) 0f else (previousAngle + turn + PI.toFloat()) % PI.toFloat()
+            spawned++
             previousKind = kind
             previousAngle = angle
             val dx = maxOf(center.x, width - center.x)
             val dy = maxOf(center.y, height - center.y)
             gates += OrbitGate(
                 y = -sqrt(dx * dx + dy * dy) / radius - 0.4f, kind = kind, angle = angle,
-                offset = if (kotlin.random.Random.nextBoolean()) 0.65f else -0.65f
+                offset = if (Random.nextBoolean()) 0.65f else -0.65f
             )
-            timer += (if (kind == 4) 3.5f else 2.6f) / speed + 0.95f
+            timer += (if (kind == 4) 3.5f else 2.6f) / speed + 0.95f + if (spawned % 12 == 0) 0.7f else 0f
         }
         val dotSize = dotRadius / radius
         for (gate in gates) {

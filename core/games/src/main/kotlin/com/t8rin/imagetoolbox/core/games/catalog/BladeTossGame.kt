@@ -75,6 +75,7 @@ internal data object BladeTossGame : ArcadeGameDefinition {
         ) {
             ArcadeField(
                 run = run,
+                lightFeedback = true,
                 transition = { run.transition },
                 onPress = { run.throwKnife() }
             ) {
@@ -414,7 +415,12 @@ private class BladeTossRun : ArcadeRun() {
         impact = (impact - seconds * 7f).coerceAtLeast(0f)
         val speed = 65f + minOf(targets * 6f, 70f)
         val rhythm = if (boss) {
-            0.72f + sin(time * 1.15f) * 0.92f + sin(time * 2.3f) * 0.28f
+            when (targets / 5 % 4) {
+                0 -> 0.72f + sin(time * 1.15f) * 0.92f + sin(time * 2.3f) * 0.28f
+                1 -> sin(time * 0.95f) * 1.2f
+                2 -> -0.75f + cos(time * 1.8f) * 0.72f
+                else -> 0.8f + sin(time * 0.7f) * 0.55f + cos(time * 2.1f) * 0.22f
+            }
         } else when (targets % 3) {
             0 -> 1f + sin(time * 2f) * 0.25f
             1 -> -0.9f + sin(time * 1.7f) * 0.4f

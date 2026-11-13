@@ -109,7 +109,11 @@ internal data object HillDriveGame : ArcadeGameDefinition {
             modifier = modifier
         ) {
             Box(Modifier.fillMaxSize()) {
-                ArcadeField(run = run, worldSize = Size(480f, 220f)) {
+                ArcadeField(
+                    run = run,
+                    lightFeedback = true,
+                    worldSize = Size(480f, 220f)
+                ) {
                     drawHillDriveScene(run, palette, road, details)
                     val fieldScale = size.width / run.width
                     if (fieldScale > 0f) {
@@ -358,6 +362,21 @@ private fun DrawScope.drawHillDriveScene(
         column++
     }
 
+    var iceX = floor(left / 6.0).toLong() * 6.0
+    while (iceX - left < width) {
+        if (run.gripAt(iceX) < 1f) {
+            val y = ground + run.terrainHeight(iceX).roundToInt()
+            pixelRect(palette.cloud.copy(alpha = 0.85f), (iceX - left).toFloat(), y - 1f, 7f, 3f)
+            pixelRect(
+                palette.cloud.copy(alpha = 0.35f),
+                (iceX - left).toFloat() + 2f,
+                y + 3f,
+                3f,
+                2f
+            )
+        }
+        iceX += 6.0
+    }
     run.drawBridges(this, left, ground, palette)
     for (pickup in run.pickups) {
         val x = (pickup.x - left).toFloat()
@@ -1487,6 +1506,14 @@ private class HillDriveRun : ArcadeRun() {
     private fun bridgeVelocity(wheel: HillDriveWheel): Offset =
         wheel.bridge?.surfaceVelocity(wheel.bridgeSegment, wheel.bridgeFraction) ?: Offset.Zero
 
+    fun gripAt(position: Double): Float {
+        val section = floor(position / 720.0).toLong()
+        val local = position - section * 720.0
+        return if (section >= 3 && section % 4L == 3L && local in 180.0..430.0 &&
+            !isOnBridge(position) && abs(sampleRoad(position).y) < 0.22f
+        ) 0.68f else 1f
+    }
+
     private fun solveWheelContact(wheel: HillDriveWheel, step: Float) {
         if (wheel.penetration < -0.35f) return
         val normal = wheel.normal
@@ -1504,7 +1531,7 @@ private class HillDriveRun : ArcadeRun() {
 
         val tangent = Offset(-normal.y, normal.x)
         val slip = dot(wheel.velocity - bridgeVelocity(wheel), tangent) - wheel.surfaceSpeed
-        val grip = accumulated * 1.35f
+        val grip = accumulated * 1.35f * gripAt(wheel.x)
         val tangentImpulse = -slip /
                 (1f / HillDriveWheelMass + 1f / HillDriveRotatingMass + bridgeMass)
         val traction = (wheel.tangentImpulse + tangentImpulse).coerceIn(-grip, grip)

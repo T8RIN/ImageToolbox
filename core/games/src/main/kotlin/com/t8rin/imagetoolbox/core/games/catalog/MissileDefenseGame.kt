@@ -69,6 +69,7 @@ internal data object MissileDefenseGame : ArcadeGameDefinition {
         ) {
             ArcadeField(
                 run = run,
+                lightFeedback = true,
                 onPress = run::fire
             ) {
                 drawMissileBackground(style, run.width, run.ground)
@@ -134,11 +135,12 @@ internal data object MissileDefenseGame : ArcadeGameDefinition {
                         }
                     }
                 }
-                for ((x, y, start) in run.missiles) {
+                for (missile in run.missiles) {
+                    val (x, y, start) = missile
                     val point = Offset(x = x, y = y)
                     drawLine(
                         color = style.hazardColor.copy(alpha = 0.4f),
-                        start = Offset(x = start, y = 0f),
+                        start = Offset(x = start, y = missile.startY),
                         end = point,
                         strokeWidth = 1f
                     )
@@ -151,6 +153,9 @@ internal data object MissileDefenseGame : ArcadeGameDefinition {
                         color = style.hazardColor,
                         radius = 2.5f,
                         center = point
+                    )
+                    if (missile.kind == 1) for (side in listOf(-1f, 1f)) drawLine(
+                        style.hazardColor, point + Offset(side * 5f, -5f), point, 1.5f
                     )
                 }
                 for ((x, y, targetX, targetY) in run.shots) {
@@ -297,7 +302,9 @@ private data class IncomingMissile(
     var y: Float,
     var start: Float,
     val city: Int,
-    var speed: Float
+    var speed: Float,
+    val kind: Int = 0,
+    var startY: Float = 0f
 )
 
 @Serializable
@@ -371,9 +378,17 @@ private class MissileDefenseRun : ArcadeRun() {
             val city = cities.indices.filter { cities[it] > 0 }.randomOrNull() ?: return
             val x = Random.nextFloat() * (width - 30f) + 15f
             val speed = (ground + 8f) / maxOf(2.7f, 5.5f - wave * 0.15f)
-            missiles += IncomingMissile(x = x, y = -8f, start = x, city = city, speed = speed)
+            val kind = when {
+                wave >= 4 && wave % 4 == 0 && pending % 4 == 0 -> 1
+                wave >= 6 && wave % 4 == 2 && pending % 5 == 0 -> 2
+                else -> 0
+            }
+            missiles += IncomingMissile(
+                x = x, y = -8f, start = x, city = city,
+                speed = speed * if (kind == 2) 1.12f else 1f, kind = kind
+            )
             pending--
-            spawn = maxOf(0.4f, 0.95f - wave * 0.025f)
+            spawn = maxOf(0.4f, 0.95f - wave * 0.025f) * if (wave % 4 == 0) 1.2f else 1f
         }
         val interceptors = shots.iterator()
         while (interceptors.hasNext()) {
@@ -392,6 +407,7 @@ private class MissileDefenseRun : ArcadeRun() {
         }
         for (blast in blasts) blast.age += seconds
         blasts.removeAll { it.age >= 1.4f }
+        val branches = mutableListOf<IncomingMissile>()
         val iterator = missiles.iterator()
         while (iterator.hasNext()) {
             val missile = iterator.next()
@@ -404,12 +420,20 @@ private class MissileDefenseRun : ArcadeRun() {
                         it.y - missile.y
                     ) < it.radius * blastSize + 2f
                 }) {
-                score += 10
+                score += if (missile.kind == 1) 20 else 10
                 blasts += MissileBlast(x = missile.x, y = missile.y, age = 0.2f, chain = true)
                 effects.burst(
                     point = Offset(x = missile.x, y = missile.y),
                     count = 4
                 )
+                iterator.remove()
+            } else if (missile.kind == 1 && missile.y >= topInset + (ground - topInset) * 0.36f) {
+                val targets = cities.indices.filter { cities[it] > 0 }.shuffled().take(2)
+                for (target in targets) branches += IncomingMissile(
+                    missile.x, missile.y, missile.x, target, missile.speed * 0.95f,
+                    startY = missile.y
+                )
+                effects.burst(Offset(missile.x, missile.y), 5)
                 iterator.remove()
             } else if (distance <= missile.speed * seconds) {
                 cities[missile.city] = 0
@@ -423,6 +447,7 @@ private class MissileDefenseRun : ArcadeRun() {
                 missile.y += dy / distance * missile.speed * seconds
             }
         }
+        missiles.addAll(branches)
         if (cities.all { it == 0 }) {
             phase = ArcadePhase.Over
             return
@@ -448,6 +473,7 @@ private class MissileDefenseRun : ArcadeRun() {
             missile.x *= sx
             missile.y *= sy
             missile.start *= sx
+            missile.startY *= sy
             missile.speed *= sy
         }
         for (shot in shots) {

@@ -29,6 +29,7 @@ import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.lerp
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
+import com.t8rin.imagetoolbox.core.games.ArcadeDeque
 import com.t8rin.imagetoolbox.core.games.ArcadeField
 import com.t8rin.imagetoolbox.core.games.ArcadeGameContext
 import com.t8rin.imagetoolbox.core.games.ArcadeGameDefinition
@@ -72,6 +73,7 @@ internal data object RacerGame : ArcadeGameDefinition {
         ) {
             ArcadeField(
                 run = run,
+                lightFeedback = true,
                 onPress = run::steer,
                 onDrag = run::steer
             ) {
@@ -415,8 +417,8 @@ private class RacerRun : ArcadeRun() {
     var distance = 0f
     private var spawn = 0.8f
     private var elapsed = 0f
-    private var lastGap = 1
     private var waves = 0
+    private val gaps: ArcadeDeque<Int> = ArrayDeque()
 
     fun laneX(lane: Float) = roadLeft + (lane + 0.5f) * laneWidth
 
@@ -431,8 +433,8 @@ private class RacerRun : ArcadeRun() {
         distance = 0f
         elapsed = 0f
         spawn = 0.8f
-        lastGap = 1
         waves = 0
+        gaps.clear()
     }
 
     fun steer(point: Offset) {
@@ -451,9 +453,16 @@ private class RacerRun : ArcadeRun() {
         position += (targetLane - position).coerceIn(-7f * seconds, 7f * seconds)
         spawn -= seconds
         if (spawn <= 0f) {
-            val gap = if (lastGap == 1) {
-                if (Random.nextBoolean()) 0 else 2
-            } else 1
+            if (gaps.isEmpty()) {
+                val phrase = listOf(
+                    listOf(0, 1, 2, 2, 1, 0),
+                    listOf(1, 0, 2, 1, 2, 0),
+                    listOf(0, 0, 1, 2, 1, 1),
+                    listOf(2, 1, 0, 2, 0, 1)
+                ).random()
+                gaps.addAll(if (Random.nextBoolean()) phrase else phrase.map { 2 - it })
+            }
+            val gap = gaps.removeFirst()
             val options = (0..2).filter { it != gap }
             val blocked = if (waves % 5 == 2) listOf(options.random()) else options
             var longest = 46f
@@ -462,10 +471,14 @@ private class RacerRun : ArcadeRun() {
                 traffic += RacerCar(lane = lane, y = -48f, kind = kind)
                 if (kind == 2) longest = 82f
             }
-            lastGap = gap
             waves++
             // A truck must fully clear the player before the next gap changes lanes.
-            spawn += maxOf(0.85f, 1.3f - elapsed * 0.003f, (longest + 46f) / speed + 0.38f)
+            val turnTime = (gaps.firstOrNull()?.let { abs(it - gap) } ?: 2) / 7f
+            spawn += maxOf(
+                0.85f,
+                1.3f - elapsed * 0.003f,
+                (longest + 46f) / speed + maxOf(0.38f, turnTime + 0.24f)
+            )
         }
         val iterator = traffic.iterator()
         while (iterator.hasNext()) {

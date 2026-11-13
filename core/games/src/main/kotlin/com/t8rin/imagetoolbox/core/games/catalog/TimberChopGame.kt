@@ -68,6 +68,7 @@ internal data object TimberChopGame : ArcadeGameDefinition {
         ) {
             ArcadeField(
                 run = run,
+                lightFeedback = true,
                 onPress = { run.chop(if (it.x < run.width / 2f) -1 else 1) }) {
 
                 val center = run.width / 2f
@@ -106,6 +107,22 @@ internal data object TimberChopGame : ArcadeGameDefinition {
                                 width = 3f,
                                 height = 7f
                             )
+                            if ((run.chops + index + 1) % 25 == 0) {
+                                pixelRect(
+                                    style.accentColor,
+                                    run.width / 2f - 17f,
+                                    y + segment * 0.18f,
+                                    34f,
+                                    3f
+                                )
+                                pixelRect(
+                                    style.accentColor,
+                                    run.width / 2f - 17f,
+                                    y + segment * 0.72f,
+                                    34f,
+                                    3f
+                                )
+                            }
                             if (side != 0) {
                                 val x = if (side < 0) center - 71f else center + 15f
                                 pixelRect(
@@ -370,6 +387,8 @@ private class TimberChopRun : ArcadeRun() {
     var begun = false
     private var sinceChop = 0f
     private var chain = 0
+    var rest = 0f
+        private set
 
     override fun isValid(): Boolean = super.isValid() &&
             branches.isNotEmpty()
@@ -387,6 +406,7 @@ private class TimberChopRun : ArcadeRun() {
         begun = false
         sinceChop = 0f
         chain = 0
+        rest = 0f
     }
 
     private fun populate() {
@@ -425,7 +445,13 @@ private class TimberChopRun : ArcadeRun() {
         chain = if (sinceChop < 0.45f) chain + 1 else 1
         score += 1 + if (chain % 10 == 0) 5 else 0
         sinceChop = 0f
-        energy = (energy + 0.065f).coerceAtMost(1f)
+        val bonus = chops % 25 == 0
+        if (bonus) {
+            rest = 1.2f
+            score += 10
+            effects.burst(Offset(width / 2f, base - segment / 2f), 14)
+        }
+        energy = (energy + if (bonus) 0.25f else 0.065f).coerceAtMost(1f)
         if (branches.first() == side) {
             cut = 0f
             phase = ArcadePhase.Over
@@ -436,7 +462,8 @@ private class TimberChopRun : ArcadeRun() {
         effects.advance(seconds)
         cut = (cut - seconds * 9f).coerceAtLeast(0f)
         sinceChop += seconds
-        if (begun) {
+        rest = (rest - seconds).coerceAtLeast(0f)
+        if (begun && rest == 0f) {
             energy =
                 (energy - seconds * (0.11f + 0.13f * chops / (chops + 120f))).coerceAtLeast(0f)
             if (energy == 0f) phase = ArcadePhase.Over

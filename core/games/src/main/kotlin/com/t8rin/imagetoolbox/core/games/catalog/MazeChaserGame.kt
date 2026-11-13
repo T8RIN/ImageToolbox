@@ -79,6 +79,7 @@ internal data object MazeChaserGame : ArcadeGameDefinition {
         ) {
             ArcadeField(
                 run = run,
+                lightFeedback = true,
                 transition = { run.transition },
                 onTap = { run.steer(it - run.playerPoint) },
                 onSwipe = run::steer,
@@ -584,8 +585,22 @@ private class MazeChaserRun : ArcadeRun() {
                     (0..3).map { next(enemy.position, it) }.filter { it >= 0 }.toMutableList()
                 if (options.size > 1) options.remove(enemy.previous)
                 val scatter = time % 12f < 3f && power <= 0f
-                val target =
-                    if (scatter) (rows - 2) * columns + if (index % 2 == 0) columns - 2 else 1 else player
+                val corner = when (index) {
+                    0 -> columns * 2 - 2
+                    1 -> (rows - 2) * columns + 1
+                    else -> (rows - 1) * columns - 2
+                }
+                var ahead = player
+                repeat(if (index == 1) 4 else 2) {
+                    ahead = next(ahead, direction).takeIf { it >= 0 } ?: ahead
+                }
+                val target = when {
+                    scatter -> corner
+                    index == 0 -> player
+                    index == 1 -> ahead
+                    distances(player)[enemy.position] < 6 -> corner
+                    else -> ahead
+                }
                 val distances = distances(target)
                 val destination = when {
                     power > 0f -> options.maxByOrNull { distances[it] }

@@ -75,6 +75,7 @@ internal data object BalanceTowerGame : ArcadeGameDefinition {
         ) {
             ArcadeField(
                 run = run,
+                lightFeedback = true,
                 onTap = { run.drop() }
             ) {
                 val unit = run.unit
@@ -428,6 +429,7 @@ private class BalanceTowerRun : ArcadeRun() {
     var stability = 1f
         private set
     private var time = 0f
+    private var chain = 0
     private var velocity = 0f
     private var angularVelocity = 0f
     private var collapseTime = 0f
@@ -448,6 +450,7 @@ private class BalanceTowerRun : ArcadeRun() {
         wobble = 0f
         tilt = 0f
         time = 0f
+        chain = 0
         velocity = 0f
         angularVelocity = 0f
         collapseTime = 0f
@@ -464,7 +467,9 @@ private class BalanceTowerRun : ArcadeRun() {
 
     private fun nextLoad() {
         if (kinds.isEmpty()) kinds.addAll(listOf(0, 1, 2).shuffled())
-        val kind = if (loads.isEmpty()) 0 else kinds.removeFirst()
+        val kind = if (loads.isEmpty()) 0 else kinds.removeFirst().let {
+            if (chain > 0 && chain % 4 == 0) 1 else it
+        }
         val w = when (kind) {
             0 -> 76f + Random.nextFloat() * 14f
             1 -> 104f + Random.nextFloat() * 20f
@@ -475,7 +480,7 @@ private class BalanceTowerRun : ArcadeRun() {
             1 -> 13f
             else -> 26f
         }
-        val offset = if (loads.size < 2) {
+        val offset = if (loads.size < 2 || chain > 0 && chain % 4 == 0) {
             0f
         } else {
             w * (0.12f + 0.1f * loads.size / (loads.size + 20f)) * if (Random.nextBoolean()) 1f else -1f
@@ -587,12 +592,13 @@ private class BalanceTowerRun : ArcadeRun() {
             evaluate()
             dropping = false
             if (!collapsing) {
-                score += 10 + if (stability > 0.85f) 5 else 0
-                angularVelocity = (current.x - centerMass) * 0.1f
+                chain = if (stability > 0.85f) chain + 1 else 0
+                score += 10 + if (chain > 0) 5 + minOf(chain, 5) * 2 else 0
+                angularVelocity = (current.x - centerMass) * if (chain > 0) 0.035f else 0.1f
                 settle = 0.3f
                 effects.burst(
                     point = project(current.x, current.bottom),
-                    count = 6
+                    count = if (chain >= 3) 14 else 6
                 )
             }
         }

@@ -61,7 +61,9 @@ internal data object StackGame : ArcadeGameDefinition {
         val path = remember { Path() }
 
         ArcadeBoard(context = context, run = run, modifier = modifier) {
-            ArcadeField(run = run, onPress = { run.place() }) {
+            ArcadeField(
+                run = run,
+                lightFeedback = true, onPress = { run.place() }) {
                 drawStackScene(run, palette, path)
             }
         }
@@ -314,22 +316,30 @@ private class StackRun : ArcadeRun() {
             return
         }
         perfectStreak = if (perfect) perfectStreak + 1 else 0
-        val restored = if (perfect && perfectStreak % 3 == 0) 4f else 0f
+        val checkpoint = (score + 1) % 25 == 0
+        val restored =
+            (if (perfect && perfectStreak % 3 == 0) 4f else 0f) + if (checkpoint) 2f else 0f
         val nextWidth = if (perfect) minOf(last.width + restored, InitialBlockWidth)
-        else if (axis == 0) overlap else last.width
+        else minOf((if (axis == 0) overlap else last.width) + restored, InitialBlockWidth)
         val nextDepth = if (perfect) minOf(last.depth + restored, InitialBlockWidth)
-        else if (axis == 1) overlap else last.depth
+        else minOf((if (axis == 1) overlap else last.depth) + restored, InitialBlockWidth)
         val next = StackBlock(
             x = if (perfect) (last.x - restored / 2f).coerceIn(0f, InitialBlockWidth - nextWidth)
-            else if (axis == 0) left else last.x,
+            else ((if (axis == 0) left else last.x) - restored / 2f).coerceIn(
+                0f,
+                InitialBlockWidth - nextWidth
+            ),
             z = if (perfect) (last.z - restored / 2f).coerceIn(0f, InitialBlockWidth - nextDepth)
-            else if (axis == 1) left else last.z,
+            else ((if (axis == 1) left else last.z) - restored / 2f).coerceIn(
+                0f,
+                InitialBlockWidth - nextDepth
+            ),
             width = nextWidth,
             depth = nextDepth,
             level = last.level + 1,
             perfect = perfect
         )
-        if (perfect) flash = 1f
+        if (perfect || checkpoint) flash = 1f
         blocks += next
         score++
         cooldown = 0.16f
