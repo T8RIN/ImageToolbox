@@ -375,6 +375,7 @@ private class SpaceRocksRun : ArcadeRun() {
     private var invaderTimer = 3.5f
     private var wave = 0
     private var invaderWave = 0
+    private var nextLife = 1200
 
     override fun reset() {
         rocks.clear()
@@ -394,6 +395,7 @@ private class SpaceRocksRun : ArcadeRun() {
         invaderTimer = 3.5f
         wave = 0
         invaderWave = 0
+        nextLife = 1200
         distance = 0f
         lives = 3
         invincible = 0f
@@ -602,6 +604,13 @@ private class SpaceRocksRun : ArcadeRun() {
         chain++
         chainTime = 2.8f
         score += points * (1 + (chain / 4).coerceAtMost(3))
+        if (score >= nextLife) {
+            nextLife += 3000
+            if (lives < 3) {
+                lives++
+                effects.burst(Offset(x, y), 18)
+            }
+        }
     }
 
     private fun damage() {
@@ -616,6 +625,10 @@ private class SpaceRocksRun : ArcadeRun() {
             count = 12
         )
         if (lives <= 0) phase = ArcadePhase.Over
+    }
+
+    override fun onRestore() {
+        if (nextLife <= score) nextLife = 1200 + ((score - 1200) / 3000 + 1) * 3000
     }
 
     override fun onResize(previous: Size) {

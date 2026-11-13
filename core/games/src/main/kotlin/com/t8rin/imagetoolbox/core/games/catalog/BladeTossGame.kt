@@ -389,9 +389,21 @@ private class BladeTossRun : ArcadeRun() {
         animateLevel()
         knives.clear()
         bonuses.clear()
-        total = if (boss) 10 else minOf(10, 6 + targets / 3)
+        total = when {
+            boss && targets < 5 -> 8
+            boss && targets < 10 -> 10
+            boss -> 12 - targets / 5 % 3
+            targets < 4 -> 5 + targets
+            targets < 15 -> minOf(10, 6 + targets / 3)
+            else -> 8 + (targets / 5 + targets) % 4
+        }
         remaining = total
-        repeat(if (boss) 4 else minOf(3, targets / 2)) { knives += it * 90f + 30f }
+        repeat(
+            if (boss) 2 + targets / 5 % 3 else minOf(
+                3,
+                (targets + 1) / 2
+            )
+        ) { knives += it * 90f + 30f }
         for (index in 0..minOf(2, targets / 2)) {
             val bonus = arcadeAngle(210f + index * 115f + Random.nextFloat() * 25f)
             if (knives.none {
@@ -417,7 +429,7 @@ private class BladeTossRun : ArcadeRun() {
         val rhythm = if (boss) {
             when (targets / 5 % 4) {
                 0 -> 0.72f + sin(time * 1.15f) * 0.92f + sin(time * 2.3f) * 0.28f
-                1 -> sin(time * 0.95f) * 1.2f
+                1 -> 0.85f + sin(time * 1.3f) * 1.2f
                 2 -> -0.75f + cos(time * 1.8f) * 0.72f
                 else -> 0.8f + sin(time * 0.7f) * 0.55f + cos(time * 2.1f) * 0.22f
             }

@@ -238,6 +238,7 @@ private class HexagonRushRun : ArcadeRun() {
     private var elapsed = 0f
     private var previousGap = 0
     private var spawned = 0
+    private var rotationSpeed = 0.12f
 
     override fun reset() {
         walls.clear()
@@ -249,6 +250,7 @@ private class HexagonRushRun : ArcadeRun() {
         elapsed = 0f
         previousGap = 0
         spawned = 0
+        rotationSpeed = 0.12f
     }
 
     fun steer(point: Offset) {
@@ -264,7 +266,14 @@ private class HexagonRushRun : ArcadeRun() {
         timer -= seconds
         pulse = (pulse - seconds * 3f).coerceAtLeast(0f)
         val full = 2f * PI.toFloat()
-        rotation = (rotation + 0.12f * seconds) % full
+        val targetSpin = if (elapsed < 20f) 0.12f else when (spawned / 12 % 4) {
+            0 -> 0.18f
+            1 -> -0.24f
+            2 -> -0.14f
+            else -> 0.28f
+        }
+        rotationSpeed += (targetSpin - rotationSpeed) * (1f - kotlin.math.exp(-seconds * 0.9f))
+        rotation = (rotation + rotationSpeed * seconds + full) % full
         angle = (angle + direction * 3.6f * seconds + full) % full
         val speed = 0.26f + minOf(elapsed * 0.0016f, 0.2f)
         if (timer <= 0f) {

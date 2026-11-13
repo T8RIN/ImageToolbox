@@ -215,7 +215,7 @@ internal data object BasketballGame : ArcadeGameDefinition {
                         for (dot in 0..dots) {
                             val progress = dot * 2f / dots - 1f
                             val point = if (hoop.travel > 0f) {
-                                Offset(hoop.anchorX + hoop.travel * progress, hoop.anchorY + 18f)
+                                Offset(hoop.anchorX + hoop.travel * progress, hoop.anchorY)
                             } else {
                                 Offset(hoop.anchorX, hoop.anchorY + hoop.vertical * progress)
                             }
@@ -342,19 +342,6 @@ internal data object BasketballGame : ArcadeGameDefinition {
                         )
                     )
                 }
-                val task = when (run.challenge) {
-                    0 -> "PERFECT"
-                    1 -> "BOUNCE"
-                    else -> "★"
-                }
-                val progress = measurer.measure(
-                    "$task ${run.challengeProgress}/${run.challengeTarget}",
-                    style.scoreTextStyle.copy(fontSize = 8.sp), density = Density(1f)
-                )
-                drawText(
-                    progress, if (run.challengeFlash > 0f) style.accentColor else style.detailColor,
-                    Offset(14f, 9f)
-                )
                 if (run.aiming) {
                     run.preview.forEachIndexed { index, point ->
                         pixelCircle(
@@ -647,10 +634,10 @@ private class BasketballRun : ArcadeRun() {
     val radius = 15f
 
     @Transient
-    val gravity = 640f * 0.065f * 32f
+    val gravity = 640f * 0.065f * 32f * 0.36f
 
     @Transient
-    val maximumSpeed = 360f * 0.09f * 32f
+    val maximumSpeed = 360f * 0.09f * 32f * 0.6f
     val unit
         get() = minOf(
             1f, width / 360f,
@@ -673,14 +660,6 @@ private class BasketballRun : ArcadeRun() {
         private set
     var lastBanks = 0
         private set
-    var challenge = 0
-        private set
-    var challengeProgress = 0
-        private set
-    var challenges = 0
-        private set
-    var challengeFlash = 0f
-        private set
     @Transient
     var aiming = false
         private set
@@ -695,7 +674,6 @@ private class BasketballRun : ArcadeRun() {
     private var banks = 0
     private var trailTimer = 0f
     private var catchFrom: ArcadeOffset = Offset.Zero
-    val challengeTarget get() = if (challenge == 1) 2 else 3
 
     fun project(point: Offset) = Offset(
         (width - 360f * unit) / 2f + point.x * unit,
@@ -725,10 +703,6 @@ private class BasketballRun : ArcadeRun() {
         celebration = 0f
         lastBonus = 0
         lastBanks = 0
-        challenge = 0
-        challengeProgress = 0
-        challenges = 0
-        challengeFlash = 0f
         velocity = Offset.Zero
         trailTimer = 0f
         trail.clear()
@@ -747,7 +721,9 @@ private class BasketballRun : ArcadeRun() {
         val close = pattern == 1 || pattern == 11
         val gap = (height - topInset).coerceIn(170f, 660f) *
                 (0.27f + Random.nextFloat() * 0.045f) * if (close) 0.8f else 1f
-        val x = if (close) (previous.center.x + Random.nextFloat() * 36f - 18f).coerceIn(75f, 285f)
+        val x = if (pattern == 4) {
+            if (previous.center.x < 180f) 225f else 135f
+        } else if (close) (previous.center.x + Random.nextFloat() * 36f - 18f).coerceIn(75f, 285f)
         else if (previous.center.x < 180f) 253f + Random.nextFloat() * 24f
         else 83f + Random.nextFloat() * 24f
         val side = if (x > 180f) 1 else -1
@@ -756,9 +732,9 @@ private class BasketballRun : ArcadeRun() {
             center = Offset(x, previous.center.y + gap),
             halfWidth = if (pattern == 11) 43f else 36f,
             angle = tilt,
-            travel = if (pattern == 4) 26f else 0f,
+            travel = if (pattern == 4) 64f else 0f,
             phase = Random.nextFloat() * 6.2831855f,
-            vertical = if (pattern == 5) 22f else 0f,
+            vertical = if (pattern == 5) 44f else 0f,
             board = if (pattern in listOf(3, 8)) side else 0,
             guard = if (number > 12 && pattern == 9) Random.nextInt(1, 5) else 0,
             swing = if (number > 10 && pattern == 6) 0.48f else 0f
@@ -818,7 +794,7 @@ private class BasketballRun : ArcadeRun() {
     private fun hasShotAt(startTime: Float): Boolean {
         val hoop = hoops[1]
         for (sample in 0..48) {
-            val duration = 0.45f + sample * 0.025f
+            val duration = 0.75f + sample / 24f
             var pull = Offset.Zero
             var start = hoops.first().center - hoops.first().normal * 20f
             repeat(5) {
@@ -836,7 +812,7 @@ private class BasketballRun : ArcadeRun() {
                 val pose = shotPose(attempt)
                 val flight = BasketballFlight(pose.first, velocityForPull(attempt))
                 var elapsed = 0f
-                while (elapsed < 2.9f && flight.caught < 0) {
+                while (elapsed < 4.8f && flight.caught < 0) {
                     moveFlight(flight, 1f / 60f, startTime + elapsed, pose.second)
                     elapsed += 1f / 60f
                     if (flight.point.y < hoops.first().center.y - 100f) break
@@ -871,7 +847,7 @@ private class BasketballRun : ArcadeRun() {
         if (velocityForPull(pull).getDistance() < 1f) return
         val flight = BasketballFlight(ball, launchVelocity())
         repeat(10) { index ->
-            moveFlight(flight, 0.05f, time + index * 0.05f)
+            moveFlight(flight, 1f / 12f, time + index / 12f)
             if (flight.caught >= 0 || project(flight.point).y > height) return
             preview += flight.point
         }
@@ -967,7 +943,7 @@ private class BasketballRun : ArcadeRun() {
                 if (speed >= 0f) return false
                 flight.velocity -= normal * (speed * (1f + bounce))
                 val magnitude = flight.velocity.getDistance()
-                if (magnitude > 1200f) flight.velocity *= 1200f / magnitude
+                if (magnitude > 720f) flight.velocity *= 720f / magnitude
                 if (rim) flight.clean = false else flight.banks++
                 return true
             }
@@ -1022,18 +998,6 @@ private class BasketballRun : ArcadeRun() {
         }
     }
 
-    private fun advanceChallenge(kind: Int, amount: Int = 1) {
-        if (challenge != kind) return
-        challengeProgress += amount
-        if (challengeProgress < challengeTarget) return
-        score += 25
-        challenges++
-        challenge = (challenge + 1) % 3
-        challengeProgress = 0
-        challengeFlash = 1.5f
-        effects.burst(ball, 20)
-    }
-
     override fun advance(seconds: Float) {
         val beforeTime = time
         time += seconds
@@ -1042,7 +1006,6 @@ private class BasketballRun : ArcadeRun() {
             hoops[index].angle = hoops[index].angleAt(time)
         }
         celebration = (celebration - seconds).coerceAtLeast(0f)
-        challengeFlash = (challengeFlash - seconds).coerceAtLeast(0f)
         for (prop in props) {
             prop.cooldown = (prop.cooldown - seconds).coerceAtLeast(0f)
             prop.flash = (prop.flash - seconds * 3f).coerceAtLeast(0f)
@@ -1094,7 +1057,6 @@ private class BasketballRun : ArcadeRun() {
         for (star in collected) {
             score += if (combo >= 3) 10 else 5
             effects.burst(star, 12)
-            advanceChallenge(2)
         }
         stars.removeAll(collected.toSet())
         if (flight.caught >= 0) {
@@ -1105,8 +1067,6 @@ private class BasketballRun : ArcadeRun() {
                 lastBanks = banks
                 score += lastBonus * 2 + banks.coerceAtMost(4) * 2
                 celebration = 1.2f
-                if (clean) advanceChallenge(0) else if (challenge == 0) challengeProgress = 0
-                if (banks > 0) advanceChallenge(1)
                 effects.burst(hoops[1].center, if (clean) 18 else 8)
                 hoops.removeAt(0)
                 addHoop()
@@ -1119,7 +1079,7 @@ private class BasketballRun : ArcadeRun() {
             return
         }
         trailTimer += seconds
-        if (trailTimer >= 0.025f) {
+        if (trailTimer >= 0.04f) {
             trailTimer = 0f
             trail.addLast(ball)
             if (trail.size > 16) trail.removeFirst()

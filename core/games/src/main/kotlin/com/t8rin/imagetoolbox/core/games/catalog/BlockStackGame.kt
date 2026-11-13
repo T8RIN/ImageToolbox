@@ -447,6 +447,7 @@ private class BlockStackRun : ArcadeRun() {
     private var lines = 0
     private var combo = -1
     private var backToBack = false
+    private var lastRotation = false
     private var elapsed = 0f
     private var lockTime = 0f
     private var lockResets = 0
@@ -511,6 +512,7 @@ private class BlockStackRun : ArcadeRun() {
         elapsed = 0f
         lockTime = 0f
         lockResets = 0
+        lastRotation = false
         if (!fits(
                 x = x,
                 y = y,
@@ -572,6 +574,7 @@ private class BlockStackRun : ArcadeRun() {
                     )
                 ) {
                     x += direction
+                    lastRotation = false
                     if (grounded) resetLock()
                 }
             }
@@ -638,6 +641,7 @@ private class BlockStackRun : ArcadeRun() {
                 y += dy
                 drawY = y.toFloat()
                 rotation = nextRotation
+                lastRotation = true
                 if (grounded) resetLock()
                 return
             }
@@ -665,6 +669,7 @@ private class BlockStackRun : ArcadeRun() {
     fun drop() {
         if (clearing.isNotEmpty() || dropTarget >= 0) return
         dropTarget = landingY()
+        if (dropTarget != y) lastRotation = false
         dropFrom = drawY
         dropTime = 0f
         dropDuration = ((dropTarget - dropFrom) * 0.009f).coerceIn(0.08f, 0.18f)
@@ -722,6 +727,7 @@ private class BlockStackRun : ArcadeRun() {
                 )
             ) {
                 y++
+                lastRotation = false
                 if (held) score++
             }
         }
@@ -743,20 +749,30 @@ private class BlockStackRun : ArcadeRun() {
             phase = ArcadePhase.Over
             return
         }
+        val spin = piece == Tetromino.T && lastRotation &&
+                listOf(-1 to -1, 1 to -1, -1 to 1, 1 to 1).count { (dx, dy) ->
+                    val column = x + 1 + dx
+                    val row = y + 1 + dy
+                    column !in 0 until BlockStackColumns || row !in 0 until BlockStackRows ||
+                            board[row * BlockStackColumns + column] != 0
+                } >= 3
         cells.forEach { board[(y + it.y) * BlockStackColumns + x + it.x] = piece.ordinal + 1 }
         for (row in 0 until BlockStackRows) {
             if ((0 until BlockStackColumns).all { board[row * BlockStackColumns + it] != 0 }) clearing += row
         }
         if (clearing.isEmpty()) {
+            if (spin) score += 400 * (lines / 10 + 1)
             combo = -1
             spawn()
         } else {
             combo++
             val level = lines / 10 + 1
-            val base = listOf(0, 100, 300, 500, 800)[clearing.size]
-            val bonus = if (clearing.size == 4 && backToBack) base / 2 else 0
+            val difficult = clearing.size == 4 || spin
+            val base = if (spin) listOf(400, 800, 1200, 1600)[clearing.size]
+            else listOf(0, 100, 300, 500, 800)[clearing.size]
+            val bonus = if (difficult && backToBack) base / 2 else 0
             score += (base + bonus + combo * 50) * level
-            backToBack = clearing.size == 4
+            backToBack = difficult
             lines += clearing.size
             clearTime = 0f
         }

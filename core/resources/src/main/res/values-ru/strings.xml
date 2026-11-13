@@ -8066,7 +8066,7 @@
     <string name="arcade_racer">Ретро-гонки</string>
     <string name="arcade_racer_sub">Перемещайтесь между полосами и лавируйте в потоке машин</string>
     <string name="arcade_ricochet">Рикошет</string>
-    <string name="arcade_ricochet_sub">Наведите бросок пальцем и отпустите. Разбивайте блоки рикошетами и собирайте шарики, пока ряды не дошли до линии</string>
+    <string name="arcade_ricochet_sub">Тяните вниз и отпускайте для выстрела. Собирайте шарики и бонусы строк и столбцов. Нажмите ↓ для возврата шариков; не давайте блокам дойти до линии</string>
     <string name="arcade_spacerocks">Космические глыбы</string>
     <string name="arcade_spacerocks_sub">Двигайте корабль пальцем — он стреляет сам. Разбивайте огромные астероиды и уклоняйтесь от огня пришельцев</string>
     <string name="arcade_fruitslice">Фруктовый разрез</string>

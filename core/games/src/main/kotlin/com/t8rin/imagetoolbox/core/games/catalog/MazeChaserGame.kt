@@ -359,20 +359,24 @@ private class MazeChaserRun : ArcadeRun() {
             x = (width - columns * cell) / 2f,
             y = topInset + (height - topInset - rows * cell) / 2f
         )
-    val playerPoint
-        get() = center(previous) + (center(player) - center(previous)) * (elapsed / playerInterval).coerceIn(
-            0f,
-            1f
-        )
+    private val tunnelRow get() = (rows / 2) or 1
+    val playerPoint get() = movingPoint(previous, player, elapsed / playerInterval)
 
     fun center(index: Int) =
         origin + Offset(x = (index % columns + 0.5f) * cell, y = (index / columns + 0.5f) * cell)
 
     fun enemyPoint(enemy: MazeEnemy) =
-        center(enemy.previous) + (center(enemy.position) - center(enemy.previous)) * enemy.elapsed.coerceIn(
-            0f,
-            1f
-        )
+        movingPoint(enemy.previous, enemy.position, enemy.elapsed)
+
+    private fun movingPoint(from: Int, to: Int, progress: Float): Offset {
+        val amount = progress.coerceIn(0f, 1f)
+        if (from / columns != tunnelRow || to / columns != tunnelRow || abs(to - from) <= 1) {
+            return center(from) + (center(to) - center(from)) * amount
+        }
+        val dx = if (to > from) -1f else 1f
+        val x = ((from % columns + dx * amount + 0.5f + columns) % columns) - 0.5f
+        return origin + Offset((x + 0.5f) * cell, (tunnelRow + 0.5f) * cell)
+    }
 
     override fun isValid(): Boolean = super.isValid() &&
             rows in 7..19 &&
@@ -435,6 +439,8 @@ private class MazeChaserRun : ArcadeRun() {
             }
             options.randomOrNull()?.let { walls[index + it / 2] = false }
         }
+        walls[tunnelRow * columns] = false
+        walls[(tunnelRow + 1) * columns - 1] = false
         dots = IntArray(walls.size) { if (walls[it]) 0 else 1 }
         listOf(
             columns + 1,
@@ -482,8 +488,10 @@ private class MazeChaserRun : ArcadeRun() {
             3 -> -1
             else -> 0
         }
-        if (x !in 0 until columns || y !in 0 until rows) return -1
-        return (y * columns + x).takeUnless { walls[it] } ?: -1
+        if (y !in 0 until rows) return -1
+        val column = if (y == tunnelRow) (x + columns) % columns else x
+        if (column !in 0 until columns) return -1
+        return (y * columns + column).takeUnless { walls[it] } ?: -1
     }
 
     fun steer(delta: Offset) {

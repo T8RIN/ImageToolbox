@@ -8110,7 +8110,7 @@
     <string name="arcade_racer">Retro Racer</string>
     <string name="arcade_racer_sub">Drag between lanes and weave through traffic</string>
     <string name="arcade_ricochet">Ricochet</string>
-    <string name="arcade_ricochet_sub">Drag to aim, release to shoot. Bounce balls through the blocks and collect extra balls before the rows reach the line</string>
+    <string name="arcade_ricochet_sub">Pull down and release to shoot. Collect balls and row or column bonuses. Tap ↓ to recall the balls; keep blocks above the line</string>
     <string name="arcade_spacerocks">Space Rocks</string>
     <string name="arcade_spacerocks_sub">Drag to steer and fire automatically. Break giant asteroids and dodge enemy fire</string>
     <string name="arcade_fruitslice">Fruit Slice</string>

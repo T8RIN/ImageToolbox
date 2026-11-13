@@ -318,7 +318,8 @@ private class SwitchGate(
     val speed: Float,
     var angle: Float,
     var collected: Boolean = false,
-    var switched: Boolean = false
+    var switched: Boolean = false,
+    val colorCount: Int = 4
 ) {
     val extent: Float
         get() = when (kind) {
@@ -339,7 +340,8 @@ private class SwitchGate(
                     if (speed > 0f) 1f else -1f, 0f
         )
 
-    fun colorAt(segment: Int): Int = (segment + colorOffset) and 3
+    fun colorAt(segment: Int): Int =
+        (colorOffset + if (colorCount == 2) (segment / 2 and 1) * 2 else segment) and 3
 
     fun collides(ball: Float, color: Int): Boolean {
         val dy = y - ball
@@ -690,7 +692,8 @@ private class TintAscentRun : ArcadeRun() {
                     colorOffset = entryColor,
                     nextColor = nextColor,
                     speed = (abs(speed) * (1f - attempt * 0.24f)).coerceAtLeast(minimumSpeed) * if (speed > 0f) 1f else -1f,
-                    angle = 0f
+                    angle = 0f,
+                    colorCount = if (index == 0) 2 else 4
                 )
                 val rhythm = listOf(0.18f, 0.22f, 0.25f, 0.28f)[index % 4]
                 if (findPlayableAngle(

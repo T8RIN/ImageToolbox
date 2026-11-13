@@ -197,6 +197,15 @@ internal data object BomberGame : ArcadeGameDefinition {
                             radius = cell * 0.32f,
                             center = p
                         )
+                        if (kind == 2) {
+                            val unit = cell * 0.6f / 18f
+                            translate(left = p.x - unit * 8f, top = p.y - unit * 9f) {
+                                scale(scale = unit, pivot = Offset.Zero) {
+                                    drawArcadeSprite(BomberShield, style.accentColor, 0f, 0f)
+                                }
+                            }
+                            continue
+                        }
                         pixelRect(
                             color = style.accentColor,
                             x = p.x - cell * 0.2f,
@@ -373,6 +382,19 @@ internal data object BomberGame : ArcadeGameDefinition {
                             }
                         }
                     }
+                    if (run.fireproof > 0f && (run.fireproof > 3f || (run.fireproof * 6f).toInt() % 2 == 0)) {
+                        pixelCircle(
+                            color = style.accentColor.copy(alpha = 0.14f),
+                            radius = cell * 0.48f,
+                            center = run.playerPoint
+                        )
+                        pixelCircle(
+                            color = style.accentColor.copy(alpha = 0.75f),
+                            radius = cell * 0.48f,
+                            center = run.playerPoint,
+                            style = Stroke(width = 1.5f)
+                        )
+                    }
                     if (run.invulnerable <= 0f || (run.invulnerable * 9f).toInt() % 2 == 0) {
                         val point = run.playerPoint
                         val unit = cell / 31f
@@ -538,6 +560,12 @@ private data class BomberEnemy(
     val kind: Int = 0
 )
 
+private val BomberShield = ArcadeSprite(
+    width = 16,
+    height = 18,
+    data = "M1 1H15V9H13V13H11V15H9V17H7V15H5V13H3V9H1Z M3 3V8H5V12H7V14H9V12H11V8H13V3Z"
+)
+
 @Serializable
 private class BomberRun : ArcadeRun() {
     val columns = 11
@@ -564,6 +592,7 @@ private class BomberRun : ArcadeRun() {
     var range = 2
     var capacity = 1
     var invulnerable = 0f
+    var fireproof = 0f
     var time = 0f
     var transition = 0f
     private var broken = 0
@@ -606,6 +635,7 @@ private class BomberRun : ArcadeRun() {
         lives = 3
         range = 2
         capacity = 1
+        fireproof = 0f
         time = 0f
         broken = 0
         effects.clear()
@@ -622,7 +652,7 @@ private class BomberRun : ArcadeRun() {
             val y = it / columns
             when {
                 x == 0 || y == 0 || x == columns - 1 || y == rows - 1 || x % 2 == 0 && y % 2 == 0 -> 1
-                abs(x - 1) + abs(y - 1) <= 2 -> 0
+                abs(x - 1) + abs(y - 1) <= 2 || x == 3 && y == 2 || x == 2 && y == 3 -> 0
                 starts.any { start -> abs(start % columns - x) + abs(start / columns - y) <= 1 } -> 0
                 Random.nextFloat() < (0.38f + round * 0.012f).coerceAtMost(0.55f) -> 2
                 else -> 0
@@ -750,7 +780,7 @@ private class BomberRun : ArcadeRun() {
                     board[index] = 0
                     broken++
                     score += 10
-                    if (broken % 4 == 0) items[index] = if (broken % 8 == 0) 1 else 0
+                    if (broken % 4 == 0) items[index] = (broken / 4 - 1) % 3
                 }
                 bombs.firstOrNull { it.position == index }?.let(queue::addLast)
             }
@@ -789,6 +819,7 @@ private class BomberRun : ArcadeRun() {
             return
         }
         invulnerable = (invulnerable - seconds).coerceAtLeast(0f)
+        fireproof = (fireproof - seconds).coerceAtLeast(0f)
         val iterator = blasts.iterator()
         while (iterator.hasNext()) {
             val entry = iterator.next()
@@ -811,9 +842,11 @@ private class BomberRun : ArcadeRun() {
         }
         val index = if (progress < 0.5f) previous else player
         if (index !in blasts) items.remove(index)?.let {
-            if (it == 0) {
-                if (range < 4) range++ else score += 25
-            } else if (capacity < 3) capacity++ else score += 25
+            when (it) {
+                0 -> if (range < 4) range++ else score += 25
+                1 -> if (capacity < 3) capacity++ else score += 25
+                2 -> fireproof = 20f
+            }
             effects.burst(
                 point = playerPoint,
                 count = 10
@@ -864,7 +897,7 @@ private class BomberRun : ArcadeRun() {
             }
         }
         if (invulnerable <= 0f &&
-            (index in blasts || enemies.any { (enemyPoint(it) - playerPoint).getDistance() < cell * 0.55f })
+            (fireproof <= 0f && index in blasts || enemies.any { (enemyPoint(it) - playerPoint).getDistance() < cell * 0.55f })
         ) hurt()
         if (phase == ArcadePhase.Running && enemies.isEmpty()) {
             score += round * 100

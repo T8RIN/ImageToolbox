@@ -85,14 +85,24 @@ internal data object DoodleHopperGame : ArcadeGameDefinition {
                 drawDoodleBackground(style, run.width, run.height)
                 for (platform in run.platforms) {
                     val (_, centerX, height, width, kind, _, _, _, _, falling) = platform
-                    val y = run.height - height + run.camera + falling * falling * 280f
+                    val y = run.height - height + run.camera +
+                            if (kind == PlatformKind.SingleUse) 0f else falling * falling * 280f
                     val x = centerX - width / 2
                     val color = when (kind) {
                         PlatformKind.Crumbling -> style.accentColor
                         PlatformKind.Moving -> style.playerColor
+                        PlatformKind.SingleUse -> lerp(
+                            style.playerColor,
+                            style.playerDetailColor,
+                            0.55f
+                        )
                         else -> style.obstacleColor
                     }
                     val tint = color.copy(alpha = (1 - falling * 1.8f).coerceIn(0f, 1f))
+                    if (falling > 0 && kind == PlatformKind.SingleUse) {
+                        pixelRect(tint, x + 2f, y, width - 4f, 7f)
+                        continue
+                    }
                     if (falling > 0) {
                         val half = width / 2 - 2
                         pixelRect(
@@ -159,6 +169,17 @@ internal data object DoodleHopperGame : ArcadeGameDefinition {
                             2f,
                             1f
                         )
+                        if (kind == PlatformKind.SingleUse) {
+                            for (mark in -1..1) {
+                                pixelRect(
+                                    style.playerDetailColor,
+                                    centerX + mark * 9f - 2f,
+                                    y + 2f,
+                                    4f,
+                                    2f
+                                )
+                            }
+                        }
                         if (kind == PlatformKind.Crumbling) {
                             pixelRect(
                                 color = style.playerDetailColor,
@@ -522,7 +543,7 @@ private fun DrawScope.drawDoodleBackground(style: ArcadeStyle, width: Float, hei
 }
 
 @Serializable
-private enum class PlatformKind { Standard, Spring, Crumbling, Moving }
+private enum class PlatformKind { Standard, Spring, Crumbling, Moving, SingleUse }
 
 @Serializable
 private enum class MonsterKind(
@@ -819,6 +840,7 @@ private class DoodleHopperRun : ArcadeRun() {
                     y = landing.height
                     velocity =
                         if (landing.kind == PlatformKind.Spring) JumpVelocity * 1.4f else JumpVelocity
+                    if (landing.kind == PlatformKind.SingleUse) landing.breakTime = 0.001f
                 }
             }
         }
@@ -859,6 +881,7 @@ private class DoodleHopperRun : ArcadeRun() {
             lastX = nextX
             val kind = when {
                 nearGate || holeRow || row < 5 || holes.any { abs(it.height - lastHeight) < 120f } -> PlatformKind.Standard
+                row % 13 == 8 -> PlatformKind.SingleUse
                 row % 9 == 6 -> PlatformKind.Spring
                 row % 5 == 3 -> PlatformKind.Moving
                 else -> PlatformKind.Standard
@@ -893,6 +916,7 @@ private class DoodleHopperRun : ArcadeRun() {
                         height = lastHeight + Random.nextFloat() * 16f - 8f,
                         width = PlatformWidth - 6f,
                         kind = when {
+                            row > 14 && row % 6 == 3 -> PlatformKind.SingleUse
                             row > 6 && row % 4 == 0 -> PlatformKind.Crumbling
                             row > 10 && row % 4 == 1 -> PlatformKind.Moving
                             else -> PlatformKind.Standard

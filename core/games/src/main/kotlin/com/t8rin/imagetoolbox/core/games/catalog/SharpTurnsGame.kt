@@ -272,7 +272,7 @@ private class SharpTurnsRun : ArcadeRun() {
 
     private fun populate() {
         val ahead = ceil((height - topInset) / (tileWidth / 4f)).toInt().coerceAtLeast(14) + 3
-        // Keep the travelled path: a taller layout can bring old tiles back into view.
+        // A taller layout can bring old tiles back into view.
         while (tiles.last().x + tiles.last().y < progress + ahead) {
             val last = tiles.last()
             if (remaining == 0) {
@@ -295,6 +295,9 @@ private class SharpTurnsRun : ArcadeRun() {
                 span = if (remaining == 1 && index % 24 < 6 && index > 10) 1.35f else 1f
             )
             remaining--
+        }
+        while (tiles.size > 2048 && tiles.first().x + tiles.first().y < progress - ahead * 2) {
+            tiles.removeAt(0)
         }
     }
 

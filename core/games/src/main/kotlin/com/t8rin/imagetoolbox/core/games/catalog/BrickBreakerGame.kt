@@ -334,8 +334,18 @@ private class BrickBreakerRun : ArcadeRun() {
         lasers.clear()
         extraBalls.clear()
         val rows = (4 + round / 4).coerceAtMost(5)
+        val pattern = if (round <= 2) 0 else 1 + (round - 3) % 6
         for (row in 0 until rows) for (column in 0..7) {
-            if (round > 1 && (column + row * 2 + round) % 7 == 0) continue
+            val filled = when (pattern) {
+                1 -> row in abs(column - 3)..abs(column - 3) + 1
+                2 -> abs(column - 3.5f) + abs(row - 2f) * 1.4f < 4f
+                3 -> column in 1..2 || column in 5..6 || row == 0
+                4 -> (column + row) % 2 == 0 || row == 0
+                5 -> row >= 2 || column % 3 == 0
+                6 -> (column + round / 7) % 4 != row % 4
+                else -> round == 1 || (column + row * 2 + round) % 7 != 0
+            }
+            if (!filled) continue
             val health = if (row < 2) (1 + round / 3).coerceAtMost(3) else 1
             bricks += BreakerBrick(column = column, row = row, health = health)
         }

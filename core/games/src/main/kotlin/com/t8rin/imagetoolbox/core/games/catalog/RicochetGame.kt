@@ -21,9 +21,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.drawscope.scale
+import androidx.compose.ui.text.TextMeasurer
 import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.Density
@@ -77,8 +80,8 @@ internal data object RicochetGame : ArcadeGameDefinition {
             ArcadeField(
                 run = run,
                 lightFeedback = true,
-                onPress = run::aim,
-                onDrag = run::aim,
+                onPress = run::begin,
+                onDrag = run::drag,
                 onTap = { run.shoot() },
                 onSwipe = { run.shoot() },
                 onRelease = run::stopInput
@@ -97,6 +100,32 @@ internal data object RicochetGame : ArcadeGameDefinition {
                         )
                     )
                 }
+                for (beam in run.beams) {
+                    val fade = (beam.time / 0.18f).coerceIn(0f, 1f)
+                    val center = run.origin + Offset(
+                        (beam.column + 0.5f) * cell,
+                        (beam.row + 0.5f) * rowHeight
+                    )
+                    if (beam.vertical) {
+                        pixelRect(
+                            style.playerColor.copy(alpha = fade * 0.32f), center.x - 3f,
+                            run.origin.y, 6f, run.launchY - run.origin.y
+                        )
+                        pixelRect(
+                            style.playerDetailColor.copy(alpha = fade * 0.8f), center.x - 1f,
+                            run.origin.y, 2f, run.launchY - run.origin.y
+                        )
+                    } else {
+                        pixelRect(
+                            style.playerColor.copy(alpha = fade * 0.32f), run.origin.x,
+                            center.y - 3f, cell * 7f, 6f
+                        )
+                        pixelRect(
+                            style.playerDetailColor.copy(alpha = fade * 0.8f), run.origin.x,
+                            center.y - 1f, cell * 7f, 2f
+                        )
+                    }
+                }
                 for (brick in run.bricks) {
                     val (column, row, health) = brick
                     val point = run.origin + Offset(
@@ -105,75 +134,72 @@ internal data object RicochetGame : ArcadeGameDefinition {
                     )
                     val center = point + Offset(x = cell / 2f - 2f, y = rowHeight / 2f - 2f)
                     if (health == 0) {
+                        val color = if (brick.item == 0) style.accentColor else style.playerColor
                         pixelCircle(
-                            color = style.accentColor.copy(alpha = 0.14f),
+                            color = color.copy(alpha = 0.14f),
                             radius = minOf(cell, rowHeight) * 0.28f,
                             center = center
                         )
                         pixelCircle(
-                            color = style.accentColor,
+                            color = color,
                             radius = minOf(cell, rowHeight) * 0.22f,
                             center = center,
                             style = Stroke(width = 1.5f)
                         )
-                        drawLine(
-                            color = style.accentColor,
-                            start = center - Offset(x = minOf(cell, rowHeight) * 0.1f, y = 0f),
-                            end = center + Offset(x = minOf(cell, rowHeight) * 0.1f, y = 0f),
-                            strokeWidth = 2f
+                        val extent = minOf(cell, rowHeight) * 0.11f
+                        if (brick.item != 2) drawLine(
+                            color, center - Offset(extent, 0f), center + Offset(extent, 0f), 2f
                         )
-                        drawLine(
-                            color = style.accentColor,
-                            start = center - Offset(x = 0f, y = minOf(cell, rowHeight) * 0.1f),
-                            end = center + Offset(x = 0f, y = minOf(cell, rowHeight) * 0.1f),
-                            strokeWidth = 2f
+                        if (brick.item != 1) drawLine(
+                            color, center - Offset(0f, extent), center + Offset(0f, extent), 2f
                         )
+                        if (brick.item > 0) {
+                            for (side in listOf(-1f, 1f)) for (step in 0..1) {
+                                val along = (extent - step * 2f) * side
+                                val across = (step + 1f) * 2f
+                                if (brick.item == 1) {
+                                    pixelRect(
+                                        color,
+                                        center.x + along - 1f,
+                                        center.y - across,
+                                        2f,
+                                        2f
+                                    )
+                                    pixelRect(
+                                        color,
+                                        center.x + along - 1f,
+                                        center.y + across - 2f,
+                                        2f,
+                                        2f
+                                    )
+                                } else {
+                                    pixelRect(
+                                        color,
+                                        center.x - across,
+                                        center.y + along - 1f,
+                                        2f,
+                                        2f
+                                    )
+                                    pixelRect(
+                                        color,
+                                        center.x + across - 2f,
+                                        center.y + along - 1f,
+                                        2f,
+                                        2f
+                                    )
+                                }
+                            }
+                        }
                     } else {
                         val color =
                             if (health > run.ballCount) style.accentColor else style.obstacleColor
-                        if (brick.shape == 0) {
-                            pixelPanel(
-                                color = color,
-                                ink = style.playerDetailColor,
-                                topLeft = point,
-                                size = Size(width = cell - 4f, height = rowHeight - 4f)
-                            )
-                        } else {
-                            val outline = Path().apply {
-                                brick.vertices(point, cell - 4f, rowHeight - 4f)
-                                    .forEachIndexed { index, vertex ->
-                                        if (index == 0) moveTo(vertex.x, vertex.y) else lineTo(
-                                            vertex.x,
-                                            vertex.y
-                                        )
-                                    }
-                                close()
-                            }
-                            drawPath(outline, color)
-                            drawPath(outline, style.playerDetailColor, style = Stroke(1.5f))
-                        }
-                        val label = measurer.measure(
-                            health.toString(),
-                            style.scoreTextStyle.copy(
-                                fontSize = (minOf(
-                                    cell,
-                                    rowHeight
-                                ) * 0.46f).sp
-                            ),
-                            density = Density(1f)
-                        )
-                        drawText(
-                            label,
-                            style.playerDetailColor,
-                            (if (brick.shape == 0) center else brick.vertices(
-                                point,
-                                cell - 4f,
-                                rowHeight - 4f
-                            )
-                                .reduce { a, b -> a + b } / 3f) - Offset(
-                                x = label.size.width / 2f,
-                                y = label.size.height / 2f
-                            )
+                        drawRicochetBrick(
+                            brick = brick,
+                            point = point,
+                            size = Size(cell - 4f, rowHeight - 4f),
+                            color = color,
+                            style = style,
+                            measurer = measurer
                         )
                     }
                 }
@@ -223,13 +249,13 @@ internal data object RicochetGame : ArcadeGameDefinition {
                         end = Offset(x = x, y = y),
                         strokeWidth = radius * 1.5f
                     )
-                    pixelCircle(
+                    drawRicochetBall(
                         color = style.playerColor,
                         radius = radius,
                         center = Offset(x = x, y = y)
                     )
                 }
-                pixelCircle(
+                drawRicochetBall(
                     color = style.playerColor,
                     radius = radius * 1.3f,
                     center = Offset(x = run.launchX, y = run.launchY)
@@ -243,7 +269,11 @@ internal data object RicochetGame : ArcadeGameDefinition {
                 drawText(
                     count,
                     style.playerColor,
-                    Offset(x = run.launchX - count.size.width / 2f, y = run.launchY + radius + 3f)
+                    Offset(
+                        x = (run.launchX - count.size.width / 2f)
+                            .coerceIn(left, maxOf(left, left + cell * 7f - count.size.width)),
+                        y = run.launchY + radius + 3f
+                    )
                 )
                 run.effects.draw(
                     scope = this,
@@ -252,6 +282,93 @@ internal data object RicochetGame : ArcadeGameDefinition {
             }
         }
     }
+}
+
+private fun DrawScope.drawRicochetBall(color: Color, radius: Float, center: Offset) {
+    scale(0.5f, center) {
+        pixelCircle(color, radius * 2f, center)
+    }
+}
+
+private fun DrawScope.drawRicochetBrick(
+    brick: RicochetBrick,
+    point: Offset,
+    size: Size,
+    color: Color,
+    style: ArcadeStyle,
+    measurer: TextMeasurer
+) {
+    if (brick.shape == 0) {
+        pixelPanel(color, style.playerDetailColor, point, size)
+    } else {
+        val vertices = brick.vertices(point, size.width, size.height)
+        val outline = Path().apply {
+            vertices.forEachIndexed { index, vertex ->
+                if (index == 0) moveTo(vertex.x, vertex.y) else lineTo(vertex.x, vertex.y)
+            }
+            close()
+        }
+        drawPath(outline, color)
+        val sides = vertices.indices.map { index ->
+            (vertices[(index + 1) % 3] - vertices[(index + 2) % 3]).getDistance()
+        }
+        val perimeter = sides.sum()
+        val center =
+            vertices.indices.map { vertices[it] * sides[it] }.reduce { a, b -> a + b } / perimeter
+        val radius = size.width * size.height / perimeter
+        val inset = (1f - minOf(1.5f, radius * 0.25f) / radius).coerceAtLeast(0f)
+        val inner = vertices.map { center + (it - center) * inset }
+        for (index in vertices.indices) {
+            val next = (index + 1) % 3
+            val edge = vertices[next] - vertices[index]
+            drawLine(
+                color = style.playerDetailColor.copy(alpha = if (edge.y - edge.x < 0f) 0.34f else 0.12f),
+                start = inner[index],
+                end = inner[next],
+                strokeWidth = 1f
+            )
+        }
+    }
+    val padding = minOf(2.5f, size.minDimension * 0.14f)
+    var fontSize = size.minDimension * 0.7f
+    fun measure() = measurer.measure(
+        text = brick.health.toString(),
+        style = style.scoreTextStyle.copy(
+            fontSize = fontSize.sp,
+            lineHeight = fontSize.sp
+        ),
+        softWrap = false,
+        maxLines = 1,
+        density = Density(1f)
+    )
+
+    var label = measure()
+    repeat(2) {
+        val fit = if (brick.shape == 0) {
+            minOf(
+                (size.width - padding * 2f) / label.size.width,
+                (size.height - padding * 2f) / label.size.height
+            )
+        } else {
+            val margin = padding * (1f / size.width + 1f / size.height +
+                    hypot(1f / size.width, 1f / size.height))
+            (1f - margin) / (label.size.width / size.width + label.size.height / size.height)
+        }
+        if (fit < 1f) {
+            fontSize *= (fit * 0.97f).coerceAtLeast(0.01f)
+            label = measure()
+        }
+    }
+    val position = if (brick.shape == 0) {
+        point + Offset((size.width - label.size.width) / 2f, (size.height - label.size.height) / 2f)
+    } else {
+        point + Offset(
+            x = if (brick.shape == 2 || brick.shape == 3) padding
+            else size.width - padding - label.size.width,
+            y = if (brick.shape >= 3) padding else size.height - padding - label.size.height
+        )
+    }
+    drawText(label, style.playerDetailColor, position)
 }
 
 private fun DrawScope.drawRicochetBackground(style: ArcadeStyle, width: Float, height: Float) {
@@ -290,8 +407,12 @@ private data class RicochetBrick(
     val column: Int,
     var row: Int,
     var health: Int,
-    val shape: Int = 0
+    val shape: Int = 0,
+    val item: Int = 0
 ) {
+    var used = false
+    var cooldown = 0f
+
     fun vertices(point: Offset, width: Float, height: Float): List<Offset> {
         val corners = listOf(
             point,
@@ -312,6 +433,13 @@ private data class RicochetBall(
     val power: Int = 1
 )
 
+private class RicochetBeam(
+    val column: Int,
+    val row: Int,
+    val vertical: Boolean,
+    var time: Float = 0.18f
+)
+
 @Serializable
 private class RicochetRun : ArcadeRun() {
     val cell get() = (width - 32f) / 7f
@@ -324,15 +452,21 @@ private class RicochetRun : ArcadeRun() {
 
     @Transient
     val effects = ArcadeEffects()
+
+    @Transient
+    val beams = mutableListOf<RicochetBeam>()
+
+    @Transient
+    private var dragOrigin: Offset? = null
     var launchX = width / 2f
     var direction: ArcadeOffset = Offset(x = 0.25f, y = -0.97f)
-    var ballCount = 3
+    var ballCount = 1
     var flying = false
     var shift = 0f
     val recallPoint get() = Offset(origin.x + 12f, launchY)
     private var returning = false
-    private var volleyBalls = 3
-    private var volleySize = 3
+    private var volleyBalls = 1
+    private var volleySize = 1
 
     @Transient
     private var aiming = false
@@ -346,13 +480,15 @@ private class RicochetRun : ArcadeRun() {
         bricks.clear()
         balls.clear()
         effects.clear()
+        beams.clear()
+        dragOrigin = null
         launchX = width / 2f
         direction = Offset(x = 0.25f, y = -0.97f)
-        ballCount = 3
+        ballCount = 1
         flying = false
         returning = false
-        volleyBalls = 3
-        volleySize = 3
+        volleyBalls = 1
+        volleySize = 1
         aiming = false
         shift = 0f
         pending = 0
@@ -360,21 +496,47 @@ private class RicochetRun : ArcadeRun() {
         flightTime = 0f
         firstReturn = -1f
         round = 1
-        repeat(3) { addRow(it) }
+        addRow(0)
     }
 
     private fun addRow(row: Int) {
         val columns = (0..6).shuffled()
-        val count = minOf(5, 3 + round / 6)
+        val count = if (round == 1) 2 else Random.nextInt(2, minOf(6, round + 3))
         for (column in columns.take(count)) {
             bricks += RicochetBrick(
                 column = column,
                 row = row,
-                health = round.coerceAtMost(ballCount + 8) + Random.nextInt(1, 4),
-                shape = if (round >= 4 && Random.nextFloat() < 0.28f) Random.nextInt(1, 5) else 0
+                health = round.coerceAtMost(ballCount + 8),
+                shape = if (round >= 2 && Random.nextFloat() < 0.28f) Random.nextInt(1, 5) else 0
             )
         }
         bricks += RicochetBrick(column = columns[count], row = row, health = 0)
+        if (round == 1 || round % 3 == 0) {
+            bricks += RicochetBrick(
+                column = columns[count + 1], row = row, health = 0,
+                item = if (round == 1) 2 else Random.nextInt(1, 3)
+            )
+        }
+    }
+
+    fun begin(point: Offset) {
+        if (flying) {
+            aim(point)
+            return
+        }
+        if (shift > 0f) return
+        dragOrigin = point
+        aiming = false
+    }
+
+    fun drag(point: Offset) {
+        val origin = dragOrigin ?: return
+        val pull = origin - point
+        if (pull.y >= -3f || pull.getDistance() < 6f) {
+            aiming = false
+            return
+        }
+        aim(Offset(launchX, launchY) + pull)
     }
 
     fun aim(point: Offset) {
@@ -405,6 +567,7 @@ private class RicochetRun : ArcadeRun() {
 
     override fun stopInput() {
         aiming = false
+        dragOrigin = null
     }
 
     fun recall() {
@@ -416,6 +579,9 @@ private class RicochetRun : ArcadeRun() {
 
     override fun advance(seconds: Float) {
         effects.advance(seconds)
+        beams.forEach { it.time -= seconds }
+        beams.removeAll { it.time <= 0f }
+        bricks.forEach { it.cooldown = (it.cooldown - seconds).coerceAtLeast(0f) }
         shift = (shift - seconds * 4f).coerceAtLeast(0f)
         if (!flying) return
         flightTime += seconds
@@ -464,7 +630,7 @@ private class RicochetRun : ArcadeRun() {
             returning = false
             launchX = if (firstReturn >= 0f) firstReturn else width / 2f
             round++
-            bricks.removeAll { it.health == 0 && it.row >= 5 }
+            bricks.removeAll { it.health == 0 && (it.used || it.row >= 5) }
             for (brick in bricks) brick.row++
             if (bricks.any { it.row >= 7 && it.health > 0 }) {
                 phase = ArcadePhase.Over
@@ -480,12 +646,22 @@ private class RicochetRun : ArcadeRun() {
         ball.y += ball.vy * seconds
         val left = origin.x + ballRadius
         val right = origin.x + cell * 7f - ballRadius
+        val wallHit = ball.x < left || ball.x > right
         if (ball.x < left) {
             ball.x = left * 2f - ball.x
             ball.vx = abs(ball.vx)
         } else if (ball.x > right) {
             ball.x = right * 2f - ball.x
             ball.vx = -abs(ball.vx)
+        }
+        if (wallHit) {
+            val speed = hypot(ball.vx, ball.vy)
+            val minimum = speed * 0.035f
+            if (abs(ball.vy) < minimum) {
+                ball.vy = if (ball.vy <= 0f) -minimum else minimum
+                val horizontal = sqrt((speed * speed - minimum * minimum).coerceAtLeast(0f))
+                ball.vx = if (ball.vx < 0f) -horizontal else horizontal
+            }
         }
         val top = origin.y + ballRadius
         if (ball.y < top) {
@@ -503,9 +679,16 @@ private class RicochetRun : ArcadeRun() {
                         rowHeight
                     ) * 0.22f + ballRadius
                 ) continue
-                ballCount++
-                score += 5
-                bricks.removeAt(index)
+                if (brick.item == 0) {
+                    ballCount++
+                    score += 5
+                    bricks.removeAt(index)
+                } else {
+                    if (brick.cooldown > 0f) continue
+                    brick.cooldown = 0.08f
+                    brick.used = true
+                    fireLine(brick, ball.power)
+                }
             } else {
                 if (ball.x + ballRadius < corner.x || ball.x - ballRadius > corner.x + size.x ||
                     ball.y + ballRadius < corner.y || ball.y - ballRadius > corner.y + size.y
@@ -553,6 +736,27 @@ private class RicochetRun : ArcadeRun() {
         }
     }
 
+    private fun fireLine(item: RicochetBrick, power: Int) {
+        beams += RicochetBeam(item.column, item.row, item.item == 2)
+        val iterator = bricks.iterator()
+        while (iterator.hasNext()) {
+            val brick = iterator.next()
+            if (brick.health <= 0 ||
+                (if (item.item == 1) brick.row != item.row else brick.column != item.column)
+            ) continue
+            val damage = minOf(brick.health, power)
+            brick.health -= damage
+            score += damage
+            effects.burst(
+                origin + Offset(
+                    (brick.column + 0.5f) * cell,
+                    (brick.row + 0.5f) * rowHeight
+                ), 4
+            )
+            if (brick.health == 0) iterator.remove()
+        }
+    }
+
     override fun onResize(previous: Size) {
         launchX *= width / previous.width
         for (ball in balls) {
@@ -560,6 +764,7 @@ private class RicochetRun : ArcadeRun() {
             ball.y *= height / previous.height
         }
         effects.clear()
+        beams.clear()
         stopInput()
     }
 }

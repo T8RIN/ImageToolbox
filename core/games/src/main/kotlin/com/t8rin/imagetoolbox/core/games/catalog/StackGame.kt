@@ -341,6 +341,8 @@ private class StackRun : ArcadeRun() {
         )
         if (perfect || checkpoint) flash = 1f
         blocks += next
+        // Keep enough history for taller layouts while bounding the saved run.
+        if (blocks.size > 2048) blocks.subList(0, blocks.size - 2048).clear()
         score++
         cooldown = 0.16f
         axis = 1 - axis
