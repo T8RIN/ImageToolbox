@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="language">اللغة</string>
     <string name="amoled_mode">وضع Amoled</string>
     <string name="amoled_mode_sub">إذا فُعّل لون الأسطح فسيتم ضبطه على الظلام المطلق في الوضع الليلي</string>
@@ -7600,7 +7599,7 @@
     <string name="style_presets_sub">حفظ النمط أو تطبيقه</string>
     <string name="save_style_preset">حفظ النمط</string>
     <string name="delete_style_preset">حذف النمط</string>
-    <string name="delete_style_preset_sub">هل تريد حذف النمط \"%1$s\"؟</string>
+    <string name="delete_style_preset_sub">أتريد حذف النمط «%1$s» من الأنماط المحفوظة؟ ستبقى إعداداتك الحالية كما هي.</string>
     <string name="code_preview_transparent_background">خلفية شفافة</string>
     <string name="filter_help_adaptive_binarization">يفصل الحبر والورق تحت الإضاءة غير المستوية باستخدام إحصائيات السطوع المحلية.</string>
     <string name="filter_help_agx_tone_mapping">يبرز الضوء ويتحكم في التشبع باستخدام منحنى نغمة AgX التحليلي.</string>
@@ -7981,7 +7980,7 @@
     <string name="arcade_exit_title">ترك اللعبة؟</string>
     <string name="arcade_exit_sub">ستنتهي اللعبة الحالية. سيتم حفظ درجاتك العالية.</string>
     <string name="arcade_games_sub">العب ألعابًا صغيرة مختلفة</string>
-    <string name="arcade_games_search">لعبة دينو، دودل جامب، فلابي بيرد، برج البناء، كومة، بينج بونج، 2048، ثعبان، تتريس</string>
+    <string name="arcade_games_search">لعبة الديناصور، دودل جامب، فلابي بيرد، تاور بيلدر، ستاك، بينج بونج، 2048، الأفعى، تيتريس، ريترو ريسر، ريكوشيت، أسترويدز، فروت سلايس، نايف هيت، ميسايل كوماند، ريفر هوب، فروجر، واك-أ-مول، سيمون سايز، بابل بوب، الصيد، سوبر هيكساغون</string>
     <string name="arcade_dino">لعبة دينو</string>
     <string name="arcade_doodle">خربش القفز</string>
     <string name="arcade_bird">فلابي بيرد</string>
