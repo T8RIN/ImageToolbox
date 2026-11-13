@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="something_went_wrong">发生错误</string>
     <string name="pick_image">选择图片以开始</string>
     <string name="close">关闭</string>
@@ -7976,7 +7975,7 @@
     <string name="arcade_exit_title">离开游戏？</string>
     <string name="arcade_exit_sub">当前的游戏将结束。您的高分将被保存。</string>
     <string name="arcade_games_sub">玩不同的街机迷你游戏</string>
-    <string name="arcade_games_search">恐龙游戏、涂鸦跳跃、Flappy Bird、Tower Builder、Stack、乒乓球、2048、蛇、俄罗斯方块</string>
+    <string name="arcade_games_search">恐龙跑酷，涂鸦跳跃，像素鸟，塔楼建造者，堆叠，乒乓球，2048，贪吃蛇，俄罗斯方块，复古赛车，弹跳射击，小行星，切水果，飞刀挑战，导弹指挥官，过河跳跃，青蛙过河，打地鼠，西蒙说，泡泡消除，钓鱼，超级六边形</string>
     <string name="arcade_dino">恐龙游戏</string>
     <string name="arcade_doodle">涂鸦跳跃</string>
     <string name="arcade_bird">飞扬的小鸟</string>
