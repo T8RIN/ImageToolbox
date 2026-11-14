@@ -220,6 +220,10 @@ private class SharpTurnsRun : ArcadeRun() {
     private var remaining = 4
     private val lengths: ArcadeDeque<Int> = ArrayDeque()
     private var gems = 0
+    private var turnBonus = 0
+    private var lastPerfectTile = -1
+    var perfectTurns = 0
+        private set
     val tileWidth get() = minOf(58f, width * 0.17f, (height - topInset) * 0.32f)
     val visibleTiles: IntRange
         get() {
@@ -265,6 +269,9 @@ private class SharpTurnsRun : ArcadeRun() {
         remaining = 4
         lengths.clear()
         gems = 0
+        turnBonus = 0
+        lastPerfectTile = -1
+        perfectTurns = 0
         tiles += SharpTurnsTile(x = -1, y = 0, gem = false)
         tiles += SharpTurnsTile(x = 0, y = 0, gem = false)
         populate()
@@ -303,7 +310,29 @@ private class SharpTurnsRun : ArcadeRun() {
 
     fun turn() {
         if (fall >= 0f) return
-        direction = 1 - direction
+        val nextDirection = 1 - direction
+        val centerX = kotlin.math.round(x).toInt()
+        val centerY = kotlin.math.round(y).toInt()
+        val tileIndex = centerX + centerY
+        val distance = if (direction == 0) abs(x - centerX) else abs(y - centerY)
+        val nextX = centerX + if (nextDirection == 0) 1 else 0
+        val nextY = centerY + if (nextDirection == 1) 1 else 0
+        val perfect = distance <= 0.22f && tileIndex != lastPerfectTile &&
+                tiles.any { it.x == centerX && it.y == centerY } &&
+                tiles.any { it.x == nextX && it.y == nextY }
+        if (perfect) {
+            perfectTurns++
+            turnBonus += 2 + minOf(perfectTurns / 5, 3)
+            lastPerfectTile = tileIndex
+            score = progress.toInt() + gems * 5 + turnBonus
+            effects.burst(
+                point = project(centerX.toFloat(), centerY.toFloat()) - Offset(x = 0f, y = 5f),
+                count = 6
+            )
+        } else {
+            perfectTurns = 0
+        }
+        direction = nextDirection
     }
 
     fun supported(
@@ -341,7 +370,7 @@ private class SharpTurnsRun : ArcadeRun() {
                 )
             }
         }
-        score = progress.toInt() + gems * 5
+        score = progress.toInt() + gems * 5 + turnBonus
         populate()
     }
 

@@ -143,19 +143,21 @@ internal data object RacerGame : ArcadeGameDefinition {
                 }
                 val x = run.laneX(run.position)
                 if (run.phase == ArcadePhase.Running) {
+                    val trailColor = if (run.flowTime > 0f) style.accentColor else style.playerColor
+                    val trailLength = if (run.flowTime > 0f) 34f else 18f
                     pixelRect(
-                        color = style.playerColor.copy(alpha = 0.15f),
+                        color = trailColor.copy(alpha = if (run.flowTime > 0f) 0.35f else 0.15f),
                         x = x - 14f,
                         y = run.playerY + 18f,
                         width = 3f,
-                        height = 18f
+                        height = trailLength
                     )
                     pixelRect(
-                        color = style.playerColor.copy(alpha = 0.15f),
+                        color = trailColor.copy(alpha = if (run.flowTime > 0f) 0.35f else 0.15f),
                         x = x + 11f,
                         y = run.playerY + 18f,
                         width = 3f,
-                        height = 18f
+                        height = trailLength
                     )
                 }
                 rotate(
@@ -410,8 +412,11 @@ private class RacerRun : ArcadeRun() {
     val effects = ArcadeEffects()
     var closeFlash = 0f
         private set
+    var flowTime = 0f
+        private set
     private var chain = 0
     private var chainTime = 0f
+    private var distanceScore = 0f
     var position = 1f
     var targetLane = 1
     var distance = 0f
@@ -427,8 +432,10 @@ private class RacerRun : ArcadeRun() {
         effects.clear()
         position = 1f
         closeFlash = 0f
+        flowTime = 0f
         chain = 0
         chainTime = 0f
+        distanceScore = 0f
         targetLane = 1
         distance = 0f
         elapsed = 0f
@@ -444,12 +451,19 @@ private class RacerRun : ArcadeRun() {
     override fun advance(seconds: Float) {
         elapsed += seconds
         closeFlash = (closeFlash - seconds * 2.5f).coerceAtLeast(0f)
+        flowTime = (flowTime - seconds).coerceAtLeast(0f)
         chainTime = (chainTime - seconds).coerceAtLeast(0f)
         if (chainTime == 0f) chain = 0
         effects.advance(seconds)
         // Keep the same reaction window in a loading dialog and in the full screen.
         val speed = (height - topInset + 50f) / (2.5f - 1.1f * (1f - exp(-elapsed / 65f)))
+        val multiplier = if (flowTime > 0f) 2 else 1
         distance = (distance + speed * seconds) % 104580f
+        distanceScore += speed * seconds / 18f * multiplier
+        while (distanceScore >= 1f) {
+            score++
+            distanceScore--
+        }
         position += (targetLane - position).coerceIn(-7f * seconds, 7f * seconds)
         spawn -= seconds
         if (spawn <= 0f) {
@@ -493,14 +507,18 @@ private class RacerRun : ArcadeRun() {
             if (abs(car.y - playerY) < clearance + 7f) car.nearest = minOf(car.nearest, separation)
             if (!car.passed && car.y > playerY + clearance + 3f) {
                 car.passed = true
-                score += if (car.kind == 2) 20 else 10
-                if (car.nearest < 45f) {
+                val close = car.nearest < 45f
+                if (close) {
+                    val previousChain = chain
                     chain = (chain + 1).coerceAtMost(5)
                     chainTime = 4f
-                    score += chain * 10
+                    if (previousChain == 4) flowTime = 4f
                     closeFlash = 1f
                     effects.burst(Offset(laneX(position), playerY), 10)
                 }
+                val rewardMultiplier = if (flowTime > 0f) 2 else 1
+                val base = if (car.kind == 2) 20 else 10
+                score += (base + if (close) chain * 10 else 0) * rewardMultiplier
                 effects.burst(Offset(x = laneX(car.lane.toFloat()), y = playerY + 25f), 4)
             }
             if (car.y > height + 46f) iterator.remove()

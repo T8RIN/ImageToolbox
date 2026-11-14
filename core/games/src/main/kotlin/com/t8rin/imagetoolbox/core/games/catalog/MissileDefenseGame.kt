@@ -414,13 +414,15 @@ private class MissileDefenseRun : ArcadeRun() {
             val dx = cityX(missile.city) - missile.x
             val dy = ground - 8f - missile.y
             val distance = hypot(dx, dy)
-            if (blasts.any {
-                    hypot(
-                        it.x - missile.x,
-                        it.y - missile.y
-                    ) < it.radius * blastSize + 2f
-                }) {
-                score += if (missile.kind == 1) 20 else 10
+            val triggeringBlast = blasts.firstOrNull {
+                hypot(
+                    it.x - missile.x,
+                    it.y - missile.y
+                ) < it.radius * blastSize + 2f
+            }
+            if (triggeringBlast != null) {
+                val baseScore = if (missile.kind == 1) 20 else 10
+                score += baseScore * if (triggeringBlast.chain) 2 else 1
                 blasts += MissileBlast(x = missile.x, y = missile.y, age = 0.2f, chain = true)
                 effects.burst(
                     point = Offset(x = missile.x, y = missile.y),

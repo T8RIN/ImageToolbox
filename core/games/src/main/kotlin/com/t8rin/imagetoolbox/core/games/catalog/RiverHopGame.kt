@@ -100,12 +100,19 @@ internal data object RiverHopGame : ArcadeGameDefinition {
                         width = run.width,
                         height = cell
                     )
-                    if (coin >= 0) pixelGem(
-                        color = style.accentColor,
-                        light = style.playerDetailColor,
-                        center = Offset(left + (coin + 0.5f) * cell, y + cell * 0.45f),
-                        radius = cell * 0.15f
-                    )
+                    if (coin >= 0) {
+                        val coinX = if (kind == 1 || kind == 2) {
+                            (offset + coin + 0.5f) % period
+                        } else {
+                            coin + 0.5f
+                        }
+                        pixelGem(
+                            color = style.accentColor,
+                            light = style.playerDetailColor,
+                            center = Offset(left + coinX * cell, y + cell * 0.45f),
+                            radius = cell * 0.15f
+                        )
+                    }
                     if (kind == 3) {
                         val lane = run.lanes.first { it.index == index }
                         for (rail in listOf(0.28f, 0.72f)) pixelRect(
@@ -614,6 +621,15 @@ private class RiverHopRun : ArcadeRun() {
                 else -> 1.15f + Random.nextFloat() * 0.55f
             }
             val period = length + if (kind == 2) 1.3f else 2.4f + Random.nextFloat()
+            val coin = when {
+                kind == 0 && index > 1 && index % 2 == 1 -> Random.nextInt(1, 8)
+                kind == 2 && index > 4 && index % 3 == 1 -> (length / 2f).toInt()
+                kind == 1 && index > 4 && index % 3 == 1 -> {
+                    (length + (period - length) / 2f).toInt().coerceAtMost((period - 1f).toInt())
+                }
+
+                else -> -1
+            }
             lanes += RiverLane(
                 index = index,
                 kind = kind,
@@ -621,7 +637,7 @@ private class RiverHopRun : ArcadeRun() {
                 length = length,
                 period = period,
                 offset = Random.nextFloat() * period,
-                coin = if (kind == 0 && index > 1 && index % 2 == 1) Random.nextInt(1, 8) else -1,
+                coin = coin,
                 trainTime = 3f + Random.nextFloat() * 4f
             )
         }
@@ -683,7 +699,12 @@ private class RiverHopRun : ArcadeRun() {
                 phase = ArcadePhase.Over
                 return
             }
-            if (lane.coin >= 0 && abs(frogX - lane.coin - 0.5f) < 0.35f) {
+            val coinX = if (lane.kind == 1 || lane.kind == 2) {
+                (lane.offset + lane.coin + 0.5f) % lane.period
+            } else {
+                lane.coin + 0.5f
+            }
+            if (lane.coin >= 0 && abs(frogX - coinX) < 0.35f) {
                 lane.coin = -1
                 score += 5
                 remaining = (remaining + 2f).coerceAtMost(8f)

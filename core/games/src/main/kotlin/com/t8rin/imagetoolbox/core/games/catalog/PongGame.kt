@@ -229,7 +229,7 @@ private class PongRun : ArcadeRun() {
     private fun serve() {
         ballX = width / 2
         ballY = (top + bottom) / 2
-        velocityX = -(270f + rallies * 5f).coerceAtMost(620f)
+        velocityX = -(270f + rallies.coerceAtMost(12) * 4f)
         velocityY = Random.nextFloat() * 150f - 75f
         serveDelay = 0.8f
         trail.clear()
@@ -279,7 +279,7 @@ private class PongRun : ArcadeRun() {
                     direction = 1,
                     spin = motion / seconds.coerceAtLeast(0.0001f) * 0.16f
                 )
-                score++
+                score += if (abs(ballY - playerY) / paddleHalf > 0.78f) 3 else 1
                 rallies++
             }
 

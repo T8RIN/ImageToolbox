@@ -217,7 +217,8 @@ private data class RimWall(
     var radius: Float,
     val gap: Int,
     var passed: Boolean = false,
-    val opening: Int = 1
+    val opening: Int = 1,
+    var nearestClearance: Float = Float.MAX_VALUE
 )
 
 @Serializable
@@ -303,14 +304,17 @@ private class HexagonRushRun : ArcadeRun() {
             if (inner < 0.46f + playerRadius && outer > 0.46f - playerRadius) {
                 val gapCenter = (wall.gap + wall.opening / 2f) * PI.toFloat() / 3f
                 val delta = abs(((relative - gapCenter + 3f * PI.toFloat()) % full) - PI.toFloat())
-                if (delta > wall.opening * PI.toFloat() / 6f - playerRadius / 0.46f) {
+                val clearance = wall.opening * PI.toFloat() / 6f - playerRadius / 0.46f - delta
+                if (clearance < 0f) {
                     phase = ArcadePhase.Over
                     return
                 }
+                wall.nearestClearance = minOf(wall.nearestClearance, clearance)
             }
             if (!wall.passed && wall.radius + 0.1f < 0.46f - playerRadius) {
                 wall.passed = true
-                score++
+                // A close call is worth two extra points, rewarding risky gap edges.
+                score += if (wall.nearestClearance < 0.08f) 3 else 1
                 pulse = 1f
             }
         }

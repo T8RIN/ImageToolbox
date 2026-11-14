@@ -456,8 +456,8 @@ private class SpaceRocksRun : ArcadeRun() {
             repeat(count) { index ->
                 val large = (formation == 1 || wave % 3 == 2) && index == 0
                 val radius = if (large) 34f else 22f
-                val px = if (large) x.coerceIn(40f, width - 40f)
-                else 35f + (width - 70f) * ((wave + index * 2) % 5) / 4f
+                val lane = ((wave + index * 2) % 5) / 4f
+                val px = radius + 1f + (width - (radius + 1f) * 2f) * lane
                 rocks += SpaceRock(
                     x = px, y = -radius - index * 35f,
                     vx = (Random.nextFloat() - 0.5f) * 50f, vy = speed,

@@ -250,11 +250,13 @@ internal data object FishingGame : ArcadeGameDefinition {
                     width = 2f,
                     height = 5f
                 )
-                if (run.caught > 0) fish(
-                    point = point + Offset(x = 0f, y = 8f),
-                    kind = run.caught,
-                    direction = 1
-                )
+                repeat(run.haulCount) { index ->
+                    fish(
+                        point = point + Offset(x = (index % 2) * 10f - 5f, y = 8f + index * 12f),
+                        kind = run.hauledKind(index),
+                        direction = 1
+                    )
+                }
                 repeat(5) { index ->
                     pixelRect(
                         color = if (index < run.streak % 5) style.accentColor else style.detailColor,
@@ -508,6 +510,10 @@ private class FishingRun : ArcadeRun() {
     var streak = 0
         private set
     private var catches = 0
+    private val haul = mutableListOf<Int>()
+    private var haulValue = 0
+    val haulCount get() = haul.size
+    fun hauledKind(index: Int) = haul.getOrElse(index) { caught }
     val hook get() = anchor + Offset(x = sin(angle), y = cos(angle)) * length
     private var casting = false
     private var returning = false
@@ -524,6 +530,8 @@ private class FishingRun : ArcadeRun() {
         time = 0f
         streak = 0
         catches = 0
+        haul.clear()
+        haulValue = 0
         casting = false
         returning = false
         repeat(4) { row ->
@@ -539,6 +547,8 @@ private class FishingRun : ArcadeRun() {
         casting = true
         returning = false
         caught = 0
+        haul.clear()
+        haulValue = 0
     }
 
     override fun advance(seconds: Float) {
@@ -559,14 +569,20 @@ private class FishingRun : ArcadeRun() {
         val speed = maxOf(240f, (height - waterline) * 1.7f)
         if (returning) {
             length -= speed * 1.2f * seconds
+            val point = hook
+            val capacity = if (streak >= 5) 3 else 2
+            if (haulCount < capacity) {
+                val hit = findFish(point)
+                if (hit >= 0) hookFish(hit, point)
+            }
             if (length <= 22f) {
                 length = 22f
                 casting = false
                 returning = false
-                if (caught > 0) {
-                    catches++
+                if (haulCount > 0) {
+                    catches += haulCount
                     streak++
-                    score += (if (caught == 4) 12 else caught) * (1 + minOf(streak / 3, 2))
+                    score += haulValue * (1 + minOf(streak / 3, 2))
                     if (streak % 5 == 0) misses = (misses - 1).coerceAtLeast(0)
                     effects.burst(
                         point = Offset(x = width / 2f, y = waterline),
@@ -577,35 +593,49 @@ private class FishingRun : ArcadeRun() {
                     streak = 0
                 }
                 caught = 0
+                haul.clear()
+                haulValue = 0
                 if (misses >= 3) phase = ArcadePhase.Over
             }
         } else {
             length += speed * seconds
             val point = hook
-            val hit = fish.indexOfFirst {
-                val scale = 1.1f - it.kind * 0.13f
-                val dx = (it.x - point.x) / (20f * scale)
-                val dy = (fishY(it.row) - point.y) / (11f * scale)
-                dx * dx + dy * dy <= 1f
-            }
+            val hit = findFish(point)
             if (hit >= 0) {
-                val item = fish[hit]
-                caught = item.kind
-                returning = true
-                effects.burst(
-                    point = point,
-                    count = 5
-                )
-                fish[hit] = SwimmingFish(
-                    x = if (item.direction > 0) -32f else width + 32f,
-                    row = item.row,
-                    kind = if (item.row >= 2 && catches >= 5 && Random.nextFloat() < 0.12f) 4 else Random.nextInt(
-                        1,
-                        4
-                    ),
-                    direction = item.direction
-                )
+                hookFish(hit, point)
             } else if (point.x !in 10f..(width - 10f) || point.y >= height - 14f) returning = true
+        }
+    }
+
+    private fun findFish(point: Offset) = fish.indexOfFirst {
+        val scale = 1.1f - it.kind * 0.13f
+        val dx = (it.x - point.x) / (20f * scale)
+        val dy = (fishY(it.row) - point.y) / (11f * scale)
+        dx * dx + dy * dy <= 1f
+    }
+
+    private fun hookFish(index: Int, point: Offset) {
+        val item = fish[index]
+        caught = item.kind
+        haul += item.kind
+        haulValue += if (item.kind == 4) 12 else item.kind
+        returning = true
+        effects.burst(point = point, count = 5)
+        fish[index] = SwimmingFish(
+            x = if (item.direction > 0) -32f else width + 32f,
+            row = item.row,
+            kind = if (item.row >= 2 && catches >= 5 && Random.nextFloat() < 0.12f) 4 else Random.nextInt(
+                1,
+                4
+            ),
+            direction = item.direction
+        )
+    }
+
+    override fun onRestore() {
+        if (caught > 0 && haul.isEmpty()) {
+            haul += caught
+            haulValue = if (caught == 4) 12 else caught
         }
     }
 

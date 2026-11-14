@@ -164,12 +164,16 @@ private class DinoRun : ArcadeRun() {
     private var jumpSpeed = 0f
     private var nextObstacle = 0f
     private var released = false
+    private var duckRequested = false
+    private var fastFalling = false
 
     override fun reset() {
         jumpHeight = 0f
         jumpSpeed = 0f
         isJumping = false
         ducking = false
+        duckRequested = false
+        fastFalling = false
         released = false
         obstacles.clear()
         distance = 0f
@@ -183,22 +187,31 @@ private class DinoRun : ArcadeRun() {
 
         jumpSpeed = 424f
         released = false
+        fastFalling = false
         isJumping = true
         return true
     }
 
     fun drag(y: Float) {
         if (y < height - 58f) return
-        ducking = true
+        duckRequested = true
         released = true
-        isJumping = false
-        jumpHeight = 0f
-        jumpSpeed = 0f
+        if (isJumping) {
+            fastFalling = true
+        } else {
+            ducking = true
+        }
     }
 
     fun releaseJump() {
         released = true
+        duckRequested = false
+        fastFalling = false
         ducking = false
+    }
+
+    override fun stopInput() {
+        releaseJump()
     }
 
     override fun advance(seconds: Float) {
@@ -217,11 +230,15 @@ private class DinoRun : ArcadeRun() {
 
         if (isJumping) {
             if (released && jumpHeight >= 34f && jumpSpeed > 150f) jumpSpeed = 150f
-            jumpHeight =
-                (jumpHeight + jumpSpeed * seconds - 550f * seconds * seconds).coerceAtLeast(0f)
-            jumpSpeed -= 1100f * seconds
+            val gravity = if (fastFalling) 3300f else 1100f
+            jumpHeight = (jumpHeight + jumpSpeed * seconds - gravity * 0.5f * seconds * seconds)
+                .coerceAtLeast(0f)
+            jumpSpeed -= gravity * seconds
             if (jumpHeight == 0f && jumpSpeed <= 0f) {
                 isJumping = false
+                fastFalling = false
+                ducking = duckRequested
+                jumpSpeed = 0f
             }
         }
 

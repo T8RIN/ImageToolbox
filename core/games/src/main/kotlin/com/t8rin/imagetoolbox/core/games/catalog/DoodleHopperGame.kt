@@ -648,6 +648,7 @@ private class DoodleHopperRun : ArcadeRun() {
     private var lastHeight = 24f
     private var lastX = x
     private var shotTime = 0f
+    private var bonusScore = 0
 
     override fun isValid(): Boolean = super.isValid() &&
             platforms.isNotEmpty()
@@ -673,6 +674,7 @@ private class DoodleHopperRun : ArcadeRun() {
         boost = 0f
         protection = 0f
         bursts.clear()
+        bonusScore = 0
         platforms += DoodleHopperPlatform(
             id = platformId++,
             x = x,
@@ -783,6 +785,7 @@ private class DoodleHopperRun : ArcadeRun() {
                 hit.health--
                 hit.hitTime = 0.1f
                 if (hit.health == 0) {
+                    rewardMonster(hit)
                     bursts += DoodleHopperBurst(x = hit.x, height = hit.height)
                     monsters.remove(hit)
                 }
@@ -824,6 +827,7 @@ private class DoodleHopperRun : ArcadeRun() {
             if (hit.kind != MonsterKind.Guard && velocity < 0 &&
                 previousY >= hit.previousHeight + hit.kind.halfHeight
             ) {
+                rewardMonster(hit)
                 monsters.remove(hit)
                 bursts += DoodleHopperBurst(x = hit.x, height = hit.height)
                 y = hit.height + hit.kind.halfHeight
@@ -856,13 +860,21 @@ private class DoodleHopperRun : ArcadeRun() {
             }
         }
         camera = maxOf(camera, y - (height - topInset) * 0.55f)
-        score = maxOf(score, ((y - 24f) / 10f).toInt())
+        score = maxOf(score, ((y - 24f) / 10f).toInt() + bonusScore)
         platforms.removeAll { it.height < camera - 55f || it.breakTime > 0.55f }
         monsters.removeAll { it.height < camera - 55f }
         holes.removeAll { it.height < camera - 70f }
         bullets.removeAll { it.y < camera - 55f }
         addPlatforms()
         if (y < camera - 44f) phase = ArcadePhase.Over
+    }
+
+    private fun rewardMonster(monster: DoodleHopperMonster) {
+        bonusScore += when (monster.kind) {
+            MonsterKind.Flyer -> 25
+            MonsterKind.Jumper -> 20
+            MonsterKind.Guard -> 40
+        }
     }
 
     private fun addPlatforms() {
