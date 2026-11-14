@@ -26,6 +26,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.DrawScope
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.graphics.lerp
@@ -215,7 +216,7 @@ private fun DrawScope.shaftPlatform(
         val first = maxOf(start, half * 180f)
         val last = minOf(end, (half + 1) * 180f)
         if (first >= last) continue
-        shaftWedge(run, path, color, y, first, minOf(last, danger), front)
+        shaftWedge(run, path, color, y, first, last, front)
         shaftWedge(
             run = run,
             path = path,
@@ -225,7 +226,6 @@ private fun DrawScope.shaftPlatform(
             last = minOf(last, danger + platform.dangerWidth),
             front = front
         )
-        shaftWedge(run, path, color, y, maxOf(first, danger + platform.dangerWidth), last, front)
     }
     if (platform.opening > 0f) for (edgeIndex in 0..1) {
         val isStart = edgeIndex == 0
@@ -322,17 +322,16 @@ private fun DrawScope.shaftWedge(
     run.traceRim(path, ShaftOuterRadius, y, first, last, steps, move = true)
     run.traceRim(path, ShaftInnerRadius, y, last, first, steps, move = false)
     path.close()
-    drawPath(
-        path = path,
-        brush = Brush.linearGradient(
-            listOf(
-                lerp(color, Color.White, 0.28f),
-                lerp(color, Color.Black, 0.16f)
-            ),
-            start = center - Offset(ShaftOuterRadius, 23f),
-            end = center + Offset(ShaftOuterRadius, 32f)
-        )
+    val surface = Brush.linearGradient(
+        listOf(
+            lerp(color, Color.White, 0.28f),
+            lerp(color, Color.Black, 0.16f)
+        ),
+        start = center - Offset(ShaftOuterRadius, 23f),
+        end = center + Offset(ShaftOuterRadius, 32f)
     )
+    drawPath(path, surface)
+    drawPath(path, surface, style = Stroke(width = 0.45f))
 }
 
 private fun SpiralShaftRun.traceRim(
