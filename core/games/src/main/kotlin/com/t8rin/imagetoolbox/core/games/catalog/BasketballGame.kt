@@ -43,8 +43,10 @@ import com.t8rin.imagetoolbox.core.games.ArcadeGameDefinition
 import com.t8rin.imagetoolbox.core.games.ArcadeOffset
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
+import com.t8rin.imagetoolbox.core.games.ArcadeSprite
 import com.t8rin.imagetoolbox.core.games.ArcadeStyle
 import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
+import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
@@ -162,43 +164,23 @@ internal data object BasketballGame : ArcadeGameDefinition {
                             radius + 8f * unit,
                             point
                         )
+                        pixelCircle(color, radius, point)
+                        pixelCircle(style.playerDetailColor, radius * 0.75f, point)
+                        pixelCircle(color, radius * 0.58f, point)
                         if (prop.kind == 2) {
-                            pixelRect(
-                                color,
-                                point.x - radius,
-                                point.y - radius * 0.6f,
-                                radius * 2f,
-                                radius * 1.3f
+                            for (mark in 0 until prop.hits) {
+                                pixelCircle(
+                                    style.playerDetailColor,
+                                    1.4f * unit,
+                                    point + Offset((mark - (prop.hits - 1) / 2f) * 6f * unit, 0f)
+                                )
+                            }
+                            drawLine(
+                                style.detailColor,
+                                point - Offset(0f, radius + 13f * unit),
+                                point - Offset(0f, radius),
+                                2f * unit
                             )
-                            pixelRect(
-                                color,
-                                point.x - radius * 0.7f,
-                                point.y - radius,
-                                radius * 1.4f,
-                                radius * 2f
-                            )
-                            pixelRect(
-                                style.playerDetailColor.copy(alpha = 0.4f), point.x - radius,
-                                point.y - radius * 0.1f, radius * 2f, radius * 0.25f
-                            )
-                            for (mark in 0 until prop.hits) pixelRect(
-                                style.playerDetailColor,
-                                point.x + (mark - (prop.hits - 1) / 2f) * 6f * unit - unit,
-                                point.y - 4f * unit, 2f * unit, 8f * unit
-                            )
-                            for (strip in -1..1) pixelRect(
-                                color,
-                                point.x + strip * radius * 0.6f - unit, point.y + radius * 0.8f,
-                                2f * unit, (7f + strip * 2f) * unit
-                            )
-                            pixelRect(
-                                style.detailColor, point.x - unit, point.y - radius - 13f * unit,
-                                2f * unit, 13f * unit
-                            )
-                        } else {
-                            pixelCircle(color, radius, point)
-                            pixelCircle(style.playerDetailColor, radius * 0.75f, point)
-                            pixelCircle(color, radius * 0.58f, point)
                         }
                     }
                 }
@@ -372,32 +354,20 @@ internal data object BasketballGame : ArcadeGameDefinition {
 }
 
 private val BasketballFlame = listOf(
-    ".............11.....",
-    "...........11111....",
-    ".......1..1111111...",
-    "......111111222111..",
-    "...1.11112222222111.",
-    ".111111122233322211.",
-    "11111122233333222111",
-    "..11111122333222111.",
-    "....11111222222111..",
-    ".......1112222111...",
-    "......11.1111111....",
-    "...........11111....",
-    ".............11....."
-).let { rows ->
-    List(3) { layer ->
-        Path().apply {
-            rows.forEachIndexed { y, row ->
-                row.forEachIndexed { x, color ->
-                    if (color == '1' + layer) {
-                        addRect(Rect(x.toFloat(), y.toFloat(), x + 1f, y + 1f))
-                    }
-                }
-            }
-        }
-    }
-}
+    ArcadeSprite(
+        width = 20, height = 13,
+        data = "M0 6H1V5H3V4H4V5H5V4H6V3H7V2H8V3H10V2H11V1H13V0H15V1H16V2H17V3H18V4H19V6H20V7H19V8H18V9H17V10H16V12" +
+                "H15V13H13V12H11V11H9V10H8V11H6V10H7V9H4V8H2V7H0Z M6 6V7H8V8H9V9H10V10H14V9H15V8H16V7H17V5H16V4H15V3H12V4H9V5H8V6Z"
+    ),
+    ArcadeSprite(
+        width = 20, height = 13,
+        data = "M6 6H8V5H9V4H12V3H15V4H16V5H17V7H16V8H15V9H14V10H10V9H9V8H8V7H6Z M9 6V7H10V8H13V7H14V5H11V6Z"
+    ),
+    ArcadeSprite(
+        width = 20, height = 13,
+        data = "M9 6H11V5H14V7H13V8H10V7H9Z"
+    )
+)
 
 private fun DrawScope.drawBasketballBall(
     run: BasketballRun,
@@ -427,14 +397,16 @@ private fun DrawScope.drawBasketballBall(
                         scaleY = radius / 5f,
                         pivot = Offset.Zero
                     ) {
-                        BasketballFlame.forEachIndexed { index, path ->
-                            drawPath(
-                                path = path,
-                                color = when (index) {
+                        BasketballFlame.forEachIndexed { index, sprite ->
+                            drawArcadeSprite(
+                                sprite = sprite,
+                                tint = when (index) {
                                     0 -> style.accentColor.copy(alpha = 0.9f)
                                     1 -> lerp(style.accentColor, style.playerDetailColor, 0.4f)
                                     else -> style.playerDetailColor
-                                }
+                                },
+                                x = 0f,
+                                y = 0f
                             )
                         }
                     }
