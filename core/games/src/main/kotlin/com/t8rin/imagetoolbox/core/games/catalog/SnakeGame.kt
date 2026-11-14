@@ -148,18 +148,39 @@ private fun DrawScope.drawSnakeScene(run: SnakeRun, style: ArcadeStyle, bodyPath
     }
     run.bonusFood?.let { bonus ->
         val food = center(bonus.cell)
-        val pulse = 1f + run.eatFlash * 0.08f
-        pixelCircle(
-            color = style.accentColor.copy(alpha = (bonus.remaining / 8f).coerceIn(0.25f, 0.8f)),
-            radius = cell * 0.48f * pulse,
-            center = food,
-            style = Stroke(1.5f)
-        )
-        translate(left = food.x - cell * 0.5f, top = food.y - cell * 0.59f) {
+        val alpha = if (bonus.remaining < 2f && run.frame % 16 < 8) 0.45f else 1f
+        translate(left = food.x - cell * 0.57f, top = food.y - cell * 0.64f) {
             scale(scale = cell / 14f, pivot = Offset.Zero) {
-                drawArcadeSprite(SnakeFood, style.playerDetailColor, 0f, 0f)
-                drawArcadeSprite(SnakeFoodShade, style.accentColor, 0f, 0f)
-                drawArcadeSprite(SnakeLeaf, style.playerColor, 0f, 0f)
+                drawArcadeSprite(
+                    SnakeBonusFruitSprite,
+                    style.accentColor.copy(alpha = alpha),
+                    0f,
+                    1f
+                )
+                drawArcadeSprite(
+                    SnakeBonusFruitSprite,
+                    lerp(style.accentColor, style.textColor, 0.12f).copy(alpha = alpha),
+                    0f,
+                    0f
+                )
+                drawArcadeSprite(
+                    SnakeBonusFruitShade,
+                    lerp(style.accentColor, style.obstacleColor, 0.38f).copy(alpha = alpha),
+                    0f,
+                    0f
+                )
+                drawArcadeSprite(
+                    SnakeBonusLeaf,
+                    style.playerColor.copy(alpha = alpha),
+                    0f,
+                    0f
+                )
+                drawArcadeSprite(
+                    SnakeBonusGlint,
+                    style.playerDetailColor.copy(alpha = alpha),
+                    0f,
+                    0f
+                )
             }
         }
     }
@@ -258,6 +279,26 @@ private val SnakeLeaf = ArcadeSprite(
     height = 16,
     data = "M7 2H9V5H7Z M9 0H13V2H11V3H9Z"
 )
+private val SnakeBonusFruitSprite = ArcadeSprite(
+    width = 16,
+    height = 18,
+    data = "M5 4H7V3H11V4H13V6H15V9H16V13H14V16H11V18H5V16H2V13H1V9H2V6H5Z"
+)
+private val SnakeBonusFruitShade = ArcadeSprite(
+    width = 16,
+    height = 18,
+    data = "M12 5H13V7H15V10H16V13H14V16H11V18H5V16H11V14H13V11H14V8H12Z"
+)
+private val SnakeBonusLeaf = ArcadeSprite(
+    width = 16,
+    height = 18,
+    data = "M8 1H10V5H8Z M10 0H15V2H13V4H10Z M4 1H7V3H5V4H3V2H4Z"
+)
+private val SnakeBonusGlint = ArcadeSprite(
+    width = 16,
+    height = 18,
+    data = "M5 6H7V8H9V10H7V12H5V10H3V8H5Z M11 12H13V14H11Z"
+)
 
 private fun DrawScope.drawSnakeBackground(style: ArcadeStyle, width: Float, height: Float) {
     val count = (width * height / 17000f).toInt().coerceAtLeast(6)
@@ -288,7 +329,7 @@ private enum class SnakeDirection(
 }
 
 @Serializable
-private data class SnakeBonusFood(
+private data class SnakeBonusFruit(
     val cell: Int,
     var remaining: Float
 )
@@ -299,7 +340,7 @@ private class SnakeRun : ArcadeRun() {
     val previous = mutableListOf<Int>()
     var food = 0
         private set
-    var bonusFood: SnakeBonusFood? = null
+    var bonusFood: SnakeBonusFruit? = null
         private set
     var direction = SnakeDirection.Right
         private set
@@ -389,6 +430,6 @@ private class SnakeRun : ArcadeRun() {
         val cell = (0 until SnakeCells * SnakeCells).filterNot {
             it in body || it == food
         }.randomOrNull() ?: return
-        bonusFood = SnakeBonusFood(cell = cell, remaining = 8f)
+        bonusFood = SnakeBonusFruit(cell = cell, remaining = 8f)
     }
 }

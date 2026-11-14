@@ -262,11 +262,27 @@ internal data object BlockStackGame : ArcadeGameDefinition {
                     )
                 }
                 val holdLeft = 82f
+                val holdSize = Size(60f, run.topInset - 8f)
+                val holdColor = if (run.holdUsed) style.detailColor else style.accentColor
                 drawRect(
-                    style.detailColor.copy(alpha = if (run.holdUsed) 0.12f else 0.3f),
-                    Offset(holdLeft, 4f), Size(60f, run.topInset - 8f),
-                    style = Stroke(1f)
+                    color = style.accentColor.copy(alpha = if (run.holdUsed) 0.025f else 0.09f),
+                    topLeft = Offset(holdLeft, 4f),
+                    size = holdSize
                 )
+                drawRect(
+                    color = holdColor.copy(alpha = if (run.holdUsed) 0.3f else 0.8f),
+                    topLeft = Offset(holdLeft, 4f),
+                    size = holdSize,
+                    style = Stroke(1.5f)
+                )
+                for ((x, y) in listOf(
+                    holdLeft - 1f to 3f,
+                    holdLeft + 58f to 3f,
+                    holdLeft - 1f to run.topInset - 6f,
+                    holdLeft + 58f to run.topInset - 6f
+                )) {
+                    drawRect(holdColor, Offset(x, y), Size(3f, 3f))
+                }
                 val held = run.held
                 if (held != null) {
                     val shape = held.cells(0)
@@ -285,18 +301,30 @@ internal data object BlockStackGame : ArcadeGameDefinition {
                     )
                 } else {
                     val center = Offset(holdLeft + 30f, run.topInset / 2f)
+                    drawRect(
+                        color = style.accentColor.copy(alpha = 0.22f),
+                        topLeft = center - Offset(7f, 7f),
+                        size = Size(14f, 14f),
+                        style = Stroke(1f)
+                    )
                     for (side in listOf(-1f, 1f)) {
-                        val point = center + Offset(0f, side * 4f)
+                        val point = center + Offset(side * 16f, 0f)
                         drawLine(
                             style.accentColor,
-                            point - Offset(side * 8f, 0f),
-                            point + Offset(side * 8f, 0f),
+                            point - Offset(side * 5f, 0f),
+                            point + Offset(side * 5f, 0f),
                             1.5f
                         )
                         drawLine(
                             style.accentColor,
-                            point + Offset(side * 8f, 0f),
-                            point + Offset(side * 4f, -side * 4f),
+                            point + Offset(side * 5f, 0f),
+                            point + Offset(side * 2f, -3f),
+                            1.5f
+                        )
+                        drawLine(
+                            style.accentColor,
+                            point + Offset(side * 5f, 0f),
+                            point + Offset(side * 2f, 3f),
                             1.5f
                         )
                     }

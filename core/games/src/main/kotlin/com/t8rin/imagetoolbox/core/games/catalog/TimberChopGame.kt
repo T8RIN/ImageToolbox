@@ -309,6 +309,36 @@ internal data object TimberChopGame : ArcadeGameDefinition {
                     width = 42f * run.energy,
                     height = 4f
                 )
+                val flowX = run.width - 70f
+                val flowColor = if (run.frenzy > 0f) style.playerDetailColor else style.accentColor
+                pixelRect(
+                    color = style.detailColor.copy(alpha = 0.22f),
+                    x = flowX,
+                    y = clock.y - 2f,
+                    width = 56f,
+                    height = 4f
+                )
+                val flow = if (run.frenzy > 0f) run.frenzy / 4f else run.perfectChain % 8 / 8f
+                pixelRect(flowColor, flowX, clock.y - 2f, 56f * flow, 4f)
+                repeat(8) { index ->
+                    val lit = run.frenzy > 0f || index < run.perfectChain % 8
+                    pixelRect(
+                        color = if (lit) flowColor else style.detailColor.copy(alpha = 0.28f),
+                        x = flowX + index * 7f,
+                        y = clock.y + 5f,
+                        width = 5f,
+                        height = 2f
+                    )
+                }
+                if (run.flash > 0f) {
+                    val impact = Offset(center - run.side * 19f, base - segment / 2f)
+                    drawCircle(
+                        color = style.playerDetailColor.copy(alpha = run.flash * 0.65f),
+                        radius = 10f + (1f - run.flash) * 14f,
+                        center = impact,
+                        style = androidx.compose.ui.graphics.drawscope.Stroke(1.5f)
+                    )
+                }
                 run.effects.draw(
                     scope = this,
                     color = style.accentColor
@@ -385,13 +415,19 @@ private class TimberChopRun : ArcadeRun() {
     var cut = 0f
     var chops = 0
     var begun = false
+    var perfectChain = 0
+        private set
+    var frenzy = 0f
+        private set
+    var flash = 0f
+        private set
     private var sinceChop = 0f
     private var chain = 0
     var rest = 0f
         private set
 
     override fun isValid(): Boolean = super.isValid() &&
-            branches.isNotEmpty()
+            branches.isNotEmpty() && frenzy.isFinite() && flash.isFinite()
 
     override fun reset() {
         branches.clear()
@@ -404,6 +440,9 @@ private class TimberChopRun : ArcadeRun() {
         cut = 0f
         chops = 0
         begun = false
+        perfectChain = 0
+        frenzy = 0f
+        flash = 0f
         sinceChop = 0f
         chain = 0
         rest = 0f
@@ -421,8 +460,11 @@ private class TimberChopRun : ArcadeRun() {
     fun chop(side: Int) {
         if (cut > 0.72f) return
         this.side = side
+        val precise = begun && sinceChop in 0.14f..0.38f
         begun = true
         if (branches.first() == side) {
+            perfectChain = 0
+            chain = 0
             phase = ArcadePhase.Over
             return
         }
@@ -431,19 +473,28 @@ private class TimberChopRun : ArcadeRun() {
         chips += TimberChip(
             x = width / 2f,
             y = base - segment / 2f,
-            vx = -side * 170f,
-            vy = -90f,
+            vx = -side * if (frenzy > 0f) 230f else 170f,
+            vy = if (precise) -140f else -90f,
             spin = side * 300f
         )
         if (chips.size > 6) chips.removeAt(0)
         effects.burst(
             point = Offset(x = width / 2f - side * 18f, y = base - segment / 2f),
-            count = 7
+            count = if (precise) 12 else 7
         )
         cut = 1f
         chops++
-        chain = if (sinceChop < 0.45f) chain + 1 else 1
-        score += 1 + if (chain % 10 == 0) 5 else 0
+        chain = if (sinceChop < 0.48f) chain + 1 else 1
+        perfectChain = if (precise) perfectChain + 1 else 0
+        flash = if (precise) 1f else 0f
+        if (perfectChain > 0 && perfectChain % 8 == 0) {
+            frenzy = 4f
+            rest = maxOf(rest, 0.6f)
+            score += 15
+            effects.burst(Offset(width / 2f, base - segment / 2f), 20)
+        }
+        val reward = 1 + (if (chain % 10 == 0) 5 else 0) + if (precise) 2 else 0
+        score += reward * if (frenzy > 0f) 2 else 1
         sinceChop = 0f
         val bonus = chops % 25 == 0
         if (bonus) {
@@ -451,7 +502,12 @@ private class TimberChopRun : ArcadeRun() {
             score += 10
             effects.burst(Offset(width / 2f, base - segment / 2f), 14)
         }
-        energy = (energy + if (bonus) 0.25f else 0.065f).coerceAtMost(1f)
+        val gain = when {
+            bonus -> 0.25f
+            precise -> 0.09f
+            else -> 0.065f
+        }
+        energy = (energy + gain).coerceAtMost(1f)
         if (branches.first() == side) {
             cut = 0f
             phase = ArcadePhase.Over
@@ -461,11 +517,14 @@ private class TimberChopRun : ArcadeRun() {
     override fun advance(seconds: Float) {
         effects.advance(seconds)
         cut = (cut - seconds * 9f).coerceAtLeast(0f)
+        flash = (flash - seconds * 4f).coerceAtLeast(0f)
+        frenzy = (frenzy - seconds).coerceAtLeast(0f)
         sinceChop += seconds
         rest = (rest - seconds).coerceAtLeast(0f)
         if (begun && rest == 0f) {
-            energy =
-                (energy - seconds * (0.11f + 0.13f * chops / (chops + 120f))).coerceAtLeast(0f)
+            val drain = (0.11f + 0.13f * chops / (chops + 120f)) *
+                    if (frenzy > 0f) 0.45f else 1f
+            energy = (energy - seconds * drain).coerceAtLeast(0f)
             if (energy == 0f) phase = ArcadePhase.Over
         }
         for (chip in chips) {

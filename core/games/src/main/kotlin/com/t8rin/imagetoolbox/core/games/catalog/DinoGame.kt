@@ -116,7 +116,8 @@ internal data object DinoGame : ArcadeGameDefinition {
 
                 val dino = when {
                     run.phase == ArcadePhase.Over -> DinoCrashed
-                    run.ducking -> DinoDucking
+                    run.ducking && (distance / 24f).toInt() % 2 == 0 -> DinoDuckingLeft
+                    run.ducking -> DinoDuckingRight
                     run.phase == ArcadePhase.Ready || run.jumpHeight > 0f -> DinoStanding
                     (distance / 24f).toInt() % 2 == 0 -> DinoRunningLeft
                     else -> DinoRunningRight
@@ -185,7 +186,7 @@ private class DinoRun : ArcadeRun() {
     fun jump(): Boolean {
         if (phase != ArcadePhase.Running || isJumping || ducking) return false
 
-        jumpSpeed = 424f
+        jumpSpeed = 470f
         released = false
         fastFalling = false
         isJumping = true
@@ -229,7 +230,7 @@ private class DinoRun : ArcadeRun() {
         val nextDistance = distance + step
 
         if (isJumping) {
-            if (released && jumpHeight >= 34f && jumpSpeed > 150f) jumpSpeed = 150f
+            if (released && jumpHeight >= 58f && jumpSpeed > 250f) jumpSpeed = 250f
             val gravity = if (fastFalling) 3300f else 1100f
             jumpHeight = (jumpHeight + jumpSpeed * seconds - gravity * 0.5f * seconds * seconds)
                 .coerceAtLeast(0f)
@@ -277,7 +278,7 @@ private class DinoRun : ArcadeRun() {
             bottom = -type.altitude - 1f
         )
         if (ducking) {
-            return bounds.overlaps(Rect(DinoX + 6f, -23f, DinoX + 42f, -4f))
+            return bounds.overlaps(Rect(DinoX + 5f, -28f, DinoX + 56f, -3f))
         }
 
         return bounds.overlaps(
@@ -347,11 +348,20 @@ private val DinoCrashed = ArcadeSprite(
     data = "$DinoBody M25 5V11H31V5Z M27 7H29V9H27Z M13 39H19V42H17V44H21V47H13Z M22 39H28V44H31V47H24V43H22Z"
 )
 
-private val DinoDucking = ArcadeSprite(
-    width = 48,
-    height = 25,
-    data = "M18 2H35V4H40V7H44V14H35V17H40V20H30V23H12V21H7V18H3V14H1V8H4V13H8V16H14V13H18V10H16V4H18Z " +
-            "M35 6H38V9H35Z M12 21H18V24H12Z M24 21H31V24H24Z"
+private const val DinoDuckBody =
+    "M32 0H55V2H59V14H48V17H55V20H44V24H18V22H13V19H9V16H5V12H2V6H0V13H4V18H8V21H13V24H31V20H29V14H31V6H32Z"
+private const val DinoDuckEye = "M53 4H56V7H53Z"
+
+private val DinoDuckingLeft = ArcadeSprite(
+    width = 59,
+    height = 30,
+    data = "$DinoDuckBody $DinoDuckEye M20 23H28V27H25V30H18V27H20Z M36 23H43V26H46V30H39V27H36Z"
+)
+
+private val DinoDuckingRight = ArcadeSprite(
+    width = 59,
+    height = 30,
+    data = "$DinoDuckBody $DinoDuckEye M20 23H28V26H31V29H24V27H20Z M36 23H43V28H40V30H33V27H36Z"
 )
 
 private val DinoSmallCactus = ArcadeSprite(

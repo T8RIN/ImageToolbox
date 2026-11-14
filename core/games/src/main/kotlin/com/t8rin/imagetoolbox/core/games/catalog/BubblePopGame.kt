@@ -70,7 +70,8 @@ internal data object BubblePopGame : ArcadeGameDefinition {
                 run = run,
                 lightFeedback = true,
                 onTap = run::pop,
-                onSwipe = { if (it.y < 0f && abs(it.y) > abs(it.x)) run.raise() }
+                onSwipe = { if (it.y < 0f && abs(it.y) > abs(it.x)) run.raise() },
+                swipeOnDrag = true
             ) {
                 val cell = run.cell
                 val origin = run.origin
@@ -97,8 +98,23 @@ internal data object BubblePopGame : ArcadeGameDefinition {
                         center = Offset(x = x + radius + 6f, y = y - radius * 0.4f)
                     )
                 }
-                pixelRect(style.detailColor.copy(alpha = 0.2f), 14f, run.topInset - 5f, 70f, 2f)
-                pixelRect(style.accentColor, 14f, run.topInset - 5f, 70f * run.charge / 18f, 2f)
+                val chargeWidth = minOf(70f, run.width * 0.24f)
+                val chargeX = 14f
+                val chargeY = run.topInset / 2f - 2f
+                pixelRect(
+                    style.detailColor.copy(alpha = 0.25f),
+                    chargeX,
+                    chargeY,
+                    chargeWidth,
+                    4f
+                )
+                pixelRect(
+                    if (run.charge >= 18) style.playerDetailColor else style.accentColor,
+                    chargeX,
+                    chargeY,
+                    chargeWidth * run.charge / 18f,
+                    4f
+                )
                 val danger =
                     (run.board.size - run.columns until run.board.size).any { run.board[it] >= 0 }
                 if (danger) {
@@ -265,6 +281,7 @@ private class BubblePopRun : ArcadeRun() {
     var combo = 0
     private var comboTime = 0f
     private var advanceRow = false
+    private var raiseTime = 0f
     private var received = 0
 
     fun center(index: Int) = origin + Offset(
@@ -288,6 +305,7 @@ private class BubblePopRun : ArcadeRun() {
         charge = 0
         comboTime = 0f
         advanceRow = false
+        raiseTime = 0f
         received = 0
         repeat(4) { row ->
             fillNext()
@@ -381,6 +399,7 @@ private class BubblePopRun : ArcadeRun() {
     }
 
     fun raise() {
+        raiseTime = 0.75f
         advanceRow = true
         redraw()
     }
@@ -398,6 +417,7 @@ private class BubblePopRun : ArcadeRun() {
         bursts.removeAll { it.life <= 0f }
         for (index in fall.indices) fall[index] = (fall[index] + seconds * 10f).coerceAtMost(0f)
         comboTime -= seconds
+        raiseTime = (raiseTime - seconds).coerceAtLeast(0f)
         if (comboTime <= 0f) combo = 0
         if (board.none { it >= 0 }) {
             advanceRow = true
@@ -407,9 +427,11 @@ private class BubblePopRun : ArcadeRun() {
             rise = rise.coerceAtMost(0.5f)
         }
         val speed = rows / 6f / maxOf(4.2f, 8f - score * 0.0025f)
-        rise += seconds * if (advanceRow && comboTime < 1.4f && fall.none { it < 0f }) {
-            maxOf(0.85f, speed)
-        } else speed
+        rise += seconds * when {
+            raiseTime > 0f -> 3.2f
+            advanceRow && comboTime < 1.4f && fall.none { it < 0f } -> maxOf(0.85f, speed)
+            else -> speed
+        }
         if (rise >= 1f) {
             if ((board.size - columns until board.size).any { board[it] >= 0 }) {
                 phase = ArcadePhase.Over

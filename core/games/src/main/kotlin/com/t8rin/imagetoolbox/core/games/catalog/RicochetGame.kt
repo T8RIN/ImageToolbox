@@ -80,8 +80,8 @@ internal data object RicochetGame : ArcadeGameDefinition {
             ArcadeField(
                 run = run,
                 lightFeedback = true,
-                onPress = run::begin,
-                onDrag = run::drag,
+                onPress = run::aim,
+                onDrag = run::aim,
                 onTap = { run.shoot() },
                 onSwipe = { run.shoot() },
                 onRelease = run::stopInput
@@ -456,8 +456,6 @@ private class RicochetRun : ArcadeRun() {
     @Transient
     val beams = mutableListOf<RicochetBeam>()
 
-    @Transient
-    private var dragOrigin: Offset? = null
     var launchX = width / 2f
     var direction: ArcadeOffset = Offset(x = 0.25f, y = -0.97f)
     var ballCount = 1
@@ -481,7 +479,6 @@ private class RicochetRun : ArcadeRun() {
         balls.clear()
         effects.clear()
         beams.clear()
-        dragOrigin = null
         launchX = width / 2f
         direction = Offset(x = 0.25f, y = -0.97f)
         ballCount = 1
@@ -519,26 +516,6 @@ private class RicochetRun : ArcadeRun() {
         }
     }
 
-    fun begin(point: Offset) {
-        if (flying) {
-            aim(point)
-            return
-        }
-        if (shift > 0f) return
-        dragOrigin = point
-        aiming = false
-    }
-
-    fun drag(point: Offset) {
-        val origin = dragOrigin ?: return
-        val pull = origin - point
-        if (pull.y >= -3f || pull.getDistance() < 6f) {
-            aiming = false
-            return
-        }
-        aim(Offset(launchX, launchY) + pull)
-    }
-
     fun aim(point: Offset) {
         if (flying) {
             if ((point - recallPoint).getDistance() < 23f) recall()
@@ -567,7 +544,6 @@ private class RicochetRun : ArcadeRun() {
 
     override fun stopInput() {
         aiming = false
-        dragOrigin = null
     }
 
     fun recall() {
