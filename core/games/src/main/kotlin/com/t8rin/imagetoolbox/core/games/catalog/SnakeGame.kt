@@ -146,6 +146,23 @@ private fun DrawScope.drawSnakeScene(run: SnakeRun, style: ArcadeStyle, bodyPath
             }
         }
     }
+    run.bonusFood?.let { bonus ->
+        val food = center(bonus.cell)
+        val pulse = 1f + run.eatFlash * 0.08f
+        pixelCircle(
+            color = style.accentColor.copy(alpha = (bonus.remaining / 8f).coerceIn(0.25f, 0.8f)),
+            radius = cell * 0.48f * pulse,
+            center = food,
+            style = Stroke(1.5f)
+        )
+        translate(left = food.x - cell * 0.5f, top = food.y - cell * 0.59f) {
+            scale(scale = cell / 14f, pivot = Offset.Zero) {
+                drawArcadeSprite(SnakeFood, style.playerDetailColor, 0f, 0f)
+                drawArcadeSprite(SnakeFoodShade, style.accentColor, 0f, 0f)
+                drawArcadeSprite(SnakeLeaf, style.playerColor, 0f, 0f)
+            }
+        }
+    }
     val head = position(0)
     bodyPath.rewind()
     bodyPath.moveTo(head.x, head.y)
@@ -271,10 +288,18 @@ private enum class SnakeDirection(
 }
 
 @Serializable
+private data class SnakeBonusFood(
+    val cell: Int,
+    var remaining: Float
+)
+
+@Serializable
 private class SnakeRun : ArcadeRun() {
     val body = mutableListOf<Int>()
     val previous = mutableListOf<Int>()
     var food = 0
+        private set
+    var bonusFood: SnakeBonusFood? = null
         private set
     var direction = SnakeDirection.Right
         private set
@@ -283,10 +308,12 @@ private class SnakeRun : ArcadeRun() {
     val progress get() = (elapsed / interval).coerceIn(0f, 1f)
     private val interval get() = (0.16f / (1f + score * 0.035f)).coerceAtLeast(0.075f)
     private var elapsed = 0f
+    private var eaten = 0
     private val turns: ArcadeDeque<SnakeDirection> = ArrayDeque()
 
     override fun isValid(): Boolean = super.isValid() &&
-            body.isNotEmpty() && body.all { it in 0 until SnakeCells * SnakeCells } && previous.isNotEmpty()
+            body.isNotEmpty() && body.all { it in 0 until SnakeCells * SnakeCells } &&
+            previous.isNotEmpty() && (bonusFood?.cell ?: 0) in 0 until SnakeCells * SnakeCells
 
     override fun reset() {
         body.clear()
@@ -295,7 +322,9 @@ private class SnakeRun : ArcadeRun() {
         previous += body
         direction = SnakeDirection.Right
         food = SnakeCells * 10 + 14
+        bonusFood = null
         elapsed = 0f
+        eaten = 0
         eatFlash = 0f
         turns.clear()
     }
@@ -312,6 +341,10 @@ private class SnakeRun : ArcadeRun() {
 
     override fun advance(seconds: Float) {
         eatFlash = (eatFlash - seconds * 4f).coerceAtLeast(0f)
+        bonusFood?.let {
+            it.remaining -= seconds
+            if (it.remaining <= 0f) bonusFood = null
+        }
         elapsed += seconds
         if (elapsed < interval) return
         elapsed -= interval
@@ -320,7 +353,9 @@ private class SnakeRun : ArcadeRun() {
         val x = head % SnakeCells + direction.dx
         val y = head / SnakeCells + direction.dy
         val next = y * SnakeCells + x
-        val growing = next == food
+        val eatingFood = next == food
+        val eatingBonus = next == bonusFood?.cell
+        val growing = eatingFood || eatingBonus
         val occupied = if (growing) body else body.dropLast(1)
         if (x !in 0 until SnakeCells || y !in 0 until SnakeCells || next in occupied) {
             previous.clear()
@@ -333,11 +368,27 @@ private class SnakeRun : ArcadeRun() {
         body.add(0, next)
         if (growing) {
             eatFlash = 1f
-            score++
-            food = (0 until SnakeCells * SnakeCells).filterNot { it in body }.randomOrNull() ?: -1
-            if (food == -1) phase = ArcadePhase.Over
+            if (eatingBonus) {
+                score += 5
+                bonusFood = null
+            }
+            if (eatingFood) {
+                score++
+                eaten++
+                food =
+                    (0 until SnakeCells * SnakeCells).filterNot { it in body }.randomOrNull() ?: -1
+                if (food == -1) phase = ArcadePhase.Over
+                else if (eaten % 5 == 0) spawnBonus()
+            }
         } else {
             body.removeAt(body.lastIndex)
         }
+    }
+
+    private fun spawnBonus() {
+        val cell = (0 until SnakeCells * SnakeCells).filterNot {
+            it in body || it == food
+        }.randomOrNull() ?: return
+        bonusFood = SnakeBonusFood(cell = cell, remaining = 8f)
     }
 }

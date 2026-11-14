@@ -67,6 +67,7 @@ internal data object DinoGame : ArcadeGameDefinition {
                 lightFeedback = true,
                 worldSize = Size(width = 320f, height = 210f),
                 onPress = { run.jump() },
+                onDrag = { run.drag(it.y) },
                 onRelease = run::releaseJump
             ) {
                 val width = run.width
@@ -109,12 +110,13 @@ internal data object DinoGame : ArcadeGameDefinition {
                         sprite = sprite,
                         x = obstacle.x,
                         y = ground - obstacle.type.altitude - sprite.height,
-                        tint = if (obstacle.type == ObstacleType.Bird) style.accentColor else style.obstacleColor
+                        tint = if (obstacle.type.isBird) style.accentColor else style.obstacleColor
                     )
                 }
 
                 val dino = when {
                     run.phase == ArcadePhase.Over -> DinoCrashed
+                    run.ducking -> DinoDucking
                     run.phase == ArcadePhase.Ready || run.jumpHeight > 0f -> DinoStanding
                     (distance / 24f).toInt() % 2 == 0 -> DinoRunningLeft
                     else -> DinoRunningRight
@@ -154,6 +156,8 @@ private class DinoRun : ArcadeRun() {
         private set
     var jumpHeight = 0f
         private set
+    var ducking = false
+        private set
     val obstacles = mutableListOf<DinoObstacle>()
 
     private var isJumping = false
@@ -165,6 +169,7 @@ private class DinoRun : ArcadeRun() {
         jumpHeight = 0f
         jumpSpeed = 0f
         isJumping = false
+        ducking = false
         released = false
         obstacles.clear()
         distance = 0f
@@ -174,7 +179,7 @@ private class DinoRun : ArcadeRun() {
     }
 
     fun jump(): Boolean {
-        if (phase != ArcadePhase.Running || isJumping) return false
+        if (phase != ArcadePhase.Running || isJumping || ducking) return false
 
         jumpSpeed = 424f
         released = false
@@ -182,8 +187,18 @@ private class DinoRun : ArcadeRun() {
         return true
     }
 
+    fun drag(y: Float) {
+        if (y < height - 58f) return
+        ducking = true
+        released = true
+        isJumping = false
+        jumpHeight = 0f
+        jumpSpeed = 0f
+    }
+
     fun releaseJump() {
         released = true
+        ducking = false
     }
 
     override fun advance(seconds: Float) {
@@ -224,11 +239,12 @@ private class DinoRun : ArcadeRun() {
     }
 
     private fun addObstacle(nextDistance: Float, speed: Float) {
-        val type = when (Random.nextInt(if (score >= 200) 6 else if (score >= 80) 5 else 3)) {
+        val type = when (Random.nextInt(if (score >= 200) 7 else if (score >= 80) 5 else 3)) {
             0 -> ObstacleType.SmallCactus
             1 -> ObstacleType.LargeCactus
             2 -> ObstacleType.CactusGroup
             5 -> ObstacleType.HighBird
+            6 -> ObstacleType.DuckBird
             else -> ObstacleType.Bird
         }
         obstacles += DinoObstacle(x = nextObstacle - nextDistance, type = type)
@@ -243,6 +259,9 @@ private class DinoRun : ArcadeRun() {
             right = obstacle.x + type.width - 3f,
             bottom = -type.altitude - 1f
         )
+        if (ducking) {
+            return bounds.overlaps(Rect(DinoX + 6f, -23f, DinoX + 42f, -4f))
+        }
 
         return bounds.overlaps(
             Rect(
@@ -271,13 +290,15 @@ private enum class ObstacleType(
     LargeCactus(DinoLargeCactus),
     CactusGroup(DinoCactusGroup),
     Bird(DinoBirdUp, altitude = 8f),
-    HighBird(DinoBirdUp, altitude = 62f);
+    HighBird(DinoBirdUp, altitude = 62f),
+    DuckBird(DinoBirdUp, altitude = 32f);
 
     val width: Float get() = sprite.width.toFloat()
     val height: Float get() = sprite.height.toFloat()
+    val isBird: Boolean get() = this == Bird || this == HighBird || this == DuckBird
 
     fun sprite(distance: Float): ArcadeSprite =
-        if ((this == Bird || this == HighBird) && (distance / 36f).toInt() % 2 == 1) {
+        if (isBird && (distance / 36f).toInt() % 2 == 1) {
             DinoBirdDown
         } else {
             sprite
@@ -307,6 +328,13 @@ private val DinoRunningRight = ArcadeSprite(
 private val DinoCrashed = ArcadeSprite(
     width = 44, height = 47,
     data = "$DinoBody M25 5V11H31V5Z M27 7H29V9H27Z M13 39H19V42H17V44H21V47H13Z M22 39H28V44H31V47H24V43H22Z"
+)
+
+private val DinoDucking = ArcadeSprite(
+    width = 48,
+    height = 25,
+    data = "M18 2H35V4H40V7H44V14H35V17H40V20H30V23H12V21H7V18H3V14H1V8H4V13H8V16H14V13H18V10H16V4H18Z " +
+            "M35 6H38V9H35Z M12 21H18V24H12Z M24 21H31V24H24Z"
 )
 
 private val DinoSmallCactus = ArcadeSprite(

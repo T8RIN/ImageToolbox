@@ -230,6 +230,7 @@ private class SimonSaysRun : ArcadeRun() {
     var input = 0
     var playback = 0
     private var timer = 0.75f
+    private var responseRemaining = ResponseSeconds
     private var gap = true
     private var completed = false
 
@@ -237,7 +238,9 @@ private class SimonSaysRun : ArcadeRun() {
             sequence.isNotEmpty() &&
             sequence.all { it in 0..3 } &&
             input in 0..sequence.size &&
-            playback in 0..sequence.size
+            playback in 0..sequence.size &&
+            responseRemaining.isFinite() &&
+            responseRemaining in 0f..ResponseSeconds
 
     override fun reset() {
         sequence.clear()
@@ -247,6 +250,7 @@ private class SimonSaysRun : ArcadeRun() {
         input = 0
         playback = 0
         timer = 0.75f
+        responseRemaining = ResponseSeconds
         gap = true
         completed = false
         isAnimating = true
@@ -267,6 +271,7 @@ private class SimonSaysRun : ArcadeRun() {
             redraw()
             return
         }
+        responseRemaining = ResponseSeconds
         input++
         if (input == sequence.size) {
             score++
@@ -281,11 +286,19 @@ private class SimonSaysRun : ArcadeRun() {
     }
 
     override fun advance(seconds: Float) {
+        if (accepting) {
+            responseRemaining -= seconds
+            if (responseRemaining <= 0f) {
+                responseRemaining = 0f
+                phase = ArcadePhase.Over
+                return
+            }
+        }
         timer -= seconds
         if (timer > 0f) return
         if (accepting) {
             lit = -1
-            isAnimating = false
+            isAnimating = true
             return
         }
         if (!gap) {
@@ -304,7 +317,8 @@ private class SimonSaysRun : ArcadeRun() {
             accepting = true
             input = 0
             lit = -1
-            isAnimating = false
+            responseRemaining = ResponseSeconds
+            isAnimating = true
         } else {
             lit = sequence[playback]
             timer = maxOf(0.28f, 0.55f - score * 0.012f)
@@ -312,3 +326,5 @@ private class SimonSaysRun : ArcadeRun() {
         }
     }
 }
+
+private const val ResponseSeconds = 5f

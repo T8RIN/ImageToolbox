@@ -263,6 +263,14 @@ internal data object DoodleHopperGame : ArcadeGameDefinition {
                                 height = 11f
                             )
                         }
+                        if (kind == PlatformKind.Trampoline) {
+                            pixelRect(style.accentColor, centerX - 11f, y - 10f, 22f, 3f)
+                            pixelRect(style.playerDetailColor, centerX - 9f, y - 9f, 18f, 1f)
+                            pixelRect(style.accentColor, centerX - 8f, y - 7f, 3f, 7f)
+                            pixelRect(style.accentColor, centerX + 5f, y - 7f, 3f, 7f)
+                            pixelRect(style.accentColor, centerX - 10f, y - 2f, 7f, 2f)
+                            pixelRect(style.accentColor, centerX + 3f, y - 2f, 7f, 2f)
+                        }
                         if (platform.jetpack) {
                             pixelRect(style.accentColor, centerX - 8f, y - 22f, 6f, 15f)
                             pixelRect(style.accentColor, centerX + 2f, y - 22f, 6f, 15f)
@@ -543,7 +551,7 @@ private fun DrawScope.drawDoodleBackground(style: ArcadeStyle, width: Float, hei
 }
 
 @Serializable
-private enum class PlatformKind { Standard, Spring, Crumbling, Moving, SingleUse }
+private enum class PlatformKind { Standard, Spring, Crumbling, Moving, SingleUse, Trampoline }
 
 @Serializable
 private enum class MonsterKind(
@@ -838,8 +846,11 @@ private class DoodleHopperRun : ArcadeRun() {
                     landing.breakTime = 0.001f
                 } else {
                     y = landing.height
-                    velocity =
-                        if (landing.kind == PlatformKind.Spring) JumpVelocity * 1.4f else JumpVelocity
+                    velocity = when (landing.kind) {
+                        PlatformKind.Spring -> JumpVelocity * 1.4f
+                        PlatformKind.Trampoline -> JumpVelocity * 1.75f
+                        else -> JumpVelocity
+                    }
                     if (landing.kind == PlatformKind.SingleUse) landing.breakTime = 0.001f
                 }
             }
@@ -882,6 +893,7 @@ private class DoodleHopperRun : ArcadeRun() {
             val kind = when {
                 nearGate || holeRow || row < 5 || holes.any { abs(it.height - lastHeight) < 120f } -> PlatformKind.Standard
                 row % 13 == 8 -> PlatformKind.SingleUse
+                row % 17 == 12 -> PlatformKind.Trampoline
                 row % 9 == 6 -> PlatformKind.Spring
                 row % 5 == 3 -> PlatformKind.Moving
                 else -> PlatformKind.Standard
