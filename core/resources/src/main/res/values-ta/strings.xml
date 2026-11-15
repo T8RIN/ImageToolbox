@@ -8129,4 +8129,6 @@
     <string name="help_tip_loading_game_choice">அமைப்பில் பிடித்தவைகளில் இருந்து ஒரு கேம், ரேண்டம் கேம் அல்லது சீரற்ற கேமை தேர்வு செய்யவும். அசிஸ்டண்ட் பதிலைத் தயாரிக்கும் போது நீங்கள் கேமைத் திறக்கலாம்.</string>
     <string name="arcade_hilldrive">ஹில் டிரைவ்</string>
     <string name="arcade_hilldrive_sub">மலைகள் மீது வாகனம் ஓட்டவும், நாணயங்கள் மற்றும் எரிபொருளை சேகரிக்கவும், போனஸ் புள்ளிகளுக்கு நிலத்தை புரட்டவும்</string>
+    <string name="remember_gallery_display_settings">கேலரி அமைப்புகளை நினைவில் கொள்க</string>
+    <string name="remember_gallery_display_settings_sub">கேலரி மற்றும் உட்பொதிக்கப்பட்ட பிக்கருக்கான வருகைகளுக்கு இடையே குழுவாக்குதல் மற்றும் வரிசைப்படுத்துதல் விருப்பங்களைச் சேமிக்கவும்.</string>
 </resources>

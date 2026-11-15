@@ -8133,4 +8133,6 @@
     <string name="help_tip_loading_game_choice">اختر لعبة واحدة أو لعبة عشوائية أو لعبة عشوائية من المفضلة في الإعداد. يمكنك أيضًا فتح لعبة بينما يقوم المساعد بإعداد الرد.</string>
     <string name="arcade_hilldrive">هيل درايف</string>
     <string name="arcade_hilldrive_sub">قم بالقيادة فوق التلال، وجمع العملات المعدنية والوقود، وقلب الأرض للحصول على نقاط إضافية</string>
+    <string name="remember_gallery_display_settings">تذكر إعدادات المعرض</string>
+    <string name="remember_gallery_display_settings_sub">احفظ خيارات التجميع والفرز بين زيارات المعرض والمنتقي المضمن.</string>
 </resources>

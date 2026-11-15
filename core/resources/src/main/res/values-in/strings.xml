@@ -8128,4 +8128,6 @@
     <string name="help_tip_loading_game_choice">Pilih satu game, game acak, atau game acak dari Favorit di pengaturan. Anda juga bisa membuka game saat Asisten sedang menyiapkan balasan.</string>
     <string name="arcade_hilldrive">Drive Bukit</string>
     <string name="arcade_hilldrive_sub">Berkendara melintasi bukit, kumpulkan koin dan bahan bakar, dan mendaratkan lompatan untuk mendapatkan poin bonus</string>
+    <string name="remember_gallery_display_settings">Ingat pengaturan galeri</string>
+    <string name="remember_gallery_display_settings_sub">Simpan opsi pengelompokan dan pengurutan antara kunjungan ke galeri dan alat pilih yang disematkan.</string>
 </resources>

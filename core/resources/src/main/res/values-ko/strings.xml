@@ -8128,4 +8128,6 @@
     <string name="help_tip_loading_game_choice">설정의 즐겨찾기에서 하나의 게임, 임의 게임 또는 임의 게임을 선택하십시오. 어시스턴트가 답장을 준비하는 동안 게임을 열 수도 있습니다.</string>
     <string name="arcade_hilldrive">힐 드라이브</string>
     <string name="arcade_hilldrive_sub">언덕을 넘어 운전하고, 동전과 연료를 모으고, 땅을 뒤집어 보너스 포인트를 획득하세요</string>
+    <string name="remember_gallery_display_settings">갤러리 설정 기억</string>
+    <string name="remember_gallery_display_settings_sub">갤러리 방문과 내장된 선택기 사이에 그룹화 및 정렬 옵션을 저장합니다.</string>
 </resources>

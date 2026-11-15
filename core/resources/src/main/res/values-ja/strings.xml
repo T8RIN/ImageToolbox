@@ -8128,4 +8128,6 @@
     <string name="help_tip_loading_game_choice">設定のお気に入りから 1 つのゲーム、ランダム ゲーム、またはランダム ゲームを選択します。アシスタントが返信を準備している間にゲームを開くこともできます。</string>
     <string name="arcade_hilldrive">ヒルドライブ</string>
     <string name="arcade_hilldrive_sub">丘を越えてドライブし、コインと燃料を集め、フリップを着地してボーナスポイントを獲得しましょう</string>
+    <string name="remember_gallery_display_settings">ギャラリー設定を記憶する</string>
+    <string name="remember_gallery_display_settings_sub">ギャラリーと埋め込みピッカーへのアクセスの間に、グループ化と並べ替えのオプションを保存します。</string>
 </resources>

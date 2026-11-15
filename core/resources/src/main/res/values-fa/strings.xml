@@ -8129,4 +8129,6 @@
     <string name="help_tip_loading_game_choice">یک بازی، یک بازی تصادفی یا یک بازی تصادفی را از Favorites در تنظیمات انتخاب کنید. همچنین می‌توانید زمانی که «دستیار» در حال آماده‌سازی پاسخ است، بازی را باز کنید.</string>
     <string name="arcade_hilldrive">هیل درایو</string>
     <string name="arcade_hilldrive_sub">بر فراز تپه ها رانندگی کنید، سکه ها و سوخت جمع آوری کنید، و برای امتیازهای جایزه زمین بپردازید</string>
+    <string name="remember_gallery_display_settings">تنظیمات گالری را به خاطر بسپارید</string>
+    <string name="remember_gallery_display_settings_sub">گزینه های گروه بندی و مرتب سازی را بین بازدیدهای گالری و انتخابگر تعبیه شده ذخیره کنید.</string>
 </resources>

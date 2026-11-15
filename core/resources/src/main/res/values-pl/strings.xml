@@ -8131,4 +8131,6 @@
     <string name="help_tip_loading_game_choice">Wybierz jedną grę, grę losową lub grę losową z Ulubionych w ustawieniach. Możesz też otworzyć grę, gdy Asystent przygotowuje odpowiedź.</string>
     <string name="arcade_hilldrive">Napęd na wzgórze</string>
     <string name="arcade_hilldrive_sub">Jedź po wzgórzach, zbieraj monety i paliwo oraz ląduj, aby zdobyć dodatkowe punkty</string>
+    <string name="remember_gallery_display_settings">Zapamiętaj ustawienia galerii</string>
+    <string name="remember_gallery_display_settings_sub">Zapisz opcje grupowania i sortowania pomiędzy wizytami w galerii i osadzonym selektorem.</string>
 </resources>

@@ -8129,4 +8129,6 @@
     <string name="help_tip_loading_game_choice">Trieu un joc, un joc aleatori o un joc aleatori de Preferits a la configuració. També pots obrir un joc mentre l\'Assistent està preparant una resposta.</string>
     <string name="arcade_hilldrive">Hill Drive</string>
     <string name="arcade_hilldrive_sub">Conduïu per turons, recolliu monedes i combustible i aterritzeu per obtenir punts de bonificació</string>
+    <string name="remember_gallery_display_settings">Recorda la configuració de la galeria</string>
+    <string name="remember_gallery_display_settings_sub">Desa les opcions d\'agrupació i ordenació entre les visites a la galeria i el selector incrustat.</string>
 </resources>

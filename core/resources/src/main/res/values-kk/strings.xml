@@ -8129,4 +8129,6 @@
     <string name="help_tip_loading_game_choice">Параметрдегі Таңдаулылардан бір ойынды, кездейсоқ ойынды немесе кездейсоқ ойынды таңдаңыз. Assistant жауап дайындап жатқанда, ойынды ашуға болады.</string>
     <string name="arcade_hilldrive">Hill Drive</string>
     <string name="arcade_hilldrive_sub">Төбеден өтіп, монеталар мен жанармай жинаңыз және бонустық ұпайлар үшін жер аударыңыз</string>
+    <string name="remember_gallery_display_settings">Галерея параметрлерін есте сақтаңыз</string>
+    <string name="remember_gallery_display_settings_sub">Галереяға бару мен ендірілген таңдау құралы арасында топтау және сұрыптау опцияларын сақтаңыз.</string>
 </resources>

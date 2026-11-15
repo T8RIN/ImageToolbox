@@ -8129,4 +8129,6 @@
     <string name="help_tip_loading_game_choice">Valitse asetuksista yksi peli, satunnainen peli tai satunnainen peli suosikeista. Voit myös avata pelin, kun Assistant valmistelee vastausta.</string>
     <string name="arcade_hilldrive">Hill Drive</string>
     <string name="arcade_hilldrive_sub">Aja kukkuloiden yli, kerää kolikoita ja polttoainetta ja laskeudu käännät bonuspisteitä varten</string>
+    <string name="remember_gallery_display_settings">Muista gallerian asetukset</string>
+    <string name="remember_gallery_display_settings_sub">Tallenna ryhmittely- ja lajitteluvaihtoehdot galleriakäyntien ja upotetun poimijan välillä.</string>
 </resources>

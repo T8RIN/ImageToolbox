@@ -8129,4 +8129,6 @@
     <string name="help_tip_loading_game_choice">Ayarlardaki Favoriler\'den bir oyun, rastgele bir oyun veya rastgele bir oyun seçin. Asistan yanıt hazırlarken de bir oyun açabilirsiniz.</string>
     <string name="arcade_hilldrive">Tepe Sürüşü</string>
     <string name="arcade_hilldrive_sub">Tepelerin üzerinden geçin, para ve yakıt toplayın ve bonus puanlar için dönüşler yapın</string>
+    <string name="remember_gallery_display_settings">Galeri ayarlarını hatırla</string>
+    <string name="remember_gallery_display_settings_sub">Galeriye ve yerleşik seçiciye yapılan ziyaretler arasındaki gruplandırma ve sıralama seçeneklerini kaydedin.</string>
 </resources>

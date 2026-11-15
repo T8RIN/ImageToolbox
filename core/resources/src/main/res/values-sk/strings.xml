@@ -8131,4 +8131,6 @@
     <string name="help_tip_loading_game_choice">Vyberte si jednu hru, náhodnú hru alebo náhodnú hru z obľúbených v nastavení. Môžete tiež otvoriť hru, keď Asistent pripravuje odpoveď.</string>
     <string name="arcade_hilldrive">Hill Drive</string>
     <string name="arcade_hilldrive_sub">Jazdite cez kopce, zbierajte mince a palivo a získavajte bonusové body</string>
+    <string name="remember_gallery_display_settings">Zapamätajte si nastavenia galérie</string>
+    <string name="remember_gallery_display_settings_sub">Uložte možnosti zoskupovania a triedenia medzi návštevami galérie a vloženým výberom.</string>
 </resources>

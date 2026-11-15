@@ -8129,4 +8129,6 @@
     <string name="help_tip_loading_game_choice">సెట్టింగ్‌లో ఇష్టమైన వాటి నుండి ఒక గేమ్, యాదృచ్ఛిక గేమ్ లేదా యాదృచ్ఛిక గేమ్‌ని ఎంచుకోండి. అసిస్టెంట్ ప్రత్యుత్తరాన్ని సిద్ధం చేస్తున్నప్పుడు మీరు గేమ్‌ను కూడా తెరవవచ్చు.</string>
     <string name="arcade_hilldrive">హిల్ డ్రైవ్</string>
     <string name="arcade_hilldrive_sub">కొండలపై డ్రైవ్ చేయండి, నాణేలు మరియు ఇంధనాన్ని సేకరించండి మరియు బోనస్ పాయింట్ల కోసం ల్యాండ్ ఫ్లిప్ చేయండి</string>
+    <string name="remember_gallery_display_settings">గ్యాలరీ సెట్టింగ్‌లను గుర్తుంచుకోండి</string>
+    <string name="remember_gallery_display_settings_sub">గ్యాలరీ మరియు ఎంబెడెడ్ పికర్ సందర్శనల మధ్య సమూహ మరియు క్రమబద్ధీకరణ ఎంపికలను సేవ్ చేయండి.</string>
 </resources>

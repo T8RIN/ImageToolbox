@@ -8130,4 +8130,6 @@
     <string name="help_tip_loading_game_choice">Alegeți un joc, un joc aleatoriu sau un joc aleatoriu din Favorite în setare. De asemenea, puteți deschide un joc în timp ce Asistentul pregătește un răspuns.</string>
     <string name="arcade_hilldrive">Hill Drive</string>
     <string name="arcade_hilldrive_sub">Conduceți peste dealuri, adunați monede și combustibil și aterizați pentru puncte bonus</string>
+    <string name="remember_gallery_display_settings">Amintiți-vă setările galeriei</string>
+    <string name="remember_gallery_display_settings_sub">Salvați opțiunile de grupare și sortare între vizitele la galerie și selectorul încorporat.</string>
 </resources>

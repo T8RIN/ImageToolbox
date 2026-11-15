@@ -8129,4 +8129,6 @@
     <string name="help_tip_loading_game_choice">सेटिंग में पसंदीदा में से एक गेम, एक रैंडम गेम या एक रैंडम गेम चुनें। जब Assistant उत्तर तैयार कर रही हो तब भी आप गेम खोल सकते हैं।</string>
     <string name="arcade_hilldrive">हिल ड्राइव</string>
     <string name="arcade_hilldrive_sub">पहाड़ियों पर ड्राइव करें, सिक्के और ईंधन इकट्ठा करें, और बोनस अंकों के लिए ज़मीन पलटें</string>
+    <string name="remember_gallery_display_settings">गैलरी सेटिंग याद रखें</string>
+    <string name="remember_gallery_display_settings_sub">गैलरी और एम्बेडेड पिकर पर विज़िट के बीच समूहीकरण और सॉर्टिंग विकल्प सहेजें।</string>
 </resources>

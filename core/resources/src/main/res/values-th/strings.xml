@@ -8128,4 +8128,6 @@
     <string name="help_tip_loading_game_choice">เลือกหนึ่งเกม เกมสุ่ม หรือเกมสุ่มจากรายการโปรดในฉาก คุณยังเปิดเกมในขณะที่ Assistant กำลังเตรียมการตอบกลับได้อีกด้วย</string>
     <string name="arcade_hilldrive">ฮิลล์ไดรฟ์</string>
     <string name="arcade_hilldrive_sub">ขับรถข้ามเนินเขา เก็บเหรียญและเชื้อเพลิง และพลิกแผ่นดินเพื่อรับคะแนนโบนัส</string>
+    <string name="remember_gallery_display_settings">จำการตั้งค่าแกลเลอรี</string>
+    <string name="remember_gallery_display_settings_sub">บันทึกตัวเลือกการจัดกลุ่มและการเรียงลำดับระหว่างการเข้าชมแกลเลอรีและตัวเลือกแบบฝัง</string>
 </resources>

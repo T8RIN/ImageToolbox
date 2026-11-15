@@ -8131,4 +8131,6 @@
     <string name="help_tip_loading_game_choice">Виберіть одну гру, випадкову гру або випадкову гру з вибраного в налаштуваннях. Ви також можете відкрити гру, поки Асистент готує відповідь.</string>
     <string name="arcade_hilldrive">Hill Drive</string>
     <string name="arcade_hilldrive_sub">Їдьте по пагорбах, збирайте монети та пальне, перевертайте землю, щоб отримати бонусні бали</string>
+    <string name="remember_gallery_display_settings">Запам\'ятати налаштування галереї</string>
+    <string name="remember_gallery_display_settings_sub">Зберігайте параметри групування та сортування між відвідуванням галереї та вбудованим засобом вибору.</string>
 </resources>

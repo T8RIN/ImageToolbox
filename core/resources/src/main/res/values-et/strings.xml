@@ -8129,4 +8129,6 @@
     <string name="help_tip_loading_game_choice">Valige seadetest üks mäng, juhuslik mäng või juhuslik mäng lemmikute hulgast. Saate mängu avada ka ajal, mil assistent vastust valmistab.</string>
     <string name="arcade_hilldrive">Hill Drive</string>
     <string name="arcade_hilldrive_sub">Sõitke üle mägede, koguge münte ja kütust ning maanduge boonuspunktide saamiseks</string>
+    <string name="remember_gallery_display_settings">Jäta meelde galerii seaded</string>
+    <string name="remember_gallery_display_settings_sub">Salvestage grupeerimis- ja sortimisvalikud galerii külastuste ja manustatud valija vahel.</string>
 </resources>

@@ -8129,4 +8129,6 @@
     <string name="help_tip_loading_game_choice">সেটিংসে ফেভারিট থেকে একটি গেম, একটি এলোমেলো খেলা বা একটি এলোমেলো খেলা বেছে নিন। অ্যাসিস্ট্যান্ট যখন উত্তর তৈরি করছে তখনও আপনি একটি গেম খুলতে পারেন।</string>
     <string name="arcade_hilldrive">হিল ড্রাইভ</string>
     <string name="arcade_hilldrive_sub">পাহাড়ের উপর দিয়ে গাড়ি চালান, কয়েন এবং জ্বালানি সংগ্রহ করুন এবং বোনাস পয়েন্টের জন্য ল্যান্ড ফ্লিপ করুন</string>
+    <string name="remember_gallery_display_settings">গ্যালারি সেটিংস মনে রাখবেন</string>
+    <string name="remember_gallery_display_settings_sub">গ্যালারিতে ভিজিট এবং এমবেডেড পিকারের মধ্যে গ্রুপিং এবং সাজানোর বিকল্পগুলি সংরক্ষণ করুন।</string>
 </resources>

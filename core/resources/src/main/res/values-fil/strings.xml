@@ -8129,4 +8129,6 @@
     <string name="help_tip_loading_game_choice">Pumili ng isang laro, isang random na laro o isang random na laro mula sa Mga Paborito sa setting. Maaari ka ring magbukas ng laro habang naghahanda ang Assistant ng tugon.</string>
     <string name="arcade_hilldrive">Hill Drive</string>
     <string name="arcade_hilldrive_sub">Magmaneho sa mga burol, mangolekta ng mga barya at gasolina, at mag-land flip para sa mga bonus na puntos</string>
+    <string name="remember_gallery_display_settings">Tandaan ang mga setting ng gallery</string>
+    <string name="remember_gallery_display_settings_sub">I-save ang mga pagpipilian sa pagpapangkat at pag-uuri sa pagitan ng mga pagbisita sa gallery at naka-embed na picker.</string>
 </resources>
