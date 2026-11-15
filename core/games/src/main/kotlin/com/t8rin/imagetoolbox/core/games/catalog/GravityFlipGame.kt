@@ -49,7 +49,7 @@ import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
 import com.t8rin.imagetoolbox.core.games.utils.reliefSprite
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.resources.icons.SwapVerticalCircle
+import com.t8rin.imagetoolbox.core.resources.icons.Falling
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import kotlin.math.PI
@@ -64,7 +64,7 @@ import kotlin.random.Random
 internal data object GravityFlipGame : ArcadeGameDefinition {
     override val title = R.string.arcade_gravityflip
     override val description = R.string.arcade_gravityflip_sub
-    override val icon get() = Icons.Outlined.SwapVerticalCircle
+    override val icon get() = Icons.Outlined.Falling
     override val order = 22
 
     @Composable

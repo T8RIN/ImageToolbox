@@ -19,6 +19,8 @@ package com.t8rin.imagetoolbox.core.resources.icons
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
@@ -32,44 +34,39 @@ val Icons.Outlined.Snake: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
         viewportWidth = 24f,
         viewportHeight = 24f
     ).apply {
-        path(fill = SolidColor(Color.Black)) {
-            moveTo(19.5f, 17f)
-            horizontalLineTo(18f)
-            curveTo(19.1f, 17f, 20f, 16.1f, 20f, 15f)
-            reflectiveCurveTo(19.1f, 13f, 18f, 13f)
-            verticalLineTo(9f)
-            curveTo(18f, 8f, 18f, 7f, 16.92f, 6.14f)
-            curveTo(16.97f, 5.93f, 17f, 5.72f, 17f, 5.5f)
-            curveTo(17f, 3.57f, 15f, 2f, 12.5f, 2f)
-            curveTo(10.24f, 2f, 8.38f, 3.31f, 8.07f, 5f)
+        path(
+            stroke = SolidColor(Color.Black),
+            strokeLineWidth = 2f,
+            strokeLineCap = StrokeCap.Round,
+            strokeLineJoin = StrokeJoin.Round
+        ) {
+            moveTo(9f, 5.5f)
+            curveTo(9f, 4.1f, 10.6f, 3f, 12.5f, 3f)
+            reflectiveCurveTo(16f, 4.1f, 16f, 5.5f)
+            reflectiveCurveTo(14.4f, 8f, 12.5f, 8f)
+            reflectiveCurveTo(9f, 6.9f, 9f, 5.5f)
+            close()
+            moveTo(9f, 5.5f)
             horizontalLineTo(6f)
-            lineTo(3.71f, 2.79f)
-            lineTo(3f, 3.5f)
-            lineTo(5f, 5.5f)
-            lineTo(3f, 7.5f)
-            lineTo(3.71f, 8.21f)
-            lineTo(6f, 6f)
-            horizontalLineTo(8.07f)
-            curveTo(8.38f, 7.69f, 10.24f, 9f, 12.5f, 9f)
-            curveTo(13f, 9f, 13.5f, 8.92f, 13.93f, 8.8f)
-            curveTo(13.97f, 8.87f, 14f, 8.94f, 14f, 9f)
-            verticalLineTo(13f)
+            lineTo(4f, 3.5f)
+            moveTo(6f, 5.5f)
+            lineTo(4f, 7.5f)
+            moveTo(15.5f, 7f)
+            curveToRelative(1.5f, 1f, 1.5f, 2.1f, 1.5f, 3.5f)
+            verticalLineTo(12f)
+            curveToRelative(0f, 1.7f, -1.3f, 3f, -3f, 3f)
             horizontalLineTo(8f)
-            curveTo(6.9f, 13f, 6f, 13.9f, 6f, 15f)
-            reflectiveCurveTo(6.9f, 17f, 8f, 17f)
-            horizontalLineTo(6.5f)
-            curveTo(5.12f, 17f, 4f, 18.12f, 4f, 19.5f)
-            curveTo(4f, 19.67f, 4f, 19.84f, 4.05f, 20f)
-            horizontalLineTo(4f)
-            curveTo(2.9f, 20f, 2f, 20.9f, 2f, 22f)
-            horizontalLineTo(19.5f)
-            curveTo(20.88f, 22f, 22f, 20.88f, 22f, 19.5f)
-            reflectiveCurveTo(20.88f, 17f, 19.5f, 17f)
-            moveTo(12f, 5f)
-            curveTo(11.45f, 5f, 11f, 4.55f, 11f, 4f)
-            reflectiveCurveTo(11.45f, 3f, 12f, 3f)
-            reflectiveCurveTo(13f, 3.45f, 13f, 4f)
-            reflectiveCurveTo(12.55f, 5f, 12f, 5f)
+            curveToRelative(-1.1f, 0f, -2f, 0.7f, -2f, 1.5f)
+            reflectiveCurveTo(6.9f, 18f, 8f, 18f)
+            horizontalLineToRelative(10.5f)
+            curveToRelative(1.4f, 0f, 2.5f, 0.7f, 2.5f, 1.5f)
+            reflectiveCurveTo(19.9f, 21f, 18.5f, 21f)
+            horizontalLineTo(5f)
+        }
+        path(fill = SolidColor(Color.Black)) {
+            moveTo(12.75f, 4.5f)
+            arcToRelative(0.75f, 0.75f, 0f, true, true, -1.5f, 0f)
+            arcToRelative(0.75f, 0.75f, 0f, true, true, 1.5f, 0f)
             close()
         }
     }.build()

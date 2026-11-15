@@ -45,7 +45,7 @@ import com.t8rin.imagetoolbox.core.games.utils.pixelArc
 import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.resources.icons.DonutLarge
+import com.t8rin.imagetoolbox.core.resources.icons.Palette
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
@@ -59,7 +59,7 @@ import kotlin.random.Random
 internal data object TintAscentGame : ArcadeGameDefinition {
     override val title = R.string.arcade_tintascent
     override val description = R.string.arcade_tintascent_sub
-    override val icon get() = Icons.Outlined.DonutLarge
+    override val icon get() = Icons.Outlined.Palette
     override val order = 37
 
     @Composable

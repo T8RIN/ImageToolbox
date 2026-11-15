@@ -60,7 +60,7 @@ import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
 import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.resources.icons.AvocadoBean
+import com.t8rin.imagetoolbox.core.resources.icons.Grocery
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.Serializable
@@ -76,7 +76,7 @@ import kotlin.random.Random
 internal data object OrchardPileGame : ArcadeGameDefinition {
     override val title = R.string.arcade_orchardpile
     override val description = R.string.arcade_orchardpile_sub
-    override val icon get() = Icons.Outlined.AvocadoBean
+    override val icon get() = Icons.Outlined.Grocery
     override val order = 39
 
     @Composable

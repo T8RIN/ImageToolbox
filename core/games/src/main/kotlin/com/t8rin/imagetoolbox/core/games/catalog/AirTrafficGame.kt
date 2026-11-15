@@ -46,7 +46,7 @@ import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
 import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.resources.icons.Flight
+import com.t8rin.imagetoolbox.core.resources.icons.ConnectingAirports
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import kotlin.math.PI
@@ -61,7 +61,7 @@ import kotlin.random.Random
 internal data object AirTrafficGame : ArcadeGameDefinition {
     override val title = R.string.arcade_airtraffic
     override val description = R.string.arcade_airtraffic_sub
-    override val icon get() = Icons.Outlined.Flight
+    override val icon get() = Icons.Outlined.ConnectingAirports
     override val order = 30
 
     @Composable

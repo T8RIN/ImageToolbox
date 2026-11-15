@@ -42,7 +42,7 @@ import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
 import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.resources.icons.Route
+import com.t8rin.imagetoolbox.core.resources.icons.ConversionPath
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import kotlin.math.abs
@@ -53,7 +53,7 @@ import kotlin.random.Random
 internal data object FlowConnectGame : ArcadeGameDefinition {
     override val title = R.string.arcade_flowconnect
     override val description = R.string.arcade_flowconnect_sub
-    override val icon get() = Icons.Outlined.Route
+    override val icon get() = Icons.Outlined.ConversionPath
     override val order = 33
 
     @Composable
