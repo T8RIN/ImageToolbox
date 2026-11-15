@@ -31,8 +31,10 @@ import com.t8rin.imagetoolbox.core.games.ArcadeGameDefinition
 import com.t8rin.imagetoolbox.core.games.ArcadeOffset
 import com.t8rin.imagetoolbox.core.games.ArcadePhase
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
+import com.t8rin.imagetoolbox.core.games.ArcadeSprite
 import com.t8rin.imagetoolbox.core.games.ArcadeStyle
 import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
+import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
@@ -44,6 +46,7 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import kotlin.math.abs
 import kotlin.math.ceil
+import kotlin.math.sin
 import kotlin.random.Random
 
 @RegisterArcadeGame
@@ -98,9 +101,32 @@ internal data object BubblePopGame : ArcadeGameDefinition {
                         center = Offset(x = x + radius + 6f, y = y - radius * 0.4f)
                     )
                 }
-                val chargeWidth = minOf(70f, run.width * 0.24f)
-                val chargeX = 14f
+                val chargeWidth = minOf(56f, run.width * 0.18f)
+                val chargeX = 28f
                 val chargeY = run.topInset / 2f - 2f
+                val pulse =
+                    if (run.chargeReady) 0.5f + 0.5f * sin(run.chargeTime * 6.2831855f) else 0f
+                if (run.chargeReady) {
+                    pixelRect(
+                        style.accentColor.copy(alpha = 0.12f + pulse * 0.18f),
+                        chargeX - 3f,
+                        chargeY - 4f - pulse,
+                        chargeWidth + 6f,
+                        12f + pulse * 2f
+                    )
+                    drawArcadeSprite(
+                        sprite = BubbleChargeReady,
+                        tint = style.accentColor,
+                        x = chargeX + chargeWidth + 5f,
+                        y = chargeY - 3f
+                    )
+                }
+                drawArcadeSprite(
+                    sprite = BubbleCharge,
+                    tint = style.accentColor.copy(alpha = if (run.chargeReady) 0.7f + pulse * 0.3f else 0.4f),
+                    x = 13f,
+                    y = chargeY - 5f
+                )
                 pixelRect(
                     style.detailColor.copy(alpha = 0.25f),
                     chargeX,
@@ -109,12 +135,21 @@ internal data object BubblePopGame : ArcadeGameDefinition {
                     4f
                 )
                 pixelRect(
-                    if (run.charge >= 18) style.playerDetailColor else style.accentColor,
+                    style.accentColor,
                     chargeX,
-                    chargeY,
-                    chargeWidth * run.charge / 18f,
-                    4f
+                    chargeY - if (run.chargeReady) 1f else 0f,
+                    chargeWidth * run.charge / BubbleChargeLimit,
+                    if (run.chargeReady) 6f else 4f
                 )
+                repeat(5) { segment ->
+                    pixelRect(
+                        style.playerDetailColor.copy(alpha = 0.65f),
+                        chargeX + chargeWidth * (segment + 1) / 6f,
+                        chargeY,
+                        1f,
+                        4f
+                    )
+                }
                 val danger =
                     (run.board.size - run.columns until run.board.size).any { run.board[it] >= 0 }
                 if (danger) {
@@ -136,14 +171,10 @@ internal data object BubblePopGame : ArcadeGameDefinition {
                         )
                     }
                     for (column in 0 until run.columns) {
-                        val center =
-                            origin + Offset(
-                                x = (column + 0.5f) * cell,
-                                y = (run.rows + 0.5f - run.rise) * cell
-                            )
+                        if (run.next[column] < 0) continue
                         drawBubble(
                             style = style,
-                            point = center,
+                            point = run.nextCenter(column),
                             radius = cell * 0.43f,
                             kind = run.next[column]
                         )
@@ -165,6 +196,18 @@ internal data object BubblePopGame : ArcadeGameDefinition {
         }
     }
 }
+
+private const val BubbleChargeLimit = 18
+private val BubbleCharge = ArcadeSprite(
+    width = 9,
+    height = 14,
+    data = "M5 0H9L6 5H9L2 14L4 8H0Z"
+)
+private val BubbleChargeReady = ArcadeSprite(
+    width = 10,
+    height = 10,
+    data = "M0 4H2V6H4V4H6V2H8V0H10V4H8V6H6V8H2V6H0Z"
+)
 
 private fun DrawScope.drawBubble(
     style: ArcadeStyle,
@@ -278,6 +321,11 @@ private class BubblePopRun : ArcadeRun() {
     var rise = 0f
     var charge = 0
         private set
+    val chargeReady get() = charge >= BubbleChargeLimit
+
+    @Transient
+    var chargeTime = 0f
+        private set
     var combo = 0
     private var comboTime = 0f
     private var advanceRow = false
@@ -287,6 +335,11 @@ private class BubblePopRun : ArcadeRun() {
     fun center(index: Int) = origin + Offset(
         x = (index % columns + 0.5f) * cell,
         y = (rows - 0.5f - index / columns - rise + fall[index]) * cell
+    )
+
+    fun nextCenter(column: Int) = origin + Offset(
+        x = (column + 0.5f) * cell,
+        y = (rows + 0.5f - rise) * cell
     )
 
     override fun isValid(): Boolean = super.isValid() &&
@@ -303,6 +356,7 @@ private class BubblePopRun : ArcadeRun() {
         rise = 0f
         combo = 0
         charge = 0
+        chargeTime = 0f
         comboTime = 0f
         advanceRow = false
         raiseTime = 0f
@@ -352,26 +406,31 @@ private class BubblePopRun : ArcadeRun() {
     }
 
     fun pop(point: Offset) {
+        if (point.y !in topInset..height) return
+        val powered = chargeReady
         val index = board.indices.firstOrNull {
             board[it] >= 0 && (center(it) - point).getDistance() < cell * 0.48f
-        } ?: return
-        val connected = group(index)
-        val powered = charge >= 18
+        }
+        val incoming = if (powered) next.indices.firstOrNull {
+            next[it] >= 0 && (nextCenter(it) - point).getDistance() < cell * 0.48f
+        } else null
+        val color = index?.let { board[it] } ?: incoming?.let { next[it] } ?: return
+        val connected = index?.let(::group).orEmpty()
         if (connected.size < 2 && !powered) return
-        val group = if (powered) board.indices.filter { board[it] == board[index] } else connected
-        charge = if (powered) 0 else (charge + connected.size).coerceAtMost(18)
+        val group = if (powered) board.indices.filter { board[it] == color } else connected
+        val incomingGroup = if (powered) next.indices.filter { next[it] == color } else emptyList()
+        charge = if (powered) 0 else (charge + connected.size).coerceAtMost(BubbleChargeLimit)
         combo = if (comboTime > 0f) minOf(4, combo + 1) else 1
         comboTime = 1.8f
-        score += group.size * (group.size - 1) * combo
+        val count = group.size + incomingGroup.size
+        score += count * maxOf(1, count - 1) * combo
         for (item in group) {
-            val point = center(item)
-            if (bursts.size >= 48) bursts.removeAt(0)
-            bursts += BubbleBurst(point = point)
-            effects.burst(
-                point = point,
-                count = 3
-            )
+            burst(center(item))
             board[item] = -1
+        }
+        for (column in incomingGroup) {
+            burst(nextCenter(column))
+            next[column] = -1
         }
         for (column in 0 until columns) {
             var target = 0
@@ -392,10 +451,20 @@ private class BubblePopRun : ArcadeRun() {
         if (cleared) {
             score += 50 + combo * 10
             rise = (rise - 0.4f).coerceAtLeast(0f)
+            if (next.none { it >= 0 }) {
+                rise = 0f
+                fillNext()
+            }
             effects.burst(Offset(width / 2f, height - cell), 20)
         }
         advanceRow = true
         redraw()
+    }
+
+    private fun burst(point: Offset) {
+        if (bursts.size >= 48) bursts.removeAt(0)
+        bursts += BubbleBurst(point = point)
+        effects.burst(point = point, count = 3)
     }
 
     fun raise() {
@@ -412,6 +481,7 @@ private class BubblePopRun : ArcadeRun() {
     }
 
     override fun advance(seconds: Float) {
+        chargeTime = if (chargeReady) (chargeTime + seconds) % 1f else 0f
         effects.advance(seconds)
         for (burst in bursts) burst.life -= seconds
         bursts.removeAll { it.life <= 0f }
@@ -422,7 +492,7 @@ private class BubblePopRun : ArcadeRun() {
         if (board.none { it >= 0 }) {
             advanceRow = true
         } else if (!hasMoves()) {
-            charge = 18
+            charge = BubbleChargeLimit
             advanceRow = false
             rise = rise.coerceAtMost(0.5f)
         }
@@ -433,16 +503,26 @@ private class BubblePopRun : ArcadeRun() {
             else -> speed
         }
         if (rise >= 1f) {
-            if ((board.size - columns until board.size).any { board[it] >= 0 }) {
+            if ((0 until columns).any { next[it] >= 0 && board[board.size - columns + it] >= 0 }) {
                 phase = ArcadePhase.Over
                 return
             }
-            for (index in board.lastIndex downTo columns) {
-                board[index] = board[index - columns]
-                fall[index] = fall[index - columns]
+            for (column in 0 until columns) {
+                if (next[column] < 0) {
+                    for (row in 0 until rows) {
+                        val index = row * columns + column
+                        if (board[index] >= 0) fall[index] -= 1f
+                    }
+                } else {
+                    for (row in rows - 1 downTo 1) {
+                        val index = row * columns + column
+                        board[index] = board[index - columns]
+                        fall[index] = fall[index - columns]
+                    }
+                    board[column] = next[column]
+                    fall[column] = 0f
+                }
             }
-            next.copyInto(board)
-            for (column in 0 until columns) fall[column] = 0f
             rise -= 1f
             advanceRow = !hasMoves()
             fillNext()

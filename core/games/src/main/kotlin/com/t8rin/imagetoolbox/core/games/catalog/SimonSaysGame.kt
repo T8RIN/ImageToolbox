@@ -157,6 +157,16 @@ internal data object SimonSaysGame : ArcadeGameDefinition {
                         )
                     )
                 }
+                if (run.accepting) {
+                    val width = minOf(80f, side * 0.6f)
+                    val x = (run.width - width) / 2f
+                    val y = origin.y + side + 18f
+                    pixelRect(style.detailColor.copy(alpha = 0.4f), x, y, width, 2f)
+                    pixelRect(
+                        if (run.responseProgress < 0.3f) style.hazardColor else style.accentColor,
+                        x, y, width * run.responseProgress, 2f
+                    )
+                }
             }
         }
     }
@@ -231,6 +241,7 @@ private class SimonSaysRun : ArcadeRun() {
     var playback = 0
     private var timer = 0.75f
     private var responseRemaining = ResponseSeconds
+    val responseProgress get() = (responseRemaining / ResponseSeconds).coerceIn(0f, 1f)
     private var gap = true
     private var completed = false
 

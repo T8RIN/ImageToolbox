@@ -124,65 +124,15 @@ private fun DrawScope.drawSnakeScene(run: SnakeRun, style: ArcadeStyle, bodyPath
         val from = center(run.previous.getOrElse(index) { run.previous.last() })
         return from + (center(run.body[index]) - from) * run.progress
     }
-    if (run.food >= 0) {
-        val food = center(run.food)
-        translate(left = food.x - cell * 0.5f, top = food.y - cell * 0.59f) {
-            scale(scale = cell / 14f, pivot = Offset.Zero) {
-                drawArcadeSprite(
-                    SnakeFood,
-                    lerp(style.accentColor, style.playerDetailColor, 0.4f),
-                    1f,
-                    1f
-                )
-                drawArcadeSprite(SnakeFood, style.accentColor, 0f, 0f)
-                drawArcadeSprite(
-                    SnakeFoodShade,
-                    lerp(style.accentColor, style.playerDetailColor, 0.3f),
-                    0f,
-                    0f
-                )
-                drawArcadeSprite(SnakeLeaf, style.obstacleColor, 0f, 0f)
-                pixelRect(lerp(style.accentColor, style.textColor, 0.55f), 3f, 6f, 2f, 3f)
-            }
-        }
-    }
+    if (run.food >= 0) drawSnakeFood(style, center(run.food), cell)
     run.bonusFood?.let { bonus ->
-        val food = center(bonus.cell)
-        val alpha = if (bonus.remaining < 2f && run.frame % 16 < 8) 0.45f else 1f
-        translate(left = food.x - cell * 0.57f, top = food.y - cell * 0.64f) {
-            scale(scale = cell / 14f, pivot = Offset.Zero) {
-                drawArcadeSprite(
-                    SnakeBonusFruitSprite,
-                    style.accentColor.copy(alpha = alpha),
-                    0f,
-                    1f
-                )
-                drawArcadeSprite(
-                    SnakeBonusFruitSprite,
-                    lerp(style.accentColor, style.textColor, 0.12f).copy(alpha = alpha),
-                    0f,
-                    0f
-                )
-                drawArcadeSprite(
-                    SnakeBonusFruitShade,
-                    lerp(style.accentColor, style.obstacleColor, 0.38f).copy(alpha = alpha),
-                    0f,
-                    0f
-                )
-                drawArcadeSprite(
-                    SnakeBonusLeaf,
-                    style.playerColor.copy(alpha = alpha),
-                    0f,
-                    0f
-                )
-                drawArcadeSprite(
-                    SnakeBonusGlint,
-                    style.playerDetailColor.copy(alpha = alpha),
-                    0f,
-                    0f
-                )
-            }
-        }
+        drawSnakeFood(
+            style = style,
+            center = center(bonus.cell),
+            cell = cell,
+            bonus = true,
+            alpha = if (bonus.remaining < 2f && (bonus.remaining * 6f).toInt() % 2 == 0) 0.45f else 1f
+        )
     }
     val head = position(0)
     bodyPath.rewind()
@@ -279,26 +229,39 @@ private val SnakeLeaf = ArcadeSprite(
     height = 16,
     data = "M7 2H9V5H7Z M9 0H13V2H11V3H9Z"
 )
-private val SnakeBonusFruitSprite = ArcadeSprite(
-    width = 16,
-    height = 18,
-    data = "M5 4H7V3H11V4H13V6H15V9H16V13H14V16H11V18H5V16H2V13H1V9H2V6H5Z"
-)
-private val SnakeBonusFruitShade = ArcadeSprite(
-    width = 16,
-    height = 18,
-    data = "M12 5H13V7H15V10H16V13H14V16H11V18H5V16H11V14H13V11H14V8H12Z"
-)
-private val SnakeBonusLeaf = ArcadeSprite(
-    width = 16,
-    height = 18,
-    data = "M8 1H10V5H8Z M10 0H15V2H13V4H10Z M4 1H7V3H5V4H3V2H4Z"
-)
-private val SnakeBonusGlint = ArcadeSprite(
-    width = 16,
-    height = 18,
-    data = "M5 6H7V8H9V10H7V12H5V10H3V8H5Z M11 12H13V14H11Z"
-)
+private fun DrawScope.drawSnakeFood(
+    style: ArcadeStyle,
+    center: Offset,
+    cell: Float,
+    bonus: Boolean = false,
+    alpha: Float = 1f
+) {
+    val color = if (bonus) lerp(style.accentColor, style.playerColor, 0.5f) else style.accentColor
+    translate(left = center.x - cell * 0.5f, top = center.y - cell * 0.59f) {
+        scale(scale = cell / 14f, pivot = Offset.Zero) {
+            drawArcadeSprite(
+                SnakeFood,
+                lerp(color, style.playerDetailColor, 0.4f).copy(alpha = alpha),
+                1f,
+                1f
+            )
+            drawArcadeSprite(SnakeFood, color.copy(alpha = alpha), 0f, 0f)
+            drawArcadeSprite(
+                SnakeFoodShade,
+                lerp(color, style.playerDetailColor, 0.3f).copy(alpha = alpha),
+                0f,
+                0f
+            )
+            drawArcadeSprite(SnakeLeaf, style.obstacleColor.copy(alpha = alpha), 0f, 0f)
+            pixelRect(lerp(color, style.textColor, 0.55f).copy(alpha = alpha), 3f, 6f, 2f, 3f)
+            if (bonus) {
+                val glint = style.textColor.copy(alpha = alpha)
+                pixelRect(glint, 2f, 0f, 1f, 5f)
+                pixelRect(glint, 0f, 2f, 5f, 1f)
+            }
+        }
+    }
+}
 
 private fun DrawScope.drawSnakeBackground(style: ArcadeStyle, width: Float, height: Float) {
     val count = (width * height / 17000f).toInt().coerceAtLeast(6)
@@ -347,7 +310,7 @@ private class SnakeRun : ArcadeRun() {
     var eatFlash = 0f
         private set
     val progress get() = (elapsed / interval).coerceIn(0f, 1f)
-    private val interval get() = (0.16f / (1f + score * 0.035f)).coerceAtLeast(0.075f)
+    private val interval get() = 0.16f
     private var elapsed = 0f
     private var eaten = 0
     private val turns: ArcadeDeque<SnakeDirection> = ArrayDeque()
@@ -416,13 +379,20 @@ private class SnakeRun : ArcadeRun() {
             if (eatingFood) {
                 score++
                 eaten++
-                food =
-                    (0 until SnakeCells * SnakeCells).filterNot { it in body }.randomOrNull() ?: -1
+                val free = (0 until SnakeCells * SnakeCells).filterNot { it in body }
+                food = free.filterNot { it == bonusFood?.cell }.randomOrNull()
+                    ?: free.randomOrNull()?.also { bonusFood = null } ?: -1
                 if (food == -1) phase = ArcadePhase.Over
                 else if (eaten % 5 == 0) spawnBonus()
             }
         } else {
             body.removeAt(body.lastIndex)
+        }
+    }
+
+    override fun onRestore() {
+        bonusFood?.let {
+            if (it.cell in body || it.cell == food || it.remaining <= 0f) bonusFood = null
         }
     }
 

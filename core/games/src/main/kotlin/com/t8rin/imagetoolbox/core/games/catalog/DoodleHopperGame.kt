@@ -870,11 +870,13 @@ private class DoodleHopperRun : ArcadeRun() {
     }
 
     private fun rewardMonster(monster: DoodleHopperMonster) {
-        bonusScore += when (monster.kind) {
+        val bonus = when (monster.kind) {
             MonsterKind.Flyer -> 25
             MonsterKind.Jumper -> 20
             MonsterKind.Guard -> 40
         }
+        bonusScore += bonus
+        score += bonus
     }
 
     private fun addPlatforms() {
