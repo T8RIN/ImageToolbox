@@ -11,15 +11,15 @@ versionCode = "278"
 jvmTarget = "21"
 
 imageToolboxLibs = "8.2.3"
-trickle = "2.1.0"
+trickle = "2.1.1"
 evaluator = "1.0.0"
 quickie = "1.19.0"
 fadingEdges = "1.0.4"
 composeHighlight = "0.41.1"
 
-avifCoder = "3.0.1"
+avifCoder = "3.0.2"
 aire = "0.18.1"
-jixelCoder = "3.0.0-alpha10"
+jixelCoder = "3.0.0-alpha11"
 jxlCoder = "2.6.2"
 jpegliCoder = "1.0.2"
 
