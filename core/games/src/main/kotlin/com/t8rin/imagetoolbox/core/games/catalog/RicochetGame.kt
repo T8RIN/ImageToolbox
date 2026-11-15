@@ -222,7 +222,9 @@ internal data object RicochetGame : ArcadeGameDefinition {
                     var point = Offset(x = run.launchX, y = run.launchY)
                     var direction = run.direction
                     val right = left + cell * 7f - radius
-                    repeat(24) { index ->
+                    var blocked = false
+                    repeat(48) { index ->
+                        if (blocked) return@repeat
                         point += direction * (rowHeight * 0.28f)
                         if (point.x < left + radius) {
                             point = point.copy(x = (left + radius) * 2f - point.x)
@@ -235,8 +237,10 @@ internal data object RicochetGame : ArcadeGameDefinition {
                             point = point.copy(y = (run.origin.y + radius) * 2f - point.y)
                             direction = direction.copy(y = -direction.y)
                         }
+                        blocked =
+                            run.guideBlocked(point) || point.y > run.launchY && direction.y > 0f
                         if (point.y <= run.launchY) pixelCircle(
-                            color = style.playerColor.copy(alpha = 0.6f * (1f - index / 26f)),
+                            color = if (blocked) style.accentColor else style.playerColor.copy(alpha = 0.6f * (1f - index / 50f)),
                             radius = radius * 0.48f,
                             center = point
                         )
@@ -710,6 +714,28 @@ private class RicochetRun : ArcadeRun() {
             effects.burst(Offset(ball.x, ball.y), 5)
             return
         }
+    }
+
+    fun guideBlocked(point: Offset): Boolean = bricks.any { brick ->
+        if (brick.health <= 0) return@any false
+        val corner = origin + Offset(brick.column * cell + 2f, brick.row * rowHeight + 2f)
+        val size = Offset(cell - 4f, rowHeight - 4f)
+        if (point.x < corner.x - ballRadius || point.x > corner.x + size.x + ballRadius ||
+            point.y < corner.y - ballRadius || point.y > corner.y + size.y + ballRadius
+        ) return@any false
+        val vertices = brick.vertices(corner, size.x, size.y)
+        var inside = true
+        var nearest = Float.MAX_VALUE
+        for (side in vertices.indices) {
+            val start = vertices[side]
+            val edge = vertices[(side + 1) % vertices.size] - start
+            val delta = point - start
+            if (edge.x * delta.y - edge.y * delta.x < 0f) inside = false
+            val projection =
+                ((delta.x * edge.x + delta.y * edge.y) / edge.getDistanceSquared()).coerceIn(0f, 1f)
+            nearest = minOf(nearest, (point - start - edge * projection).getDistanceSquared())
+        }
+        inside || nearest <= ballRadius * ballRadius
     }
 
     private fun fireLine(item: RicochetBrick, power: Int) {

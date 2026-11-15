@@ -19,23 +19,30 @@ package com.t8rin.imagetoolbox.core.games.utils
 
 import android.util.LruCache
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.PathFillType
 import androidx.compose.ui.graphics.PathOperation
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.DrawStyle
 import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.drawscope.clipPath
 import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.graphics.lerp
 import com.t8rin.imagetoolbox.core.games.ArcadeSprite
 import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
+import kotlin.math.PI
+import kotlin.math.abs
+import kotlin.math.cos
 import kotlin.math.roundToInt
+import kotlin.math.sin
 import kotlin.math.sqrt
 
 internal fun DrawScope.pixelCircle(
@@ -51,6 +58,57 @@ internal fun DrawScope.pixelCircle(
     val path = pixelCircleContour(radius, stroke)
     translate(left = center.x, top = center.y) {
         drawPath(path = path, color = color, alpha = alpha, blendMode = blendMode)
+    }
+}
+
+internal fun DrawScope.pixelArc(
+    color: Color,
+    startAngle: Float,
+    sweepAngle: Float,
+    useCenter: Boolean,
+    topLeft: Offset,
+    size: Size,
+    style: DrawStyle = Fill
+) {
+    if (size.minDimension <= 0f || !sweepAngle.isFinite() || sweepAngle == 0f) return
+    val center = topLeft + Offset(size.width / 2f, size.height / 2f)
+    val stroke = (style as? Stroke)?.width ?: 0f
+    val radius = size.minDimension / 2f + stroke / 2f
+    val sweep = sweepAngle.coerceIn(-360f, 360f)
+    scale(size.width / size.minDimension, size.height / size.minDimension, center) {
+        if (abs(sweep) >= 360f) {
+            pixelCircle(color, radius, center, style = style)
+        } else {
+            val sector = Path().apply {
+                if (useCenter || style is Stroke) moveTo(center.x, center.y)
+                arcTo(
+                    rect = Rect(
+                        center - Offset(radius * 2f, radius * 2f),
+                        Size(radius * 4f, radius * 4f)
+                    ),
+                    startAngleDegrees = startAngle,
+                    sweepAngleDegrees = sweep,
+                    forceMoveTo = !useCenter && style !is Stroke
+                )
+                close()
+            }
+            clipPath(sector) {
+                pixelCircle(color, radius, center, style = style)
+            }
+            if (style is Stroke && style.cap == StrokeCap.Round) {
+                for (angle in listOf(startAngle, startAngle + sweep)) {
+                    val radians = angle * PI.toFloat() / 180f
+                    pixelCircle(
+                        color = color,
+                        radius = stroke / 2f,
+                        center = center + Offset(
+                            cos(radians),
+                            sin(radians)
+                        ) * (radius - stroke / 2f)
+                    )
+                }
+            }
+        }
     }
 }
 

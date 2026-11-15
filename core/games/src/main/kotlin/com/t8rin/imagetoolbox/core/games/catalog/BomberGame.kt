@@ -47,6 +47,7 @@ import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
 import com.t8rin.imagetoolbox.core.games.utils.arcadeJoystick
 import com.t8rin.imagetoolbox.core.games.utils.arcadeLives
+import com.t8rin.imagetoolbox.core.games.utils.pixelArc
 import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
 import com.t8rin.imagetoolbox.core.games.utils.reliefSprite
 import com.t8rin.imagetoolbox.core.resources.Icons
@@ -197,6 +198,28 @@ internal data object BomberGame : ArcadeGameDefinition {
                             radius = cell * 0.32f,
                             center = p
                         )
+                        if (kind == 3) {
+                            pixelRect(
+                                style.accentColor,
+                                p.x - cell * 0.2f,
+                                p.y - cell * 0.15f,
+                                cell * 0.13f,
+                                cell * 0.3f
+                            )
+                            pixelRect(
+                                style.accentColor,
+                                p.x - cell * 0.2f,
+                                p.y + cell * 0.05f,
+                                cell * 0.4f,
+                                cell * 0.12f
+                            )
+                            for (side in listOf(-1f, 1f)) pixelCircle(
+                                style.obstacleColor,
+                                cell * 0.06f,
+                                p + Offset(side * cell * 0.12f, cell * 0.22f)
+                            )
+                            continue
+                        }
                         if (kind == 2) {
                             val unit = cell * 0.6f / 18f
                             translate(left = p.x - unit * 8f, top = p.y - unit * 9f) {
@@ -286,7 +309,7 @@ internal data object BomberGame : ArcadeGameDefinition {
                                 )
                             }
                         }
-                        drawArc(
+                        pixelArc(
                             color = style.accentColor,
                             startAngle = -90f,
                             sweepAngle = fuse / 2.2f * 360f,
@@ -591,6 +614,7 @@ private class BomberRun : ArcadeRun() {
     var round = 1
     var range = 2
     var capacity = 1
+    var skates = 0
     var invulnerable = 0f
     var fireproof = 0f
     var time = 0f
@@ -635,6 +659,7 @@ private class BomberRun : ArcadeRun() {
         lives = 3
         range = 2
         capacity = 1
+        skates = 0
         fireproof = 0f
         time = 0f
         broken = 0
@@ -780,7 +805,7 @@ private class BomberRun : ArcadeRun() {
                     board[index] = 0
                     broken++
                     score += 10
-                    if (broken % 4 == 0) items[index] = (broken / 4 - 1) % 3
+                    if (broken % 4 == 0) items[index] = (broken / 4 - 1) % 4
                 }
                 bombs.firstOrNull { it.position == index }?.let(queue::addLast)
             }
@@ -828,7 +853,7 @@ private class BomberRun : ArcadeRun() {
         }
         bombs.forEach { it.fuse -= seconds }
         bombs.filter { it.fuse <= 0f }.forEach(::explode)
-        progress = (progress + seconds / 0.14f).coerceAtMost(1f)
+        progress = (progress + seconds / (0.14f - skates * 0.015f)).coerceAtMost(1f)
         val heading = if (moving) direction else queuedDirection
         if (progress >= 1f && heading >= 0) {
             val destination = next(player, heading)
@@ -846,6 +871,7 @@ private class BomberRun : ArcadeRun() {
                 0 -> if (range < 4) range++ else score += 25
                 1 -> if (capacity < 3) capacity++ else score += 25
                 2 -> fireproof = 20f
+                3 -> if (skates < 3) skates++ else score += 25
             }
             effects.burst(
                 point = playerPoint,

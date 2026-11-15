@@ -62,6 +62,7 @@ import com.t8rin.imagetoolbox.core.games.components.longPress
 import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
+import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.UnpavedRoad
@@ -511,10 +512,10 @@ private fun DrawScope.drawHillDriveCar(
         }
         drawLine(palette.bodyShade, previous, axle, strokeWidth = 1.6f)
 
-        drawCircle(palette.tire, HillDriveWheelRadius, axle)
-        drawCircle(palette.wheelColors[1], HillDriveWheelRadius - 1f, axle)
-        drawCircle(palette.tire, HillDriveWheelRadius - 2.5f, axle)
-        drawCircle(palette.wheelColors[3], 5f, axle)
+        pixelCircle(palette.tire, HillDriveWheelRadius, axle)
+        pixelCircle(palette.wheelColors[1], HillDriveWheelRadius - 1f, axle)
+        pixelCircle(palette.tire, HillDriveWheelRadius - 2.5f, axle)
+        pixelCircle(palette.wheelColors[3], 5f, axle)
         rotate(wheel.rotation * HillDriveDegrees, axle) {
             repeat(12) { tread ->
                 val angle = tread * HillDriveTurn / 12f

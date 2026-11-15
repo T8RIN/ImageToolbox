@@ -21,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.DrawScope
@@ -29,6 +30,10 @@ import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.graphics.lerp
+import androidx.compose.ui.text.drawText
+import androidx.compose.ui.text.rememberTextMeasurer
+import androidx.compose.ui.unit.Density
+import androidx.compose.ui.unit.sp
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
 import com.t8rin.imagetoolbox.core.games.ArcadeField
 import com.t8rin.imagetoolbox.core.games.ArcadeGameContext
@@ -76,6 +81,7 @@ internal data object MoonLandingGame : ArcadeGameDefinition {
         val groundPath = remember { Path() }
         val surfacePath = remember { Path() }
         val flamePath = remember { Path() }
+        val measurer = rememberTextMeasurer()
 
         ArcadeBoard(
             context = context,
@@ -371,6 +377,30 @@ internal data object MoonLandingGame : ArcadeGameDefinition {
                     width = 2f,
                     height = 4f
                 )
+                val readings = listOf(
+                    "↔ ${(run.vx * 100f).toInt()}" to (abs(run.vx) <= 0.1f),
+                    "↓ ${(run.vy * 100f).toInt()}" to (abs(run.vy) <= run.landingSpeed),
+                    "∠ ${(run.angle * 180f / PI.toFloat()).toInt()}°" to (abs(run.angle) <= 0.22f)
+                )
+                readings.forEachIndexed { index, (text, safe) ->
+                    drawText(
+                        measurer.measure(
+                            text,
+                            style.scoreTextStyle.copy(fontSize = 10.sp),
+                            density = Density(1f)
+                        ),
+                        if (safe) style.playerColor else style.hazardColor,
+                        Offset(14f, run.height - 52f + index * 14f)
+                    )
+                }
+                pixelCircle(
+                    style.accentColor.copy(alpha = if (run.canAbort) 0.2f else 0.06f),
+                    16f, run.abortControl.center
+                )
+                drawArcadeSprite(
+                    LanderAbort, style.accentColor.copy(alpha = if (run.canAbort) 1f else 0.3f),
+                    run.abortControl.center.x - 5f, run.abortControl.center.y - 6f
+                )
             }
         }
     }
@@ -380,6 +410,11 @@ private val LanderCabin = ArcadeSprite(
     width = 16,
     height = 16,
     data = "M5 0H11V2H14V5H16V12H13V14H3V12H0V5H2V2H5Z"
+)
+
+private val LanderAbort = ArcadeSprite(
+    width = 10, height = 12,
+    data = "M4 0H6V2H8V4H10V6H6V12H4V6H0V4H2V2H4Z"
 )
 
 private val LanderWindow = ArcadeSprite(
@@ -454,7 +489,14 @@ private class MoonLandingRun : ArcadeRun() {
     var padWidth = 0.22f
     var padY = 0.85f
     var bonusPad: LandingPad? = null
-    val pads get() = listOfNotNull(LandingPad(left = padLeft, width = padWidth, y = padY), bonusPad)
+    var challengePad: LandingPad? = null
+        private set
+    val pads
+        get() = listOfNotNull(
+            LandingPad(left = padLeft, width = padWidth, y = padY),
+            bonusPad,
+            challengePad
+        )
     var throttle = 0.55f
     var zoom = 0.52f
 
@@ -483,9 +525,14 @@ private class MoonLandingRun : ArcadeRun() {
     var transition = 0f
         private set
     private var grace = 0.7f
-    val burning get() = firing && fuel > 0f && transition <= 0f
+    var abortTime = 0f
+        private set
+    val abortControl get() = Rect(width - 46f, height - 46f, width - 10f, height - 10f)
+    val canAbort get() = fuel >= 0.24f && abortTime == 0f && transition <= 0f && !landed && !crashed
+    val burning get() = (firing || abortTime > 0f) && fuel > 0f && transition <= 0f
+    val landingSpeed get() = 0.13f - round.coerceAtMost(16) * 0.002f
     val safeSpeed
-        get() = abs(vx) <= 0.1f && abs(vy) <= 0.13f - round.coerceAtMost(16) * 0.002f && abs(
+        get() = abs(vx) <= 0.1f && abs(vy) <= landingSpeed && abs(
             angle
         ) <= 0.22f
 
@@ -502,11 +549,17 @@ private class MoonLandingRun : ArcadeRun() {
     }
 
     private fun newRound() {
-        padWidth = (0.225f - round * 0.005f).coerceAtLeast(0.13f) / 2.8f
+        padWidth = maxOf(
+            (22f * shipScale + 20f) / worldWidth,
+            (0.225f - round * 0.005f).coerceAtLeast(0.13f) / 2.8f
+        )
         padLeft = 0.12f + Random.nextFloat() * (0.76f - padWidth)
         padY = 0.77f + Random.nextFloat() * 0.1f
         bonusPad = if (round > 1) {
-            val w = (0.15f - round * 0.003f).coerceAtLeast(0.1f) / 2.8f
+            val w = maxOf(
+                (22f * shipScale + 14f) / worldWidth,
+                (0.15f - round * 0.003f).coerceAtLeast(0.1f) / 2.8f
+            )
             val left = if (padLeft > 0.4f) 0.05f else 0.94f - w
             LandingPad(
                 left = left,
@@ -515,6 +568,22 @@ private class MoonLandingRun : ArcadeRun() {
                 multiplier = 2
             )
         } else null
+        challengePad = null
+        if (round >= 3) {
+            val w = maxOf(
+                (22f * shipScale + 8f) / worldWidth,
+                (0.12f - round * 0.002f).coerceAtLeast(0.085f) / 2.8f
+            )
+            val left = listOf(0.12f, 0.32f, 0.52f, 0.72f, 0.87f)
+                .filter { x -> pads.none { x < it.left + it.width + 0.04f && x + w > it.left - 0.04f } }
+                .maxByOrNull { x -> pads.minOf { abs(x + w / 2f - it.left - it.width / 2f) } }
+            if (left != null) challengePad = LandingPad(
+                left = left,
+                width = w,
+                y = 0.74f + Random.nextFloat() * 0.1f,
+                multiplier = 3 + ((round - 3) / 3) % 3
+            )
+        }
         terrain.clear()
         val pads = pads
         repeat(45) { index ->
@@ -546,6 +615,7 @@ private class MoonLandingRun : ArcadeRun() {
         crashed = false
         transition = 0f
         grace = 0.7f
+        abortTime = 0f
         stopInput()
     }
 
@@ -559,6 +629,10 @@ private class MoonLandingRun : ArcadeRun() {
 
     fun beginThrust(point: Offset) {
         if (transition > 0f) return
+        if (abortControl.contains(point)) {
+            abort()
+            return
+        }
         firing = true
         touchOrigin = point
         stick = Offset.Zero
@@ -571,7 +645,8 @@ private class MoonLandingRun : ArcadeRun() {
     fun steer(point: Offset) {
         val origin = touchOrigin ?: return
         stick = point - origin
-        targetAngle = (touchAngle + stick.x / 70f).coerceIn(-0.85f, 0.85f)
+        targetAngle =
+            (touchAngle + stick.x / (if (zoom > 1.1f) 100f else 70f)).coerceIn(-0.85f, 0.85f)
         throttle = (0.55f - stick.y / 90f).coerceIn(0.1f, 1f)
     }
 
@@ -580,6 +655,15 @@ private class MoonLandingRun : ArcadeRun() {
         touchOrigin = null
         stick = Offset.Zero
         targetAngle = 0f
+    }
+
+    fun abort() {
+        if (!canAbort) return
+        stopInput()
+        fuel -= 0.15f
+        abortTime = 0.8f
+        grace = 0f
+        effects.burst(shipPoint, 8)
     }
 
     private fun vertex(
@@ -594,7 +678,7 @@ private class MoonLandingRun : ArcadeRun() {
     override fun advance(seconds: Float) {
         time = (time + seconds) % 600f
         effects.advance(seconds)
-        val clearance = padY - y
+        val clearance = groundAt(x) - y
         val approach = ((0.5f - clearance) / 0.5f).coerceIn(0f, 1f)
         val targetZoom = 0.52f + approach * approach * (3f - 2f * approach) * 1.13f
         zoom += ((targetZoom - zoom) * minOf(1f, seconds * 2.5f))
@@ -613,9 +697,16 @@ private class MoonLandingRun : ArcadeRun() {
             grace -= seconds
             return
         }
-        angle += (targetAngle - angle).coerceIn(-2.8f * seconds, 2.8f * seconds)
-        val thrust = if (burning) 0.36f * throttle else 0f
-        fuel = (fuel - if (burning) seconds * 0.075f * throttle else 0f).coerceAtLeast(0f)
+        val aborting = abortTime > 0f
+        val rotation = if (aborting) 5f else 2.8f
+        angle += ((if (aborting) 0f else targetAngle) - angle).coerceIn(
+            -rotation * seconds,
+            rotation * seconds
+        )
+        val power = if (aborting) 1f else throttle
+        val thrust = if (burning) (if (aborting) 0.55f else 0.36f) * power else 0f
+        fuel = (fuel - if (burning) seconds * 0.075f * power else 0f).coerceAtLeast(0f)
+        abortTime = (abortTime - seconds).coerceAtLeast(0f)
         vx += sin(angle) * thrust * seconds
         vy += (0.115f + round.coerceAtMost(15) * 0.002f - cos(angle) * thrust) * seconds
         x += vx * seconds / 2.8f

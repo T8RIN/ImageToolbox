@@ -43,6 +43,7 @@ import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
 import com.t8rin.imagetoolbox.core.games.utils.arcadeLives
 import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
+import com.t8rin.imagetoolbox.core.games.utils.pixelPanel
 import com.t8rin.imagetoolbox.core.games.utils.reliefSprite
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
@@ -140,6 +141,17 @@ internal data object FishingGame : ArcadeGameDefinition {
                     kind: Int,
                     direction: Int
                 ) {
+                    if (kind == 5) {
+                        pixelPanel(
+                            style.accentColor,
+                            style.playerDetailColor,
+                            point - Offset(13f, 9f),
+                            Size(26f, 18f)
+                        )
+                        pixelRect(style.obstacleColor, point.x - 13f, point.y - 3f, 26f, 3f)
+                        pixelRect(style.playerDetailColor, point.x - 2f, point.y - 2f, 4f, 6f)
+                        return
+                    }
                     val color = when (kind) {
                         1 -> style.obstacleColor
                         2 -> style.playerColor
@@ -223,6 +235,14 @@ internal data object FishingGame : ArcadeGameDefinition {
                     direction = direction
                 )
                 val point = run.hook
+                if (run.catchWindow > 0f) {
+                    pixelCircle(
+                        style.accentColor,
+                        13f + run.catchWindow * 9f,
+                        point,
+                        style = Stroke(2f)
+                    )
+                }
                 fishingLine(
                     start = run.anchor,
                     end = point,
@@ -517,6 +537,12 @@ private class FishingRun : ArcadeRun() {
     val hook get() = anchor + Offset(x = sin(angle), y = cos(angle)) * length
     private var casting = false
     private var returning = false
+    var catchWindow = 0f
+        private set
+    var reelTime = 0f
+        private set
+    private var hooked = false
+    private var treasureIn = 4
 
     fun fishY(row: Int) = waterline + (height - waterline - 18f) * (row + 0.7f) / 4.2f
 
@@ -534,28 +560,48 @@ private class FishingRun : ArcadeRun() {
         haulValue = 0
         casting = false
         returning = false
-        repeat(4) { row ->
+        catchWindow = 0f
+        reelTime = 0f
+        hooked = false
+        treasureIn = 4
+        repeat(6) { index ->
+            val row = index % 4
             fish += SwimmingFish(
-                x = Random.nextFloat() * (width - 60f) + 30f, row = row,
-                kind = 1 + row % 3, direction = if (row % 2 == 0) 1 else -1
+                x = if (index == 3) width * 0.75f else width * (0.2f + index % 3 * 0.3f), row = row,
+                kind = if (index == 3) 5 else 1 + index % 3, direction = if (row % 2 == 0) 1 else -1
             )
         }
     }
 
     fun cast() {
-        if (casting) return
+        if (casting) {
+            if (catchWindow > 0f && !hooked) {
+                hooked = true
+                catchWindow = 0f
+                haulValue += maxOf(2, haulValue / 2)
+                reelTime = 0.7f
+                effects.burst(hook, 12)
+            } else if (!returning && length > maxOf(60f, (height - waterline) * 0.25f)) {
+                returning = true
+            }
+            return
+        }
         casting = true
         returning = false
         caught = 0
         haul.clear()
         haulValue = 0
+        hooked = false
+        catchWindow = 0f
     }
 
     override fun advance(seconds: Float) {
         time += seconds
+        catchWindow = (catchWindow - seconds).coerceAtLeast(0f)
+        reelTime = (reelTime - seconds).coerceAtLeast(0f)
         effects.advance(seconds)
         for (item in fish) {
-            item.x += item.direction * (22f + item.kind * 12f + minOf(
+            item.x += item.direction * (if (item.kind == 5) 15f else 22f + item.kind * 12f + minOf(
                 catches * 0.75f,
                 55f
             )) * seconds
@@ -568,7 +614,13 @@ private class FishingRun : ArcadeRun() {
         }
         val speed = maxOf(240f, (height - waterline) * 1.7f)
         if (returning) {
-            length -= speed * 1.2f * seconds
+            val weight = if (5 in haul) 0.78f else if (1 in haul) 1f else 1.2f
+            val pull = when {
+                reelTime > 0f -> 1.75f
+                catchWindow > 0f && !hooked -> 0.35f
+                else -> 1f
+            }
+            length -= speed * weight * pull * seconds
             val point = hook
             val capacity = if (streak >= 5) 3 else 2
             if (haulCount < capacity) {
@@ -583,7 +635,7 @@ private class FishingRun : ArcadeRun() {
                     catches += haulCount
                     streak++
                     score += haulValue * (1 + minOf(streak / 3, 2))
-                    if (streak % 5 == 0) misses = (misses - 1).coerceAtLeast(0)
+                    if (streak % 5 == 0 || 5 in haul) misses = (misses - 1).coerceAtLeast(0)
                     effects.burst(
                         point = Offset(x = width / 2f, y = waterline),
                         count = if (streak % 5 == 0) 18 else 9
@@ -595,6 +647,8 @@ private class FishingRun : ArcadeRun() {
                 caught = 0
                 haul.clear()
                 haulValue = 0
+                catchWindow = 0f
+                reelTime = 0f
                 if (misses >= 3) phase = ArcadePhase.Over
             }
         } else {
@@ -608,7 +662,7 @@ private class FishingRun : ArcadeRun() {
     }
 
     private fun findFish(point: Offset) = fish.indexOfFirst {
-        val scale = 1.1f - it.kind * 0.13f
+        val scale = if (it.kind == 5) 0.85f else 1.1f - it.kind * 0.13f
         val dx = (it.x - point.x) / (20f * scale)
         val dy = (fishY(it.row) - point.y) / (11f * scale)
         dx * dx + dy * dy <= 1f
@@ -618,16 +672,26 @@ private class FishingRun : ArcadeRun() {
         val item = fish[index]
         caught = item.kind
         haul += item.kind
-        haulValue += if (item.kind == 4) 12 else item.kind
+        haulValue += when (item.kind) {
+            5 -> 25
+            4 -> 12
+            else -> item.kind
+        }
+        if (!hooked) catchWindow = 0.45f
         returning = true
         effects.burst(point = point, count = 5)
         fish[index] = SwimmingFish(
             x = if (item.direction > 0) -32f else width + 32f,
             row = item.row,
-            kind = if (item.row >= 2 && catches >= 5 && Random.nextFloat() < 0.12f) 4 else Random.nextInt(
-                1,
-                4
-            ),
+            kind = when {
+                item.row == 3 && catches >= treasureIn -> {
+                    treasureIn = catches + 7
+                    5
+                }
+
+                item.row >= 2 && catches >= 5 && Random.nextFloat() < 0.12f -> 4
+                else -> Random.nextInt(1, 4)
+            },
             direction = item.direction
         )
     }
@@ -635,7 +699,11 @@ private class FishingRun : ArcadeRun() {
     override fun onRestore() {
         if (caught > 0 && haul.isEmpty()) {
             haul += caught
-            haulValue = if (caught == 4) 12 else caught
+            haulValue = when (caught) {
+                5 -> 25
+                4 -> 12
+                else -> caught
+            }
         }
     }
 

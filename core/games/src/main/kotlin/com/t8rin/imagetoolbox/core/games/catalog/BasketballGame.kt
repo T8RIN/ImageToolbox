@@ -416,7 +416,7 @@ private fun DrawScope.drawBasketballBall(
     }
     pixelCircle(lerp(style.playerColor, ink, 0.25f), radius, center)
     clipPath(silhouette) {
-        drawCircle(
+        pixelCircle(
             style.playerColor,
             radius * 0.96f,
             center - Offset(radius * 0.12f, radius * 0.14f)
@@ -445,7 +445,7 @@ private fun DrawScope.drawBasketballBall(
             Size(radius * 0.35f, radius * 0.17f)
         )
     }
-    drawCircle(ink.copy(alpha = 0.4f), radius, center, style = Stroke(unit * 0.7f))
+    pixelCircle(ink.copy(alpha = 0.4f), radius, center, style = Stroke(unit * 0.7f))
 }
 
 private fun DrawScope.drawBasketballBackground(style: ArcadeStyle, width: Float, height: Float) {
@@ -761,12 +761,14 @@ private class BasketballRun : ArcadeRun() {
                 Offset(pull.x, -pull.y) * 0.22f to angle
     }
 
-    private fun hasShot(): Boolean = hasShotAt(time) && hasShotAt(time + 0.35f)
+    private fun hasShot(): Boolean = listOf(0f, 0.22f, 0.5f).all { delay ->
+        hasShotAt(time + delay)
+    }
 
     private fun hasShotAt(startTime: Float): Boolean {
         val hoop = hoops[1]
-        for (sample in 0..48) {
-            val duration = 0.75f + sample / 24f
+        for (sample in 0..72) {
+            val duration = 0.65f + sample / 30f
             var pull = Offset.Zero
             var start = hoops.first().center - hoops.first().normal * 20f
             repeat(5) {
@@ -779,7 +781,7 @@ private class BasketballRun : ArcadeRun() {
             }
             if (pull.getDistance() > hoops.first().halfWidth * 3.65f || pull.y < 0f) continue
             var fits = true
-            for (error in listOf(-0.75f, 0.75f)) {
+            for (error in listOf(-1.5f, 0f, 1.5f)) {
                 val attempt = pull + Offset(error, 0f)
                 val pose = shotPose(attempt)
                 val flight = BasketballFlight(pose.first, velocityForPull(attempt))

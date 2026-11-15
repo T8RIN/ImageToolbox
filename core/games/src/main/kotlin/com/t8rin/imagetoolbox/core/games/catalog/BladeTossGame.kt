@@ -41,6 +41,7 @@ import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
 import com.t8rin.imagetoolbox.core.games.utils.arcadeAngle
 import com.t8rin.imagetoolbox.core.games.utils.arcadeAngleDistance
+import com.t8rin.imagetoolbox.core.games.utils.pixelArc
 import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
@@ -108,7 +109,7 @@ internal data object BladeTossGame : ArcadeGameDefinition {
                     repeat(4) { index ->
                         val angle = (index * 90f + 45f) * PI.toFloat() / 180f
                         val offset = Offset(x = cos(angle), y = sin(angle)) * progress * 42f
-                        drawArc(
+                        pixelArc(
                             color = style.obstacleColor.copy(alpha = 1f - progress),
                             startAngle = index * 90f + 3f,
                             sweepAngle = 84f,

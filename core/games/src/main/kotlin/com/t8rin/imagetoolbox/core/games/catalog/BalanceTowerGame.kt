@@ -269,6 +269,13 @@ internal data object BalanceTowerGame : ArcadeGameDefinition {
                         )
                     }
                 }
+                repeat(4) { index ->
+                    pixelRect(
+                        if (index < run.chain % 4) style.accentColor else style.detailColor.copy(
+                            alpha = 0.3f
+                        ), 14f + index * 10f, run.topInset / 2f - 2f, 7f, 4f
+                    )
+                }
                 run.effects.draw(
                     scope = this,
                     color = style.accentColor
@@ -429,7 +436,8 @@ private class BalanceTowerRun : ArcadeRun() {
     var stability = 1f
         private set
     private var time = 0f
-    private var chain = 0
+    var chain = 0
+        private set
     private var velocity = 0f
     private var angularVelocity = 0f
     private var collapseTime = 0f
@@ -594,6 +602,7 @@ private class BalanceTowerRun : ArcadeRun() {
             if (!collapsing) {
                 chain = if (stability > 0.85f) chain + 1 else 0
                 score += 10 + if (chain > 0) 5 + minOf(chain, 5) * 2 else 0
+                if (chain > 0 && chain % 4 == 0) score += minOf(chain, 20) * 5
                 angularVelocity = (current.x - centerMass) * if (chain > 0) 0.035f else 0.1f
                 settle = 0.3f
                 effects.burst(

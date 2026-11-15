@@ -40,6 +40,7 @@ import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Water
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
 import kotlin.math.abs
 import kotlin.math.ceil
 import kotlin.math.sin
@@ -566,6 +567,9 @@ private class RiverHopRun : ArcadeRun() {
     var facing = 0f
     var water = 0f
     private var hopTime = 0f
+
+    @Transient
+    private var queuedHop: Pair<Int, Int>? = null
     private var fromX = frogX
     private var fromRow = 0
     private var sectionLeft = 0
@@ -589,6 +593,7 @@ private class RiverHopRun : ArcadeRun() {
         facing = 0f
         water = 0f
         hopTime = 0f
+        queuedHop = null
         fromX = frogX
         fromRow = 0
         sectionLeft = 0
@@ -659,7 +664,11 @@ private class RiverHopRun : ArcadeRun() {
         dx: Int,
         dy: Int
     ) {
-        if (hopTime > 0f || row + dy < maxOf(0, camera.toInt() - 1)) return
+        if (hopTime > 0f) {
+            queuedHop = dx to dy
+            return
+        }
+        if (row + dy < maxOf(0, camera.toInt() - 1)) return
         val nextX = frogX + dx
         if (nextX !in 0.35f..8.65f) return
         fromX = frogX
@@ -673,6 +682,10 @@ private class RiverHopRun : ArcadeRun() {
             else -> 0f
         }
         hopTime = 0.12f
+    }
+
+    override fun stopInput() {
+        queuedHop = null
     }
 
     override fun advance(seconds: Float) {
@@ -714,6 +727,10 @@ private class RiverHopRun : ArcadeRun() {
                 highest = row
                 remaining = 8f
             }
+        }
+        if (hopTime == 0f) queuedHop?.let { (dx, dy) ->
+            queuedHop = null
+            hop(dx, dy)
         }
         camera += (maxOf(0f, highest - 1f) - camera).coerceIn(0f, seconds * 7f)
         populate()

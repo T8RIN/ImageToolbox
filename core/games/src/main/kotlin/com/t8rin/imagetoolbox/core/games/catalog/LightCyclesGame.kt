@@ -46,6 +46,8 @@ import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
+import com.t8rin.imagetoolbox.core.games.utils.pixelArc
+import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.TwoWheeler
@@ -166,7 +168,7 @@ internal data object LightCyclesGame : ArcadeGameDefinition {
                         val point = run.center(pickup)
                         val r =
                             cell * (0.48f + sin(run.time * 5f) * 0.06f)
-                        drawCircle(
+                        pixelCircle(
                             color = style.accentColor.copy(alpha = 0.15f),
                             radius = r,
                             center = point
@@ -228,13 +230,13 @@ internal data object LightCyclesGame : ArcadeGameDefinition {
                                 path = beam,
                                 color = ink.copy(alpha = 0.1f)
                             )
-                            if (cycle.charged) drawCircle(
+                            if (cycle.charged) pixelCircle(
                                 color = style.accentColor,
                                 radius = cell * 0.6f,
                                 center = point,
                                 style = Stroke(width = 1f)
                             )
-                            if (cycle.phaseTime > 0f) drawArc(
+                            if (cycle.phaseTime > 0f) pixelArc(
                                 color = style.accentColor,
                                 startAngle = -90f - cycle.direction * 90f,
                                 sweepAngle = 360f * cycle.phaseTime / 1.6f,

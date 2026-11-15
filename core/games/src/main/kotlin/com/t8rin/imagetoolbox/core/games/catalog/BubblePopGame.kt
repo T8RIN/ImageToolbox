@@ -150,6 +150,20 @@ internal data object BubblePopGame : ArcadeGameDefinition {
                         4f
                     )
                 }
+                if (run.combo > 1) repeat(run.combo) { index ->
+                    pixelCircle(
+                        style.accentColor,
+                        2.5f,
+                        Offset(16f + index * 9f, run.topInset - 7f)
+                    )
+                    pixelRect(
+                        style.accentColor.copy(alpha = 0.35f),
+                        13.5f + index * 9f,
+                        run.topInset - 3f,
+                        5f * (run.comboTime / 1.8f).coerceIn(0f, 1f),
+                        1f
+                    )
+                }
                 val danger =
                     (run.board.size - run.columns until run.board.size).any { run.board[it] >= 0 }
                 if (danger) {
@@ -327,7 +341,8 @@ private class BubblePopRun : ArcadeRun() {
     var chargeTime = 0f
         private set
     var combo = 0
-    private var comboTime = 0f
+    var comboTime = 0f
+        private set
     private var advanceRow = false
     private var raiseTime = 0f
     private var received = 0

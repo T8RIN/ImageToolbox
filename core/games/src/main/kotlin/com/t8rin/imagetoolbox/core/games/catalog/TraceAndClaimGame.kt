@@ -59,6 +59,7 @@ import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.arcadeJoystick
 import com.t8rin.imagetoolbox.core.games.utils.arcadeLives
+import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.LassoSelect
@@ -131,7 +132,7 @@ internal data object TraceAndClaimGame : ArcadeGameDefinition {
                 arena.rewind()
                 arena.addOval(Rect(center, radius))
                 clipPath(path = arena) {
-                    drawCircle(
+                    pixelCircle(
                         color = style.detailColor.copy(alpha = 0.12f),
                         radius = radius,
                         center = center
@@ -165,7 +166,13 @@ internal data object TraceAndClaimGame : ArcadeGameDefinition {
                             )
                             for (rider in run.riders) {
                                 if (!rider.active) continue
-                                val tint = colors[rider.id - 1]
+                                val tint = if (rider === player && run.tailThreat) {
+                                    lerp(
+                                        colors[rider.id - 1],
+                                        style.hazardColor,
+                                        0.65f + sin(run.time * 12f) * 0.25f
+                                    )
+                                } else colors[rider.id - 1]
                                 val point = rider.point
                                 if (rider.route.isNotEmpty()) {
                                     trail.followTrace(rider.route, point)
@@ -193,7 +200,7 @@ internal data object TraceAndClaimGame : ArcadeGameDefinition {
                         }
                     }
                 }
-                drawCircle(
+                pixelCircle(
                     color = style.borderColor,
                     radius = radius,
                     center = center,
@@ -384,6 +391,12 @@ private class TraceAndClaimRun : ArcadeRun() {
         get() = 11.6f + 3.6f * difficulty / (difficulty + 4f)
     private val botCount: Int
         get() = 5 + (arena / 2 + (elapsed / 22f).toInt()).coerceAtMost(TraceRiders - 6)
+
+    val time get() = elapsed
+    val tailThreat: Boolean
+        get() = player.route.isNotEmpty() && riders.drop(1).any {
+            it.active && player.trailNear(it.point, speed * 0.85f)
+        }
 
     val progress: Float
         get() = (player.land.area / TraceArena.area).coerceIn(0f, 1f)

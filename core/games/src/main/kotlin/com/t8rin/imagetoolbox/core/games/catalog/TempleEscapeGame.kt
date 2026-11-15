@@ -44,6 +44,7 @@ import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
+import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.ShineDiamond
@@ -212,6 +213,31 @@ internal data object TempleEscapeGame : ArcadeGameDefinition {
                                 }
                             }
 
+                            5 -> {
+                                val point = Offset(x + cell / 2f, y + cell / 2f)
+                                pixelRect(
+                                    style.accentColor,
+                                    point.x - cell * 0.24f,
+                                    point.y - cell * 0.25f,
+                                    unit * 2f,
+                                    cell * 0.5f
+                                )
+                                pixelRect(
+                                    style.accentColor,
+                                    point.x + cell * 0.24f - unit * 2f,
+                                    point.y - cell * 0.25f,
+                                    unit * 2f,
+                                    cell * 0.5f
+                                )
+                                pixelRect(
+                                    style.accentColor,
+                                    point.x - cell * 0.24f,
+                                    point.y + cell * 0.15f,
+                                    cell * 0.48f,
+                                    unit * 2f
+                                )
+                            }
+
                             3 -> {
                                 val point = Offset(x = x + cell / 2f, y = y + cell / 2f)
                                 scale(scale = unit, pivot = point) {
@@ -347,7 +373,13 @@ internal data object TempleEscapeGame : ArcadeGameDefinition {
                             }
                         }
                     }
-                    if (run.shield || run.protection > 0f) drawCircle(
+                    if (run.magnet > 0f) pixelCircle(
+                        style.accentColor.copy(alpha = 0.25f),
+                        cell * 1.35f,
+                        player,
+                        style = Stroke(unit)
+                    )
+                    if (run.shield || run.protection > 0f) pixelCircle(
                         color = style.playerColor.copy(alpha = 0.7f),
                         radius = cell * 0.62f,
                         center = player,
@@ -536,6 +568,8 @@ private class TempleEscapeRun : ArcadeRun() {
         private set
     var protection = 0f
         private set
+    var magnet = 0f
+        private set
     var freeze = 0f
         private set
     private var begun = false
@@ -672,6 +706,7 @@ private class TempleEscapeRun : ArcadeRun() {
         shield = false
         protection = 0f
         freeze = 0f
+        magnet = 0f
         camera = (rows - visibleRows).coerceAtLeast(0f)
         direction = -1
         queued = -1
@@ -731,6 +766,8 @@ private class TempleEscapeRun : ArcadeRun() {
         val shield = stops.filter { route[it] && it != exit }.maxBy { it / columns }
         pickups[shield] = 3
         if (round >= 3) bonuses.drop(3).firstOrNull { pickups[it] == 0 }?.let { pickups[it] = 4 }
+        if (round >= 2) pickups.indices.filter { route[it] && it != shield && it != exit && pickups[it] == 1 }
+            .maxByOrNull { it / columns }?.let { pickups[it] = 5 }
         for ((top, bottom) in chambers.drop(1)) {
             val hazards = stops.filter {
                 it / columns in top + 2 until bottom - 1 && it != shield && it != exit && !route[it]
@@ -886,6 +923,7 @@ private class TempleEscapeRun : ArcadeRun() {
             return
         }
         freeze = (freeze - seconds).coerceAtLeast(0f)
+        magnet = (magnet - seconds).coerceAtLeast(0f)
         if (freeze == 0f) time += seconds
         val blend = 1f - exp(-seconds * 24f)
         val targetX = when (direction) {
@@ -930,6 +968,10 @@ private class TempleEscapeRun : ArcadeRun() {
                 position = next(index = position, direction = direction)
                 when (pickups[position]) {
                     1 -> score++
+                    5 -> {
+                        magnet = 7f
+                        effects.burst(playerPoint, 12)
+                    }
                     2 -> {
                         relics++
                         score += 15 + relics * 5
@@ -947,6 +989,18 @@ private class TempleEscapeRun : ArcadeRun() {
                     }
                 }
                 pickups[position] = 0
+                if (magnet > 0f) for (heading in 0..3) {
+                    var index = position
+                    for (distance in 1..2) {
+                        index = next(index, heading)
+                        if (index < 0 || walls[index]) break
+                        if (pickups[index] == 1) {
+                            pickups[index] = 0
+                            score++
+                            effects.burst(point(index), 2)
+                        }
+                    }
+                }
                 if (position == exit) {
                     score += 50 + round * 10
                     transition = 0.24f

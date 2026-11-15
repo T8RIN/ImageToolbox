@@ -78,6 +78,29 @@ internal data object RacerGame : ArcadeGameDefinition {
                 onDrag = run::steer
             ) {
                 drawRacingSurroundings(run, style)
+                repeat(5) { index ->
+                    pixelRect(
+                        if (index < run.chain) style.accentColor else style.detailColor.copy(
+                            alpha = 0.3f
+                        ), 14f + index * 10f, run.topInset / 2f - 2f, 7f, 4f
+                    )
+                }
+                if (run.flowTime > 0f) {
+                    pixelRect(
+                        style.accentColor.copy(alpha = 0.18f),
+                        14f,
+                        run.topInset / 2f + 5f,
+                        47f,
+                        3f
+                    )
+                    pixelRect(
+                        style.accentColor,
+                        14f,
+                        run.topInset / 2f + 5f,
+                        47f * run.flowTime / 4f,
+                        3f
+                    )
+                }
                 val left = run.roadLeft
                 val roadWidth = run.laneWidth * 3f
 
@@ -414,7 +437,8 @@ private class RacerRun : ArcadeRun() {
         private set
     var flowTime = 0f
         private set
-    private var chain = 0
+    var chain = 0
+        private set
     private var chainTime = 0f
     private var distanceScore = 0f
     var position = 1f

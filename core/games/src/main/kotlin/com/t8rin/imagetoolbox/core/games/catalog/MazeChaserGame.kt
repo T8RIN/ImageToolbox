@@ -31,6 +31,7 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.clipPath
 import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.drawscope.scale
+import androidx.compose.ui.graphics.drawscope.translate
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
 import com.t8rin.imagetoolbox.core.games.ArcadeField
 import com.t8rin.imagetoolbox.core.games.ArcadeGameContext
@@ -157,7 +158,20 @@ internal data object MazeChaserGame : ArcadeGameDefinition {
                     if (run.bonus >= 0) {
                         val center = run.center(run.bonus)
                         val radius = cell * 0.15f
-                        for (side in listOf(-1f, 1f)) {
+                        if (run.bonusKind > 0) {
+                            val unit = cell * 0.65f / 12f
+                            translate(center.x - 6f * unit, center.y - 6f * unit) {
+                                scale(unit, pivot = Offset.Zero) {
+                                    drawArcadeSprite(
+                                        MazePrizes[run.bonusKind - 1],
+                                        style.accentColor,
+                                        0f,
+                                        0f
+                                    )
+                                    pixelRect(style.playerDetailColor, 4f, 4f, 2f, 2f)
+                                }
+                            }
+                        } else for (side in listOf(-1f, 1f)) {
                             val fruit = center + Offset(side * radius, radius * 0.55f)
                             drawLine(
                                 style.obstacleColor, center - Offset(0f, radius * 1.5f), fruit,
@@ -269,6 +283,16 @@ internal data object MazeChaserGame : ArcadeGameDefinition {
     }
 }
 
+private val MazePrizes = listOf(
+    "M2 2H4V0H8V2H10V7H9V9H8V10H7V12H5V10H4V9H3V7H2Z",
+    "M5 0H8V1H7V2H9V3H11V9H9V11H3V9H1V3H3V2H5Z",
+    "M5 0H7V2H10V3H11V9H9V11H7V10H5V11H3V9H1V3H4V2H5Z",
+    "M4 0H8V1H10V3H12V9H10V11H8V12H4V11H2V9H0V3H2V1H4Z",
+    "M5 0H7V3H9V5H11V2H12V10H9V8H7V12H5V8H3V10H0V2H1V5H3V3H5Z",
+    "M5 0H7V2H9V4H10V8H12V10H8V12H4V10H0V8H2V4H3V2H5Z",
+    "M1 0H7V1H8V6H7V7H6V12H4V11H2V9H4V7H1V6H0V1H1Z M2 2V5H6V2Z"
+).map { ArcadeSprite(width = 12, height = 12, data = it) }
+
 private val MazePlayerOpen = ArcadeSprite(
     width = 16, height = 16,
     data = "M5 0H11V1H14V3H16V5H13V6H10V7H8V9H10V10H13V11H16V13H14V15H11V16H5V15H2V13H0V3H2V1H5Z"
@@ -341,7 +365,19 @@ private class MazeChaserRun : ArcadeRun() {
     var time = 0f
     var power = 0f
     var bonus = -1
-        private set
+    val bonusKind
+        get() = when (round) {
+            1 -> 0
+            2 -> 1
+            in 3..4 -> 2
+            in 5..6 -> 3
+            in 7..8 -> 4
+            in 9..10 -> 5
+            in 11..12 -> 6
+            else -> 7
+        }
+    val bonusValue get() = listOf(100, 300, 500, 700, 1000, 2000, 3000, 5000)[bonusKind]
+    private var extraLife = false
     private var bonusTime = 0f
     private var bonusStage = 0
     private var lastBonus = -1
@@ -389,6 +425,7 @@ private class MazeChaserRun : ArcadeRun() {
     override fun reset() {
         round = 1
         lives = 3
+        extraLife = false
         time = 0f
         lastBonus = -1
         effects.clear()
@@ -538,6 +575,11 @@ private class MazeChaserRun : ArcadeRun() {
             }
             return
         }
+        if (!extraLife && score >= 10000) {
+            extraLife = true
+            lives++
+            effects.burst(point = playerPoint, count = 18)
+        }
         power = (power - seconds).coerceAtLeast(0f)
         bonusTime = (bonusTime - seconds).coerceAtLeast(0f)
         if (bonusTime == 0f) bonus = -1
@@ -546,7 +588,7 @@ private class MazeChaserRun : ArcadeRun() {
         if (elapsed >= playerInterval) {
             elapsed -= playerInterval
             if (player == bonus) {
-                score += 100 + round.coerceAtMost(16) * 25
+                score += bonusValue
                 bonus = -1
                 bonusTime = 0f
                 effects.burst(point = center(player), count = 14)

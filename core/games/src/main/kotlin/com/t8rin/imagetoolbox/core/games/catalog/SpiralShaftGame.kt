@@ -42,6 +42,7 @@ import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
 import com.t8rin.imagetoolbox.core.games.utils.arcadeAngle
 import com.t8rin.imagetoolbox.core.games.utils.arcadeAngleDistance
+import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Laps
@@ -81,6 +82,15 @@ internal data object SpiralShaftGame : ArcadeGameDefinition {
                 onRelease = run::stopInput
             ) {
                 drawShaftBackground(style, run.width, run.height, run.camera * run.unit * 0.12f)
+                repeat(ShaftCombo) { index ->
+                    pixelCircle(
+                        color = if (run.smashes > 0 || index < run.combo) style.accentColor else style.detailColor.copy(
+                            alpha = 0.2f
+                        ),
+                        radius = if (run.smashes > 0) 4f else 3f,
+                        center = Offset(18f + index * 12f, run.topInset / 2f)
+                    )
+                }
                 translate(left = run.width / 2f, top = run.anchor) {
                     scale(scale = run.unit, pivot = Offset.Zero) {
                         val top = -run.anchor / run.unit
@@ -358,7 +368,7 @@ private fun DrawScope.shaftBall(run: SpiralShaftRun, style: ArcadeStyle) {
     if (run.velocity > 210f) {
         val count = if (boosted) 6 else 3
         for (index in count downTo 1) {
-            drawCircle(
+            pixelCircle(
                 color = color.copy(alpha = (if (boosted) 0.46f else 0.27f) * (1f - index / (count + 1f))),
                 radius = radius * (1f - index * 0.11f),
                 center = run.project(
@@ -451,7 +461,8 @@ private class SpiralShaftRun : ArcadeRun() {
         private set
     var camera = 0f
         private set
-    private var combo = 0
+    var combo = 0
+        private set
     var smashes = 0
         private set
     var impact = 0f

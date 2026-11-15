@@ -72,6 +72,23 @@ internal data object PongGame : ArcadeGameDefinition {
                 onDrag = { run.steer(it.y) }
             ) {
                 drawPongCourt(style, run.width, run.height, run.top, run.bottom)
+                for (side in 0..1) {
+                    val points = if (side == 0) run.playerPoints else run.rivalPoints
+                    val color = if (side == 0) style.playerColor else style.obstacleColor
+                    val y = run.topInset / 2f - 7f + side * 10f
+                    repeat(5) { point ->
+                        pixelRect(
+                            color.copy(alpha = if (point < points) 1f else 0.18f),
+                            14f + point * 11f,
+                            y,
+                            8f,
+                            5f
+                        )
+                    }
+                    if (run.goalFlash > 0f && run.lastGoal == side) {
+                        pixelRect(color.copy(alpha = run.goalFlash * 0.3f), 11f, y - 2f, 55f, 9f)
+                    }
+                }
                 val arena = style.detailColor.copy(alpha = 0.13f)
                 for (side in 0..1) {
                     val edge = if (side == 0) 5f else run.width - 8f
@@ -164,8 +181,8 @@ private fun DrawScope.drawPongCourt(
     }
     val center = Offset(width / 2f, (top + bottom) / 2f)
     val radius = (bottom - top) * 0.23f
-    drawCircle(ink, radius, center, style = Stroke(0.8f))
-    drawCircle(ink.copy(alpha = 0.1f), radius * 0.12f, center)
+    pixelCircle(ink, radius, center, style = Stroke(0.8f))
+    pixelCircle(ink.copy(alpha = 0.1f), radius * 0.12f, center)
     for (side in 0..1) {
         val edge = if (side == 0) 18f else width - 18f
         val direction = if (side == 0) 1f else -1f
@@ -211,6 +228,17 @@ private class PongRun : ArcadeRun() {
     private var reaction = 0f
     private var trailTime = 0f
     private var rallies = 0
+    var playerPoints = 0
+        private set
+    var rivalPoints = 0
+        private set
+    var sets = 1
+        private set
+    var goalFlash = 0f
+        private set
+    var lastGoal = 0
+        private set
+    private var rallyHits = 0
 
     override fun reset() {
         playerY = (top + bottom) / 2
@@ -219,6 +247,11 @@ private class PongRun : ArcadeRun() {
         rivalTarget = playerY
         reaction = 0f
         rallies = 0
+        playerPoints = 0
+        rivalPoints = 0
+        sets = 1
+        rallyHits = 0
+        goalFlash = 0f
         serve()
     }
 
@@ -226,16 +259,37 @@ private class PongRun : ArcadeRun() {
         targetY = y.coerceIn(top + paddleHalf, bottom - paddleHalf)
     }
 
-    private fun serve() {
+    private fun serve(direction: Int = -1) {
         ballX = width / 2
         ballY = (top + bottom) / 2
-        velocityX = -(270f + rallies.coerceAtMost(12) * 4f)
+        velocityX = (270f + rallies.coerceAtMost(12) * 4f) * direction
         velocityY = Random.nextFloat() * 150f - 75f
         serveDelay = 0.8f
         trail.clear()
+        rallyHits = 0
+    }
+
+    private fun goal(player: Boolean) {
+        lastGoal = if (player) 0 else 1
+        goalFlash = 1f
+        if (player) {
+            playerPoints++
+            score += 10 + minOf(rallyHits, 20)
+            if (playerPoints == 5) {
+                score += 50 + sets * 10
+                sets++
+                playerPoints = 0
+                rivalPoints = 0
+            }
+        } else if (++rivalPoints == 5) {
+            phase = ArcadePhase.Over
+            return
+        }
+        serve(if (player) 1 else -1)
     }
 
     override fun advance(seconds: Float) {
+        goalFlash = (goalFlash - seconds * 1.5f).coerceAtLeast(0f)
         val motion = (targetY - playerY).coerceIn(-650f * seconds, 650f * seconds)
         playerY += motion
         reaction -= seconds
@@ -247,7 +301,11 @@ private class PongRun : ArcadeRun() {
                 val predicted = ballY + velocityY * travel - top - BallHalf
                 val folded = ((predicted % (span * 2f)) + span * 2f) % (span * 2f)
                 top + BallHalf + (if (folded < span) folded else span * 2f - folded) +
-                        sin(rallies * 0.91f + ballX * 0.02f) * paddleHalf * if (style == 2) 0.38f else 0.18f
+                        sin(rallies * 0.91f + ballX * 0.02f) * paddleHalf *
+                        ((if (style == 2) 0.4f else 0.24f) + ((rallyHits - 5) * 0.15f).coerceIn(
+                            0f,
+                            1.1f
+                        ))
             } else (top + bottom) / 2f
             reaction =
                 (0.2f - rallies * 0.0015f).coerceAtLeast(0.11f) + if (style == 2) 0.05f else 0f
@@ -281,6 +339,7 @@ private class PongRun : ArcadeRun() {
                 )
                 score += if (abs(ballY - playerY) / paddleHalf > 0.78f) 3 else 1
                 rallies++
+                rallyHits++
             }
 
             velocityX > 0 && oldX <= width - PaddleEdge - BallHalf && ballX >= width - PaddleEdge - BallHalf &&
@@ -298,12 +357,11 @@ private class PongRun : ArcadeRun() {
             }
 
             ballX < -BallHalf -> {
-                phase = ArcadePhase.Over
+                goal(player = false)
             }
 
             ballX > width + BallHalf -> {
-                score += 5
-                serve()
+                goal(player = true)
             }
         }
         trailTime += seconds

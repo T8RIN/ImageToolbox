@@ -278,8 +278,9 @@ private data class OrbitGate(
     var y: Float,
     val kind: Int,
     var passed: Boolean = false,
-    val angle: Float = 0f,
-    val offset: Float = 0.6f
+    var angle: Float = 0f,
+    val offset: Float = 0.6f,
+    val spin: Float = 0f
 )
 
 @Serializable
@@ -386,12 +387,14 @@ private class OrbitSurvivalRun : ArcadeRun() {
             val dy = maxOf(center.y, height - center.y)
             gates += OrbitGate(
                 y = -sqrt(dx * dx + dy * dy) / radius - 0.4f, kind = kind, angle = angle,
-                offset = if (Random.nextBoolean()) 0.65f else -0.65f
+                offset = if (Random.nextBoolean()) 0.65f else -0.65f,
+                spin = if (score >= 20 && kind < 3 && spawned % 3 == 0) (if (spawned % 2 == 0) 0.22f else -0.22f) else 0f
             )
             timer += (if (kind == 4) 3.5f else 2.6f) / speed + 0.95f + if (spawned % 12 == 0) 0.7f else 0f
         }
         val dotSize = dotRadius / radius
         for (gate in gates) {
+            gate.angle = (gate.angle + gate.spin * seconds + full) % full
             gate.y += speed * seconds
             for (side in listOf(-1f, 1f)) {
                 val relative = angle - gate.angle

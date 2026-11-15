@@ -38,6 +38,7 @@ import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
+import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Forest
@@ -277,7 +278,7 @@ internal data object TimberChopGame : ArcadeGameDefinition {
                 }
                 val color = if (run.energy < 0.25f) style.hazardColor else style.accentColor
                 val clock = Offset(x = 22f, y = run.topInset / 2f)
-                drawCircle(
+                pixelCircle(
                     color = color,
                     radius = 6f,
                     center = clock,
@@ -332,7 +333,7 @@ internal data object TimberChopGame : ArcadeGameDefinition {
                 }
                 if (run.flash > 0f) {
                     val impact = Offset(center - run.side * 19f, base - segment / 2f)
-                    drawCircle(
+                    pixelCircle(
                         color = style.playerDetailColor.copy(alpha = run.flash * 0.65f),
                         radius = 10f + (1f - run.flash) * 14f,
                         center = impact,

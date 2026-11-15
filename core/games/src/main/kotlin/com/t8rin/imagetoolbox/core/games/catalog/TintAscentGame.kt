@@ -42,6 +42,7 @@ import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
 import com.t8rin.imagetoolbox.core.games.utils.arcadeAngle
+import com.t8rin.imagetoolbox.core.games.utils.pixelArc
 import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
@@ -138,7 +139,7 @@ internal data object TintAscentGame : ArcadeGameDefinition {
                             if (!gate.switched) {
                                 val center = Offset(0f, -gate.switchY)
                                 repeat(4) { index ->
-                                    drawArc(
+                                    pixelArc(
                                         color = colors[index],
                                         startAngle = gate.angle + index * 90f,
                                         sweepAngle = 90f,
@@ -246,7 +247,7 @@ private fun DrawScope.drawSwitchGate(gate: SwitchGate, colors: List<Color>, alph
         SwitchGateKind.Ring, SwitchGateKind.DoubleRing -> {
             fun ring(radius: Float, angle: Float, reverse: Boolean) {
                 repeat(8) { index ->
-                    drawArc(
+                    pixelArc(
                         color = colors[gate.colorAt(if (reverse) -index else index)].copy(alpha = alpha),
                         startAngle = angle + index * 45f,
                         sweepAngle = 45f,
@@ -267,7 +268,7 @@ private fun DrawScope.drawSwitchGate(gate: SwitchGate, colors: List<Color>, alph
 
         SwitchGateKind.Orbit -> repeat(4) { index ->
             val radius = gate.radius
-            drawArc(
+            pixelArc(
                 color = colors[gate.colorAt(index)].copy(alpha = alpha),
                 startAngle = gate.angle + index * 90f,
                 sweepAngle = SwitchOrbitSweep,
@@ -279,7 +280,7 @@ private fun DrawScope.drawSwitchGate(gate: SwitchGate, colors: List<Color>, alph
         }
 
         SwitchGateKind.Pulse, SwitchGateKind.Beads -> gate.forEachDot { color, point ->
-            drawCircle(colors[color].copy(alpha = alpha), SwitchDot, point)
+            pixelCircle(colors[color].copy(alpha = alpha), SwitchDot, point)
         }
 
         else -> {

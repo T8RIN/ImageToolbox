@@ -76,7 +76,7 @@ internal data object BrickBreakerGame : ArcadeGameDefinition {
                 run = run,
                 lightFeedback = true,
                 transition = { run.transition },
-                onPress = run::steer,
+                onPress = { run.steer(it); run.release() },
                 onDrag = run::steer
             ) {
                 drawBrickBreakerBackground(style, run.width, run.height)
@@ -145,6 +145,31 @@ internal data object BrickBreakerGame : ArcadeGameDefinition {
                         pixelRect(style.playerDetailColor, x - 1f, paddle.top - 7f, 2f, 4f)
                     }
                 }
+                if (run.catchTime > 0f) {
+                    pixelRect(
+                        style.accentColor,
+                        paddle.left + 6f,
+                        paddle.top - 2f,
+                        paddle.width - 12f,
+                        2f
+                    )
+                }
+                if (run.warpTime > 0f) {
+                    pixelRect(
+                        style.accentColor.copy(alpha = 0.2f),
+                        run.width - 18f,
+                        run.paddleY - 28f,
+                        12f,
+                        40f
+                    )
+                    for (step in 0..2) pixelRect(
+                        style.accentColor,
+                        run.width - 17f + step * 3f,
+                        run.paddleY - 13f + step * 3f,
+                        3f,
+                        6f
+                    )
+                }
                 for ((x, y) in run.lasers) {
                     pixelRect(style.accentColor.copy(alpha = 0.2f), x - 3f, y - 5f, 6f, 14f)
                     pixelRect(style.accentColor, x - 1f, y - 5f, 2f, 10f)
@@ -185,7 +210,22 @@ internal data object BrickBreakerGame : ArcadeGameDefinition {
                         width = 8f,
                         height = 2f
                     )
-                    if (kind == 1) pixelRect(
+                    if (kind == 4) {
+                        pixelRect(style.playerDetailColor, x - 4f, y - 3f, 2f, 6f)
+                        pixelRect(style.playerDetailColor, x + 2f, y - 3f, 2f, 6f)
+                    } else if (kind == 5) {
+                        pixelRect(style.playerDetailColor, x - 5f, y - 3f, 2f, 6f)
+                        pixelRect(style.playerDetailColor, x + 3f, y - 3f, 2f, 6f)
+                        pixelRect(style.playerDetailColor, x - 5f, y + 2f, 10f, 2f)
+                    } else if (kind == 6) {
+                        for (step in 0..2) pixelRect(
+                            style.playerDetailColor,
+                            x - 2f + step * 2f,
+                            y - 4f + step * 2f,
+                            2f,
+                            4f
+                        )
+                    } else if (kind == 1) pixelRect(
                         color = style.playerDetailColor,
                         x = x - 1f,
                         y = y - 4f,
@@ -282,10 +322,10 @@ private class BrickBreakerRun : ArcadeRun() {
     val brickWidth get() = (width - 48f) / 8f
     val brickHeight get() = minOf(25f, (height - topInset - 80f) / 5.5f)
     val speed
-        get() = ((height - topInset - 40f) * 0.65f + 90f).coerceIn(
+        get() = (((height - topInset - 40f) * 0.65f + 90f).coerceIn(
             165f,
             400f
-        ) + round.coerceAtMost(15) * 7f
+        ) + round.coerceAtMost(15) * 7f) * if (slowTime > 0f) 0.72f else 1f
     var paddleX = width / 2f
     var ballX = paddleX
     var ballY = paddleY - 10f
@@ -304,6 +344,15 @@ private class BrickBreakerRun : ArcadeRun() {
         private set
     private var broken = 0
     private var trailTime = 0f
+    var slowTime = 0f
+        private set
+    var catchTime = 0f
+        private set
+    var warpTime = 0f
+        private set
+    var held = false
+        private set
+    private var heldOffset = 0f
 
     fun bounds(brick: BreakerBrick) = Rect(
         24f + brick.column * brickWidth + 2f,
@@ -320,6 +369,10 @@ private class BrickBreakerRun : ArcadeRun() {
         laserIn = 0f
         lasers.clear()
         extension = 0f
+        slowTime = 0f
+        catchTime = 0f
+        warpTime = 0f
+        held = false
         gifts.clear()
         broken = 0
         effects.clear()
@@ -329,6 +382,9 @@ private class BrickBreakerRun : ArcadeRun() {
     }
 
     private fun newWave() {
+        held = false
+        catchTime = 0f
+        warpTime = 0f
         animateLevel()
         bricks.clear()
         lasers.clear()
@@ -354,6 +410,10 @@ private class BrickBreakerRun : ArcadeRun() {
     }
 
     private fun serveBall() {
+        held = false
+        catchTime = 0f
+        slowTime = 0f
+        warpTime = 0f
         ballX = paddleX
         ballY = paddleY - ballRadius - 2f
         vx = speed * if (Random.nextBoolean()) 0.35f else -0.35f
@@ -368,6 +428,11 @@ private class BrickBreakerRun : ArcadeRun() {
 
     override fun advance(seconds: Float) {
         effects.advance(seconds)
+        val wasSlow = slowTime > 0f
+        slowTime = (slowTime - seconds).coerceAtLeast(0f)
+        catchTime = (catchTime - seconds).coerceAtLeast(0f)
+        warpTime = (warpTime - seconds).coerceAtLeast(0f)
+        if (wasSlow && slowTime == 0f) rescaleBalls()
         wideTime = (wideTime - seconds).coerceAtLeast(0f)
         laserTime = (laserTime - seconds).coerceAtLeast(0f)
         extension += ((if (wideTime > 0f) 1f else 0f) - extension).coerceIn(
@@ -378,6 +443,13 @@ private class BrickBreakerRun : ArcadeRun() {
         val oldPaddleX = paddleX
         paddleX = (paddleX + (targetX - paddleX).coerceIn(-1000f * seconds, 1000f * seconds))
             .coerceIn(16f + paddleHalf, width - 16f - paddleHalf)
+        if (warpTime > 0f && paddleX + paddleHalf >= width - 18f && transition <= 0f) {
+            score += round * 50
+            warpTime = 0f
+            transition = 0.9f
+            effects.burst(Offset(width - 16f, paddleY), 18)
+            return
+        }
         bricks.forEach { it.flash = (it.flash - seconds * 5f).coerceAtLeast(0f) }
         val drops = gifts.iterator()
         while (drops.hasNext()) {
@@ -391,6 +463,13 @@ private class BrickBreakerRun : ArcadeRun() {
                         laserTime = 8f
                         laserIn = 0f
                     }
+                    4 -> {
+                        slowTime = 10f
+                        rescaleBalls()
+                    }
+
+                    5 -> catchTime = 8f
+                    6 -> warpTime = 8f
 
                     else -> if (lives < 3) lives++ else score += 25
                 }
@@ -413,6 +492,12 @@ private class BrickBreakerRun : ArcadeRun() {
             serve -= seconds
             ballX = paddleX
             ballY = paddleY - ballRadius - 2f
+            return
+        }
+        if (held) {
+            ballX = paddleX + heldOffset * paddleHalf
+            ballY = paddleY - ballRadius
+            if (catchTime <= 0f) release()
             return
         }
         laserIn -= seconds
@@ -477,6 +562,7 @@ private class BrickBreakerRun : ArcadeRun() {
 
     private fun splitBall() {
         if (extraBalls.isNotEmpty()) return
+        if (held) release()
         for (side in listOf(-1f, 1f)) {
             val angle = side * 0.32f
             extraBalls += BreakerBall(
@@ -509,6 +595,12 @@ private class BrickBreakerRun : ArcadeRun() {
                 if (abs(ball.vx) < speed * 0.14f) ball.vx =
                     speed * 0.14f * if (ball.vx < 0f) -1f else 1f
                 ball.vy = -sqrt(speed * speed - ball.vx * ball.vx)
+                if (catchTime > 0f && extraBalls.isEmpty()) {
+                    held = true
+                    heldOffset = ((impactX - impactPaddleX) / paddleHalf).coerceIn(-0.8f, 0.8f)
+                    ball.vx = 0f
+                    ball.vy = 0f
+                }
             }
         }
         val iterator = bricks.iterator()
@@ -556,14 +648,30 @@ private class BrickBreakerRun : ArcadeRun() {
         if (broken % 9 == 0 && gifts.size < 3) gifts += BreakerGift(
             x = center.x,
             y = center.y,
-            kind = when {
-                broken % 36 == 0 -> 3
-                broken % 27 == 0 -> 2
-                broken % 18 == 0 -> 1
-                else -> 0
-            }
+            kind = (round - 1 + broken / 9 - 1) % 7
         )
         return true
+    }
+
+    fun release() {
+        if (!held) return
+        held = false
+        vx = heldOffset * speed * 0.8f
+        if (abs(vx) < speed * 0.14f) vx = speed * 0.14f * if (vx < 0f) -1f else 1f
+        vy = -sqrt(speed * speed - vx * vx)
+    }
+
+    private fun rescaleBalls() {
+        val length = sqrt(vx * vx + vy * vy)
+        if (length > 0f) {
+            vx *= speed / length
+            vy *= speed / length
+        }
+        for (ball in extraBalls) {
+            val length = sqrt(ball.vx * ball.vx + ball.vy * ball.vy).coerceAtLeast(1f)
+            ball.vx *= speed / length
+            ball.vy *= speed / length
+        }
     }
 
     override fun onResize(previous: Size) {

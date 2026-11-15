@@ -37,6 +37,7 @@ import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.ArcadeStyle
 import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
+import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Stacks
@@ -67,6 +68,16 @@ internal data object StackGame : ArcadeGameDefinition {
                 run = run,
                 lightFeedback = true, onPress = { run.place() }) {
                 drawStackScene(run, palette, path)
+                val recovered =
+                    run.flash > 0f && run.perfectStreak > 0 && run.perfectStreak % 3 == 0
+                repeat(3) { index ->
+                    pixelCircle(
+                        color = if (index < run.perfectStreak % 3 || recovered) style.accentColor
+                        else style.detailColor.copy(alpha = 0.2f),
+                        radius = 3f,
+                        center = Offset(18f + index * 11f, run.topInset / 2f)
+                    )
+                }
             }
         }
     }
@@ -291,7 +302,8 @@ private class StackRun : ArcadeRun() {
     val pieces = mutableListOf<StackPiece>()
     val sparks = mutableListOf<StackSpark>()
     private var direction = 1
-    private var perfectStreak = 0
+    var perfectStreak = 0
+        private set
     private var cooldown = 0f
     val unit get() = minOf(width / 200f, (height - topInset) / 170f)
 

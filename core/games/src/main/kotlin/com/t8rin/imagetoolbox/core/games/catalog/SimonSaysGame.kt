@@ -103,7 +103,11 @@ internal data object SimonSaysGame : ArcadeGameDefinition {
                     }
                 }
                 val caption = measurer.measure(
-                    text = if (run.accepting) repeatPrompt else watch,
+                    text = if (run.accepting) "$repeatPrompt ${run.input}/${run.sequence.size}" else "$watch ${
+                        (run.playback + 1).coerceAtMost(
+                            run.sequence.size
+                        )
+                    }/${run.sequence.size}",
                     style = style.scoreTextStyle,
                     density = Density(1f)
                 )

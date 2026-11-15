@@ -44,6 +44,7 @@ import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
+import com.t8rin.imagetoolbox.core.games.utils.pixelArc
 import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
 import com.t8rin.imagetoolbox.core.games.utils.reliefSprite
 import com.t8rin.imagetoolbox.core.resources.Icons
@@ -85,6 +86,20 @@ internal data object GravityFlipGame : ArcadeGameDefinition {
                 onPress = { run.flip() }
             ) {
                 drawGravityBackground(style, run.width, run.height)
+                pixelCircle(
+                    style.detailColor.copy(alpha = 0.2f),
+                    9f,
+                    Offset(24f, run.topInset / 2f),
+                    style = Stroke(2f)
+                )
+                pixelArc(
+                    color = style.accentColor, startAngle = -90f,
+                    sweepAngle = 360f * if (run.shield) 1f else run.charge / 12f,
+                    useCenter = false,
+                    topLeft = Offset(15f, run.topInset / 2f - 9f), size = Size(18f, 18f),
+                    style = Stroke(3f)
+                )
+                if (run.shield) pixelCircle(style.accentColor, 3f, Offset(24f, run.topInset / 2f))
                 val top = run.top
                 val bottom = run.bottom
                 val span = run.span
@@ -345,8 +360,8 @@ private fun DrawScope.drawGravityBackground(style: ArcadeStyle, width: Float, he
         drawRoundRect(ink.copy(alpha = 0.045f), point, Size(99f, 82f), CornerRadius(4f))
         drawRoundRect(ink, point, Size(99f, 82f), CornerRadius(4f), style = Stroke(0.8f))
         val center = point + Offset(48f, 39f)
-        drawCircle(ink.copy(alpha = 0.15f), 22f, center, style = Stroke(0.8f))
-        drawCircle(ink, 17f, center, style = Stroke(0.8f))
+        pixelCircle(ink.copy(alpha = 0.15f), 22f, center, style = Stroke(0.8f))
+        pixelCircle(ink, 17f, center, style = Stroke(0.8f))
         for (blade in 0..3) {
             val angle = blade * PI.toFloat() / 2f + 0.45f
             val a = center + Offset(cos(angle), sin(angle)) * 6f
@@ -400,7 +415,8 @@ private class GravityFlipRun : ArcadeRun() {
     var distance = 0f
     var shield = false
     private var elapsed = 0f
-    private var charge = 0
+    var charge = 0
+        private set
     private var passed = 0
     private var timer = 0.7f
     private var nextCeiling = false

@@ -187,6 +187,28 @@ internal data object AirTrafficGame : ArcadeGameDefinition {
                             )
                         }
                     }
+                    if (plane.urgent) {
+                        pixelCircle(
+                            style.accentColor.copy(alpha = 0.5f + sin(run.time * 5f) * 0.2f),
+                            17f,
+                            plane.point,
+                            style = Stroke(1f)
+                        )
+                        pixelRect(
+                            style.accentColor,
+                            plane.point.x + 13f,
+                            plane.point.y - 17f,
+                            2f,
+                            6f
+                        )
+                        pixelRect(
+                            style.accentColor,
+                            plane.point.x + 13f,
+                            plane.point.y - 9f,
+                            2f,
+                            2f
+                        )
+                    }
                     rotate(
                         degrees = plane.heading * 180f / PI.toFloat() + 90f,
                         pivot = plane.point
@@ -326,7 +348,7 @@ private fun DrawScope.drawAirTrafficBackground(style: ArcadeStyle, width: Float,
             height * (if (index == 0) 0.27f else 0.7f)
         )
         val radius = minOf(width, height) * 0.3f
-        for (ring in 1..3) drawCircle(ink, radius * ring / 3f, center, style = Stroke(0.7f))
+        for (ring in 1..3) pixelCircle(ink, radius * ring / 3f, center, style = Stroke(0.7f))
         drawLine(
             ink.copy(alpha = 0.06f),
             center - Offset(radius + 13f, 0f),
@@ -375,7 +397,8 @@ private class ControlledFlight(
     var heading: Float,
     var entered: Boolean = false,
     var landing: Float = 0f,
-    var cleared: Boolean = false
+    var cleared: Boolean = false,
+    val urgent: Boolean = false
 ) {
     val route: ArcadeDeque<ArcadeOffset> = ArrayDeque()
     var warning = false
@@ -543,7 +566,10 @@ private class AirTrafficRun : ArcadeRun() {
     private fun forecast(plane: ControlledFlight): List<Offset> {
         val copy = ControlledFlight(
             id = plane.id, kind = plane.kind, point = plane.point, heading = plane.heading,
-            entered = plane.entered, landing = plane.landing, cleared = plane.cleared
+            entered = plane.entered,
+            landing = plane.landing,
+            cleared = plane.cleared,
+            urgent = plane.urgent
         ).apply {
             route.addAll(plane.route)
         }
@@ -588,7 +614,8 @@ private class AirTrafficRun : ArcadeRun() {
                 id = nextId,
                 kind = kind,
                 point = p,
-                heading = atan2(delta.y, delta.x)
+                heading = atan2(delta.y, delta.x),
+                urgent = nextId >= 8 && nextId % 9 == 8
             )
             if (canSpawn(plane)) {
                 nextId++
@@ -608,6 +635,7 @@ private class AirTrafficRun : ArcadeRun() {
             2 -> 0.75f
             else -> 1f
         }
+        if (plane.urgent) speed *= 1.15f
         if (plane.cleared && plane.route.size <= 1) speed *= 0.8f
         var remaining = speed * seconds
         var direction = Offset(x = cos(plane.heading), y = sin(plane.heading))
@@ -672,7 +700,7 @@ private class AirTrafficRun : ArcadeRun() {
                 plane.route.clear()
                 landed++
                 if (landed % 8 == 0) timer = maxOf(timer, 3.8f)
-                score += if (plane.kind == 1) 20 else 10
+                score += (if (plane.kind == 1) 20 else 10) * if (plane.urgent) 2 else 1
                 effects.burst(
                     point = zone(plane.kind),
                     count = 10

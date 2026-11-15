@@ -57,6 +57,7 @@ import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
+import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.AvocadoBean
@@ -654,7 +655,7 @@ private fun DrawScope.drawOrchardBackground(run: OrchardPileRun, style: ArcadeSt
             crate(x, y - 2f, size)
             for (fruit in 0..2) {
                 val point = Offset(x + 11f + fruit * 9f, y - size * 0.75f - 3f - fruit % 2 * 2f)
-                drawCircle(style.detailColor.copy(alpha = 0.21f), 4f, point, style = Stroke(0.8f))
+                pixelCircle(style.detailColor.copy(alpha = 0.21f), 4f, point, style = Stroke(0.8f))
                 pixelRect(style.detailColor.copy(alpha = 0.22f), point.x, point.y - 6f, 1f, 2f)
             }
         }

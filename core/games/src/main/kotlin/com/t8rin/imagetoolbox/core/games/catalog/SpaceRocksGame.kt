@@ -24,6 +24,7 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.graphics.lerp
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
 import com.t8rin.imagetoolbox.core.games.ArcadeField
@@ -98,6 +99,23 @@ internal data object SpaceRocksGame : ArcadeGameDefinition {
                     if (pickup.kind == 1) {
                         pixelCircle(style.playerColor, 7f, point, style = Stroke(2f))
                         pixelRect(style.playerColor, point.x - 2f, point.y - 3f, 4f, 6f)
+                    } else if (pickup.kind == 2) {
+                        for (side in listOf(-1f, 1f)) {
+                            pixelRect(
+                                style.playerColor,
+                                point.x + side * 5f - 1f,
+                                point.y - 6f,
+                                2f,
+                                12f
+                            )
+                            pixelRect(
+                                style.playerColor,
+                                point.x + side * 5f - 4f,
+                                point.y + 1f,
+                                8f,
+                                3f
+                            )
+                        }
                     } else pixelGem(style.accentColor, style.textColor, point, 7f)
                 }
                 if (run.boost > 0f) {
@@ -201,43 +219,49 @@ internal data object SpaceRocksGame : ArcadeGameDefinition {
                     )
                 }
                 if (run.invincible <= 0f || (run.invincible * 12).toInt() % 2 == 0) {
-                    drawArcadeSprite(
-                        sprite = SpaceShip,
-                        tint = style.playerColor,
-                        x = run.x - 13f,
-                        y = run.y - 16f
-                    )
-                    pixelRect(
-                        color = style.playerDetailColor,
-                        x = run.x - 2f,
-                        y = run.y - 7f,
-                        width = 4f,
-                        height = 10f
-                    )
-                    for (side in listOf(-1f, 1f)) {
-                        pixelRect(
-                            color = style.playerDetailColor.copy(alpha = 0.5f),
-                            x = run.x + side * 8f - 1f,
-                            y = run.y,
-                            width = 2f,
-                            height = 7f
-                        )
-                    }
-                    if (run.phase == ArcadePhase.Running) {
-                        pixelRect(
-                            color = style.accentColor,
-                            x = run.x - 3f,
-                            y = run.y + 12f,
-                            width = 6f,
-                            height = 5f
+                    for (offset in if (run.dual) listOf(
+                        -9f,
+                        9f
+                    ) else listOf(0f)) translate(left = offset) {
+                        drawArcadeSprite(
+                            sprite = SpaceShip,
+                            tint = style.playerColor,
+                            x = run.x - 13f,
+                            y = run.y - 16f
                         )
                         pixelRect(
-                            color = style.accentColor,
-                            x = run.x - 1f,
-                            y = run.y + 17f,
-                            width = 2f,
-                            height = 4f
+                            color = style.playerDetailColor,
+                            x = run.x - 2f,
+                            y = run.y - 7f,
+                            width = 4f,
+                            height = 10f
                         )
+                        for (side in listOf(-1f, 1f)) {
+                            pixelRect(
+                                color = style.playerDetailColor.copy(alpha = 0.5f),
+                                x = run.x + side * 8f - 1f,
+                                y = run.y,
+                                width = 2f,
+                                height = 7f
+                            )
+                        }
+                        if (run.phase == ArcadePhase.Running) {
+                            pixelRect(
+                                color = style.accentColor,
+                                x = run.x - 3f,
+                                y = run.y + 12f,
+                                width = 6f,
+                                height = 5f
+                            )
+                            pixelRect(
+                                color = style.accentColor,
+                                x = run.x - 1f,
+                                y = run.y + 17f,
+                                width = 2f,
+                                height = 4f
+                            )
+                        }
+
                     }
                 }
                 if (run.invincible > 0f) {
@@ -356,6 +380,8 @@ private class SpaceRocksRun : ArcadeRun() {
     val enemyShots = mutableListOf<SpaceShot>()
     val shots = mutableListOf<SpaceShot>()
     val pickups = mutableListOf<SpacePickup>()
+    var dual = false
+        private set
     var boost = 0f
         private set
     private var chain = 0
@@ -382,6 +408,7 @@ private class SpaceRocksRun : ArcadeRun() {
         shots.clear()
         pickups.clear()
         boost = 0f
+        dual = false
         chain = 0
         chainTime = 0f
         invaders.clear()
@@ -419,7 +446,11 @@ private class SpaceRocksRun : ArcadeRun() {
             val pickup = salvage.next()
             pickup.y += (height - topInset) * 0.24f * seconds
             if (hypot(pickup.x - x, pickup.y - y) < 23f) {
-                if (pickup.kind == 1) invincible = maxOf(invincible, 4f) else boost = 6f
+                when (pickup.kind) {
+                    1 -> invincible = maxOf(invincible, 4f)
+                    2 -> dual = true
+                    else -> boost = 6f
+                }
                 effects.burst(Offset(x, y), 14)
                 salvage.remove()
             } else if (pickup.y > height + 14f) salvage.remove()
@@ -430,8 +461,8 @@ private class SpaceRocksRun : ArcadeRun() {
         x += (target - x).coerceIn(-480f * seconds, 480f * seconds)
         cooldown -= seconds
         if (cooldown <= 0f) {
-            shots += SpaceShot(
-                x = x,
+            for (offset in if (dual) listOf(-9f, 9f) else listOf(0f)) shots += SpaceShot(
+                x = x + offset,
                 y = y - 17f,
                 vx = 0f,
                 vy = -440f,
@@ -584,7 +615,7 @@ private class SpaceRocksRun : ArcadeRun() {
                     if (ship.elite && pickups.size < 3) pickups += SpacePickup(
                         ship.x,
                         ship.y + 18f,
-                        kind = 1
+                        kind = if (dual) 1 else 2
                     )
                     if (pickups.size < 3) pickups += SpacePickup(
                         ship.x.coerceIn(14f, width - 14f),
@@ -619,6 +650,7 @@ private class SpaceRocksRun : ArcadeRun() {
         chain = 0
         chainTime = 0f
         boost = 0f
+        dual = false
         invincible = 1.25f
         effects.burst(
             point = Offset(x = x, y = y),

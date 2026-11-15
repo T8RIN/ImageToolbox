@@ -32,6 +32,9 @@ import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.graphics.lerp
+import androidx.compose.ui.text.drawText
+import androidx.compose.ui.text.rememberTextMeasurer
+import androidx.compose.ui.unit.Density
 import com.t8rin.imagetoolbox.core.games.ArcadeBoard
 import com.t8rin.imagetoolbox.core.games.ArcadeDeque
 import com.t8rin.imagetoolbox.core.games.ArcadeField
@@ -45,12 +48,14 @@ import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.drawArcadeSprite
 import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
+import com.t8rin.imagetoolbox.core.games.utils.pixelArc
 import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Snake
 import kotlinx.serialization.Serializable
 import kotlin.math.abs
+import kotlin.math.roundToInt
 
 @RegisterArcadeGame
 internal data object SnakeGame : ArcadeGameDefinition {
@@ -67,6 +72,7 @@ internal data object SnakeGame : ArcadeGameDefinition {
             create = ::SnakeRun
         )
         val bodyPath = remember { Path() }
+        val measurer = rememberTextMeasurer()
 
         ArcadeBoard(
             context = context,
@@ -79,6 +85,16 @@ internal data object SnakeGame : ArcadeGameDefinition {
                 swipeOnDrag = true
             ) {
                 drawSnakeScene(run, style, bodyPath)
+                if (run.bonusFood != null || run.bonusFlash > 0f) {
+                    val points = if (run.bonusFood != null) run.bonusValue else run.lastBonus
+                    drawText(
+                        measurer.measure(
+                            "+$points",
+                            style.scoreTextStyle,
+                            density = Density(1f)
+                        ), style.accentColor, Offset(14f, run.topInset / 2f - 7f)
+                    )
+                }
             }
         }
     }
@@ -131,8 +147,8 @@ private fun DrawScope.drawSnakeScene(run: SnakeRun, style: ArcadeStyle, bodyPath
         val radius = cell * 0.85f
         val progress = (bonus.remaining / SnakeBonusSeconds).coerceIn(0f, 1f)
         val stroke = Stroke(width = maxOf(1f, cell * 0.065f))
-        drawCircle(style.detailColor.copy(alpha = 0.4f), radius, point, style = stroke)
-        drawArc(
+        pixelCircle(style.detailColor.copy(alpha = 0.4f), radius, point, style = stroke)
+        pixelArc(
             color = if (progress < 0.25f) style.hazardColor else style.accentColor,
             startAngle = -90f,
             sweepAngle = 360f * progress,
@@ -327,6 +343,13 @@ private class SnakeRun : ArcadeRun() {
         private set
     var bonusFood: SnakeBonusFruit? = null
         private set
+    val bonusValue
+        get() = 5 + ((bonusFood?.remaining ?: 0f) / SnakeBonusSeconds * 5f).roundToInt()
+            .coerceIn(0, 5)
+    var lastBonus = 0
+        private set
+    var bonusFlash = 0f
+        private set
     var direction = SnakeDirection.Right
         private set
     var eatFlash = 0f
@@ -349,6 +372,8 @@ private class SnakeRun : ArcadeRun() {
         direction = SnakeDirection.Right
         food = SnakeCells * 10 + 14
         bonusFood = null
+        lastBonus = 0
+        bonusFlash = 0f
         elapsed = 0f
         eaten = 0
         eatFlash = 0f
@@ -367,6 +392,7 @@ private class SnakeRun : ArcadeRun() {
 
     override fun advance(seconds: Float) {
         eatFlash = (eatFlash - seconds * 4f).coerceAtLeast(0f)
+        bonusFlash = (bonusFlash - seconds).coerceAtLeast(0f)
         bonusFood?.let {
             it.remaining -= seconds
             if (it.remaining <= 0f) bonusFood = null
@@ -395,7 +421,9 @@ private class SnakeRun : ArcadeRun() {
         if (growing) {
             eatFlash = 1f
             if (eatingBonus) {
-                score += 5
+                lastBonus = bonusValue
+                bonusFlash = 0.9f
+                score += lastBonus
                 bonusFood = null
             }
             if (eatingFood) {
