@@ -18,7 +18,9 @@
 package com.t8rin.archive
 
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotEquals
 import org.junit.Assert.assertNull
+import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class ArchivePathTest {
@@ -52,5 +54,20 @@ class ArchivePathTest {
         assertEquals(240, ArchivePath.safeSegments("a".repeat(500))?.single()?.length)
         assertNull(ArchivePath.safeSegments("a".repeat(4097)))
         assertNull(ArchivePath.safeSegments(List(257) { "a" }.joinToString("/")))
+    }
+
+    @Test
+    fun longNamesWithTheSamePrefixStayDistinctAndKeepExtension() {
+        val first = "a".repeat(250) + "-first.png"
+        val second = "a".repeat(250) + "-second.png"
+        val firstSafe = ArchivePath.safeSegments(first)!!.single()
+        val secondSafe = ArchivePath.safeSegments(second)!!.single()
+
+        assertNotEquals(firstSafe, secondSafe)
+        assertEquals(firstSafe, ArchivePath.safeSegments(first)!!.single())
+        assertTrue(firstSafe.endsWith(".png"))
+        assertTrue(secondSafe.endsWith(".png"))
+        assertEquals(240, firstSafe.length)
+        assertEquals(240, secondSafe.length)
     }
 }

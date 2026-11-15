@@ -17,6 +17,8 @@
 
 package com.t8rin.archive
 
+import java.security.MessageDigest
+
 object ArchivePath {
 
     fun safeSegments(path: String): List<String>? {
@@ -34,11 +36,31 @@ object ArchivePath {
         if (segments.size > MaxSegments) return null
         if (segments.any { it == "." || it == ".." }) return null
 
-        return segments.map { it.take(MaxSegmentLength) }
+        return segments.map(::shortenSegment)
+    }
+
+    private fun shortenSegment(segment: String): String {
+        if (segment.length <= MaxSegmentLength) return segment
+
+        val dot = segment.lastIndexOf('.')
+        val extension = if (dot > 0 && segment.length - dot <= MaxExtensionLength) {
+            segment.substring(dot)
+        } else {
+            ""
+        }
+        val hash = MessageDigest.getInstance("SHA-256")
+            .digest(segment.toByteArray(Charsets.UTF_8))
+            .take(HashBytes)
+            .joinToString("") { "%02x".format(it) }
+        val suffix = "~$hash$extension"
+
+        return segment.take(MaxSegmentLength - suffix.length) + suffix
     }
 
     private val DrivePrefix = Regex("^[A-Za-z]:/")
     private const val MaxSegmentLength = 240
+    private const val MaxExtensionLength = 16
     private const val MaxPathLength = 4096
     private const val MaxSegments = 256
+    private const val HashBytes = 8
 }
