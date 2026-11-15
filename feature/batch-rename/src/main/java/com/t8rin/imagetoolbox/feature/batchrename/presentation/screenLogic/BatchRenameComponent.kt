@@ -55,6 +55,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.isActive
+import kotlin.uuid.Uuid
 
 class BatchRenameComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
@@ -89,6 +90,7 @@ class BatchRenameComponent @AssistedInject internal constructor(
     val pendingPermission by _pendingPermission
 
     private val timestamp: Long = System.currentTimeMillis()
+    private val uuidsByUri = mutableMapOf<String, String>()
 
     private var pendingPermissionUris: Set<Uri> = emptySet()
     private val writableUris = mutableSetOf<Uri>()
@@ -242,6 +244,7 @@ class BatchRenameComponent @AssistedInject internal constructor(
                     _pattern.value = RenamePatterns.Default
                     _files.value = emptyList()
                     writableUris.clear()
+                    uuidsByUri.clear()
                     resetHistory()
                     _isLoading.value = false
                     AppToastHost.showToast(
@@ -287,7 +290,10 @@ class BatchRenameComponent @AssistedInject internal constructor(
         val resolver = FilenamePatternResolver(
             prefix = settings.filenamePrefix,
             suffix = settings.filenameSuffix,
-            randomSeed = timestamp
+            randomSeed = timestamp,
+            uuidForFile = { file ->
+                uuidsByUri.getOrPut(file.uri) { Uuid.random().toString() }
+            }
         )
         val pattern = RenamePatterns.sanitize(pattern)
 

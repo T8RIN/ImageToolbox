@@ -30,7 +30,8 @@ import kotlin.uuid.Uuid
 class FilenamePatternResolver(
     private val prefix: String,
     private val suffix: String,
-    randomSeed: Long = System.currentTimeMillis()
+    randomSeed: Long = System.currentTimeMillis(),
+    private val uuidForFile: (RenameFile) -> String = { Uuid.random().toString() }
 ) {
     private val random = Random(randomSeed)
 
@@ -118,6 +119,7 @@ class FilenamePatternResolver(
         }.getOrDefault(result)
 
         val fileSize = humanFileSize(fileSizeRaw)
+        val uuid = uuidForFile(file)
 
         return result
             .replace(FilenamePattern.Width, file.width?.toString().orEmpty())
@@ -131,7 +133,7 @@ class FilenamePatternResolver(
             .replace(FilenamePattern.Date, defaultDate)
             .replace(FilenamePattern.ParentFolder, parentFolder)
             .replace(FilenamePattern.FileSize, fileSize)
-            .replace(FilenamePattern.Uuid, Uuid.random().toString())
+            .replace(FilenamePattern.Uuid, uuid)
             .replace(FilenamePattern.PrefixUpper, prefix.uppercase())
             .replace(FilenamePattern.SuffixUpper, suffix.uppercase())
             .replace(FilenamePattern.OriginalNameUpper, originalName.uppercase())
@@ -139,7 +141,7 @@ class FilenamePatternResolver(
             .replace(FilenamePattern.DateUpper, defaultDate.uppercase())
             .replace(FilenamePattern.ParentFolderUpper, parentFolder.uppercase())
             .replace(FilenamePattern.FileSizeUpper, fileSize.uppercase())
-            .replace(FilenamePattern.UuidUpper, Uuid.random().toString().uppercase())
+            .replace(FilenamePattern.UuidUpper, uuid.uppercase())
     }
 
     private companion object {

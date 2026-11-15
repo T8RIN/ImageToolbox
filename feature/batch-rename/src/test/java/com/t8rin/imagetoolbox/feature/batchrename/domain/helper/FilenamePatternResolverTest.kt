@@ -40,6 +40,30 @@ class FilenamePatternResolverTest {
         assertEquals("003", resolve(pattern = "\\c{3:2:3}", sequence = 1))
     }
 
+    @Test
+    fun uuidIsStableAcrossPreviewAndRenameAndSharedByBothCases() {
+        val uuidsByUri = mutableMapOf<String, String>()
+        var nextId = 0
+        val uuidForFile: (RenameFile) -> String = { item ->
+            uuidsByUri.getOrPut(item.uri) { "uuid-${++nextId}" }
+        }
+        val previewResolver = FilenamePatternResolver("", "", uuidForFile = uuidForFile)
+        val renameResolver = FilenamePatternResolver("", "", uuidForFile = uuidForFile)
+
+        fun FilenamePatternResolver.filename(item: RenameFile) = resolve(
+            pattern = "\\u-\\U.\\e",
+            file = item,
+            sequence = 1,
+            dateMillis = 0L
+        )
+
+        val preview = previewResolver.filename(file)
+        assertEquals("uuid-1-UUID-1.jpg", preview)
+        assertEquals(preview, renameResolver.filename(file))
+        assertEquals("uuid-2-UUID-2.jpg", renameResolver.filename(file.copy(uri = "other")))
+        assertEquals(2, nextId)
+    }
+
     private fun resolve(pattern: String, sequence: Int): String = resolver.resolve(
         pattern = pattern,
         file = file,
