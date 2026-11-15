@@ -207,28 +207,30 @@ internal data object MissileDefenseGame : ArcadeGameDefinition {
                         style = Stroke(width = 1f)
                     )
                 }
+                val point = run.launch
                 drawArcadeSprite(
                     sprite = MissileBunker,
-                    tint = style.playerColor,
-                    x = run.launch.x - 14f,
-                    y = run.launch.y - 22f
+                    tint = if (run.ammunition > 0) style.playerColor else style.detailColor,
+                    x = point.x - 14f,
+                    y = point.y - 22f
                 )
-                pixelRect(
-                    color = style.playerDetailColor.copy(alpha = 0.5f),
-                    x = run.launch.x - 1f,
-                    y = run.launch.y - 20f,
-                    width = 2f,
-                    height = 9f
-                )
-                repeat(4) { index ->
+                repeat(run.capacity) { index ->
                     pixelRect(
-                        color = if (run.charge >= index + 1) style.accentColor else style.detailColor,
-                        x = run.launch.x - 14f + index * 8f,
-                        y = run.ground + 6f,
-                        width = 5f,
-                        height = 3f
+                        color = if (index < run.ammunition) style.accentColor
+                        else style.detailColor.copy(alpha = 0.4f),
+                        x = point.x - 23f + index % 8 * 6f,
+                        y = run.ground + 3f + index / 8 * 4f,
+                        width = 4f,
+                        height = 2f
                     )
                 }
+                pixelRect(
+                    color = style.accentColor,
+                    x = point.x - 8f,
+                    y = point.y - 26f,
+                    width = 16f * run.charge / 2f,
+                    height = 2f
+                )
                 run.effects.draw(
                     scope = this,
                     color = style.accentColor
@@ -336,8 +338,12 @@ private class MissileDefenseRun : ArcadeRun() {
     val effects = ArcadeEffects()
     val ground get() = height - 22f
     val launch get() = Offset(x = width / 2f, y = ground)
+    val interceptorSpeed get() = maxOf(420f, height * 1.4f)
     val blastSize get() = minOf(width * 0.12f, (height - topInset) * 0.23f)
-    var charge = 4f
+    var charge = 2f
+    var ammunition = 16
+        private set
+    val capacity get() = 16 + wave.coerceAtMost(16) / 4
     private var wave = 1
     private var pending = 5
     private var spawn = 1f
@@ -358,21 +364,28 @@ private class MissileDefenseRun : ArcadeRun() {
         wave = 1
         pending = 5
         spawn = 1f
-        charge = 4f
+        charge = 2f
+        ammunition = capacity
     }
 
     fun fire(point: Offset) {
-        if (charge < 1f || point.y < topInset) return
+        if (charge < 1f || ammunition == 0 || shots.size >= 2 || point.y < topInset) return
         shots += Interceptor(
             x = launch.x, y = launch.y, targetX = point.x.coerceIn(8f, width - 8f),
             targetY = point.y.coerceIn(topInset + 6f, ground - 32f)
         )
         charge -= 1f
+        ammunition--
+    }
+
+    override fun onRestore() {
+        charge = charge.coerceIn(0f, 2f)
+        ammunition = ammunition.coerceIn(0, capacity)
     }
 
     override fun advance(seconds: Float) {
         effects.advance(seconds)
-        charge = (charge + seconds * 1.8f).coerceAtMost(4f)
+        charge = (charge + seconds * 1.2f).coerceAtMost(2f)
         spawn -= seconds
         if (pending > 0 && spawn <= 0f) {
             val city = cities.indices.filter { cities[it] > 0 }.randomOrNull() ?: return
@@ -396,7 +409,7 @@ private class MissileDefenseRun : ArcadeRun() {
             val dx = shot.targetX - shot.x
             val dy = shot.targetY - shot.y
             val distance = hypot(dx, dy)
-            val step = maxOf(320f, height * 0.9f) * seconds
+            val step = interceptorSpeed * seconds
             if (distance <= step) {
                 blasts += MissileBlast(x = shot.targetX, y = shot.targetY)
                 interceptors.remove()
@@ -455,8 +468,9 @@ private class MissileDefenseRun : ArcadeRun() {
             return
         }
         if (pending == 0 && missiles.isEmpty()) {
-            score += cities.sum() * 5
+            score += cities.sum() * 5 + ammunition * 2
             wave++
+            ammunition = capacity
             pending = minOf(22, 4 + wave)
             spawn = 1.75f
             if (wave % 4 == 0) {

@@ -38,7 +38,6 @@ import com.t8rin.imagetoolbox.core.games.ArcadeGameContext
 import com.t8rin.imagetoolbox.core.games.ArcadeGameDefinition
 import com.t8rin.imagetoolbox.core.games.ArcadeRun
 import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
-import com.t8rin.imagetoolbox.core.games.pixelRect
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
 import com.t8rin.imagetoolbox.core.games.utils.arcadeAngle
@@ -152,13 +151,6 @@ internal data object TintAscentGame : ArcadeGameDefinition {
                                 pixelCircle(colors[gate.nextColor], 5f, center)
                             }
                         }
-                        pixelRect(
-                            color = style.detailColor.copy(alpha = 0.7f),
-                            x = -18f,
-                            y = -run.restHeight + SwitchBallRadius,
-                            width = 36f,
-                            height = 3f
-                        )
                         run.effects.draw(
                             scope = this,
                             color = colors[run.color]
@@ -595,10 +587,6 @@ private class TintAscentRun : ArcadeRun() {
         val nextVelocity = (velocity - SwitchGravity * seconds).coerceAtLeast(-320f)
         altitude += (velocity + nextVelocity) * seconds / 2.0
         velocity = nextVelocity
-        if (ball < restHeight) {
-            altitude = restHeight.toDouble()
-            velocity = 0f
-        }
         camera += (maxOf(camera, ball - 26f) - camera) * minOf(1f, 13f * seconds)
 
         for (gate in gates) {

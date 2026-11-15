@@ -200,7 +200,7 @@ internal data object TraceAndClaimGame : ArcadeGameDefinition {
                         }
                     }
                 }
-                pixelCircle(
+                drawCircle(
                     color = style.borderColor,
                     radius = radius,
                     center = center,

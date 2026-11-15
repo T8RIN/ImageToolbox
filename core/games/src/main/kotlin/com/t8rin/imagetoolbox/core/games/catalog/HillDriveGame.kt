@@ -497,20 +497,22 @@ private fun DrawScope.drawHillDriveCar(
     for (side in -1..1 step 2) {
         val wheel = if (side < 0) run.rear else run.front
         val axle = Offset((wheel.x - left).toFloat(), ground + wheel.y)
-        val mount = car + facing * (side * HillDriveWheelbase) + down * HillDriveMountY
-        drawLine(palette.ink, mount, axle, strokeWidth = 4f)
-        drawLine(palette.metal, mount, axle, strokeWidth = 1.4f)
-        val spring = axle - mount
-        val length = sqrt(spring.x * spring.x + spring.y * spring.y).coerceAtLeast(1f)
-        val perpendicular = Offset(-spring.y, spring.x) / length * 1.8f
-        var previous = mount
-        for (coil in 1..6) {
-            val point =
-                mount + spring * (coil / 7f) + perpendicular * if (coil % 2 == 0) -1f else 1f
-            drawLine(palette.bodyShade, previous, point, strokeWidth = 1.6f)
-            previous = point
+        if (!run.wheelsDetached) {
+            val mount = car + facing * (side * HillDriveWheelbase) + down * HillDriveMountY
+            drawLine(palette.ink, mount, axle, strokeWidth = 4f)
+            drawLine(palette.metal, mount, axle, strokeWidth = 1.4f)
+            val spring = axle - mount
+            val length = sqrt(spring.x * spring.x + spring.y * spring.y).coerceAtLeast(1f)
+            val perpendicular = Offset(-spring.y, spring.x) / length * 1.8f
+            var previous = mount
+            for (coil in 1..6) {
+                val point =
+                    mount + spring * (coil / 7f) + perpendicular * if (coil % 2 == 0) -1f else 1f
+                drawLine(palette.bodyShade, previous, point, strokeWidth = 1.6f)
+                previous = point
+            }
+            drawLine(palette.bodyShade, previous, axle, strokeWidth = 1.6f)
         }
-        drawLine(palette.bodyShade, previous, axle, strokeWidth = 1.6f)
 
         pixelCircle(palette.tire, HillDriveWheelRadius, axle)
         pixelCircle(palette.wheelColors[1], HillDriveWheelRadius - 1f, axle)
@@ -1265,6 +1267,9 @@ private class HillDriveRun : ArcadeRun() {
     var crashed = false
         private set
     private var stoppedTime = 0f
+    private var settlingTime = 0f
+    var wheelsDetached = false
+        private set
 
     @Transient
     private var bodyGrounded = false
@@ -1363,6 +1368,8 @@ private class HillDriveRun : ArcadeRun() {
         fuel = 1f
         crashed = false
         stoppedTime = 0f
+        settlingTime = 0f
+        wheelsDetached = false
         bodyGrounded = false
         ponds.clear()
         coins = 0
@@ -1464,17 +1471,31 @@ private class HillDriveRun : ArcadeRun() {
             (distance + collectedPoints + trickPoints).coerceAtMost(Int.MAX_VALUE.toLong()).toInt()
         val settling = crashed || fuel == 0f
         val still = velocity.getDistance() < 2f && abs(spin) < 0.08f &&
-                rear.velocity.getDistance() < 3f && front.velocity.getDistance() < 3f &&
+                (wheelsDetached || rear.velocity.getDistance() < 3f && front.velocity.getDistance() < 3f) &&
                 (bodyGrounded || rear.grounded || front.grounded)
         stoppedTime = if (settling && still) stoppedTime + seconds else 0f
-        if (stoppedTime > 0.7f) finish()
+        settlingTime = if (settling) settlingTime + seconds else 0f
+        if (stoppedTime > 0.7f || settlingTime >= 5f) finish()
+    }
+
+    private fun detachWheels() {
+        if (wheelsDetached) return
+        wheelsDetached = true
+        pendingBonus = 0
+        val facing = Offset(cos(angle), sin(angle))
+        val down = Offset(-facing.y, facing.x)
+        rear.velocity += facing * -55f - down * 80f
+        front.velocity += facing * 55f - down * 80f
     }
 
     private fun simulate(step: Float): Boolean {
         advanceBridges(step)
         val facing = Offset(cos(angle), sin(angle))
         val down = Offset(-facing.y, facing.x)
-        if (crashed) stopInput()
+        if (crashed) {
+            stopInput()
+            detachWheels()
+        }
         val gravity = gravityAt(x)
         val water = waterLevel(x)
         val bodyImmersion = if (water == null) 0f else ((y + 25f - water) / 35f).coerceIn(0f, 1f)
@@ -1499,7 +1520,7 @@ private class HillDriveRun : ArcadeRun() {
             val arm = Offset((wheel.x - x).toFloat(), wheel.y - y)
             val travel = dot(arm, down) - HillDriveMountY
             val relative = wheel.velocity - bodyVelocity - Offset(-arm.y, arm.x) * bodySpin
-            val spring = (
+            val spring = if (wheelsDetached) 0f else (
                     (travel - HillDriveRest) * HillDriveSpring + dot(
                         relative,
                         down
@@ -1528,6 +1549,7 @@ private class HillDriveRun : ArcadeRun() {
                 val pull = (330f + 90f * (1f - abs(wheel.surfaceSpeed) / 110f).coerceIn(0f, 1f)) *
                         (1f - sand * 0.12f) * boost
                 val motor = when {
+                    wheelsDetached -> 0f
                     backing && x <= reverseLimit + 0.5 -> 0f
                     backing -> -pull * (1f + wheel.surfaceSpeed / 210f).coerceIn(0f, 1.1f)
                     else -> throttle * pull * (1f - wheel.surfaceSpeed / 370f).coerceIn(0f, 1.1f)
@@ -1545,8 +1567,10 @@ private class HillDriveRun : ArcadeRun() {
         repeat(6) {
             solveWheelContact(rear, step)
             solveWheelContact(front, step)
-            solveJoint(rear, -1f, facing, down, step)
-            solveJoint(front, 1f, facing, down, step)
+            if (!wheelsDetached) {
+                solveJoint(rear, -1f, facing, down, step)
+                solveJoint(front, 1f, facing, down, step)
+            }
         }
 
         val airborne = !rear.grounded && !front.grounded
@@ -1570,15 +1594,18 @@ private class HillDriveRun : ArcadeRun() {
         repeat(3) {
             correctWheel(rear)
             correctWheel(front)
-            correctJoint(rear, -1f)
-            correctJoint(front, 1f)
+            if (!wheelsDetached) {
+                correctJoint(rear, -1f)
+                correctJoint(front, 1f)
+            }
         }
         if (resolveChassis(step)) {
             crashed = true
+            detachWheels()
             stopInput()
         }
         if (crashed && bodyGrounded) spin *= exp(-step * 1.8f)
-        if (!crashed) collectPickups(
+        collectPickups(
             Offset(cos(angle), sin(angle)),
             Offset(-sin(angle), cos(angle))
         )
@@ -1589,7 +1616,7 @@ private class HillDriveRun : ArcadeRun() {
             airRotation += turn
             landingTime = 0f
         } else {
-            if (airTime > 0.35f && x - takeoffX > 45.0 && x > farthestX - 10.0) {
+            if (!crashed && airTime > 0.35f && x - takeoffX > 45.0 && x > farthestX - 10.0) {
                 val slope = sampleRoad(x).y
                 val heading = atan2(slope, 1f) - (angle - airRotation)
                 val landingTurn = atan2(sin(heading), cos(heading))
@@ -2417,8 +2444,9 @@ private class HillDriveRun : ArcadeRun() {
             val rearY = pickupY - rear.y
             val frontX = (pickup.x - front.x).toFloat()
             val frontY = pickupY - front.y
-            val touchesWheel = rearX * rearX + rearY * rearY <= wheelRadius * wheelRadius ||
-                    frontX * frontX + frontY * frontY <= wheelRadius * wheelRadius
+            val touchesWheel = !wheelsDetached &&
+                    (rearX * rearX + rearY * rearY <= wheelRadius * wheelRadius ||
+                            frontX * frontX + frontY * frontY <= wheelRadius * wheelRadius)
             if (!touchesWheel && !touchesBody(local, radius)) return@removeAll false
             if (collections.size >= 24) collections.removeAt(0)
             collections += HillDriveCollection(
