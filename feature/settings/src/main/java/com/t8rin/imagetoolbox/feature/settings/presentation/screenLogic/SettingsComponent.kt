@@ -267,6 +267,9 @@ class SettingsComponent @AssistedInject internal constructor(
     fun setUseGalleryStyleSelection(value: Boolean) =
         settingsScope { setUseGalleryStyleSelection(value) }
 
+    fun setRememberGalleryDisplaySettings(value: Boolean) =
+        settingsScope { setRememberGalleryDisplaySettings(value) }
+
     fun setGalleryOcrEnabled(enabled: Boolean) =
         settingsScope { setGalleryOcrEnabled(enabled) }
 

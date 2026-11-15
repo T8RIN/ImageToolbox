@@ -158,6 +158,7 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.FILENAME_SUFFIX
 import com.t8rin.imagetoolbox.feature.settings.data.keys.FLING_TYPE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.FONT_SCALE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.GALLERY_COLUMNS
+import com.t8rin.imagetoolbox.feature.settings.data.keys.GALLERY_DISPLAY_SETTINGS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.GALLERY_OCR_ENABLED
 import com.t8rin.imagetoolbox.feature.settings.data.keys.GENERATE_PREVIEWS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.GROUPED_SCREEN_ORDER
@@ -214,6 +215,7 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.RAW_WHITE_BALANCE_RED
 import com.t8rin.imagetoolbox.feature.settings.data.keys.RAW_WHITE_BALANCE_SECOND_GREEN
 import com.t8rin.imagetoolbox.feature.settings.data.keys.RECENT_COLORS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.RECENT_GRADIENTS
+import com.t8rin.imagetoolbox.feature.settings.data.keys.REMEMBER_GALLERY_DISPLAY_SETTINGS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.REMEMBER_IMAGE_HEADER_STATE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.RETURN_TO_EXTERNAL_APP_AFTER_SAVE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SAVE_FOLDER_URI
@@ -451,6 +453,16 @@ internal class AndroidSettingsManager @Inject constructor(
 
     override suspend fun setUseGalleryStyleSelection(value: Boolean) = edit {
         it[USE_GALLERY_STYLE_SELECTION] = value
+    }
+
+    override suspend fun setRememberGalleryDisplaySettings(value: Boolean) = edit {
+        it[REMEMBER_GALLERY_DISPLAY_SETTINGS] = value
+    }
+
+    override suspend fun setGalleryDisplaySettings(value: String) = edit {
+        if (it[REMEMBER_GALLERY_DISPLAY_SETTINGS] ?: default.rememberGalleryDisplaySettings) {
+            it[GALLERY_DISPLAY_SETTINGS] = value
+        }
     }
 
     override suspend fun setSemanticSearchSettings(value: SemanticSearchSettings) = edit {

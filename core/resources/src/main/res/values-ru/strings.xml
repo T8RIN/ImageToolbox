@@ -5689,6 +5689,8 @@
     <string name="gallery_show_file_extension">Показывать формат файла</string>
     <string name="gallery_show_file_size_sub">Отображает размер файла на миниатюрах.</string>
     <string name="gallery_show_file_extension_sub">Отображает формат файла на миниатюрах.</string>
+    <string name="remember_gallery_display_settings">Запоминать настройки галереи</string>
+    <string name="remember_gallery_display_settings_sub">Сохранять группировку и сортировку при повторном открытии галереи и встроенного средства выбора.</string>
     <string name="gallery_style_selection">Выбор как в галерее</string>
     <string name="gallery_style_selection_sub">Во встроенном средстве выбора короткое нажатие открывает предпросмотр, а долгое включает выделение. В режиме выделения короткое нажатие добавляет или убирает изображение.</string>
     <string name="help_tip_gallery_style_selection">Включите настройку для встроенного средства выбора. Коснитесь фото для предпросмотра или удерживайте его, чтобы выбрать несколько снимков.</string>

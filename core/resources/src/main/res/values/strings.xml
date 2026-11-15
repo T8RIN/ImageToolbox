@@ -5612,6 +5612,8 @@
     <string name="gallery_show_file_extension">Show file format</string>
     <string name="gallery_show_file_size_sub">Show the file size on image thumbnails.</string>
     <string name="gallery_show_file_extension_sub">Show the file format on image thumbnails.</string>
+    <string name="remember_gallery_display_settings">Remember gallery settings</string>
+    <string name="remember_gallery_display_settings_sub">Save grouping and sorting options between visits to the gallery and embedded picker.</string>
     <string name="gallery_style_selection">Gallery-style selection</string>
     <string name="gallery_style_selection_sub">In the embedded picker, tap to preview and long-press to start selecting. While selecting, tap to add or remove images.</string>
     <string name="help_tip_gallery_style_selection">Enable this setting for the embedded picker. Open a photo with a tap, or hold it to start selecting several photos.</string>

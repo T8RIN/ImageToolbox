@@ -65,6 +65,10 @@ interface SettingsInteractor : SimpleSettingsInteractor {
 
     suspend fun setUseGalleryStyleSelection(value: Boolean)
 
+    suspend fun setRememberGalleryDisplaySettings(value: Boolean)
+
+    suspend fun setGalleryDisplaySettings(value: String)
+
     suspend fun setSemanticSearchSettings(value: SemanticSearchSettings)
 
     suspend fun setAiAssistantEnabled(enabled: Boolean)

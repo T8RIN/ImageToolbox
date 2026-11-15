@@ -278,6 +278,12 @@ sealed class Setting(
     )
 
     @Serializable
+    data object RememberGalleryDisplaySettings : Setting(
+        title = R.string.remember_gallery_display_settings,
+        subtitle = R.string.remember_gallery_display_settings_sub
+    )
+
+    @Serializable
     data object GalleryOcr : Setting(
         title = R.string.gallery_ocr,
         subtitle = R.string.gallery_ocr_sub

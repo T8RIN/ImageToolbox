@@ -446,6 +446,11 @@ class MediaPickerComponent @AssistedInject internal constructor(
 
     fun updateDisplaySettings(settings: MediaDisplaySettings) {
         _displaySettings.value = settings
+        if (settingsState.rememberGalleryDisplaySettings) {
+            componentScope.launch {
+                settingsManager.setGalleryDisplaySettings(settings.asString())
+            }
+        }
     }
 
     private val _mediaState = MutableStateFlow(MediaState())
@@ -1035,6 +1040,11 @@ class MediaPickerComponent @AssistedInject internal constructor(
         runSemanticSearchOperation(semanticSearchRepository::refresh)
         runBlocking {
             _settingsState.value = settingsManager.getSettingsState()
+        }
+        if (settingsState.rememberGalleryDisplaySettings) {
+            _displaySettings.value = MediaDisplaySettings.fromString(
+                settingsState.galleryDisplaySettings
+            ) ?: MediaDisplaySettings()
         }
         _isSemanticSearchEnabled.value = settingsState.isSemanticSearchEnabled
         settingsManager.settingsState.onEach {

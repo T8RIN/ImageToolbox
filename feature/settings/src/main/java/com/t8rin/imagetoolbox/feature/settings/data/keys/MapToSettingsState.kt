@@ -70,6 +70,9 @@ internal fun Preferences.toSettingsState(
         ?: default.showGalleryFileExtension,
     useGalleryStyleSelection = this[USE_GALLERY_STYLE_SELECTION]
         ?: default.useGalleryStyleSelection,
+    rememberGalleryDisplaySettings = this[REMEMBER_GALLERY_DISPLAY_SETTINGS]
+        ?: default.rememberGalleryDisplaySettings,
+    galleryDisplaySettings = this[GALLERY_DISPLAY_SETTINGS] ?: default.galleryDisplaySettings,
     isSemanticSearchEnabled = this[SEMANTIC_SEARCH_ENABLED] ?: default.isSemanticSearchEnabled,
     isGalleryOcrEnabled = this[GALLERY_OCR_ENABLED] ?: default.isGalleryOcrEnabled,
     semanticSearchSettings = this[SEMANTIC_SEARCH_SETTINGS]?.let {

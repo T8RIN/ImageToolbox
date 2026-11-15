@@ -319,6 +319,12 @@ internal fun SettingItem(
                 UseGalleryStyleSelectionSettingItem(onClick = component::setUseGalleryStyleSelection)
             }
 
+            Setting.RememberGalleryDisplaySettings -> {
+                RememberGalleryDisplaySettingsSettingItem(
+                    onClick = component::setRememberGalleryDisplaySettings
+                )
+            }
+
             Setting.SemanticSearch -> {
                 val state by component.semanticSearchState.collectAsStateWithLifecycle()
                 SemanticSearchSettingItem(
