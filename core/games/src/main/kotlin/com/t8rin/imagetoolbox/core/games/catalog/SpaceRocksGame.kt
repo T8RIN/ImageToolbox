@@ -46,7 +46,7 @@ import com.t8rin.imagetoolbox.core.games.utils.pixelGem
 import com.t8rin.imagetoolbox.core.games.utils.reliefSprite
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.resources.icons.Planet
+import com.t8rin.imagetoolbox.core.resources.icons.RocketLaunch
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import kotlin.math.PI
@@ -60,7 +60,7 @@ import kotlin.random.Random
 internal data object SpaceRocksGame : ArcadeGameDefinition {
     override val title = R.string.arcade_spacerocks
     override val description = R.string.arcade_spacerocks_sub
-    override val icon get() = Icons.Outlined.Planet
+    override val icon get() = Icons.Outlined.RocketLaunch
     override val order = 10
 
     @Composable

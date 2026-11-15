@@ -62,7 +62,7 @@ import com.t8rin.imagetoolbox.core.games.utils.arcadeLives
 import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.resources.icons.LassoSelect
+import com.t8rin.imagetoolbox.core.resources.icons.SelectAll
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
@@ -83,7 +83,7 @@ import kotlin.random.Random
 internal data object TraceAndClaimGame : ArcadeGameDefinition {
     override val title = R.string.arcade_traceandclaim
     override val description = R.string.arcade_traceandclaim_sub
-    override val icon get() = Icons.Outlined.LassoSelect
+    override val icon get() = Icons.Outlined.SelectAll
     override val order = 38
 
     @Composable

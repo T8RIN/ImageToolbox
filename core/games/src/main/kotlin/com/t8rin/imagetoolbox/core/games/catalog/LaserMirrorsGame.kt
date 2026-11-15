@@ -42,7 +42,7 @@ import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
 import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.resources.icons.Flare
+import com.t8rin.imagetoolbox.core.resources.icons.StylusLaserPointer
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import kotlin.math.abs
@@ -53,7 +53,7 @@ import kotlin.random.Random
 internal data object LaserMirrorsGame : ArcadeGameDefinition {
     override val title = R.string.arcade_lasermirrors
     override val description = R.string.arcade_lasermirrors_sub
-    override val icon get() = Icons.Outlined.Flare
+    override val icon get() = Icons.Outlined.StylusLaserPointer
     override val order = 32
 
     @Composable

@@ -39,7 +39,7 @@ import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
 import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.resources.icons.Shield
+import com.t8rin.imagetoolbox.core.resources.icons.ShieldRadar
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import kotlin.math.PI
@@ -51,7 +51,7 @@ import kotlin.random.Random
 internal data object MissileDefenseGame : ArcadeGameDefinition {
     override val title = R.string.arcade_missiledefense
     override val description = R.string.arcade_missiledefense_sub
-    override val icon get() = Icons.Outlined.Shield
+    override val icon get() = Icons.Outlined.ShieldRadar
     override val order = 13
 
     @Composable

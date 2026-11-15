@@ -53,7 +53,7 @@ import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
 import com.t8rin.imagetoolbox.core.games.utils.reliefSprite
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.resources.icons.Rocket
+import com.t8rin.imagetoolbox.core.resources.icons.DarkMode
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import kotlin.math.PI
@@ -67,7 +67,7 @@ import kotlin.random.Random
 internal data object MoonLandingGame : ArcadeGameDefinition {
     override val title = R.string.arcade_moonlanding
     override val description = R.string.arcade_moonlanding_sub
-    override val icon get() = Icons.Outlined.Rocket
+    override val icon get() = Icons.Outlined.DarkMode
     override val order = 27
 
     @Composable

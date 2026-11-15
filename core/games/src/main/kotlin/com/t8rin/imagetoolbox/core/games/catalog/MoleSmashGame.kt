@@ -44,7 +44,7 @@ import com.t8rin.imagetoolbox.core.games.utils.arcadeLives
 import com.t8rin.imagetoolbox.core.games.utils.reliefSprite
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.resources.icons.PestControlRodent
+import com.t8rin.imagetoolbox.core.resources.icons.Hardware
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import kotlin.math.ceil
@@ -54,7 +54,7 @@ import kotlin.random.Random
 internal data object MoleSmashGame : ArcadeGameDefinition {
     override val title = R.string.arcade_molesmash
     override val description = R.string.arcade_molesmash_sub
-    override val icon get() = Icons.Outlined.PestControlRodent
+    override val icon get() = Icons.Outlined.Hardware
     override val order = 15
 
     @Composable

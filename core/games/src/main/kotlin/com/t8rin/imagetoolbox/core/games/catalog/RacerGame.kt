@@ -44,7 +44,7 @@ import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.games.utils.ArcadeEffects
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.resources.icons.SportsMotorsports
+import com.t8rin.imagetoolbox.core.resources.icons.SportsScore
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import kotlin.math.abs
@@ -55,7 +55,7 @@ import kotlin.random.Random
 internal data object RacerGame : ArcadeGameDefinition {
     override val title = R.string.arcade_racer
     override val description = R.string.arcade_racer_sub
-    override val icon get() = Icons.Outlined.SportsMotorsports
+    override val icon get() = Icons.Outlined.SportsScore
     override val order = 8
 
     @Composable

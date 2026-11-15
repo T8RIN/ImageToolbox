@@ -49,7 +49,7 @@ import com.t8rin.imagetoolbox.core.games.utils.arcadeLives
 import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.resources.icons.Explore
+import com.t8rin.imagetoolbox.core.resources.icons.Ghost
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import kotlin.math.abs
@@ -61,7 +61,7 @@ import kotlin.random.Random
 internal data object MazeChaserGame : ArcadeGameDefinition {
     override val title = R.string.arcade_mazechaser
     override val description = R.string.arcade_mazechaser_sub
-    override val icon get() = Icons.Outlined.Explore
+    override val icon get() = Icons.Outlined.Ghost
     override val order = 23
 
     @Composable

@@ -37,7 +37,7 @@ import com.t8rin.imagetoolbox.core.games.RegisterArcadeGame
 import com.t8rin.imagetoolbox.core.games.rememberArcadeRun
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.resources.icons.ViewQuilt
+import com.t8rin.imagetoolbox.core.resources.icons.StackGroup
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import kotlin.math.abs
@@ -47,7 +47,7 @@ import kotlin.math.pow
 internal data object BlockStackGame : ArcadeGameDefinition {
     override val title = R.string.arcade_blockstack
     override val description = R.string.arcade_blockstack_sub
-    override val icon get() = Icons.Outlined.ViewQuilt
+    override val icon get() = Icons.Outlined.StackGroup
     override val order = 7
 
     @Composable

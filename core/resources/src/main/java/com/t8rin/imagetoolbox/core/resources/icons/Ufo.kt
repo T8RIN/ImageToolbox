@@ -19,6 +19,8 @@ package com.t8rin.imagetoolbox.core.resources.icons
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
@@ -32,21 +34,31 @@ val Icons.Outlined.Ufo: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
         viewportWidth = 24f,
         viewportHeight = 24f
     ).apply {
-        path(fill = SolidColor(Color.Black)) {
-            moveTo(17f, 10.54f)
-            curveTo(16.78f, 7.44f, 14.63f, 5f, 12f, 5f)
-            reflectiveCurveTo(7.22f, 7.44f, 7f, 10.54f)
-            curveTo(4f, 11.23f, 2f, 12.5f, 2f, 14f)
-            curveTo(2f, 16.21f, 6.5f, 18f, 12f, 18f)
-            reflectiveCurveTo(22f, 16.21f, 22f, 14f)
-            curveTo(22f, 12.5f, 20f, 11.23f, 17f, 10.54f)
-            moveTo(14.93f, 11.84f)
-            curveTo(13.03f, 12.05f, 10.97f, 12.05f, 9.07f, 11.84f)
-            curveTo(9.03f, 11.56f, 9f, 11.28f, 9f, 11f)
-            curveTo(9f, 8.8f, 10.35f, 7f, 12f, 7f)
-            reflectiveCurveTo(15f, 8.8f, 15f, 11f)
-            curveTo(15f, 11.28f, 15f, 11.56f, 14.93f, 11.84f)
-            close()
+        path(
+            stroke = SolidColor(Color.Black),
+            strokeLineWidth = 2f,
+            strokeLineCap = StrokeCap.Round,
+            strokeLineJoin = StrokeJoin.Round
+        ) {
+            moveTo(7f, 11f)
+            arcToRelative(5f, 5f, 0f, false, true, 10f, 0f)
+            moveTo(7f, 11f)
+            curveToRelative(-3f, 0.6f, -5f, 1.7f, -5f, 3f)
+            reflectiveCurveToRelative(4.5f, 4f, 10f, 4f)
+            reflectiveCurveToRelative(10f, -2.7f, 10f, -4f)
+            reflectiveCurveToRelative(-2f, -2.4f, -5f, -3f)
+            moveTo(7f, 11f)
+            curveToRelative(2.7f, 1.3f, 7.3f, 1.3f, 10f, 0f)
+            moveTo(6f, 15f)
+            horizontalLineToRelative(0.01f)
+            moveTo(12f, 16f)
+            horizontalLineToRelative(0.01f)
+            moveTo(18f, 15f)
+            horizontalLineToRelative(0.01f)
+            moveTo(9f, 21f)
+            lineToRelative(1f, -3f)
+            moveToRelative(4f, 0f)
+            lineToRelative(1f, 3f)
         }
     }.build()
 }

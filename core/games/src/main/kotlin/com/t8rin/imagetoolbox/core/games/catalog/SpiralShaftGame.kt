@@ -45,7 +45,7 @@ import com.t8rin.imagetoolbox.core.games.utils.arcadeAngleDistance
 import com.t8rin.imagetoolbox.core.games.utils.pixelCircle
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.resources.icons.Laps
+import com.t8rin.imagetoolbox.core.resources.icons.Cyclone
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import kotlin.math.ceil
@@ -57,7 +57,7 @@ import kotlin.random.Random
 internal data object SpiralShaftGame : ArcadeGameDefinition {
     override val title = R.string.arcade_spiralshaft
     override val description = R.string.arcade_spiralshaft_sub
-    override val icon get() = Icons.Outlined.Laps
+    override val icon get() = Icons.Outlined.Cyclone
     override val order = 36
 
     @Composable
