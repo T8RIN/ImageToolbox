@@ -1661,7 +1661,7 @@ or click one of the badges below.
     - Squircle
     - Smooth
 - Main screen layout customization
-- 41 Mini-Games to play when waiting for result
+- 42 Mini-Games to play when waiting for result
   - Dino
   - Doodle Hopper
   - Wing Dash
@@ -1703,6 +1703,7 @@ or click one of the badges below.
   - Trace & Claim
   - Orchard Pile
   - Hill Drive
+  - UFO Joyride
 
 (Yes, the app supports dynamic coloring based on wallpapers for every android version)
 
