@@ -493,13 +493,16 @@ private class BubblePopRun : ArcadeRun() {
             advanceRow = true
         } else if (!hasMoves()) {
             charge = BubbleChargeLimit
-            advanceRow = false
-            rise = rise.coerceAtMost(0.5f)
         }
-        val speed = rows / 6f / maxOf(4.2f, 8f - score * 0.0025f)
+        val filledRows = board.count { it >= 0 }.toFloat() / columns
+        val sparse = filledRows < minOf(rows - 2f, maxOf(3f, rows * 0.45f))
+        val settling = fall.any { it < 0f }
+        val speed = rows / 6f / maxOf(2.4f, 4.2f - score * 0.0007f)
         rise += seconds * when {
-            raiseTime > 0f -> 3.2f
-            advanceRow && comboTime < 1.4f && fall.none { it < 0f } -> maxOf(0.85f, speed)
+            raiseTime > 0f -> 4.5f
+            filledRows == 0f -> 2.6f
+            sparse && !settling -> maxOf(1.6f, speed)
+            advanceRow && comboTime < 1.55f && !settling -> maxOf(1.15f, speed)
             else -> speed
         }
         if (rise >= 1f) {
@@ -524,6 +527,7 @@ private class BubblePopRun : ArcadeRun() {
                 }
             }
             rise -= 1f
+            raiseTime = 0f
             advanceRow = !hasMoves()
             fillNext()
         }
