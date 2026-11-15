@@ -602,7 +602,7 @@ private fun DrawScope.drawHillDriveHud(
                     color = palette.glint,
                     x = 34f,
                     y = can.y + 4f,
-                    width = 42f * (run.boostTime / 2.6f).coerceIn(0f, 1f),
+                    width = 42f * (run.boostTime / HillDriveBoostDuration).coerceIn(0f, 1f),
                     height = 3f
                 )
             }
@@ -887,7 +887,8 @@ private const val HillDriveMountainLength = 3000.0
 private const val HillDriveJumpLength = 3000.0
 private const val HillDriveBridgeInterval = 4800.0
 private const val HillDriveBridgeApproach = 120f
-private const val HillDriveBridgeNodeMass = 0.16f
+private const val HillDriveBridgeNodeMass = 0.07f
+private const val HillDriveBoostDuration = 5.5f
 private const val HillDriveReverseDistance = 500.0
 private const val HillDrivePhysicsStep = 1f / 240f
 private const val HillDriveWheelbase = 23f
@@ -919,13 +920,22 @@ private val HillDriveHull = arrayOf(
 
 private val HillDriveStartKnots = floatArrayOf(0f, 65f, 185f, 300f, 425f, 535f, 600f)
 private val HillDriveStartHeights = floatArrayOf(0f, 0f, 20f, 24f, -22f, -8f, 0f)
-private val HillDriveHillKnots = floatArrayOf(0f, 87f, 190f, 293f, 402f, 509f, 600f)
+private val HillDriveHillKnots = arrayOf(
+    floatArrayOf(0f, 87f, 190f, 293f, 402f, 509f, 600f),
+    floatArrayOf(0f, 70f, 155f, 265f, 385f, 505f, 600f),
+    floatArrayOf(0f, 115f, 220f, 290f, 365f, 470f, 600f),
+    floatArrayOf(0f, 90f, 210f, 350f, 430f, 510f, 600f)
+)
 private val HillDriveHills = arrayOf(
     floatArrayOf(0f, 0.30f, -0.51f, -0.82f, 0.38f, 0.20f, 0f),
     floatArrayOf(0f, -0.30f, 0.54f, 0.84f, -0.27f, -0.12f, 0f),
     floatArrayOf(0f, -0.63f, 0.25f, -0.42f, 0.50f, -0.16f, 0f),
     floatArrayOf(0f, 0.51f, 0.60f, -0.53f, -0.67f, 0.10f, 0f),
-    floatArrayOf(0f, -0.24f, -0.79f, 0.32f, 0.54f, -0.34f, 0f)
+    floatArrayOf(0f, -0.24f, -0.79f, 0.32f, 0.54f, -0.34f, 0f),
+    floatArrayOf(0f, -0.18f, -0.72f, -1.15f, -0.82f, -0.25f, 0f),
+    floatArrayOf(0f, 0.25f, 0.85f, 1.1f, 0.35f, -0.25f, 0f),
+    floatArrayOf(0f, -0.85f, 0.45f, -0.9f, 0.4f, -0.35f, 0f),
+    floatArrayOf(0f, 0.55f, -0.95f, -0.8f, 0.65f, 0.35f, 0f)
 )
 private val HillDriveJumpKnots = arrayOf(
     floatArrayOf(0f, 180f, 390f, 520f, 780f, 1120f, 1550f, 2050f, 2550f, 3000f),
@@ -1079,7 +1089,7 @@ private class HillDriveBridge(
 
     fun advance(seconds: Float, gravity: Float) {
         if (kind != HillDriveBridgeKind.Rope) return
-        val damping = exp(-seconds * 2.6f)
+        val damping = exp(-seconds * 1.8f)
         for (index in 1 until plankCount) {
             previousX[index] = pointX[index]
             previousY[index] = pointY[index]
@@ -1101,6 +1111,10 @@ private class HillDriveBridge(
                 pointY[index] += dy * correction * first
                 pointX[index + 1] -= dx * correction * second
                 pointY[index + 1] -= dy * correction * second
+                val overlap = (2f - pointX[index + 1] + pointX[index]).coerceAtLeast(0f) /
+                        (first + second)
+                pointX[index] -= overlap * first
+                pointX[index + 1] += overlap * second
             }
             for (index in 1 until plankCount) {
                 limitLength(index, pointX.first(), pointY.first(), arcLengths[index])
@@ -1296,8 +1310,11 @@ private class HillDriveRun : ArcadeRun() {
     private var farthestX = 0.0
     private var seed = 0
     private var nextSection = 0L
+    private var nextFuelX = 1100.0
     private var airTime = 0f
     private var airRotation = 0f
+    private var flipRotation = 0f
+    private var airFlips = 0
     private var takeoffX = 0.0
     private var landingTime = 0f
     private var pendingBonus = 0
@@ -1382,6 +1399,8 @@ private class HillDriveRun : ArcadeRun() {
         biomeStarts += 0.0
         airTime = 0f
         airRotation = 0f
+        flipRotation = 0f
+        airFlips = 0
         takeoffX = 0.0
         landingTime = 0f
         pendingBonus = 0
@@ -1389,6 +1408,7 @@ private class HillDriveRun : ArcadeRun() {
         lastTrick = 0
         trickTime = 0f
         nextSection = 0
+        nextFuelX = 1100.0
         sections.clear()
         mountains.clear()
         jumps.clear()
@@ -1425,6 +1445,10 @@ private class HillDriveRun : ArcadeRun() {
 
     override fun onRestore() {
         if (!wheelsInitialized) placeWheels()
+        val lastFuel = pickups.lastOrNull { it.fuel }?.x ?: 0.0
+        if (nextFuelX <= lastFuel || nextFuelX < farthestX) {
+            nextFuelX = nextFuelPosition(maxOf(lastFuel, farthestX))
+        }
         stopInput()
     }
 
@@ -1466,7 +1490,6 @@ private class HillDriveRun : ArcadeRun() {
         cameraY = cameraY.coerceIn(y - 40f, y + (cameraAnchorY - topInset - 38f).coerceAtLeast(28f))
         extendRoute()
         fuel = (fuel - seconds * (0.025f + throttle * 0.0125f)).coerceAtLeast(0f)
-        boostTime = (boostTime - seconds).coerceAtLeast(0f)
         score =
             (distance + collectedPoints + trickPoints).coerceAtMost(Int.MAX_VALUE.toLong()).toInt()
         val settling = crashed || fuel == 0f
@@ -1490,6 +1513,7 @@ private class HillDriveRun : ArcadeRun() {
 
     private fun simulate(step: Float): Boolean {
         advanceBridges(step)
+        val previousAngle = angle
         val facing = Offset(cos(angle), sin(angle))
         val down = Offset(-facing.y, facing.x)
         if (crashed) {
@@ -1545,14 +1569,18 @@ private class HillDriveRun : ArcadeRun() {
                     spin += change * HillDriveRotatingMass * HillDriveWheelRadius * 0.6f / HillDriveInertia
                 }
             } else {
-                val boost = if (boostTime > 0f && !backing) 1.55f else 1f
+                val boost = if (boostTime > 0f && !backing) 1.65f else 1f
+                val topSpeed = if (boostTime > 0f) 444f else 370f
                 val pull = (330f + 90f * (1f - abs(wheel.surfaceSpeed) / 110f).coerceIn(0f, 1f)) *
                         (1f - sand * 0.12f) * boost
                 val motor = when {
                     wheelsDetached -> 0f
                     backing && x <= reverseLimit + 0.5 -> 0f
                     backing -> -pull * (1f + wheel.surfaceSpeed / 210f).coerceIn(0f, 1.1f)
-                    else -> throttle * pull * (1f - wheel.surfaceSpeed / 370f).coerceIn(0f, 1.1f)
+                    else -> throttle * pull * (1f - wheel.surfaceSpeed / topSpeed).coerceIn(
+                        0f,
+                        1.1f
+                    )
                 }
                 val impulse = motor * (1f - wheelWater * 0.55f) * ratio * step
                 wheel.surfaceSpeed += impulse / HillDriveRotatingMass
@@ -1574,8 +1602,10 @@ private class HillDriveRun : ArcadeRun() {
         }
 
         val airborne = !rear.grounded && !front.grounded
+        if (!airborne && gas && !brake && fuel > 0f && !crashed) {
+            boostTime = (boostTime - step).coerceAtLeast(0f)
+        }
         if (airborne) {
-            if (airTime > 0.15f) pendingBonus = 0
             val input = (if (brake) 1f else 0f) - (if (gas) 1f else 0f)
             val control = 6f + (airTime / 0.4f).coerceIn(0f, 1f) * 2.5f
             spin += input * control * sqrt(gravity / HillDriveGravity) * step
@@ -1610,33 +1640,8 @@ private class HillDriveRun : ArcadeRun() {
             Offset(-sin(angle), cos(angle))
         )
 
-        if (airborne) {
-            if (airTime == 0f) takeoffX = x
-            airTime += step
-            airRotation += turn
-            landingTime = 0f
-        } else {
-            if (!crashed && airTime > 0.35f && x - takeoffX > 45.0 && x > farthestX - 10.0) {
-                val slope = sampleRoad(x).y
-                val heading = atan2(slope, 1f) - (angle - airRotation)
-                val landingTurn = atan2(sin(heading), cos(heading))
-                val flips = abs(((airRotation - landingTurn) / HillDriveTurn).roundToInt())
-                val jump = ((airTime - 0.2f) * 8f).toInt() * 5
-                pendingBonus = maxOf(pendingBonus, jump + flips * 250)
-            }
-            airTime = 0f
-            airRotation = 0f
-            val stable = rear.grounded && front.grounded && abs(spin) < 2f &&
-                    dot(Offset(sin(angle), -cos(angle)), roadNormal(sampleRoad(x).y)) > 0.8f
-            landingTime = if (pendingBonus > 0 && stable) landingTime + step else 0f
-            if (landingTime >= 0.12f) {
-                lastTrick = pendingBonus
-                trickPoints += lastTrick
-                trickTime = 1.45f
-                pendingBonus = 0
-                landingTime = 0f
-            }
-        }
+        val rotation = atan2(sin(angle - previousAngle), cos(angle - previousAngle))
+        updateTricks(step, airborne, rotation)
         for (side in -1..1 step 2) {
             val wheel = if (side < 0) rear else front
             wheel.rotation =
@@ -1666,6 +1671,59 @@ private class HillDriveRun : ArcadeRun() {
             front.surfaceSpeed = front.surfaceSpeed.coerceAtLeast(0f)
         }
         return true
+    }
+
+    private fun updateTricks(step: Float, airborne: Boolean, rotation: Float) {
+        if (crashed) {
+            airTime = 0f
+            airRotation = 0f
+            flipRotation = 0f
+            airFlips = 0
+            pendingBonus = 0
+            landingTime = 0f
+            return
+        }
+        if (airborne || airTime > 0f) {
+            airRotation += rotation
+            flipRotation += rotation
+            while (abs(flipRotation) >= HillDriveTurn - 0.001f) {
+                airFlips++
+                flipRotation -= if (flipRotation > 0f) HillDriveTurn else -HillDriveTurn
+            }
+        }
+        if (airborne) {
+            if (airTime == 0f) takeoffX = x
+            airTime += step
+            landingTime = (landingTime - step * 0.5f).coerceAtLeast(0f)
+            return
+        }
+        if (airTime == 0f) return
+        val normal = roadNormal(sampleRoad(x).y)
+        val stable = !bodyGrounded && abs(spin) < 3f &&
+                dot(Offset(sin(angle), -cos(angle)), normal) > 0.8f
+        if (airTime > 0.35f) {
+            val heading = atan2(normal.x, -normal.y) - (angle - airRotation)
+            val landingTurn = atan2(sin(heading), cos(heading))
+            val flips =
+                maxOf(airFlips, abs(((airRotation - landingTurn) / HillDriveTurn).roundToInt()))
+            if (flips > 0 || x - takeoffX > 45.0 && x > farthestX - 10.0) {
+                val jump = ((airTime - 0.2f) * 8f).toInt() * 5
+                pendingBonus = maxOf(pendingBonus, jump + flips * 250)
+            }
+        }
+        landingTime = if (stable) landingTime + step else 0f
+        if (landingTime < 0.12f) return
+        if (pendingBonus > 0) {
+            lastTrick = pendingBonus
+            trickPoints += lastTrick
+            trickTime = 1.45f
+        }
+        airTime = 0f
+        airRotation = 0f
+        flipRotation = 0f
+        airFlips = 0
+        pendingBonus = 0
+        landingTime = 0f
     }
 
     private fun solveJoint(
@@ -1858,12 +1916,16 @@ private class HillDriveRun : ArcadeRun() {
         }
     }
 
-    fun gripAt(position: Double): Float {
+    private fun surfaceGripAt(position: Double): Float {
         val snow = biomeWeight(position, HillDriveBiome.Snow)
         val water = biomeWeight(position, HillDriveBiome.Water)
         val moon = biomeWeight(position, HillDriveBiome.Moon)
         val sand = biomeWeight(position, HillDriveBiome.Sand)
-        val surfaceGrip = 1f - snow * 0.62f - water * 0.28f - moon * 0.18f - sand * 0.18f
+        return 1f - snow * 0.62f - water * 0.28f - moon * 0.18f - sand * 0.18f
+    }
+
+    fun gripAt(position: Double): Float {
+        val surfaceGrip = surfaceGripAt(position)
         val section = floor(position / 720.0).toLong()
         val local = position - section * 720.0
         return if (biomeWeight(position, HillDriveBiome.Meadow) > 0.5f &&
@@ -2139,7 +2201,7 @@ private class HillDriveRun : ArcadeRun() {
     private fun bridge(index: Long): HillDriveBridge {
         val bridge = bridges.getOrPut(index) {
             val variant = hillDriveHash(index, seed xor 2713)
-            val difficulty = (index / 6f).coerceAtMost(1f)
+            val difficulty = difficultyAt(index * HillDriveBridgeInterval)
             val kind =
                 HillDriveBridgeKind.entries[(variant ushr 3 and 3) % HillDriveBridgeKind.entries.size]
             val length = when (variant and 3) {
@@ -2149,32 +2211,45 @@ private class HillDriveRun : ArcadeRun() {
                 else -> 960.0
             } + difficulty * 180.0
             val base = index * HillDriveBridgeInterval
-            var start = base + 1980.0
+            var selected: HillDriveBridge? = null
             var best = Float.MAX_VALUE
-            // Find banks that suit a bridge instead of stretching a rope across
-            // whichever two slopes happen to be under a fixed interval.
+            // Check the approaches too: a flat bank can hide an unclimbable dip beside it.
             for (candidate in 0..20) {
-                val x = base + 1380.0 + ((candidate + (variant ushr 4 and 15)) % 21) * 75.0
-                val from = sampleGround(x)
-                val to = sampleGround(x + length)
+                val start = base + 1380.0 + ((candidate + (variant ushr 4 and 15)) % 21) * 75.0
+                val end = start + length
+                val from = sampleGround(start)
+                val to = sampleGround(end)
                 val incline = abs(to.x - from.x) / length.toFloat()
-                val cost = incline * 3f + abs(from.y) + abs(to.y)
+                val ropeSlope = (minOf(climbSlopeAt(start), climbSlopeAt(end)) * 0.85f - incline)
+                    .coerceIn(0.12f, 0.55f)
+                val bridge = HillDriveBridge(
+                    start = start,
+                    end = end,
+                    from = from,
+                    to = to,
+                    before = sampleGround(start - HillDriveBridgeApproach),
+                    after = sampleGround(end + HillDriveBridgeApproach),
+                    kind = kind,
+                    slack = minOf(
+                        1.016 + (variant ushr 6 and 3) * 0.006 + difficulty * 0.008,
+                        1.0 + ropeSlope * ropeSlope / 6.5
+                    )
+                )
+                var excess = 0f
+                var at = start - HillDriveBridgeApproach
+                while (at <= end + HillDriveBridgeApproach) {
+                    val slope = if (at < start || at > end) bridge.approach(at).y
+                    else bridge.sample(at).y
+                    excess = maxOf(excess, -slope - climbSlopeAt(at))
+                    at += 8.0
+                }
+                val cost = excess * 1000f + incline * 3f + abs(from.y) + abs(to.y)
                 if (cost < best) {
                     best = cost
-                    start = x
+                    selected = bridge
                 }
             }
-            val end = start + length
-            HillDriveBridge(
-                start = start,
-                end = end,
-                from = sampleGround(start),
-                to = sampleGround(end),
-                before = sampleGround(start - HillDriveBridgeApproach),
-                after = sampleGround(end + HillDriveBridgeApproach),
-                kind = kind,
-                slack = 1.008 + (variant ushr 6 and 3) * 0.012
-            ).apply {
+            requireNotNull(selected).apply {
                 bridgeStates[index]?.let(::restore)
                 bridgeStates[index] = saveState()
             }
@@ -2210,19 +2285,19 @@ private class HillDriveRun : ArcadeRun() {
         if (x <= 0.0) return Offset.Zero
         val jumpIndex = (x / HillDriveJumpLength).toLong()
         val jump = jump(jumpIndex)
-        val shape = if (jump != null) {
-            jump.sample((x - jumpIndex * HillDriveJumpLength).toFloat())
-        } else {
+        val local = (x - jumpIndex * HillDriveJumpLength).toFloat()
+        var shape = jump?.sample(local) ?: Offset.Zero
+        if (jump == null || local >= 1200f) {
             val index = (x / HillDriveSectionLength).toLong()
-            section(index).sample((x - index * HillDriveSectionLength).toFloat())
+            shape += section(index).sample((x - index * HillDriveSectionLength).toFloat())
         }
         return shape + sampleMountain(x) + Offset(jumpBase(jumpIndex), 0f)
     }
 
     private fun hasJump(index: Long): Boolean {
-        val group = index / 4L
-        val slot = 1L + (hillDriveHash(group, seed xor 3571) ushr 3 and 1)
-        return index % 4L == slot
+        val group = index / 5L
+        val slot = 1L + (hillDriveHash(group, seed xor 3571) ushr 3) % 3
+        return index % 5L == slot
     }
 
     // Every big descent settles on a new lower level instead of climbing
@@ -2305,8 +2380,8 @@ private class HillDriveRun : ArcadeRun() {
     private fun mountainHeight(index: Long): Float {
         if (index <= 0L) return 0f
         val variant = hillDriveHash(index, seed xor 6949)
-        val amplitude = (65f + (index / 6f).coerceAtMost(1f) * 625f) *
-                (0.85f + (variant and 255) / 850f)
+        val amplitude = (90f + difficultyAt(index * HillDriveMountainLength) * 650f) *
+                (0.9f + (variant and 255) / 1275f)
         return amplitude * when (index % 4L) {
             1L -> -1f
             2L -> -0.28f
@@ -2315,14 +2390,26 @@ private class HillDriveRun : ArcadeRun() {
         }
     }
 
+    private fun difficultyAt(position: Double): Float =
+        (position.coerceAtLeast(0.0) / (position.coerceAtLeast(0.0) + 12000.0)).toFloat()
+
+    private fun climbSlopeAt(position: Double): Float {
+        val slope = (0.58f + difficultyAt(position) * 0.42f) *
+                (1f - biomeWeight(position, HillDriveBiome.Moon) * 0.18f -
+                        biomeWeight(position, HillDriveBiome.Water) * 0.2f)
+        return minOf(slope, surfaceGripAt(position) * 1.35f * 0.78f)
+    }
+
     private fun makeSection(index: Long): HillDriveSection {
-        val difficulty = (index / 30f).coerceAtMost(1f)
+        val start = index * HillDriveSectionLength
+        val difficulty = difficultyAt(start)
         val variant = hillDriveHash(index, seed)
         val random = Random(variant)
         val knots = if (index == 0L) HillDriveStartKnots else {
-            FloatArray(HillDriveHillKnots.size) { point ->
-                HillDriveHillKnots[point] +
-                        if (point in 1 until HillDriveHillKnots.lastIndex) random.nextFloat() * 20f - 10f else 0f
+            val profile = HillDriveHillKnots[(variant ushr 8) % HillDriveHillKnots.size]
+            FloatArray(profile.size) { point ->
+                profile[point] +
+                        if (point in 1 until profile.lastIndex) random.nextFloat() * 24f - 12f else 0f
             }
         }
         val biome = biomeAt(index * HillDriveSectionLength + HillDriveSectionLength / 2)
@@ -2337,10 +2424,40 @@ private class HillDriveRun : ArcadeRun() {
                 else -> HillDriveHills[(variant and Int.MAX_VALUE) % HillDriveHills.size]
             }
             val variation = HillDriveHills[(variant ushr 12) % HillDriveHills.size]
-            val relief = (24f + difficulty * 48f) * (0.65f + random.nextFloat() * 0.8f)
+            val relief = (36f + difficulty * 100f) * (0.85f + random.nextFloat() * 0.3f)
             FloatArray(profile.size) { point ->
                 (profile[point] * 0.65f + variation[point] * 0.35f) * relief *
                         (0.8f + random.nextFloat() * 0.4f)
+            }
+        }
+
+        fun baseSlope(local: Float): Float {
+            val position = start + local
+            val jumpLocal = (position % HillDriveJumpLength).toFloat()
+            val descent = if (jumpLocal >= 1200f) {
+                jump((position / HillDriveJumpLength).toLong())?.sample(jumpLocal)?.y ?: 0f
+            } else 0f
+            return sampleMountain(position).y + descent
+        }
+        // Keep steep spans local instead of flattening every hill in the section.
+        repeat(2) {
+            for (point in 1 until heights.lastIndex) {
+                val local = (knots[point - 1] + knots[point]) / 2f
+                val width = (knots[point] - knots[point - 1]) / 1.6f
+                val base = baseSlope(local)
+                heights[point] = heights[point].coerceIn(
+                    heights[point - 1] + (-climbSlopeAt(start + local) - base) * width,
+                    heights[point - 1] + (0.7f + difficulty * 0.5f - base) * width
+                )
+            }
+            for (point in heights.lastIndex - 1 downTo 1) {
+                val local = (knots[point] + knots[point + 1]) / 2f
+                val width = (knots[point + 1] - knots[point]) / 1.6f
+                val base = baseSlope(local)
+                heights[point] = heights[point].coerceIn(
+                    heights[point + 1] - (0.7f + difficulty * 0.5f - base) * width,
+                    heights[point + 1] - (-climbSlopeAt(start + local) - base) * width
+                )
             }
         }
         val slopes = FloatArray(knots.size)
@@ -2350,20 +2467,15 @@ private class HillDriveRun : ArcadeRun() {
             if (left * right > 0f) slopes[i] = 2f * left * right / (left + right)
         }
         val section = HillDriveSection(knots, heights, slopes)
-        val maximumSlope = (0.45f + difficulty * 0.25f) *
-                (1f - biomeWeight(
-                    index * HillDriveSectionLength + 300.0,
-                    HillDriveBiome.Moon
-                ) * 0.2f)
         var scale = 1f
         // Small hills and the long mountain profile must share the same slope budget.
-        for (point in 0..75) {
-            val local = point * 8f
+        for (point in 0..150) {
+            val local = point * 4f
             val slope = section.sample(local).y
-            val mountain = sampleMountain(index * HillDriveSectionLength + local).y
+            val base = baseSlope(local)
             val allowance = when {
-                slope > 0f -> (maximumSlope - mountain) / slope
-                slope < 0f -> (-maximumSlope - mountain) / slope
+                slope > 0f -> (0.7f + difficulty * 0.5f - base) / slope
+                slope < 0f -> (-climbSlopeAt(start + local) - base) / slope
                 else -> 1f
             }
             scale = minOf(scale, allowance.coerceIn(0f, 1f))
@@ -2407,11 +2519,6 @@ private class HillDriveRun : ArcadeRun() {
                     }
                 }
             }
-            if (nextSection % 3L == 1L) {
-                val canX = (0..5).map { start + 500.0 + it * 16.0 }
-                    .minBy { abs(sampleRoad(it, terrain = true).y) }
-                pickups += HillDrivePickup(canX, terrainHeight(canX) - 23f, fuel = true)
-            }
             if (nextSection % 8L == 5L) {
                 val boostX = (0..5).map { start + 300.0 + it * 16.0 }
                     .minBy { abs(sampleRoad(it, terrain = true).y) }
@@ -2424,6 +2531,77 @@ private class HillDriveRun : ArcadeRun() {
             }
             nextSection++
         }
+        while (nextFuelX <= right) {
+            pickups += HillDrivePickup(nextFuelX, terrainHeight(nextFuelX) - 23f, fuel = true)
+            nextFuelX = nextFuelPosition(nextFuelX)
+        }
+    }
+
+    private fun nextFuelPosition(from: Double): Double {
+        val difficulty = difficultyAt(from)
+        val budget = 13f + difficulty * 6f
+        val maximum = from + 2400.0 + difficulty * 1400.0
+        var position = from
+        var travelTime = 0f
+        val initial = sampleRoad(from, terrain = true)
+        val speeds = floatArrayOf(140f, 220f)
+        val heights = FloatArray(speeds.size) { initial.x }
+        val velocities = FloatArray(speeds.size) { initial.y * speeds[it] }
+        val clearances = arrayListOf(0f)
+        while (position < maximum && travelTime < budget) {
+            val surface = sampleRoad(position + 20.0, terrain = true)
+            val climb = (-surface.y).coerceAtLeast(0f)
+            val resistance = 1f - biomeWeight(position, HillDriveBiome.Sand) * 0.28f -
+                    biomeWeight(position, HillDriveBiome.Snow) * 0.1f -
+                    biomeWeight(position, HillDriveBiome.Water) * 0.35f
+            val speed = ((210f - climb * 145f) * resistance).coerceAtLeast(65f)
+            travelTime += 20f * sqrt(1f + surface.y * surface.y) / speed
+            val gravity = gravityAt(position + 10.0)
+            var clearance = 0f
+            for (index in speeds.indices) {
+                val step = 20f / speeds[index]
+                heights[index] += velocities[index] * step + gravity * step * step / 2f
+                velocities[index] += gravity * step
+                if (heights[index] >= surface.x) {
+                    heights[index] = surface.x
+                    velocities[index] = surface.y * speeds[index]
+                }
+                clearance = maxOf(clearance, surface.x - heights[index])
+            }
+            clearances += clearance
+            position += 20.0
+        }
+        var best = from + 600.0
+        var bestCost = Double.MAX_VALUE
+        var candidate = position
+        while (candidate >= maxOf(from + 600.0, position - 1400.0)) {
+            val jumpLocal = candidate % HillDriveJumpLength
+            val landing = 1500.0 + biomeWeight(candidate, HillDriveBiome.Moon) * 900.0
+            val inFlight = hasJump((candidate / HillDriveJumpLength).toLong()) &&
+                    jumpLocal in 250.0..landing
+            if (!inFlight) {
+                val surface = sampleRoad(candidate, terrain = true)
+                val before = terrainHeight(candidate - 50.0)
+                val after = terrainHeight(candidate + 50.0)
+                val crest = ((before + after) / 2f - surface.x).coerceAtLeast(0f)
+                val clearance = clearances[((candidate - from) / 20.0).roundToInt()]
+                val cost = (position - candidate) * 0.025 + abs(surface.y) * 70f + crest * 0.8f +
+                        (clearance - 12f).coerceAtLeast(0f) * 4f
+                if (cost < bestCost) {
+                    best = candidate
+                    bestCost = cost
+                }
+            }
+            candidate -= 20.0
+        }
+        if (bestCost == Double.MAX_VALUE) {
+            best = position
+            while (hasJump((best / HillDriveJumpLength).toLong()) &&
+                best % HillDriveJumpLength in
+                250.0..(1500.0 + biomeWeight(best, HillDriveBiome.Moon) * 900.0)
+            ) best += 20.0
+        }
+        return best
     }
 
     private fun collectPickups(facing: Offset, down: Offset) {
@@ -2457,7 +2635,7 @@ private class HillDriveRun : ArcadeRun() {
                 boost = pickup.boost
             )
             if (pickup.fuel) fuel = 1f
-            else if (pickup.boost) boostTime = 2.6f
+            else if (pickup.boost) boostTime = HillDriveBoostDuration
             else {
                 coins++
                 coinPoints += pickup.value
