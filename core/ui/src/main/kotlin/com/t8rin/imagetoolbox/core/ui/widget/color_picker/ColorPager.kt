@@ -85,6 +85,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.Bookmark
 import com.t8rin.imagetoolbox.core.resources.icons.BookmarkRemove
 import com.t8rin.imagetoolbox.core.resources.icons.ContentCopy
 import com.t8rin.imagetoolbox.core.resources.icons.Info
+import com.t8rin.imagetoolbox.core.resources.icons.Save
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.White
 import com.t8rin.imagetoolbox.core.ui.theme.Yellow
@@ -98,6 +99,7 @@ import com.t8rin.imagetoolbox.core.ui.theme.tertiaryContainerFixed
 import com.t8rin.imagetoolbox.core.ui.utils.helper.PredictiveBackObserver
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalScreenSize
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ColorCopyFormatSelectionDialog
+import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ColorImageExportDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBar
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBarDefaults
@@ -176,6 +178,8 @@ fun ColorPager(
             val currentColor = colors[pagerState.currentPage.coerceIn(colors.indices)]
             var colorCopyTarget by remember { mutableStateOf<ColorWithName?>(null) }
             var showColorInfo by remember { mutableStateOf(false) }
+            var showExportDialog by remember { mutableStateOf(false) }
+            var exportTarget by remember { mutableStateOf(currentColor.color) }
             var hideControls by remember(animatedPredictiveBackProgress) { mutableStateOf(false) }
 
             LaunchedEffect(visible, initialPage, colors) {
@@ -327,6 +331,20 @@ fun ColorPager(
                                 }
                             }
                         },
+                        actions = {
+                            EnhancedIconButton(
+                                onClick = {
+                                    exportTarget = currentColor.color
+                                    showExportDialog = true
+                                }
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Rounded.Save,
+                                    contentDescription = null,
+                                    tint = White
+                                )
+                            }
+                        },
                         navigationIcon = {
                             EnhancedIconButton(onClick = onDismiss) {
                                 Icon(
@@ -421,7 +439,8 @@ fun ColorPager(
                     }
                     predictiveBackProgress = 0f
                 },
-                enabled = visible && colorCopyTarget == null && !showColorInfo
+                enabled = visible && colorCopyTarget == null &&
+                        !showColorInfo && !showExportDialog
             )
 
             ColorInfoSheet(
@@ -433,6 +452,12 @@ fun ColorPager(
             ColorCopyFormatSelectionDialog(
                 target = colorCopyTarget,
                 onDismiss = { colorCopyTarget = null }
+            )
+
+            ColorImageExportDialog(
+                visible = showExportDialog,
+                onDismiss = { showExportDialog = false },
+                color = exportTarget
             )
         }
     }
