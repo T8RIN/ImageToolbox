@@ -31,11 +31,13 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.ClipOp
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.PathSegment
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.clipPath
+import androidx.compose.ui.graphics.drawscope.clipRect
 import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.drawscope.translate
@@ -542,7 +544,27 @@ private fun DrawScope.drawHillDriveCar(
     rotate(run.angle * HillDriveDegrees, car) {
         val x = car.x - 42f
         val y = car.y + HillDriveVisualAxleY - HillDriveBodyLift - 30f
-        drawHillDriveSprite(HillDriveCar, palette.carColors, x, y, HillDriveCarPixelSize)
+        if (run.roof == null) {
+            drawHillDriveSprite(HillDriveCar, palette.carColors, x, y, HillDriveCarPixelSize)
+        } else {
+            clipRect(x + 16f, y, x + 58f, y + 14f, ClipOp.Difference) {
+                drawHillDriveSprite(HillDriveCar, palette.carColors, x, y, HillDriveCarPixelSize)
+            }
+        }
+    }
+    run.roof?.let { roof ->
+        val center = Offset((roof.x - left).toFloat(), ground + roof.y)
+        rotate(roof.angle * HillDriveDegrees, center) {
+            clipRect(center.x - 21f, center.y - 7f, center.x + 21f, center.y + 7f) {
+                drawHillDriveSprite(
+                    HillDriveCar,
+                    palette.carColors,
+                    center.x - 37f,
+                    center.y - 7f,
+                    HillDriveCarPixelSize
+                )
+            }
+        }
     }
 }
 
@@ -889,6 +911,10 @@ private const val HillDriveBridgeInterval = 4800.0
 private const val HillDriveBridgeApproach = 120f
 private const val HillDriveBridgeNodeMass = 0.07f
 private const val HillDriveBoostDuration = 5.5f
+private const val HillDriveCanisterSpacing = 320.0
+private const val HillDriveCoinClearance = 48.0
+private const val HillDriveRoofMass = 0.12f
+private const val HillDriveRoofInertia = (42f * 42f + 14f * 14f) / 12f
 private const val HillDriveReverseDistance = 500.0
 private const val HillDrivePhysicsStep = 1f / 240f
 private const val HillDriveWheelbase = 23f
@@ -917,6 +943,18 @@ private val HillDriveHull = arrayOf(
     Offset(38f, 0f), Offset(31f, -2f), Offset(17f, -4f), Offset(0f, -4f),
     Offset(-13f, -4f), Offset(-33f, -2f)
 ).map { it + Offset(0f, HillDriveVisualAxleY - HillDriveBodyLift - HillDriveBodyY) }
+
+private val HillDriveBrokenHull = HillDriveHull.map {
+    if (it.x in -26f..16f) {
+        Offset(it.x, maxOf(it.y, HillDriveVisualAxleY - HillDriveBodyLift - HillDriveBodyY - 16f))
+    } else it
+}
+
+private val HillDriveRoofCenter = Offset(-5f, HillDriveVisualAxleY - HillDriveBodyLift - 23f)
+private val HillDriveRoofHull = arrayOf(
+    Offset(-21f, 7f), Offset(-17f, 1f), Offset(-10f, -5f), Offset(11f, -5f),
+    Offset(16f, -2f), Offset(20f, 2f), Offset(21f, 7f)
+)
 
 private val HillDriveStartKnots = floatArrayOf(0f, 65f, 185f, 300f, 425f, 535f, 600f)
 private val HillDriveStartHeights = floatArrayOf(0f, 0f, 20f, 24f, -22f, -8f, 0f)
@@ -1264,6 +1302,15 @@ private class HillDriveCollection(
 )
 
 @Serializable
+private class HillDriveRoof(
+    var x: Double,
+    var y: Float,
+    var velocity: ArcadeOffset,
+    var angle: Float,
+    var spin: Float
+)
+
+@Serializable
 private class HillDriveRun : ArcadeRun() {
     var x = 0.0
         private set
@@ -1283,6 +1330,8 @@ private class HillDriveRun : ArcadeRun() {
     private var stoppedTime = 0f
     private var settlingTime = 0f
     var wheelsDetached = false
+        private set
+    var roof: HillDriveRoof? = null
         private set
 
     @Transient
@@ -1306,7 +1355,6 @@ private class HillDriveRun : ArcadeRun() {
     private var physicsRemainder = 0f
     private var backing = false
     private var wheelsInitialized = false
-    private var rolloverTime = 0f
     private var farthestX = 0.0
     private var seed = 0
     private var nextSection = 0L
@@ -1365,6 +1413,7 @@ private class HillDriveRun : ArcadeRun() {
     val distance get() = (farthestX / 10.0).toInt()
     val trickBonus get() = if (trickTime > 0f) lastTrick else 0
     val bonusAlpha get() = (trickTime * 4f).coerceIn(0f, 1f)
+    private val hull get() = if (roof == null) HillDriveHull else HillDriveBrokenHull
     val cameraAnchorX get() = (width * 0.29f).coerceAtMost(270f)
     val cameraAnchorY get() = (height * 0.64f).coerceAtMost(height - 58f)
 
@@ -1378,7 +1427,6 @@ private class HillDriveRun : ArcadeRun() {
         throttle = 0f
         physicsRemainder = 0f
         backing = false
-        rolloverTime = 0f
         farthestX = 0.0
         cameraX = 0.0
         cameraY = 0f
@@ -1387,6 +1435,7 @@ private class HillDriveRun : ArcadeRun() {
         stoppedTime = 0f
         settlingTime = 0f
         wheelsDetached = false
+        roof = null
         bodyGrounded = false
         ponds.clear()
         coins = 0
@@ -1445,10 +1494,12 @@ private class HillDriveRun : ArcadeRun() {
 
     override fun onRestore() {
         if (!wheelsInitialized) placeWheels()
+        if (crashed && roof == null) detachWheels()
         val lastFuel = pickups.lastOrNull { it.fuel }?.x ?: 0.0
         if (nextFuelX <= lastFuel || nextFuelX < farthestX) {
             nextFuelX = nextFuelPosition(maxOf(lastFuel, farthestX))
         }
+        separatePickups()
         stopInput()
     }
 
@@ -1493,20 +1544,35 @@ private class HillDriveRun : ArcadeRun() {
         score =
             (distance + collectedPoints + trickPoints).coerceAtMost(Int.MAX_VALUE.toLong()).toInt()
         val settling = crashed || fuel == 0f
+        val detachedRoof = roof
         val still = velocity.getDistance() < 2f && abs(spin) < 0.08f &&
                 (wheelsDetached || rear.velocity.getDistance() < 3f && front.velocity.getDistance() < 3f) &&
-                (bodyGrounded || rear.grounded || front.grounded)
+                (bodyGrounded || rear.grounded || front.grounded) &&
+                (detachedRoof == null || detachedRoof.velocity.getDistance() < 3f && abs(
+                    detachedRoof.spin
+                ) < 0.15f)
         stoppedTime = if (settling && still) stoppedTime + seconds else 0f
         settlingTime = if (settling) settlingTime + seconds else 0f
         if (stoppedTime > 0.7f || settlingTime >= 5f) finish()
     }
 
     private fun detachWheels() {
+        val facing = Offset(cos(angle), sin(angle))
+        val down = Offset(-facing.y, facing.x)
+        if (roof == null) {
+            val arm = facing * HillDriveRoofCenter.x + down * HillDriveRoofCenter.y
+            val normal = roadNormal(sampleRoad(x + arm.x).y)
+            roof = HillDriveRoof(
+                x = x + arm.x,
+                y = y + arm.y,
+                velocity = velocity + Offset(-arm.y, arm.x) * spin + normal * 95f + facing * 25f,
+                angle = angle,
+                spin = spin + 3.5f
+            )
+        }
         if (wheelsDetached) return
         wheelsDetached = true
         pendingBonus = 0
-        val facing = Offset(cos(angle), sin(angle))
-        val down = Offset(-facing.y, facing.x)
         rear.velocity += facing * -55f - down * 80f
         front.velocity += facing * 55f - down * 80f
     }
@@ -1629,12 +1695,13 @@ private class HillDriveRun : ArcadeRun() {
                 correctJoint(front, 1f)
             }
         }
-        if (resolveChassis(step)) {
+        if (resolveChassis()) {
             crashed = true
             detachWheels()
             stopInput()
         }
         if (crashed && bodyGrounded) spin *= exp(-step * 1.8f)
+        advanceRoof(step)
         collectPickups(
             Offset(cos(angle), sin(angle)),
             Offset(-sin(angle), cos(angle))
@@ -1999,29 +2066,29 @@ private class HillDriveRun : ArcadeRun() {
         angle += cross(arm, impulse) / HillDriveInertia
     }
 
-    private fun resolveChassis(step: Float): Boolean {
+    private fun resolveChassis(): Boolean {
         var roofTouch = false
-        var fatal = false
         bodyGrounded = false
         repeat(3) {
             val facing = Offset(cos(angle), sin(angle))
             val down = Offset(-facing.y, facing.x)
+            if (roof == null) {
+                val roofY = HillDriveVisualAxleY - HillDriveBodyLift - 28f
+                for (point in 0..11) {
+                    val arm = facing * (-15f + point * 21f / 11f) + down * roofY
+                    if (y + arm.y - sampleRoad(x + arm.x).x >= -0.02f) roofTouch = true
+                }
+            }
             var penetration = 0f
             var contact = Offset.Zero
             var normal = Offset.Zero
-            for (vertex in HillDriveHull) {
+            for (vertex in hull) {
                 val arm = facing * vertex.x + down * (vertex.y + HillDriveBodyY)
                 val road = sampleRoad(x + arm.x)
                 val depth = y + arm.y - road.x
                 if (depth <= 0f) continue
                 bodyGrounded = true
                 val surfaceNormal = roadNormal(road.y)
-                val speed = dot(velocity + Offset(-arm.y, arm.x) * spin, surfaceNormal)
-                val alignment = dot(down, surfaceNormal)
-                if (alignment > -0.2f && depth > 0.05f) roofTouch = true
-                if ((vertex.y < -9f && alignment > -0.34f || alignment > 0.55f) &&
-                    (depth > 0.8f || speed < -27f)
-                ) fatal = true
                 val overlap = depth * -surfaceNormal.y
                 if (overlap > penetration) {
                     penetration = overlap
@@ -2055,8 +2122,58 @@ private class HillDriveRun : ArcadeRun() {
             spin += cross(contact, change) / HillDriveInertia
             bridge?.applyImpulse(segment, fraction, -change)
         }
-        rolloverTime = if (roofTouch) rolloverTime + step else 0f
-        return fatal || rolloverTime > 0.26f
+        return roofTouch
+    }
+
+    private fun advanceRoof(step: Float) {
+        val roof = roof ?: return
+        roof.velocity = roof.velocity * exp(-step * 0.12f) + Offset(0f, gravityAt(roof.x) * step)
+        roof.x += roof.velocity.x * step
+        roof.y += roof.velocity.y * step
+        roof.angle = (roof.angle + roof.spin * step) % HillDriveTurn
+        roof.spin *= exp(-step * 0.3f)
+        repeat(3) {
+            val facing = Offset(cos(roof.angle), sin(roof.angle))
+            val down = Offset(-facing.y, facing.x)
+            var penetration = 0f
+            var contact = Offset.Zero
+            var normal = Offset.Zero
+            for (vertex in HillDriveRoofHull) {
+                val arm = facing * vertex.x + down * vertex.y
+                val road = sampleRoad(roof.x + arm.x)
+                val surfaceNormal = roadNormal(road.y)
+                val overlap = (roof.y + arm.y - road.x) * -surfaceNormal.y
+                if (overlap > penetration) {
+                    penetration = overlap
+                    contact = arm
+                    normal = surfaceNormal
+                }
+            }
+            if (penetration <= 0f) return@repeat
+            val lever = cross(contact, normal)
+            val inverseMass = 1f + lever * lever / HillDriveRoofInertia
+            val correction = (penetration * 0.75f).coerceAtMost(6f) / inverseMass
+            roof.x += normal.x * correction
+            roof.y += normal.y * correction
+            roof.angle += lever * correction / HillDriveRoofInertia
+            val contactX = roof.x + contact.x
+            val bridge = bridgeAt(contactX)
+            val segment = bridge?.segment(contactX) ?: 0
+            val fraction = bridge?.fraction(segment, contactX) ?: 0f
+            val surface = bridge?.surfaceVelocity(segment, fraction) ?: Offset.Zero
+            val bridgeMass = bridge?.inverseMass(segment, fraction) ?: 0f
+            val relative = roof.velocity + Offset(-contact.y, contact.x) * roof.spin - surface
+            val impulse = (-dot(relative, normal) * 1.15f /
+                    (inverseMass + bridgeMass * HillDriveRoofMass)).coerceAtLeast(0f)
+            val tangent = Offset(-normal.y, normal.x)
+            val friction =
+                (-dot(relative, tangent) * 0.35f).coerceIn(-impulse * 0.6f, impulse * 0.6f)
+            val change = normal * impulse + tangent * friction
+            roof.velocity += change
+            roof.spin += cross(contact, change) / HillDriveRoofInertia
+            roof.spin *= exp(-step * 2.5f)
+            bridge?.applyImpulse(segment, fraction, -change * HillDriveRoofMass)
+        }
     }
 
     fun drawDust(scope: DrawScope, left: Double, ground: Float, color: Color) = with(scope) {
@@ -2491,15 +2608,43 @@ private class HillDriveRun : ArcadeRun() {
 
     private fun extendRoute() {
         val right = maxOf(farthestX + HillDriveSectionLength, cameraX + width - cameraAnchorX + 80f)
+        var extended = false
+        // Reserve fuel before placing the other pickups, including the next section's edge.
+        while (nextFuelX <= right + HillDriveSectionLength + HillDriveCanisterSpacing) {
+            pickups += HillDrivePickup(nextFuelX, terrainHeight(nextFuelX) - 23f, fuel = true)
+            nextFuelX = nextFuelPosition(nextFuelX)
+            extended = true
+        }
         while (nextSection * HillDriveSectionLength <= right) {
             val start = nextSection * HillDriveSectionLength
             val variant = hillDriveHash(nextSection, seed)
+            if (nextSection % 12L == 5L) {
+                val boostX = (0..16).map { start + 180.0 + it * 20.0 }
+                    .filter { candidate ->
+                        pickups.none {
+                            (it.fuel || it.boost) && abs(it.x - candidate) < HillDriveCanisterSpacing
+                        }
+                    }
+                    .minByOrNull { abs(sampleRoad(it, terrain = true).y) }
+                if (boostX != null) {
+                    pickups += HillDrivePickup(
+                        boostX,
+                        terrainHeight(boostX) - 23f,
+                        fuel = false,
+                        boost = true
+                    )
+                }
+            }
             if (nextSection == 0L || variant ushr 2 and 3 != 0) {
                 val first = 105 + (variant and 63)
                 val rows = if (nextSection == 0L) 1 else 1 + (variant ushr 12 and 1)
                 val columns = 4 + (variant ushr 16 and 1)
                 for (column in 0 until columns) {
                     val coinX = start + first + column * 25.0
+                    if (pickups.any {
+                            (it.fuel || it.boost) && abs(it.x - coinX) < HillDriveCoinClearance
+                        }
+                    ) continue
                     val surface = sampleRoad(coinX, terrain = true)
                     if (abs(surface.y) > 0.65f) continue
                     val baseY = surface.x - 25f
@@ -2519,21 +2664,24 @@ private class HillDriveRun : ArcadeRun() {
                     }
                 }
             }
-            if (nextSection % 8L == 5L) {
-                val boostX = (0..5).map { start + 300.0 + it * 16.0 }
-                    .minBy { abs(sampleRoad(it, terrain = true).y) }
-                pickups += HillDrivePickup(
-                    boostX,
-                    terrainHeight(boostX) - 23f,
-                    fuel = false,
-                    boost = true
-                )
-            }
             nextSection++
+            extended = true
         }
-        while (nextFuelX <= right) {
-            pickups += HillDrivePickup(nextFuelX, terrainHeight(nextFuelX) - 23f, fuel = true)
-            nextFuelX = nextFuelPosition(nextFuelX)
+        if (extended) separatePickups()
+    }
+
+    private fun separatePickups() {
+        val canisters = ArrayList<HillDrivePickup>()
+        val ordered = pickups.filter { it.fuel || it.boost }
+            .sortedWith(compareBy<HillDrivePickup> { it.boost }.thenBy { it.x })
+        for (pickup in ordered) {
+            if (canisters.any { abs(it.x - pickup.x) < HillDriveCanisterSpacing }) {
+                pickups.remove(pickup)
+            } else canisters += pickup
+        }
+        pickups.removeAll { pickup ->
+            !pickup.fuel && !pickup.boost &&
+                    canisters.any { abs(it.x - pickup.x) < HillDriveCoinClearance }
         }
     }
 
@@ -2646,8 +2794,8 @@ private class HillDriveRun : ArcadeRun() {
 
     private fun touchesBody(point: Offset, radius: Float): Boolean {
         var inside = false
-        var previous = HillDriveHull.last()
-        for (vertex in HillDriveHull) {
+        var previous = hull.last()
+        for (vertex in hull) {
             val edge = vertex - previous
             val offset = point - previous
             val length = dot(edge, edge)
