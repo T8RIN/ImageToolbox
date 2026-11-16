@@ -829,7 +829,7 @@ or click one of the badges below.
     - Share created filters by QR code
     - Scan filters from the app to get them on your device
 - Native fractal generation with 75 2D and 3D fractal types
-- Texture generation with more than 170 presets
+- Texture generation with more than 250 presets
 
   <details>
   <summary>Available textures</summary>
@@ -966,52 +966,127 @@ or click one of the badges below.
     * Rayleigh–Bénard Convection
     * Origami Facets
     * Fiber Optic Bundle
+    * Knitted Fabric
+    * Wicker Weave
+    * Chainmail
+    * Herringbone Parquet
+    * Roof Tiles
+    * Hammered Metal
+    * Corrugated Metal
+    * Bubble Wrap
+    * Penrose Tiling
+    * Cairo Tiling
+    * Islamic Star Tiling
+    * Celtic Knotwork
+    * Seigaiha
+    * Asanoha
+    * Houndstooth
+    * Jigsaw
+    * Tree Bark
+    * Pine Cone
+    * Zebra Stripes
+    * Leopard Spots
+    * Lissajous Ribbons
+    * Bismuth Crystal
+    * Hilbert Ribbons
+    * Malachite
+    * Labradorite
+    * Seraphinite
+    * Porcelain Crackle
+    * Raku Glaze
+    * Mother of Pearl
+    * Tempered Titanium
+    * End Grain Mosaic
+    * Cork
+    * Cut Crystal Glass
+    * Sashiko
+    * Bargello
+    * Kilim
+    * Brocade
+    * Batik
+    * Ikat
+    * Embossed Paisley
+    * Art Deco Fans
+    * Clover Lattice
+    * Guilloche Rosettes
+    * Ginkgo Leaves
+    * Monstera Canopy
+    * Lotus Pond
+    * Sea Anemone
+    * Jellyfish
+    * Butterfly Wings
+    * Fungal Gills
+    * Radiolaria
+    * Slot Canyon
+    * Glacial Crevasses
+    * Spiral Pearls
+    * Hopf Fibration
+    * Spirograph
+    * Chiral Pinwheels
+    * Truchet Blocks
+    * Impossible Stairs
+    * Woven Hexagons
+    * Gyroid
+    * Hypercube
+    * Lenticular Waves
+    * Stellar Nursery
+    * Pulsar Jets
+    * Gravitational Lensing
+    * Nacre Clouds
+    * Mercury Droplets
+    * Sonic Boom
+    * Ribbon Vortex
+    * Iridescent Foam
+    * Lava Crust
+    * Abyssal Vent
+    * Maze
     * Organic Fibers
     * Reaction Diffusion
     * Truchet
-  * Bent rows
-  * Circle ripple illusion
-  * Circle spiral
-  * Circuit pattern
-  * City skyline
-  * Cross stitch
-  * Diamonds illusion
-  * Generated waves
-  * Hatch
-  * Hex cubes
-  * Light array
-  * Loops
-  * Moire interference
-  * Plaid
-  * Random triangles
-  * Rosaces
-  * Rosette
-  * Scintillating grid
-  * Smooth hatch
-  * Square looper
-  * Square ripple illusion
-  * Square spiral
-  * Test chart
-  * Truchet arcs
-  * Voronoi gems
-  * Voronoi hatch
-  * Winter landscape
-  * XOR pattern
-  * 3D Cube
-  * 3D Sphere
-  * 3D Torus
-  * 3D Truchet Pipes
-  * 3D Truchet Rings
-  * Cube Octahedron
-  * Cube Spheres
-  * Cube Stair
-  * Emptied Cube
-  * Gyro Rings
-  * Infinite Cylinders
-  * Infinite Spheroids
-  * Infinite Structure
-  * Möbius Torus
-  * Torus Gem
+    * Bent rows
+    * Circle ripple illusion
+    * Circle spiral
+    * Circuit pattern
+    * City skyline
+    * Cross stitch
+    * Diamonds illusion
+    * Generated waves
+    * Hatch
+    * Hex cubes
+    * Light array
+    * Loops
+    * Moire interference
+    * Plaid
+    * Chromatic Plaid
+    * Random triangles
+    * Rosaces
+    * Rosette
+    * Scintillating grid
+    * Smooth hatch
+    * Square looper
+    * Square ripple illusion
+    * Square spiral
+    * Test chart
+    * Truchet arcs
+    * Voronoi gems
+    * Voronoi hatch
+    * Winter landscape
+    * XOR pattern
+    * 3D Cube
+    * 3D Sphere
+    * 3D Torus
+    * 3D Truchet Pipes
+    * 3D Truchet Rings
+    * Cube Octahedron
+    * Cube Spheres
+    * Cube Stair
+    * Emptied Cube
+    * Gyro Rings
+    * Infinite Cylinders
+    * Infinite Spheroids
+    * Infinite Structure
+    * Möbius Torus
+    * Torus Gem
 
   </details>
 
