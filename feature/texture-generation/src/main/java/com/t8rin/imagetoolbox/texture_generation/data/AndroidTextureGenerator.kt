@@ -19,15 +19,18 @@ package com.t8rin.imagetoolbox.texture_generation.data
 
 import android.graphics.Bitmap
 import android.graphics.Color
+import androidx.core.graphics.ColorUtils
 import androidx.core.graphics.createBitmap
 import coil3.imageLoader
 import coil3.request.ImageRequest
 import coil3.request.allowHardware
 import coil3.toBitmap
+import com.jhlabs.ArrayColormap
 import com.jhlabs.BrushedMetalFilter
 import com.jhlabs.CausticsFilter
 import com.jhlabs.CellularFilter
 import com.jhlabs.CheckFilter
+import com.jhlabs.Colormap
 import com.jhlabs.FBMFilter
 import com.jhlabs.JhFilter
 import com.jhlabs.MarbleTexFilter
@@ -52,6 +55,7 @@ import com.t8rin.imagetoolbox.texture_generation.domain.model.TextureParams
 import kotlinx.coroutines.runInterruptible
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
+import kotlin.math.pow
 
 internal class AndroidTextureGenerator @Inject constructor(
     dispatchersHolder: DispatchersHolder
@@ -191,7 +195,21 @@ internal class AndroidTextureGenerator @Inject constructor(
         TextureFilterType.Plasma -> PlasmaFilter().apply {
             turbulence = textureParams.turbulence
             scaling = textureParams.scaling
-            useImageColors = true
+            useImageColors = false
+            val base = FloatArray(3).also {
+                Color.colorToHSV(textureParams.color.colorInt, it)
+            }
+            colormap = ArrayColormap(IntArray(256) { index ->
+                val position = index / 255f
+                Color.HSVToColor(
+                    Color.alpha(textureParams.color.colorInt),
+                    floatArrayOf(
+                        (base[0] + position * 200f) % 360f,
+                        0.5f + base[1] * 0.4f,
+                        0.15f + position * 0.85f
+                    )
+                )
+            })
         }
 
         TextureFilterType.Quilt -> QuiltFilter().apply {
@@ -201,6 +219,13 @@ internal class AndroidTextureGenerator @Inject constructor(
             c = textureParams.c
             d = textureParams.d
             k = textureParams.k
+            colormap = Colormap { density ->
+                ColorUtils.blendARGB(
+                    0xFF11172C.toInt(),
+                    0xFFF8DB9F.toInt(),
+                    density.coerceIn(0f, 1f).pow(0.3f)
+                )
+            }
         }
 
         TextureFilterType.Wood -> WoodFilter().apply {

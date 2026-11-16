@@ -78,7 +78,7 @@ data class TruchetParams(
     val scale: Int = 32,
     val radius: Int = 5,
     val smoothness: Float = 1f,
-    val type: TruchetType = TruchetType.Curved,
+    val type: TruchetType = TruchetType.Straight,
     val colorMode: TruchetColorMode = TruchetColorMode.WhiteOnBlack
 )
 

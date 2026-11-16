@@ -135,8 +135,8 @@ fun TextureParams.withDefaultsFor(textureFilterType: TextureFilterType): Texture
     } else if (textureFilterType.isRaymarch) {
         copy(
             textureFilterType = textureFilterType,
-            raymarchParams = RaymarchTextureParams(),
-            foregroundColor = ColorModel(-4609051),
+            raymarchParams = textureFilterType.defaultRaymarchParams(),
+            foregroundColor = textureFilterType.defaultRaymarchColor(),
             backgroundColor = ColorModel(0),
             fastNoiseParams = null
         )
@@ -223,7 +223,7 @@ fun TextureParams.withDefaultsFor(textureFilterType: TextureFilterType): Texture
 
         TextureFilterType.Plasma -> copy(
             textureFilterType = textureFilterType,
-            color = ColorModel(-16777216),
+            color = ColorModel(0xFF7953C4.toInt()),
             turbulence = 1f,
             scaling = 0f,
             fastNoiseParams = null
@@ -231,7 +231,7 @@ fun TextureParams.withDefaultsFor(textureFilterType: TextureFilterType): Texture
 
         TextureFilterType.Quilt -> copy(
             textureFilterType = textureFilterType,
-            iterations = 25000,
+            iterations = 750000,
             a = -0.59f,
             b = 0.2f,
             c = 0.1f,

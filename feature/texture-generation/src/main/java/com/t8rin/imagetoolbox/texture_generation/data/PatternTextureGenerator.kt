@@ -23,7 +23,6 @@ import android.graphics.Color
 import android.opengl.GLES20
 import androidx.core.graphics.createBitmap
 import com.t8rin.imagetoolbox.core.utils.appContext
-import com.t8rin.imagetoolbox.texture_generation.domain.model.PatternTextureType
 import com.t8rin.imagetoolbox.texture_generation.domain.model.TextureParams
 import jp.co.cyberagent.android.gpuimage.GPUImage
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
@@ -75,6 +74,13 @@ private class PatternTextureFilter(private val params: TextureParams) : GPUImage
 
     override fun onOutputSizeChanged(width: Int, height: Int) {
         super.onOutputSizeChanged(width, height)
+        val frequency = params.patternParams.frequency.takeIf { it.isFinite() }
+            ?.coerceIn(0.1f, 64f)
+            ?: requireNotNull(params.textureFilterType.pattern).defaultFrequency
+        setFloat(
+            GLES20.glGetUniformLocation(program, "pixelWidth"),
+            frequency / minOf(width, height)
+        )
         setFloatVec2(
             GLES20.glGetUniformLocation(program, "aspect"), floatArrayOf(
                 width.toFloat() / minOf(width, height), height.toFloat() / minOf(width, height)

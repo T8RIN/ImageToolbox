@@ -97,13 +97,15 @@ internal fun patternShader(type: PatternTextureType): String {
 
         PatternTextureType.RosettePattern -> """
             float d=10.0;
-            for(int i=0;i<64;i++){
-                if(float(i)>=count)break;
-                float angle=float(i)*TAU/count;
-                vec2 center=vec2(cos(angle),sin(angle))*.4;
-                d=min(d,abs(length(p-center)-radius));
+            vec2 previous=vec2(radius,0.0);
+            for(int i=1;i<=256;i++){
+                float angle=float(i)*TAU/256.0;
+                float r=radius*(.62+.38*cos(angle*count));
+                vec2 current=vec2(cos(angle),sin(angle))*r;
+                d=min(d,segment(p,previous,current));
+                previous=current;
             }
-            result=mix(color1,color2,1.0-smoothstep(thickness,thickness+.005,d));
+            result=mix(color1,color2,coverage(d,thickness));
         """.trimIndent()
 
         PatternTextureType.LightArray -> """
@@ -189,21 +191,27 @@ internal fun patternShader(type: PatternTextureType): String {
             float d=length(q);
             result=color1;
             if(d<radius){
-                float a=fract(safeAngle(q)/TAU);
-                result=a<.5?color2:color3;
-                if(d<radius*.75)result=color4;
+                float phase=d/radius*4.0;
+                float aa=max(pixelWidth*4.0/radius,.001);
+                float ring=1.0-smoothstep(.3-aa,.3+aa,abs(fract(phase)-.5));
+                result=mix(color2,color3,ring);
+                result=mix(result,color4,coverage(d,radius*.12));
             }
         """.trimIndent()
 
         PatternTextureType.SquareRipplePattern -> """
-            vec2 q=p+vec2(sin(p.y*1.2),sin(p.x*1.2))*offset;
-            vec2 cell=floor(q),v=fract(q);
-            result=mod(cell.x+cell.y,2.0)<1.0?color1:color2;
-            if(min(min(v.x,1.0-v.x),min(v.y,1.0-v.y))<thickness)result=mod(cell.x+cell.y,2.0)<1.0?color3:color4;
+            vec2 cell=floor(p),q=fract(p)-.5;
+            q+=vec2(sin(q.y*TAU),sin(q.x*TAU))*offset;
+            float radius=max(abs(q.x),abs(q.y));
+            float phase=radius*8.0;
+            vec4 ink=mod(cell.x+cell.y,2.0)<1.0?color2:color3;
+            result=mix(color1,ink,1.0-smoothstep(thickness-pixelWidth*8.0,thickness+pixelWidth*8.0,abs(fract(phase)-.5)));
+            result=mix(result,color4,coverage(radius,.045));
         """.trimIndent()
 
         PatternTextureType.HatchPattern -> """
-            result=mix(color1,color2,step(thickness,fract(p.x)));
+            float d=abs(fract(p.x)-.5);
+            result=mix(color1,color2,coverage(d,(1.0-thickness)*.5));
         """.trimIndent()
 
         PatternTextureType.SmoothHatch -> """
@@ -246,24 +254,33 @@ internal fun patternShader(type: PatternTextureType): String {
         PatternTextureType.CrossStitchPattern -> """
             vec2 v=fract(p)-.5;
             float parity=mod(floor(p.x)+floor(p.y),2.0);
-            bool horizontal=abs(v.y)<thickness*.5;
-            bool vertical=abs(v.x)<thickness*.5;
+            float a=segment(v,vec2(-.36,-.36),vec2(.36,.36));
+            float b=segment(v,vec2(-.36,.36),vec2(.36,-.36));
+            float width=.025+thickness*.11;
             result=color1;
-            if(horizontal||vertical){
-                bool top=horizontal&&(!vertical||parity<.5);
-                float across=top?v.y:v.x;
-                result=top?color2:color3;
-                result.rgb*=1.0-shadows*pow(abs(across)*2.0/thickness,2.0)*.6;
-                result.rgb*=.9+.1*cos(across*TAU*40.0);
+            for(int i=0;i<2;i++){
+                bool first=(float(i)<.5)==(parity<.5);
+                float d=first?a:b;
+                vec4 yarn=first?color2:color3;
+                float relief=sqrt(max(0.0,1.0-d*d/(width*width)));
+                yarn.rgb*=1.0-shadows*(1.0-relief)*.7;
+                result=mix(result,color1,coverage(d,width+pixelWidth*2.0)*shadows*.5);
+                result=mix(result,yarn,coverage(d,width));
             }
         """.trimIndent()
 
         PatternTextureType.PlaidPattern -> """
-            float x=floor(p.x),y=floor(p.y);
-            vec4 a=palette(hash(vec2(x,0))),b=palette(hash(vec2(y,0)));
-            float over=step(.5,fract((p.x+p.y)*12.0));
-            result=mix(a,b,over);
-            if(fract(p.x)<thickness*.2||fract(p.y)<thickness*.2)result=mix(result,color1,.6);
+            vec2 q=fract(p*.25)*4.0;
+            float ax=abs(q.x-2.0),ay=abs(q.y-2.0);
+            vec4 warp=mix(color1,color2,1.0-smoothstep(.5,.5+pixelWidth,ax));
+            vec4 weft=mix(color1,color2,1.0-smoothstep(.5,.5+pixelWidth,ay));
+            warp=mix(warp,color3,coverage(abs(ax-1.0),.08+thickness*.12));
+            weft=mix(weft,color3,coverage(abs(ay-1.0),.08+thickness*.12));
+            warp=mix(warp,color4,coverage(abs(ax-.72),.025));
+            weft=mix(weft,color4,coverage(abs(ay-.72),.025));
+            float over=mod(floor(p.x*18.0)+floor(p.y*18.0),2.0);
+            result=mix(mix(warp,weft,.5),mix(warp,weft,over),.45);
+            result.rgb*=.92+.08*cos((p.x+p.y)*TAU*18.0);
         """.trimIndent()
 
         PatternTextureType.GeneratedWaves -> """
@@ -347,7 +364,7 @@ internal fun patternShader(type: PatternTextureType): String {
         precision highp float;
         varying vec2 textureCoordinate;
         uniform vec2 aspect;
-        uniform float frequency, offsetX, offsetY, rotation;
+        uniform float frequency, offsetX, offsetY, rotation, pixelWidth;
         uniform vec4 color1, color2, color3, color4;
         $uniforms
         $seed
@@ -361,6 +378,10 @@ internal fun patternShader(type: PatternTextureType): String {
         }
         float segment(vec2 p,vec2 a,vec2 b) {
             vec2 ab=b-a;return length(p-a-ab*clamp(dot(p-a,ab)/max(dot(ab,ab),0.00001),0.0,1.0));
+        }
+        float coverage(float distance,float width) {
+            float aa=max(pixelWidth*.7,.0001);
+            return 1.0-smoothstep(width-aa,width+aa,distance);
         }
         vec4 palette(float t) {
             t=fract(t)*4.0;

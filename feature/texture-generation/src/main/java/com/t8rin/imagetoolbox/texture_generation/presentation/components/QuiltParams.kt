@@ -32,7 +32,7 @@ internal fun QuiltParams(
         IntParam(
             value = value.iterations,
             title = stringResource(R.string.iterations),
-            range = 1f..50000f,
+            range = 1f..2000000f,
             onValueChange = { onValueChange(value.copy(iterations = it)) },
             shape = ShapeDefaults.top
         )

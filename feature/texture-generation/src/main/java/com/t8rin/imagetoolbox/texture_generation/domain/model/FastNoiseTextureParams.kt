@@ -113,7 +113,7 @@ data class FastNoiseTextureParams(
             )
 
             TextureFilterType.Topography -> create(
-                0.0055f, 16f, 0.11f, 0.42f, 12f, 1.1f,
+                0.0035f, 10f, 0.065f, 0.32f, 4f, 1.1f,
                 -15254469, -4863606, -858442
             )
 
@@ -463,7 +463,7 @@ data class FastNoiseTextureParams(
             )
 
             TextureFilterType.VeinedLeaf -> create(
-                0.004f, 0.68f, 0.52f, 0.78f, 0.62f, 1.40f,
+                0.008f, 0.68f, 0.52f, 0.78f, 0.62f, 1.40f,
                 0xFF07180C.toInt(), 0xFF1E6732.toInt(), 0xFF75BC50.toInt(), 0xFFD6E782.toInt()
             )
 
