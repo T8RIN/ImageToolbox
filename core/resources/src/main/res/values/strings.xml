@@ -8177,4 +8177,109 @@
     <string name="arcade_orchardpile_sub">Drag to aim and release to drop a fruit. Matching fruits merge, and two watermelons clear each other. Keep the pile below the dashed line</string>
     <string name="arcade_hilldrive">Hill Drive</string>
     <string name="arcade_hilldrive_sub">Drive over hills, collect coins and fuel, and land flips for bonus points</string>
+    <string name="maze_topology_square">Square</string>
+    <string name="maze_topology_hexagonal">Hexagonal</string>
+    <string name="maze_topology_triangular">Triangular</string>
+    <string name="maze_topology_polar">Polar</string>
+    <string name="maze_topology_upsilon">Octagons and squares</string>
+    <string name="maze_topology_rhombic">Rhombic</string>
+    <string name="maze_topology_mask">Masked square</string>
+    <string name="maze_algorithm_backtracker" translatable="false">Recursive Backtracker</string>
+    <string name="maze_algorithm_prim" translatable="false">Randomized Prim</string>
+    <string name="maze_algorithm_kruskal" translatable="false">Randomized Kruskal</string>
+    <string name="maze_algorithm_aldous_broder" translatable="false">Aldous–Broder</string>
+    <string name="maze_algorithm_wilson" translatable="false">Wilson</string>
+    <string name="maze_algorithm_hunt_and_kill" translatable="false">Hunt-and-Kill</string>
+    <string name="maze_algorithm_growing_tree" translatable="false">Growing Tree</string>
+    <string name="maze_algorithm_eller" translatable="false">Eller</string>
+    <string name="maze_algorithm_sidewinder" translatable="false">Sidewinder</string>
+    <string name="maze_algorithm_binary_tree" translatable="false">Binary Tree</string>
+    <string name="maze_algorithm_recursive_division" translatable="false">Recursive Division</string>
+    <string name="maze_algorithm_blobby_division" translatable="false">Blobby Division</string>
+    <string name="maze_algorithm_houston" translatable="false">Houston</string>
+    <string name="maze_algorithm_reverse_delete" translatable="false">Reverse Delete</string>
+    <string name="maze_algorithm_growing_binary_tree" translatable="false">Growing Binary Tree</string>
+    <string name="maze_algorithm_origin_shift" translatable="false">Origin Shift</string>
+    <string name="maze_mask_ellipse">Ellipse</string>
+    <string name="maze_mask_diamond">Diamond</string>
+    <string name="maze_mask_heart">Heart</string>
+    <string name="maze_mask_cross">Cross</string>
+    <string name="maze_mask_image">Image mask</string>
+    <string name="maze_entrance_farthest">Distant boundary endpoints</string>
+    <string name="maze_entrance_opposite">Opposite boundary cells</string>
+    <string name="maze_entrance_random">Random boundary cells</string>
+    <string name="maze_entrance_center">Center to boundary</string>
+    <string name="maze_entrance_manual">Custom</string>
+    <string name="maze_direction_north_east">North east</string>
+    <string name="maze_direction_north_west">North west</string>
+    <string name="maze_direction_south_east">South east</string>
+    <string name="maze_direction_south_west">South west</string>
+    <string name="maze_cap_butt">Butt</string>
+    <string name="maze_cap_round">Round</string>
+    <string name="maze_cap_square">Square</string>
+    <string name="maze_generation">Maze Generation</string>
+    <string name="maze_generation_sub">Generate and solve reproducible mazes with custom grids, algorithms and styles</string>
+    <string name="search_keywords_maze_generation">maze, labyrinth, generator, puzzle, solve, braid, seed, grid, hexagon, polar, SVG</string>
+    <string name="maze_topology">Grid</string>
+    <string name="maze_algorithm">Algorithm</string>
+    <string name="maze_uniform_hint">Uniform spanning-tree sampling. Random walks may take longer on large grids.</string>
+    <string name="maze_houston_hint">Aldous–Broder followed by Wilson. This hybrid does not guarantee uniform spanning-tree sampling.</string>
+    <string name="maze_reverse_hint">Deletes edges while preserving connectivity. Limited to 1600 cells because each deletion checks connectivity.</string>
+    <string name="maze_origin_hint">Moves the root of a directed tree. Iterations are measured per cell.</string>
+    <string name="maze_rings">Rings</string>
+    <string name="maze_rows">Rows</string>
+    <string name="maze_columns">Columns</string>
+    <string name="maze_braid" formatted="false">Remove dead ends</string>
+    <string name="maze_mask">Mask shape</string>
+    <string name="maze_threshold">Mask luminance threshold</string>
+    <string name="maze_invert_mask">Invert image mask</string>
+    <string name="maze_load_mask">Load image mask</string>
+    <string name="maze_apply_mask">Apply mask threshold</string>
+    <string name="maze_mask_hint">Opaque dark pixels become cells. Only the largest connected region is used; disconnected islands are discarded. Image masks are embedded in exported recipes.</string>
+    <string name="maze_newest">Newest cell weight</string>
+    <string name="maze_random">Random cell weight</string>
+    <string name="maze_oldest">Oldest cell weight</string>
+    <string name="maze_middle">Middle cell weight</string>
+    <string name="maze_direction">Direction</string>
+    <string name="maze_horizontal_bias" formatted="false">Horizontal passage bias (%)</string>
+    <string name="maze_eller_join" formatted="false">Horizontal joining probability (%)</string>
+    <string name="maze_eller_drop" formatted="false">Additional downward passages (%)</string>
+    <string name="maze_houston_switch" formatted="false">Switch to Wilson at visited cells (%)</string>
+    <string name="maze_origin_iterations">Origin shifts per cell</string>
+    <string name="maze_division_room">Subdivision leaf area (cells)</string>
+    <string name="maze_entrance">Endpoint selection</string>
+    <string name="maze_start_cell">Start cell index</string>
+    <string name="maze_end_cell">End cell index</string>
+    <string name="maze_open_entrances">Open boundary entrances</string>
+    <string name="maze_show_solution">Draw shortest solution path</string>
+    <string name="maze_show_markers">Show endpoint markers</string>
+    <string name="maze_heatmap">Distance heatmap</string>
+    <string name="maze_wall_width">Wall width</string>
+    <string name="maze_solution_width">Solution width</string>
+    <string name="maze_marker_size">Marker radius</string>
+    <string name="maze_margin">Margin</string>
+    <string name="maze_cap">Line cap</string>
+    <string name="maze_wall_color">Wall color</string>
+    <string name="maze_background_color">Background color</string>
+    <string name="maze_solution_color">Solution color</string>
+    <string name="maze_start_color">Start marker color</string>
+    <string name="maze_end_color">End marker color</string>
+    <string name="maze_statistics">Statistics</string>
+    <string name="maze_statistics_values">Cells: %1$d\nPassages: %2$d\nDead ends: %3$d\nJunctions: %4$d\nSolution length: %5$d steps\nGeneration time: %6$d ms</string>
+    <string name="maze_preview">Generated maze preview</string>
+    <string name="maze_error">Maze generation failed</string>
+    <string name="maze_close">Close</string>
+    <string name="maze_incompatible">Choose a graph-compatible algorithm before changing to this grid.</string>
+    <string name="maze_hint_backtracker">Long winding passages, generated with an explicit depth-first stack.</string>
+    <string name="maze_hint_prim">Grows a random frontier, producing many short branches.</string>
+    <string name="maze_hint_kruskal">Shuffles adjacent edges and joins separate regions without adding cycles.</string>
+    <string name="maze_hint_hunt">Walks until stuck, then starts another walk from an unvisited cell beside the existing maze.</string>
+    <string name="maze_hint_growing">Mix newest, random, oldest and middle active-cell selection. Newest favors winding corridors; random favors branching.</string>
+    <string name="maze_hint_eller">Merges sets across each row and carries at least one passage from every set into the next row.</string>
+    <string name="maze_hint_sidewinder">Horizontal runs with random connections to the previous row. The top boundary forms a continuous passage.</string>
+    <string name="maze_hint_binary">Each cell connects in one of two chosen directions, producing a strong diagonal bias.</string>
+    <string name="maze_hint_division">Splits rectangular regions with long walls and one opening. Leaf regions use random spanning trees to preserve unique routes.</string>
+    <string name="maze_hint_blobby">Grows two connected irregular regions, leaves one passage between them, then subdivides each region.</string>
+    <string name="maze_hint_growing_binary">Generalized root-directed variant: each cell chooses a random parent in the preceding breadth-first layer.</string>
+    <string name="maze_extra_statistics">Independent loops: %1$d\nDead ends: %2$d%% of cells</string>
 </resources>
