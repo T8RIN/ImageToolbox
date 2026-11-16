@@ -8064,16 +8064,16 @@
     <string name="arcade_rounds_finished">回合结束</string>
     <string name="arcade_rounds_subtitle">%1$d/%2$d 轮</string>
     <string name="arcade_return">返回</string>
-    <string name="arcade_templeescape">神庙逃亡</string>
-    <string name="arcade_templeescape_sub">滑动屏幕，从一面墙冲向另一面墙，在岩浆追上来之前攀爬到出口。躲避尖刺和守卫，收集遗物，并利用护盾抵挡攻击。</string>
+    <string name="arcade_templeescape">神庙逃离</string>
+    <string name="arcade_templeescape_sub">滑动屏幕，在墙壁间冲撞，赶在被岩浆追上之前攀爬至出口，躲避尖刺和守卫，收集遗物，并利用护盾抵挡一次攻击。</string>
     <string name="arcade_spiralshaft">螺旋下落</string>
-    <string name="arcade_spiralshaft_sub">左右拖动旋转高塔。连续穿过三个缺口可积攒火球，火球能击碎两个平台。避开红色区域，到达稳固落点后进入下一关。</string>
+    <string name="arcade_spiralshaft_sub">左右拖动旋转高塔。连续穿过三个缺口可积攒火球，火球会击碎两个平台。避开红色区域，到达稳固落点后进入下一关。</string>
     <string name="arcade_tintascent">色彩跃升</string>
     <string name="arcade_tintascent_sub">点击弹跳，穿过同色区域并收集星星，彩色道具会改变小球的颜色</string>
     <string name="arcade_traceandclaim">圈地占领</string>
-    <string name="arcade_traceandclaim_sub">拖动悬浮摇杆控制方向，共有三条命。返回自己的领地即可占领围出的区域。可自由穿过自己的轨迹，并切断敌人的轨迹。占领足够的土地即可开启新场地。</string>
-    <string name="arcade_orchardpile">水果合成</string>
-    <string name="arcade_orchardpile_sub">拖动瞄准，松手放下水果，相同水果会合并，两个西瓜会相互消除。不要让水果堆超过虚线</string>
+    <string name="arcade_traceandclaim_sub">拖动悬浮摇杆控制方向，共有三条命，被撞到身体会死亡。返回自己的领地即可占领围出的区域。可自由穿过自己的轨迹，并切断敌人的轨迹。占领足够的土地即可开启新场地。</string>
+    <string name="arcade_orchardpile">合成大西瓜</string>
+    <string name="arcade_orchardpile_sub">拖动瞄准，松手放下水果，相同水果会合并，两个西瓜会相互消除，不要让水果堆超过虚线</string>
     <string name="gallery_ocr">照片中的文字搜索</string>
     <string name="gallery_ocr_sub">通过标志、文档和屏幕截图中的文字查找图像。</string>
     <string name="gallery_ocr_download_hint">首次使用时下载 228 MB。</string>
@@ -8126,8 +8126,8 @@
     <string name="help_tip_arcade_statistics">从“游戏”屏幕打开游戏统计信息，查看您的分数、玩的回合以及您上次玩每场游戏的时间。</string>
     <string name="help_tip_loading_games">在等待时启用游戏，然后在出现加载对话框时点击游戏按钮。</string>
     <string name="help_tip_loading_game_choice">在设置中选择一个游戏、随机游戏或收藏夹中的随机游戏。您还可以在 Google 助理准备回复时打开游戏。</string>
-    <string name="arcade_hilldrive">希尔大道</string>
-    <string name="arcade_hilldrive_sub">开车翻山越岭，收集金币和燃料，翻转土地以获得奖励积分</string>
+    <string name="arcade_hilldrive">爬山赛车</string>
+    <string name="arcade_hilldrive_sub">翻山越岭，收集金币和燃料，成功翻转落地可获得奖励分</string>
     <string name="remember_gallery_display_settings">记住画廊设置</string>
     <string name="remember_gallery_display_settings_sub">在访问图库和嵌入式选择器之间保存分组和排序选项。</string>
 </resources>
