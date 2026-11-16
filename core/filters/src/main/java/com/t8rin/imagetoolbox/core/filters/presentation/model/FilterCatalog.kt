@@ -19,7 +19,6 @@ package com.t8rin.imagetoolbox.core.filters.presentation.model
 
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.utils.appContext
-import com.t8rin.imagetoolbox.core.utils.appContextOrNull
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.android.EntryPointAccessors
@@ -47,7 +46,7 @@ internal val filterCatalog: FilterCatalog by lazy {
 }
 
 internal fun restoreCatalogFilter(key: String, value: Any?): UiFilter<*>? =
-    appContextOrNull?.let { filterCatalog.restore(key, value) }
+    filterCatalog.restore(key, value)
 
 @Suppress("UNCHECKED_CAST")
 fun <T : Any> createUiFilter(

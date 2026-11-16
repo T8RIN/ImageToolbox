@@ -17,9 +17,13 @@
 
 package com.t8rin.imagetoolbox.feature.media_picker.data
 
+import android.app.ActivityManager
+import android.app.job.JobScheduler
 import android.content.Context
 import android.os.Build
+import android.os.PowerManager
 import android.provider.MediaStore
+import androidx.core.content.getSystemService
 import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.ExistingWorkPolicy
@@ -33,6 +37,7 @@ import com.t8rin.imagetoolbox.core.domain.saving.FailureNotifier
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
 import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
+import com.t8rin.imagetoolbox.core.utils.makeLog
 import com.t8rin.imagetoolbox.feature.media_picker.domain.GalleryIndexScheduler
 import com.t8rin.imagetoolbox.feature.media_picker.domain.GalleryOcrRepository
 import com.t8rin.imagetoolbox.feature.media_picker.domain.SemanticSearchRepository
@@ -48,6 +53,7 @@ import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.supervisorScope
@@ -84,6 +90,7 @@ internal class AndroidGalleryIndexScheduler @Inject constructor(
         for (index in GalleryIndex.entries) {
             appScope.launch {
                 workManager.getWorkInfosByTagFlow(index.tag)
+                    .onEach { work -> logWork(index.name, work) }
                     .map { work -> work.any { !it.state.isFinished && it.state != WorkInfo.State.RUNNING } }
                     .distinctUntilChanged()
                     .collect { queued ->
@@ -97,7 +104,7 @@ internal class AndroidGalleryIndexScheduler @Inject constructor(
         appScope.launch {
             runSuspendCatching {
                 workManager.cancelUniqueWork("gallery-ocr-periodic").await()
-            }.onFailure(failureNotifier::send)
+            }.onFailure(::reportFailure)
             var previous: List<GalleryIndex>? = null
             settingsManager.settingsState
                 .map { settings -> GalleryIndex.entries.filter { it.isEnabled(settings) } }
@@ -116,7 +123,7 @@ internal class AndroidGalleryIndexScheduler @Inject constructor(
                             scheduleObserver(ExistingWorkPolicy.KEEP)
                             schedulePeriodicWork()
                         }
-                    }.onFailure(failureNotifier::send)
+                    }.onFailure(::reportFailure)
                 }
         }
     }
@@ -131,6 +138,83 @@ internal class AndroidGalleryIndexScheduler @Inject constructor(
         stop(GalleryIndex.Semantic)
     }
 
+    override suspend fun logDiagnostics() {
+        runSuspendCatching {
+            withTimeoutOrNull(5_000) {
+                val settings = settingsManager.getSettingsState()
+                val activity = context.getSystemService<ActivityManager>()
+                val power = context.getSystemService<PowerManager>()
+                val backgroundRestricted = if (Build.VERSION.SDK_INT >= 28) {
+                    activity?.isBackgroundRestricted
+                } else null
+                ("enabled: semantic=${settings.isSemanticSearchEnabled}, " +
+                        "faces=${settings.semanticSearchSettings.groupPeople}, " +
+                        "ocr=${settings.isGalleryOcrEnabled}, " +
+                        "photoAccess=${context.hasSemanticSearchPermission()}, " +
+                        "backgroundRestricted=$backgroundRestricted, " +
+                        "powerSave=${power?.isPowerSaveMode}, idle=${power?.isDeviceIdleMode}, " +
+                        "ignoringBatteryOptimizations=${
+                            power?.isIgnoringBatteryOptimizations(
+                                context.packageName
+                            )
+                        }")
+                    .makeLog("GalleryIndex")
+                "semantic=${semantic.state.value}, ocr=${ocr.state.value}".makeLog("GalleryIndex")
+                for (name in listOf(
+                    INDEX_WORK, PERIODIC_WORK, OBSERVER_WORK,
+                    "semantic-search-index", "gallery-ocr-periodic"
+                )) {
+                    logWork(name, workManager.getWorkInfosForUniqueWorkFlow(name).first())
+                }
+                logPendingJobs()
+                true
+            } ?: "Diagnostics timed out".makeLog("GalleryIndex")
+        }.onFailure { it.makeLog("GalleryIndex") }
+    }
+
+    private fun logWork(name: String, work: List<WorkInfo>) {
+        val pending = work.filterNot { it.state.isFinished }
+        "$name: total=${work.size}, unfinished=${pending.size}".makeLog("GalleryIndex")
+        for (info in pending + work.filter { it.state.isFinished }.takeLast(5)) {
+            ("$name: id=${info.id}, worker=${info.workerClassName}, state=${info.state}, " +
+                    "attempts=${info.runAttemptCount}, generation=${info.generation}, " +
+                    "stopReason=${if (Build.VERSION.SDK_INT >= 31) info.stopReason else null}, " +
+                    "nextRun=${info.nextScheduleTimeMillis}, constraints=${info.constraints}")
+                .makeLog("GalleryIndex")
+        }
+    }
+
+    private fun logPendingJobs() {
+        val scheduler = context.getSystemService<JobScheduler>() ?: return
+        val schedulers = buildList {
+            add("default" to scheduler)
+            if (Build.VERSION.SDK_INT >= 34) {
+                add("androidx.work.systemjobscheduler" to scheduler.forNamespace("androidx.work.systemjobscheduler"))
+            }
+        }
+        for ((namespace, jobs) in schedulers) {
+            for (job in jobs.allPendingJobs.filter {
+                it.service.className == "androidx.work.impl.background.systemjob.SystemJobService"
+            }) {
+                val reasons = when {
+                    Build.VERSION.SDK_INT >= 36 -> jobs.getPendingJobReasons(job.id)
+                        .contentToString()
+
+                    Build.VERSION.SDK_INT >= 34 -> jobs.getPendingJobReason(job.id).toString()
+                    else -> null
+                }
+                ("job=${job.id}, namespace=$namespace, " +
+                        "workId=${job.extras.getString("EXTRA_WORK_SPEC_ID")}, pendingReasons=$reasons")
+                    .makeLog("GalleryIndex")
+            }
+        }
+    }
+
+    private fun reportFailure(error: Throwable) {
+        error.makeLog("GalleryIndex")
+        failureNotifier.send(error)
+    }
+
     internal suspend fun refreshIndex(mediaChanged: Boolean = false) {
         runSuspendCatching {
             val settings = settingsManager.getSettingsState()
@@ -141,7 +225,7 @@ internal class AndroidGalleryIndexScheduler @Inject constructor(
                 ) else stop(index)
             }
             scheduleObserver(if (mediaChanged) ExistingWorkPolicy.APPEND_OR_REPLACE else ExistingWorkPolicy.KEEP)
-        }.onFailure(failureNotifier::send)
+        }.onFailure(::reportFailure)
     }
 
     private suspend fun schedulePeriodicWork() = mutex.withLock {
@@ -199,7 +283,7 @@ internal class AndroidGalleryIndexScheduler @Inject constructor(
                 // Disabling one index must let the next worker in the chain start.
                 currentCoroutineContext().ensureActive()
             } catch (error: Exception) {
-                failureNotifier.send(error)
+                reportFailure(error)
             }
         }
 
@@ -224,14 +308,17 @@ internal class AndroidGalleryIndexScheduler @Inject constructor(
             return@withLock
         }
         if (!append && work.any { it.state == WorkInfo.State.RUNNING }) return@withLock
-        val request = when (index) {
-            GalleryIndex.Semantic -> OneTimeWorkRequestBuilder<SemanticSearchWorker>()
-            GalleryIndex.Faces -> OneTimeWorkRequestBuilder<FaceGroupingWorker>()
-            GalleryIndex.Ocr -> OneTimeWorkRequestBuilder<GalleryOcrWorker>()
-        }.setConstraints(Constraints.Builder().setRequiresStorageNotLow(true).build())
-            .addTag(index.tag)
-            .build()
-        workManager.enqueueUniqueWork(INDEX_WORK, ExistingWorkPolicy.APPEND_OR_REPLACE, request)
+
+        workManager
+            .enqueueUniqueWork(
+                uniqueWorkName = INDEX_WORK,
+                existingWorkPolicy = ExistingWorkPolicy.APPEND_OR_REPLACE,
+                request = when (index) {
+                    GalleryIndex.Semantic -> OneTimeWorkRequestBuilder<SemanticSearchWorker>()
+                    GalleryIndex.Faces -> OneTimeWorkRequestBuilder<FaceGroupingWorker>()
+                    GalleryIndex.Ocr -> OneTimeWorkRequestBuilder<GalleryOcrWorker>()
+                }.addTag(index.tag).build()
+            )
             .await()
     }
 
@@ -260,10 +347,10 @@ internal class AndroidGalleryIndexScheduler @Inject constructor(
                 }
                 enqueue(index)
             }.onFailure { error ->
-                failureNotifier.send(error)
+                reportFailure(error)
                 if (index == GalleryIndex.Ocr && !ocr.state.value.modelsReady) {
                     runSuspendCatching { settingsManager.setGalleryOcrEnabled(false) }
-                        .onFailure(failureNotifier::send)
+                        .onFailure(::reportFailure)
                 }
             }
         }.also { it.start() }

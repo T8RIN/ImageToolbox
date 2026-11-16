@@ -74,12 +74,14 @@ import com.t8rin.imagetoolbox.core.settings.domain.model.ShapeType
 import com.t8rin.imagetoolbox.core.settings.domain.model.SliderType
 import com.t8rin.imagetoolbox.core.settings.domain.model.SnowfallMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.SwitchType
+import com.t8rin.imagetoolbox.core.ui.utils.helper.DeviceInfo
 import com.t8rin.imagetoolbox.core.utils.Logger
 import com.t8rin.imagetoolbox.core.utils.createZip
 import com.t8rin.imagetoolbox.core.utils.fileSize
 import com.t8rin.imagetoolbox.core.utils.filename
 import com.t8rin.imagetoolbox.core.utils.makeLog
 import com.t8rin.imagetoolbox.core.utils.putEntry
+import com.t8rin.imagetoolbox.feature.media_picker.domain.GalleryIndexScheduler
 import com.t8rin.imagetoolbox.feature.settings.data.keys.ADD_IMAGETOOLBOX_METADATA
 import com.t8rin.imagetoolbox.feature.settings.data.keys.ADD_ORIGINAL_NAME_TO_FILENAME
 import com.t8rin.imagetoolbox.feature.settings.data.keys.ADD_PRESET_TO_FILENAME
@@ -286,6 +288,7 @@ internal class AndroidSettingsManager @Inject constructor(
     @ApplicationContext private val context: Context,
     private val dataStore: DataStore<Preferences>,
     private val shareProvider: Lazy<ShareProvider>,
+    private val galleryIndexScheduler: Lazy<GalleryIndexScheduler>,
     private val jsonParser: JsonParser,
     dispatchersHolder: DispatchersHolder,
     appScope: AppScope,
@@ -867,6 +870,8 @@ internal class AndroidSettingsManager @Inject constructor(
 
     override suspend fun createLogsExport(): String = withContext(ioDispatcher) {
         "Start Logs Export".makeLog("SettingsManager")
+        DeviceInfo.getAsString().makeLog("DeviceInfo Logs export")
+        galleryIndexScheduler.get().logDiagnostics()
 
         val logsFile = Logger.getLogsFile().toFile()
         val settingsFile = SettingsBackup.settingsFile(context.filesDir)

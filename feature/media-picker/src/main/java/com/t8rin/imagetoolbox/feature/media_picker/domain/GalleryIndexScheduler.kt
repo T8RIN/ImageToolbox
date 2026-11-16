@@ -25,4 +25,6 @@ interface GalleryIndexScheduler {
 
     suspend fun stopSemanticSearch()
 
+    suspend fun logDiagnostics() = Unit
+
 }
