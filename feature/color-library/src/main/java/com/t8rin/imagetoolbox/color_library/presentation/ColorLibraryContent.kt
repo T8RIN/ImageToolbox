@@ -40,7 +40,7 @@ import androidx.compose.foundation.layout.union
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Icon
@@ -53,6 +53,7 @@ import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -80,6 +81,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.Close
 import com.t8rin.imagetoolbox.core.resources.icons.Search
 import com.t8rin.imagetoolbox.core.resources.icons.SearchOff
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
+import com.t8rin.imagetoolbox.core.ui.widget.color_picker.ColorPager
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ColorCopyFormatSelectionDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedFloatingActionButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
@@ -114,6 +116,10 @@ fun ColorLibraryContent(
     var colorCopyTarget by remember {
         mutableStateOf<ColorWithName?>(null)
     }
+
+    var colorPagerColors by remember { mutableStateOf(emptyList<ColorWithName>()) }
+    var colorPagerInitialPage by remember { mutableIntStateOf(0) }
+    var showColorPager by remember { mutableStateOf(false) }
 
     Scaffold(
         modifier = Modifier
@@ -254,14 +260,20 @@ fun ColorLibraryContent(
                         columns = GridCells.Adaptive(180.dp),
                         modifier = Modifier.fillMaxSize()
                     ) {
-                        items(
+                        itemsIndexed(
                             items = colors,
-                            key = { it.toString() }
-                        ) { colorWithName ->
+                            key = { _, color -> color.toString() }
+                        ) { index, colorWithName ->
                             ColorWithNameItem(
                                 isFavorite = colorWithName.name in favoriteColors,
                                 color = colorWithName.color,
                                 name = colorWithName.name,
+                                onClick = {
+                                    focus.clearFocus()
+                                    colorPagerColors = colors
+                                    colorPagerInitialPage = index
+                                    showColorPager = true
+                                },
                                 onToggleFavorite = { component.toggleFavoriteColor(colorWithName) },
                                 onCopy = {
                                     colorCopyTarget = colorWithName
@@ -349,6 +361,15 @@ fun ColorLibraryContent(
             }
         }
     }
+
+    ColorPager(
+        visible = showColorPager,
+        colors = colorPagerColors,
+        initialPage = colorPagerInitialPage,
+        favoriteColors = favoriteColors,
+        onToggleFavorite = component::toggleFavoriteColor,
+        onDismiss = { showColorPager = false }
+    )
 
     ColorCopyFormatSelectionDialog(
         target = colorCopyTarget,

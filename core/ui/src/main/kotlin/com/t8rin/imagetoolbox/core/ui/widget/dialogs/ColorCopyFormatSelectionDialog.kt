@@ -205,7 +205,7 @@ fun ColorCopyFormatSelectionDialog(
     )
 }
 
-private enum class ColorCopyFormat {
+internal enum class ColorCopyFormat {
     Hex,
     Name,
     HexAndName,

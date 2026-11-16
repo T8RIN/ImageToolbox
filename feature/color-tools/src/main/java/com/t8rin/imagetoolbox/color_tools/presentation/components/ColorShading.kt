@@ -53,7 +53,8 @@ import kotlin.math.roundToInt
 
 @Composable
 internal fun ColorShading(
-    selectedColor: Color
+    selectedColor: Color,
+    onColorClick: (List<Color>, Int) -> Unit
 ) {
     var shadingVariation by rememberSaveable {
         mutableIntStateOf(5)
@@ -133,6 +134,7 @@ internal fun ColorShading(
                             data.forEachIndexed { index, color ->
                                 ColorWithNameItem(
                                     color = color,
+                                    onClick = { onColorClick(data, index) },
                                     containerShape = ShapeDefaults.byIndex(
                                         index = index,
                                         size = data.size

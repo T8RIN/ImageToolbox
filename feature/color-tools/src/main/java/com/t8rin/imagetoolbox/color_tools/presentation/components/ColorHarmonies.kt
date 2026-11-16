@@ -57,6 +57,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
 @Composable
 internal fun ColorHarmonies(
     selectedColor: Color,
+    onColorClick: (List<Color>, Int) -> Unit,
 ) {
     var selectedHarmony by rememberSaveable {
         mutableStateOf(HarmonyType.COMPLEMENTARY)
@@ -132,6 +133,7 @@ internal fun ColorHarmonies(
                             )
                             ColorWithNameItem(
                                 color = color,
+                                onClick = { onColorClick(harmonies, index) },
                                 containerShape = shape,
                                 onCopy = { name ->
                                     colorCopyTarget = ColorWithName(

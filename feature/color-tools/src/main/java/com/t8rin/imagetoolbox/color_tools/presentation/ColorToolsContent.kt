@@ -24,7 +24,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -32,12 +31,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.gigamole.composefadingedges.FadingEdgesGravity
+import com.t8rin.colors.parser.ColorNameParser
+import com.t8rin.colors.parser.ColorWithName
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.t8rin.imagetoolbox.color_tools.presentation.components.ColorHarmonies
 import com.t8rin.imagetoolbox.color_tools.presentation.components.ColorHistogram
@@ -45,6 +50,7 @@ import com.t8rin.imagetoolbox.color_tools.presentation.components.ColorInfo
 import com.t8rin.imagetoolbox.color_tools.presentation.components.ColorMixing
 import com.t8rin.imagetoolbox.color_tools.presentation.components.ColorShading
 import com.t8rin.imagetoolbox.color_tools.presentation.screenLogic.ColorToolsComponent
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Palette
 import com.t8rin.imagetoolbox.core.resources.icons.PushPin
@@ -52,6 +58,7 @@ import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsS
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.rememberAppColorTuple
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
+import com.t8rin.imagetoolbox.core.ui.widget.color_picker.ColorPager
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ColorRowSelector
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
@@ -65,6 +72,20 @@ import com.t8rin.imagetoolbox.core.ui.widget.text.marquee
 fun ColorToolsContent(
     component: ColorToolsComponent
 ) {
+    var colorPagerColors by remember { mutableStateOf(emptyList<ColorWithName>()) }
+    var colorPagerInitialPage by remember { mutableIntStateOf(0) }
+    var showColorPager by remember { mutableStateOf(false) }
+    val onColorClick: (List<Color>, Int) -> Unit = { colors, index ->
+        colorPagerColors = colors.map { color ->
+            ColorWithName(
+                color = color,
+                name = ColorNameParser.parseColorName(color)
+            )
+        }
+        colorPagerInitialPage = index
+        showColorPager = true
+    }
+
     val themeState = LocalDynamicThemeState.current
     val settingsState = LocalSettingsState.current
     val allowChangeColor = settingsState.allowChangeColorByImage
@@ -168,17 +189,21 @@ fun ColorToolsContent(
                     }
                     ColorInfo(
                         selectedColor = selectedColor,
-                        onColorChange = component::updateSelectedColor
+                        onColorChange = component::updateSelectedColor,
+                        onColorClick = onColorClick
                     )
                     ColorMixing(
                         selectedColor = selectedColor,
-                        appColorTuple = appColorTuple
+                        appColorTuple = appColorTuple,
+                        onColorClick = onColorClick
                     )
                     ColorHarmonies(
-                        selectedColor = selectedColor
+                        selectedColor = selectedColor,
+                        onColorClick = onColorClick
                     )
                     ColorShading(
-                        selectedColor = selectedColor
+                        selectedColor = selectedColor,
+                        onColorClick = onColorClick
                     )
                     ColorHistogram()
                 }
@@ -188,4 +213,11 @@ fun ColorToolsContent(
             canShowScreenData = true
         )
     }
+
+    ColorPager(
+        visible = showColorPager,
+        colors = colorPagerColors,
+        initialPage = colorPagerInitialPage,
+        onDismiss = { showColorPager = false }
+    )
 }
