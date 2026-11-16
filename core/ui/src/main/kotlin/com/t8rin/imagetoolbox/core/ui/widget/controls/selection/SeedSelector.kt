@@ -74,7 +74,8 @@ fun SeedSelector(
     shape: Shape = ShapeDefaults.default,
     enabled: Boolean = true,
     containerColor: Color = Color.Unspecified,
-    behaveAsContainer: Boolean = true
+    behaveAsContainer: Boolean = true,
+    allowRandomizeAfterSave: Boolean = true
 ) {
     val settingsState = LocalSettingsState.current
     val settingsInteractor = LocalSimpleSettingsInteractor.current
@@ -90,8 +91,8 @@ fun SeedSelector(
         onValueChange(seed)
     }
 
-    LaunchedEffect(enabled, settingsState.randomizeSeedAfterSave) {
-        if (enabled && settingsState.randomizeSeedAfterSave) {
+    LaunchedEffect(enabled, allowRandomizeAfterSave, settingsState.randomizeSeedAfterSave) {
+        if (enabled && allowRandomizeAfterSave && settingsState.randomizeSeedAfterSave) {
             appContext.entryPoint<SeedSelectorEntryPoint>()
                 .fileControllerEventEmitter.successfulSaveEvents.collect {
                     randomizeSeed()
@@ -115,21 +116,23 @@ fun SeedSelector(
         enabled = enabled,
         containerColor = containerColor,
         behaveAsContainer = behaveAsContainer,
-        additionalContent = {
-            PreferenceRowSwitch(
-                modifier = Modifier.padding(8.dp),
-                title = stringResource(R.string.randomize_seed_after_save),
-                checked = settingsState.randomizeSeedAfterSave,
-                enabled = enabled,
-                containerColor = MaterialTheme.colorScheme.surfaceContainer,
-                applyHorizontalPadding = false,
-                onClick = {
-                    scope.launch {
-                        settingsInteractor.toggleRandomizeSeedAfterSave()
+        additionalContent = if (allowRandomizeAfterSave) {
+            {
+                PreferenceRowSwitch(
+                    modifier = Modifier.padding(8.dp),
+                    title = stringResource(R.string.randomize_seed_after_save),
+                    checked = settingsState.randomizeSeedAfterSave,
+                    enabled = enabled,
+                    containerColor = MaterialTheme.colorScheme.surfaceContainer,
+                    applyHorizontalPadding = false,
+                    onClick = {
+                        scope.launch {
+                            settingsInteractor.toggleRandomizeSeedAfterSave()
+                        }
                     }
-                }
-            )
-        },
+                )
+            }
+        } else null,
         endContent = {
             EnhancedIconButton(
                 onClick = randomizeSeed,

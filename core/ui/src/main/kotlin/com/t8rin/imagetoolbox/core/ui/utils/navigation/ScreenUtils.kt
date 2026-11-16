@@ -22,6 +22,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Route
 import com.t8rin.imagetoolbox.core.resources.icons.Album
 import com.t8rin.imagetoolbox.core.resources.icons.ApngBox
 import com.t8rin.imagetoolbox.core.resources.icons.ArtTrack
@@ -138,6 +139,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.EraseBackground
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Filter
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.FormatConversion
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.FractalGeneration
+import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.MazeGeneration
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Gallery
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.GifTools
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.GradientMaker
@@ -237,6 +239,7 @@ internal fun Screen.simpleName(): String = when (this) {
     is SvgMaker -> "Svg"
     is FormatConversion -> "Convert"
     is FractalGeneration -> "Fractal_Generation"
+    is MazeGeneration -> "Maze_Generation"
     is DocumentScanner -> "Document_Scanner"
     is ScanQrCode -> "QR_Code"
     is ImageStacking -> "Image_Stacking"
@@ -349,6 +352,7 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is SvgMaker -> Icons.Outlined.VectorPolyline
     is FormatConversion -> Icons.Outlined.ImageConvert
     is FractalGeneration -> Icons.Outlined.Hub
+    is MazeGeneration -> Icons.Outlined.Route
     is DocumentScanner -> Icons.Outlined.DocumentScanner
     is ScanQrCode -> Icons.Outlined.QrCode
     is ImageStacking -> Icons.Outlined.ImageOverlay
@@ -454,6 +458,7 @@ internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
     is SvgMaker -> Icons.TwoTone.VectorPolyline
     is FormatConversion -> Icons.TwoTone.ImageConvert
     is FractalGeneration -> Icons.TwoTone.Hub
+    is MazeGeneration -> Icons.Outlined.Route
     is DocumentScanner -> Icons.TwoTone.DocumentScanner
     is ScanQrCode -> Icons.TwoTone.QrCode
     is ImageStacking -> Icons.TwoTone.ImageOverlay
@@ -574,6 +579,7 @@ private object ScreenConstantsImpl : ScreenConstants {
                     ScreenshotFraming(),
                     NoiseGeneration,
                     TextureGeneration,
+                    MazeGeneration,
                     FractalGeneration,
                 ),
                 title = R.string.create,

@@ -1423,6 +1423,13 @@ sealed class Screen(
         subtitle = R.string.arcade_games_sub
     )
 
+    @Serializable
+    data object MazeGeneration : Screen(
+        id = 86,
+        title = R.string.maze_generation,
+        subtitle = R.string.maze_generation_sub
+    )
+
     companion object : ScreenConstants by ScreenConstants
 
 }

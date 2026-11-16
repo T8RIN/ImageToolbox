@@ -167,6 +167,7 @@ private fun Screen.searchKeywordsRes(): Int? = when (this) {
     is SvgMaker -> R.string.search_keywords_svg_maker
     is FormatConversion -> R.string.search_keywords_format_conversion
     is FractalGeneration -> R.string.search_keywords_fractal_generation
+    is Screen.MazeGeneration -> R.string.search_keywords_maze_generation
     is DocumentScanner -> R.string.search_keywords_document_scanner
     is ScanQrCode -> R.string.search_keywords_scan_qr_code
     is ImageStacking -> R.string.search_keywords_image_stacking

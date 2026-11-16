@@ -24,6 +24,7 @@ import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import coil3.transform.Transformation
@@ -54,7 +55,11 @@ fun ZoomModalSheet(
             }
         ) {
             var aspectRatio by remember(data) {
-                mutableFloatStateOf(1f)
+                val intrinsicSize = (data as? Painter)?.intrinsicSize
+                mutableFloatStateOf(
+                    intrinsicSize?.let { it.width / it.height }
+                        ?.takeIf { it.isFinite() && it > 0f } ?: 1f
+                )
             }
             Picture(
                 model = data,
