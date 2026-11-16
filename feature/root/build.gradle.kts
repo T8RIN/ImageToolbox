@@ -65,6 +65,7 @@ dependencies {
     implementation(projects.feature.colorTools)
     implementation(projects.feature.webpTools)
     implementation(projects.feature.noiseGeneration)
+    implementation(projects.feature.mazeGeneration)
     implementation(projects.feature.textureGeneration)
     implementation(projects.feature.collageMaker)
     implementation(projects.feature.librariesInfo)

@@ -105,6 +105,7 @@ coilResvg = "1.1.2"
 runner = "1.7.0"
 
 [libraries]
+androidSvg = { module = "com.caverock:androidsvg-aar", version = "1.4" }
 androidx-lifecycle-process = { module = "androidx.lifecycle:lifecycle-process", version.ref = "androidxLifecycle" }
 androidx-work-runtime = { module = "androidx.work:work-runtime-ktx", version.ref = "workManager" }
 coil-resvg = { module = "com.hashsequence:coil-resvg", version.ref = "coilResvg" }

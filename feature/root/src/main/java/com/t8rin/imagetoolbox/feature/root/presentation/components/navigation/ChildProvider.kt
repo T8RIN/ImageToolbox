@@ -49,6 +49,8 @@ import com.t8rin.imagetoolbox.feature.erase_background.presentation.screenLogic.
 import com.t8rin.imagetoolbox.feature.filters.presentation.screenLogic.FiltersComponent
 import com.t8rin.imagetoolbox.feature.format_conversion.presentation.screenLogic.FormatConversionComponent
 import com.t8rin.imagetoolbox.feature.fractal_generation.presentation.screenLogic.FractalGenerationComponent
+import com.t8rin.imagetoolbox.feature.maze_generation.presentation.screenLogic.MazeGenerationComponent
+import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.MazeGeneration
 import com.t8rin.imagetoolbox.feature.gif_tools.presentation.screenLogic.GifToolsComponent
 import com.t8rin.imagetoolbox.feature.gradient_maker.presentation.screenLogic.GradientMakerComponent
 import com.t8rin.imagetoolbox.feature.help.presentation.screenLogic.HelpComponent
@@ -251,6 +253,7 @@ internal class ChildProvider @Inject constructor(
     private val limitResizeComponentFactory: LimitsResizeComponent.Factory,
     private val loadNetImageComponentFactory: LoadNetImageComponent.Factory,
     private val fractalGenerationComponentFactory: FractalGenerationComponent.Factory,
+    private val mazeGenerationComponentFactory: MazeGenerationComponent.Factory,
     private val noiseGenerationComponentFactory: NoiseGenerationComponent.Factory,
     private val textureGenerationComponentFactory: TextureGenerationComponent.Factory,
     private val rootPdfToolsComponentFactory: RootPdfToolsComponent.Factory,
@@ -642,6 +645,14 @@ internal class ChildProvider @Inject constructor(
                 initialUrl = config.url,
                 onGoBack = ::navigateBack,
                 onNavigate = ::navigateTo
+            )
+        )
+
+        Screen.MazeGeneration -> MazeGeneration(
+            mazeGenerationComponentFactory(
+                componentContext = componentContext,
+                onGoBack = ::navigateBack,
+                onNavigate = ::navigateTo,
             )
         )
 

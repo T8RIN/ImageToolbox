@@ -84,6 +84,8 @@ import com.t8rin.imagetoolbox.feature.filters.presentation.screenLogic.FiltersCo
 import com.t8rin.imagetoolbox.feature.format_conversion.presentation.FormatConversionContent
 import com.t8rin.imagetoolbox.feature.format_conversion.presentation.screenLogic.FormatConversionComponent
 import com.t8rin.imagetoolbox.feature.fractal_generation.presentation.FractalGenerationContent
+import com.t8rin.imagetoolbox.feature.maze_generation.presentation.MazeGenerationContent
+import com.t8rin.imagetoolbox.feature.maze_generation.presentation.screenLogic.MazeGenerationComponent
 import com.t8rin.imagetoolbox.feature.fractal_generation.presentation.screenLogic.FractalGenerationComponent
 import com.t8rin.imagetoolbox.feature.gif_tools.presentation.GifToolsContent
 import com.t8rin.imagetoolbox.feature.gif_tools.presentation.screenLogic.GifToolsComponent
@@ -652,6 +654,24 @@ internal sealed interface NavigationChild {
     class Main(private val component: MainComponent) : NavigationChild {
         @Composable
         override fun Content() = MainContent(component)
+    }
+
+    class MazeGeneration(private val component: MazeGenerationComponent) : NavigationChild {
+        override fun assistantScreen(source: Screen?) = source.assistantScreen(
+            null,
+            "topology" to component.recipe.topology.name,
+            "algorithm" to component.recipe.algorithm.name,
+            "seed" to component.recipe.seed,
+            "rows" to component.recipe.rows,
+            "columns" to component.recipe.columns,
+            "imageFormat" to if (component.svg) "SVG" else component.imageFormat.title,
+            "quality" to component.quality.qualityValue,
+            "width" to component.outputSize.width,
+            "height" to component.outputSize.height
+        )
+
+        @Composable
+        override fun Content() = MazeGenerationContent(component)
     }
 
     class FractalGeneration(private val component: FractalGenerationComponent) : NavigationChild {
