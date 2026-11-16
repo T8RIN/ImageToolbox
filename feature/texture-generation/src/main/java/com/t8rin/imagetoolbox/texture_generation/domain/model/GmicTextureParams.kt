@@ -20,7 +20,6 @@ package com.t8rin.imagetoolbox.texture_generation.domain.model
 data class GmicTextureParams(
     val organicFibers: OrganicFibersParams = OrganicFibersParams(),
     val reactionDiffusion: ReactionDiffusionParams = ReactionDiffusionParams(),
-    val rorschach: RorschachParams = RorschachParams(),
     val truchet: TruchetParams = TruchetParams()
 )
 
@@ -58,20 +57,6 @@ data class ReactionDiffusionParams(
 
 enum class ReactionDiffusionMode {
     Monochrome, MonochromeWithAlpha, Rgb, RgbWithAlpha
-}
-
-data class RorschachParams(
-    val scale: Float = 3f,
-    val mirror: RorschachMirror = RorschachMirror.XAxis,
-    val stencil: RorschachStencil = RorschachStencil.Color
-)
-
-enum class RorschachMirror {
-    None, XAxis, YAxis, BothAxes
-}
-
-enum class RorschachStencil {
-    BlackAndWhite, Rgb, Color
 }
 
 data class TruchetParams(

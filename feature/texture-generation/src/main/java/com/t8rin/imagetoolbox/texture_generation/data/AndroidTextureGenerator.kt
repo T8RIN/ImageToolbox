@@ -37,6 +37,8 @@ import com.jhlabs.MarbleTexFilter
 import com.jhlabs.PlasmaFilter
 import com.jhlabs.QuiltFilter
 import com.jhlabs.WoodFilter
+import com.t8rin.fast_noise.texture.maze.MazeTextureGenerator
+import com.t8rin.fast_noise.texture.maze.MazeTextureParameters
 import com.t8rin.gmic.Gmic
 import com.t8rin.gmic.GmicFilter
 import com.t8rin.gmic.filters.OrganicFibers
@@ -56,6 +58,7 @@ import kotlinx.coroutines.runInterruptible
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import kotlin.math.pow
+import com.t8rin.fast_noise.texture.maze.MazeAlgorithm as NativeMazeAlgorithm
 
 internal class AndroidTextureGenerator @Inject constructor(
     dispatchersHolder: DispatchersHolder
@@ -96,6 +99,28 @@ internal class AndroidTextureGenerator @Inject constructor(
                         height = height,
                         type = textureParams.textureFilterType,
                         params = requireNotNull(textureParams.fastNoiseParams)
+                    )
+                }
+            } else if (textureParams.textureFilterType == TextureFilterType.Maze) {
+                runInterruptible {
+                    val params = textureParams.mazeParams
+                    MazeTextureGenerator().generate(
+                        width = width,
+                        height = height,
+                        parameters = MazeTextureParameters(
+                            seed = params.seed,
+                            columns = params.columns,
+                            rows = params.rows,
+                            algorithm = NativeMazeAlgorithm.valueOf(params.algorithm.name),
+                            wallWidth = params.wallWidth,
+                            padding = params.padding,
+                            openings = params.openings,
+                            wallColor = textureParams.foregroundColor.colorInt,
+                            backgroundColor = textureParams.backgroundColor.colorInt,
+                            directionBias = params.directionBias,
+                            branching = params.branching,
+                            braid = params.braid
+                        )
                     )
                 }
             } else if (textureParams.textureFilterType.isGmic) {
@@ -221,8 +246,8 @@ internal class AndroidTextureGenerator @Inject constructor(
             k = textureParams.k
             colormap = Colormap { density ->
                 ColorUtils.blendARGB(
-                    0xFF11172C.toInt(),
-                    0xFFF8DB9F.toInt(),
+                    textureParams.backgroundColor.colorInt,
+                    textureParams.foregroundColor.colorInt,
                     density.coerceIn(0f, 1f).pow(0.3f)
                 )
             }

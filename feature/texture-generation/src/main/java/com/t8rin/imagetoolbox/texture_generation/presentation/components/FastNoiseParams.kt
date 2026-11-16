@@ -1331,6 +1331,1028 @@ private fun TextureFilterType.fastNoiseConfig(): FastNoiseConfig = when (this) {
         R.string.glow
     )
 
+    TextureFilterType.KnittedFabric -> config(
+        unit(R.string.texture_loop_width),
+        unit(R.string.twist),
+        unit(R.string.texture_fuzz),
+        unit(R.string.fractal_coloring_angle),
+        unit(R.string.variation),
+        colors = intArrayOf(
+            R.string.texture_background_color,
+            R.string.texture_primary_color,
+            R.string.texture_secondary_color,
+            R.string.texture_highlight_color
+        )
+    )
+
+    TextureFilterType.WickerWeave -> config(
+        unit(R.string.texture_strip_width),
+        unit(R.string.texture_fibers),
+        unit(R.string.texture_roughness),
+        unit(R.string.fractal_coloring_angle),
+        unit(R.string.variation),
+        colors = intArrayOf(
+            R.string.texture_background_color,
+            R.string.texture_primary_color,
+            R.string.texture_secondary_color,
+            R.string.texture_highlight_color
+        )
+    )
+
+    TextureFilterType.Chainmail -> config(
+        unit(R.string.texture_ring_radius),
+        unit(R.string.texture_wire_width),
+        unit(R.string.texture_flattening),
+        unit(R.string.texture_weave_depth),
+        unit(R.string.texture_polish),
+        colors = intArrayOf(
+            R.string.texture_background_color,
+            R.string.texture_primary_color,
+            R.string.texture_secondary_color,
+            R.string.texture_highlight_color
+        )
+    )
+
+    TextureFilterType.HerringboneParquet -> config(
+        unit(R.string.texture_plank_length),
+        unit(R.string.texture_joint_width),
+        unit(R.string.grain),
+        unit(R.string.fractal_coloring_angle),
+        unit(R.string.texture_polish),
+        colors = intArrayOf(
+            R.string.texture_background_color,
+            R.string.texture_primary_color,
+            R.string.texture_secondary_color,
+            R.string.texture_highlight_color
+        )
+    )
+
+    TextureFilterType.RoofTiles -> config(
+        unit(R.string.texture_curvature),
+        unit(R.string.texture_roughness),
+        unit(R.string.relief),
+        unit(R.string.shadows),
+        unit(R.string.variation),
+        colors = intArrayOf(
+            R.string.texture_background_color,
+            R.string.texture_primary_color,
+            R.string.texture_secondary_color,
+            R.string.texture_highlight_color
+        )
+    )
+
+    TextureFilterType.HammeredMetal -> config(
+        unit(R.string.texture_irregularity),
+        unit(R.string.type_depth),
+        unit(R.string.texture_polish),
+        unit(R.string.texture_roughness),
+        unit(R.string.texture_patina),
+        colors = intArrayOf(
+            R.string.texture_background_color,
+            R.string.texture_primary_color,
+            R.string.texture_secondary_color,
+            R.string.texture_highlight_color
+        )
+    )
+
+    TextureFilterType.CorrugatedMetal -> config(
+        unit(R.string.fractal_coloring_angle),
+        unit(R.string.texture_sharpness),
+        unit(R.string.texture_polish),
+        unit(R.string.texture_roughness),
+        unit(R.string.texture_patina),
+        colors = intArrayOf(
+            R.string.texture_background_color,
+            R.string.texture_primary_color,
+            R.string.texture_secondary_color,
+            R.string.texture_highlight_color
+        )
+    )
+
+    TextureFilterType.BubbleWrap -> config(
+        unit(R.string.texture_bubble_radius),
+        unit(R.string.relief),
+        unit(R.string.shine),
+        unit(R.string.texture_rim_width),
+        unit(R.string.highlights),
+        colors = intArrayOf(
+            R.string.texture_background_color,
+            R.string.texture_primary_color,
+            R.string.texture_secondary_color,
+            R.string.texture_highlight_color
+        )
+    )
+
+    TextureFilterType.PenroseTiling -> config(
+        unit(R.string.rotation),
+        unit(R.string.texture_joint_width),
+        unit(R.string.texture_roughness),
+        unit(R.string.texture_inset),
+        unit(R.string.texture_inlay_width),
+        colors = intArrayOf(
+            R.string.texture_background_color,
+            R.string.texture_primary_color,
+            R.string.texture_secondary_color,
+            R.string.texture_highlight_color
+        )
+    )
+
+    TextureFilterType.CairoTiling -> config(
+        unit(R.string.rotation),
+        unit(R.string.texture_joint_width),
+        unit(R.string.variation),
+        unit(R.string.texture_roughness),
+        unit(R.string.texture_inlay_width),
+        colors = intArrayOf(
+            R.string.texture_background_color,
+            R.string.texture_primary_color,
+            R.string.texture_secondary_color,
+            R.string.texture_highlight_color
+        )
+    )
+
+    TextureFilterType.IslamicStarTiling -> config(
+        unit(R.string.texture_tile_radius),
+        unit(R.string.line_width),
+        unit(R.string.texture_star_radius),
+        unit(R.string.texture_roughness),
+        unit(R.string.gmic_param_brightness),
+        colors = intArrayOf(
+            R.string.texture_background_color,
+            R.string.texture_primary_color,
+            R.string.texture_secondary_color,
+            R.string.texture_highlight_color
+        )
+    )
+
+    TextureFilterType.CelticKnotwork -> config(
+        unit(R.string.rotation),
+        unit(R.string.texture_ribbon_width),
+        unit(R.string.texture_inlay_width),
+        unit(R.string.texture_weave_depth),
+        unit(R.string.texture_highlight_width),
+        colors = intArrayOf(
+            R.string.texture_background_color,
+            R.string.texture_primary_color,
+            R.string.texture_secondary_color,
+            R.string.texture_highlight_color
+        )
+    )
+
+    TextureFilterType.Seigaiha -> config(
+        unit(R.string.rotation),
+        unit(R.string.line_width),
+        unit(R.string.texture_ring_count),
+        unit(R.string.variation),
+        unit(R.string.texture_roughness),
+        colors = intArrayOf(
+            R.string.texture_background_color,
+            R.string.texture_primary_color,
+            R.string.texture_secondary_color,
+            R.string.texture_highlight_color
+        )
+    )
+
+    TextureFilterType.Asanoha -> config(
+        unit(R.string.rotation),
+        unit(R.string.line_width),
+        unit(R.string.texture_background_blend),
+        unit(R.string.texture_roughness),
+        unit(R.string.gmic_param_brightness),
+        colors = intArrayOf(
+            R.string.texture_background_color,
+            R.string.texture_primary_color,
+            R.string.texture_secondary_color,
+            R.string.texture_highlight_color
+        )
+    )
+
+    TextureFilterType.Houndstooth -> config(
+        unit(R.string.rotation),
+        unit(R.string.texture_thread_density),
+        unit(R.string.weave),
+        unit(R.string.texture_fuzz),
+        unit(R.string.gmic_param_brightness),
+        colors = intArrayOf(
+            R.string.texture_background_color,
+            R.string.texture_primary_color,
+            R.string.texture_secondary_color,
+            R.string.texture_highlight_color
+        )
+    )
+
+    TextureFilterType.Jigsaw -> config(
+        unit(R.string.texture_tab_radius),
+        unit(R.string.texture_irregularity),
+        unit(R.string.procedural_color_variation),
+        unit(R.string.texture_roughness),
+        unit(R.string.bevel),
+        colors = intArrayOf(
+            R.string.texture_background_color,
+            R.string.texture_primary_color,
+            R.string.texture_secondary_color,
+            R.string.texture_highlight_color
+        )
+    )
+
+    TextureFilterType.TreeBark -> config(
+        unit(R.string.distortion),
+        unit(R.string.texture_furrow_depth),
+        unit(R.string.detail),
+        unit(R.string.texture_cracks),
+        unit(R.string.texture_lichen),
+        colors = intArrayOf(
+            R.string.texture_background_color,
+            R.string.texture_primary_color,
+            R.string.texture_secondary_color,
+            R.string.texture_highlight_color
+        )
+    )
+
+    TextureFilterType.PineCone -> config(
+        unit(R.string.texture_scale_length),
+        unit(R.string.relief),
+        unit(R.string.texture_creases),
+        unit(R.string.variation),
+        unit(R.string.texture_edge_width),
+        colors = intArrayOf(
+            R.string.texture_background_color,
+            R.string.texture_primary_color,
+            R.string.texture_secondary_color,
+            R.string.texture_highlight_color
+        )
+    )
+
+    TextureFilterType.ZebraStripes -> config(
+        unit(R.string.fractal_coloring_angle),
+        unit(R.string.distortion),
+        unit(R.string.frequency),
+        unit(R.string.texture_branching),
+        unit(R.string.balance),
+        colors = intArrayOf(
+            R.string.texture_background_color,
+            R.string.texture_primary_color,
+            R.string.texture_secondary_color,
+            R.string.texture_highlight_color
+        )
+    )
+
+    TextureFilterType.LeopardSpots -> config(
+        unit(R.string.jitter),
+        unit(R.string.texture_spot_radius),
+        unit(R.string.texture_irregularity),
+        unit(R.string.texture_broken_rings),
+        unit(R.string.texture_fur),
+        colors = intArrayOf(
+            R.string.texture_background_color,
+            R.string.texture_primary_color,
+            R.string.texture_secondary_color,
+            R.string.texture_highlight_color
+        )
+    )
+
+    TextureFilterType.LissajousRibbons -> config(
+        param(R.string.frequency_x, 1f..9f, 0),
+        param(R.string.frequency_y, 1f..9f, 0),
+        unit(R.string.phase),
+        unit(R.string.texture_ribbon_width),
+        unit(R.string.glow),
+        colors = intArrayOf(
+            R.string.texture_background_color,
+            R.string.texture_primary_color,
+            R.string.texture_secondary_color,
+            R.string.texture_highlight_color
+        )
+    )
+
+    TextureFilterType.BismuthCrystal -> config(
+        unit(R.string.fractal_coloring_angle),
+        unit(R.string.texture_irregularity),
+        unit(R.string.steps),
+        unit(R.string.texture_iridescence),
+        unit(R.string.relief),
+        colors = intArrayOf(
+            R.string.texture_background_color,
+            R.string.texture_primary_color,
+            R.string.texture_secondary_color,
+            R.string.texture_highlight_color
+        )
+    )
+
+    TextureFilterType.HilbertRibbons -> config(
+        param(R.string.gallery_order, 2f..7f, 0),
+        unit(R.string.texture_ribbon_width),
+        unit(R.string.glow),
+        unit(R.string.rotation),
+        unit(R.string.texture_highlight),
+        colors = intArrayOf(
+            R.string.texture_background_color,
+            R.string.texture_primary_color,
+            R.string.texture_secondary_color,
+            R.string.texture_highlight_color
+        )
+    )
+
+    TextureFilterType.Malachite -> config(
+        unit(R.string.texture_band_density),
+        unit(R.string.texture_warping),
+        unit(R.string.relief),
+        unit(R.string.texture_polish),
+        contrast(),
+        colors = intArrayOf(
+            R.string.texture_background_color,
+            R.string.texture_primary_color,
+            R.string.texture_secondary_color,
+            R.string.texture_highlight_color
+        )
+    )
+
+    TextureFilterType.Labradorite -> config(
+        unit(R.string.texture_facet_density),
+        unit(R.string.texture_cleavage),
+        unit(R.string.relief),
+        unit(R.string.tag_flash),
+        contrast(),
+        colors = intArrayOf(
+            R.string.texture_background_color,
+            R.string.texture_primary_color,
+            R.string.texture_secondary_color,
+            R.string.texture_highlight_color
+        )
+    )
+
+    TextureFilterType.Seraphinite -> config(
+        unit(R.string.texture_plume_density),
+        unit(R.string.texture_curvature),
+        unit(R.string.texture_fibers),
+        unit(R.string.texture_sheen),
+        contrast(),
+        colors = intArrayOf(
+            R.string.texture_background_color,
+            R.string.texture_primary_color,
+            R.string.texture_secondary_color,
+            R.string.texture_highlight_color
+        )
+    )
+
+    TextureFilterType.PorcelainCrackle -> config(
+        unit(R.string.texture_crack_density),
+        unit(R.string.texture_irregularity),
+        unit(R.string.texture_crack_width),
+        unit(R.string.texture_glaze),
+        contrast(),
+        colors = intArrayOf(
+            R.string.texture_background_color,
+            R.string.texture_primary_color,
+            R.string.texture_secondary_color,
+            R.string.texture_highlight_color
+        )
+    )
+
+    TextureFilterType.RakuGlaze -> config(
+        unit(R.string.texture_island_density),
+        unit(R.string.distortion),
+        unit(R.string.crackle),
+        unit(R.string.texture_iridescence),
+        contrast(),
+        colors = intArrayOf(
+            R.string.texture_background_color,
+            R.string.texture_primary_color,
+            R.string.texture_secondary_color,
+            R.string.texture_highlight_color
+        )
+    )
+
+    TextureFilterType.MotherOfPearl -> config(
+        unit(R.string.texture_plate_density),
+        unit(R.string.distortion),
+        unit(R.string.texture_growth_lines),
+        unit(R.string.texture_iridescence),
+        contrast(),
+        colors = intArrayOf(
+            R.string.texture_background_color,
+            R.string.texture_primary_color,
+            R.string.texture_secondary_color,
+            R.string.texture_highlight_color
+        )
+    )
+
+    TextureFilterType.TemperedTitanium -> config(
+        unit(R.string.texture_patch_density),
+        unit(R.string.texture_warping),
+        unit(R.string.texture_brushing),
+        unit(R.string.texture_polish),
+        contrast(),
+        colors = intArrayOf(
+            R.string.texture_background_color,
+            R.string.texture_primary_color,
+            R.string.texture_secondary_color,
+            R.string.texture_highlight_color
+        )
+    )
+
+    TextureFilterType.EndGrainMosaic -> config(
+        unit(R.string.texture_block_density),
+        unit(R.string.texture_ring_density),
+        unit(R.string.texture_irregularity),
+        unit(R.string.texture_polish),
+        contrast(),
+        colors = intArrayOf(
+            R.string.texture_background_color,
+            R.string.texture_primary_color,
+            R.string.texture_secondary_color,
+            R.string.texture_highlight_color
+        )
+    )
+
+    TextureFilterType.Cork -> config(
+        unit(R.string.texture_chip_density),
+        unit(R.string.texture_irregularity),
+        unit(R.string.texture_pores),
+        unit(R.string.relief),
+        contrast(),
+        colors = intArrayOf(
+            R.string.texture_background_color,
+            R.string.texture_primary_color,
+            R.string.texture_secondary_color,
+            R.string.texture_highlight_color
+        )
+    )
+
+    TextureFilterType.CutCrystalGlass -> config(
+        unit(R.string.texture_cut_density),
+        unit(R.string.texture_facets),
+        unit(R.string.relief),
+        unit(R.string.sparkle),
+        contrast(),
+        colors = intArrayOf(
+            R.string.texture_background_color,
+            R.string.texture_primary_color,
+            R.string.texture_secondary_color,
+            R.string.texture_highlight_color
+        )
+    )
+
+    TextureFilterType.Sashiko -> config(
+        unit(R.string.texture_stitch_density),
+        unit(R.string.stitch_length),
+        unit(R.string.thread_width),
+        unit(R.string.relief),
+        contrast(),
+        colors = intArrayOf(
+            R.string.texture_background_color,
+            R.string.texture_primary_color,
+            R.string.texture_secondary_color,
+            R.string.texture_highlight_color
+        )
+    )
+
+    TextureFilterType.Bargello -> config(
+        unit(R.string.texture_flame_count),
+        unit(R.string.texture_flame_height),
+        unit(R.string.texture_stitch_width),
+        unit(R.string.relief),
+        contrast(),
+        colors = intArrayOf(
+            R.string.texture_background_color,
+            R.string.texture_primary_color,
+            R.string.texture_secondary_color,
+            R.string.texture_highlight_color
+        )
+    )
+
+    TextureFilterType.Kilim -> config(
+        unit(R.string.texture_diamond_density),
+        unit(R.string.texture_stepping),
+        unit(R.string.texture_border_width),
+        unit(R.string.weave),
+        contrast(),
+        colors = intArrayOf(
+            R.string.texture_background_color,
+            R.string.texture_primary_color,
+            R.string.texture_secondary_color,
+            R.string.texture_highlight_color
+        )
+    )
+
+    TextureFilterType.Brocade -> config(
+        unit(R.string.texture_ornament_density),
+        unit(R.string.texture_curvature),
+        unit(R.string.thread_width),
+        unit(R.string.texture_metallic),
+        contrast(),
+        colors = intArrayOf(
+            R.string.texture_background_color,
+            R.string.texture_primary_color,
+            R.string.texture_secondary_color,
+            R.string.texture_highlight_color
+        )
+    )
+
+    TextureFilterType.Batik -> config(
+        unit(R.string.texture_flower_density),
+        unit(R.string.texture_petals),
+        unit(R.string.texture_wax_width),
+        unit(R.string.distortion),
+        contrast(),
+        colors = intArrayOf(
+            R.string.texture_background_color,
+            R.string.texture_primary_color,
+            R.string.texture_secondary_color,
+            R.string.texture_highlight_color
+        )
+    )
+
+    TextureFilterType.Ikat -> config(
+        unit(R.string.texture_motif_density),
+        unit(R.string.texture_chevron_height),
+        unit(R.string.texture_feathering),
+        unit(R.string.weave),
+        contrast(),
+        colors = intArrayOf(
+            R.string.texture_background_color,
+            R.string.texture_primary_color,
+            R.string.texture_secondary_color,
+            R.string.texture_highlight_color
+        )
+    )
+
+    TextureFilterType.EmbossedPaisley -> config(
+        unit(R.string.texture_motif_density),
+        unit(R.string.texture_curl),
+        unit(R.string.line_width),
+        unit(R.string.relief),
+        contrast(),
+        colors = intArrayOf(
+            R.string.texture_background_color,
+            R.string.texture_primary_color,
+            R.string.texture_secondary_color,
+            R.string.texture_highlight_color
+        )
+    )
+
+    TextureFilterType.ArtDecoFans -> config(
+        unit(R.string.texture_fan_density),
+        unit(R.string.texture_ribs),
+        unit(R.string.line_width),
+        unit(R.string.texture_metallic),
+        contrast(),
+        colors = intArrayOf(
+            R.string.texture_background_color,
+            R.string.texture_primary_color,
+            R.string.texture_secondary_color,
+            R.string.texture_highlight_color
+        )
+    )
+
+    TextureFilterType.CloverLattice -> config(
+        unit(R.string.texture_tile_density),
+        unit(R.string.texture_curvature),
+        unit(R.string.texture_grout_width),
+        unit(R.string.texture_glaze),
+        contrast(),
+        colors = intArrayOf(
+            R.string.texture_background_color,
+            R.string.texture_primary_color,
+            R.string.texture_secondary_color,
+            R.string.texture_highlight_color
+        )
+    )
+
+    TextureFilterType.GuillocheRosettes -> config(
+        unit(R.string.texture_rosette_density),
+        unit(R.string.texture_petal_count),
+        unit(R.string.line_width),
+        unit(R.string.texture_pattern_layers),
+        contrast(),
+        colors = intArrayOf(
+            R.string.texture_background_color,
+            R.string.texture_primary_color,
+            R.string.texture_secondary_color,
+            R.string.texture_highlight_color
+        )
+    )
+
+    TextureFilterType.GinkgoLeaves -> config(
+        unit(R.string.texture_leaf_density),
+        unit(R.string.texture_fan_width),
+        unit(R.string.texture_veins),
+        unit(R.string.light_aka_illumination),
+        contrast(),
+        colors = intArrayOf(
+            R.string.texture_background_color,
+            R.string.texture_primary_color,
+            R.string.texture_secondary_color,
+            R.string.texture_highlight_color
+        )
+    )
+
+    TextureFilterType.MonsteraCanopy -> config(
+        unit(R.string.texture_leaf_density),
+        unit(R.string.texture_lobes),
+        unit(R.string.texture_fenestration),
+        unit(R.string.light_aka_illumination),
+        contrast(),
+        colors = intArrayOf(
+            R.string.texture_background_color,
+            R.string.texture_primary_color,
+            R.string.texture_secondary_color,
+            R.string.texture_highlight_color
+        )
+    )
+
+    TextureFilterType.LotusPond -> config(
+        unit(R.string.texture_pad_density),
+        unit(R.string.texture_pad_size),
+        unit(R.string.texture_ripples),
+        unit(R.string.texture_blossoms),
+        contrast(),
+        colors = intArrayOf(
+            R.string.texture_background_color,
+            R.string.texture_primary_color,
+            R.string.texture_secondary_color,
+            R.string.texture_highlight_color
+        )
+    )
+
+    TextureFilterType.SeaAnemone -> config(
+        unit(R.string.texture_tentacles),
+        unit(R.string.texture_curl),
+        unit(R.string.texture_thickness),
+        unit(R.string.glow),
+        contrast(),
+        colors = intArrayOf(
+            R.string.texture_background_color,
+            R.string.texture_primary_color,
+            R.string.texture_secondary_color,
+            R.string.texture_highlight_color
+        )
+    )
+
+    TextureFilterType.Jellyfish -> config(
+        unit(R.string.texture_tentacles),
+        unit(R.string.texture_bell_shape),
+        unit(R.string.texture_thickness),
+        unit(R.string.glow),
+        contrast(),
+        colors = intArrayOf(
+            R.string.texture_background_color,
+            R.string.texture_primary_color,
+            R.string.texture_secondary_color,
+            R.string.texture_highlight_color
+        )
+    )
+
+    TextureFilterType.ButterflyWings -> config(
+        unit(R.string.texture_vein_density),
+        unit(R.string.texture_wing_shape),
+        unit(R.string.texture_vein_width),
+        unit(R.string.texture_iridescence),
+        contrast(),
+        colors = intArrayOf(
+            R.string.texture_background_color,
+            R.string.texture_primary_color,
+            R.string.texture_secondary_color,
+            R.string.texture_highlight_color
+        )
+    )
+
+    TextureFilterType.FungalGills -> config(
+        unit(R.string.texture_gill_density),
+        unit(R.string.texture_undulation),
+        unit(R.string.relief),
+        unit(R.string.light_aka_illumination),
+        contrast(),
+        colors = intArrayOf(
+            R.string.texture_background_color,
+            R.string.texture_primary_color,
+            R.string.texture_secondary_color,
+            R.string.texture_highlight_color
+        )
+    )
+
+    TextureFilterType.Radiolaria -> config(
+        unit(R.string.texture_pore_density),
+        unit(R.string.texture_spines),
+        unit(R.string.texture_shell_width),
+        unit(R.string.glow),
+        contrast(),
+        colors = intArrayOf(
+            R.string.texture_background_color,
+            R.string.texture_primary_color,
+            R.string.texture_secondary_color,
+            R.string.texture_highlight_color
+        )
+    )
+
+    TextureFilterType.SlotCanyon -> config(
+        unit(R.string.texture_strata),
+        unit(R.string.texture_meander),
+        unit(R.string.relief),
+        unit(R.string.light_aka_illumination),
+        contrast(),
+        colors = intArrayOf(
+            R.string.texture_background_color,
+            R.string.texture_primary_color,
+            R.string.texture_secondary_color,
+            R.string.texture_highlight_color
+        )
+    )
+
+    TextureFilterType.GlacialCrevasses -> config(
+        unit(R.string.texture_fracture_density),
+        unit(R.string.texture_warping),
+        unit(R.string.type_depth),
+        unit(R.string.texture_frost),
+        contrast(),
+        colors = intArrayOf(
+            R.string.texture_background_color,
+            R.string.texture_primary_color,
+            R.string.texture_secondary_color,
+            R.string.texture_highlight_color
+        )
+    )
+
+    TextureFilterType.SpiralPearls -> config(
+        unit(R.string.spiral_arms),
+        unit(R.string.texture_growth),
+        unit(R.string.texture_bead_size),
+        unit(R.string.texture_polish),
+        contrast(),
+        colors = intArrayOf(
+            R.string.texture_background_color,
+            R.string.texture_primary_color,
+            R.string.texture_secondary_color,
+            R.string.texture_highlight_color
+        )
+    )
+
+    TextureFilterType.HopfFibration -> config(
+        unit(R.string.texture_fiber_count),
+        unit(R.string.latitude),
+        unit(R.string.texture_thickness),
+        unit(R.string.glow),
+        contrast(),
+        colors = intArrayOf(
+            R.string.texture_background_color,
+            R.string.texture_primary_color,
+            R.string.texture_secondary_color,
+            R.string.texture_highlight_color
+        )
+    )
+
+    TextureFilterType.Spirograph -> config(
+        unit(R.string.texture_lobes),
+        unit(R.string.gmic_param_ratio),
+        unit(R.string.line_width),
+        unit(R.string.glow),
+        contrast(),
+        colors = intArrayOf(
+            R.string.texture_background_color,
+            R.string.texture_primary_color,
+            R.string.texture_secondary_color,
+            R.string.texture_highlight_color
+        )
+    )
+
+    TextureFilterType.ChiralPinwheels -> config(
+        unit(R.string.texture_tile_density),
+        unit(R.string.texture_chirality),
+        unit(R.string.texture_curvature),
+        unit(R.string.relief),
+        contrast(),
+        colors = intArrayOf(
+            R.string.texture_background_color,
+            R.string.texture_primary_color,
+            R.string.texture_secondary_color,
+            R.string.texture_highlight_color
+        )
+    )
+
+    TextureFilterType.TruchetBlocks -> config(
+        unit(R.string.texture_tile_density),
+        unit(R.string.texture_routing),
+        unit(R.string.bevel),
+        unit(R.string.light_aka_illumination),
+        contrast(),
+        colors = intArrayOf(
+            R.string.texture_background_color,
+            R.string.texture_primary_color,
+            R.string.texture_secondary_color,
+            R.string.texture_highlight_color
+        )
+    )
+
+    TextureFilterType.ImpossibleStairs -> config(
+        unit(R.string.texture_stair_count),
+        unit(R.string.rotation),
+        unit(R.string.texture_step_height),
+        unit(R.string.light_aka_illumination),
+        contrast(),
+        colors = intArrayOf(
+            R.string.texture_background_color,
+            R.string.texture_primary_color,
+            R.string.texture_secondary_color,
+            R.string.texture_highlight_color
+        )
+    )
+
+    TextureFilterType.WovenHexagons -> config(
+        unit(R.string.texture_weave_density),
+        unit(R.string.texture_ribbon_width),
+        unit(R.string.twist),
+        unit(R.string.relief),
+        contrast(),
+        colors = intArrayOf(
+            R.string.texture_background_color,
+            R.string.texture_primary_color,
+            R.string.texture_secondary_color,
+            R.string.texture_highlight_color
+        )
+    )
+
+    TextureFilterType.Gyroid -> config(
+        unit(R.string.texture_periods),
+        unit(R.string.rotation),
+        unit(R.string.texture_thickness),
+        unit(R.string.texture_polish),
+        contrast(),
+        colors = intArrayOf(
+            R.string.texture_background_color,
+            R.string.texture_primary_color,
+            R.string.texture_secondary_color,
+            R.string.texture_highlight_color
+        )
+    )
+
+    TextureFilterType.Hypercube -> config(
+        unit(R.string.texture_projection),
+        unit(R.string.rotation),
+        unit(R.string.line_width),
+        unit(R.string.glow),
+        contrast(),
+        colors = intArrayOf(
+            R.string.texture_background_color,
+            R.string.texture_primary_color,
+            R.string.texture_secondary_color,
+            R.string.texture_highlight_color
+        )
+    )
+
+    TextureFilterType.LenticularWaves -> config(
+        unit(R.string.texture_lens_density),
+        unit(R.string.phase),
+        unit(R.string.texture_curvature),
+        unit(R.string.relief),
+        contrast(),
+        colors = intArrayOf(
+            R.string.texture_background_color,
+            R.string.texture_primary_color,
+            R.string.texture_secondary_color,
+            R.string.texture_highlight_color
+        )
+    )
+
+    TextureFilterType.StellarNursery -> config(
+        unit(R.string.texture_pillar_density),
+        unit(R.string.turbulence),
+        unit(R.string.texture_dust),
+        unit(R.string.texture_stars),
+        contrast(),
+        colors = intArrayOf(
+            R.string.texture_background_color,
+            R.string.texture_primary_color,
+            R.string.texture_secondary_color,
+            R.string.texture_highlight_color
+        )
+    )
+
+    TextureFilterType.PulsarJets -> config(
+        unit(R.string.texture_jet_width),
+        unit(R.string.texture_precession),
+        unit(R.string.texture_shock_rings),
+        unit(R.string.glow),
+        contrast(),
+        colors = intArrayOf(
+            R.string.texture_background_color,
+            R.string.texture_primary_color,
+            R.string.texture_secondary_color,
+            R.string.texture_highlight_color
+        )
+    )
+
+    TextureFilterType.GravitationalLensing -> config(
+        unit(R.string.texture_galaxy_density),
+        unit(R.string.texture_lens_strength),
+        unit(R.string.texture_arc_width),
+        unit(R.string.texture_stars),
+        contrast(),
+        colors = intArrayOf(
+            R.string.texture_background_color,
+            R.string.texture_primary_color,
+            R.string.texture_secondary_color,
+            R.string.texture_highlight_color
+        )
+    )
+
+    TextureFilterType.NacreClouds -> config(
+        unit(R.string.texture_wave_density),
+        unit(R.string.turbulence),
+        unit(R.string.texture_iridescence),
+        unit(R.string.light_aka_illumination),
+        contrast(),
+        colors = intArrayOf(
+            R.string.texture_background_color,
+            R.string.texture_primary_color,
+            R.string.texture_secondary_color,
+            R.string.texture_highlight_color
+        )
+    )
+
+    TextureFilterType.MercuryDroplets -> config(
+        unit(R.string.texture_drop_density),
+        unit(R.string.size_variation),
+        unit(R.string.texture_roundness),
+        unit(R.string.texture_polish),
+        contrast(),
+        colors = intArrayOf(
+            R.string.texture_background_color,
+            R.string.texture_primary_color,
+            R.string.texture_secondary_color,
+            R.string.texture_highlight_color
+        )
+    )
+
+    TextureFilterType.SonicBoom -> config(
+        unit(R.string.texture_wave_count),
+        unit(R.string.texture_mach_angle),
+        unit(R.string.texture_thickness),
+        unit(R.string.glow),
+        contrast(),
+        colors = intArrayOf(
+            R.string.texture_background_color,
+            R.string.texture_primary_color,
+            R.string.texture_secondary_color,
+            R.string.texture_highlight_color
+        )
+    )
+
+    TextureFilterType.RibbonVortex -> config(
+        unit(R.string.texture_ribbon_count),
+        unit(R.string.twist),
+        unit(R.string.texture_thickness),
+        unit(R.string.light_aka_illumination),
+        contrast(),
+        colors = intArrayOf(
+            R.string.texture_background_color,
+            R.string.texture_primary_color,
+            R.string.texture_secondary_color,
+            R.string.texture_highlight_color
+        )
+    )
+
+    TextureFilterType.IridescentFoam -> config(
+        unit(R.string.texture_bubble_density),
+        unit(R.string.size_variation),
+        unit(R.string.texture_film_width),
+        unit(R.string.texture_iridescence),
+        contrast(),
+        colors = intArrayOf(
+            R.string.texture_background_color,
+            R.string.texture_primary_color,
+            R.string.texture_secondary_color,
+            R.string.texture_highlight_color
+        )
+    )
+
+    TextureFilterType.LavaCrust -> config(
+        unit(R.string.texture_plate_density),
+        unit(R.string.texture_irregularity),
+        unit(R.string.texture_crust_depth),
+        unit(R.string.heat),
+        contrast(),
+        colors = intArrayOf(
+            R.string.texture_background_color,
+            R.string.texture_primary_color,
+            R.string.texture_secondary_color,
+            R.string.texture_highlight_color
+        )
+    )
+
+    TextureFilterType.AbyssalVent -> config(
+        unit(R.string.texture_chimney_count),
+        unit(R.string.current),
+        unit(R.string.texture_smoke_density),
+        unit(R.string.glow),
+        contrast(),
+        colors = intArrayOf(
+            R.string.texture_background_color,
+            R.string.texture_primary_color,
+            R.string.texture_secondary_color,
+            R.string.texture_highlight_color
+        )
+    )
+
     else -> error("Unsupported fast-noise texture type: $this")
 }
 

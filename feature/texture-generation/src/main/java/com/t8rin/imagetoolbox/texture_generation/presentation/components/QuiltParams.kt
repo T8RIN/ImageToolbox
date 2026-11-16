@@ -20,6 +20,8 @@ package com.t8rin.imagetoolbox.texture_generation.presentation.components
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.ui.utils.helper.toColor
+import com.t8rin.imagetoolbox.core.ui.utils.helper.toModel
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.texture_generation.domain.model.TextureParams
 
@@ -29,12 +31,22 @@ internal fun QuiltParams(
     onValueChange: (TextureParams) -> Unit
 ) {
     ParamColumn {
+        ColorParam(
+            title = stringResource(R.string.dark_color),
+            value = value.backgroundColor.toColor(),
+            onValueChange = { onValueChange(value.copy(backgroundColor = it.toModel())) },
+            shape = ShapeDefaults.top
+        )
+        ColorParam(
+            title = stringResource(R.string.light_color),
+            value = value.foregroundColor.toColor(),
+            onValueChange = { onValueChange(value.copy(foregroundColor = it.toModel())) }
+        )
         IntParam(
             value = value.iterations,
             title = stringResource(R.string.iterations),
             range = 1f..2000000f,
-            onValueChange = { onValueChange(value.copy(iterations = it)) },
-            shape = ShapeDefaults.top
+            onValueChange = { onValueChange(value.copy(iterations = it)) }
         )
         FloatParam(
             value = value.a,

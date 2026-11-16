@@ -269,6 +269,14 @@ internal fun patternShader(type: PatternTextureType): String {
             }
         """.trimIndent()
 
+        PatternTextureType.ChromaticPlaidPattern -> """
+            float x=floor(p.x),y=floor(p.y);
+            vec4 a=palette(hash(vec2(x,0))),b=palette(hash(vec2(y,0)));
+            float over=step(.5,fract((p.x+p.y)*12.0));
+            result=mix(a,b,over);
+            if(fract(p.x)<thickness*.2||fract(p.y)<thickness*.2)result=mix(result,color1,.6);
+        """.trimIndent()
+
         PatternTextureType.PlaidPattern -> """
             vec2 q=fract(p*.25)*4.0;
             float ax=abs(q.x-2.0),ay=abs(q.y-2.0);

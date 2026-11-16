@@ -62,6 +62,14 @@ enum class PatternTextureType(
         colorCount = 3,
         defaultFrequency = 12f
     ),
+    ChromaticPlaidPattern(
+        listOf(
+            PatternParameter("seed", 0.0f, 0.0f..10000.0f, integer = true),
+            PatternParameter("thickness", 0.45f, 0.05f..0.95f)
+        ),
+        colorCount = 4,
+        defaultFrequency = 12f
+    ),
     PlaidPattern(
         listOf(
             PatternParameter("seed", 0.0f, 0.0f..10000.0f, integer = true),
@@ -248,6 +256,7 @@ enum class PatternTextureType(
 
     val defaultColors: List<Int>
         get() = when (this) {
+            ChromaticPlaidPattern -> listOf(-256, -65536, -65281, -16711681)
             PlaidPattern -> listOf(
                 0xFF102B33.toInt(), 0xFF8C3444.toInt(), 0xFF356B65.toInt(), 0xFFE2C58B.toInt()
             )

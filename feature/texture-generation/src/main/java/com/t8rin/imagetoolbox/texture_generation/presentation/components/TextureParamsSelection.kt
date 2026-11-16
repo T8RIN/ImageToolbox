@@ -333,6 +333,13 @@ fun TextureParamsSelection(
                         )
                     }
 
+                    TextureFilterType.Maze -> {
+                        MazeParams(
+                            value = value,
+                            onValueChange = onValueChange
+                        )
+                    }
+
                     TextureFilterType.Quilt -> {
                         QuiltParams(
                             value = value,
