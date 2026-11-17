@@ -3179,7 +3179,7 @@
     <string name="successful_saves">成功保存</string>
     <string name="activity_streak">连续活动</string>
     <string name="data_saved">数据已保存</string>
-    <string name="top_format">顶部格式</string>
+    <string name="top_format">最常用格式</string>
     <string name="tools_used">使用的工具</string>
     <string name="tool_usage_subtitle">%1$d 打开 • %2$s</string>
     <string name="no_usage_statistics">尚无使用统计</string>
