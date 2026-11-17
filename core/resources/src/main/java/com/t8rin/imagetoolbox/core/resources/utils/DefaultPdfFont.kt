@@ -89,8 +89,8 @@ private object FontCache {
 
     private fun File.isValidFont(): Boolean = isFile && length() == FILE_SIZE
 
-    private const val CACHE_KEY = "78bead498c2920a0"
-    private const val FILE_SIZE = 5_891_136L
+    private const val CACHE_KEY = "c294bbf4a704e456"
+    private const val FILE_SIZE = 5_903_512L
     private const val NAME = "image_toolbox_universal_bold"
 
 }

@@ -38,6 +38,8 @@ data class CipherType private constructor(
                 "SM9",
                 "ML-KEM",
                 "MLKEM",
+                "X-WING",
+                "ASCON-AEAD128",
                 "1.2.840.113533.7.66.10",
                 "CAST5",
                 "ElGAMAL",

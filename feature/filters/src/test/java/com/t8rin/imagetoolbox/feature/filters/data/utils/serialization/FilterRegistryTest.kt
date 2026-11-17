@@ -23,7 +23,6 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.enums.BlurEdgeMode
 import com.t8rin.imagetoolbox.core.filters.domain.model.FilterValues
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiBlackAndWhiteFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiBrightnessFilter
-import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.BrightnessFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.BulgeDistortionFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.BlackAndWhiteFilter
@@ -247,7 +246,7 @@ class FilterRegistryTest {
 
     @Test
     fun unknownFilterKeysAreIgnored() {
-        assertNull(UiFilter.fromSerializationKey("missing.Filter"))
+        assertNull(GeneratedFilterCatalog.restore("missing.Filter", null))
         assertTrue("missing.Filter".toFiltersList(includeValue = false).isEmpty())
     }
 
