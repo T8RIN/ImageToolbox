@@ -18,7 +18,7 @@
 package com.t8rin.imagetoolbox.core.ui.utils.helper
 
 import androidx.annotation.StringRes
-import com.t8rin.imagetoolbox.core.games.ArcadeGameRegistry
+import com.t8rin.imagetoolbox.core.games.presentation.components.utils.ArcadeGameRegistry
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.domain.model.LoadingGame
 

@@ -47,8 +47,8 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.t8rin.imagetoolbox.core.games.ArcadeGameContent
-import com.t8rin.imagetoolbox.core.games.ArcadeGameRegistry
+import com.t8rin.imagetoolbox.core.games.presentation.ArcadeGameContent
+import com.t8rin.imagetoolbox.core.games.presentation.components.utils.ArcadeGameRegistry
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.StadiaController

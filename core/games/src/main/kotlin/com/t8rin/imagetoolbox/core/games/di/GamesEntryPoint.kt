@@ -18,7 +18,7 @@
 package com.t8rin.imagetoolbox.core.games.di
 
 import com.t8rin.imagetoolbox.core.domain.coroutines.AppScope
-import com.t8rin.imagetoolbox.core.games.ArcadeStatisticsRepository
+import com.t8rin.imagetoolbox.core.games.domain.ArcadeStatisticsRepository
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent

@@ -21,8 +21,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import com.arkivanov.decompose.ComponentContext
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
-import com.t8rin.imagetoolbox.core.games.ArcadeGame
-import com.t8rin.imagetoolbox.core.games.ArcadeGameRegistry
+import com.t8rin.imagetoolbox.core.games.domain.model.ArcadeGame
+import com.t8rin.imagetoolbox.core.games.presentation.components.utils.ArcadeGameRegistry
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen

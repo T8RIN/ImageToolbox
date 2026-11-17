@@ -104,8 +104,8 @@ import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import com.gigamole.composefadingedges.FadingEdgesGravity
 import com.t8rin.imagetoolbox.core.domain.model.AssistantModel
-import com.t8rin.imagetoolbox.core.games.ArcadeGameContent
-import com.t8rin.imagetoolbox.core.games.ArcadeGameRegistry
+import com.t8rin.imagetoolbox.core.games.presentation.ArcadeGameContent
+import com.t8rin.imagetoolbox.core.games.presentation.components.utils.ArcadeGameRegistry
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Add

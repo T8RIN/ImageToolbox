@@ -32,8 +32,6 @@ dependencies {
     implementation(projects.core.settings)
     implementation(projects.core.utils)
 
-    implementation(libs.datastore.preferences.android)
-    implementation(libs.datastore.core.android)
     implementation(libs.kotlinx.serialization.json)
 
     androidTestImplementation(projects.core.ui)
