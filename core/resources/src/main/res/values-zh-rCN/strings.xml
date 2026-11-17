@@ -3179,7 +3179,7 @@
     <string name="successful_saves">成功保存</string>
     <string name="activity_streak">连续活动</string>
     <string name="data_saved">数据已保存</string>
-    <string name="top_format">最常用格式</string>
+    <string name="top_format">常用格式</string>
     <string name="tools_used">使用的工具</string>
     <string name="tool_usage_subtitle">%1$d 打开 • %2$s</string>
     <string name="no_usage_statistics">尚无使用统计</string>
@@ -3267,7 +3267,7 @@
     <string name="left_edge">左边缘</string>
     <string name="torn_edge">撕边</string>
     <string name="reset_usage_statistics">重置使用统计数据</string>
-    <string name="reset_usage_statistics_sub">工具打开，保存统计数据、条纹、保存的数据和顶部格式将被重置。应用程序打开将保持不变。</string>
+    <string name="reset_usage_statistics_sub">工具打开，保存统计数据、条纹、保存的数据和常用格式将被重置。应用程序打开将保持不变。</string>
     <string name="audio">声音的</string>
     <string name="file">文件</string>
     <string name="export_profiles">导出配置文件</string>
@@ -7266,7 +7266,7 @@
     <string name="help_tip_usage_statistics_description">使用统计总结了记录的工具使用情况。它可以帮助您了解您最常使用 ImageToolbox 的哪些部分。这些计数器描述应用程序的使用情况，而不是照片的内容或质量。</string>
     <string name="help_tip_usage_statistics_step_1">打开使用情况统计并查看摘要和每个工具条目。</string>
     <string name="help_tip_usage_statistics_step_2">在比较计数器之前，打开信息对话框以了解计数器的工作原理。</string>
-    <string name="help_tip_usage_statistics_step_3">重置使用统计数据会清除工具打开、保存统计数据、条纹、保存的数据和顶级格式。应用程序打开计数器保持不变。</string>
+    <string name="help_tip_usage_statistics_step_3">重置使用统计数据会清除工具打开、保存统计数据、条纹、保存的数据和常用格式。应用程序打开计数器保持不变。</string>
     <string name="help_tip_libraries_licenses_title">图书馆和许可证</string>
     <string name="help_tip_libraries_licenses_subtitle">查找应用程序使用的组件及其通知</string>
     <string name="help_tip_libraries_licenses_description">库屏幕列出了 ImageToolbox 使用的第三方组件。库许可证和下载模型的许可证可以不同；当您需要确切的条款时，请查阅相关来源。</string>
