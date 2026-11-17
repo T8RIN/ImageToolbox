@@ -1296,7 +1296,8 @@ private class FruitSliceRun : ArcadeRun() {
                 listOf(SliceFreeze, SliceDouble, SliceFrenzy).shuffled()
             )
             val kind = bonuses.firstOrNull { it !in spawned } ?: return@repeat
-            for (attempt in 0 until 24) {
+            var attempts = 24
+            while (attempts-- > 0) {
                 val fruit = thrownFruit(
                     x = width * (0.15f + Random.nextFloat() * 0.7f),
                     landing = width * (0.25f + Random.nextFloat() * 0.5f),
@@ -1335,7 +1336,8 @@ private class FruitSliceRun : ArcadeRun() {
         val center = width * (0.24f + Random.nextFloat() * 0.52f)
         val rise = (height - topInset) * (0.58f + Random.nextFloat() * 0.2f)
         for (index in 0 until count) {
-            for (attempt in 0 until 16) {
+            var attempts = 16
+            while (attempts-- > 0) {
                 val x = when (pattern) {
                     1 -> center + (index - (count - 1) / 2f) * minOf(29f, width / 14f)
                     2 -> width * if (index % 2 == 0) 0.15f else 0.85f
@@ -1364,7 +1366,8 @@ private class FruitSliceRun : ArcadeRun() {
             val count = if (bombLimit == 3 && roll < 0.12f) 3
             else if (bombLimit >= 2 && roll < 0.4f) 2 else 1
             repeat(minOf(count, bombLimit - fruits.count { it.bomb }).coerceAtLeast(0)) { index ->
-                for (attempt in 0 until 48) {
+                var attempts = 48
+                while (attempts-- > 0) {
                     val bomb = thrownFruit(
                         x = width * (0.1f + Random.nextFloat() * 0.8f),
                         landing = width * (0.12f + Random.nextFloat() * 0.76f),

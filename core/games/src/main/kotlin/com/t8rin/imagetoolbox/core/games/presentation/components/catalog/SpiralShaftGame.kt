@@ -156,7 +156,7 @@ private const val ShaftOuterRadius = 83f
 private const val ShaftInnerRadius = 17f
 private const val ShaftTrackRadius = 69f
 private const val ShaftThickness = 9f
-private const val ShaftRadians = 0.017453293f
+private const val ShaftRadians = 0.017453292f
 private const val ShaftBallRadius = 8f
 private const val ShaftSpacing = 84f
 private const val ShaftCombo = 3
@@ -615,7 +615,7 @@ private class SpiralShaftRun : ArcadeRun() {
             val gap = when {
                 previous == null -> 36f
                 section in 1..2 -> previous.gap + Random.nextFloat() * 26f - 13f
-                stage % 4 == 1 -> previous.gap + (28f + Random.nextFloat() * 22f) * if (stage % 2 == 0) 1f else -1f
+                stage % 4 == 1 -> previous.gap - (28f + Random.nextFloat() * 22f)
                 stage % 4 == 2 -> previous.gap + (if (section % 2 == 0) 54f else -54f)
                 stage % 4 == 3 && section % 3 != 0 -> previous.gap + Random.nextFloat() * 20f - 10f
                 section in 3..4 -> previous.gap + Random.nextFloat() * 114f - 57f

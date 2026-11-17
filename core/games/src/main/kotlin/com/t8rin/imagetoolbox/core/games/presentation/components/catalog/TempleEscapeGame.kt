@@ -993,7 +993,8 @@ private class TempleEscapeRun : ArcadeRun() {
                 pickups[position] = 0
                 if (magnet > 0f) for (heading in 0..3) {
                     var index = position
-                    for (distance in 1..2) {
+                    var remaining = 2
+                    while (remaining-- > 0) {
                         index = next(index, heading)
                         if (index < 0 || walls[index]) break
                         if (pickups[index] == 1) {

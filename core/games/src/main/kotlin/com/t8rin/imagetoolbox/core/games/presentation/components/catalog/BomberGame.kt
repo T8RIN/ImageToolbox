@@ -781,7 +781,8 @@ private class BomberRun : ArcadeRun() {
         val result = mutableListOf(position)
         repeat(4) { direction ->
             var cell = position
-            for (step in 1..range) {
+            var remaining = range
+            while (remaining-- > 0) {
                 cell = next(cell, direction)
                 if (cell < 0 || board[cell] == 1) break
                 result += cell

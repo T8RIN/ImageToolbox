@@ -206,7 +206,7 @@ private enum class HillDriveBiome { Meadow, Sand, Water, Snow, Moon }
 
 private data class HillDrivePond(val start: Double, val end: Double, val level: Float)
 
-private class HillDrivePalette(private val colors: ColorScheme, style: ArcadeStyle) {
+private class HillDrivePalette(colors: ColorScheme, style: ArcadeStyle) {
     private val dark = colors.surface.luminance() < 0.5f
     private val light = if (dark) colors.onSurface else colors.surfaceBright
     val sky = lerp(colors.surfaceContainerLow, style.playerColor, 0.025f)
@@ -1521,7 +1521,7 @@ private class HillDriveRun : ArcadeRun() {
         val steps = (elapsed / HillDrivePhysicsStep).toInt()
         physicsRemainder = (elapsed - steps * HillDrivePhysicsStep.toDouble()).toFloat()
         repeat(steps) {
-            if (!simulate(HillDrivePhysicsStep)) return
+            if (!simulate()) return
         }
         time += seconds
         trickTime = (trickTime - seconds).coerceAtLeast(0f)
@@ -1578,7 +1578,8 @@ private class HillDriveRun : ArcadeRun() {
         front.velocity += facing * 55f - down * 80f
     }
 
-    private fun simulate(step: Float): Boolean {
+    private fun simulate(): Boolean {
+        val step = HillDrivePhysicsStep
         advanceBridges(step)
         val previousAngle = angle
         val facing = Offset(cos(angle), sin(angle))

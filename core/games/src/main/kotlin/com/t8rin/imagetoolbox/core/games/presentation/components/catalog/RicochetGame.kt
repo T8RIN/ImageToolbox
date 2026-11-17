@@ -497,24 +497,24 @@ private class RicochetRun : ArcadeRun() {
         flightTime = 0f
         firstReturn = -1f
         round = 1
-        addRow(0)
+        addRow()
     }
 
-    private fun addRow(row: Int) {
+    private fun addRow() {
         val columns = (0..6).shuffled()
         val count = if (round == 1) 2 else Random.nextInt(2, minOf(6, round + 3))
         for (column in columns.take(count)) {
             bricks += RicochetBrick(
                 column = column,
-                row = row,
+                row = 0,
                 health = round.coerceAtMost(ballCount + 8),
                 shape = if (round >= 2 && Random.nextFloat() < 0.28f) Random.nextInt(1, 5) else 0
             )
         }
-        bricks += RicochetBrick(column = columns[count], row = row, health = 0)
+        bricks += RicochetBrick(column = columns[count], row = 0, health = 0)
         if (round == 1 || round % 3 == 0) {
             bricks += RicochetBrick(
-                column = columns[count + 1], row = row, health = 0,
+                column = columns[count + 1], row = 0, health = 0,
                 item = if (round == 1) 2 else Random.nextInt(1, 3)
             )
         }
@@ -615,7 +615,7 @@ private class RicochetRun : ArcadeRun() {
             if (bricks.any { it.row >= 7 && it.health > 0 }) {
                 phase = ArcadePhase.Over
             } else {
-                addRow(0)
+                addRow()
                 shift = 1f
             }
         }
