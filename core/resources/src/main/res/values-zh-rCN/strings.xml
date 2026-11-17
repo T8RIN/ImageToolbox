@@ -3175,7 +3175,7 @@
     <string name="usage_statistics_sub">探索应用程序打开、工具启动以及您最常用的工具</string>
     <string name="app_opens">应用程序打开</string>
     <string name="tool_opens">工具打开</string>
-    <string name="last_tool_opened">最后一个工具</string>
+    <string name="last_tool_opened">最后打开的工具</string>
     <string name="successful_saves">成功保存</string>
     <string name="activity_streak">连续活动</string>
     <string name="data_saved">数据已保存</string>
@@ -5244,7 +5244,7 @@
     <string name="fractal_palette_ice">冰</string>
     <string name="fractal_palette_forest">森林</string>
     <string name="fractal_palette_neon">氖</string>
-    <string name="fractal_palette_cividis">公民</string>
+    <string name="fractal_palette_cividis">西维迪斯</string>
     <string name="fractal_palette_cubehelix">立方体螺旋</string>
     <string name="fractal_palette_spectral">光谱</string>
     <string name="fractal_palette_aurora">极光</string>
@@ -7889,7 +7889,7 @@
     <string name="filter_help_marquetry">构建一个木质镶嵌图像，在各块之间具有单独定向的纹理和斜角接缝。</string>
     <string name="bevel">斜角</string>
     <string name="photoelastic_stress">光弹性应力</string>
-    <string name="filter_help_photoelastic_stress">通过交叉偏振器将图像导出的应力张量可视化为彩色干涉条纹。</string>
+    <string name="filter_help_photoelastic_stress">把从图像里提取出来的应力张量，通过正交偏振片，用彩色干涉条纹的形式给它可视化出来。</string>
     <string name="load">应力负荷</string>
     <string name="ambient">周围的</string>
     <string name="condensation">缩合</string>
@@ -7904,8 +7904,8 @@
     <string name="filter_help_shock_sharpening">使用冲击滤波器方程演化图像边缘，形成清晰的块状边界和木刻般的色调区域。</string>
     <string name="color_spill_suppression">颜色溢出抑制</string>
     <string name="filter_help_color_spill_suppression">去除前景色中的绿色或蓝色屏幕污染，同时恢复边缘亮度。</string>
-    <string name="green">绿色的</string>
-    <string name="blue">蓝色的</string>
+    <string name="green">绿色</string>
+    <string name="blue">蓝色</string>
     <string name="recovery">恢复</string>
     <string name="underwater_restoration">水下修复</string>
     <string name="filter_help_underwater_restoration">使用优先的红色通道传输和受控的红色恢复来恢复水下照片的对比度。</string>
