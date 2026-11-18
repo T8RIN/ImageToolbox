@@ -31,6 +31,9 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.DeviceInfo.Companion.get
 import io.ktor.client.network.sockets.ConnectTimeoutException
 import io.ktor.client.plugins.HttpRequestTimeoutException
 import io.ktor.client.plugins.ResponseException
+import okhttp3.internal.http2.ConnectionShutdownException
+import okhttp3.internal.http2.StreamResetException
+import java.io.EOFException
 import java.io.IOException
 import java.net.ProtocolException
 import java.net.SocketException
@@ -110,6 +113,8 @@ private fun Throwable.isExpectedFailure(): Boolean {
             is HttpRequestTimeoutException,
             is SSLException,
             is ProtocolException,
+            is ConnectionShutdownException,
+            is StreamResetException,
             is ResponseException -> true
 
             is ErrnoException -> when (it.errno) {
@@ -126,6 +131,7 @@ private fun Throwable.isExpectedFailure(): Boolean {
                 else -> false
             }
 
+            is EOFException -> it.message == "connection closed"
             is IOException -> it.message == "Required SETTINGS preface not received"
             else -> it.javaClass.name == "android.system.GaiException"
         }
