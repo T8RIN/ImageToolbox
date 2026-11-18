@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -14,7 +13,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">大小 %1$s</string>
     <string name="loading">載入中…</string>
     <string name="no_exif">沒有發現 EXIF 資料</string>
@@ -8254,4 +8255,124 @@
     <string name="font_script_tibetan">藏文</string>
     <string name="font_script_mongolian">蒙古文</string>
     <string name="font_script_khmer">高棉語</string>
+    <string name="texture_growth_lines">生長線</string>
+    <string name="texture_brushing">刷牙</string>
+    <string name="texture_block_density">塊密度</string>
+    <string name="texture_ring_density">環密度</string>
+    <string name="texture_cut_density">切割密度</string>
+    <string name="texture_stitch_density">針跡密度</string>
+    <string name="texture_stepping">踏步</string>
+    <string name="texture_ribs">肋骨</string>
+    <string name="texture_pad_density">焊盤密度</string>
+    <string name="texture_pad_size">焊盤尺寸</string>
+    <string name="texture_blossoms">花開</string>
+    <string name="texture_tentacles">觸手</string>
+    <string name="texture_bell_shape">鐘形</string>
+    <string name="texture_wing_shape">翼形</string>
+    <string name="texture_vein_width">脈寬</string>
+    <string name="texture_gill_density">鰓密度</string>
+    <string name="texture_undulation">波動</string>
+    <string name="texture_spines">刺</string>
+    <string name="texture_strata">地層</string>
+    <string name="texture_meander">蜿蜒</string>
+    <string name="texture_fracture_density">裂縫密度</string>
+    <string name="texture_growth">生長</string>
+    <string name="texture_bead_size">珠子尺寸</string>
+    <string name="texture_fiber_count">纖維數</string>
+    <string name="texture_chirality">手性</string>
+    <string name="texture_stair_count">樓梯數</string>
+    <string name="texture_step_height">台階高度</string>
+    <string name="texture_periods">經期</string>
+    <string name="texture_projection">投影</string>
+    <string name="texture_lens_density">鏡片密度</string>
+    <string name="texture_pillar_density">柱密度</string>
+    <string name="texture_dust">灰塵</string>
+    <string name="texture_jet_width">噴射寬度</string>
+    <string name="texture_precession" />
+    <string name="texture_shock_rings">避震環</string>
+    <string name="texture_galaxy_density">星系密度</string>
+    <string name="texture_lens_strength">鏡片強度</string>
+    <string name="texture_arc_width">弧寬</string>
+    <string name="texture_wave_density">波密度</string>
+    <string name="texture_wave_count">波數</string>
+    <string name="texture_mach_angle">馬赫角</string>
+    <string name="texture_ribbon_count">色帶數量</string>
+    <string name="texture_film_width">薄膜寬度</string>
+    <string name="texture_crust_depth">地殼深度</string>
+    <string name="texture_chimney_count">煙囪數</string>
+    <string name="texture_wicker_weave">柳條編織</string>
+    <string name="texture_chainmail">鏈甲</string>
+    <string name="texture_herringbone_parquet">人字形鑲木地板</string>
+    <string name="texture_roof_tiles">屋頂瓦片</string>
+    <string name="texture_hammered_metal">錘擊金屬</string>
+    <string name="texture_corrugated_metal">波紋金屬</string>
+    <string name="texture_bubble_wrap">氣泡膜</string>
+    <string name="texture_cairo_tiling">開羅磁磚</string>
+    <string name="texture_islamic_star_tiling">伊斯蘭星形瓷磚</string>
+    <string name="texture_celtic_knotwork">凱爾特結</string>
+    <string name="texture_seigaiha">青貝</string>
+    <string name="texture_asanoha">祝你好運</string>
+    <string name="texture_houndstooth">千鳥格</string>
+    <string name="texture_jigsaw">拼圖</string>
+    <string name="texture_tree_bark">樹皮</string>
+    <string name="texture_pine_cone">松果</string>
+    <string name="texture_zebra_stripes">斑馬條紋</string>
+    <string name="texture_leopard_spots">豹紋斑點</string>
+    <string name="texture_lissajous_ribbons">利薩如絲帶</string>
+    <string name="texture_bismuth_crystal">鉍晶體</string>
+    <string name="texture_hilbert_ribbons">希爾伯特絲帶</string>
+    <string name="texture_malachite">孔雀石</string>
+    <string name="texture_labradorite">拉長石</string>
+    <string name="texture_seraphinite">塞拉菲尼特</string>
+    <string name="texture_porcelain_crackle">瓷裂紋</string>
+    <string name="texture_raku_glaze">眼癌</string>
+    <string name="texture_mother_of_pearl">珍珠母貝</string>
+    <string name="texture_tempered_titanium">回火鈦</string>
+    <string name="texture_end_grain_mosaic">端紋馬賽克</string>
+    <string name="texture_cork">軟木</string>
+    <string name="texture_cut_crystal_glass">切割水晶玻璃</string>
+    <string name="texture_sashiko">指子</string>
+    <string name="texture_bargello">巴傑洛</string>
+    <string name="texture_kilim">小地毯</string>
+    <string name="texture_brocade">錦緞</string>
+    <string name="texture_batik">蠟染</string>
+    <string name="texture_ikat">伊卡特</string>
+    <string name="texture_art_deco_fans">裝飾藝術愛好者</string>
+    <string name="texture_clover_lattice">三葉草格子</string>
+    <string name="texture_guilloche_rosettes">扭索飾玫瑰花結</string>
+    <string name="texture_monstera_canopy">龜背竹樹冠</string>
+    <string name="texture_lotus_pond">荷花池</string>
+    <string name="texture_sea_anemone">海葵</string>
+    <string name="texture_jellyfish">海螫</string>
+    <string name="texture_butterfly_wings">蝴蝶翅膀</string>
+    <string name="texture_fungal_gills">真菌鰓</string>
+    <string name="texture_radiolaria">放射蟲</string>
+    <string name="texture_slot_canyon">槽峽谷</string>
+    <string name="texture_spiral_pearls">螺旋珍珠</string>
+    <string name="texture_hopf_fibration">霍普夫纖維</string>
+    <string name="texture_truchet_blocks">特魯切特塊</string>
+    <string name="texture_impossible_stairs">不可能的樓梯</string>
+    <string name="texture_woven_hexagons">編織六邊形</string>
+    <string name="texture_gyroid">陀螺儀</string>
+    <string name="texture_hypercube">超立方體</string>
+    <string name="texture_lenticular_waves">透鏡狀波</string>
+    <string name="texture_stellar_nursery">恆星苗圃</string>
+    <string name="texture_pulsar_jets">脈衝星噴射機</string>
+    <string name="texture_gravitational_lensing">重力透鏡</string>
+    <string name="texture_nacre_clouds">雲母貝</string>
+    <string name="texture_mercury_droplets">汞滴</string>
+    <string name="texture_sonic_boom">音爆</string>
+    <string name="texture_ribbon_vortex">帶狀渦旋</string>
+    <string name="texture_abyssal_vent">深淵噴口</string>
+    <string name="texture_chromatic_plaid">彩色格子</string>
+    <string name="texture_maze">迷宮</string>
+    <string name="texture_maze_direction_bias">方向偏差</string>
+    <string name="texture_maze_branching">分枝</string>
+    <string name="texture_maze_braid">消除死角</string>
+    <string name="texture_maze_openings">入口和出口</string>
+    <string name="texture_maze_wall_width">牆寬</string>
+    <string name="texture_maze_algorithm">演算法</string>
+    <string name="texture_wall_color">牆壁顏色</string>
+    <string name="columns">專欄</string>
+    <string name="rows">行數</string>
 </resources>

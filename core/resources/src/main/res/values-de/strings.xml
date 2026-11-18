@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -14,7 +13,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="size">Größe %1$s</string>
     <string name="height">Höhe %1$s</string>
     <string name="quality">Qualität</string>
@@ -8372,4 +8373,7 @@
     <string name="font_script_tibetan">Tibetisch</string>
     <string name="font_script_mongolian">mongolisch</string>
     <string name="font_script_khmer">Khmer</string>
+    <string name="gallery_ocr">Textsuche in Fotos</string>
+    <string name="gallery_ocr_pending">Textsuche wird vorbereitet…</string>
+    <string name="gallery_ocr_search_hint">Dateiname oder Text</string>
 </resources>

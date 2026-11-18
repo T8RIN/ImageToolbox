@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -14,7 +13,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">問題が発生しました: %1$s</string>
     <string name="check_source_code_sub">最新のアップデートを入手し、問題を議論するなど</string>
     <string name="color_red">赤</string>
@@ -8265,4 +8266,113 @@
     <string name="font_script_tibetan">チベット語</string>
     <string name="font_script_mongolian">モンゴル語</string>
     <string name="font_script_khmer">クメール語</string>
+    <string name="texture_strata">地層</string>
+    <string name="texture_meander">蛇行</string>
+    <string name="texture_fracture_density">破壊密度</string>
+    <string name="texture_growth">成長</string>
+    <string name="texture_bead_size">ビーズのサイズ</string>
+    <string name="texture_chirality">キラリティー</string>
+    <string name="texture_stair_count">階段数</string>
+    <string name="texture_periods">期間</string>
+    <string name="texture_projection">投影</string>
+    <string name="texture_lens_density">レンズ濃度</string>
+    <string name="texture_pillar_density">ピラー密度</string>
+    <string name="texture_dust">ほこり</string>
+    <string name="texture_jet_width">ジェット幅</string>
+    <string name="texture_precession">歳差運動</string>
+    <string name="texture_shock_rings">ショックリング</string>
+    <string name="texture_galaxy_density">銀河密度</string>
+    <string name="texture_lens_strength">レンズ強度</string>
+    <string name="texture_arc_width">円弧の幅</string>
+    <string name="texture_wave_density">波の密度</string>
+    <string name="texture_wave_count">波数</string>
+    <string name="texture_mach_angle">マッハ角</string>
+    <string name="texture_ribbon_count">リボンの数</string>
+    <string name="texture_film_width">フィルム幅</string>
+    <string name="texture_crust_depth">地殻の深さ</string>
+    <string name="texture_chimney_count">煙突の数</string>
+    <string name="texture_smoke_density">煙濃度</string>
+    <string name="texture_knitted_fabric">ニット生地</string>
+    <string name="texture_wicker_weave">籐織り</string>
+    <string name="texture_chainmail">チェーンメイル</string>
+    <string name="texture_herringbone_parquet">ヘリンボーン寄木細工</string>
+    <string name="texture_roof_tiles">屋根瓦</string>
+    <string name="texture_hammered_metal">ハンマードメタル</string>
+    <string name="texture_corrugated_metal">波形金属</string>
+    <string name="texture_bubble_wrap">プチプチ</string>
+    <string name="texture_penrose_tiling">ペンローズタイル</string>
+    <string name="texture_islamic_star_tiling">イスラムのスタータイル</string>
+    <string name="texture_celtic_knotwork">ケルトの結び目</string>
+    <string name="texture_seigaiha">Seigaiha</string>
+    <string name="texture_asanoha">幸運を</string>
+    <string name="texture_houndstooth">千鳥格子</string>
+    <string name="texture_jigsaw">ジグソーパズル</string>
+    <string name="texture_tree_bark">木の樹皮</string>
+    <string name="texture_pine_cone">松ぼっくり</string>
+    <string name="texture_zebra_stripes">ゼブラストライプ</string>
+    <string name="texture_leopard_spots">ヒョウの斑点</string>
+    <string name="texture_lissajous_ribbons">リサージュリボン</string>
+    <string name="texture_bismuth_crystal">ビスマス結晶</string>
+    <string name="texture_hilbert_ribbons">ヒルベルトリボン</string>
+    <string name="texture_malachite">マラカイト</string>
+    <string name="texture_labradorite">ラブラドライト</string>
+    <string name="texture_seraphinite">セラフィナイト</string>
+    <string name="texture_porcelain_crackle">磁器のクラックル</string>
+    <string name="texture_raku_glaze">眼がん</string>
+    <string name="texture_mother_of_pearl">マザーオブパール</string>
+    <string name="texture_tempered_titanium">強化チタン</string>
+    <string name="texture_end_grain_mosaic">エンドグレインモザイク</string>
+    <string name="texture_cork">コルク</string>
+    <string name="texture_cut_crystal_glass">カットクリスタルガラス</string>
+    <string name="texture_sashiko">刺し子</string>
+    <string name="texture_bargello">バルジェッロ</string>
+    <string name="texture_kilim">ラグ</string>
+    <string name="texture_brocade">ブロケード</string>
+    <string name="texture_batik">バティック</string>
+    <string name="texture_ikat">イカット</string>
+    <string name="texture_embossed_paisley">エンボスペイズリー</string>
+    <string name="texture_art_deco_fans">アールデコファン</string>
+    <string name="texture_clover_lattice">クローバー格子</string>
+    <string name="texture_guilloche_rosettes">ギョーシェ ロゼット</string>
+    <string name="texture_ginkgo_leaves">イチョウの葉</string>
+    <string name="texture_monstera_canopy">モンステラ キャノピー</string>
+    <string name="texture_lotus_pond">蓮池</string>
+    <string name="texture_sea_anemone">イソギンチャク</string>
+    <string name="texture_jellyfish">クラゲ</string>
+    <string name="texture_butterfly_wings">蝶の羽</string>
+    <string name="texture_fungal_gills">菌類のえら</string>
+    <string name="texture_radiolaria">放散虫</string>
+    <string name="texture_slot_canyon">スロットキャニオン</string>
+    <string name="texture_glacial_crevasses">氷河クレバス</string>
+    <string name="texture_spiral_pearls">スパイラルパール</string>
+    <string name="texture_hopf_fibration">ホップ繊維化</string>
+    <string name="texture_spirograph">スピログラフ</string>
+    <string name="texture_chiral_pinwheels">キラル風車</string>
+    <string name="texture_truchet_blocks">トルシェットブロック</string>
+    <string name="texture_impossible_stairs">不可能な階段</string>
+    <string name="texture_woven_hexagons">編まれた六角形</string>
+    <string name="texture_gyroid">ジャイロイド</string>
+    <string name="texture_hypercube">ハイパーキューブ</string>
+    <string name="texture_lenticular_waves">レンチキュラー波</string>
+    <string name="texture_stellar_nursery">ステラナーサリー</string>
+    <string name="texture_pulsar_jets">パルサージェッツ</string>
+    <string name="texture_gravitational_lensing">重力レンズ</string>
+    <string name="texture_nacre_clouds">螺鈿の雲</string>
+    <string name="texture_mercury_droplets">水銀のしずく</string>
+    <string name="texture_sonic_boom">ソニックブーム</string>
+    <string name="texture_ribbon_vortex">リボンボルテックス</string>
+    <string name="texture_iridescent_foam">虹色の泡</string>
+    <string name="texture_lava_crust">溶岩の地殻</string>
+    <string name="texture_abyssal_vent">アビサルベント</string>
+    <string name="texture_chromatic_plaid">クロマチックチェック柄</string>
+    <string name="texture_maze">迷路</string>
+    <string name="texture_maze_direction_bias">方向の偏り</string>
+    <string name="texture_maze_branching">分岐</string>
+    <string name="texture_maze_braid">行き止まりを取り除く</string>
+    <string name="texture_maze_openings">入口と出口</string>
+    <string name="texture_maze_wall_width">壁幅</string>
+    <string name="texture_maze_algorithm">アルゴリズム</string>
+    <string name="texture_wall_color">壁の色</string>
+    <string name="columns">コラム</string>
+    <string name="rows">行</string>
 </resources>
