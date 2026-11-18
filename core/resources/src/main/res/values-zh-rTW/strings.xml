@@ -8373,4 +8373,5 @@
     <string name="texture_wall_color">牆壁顏色</string>
     <string name="columns">專欄</string>
     <string name="rows">行數</string>
+    <string name="texture_precession">歲差</string>
 </resources>
