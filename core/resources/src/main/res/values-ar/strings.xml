@@ -7600,7 +7600,7 @@
     <string name="style_presets_sub">حفظ النمط أو تطبيقه</string>
     <string name="save_style_preset">حفظ النمط</string>
     <string name="delete_style_preset">حذف النمط</string>
-    <string name="delete_style_preset_sub">هل تريد حذف النمط \"%1$s\"؟</string>
+    <string name="delete_style_preset_sub">أتريد حذف النمط «%1$s» من الأنماط المحفوظة؟ ستبقى إعداداتك الحالية كما هي.</string>
     <string name="code_preview_transparent_background">خلفية شفافة</string>
     <string name="filter_help_adaptive_binarization">يفصل الحبر والورق تحت الإضاءة غير المستوية باستخدام إحصائيات السطوع المحلية.</string>
     <string name="filter_help_agx_tone_mapping">يبرز الضوء ويتحكم في التشبع باستخدام منحنى نغمة AgX التحليلي.</string>
