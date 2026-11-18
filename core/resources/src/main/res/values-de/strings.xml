@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="size">Größe %1$s</string>
     <string name="height">Höhe %1$s</string>
     <string name="quality">Qualität</string>
@@ -8075,14 +8074,11 @@
     <string name="arcade_traceandclaim_sub">Ziehen Sie, um mit dem schwebenden Joystick zu steuern. Du hast drei Leben. Kehren Sie in Ihr Territorium zurück, um das umzäunte Gebiet zu beanspruchen. Überqueren Sie frei Ihre eigene Spur und schneiden Sie feindliche Spuren ab. Erobere genügend Land, um eine neue Arena zu eröffnen</string>
     <string name="arcade_orchardpile">Obstgartenhaufen</string>
     <string name="arcade_orchardpile_sub">Zum Zielen ziehen und loslassen, um eine Frucht fallen zu lassen. Passende Früchte verschmelzen und zwei Wassermelonen heben sich voneinander ab. Halten Sie den Stapel unterhalb der gestrichelten Linie</string>
-    <string name="gallery_ocr" />
     <string name="gallery_ocr_sub">Finden Sie Bilder anhand von Wörtern auf Schildern, in Dokumenten und in Screenshots.</string>
     <string name="gallery_ocr_download_hint">Lädt bei der ersten Verwendung 228 MB herunter.</string>
     <string name="gallery_ocr_permission">Erlauben Sie Fotozugriff auf Indextext</string>
     <string name="gallery_ocr_progress">Text in Fotos indizieren: %1$d von %2$d</string>
-    <string name="gallery_ocr_pending" />
     <string name="gallery_ocr_disabled">Aktivieren Sie die Textsuche in Fotos, um Bilder anhand der darin enthaltenen Wörter zu finden.</string>
-    <string name="gallery_ocr_search_hint" />
     <string name="gallery_search_content_hint">Dateiname, Beschreibung oder Text</string>
     <string name="gallery_faces_queued">Ich warte darauf, Gesichter vorzubereiten …</string>
     <string name="help_tip_gallery_search_query_types">Das gleiche Feld durchsucht Dateinamen und, sofern aktiviert, erkannte Text- und Fotoinhalte. Geben Sie ein Wort von einem Schild ein, um lesbaren Text zu finden, oder beschreiben Sie die Szene, um visuell relevante Fotos zu finden.</string>
