@@ -35,7 +35,6 @@ import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Save
-import com.t8rin.imagetoolbox.core.resources.icons.TextFields
 import com.t8rin.imagetoolbox.core.settings.presentation.model.Setting
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.isInstalledFromPlayStore
@@ -144,26 +143,10 @@ internal fun SettingItem(
             }
 
             Setting.ChangeFont -> {
-                val context = LocalComponentActivity.current
                 ChangeFontSettingItem(
                     onValueChange = { font ->
                         component.setFont(font.asDomain())
-                        context.recreate()
-                    },
-                    onAddFont = {
-                        component.importCustomFont(
-                            uri = it,
-                            onSuccess = AppToastHost::showConfetti,
-                            onFailure = {
-                                AppToastHost.showToast(
-                                    message = getString(R.string.wrong_font),
-                                    icon = Icons.Rounded.TextFields
-                                )
-                            }
-                        )
-                    },
-                    onRemoveFont = component::removeCustomFont,
-                    onExportFonts = component::exportFonts
+                    }
                 )
             }
 

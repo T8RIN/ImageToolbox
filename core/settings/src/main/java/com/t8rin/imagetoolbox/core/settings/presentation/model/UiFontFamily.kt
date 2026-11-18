@@ -334,22 +334,18 @@ sealed class UiFontFamily(
 }
 
 @Composable
-fun FontType?.toUiFont(): UiFontFamily {
-    val entries = UiFontFamily.entries
-
-    return remember(entries, this) {
-        derivedStateOf {
-            when (this) {
-                is FontType.File -> UiFontFamily.Custom(
-                    name = File(path).nameWithoutExtension.replace("[:\\-_.,]".toRegex(), " "),
-                    filePath = path
-                )
-
-                is FontType.Resource -> entries.find { it.type == this } ?: UiFontFamily.System
-                null -> UiFontFamily.System
-            }
+fun FontType?.toUiFont(): UiFontFamily = when (this) {
+    is FontType.File -> {
+        val imported = UiFontFamily.customEntries
+        val downloaded = UiFontFamily.downloadedEntries
+        remember(this, imported, downloaded) {
+            imported.firstOrNull { it.filePath == path }
+                ?: downloaded.firstOrNull { it.filePath == path }
+                ?: asUi()
         }
-    }.value
+    }
+
+    else -> asUi()
 }
 
 fun FontType?.asUi(): UiFontFamily {

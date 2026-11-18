@@ -1705,7 +1705,7 @@ or click one of the badges below.
 
   </details>
 
-- More than 2500 downloadable fonts
+- More than 5000 downloadable fonts
 
 - Ability to import any font (OTF/TTF) to further use
 - In app font scale changing

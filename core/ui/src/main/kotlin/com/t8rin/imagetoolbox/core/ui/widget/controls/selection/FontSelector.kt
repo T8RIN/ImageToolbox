@@ -62,7 +62,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.scaleOnTap
-import com.t8rin.imagetoolbox.core.ui.widget.sheets.FontSelectorSheet
+import com.t8rin.imagetoolbox.core.ui.widget.sheets.PickFontFamilySheet
 import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
 
@@ -77,7 +77,7 @@ fun FontSelector(
     behaveAsContainer: Boolean = true
 ) {
     var showFontSheet by rememberSaveable { mutableStateOf(false) }
-    FontSelectorSheet(
+    PickFontFamilySheet(
         visible = showFontSheet,
         onDismiss = { showFontSheet = false },
         selectedFont = value,

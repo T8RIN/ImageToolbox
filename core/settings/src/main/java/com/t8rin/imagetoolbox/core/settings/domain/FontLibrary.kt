@@ -36,7 +36,8 @@ interface FontLibrary {
     fun cancelDownload()
 
     companion object {
-        const val FONT_COUNT = 2507
+        const val FONT_COUNT = 5024
+        const val ARCHIVE_SIZE = 1072279300L
         const val ARCHIVE_PAGE =
             "https://huggingface.co/T8RIN/imagetoolbox-models/blob/main/ImageToolbox-Fonts.zip"
     }

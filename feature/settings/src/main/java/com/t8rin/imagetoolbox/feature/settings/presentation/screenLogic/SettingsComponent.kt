@@ -72,7 +72,6 @@ import com.t8rin.imagetoolbox.core.settings.domain.model.SnowfallMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.SwitchType
 import com.t8rin.imagetoolbox.core.settings.presentation.model.Setting
 import com.t8rin.imagetoolbox.core.settings.presentation.model.SettingsGroup
-import com.t8rin.imagetoolbox.core.settings.presentation.model.UiFontFamily
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
@@ -354,13 +353,6 @@ class SettingsComponent @AssistedInject internal constructor(
         ).also(::parseFileSaveResult)
     }
 
-    fun exportFonts(uri: Uri) = settingsScope {
-        fileController.transferBytes(
-            fromUri = createCustomFontsExport().toString(),
-            toUri = uri.toString()
-        ).also(::parseFileSaveResult)
-    }
-
     fun restoreBackupFrom(
         uri: Uri,
         onSuccess: () -> Unit,
@@ -598,24 +590,6 @@ class SettingsComponent @AssistedInject internal constructor(
 
     fun setChecksumTypeForFilename(type: HashingType?) =
         settingsScope { setChecksumTypeForFilename(type) }
-
-    fun importCustomFont(
-        uri: Uri,
-        onSuccess: () -> Unit,
-        onFailure: () -> Unit
-    ) = settingsScope {
-        val fonts = importCustomFonts(uri.toString())
-        if (fonts.isNotEmpty()) {
-            fonts.singleOrNull()?.let { setFont(it) }
-            onSuccess()
-        } else onFailure()
-    }
-
-    fun removeCustomFont(
-        font: UiFontFamily.Custom
-    ) = settingsScope {
-        removeCustomFont(font.asDomain() as DomainFontFamily.Custom)
-    }
 
     fun toggleEnableToolExitConfirmation() = settingsScope { toggleEnableToolExitConfirmation() }
 
