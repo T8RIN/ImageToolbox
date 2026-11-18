@@ -1575,7 +1575,7 @@
     <string name="image_cutting_sub">裁剪图片部分，并通过垂直线或水平线合并左侧部分（可反向操作）</string>
     <string name="mesh_gradients_sub">自定义网格渐变的节点数量和分辨率</string>
     <string name="grid_size">网格大小</string>
-    <string name="collection_mesh_gradients">网格渐变集合</string>
+    <string name="collection_mesh_gradients">网格渐变集</string>
     <string name="gradient_maker_type_image_mesh">网格渐变叠加</string>
     <string name="gradient_maker_type_image_mesh_sub">在给定图片的顶部合成网格渐变</string>
     <string name="points_customization">自定义点</string>
@@ -2085,7 +2085,7 @@
     <string name="hidden_tools">隐藏工具</string>
     <string name="hidden_for_share">隐藏共享工具</string>
     <string name="color_library">颜色库</string>
-    <string name="color_library_sub">浏览海量颜色集合</string>
+    <string name="color_library_sub">浏览海量颜色集</string>
     <string name="model_fatality_deblur">锐化并消除图像模糊，同时保持自然细节，是修复失焦照片的理想选择。</string>
     <string name="model_unresize_v3">智能恢复之前调整过大小的图像，恢复丢失的细节和纹理。</string>
     <string name="model_liveaction_v1_span">针对真人内容进行了优化，减少了压缩伪影并增强了电影/电视节目帧中的精细细节。</string>
@@ -3136,14 +3136,14 @@
     <string name="help_tip_color_library_search_title">浏览颜色库</string>
     <string name="help_tip_color_library_search_subtitle">按名称或十六进制搜索命名颜色并将收藏夹保留在顶部附近</string>
     <string name="help_tip_color_library_search_page_title">查找可重复使用的命名颜色</string>
-    <string name="help_tip_color_library_search_description">颜色库加载命名的颜色集合，按名称对其进行排序，按颜色名称或十六进制值进行过滤，并存储最喜欢的颜色，以便更容易访问重要的条目。当您需要真实命名的颜色而不是从图像中采样时，它非常有用。</string>
+    <string name="help_tip_color_library_search_description">颜色库会加载一个按名字命名的颜色集，按名称排序，可以按颜色名或十六进制值来筛选，还能把喜欢的颜色收藏起来，方便重要的颜色随时找到。当你需要一个真正有名字的颜色、而不是从图片里取色时，这功能就很有用。</string>
     <string name="help_tip_color_library_search_step_1">当您知道颜色系列时，可以按颜色名称进行搜索，例如红色、蓝色、石板色或薄荷色。</string>
     <string name="help_tip_color_library_search_step_2">当您已经有了数字颜色并想要查找匹配或附近的命名条目时，可以通过十六进制进行搜索。</string>
     <string name="help_tip_color_library_search_step_3">将常用颜色标记为收藏夹，以便它们在浏览时领先于一般库。</string>
-    <string name="help_tip_mesh_gradients_collection_title">使用网格渐变集合</string>
+    <string name="help_tip_mesh_gradients_collection_title">使用网格渐变集</string>
     <string name="help_tip_mesh_gradients_collection_subtitle">下载可用的网格渐变资源并共享选定的图像</string>
     <string name="help_tip_mesh_gradients_collection_page_title">使用远程网格渐变资源</string>
-    <string name="help_tip_mesh_gradients_collection_description">网格渐变可以加载远程资源集合、下载缺失的渐变图像、显示下载进度以及共享选定的渐变。可用性取决于网络访问和远程资源存储，因此空列表通常意味着资源尚不可用。</string>
+    <string name="help_tip_mesh_gradients_collection_description">网格渐变可以加载远程资源集、下载缺失的渐变图像、显示下载进度以及共享选定的渐变。可用性取决于网络访问和远程资源存储，因此空列表通常意味着资源尚不可用。</string>
     <string name="help_tip_mesh_gradients_collection_step_1">当您需要现成的网格渐变图像时，从渐变工具中打开网格渐变。</string>
     <string name="help_tip_mesh_gradients_collection_step_2">在假设集合为空之前，等待资源加载或下载进度。</string>
     <string name="help_tip_mesh_gradients_collection_step_3">选择并共享您需要的渐变，或者当您想要手动构建自定义渐变时返回渐变制作器。</string>
@@ -5769,7 +5769,7 @@
     <string name="help_tip_multi_frame_fusion_page_2_step_3">保存完整结果之前预览。对于运动轨迹，在重新排序系列时保持预期的时间顺序。</string>
     <string name="help_tip_photomosaic_title">创建照片马赛克</string>
     <string name="help_tip_photomosaic_subtitle">从较小的图像重建大图片，并平衡细节与图块可见性</string>
-    <string name="help_tip_photomosaic_page_title">源图像和图块集合</string>
+    <string name="help_tip_photomosaic_page_title">源图像和图块集</string>
     <string name="help_tip_photomosaic_description">马赛克照片近似于带有许多小照片的源图片。来源定义了整体构成；瓷砖系列提供当地的色彩和纹理。多样化的系列通常可以很好地匹配更多地区。</string>
     <string name="help_tip_photomosaic_step_1">选择主图像，然后单独添加平铺图像。使用具有不同亮度和颜色的图块，而不是许多几乎相同的图片。</string>
     <string name="help_tip_photomosaic_step_2">增加列以获得更详细的整体情况。更少的列使得单个平铺照片更容易识别。</string>
@@ -7918,7 +7918,7 @@
     <string name="emoji_kitchen_search_keywords">表情符号厨房、表情符号、贴纸、混合、混搭、组合、谷歌、笑脸</string>
     <string name="emoji_kitchen_setup_title">安装集合</string>
     <string name="emoji_kitchen_setup_description">下载 Emoji Kitchen 系列或从您的设备导入 ZIP 存档。</string>
-    <string name="emoji_kitchen_collection">表情符号集合</string>
+    <string name="emoji_kitchen_collection">表情符号集</string>
     <string name="emoji_kitchen_import">导入存档</string>
     <string name="emoji_kitchen_delete_title">删除收藏？</string>
     <string name="emoji_kitchen_delete_message">这将释放 %1$s。您的书签和保存的图像将保留。</string>
