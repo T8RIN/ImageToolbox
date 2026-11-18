@@ -78,6 +78,15 @@ class FilterRenderingRegressionTest {
     }
 
     @Test
+    fun mightyDetailsCommandStillRendersInGmicEditor() = runBlocking {
+        val filter = object : Filter.RawGmic {
+            override val value = FilterValues.rawGmic("fx_mighty_details 25,1,25,1,12")
+            override var auxiliaryImages: List<ImageModel> = emptyList()
+        }
+        assertRenders(filter, 97, 83)
+    }
+
+    @Test
     fun spotHealCanBeCreatedFromItsDomainInterface() = runBlocking {
         val mask = Bitmap.createBitmap(33, 31, Bitmap.Config.ARGB_8888).apply {
             eraseColor(Color.BLACK)

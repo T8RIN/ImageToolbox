@@ -17,6 +17,8 @@
 
 package com.t8rin.imagetoolbox.core.crash.data
 
+import android.system.ErrnoException
+import android.system.OsConstants
 import com.google.firebase.Firebase
 import com.google.firebase.analytics.FirebaseAnalytics.Event
 import com.google.firebase.analytics.FirebaseAnalytics.Param
@@ -24,7 +26,17 @@ import com.google.firebase.analytics.analytics
 import com.google.firebase.analytics.logEvent
 import com.google.firebase.crashlytics.crashlytics
 import com.t8rin.imagetoolbox.core.domain.remote.AnalyticsManager
+import com.t8rin.imagetoolbox.core.domain.saving.io.InputFileNotFoundException
 import com.t8rin.imagetoolbox.core.ui.utils.helper.DeviceInfo.Companion.get
+import io.ktor.client.network.sockets.ConnectTimeoutException
+import io.ktor.client.plugins.HttpRequestTimeoutException
+import io.ktor.client.plugins.ResponseException
+import java.io.IOException
+import java.net.ProtocolException
+import java.net.SocketException
+import java.net.SocketTimeoutException
+import java.net.UnknownHostException
+import javax.net.ssl.SSLException
 
 internal object AnalyticsManagerImpl : AnalyticsManager {
 
@@ -47,7 +59,7 @@ internal object AnalyticsManagerImpl : AnalyticsManager {
     }
 
     override fun sendReport(throwable: Throwable) {
-        if (allowCollectCrashlytics) {
+        if (allowCollectCrashlytics && !throwable.isExpectedFailure()) {
             crashlytics.apply {
                 recordException(throwable)
                 sendUnsentReports()
@@ -84,4 +96,38 @@ internal object AnalyticsManagerImpl : AnalyticsManager {
 
     private val analytics get() = Firebase.analytics
     private val crashlytics get() = Firebase.crashlytics
+}
+
+private fun Throwable.isExpectedFailure(): Boolean {
+    val visited = mutableSetOf<Throwable>()
+    return generateSequence(this) { it.cause }.takeWhile(visited::add).any {
+        when (it) {
+            is InputFileNotFoundException,
+            is UnknownHostException,
+            is SocketException,
+            is SocketTimeoutException,
+            is ConnectTimeoutException,
+            is HttpRequestTimeoutException,
+            is SSLException,
+            is ProtocolException,
+            is ResponseException -> true
+
+            is ErrnoException -> when (it.errno) {
+                OsConstants.ECONNABORTED,
+                OsConstants.ECONNREFUSED,
+                OsConstants.ECONNRESET,
+                OsConstants.EHOSTUNREACH,
+                OsConstants.ENETDOWN,
+                OsConstants.ENETRESET,
+                OsConstants.ENETUNREACH,
+                OsConstants.ENOTCONN,
+                OsConstants.ETIMEDOUT -> true
+
+                else -> false
+            }
+
+            is IOException -> it.message == "Required SETTINGS preface not received"
+            else -> it.javaClass.name == "android.system.GaiException"
+        }
+    }
 }

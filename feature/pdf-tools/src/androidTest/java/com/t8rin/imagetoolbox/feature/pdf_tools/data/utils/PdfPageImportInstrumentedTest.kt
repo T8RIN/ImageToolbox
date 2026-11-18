@@ -18,9 +18,12 @@ package com.t8rin.imagetoolbox.feature.pdf_tools.data.utils
 
 import android.graphics.Color
 import android.system.Os
+import androidx.core.content.FileProvider
 import androidx.core.net.toUri
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
+import com.t8rin.imagetoolbox.core.domain.saving.io.InputFileNotFoundException
+import com.t8rin.imagetoolbox.core.resources.R
 import com.tom_roush.pdfbox.cos.COSName
 import com.tom_roush.pdfbox.pdmodel.PDDocument
 import com.tom_roush.pdfbox.pdmodel.PDPage
@@ -46,6 +49,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import java.io.ByteArrayOutputStream
 import java.io.File
+import java.io.FileNotFoundException
 import java.io.IOException
 
 @RunWith(AndroidJUnit4::class)
@@ -87,6 +91,20 @@ class PdfPageImportInstrumentedTest {
         } finally {
             file.delete()
         }
+    }
+
+    @Test
+    fun missingPdfIsReportedAsMissingInput() {
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        val file = File.createTempFile("pdf-missing-", ".pdf", context.cacheDir)
+        val uri =
+            FileProvider.getUriForFile(context, context.getString(R.string.file_provider), file)
+        assertTrue(file.delete())
+
+        val error = assertThrows(InputFileNotFoundException::class.java) {
+            safeOpenPdf(uri.toString(), null)
+        }
+        assertTrue(error.cause is FileNotFoundException)
     }
 
     private fun assertInputClosed(file: File) {

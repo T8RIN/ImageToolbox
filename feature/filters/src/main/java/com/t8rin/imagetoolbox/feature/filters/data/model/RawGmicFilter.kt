@@ -21,8 +21,8 @@ import android.graphics.Bitmap
 import coil3.size.Size
 import com.t8rin.gmic.Gmic
 import com.t8rin.gmic.GmicFilter
-import com.t8rin.gmic.filters.RawGmicFilter as GmicRawFilter
 import com.t8rin.gmic.model.GmicException
+import com.t8rin.gmic.model.GmicExecutionOptions
 import com.t8rin.imagetoolbox.core.domain.model.ImageModel
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter.RawGmic.Value
@@ -33,6 +33,7 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
 import com.t8rin.imagetoolbox.feature.filters.data.utils.flexible
 import com.t8rin.imagetoolbox.feature.filters.data.utils.image.loadBitmap
+import com.t8rin.gmic.filters.RawGmicFilter as GmicRawFilter
 
 @FilterDefinition(group = FilterGroups.EFFECTS)
 internal class RawGmicFilter(
@@ -63,7 +64,8 @@ internal class RawGmicFilter(
 
             Gmic.runCancellable(
                 input = input.flexible(size),
-                filter = filter
+                filter = filter,
+                executionOptions = GmicExecutionOptions(disableSmooth = false)
             )
         } catch (exception: GmicException) {
             pushError(exception.message.orEmpty().substringAfterLast("***").trim())
