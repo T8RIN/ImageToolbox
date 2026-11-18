@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">大小 %1$s</string>
     <string name="loading">載入中…</string>
     <string name="no_exif">沒有發現 EXIF 資料</string>
@@ -8288,7 +8287,6 @@
     <string name="texture_pillar_density">柱密度</string>
     <string name="texture_dust">灰塵</string>
     <string name="texture_jet_width">噴射寬度</string>
-    <string name="texture_precession" />
     <string name="texture_shock_rings">避震環</string>
     <string name="texture_galaxy_density">星系密度</string>
     <string name="texture_lens_strength">鏡片強度</string>
