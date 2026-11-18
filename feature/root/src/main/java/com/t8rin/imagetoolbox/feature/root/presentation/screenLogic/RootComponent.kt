@@ -208,10 +208,9 @@ class RootComponent @AssistedInject internal constructor(
 
         if (settingsState.screenList.size != Screen.entries.size) {
             componentScope.launch {
-                val currentList = settingsState.screenList
-                val neededList = Screen.entries.filter { it.id !in currentList }.map { it.id }
-                settingsManager.setScreenOrder(
-                    (currentList + neededList).joinToString("/")
+                settingsManager.reorderScreens(
+                    screenIds = emptyList(),
+                    defaultOrder = Screen.entries.map { it.id }
                 )
             }
         }

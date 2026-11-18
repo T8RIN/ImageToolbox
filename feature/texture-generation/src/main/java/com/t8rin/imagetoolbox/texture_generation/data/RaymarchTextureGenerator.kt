@@ -192,9 +192,19 @@ private fun raymarchShader(type: TextureFilterType): String {
                 vec4 sample = texture2D(inputImageTexture2, uv);
                 return sample.rgb / max(sample.a, 0.00001);
             }
-            vec3 sky = mix(vec3(0.06,0.09,0.16), vec3(0.75,0.87,1.0), direction.y * 0.5 + 0.5);
-            float strip = pow(max(0.0, 1.0 - abs(direction.y - 0.3)), mix(70.0, 3.0, roughness));
-            return sky + vec3(1.0,0.88,0.67) * strip * 0.7;
+            vec3 sky = mix(vec3(0.04,0.055,0.09), vec3(0.42,0.52,0.68), direction.y * 0.5 + 0.5);
+            float key = exp(-(1.0-dot(direction,normalize(vec3(-0.45,0.65,0.6)))) * mix(55.0,6.0,roughness));
+            float rim = exp(-(1.0-dot(direction,normalize(vec3(0.8,0.15,-0.4)))) * mix(80.0,9.0,roughness));
+            return sky + vec3(1.0,0.91,0.78)*key*1.4 + vec3(0.6,0.78,1.0)*rim*.7;
+        }
+        float ambientOcclusion(vec3 p,vec3 normal) {
+            float occlusion=0.0,weight=1.0;
+            for(int i=1;i<=4;i++) {
+                float distance=float(i)*.055*objectSize;
+                occlusion+=max(0.0,distance-scene(p+normal*distance))*weight;
+                weight*=.65;
+            }
+            return clamp(1.0-occlusion*2.5,.45,1.0);
         }
         void main() {
             vec2 uv = (textureCoordinate * 2.0 - 1.0) * vec2(aspect, -1.0);
@@ -229,6 +239,7 @@ private fun raymarchShader(type: TextureFilterType): String {
             color += specular * mix(vec3(0.25), tint, metallic) * (1.0 - roughness * 0.6);
             vec3 glass = environment(refract(ray, normal, 0.67)) * tint;
             color = mix(color, mix(glass, reflected, 0.08 + fresnel * 0.92), transmission);
+            color *= ambientOcclusion(point,normal);
             gl_FragColor = vec4(clamp(color, 0.0, 1.0) * objectColor.a, objectColor.a);
         }
     """.trimIndent()

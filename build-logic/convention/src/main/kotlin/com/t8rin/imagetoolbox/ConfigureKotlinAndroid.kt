@@ -109,6 +109,7 @@ private inline fun <reified T : KotlinBaseExtension> Project.configureKotlin() =
     }.apply {
         jvmTarget.set(JvmTarget.fromTarget(libs.versions.jvmTarget.get()))
         allWarningsAsErrors.set(warningsAsErrors)
+        freeCompilerArgs.add("-Xdont-warn-on-error-suppression")
         optIn.addAll(
             "kotlinx.coroutines.ExperimentalCoroutinesApi",
             "kotlinx.coroutines.FlowPreview",

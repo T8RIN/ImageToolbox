@@ -28,12 +28,14 @@ import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
 import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
 import com.t8rin.imagetoolbox.core.utils.initAppContext
+import com.t8rin.imagetoolbox.feature.media_picker.domain.GalleryIndexScheduler
+import com.t8rin.imagetoolbox.feature.media_picker.domain.GalleryOcrRepository
 import com.t8rin.imagetoolbox.feature.media_picker.domain.MediaActionsManager
 import com.t8rin.imagetoolbox.feature.media_picker.domain.MediaRetriever
 import com.t8rin.imagetoolbox.feature.media_picker.domain.SemanticSearchRepository
-import com.t8rin.imagetoolbox.feature.media_picker.domain.SemanticSearchScheduler
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.Album
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.AllowedMedia
+import com.t8rin.imagetoolbox.feature.media_picker.domain.model.GalleryOcrState
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.Media
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.MediaAction
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.MediaActionResult
@@ -121,7 +123,7 @@ class MediaPickerActionsInstrumentedTest {
         }
         await { !component.isMediaActionRunning }
         assertTrue(component.selectedMedia.isEmpty())
-        assertTrue(component.filteredMediaState.value.media.isEmpty())
+        assertTrue(component.filteredMediaState.value.mediaState.media.isEmpty())
         assertEquals(Album.ALL_ID, component.selectedAlbumId)
         assertEquals(
             2L,
@@ -174,7 +176,7 @@ class MediaPickerActionsInstrumentedTest {
         await { !component.isMediaActionRunning }
         assertEquals(Album.TRASH_ID, component.selectedAlbumId)
         assertEquals(listOf(items.last()), component.selectedMedia.toList())
-        assertEquals(listOf(items.last()), component.filteredMediaState.value.media)
+        assertEquals(listOf(items.last()), component.filteredMediaState.value.mediaState.media)
         assertEquals(
             1L,
             component.albumsState.value.albums.single { it.id == Album.TRASH_ID }.count
@@ -329,10 +331,16 @@ class MediaPickerActionsInstrumentedTest {
                         else -> error(name)
                     }
                 },
-                semanticSearchScheduler = object : SemanticSearchScheduler {
+                galleryOcrRepository = dependency<GalleryOcrRepository> { name, _ ->
+                    when (name) {
+                        "getState" -> MutableStateFlow(GalleryOcrState())
+                        else -> error(name)
+                    }
+                },
+                galleryIndexScheduler = object : GalleryIndexScheduler {
                     override fun start() = Unit
                     override fun refresh() = Unit
-                    override suspend fun stop() = Unit
+                    override suspend fun stopSemanticSearch() = Unit
                 },
                 dispatchersHolder = dispatchers
             ).also {
@@ -344,7 +352,8 @@ class MediaPickerActionsInstrumentedTest {
         }
         withTimeout(5_000) {
             component.filteredMediaState.first {
-                !it.isLoading && it.media.map(Media::uri).toSet() == items.map(Media::uri).toSet()
+                !it.mediaState.isLoading && it.mediaState.media.map(Media::uri)
+                    .toSet() == items.map(Media::uri).toSet()
             }
         }
         withTimeout(5_000) { component.albumsState.first { state -> state.albums.any { it.id == albumId } } }

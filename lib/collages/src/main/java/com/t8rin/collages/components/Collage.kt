@@ -75,6 +75,7 @@ fun Collage(
     collageType: CollageType,
     userInteractionEnabled: Boolean = true,
     imageGesturesEnabled: Boolean = true,
+    maxImageZoom: Float = 16f,
     canvasScale: Float = 1f,
     outerPadding: Float = 0f,
     slotStyles: List<CollageSlotStyle> = emptyList(),
@@ -92,6 +93,7 @@ fun Collage(
     onOutputSizeChanged: ((Int, Int) -> Unit)? = null,
     onUserStateChange: ((before: CollageState, after: CollageState, swappedImages: Pair<Int, Int>?) -> Unit)? = null
 ) {
+    require(maxImageZoom.isFinite() && maxImageZoom >= 1f)
     val outlineColor = MaterialTheme.colorScheme.primary.toArgb()
     val outlineAccent = MaterialTheme.colorScheme.primaryContainer.toArgb()
     val layout = remember(collageType.layoutId, collageType.design) {
@@ -134,7 +136,11 @@ fun Collage(
                             )
                         },
                         factory = { context ->
-                            FramePhotoLayout(context, layout?.photoItemList.orEmpty()).also {
+                            FramePhotoLayout(
+                                context,
+                                layout?.photoItemList.orEmpty(),
+                                maxImageZoom
+                            ).also {
                                 it.setParamsManager(layout?.paramsManager)
                                 view = it
                             }
@@ -171,6 +177,7 @@ fun Collage(
                             target.setDisableRotation(disableRotation)
                             target.setEnableSnapToBorders(enableSnapToBorders)
                             target.outputAspectRatio = ratio
+                            target.maxImageZoom = maxImageZoom
                             if (applied.images != images) {
                                 target.updateImages(images)
                                 applied.images = images

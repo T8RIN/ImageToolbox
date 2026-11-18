@@ -57,6 +57,7 @@ import kotlin.math.roundToInt
 internal fun ColorMixing(
     selectedColor: Color,
     appColorTuple: ColorTuple,
+    onColorClick: (List<Color>, Int) -> Unit,
 ) {
     var mixingVariation by rememberSaveable {
         mutableIntStateOf(3)
@@ -127,6 +128,7 @@ internal fun ColorMixing(
                     mixedColors.forEachIndexed { index, color ->
                         ColorWithNameItem(
                             color = color,
+                            onClick = { onColorClick(mixedColors, index) },
                             containerShape = ShapeDefaults.byIndex(
                                 index = index,
                                 size = mixedColors.size

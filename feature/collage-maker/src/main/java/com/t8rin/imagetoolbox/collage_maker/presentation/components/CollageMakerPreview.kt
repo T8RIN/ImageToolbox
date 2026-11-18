@@ -77,6 +77,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shimmer
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.transparencyChecker
 import com.t8rin.imagetoolbox.core.ui.widget.other.InfoContainer
+import net.engawapg.lib.zoomable.ZoomDefaults
 import net.engawapg.lib.zoomable.rememberZoomState
 import net.engawapg.lib.zoomable.zoomable
 
@@ -107,7 +108,7 @@ internal fun CollageMakerPreview(
         var infoHeight by remember(isPortrait) {
             mutableStateOf(0.dp)
         }
-        val zoomState = rememberZoomState(maxScale = 10f)
+        val zoomState = rememberZoomState()
         val infoAlpha by animateFloatAsState(
             targetValue = if (zoomState.scale > 1.01f) 0f else 1f,
             animationSpec = tween(200)
@@ -188,6 +189,7 @@ internal fun CollageMakerPreview(
                                 outputScaleRatio = component.params.outputScaleRatio,
                                 onOutputSizeChanged = onOutputSizeChanged,
                                 imageGesturesEnabled = showItemMenu,
+                                maxImageZoom = ZoomDefaults.MaxZoom,
                                 canvasScale = zoomState.scale,
                                 outerPadding = component.params.outerPadding,
                                 slotStyles = component.uris.orEmpty().indices.map(component::slotStyle),

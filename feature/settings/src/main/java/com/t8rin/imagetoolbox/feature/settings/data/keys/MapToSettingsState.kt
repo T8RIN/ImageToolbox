@@ -29,7 +29,6 @@ import com.t8rin.imagetoolbox.core.domain.model.AssistantModel
 import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.DomainAspectRatio
 import com.t8rin.imagetoolbox.core.domain.model.SystemBarsVisibility
-import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
 import com.t8rin.imagetoolbox.core.settings.domain.model.CacheAutoClearInterval
 import com.t8rin.imagetoolbox.core.settings.domain.model.ColorHarmonizer
 import com.t8rin.imagetoolbox.core.settings.domain.model.CopyToClipboardMode
@@ -39,6 +38,7 @@ import com.t8rin.imagetoolbox.core.settings.domain.model.FastSettingsSide
 import com.t8rin.imagetoolbox.core.settings.domain.model.FilenameBehavior
 import com.t8rin.imagetoolbox.core.settings.domain.model.FlingType
 import com.t8rin.imagetoolbox.core.settings.domain.model.ImageHeaderState
+import com.t8rin.imagetoolbox.core.settings.domain.model.LoadingGame
 import com.t8rin.imagetoolbox.core.settings.domain.model.MarkupLayerTextDefaults
 import com.t8rin.imagetoolbox.core.settings.domain.model.NightMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.OneTimeSaveLocation
@@ -53,6 +53,7 @@ import com.t8rin.imagetoolbox.core.settings.domain.model.ShapeType
 import com.t8rin.imagetoolbox.core.settings.domain.model.SliderType
 import com.t8rin.imagetoolbox.core.settings.domain.model.SnowfallMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.SwitchType
+import org.json.JSONArray
 
 internal fun Preferences.toSettingsState(
     default: SettingsState,
@@ -70,7 +71,11 @@ internal fun Preferences.toSettingsState(
         ?: default.showGalleryFileExtension,
     useGalleryStyleSelection = this[USE_GALLERY_STYLE_SELECTION]
         ?: default.useGalleryStyleSelection,
+    rememberGalleryDisplaySettings = this[REMEMBER_GALLERY_DISPLAY_SETTINGS]
+        ?: default.rememberGalleryDisplaySettings,
+    galleryDisplaySettings = this[GALLERY_DISPLAY_SETTINGS] ?: default.galleryDisplaySettings,
     isSemanticSearchEnabled = this[SEMANTIC_SEARCH_ENABLED] ?: default.isSemanticSearchEnabled,
+    isGalleryOcrEnabled = this[GALLERY_OCR_ENABLED] ?: default.isGalleryOcrEnabled,
     semanticSearchSettings = this[SEMANTIC_SEARCH_SETTINGS]?.let {
         jsonParser.fromJson<SemanticSearchSettings>(
             json = it,
@@ -86,9 +91,8 @@ internal fun Preferences.toSettingsState(
     showUpdateDialogOnStartup = this[SHOW_UPDATE_DIALOG]
         ?: default.showUpdateDialogOnStartup,
     selectedEmoji = this[SELECTED_EMOJI_INDEX] ?: default.selectedEmoji,
-    screenList = this[SCREEN_ORDER]?.split("/")?.mapNotNull {
-        it.toIntOrNull()
-    }?.takeIf { it.isNotEmpty() } ?: default.screenList,
+    screenList = this[SCREEN_ORDER].toScreenOrder().ifEmpty { default.screenList },
+    groupedScreenOrder = this[GROUPED_SCREEN_ORDER].toScreenOrder(),
     emojisCount = this[EMOJI_COUNT] ?: default.emojisCount,
     clearCacheOnLaunch = this[AUTO_CACHE_CLEAR] ?: default.clearCacheOnLaunch,
     cacheAutoClearLimitBytes = this[CACHE_AUTO_CLEAR_LIMIT_BYTES]
@@ -201,10 +205,12 @@ internal fun Preferences.toSettingsState(
         ?: default.showSettingsInLandscape,
     showLoadingGameButton = this[SHOW_LOADING_GAME_BUTTON]
         ?: default.showLoadingGameButton,
-    loadingGame = ArcadeGame.entries.find { it.name == this[LOADING_GAME] } ?: default.loadingGame,
-    favoriteArcadeGames = this[FAVORITE_ARCADE_GAMES].orEmpty().let { favorites ->
-        ArcadeGame.playable.filterTo(mutableSetOf()) { it.name in favorites }
+    loadingGame = when (val game = this[LOADING_GAME]) {
+        LoadingGame.Random.preferenceValue -> LoadingGame.Random
+        LoadingGame.RandomFavorite.preferenceValue -> LoadingGame.RandomFavorite
+        else -> game?.let { LoadingGame.Specific(it) } ?: default.loadingGame
     },
+    favoriteArcadeGames = this[FAVORITE_ARCADE_GAMES].orEmpty(),
     arcadeGameOrder = arcadeGameOrder(),
     useFullscreenSettings = this[USE_FULLSCREEN_SETTINGS]
         ?: default.useFullscreenSettings,
@@ -279,6 +285,14 @@ internal fun Preferences.toSettingsState(
         default
     ),
     customFonts = this[CUSTOM_FONTS].toCustomFonts(),
+    fontPackEnabled = this[FONT_PACK_ENABLED] ?: default.fontPackEnabled,
+    fontOrder = this[FONT_ORDER]?.let { order ->
+        runCatching {
+            val array = JSONArray(order)
+            List(array.length()) { array.getString(it) }
+        }.getOrDefault(default.fontOrder)
+    } ?: default.fontOrder,
+    favoriteFonts = this[FAVORITE_FONTS] ?: default.favoriteFonts,
     enableToolExitConfirmation = this[ENABLE_TOOL_EXIT_CONFIRMATION]
         ?: default.enableToolExitConfirmation,
     recentColors = this[RECENT_COLORS]?.mapNotNull { color ->
@@ -483,8 +497,8 @@ private fun Set<String>?.toCustomFonts(): List<DomainFontFamily.Custom> = this?.
     )
 } ?: emptyList()
 
-internal fun Preferences.arcadeGameOrder(): List<ArcadeGame> {
-    val playable = ArcadeGame.playable.associateBy { it.name }
-    val order = this[ARCADE_GAME_ORDER]?.split("/")?.mapNotNull(playable::get).orEmpty()
-    return (order + ArcadeGame.playable).distinct()
-}
+internal fun String?.toScreenOrder(): List<Int> =
+    this?.split("/")?.mapNotNull { it.toIntOrNull() }.orEmpty()
+
+internal fun Preferences.arcadeGameOrder(): List<String> =
+    this[ARCADE_GAME_ORDER]?.split("/").orEmpty()

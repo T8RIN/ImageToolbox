@@ -64,6 +64,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.transparencyChecker
 import com.t8rin.imagetoolbox.core.ui.widget.other.ZoomBadge
 import com.t8rin.opencv_tools.free_corners_crop.compose.FreeCornersCropper
 import kotlinx.coroutines.launch
+import net.engawapg.lib.zoomable.ZoomDefaults
 
 @Composable
 fun Cropper(
@@ -116,6 +117,7 @@ fun Cropper(
 
                     AdvancedCropper(
                         imageModel = imageUri,
+                        maxZoom = ZoomDefaults.MaxZoom,
                         aspectRatio = if (cropProperties.aspectRatio != AspectRatio.Original) {
                             cropProperties.aspectRatio.value
                         } else null,
@@ -171,10 +173,7 @@ fun Cropper(
                             sourceImageUri = imageUri,
                             sourceImageSize = imageSize,
                             contentDescription = null,
-                            cropProperties = cropProperties.copy(
-                                fixedAspectRatio = cropProperties.fixedAspectRatio,
-                                maxZoom = 20f
-                            ),
+                            cropProperties = cropProperties.copy(maxZoom = ZoomDefaults.MaxZoom),
                             state = state.imageCropperState,
                             onCropStart = onImageCropStarted,
                             crop = crop,

@@ -28,7 +28,8 @@ data class AssistantGalleryQuery(
     val to: String? = null,
     val album: String? = null,
     val filename: String? = null,
-    val excludedPeople: List<String> = emptyList()
+    val excludedPeople: List<String> = emptyList(),
+    val ocrText: String? = null // Empty matches any recognized text.
 ) {
     fun normalized(): AssistantGalleryQuery {
         val query = copy(
@@ -38,7 +39,8 @@ data class AssistantGalleryQuery(
             from = from?.trim(),
             to = to?.trim(),
             album = album?.trim(),
-            filename = filename?.trim()
+            filename = filename?.trim(),
+            ocrText = ocrText?.trim()
         )
         val strings = listOfNotNull(
             query.from,
@@ -47,6 +49,8 @@ data class AssistantGalleryQuery(
             query.filename
         ) + query.people + query.excludedPeople
         require(strings.all { it.length <= 300 && it.isNotBlank() })
+        require(query.ocrText == null || query.ocrText.length <= 300)
+        require(ocrText.isNullOrEmpty() || ocrText.isNotBlank())
         require(query.semantic == null || query.semantic.isNotBlank() && query.semantic.length <= 4000)
         require(query.people.size + query.excludedPeople.size <= 10)
         require(query.people.none { person ->

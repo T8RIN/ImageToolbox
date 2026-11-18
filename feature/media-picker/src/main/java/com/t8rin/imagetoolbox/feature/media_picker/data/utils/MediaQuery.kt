@@ -187,6 +187,7 @@ sealed class Query(
                     add(MediaStore.MediaColumns.IS_FAVORITE)
                     add(MediaStore.MediaColumns.IS_TRASHED)
                     add(MediaStore.MediaColumns.DATE_EXPIRES)
+                    add(MediaStore.MediaColumns.GENERATION_MODIFIED)
                 }
             }
 

@@ -202,7 +202,6 @@ private fun MobileSAMSelectionPreview(
     val outlineColor = MaterialTheme.colorScheme.surface
     val source = state.previewSource
     val zoomState = rememberZoomState(
-        maxScale = 30f,
         contentSize = Size(source.width.toFloat(), source.height.toFloat()),
         key = state
     )

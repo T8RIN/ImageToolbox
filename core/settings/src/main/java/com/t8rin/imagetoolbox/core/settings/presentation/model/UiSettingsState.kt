@@ -55,7 +55,6 @@ import com.t8rin.imagetoolbox.core.resources.BuildConfig
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.emoji.Emoji
 import com.t8rin.imagetoolbox.core.resources.emoji.Emoji.initEmoji
-import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
 import com.t8rin.imagetoolbox.core.settings.domain.model.CacheAutoClearInterval
 import com.t8rin.imagetoolbox.core.settings.domain.model.ColorHarmonizer
 import com.t8rin.imagetoolbox.core.settings.domain.model.CopyToClipboardMode
@@ -64,6 +63,7 @@ import com.t8rin.imagetoolbox.core.settings.domain.model.FastSettingsSide
 import com.t8rin.imagetoolbox.core.settings.domain.model.FilenameBehavior
 import com.t8rin.imagetoolbox.core.settings.domain.model.FlingType
 import com.t8rin.imagetoolbox.core.settings.domain.model.ImageHeaderState
+import com.t8rin.imagetoolbox.core.settings.domain.model.LoadingGame
 import com.t8rin.imagetoolbox.core.settings.domain.model.MarkupLayerTextDefaults
 import com.t8rin.imagetoolbox.core.settings.domain.model.NightMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.OneTimeSaveLocation
@@ -96,7 +96,9 @@ data class UiSettingsState(
     val showGalleryFileSize: Boolean,
     val showGalleryFileExtension: Boolean,
     val useGalleryStyleSelection: Boolean,
+    val rememberGalleryDisplaySettings: Boolean,
     val isSemanticSearchEnabled: Boolean,
+    val isGalleryOcrEnabled: Boolean,
     val semanticSearchSettings: SemanticSearchSettings,
     val isAiAssistantEnabled: Boolean,
     val isAiAssistantSetupComplete: Boolean,
@@ -109,6 +111,7 @@ data class UiSettingsState(
     val showFavoriteToolsInGroupedMode: Boolean,
     val showFavoriteAsLast: Boolean,
     val screenList: List<Int>,
+    val groupedScreenOrder: List<Int>,
     val colorTupleList: List<ColorTuple>,
     val addSequenceNumber: Boolean,
     val saveFolderUri: Uri?,
@@ -167,9 +170,9 @@ data class UiSettingsState(
     val sheetNestedScrollEnabled: Boolean,
     val showSettingsInLandscape: Boolean,
     val showLoadingGameButton: Boolean,
-    val loadingGame: ArcadeGame,
-    val favoriteArcadeGames: Set<ArcadeGame>,
-    val arcadeGameOrder: List<ArcadeGame>,
+    val loadingGame: LoadingGame,
+    val favoriteArcadeGames: Set<String>,
+    val arcadeGameOrder: List<String>,
     val useFullscreenSettings: Boolean,
     val allowCollapsingSettingsGroups: Boolean,
     val useCategorizedSettings: Boolean,
@@ -202,6 +205,9 @@ data class UiSettingsState(
     val fastSettingsSide: FastSettingsSide,
     val settingGroupsInitialVisibility: Map<Int, Boolean>,
     val customFonts: List<UiFontFamily.Custom>,
+    val fontPackEnabled: Boolean,
+    val fontOrder: List<String>,
+    val favoriteFonts: Set<String>,
     val enableToolExitConfirmation: Boolean,
     val recentColors: List<Color>,
     val backgroundForNoAlphaImageFormats: Color,
@@ -398,7 +404,9 @@ fun SettingsState.toUiState(
                 showGalleryFileSize = showGalleryFileSize,
                 showGalleryFileExtension = showGalleryFileExtension,
                 useGalleryStyleSelection = useGalleryStyleSelection,
+                rememberGalleryDisplaySettings = rememberGalleryDisplaySettings,
                 isSemanticSearchEnabled = isSemanticSearchEnabled,
+                isGalleryOcrEnabled = isGalleryOcrEnabled,
                 semanticSearchSettings = semanticSearchSettings,
                 isAiAssistantEnabled = isAiAssistantEnabled,
                 isAiAssistantSetupComplete = isAiAssistantSetupComplete,
@@ -411,6 +419,7 @@ fun SettingsState.toUiState(
                 showFavoriteToolsInGroupedMode = showFavoriteToolsInGroupedMode,
                 showFavoriteAsLast = showFavoriteAsLast,
                 screenList = screenList,
+                groupedScreenOrder = groupedScreenOrder,
                 colorTupleList = colorTupleList,
                 addSequenceNumber = addSequenceNumber,
                 saveFolderUri = saveFolderUri,
@@ -504,6 +513,9 @@ fun SettingsState.toUiState(
                 fastSettingsSide = fastSettingsSide,
                 settingGroupsInitialVisibility = settingGroupsInitialVisibility,
                 customFonts = customFonts,
+                fontPackEnabled = fontPackEnabled,
+                fontOrder = fontOrder,
+                favoriteFonts = favoriteFonts,
                 enableToolExitConfirmation = enableToolExitConfirmation,
                 recentColors = recentColors,
                 backgroundForNoAlphaImageFormats = Color(backgroundForNoAlphaImageFormats.colorInt),

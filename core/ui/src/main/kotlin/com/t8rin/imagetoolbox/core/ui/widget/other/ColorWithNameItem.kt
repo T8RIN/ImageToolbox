@@ -80,7 +80,8 @@ fun ColorWithNameItem(
     onToggleFavorite: (() -> Unit)? = null,
     onCopy: (name: String) -> Unit,
     modifier: Modifier = Modifier,
-    containerShape: Shape = ShapeDefaults.default
+    containerShape: Shape = ShapeDefaults.default,
+    onClick: (() -> Unit)? = null
 ) {
     val boxColor by animateColorAsState(color)
     val contentColor = boxColor.inverse(
@@ -92,10 +93,12 @@ fun ColorWithNameItem(
     )
     val favoriteInteractionSource = remember { MutableInteractionSource() }
     val copyInteractionSource = remember { MutableInteractionSource() }
+    val clickInteractionSource = remember { MutableInteractionSource() }
     val interactionSource = remember {
         CombinedMutableInteractionSource(
             favoriteInteractionSource,
-            copyInteractionSource
+            copyInteractionSource,
+            clickInteractionSource
         )
     }
 
@@ -114,11 +117,11 @@ fun ColorWithNameItem(
             .fillMaxWidth()
             .clip(shape)
             .then(
-                if (onToggleFavorite == null) {
+                if (onClick != null || onToggleFavorite == null) {
                     Modifier.hapticsClickable(
                         indication = LocalIndication.current,
-                        interactionSource = copyInteractionSource,
-                        onClick = {
+                        interactionSource = if (onClick != null) clickInteractionSource else copyInteractionSource,
+                        onClick = onClick ?: {
                             onCopy(colorName)
                         }
                     )

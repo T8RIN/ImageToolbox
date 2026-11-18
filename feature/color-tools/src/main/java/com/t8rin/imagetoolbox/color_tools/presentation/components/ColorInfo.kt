@@ -50,6 +50,7 @@ import kotlinx.coroutines.launch
 internal fun ColorInfo(
     selectedColor: Color,
     onColorChange: (Color) -> Unit,
+    onColorClick: (List<Color>, Int) -> Unit,
 ) {
     val scope = rememberCoroutineScope()
     var colorCopyTarget by remember {
@@ -74,6 +75,7 @@ internal fun ColorInfo(
             ) {
                 ColorWithNameItem(
                     color = selectedColor,
+                    onClick = { onColorClick(listOf(selectedColor), 0) },
                     onCopy = { name ->
                         colorCopyTarget = ColorWithName(
                             color = selectedColor,

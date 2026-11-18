@@ -943,8 +943,8 @@ internal class AndroidAssistantRepository @Inject constructor(
     }
 
     private companion object {
-        const val FIRST_TEXT_TIMEOUT_MS = 120_000L
-        const val MAX_FIRST_TEXT_TIMEOUT_MS = 180_000L
+        const val FIRST_TEXT_TIMEOUT_MS = 240_000L
+        const val MAX_FIRST_TEXT_TIMEOUT_MS = 360_000L
         const val STREAM_UPDATE_INTERVAL_NS = 40_000_000L
 
     }

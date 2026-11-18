@@ -17,6 +17,8 @@
 
 package com.t8rin.imagetoolbox.texture_generation.domain.model
 
+import com.t8rin.imagetoolbox.core.domain.model.ColorModel
+
 data class RaymarchTextureParams(
     val environment: String? = null,
     val innerRadius: Float = 0.9f,
@@ -36,4 +38,52 @@ data class RaymarchTextureParams(
     val transmission: Float = 0f,
     val lightAngle: Float = -35f,
     val lightElevation: Float = 50f
+)
+
+internal fun TextureFilterType.defaultRaymarchParams(): RaymarchTextureParams = when (this) {
+    TextureFilterType.InfiniteSpheroids3D,
+    TextureFilterType.InfiniteStructure3D,
+    TextureFilterType.InfiniteCylinders3D,
+    TextureFilterType.TruchetRings3D,
+    TextureFilterType.TruchetPipes3D -> RaymarchTextureParams(
+        size = 0.75f,
+        thickness = 0.14f,
+        cameraDistance = 7.2f,
+        metallic = 0.7f,
+        roughness = 0.22f
+    )
+
+    TextureFilterType.TorusGem3D -> RaymarchTextureParams(
+        metallic = 0.2f,
+        roughness = 0.08f,
+        transmission = 0.65f
+    )
+
+    TextureFilterType.Sphere3D,
+    TextureFilterType.EmptiedCube3D -> RaymarchTextureParams(
+        metallic = 0.4f,
+        roughness = 0.24f
+    )
+
+    else -> RaymarchTextureParams()
+}
+
+internal fun TextureFilterType.defaultRaymarchColor(): ColorModel = ColorModel(
+    when (this) {
+        TextureFilterType.Sphere3D,
+        TextureFilterType.EmptiedCube3D -> 0xFFE3CFB0.toInt()
+
+        TextureFilterType.CubeStair3D,
+        TextureFilterType.Torus3D -> 0xFFE0A575.toInt()
+
+        TextureFilterType.MobiusTorus3D,
+        TextureFilterType.CubeSpheres3D,
+        TextureFilterType.TruchetPipes3D -> 0xFF77B7B0.toInt()
+
+        TextureFilterType.CubeOctahedron3D -> 0xFFC5A5C5.toInt()
+
+        TextureFilterType.InfiniteStructure3D -> 0xFFD4B778.toInt()
+
+        else -> 0xFFB4C9DD.toInt()
+    }
 )

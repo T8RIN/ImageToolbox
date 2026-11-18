@@ -38,7 +38,7 @@ import androidx.compose.ui.platform.LocalContext
 import com.t8rin.dynamic.theme.ColorTuple
 import com.t8rin.dynamic.theme.DynamicTheme
 import com.t8rin.dynamic.theme.rememberDynamicThemeState
-import com.t8rin.imagetoolbox.core.games.components.LocalArcadeButton
+import com.t8rin.imagetoolbox.core.games.presentation.components.LocalArcadeButton
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.rememberAppColorTuple
 import com.t8rin.imagetoolbox.core.ui.utils.animation.FancyTransitionEasing

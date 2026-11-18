@@ -17,6 +17,8 @@
 
 package com.t8rin.imagetoolbox.feature.media_picker.domain.model
 
+internal fun String.isFilenameOnlyQuery() = isBlank() || startsWith("*") || endsWith("*")
+
 internal fun List<Media>.searchByName(query: String): List<Media> =
     if (query.isBlank()) this else filter { it.label.matchesSearchQuery(query) }
 

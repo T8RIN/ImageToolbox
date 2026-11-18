@@ -28,5 +28,6 @@ dependencies {
     implementation(projects.core.crash)
     implementation(projects.lib.fastScroller)
     implementation(projects.lib.neuralTools)
+    implementation(libs.androidx.lifecycle.process)
     implementation(libs.androidx.work.runtime)
 }

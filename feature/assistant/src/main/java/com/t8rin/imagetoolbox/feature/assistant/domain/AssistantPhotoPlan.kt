@@ -34,7 +34,8 @@ internal data class AssistantPhotoPlan(
     val to: String? = null,
     val album: String? = null,
     val filename: String? = null,
-    val clear: Set<Filter> = emptySet()
+    val clear: Set<Filter> = emptySet(),
+    val ocrText: String? = null
 ) {
     @Serializable
     enum class PersonRole {
@@ -61,7 +62,10 @@ internal data class AssistantPhotoPlan(
         Album,
 
         @SerialName("filename")
-        Filename
+        Filename,
+
+        @SerialName("ocrText")
+        OcrText
     }
 
     fun mode(current: AssistantGalleryQuery?): AssistantGallerySearch.Mode = when {
@@ -80,7 +84,8 @@ internal data class AssistantPhotoPlan(
             to = to,
             album = album,
             filename = filename,
-            excludedPeople = excluded
+            excludedPeople = excluded,
+            ocrText = ocrText
         ).normalized()
         val scene = scene?.trim()?.takeIf(String::isNotEmpty)
         if (mode(current) == AssistantGallerySearch.Mode.New) return changes.copy(semantic = scene)
@@ -111,7 +116,8 @@ internal data class AssistantPhotoPlan(
             from = if (datesChanged) from else previous.from,
             to = if (datesChanged) to else previous.to,
             album = album ?: previous.album.takeUnless { Filter.Album in clear },
-            filename = filename ?: previous.filename.takeUnless { Filter.Filename in clear }
+            filename = filename ?: previous.filename.takeUnless { Filter.Filename in clear },
+            ocrText = changes.ocrText ?: previous.ocrText.takeUnless { Filter.OcrText in clear }
         ).normalized()
     }
 
@@ -131,6 +137,7 @@ internal data class AssistantPhotoPlan(
                 to = it.to,
                 album = it.album,
                 filename = it.filename,
+                ocrText = it.ocrText,
                 excludedPeople = it.people.filterValues { role -> role == PersonRole.Exclude }.keys.toList()
             ).normalized()
             require(!it.resetFilters || !it.withinResults)

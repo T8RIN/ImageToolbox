@@ -41,8 +41,9 @@ import com.t8rin.imagetoolbox.feature.assistant.domain.filterGalleryMedia
 import com.t8rin.imagetoolbox.feature.assistant.domain.gallerySearchBlocker
 import com.t8rin.imagetoolbox.feature.media_picker.data.hasSemanticSearchPermission
 import com.t8rin.imagetoolbox.feature.media_picker.domain.MediaRetriever
+import com.t8rin.imagetoolbox.feature.media_picker.domain.GalleryOcrRepository
 import com.t8rin.imagetoolbox.feature.media_picker.domain.SemanticSearchRepository
-import com.t8rin.imagetoolbox.feature.media_picker.domain.SemanticSearchScheduler
+import com.t8rin.imagetoolbox.feature.media_picker.domain.GalleryIndexScheduler
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.AllowedMedia
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.Media
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.SemanticSearchCategory
@@ -59,7 +60,8 @@ class AndroidAssistantGallerySearch @Inject constructor(
     private val settings: SettingsProvider,
     private val mediaRetriever: MediaRetriever,
     private val semantic: SemanticSearchRepository,
-    private val scheduler: SemanticSearchScheduler,
+    private val ocr: GalleryOcrRepository,
+    private val scheduler: GalleryIndexScheduler,
     private val resources: ResourceManager,
     private val dispatchers: DispatchersHolder
 ) : AssistantGallerySearch {
@@ -200,6 +202,9 @@ class AndroidAssistantGallerySearch @Inject constructor(
                 val needsAi =
                     query.semantic != null || query.people.isNotEmpty() || query.excludedPeople.isNotEmpty()
                 val settings = settings.getSettingsState()
+                if (query.ocrText != null && !settings.isGalleryOcrEnabled) {
+                    return@withContext blocked(current, R.string.gallery_ocr_disabled)
+                }
                 val snapshot = semantic.state.value
                 gallerySearchBlocker(
                     query,
@@ -264,8 +269,8 @@ class AndroidAssistantGallerySearch @Inject constructor(
                         }
                         val state = semantic.state.value
                         val reason = when {
-                            state.error != null -> R.string.assistant_gallery_search_error
-                            state.isQueued || state.isIndexing || state.isFacesIndexing -> R.string.assistant_gallery_index_pending
+                            state.isQueued || state.isIndexing || state.isFacesQueued || state.isFacesIndexing ->
+                                R.string.assistant_gallery_index_pending
                             else -> R.string.assistant_gallery_person_missing
                         }
                         return@withContext blocked(current, reason)
@@ -273,6 +278,13 @@ class AndroidAssistantGallerySearch @Inject constructor(
                     val uris = resolved.second.mapTo(hashSetOf(), Media::uri)
                     candidates =
                         candidates.filter { if (name in query.excludedPeople) it.uri !in uris else it.uri in uris }
+                }
+                if (query.ocrText != null && candidates.isNotEmpty()) {
+                    val pending = ocr.hasPending(candidates)
+                    candidates = ocr.search(query.ocrText.ifEmpty { null }, candidates)
+                    if (candidates.isEmpty() && pending) {
+                        return@withContext blocked(current, R.string.gallery_ocr_pending)
+                    }
                 }
                 var approximate = nextPage && current.approximate
                 var matches = if (nextPage && current.matches != null) {
@@ -296,12 +308,9 @@ class AndroidAssistantGallerySearch @Inject constructor(
                     )?.let {
                         return@withContext blocked(current, it)
                     }
-                    if (refreshed.error != null) return@withContext blocked(
-                        current,
-                        R.string.assistant_gallery_search_error
-                    )
                     if (refreshed.indexedImages == 0 || refreshed.isIndexing || refreshed.isQueued ||
-                        (query.people.isNotEmpty() || query.excludedPeople.isNotEmpty()) && refreshed.isFacesIndexing
+                        (query.people.isNotEmpty() || query.excludedPeople.isNotEmpty()) &&
+                        (refreshed.isFacesQueued || refreshed.isFacesIndexing)
                     ) {
                         return@withContext blocked(
                             current,
@@ -312,6 +321,9 @@ class AndroidAssistantGallerySearch @Inject constructor(
                     approximate = matches.isNotEmpty()
                 }
                 val latest = this@AndroidAssistantGallerySearch.settings.getSettingsState()
+                if (query.ocrText != null && !latest.isGalleryOcrEnabled) {
+                    return@withContext blocked(current, R.string.gallery_ocr_disabled)
+                }
                 gallerySearchBlocker(
                     query = query,
                     enabled = latest.isSemanticSearchEnabled,
@@ -371,20 +383,25 @@ class AndroidAssistantGallerySearch @Inject constructor(
     )
 
     private fun blocked(current: Session, reason: Int): AssistantAnswer {
-        if (reason == R.string.assistant_gallery_index_pending) scheduler.refresh()
-        val disabled = reason == R.string.assistant_gallery_disabled ||
-                reason == R.string.assistant_gallery_disabled_people
+        if (reason == R.string.assistant_gallery_index_pending || reason == R.string.gallery_ocr_pending) {
+            scheduler.refresh()
+        }
+        val setting = when (reason) {
+            R.string.assistant_gallery_disabled, R.string.assistant_gallery_disabled_people -> Setting.SemanticSearch
+            R.string.gallery_ocr_disabled -> Setting.GalleryOcr
+            else -> null
+        }
         return AssistantAnswer(
             text = text(reason),
             gallery = result(current),
-            settings = if (disabled) listOf(
+            settings = if (setting != null) listOf(
                 AssistantSetting(
-                    key = Setting.SemanticSearch.key(),
-                    title = text(Setting.SemanticSearch.title),
-                    subtitle = text(R.string.gallery_search_auto_sub)
+                    key = setting.key(),
+                    title = text(setting.title),
+                    subtitle = setting.subtitle?.let { text(it) }.orEmpty()
                 )
             ) else emptyList(),
-            tools = if (disabled) emptyList() else listOf(
+            tools = if (setting != null) emptyList() else listOf(
                 AssistantTool(
                     key = Screen.Gallery.simpleName,
                     title = text(R.string.assistant_gallery_open),

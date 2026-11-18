@@ -459,7 +459,9 @@ sealed class SettingsGroup(
             Setting.ShowGalleryFileSize,
             Setting.ShowGalleryFileExtension,
             Setting.UseGalleryStyleSelection,
-            Setting.SemanticSearch
+            Setting.RememberGalleryDisplaySettings,
+            Setting.SemanticSearch,
+            Setting.GalleryOcr
         ),
         initialState = false
     )

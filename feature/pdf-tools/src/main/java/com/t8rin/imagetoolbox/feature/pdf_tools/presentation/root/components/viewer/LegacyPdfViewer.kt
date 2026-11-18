@@ -195,7 +195,7 @@ internal fun LegacyPdfViewer(
                     .background(MaterialTheme.colorScheme.surfaceContainerLow)
                     .clipToBounds()
                     .zoomable(
-                        rememberZoomState(10f)
+                        rememberZoomState()
                     ),
                 contentPadding = contentPadding,
                 horizontalAlignment = Alignment.CenterHorizontally,

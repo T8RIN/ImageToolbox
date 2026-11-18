@@ -22,10 +22,74 @@ import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonObject
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
+import org.junit.Assert.assertThrows
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class AssistantCommandTest {
+
+    @Test
+    fun anyTextIsAFilterThatCanBeCombinedWithOtherConditions() {
+        val query = (AssistantCommand.parse(
+            """{"action":"search","mode":"reset","query":{"scene":null,"ocrText":true,"date":"2026-11-09"}}""",
+            question = "Найди фото с любым текстом за 2026-11-09"
+        ) as AssistantCommand.Action.SearchPhotos).query
+        assertEquals(
+            AssistantGalleryQuery(from = "2026-11-09", to = "2026-11-09", ocrText = ""),
+            query
+        )
+
+        val cleared = AssistantCommand.parse(
+            """{"action":"search","mode":"update","query":{"scene":null,"clear":["ocrText"]}}""",
+            current = query
+        ) as AssistantCommand.Action.SearchPhotos
+        assertEquals(query.copy(ocrText = null), cleared.query)
+    }
+
+    @Test
+    fun printedTextIsPreservedAsALiteralFilterAndCanBeCleared() {
+        val newSearch = AssistantCommand.parse(
+            """{"action":"search","mode":"reset","query":{"scene":null,"ocrText":"Станция 12"}}""",
+            question = "Найди фото с надписью «Станция 12»"
+        ) as AssistantCommand.Action.SearchPhotos
+        assertEquals(AssistantGalleryQuery(ocrText = "Станция 12"), newSearch.query)
+
+        val narrowed = AssistantCommand.parse(
+            """{"action":"search","mode":"within_results","query":{"scene":null,"ocrText":"Вход"}}""",
+            current = newSearch.query,
+            question = "Среди результатов оставь фото с надписью «Вход»"
+        ) as AssistantCommand.Action.SearchPhotos
+        assertEquals(AssistantGallerySearch.Mode.Narrow, narrowed.mode)
+        assertEquals("Вход", narrowed.query.ocrText)
+
+        val cleared = AssistantCommand.parse(
+            """{"action":"search","mode":"update","query":{"scene":null,"clear":["ocrText"]}}""",
+            current = narrowed.query.copy(semantic = "train platform")
+        ) as AssistantCommand.Action.SearchPhotos
+        assertEquals(AssistantGalleryQuery(semantic = "train platform"), cleared.query)
+    }
+
+    @Test
+    fun textFilterCanBePreservedWhenAnotherFilterChanges() {
+        val current = AssistantGalleryQuery(ocrText = "Central Station")
+        val result = AssistantCommand.parse(
+            """{"action":"search","mode":"update","query":{"scene":"red train","ocrText":"Central Station"}}""",
+            current = current,
+            question = "Only with a red train"
+        ) as AssistantCommand.Action.SearchPhotos
+        assertEquals(current.copy(semantic = "red train"), result.query)
+    }
+
+    @Test
+    fun textFilterCannotInventAnInscription() {
+        assertThrows(IllegalArgumentException::class.java) {
+            AssistantCommand.parse(
+                """{"action":"search","mode":"reset","query":{"scene":null,"ocrText":"invented"}}""",
+                question = "Find photos with the words Central Station"
+            )
+        }
+    }
+
     @Test
     fun relativeCalendarPeriodsAreCalculatedAtTheRequestedPrecision() {
         fun period(unit: String, offset: Int) = (

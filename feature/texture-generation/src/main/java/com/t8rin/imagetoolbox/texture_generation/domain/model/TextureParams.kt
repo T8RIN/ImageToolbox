@@ -65,7 +65,8 @@ data class TextureParams(
     val fastNoiseParams: FastNoiseTextureParams? = null,
     val gmicTextureParams: GmicTextureParams = GmicTextureParams(),
     val raymarchParams: RaymarchTextureParams = RaymarchTextureParams(),
-    val patternParams: PatternTextureParams = PatternTextureParams()
+    val patternParams: PatternTextureParams = PatternTextureParams(),
+    val mazeParams: MazeTextureParams = MazeTextureParams()
 ) {
     companion object {
         val Default by lazy {
@@ -135,8 +136,8 @@ fun TextureParams.withDefaultsFor(textureFilterType: TextureFilterType): Texture
     } else if (textureFilterType.isRaymarch) {
         copy(
             textureFilterType = textureFilterType,
-            raymarchParams = RaymarchTextureParams(),
-            foregroundColor = ColorModel(-4609051),
+            raymarchParams = textureFilterType.defaultRaymarchParams(),
+            foregroundColor = textureFilterType.defaultRaymarchColor(),
             backgroundColor = ColorModel(0),
             fastNoiseParams = null
         )
@@ -223,15 +224,25 @@ fun TextureParams.withDefaultsFor(textureFilterType: TextureFilterType): Texture
 
         TextureFilterType.Plasma -> copy(
             textureFilterType = textureFilterType,
-            color = ColorModel(-16777216),
+            color = ColorModel(0xFF7953C4.toInt()),
             turbulence = 1f,
             scaling = 0f,
             fastNoiseParams = null
         )
 
+        TextureFilterType.Maze -> copy(
+            textureFilterType = textureFilterType,
+            mazeParams = MazeTextureParams(),
+            foregroundColor = ColorModel(0xFF172638.toInt()),
+            backgroundColor = ColorModel(0xFFFFF3D8.toInt()),
+            fastNoiseParams = null
+        )
+
         TextureFilterType.Quilt -> copy(
             textureFilterType = textureFilterType,
-            iterations = 25000,
+            backgroundColor = ColorModel(0xFF11172C.toInt()),
+            foregroundColor = ColorModel(0xFFF8DB9F.toInt()),
+            iterations = 750000,
             a = -0.59f,
             b = 0.2f,
             c = 0.1f,

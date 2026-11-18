@@ -148,7 +148,7 @@ internal fun CompareScreenContent(
             }
 
             val zoomEnabled = compareType != CompareType.SideBySide
-            val zoomState = rememberZoomState(30f, key = compareType)
+            val zoomState = rememberZoomState(key = compareType)
             val zoomModifier = Modifier
                 .clipToBounds()
                 .zoomable(

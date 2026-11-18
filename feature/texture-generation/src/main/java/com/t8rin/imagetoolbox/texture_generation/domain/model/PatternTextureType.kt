@@ -62,6 +62,14 @@ enum class PatternTextureType(
         colorCount = 3,
         defaultFrequency = 12f
     ),
+    ChromaticPlaidPattern(
+        listOf(
+            PatternParameter("seed", 0.0f, 0.0f..10000.0f, integer = true),
+            PatternParameter("thickness", 0.45f, 0.05f..0.95f)
+        ),
+        colorCount = 4,
+        defaultFrequency = 12f
+    ),
     PlaidPattern(
         listOf(
             PatternParameter("seed", 0.0f, 0.0f..10000.0f, integer = true),
@@ -179,18 +187,18 @@ enum class PatternTextureType(
     ),
     RosacePattern(
         listOf(
-            PatternParameter("count", 24.0f, 3.0f..64.0f, integer = true),
-            PatternParameter("radius", 0.4f, 0.05f..0.8f),
-            PatternParameter("thickness", 0.02f, 0.005f..0.15f)
+            PatternParameter("count", 12.0f, 3.0f..64.0f, integer = true),
+            PatternParameter("radius", 0.24f, 0.05f..0.8f),
+            PatternParameter("thickness", 0.005f, 0.005f..0.15f)
         ),
         colorCount = 2,
         defaultFrequency = 1f
     ),
     RosettePattern(
         listOf(
-            PatternParameter("count", 24.0f, 3.0f..64.0f, integer = true),
-            PatternParameter("radius", 0.3f, 0.05f..0.8f),
-            PatternParameter("thickness", 0.01f, 0.005f..0.15f)
+            PatternParameter("count", 12.0f, 3.0f..64.0f, integer = true),
+            PatternParameter("radius", 0.4f, 0.05f..0.8f),
+            PatternParameter("thickness", 0.006f, 0.005f..0.15f)
         ),
         colorCount = 2,
         defaultFrequency = 1f
@@ -248,16 +256,37 @@ enum class PatternTextureType(
 
     val defaultColors: List<Int>
         get() = when (this) {
-            PlaidPattern, GeneratedWaves -> listOf(-256, -65536, -65281, -16711681)
+            ChromaticPlaidPattern -> listOf(-256, -65536, -65281, -16711681)
+            PlaidPattern -> listOf(
+                0xFF102B33.toInt(), 0xFF8C3444.toInt(), 0xFF356B65.toInt(), 0xFFE2C58B.toInt()
+            )
+
+            GeneratedWaves -> listOf(
+                0xFF173A56.toInt(), 0xFF3E8B95.toInt(), 0xFFF0C88C.toInt(), 0xFFE58D7A.toInt()
+            )
             CrossStitchPattern -> listOf(-16777216, -2767701, -13338717, -1)
             ScintillatingGrid -> listOf(-16777216, -8355712, -1, -1)
-            RandomTriangles, VoronoiGems -> listOf(-65536, -256, -16711681, -65281)
-            HexCubePattern -> listOf(-65536, -256, -16711681, -16777216)
+            RandomTriangles -> listOf(
+                0xFF16334B.toInt(), 0xFF408C9A.toInt(), 0xFFE8B66C.toInt(), 0xFFDA7770.toInt()
+            )
+
+            VoronoiGems -> listOf(
+                0xFF174B69.toInt(), 0xFF43A7A0.toInt(), 0xFF9D71BD.toInt(), 0xFFF0C67A.toInt()
+            )
+
+            HexCubePattern -> listOf(
+                0xFFBCDCD7.toInt(), 0xFF5F9B9E.toInt(), 0xFF284E66.toInt(), 0xFF132E40.toInt()
+            )
             LightArray -> listOf(-16777216, -256, -16711681, -65281)
             CitySkyline -> listOf(-16117736, -9424331, -32768, -256)
             WinterLandscape -> listOf(-16117736, -10053172, -14587077, -1)
-            CircleRipplePattern -> listOf(-256, -16777216, -1, -16776961)
-            SquareRipplePattern -> listOf(-16711681, -65281, -1, -16777216)
+            CircleRipplePattern -> listOf(
+                0xFF101E38.toInt(), 0xFF315988.toInt(), 0xFFA7C9DC.toInt(), 0xFFF6DCA1.toInt()
+            )
+
+            SquareRipplePattern -> listOf(
+                0xFF142C3C.toInt(), 0xFF439A9B.toInt(), 0xFFD99472.toInt(), 0xFFF4E3B5.toInt()
+            )
             else -> listOf(-16777216, -1, -8355712, -16711681)
         }
 

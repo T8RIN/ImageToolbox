@@ -17,3 +17,4 @@
 
 com.t8rin.imagetoolbox.core.ksp.processor.FilterDefinitionProcessor
 com.t8rin.imagetoolbox.core.ksp.processor.FastNoiseTextureMappingsProcessor
+com.t8rin.imagetoolbox.core.ksp.processor.ArcadeGameProcessor

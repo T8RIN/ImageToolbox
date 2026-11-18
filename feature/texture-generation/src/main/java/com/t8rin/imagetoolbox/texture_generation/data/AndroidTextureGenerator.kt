@@ -19,21 +19,26 @@ package com.t8rin.imagetoolbox.texture_generation.data
 
 import android.graphics.Bitmap
 import android.graphics.Color
+import androidx.core.graphics.ColorUtils
 import androidx.core.graphics.createBitmap
 import coil3.imageLoader
 import coil3.request.ImageRequest
 import coil3.request.allowHardware
 import coil3.toBitmap
+import com.jhlabs.ArrayColormap
 import com.jhlabs.BrushedMetalFilter
 import com.jhlabs.CausticsFilter
 import com.jhlabs.CellularFilter
 import com.jhlabs.CheckFilter
+import com.jhlabs.Colormap
 import com.jhlabs.FBMFilter
 import com.jhlabs.JhFilter
 import com.jhlabs.MarbleTexFilter
 import com.jhlabs.PlasmaFilter
 import com.jhlabs.QuiltFilter
 import com.jhlabs.WoodFilter
+import com.t8rin.fast_noise.texture.maze.MazeTextureGenerator
+import com.t8rin.fast_noise.texture.maze.MazeTextureParameters
 import com.t8rin.gmic.Gmic
 import com.t8rin.gmic.GmicFilter
 import com.t8rin.gmic.filters.OrganicFibers
@@ -52,6 +57,8 @@ import com.t8rin.imagetoolbox.texture_generation.domain.model.TextureParams
 import kotlinx.coroutines.runInterruptible
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
+import kotlin.math.pow
+import com.t8rin.fast_noise.texture.maze.MazeAlgorithm as NativeMazeAlgorithm
 
 internal class AndroidTextureGenerator @Inject constructor(
     dispatchersHolder: DispatchersHolder
@@ -92,6 +99,28 @@ internal class AndroidTextureGenerator @Inject constructor(
                         height = height,
                         type = textureParams.textureFilterType,
                         params = requireNotNull(textureParams.fastNoiseParams)
+                    )
+                }
+            } else if (textureParams.textureFilterType == TextureFilterType.Maze) {
+                runInterruptible {
+                    val params = textureParams.mazeParams
+                    MazeTextureGenerator().generate(
+                        width = width,
+                        height = height,
+                        parameters = MazeTextureParameters(
+                            seed = params.seed,
+                            columns = params.columns,
+                            rows = params.rows,
+                            algorithm = NativeMazeAlgorithm.valueOf(params.algorithm.name),
+                            wallWidth = params.wallWidth,
+                            padding = params.padding,
+                            openings = params.openings,
+                            wallColor = textureParams.foregroundColor.colorInt,
+                            backgroundColor = textureParams.backgroundColor.colorInt,
+                            directionBias = params.directionBias,
+                            branching = params.branching,
+                            braid = params.braid
+                        )
                     )
                 }
             } else if (textureParams.textureFilterType.isGmic) {
@@ -191,7 +220,21 @@ internal class AndroidTextureGenerator @Inject constructor(
         TextureFilterType.Plasma -> PlasmaFilter().apply {
             turbulence = textureParams.turbulence
             scaling = textureParams.scaling
-            useImageColors = true
+            useImageColors = false
+            val base = FloatArray(3).also {
+                Color.colorToHSV(textureParams.color.colorInt, it)
+            }
+            colormap = ArrayColormap(IntArray(256) { index ->
+                val position = index / 255f
+                Color.HSVToColor(
+                    Color.alpha(textureParams.color.colorInt),
+                    floatArrayOf(
+                        (base[0] + position * 200f) % 360f,
+                        0.5f + base[1] * 0.4f,
+                        0.15f + position * 0.85f
+                    )
+                )
+            })
         }
 
         TextureFilterType.Quilt -> QuiltFilter().apply {
@@ -201,6 +244,13 @@ internal class AndroidTextureGenerator @Inject constructor(
             c = textureParams.c
             d = textureParams.d
             k = textureParams.k
+            colormap = Colormap { density ->
+                ColorUtils.blendARGB(
+                    textureParams.backgroundColor.colorInt,
+                    textureParams.foregroundColor.colorInt,
+                    density.coerceIn(0f, 1f).pow(0.3f)
+                )
+            }
         }
 
         TextureFilterType.Wood -> WoodFilter().apply {

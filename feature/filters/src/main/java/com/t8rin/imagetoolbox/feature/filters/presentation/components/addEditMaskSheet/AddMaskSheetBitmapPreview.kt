@@ -60,7 +60,7 @@ internal fun AddMaskSheetBitmapPreview(
     panEnabled: Boolean
 ) {
     val zoomState =
-        rememberZoomState(maxScale = 30f, key = LocalSettingsState.current.imageHeaderState)
+        rememberZoomState(key = LocalSettingsState.current.imageHeaderState)
     val isPortrait by isPortraitOrientationAsState()
 
     AnimatedContent(

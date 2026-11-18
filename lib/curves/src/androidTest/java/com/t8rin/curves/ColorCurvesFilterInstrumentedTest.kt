@@ -26,9 +26,9 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.t8rin.histogram.ImageScope
 import com.t8rin.histogram.ImageScopeType
 import jp.co.cyberagent.android.gpuimage.GPUImage
-import kotlinx.coroutines.runBlocking
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilterGroup
+import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -160,9 +160,9 @@ class ColorCurvesFilterInstrumentedTest {
     }
 
     private fun Int.distanceFrom(other: Int): Int =
-        kotlin.math.abs(Color.red(this) - Color.red(other)) +
-                kotlin.math.abs(Color.green(this) - Color.green(other)) +
-                kotlin.math.abs(Color.blue(this) - Color.blue(other))
+        abs(Color.red(this) - Color.red(other)) +
+                abs(Color.green(this) - Color.green(other)) +
+                abs(Color.blue(this) - Color.blue(other))
 
     @Test
     fun nativeScopesRenderCompactBitmaps() = runBlocking {

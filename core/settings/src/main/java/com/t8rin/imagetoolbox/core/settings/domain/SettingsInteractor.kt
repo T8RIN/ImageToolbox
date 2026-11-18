@@ -26,7 +26,6 @@ import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.HashingType
 import com.t8rin.imagetoolbox.core.domain.model.SystemBarsVisibility
 import com.t8rin.imagetoolbox.core.domain.saving.io.Writeable
-import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
 import com.t8rin.imagetoolbox.core.settings.domain.model.BackupProgress
 import com.t8rin.imagetoolbox.core.settings.domain.model.CacheAutoClearInterval
 import com.t8rin.imagetoolbox.core.settings.domain.model.ColorHarmonizer
@@ -35,6 +34,7 @@ import com.t8rin.imagetoolbox.core.settings.domain.model.DialogPosition
 import com.t8rin.imagetoolbox.core.settings.domain.model.DomainFontFamily
 import com.t8rin.imagetoolbox.core.settings.domain.model.FastSettingsSide
 import com.t8rin.imagetoolbox.core.settings.domain.model.FlingType
+import com.t8rin.imagetoolbox.core.settings.domain.model.LoadingGame
 import com.t8rin.imagetoolbox.core.settings.domain.model.MarkupLayerTextDefaults
 import com.t8rin.imagetoolbox.core.settings.domain.model.NightMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.SemanticSearchSettings
@@ -55,6 +55,8 @@ interface SettingsInteractor : SimpleSettingsInteractor {
 
     suspend fun setSemanticSearchEnabled(enabled: Boolean)
 
+    suspend fun setGalleryOcrEnabled(enabled: Boolean)
+
     suspend fun setGalleryColumns(value: Int)
 
     suspend fun setShowGalleryFileSize(value: Boolean)
@@ -62,6 +64,10 @@ interface SettingsInteractor : SimpleSettingsInteractor {
     suspend fun setShowGalleryFileExtension(value: Boolean)
 
     suspend fun setUseGalleryStyleSelection(value: Boolean)
+
+    suspend fun setRememberGalleryDisplaySettings(value: Boolean)
+
+    suspend fun setGalleryDisplaySettings(value: String)
 
     suspend fun setSemanticSearchSettings(value: SemanticSearchSettings)
 
@@ -102,6 +108,12 @@ interface SettingsInteractor : SimpleSettingsInteractor {
     suspend fun setAlignment(align: Int)
 
     suspend fun setScreenOrder(data: String)
+
+    suspend fun reorderScreens(
+        screenIds: List<Int>,
+        defaultOrder: List<Int>,
+        grouped: Boolean = false
+    )
 
     suspend fun toggleClearCacheOnLaunch()
 
@@ -228,11 +240,14 @@ interface SettingsInteractor : SimpleSettingsInteractor {
 
     suspend fun toggleShowLoadingGameButton()
 
-    suspend fun setLoadingGame(game: ArcadeGame)
+    suspend fun setLoadingGame(game: LoadingGame)
 
-    suspend fun toggleFavoriteArcadeGame(game: ArcadeGame)
+    suspend fun toggleFavoriteArcadeGame(game: String)
 
-    suspend fun reorderArcadeGames(games: List<ArcadeGame>)
+    suspend fun reorderArcadeGames(
+        games: List<String>,
+        defaultOrder: List<String>
+    )
 
     suspend fun toggleUseFullscreenSettings()
 
@@ -303,10 +318,6 @@ interface SettingsInteractor : SimpleSettingsInteractor {
     suspend fun setChecksumTypeForFilename(type: HashingType?)
 
     suspend fun setCustomFonts(fonts: List<DomainFontFamily.Custom>)
-
-    suspend fun importCustomFont(uri: String): DomainFontFamily.Custom?
-
-    suspend fun removeCustomFont(font: DomainFontFamily.Custom)
 
     suspend fun createCustomFontsExport(): String?
 

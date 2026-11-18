@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,10 +17,8 @@
 
 package com.t8rin.imagetoolbox.feature.settings.presentation.components
 
-import android.net.Uri
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -30,24 +28,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.t8rin.imagetoolbox.core.domain.model.MimeType
-import com.t8rin.imagetoolbox.core.domain.utils.timestamp
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.FontFamily
 import com.t8rin.imagetoolbox.core.resources.icons.MiniEdit
 import com.t8rin.imagetoolbox.core.settings.presentation.model.UiFontFamily
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
-import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFileCreator
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
-import com.t8rin.imagetoolbox.feature.settings.presentation.components.additional.PickFontFamilySheet
+import com.t8rin.imagetoolbox.core.ui.widget.sheets.PickFontFamilySheet
 
 @Composable
 fun ChangeFontSettingItem(
     onValueChange: (UiFontFamily) -> Unit,
-    onAddFont: (Uri) -> Unit,
-    onRemoveFont: (UiFontFamily.Custom) -> Unit,
-    onExportFonts: (Uri) -> Unit,
     shape: Shape = ShapeDefaults.center,
     modifier: Modifier = Modifier
         .fillMaxWidth()
@@ -55,11 +48,6 @@ fun ChangeFontSettingItem(
 ) {
     val settingsState = LocalSettingsState.current
     var showFontSheet by rememberSaveable { mutableStateOf(false) }
-
-    val exportFontsLauncher = rememberFileCreator(
-        mimeType = MimeType.Zip,
-        onSuccess = onExportFonts
-    )
 
     PreferenceItem(
         shape = shape,
@@ -75,11 +63,6 @@ fun ChangeFontSettingItem(
         onDismiss = {
             showFontSheet = false
         },
-        onFontSelected = onValueChange,
-        onAddFont = onAddFont,
-        onRemoveFont = onRemoveFont,
-        onExportFonts = {
-            exportFontsLauncher.make("FONTS_EXPORT_${timestamp()}.zip")
-        }
+        onFontSelected = onValueChange
     )
 }

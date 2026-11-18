@@ -17,15 +17,22 @@
 
 package com.t8rin.imagetoolbox.core.ui.utils.helper
 
+import android.app.ActivityManager
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Build.BRAND
 import android.os.Build.DEVICE
 import android.os.Build.MODEL
 import android.os.Build.VERSION.RELEASE
 import android.os.Build.VERSION.SDK_INT
+import android.os.StatFs
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.getSystemService
+import com.t8rin.imagetoolbox.core.domain.utils.humanFileSize
 import com.t8rin.imagetoolbox.core.resources.BuildConfig.FLAVOR
 import com.t8rin.imagetoolbox.core.resources.BuildConfig.VERSION_CODE
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.getDisplayName
+import com.t8rin.imagetoolbox.core.utils.appContext
 import com.t8rin.imagetoolbox.core.utils.makeLog
 
 @ConsistentCopyVisibility
@@ -34,38 +41,63 @@ data class DeviceInfo private constructor(
     val sdk: String,
     val appVersion: String,
     val flavor: String,
-    val locale: String
+    val locale: String,
+    val availableStorage: Long,
+    val totalStorage: Long,
+    val isStorageLow: Boolean,
+    val availableRam: Long,
+    val totalRam: Long,
+    val ramThreshold: Long,
+    val isRamLow: Boolean,
+    val usedHeap: Long,
+    val maxHeap: Long
 ) {
     companion object {
+        @Suppress("DEPRECATION")
         fun get(): DeviceInfo {
-            val device = "$MODEL ($BRAND - $DEVICE)"
-
-            val sdk = "$SDK_INT (Android $RELEASE)"
-
-            val appVersion = "$AppVersion ($VERSION_CODE)"
-
-            val flavor = FLAVOR
-
-            val locale = AppCompatDelegate.getApplicationLocales().getDisplayName()
+            val memory = ActivityManager.MemoryInfo().apply {
+                appContext.getSystemService<ActivityManager>()?.getMemoryInfo(this)
+            }
+            val storage = StatFs(appContext.filesDir.absolutePath)
+            val storageState = appContext.registerReceiver(
+                null,
+                IntentFilter().apply {
+                    addAction(Intent.ACTION_DEVICE_STORAGE_LOW)
+                    addAction(Intent.ACTION_DEVICE_STORAGE_OK)
+                }
+            )
+            val runtime = Runtime.getRuntime()
 
             return DeviceInfo(
-                device = device,
-                sdk = sdk,
-                appVersion = appVersion,
-                flavor = flavor,
-                locale = locale
+                device = "$MODEL ($BRAND - $DEVICE)",
+                sdk = "$SDK_INT (Android $RELEASE)",
+                appVersion = "$AppVersion ($VERSION_CODE)",
+                flavor = FLAVOR,
+                locale = AppCompatDelegate.getApplicationLocales().getDisplayName(),
+                availableStorage = storage.availableBytes,
+                totalStorage = storage.totalBytes,
+                isStorageLow = storageState?.action == Intent.ACTION_DEVICE_STORAGE_LOW,
+                availableRam = memory.availMem,
+                totalRam = memory.totalMem,
+                ramThreshold = memory.threshold,
+                isRamLow = memory.lowMemory,
+                usedHeap = runtime.totalMemory() - runtime.freeMemory(),
+                maxHeap = runtime.maxMemory()
             )
         }
 
-        fun getAsString(): String {
-            val (device, sdk, appVersion, flavor, locale) = get()
-
-            return listOf(
+        fun getAsString(): String = get().run {
+            listOf(
                 "Device: $device",
                 "SDK: $sdk",
                 "App Version: $appVersion",
                 "Flavor: $flavor",
-                "Locale: $locale"
+                "Locale: $locale",
+                "Internal storage: available=${humanFileSize(availableStorage)}, " +
+                        "total=${humanFileSize(totalStorage)}, low=$isStorageLow",
+                "RAM: available=${humanFileSize(availableRam)}, total=${humanFileSize(totalRam)}, " +
+                        "threshold=${humanFileSize(ramThreshold)}, low=$isRamLow",
+                "App heap: used=${humanFileSize(usedHeap)}, max=${humanFileSize(maxHeap)}"
             ).joinToString("\n")
         }
 

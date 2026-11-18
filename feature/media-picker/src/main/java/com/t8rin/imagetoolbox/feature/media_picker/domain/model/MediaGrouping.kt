@@ -34,7 +34,50 @@ data class MediaDisplaySettings(
     val dateGroup: MediaDateGroup = MediaDateGroup.Day,
     val groupOrder: OrderType = OrderType.Descending,
     val mediaOrder: MediaOrder = MediaOrder.Date(OrderType.Descending)
-)
+) {
+    fun asString(): String = listOf(
+        grouping.name,
+        dateGroup.name,
+        (groupOrder == OrderType.Ascending).toString(),
+        when (mediaOrder) {
+            is MediaOrder.Date -> "date"
+            is MediaOrder.Label -> "label"
+            is MediaOrder.Path -> "path"
+            is MediaOrder.Size -> "size"
+            is MediaOrder.DateTaken -> "date_taken"
+            is MediaOrder.Random -> "random"
+            is MediaOrder.Expiry -> "expiry"
+        },
+        (mediaOrder.orderType == OrderType.Ascending).toString()
+    ).joinToString("/")
+
+    companion object {
+        fun fromString(string: String?): MediaDisplaySettings? {
+            val data = string?.split("/")?.takeIf { it.size == 5 } ?: return null
+            val grouping = MediaGrouping.entries.find { it.name == data[0] } ?: return null
+            val dateGroup = MediaDateGroup.entries.find { it.name == data[1] } ?: return null
+            val groupAscending = data[2].toBooleanStrictOrNull() ?: return null
+            val mediaAscending = data[4].toBooleanStrictOrNull() ?: return null
+            val order = if (mediaAscending) OrderType.Ascending else OrderType.Descending
+            val mediaOrder = when (data[3]) {
+                "date" -> MediaOrder.Date(order)
+                "label" -> MediaOrder.Label(order)
+                "path" -> MediaOrder.Path(order)
+                "size" -> MediaOrder.Size(order)
+                "date_taken" -> MediaOrder.DateTaken(order)
+                "random" -> MediaOrder.Random(order)
+                "expiry" -> MediaOrder.Expiry(order)
+                else -> return null
+            }
+            return MediaDisplaySettings(
+                grouping = grouping,
+                dateGroup = dateGroup,
+                groupOrder = if (groupAscending) OrderType.Ascending else OrderType.Descending,
+                mediaOrder = mediaOrder
+            )
+        }
+    }
+}
 
 fun List<Media>.groupMedia(
     settings: MediaDisplaySettings,

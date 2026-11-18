@@ -29,6 +29,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import coil3.ImageLoader
 import coil3.request.allowHardware
+import com.t8rin.imagetoolbox.core.data.testImageGetter
 import com.t8rin.imagetoolbox.core.domain.coroutines.AppScope
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageCompressor
@@ -82,7 +83,7 @@ class SemanticSearchReferenceStoreTest {
     }
     private val loader by lazy { ImageLoader.Builder(context).allowHardware(false).build() }
     private val imageGetter by lazy {
-        semanticSearchImageGetter(context, loader, appScope, dispatchers)
+        testImageGetter(context, loader, appScope, dispatchers)
     }
     private val references get() = File(context.filesDir, "semantic-search-references")
 

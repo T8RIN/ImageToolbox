@@ -58,7 +58,9 @@ import androidx.compose.material3.rememberTooltipState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
@@ -90,15 +92,16 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.shapeByInteraction
 import com.t8rin.imagetoolbox.core.ui.widget.other.BoxAnimatedVisibility
 import sh.calvin.reorderable.ReorderableItem
 import sh.calvin.reorderable.rememberReorderableLazyGridState
+import sh.calvin.reorderable.rememberScroller
 
 @Composable
 internal fun LauncherScreenSelector(
     screenList: List<Screen>,
-    canReorderFavorites: Boolean,
+    canReorderScreens: Boolean,
     onNavigateToScreenWithPopUpTo: (Screen) -> Unit,
     contentPadding: PaddingValues,
     onToggleFavorite: (Screen) -> Unit,
-    onReorderFavorites: (List<Screen>) -> Unit,
+    onReorderScreens: (List<Screen>) -> Unit,
     onReorderDragStateChange: (Boolean) -> Unit,
     lastUsedTools: List<UiLastUsedTool>
 ) {
@@ -107,23 +110,32 @@ internal fun LauncherScreenSelector(
         !settingsState.groupOptionsByTypes || settingsState.showFavoriteToolsInGroupedMode
 
     val data = rememberReorderableScreenList(screenList)
+    var dragStartOrder by remember { mutableStateOf(data.value) }
     val gridState = rememberLazyGridState()
+    val reorderScroll = rememberToolReorderScroll(gridState)
     val haptics = LocalHapticFeedback.current
     val state = rememberReorderableLazyGridState(
         lazyGridState = gridState,
+        scroller = rememberScroller(
+            scrollableState = reorderScroll,
+            pixelAmountProvider = { gridState.layoutInfo.viewportSize.height * 0.05f }
+        ),
         onMove = { from, to ->
-            haptics.press()
-            data.value = data.value.toMutableList().apply {
-                add(
-                    indexOfFirst { it.first == to.key },
-                    removeAt(indexOfFirst { it.first == from.key })
-                )
+            val fromIndex = data.value.indexOfFirst { it.first == from.key }
+            val toIndex = data.value.indexOfFirst { it.first == to.key }
+            if (fromIndex >= 0 && toIndex >= 0 && fromIndex != toIndex) {
+                data.value = data.value.toMutableList().apply {
+                    add(toIndex, removeAt(fromIndex))
+                }
+                haptics.press()
             }
         }
     )
+    reorderScroll.LockWhileDragging(state.isAnyItemDragging)
 
     LazyVerticalGrid(
         state = gridState,
+        userScrollEnabled = !state.isAnyItemDragging,
         columns = GridCells.Adaptive(80.dp),
         contentPadding = contentPadding,
         verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -149,7 +161,7 @@ internal fun LauncherScreenSelector(
             ReorderableItem(
                 state = state,
                 key = key,
-                enabled = canReorderFavorites
+                enabled = canReorderScreens
             ) { isDragging ->
                 val containerColor by animateColorAsState(
                     if (settingsState.isNightMode) {
@@ -165,15 +177,22 @@ internal fun LauncherScreenSelector(
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier
-                        .longPressDraggableHandle(
-                            enabled = canReorderFavorites,
+                        .draggableHandle(
+                            enabled = canReorderScreens,
+                            dragGestureDetector = reorderScroll.detector(key),
                             onDragStarted = {
+                                dragStartOrder = data.value
                                 onReorderDragStateChange(true)
                                 haptics.longPress()
                             },
                             onDragStopped = {
+                                val released = reorderScroll.finish(key)
                                 onReorderDragStateChange(false)
-                                onReorderFavorites(data.value.map { it.second })
+                                if (!released) {
+                                    data.value = dragStartOrder
+                                } else if (data.value != dragStartOrder) {
+                                    onReorderScreens(data.value.map { it.second })
+                                }
                             }
                         )
                         .scale(
@@ -209,7 +228,8 @@ internal fun LauncherScreenSelector(
                                 ),
                             )
                         },
-                        state = rememberTooltipState()
+                        state = rememberTooltipState(),
+                        enableUserInput = !isDragging
                     ) {
                         BadgedBox(
                             badge = {

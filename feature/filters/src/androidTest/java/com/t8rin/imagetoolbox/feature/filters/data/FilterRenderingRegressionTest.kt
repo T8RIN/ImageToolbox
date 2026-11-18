@@ -20,13 +20,13 @@ package com.t8rin.imagetoolbox.feature.filters.data
 
 import android.graphics.Bitmap
 import android.graphics.Color
-import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.core.graphics.applyCanvas
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.t8rin.imagetoolbox.core.domain.model.ImageModel
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
+import com.t8rin.imagetoolbox.core.filters.data.getPaint
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.FilterValues
-import com.t8rin.imagetoolbox.core.filters.data.getPaint
 import com.t8rin.imagetoolbox.core.filters.domain.model.enums.FadeSide
 import com.t8rin.imagetoolbox.core.filters.domain.model.enums.SpotHealMode
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiCinematicDreamFilter
@@ -34,8 +34,8 @@ import com.t8rin.imagetoolbox.core.filters.presentation.model.UiDreamPaintingFil
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiEqualizeHistogramPixelationFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiMightyDetailsFilter
 import com.t8rin.imagetoolbox.feature.filters.data.model.SideFadeFilter
-import com.t8rin.imagetoolbox.feature.filters.data.model.filterCacheKey
 import com.t8rin.imagetoolbox.feature.filters.data.model.TornEdgeFilter
+import com.t8rin.imagetoolbox.feature.filters.data.model.filterCacheKey
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -75,6 +75,15 @@ class FilterRenderingRegressionTest {
         val filters =
             listOf(UiCinematicDreamFilter(), UiDreamPaintingFilter(), UiMightyDetailsFilter())
         filters.forEach { assertRenders(it, 97, 83) }
+    }
+
+    @Test
+    fun mightyDetailsCommandStillRendersInGmicEditor() = runBlocking {
+        val filter = object : Filter.RawGmic {
+            override val value = FilterValues.rawGmic("fx_mighty_details 25,1,25,1,12")
+            override var auxiliaryImages: List<ImageModel> = emptyList()
+        }
+        assertRenders(filter, 97, 83)
     }
 
     @Test

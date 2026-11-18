@@ -50,7 +50,6 @@ import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
-import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
 import com.t8rin.imagetoolbox.core.settings.domain.model.BackupProgress
 import com.t8rin.imagetoolbox.core.settings.domain.model.CacheAutoClearInterval
 import com.t8rin.imagetoolbox.core.settings.domain.model.ColorHarmonizer
@@ -59,6 +58,7 @@ import com.t8rin.imagetoolbox.core.settings.domain.model.DialogPosition
 import com.t8rin.imagetoolbox.core.settings.domain.model.DomainFontFamily
 import com.t8rin.imagetoolbox.core.settings.domain.model.FastSettingsSide
 import com.t8rin.imagetoolbox.core.settings.domain.model.FlingType
+import com.t8rin.imagetoolbox.core.settings.domain.model.LoadingGame
 import com.t8rin.imagetoolbox.core.settings.domain.model.MarkupLayerTextDefaults
 import com.t8rin.imagetoolbox.core.settings.domain.model.NightMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.RawDemosaicQuality
@@ -72,10 +72,10 @@ import com.t8rin.imagetoolbox.core.settings.domain.model.SnowfallMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.SwitchType
 import com.t8rin.imagetoolbox.core.settings.presentation.model.Setting
 import com.t8rin.imagetoolbox.core.settings.presentation.model.SettingsGroup
-import com.t8rin.imagetoolbox.core.settings.presentation.model.UiFontFamily
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
+import com.t8rin.imagetoolbox.feature.media_picker.domain.GalleryOcrRepository
 import com.t8rin.imagetoolbox.feature.media_picker.domain.SemanticSearchRepository
 import com.t8rin.imagetoolbox.feature.settings.presentation.model.description
 import dagger.assisted.Assisted
@@ -102,6 +102,7 @@ class SettingsComponent @AssistedInject internal constructor(
     private val shareProvider: ShareProvider,
     private val keepAliveService: KeepAliveService,
     semanticSearchRepository: SemanticSearchRepository,
+    galleryOcrRepository: GalleryOcrRepository,
     filenameCreator: FilenameCreator,
     dispatchersHolder: DispatchersHolder,
 ) : BaseComponent(dispatchersHolder, componentContext), FilenameCreator by filenameCreator {
@@ -110,6 +111,7 @@ class SettingsComponent @AssistedInject internal constructor(
     val settingsState: SettingsState by _settingsState
 
     val semanticSearchState = semanticSearchRepository.state
+    val galleryOcrState = galleryOcrRepository.state
 
     private val _isBackupLoading = mutableStateOf(false)
     val isBackupLoading by _isBackupLoading
@@ -264,6 +266,12 @@ class SettingsComponent @AssistedInject internal constructor(
     fun setUseGalleryStyleSelection(value: Boolean) =
         settingsScope { setUseGalleryStyleSelection(value) }
 
+    fun setRememberGalleryDisplaySettings(value: Boolean) =
+        settingsScope { setRememberGalleryDisplaySettings(value) }
+
+    fun setGalleryOcrEnabled(enabled: Boolean) =
+        settingsScope { setGalleryOcrEnabled(enabled) }
+
     fun setSemanticSearchEnabled(enabled: Boolean) =
         settingsScope { setSemanticSearchEnabled(enabled) }
 
@@ -342,13 +350,6 @@ class SettingsComponent @AssistedInject internal constructor(
         fileController.writeBytes(
             uri = uri.toString(),
             block = { createBackupFile(it, fullBackup, ::onBackupProgress) }
-        ).also(::parseFileSaveResult)
-    }
-
-    fun exportFonts(uri: Uri) = settingsScope {
-        fileController.transferBytes(
-            fromUri = createCustomFontsExport().toString(),
-            toUri = uri.toString()
         ).also(::parseFileSaveResult)
     }
 
@@ -533,7 +534,7 @@ class SettingsComponent @AssistedInject internal constructor(
 
     fun toggleShowLoadingGameButton() = settingsScope { toggleShowLoadingGameButton() }
 
-    fun setLoadingGame(game: ArcadeGame) = settingsScope { setLoadingGame(game) }
+    fun setLoadingGame(game: LoadingGame) = settingsScope { setLoadingGame(game) }
 
     fun toggleUseFullscreenSettings() = settingsScope { toggleUseFullscreenSettings() }
 
@@ -589,24 +590,6 @@ class SettingsComponent @AssistedInject internal constructor(
 
     fun setChecksumTypeForFilename(type: HashingType?) =
         settingsScope { setChecksumTypeForFilename(type) }
-
-    fun importCustomFont(
-        uri: Uri,
-        onSuccess: () -> Unit,
-        onFailure: () -> Unit
-    ) = settingsScope {
-        importCustomFont(uri.toString())?.let { font ->
-            setFont(font)
-            onSuccess()
-        } ?: onFailure()
-    }
-
-    fun removeCustomFont(
-        font: UiFontFamily.Custom
-    ) = settingsScope {
-        removeCustomFont(font.asDomain() as DomainFontFamily.Custom)
-        setFont(DomainFontFamily.System)
-    }
 
     fun toggleEnableToolExitConfirmation() = settingsScope { toggleEnableToolExitConfirmation() }
 

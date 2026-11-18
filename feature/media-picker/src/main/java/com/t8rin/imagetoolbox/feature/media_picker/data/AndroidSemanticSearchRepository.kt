@@ -81,15 +81,15 @@ internal class AndroidSemanticSearchRepository @Inject constructor(
     override val state = _state.asStateFlow()
 
     override fun updateWorkState(
-        isQueued: Boolean,
-        isWaitingForPermission: Boolean,
-        error: String?
+        isQueued: Boolean?,
+        isWaitingForPermission: Boolean?,
+        isFacesQueued: Boolean?
     ) {
         _state.update {
             it.copy(
-                isQueued = isQueued,
-                isWaitingForPermission = isWaitingForPermission,
-                error = error
+                isQueued = isQueued ?: it.isQueued,
+                isWaitingForPermission = isWaitingForPermission ?: it.isWaitingForPermission,
+                isFacesQueued = isFacesQueued ?: it.isFacesQueued
             )
         }
     }
@@ -107,11 +107,14 @@ internal class AndroidSemanticSearchRepository @Inject constructor(
     }
 
     override suspend fun downloadFaceModels() = perform(modelMutex) {
+        if (ArcFace.isDownloaded()) {
+            _state.update { it.copy(faceModelsReady = true) }
+            return@perform
+        }
         _state.update {
             it.copy(
                 isFacesDownloading = true,
-                facesDownloadProgress = 0f,
-                error = null
+                facesDownloadProgress = 0f
             )
         }
         try {
@@ -178,7 +181,7 @@ internal class AndroidSemanticSearchRepository @Inject constructor(
 
     override suspend fun downloadModels() = perform(indexMutex) {
         modelMutex.withLock {
-            _state.update { it.copy(isDownloading = true, downloadProgress = 0f, error = null) }
+            _state.update { it.copy(isDownloading = true, downloadProgress = 0f) }
             try {
                 ClipImageSearch.download { progress ->
                     _state.update { it.copy(downloadProgress = progress) }
@@ -191,77 +194,71 @@ internal class AndroidSemanticSearchRepository @Inject constructor(
         }
     }
 
-    override suspend fun index(media: List<Media>, groupPeople: Boolean) = perform(indexMutex) {
+    override suspend fun index(media: List<Media>) = perform(indexMutex) {
         modelMutex.withLock {
             check(ClipImageSearch.isDownloaded()) { "Download the search models first" }
         }
         val images = media.filter { it.mimeType.startsWith("image/") }.distinctBy(Media::uri)
         var pendingWrites = 0
-        _state.update {
-            it.copy(
-                isIndexing = true,
-                processedImages = 0,
-                totalImages = images.size,
-                failedImages = 0,
-                error = null
-            )
-        }
-        try {
-            SemanticSearchIndex(context).use { index ->
-                _state.update { it.copy(indexedImages = index.count()) }
-                try {
-                    LazyImageEncoder().use { encoder ->
-                        images.forEachIndexed { position, media ->
-                            currentCoroutineContext().ensureActive()
-                            if (index.get(media) == null) {
-                                val image = loadImage(media.uri)
-                                if (image == null) {
-                                    currentCoroutineContext().ensureActive()
-                                    _state.update { it.copy(failedImages = it.failedImages + 1) }
-                                } else {
-                                    currentCoroutineContext().ensureActive()
-                                    val embedding = encoder.encode(image)
-                                    currentCoroutineContext().ensureActive()
-                                    index.put(media, embedding)
-                                    pendingWrites++
-                                    if (pendingWrites == 256) {
-                                        _state.update {
-                                            it.copy(indexRevision = it.indexRevision + pendingWrites)
-                                        }
-                                        pendingWrites = 0
-                                    }
-                                }
-                            }
-                            _state.update {
-                                it.copy(
-                                    processedImages = position + 1,
-                                    indexedImages = if (it.indexedImages == 0 || (position + 1) % 32 == 0) {
-                                        index.count()
-                                    } else it.indexedImages
-                                )
-                            }
-                        }
-                    }
-                } finally {
-                    _state.update { it.copy(indexedImages = index.count()) }
-                }
+        SemanticSearchIndex(context).use { index ->
+            val pending = images.filter {
+                currentCoroutineContext().ensureActive()
+                index.get(it) == null
             }
-            if (groupPeople && ArcFace.isDownloaded()) {
-                indexFaces(images) {
-                    pendingWrites++
-                    if (pendingWrites >= 256) {
-                        _state.update { it.copy(indexRevision = it.indexRevision + pendingWrites) }
-                        pendingWrites = 0
-                    }
-                }
+            val indexedImages = index.count()
+            if (pending.isEmpty()) {
+                _state.update { it.copy(indexedImages = indexedImages) }
+                return@use
             }
-        } finally {
+            val processed = images.size - pending.size
             _state.update {
                 it.copy(
-                    isIndexing = false,
-                    isFacesIndexing = false,
-                    indexRevision = it.indexRevision + pendingWrites
+                    isIndexing = true,
+                    processedImages = processed,
+                    totalImages = images.size,
+                    failedImages = 0,
+                    indexedImages = indexedImages
                 )
+            }
+            try {
+                LazyImageEncoder().use { encoder ->
+                    pending.forEachIndexed { position, item ->
+                        currentCoroutineContext().ensureActive()
+                        val image = loadImage(item.uri)
+                        currentCoroutineContext().ensureActive()
+                        if (image == null) {
+                            _state.update { it.copy(failedImages = it.failedImages + 1) }
+                        } else {
+                            val embedding = encoder.encode(image)
+                            currentCoroutineContext().ensureActive()
+                            index.put(item, embedding)
+                            pendingWrites++
+                            if (pendingWrites == 256) {
+                                _state.update {
+                                    it.copy(indexRevision = it.indexRevision + pendingWrites)
+                                }
+                                pendingWrites = 0
+                            }
+                        }
+                        _state.update {
+                            it.copy(
+                                processedImages = processed + position + 1,
+                                indexedImages = if (it.indexedImages == 0 || (position + 1) % 32 == 0) {
+                                    index.count()
+                                } else it.indexedImages
+                            )
+                        }
+                    }
+                }
+            } finally {
+                val count = index.count()
+                _state.update {
+                    it.copy(
+                        isIndexing = false,
+                        indexedImages = count,
+                        indexRevision = it.indexRevision + pendingWrites
+                    )
+                }
             }
         }
     }
@@ -274,7 +271,6 @@ internal class AndroidSemanticSearchRepository @Inject constructor(
         if (query.isBlank() || media.isEmpty()) return emptyList()
         var result = emptyList<Media>()
         perform(searchMutex) {
-            _state.update { it.copy(error = null) }
             SemanticSearchIndex(context).use { index ->
                 if (index.count() == 0) return@use
                 val encoder = modelMutex.withLock {
@@ -304,7 +300,6 @@ internal class AndroidSemanticSearchRepository @Inject constructor(
         if (uri.isBlank() || images.isEmpty()) return emptyList()
         var result = emptyList<Media>()
         perform(searchMutex) {
-            _state.update { it.copy(error = null) }
             val sourceUri = uri.toUri().tryExtractOriginal().toString()
             val source = images.find { it.uri == uri || it.uri == sourceUri }
             val candidates = images.filterNot { it.uri == uri || it.uri == sourceUri }
@@ -645,28 +640,58 @@ internal class AndroidSemanticSearchRepository @Inject constructor(
         }
     }
 
-    private suspend fun indexFaces(images: List<Media>, onIndexed: () -> Unit) {
-        _state.update { it.copy(isFacesIndexing = true, processedImages = 0) }
+    override suspend fun indexFaces(media: List<Media>) = perform(indexMutex) {
+        val images = media.filter { it.mimeType.startsWith("image/") }.distinctBy(Media::uri)
         SemanticFaceIndex(context).use { index ->
-            UltraFaceDetector().use { detector ->
-                ArcFace.openEncoder().use { encoder ->
-                    images.forEachIndexed { position, media ->
-                        currentCoroutineContext().ensureActive()
-                        if (index.needsScan(media)) {
-                            loadFaceImage(media.uri)?.let { image ->
-                                val faces = detector.detect(image).filter { it.isUsable() }
-                                saveFaces(index, media, image, faces, encoder)
-                                onIndexed()
+            val pending = images.filter {
+                currentCoroutineContext().ensureActive()
+                index.needsScan(it)
+            }
+            if (pending.isEmpty() && !index.needsRegroup()) return@use
+
+            val processed = images.size - pending.size
+            _state.update {
+                it.copy(
+                    isFacesIndexing = true,
+                    processedFaceImages = processed,
+                    totalFaceImages = images.size
+                )
+            }
+            var pendingWrites = 0
+            try {
+                if (pending.isNotEmpty()) {
+                    UltraFaceDetector().use { detector ->
+                        ArcFace.openEncoder().use { encoder ->
+                            pending.forEachIndexed { position, item ->
+                                currentCoroutineContext().ensureActive()
+                                loadFaceImage(item.uri)?.let { image ->
+                                    currentCoroutineContext().ensureActive()
+                                    val faces = detector.detect(image).filter { it.isUsable() }
+                                    saveFaces(index, item, image, faces, encoder)
+                                    pendingWrites++
+                                    if (pendingWrites == 256) {
+                                        _state.update { it.copy(indexRevision = it.indexRevision + pendingWrites) }
+                                        pendingWrites = 0
+                                    }
+                                }
+                                _state.update { it.copy(processedFaceImages = processed + position + 1) }
                             }
                         }
-                        _state.update { it.copy(processedImages = position + 1) }
                     }
-                    faceIndexMutex.withLock {
-                        if (index.needsRegroup()) {
-                            index.regroup()
-                            onIndexed()
-                        }
+                }
+                faceIndexMutex.withLock {
+                    currentCoroutineContext().ensureActive()
+                    if (index.needsRegroup()) {
+                        index.regroup()
+                        pendingWrites++
                     }
+                }
+            } finally {
+                _state.update {
+                    it.copy(
+                        isFacesIndexing = false,
+                        indexRevision = it.indexRevision + pendingWrites
+                    )
                 }
             }
         }
@@ -683,7 +708,9 @@ internal class AndroidSemanticSearchRepository @Inject constructor(
         var saved = false
         try {
             val entries = faces.map { face ->
+                currentCoroutineContext().ensureActive()
                 val vector = encoder.encode(image, face)
+                currentCoroutineContext().ensureActive()
                 val id = UUID.randomUUID().toString()
                 val file = File(index.thumbnails, "$id.webp")
                 files += file
@@ -697,6 +724,7 @@ internal class AndroidSemanticSearchRepository @Inject constructor(
                 )
             }
             faceIndexMutex.withLock {
+                currentCoroutineContext().ensureActive()
                 index.invalidatePeopleCache(peopleRevision)
                 index.replace(media, entries)
                 saved = true
@@ -794,21 +822,7 @@ internal class AndroidSemanticSearchRepository @Inject constructor(
 
     private suspend fun perform(mutex: Mutex, action: suspend () -> Unit) =
         withContext(ioDispatcher) {
-            mutex.withLock {
-                try {
-                    action()
-                } catch (exception: CancellationException) {
-                    throw exception
-                } catch (exception: Exception) {
-                    currentCoroutineContext().ensureActive()
-                    _state.update {
-                        it.copy(
-                            error = exception.localizedMessage ?: exception.toString()
-                        )
-                    }
-                    throw exception
-                }
-            }
+            mutex.withLock { action() }
         }
 
 }

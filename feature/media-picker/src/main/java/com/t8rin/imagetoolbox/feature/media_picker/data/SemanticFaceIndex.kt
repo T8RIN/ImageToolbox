@@ -355,6 +355,7 @@ internal class SemanticFaceIndex(context: Context) : SQLiteOpenHelper(
         ).use { cursor ->
             buildList {
                 while (cursor.moveToNext()) {
+                    currentCoroutineContext().ensureActive()
                     add(
                         FaceClusterer.Face(
                             id = cursor.getLong(0),
@@ -376,6 +377,7 @@ internal class SemanticFaceIndex(context: Context) : SQLiteOpenHelper(
         val pins = mutableListOf<FaceClusterer.FaceAssertion>()
         readableDatabase.query("people", null, null, null, null, null, "id").use { cursor ->
             while (cursor.moveToNext()) {
+                currentCoroutineContext().ensureActive()
                 val id = cursor.getLong(cursor.getColumnIndexOrThrow("id")).toString()
                 val members = faces.filter { it.personId == id }
                 val hidden = cursor.getInt(cursor.getColumnIndexOrThrow("hidden")) != 0
@@ -433,11 +435,13 @@ internal class SemanticFaceIndex(context: Context) : SQLiteOpenHelper(
             }
         }
         val result = FaceClusterer.cluster(faces, seeds, pins, exclusions)
-        currentCoroutineContext().ensureActive()
+        val coroutineContext = currentCoroutineContext()
+        coroutineContext.ensureActive()
         val db = writableDatabase
         db.transaction {
             fun assign(id: Long, component: FaceClusterer.Component) {
                 component.faceIds.forEach { face ->
+                    coroutineContext.ensureActive()
                     db.update(
                         "faces",
                         ContentValues().apply { put("person_id", id) },
@@ -452,6 +456,7 @@ internal class SemanticFaceIndex(context: Context) : SQLiteOpenHelper(
                 assign(id, component)
             }
             result.unassignedFaceIds.forEach { id ->
+                coroutineContext.ensureActive()
                 val old = faces.first { it.id == id }
                 val excluded = exclusions.any {
                     it.mediaId == old.mediaId && it.personId == old.personId

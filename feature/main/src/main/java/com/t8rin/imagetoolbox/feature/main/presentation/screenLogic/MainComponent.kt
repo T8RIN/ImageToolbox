@@ -95,17 +95,12 @@ class MainComponent @AssistedInject internal constructor(
         }
     }
 
-    fun reorderFavoriteScreens(screens: List<Screen>) {
+    fun reorderScreens(screens: List<Screen>, grouped: Boolean) {
         componentScope.launch {
-            val screenOrder = settingsManager.getSettingsState().screenList.ifEmpty {
-                Screen.entries.map { it.id }
-            }
-            val favorites = screens.map { it.id }
-            val reordered = favorites.iterator()
-            settingsManager.setScreenOrder(
-                screenOrder.joinToString("/") {
-                    if (it in favorites) reordered.next().toString() else it.toString()
-                }
+            settingsManager.reorderScreens(
+                screenIds = screens.map { it.id },
+                defaultOrder = if (grouped) emptyList() else Screen.entries.map { it.id },
+                grouped = grouped
             )
         }
     }

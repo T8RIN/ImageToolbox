@@ -117,7 +117,7 @@ fun BitmapDrawer(
     onRequestFiltering: suspend (Bitmap, List<Filter<*>>) -> Bitmap?,
     paths: List<UiPathPaint>,
     brushSoftness: Pt,
-    zoomState: ZoomState = rememberZoomState(maxScale = 30f),
+    zoomState: ZoomState = rememberZoomState(),
     onAddPath: (UiPathPaint) -> Unit,
     strokeWidth: Pt,
     isEraserOn: Boolean,

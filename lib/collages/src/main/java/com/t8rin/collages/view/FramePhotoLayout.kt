@@ -66,7 +66,8 @@ import androidx.compose.ui.graphics.Color as ComposeColor
 @SuppressLint("ViewConstructor")
 internal class FramePhotoLayout(
     context: Context,
-    var mPhotoItems: List<PhotoItem>
+    var mPhotoItems: List<PhotoItem>,
+    maxImageZoom: Float
 ) : RelativeLayout(context), FrameImageView.OnImageClickListener {
 
     private data class FrameMetrics(
@@ -177,6 +178,12 @@ internal class FramePhotoLayout(
 
     private val mItemImageViews: MutableList<FrameImageView> = ArrayList()
     var outputAspectRatio: Float = 1f
+    var maxImageZoom: Float = maxImageZoom
+        set(value) {
+            if (field == value) return
+            field = value
+            mItemImageViews.forEach { it.maxImageZoom = value }
+        }
 
     var layoutDesign: CollageDesign? = null
     var slotStyles: List<CollageSlotStyle> = emptyList()
@@ -332,15 +339,31 @@ internal class FramePhotoLayout(
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        drawBackgroundGradient(canvas, width.toFloat(), height.toFloat())
+        backgroundShader?.let {
+            drawBackgroundGradient(
+                canvas,
+                width.toFloat(),
+                height.toFloat(),
+                it
+            )
+        }
     }
 
-    private fun drawBackgroundGradient(canvas: Canvas, width: Float, height: Float) {
-        backgroundShader?.let { factory ->
-            canvas.drawRect(0f, 0f, width, height, Paint(Paint.DITHER_FLAG).apply {
+    private fun drawBackgroundGradient(
+        canvas: Canvas,
+        width: Float,
+        height: Float,
+        factory: (Float, Float) -> Shader
+    ) {
+        canvas.drawRect(
+            0f,
+            0f,
+            width,
+            height,
+            Paint(Paint.DITHER_FLAG).apply {
                 shader = factory(width, height)
-            })
-        }
+            }
+        )
     }
 
     fun setOnItemTapListener(listener: ((index: Int) -> Unit)?) {
@@ -452,6 +475,7 @@ internal class FramePhotoLayout(
         val imageView = FrameImageView(
             context = context,
             photoItem = item,
+            maxImageZoom = maxImageZoom,
             previewSize = collagePreviewSize(
                 imageCount = mPhotoItems.size,
                 relativeArea = item.bound.width() * item.bound.height() /
@@ -525,16 +549,15 @@ internal class FramePhotoLayout(
             return withContext(Dispatchers.Default) {
                 val output = createBitmap(outputWidth, outputHeight).also { rendered = it }
                 val canvas = Canvas(output)
-                canvas.drawColor(color)
-                shader?.let {
-                    canvas.drawRect(
-                        0f,
-                        0f,
+                if (shader == null) {
+                    canvas.drawColor(color)
+                } else {
+                    drawBackgroundGradient(
+                        canvas,
                         outputWidth.toFloat(),
                         outputHeight.toFloat(),
-                        Paint().apply {
-                            this.shader = it(outputWidth.toFloat(), outputHeight.toFloat())
-                        })
+                        shader
+                    )
                 }
                 for (frame in frames) {
                     currentCoroutineContext().ensureActive()

@@ -17,7 +17,6 @@
 
 package com.t8rin.imagetoolbox.feature.media_picker.data
 
-import android.content.Context
 import android.content.ContextWrapper
 import android.graphics.Color
 import android.graphics.RectF
@@ -26,13 +25,9 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import coil3.ImageLoader
 import coil3.request.allowHardware
-import com.t8rin.imagetoolbox.core.data.image.AndroidImageGetter
+import com.t8rin.imagetoolbox.core.data.testImageGetter
 import com.t8rin.imagetoolbox.core.domain.coroutines.AppScope
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
-import com.t8rin.imagetoolbox.core.domain.image.MetadataProvider
-import com.t8rin.imagetoolbox.core.domain.saving.FailureNotifier
-import com.t8rin.imagetoolbox.core.settings.domain.SettingsProvider
-import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.Media
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.SemanticSearchCategory
 import com.t8rin.neural_tools.search.ClipImageSearch
@@ -40,7 +35,6 @@ import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.awaitCancellation
 import kotlinx.coroutines.cancelAndJoin
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withTimeout
@@ -80,7 +74,7 @@ class SemanticSearchRepositoryInstrumentedTest {
             override val decodingDispatcher = Dispatchers.Default
             override val defaultDispatcher = Dispatchers.Default
         }
-        val imageGetter = semanticSearchImageGetter(
+        val imageGetter = testImageGetter(
             context = context,
             imageLoader = loader,
             appScope = object : AppScope {
@@ -171,27 +165,3 @@ class SemanticSearchRepositoryInstrumentedTest {
         size = 1024
     )
 }
-
-internal fun semanticSearchImageGetter(
-    context: Context,
-    imageLoader: ImageLoader,
-    appScope: AppScope,
-    dispatchers: DispatchersHolder
-) = AndroidImageGetter(
-    context = context,
-    imageLoader = imageLoader,
-    appScope = appScope,
-    failureNotifier = object : FailureNotifier {
-        override fun send(error: Throwable) {
-            throw AssertionError("Unexpected failure notification", error)
-        }
-
-        override fun sendNoConnection() = Unit
-    },
-    metadataProvider = { MetadataProvider { null } },
-    settingsProvider = object : SettingsProvider {
-        override val settingsState = MutableStateFlow(SettingsState.Default)
-        override suspend fun getSettingsState() = settingsState.value
-    },
-    dispatchersHolder = dispatchers
-)

@@ -16,7 +16,6 @@
  */
 
 import com.android.build.api.dsl.LibraryExtension
-import com.android.build.api.variant.LibraryAndroidComponentsExtension
 import com.t8rin.imagetoolbox.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -29,19 +28,38 @@ class ImageToolboxTestsPlugin : Plugin<Project> {
         with(target) {
             extensions.configure<LibraryExtension> {
                 defaultConfig.testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-            }
-
-            extensions.configure<LibraryAndroidComponentsExtension> {
-                beforeVariants(selector().all()) { variantBuilder ->
-                    variantBuilder.androidTest.enable = false
-                }
+                if (path == ":core:data") testFixtures.enable = true
             }
 
             dependencies {
                 add("testImplementation", libs.junit)
+                add("testImplementation", libs.kotlin.test)
+                add("androidTestImplementation", libs.junit)
+                add("androidTestImplementation", libs.androidx.test.ext.junit)
+                add("androidTestImplementation", libs.androidx.runner)
+                add("androidTestImplementation", libs.compose.ui.test.junit4)
 
                 when (path) {
-                    ":lib:palette" -> add("testImplementation", libs.kotlin.test)
+                    ":core:data" -> {
+                        add("androidTestImplementation", project(":core:ui"))
+                        add("testFixturesApi", project(":core:domain"))
+                        add("testFixturesImplementation", project(":core:settings"))
+                        add("testFixturesImplementation", libs.dagger.hilt.android)
+                        add("testFixturesImplementation", libs.toolbox.exif)
+                    }
+
+                    ":feature:ai-tools", ":feature:media-picker" -> {
+                        add("androidTestImplementation", testFixtures(project(":core:data")))
+                    }
+
+                    ":feature:assistant" -> add("androidTestImplementation", libs.onnx.genai)
+                    ":feature:cipher" -> add("androidTestImplementation", libs.bouncycastle.pkix)
+                    ":feature:edit-exif", ":feature:screenshot-framing" -> {
+                        add("androidTestImplementation", libs.toolbox.exif)
+                        add("androidTestImplementation", testFixtures(project(":core:data")))
+                    }
+
+                    ":feature:markup-layers" -> add("androidTestImplementation", libs.moshi)
                 }
             }
         }

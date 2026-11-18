@@ -20,9 +20,9 @@ package com.t8rin.imagetoolbox.feature.pdf_tools.data.utils
 import android.graphics.Bitmap
 import androidx.compose.ui.graphics.Color
 import androidx.core.net.toUri
-import com.t8rin.imagetoolbox.core.data.saving.io.UriReadable
 import com.t8rin.imagetoolbox.core.data.utils.outputStream
 import com.t8rin.imagetoolbox.core.domain.model.RectModel
+import com.t8rin.imagetoolbox.core.domain.saving.io.InputFileNotFoundException
 import com.t8rin.imagetoolbox.core.domain.saving.io.Writeable
 import com.t8rin.imagetoolbox.core.domain.utils.applyUse
 import com.t8rin.imagetoolbox.core.domain.utils.safeCast
@@ -53,6 +53,7 @@ import com.tom_roush.pdfbox.pdmodel.graphics.image.LosslessFactory
 import com.tom_roush.pdfbox.pdmodel.graphics.image.PDImageXObject
 import com.tom_roush.pdfbox.pdmodel.graphics.state.PDExtendedGraphicsState
 import com.tom_roush.pdfbox.pdmodel.interactive.annotation.PDAnnotation
+import java.io.FileNotFoundException
 import java.util.Calendar
 import kotlin.math.roundToInt
 
@@ -223,15 +224,22 @@ internal fun safeOpenPdf(
     uri: String,
     password: String?
 ): PDDocument {
-    fun load(memoryUsage: MemoryUsageSetting): PDDocument =
-        UriReadable(uri.toUri(), appContext).stream.use { stream ->
+    val inputUri = uri.toUri()
+    fun load(memoryUsage: MemoryUsageSetting): PDDocument {
+        val input = try {
+            appContext.contentResolver.openInputStream(inputUri)
+        } catch (e: FileNotFoundException) {
+            throw InputFileNotFoundException(e)
+        }
+        return (input ?: throw InputFileNotFoundException()).use { stream ->
             PDDocument.load(stream, password.orEmpty(), memoryUsage)
         }
+    }
 
     return try {
         load(BaseMemoryConfig)
     } catch (t: Throwable) {
-        if (t is InvalidPasswordException) throw t
+        if (t is InvalidPasswordException || t is InputFileNotFoundException) throw t
 
         "failed to open pdf from $uri - trying again".makeLog("openPdf")
 

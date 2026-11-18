@@ -149,7 +149,7 @@ internal fun CompareScreenContentImpl(
                 val first = bitmapPair.first?.image
                 val second = bitmapPair.second?.image
 
-                val zoomState = rememberZoomState(30f)
+                val zoomState = rememberZoomState()
                 val zoomModifier = Modifier
                     .clipToBounds()
                     .zoomable(

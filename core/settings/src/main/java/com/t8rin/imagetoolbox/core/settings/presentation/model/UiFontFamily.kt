@@ -21,6 +21,7 @@ package com.t8rin.imagetoolbox.core.settings.presentation.model
 
 import android.os.Build
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.text.font.Font
@@ -32,6 +33,7 @@ import com.t8rin.imagetoolbox.core.settings.data.model.toDomainFontFamily
 import com.t8rin.imagetoolbox.core.settings.data.model.toFontType
 import com.t8rin.imagetoolbox.core.settings.domain.model.DomainFontFamily
 import com.t8rin.imagetoolbox.core.settings.domain.model.FontType
+import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalFontLibrary
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import java.io.File
 
@@ -40,6 +42,9 @@ sealed class UiFontFamily(
     private val variable: Boolean,
     val type: FontType? = null
 ) {
+    val key: String
+        get() = if (this is Custom) filePath else asDomain().ordinal.toString()
+
     val isVariable: Boolean?
         get() = variable.takeIf {
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
@@ -231,16 +236,15 @@ sealed class UiFontFamily(
 
     class Custom(
         name: String?,
-        val filePath: String
+        val filePath: String,
+        variable: Boolean = false
     ) : UiFontFamily(
         name = name,
-        variable = false,
+        variable = variable,
         filePath = filePath
     ) {
         override fun equals(other: Any?): Boolean {
-            if (other !is Custom) return false
-
-            return filePath == other.filePath
+            return other is Custom && filePath == other.filePath
         }
 
         override fun hashCode(): Int {
@@ -261,7 +265,14 @@ sealed class UiFontFamily(
 
         val entries: List<UiFontFamily>
             @Composable
-            get() = defaultEntries + customEntries
+            get() {
+                val fonts = defaultEntries + customEntries + downloadedEntries
+                val settings = LocalSettingsState.current
+                val importedKeys = customEntries.map { it.key }.toSet()
+                return remember(fonts, settings.fontOrder, settings.favoriteFonts, importedKeys) {
+                    fonts.ordered(settings.fontOrder, settings.favoriteFonts, importedKeys)
+                }
+            }
 
         val defaultEntries: List<UiFontFamily> by lazy {
             listOf(
@@ -295,6 +306,19 @@ sealed class UiFontFamily(
             ).sortedBy { it.name }
         }
 
+        val downloadedEntries: List<Custom>
+            @Composable
+            get() {
+                val fonts = LocalFontLibrary.current?.fonts?.collectAsState()?.value.orEmpty()
+                val enabled = LocalSettingsState.current.fontPackEnabled
+                return remember(fonts, enabled) {
+                    if (!enabled) return@remember emptyList()
+                    fonts.map {
+                        Custom(name = it.name, filePath = it.filePath, variable = it.variable)
+                    }
+                }
+            }
+
         val customEntries: List<Custom>
             @Composable
             get() {
@@ -310,22 +334,18 @@ sealed class UiFontFamily(
 }
 
 @Composable
-fun FontType?.toUiFont(): UiFontFamily {
-    val entries = UiFontFamily.entries
-
-    return remember(entries, this) {
-        derivedStateOf {
-            when (this) {
-                is FontType.File -> UiFontFamily.Custom(
-                    name = File(path).nameWithoutExtension.replace("[:\\-_.,]".toRegex(), " "),
-                    filePath = path
-                )
-
-                is FontType.Resource -> entries.find { it.type == this } ?: UiFontFamily.System
-                null -> UiFontFamily.System
-            }
+fun FontType?.toUiFont(): UiFontFamily = when (this) {
+    is FontType.File -> {
+        val imported = UiFontFamily.customEntries
+        val downloaded = UiFontFamily.downloadedEntries
+        remember(this, imported, downloaded) {
+            imported.firstOrNull { it.filePath == path }
+                ?: downloaded.firstOrNull { it.filePath == path }
+                ?: asUi()
         }
-    }.value
+    }
+
+    else -> asUi()
 }
 
 fun FontType?.asUi(): UiFontFamily {
@@ -465,3 +485,17 @@ private fun fontFamilyFromFile(file: File) = FontFamily(
         )
     )
 )
+
+fun List<UiFontFamily>.ordered(
+    order: List<String>,
+    favorites: Set<String>,
+    imported: Set<String> = emptySet()
+): List<UiFontFamily> {
+    val positions = order.withIndex().associate { it.value to it.index }
+    return sortedWith(
+        compareBy<UiFontFamily> { it != UiFontFamily.System }
+            .thenBy { it.key !in favorites }
+            .thenBy { positions[it.key] ?: if (it.key in imported) -1 else Int.MAX_VALUE }
+            .thenBy { it.name.orEmpty().lowercase() }
+    )
+}

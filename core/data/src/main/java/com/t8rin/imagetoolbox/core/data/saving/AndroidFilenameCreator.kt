@@ -19,6 +19,7 @@ package com.t8rin.imagetoolbox.core.data.saving
 
 import android.content.Context
 import android.net.Uri
+import android.webkit.MimeTypeMap
 import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.data.utils.computeFromByteArray
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
@@ -305,11 +306,22 @@ internal class AndroidFilenameCreator @Inject constructor(
             .replace(ParentFolderUpper, parentFolder.uppercase())
             .replace(UuidUpper, UUID.random().toString().uppercase())
             .clean()
-            .let { str ->
-                if (str.split(".").filter { it.isNotBlank() }.size < 2) {
-                    "image${randomNumber(4)}.$extension"
-                } else {
-                    str
+            .let { filename ->
+                val filenameExtension = filename.substringAfterLast('.', "")
+                val extensionInPattern = Extension.value in pattern ||
+                        ExtensionUpper.value in pattern || pattern.endsWith(".$filenameExtension")
+                val hasExtension = extensionInPattern && filenameExtension.isNotEmpty() &&
+                        (filenameExtension.equals(extension, ignoreCase = true) ||
+                                MimeTypeMap.getSingleton().getMimeTypeFromExtension(
+                                    filenameExtension.lowercase()
+                                ) == saveTarget.mimeType.entry)
+                val name =
+                    if (hasExtension) filename.substringBeforeLast('.') else filename.trimEnd('.')
+
+                when {
+                    name.isBlank() -> "image${randomNumber(4)}.$extension"
+                    hasExtension -> filename
+                    else -> "$name.$extension"
                 }
             }
             .clean()

@@ -29,8 +29,9 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.StadiaController
-import com.t8rin.imagetoolbox.core.settings.domain.model.ArcadeGame
+import com.t8rin.imagetoolbox.core.settings.domain.model.LoadingGame
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
+import com.t8rin.imagetoolbox.core.ui.utils.helper.playable
 import com.t8rin.imagetoolbox.core.ui.utils.helper.title
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButtonGroup
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
@@ -39,9 +40,10 @@ import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 @Composable
 internal fun ShowLoadingGameButtonSettingItem(
     onClick: () -> Unit,
-    onGameChange: (ArcadeGame) -> Unit
+    onGameChange: (LoadingGame) -> Unit
 ) {
     val settings = LocalSettingsState.current
+    val selection = settings.loadingGame
     PreferenceRowSwitch(
         shape = ShapeDefaults.center,
         modifier = Modifier.padding(horizontal = 8.dp),
@@ -57,10 +59,12 @@ internal fun ShowLoadingGameButtonSettingItem(
                         .fillMaxWidth()
                         .padding(top = 8.dp),
                     entries = listOf(
-                        ArcadeGame.Random,
-                        ArcadeGame.RandomFavorite
-                    ) + ArcadeGame.playable,
-                    value = settings.loadingGame,
+                        LoadingGame.Random,
+                        LoadingGame.RandomFavorite
+                    ) + LoadingGame.playable,
+                    value = if (selection is LoadingGame.Specific && selection !in LoadingGame.playable) {
+                        LoadingGame.Random
+                    } else selection,
                     title = null,
                     itemContent = { Text(stringResource(it.title)) },
                     onValueChange = onGameChange,

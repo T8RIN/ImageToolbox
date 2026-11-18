@@ -17,14 +17,16 @@
 
 package com.t8rin.imagetoolbox.feature.media_picker.di
 
+import com.t8rin.imagetoolbox.feature.media_picker.data.AndroidGalleryIndexScheduler
+import com.t8rin.imagetoolbox.feature.media_picker.data.AndroidGalleryOcrRepository
 import com.t8rin.imagetoolbox.feature.media_picker.data.AndroidMediaActionsManager
 import com.t8rin.imagetoolbox.feature.media_picker.data.AndroidMediaRetriever
 import com.t8rin.imagetoolbox.feature.media_picker.data.AndroidSemanticSearchRepository
-import com.t8rin.imagetoolbox.feature.media_picker.data.AndroidSemanticSearchScheduler
+import com.t8rin.imagetoolbox.feature.media_picker.domain.GalleryIndexScheduler
+import com.t8rin.imagetoolbox.feature.media_picker.domain.GalleryOcrRepository
 import com.t8rin.imagetoolbox.feature.media_picker.domain.MediaActionsManager
 import com.t8rin.imagetoolbox.feature.media_picker.domain.MediaRetriever
 import com.t8rin.imagetoolbox.feature.media_picker.domain.SemanticSearchRepository
-import com.t8rin.imagetoolbox.feature.media_picker.domain.SemanticSearchScheduler
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -46,9 +48,15 @@ internal interface MediaPickerModule {
 
     @Binds
     @Singleton
-    fun semanticSearchScheduler(
-        impl: AndroidSemanticSearchScheduler
-    ): SemanticSearchScheduler
+    fun galleryIndexScheduler(
+        impl: AndroidGalleryIndexScheduler
+    ): GalleryIndexScheduler
+
+    @Binds
+    @Singleton
+    fun galleryOcrRepository(
+        impl: AndroidGalleryOcrRepository
+    ): GalleryOcrRepository
 
     @Binds
     @Singleton

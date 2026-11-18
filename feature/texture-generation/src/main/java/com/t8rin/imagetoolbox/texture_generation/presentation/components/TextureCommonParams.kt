@@ -156,6 +156,7 @@ internal fun TextureFilterType.titleRes(): Int = when (this) {
     TextureFilterType.SquareSpiralPattern -> R.string.texture_pattern_square_spiral_pattern
     TextureFilterType.CrossStitchPattern -> R.string.texture_pattern_cross_stitch_pattern
     TextureFilterType.PlaidPattern -> R.string.texture_pattern_plaid_pattern
+    TextureFilterType.ChromaticPlaidPattern -> R.string.texture_chromatic_plaid
     TextureFilterType.GeneratedWaves -> R.string.texture_pattern_generated_waves
     TextureFilterType.VoronoiHatch -> R.string.texture_pattern_voronoi_hatch
     TextureFilterType.LoopPattern -> R.string.texture_pattern_loop_pattern
@@ -310,6 +311,80 @@ internal fun TextureFilterType.titleRes(): Int = when (this) {
     TextureFilterType.RayleighBenard -> R.string.texture_rayleigh_benard
     TextureFilterType.OrigamiFacets -> R.string.texture_origami_facets
     TextureFilterType.FiberOpticBundle -> R.string.texture_fiber_optic_bundle
+    TextureFilterType.KnittedFabric -> R.string.texture_knitted_fabric
+    TextureFilterType.WickerWeave -> R.string.texture_wicker_weave
+    TextureFilterType.Chainmail -> R.string.texture_chainmail
+    TextureFilterType.HerringboneParquet -> R.string.texture_herringbone_parquet
+    TextureFilterType.RoofTiles -> R.string.texture_roof_tiles
+    TextureFilterType.HammeredMetal -> R.string.texture_hammered_metal
+    TextureFilterType.CorrugatedMetal -> R.string.texture_corrugated_metal
+    TextureFilterType.BubbleWrap -> R.string.texture_bubble_wrap
+    TextureFilterType.PenroseTiling -> R.string.texture_penrose_tiling
+    TextureFilterType.CairoTiling -> R.string.texture_cairo_tiling
+    TextureFilterType.IslamicStarTiling -> R.string.texture_islamic_star_tiling
+    TextureFilterType.CelticKnotwork -> R.string.texture_celtic_knotwork
+    TextureFilterType.Seigaiha -> R.string.texture_seigaiha
+    TextureFilterType.Asanoha -> R.string.texture_asanoha
+    TextureFilterType.Houndstooth -> R.string.texture_houndstooth
+    TextureFilterType.Jigsaw -> R.string.texture_jigsaw
+    TextureFilterType.TreeBark -> R.string.texture_tree_bark
+    TextureFilterType.PineCone -> R.string.texture_pine_cone
+    TextureFilterType.ZebraStripes -> R.string.texture_zebra_stripes
+    TextureFilterType.LeopardSpots -> R.string.texture_leopard_spots
+    TextureFilterType.LissajousRibbons -> R.string.texture_lissajous_ribbons
+    TextureFilterType.BismuthCrystal -> R.string.texture_bismuth_crystal
+    TextureFilterType.HilbertRibbons -> R.string.texture_hilbert_ribbons
+    TextureFilterType.Malachite -> R.string.texture_malachite
+    TextureFilterType.Labradorite -> R.string.texture_labradorite
+    TextureFilterType.Seraphinite -> R.string.texture_seraphinite
+    TextureFilterType.PorcelainCrackle -> R.string.texture_porcelain_crackle
+    TextureFilterType.RakuGlaze -> R.string.texture_raku_glaze
+    TextureFilterType.MotherOfPearl -> R.string.texture_mother_of_pearl
+    TextureFilterType.TemperedTitanium -> R.string.texture_tempered_titanium
+    TextureFilterType.EndGrainMosaic -> R.string.texture_end_grain_mosaic
+    TextureFilterType.Cork -> R.string.texture_cork
+    TextureFilterType.CutCrystalGlass -> R.string.texture_cut_crystal_glass
+    TextureFilterType.Sashiko -> R.string.texture_sashiko
+    TextureFilterType.Bargello -> R.string.texture_bargello
+    TextureFilterType.Kilim -> R.string.texture_kilim
+    TextureFilterType.Brocade -> R.string.texture_brocade
+    TextureFilterType.Batik -> R.string.texture_batik
+    TextureFilterType.Ikat -> R.string.texture_ikat
+    TextureFilterType.EmbossedPaisley -> R.string.texture_embossed_paisley
+    TextureFilterType.ArtDecoFans -> R.string.texture_art_deco_fans
+    TextureFilterType.CloverLattice -> R.string.texture_clover_lattice
+    TextureFilterType.GuillocheRosettes -> R.string.texture_guilloche_rosettes
+    TextureFilterType.GinkgoLeaves -> R.string.texture_ginkgo_leaves
+    TextureFilterType.MonsteraCanopy -> R.string.texture_monstera_canopy
+    TextureFilterType.LotusPond -> R.string.texture_lotus_pond
+    TextureFilterType.SeaAnemone -> R.string.texture_sea_anemone
+    TextureFilterType.Jellyfish -> R.string.texture_jellyfish
+    TextureFilterType.ButterflyWings -> R.string.texture_butterfly_wings
+    TextureFilterType.FungalGills -> R.string.texture_fungal_gills
+    TextureFilterType.Radiolaria -> R.string.texture_radiolaria
+    TextureFilterType.SlotCanyon -> R.string.texture_slot_canyon
+    TextureFilterType.GlacialCrevasses -> R.string.texture_glacial_crevasses
+    TextureFilterType.SpiralPearls -> R.string.texture_spiral_pearls
+    TextureFilterType.HopfFibration -> R.string.texture_hopf_fibration
+    TextureFilterType.Spirograph -> R.string.texture_spirograph
+    TextureFilterType.ChiralPinwheels -> R.string.texture_chiral_pinwheels
+    TextureFilterType.TruchetBlocks -> R.string.texture_truchet_blocks
+    TextureFilterType.ImpossibleStairs -> R.string.texture_impossible_stairs
+    TextureFilterType.WovenHexagons -> R.string.texture_woven_hexagons
+    TextureFilterType.Gyroid -> R.string.texture_gyroid
+    TextureFilterType.Hypercube -> R.string.texture_hypercube
+    TextureFilterType.LenticularWaves -> R.string.texture_lenticular_waves
+    TextureFilterType.StellarNursery -> R.string.texture_stellar_nursery
+    TextureFilterType.PulsarJets -> R.string.texture_pulsar_jets
+    TextureFilterType.GravitationalLensing -> R.string.texture_gravitational_lensing
+    TextureFilterType.NacreClouds -> R.string.texture_nacre_clouds
+    TextureFilterType.MercuryDroplets -> R.string.texture_mercury_droplets
+    TextureFilterType.SonicBoom -> R.string.texture_sonic_boom
+    TextureFilterType.RibbonVortex -> R.string.texture_ribbon_vortex
+    TextureFilterType.IridescentFoam -> R.string.texture_iridescent_foam
+    TextureFilterType.LavaCrust -> R.string.texture_lava_crust
+    TextureFilterType.AbyssalVent -> R.string.texture_abyssal_vent
+    TextureFilterType.Maze -> R.string.texture_maze
     TextureFilterType.OrganicFibers -> R.string.texture_organic_fibers
     TextureFilterType.GmicReactionDiffusion -> R.string.texture_reaction_diffusion
     TextureFilterType.Truchet -> R.string.texture_truchet

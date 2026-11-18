@@ -20,6 +20,11 @@ package com.t8rin.imagetoolbox.feature.media_picker.presentation.components
 import android.Manifest
 import android.net.Uri
 import android.os.Build
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -54,7 +59,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.MiniEdit
 import com.t8rin.imagetoolbox.core.resources.icons.Neurology
 import com.t8rin.imagetoolbox.core.resources.icons.Person
 import com.t8rin.imagetoolbox.core.resources.icons.PhotoLibrary
-import com.t8rin.imagetoolbox.core.resources.icons.Schedule
+import com.t8rin.imagetoolbox.core.resources.icons.TextSearch
 import com.t8rin.imagetoolbox.core.resources.icons.Tune
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.ImagePickerMode
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
@@ -81,13 +86,15 @@ internal fun MediaSemanticSearchControls(
 ) = LocalContentColor.ProvidesValue(MaterialTheme.colorScheme.onSurface) {
     val enabled by component.isSemanticSearchEnabled.collectAsStateWithLifecycle()
     val autoIndexing = component.settingsState.isSemanticSearchEnabled
+    val groupPeople = component.settingsState.semanticSearchSettings.groupPeople
+    val ocrEnabled = component.settingsState.isGalleryOcrEnabled
     val context = LocalComponentActivity.current
     val focusManager = LocalFocusManager.current
     val state by component.semanticSearchState.collectAsStateWithLifecycle()
-    val searching by component.isSemanticSearching.collectAsStateWithLifecycle()
-    val searchError by component.semanticSearchError.collectAsStateWithLifecycle()
-    val error = searchError ?: state.error
-    val busy = state.isDownloading || state.isFacesDownloading || state.isIndexing || state.isQueued
+    val ocrState by component.galleryOcrState.collectAsStateWithLifecycle()
+    val searching by component.isSearchingContent.collectAsStateWithLifecycle()
+    val busy = state.isDownloading || state.isFacesDownloading || state.isIndexing ||
+            state.isQueued || state.isFacesIndexing || state.isFacesQueued
     var showOptions by rememberSaveable { mutableStateOf(false) }
     var showClearConfirmation by rememberSaveable { mutableStateOf(false) }
     var showCategories by rememberSaveable { mutableStateOf(false) }
@@ -120,26 +127,39 @@ internal fun MediaSemanticSearchControls(
         }
     }
 
+    val ocrDownloadProgress by rememberUpdatedState(ocrState.downloadProgress)
+    val cancelOcrDownload by rememberUpdatedState { component.setGalleryOcrEnabled(false) }
+    val ocrDownloadContent: @Composable () -> Unit = remember {
+        {
+            SearchModelDownloadProgress(
+                progress = { ocrDownloadProgress },
+                onCancel = { cancelOcrDownload() }
+            )
+        }
+    }
+
     EnhancedIconButton(
         onClick = {
             focusManager.clearFocus()
             showOptions = true
         },
-        containerColor = if (enabled) MaterialTheme.colorScheme.secondaryContainer
+        containerColor = if (enabled || ocrEnabled) MaterialTheme.colorScheme.secondaryContainer
         else Color.Transparent,
         modifier = Modifier.padding(end = 4.dp)
     ) {
-        if (searching || state.isDownloading || state.isFacesDownloading || (busy && state.indexedImages == 0)) {
+        if (searching || state.isDownloading || state.isFacesDownloading ||
+            busy && state.indexedImages == 0 || ocrEnabled && !ocrState.hasIndexed && ocrState.isPreparing
+        ) {
             EnhancedCircularProgressIndicator(
                 modifier = Modifier.size(24.dp),
                 strokeWidth = 3.dp
             )
         } else {
             Icon(
-                imageVector = if (enabled) Icons.Rounded.ImageSearch else Icons.Outlined.ImageSearch,
+                imageVector = if (enabled || ocrEnabled) Icons.Rounded.ImageSearch
+                else Icons.Outlined.ImageSearch,
                 contentDescription = null,
-                tint = if (error != null && enabled) MaterialTheme.colorScheme.error
-                else MaterialTheme.colorScheme.onSurface
+                tint = MaterialTheme.colorScheme.onSurface
             )
         }
     }
@@ -179,71 +199,114 @@ internal fun MediaSemanticSearchControls(
                 .padding(8.dp),
             verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
+            val indexingPhotos = autoIndexing && state.isIndexing
+            val indexingFaces = autoIndexing && groupPeople && state.isFacesIndexing
+            val photosQueued = autoIndexing && state.isQueued && !indexingPhotos &&
+                    !state.isDownloading && !state.isWaitingForPermission
+            val facesQueued =
+                autoIndexing && groupPeople && state.isFacesQueued && !indexingFaces &&
+                        !state.isWaitingForPermission
             PreferenceRowSwitch(
                 title = stringResource(R.string.gallery_search_auto),
-                subtitle = stringResource(R.string.gallery_search_description) + if (!state.modelsReady) {
-                    "\n" + stringResource(R.string.gallery_search_download_hint)
-                } else "",
+                subtitle = when {
+                    indexingPhotos -> stringResource(
+                        R.string.gallery_search_indexing, state.processedImages, state.totalImages
+                    )
+
+                    photosQueued -> stringResource(
+                        if (state.indexedImages > 0) R.string.gallery_search_update_queued
+                        else R.string.gallery_search_queued
+                    )
+
+                    else -> stringResource(R.string.gallery_search_description) + if (!state.modelsReady) {
+                        "\n" + stringResource(R.string.gallery_search_download_hint)
+                    } else ""
+                },
+                animateSubtitle = !indexingPhotos,
                 checked = autoIndexing,
                 onClick = component::setSemanticSearchAutoIndexing,
                 startIcon = Icons.Outlined.Neurology,
                 contentInsteadOfSwitch = downloadContent.takeIf { state.isDownloading },
+                additionalContent = {
+                    SearchPreparationProgress(
+                        visible = indexingPhotos || photosQueued,
+                        progress = (state.processedImages / state.totalImages.coerceAtLeast(1)
+                            .toFloat())
+                            .takeUnless { photosQueued }
+                    )
+                },
                 shape = ShapeDefaults.top,
                 modifier = Modifier.fillMaxWidth()
             )
             PreferenceRowSwitch(
                 title = stringResource(R.string.gallery_people_grouping),
-                subtitle = stringResource(R.string.gallery_people_grouping_description),
-                checked = component.settingsState.semanticSearchSettings.groupPeople || state.isFacesDownloading,
+                subtitle = when {
+                    indexingFaces -> stringResource(
+                        R.string.gallery_faces_indexing,
+                        state.processedFaceImages,
+                        state.totalFaceImages
+                    )
+
+                    facesQueued -> stringResource(R.string.gallery_faces_queued)
+                    else -> stringResource(R.string.gallery_people_grouping_description)
+                },
+                animateSubtitle = !indexingFaces,
+                checked = groupPeople || autoIndexing && state.isFacesDownloading,
                 enabled = autoIndexing && !state.isDownloading,
                 onClick = component::setFaceGrouping,
                 startIcon = Icons.Outlined.Person,
-                contentInsteadOfSwitch = faceDownloadContent.takeIf { state.isFacesDownloading },
+                contentInsteadOfSwitch = faceDownloadContent.takeIf { autoIndexing && state.isFacesDownloading },
+                additionalContent = {
+                    SearchPreparationProgress(
+                        visible = indexingFaces || facesQueued,
+                        progress = (state.processedFaceImages / state.totalFaceImages.coerceAtLeast(
+                            1
+                        ).toFloat())
+                            .takeUnless { facesQueued }
+                    )
+                },
                 shape = ShapeDefaults.center,
                 modifier = Modifier.fillMaxWidth()
             )
-            if (
-                (autoIndexing && (state.isQueued || state.isIndexing)) || (state.modelsReady && state.indexedImages > 0)
-            ) {
-                PreferenceItem(
-                    title = when {
-                        autoIndexing && state.isIndexing -> stringResource(
-                            if (state.isFacesIndexing) R.string.gallery_faces_indexing
-                            else R.string.gallery_search_indexing,
-                            state.processedImages,
-                            state.totalImages
-                        )
+            val ocrIndexing = ocrEnabled && ocrState.isIndexing
+            val ocrQueued =
+                ocrEnabled && ocrState.isQueued && !ocrIndexing && !ocrState.isWaitingForPermission
+            PreferenceRowSwitch(
+                title = stringResource(R.string.gallery_ocr),
+                subtitle = when {
+                    ocrIndexing -> stringResource(
+                        R.string.gallery_ocr_progress,
+                        ocrState.processedImages,
+                        ocrState.totalImages
+                    )
 
-                        autoIndexing && state.isQueued -> stringResource(
-                            if (state.indexedImages > 0) R.string.gallery_search_update_queued
-                            else R.string.gallery_search_queued
-                        )
-
-                        else -> stringResource(R.string.gallery_search_indexed, state.indexedImages)
-                    },
-                    animateTitle = false,
-                    shape = ShapeDefaults.center,
-                    startIcon = when {
-                        autoIndexing && state.isQueued -> Icons.Outlined.Schedule
-                        else -> Icons.Rounded.PhotoLibrary
-                    },
-                    placeBottomContentInside = true,
-                    bottomContent = if (autoIndexing && busy) {
-                        {
-                            SearchPreparationProgress(
-                                if (state.isIndexing) {
-                                    state.processedImages / state.totalImages.coerceAtLeast(1)
-                                        .toFloat()
-                                } else null
-                            )
-                        }
-                    } else null,
-                    modifier = Modifier.fillMaxWidth()
-                )
-            }
-            if (autoIndexing && state.isWaitingForPermission) {
+                    ocrQueued -> stringResource(R.string.gallery_ocr_pending)
+                    else -> stringResource(R.string.gallery_ocr_sub) + if (!ocrState.modelsReady) {
+                        "\n" + stringResource(R.string.gallery_ocr_download_hint)
+                    } else ""
+                },
+                animateSubtitle = !ocrIndexing,
+                checked = ocrEnabled,
+                onClick = component::setGalleryOcrEnabled,
+                startIcon = Icons.Outlined.TextSearch,
+                contentInsteadOfSwitch = ocrDownloadContent.takeIf { ocrEnabled && ocrState.isDownloading },
+                additionalContent = {
+                    SearchPreparationProgress(
+                        visible = ocrIndexing || ocrQueued,
+                        progress = (ocrState.processedImages / ocrState.totalImages.coerceAtLeast(1)
+                            .toFloat())
+                            .takeUnless { ocrQueued }
+                    )
+                },
+                shape = ShapeDefaults.center,
+                modifier = Modifier.fillMaxWidth()
+            )
+            if (autoIndexing && state.isWaitingForPermission || ocrEnabled && ocrState.isWaitingForPermission) {
                 PreferenceItem(
-                    title = stringResource(R.string.gallery_search_permission),
+                    title = stringResource(
+                        if (autoIndexing && state.isWaitingForPermission) R.string.gallery_search_permission
+                        else R.string.gallery_ocr_permission
+                    ),
                     shape = ShapeDefaults.center,
                     startIcon = Icons.Rounded.PhotoLibrary,
                     onClick = {
@@ -346,17 +409,23 @@ internal fun MediaSemanticSearchControls(
 }
 
 @Composable
-private fun SearchPreparationProgress(progress: Float?) {
-    val modifier = Modifier
-        .fillMaxWidth()
-        .padding(top = 8.dp)
-    if (progress == null) {
-        LinearWavyProgressIndicator(modifier = modifier)
-    } else {
-        LinearWavyProgressIndicator(
-            progress = { progress.coerceIn(0f, 1f) },
-            modifier = modifier
-        )
+private fun SearchPreparationProgress(visible: Boolean, progress: Float?) {
+    AnimatedVisibility(
+        visible = visible,
+        enter = fadeIn() + expandVertically(expandFrom = Alignment.Top),
+        exit = fadeOut() + shrinkVertically(shrinkTowards = Alignment.Top)
+    ) {
+        val modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 8.dp)
+        if (progress == null) {
+            LinearWavyProgressIndicator(modifier = modifier)
+        } else {
+            LinearWavyProgressIndicator(
+                progress = { progress.coerceIn(0f, 1f) },
+                modifier = modifier
+            )
+        }
     }
 }
 

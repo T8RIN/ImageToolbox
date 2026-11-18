@@ -25,7 +25,7 @@ import kotlinx.coroutines.withTimeout
 
 internal suspend fun <T> withAssistantReplyTimeout(
     firstTextTimeoutMillis: Long,
-    idleTimeoutMillis: Long = 30_000L,
+    idleTimeoutMillis: Long = 60_000L,
     action: suspend (onText: () -> Unit) -> T
 ): T = coroutineScope {
     val updates = Channel<Unit>(Channel.CONFLATED)

@@ -18,53 +18,26 @@
 package com.t8rin.imagetoolbox.feature.media_picker.data
 
 import android.Manifest
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
 import android.content.Context
-import android.content.Intent
 import android.content.pm.PackageManager
-import android.content.pm.ServiceInfo
 import android.os.Build
 import android.os.Environment
-import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
-import androidx.core.content.getSystemService
 import androidx.work.CoroutineWorker
-import androidx.work.ExistingWorkPolicy
-import androidx.work.ForegroundInfo
 import androidx.work.WorkerParameters
-import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
+import com.t8rin.imagetoolbox.feature.media_picker.domain.GalleryOcrRepository
 import com.t8rin.imagetoolbox.feature.media_picker.domain.MediaRetriever
 import com.t8rin.imagetoolbox.feature.media_picker.domain.SemanticSearchRepository
-import com.t8rin.imagetoolbox.feature.media_picker.domain.SemanticSearchScheduler
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.AllowedMedia
-import com.t8rin.imagetoolbox.feature.media_picker.domain.model.Media
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.android.EntryPointAccessors
 import dagger.hilt.components.SingletonComponent
-import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.TimeoutCancellationException
-import kotlinx.coroutines.cancelAndJoin
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.currentCoroutineContext
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.ensureActive
-import kotlinx.coroutines.flow.conflate
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.sync.Mutex
-import kotlinx.coroutines.sync.withLock
-import kotlinx.coroutines.withTimeout
-import java.util.concurrent.ConcurrentHashMap
-import java.util.concurrent.TimeUnit
 
 internal class SemanticSearchWorker(
     context: Context,
@@ -72,150 +45,68 @@ internal class SemanticSearchWorker(
 ) : CoroutineWorker(context, parameters) {
 
     override suspend fun doWork(): Result {
-        val job = requireNotNull(currentCoroutineContext()[Job])
-        activeJobs.add(job)
-        try {
-            return workMutex.withLock {
-                val dependencies = applicationContext.semanticSearchDependencies()
-                val settings = dependencies.settingsManager()
-                val repository = dependencies.repository()
-                if (!settings.getSettingsState().isSemanticSearchEnabled) {
-                    return@withLock Result.success()
-                }
-                if (!applicationContext.hasSemanticSearchPermission()) {
-                    repository.updateWorkState(isQueued = false, isWaitingForPermission = true)
-                    return@withLock Result.success()
-                }
-                repository.updateWorkState(isQueued = false, isWaitingForPermission = false)
-                try {
-                    repository.refresh()
-                    if (!repository.state.value.modelsReady) {
-                        dependencies.scheduler().refresh()
-                        return@withLock Result.success()
-                    }
-                    currentCoroutineContext().ensureActive()
-                    if (!settings.getSettingsState().isSemanticSearchEnabled) return@withLock Result.success()
-                    // Save each completed embedding and resume before WorkManager's execution limit.
-                    withTimeout(TimeUnit.MINUTES.toMillis(8)) {
-                        val media = dependencies.mediaRetriever()
-                            .getMediaByType(AllowedMedia.Photos(null))
-                            .first()
-                            .getOrThrow()
-                        indexWithProgress(repository, media)
-                        repository.updateWorkState(isQueued = false, isWaitingForPermission = false)
-                        Result.success()
-                    }
-                } catch (_: TimeoutCancellationException) {
-                    repository.updateWorkState(isQueued = false, isWaitingForPermission = false)
-                    runSuspendCatching {
-                        (dependencies.scheduler() as AndroidSemanticSearchScheduler).continueIndexing()
-                    }.fold(
-                        onSuccess = { Result.success() },
-                        onFailure = { Result.retry() }
+        if (GalleryIndex.Semantic.tag !in tags) return Result.success()
+        val dependencies = applicationContext.galleryIndexDependencies()
+        val repository = dependencies.semanticSearch()
+        dependencies.scheduler().runIndex(GalleryIndex.Semantic) {
+            repository.refresh()
+            val media = dependencies.mediaRetriever().getMediaByType(AllowedMedia.Photos(null))
+                .first().getOrThrow()
+            indexWithProgress(
+                notification = GalleryIndexNotification(
+                    context = applicationContext,
+                    channelId = "semantic_search_channel",
+                    workId = id,
+                    title = R.string.gallery_search_auto
+                ),
+                progress = repository.state.filter { it.isIndexing }.map {
+                    GalleryIndexProgress(
+                        processed = it.processedImages,
+                        total = it.totalImages,
+                        text = R.string.gallery_search_indexing
                     )
-                } catch (cancellation: CancellationException) {
-                    throw cancellation
-                } catch (exception: Exception) {
-                    repository.updateWorkState(
-                        isQueued = false,
-                        isWaitingForPermission = false,
-                        error = exception.localizedMessage ?: exception.toString()
+                }
+            ) {
+                repository.index(media)
+            }
+            false
+        }
+        return Result.success()
+    }
+
+}
+
+internal class FaceGroupingWorker(
+    context: Context,
+    parameters: WorkerParameters
+) : CoroutineWorker(context, parameters) {
+
+    override suspend fun doWork(): Result {
+        val dependencies = applicationContext.galleryIndexDependencies()
+        val repository = dependencies.semanticSearch()
+        dependencies.scheduler().runIndex(GalleryIndex.Faces) {
+            val media = dependencies.mediaRetriever().getMediaByType(AllowedMedia.Photos(null))
+                .first().getOrThrow()
+            indexWithProgress(
+                notification = GalleryIndexNotification(
+                    context = applicationContext,
+                    channelId = "gallery_faces_channel",
+                    workId = id,
+                    title = R.string.gallery_people_grouping
+                ),
+                progress = repository.state.filter { it.isFacesIndexing }.map {
+                    GalleryIndexProgress(
+                        processed = it.processedFaceImages,
+                        total = it.totalFaceImages,
+                        text = R.string.gallery_faces_indexing
                     )
-                    Result.retry()
                 }
+            ) {
+                repository.indexFaces(media)
             }
-        } finally {
-            activeJobs.remove(job)
+            false
         }
-    }
-
-    private suspend fun indexWithProgress(
-        repository: SemanticSearchRepository,
-        media: List<Media>
-    ) = coroutineScope {
-        val progressJob = launch {
-            delay(500)
-            repository.state
-                .filter { it.isIndexing }
-                .map { Triple(it.processedImages, it.totalImages, it.isFacesIndexing) }
-                .distinctUntilChanged()
-                .conflate()
-                .collect { (processed, total, faces) ->
-                    setForeground(createForegroundInfo(processed, total, faces))
-                    delay(1_000)
-                }
-        }
-        try {
-            repository.index(
-                media = media,
-                groupPeople = applicationContext.semanticSearchDependencies().settingsManager()
-                    .getSettingsState().semanticSearchSettings.groupPeople
-            )
-        } finally {
-            progressJob.cancelAndJoin()
-        }
-    }
-
-    private fun createForegroundInfo(processed: Int, total: Int, faces: Boolean = false) =
-        ForegroundInfo(
-        NOTIFICATION_ID,
-        notificationBuilder
-            .setContentText(
-                applicationContext.getString(
-                    if (faces) R.string.gallery_faces_indexing else R.string.gallery_search_indexing,
-                    processed,
-                    total
-                )
-            )
-            .setProgress(total, processed, total == 0)
-            .build(),
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC
-        } else 0
-    )
-
-    private val notificationBuilder by lazy {
-        val context = applicationContext
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            context.getSystemService<NotificationManager>()?.createNotificationChannel(
-                NotificationChannel(
-                    CHANNEL_ID,
-                    context.getString(R.string.gallery_search_auto),
-                    NotificationManager.IMPORTANCE_LOW
-                ).apply {
-                    setSound(null, null)
-                    enableVibration(false)
-                }
-            )
-        }
-        val contentIntent = context.packageManager.getLaunchIntentForPackage(context.packageName)
-            ?.apply { flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP }
-            ?.let {
-                PendingIntent.getActivity(
-                    context,
-                    NOTIFICATION_ID,
-                    it,
-                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-                )
-            }
-        NotificationCompat.Builder(context, CHANNEL_ID)
-            .setContentTitle(context.getString(R.string.gallery_search_auto))
-            .setSmallIcon(R.drawable.ic_notification_icon)
-            .setOngoing(true)
-            .setOnlyAlertOnce(true)
-            .setSilent(true)
-            .setContentIntent(contentIntent)
-    }
-
-    companion object {
-        private const val CHANNEL_ID = "semantic_search_channel"
-        private const val NOTIFICATION_ID = 1900
-        private val activeJobs = ConcurrentHashMap.newKeySet<Job>()
-        private val workMutex = Mutex()
-
-        suspend fun cancelAndJoin() {
-            activeJobs.toList().forEach { it.cancelAndJoin() }
-        }
+        return Result.success()
     }
 
 }
@@ -226,13 +117,20 @@ internal class SemanticSearchObserverWorker(
 ) : CoroutineWorker(context, parameters) {
 
     override suspend fun doWork(): Result {
-        val dependencies = applicationContext.semanticSearchDependencies()
-        if (dependencies.settingsManager().getSettingsState().isSemanticSearchEnabled) {
-            val scheduler = dependencies.scheduler()
-            scheduler.refresh()
-            (scheduler as AndroidSemanticSearchScheduler)
-                .scheduleObserver(ExistingWorkPolicy.APPEND_OR_REPLACE)
-        }
+        val scheduler = applicationContext.galleryIndexDependencies().scheduler()
+        scheduler.refreshIndex(mediaChanged = true)
+        return Result.success()
+    }
+
+}
+
+internal class GalleryIndexRefreshWorker(
+    context: Context,
+    parameters: WorkerParameters
+) : CoroutineWorker(context, parameters) {
+
+    override suspend fun doWork(): Result {
+        applicationContext.galleryIndexDependencies().scheduler().refreshIndex()
         return Result.success()
     }
 
@@ -240,24 +138,25 @@ internal class SemanticSearchObserverWorker(
 
 @EntryPoint
 @InstallIn(SingletonComponent::class)
-internal interface SemanticSearchWorkerEntryPoint {
+internal interface GalleryIndexWorkerEntryPoint {
     fun settingsManager(): SettingsManager
-    fun repository(): SemanticSearchRepository
+    fun semanticSearch(): SemanticSearchRepository
+    fun galleryOcr(): GalleryOcrRepository
     fun mediaRetriever(): MediaRetriever
-    fun scheduler(): SemanticSearchScheduler
+    fun scheduler(): AndroidGalleryIndexScheduler
 }
 
-private fun Context.semanticSearchDependencies(): SemanticSearchWorkerEntryPoint =
-    EntryPointAccessors.fromApplication(this, SemanticSearchWorkerEntryPoint::class.java)
+internal fun Context.galleryIndexDependencies(): GalleryIndexWorkerEntryPoint =
+    EntryPointAccessors.fromApplication(this, GalleryIndexWorkerEntryPoint::class.java)
 
-fun Context.hasSemanticSearchPermission(): Boolean {
-    fun hasPermission(permission: String) =
-        ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED
-
-    return when {
-        Build.VERSION.SDK_INT >= 30 && Environment.isExternalStorageManager() -> true
-        Build.VERSION.SDK_INT >= 34 && hasPermission(Manifest.permission.READ_MEDIA_VISUAL_USER_SELECTED) -> true
-        Build.VERSION.SDK_INT >= 33 -> hasPermission(Manifest.permission.READ_MEDIA_IMAGES)
-        else -> hasPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-    }
+internal fun Context.hasFullGalleryPhotoAccess(): Boolean = when {
+    Build.VERSION.SDK_INT >= 30 && Environment.isExternalStorageManager() -> true
+    Build.VERSION.SDK_INT >= 33 -> hasGalleryPermission(Manifest.permission.READ_MEDIA_IMAGES)
+    else -> hasGalleryPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
 }
+
+fun Context.hasSemanticSearchPermission(): Boolean = hasFullGalleryPhotoAccess() ||
+        Build.VERSION.SDK_INT >= 34 && hasGalleryPermission(Manifest.permission.READ_MEDIA_VISUAL_USER_SELECTED)
+
+private fun Context.hasGalleryPermission(permission: String): Boolean =
+    ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED

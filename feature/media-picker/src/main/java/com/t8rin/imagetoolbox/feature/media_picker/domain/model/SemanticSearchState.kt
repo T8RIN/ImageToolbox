@@ -30,9 +30,11 @@ data class SemanticSearchState(
     val indexedImages: Int = 0,
     val indexRevision: Long = 0L,
     val faceModelsReady: Boolean = false,
+    val isFacesQueued: Boolean = false,
     val isFacesIndexing: Boolean = false,
+    val processedFaceImages: Int = 0,
+    val totalFaceImages: Int = 0,
     val hiddenPeopleCount: Int = 0,
     val isFacesDownloading: Boolean = false,
-    val facesDownloadProgress: Float = 0f,
-    val error: String? = null
+    val facesDownloadProgress: Float = 0f
 )

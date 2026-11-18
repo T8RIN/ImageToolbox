@@ -5,21 +5,21 @@ androidCompileSdk = "37"
 androidCompileSdkMinor = "2"
 androidCompileSdkExtension = "-"
 
-versionName = "4.3.0-rc01"
-versionCode = "278"
+versionName = "4.3.0-rc02"
+versionCode = "279"
 
 jvmTarget = "21"
 
-imageToolboxLibs = "8.2.0"
-trickle = "2.1.0"
+imageToolboxLibs = "8.3.1"
+trickle = "2.1.1"
 evaluator = "1.0.0"
 quickie = "1.19.0"
 fadingEdges = "1.0.4"
 composeHighlight = "0.41.1"
 
-avifCoder = "3.0.1"
+avifCoder = "3.0.2"
 aire = "0.18.1"
-jixelCoder = "3.0.0-alpha10"
+jixelCoder = "3.0.0-alpha11"
 jxlCoder = "2.6.2"
 jpegliCoder = "1.0.2"
 
@@ -36,12 +36,12 @@ google-segmentationSelfie = "16.0.0-beta6"
 google-subjectSegmentation = "16.0.0-beta1"
 detekt = "1.23.8"
 detektCompose = "0.6.8"
-decompose = "3.6.1"
+decompose = "3.6.2"
 
 kotlin = "2.4.21"
 agp = "9.5.1"
 hilt = "2.60.1"
-gms = "4.5.0"
+gms = "4.6.0"
 
 ktor = "3.6.1"
 coil = "3.6.3"
@@ -49,6 +49,7 @@ dotlottieAndroid = "0.16.0"
 appCompat = "1.8.0"
 androidxCore = "1.19.1"
 workManager = "2.12.0"
+androidxLifecycle = "2.11.0"
 androidxGraphicsPath = "1.1.0"
 desugaring = "2.1.5"
 activityCompose = "1.13.0"
@@ -59,7 +60,7 @@ reviewKtx = "2.0.2"
 splashScreen = "1.2.0"
 
 espresso = "3.7.0"
-ksp = "2.3.12"
+ksp = "2.3.14"
 
 androidx-test-ext-junit = "1.3.0"
 documentfile = "1.1.0"
@@ -74,8 +75,7 @@ squircle-shape = "5.4.0"
 
 mlkitDocumentScanner = "16.0.0"
 moshi = "1.15.2"
-bouncycastle = "1.86"
-bouncycastleProvider = "1.86"
+bouncycastle = "1.87"
 pdfviewer = "1.0.0-beta01"
 fragmentCompose = "1.9.1"
 aboutlibraries = "15.3.0"
@@ -87,23 +87,24 @@ commonsCompress = "1.28.0"
 junrar = "8.1.2"
 xz = "1.12"
 
-onnx = "1.31.1"
+onnx = "1.32.0"
 onnx-genai = "0.17.0"
 commonmark = "0.32.0"
 snowballStemmer = "1.3.0.581.1"
-opencv = "5.0.0.1"
+opencv = "5.1.0"
 
 materialKolor = "5.0.1"
 palette = "1.1.0"
-kotlinxSerializationJson = "1.12.0"
+kotlinxSerializationJson = "1.13.0"
 
-firebaseBom = "35.1.0"
+firebaseBom = "35.2.0"
 firebaseCrashlyticsGradle = "3.0.8"
 junit = "4.13.2"
 coilResvg = "1.1.2"
 runner = "1.7.0"
 
 [libraries]
+androidx-lifecycle-process = { module = "androidx.lifecycle:lifecycle-process", version.ref = "androidxLifecycle" }
 androidx-work-runtime = { module = "androidx.work:work-runtime-ktx", version.ref = "workManager" }
 coil-resvg = { module = "com.hashsequence:coil-resvg", version.ref = "coilResvg" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
@@ -209,10 +210,10 @@ androidx-documentfile = { group = "androidx.documentfile", name = "documentfile"
 uiautomator = { group = "androidx.test.uiautomator", name = "uiautomator", version.ref = "uiautomator" }
 benchmark-macro-junit4 = { group = "androidx.benchmark", name = "benchmark-macro-junit4", version.ref = "androidxMacroBenchmark" }
 androidx-runner = { module = "androidx.test:runner", version.ref = "runner" }
-tesseract = { module = "cz.adaptech.tesseract4android:tesseract4android-openmp", version.ref = "tesseract" }
+tesseract = { module = "cz.adaptech.tesseract4android:tesseract4android", version.ref = "tesseract" }
 
 bouncycastle-pkix = { module = "org.bouncycastle:bcpkix-jdk18on", version.ref = "bouncycastle" }
-bouncycastle-provider = { module = "org.bouncycastle:bcprov-jdk18on", version.ref = "bouncycastleProvider" }
+bouncycastle-provider = { module = "org.bouncycastle:bcprov-jdk18on", version.ref = "bouncycastle" }
 
 firebase-crashlytics-gradle = { module = "com.google.firebase:firebase-crashlytics-gradle", version.ref = "firebaseCrashlyticsGradle" }
 baselineprofile-gradle = { group = "androidx.benchmark", name = "benchmark-baseline-profile-gradle-plugin", version.ref = "androidxMacroBenchmark" }
