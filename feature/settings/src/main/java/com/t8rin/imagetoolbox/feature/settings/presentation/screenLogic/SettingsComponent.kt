@@ -604,17 +604,17 @@ class SettingsComponent @AssistedInject internal constructor(
         onSuccess: () -> Unit,
         onFailure: () -> Unit
     ) = settingsScope {
-        importCustomFont(uri.toString())?.let { font ->
-            setFont(font)
+        val fonts = importCustomFonts(uri.toString())
+        if (fonts.isNotEmpty()) {
+            fonts.singleOrNull()?.let { setFont(it) }
             onSuccess()
-        } ?: onFailure()
+        } else onFailure()
     }
 
     fun removeCustomFont(
         font: UiFontFamily.Custom
     ) = settingsScope {
         removeCustomFont(font.asDomain() as DomainFontFamily.Custom)
-        setFont(DomainFontFamily.System)
     }
 
     fun toggleEnableToolExitConfirmation() = settingsScope { toggleEnableToolExitConfirmation() }

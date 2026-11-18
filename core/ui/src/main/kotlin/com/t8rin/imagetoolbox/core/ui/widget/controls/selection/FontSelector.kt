@@ -31,7 +31,6 @@ import androidx.compose.foundation.lazy.staggeredgrid.LazyHorizontalStaggeredGri
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -47,7 +46,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.FontFamily
 import com.t8rin.imagetoolbox.core.resources.icons.KeyboardArrowDown
 import com.t8rin.imagetoolbox.core.resources.icons.TextFields
 import com.t8rin.imagetoolbox.core.settings.presentation.model.UiFontFamily
@@ -61,6 +62,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.scaleOnTap
+import com.t8rin.imagetoolbox.core.ui.widget.sheets.FontSelectorSheet
 import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
 
@@ -74,6 +76,13 @@ fun FontSelector(
     shape: Shape = ShapeDefaults.large,
     behaveAsContainer: Boolean = true
 ) {
+    var showFontSheet by rememberSaveable { mutableStateOf(false) }
+    FontSelectorSheet(
+        visible = showFontSheet,
+        onDismiss = { showFontSheet = false },
+        selectedFont = value,
+        onFontSelected = onValueChange
+    )
     Column(
         modifier = modifier.then(
             if (behaveAsContainer) {
@@ -109,6 +118,16 @@ fun FontSelector(
             )
             Spacer(modifier = Modifier.weight(1f))
             EnhancedIconButton(
+                containerColor = MaterialTheme.colorScheme.tertiaryContainer.copy(0.5f),
+                contentColor = MaterialTheme.colorScheme.onTertiaryContainer,
+                onClick = { showFontSheet = true }
+            ) {
+                Icon(
+                    imageVector = Icons.Rounded.FontFamily,
+                    contentDescription = null
+                )
+            }
+            EnhancedIconButton(
                 containerColor = Color.Transparent,
                 onClick = { expanded = !expanded }
             ) {
@@ -138,7 +157,10 @@ fun FontSelector(
             contentPadding = PaddingValues(8.dp),
             flingBehavior = enhancedFlingBehavior()
         ) {
-            items(fonts) { font ->
+            items(
+                items = fonts,
+                key = { it.key }
+            ) { font ->
                 ProvideTypography(font) {
                     EnhancedChip(
                         selected = font == value,

@@ -50,10 +50,12 @@ import com.t8rin.imagetoolbox.core.domain.saving.FileController.Companion.toMeta
 import com.t8rin.imagetoolbox.core.domain.saving.KeepAliveService
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.settings.di.SettingsStateEntryPoint
+import com.t8rin.imagetoolbox.core.settings.domain.FontLibrary
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
 import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
 import com.t8rin.imagetoolbox.core.settings.domain.toSimpleSettingsInteractor
 import com.t8rin.imagetoolbox.core.settings.presentation.model.asColorTuple
+import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalFontLibrary
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSimpleSettingsInteractor
 import com.t8rin.imagetoolbox.core.ui.utils.ComposeApplication.Companion.wrap
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.LocalImagePickerEventEmitter
@@ -94,6 +96,9 @@ abstract class ComposeActivity : AppCompatActivity() {
 
     @Inject
     lateinit var resourceManager: ResourceManager
+
+    @Inject
+    lateinit var fontLibrary: FontLibrary
 
     private lateinit var settingsManager: SettingsManager
 
@@ -175,6 +180,7 @@ abstract class ComposeActivity : AppCompatActivity() {
             )
         ) {
             CompositionLocalProvider(
+                LocalFontLibrary provides fontLibrary,
                 LocalSimpleSettingsInteractor provides settingsManager.toSimpleSettingsInteractor(),
                 LocalMetadataProvider provides fileController.toMetadataProvider(),
                 LocalKeepAliveService provides keepAliveService,

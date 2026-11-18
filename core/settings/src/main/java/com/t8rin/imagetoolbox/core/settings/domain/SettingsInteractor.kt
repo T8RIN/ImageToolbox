@@ -319,10 +319,6 @@ interface SettingsInteractor : SimpleSettingsInteractor {
 
     suspend fun setCustomFonts(fonts: List<DomainFontFamily.Custom>)
 
-    suspend fun importCustomFont(uri: String): DomainFontFamily.Custom?
-
-    suspend fun removeCustomFont(font: DomainFontFamily.Custom)
-
     suspend fun createCustomFontsExport(): String?
 
     suspend fun toggleEnableToolExitConfirmation()

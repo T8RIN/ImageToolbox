@@ -20,6 +20,8 @@ package com.t8rin.imagetoolbox.core.settings.domain
 import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.DomainAspectRatio
 import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
+import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
+import com.t8rin.imagetoolbox.core.settings.domain.model.DomainFontFamily
 import com.t8rin.imagetoolbox.core.settings.domain.model.ImageHeaderState
 import com.t8rin.imagetoolbox.core.settings.domain.model.OneTimeSaveLocation
 import com.t8rin.imagetoolbox.core.settings.domain.model.RawDemosaicQuality
@@ -28,6 +30,23 @@ import com.t8rin.imagetoolbox.core.settings.domain.model.RawOutputColorSpace
 import com.t8rin.imagetoolbox.core.settings.domain.model.RawWhiteBalance
 
 interface SimpleSettingsInteractor {
+
+    suspend fun importCustomFont(uri: String): DomainFontFamily.Custom? =
+        importCustomFonts(uri).singleOrNull()
+
+    suspend fun importCustomFonts(uri: String): List<DomainFontFamily.Custom>
+
+    suspend fun removeCustomFont(font: DomainFontFamily.Custom)
+
+    suspend fun exportCustomFonts(uri: String): SaveResult
+
+    suspend fun setFontPackEnabled(enabled: Boolean)
+
+    suspend fun deleteFontPack()
+
+    suspend fun setFontOrder(order: List<String>)
+
+    suspend fun toggleFavoriteFont(key: String)
 
     suspend fun setImageHeaderState(state: ImageHeaderState)
 

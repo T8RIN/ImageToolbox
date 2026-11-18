@@ -53,7 +53,9 @@ import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.DomainAspectRatio
 import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
 import com.t8rin.imagetoolbox.core.domain.resource.ResourceManager
+import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.settings.domain.SimpleSettingsInteractor
+import com.t8rin.imagetoolbox.core.settings.domain.model.DomainFontFamily
 import com.t8rin.imagetoolbox.core.settings.domain.model.ImageHeaderState
 import com.t8rin.imagetoolbox.core.settings.domain.model.OneTimeSaveLocation
 import com.t8rin.imagetoolbox.core.settings.domain.model.RawDemosaicQuality
@@ -264,6 +266,13 @@ private fun FakeLoader(
 }
 
 private val FakeSettings = object : SimpleSettingsInteractor {
+    override suspend fun importCustomFonts(uri: String): List<DomainFontFamily.Custom> = emptyList()
+    override suspend fun removeCustomFont(font: DomainFontFamily.Custom) = Unit
+    override suspend fun exportCustomFonts(uri: String): SaveResult = SaveResult.Skipped()
+    override suspend fun setFontPackEnabled(enabled: Boolean) = Unit
+    override suspend fun deleteFontPack() = Unit
+    override suspend fun setFontOrder(order: List<String>) = Unit
+    override suspend fun toggleFavoriteFont(key: String) = Unit
     override suspend fun setImageHeaderState(state: ImageHeaderState) = Unit
     override suspend fun toggleRawUseEmbeddedPreview() = Unit
     override suspend fun toggleMagnifierEnabled() = Unit

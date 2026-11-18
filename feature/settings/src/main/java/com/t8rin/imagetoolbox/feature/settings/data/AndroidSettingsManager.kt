@@ -19,6 +19,7 @@ package com.t8rin.imagetoolbox.feature.settings.data
 
 import android.content.Context
 import android.graphics.Typeface
+import android.system.Os
 import androidx.core.net.toFile
 import androidx.core.net.toUri
 import androidx.datastore.core.DataStore
@@ -44,11 +45,14 @@ import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
 import com.t8rin.imagetoolbox.core.domain.model.HashingType
 import com.t8rin.imagetoolbox.core.domain.model.PerformanceClass
 import com.t8rin.imagetoolbox.core.domain.model.SystemBarsVisibility
+import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.io.Writeable
+import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.toggle
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.domain.utils.timestamp
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.settings.domain.FontLibrary
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
 import com.t8rin.imagetoolbox.core.settings.domain.model.BackupProgress
 import com.t8rin.imagetoolbox.core.settings.domain.model.CacheAutoClearInterval
@@ -151,6 +155,7 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.FAB_ALIGNMENT
 import com.t8rin.imagetoolbox.feature.settings.data.keys.FAST_SETTINGS_SIDE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.FAVORITE_ARCADE_GAMES
 import com.t8rin.imagetoolbox.feature.settings.data.keys.FAVORITE_COLORS
+import com.t8rin.imagetoolbox.feature.settings.data.keys.FAVORITE_FONTS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.FAVORITE_GRADIENTS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.FAVORITE_SCREENS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.FILENAME_BEHAVIOR
@@ -158,6 +163,8 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.FILENAME_PATTERN
 import com.t8rin.imagetoolbox.feature.settings.data.keys.FILENAME_PREFIX
 import com.t8rin.imagetoolbox.feature.settings.data.keys.FILENAME_SUFFIX
 import com.t8rin.imagetoolbox.feature.settings.data.keys.FLING_TYPE
+import com.t8rin.imagetoolbox.feature.settings.data.keys.FONT_ORDER
+import com.t8rin.imagetoolbox.feature.settings.data.keys.FONT_PACK_ENABLED
 import com.t8rin.imagetoolbox.feature.settings.data.keys.FONT_SCALE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.GALLERY_COLUMNS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.GALLERY_DISPLAY_SETTINGS
@@ -268,6 +275,7 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.toScreenOrder
 import com.t8rin.imagetoolbox.feature.settings.data.keys.toSettingsState
 import dagger.Lazy
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -279,15 +287,20 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okio.buffer
 import okio.source
+import org.json.JSONArray
+import org.json.JSONObject
 import java.io.File
 import java.io.FileInputStream
+import java.util.UUID
+import java.util.zip.ZipInputStream
 import javax.inject.Inject
-import kotlin.random.Random
 
 internal class AndroidSettingsManager @Inject constructor(
     @ApplicationContext private val context: Context,
     private val dataStore: DataStore<Preferences>,
     private val shareProvider: Lazy<ShareProvider>,
+    private val fileController: Lazy<FileController>,
+    private val fontLibrary: Lazy<FontLibrary>,
     private val galleryIndexScheduler: Lazy<GalleryIndexScheduler>,
     private val jsonParser: JsonParser,
     dispatchersHolder: DispatchersHolder,
@@ -582,9 +595,10 @@ internal class AndroidSettingsManager @Inject constructor(
         val reorderedIds = screenIds.toSet()
         val reordered = reorderedIds.iterator()
 
-        preferences[key] = (currentOrder + defaultOrder + reorderedIds).distinct().joinToString("/") {
-            if (it in reorderedIds) reordered.next().toString() else it.toString()
-        }
+        preferences[key] =
+            (currentOrder + defaultOrder + reorderedIds).distinct().joinToString("/") {
+                if (it in reorderedIds) reordered.next().toString() else it.toString()
+            }
     }
 
     override suspend fun toggleClearCacheOnLaunch() = toggle(
@@ -1348,51 +1362,106 @@ internal class AndroidSettingsManager @Inject constructor(
         } ?: FilenameBehavior.None()
     )
 
+    override suspend fun setFontOrder(order: List<String>) = edit {
+        it[FONT_ORDER] = JSONArray(
+            order.distinct().filterNot { key ->
+                key == DomainFontFamily.System.asString()
+            }
+        ).toString()
+    }
+
+    override suspend fun toggleFavoriteFont(key: String) = edit {
+        if (key == DomainFontFamily.System.asString()) return@edit
+        it[FAVORITE_FONTS] = (it[FAVORITE_FONTS] ?: emptySet()).toggle(key)
+    }
+
     override suspend fun setCustomFonts(fonts: List<DomainFontFamily.Custom>) = edit {
         it[CUSTOM_FONTS] = fonts.map(DomainFontFamily::asString).toSet()
     }
 
-    override suspend fun importCustomFont(
-        uri: String
-    ): DomainFontFamily.Custom? = withContext(ioDispatcher) {
-        val font = context.contentResolver.openInputStream(uri.toUri())?.use {
-            it.buffered().readBytes()
-        } ?: ByteArray(0)
-        val filename = uri.toUri().filename(context) ?: "font${Random.nextInt()}.ttf"
-
-        val directory = File(context.filesDir, "customFonts").apply {
-            mkdir()
-        }
-        val file = File(directory, filename).apply {
-            if (exists()) {
-                val fontToRemove = DomainFontFamily.Custom(
-                    name = nameWithoutExtension.replace("[:\\-_.,]".toRegex(), " "),
-                    filePath = absolutePath
-                )
-                removeCustomFont(fontToRemove)
+    override suspend fun importCustomFonts(uri: String): List<DomainFontFamily.Custom> =
+        withContext(ioDispatcher) {
+            val stage =
+                File(context.cacheDir, "font_import_${UUID.randomUUID()}").apply { mkdirs() }
+            try {
+                context.contentResolver.openInputStream(uri.toUri())?.buffered()?.use { input ->
+                    input.mark(4)
+                    val signature = ByteArray(4)
+                    input.read(signature)
+                    input.reset()
+                    if (signature.contentEquals(byteArrayOf(0x50, 0x4b, 3, 4))) {
+                        ZipInputStream(input).use { zip ->
+                            while (true) {
+                                ensureActive()
+                                val entry = zip.nextEntry ?: break
+                                val file = File(stage, entry.name).canonicalFile
+                                if (!entry.isDirectory && file.startsWith(stage.canonicalFile) &&
+                                    (file.extension.lowercase() in listOf(
+                                        "ttf",
+                                        "otf"
+                                    ) || entry.name == "manifest.json")
+                                ) {
+                                    file.parentFile?.mkdirs()
+                                    file.outputStream().use { zip.copyTo(it) }
+                                }
+                                zip.closeEntry()
+                            }
+                        }
+                    } else {
+                        val name = File(uri.toUri().filename(context) ?: "font.ttf").name
+                        File(stage, name).outputStream().use { input.copyTo(it) }
+                    }
+                } ?: return@withContext emptyList()
+                val names = runCatching {
+                    val entries =
+                        JSONObject(File(stage, "manifest.json").readText()).getJSONArray("fonts")
+                    List(entries.length()) { entries.getJSONObject(it) }.associate {
+                        it.getString("file") to it.getString("name")
+                    }
+                }.getOrDefault(emptyMap())
+                val directory = File(context.filesDir, "customFonts").apply { mkdirs() }
+                val destination = File(directory, UUID.randomUUID().toString())
+                val fonts = stage.walkTopDown().filter {
+                    it.isFile && it.extension.lowercase() in listOf("ttf", "otf")
+                }.mapNotNull { file ->
+                    ensureActive()
+                    val typeface = runCatching { Typeface.createFromFile(file) }.getOrNull()
+                    if (typeface == null || typeface === Typeface.DEFAULT) {
+                        file.delete()
+                        null
+                    } else {
+                        val relative = file.relativeTo(stage).invariantSeparatorsPath
+                        DomainFontFamily.Custom(
+                            name = names[relative]
+                                ?: file.nameWithoutExtension.replace("[:\\-_.,]".toRegex(), " "),
+                            filePath = File(destination, relative).absolutePath
+                        )
+                    }
+                }.toList()
+                if (fonts.isNotEmpty()) {
+                    Os.rename(stage.absolutePath, destination.absolutePath)
+                    setCustomFonts(currentSettings.customFonts + fonts)
+                }
+                fonts
+            } finally {
+                stage.deleteRecursively()
             }
-            delete()
-            createNewFile()
-
-            outputStream().use {
-                writeBytes(font)
-            }
         }
 
-        val typeface = runCatching {
-            Typeface.createFromFile(file)
-        }.getOrNull()
+    override suspend fun setFontPackEnabled(enabled: Boolean) {
+        if (!enabled) resetDownloadedFont()
+        edit { it[FONT_PACK_ENABLED] = enabled }
+    }
 
-        if (typeface == null) {
-            file.delete()
-            return@withContext null
-        }
+    override suspend fun deleteFontPack() {
+        resetDownloadedFont()
+        fontLibrary.get().remove()
+    }
 
-        DomainFontFamily.Custom(
-            name = file.nameWithoutExtension.replace("[:\\-_.,]".toRegex(), " "),
-            filePath = file.absolutePath
-        ).also {
-            setCustomFonts(currentSettings.customFonts + it)
+    private suspend fun resetDownloadedFont() {
+        val font = currentSettings.font as? DomainFontFamily.Custom ?: return
+        if (fontLibrary.get().getFonts().any { it.filePath == font.filePath }) {
+            setFont(DomainFontFamily.System)
         }
     }
 
@@ -1402,16 +1471,61 @@ internal class AndroidSettingsManager @Inject constructor(
         File(font.filePath).delete()
 
         setCustomFonts(currentSettings.customFonts - font)
+        if (currentSettings.font == font) setFont(DomainFontFamily.System)
     }
 
-    override suspend fun createCustomFontsExport(): String? = withContext(ioDispatcher) {
-        shareProvider.get().cacheData(
+    override suspend fun exportCustomFonts(uri: String): SaveResult =
+        fileController.get().transferBytes(
+            fromUri = createCustomFontsExport(),
+            toUri = uri
+        )
+
+    override suspend fun createCustomFontsExport(): String = withContext(ioDispatcher) {
+        shareProvider.get().cacheDataOrThrow(
             writeData = { writeable ->
                 writeable.outputStream().createZip { zip ->
-                    File(context.filesDir, "customFonts").listFiles()?.forEach { file ->
-                        zip.putEntry(
-                            name = file.name,
-                            input = FileInputStream(file)
+                    val manifest = JSONArray()
+                    val customDirectory = File(context.filesDir, "customFonts").canonicalFile
+                    currentSettings.customFonts.forEach { font ->
+                        val file = File(font.filePath).canonicalFile
+                        if (file.isFile) {
+                            val path =
+                                "custom/" + file.relativeTo(customDirectory).invariantSeparatorsPath
+                            zip.putEntry(path, file.inputStream())
+                            manifest.put(
+                                JSONObject()
+                                    .put("name", font.name)
+                                    .put("file", path)
+                            )
+                        }
+                    }
+                    val packDirectory = File(context.filesDir, "fontPack").canonicalFile
+                    fontLibrary.get().getFonts().forEach { font ->
+                        val file = File(font.filePath).canonicalFile
+                        if (file.isFile) {
+                            val path = file.relativeTo(packDirectory).invariantSeparatorsPath
+                            zip.putEntry(path, file.inputStream())
+                            manifest.put(
+                                JSONObject()
+                                    .put("name", font.name)
+                                    .put("file", path)
+                                    .put("variable", font.variable)
+                                    .put("category", font.category.name)
+                                    .put(
+                                        "coverage",
+                                        JSONObject(font.coverage.mapKeys { it.key.name })
+                                    )
+                            )
+                        }
+                    }
+                    zip.putEntry("manifest.json") {
+                        it.write(
+                            JSONObject()
+                                .put("version", 1)
+                                .put("fontCount", manifest.length())
+                                .put("fonts", manifest)
+                                .toString()
+                                .toByteArray()
                         )
                     }
                 }

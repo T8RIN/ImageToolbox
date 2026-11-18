@@ -53,6 +53,7 @@ import com.t8rin.imagetoolbox.core.settings.domain.model.ShapeType
 import com.t8rin.imagetoolbox.core.settings.domain.model.SliderType
 import com.t8rin.imagetoolbox.core.settings.domain.model.SnowfallMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.SwitchType
+import org.json.JSONArray
 
 internal fun Preferences.toSettingsState(
     default: SettingsState,
@@ -284,6 +285,14 @@ internal fun Preferences.toSettingsState(
         default
     ),
     customFonts = this[CUSTOM_FONTS].toCustomFonts(),
+    fontPackEnabled = this[FONT_PACK_ENABLED] ?: default.fontPackEnabled,
+    fontOrder = this[FONT_ORDER]?.let { order ->
+        runCatching {
+            val array = JSONArray(order)
+            List(array.length()) { array.getString(it) }
+        }.getOrDefault(default.fontOrder)
+    } ?: default.fontOrder,
+    favoriteFonts = this[FAVORITE_FONTS] ?: default.favoriteFonts,
     enableToolExitConfirmation = this[ENABLE_TOOL_EXIT_CONFIRMATION]
         ?: default.enableToolExitConfirmation,
     recentColors = this[RECENT_COLORS]?.mapNotNull { color ->
