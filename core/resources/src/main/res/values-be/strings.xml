@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,81 +14,79 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
-    <string name="pick_image">Выберыце малюнак для пачатку</string>
+  --><resources>
+    <string name="pick_image">Выберыце відарыс, каб пачаць</string>
     <string name="height">Вышыня %1$s</string>
     <string name="explicit">Спецыфічны</string>
     <string name="app_closing">Закрыццё праграмы</string>
-    <string name="reset_image_sub">Змены выявы вернуцца да пачатковых значэнняў</string>
-    <string name="reset">Скід</string>
-    <string name="copied">Скапіравана ў буфер абмену</string>
+    <string name="reset_image_sub">Змены відарыса вернуцца да пачатковых значэнняў</string>
+    <string name="reset">Скіданне</string>
+    <string name="copied">Скапіявана ў буфер абмену</string>
     <string name="exception">Выключэнне</string>
-    <string name="ok">Ок</string>
-    <string name="no_exif">Дадзеныя EXIF не знойдзены</string>
+    <string name="ok">Добра</string>
+    <string name="no_exif">Даныя EXIF не знойдзены</string>
     <string name="add_tag">Дадаць тэг</string>
     <string name="smth_went_wrong">Нешта пайшло не так: %1$s</string>
     <string name="size">Памер %1$s</string>
     <string name="loading">Загрузка…</string>
-    <string name="image_too_large_preview">Відарыс занадта вялікі для папярэдняга прагляду, але ўсё роўна будзе зроблена спроба захаваць</string>
+    <string name="image_too_large_preview">Відарыс занадта вялікі для папярэдняга прагляду, але ўсё роўна будзе зроблена спроба захавання</string>
     <string name="width">Шырыня %1$s</string>
-    <string name="resize_type">Тып маштабавання</string>
+    <string name="resize_type">Тып змены памеру</string>
     <string name="quality">Якасць</string>
     <string name="extension">Пашырэнне</string>
     <string name="flexible">Гнуткі</string>
-    <string name="pick_image_alt">Выберыце малюнак</string>
+    <string name="pick_image_alt">Выбраць відарыс</string>
     <string name="app_closing_sub">Вы ўпэўнены, што хочаце закрыць праграму?</string>
-    <string name="stay">Заставайся</string>
+    <string name="stay">Застацца</string>
     <string name="close">Закрыць</string>
-    <string name="reset_image">Скінуць выяву</string>
-    <string name="values_reset">Значэнне скінута правільна</string>
+    <string name="reset_image">Скінуць відарыс</string>
+    <string name="values_reset">Значэнні скінуты правільна</string>
     <string name="something_went_wrong">Нешта пайшло не так</string>
     <string name="restart_app">Перазапусціць праграму</string>
-    <string name="edit_exif">Рэдагаваць EXIF</string>
+    <string name="edit_exif">Рэд. EXIF</string>
     <string name="image_not_saved_sub">Усе незахаваныя змены будуць страчаны, калі вы выйдзеце зараз</string>
     <string name="save">Захаваць</string>
     <string name="image_exif_warning">Ў цяперашні час фармат %1$s на Android дазваляе толькі чытаць exif, але не змяняць/захоўваць іх, гэта азначае, што выходная выява наогул не будзе мець метададзеных.</string>
     <string name="clear">Ачысціць</string>
     <string name="clear_exif">Ачысціць EXIF</string>
-    <string name="image_not_saved">Захаванне</string>
-    <string name="pick_color">Выберыце колер</string>
-    <string name="pick_color_sub">Выберыце колер з малюнка, скапіруйце або падзяліцеся ім</string>
-    <string name="image">Малюнак</string>
-    <string name="presets">Прадустаноўкі</string>
+    <string name="image_not_saved">Захоўванне</string>
+    <string name="pick_color">Выбраць колер</string>
+    <string name="pick_color_sub">Выберыце колер з відарыса, скапіюйце або абагуліце яго</string>
+    <string name="image">Відарыс</string>
+    <string name="presets">Наборы налад</string>
     <string name="check_source_code_sub">Атрымлівайце апошнія абнаўленні, абмяркоўвайце праблемы і многае іншае</string>
-    <string name="clear_exif_sub">Усе даныя EXIF выявы будуць выдалены. Гэта дзеянне нельга адмяніць!</string>
-    <string name="single_edit">Адна праўка</string>
+    <string name="clear_exif_sub">Усе даныя EXIF відарыса будуць выдалены. Гэтае дзеянне немагчыма адрабіць!</string>
+    <string name="single_edit">Адзіночнае рэдагаванне</string>
     <string name="color_copied">Колер скапіяваны</string>
     <string name="check_source_code">Зыходны код</string>
-    <string name="single_edit_sub">Змяніць характарыстыкі аднаго дадзенага відарыса</string>
-    <string name="cancel">Адмена</string>
-    <string name="crop">Выразаць</string>
+    <string name="single_edit_sub">Змяніць адзін відарыс</string>
+    <string name="cancel">Скасаваць</string>
+    <string name="crop">Абрэзаць</string>
     <string name="color">Колер</string>
     <string name="palette">Палітра</string>
-    <string name="images">Выявы: %d</string>
-    <string name="no_palette">Немагчыма стварыць палітру для дадзенай выявы</string>
+    <string name="images">Відарысы: %d</string>
+    <string name="no_palette">Немагчыма стварыць палітру для дадзенага відарыса</string>
     <string name="original">Арыгінал</string>
-    <string name="remove">Выключыць</string>
+    <string name="remove">Выдаліць</string>
     <string name="secondary_customization">Другасная персаналізацыя</string>
     <string name="font_scale">Памер тэксту</string>
-    <string name="update">Абнаўленне</string>
+    <string name="update">Абнавіць</string>
     <string name="keep_exif">Захаваць EXIF</string>
-    <string name="folder">Тэчка вываду</string>
+    <string name="folder">Папка для вываду</string>
     <string name="light">Светлы</string>
     <string name="version">Версія</string>
-    <string name="customization">Персаналізацыя</string>
-    <string name="palette_sub">Стварыце ўзор каляровай палітры з дадзенага малюнка</string>
+    <string name="customization">Дапасаванне</string>
+    <string name="palette_sub">Стварыць узор колеравай палітры з дадзенага відарыса</string>
     <string name="dark">Цёмны</string>
-    <string name="crop_sub">Абрэзаць выяву ў любых межах</string>
-    <string name="def">Па змаўчанні</string>
+    <string name="crop_sub">Абрэзаць відарыс да любых межаў</string>
+    <string name="def">Прадвызначана</string>
     <string name="generate_palette">Стварыць палітру</string>
     <string name="amoled_mode_sub">Калі ўключана, то колер паверхняў будзе ўсталяваны на абсалютна цёмны ў начным рэжыме.</string>
     <string name="font">Шрыфт</string>
     <string name="using_large_fonts_warn">Выкарыстанне вялікага памеру шрыфтоў можа выклікаць збоі ў карыстальніцкім інтэрфейсе і праблемы, якія не будуць выпраўлены. Выкарыстоўвайце асцярожна.</string>
     <string name="system">Як у сістэме</string>
     <string name="new_version">Новая версія %1$s</string>
-    <string name="change_preview">Змяніць папярэдні прагляд</string>
+    <string name="change_preview">Змяніць перадпрагляд</string>
     <string name="emoji_sub">Выберыце, які эмодзі адлюстроўваць на галоўным экране</string>
     <string name="color_balance">Каляровы баланс</string>
     <string name="background_color">Колер фону</string>
@@ -147,7 +146,7 @@
     <string name="disabled">Адкл.</string>
     <string name="stroke_pixelation">Пікселяцыя абводкі</string>
     <string name="diamond_pixelation">Алмазная пікселізацыя</string>
-    <string name="allow_image_monet">Ўключыць Monet</string>
+    <string name="allow_image_monet">Дазволіць Monet відарыса</string>
     <string name="language">Мова</string>
     <string name="help_translate_sub">Выправіць памылкі перакладу або перакласці праект на іншыя мовы</string>
     <string name="weak_pixel_inclusion">Слабае ўключэнне пікселяў</string>
@@ -512,16 +511,16 @@
     <string name="random_dithering">Выпадковае змяненне</string>
     <string name="simple_threshold_dithering">Простае парогавае ваганне</string>
     <string name="unsupported_type">Тып не падтрымліваецца: %1$s</string>
-    <string name="custom">Прыстасаваныя</string>
-    <string name="unspecified">Невызначаны</string>
-    <string name="device_storage">Захоўванне прылады</string>
-    <string name="compare">Параўнайце</string>
+    <string name="custom">Уласны</string>
+    <string name="unspecified">Нявызначаны</string>
+    <string name="device_storage">Сховішча прылады</string>
+    <string name="compare">Параўнаць</string>
     <string name="by_bytes_resize">Змяніць памер па вазе</string>
     <string name="max_bytes">Максімальны памер у КБ</string>
-    <string name="by_bytes_resize_sub">Змяніць памер выявы ў адпаведнасці з зададзеным памерам у КБ</string>
-    <string name="compare_sub">Параўнайце два дадзеныя малюнкі</string>
-    <string name="pick_two_images">Выберыце два відарысы для пачатку</string>
-    <string name="pick_images">Падбярыце малюнкі</string>
+    <string name="by_bytes_resize_sub">Змяніце памер відарыса ў адпаведнасці з дадзеным памерам у КБ</string>
+    <string name="compare_sub">Параўнайце два дадзеныя відарысы</string>
+    <string name="pick_two_images">Выберыце два відарысы, каб пачаць</string>
+    <string name="pick_images">Выбраць відарысы</string>
     <string name="settings">Налады</string>
     <string name="issue_tracker">Адсочванне праблем</string>
     <string name="issue_tracker_sub">Дасылайце справаздачы аб памылках і запыты аб функцыях сюды</string>
@@ -3165,8 +3164,8 @@
     <string name="help_tip_wallpaper_export_step_2">Выберыце даступныя запісы Home, Lock або ўбудаваныя шпалеры, якія вы хочаце захаваць, скапіяваць або абагуліць.</string>
     <string name="help_tip_wallpaper_export_step_3">Калі шпалеры адсутнічаюць або функцыя недаступная, гэта звычайна абмежаванне сістэмы, дазволу або варыянту зборкі, а не налада рэдагавання.</string>
     <string name="shape_by_interaction_throttle">Куты Анімацыя Дросель</string>
-    <string name="copy_color_as">Капіраваць колер як</string>
-    <string name="hex_and_name">HEX + імя</string>
+    <string name="copy_color_as">Скапіяваць колер як</string>
+    <string name="hex_and_name">Шаснаццатковы + назва</string>
     <string name="model_modnet">Мадэль партрэтнага цыноўкі для хуткага стрыжкі асобы з больш мяккімі валасамі і апрацоўкай краёў.</string>
     <string name="model_zero_dcepp">Хуткае паляпшэнне пры слабым асвятленні з дапамогай ацэнкі крывой Zero-DCE++.</string>
     <string name="model_restormer_deraining">Мадэль аднаўлення выявы Restormer для памяншэння палос ад дажджу і артэфактаў вільготнага надвор\'я.</string>
@@ -4431,8 +4430,8 @@
     <string name="gmic_param_quantized_orientations">Квантаваныя арыентацыі</string>
     <string name="sheet_nested_scroll">Аркуш укладзены скрутак</string>
     <string name="sheet_nested_scroll_sub">Дазволіць жэсты ў змесціве аркуша перацягваць і адхіляць аркуш</string>
-    <string name="save_if_smaller">Захавайце, калі менш</string>
-    <string name="save_if_smaller_sub">Калі гэты параметр выключаны, файлы, памер якіх менш за запытаны максімальны памер, будуць прапускацца</string>
+    <string name="save_if_smaller">Захоўваць, калі менш за</string>
+    <string name="save_if_smaller_sub">Калі адключана, файлы, меншыя за запытаны максімальны памер, будуць прапускацца</string>
     <string name="magic_kernel">Чароўнае ядро</string>
     <string name="magic_kernel_sub">Плыўны фільтр паўторнай дыскрэтызацыі без гуку з моцным згладжваннем, але больш мяккім вынікам</string>
     <string name="magic_kernel_sharp_2013">Magic Kernel Sharp 2013</string>
@@ -5026,19 +5025,19 @@
     <string name="jxl_type_merge">Аб\'яднаць JXL</string>
     <string name="jxl_type_merge_sub">Аб\'яднайце некалькі анімаваных кліпаў JXL у адну анімацыю</string>
     <string name="animation_clips_order">Заказ анімацыйных кліпаў</string>
-    <string name="palette_pdf">Палітра pdf</string>
-    <string name="palette_pdf_sub">Упарадкуйце колеры палітры і дадатковы зыходны відарыс у кантактным аркушы PDF</string>
+    <string name="palette_pdf">Палітра PDF</string>
+    <string name="palette_pdf_sub">Упарадкуйце колеры палітры і неабавязковы зыходны відарыс у кантактным аркушы PDF</string>
     <string name="palette_pdf_include_image">Уключыць зыходны відарыс</string>
-    <string name="palette_pdf_include_image_sub">Змесціце зыходны малюнак над каляровай сеткай на першай старонцы</string>
-    <string name="palette_pdf_show_names">Паказаць назвы колераў</string>
-    <string name="palette_pdf_show_hex">Паказаць значэнні HEX</string>
-    <string name="palette_pdf_show_filename">Паказаць імя зыходнага файла</string>
-    <string name="palette_pdf_show_filename_sub">Змесціце імя зыходнага файла ўверсе кожнай старонкі</string>
-    <string name="palette_pdf_show_palette_name">Паказаць назву палітры</string>
-    <string name="palette_pdf_show_palette_name_sub">Змесціце імя, захаванае ўнутры палітры, пад імем файла</string>
+    <string name="palette_pdf_include_image_sub">Змясціць зыходны відарыс над колеравай сеткай на першай старонцы</string>
+    <string name="palette_pdf_show_names">Паказваць назвы колераў</string>
+    <string name="palette_pdf_show_hex">Паказваць шаснаццатковыя значэнні</string>
+    <string name="palette_pdf_show_filename">Паказваць назву зыходнага файла</string>
+    <string name="palette_pdf_show_filename_sub">Змясціць назву зыходнага файла ўверсе кожнай старонкі</string>
+    <string name="palette_pdf_show_palette_name">Паказваць назву палітры</string>
+    <string name="palette_pdf_show_palette_name_sub">Змясціць назву, захаваную ўнутры палітры, пад назвай файла</string>
     <string name="palette_pdf_selected_file">Выбраны файл палітры</string>
     <string name="palette_pdf_page_margin">Палі старонкі</string>
-    <string name="palette_pdf_color_spacing">Каляровы інтэрвал</string>
+    <string name="palette_pdf_color_spacing">Інтэрвал паміж колерамі</string>
     <string name="pdf_dark_mode">Цёмны рэжым PDF</string>
     <string name="pdf_dark_mode_sub">Стварыце зручны цёмны PDF без растрырацыі тэксту і вектарнай графікі</string>
     <string name="pdf_dark_mode_info">Выкарыстоўвае рэжымы змешвання PDF для захавання тэксту, спасылак, шрыфтоў і вектарнай графікі, якія можна выбраць. Знешні выгляд анатацый і форм можа залежаць ад праграмы прагляду PDF.</string>
@@ -5485,7 +5484,7 @@
     <string name="gallery_descending">Па сыходзе</string>
     <string name="gallery_display_options">Групоўка і сартаванне</string>
     <string name="gallery_grouping">Групоўка</string>
-    <string name="save_color_as_image">Захаваць як малюнак</string>
+    <string name="save_color_as_image">Захаваць як відарыс</string>
     <string name="compare_animation">Анімацыя да/пасля</string>
     <string name="compare_animation_sub">Экспарт цыклічнага параўнання ў фармаце GIF</string>
     <string name="compare_animation_before">Раней</string>
