@@ -23,6 +23,7 @@ import android.graphics.Color
 import android.opengl.GLES20
 import androidx.core.graphics.createBitmap
 import com.t8rin.imagetoolbox.core.utils.appContext
+import com.t8rin.imagetoolbox.texture_generation.domain.model.PatternPlacement
 import com.t8rin.imagetoolbox.texture_generation.domain.model.TextureParams
 import jp.co.cyberagent.android.gpuimage.GPUImage
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
@@ -47,20 +48,32 @@ internal fun generatePatternTexture(
 private class PatternTextureFilter(private val params: TextureParams) : GPUImageFilter(
     NO_FILTER_VERTEX_SHADER, patternShader(requireNotNull(params.textureFilterType.pattern))
 ) {
+    private val type = requireNotNull(params.textureFilterType.pattern)
+    private val frequency = type.resolveFrequency(params.patternParams.frequency)
+
     override fun onInit() {
         super.onInit()
-        val type = requireNotNull(params.textureFilterType.pattern)
         val p = params.patternParams
         fun scalar(name: String, value: Float) =
             setFloat(GLES20.glGetUniformLocation(program, name), value)
         type.resolve(p.values).forEach { (name, value) -> scalar(name, value) }
-        scalar(
-            "frequency",
-            p.frequency.takeIf { it.isFinite() }?.coerceIn(0.1f, 64f) ?: type.defaultFrequency
-        )
-        scalar("offsetX", p.offsetX.takeIf { it.isFinite() }?.coerceIn(-1f, 1f) ?: 0f)
-        scalar("offsetY", p.offsetY.takeIf { it.isFinite() }?.coerceIn(-1f, 1f) ?: 0f)
-        scalar("rotation", p.rotation.takeIf { it.isFinite() }?.coerceIn(-180f, 180f) ?: 0f)
+        scalar("frequency", frequency)
+        when (type.placement) {
+            PatternPlacement.Canvas -> {
+                scalar("offsetX", p.offsetX.takeIf { it.isFinite() }?.coerceIn(-1f, 1f) ?: 0f)
+                scalar("offsetY", p.offsetY.takeIf { it.isFinite() }?.coerceIn(-1f, 1f) ?: 0f)
+            }
+            PatternPlacement.Phase, PatternPlacement.PhaseXY -> {
+                scalar("phaseX", p.phaseX.takeIf { it.isFinite() }?.coerceIn(0f, 1f) ?: 0f)
+                if (type.placement == PatternPlacement.PhaseXY) {
+                    scalar("phaseY", p.phaseY.takeIf { it.isFinite() }?.coerceIn(0f, 1f) ?: 0f)
+                }
+            }
+            PatternPlacement.None -> Unit
+        }
+        if (type.hasRotation) {
+            scalar("rotation", p.rotation.takeIf { it.isFinite() }?.coerceIn(-180f, 180f) ?: 0f)
+        }
         repeat(4) { index ->
             val color = p.colors.getOrElse(index) { -1 }
             setFloatVec4(
@@ -74,9 +87,6 @@ private class PatternTextureFilter(private val params: TextureParams) : GPUImage
 
     override fun onOutputSizeChanged(width: Int, height: Int) {
         super.onOutputSizeChanged(width, height)
-        val frequency = params.patternParams.frequency.takeIf { it.isFinite() }
-            ?.coerceIn(0.1f, 64f)
-            ?: requireNotNull(params.textureFilterType.pattern).defaultFrequency
         setFloat(
             GLES20.glGetUniformLocation(program, "pixelWidth"),
             frequency / minOf(width, height)

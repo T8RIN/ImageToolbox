@@ -367,1253 +367,984 @@ internal fun patternShader(type: PatternTextureType): String {
         """.trimIndent()
 
         PatternTextureType.LunariaPods -> """
-            vec2 q = fract(p + vec2(0.5 * floor(p.y), 0.0)) - 0.5;
-            float stem = 0.06 * sin(4.0 * q.y);
-            result = mix(color1, color2, coverage(abs(q.x - stem), 0.013));
-            for (int i = 0; i < 4; i++) {
-                float side = mod(float(i), 2.0) * 2.0 - 1.0;
-                float level = float(i) * 0.23 - 0.34;
-                vec2 base = vec2(0.06 * sin(4.0 * level), level);
-                vec2 tip = base + vec2(side * 0.20, -0.11);
-                result = mix(result, color3, coverage(segment(q, base, tip), 0.009));
-                vec2 pod = rotatePoint(q - tip, side * 0.48);
-                float edge = ellipseDistance(pod, vec2(0.091, 0.138));
-                result = mix(result, mix(color2, color3, 0.64), coverage(edge, 0.0));
-                result = mix(result, color4, coverage(abs(edge), 0.006));
-                float vein = abs(pod.x - 0.018 * sin(pod.y * 16.0));
-                result = mix(result, color4, coverage(vein, 0.003) * coverage(edge, -0.012));
-                result = mix(result, color2, coverage(length(pod - vec2(0.021, -0.023)), 0.015));
+            vec2 grid = vec2(p.x * 4.8 - p.y * 1.1, p.y * 5.7);
+            result = mix(color1, color2, 0.25 * layerNoise(p * 11.0));
+            for (int j = -1; j <= 1; j++) {
+                for (int i = -1; i <= 1; i++) {
+                    vec2 tile = floor(grid) + vec2(float(i), float(j));
+                    vec2 q = grid - tile - 0.5 - (hash2(tile) - 0.5) * 0.58;
+                    float st = abs(q.x - 0.24 * sin(q.y * 2.2 + tile.x));
+                    result = mix(result, color2,
+                                 reliefBand(st, 0.012) * (1.0 - smoothstep(0.45, 0.7, abs(q.y))));
+                    q -= vec2(0.22 * sign(hash(tile + 7.1) - 0.5), -0.12);
+                    q = rotatePoint(q, (hash(tile + 4.0) - 0.5) * 1.5);
+                    q /= (0.47 + overlap * 0.43) * (1.0 + (hash(tile + 3.2) - 0.5) * sizeVariation);
+                    vec2 z = q / vec2(0.32, 0.54);
+                    float r = length(z);
+                    float inside = 1.0 - smoothstep(0.94, 1.0, r);
+                    float fib =
+                        reliefBand(repeatDistance(z.x * 4.2 / max(0.27, 1.0 - z.y * z.y * 0.72)), 0.044);
+                    result = mix(result, mix(color3, color4, 0.45 + 0.45 * fib),
+                                 inside * (1.0 - membraneTransparency * 0.8));
+                    result = mix(result, color4, reliefBand(r - 0.97, 0.028) * 0.86);
+                    result = mix(result, color2, coverage(length(z - 0.1), 0.13));
+                }
             }
         """.trimIndent()
 
         PatternTextureType.HorsetailStems -> """
-            vec2 q = p;
-            float column = floor(q.x);
-            q.x = fract(q.x) - 0.5;
-            q.y += hash(vec2(column, 3.7));
-            float joint = fract(q.y) - 0.5;
-            q.x -= 0.065 * sin(p.y * 2.1 + column * 3.0);
-            result = mix(color1, color2, 0.25 + 0.18 * cos(p.x * 4.0));
-            for (int i = 1; i <= 5; i++) {
-                float t = float(i) / 5.0;
-                vec2 branch = vec2(0.09 + 0.32 * t, -0.54 + 0.29 * t);
-                float distance = segment(vec2(abs(q.x), joint), vec2(0.0, 0.25), branch);
-                result = mix(result, mix(color2, color3, t), coverage(distance, 0.011));
+            float s = p.x * stemDensity - 0.40 * p.y;
+            result = mix(color1, color2, layerNoise(p * 8.0) * 0.35);
+            for (int i = -1; i <= 1; i++) {
+                float row = floor(s) + float(i);
+                float w = hash(vec2(row, 9.0));
+                float dx = (s - row - 0.5 - (w - 0.5) * 0.42 - 0.13 * sin(p.y * 6.0 + row)) / stemDensity;
+                float yy = p.y / internodeLength + hash(vec2(row, 4.0));
+                float y = fract(yy) * internodeLength;
+                result = mix(result, mix(color2, color3, w), reliefBand(dx, 0.0033));
+                for (int j = 0; j < 4; j++) {
+                    float index = float(j);
+                    float angle = radians(branchAngle * (0.45 + index * 0.23));
+                    float len = internodeLength * (0.73 - index * 0.06);
+                    vec2 tip = vec2(sin(angle), cos(angle)) * len;
+                    float d = segment(vec2(abs(dx), y), vec2(0.0), tip);
+                    result = mix(result, mix(color2, color3, index / 3.0), coverage(d, 0.0015));
+                }
+                result = mix(result, color4, coverage(length(vec2(dx, y) / vec2(1.8, 0.75)), 0.0037));
             }
-            result = mix(result, color3, coverage(abs(q.x), 0.032));
-            result = mix(result, color4, coverage(abs(q.x + 0.013), 0.006));
-            result = mix(result, color2, coverage(max(abs(q.x) - 0.043, abs(joint - 0.25) - 0.035), 0.0));
         """.trimIndent()
 
         PatternTextureType.DandelionClocks -> """
-            vec2 tile = vec2(p.x + 0.5 * floor(p.y), p.y);
-            vec2 q = fract(tile) - 0.5;
-            vec2 center = vec2((hash(floor(tile)) - 0.5) * 0.15, -0.11);
-            vec2 head = q - center;
-            result = mix(color1, color2, 0.12 + 0.12 * noise(p * 3.0));
-            float stalk = abs(head.x - 0.10 * head.y * head.y);
-            result = mix(result, color2, coverage(stalk, 0.013) * step(0.0, head.y));
-            for (int i = 0; i < 28; i++) {
-                float n = float(i);
-                float angle = n * 2.39996;
-                vec2 axis = vec2(cos(angle), sin(angle));
-                float span = 0.31 * sqrt((n + 3.0) / 30.0);
-                vec2 end = axis * span;
-                result = mix(result, color3, coverage(segment(head, vec2(0.0), end), 0.0028));
-                vec2 v = vec2(dot(head - end, vec2(-axis.y, axis.x)), dot(head - end, axis));
-                float tuft = min(segment(vec2(abs(v.x), v.y), vec2(0.0), vec2(0.027, 0.021)),
-                                 segment(v, vec2(0.0), vec2(0.0, 0.03)));
-                result = mix(result, color4, coverage(tuft, 0.0045));
-            }
-            result = mix(result, color3, coverage(length(head), 0.026));
+            vec2 grid = p * downDensity;
+            result = mix(color1, color2, 0.55 * layerNoise(p * 4.0));
+            for (int j = -1; j <= 1; j++)
+                for (int i = -1; i <= 1; i++) {
+                    vec2 tile = floor(grid) + vec2(float(i), float(j));
+                    vec2 q = grid - tile - 0.5 - 0.80 * (hash2(tile) - 0.5);
+                    float v = hash(tile + 5.0), radius = crownRadius * (0.55 + v * 0.76);
+                    q = rotatePoint(q, (v - 0.5) * 1.2);
+                    float stalk = segment(q, vec2(0.0), vec2(-0.45, 1.35) * radius);
+                    result = mix(result, color3, coverage(stalk / downDensity, 0.0011));
+                    vec2 n = q / vec2(1.0, 0.65);
+                    float r = length(n) / radius, angle = safeAngle(n) / TAU + 0.5;
+                    float ray = angle * rayCount + 0.34 * sin(r * 2.5 + v * TAU);
+                    float end = 0.56 + hash(tile + floor(ray + 0.5)) * 0.52;
+                    float d = repeatDistance(ray) * TAU * length(n) / max(rayCount, 1.0) / downDensity;
+                    result = mix(result, color4,
+                                 reliefBand(d, 0.00085) * (1.0 - smoothstep(end - 0.07, end, r)) *
+                                     (0.48 + 0.48 * v));
+                }
         """.trimIndent()
 
         PatternTextureType.CalicoKoi -> """
-            vec2 tile = vec2(p.x + 0.5 * floor(p.y), p.y);
-            vec2 q = rotatePoint(fract(tile) - 0.5, (hash(floor(tile)) - 0.5) * 3.0);
-            q.y -= 0.08 * sin(q.x * 8.0);
-            result = mix(color1, color2, 0.18 * noise(p * 3.0));
-            float tail = triangleDistance(q, vec2(0.17, 0.0), vec2(0.40, -0.16), vec2(0.36, 0.13));
-            float fins =
-                    triangleDistance(vec2(q.x, abs(q.y)), vec2(-0.09, 0.07), vec2(0.05, 0.22), vec2(0.08, 0.06));
-            result = mix(result, color2, coverage(min(tail, fins), 0.0));
-            float fish = ellipseDistance(q, vec2(0.28, 0.115)) + q.x * 0.12;
-            float spots = noise(q * vec2(11.0, 16.0) + floor(tile) * 3.7);
-            vec4 scales = mix(color3, color4, smoothstep(0.46, 0.51, spots));
-            scales = mix(scales, color1, smoothstep(0.68, 0.74, spots));
-            result = mix(result, scales, coverage(fish, 0.0));
-            result = mix(result, color1, coverage(length(vec2(q.x + 0.21, abs(q.y) - 0.067)), 0.017));
+            vec2 q = p / patchSize;
+            float blot = layerNoise(q * 1.83) + 0.30 * noise(q * 6.2);
+            float ink = layerNoise(q * 1.67 + 34.2);
+            result = mix(color1, color2,
+                         smoothstep(0.86 - scarletCoverage * 0.43, 0.88 - scarletCoverage * 0.43, blot));
+            result = mix(result, color3, smoothstep(0.61, 0.64, ink));
+            vec2 scale = p * vec2(22.0, 29.0);
+            scale.x += mod(floor(scale.y), 2.0) * 0.5;
+            vec2 l = fract(scale) - vec2(0.5, 0.08);
+            float arc = abs(length(l / vec2(0.59, 0.87)) - 1.0);
+            result = mix(result, color4, reliefBand(arc, 0.032) * 0.42);
+            result = mix(
+                result, color3,
+                smoothstep(0.87 - 0.19 * inkFlecks, 0.94 - 0.18 * inkFlecks, noise(p * 154.0)) * inkFlecks);
         """.trimIndent()
 
         PatternTextureType.ValleyBells -> """
-            vec2 q = fract(p + vec2(0.5 * floor(p.y), 0.0)) - 0.5;
-            float stem = -0.16 + 0.38 * (q.y + 0.42) * (q.y + 0.42);
-            result = mix(color1, color3, coverage(abs(q.x - stem), 0.012));
-            vec2 leaf = rotatePoint(q - vec2(0.16, 0.19), -0.40);
-            float blade = abs(leaf.x) - 0.11 * max(0.0, 1.0 - pow(abs(leaf.y) / 0.32, 1.3));
-            result = mix(result, color2, coverage(max(blade, abs(leaf.y) - 0.32), 0.0));
-            result = mix(result, color3, coverage(abs(leaf.x), 0.004) * step(abs(leaf.y), 0.28));
-            for (int i = 0; i < 4; i++) {
-                float y = -0.34 + float(i) * 0.18;
-                float x = -0.16 + 0.38 * (y + 0.42) * (y + 0.42);
-                vec2 bell = q - vec2(x - 0.105, y + 0.042);
-                result = mix(result, color3, coverage(segment(q, vec2(x, y), vec2(x - 0.10, y + 0.012)), 0.008));
-                float rim = 0.057 - 0.014 * cos(bell.x * 98.0);
-                float cap = ellipseDistance(bell, vec2(0.054 + 0.28 * clamp(bell.y, 0.0, 0.08), 0.078));
-                result = mix(result, color4, coverage(max(cap, bell.y - rim), 0.0));
+            vec2 grid = p * vec2(3.5, 4.1) + vec2(phaseX, 2.0 * phaseY);
+            grid.x += 0.5 * mod(floor(grid.y), 2.0);
+            vec2 q = fract(grid) - 0.5;
+            q.y = -q.y;
+            result = mix(color1, color2, layerNoise(p * 18.0) * 0.23);
+            float x = q.x - shootLean * q.y;
+            for (int i = 0; i < 2; i++) {
+                float dir = float(i) * 2.0 - 1.0;
+                vec2 v = rotatePoint(q - vec2(0.1 * dir, -0.04), dir * 0.43);
+                float w = max(0.0, 1.0 - pow(abs(v.y) / 0.34, 1.35));
+                result = mix(result, mix(color2, color3, 0.20 * float(i)),
+                             coverage(abs(v.x) - leafWidth * w * 0.66, 0.0) * step(abs(v.y), 0.34));
+            }
+            float curve =
+                -0.36 + 0.62 * (1.0 - pow(abs(clamp((x + 0.15) / 0.52, 0.0, 1.0) - 0.75), 2.0) * 1.9);
+            result = mix(result, color3, reliefBand(q.y - curve, 0.008) * step(-0.15, x) * step(x, 0.37));
+            for (int i = 0; i < 8; i++) {
+                if (float(i) >= bellCount)
+                    break;
+                float xx = 0.02 + 0.35 * float(i) / max(1.0, bellCount - 1.0);
+                float cy = -0.36 + 0.62 * (1.0 - pow(abs((xx + 0.15) / 0.52 - 0.75), 2.0) * 1.9);
+                vec2 e = vec2(x - xx, q.y - cy + 0.064);
+                result = mix(result, color3, coverage(segment(e, vec2(0.0), vec2(-0.012, 0.067)), 0.005));
+                float petal = max(abs(e.x) - (0.030 - 0.22 * e.y),
+                                  max(e.y - 0.019, -e.y - 0.045 - 0.009 * cos(e.x * 115.0)));
+                result = mix(result, color4, coverage(petal, 0.0));
             }
         """.trimIndent()
 
         PatternTextureType.SilkPoppies -> """
-            vec2 t = vec2(p.x + floor(p.y) * 0.5, p.y);
-            vec2 q = fract(t) - 0.5;
-            float phase = hash(floor(t)) * TAU;
-            float bend = 0.12 * sin(q.y * 3.2 + phase);
-            result = mix(color1, color2, coverage(abs(q.x - bend), 0.011) * step(-0.11, q.y));
-            q -= vec2(0.12 * sin(-0.11 * 3.2 + phase), -0.11);
-            float a = safeAngle(q) + phase;
-            float r = length(q);
-            float rim = 0.25 + 0.043 * cos(4.0 * a) + 0.018 * sin(7.0 * a);
-            vec4 petal =
-                    mix(color3, color4, 0.18 + 0.38 * (0.5 + 0.5 * cos(4.0 * a + 0.6)) * smoothstep(0.08, rim, r));
-            petal = mix(petal, color4, coverage(abs(r - rim + 0.013), 0.003));
-            result = mix(result, petal, coverage(r - rim, 0.0));
-            result = mix(result, color1, coverage(r, 0.064 + 0.010 * cos(12.0 * a)));
-            result = mix(result, color2, coverage(r, 0.027));
+            vec2 grid = p / repeatPitch + vec2(3.0 * phaseX, 2.0 * phaseY);
+            grid.x += mod(floor(grid.y), 2.0) * 0.5;
+            vec2 tile = mod(floor(grid), vec2(3.0, 2.0)), q = fract(grid) - 0.5;
+            q -= (hash2(tile) - 0.5) * 0.25;
+            result = mix(color1, color2, 0.12 + 0.15 * layerNoise(p * 42.0));
+            float stem = abs(q.x - 0.12 * sin(q.y * 4.7 + tile.x * 0.7));
+            result = mix(result, color2, reliefBand(stem, 0.016) * smoothstep(-0.02, 0.08, q.y));
+            vec2 leaf = rotatePoint(q - vec2(0.09, 0.32), -0.72);
+            result = mix(result, color2, coverage(ellipseDistance(leaf, vec2(0.062, 0.18)), 0.0));
+            vec2 secondLeaf = rotatePoint(q - vec2(-0.11, 0.24), 0.87);
+            result = mix(result, mix(color2, color4, 0.10),
+                         coverage(ellipseDistance(secondLeaf, vec2(0.047, 0.14)), 0.0));
+            float a = safeAngle(q), r = length(q);
+            float petal =
+                (0.16 + 0.21 * petalOpening) * (0.84 + 0.13 * cos(5.0 * a + sin(3.0 * a + tile.y)) +
+                                                0.047 * sin(11.0 * a + tile.x + tile.y));
+            float mask = coverage(r - petal, 0.0);
+            vec4 printInk = mix(
+                color3, color4,
+                clamp(0.25 + 0.45 * r / petal + 0.20 * sin(5.0 * a) - 0.10 * pow(abs(cos(a * 15.0)), 7.0),
+                      0.0, 1.0));
+            printInk = mix(printInk, color3,
+                           0.28 * pow(0.5 + 0.5 * cos(a * 26.0 + 1.9 * sin(a * 4.0) + 5.0 * r), 6.0));
+            result = mix(result, printInk, mask);
+            result = mix(result, color1, coverage(r - petal * (0.22 + 0.035 * sin(a * 9.0)), 0.0));
+            result = mix(result, color2, coverage(r - petal * 0.095, 0.0));
         """.trimIndent()
 
         PatternTextureType.FlyAgaricGrove -> """
-            vec2 t = vec2(p.x + 0.5 * floor(p.y), p.y);
-            vec2 q = fract(t) - 0.5;
-            q = rotatePoint(q, (hash(floor(t)) - 0.5) * 0.45);
-            float g = 0.07 * noise(p * 22.0);
-            result = mix(color1, color2, g + 0.12 * smoothstep(0.22, 0.50, q.y));
-            float stalk = ellipseDistance(q - vec2(0.0, 0.14), vec2(0.053, 0.20));
-            result = mix(result, color4, coverage(stalk, 0.0));
-            float skirt = triangleDistance(q, vec2(0.0, 0.02), vec2(-0.09, 0.13), vec2(0.075, 0.125));
-            result = mix(result, mix(color2, color4, 0.65), coverage(skirt, 0.0));
-            vec2 cap = q - vec2(0.0, -0.032);
-            float brim = 0.038 * cos(cap.x * 6.0);
-            float edge = max(ellipseDistance(cap, vec2(0.34, 0.235)), cap.y - brim);
-            vec4 paint = mix(color3, color4, 0.17 * smoothstep(0.28, 0.68, noise(q * 10.0)));
-            vec2 grid = cap * 14.0;
-            vec2 fleck = fract(grid) - 0.5 - (hash2(floor(grid)) - 0.5) * 0.37;
-            paint = mix(paint, color4, coverage(length(fleck) / 14.0, 0.010 + 0.009 * hash(floor(grid))));
-            result = mix(result, paint, coverage(edge, 0.0));
-            result = mix(result, color4, coverage(abs(cap.y - brim), 0.009) * coverage(abs(cap.x), 0.33));
+            result = mix(color1, color2, 0.24 + 0.70 * layerNoise(p * 7.0));
+            for (int i = 0; i < 3; i++) {
+                float size = 13.0 * pow(1.9, float(i));
+                vec2 grid = p * size, tile = floor(grid),
+                     q = fract(grid) - 0.5 - 0.32 * (hash2(tile) - 0.5);
+                float r = flakeSize * (0.45 + hash(tile + 21.0)) *
+                          (1.0 + 0.17 * sin(safeAngle(q) * 5.0 + tile.x));
+                float mask = coverage((length(q) - r) / size, 0.0) * step(hash(tile + 31.0), fleckDensity);
+                result =
+                    mix(result, mix(color3, color4, clamp(0.62 - flakeRelief * (q.x + q.y) / r, 0.0, 1.0)),
+                        mask);
+            }
         """.trimIndent()
 
         PatternTextureType.BeachPebbles -> """
-            result = mix(color1, color2, 0.12 * noise(p * 26.0));
-            vec2 cell = floor(p);
-            for (int row = -1; row <= 1; row++) {
-                for (int col = -1; col <= 1; col++) {
-                    vec2 id = cell + vec2(float(col), float(row));
-                    vec2 center = id + vec2(0.34 + 0.34 * mod(id.y, 2.0), 0.5);
-                    vec2 q = rotatePoint(p - center - (hash2(id) - 0.5) * 0.16, (hash(id + 2.0) - 0.5) * 1.3);
-                    float edge =
-                            ellipseDistance(q, vec2(0.48, 0.30 + hash(id + 5.0) * 0.11)) + 0.015 * sin(q.x * 13.0);
-                    vec4 stone = mix(color2, color3, hash(id + 7.0));
-                    float band = abs(q.y - 0.18 * q.x - 0.075 * sin(3.8 * q.x + hash(id) * TAU));
-                    stone = mix(stone, color4, coverage(band, 0.014 + 0.028 * hash(id + 1.0)));
-                    stone = mix(stone, color1, 0.22 * smoothstep(0.0, 0.40, q.y + q.x * 0.35));
-                    result = mix(result, stone, coverage(edge, 0.0));
-                }
+            result = mix(color1, color2, layerNoise(p * 96.0) * 0.25);
+            for (int pass = 0; pass < 2; pass++) {
+                float g = pass == 0 ? 35.0 : 7.0;
+                vec2 q = p * g, tile = floor(q);
+                for (int j = -1; j <= 1; j++)
+                    for (int i = -1; i <= 1; i++) {
+                        vec2 id = tile + vec2(float(i), float(j));
+                        vec2 v = q - id - 0.5 - (hash2(id) - 0.5) * 0.42;
+                        float h = hash(id + 18.3);
+                        v = rotatePoint(v, h * TAU) * vec2(0.90, 1.17);
+                        float rad = (pass == 0 ? 0.24 : 0.43) * (1.0 + sizeVariation * (h - 0.5));
+                        float d = length(v) * (1.0 + 0.06 * sin(3.0 * safeAngle(v) + h));
+                        float mask = coverage((d - rad) / g, 0.0);
+                        if (pass == 0)
+                            mask *= step(hash(id + 22.0), finePebbles);
+                        vec4 rock = toneRamp(0.15 + h * 0.72);
+                        float stripe = abs(v.y + 0.27 * v.x + 0.13 * sin(v.x * 6.2 + h * 3.0));
+                        rock = mix(rock, color4,
+                                   reliefBand(stripe, 0.014) * step(hash(id + 88.0), veinFrequency));
+                        rock.rgb *= 0.84 + 0.24 * noise(p * 225.0) - 0.09 * v.y / rad;
+                        result = mix(result, rock, mask);
+                    }
             }
         """.trimIndent()
 
         PatternTextureType.TravertinePools -> """
-            vec2 q = vec2(p.x, p.y * 1.75);
-            float ridge = q.y + 0.36 * sin(3.0 * q.x + 2.4 * q.y) + 0.54 * noise(q * 2.1) + 0.09 * noise(q * 9.0);
-            float level = fract(ridge * 2.15);
-            vec4 pool = mix(color1, color2, smoothstep(0.04, 0.60, level));
-            pool = mix(pool, color3, smoothstep(0.60, 0.96, level));
-            float lip = 1.0 - smoothstep(0.022, 0.095, abs(level - 0.91));
-            result = mix(pool, color4, lip);
-            result = mix(result, color2, 0.12 * noise(q * 30.0));
+            float level =
+                (p.y + 0.25 * p.x + meander * (layerNoise(p * 4.0) - 0.5) * 1.34) / terraceSpacing;
+            float t = fract(level);
+            result = mix(color1, color2, 0.25 + 0.65 * smoothstep(0.0, 0.88, t));
+            result = mix(result, color3, smoothstep(0.84 - rimWidth * 0.70, 0.91 - rimWidth * 0.70, t));
+            result = mix(result, color4, smoothstep(1.0 - rimWidth, 1.0 - rimWidth * 0.55, t));
+            result.rgb *= 0.94 + 0.12 * noise(p * 148.0);
         """.trimIndent()
 
         PatternTextureType.TidepoolStars -> """
-            vec2 tile = vec2(p.x + 0.5 * floor(p.y), p.y);
-            vec2 id = floor(tile);
-            vec2 q = rotatePoint(fract(tile) - 0.5 - (hash2(id) - 0.5) * 0.10, hash(id) * TAU);
-            result = mix(color1, color2, 0.18 + 0.42 * noise(p * 4.5));
-            float angle = safeAngle(q);
-            float radius = length(q);
-            float sector = mod(angle + TAU / 10.0, TAU / 5.0) - TAU / 10.0;
-            float arm = 0.11 + 0.275 * pow(max(0.0, cos(sector * 2.5)), 6.0);
-            arm -= 0.055 * abs(sin(sector * 5.0));
-            float edge = radius - arm;
-            float centerline = radius * abs(sin(sector + 0.13 * sin(radius * 10.0)));
-            vec4 skin = mix(color3, color4, 0.24 * (1.0 - smoothstep(0.0, 0.075, centerline)));
-            float beads = length(vec2(centerline - 0.017, (fract(radius * 31.0) - 0.5) / 31.0));
-            skin = mix(skin, color4, coverage(beads, 0.009));
-            result = mix(result, skin, coverage(edge, 0.0));
+            vec2 g = vec2(p.x * 12.0 + 1.3 * p.y, (p.y + 0.13 * sin(TAU * p.x * 0.8)) / rowSpacing);
+            result = mix(color1, color2, 0.32 + 0.52 * layerNoise(p * 12.0));
+            for (int i = 0; i < 2; i++) {
+                float f = i == 0 ? 2.5 : 1.0;
+                vec2 v = g * f, tile = floor(v), q = fract(v) - 0.5 - 0.18 * (hash2(tile) - 0.5);
+                float r = spineSize * (0.65 + hash(tile + 6.1) * 0.65) * (i == 0 ? 0.64 : 1.0);
+                float d = length(q * vec2(1.12, 0.91));
+                vec4 spine = mix(color2, color4, clamp(0.70 - (q.x + q.y) * 0.61 / r, 0.0, 1.0));
+                result = mix(result, spine, coverage((d - r) * rowSpacing / f, 0.0));
+            }
+            result = mix(result, color3, skinRoughness * 0.17 * noise(p * 266.0));
         """.trimIndent()
 
         PatternTextureType.WaveCutCliffs -> """
-            vec2 q = p + vec2(0.5);
-            float sky = 0.11 * noise(q * 7.0);
-            result = mix(color4, color3, 0.18 + sky);
-            float crest = 0.32 + 0.14 * sin(q.x * 4.4) + 0.07 * noise(q * vec2(9.0, 0.0));
-            float foot = 0.67 + 0.12 * sin(q.x * 3.4 + 0.2) + 0.045 * noise(q * vec2(19.0, 0.0));
-            float bed = q.y * 22.0 + q.x * 2.7 + 0.34 * sin(q.x * 8.0) + 0.20 * noise(q * 14.0);
-            vec4 rock = mix(color3, color4, 0.52 * smoothstep(0.18, 0.74, fract(bed)));
-            rock = mix(rock, color1, 0.35 * smoothstep(0.88, 0.99, fract(bed * 0.67)));
-            result = mix(result, rock, smoothstep(crest - pixelWidth, crest + pixelWidth, q.y));
-            vec4 sea = mix(color1, color2, 0.35 + 0.60 * noise(q * vec2(6.0, 42.0)));
-            float surf = abs(q.y - foot - 0.017 - 0.009 * sin(42.0 * q.x));
-            sea = mix(sea, color4, coverage(surf, 0.009));
-            result = mix(result, sea, smoothstep(foot - pixelWidth, foot + pixelWidth, q.y));
+            float flow =
+                (p.y + p.x * 0.20 + 0.038 * sin(p.x * 10.0) + 0.045 * layerNoise(p * 9.0)) / grooveSpacing;
+            float d = cos(TAU * flow),
+                  wet = smoothstep(0.84 - wetPatches * 0.64, 0.99 - wetPatches * 0.60, layerNoise(p * 8.3));
+            result = mix(color2, color3, 0.38 + layerNoise(p * 22.0) * 0.45);
+            result = mix(result, color1, (0.26 + 0.69 * channelDepth) * smoothstep(0.25, 0.98, d));
+            result =
+                mix(result, color4, 0.49 * channelDepth * smoothstep(0.68, 1.0, sin(flow * TAU + 0.96)));
+            result = mix(result, color1, wet * (0.24 + 0.25 * max(0.0, d)));
         """.trimIndent()
 
         PatternTextureType.SailingRegatta -> """
-            vec2 tile = vec2(p.x + floor(p.y) * 0.5, p.y);
-            vec2 q = fract(tile) - 0.5;
-            if (hash(floor(tile)) > 0.5) q.x = -q.x;
-            float wake = abs(q.y - 0.30 - 0.025 * sin(q.x * 13.0));
-            result = mix(color1, color2, max(coverage(wake, 0.012), 0.40 * coverage(abs(wake - 0.09), 0.006)));
-            float sail = triangleDistance(q, vec2(-0.035, -0.37), vec2(-0.055, 0.11), vec2(-0.34, 0.11));
-            result = mix(result, color4, coverage(sail, 0.0));
-            float jib = triangleDistance(q, vec2(0.015, -0.25), vec2(0.015, 0.10), vec2(0.26, 0.10));
-            result = mix(result, color3, coverage(jib, 0.0));
-            float hull = max(abs(q.y - 0.18) - 0.042, abs(q.x + 0.03) + 0.8 * (q.y - 0.136) - 0.35);
-            result = mix(result, color2, coverage(hull, 0.0));
-            result = mix(result, color4, coverage(segment(q, vec2(-0.028, -0.36), vec2(-0.028, 0.14)), 0.006));
+            vec2 q = rotatePoint(p, -0.065);
+            float weather = layerNoise(q * vec2(5.5, 15.0)) + 0.11 * noise(q * 118.0);
+            float threshold = 0.27 + paintWear * 0.48;
+            result = mix(color1, color2, 0.19 + 0.34 * layerNoise(q * vec2(12.0, 95.0)));
+            result = mix(result, color4, smoothstep(threshold - 0.038, threshold - 0.014, weather));
+            result = mix(result, color3, smoothstep(threshold - 0.007, threshold + 0.012, weather));
+            vec2 scratches = q * vec2(4.0, 100.0);
+            float row = floor(scratches.y), t = fract(scratches.y) - 0.54;
+            float mark = reliefBand(t + 0.05 * sin(scratches.x * 6.0 + row), 0.033);
+            mark *= smoothstep(0.87 - scratchDensity * 0.55, 0.97 - scratchDensity * 0.50,
+                               noise(vec2(scratches.x, row)));
+            result = mix(result, color2, mark * 0.87);
+            result.rgb *= 0.94 + 0.11 * noise(q * 225.0);
         """.trimIndent()
 
         PatternTextureType.BarnacleColony -> """
-            vec2 tile = vec2(p.x + floor(p.y) * 0.5, p.y);
-            vec2 id = floor(tile);
-            vec2 q = fract(tile) - 0.5 - (hash2(id) - 0.5) * 0.09;
-            float r = length(q);
-            float a = safeAngle(q);
-            float size = 0.27 + 0.14 * hash(id + 4.8);
-            float rim = size * (1.0 + 0.065 * sin(6.0 * a + hash(id) * TAU) + 0.035 * cos(9.0 * a));
-            result = mix(color1, color2, 0.28 * noise(p * 8.0));
-            float ridges = smoothstep(0.25, 0.88, 0.5 + 0.5 * cos(22.0 * a + r * 5.0));
-            vec4 shell = mix(color4, color3, 0.48 * ridges + 0.30 * (1.0 - r / rim));
-            result = mix(result, shell, coverage(r - rim, 0.0));
-            vec2 mouth = rotatePoint(q - vec2(0.025, -0.04), hash(id + 7.0) * 3.0);
-            float throat = abs(mouth.x) * 1.65 + abs(mouth.y) - rim * 0.47;
-            result = mix(result, color1, coverage(throat, 0.0));
-            result = mix(result, color2,
-                         coverage(abs(mouth.x + 0.03 * sin(mouth.y * 18.0)), 0.009) * coverage(throat, -0.015));
+            result = mix(color1, color2, layerNoise(p * 42.0));
+            for (int i = 0; i < 2; i++) {
+                float f = i == 0 ? 17.0 : 6.4;
+                vec2 grid = p * f, id = floor(grid), q = fract(grid) - 0.5 - 0.13 * (hash2(id) - 0.5);
+                float r = (0.31 + 0.14 * crowding) * (1.0 + diameterVariation * (hash(id + 28.0) - 0.6));
+                float d = length(q) / r, theta = safeAngle(q);
+                float ridges = 0.5 + 0.5 * cos(theta * 13.0 + hash(id) * 3.0);
+                vec4 shell =
+                    mix(color2, color4, clamp(0.56 + shellRibs * 0.4 * ridges - q.y * 0.5, 0.0, 1.0));
+                shell = mix(color1, shell, smoothstep(0.22 + ridges * 0.10, 0.43, d));
+                shell = mix(shell, color3, smoothstep(0.80, 1.0, d));
+                result = mix(result, shell, coverage((d - 1.0) * r / f, 0.0));
+            }
         """.trimIndent()
 
         PatternTextureType.FlyingPetrels -> """
-            vec2 tile = vec2(p.x + 0.5 * floor(p.y), p.y);
-            vec2 q = rotatePoint(fract(tile) - 0.5 - (hash2(floor(tile)) - 0.5) * 0.08,
-                                 (hash(floor(tile)) - 0.5) * 1.1);
-            float wind = sin(p.y * 11.0 + 0.8 * sin(p.x * 2.7) + 2.0 * noise(p * 0.8));
-            result = mix(color2, color3, 0.38 + 0.30 * wind);
-            q.x = abs(q.x);
-            float outer = triangleDistance(q, vec2(0.0, 0.065), vec2(0.19, -0.14), vec2(0.43, -0.115));
-            float inner = triangleDistance(q, vec2(0.0, 0.065), vec2(0.19, -0.14), vec2(0.085, 0.085));
-            result = mix(result, color1, coverage(min(outer, inner), 0.0));
-            float flash = triangleDistance(q, vec2(0.05, 0.017), vec2(0.19, -0.118), vec2(0.29, -0.119));
-            result = mix(result, color4, coverage(flash, 0.0));
-            result = mix(result, color1, coverage(ellipseDistance(q - vec2(0.0, 0.074), vec2(0.023, 0.077)), 0.0));
+            vec2 q = rotatePoint(p, -0.29);
+            float bend = q.x * 3.0 + 0.19 * sin(q.y * 6.2);
+            float axis = fract(bend + 0.5) - 0.5;
+            float t = (q.y + abs(axis) * tan(radians(barbAngle)) / 3.0) / barbSpacing;
+            float split = smoothstep(0.93 - splitFrequency * 0.47, 0.99 - splitFrequency * 0.47,
+                                     noise(vec2(floor(t), floor(bend + 0.5))));
+            float fibre = cos(TAU * t + 0.15 * sin(14.0 * axis));
+            result = mix(color2, color3, 0.45 + 0.35 * sin(bend * TAU) + 0.12 * fibre);
+            result = mix(result, color1, (0.19 + split * 0.49) * smoothstep(0.68, 1.0, fibre));
+            result = mix(result, color4, reliefBand(axis, 0.012));
         """.trimIndent()
 
         PatternTextureType.MoonPhases -> """
-            vec2 grid = p * vec2(1.6, 1.0);
-            vec2 id = floor(grid);
-            vec2 q = (fract(grid) - 0.5) / vec2(1.6, 1.0);
-            float phase = mod(id.x + id.y * 3.0, 8.0) * TAU / 8.0;
-            float radius = 0.23;
-            float r = length(q);
-            float z = sqrt(max(0.0, radius* radius - dot(q, q)));
-            float illumination = (q.x * sin(phase) + z * cos(phase)) / radius;
-            vec4 moon = mix(color2, color4, smoothstep(-0.014, 0.014, illumination));
-            moon = mix(moon, color3, 0.26 * smoothstep(0.44, 0.73, noise(q * 34.0)));
-            result = mix(color1, moon, coverage(r, radius));
-            result = mix(result, color3, 0.55 * coverage(abs(r - radius), 0.0035));
-            float tick = segment(q, vec2(0.0, 0.31), vec2(0.0, 0.344));
-            result = mix(result, color3, coverage(tick, 0.006));
+            vec2 q = p / clastSize;
+            vec3 v = cellSample(q + 0.28 * vec2(noise(q * 1.6), noise(q * 1.6 + 82.0)));
+            float dust = layerNoise(p * 37.0), face = v.z * 0.77 + 0.16 * noise(q * 6.3);
+            vec4 shard = toneRamp(0.2 + 0.77 * face);
+            shard.rgb *=
+                0.85 + 0.19 * noise(q * 18.0) + 0.12 * step(0.0, sin(q.x * 3.0 + q.y * 4.2 + v.z * 33.0));
+            result = mix(color1, shard, smoothstep(matrixWidth * 0.62, matrixWidth + 0.016, v.y));
+            result = mix(result, color2,
+                         matrixWidth * 0.20 + dustFraction * smoothstep(0.54, 0.78, dust) * 0.77);
         """.trimIndent()
 
         PatternTextureType.SiderealTrails -> """
-            vec2 q = p - vec2(-0.28, 0.22);
-            float r = length(q);
-            float ring = floor(r * 115.0);
-            float angle = fract(safeAngle(q) / TAU + 0.5 + hash(vec2(ring, 1.0)));
-            float span = 0.08 + 0.40 * hash(vec2(ring, 4.0));
-            float edge = abs(fract(r * 115.0) - 0.5) / 115.0;
-            float arc = coverage(edge, 0.00075 + 0.0011 * hash(vec2(ring, 3.0))) *
-                        (1.0 - smoothstep(span - 0.008, span, angle));
-            result = mix(color1, color2, 0.29 * noise(p * 2.4) + 0.12 * noise(p * 7.0));
-            vec4 light = mix(color3, color4, hash(vec2(ring, 7.0)));
-            result = mix(result, light, arc * (0.22 + 0.78 * pow(clamp(angle / span, 0.0, 1.0), 0.8)));
+            vec2 q = p - vec2(-0.74, -0.48);
+            float r = length(q), ang = safeAngle(q) / TAU;
+            float ring = r * starDensity, id = floor(ring + 0.5), tone = hash(vec2(id, 8.0));
+            float arc = fract(ang * 2.0 + hash(vec2(id, 4.0)));
+            result = mix(color1, color2, 0.27 * layerNoise(p * 4.0));
+            float trail = reliefBand(repeatDistance(ring) / starDensity, 0.00065 + 0.00074 * tone);
+            float mask = smoothstep(0.0, 0.06, arc) * (1.0 - smoothstep(0.10 + exposureLength * 0.67,
+                                                                        0.15 + exposureLength * 0.70, arc));
+            result = mix(result, mix(color3, color4, tone),
+                         trail * mask * mix(0.72, 0.15 + 0.85 * tone, brightnessSpread));
         """.trimIndent()
 
         PatternTextureType.OrionChart -> """
-            vec2 q = p;
-            float grid = min(abs(fract(q.x * 8.0 + 0.5) - 0.5), abs(fract(q.y * 8.0 + 0.5) - 0.5)) / 8.0;
-            result = mix(color1, color2, 0.26 * coverage(grid, 0.001));
-            vec2 sky = p * 40.0;
-            vec2 star = fract(sky) - 0.15 - 0.70 * hash2(floor(sky));
-            float distant = coverage(length(star) / 40.0, 0.0014) * step(0.76, hash(floor(sky) + 7.0));
-            result = mix(result, color4, 0.65 * distant);
-            vec2 saiph = vec2(-0.13, 0.35), rigel = vec2(0.18, 0.29);
-            vec2 bellatrix = vec2(0.14, -0.23), betelgeuse = vec2(-0.20, -0.27);
-            vec2 head = vec2(-0.005, -0.37);
-            vec2 mintaka = vec2(0.059, 0.010), alnilam = vec2(-0.007, 0.050), alnitak = vec2(-0.075, 0.094);
-            float line = min(segment(q, saiph, alnitak), segment(q, rigel, mintaka));
-            line = min(line, min(segment(q, mintaka, bellatrix), segment(q, alnitak, betelgeuse)));
-            line = min(line, min(segment(q, betelgeuse, head), segment(q, head, bellatrix)));
-            line = min(line, min(segment(q, mintaka, alnilam), segment(q, alnilam, alnitak)));
-            result = mix(result, color3, coverage(line, 0.0022));
-            float stars = min(min(length(q - rigel) - 0.017, length(q - betelgeuse) - 0.020),
-                              min(length(q - bellatrix) - 0.014, length(q - saiph) - 0.012));
-            stars = min(stars,
-                        min(length(q - head) - 0.009,
-                            min(length(q - mintaka), min(length(q - alnilam), length(q - alnitak))) - 0.011));
-            result = mix(result, color2, coverage(abs(stars - 0.009), 0.002));
-            result = mix(result, color4, coverage(stars, 0.0));
+            vec2 q = p * starDensity, cell = floor(q);
+            float cloud = layerNoise(p / groupRadius);
+            result = mix(color1, color2, 0.24 * cloud);
+            for (int j = -1; j <= 1; j++)
+                for (int i = -1; i <= 1; i++) {
+                    vec2 id = cell + vec2(float(i), float(j)), pt = id + 0.14 + hash2(id) * 0.72;
+                    vec2 local = q - pt;
+                    float active = smoothstep(0.37, 0.62, noise(pt / (starDensity * groupRadius)));
+                    vec2 next = id + vec2(1.0, 0.0);
+                    next += 0.14 + hash2(next) * 0.72;
+                    float net = coverage(segment(q, pt, next) / starDensity, 0.00057) *
+                                step(length(next - pt), linkLength) * active;
+                    result = mix(result, color3, net * 0.88);
+                    float rad = mix(0.018, 0.094, (0.12 + 0.88 * active) * hash(id + 18.2));
+                    result = mix(result, color4, coverage(length(local) / starDensity, rad / starDensity));
+                }
         """.trimIndent()
 
         PatternTextureType.MeteorShower -> """
-            vec2 q = rotatePoint(p, 0.58);
-            result = mix(color1, color2, 0.33 * noise(q * 2.0));
-            vec2 stars = q * 28.0;
-            float dust = length(fract(stars) - 0.12 - 0.76 * hash2(floor(stars)));
-            result = mix(result, color4, coverage(dust / 28.0, 0.0018) * step(0.78, hash(floor(stars) + 0.8)));
-            vec2 track = vec2(q.x * 9.0, q.y * 1.45);
-            vec2 id = floor(track);
-            float center = 0.18 + 0.64 * hash(id + 5.1);
-            float head = 0.13 + 0.54 * hash(id);
-            vec2 delta = (fract(track) - vec2(center, head)) / vec2(9.0, 1.45);
-            float span = 0.13 + 0.12 * hash(id + 7.0);
-            float fade = smoothstep(-span, 0.0, delta.y) * step(delta.y, 0.0);
-            result = mix(result, color3, coverage(abs(delta.x), 0.004) * fade);
-            result = mix(result, color4, coverage(length(delta), 0.006 + 0.004 * hash(id + 3.0)));
+            vec2 grid = p * trailDensity;
+            result = mix(color1, color2, layerNoise(p * 4.0) * 0.48);
+            for (int j = -1; j <= 1; j++)
+                for (int i = -1; i <= 1; i++) {
+                    vec2 id = floor(grid) + vec2(float(i), float(j));
+                    vec2 q = grid - id - hash2(id);
+                    q = rotatePoint(q, -0.73 + radians(angularSpread) * (hash(id + 7.0) - 0.5));
+                    float len = trailLength * (0.32 + hash(id + 42.0));
+                    float tail = 1.0 - smoothstep(0.0, len, q.x);
+                    result = mix(
+                        result, mix(color3, color4, tail),
+                        coverage(abs(q.y) / trailDensity, 0.0011) * tail * smoothstep(-0.018, 0.0, q.x));
+                    result = mix(result, color4, coverage(length(q) / trailDensity, 0.0015));
+                }
         """.trimIndent()
 
         PatternTextureType.ClockworkOrrery -> """
-            vec2 q = p;
-            float r = length(q);
-            result = mix(color1, color2, 0.16 * (1.0 - smoothstep(0.0, 0.65, r)));
-            for (int i = 0; i < 6; i++) {
-                float n = float(i);
-                float orbit = 0.10 + n * 0.065;
-                float angle = 0.65 + n * 2.36 + time / (1.0 + 0.48 * n);
-                vec2 planet = orbit * vec2(cos(angle), sin(angle));
-                result = mix(result, color2, coverage(abs(r - orbit), 0.002));
-                result = mix(result, color3, 0.68 * coverage(segment(q, planet * 0.17, planet), 0.0026));
-            }
-            for (int i = 0; i < 6; i++) {
-                float n = float(i);
-                float angle = 0.65 + n * 2.36 + time / (1.0 + 0.48 * n);
-                vec2 planet = (0.10 + n * 0.065) * vec2(cos(angle), sin(angle));
-                vec2 v = q - planet;
-                float radius = 0.016 + 0.011 * mod(n, 3.0);
-                vec4 metal = mix(color3, color4, 1.0 - smoothstep(0.0, radius * 1.6, length(v + vec2(0.006))));
-                result = mix(result, metal, coverage(length(v), radius));
-            }
-            result = mix(result, color4, coverage(r, 0.047));
-            result = mix(result, color3, coverage(abs(r - 0.057), 0.003));
+            vec2 q = p - vec2(-0.82, -0.14);
+            float r = length(q), ring = r / 0.145, id = floor(ring), axial = fract(ring);
+            float circum = safeAngle(q) / TAU * max(7.0, floor((id + 0.5) * 0.145 * TAU / toothPitch)) +
+                           mod(id, 2.0) * 0.5;
+            float pos = fract(circum) - 0.5;
+            float top = 1.0 - smoothstep(crestWidth * 0.43, crestWidth * 0.55 + 0.01, abs(pos));
+            float wall = 1.0 - smoothstep(0.38, 0.45, abs(pos));
+            float border = smoothstep(0.09, 0.17, axial) * (1.0 - smoothstep(0.80, 0.93, axial));
+            vec4 brass = mix(color1, mix(color2, color4, step(0.0, pos)), 0.33 + 0.62 * toothHeight);
+            brass = mix(brass, color3, top);
+            result = mix(mix(color1, color2, 0.41 + 0.15 * cos(ring * TAU)), brass, wall * border);
+            result.rgb *= 0.94 + 0.09 * noise(p * 191.0);
         """.trimIndent()
 
         PatternTextureType.CometPlume -> """
-            vec2 q = rotatePoint(p - vec2(0.24, 0.17), -0.48);
-            float trail = max(-q.x, 0.0);
-            result = mix(color1, color2, 0.22 * noise(p * 4.0));
-            vec2 sky = p * 45.0;
-            float stars = length(fract(sky) - 0.12 - 0.76 * hash2(floor(sky))) / 45.0;
-            result = mix(result, color4, 0.8 * coverage(stars, 0.0012) * step(0.87, hash(floor(sky))));
-            for (int i = 0; i < 9; i++) {
-                float n = float(i) / 8.0;
-                float bend = trail * trail * (n - 0.12) * 0.66 + trail * (n - 0.5) * 0.32;
-                float width = 0.004 + trail * (0.012 + 0.012 * n);
-                float plume = exp(-abs(q.y - bend) / width) * exp(-1.8 * trail) * step(q.x, 0.0);
-                result = mix(result, mix(color2, color3, n), plume * 0.78);
+            vec2 q = vec2(p.x * 2.2, p.y * streamFrequency);
+            float wave = q.y - 0.43 * sin(q.x * 3.3 + 0.65 * sin(q.y * 1.3));
+            float row = floor(wave), y = fract(wave) - 0.5;
+            float x = fract(q.x + 0.43 * row) - 0.5;
+            result = mix(color1, color2, 0.39 * layerNoise(p * 7.0));
+            for (int j = 0; j < 11; j++) {
+                float i = float(j), offset = (i - 5.0) * 0.029;
+                float fibre = y - offset * feathering * (0.4 + 1.2 * (x + 0.5)) -
+                              0.06 * sin(q.x * 8.0 + i * 0.46 + row);
+                float tail = 1.0 - smoothstep(fadeLength * 0.12, fadeLength * 0.66, abs(x));
+                result = mix(result, mix(color3, color4, 0.52 * hash(vec2(row, i))),
+                             reliefBand(fibre / streamFrequency, 0.00094) * tail * 0.76);
             }
-            float head = length(q);
-            result = mix(result, color3, 0.8 * exp(-head * 38.0));
-            result = mix(result, color4, coverage(head, 0.016));
         """.trimIndent()
 
         PatternTextureType.BinarySunset -> """
-            vec2 q = p;
-            result = mix(color2, color3, smoothstep(-0.5, 0.33, q.y));
-            result = mix(result, color4, coverage(length(q - vec2(0.16, -0.16)), 0.108));
-            result = mix(result, color4, coverage(length(q - vec2(-0.032, -0.097)), 0.053));
-            for (int i = 0; i < 4; i++) {
-                float layer = float(i);
-                float crest = 0.08 + 0.093 * layer + 0.048 * sin(5.7 * q.x + layer * 2.6) +
-                              0.058 * noise(vec2(q.x * (5.0 - layer * 0.7), layer * 19.0));
+            vec2 unitPoint = textureCoordinate - 0.5;
+            vec2 q = unitPoint * aspect;
+            float landscapeY = unitPoint.y;
+            float hillAA = pixelWidth / aspect.y;
+
+            vec2 separation =
+                vec2(0.192, -0.063) * (((sunDistance - 20.2071769) * 0.01) / 0.202071769) * 0.5;
+            vec2 largeSun = vec2(0.16, -0.16) + separation;
+            vec2 smallSun = vec2(-0.032, -0.097) - separation;
+            largeSun.y += -0.1285 * (aspect.y - 1.0);
+            smallSun.y += -0.1285 * (aspect.y - 1.0);
+            result = mix(color2, color3, smoothstep(-0.5, 0.33, landscapeY));
+            float sunScale = sunDiameter / 21.6;
+            result = mix(result, color4, coverage(length(q - largeSun), 0.108 * sunScale));
+            result = mix(result, color4, coverage(length(q - smallSun), 0.053 * sunScale));
+            for (int i = 0; i < 6; i++) {
+                if (float(i) >= ridges)
+                    break;
+                float layer = float(i) * (3.0 / max(1.0, ridges - 1.0));
+                float wave = 0.048 * sin(5.7 * q.x + layer * 2.6);
+                float grain = 0.058 * noise(vec2(q.x * (5.0 - layer * 0.7), layer * 19.0));
+                float crest =
+                    0.08 + 0.093 * layer + wave + grain + (relief * 0.01 - 1.0) * (wave + grain - 0.029);
                 vec4 hill = mix(color2, color1, 0.15 + layer * 0.28);
-                result = mix(result, hill, smoothstep(crest - pixelWidth, crest + pixelWidth, q.y));
+                result = mix(result, hill, smoothstep(crest - hillAA, crest + hillAA, landscapeY));
             }
         """.trimIndent()
 
         PatternTextureType.PivotFields -> """
-            vec2 tile = floor(p);
-            vec2 q = fract(p) - 0.5;
-            float field = hash(tile + 1.0);
-            float furrow = cos((q.x * 0.4 + q.y) * 130.0);
-            result = mix(color1, color3, 0.30 + 0.25 * field + 0.08 * furrow);
-            vec2 c = q - (hash2(tile) * 0.06 - 0.03);
-            float r = length(c);
-            float a = fract(safeAngle(c) / TAU + field);
-            vec4 crop = mix(color2, color4, hash(tile + 4.0) * 0.9);
-            crop = mix(crop, color1, 0.12 + 0.10 * cos(r * 168.0));
-            float gap = 0.08 + 0.2 * hash(tile + 2.0);
-            float tractor = smoothstep(gap, gap + pixelWidth * 0.60, a);
-            result = mix(result, crop, coverage(r, 0.42) * tractor);
-            float road = min(0.5 - abs(q.x), 0.5 - abs(q.y));
-            result = mix(result, color3, coverage(road, 0.018));
+            vec2 grid = p / fieldSize, id = floor(grid), q = fract(grid) - 0.5;
+            float small = step(0.49, hash(id));
+            if (small > 0.5) {
+                grid *= 2.0;
+                id = floor(grid);
+                q = fract(grid) - 0.5;
+            }
+            float r = length(q), a = fract(safeAngle(q) / TAU + hash(id));
+            float furrow = repeatDistance(r * fieldSize / (furrowPitch * (1.0 + small)));
+            result = mix(color3, color4, 0.46 + 0.27 * noise(p * 43.0));
+            vec4 field =
+                mix(color1, color2, 0.22 + 0.39 * hash(id + 3.0) + 0.22 * step(a, sectorAngle / 360.0));
+            field = mix(field, color3, reliefBand(furrow, 0.045) * 0.46);
+            result = mix(result, field, coverage((r - 0.48) * fieldSize, 0.0));
         """.trimIndent()
 
         PatternTextureType.AlluvialBends -> """
-            vec2 q = rotatePoint(p, 0.43);
-            float center = 0.20 * sin(q.y * 9.0) + 0.094 * sin(q.y * 17.0 + 0.7);
-            float distanceToWater = abs(q.x - center) / (1.0 + 0.48 * abs(cos(q.y * 9.0)));
-            float levee = distanceToWater + 0.025 * noise(q * 13.0);
-            float beds = 0.5 + 0.5 * cos(levee * 110.0 + 1.25 * sin(q.y * 9.0));
-            result = mix(color3, color4, 0.15 + 0.52 * beds + 0.10 * noise(p * 20.0));
-            result = mix(result, color4, coverage(distanceToWater, 0.060));
-            vec4 water = mix(color1, color2, 0.20 + 0.58 * smoothstep(0.0, 0.051, distanceToWater));
-            result = mix(result, water, coverage(distanceToWater, 0.049));
+            float stream =
+                p.y * 3.2 + bendRadius * sin(p.x * 8.9 + 0.7 * sin(p.x * 16.0)) + 0.12 * noise(p * 5.0);
+            float d = repeatDistance(stream);
+            result = mix(color3, color4, 0.46 + 0.18 * layerNoise(p * 33.0));
+            float ridges = reliefBand(repeatDistance((d + 0.03 * noise(p * 26.0)) / depositSpacing), 0.075);
+            result = mix(result, color2, 0.47 * ridges);
+            result = mix(result, mix(color1, color2, 0.22 + 0.52 * d / max(riverWidth, 0.02)),
+                         1.0 - smoothstep(riverWidth, riverWidth + 0.016, d));
         """.trimIndent()
 
         PatternTextureType.RakedSandGarden -> """
-            vec2 q = p;
-            float field = q.y + 0.06 * sin(q.x * 5.0);
-            float pebble = 2.0;
-            for (int i = 0; i < 3; i++) {
-                vec2 center = i == 0 ? vec2(-0.22, -0.13) : (i == 1 ? vec2(0.08, 0.21) : vec2(0.23, -0.10));
-                vec2 v = rotatePoint(q - center, 0.4 + float(i) * 0.7);
-                vec2 radii = vec2(0.10, 0.062) * (1.0 - 0.12 * float(i));
-                float d = ellipseDistance(v, radii);
-                pebble = min(pebble, d);
-                float weight = 1.0 - smoothstep(0.06, 0.17, d);
-                field = mix(field, d + center.y, weight);
-            }
-            float rake = 0.5 + 0.5 * cos(field * 170.0);
-            result = mix(color2, color4, 0.30 + 0.67 * rake);
-            result = mix(result, color3, 0.22 * noise(p * 90.0));
-            vec4 stone = mix(color1, color2, 0.7 * noise(p * 18.0) + 0.12 * noise(p * 70.0));
-            result = mix(result, stone, coverage(pebble, 0.0));
+            vec2 q = p * stoneFrequency, id = floor(q);
+            float nearest = 10.0, tone = 0.0;
+            for (int j = -1; j <= 1; j++)
+                for (int i = -1; i <= 1; i++) {
+                    vec2 tile = id + vec2(float(i), float(j));
+                    vec2 delta = q - tile - 0.5 - 0.65 * (hash2(tile) - 0.5);
+                    float d = length(rotatePoint(delta, hash(tile) * 3.0) * vec2(1.13, 0.80)) - 0.13 -
+                              0.12 * hash(tile + 3.0);
+                    if (d < nearest) {
+                        nearest = d;
+                        tone = hash(tile + 9.0);
+                    }
+                }
+            float phase =
+                mix(p.y, nearest / stoneFrequency, deflection * exp(-max(nearest, 0.0) * 2.0)) / rakePitch;
+            result = mix(color2, color4, 0.60 + 0.27 * cos(TAU * phase));
+            result = mix(result, mix(color1, color3, 0.21 + 0.25 * tone + 0.15 * layerNoise(p * 66.0)),
+                         coverage(nearest / stoneFrequency, 0.0));
         """.trimIndent()
 
         PatternTextureType.BalloonFestival -> """
-            vec2 cell = floor(p + vec2(0.5 * floor(p.y), 0.0));
-            vec2 q = fract(p + vec2(0.5 * floor(p.y), 0.0)) - 0.5;
-            q -= (hash2(cell) - 0.5) * 0.13;
-            result = mix(color1, color2, 0.22 * noise(p * 2.0));
-            vec2 bulb = q - vec2(0.0, -0.12);
-            float height = (bulb.y + 0.025) / 0.24;
-            float r = 0.224 * sqrt(max(0.0, 1.0 - height * height));
-            r *= 1.0 - 0.56 * smoothstep(-0.03, 0.21, bulb.y);
-            float edge = max(abs(bulb.x) - r, abs(bulb.y + 0.025) - 0.24);
-            float panel = asin(clamp(bulb.x / max(r, 0.001), -1.0, 1.0));
-            float stripes = smoothstep(-0.04, 0.04, cos(panel * 8.0));
-            vec4 canvas = mix(color2, color3, stripes);
-            canvas = mix(canvas, color4, 0.13 * smoothstep(-0.4, 1.5, panel));
-            result = mix(result, canvas, coverage(edge, 0.0));
-            float cable = segment(vec2(abs(q.x), q.y), vec2(0.068, 0.023), vec2(0.035, 0.19));
-            result = mix(result, color4, coverage(cable, 0.006));
-            float basket = max(abs(q.x) - 0.048, abs(q.y - 0.213) - 0.032);
-            result = mix(result, color4, coverage(basket, 0.0));
+            float curv = p.x + 0.042 * sin(6.0 * p.y) + 0.021 * sin(10.0 * p.y + p.x * 4.0);
+            float g = curv / goreWidth, t = fract(g), strip = mod(floor(g), 3.0);
+            result = strip < 1.0 ? color2 : (strip < 2.0 ? color3 : color4);
+            result.rgb *=
+                0.78 + 0.27 * goreFullness * sin(t * 3.14159) + 0.07 * noise(p * vec2(190.0, 51.0));
+            float seam = repeatDistance(g) * goreWidth;
+            result = mix(result, color1, 0.75 * reliefBand(seam, 0.0025));
+            result = mix(
+                result, color3,
+                0.85 * reliefBand(seam - 0.005, 0.0011) * smoothstep(0.14, 0.24, fract(p.y / stitchPitch)));
         """.trimIndent()
 
         PatternTextureType.HarborLight -> """
-            vec2 q = p;
-            result = mix(color1, color2, 0.3 + 0.32 * smoothstep(-0.5, 0.30, q.y));
-            vec2 lamp = vec2(-0.16, -0.20);
-            vec2 beam = q - lamp;
-            float ray = abs(beam.y + beam.x * 0.12) - beam.x * 0.21;
-            result = mix(result, color4, coverage(ray, 0.0) * step(0.0, beam.x) * 0.55);
-            float sea = q.y - 0.27;
-            result = mix(result, color1, smoothstep(-pixelWidth, pixelWidth, sea));
-            float wave = abs(fract((q.y + 0.003 * sin(q.x * 34.0)) * 48.0) - 0.5) / 48.0;
-            result = mix(result, color2,
-                         0.65 * coverage(wave, 0.0019) * step(0.0, sea) *
-                                 smoothstep(0.25, 0.70, noise(q* vec2(19.0, 70.0))));
-            vec2 v = q - lamp;
-            float tower = max(abs(v.x) - 0.026 - 0.066 * v.y, max(0.024 - v.y, v.y - 0.50));
-            vec4 paint = mix(color4, color3, step(0.5, fract(v.y * 7.0)));
-            result = mix(result, paint, coverage(tower, 0.0));
-            result = mix(result, color4, coverage(max(abs(v.x) - 0.027, abs(v.y) - 0.023), 0.0));
-            float roof = triangleDistance(v, vec2(-0.058, -0.020), vec2(0.0, -0.069), vec2(0.058, -0.020));
-            result = mix(result, color1, coverage(roof, 0.0));
-            float bluff = 0.31 + 0.10 * sin(q.x * 6.0 + 1.0) + 0.07 * q.x + 0.030 * noise(q * vec2(19.0, 0.0));
-            result = mix(result, color1, smoothstep(bluff - pixelWidth, bluff + pixelWidth, q.y));
+            float phase = p.x / flutePitch + phaseX + 0.030 * sin(7.0 * p.y);
+            float ridge = sin(TAU * phase);
+            vec2 refracted = p + vec2(ridge * refraction * 0.105, refraction * 0.013 * cos(TAU * phase));
+            float scene = layerNoise(refracted * vec2(3.3, 4.0) + vec2(13.0, 7.0));
+            result = mix(color1, color2, smoothstep(0.23, 0.57, scene));
+            result = mix(result, color4, smoothstep(0.48, 0.70, scene + 0.16 * refracted.x));
+            result = mix(result, color3,
+                         pow(max(0.0, cos(TAU * phase - 0.7)), 6.0) * (0.31 + 0.52 * refraction));
+            result.rgb *= 0.91 + 0.12 * ridge;
         """.trimIndent()
 
         PatternTextureType.PaperLanterns -> """
-            vec2 tile = vec2(p.x + floor(p.y) * 0.5, p.y);
-            vec2 q = fract(tile) - 0.5;
-            float drop = 0.054 * sin((floor(tile.x) + floor(tile.y) * 2.0) * 2.3);
-            q.y -= drop;
-            float string = abs(q.x);
-            result = mix(color1, color4, 0.68 * coverage(string, 0.005) * step(q.y, -0.22));
-            float d = ellipseDistance(q, vec2(0.285, 0.266));
-            vec4 paper = mix(color2, color3, 0.25 + 0.73 * (1.0 - smoothstep(0.0, 0.3, abs(q.x + 0.05))));
-            float ribs = abs(fract((q.y - 0.035 * q.x * q.x * 9.0) * 22.0) - 0.5) / 22.0;
-            paper = mix(paper, color2, 0.6 * coverage(ribs, 0.003));
-            result = mix(result, paper, coverage(d, 0.0));
-            float cap = max(abs(q.x) - 0.088, abs(abs(q.y) - 0.247) - 0.019);
-            result = mix(result, color4, coverage(cap, 0.0));
-            result = mix(result, color3, coverage(segment(q, vec2(0.0, 0.26), vec2(0.0, 0.32)), 0.008));
-            float fringe = triangleDistance(q, vec2(0.0, 0.31), vec2(-0.034, 0.41), vec2(0.038, 0.40));
-            result = mix(result, color4, coverage(fringe, 0.0));
+            float g = (p.y + 0.026 * cos(p.x * 6.0)) / ribPitch + phaseX;
+            float r = repeatDistance(g), fibre = layerNoise(p * vec2(61.0, 33.0));
+            result = mix(color2, color4, 0.24 + translucency * 0.51 + 0.17 * sin(g * TAU));
+            result = mix(
+                result, color1,
+                reliefBand(r * ribPitch, 0.0026 + paperDensity * 0.0035) * (0.40 + 0.43 * paperDensity));
+            result = mix(result, color3, paperDensity * fibre * 0.45);
+            result.rgb *= 0.91 + 0.18 * noise(p * 175.0);
         """.trimIndent()
 
         PatternTextureType.ParasolMarket -> """
-            result = color1;
-            vec2 tile = floor(p);
-            for (int y = -1; y <= 1; y++) {
-                for (int x = -1; x <= 1; x++) {
-                    vec2 id = tile + vec2(float(x), float(y));
-                    vec2 c = id + vec2(0.32 + 0.34 * mod(id.y, 2.0), 0.5) + (hash2(id) - 0.5) * 0.08;
-                    vec2 v = p - c;
-                    float a = safeAngle(v) + hash(id + 2.0) * TAU;
-                    float sector = mod(a, TAU / 8.0) - TAU / 16.0;
-                    float r = length(v);
-                    float size = 0.46 + 0.085 * hash(id + 1.0);
-                    float edge = r * cos(sector) - size * cos(TAU / 16.0);
-                    float wedge = floor(a * 8.0 / TAU);
-                    vec4 canopy = mod(wedge, 2.0) < 1.0 ? color3 : mix(color2, color4, hash(id));
-                    canopy = mix(canopy, color4, 0.26 * (1.0 - abs(sector) / (TAU / 16.0)));
-                    canopy = mix(canopy, color1, 0.46 * coverage(abs(abs(sector) - TAU / 16.0) * r, 0.0035));
-                    canopy = mix(canopy, color2, 0.56 * coverage(abs(edge + 0.065), 0.009));
-                    canopy = mix(canopy, color4, coverage(r, 0.023));
-                    result = mix(result, canopy, coverage(edge, 0.0));
+            vec2 grid = p * 4.1;
+            result = mix(color1, color2, layerNoise(p * 21.0) * 0.24);
+            for (int j = -1; j <= 1; j++)
+                for (int i = -1; i <= 1; i++) {
+                    vec2 id = floor(grid) + vec2(float(i), float(j));
+                    vec2 q = grid - id - 0.5 - (hash2(id) - 0.5) * 0.49;
+                    float radius = (0.40 + 0.25 * overlap) * (0.79 + 0.36 * hash(id + 27.0));
+                    float g = (safeAngle(q) / TAU + 0.5) * panelCount, t = fract(g) - 0.5;
+                    float d = length(q) * cos(t * TAU / panelCount) - radius;
+                    vec4 silk = toneRamp(hash(id) * 0.76 + 0.12);
+                    silk.rgb *= 0.78 + 0.32 * (0.5 + pleatDepth * t);
+                    silk = mix(silk, color1, 0.44 * reliefBand(repeatDistance(g) * length(q), 0.004));
+                    result = mix(result, silk, coverage(d / 4.1, 0.0));
                 }
-            }
         """.trimIndent()
 
         PatternTextureType.BackgammonPoints -> """
-            vec2 board = vec2(p.x * 3.0, p.y);
-            float column = floor(board.x);
-            vec2 q = vec2(fract(board.x) - 0.5, abs(fract(board.y) - 0.5));
-            float bar = abs(fract(board.x / 6.0) - 0.5) * 6.0;
-            float edge = abs(q.y - 0.486);
-            result = mix(color1, color4, coverage(bar, 0.13));
-            vec4 point = mod(column, 2.0) < 1.0 ? color2 : color3;
-            result = mix(result, point, coverage(abs(q.x), max(0.0, q.y - 0.045)));
-            result = mix(result, color4, coverage(edge, 0.011));
-            float side = sign(fract(board.y) - 0.5);
-            float pieces = floor(hash(vec2(column, floor(board.y) + side)) * 3.6);
-            for (int i = 0; i < 3; i++) {
-                if (float(i) >= pieces) break;
-                vec2 disk = vec2(q.x / 3.0, q.y - (0.425 - 0.105 * float(i)));
-                float r = length(disk);
-                vec4 checker = mod(column + step(0.0, side), 2.0) < 1.0 ? color4 : color2;
-                result = mix(result, color4, coverage(r, 0.057));
-                result = mix(result, checker, coverage(r, 0.049));
-                result = mix(result, mix(checker, point, 0.58), coverage(abs(r - 0.035), 0.004));
-            }
+            vec2 g = p * vec2(5.0, 3.5) + vec2(phaseX, 2.0 * phaseY);
+            g.x += 0.5 * mod(floor(g.y), 2.0);
+            vec2 q = fract(g);
+            float wedge =
+                coverage(max(abs(q.x - 0.5) - 0.5 * insetWidth * max(0.0, 1.0 - q.y / wedgeLength),
+                             q.y - wedgeLength) /
+                             5.0,
+                         0.0);
+            float grain1 = layerNoise(p * vec2(7.0, 98.0)), grain2 = layerNoise(p * vec2(96.0, 9.0));
+            result = mix(mix(color3, color4, 0.4 + grainContrast * (grain1 - 0.4)),
+                         mix(color1, color2, 0.38 + grainContrast * (grain2 - 0.35)), wedge);
         """.trimIndent()
 
         PatternTextureType.DominoTable -> """
-            vec2 tile = vec2(p.x, p.y * 0.63);
-            tile.x += 0.5 * mod(floor(tile.y), 2.0);
-            vec2 cell = floor(tile), q = (fract(tile) - 0.5) * vec2(1.0, 1.59);
-            float angle = 0.22 * (hash(cell) - 0.5);
-            q = mat2(cos(angle), -sin(angle), sin(angle), cos(angle)) * q;
-            vec2 edge = abs(q) - vec2(0.276, 0.585);
-            float boundary = length(max(edge, 0.0)) + min(max(edge.x, edge.y), 0.0);
-            result = mix(color1, color3, coverage(boundary, 0.102));
-            result = mix(result, color4, coverage(boundary, 0.079));
-            result = mix(result, color2, coverage(boundary, 0.055));
-            float inside = coverage(boundary, 0.022);
-            result = mix(result, color3, inside* coverage(abs(q.y), 0.012));
-            float halfId = step(0.0, q.y);
-            q.y = abs(q.y) - 0.32;
-            float value = 1.0 + floor(6.0 * hash(cell + vec2(halfId * 11.0, 7.0)));
-            vec2 pip = floor(q / 0.169 + 0.5);
-            float on = 0.0;
-            if (max(abs(pip.x), abs(pip.y)) < 1.5) {
-                if (dot(pip, pip) < 0.5)
-                    on = mod(value, 2.0);
-                else if (pip.x * pip.y > 0.5)
-                    on = step(2.0, value);
-                else if (pip.x * pip.y < -0.5)
-                    on = step(4.0, value);
-                else if (abs(pip.x) > 0.5)
-                    on = step(6.0, value);
-            }
-            result = mix(result, color3, on* coverage(length(q - pip * 0.169), 0.053));
+            vec2 g = p * vec2(5.0 / inlayAspect, 5.0);
+            g.x += 0.41 * floor(g.y);
+            vec2 q = fract(g) - 0.5, id = floor(g);
+            float edge = min(0.5 - abs(q.x), 0.5 - abs(q.y));
+            vec4 bone =
+                mix(color3, color4, 0.37 + 0.42 * hash(id) + 0.13 * layerNoise(p * vec2(14.0, 72.0)));
+            result = mix(color1, bone, smoothstep(jointWidth, jointWidth + 0.014, edge));
+            vec2 peg = q - vec2(0.31, 0.30) * sign(hash2(id) - 0.5);
+            result =
+                mix(result, color2, coverage(length(peg * vec2(inlayAspect, 1.0)) / 5.0, pegSize / 5.0));
         """.trimIndent()
 
         PatternTextureType.PlayingCardSuits -> """
-            vec2 cell = floor(p), q = fract(p) - 0.5;
-            vec2 corner = abs(q);
-            float suit = mod(cell.x + 3.0 * cell.y, 4.0);
-            float mark;
-            if (suit < 0.5 || suit > 2.5) {
-                vec2 h = q * vec2(1.0, suit < 0.5 ? -1.0 : 1.0);
-                float lobes = length(vec2(abs(h.x) - 0.107, h.y - 0.078)) - 0.137;
-                float point = max(abs(h.x) * 0.82 - h.y * 0.68 - 0.165, h.y - 0.09);
-                mark = min(lobes, point);
-                if (suit > 2.5)
-                    mark = min(mark, max(abs(q.x) - 0.036 - 0.55 * max(q.y - 0.17, 0.0), abs(q.y - 0.19) - 0.067));
-            } else if (suit < 1.5) {
-                mark = abs(q.x) + 0.75 * abs(q.y) - 0.195;
-            } else {
-                float crown = min(length(q - vec2(0.0, -0.11)), length(vec2(abs(q.x) - 0.127, q.y - 0.015))) - 0.13;
-                mark = min(crown, max(abs(q.x) - 0.037 - 0.5 * max(q.y - 0.12, 0.0), abs(q.y - 0.16) - 0.09));
-            }
-            float trim = abs(max(corner.x, corner.y) - 0.466);
-            result = mix(color1, color4, coverage(trim, 0.009));
-            result = mix(result, color4, coverage(abs(corner.x - 0.362) + abs(corner.y - 0.362), 0.034));
-            result = mix(result, suit < 1.5 ? color2 : color3, coverage(mark, 0.0));
+            vec2 g = p * 7.0 + 6.0 * vec2(phaseX, phaseY);
+            g.x += 0.5 * mod(floor(g.y), 2.0);
+            vec2 id = floor(g), q = fract(g) - 0.5;
+            float mode = mod(id.x + id.y, punchShape), r = 0.43 - bridgeWidth * 0.53;
+            float d = mode < 0.5 ? abs(q.x) + abs(q.y) - r : length(q) - r * 0.79;
+            if (mode > 1.5)
+                d = max(abs(q.x) * 0.86 + abs(q.y) * 0.5, abs(q.y)) - r * 0.77;
+            result = mix(color3, color4, 0.42 + 0.34 * layerNoise(p * 28.0));
+            vec4 hole = mix(color1, color2, step(0.5, mod(id.x + 2.0 * id.y, 3.0)));
+            hole.rgb *= 1.0 - shadowDepth * 0.67 * smoothstep(-0.12, 0.0, d) * (0.51 - q.y);
+            result = mix(result, hole, coverage(d / 7.0, 0.0));
         """.trimIndent()
 
         PatternTextureType.VinylCrate -> """
-            vec2 tile = p + vec2(0.35 * floor(p.y), 0.0);
-            vec2 cell = floor(tile), q = fract(tile) - 0.5;
-            float edition = mod(cell.x + cell.y, 3.0);
-            vec4 sleeve = edition < 1.0 ? color1 : (edition < 2.0 ? color3 : color4);
-            result = sleeve;
-            vec2 disc = q - vec2(0.055, -0.045);
-            float radius = length(disc), angle = safeAngle(disc);
-            float grooves = 0.5 + 0.5 * cos(radius * TAU * 40.0);
-            float sheen = pow(abs(cos(angle + edition * 0.42)), 7.0);
-            vec4 vinyl = mix(color2, color4, 0.035 + sheen * (0.07 + 0.16 * grooves));
-            result = mix(result, vinyl, coverage(radius, 0.411));
-            result = mix(result, edition < 1.0 ? color3 : color1, coverage(radius, 0.139));
-            result = mix(result, color4, coverage(abs(radius - 0.109), 0.006));
-            result = mix(result, color2, coverage(radius, 0.018));
-            float hem = coverage(abs(q.y - 0.428), 0.012) + coverage(abs(q.y - 0.462), 0.005);
-            result = mix(result, color2, min(hem, 1.0) * 0.84);
+            vec2 q = p - vec2(-0.86, 0.71);
+            float r = length(q), a = safeAngle(q);
+            float groove = r / groovePitch + grooveModulation * 0.32 * sin(a * 76.0 + r * 23.0) + a / TAU;
+            float shimmer = pow(0.5 + 0.5 * cos(5.0 * a - 1.3), 2.0);
+            result = mix(color1, color2, 0.54 + 0.36 * cos(groove * TAU));
+            result = mix(result, color3,
+                         (0.39 + 0.58 * shimmer) * (0.24 + 0.76 * pow(0.5 + 0.5 * cos(TAU * groove), 2.2)));
+            float speck = smoothstep(0.94 - dustSpecks * 0.12, 0.98 - dustSpecks * 0.12, noise(p * 303.0));
+            result = mix(result, color4, speck * dustSpecks);
         """.trimIndent()
 
         PatternTextureType.MusicBoxRoll -> """
-            float lane = floor(p.y * 2.0);
-            vec2 q = vec2(p.x + 0.5 * mod(lane, 2.0), fract(p.y * 2.0));
-            float edge = min(q.y, 1.0 - q.y);
-            result = mix(color3, color1, smoothstep(0.024, 0.047, edge));
-            float guide = abs(fract(q.x * 8.0) - 0.5);
-            result = mix(result, color3, 0.22 * coverage(guide * 0.125, 0.003));
-            vec2 peg = vec2((fract(q.x * 4.0) - 0.5) * 0.25, (edge - 0.101) * 0.5);
-            result = mix(result, color4, coverage(length(peg - vec2(0.0, 0.006)), 0.023));
-            result = mix(result, color2, coverage(length(peg), 0.019));
-            vec2 score = vec2(q.x * 8.0, (q.y - 0.17) * 11.0);
-            vec2 note = floor(score);
-            float pitch = 3.5 + 2.0 * sin(note.x * 0.82 + lane * 1.7) + 1.4 * sin(note.x * 0.37 - lane);
-            float sounds =
-                    max(coverage(abs(note.y - pitch), 0.72), 0.8 * coverage(abs(note.y - pitch - 2.7), 0.47));
-            vec2 slot = abs(fract(score) - 0.5) - vec2(0.36, 0.23);
-            float hole = max(slot.x * 0.125, slot.y / 22.0);
-            float inScore = step(0.17, q.y) * step(q.y, 0.82);
-            result = mix(result, color2, coverage(hole, 0.0) * sounds * inScore);
+            vec2 g = vec2(p.x * 13.0 + phaseX * 8.0, p.y * trackCount),
+                 id = vec2(mod(floor(g.x), 8.0), floor(g.y)), q = fract(g) - 0.5;
+            result = mix(color3, color4, layerNoise(p * 45.0));
+            float voice = hash(vec2(id.y, 0.0)), lengthFactor = slotLength * (0.4 + 0.6 * voice);
+            float d = length(vec2(max(0.0, abs(q.x) - lengthFactor * 0.43), q.y * 0.8)) - 0.095;
+            result = mix(result, mix(color1, color2, 0.22),
+                         coverage(d / trackCount, 0.0) * step(hash(id), punchDensity));
+            result = mix(result, color2, 0.24 * reliefBand((0.5 - abs(q.y)) / trackCount, 0.0009));
         """.trimIndent()
 
         PatternTextureType.ZipperTape -> """
-            vec2 q = vec2(fract(p.x) - 0.5, p.y);
-            float side = sign(q.x), x = abs(q.x);
-            float warp = 0.5 + 0.5 * sin((p.x * 31.0 + p.y * 17.0) * TAU);
-            result = mix(color1, color2, 0.12 + 0.13 * warp);
-            result = mix(result, color2, coverage(x, 0.146));
-            vec2 stitch = vec2(x - 0.253, (fract(p.y * 6.0) - 0.5) / 6.0);
-            result = mix(result, color4,
-                         0.72 * coverage(segment(stitch, vec2(0.0, -0.039), vec2(0.0, 0.039)), 0.007));
-            float y = (fract(p.y * 7.0 + 0.5 * step(0.0, side)) - 0.5) / 7.0;
-            float tooth = min(segment(vec2(x, y), vec2(0.038, 0.0), vec2(0.121, 0.0)),
-                              length(vec2(x - 0.038, y + 0.015)) - 0.012);
-            result = mix(result, color3, coverage(tooth, 0.034));
-            result = mix(result, color4, coverage(tooth, 0.020));
-            vec2 pull = vec2(q.x, fract(p.y * 0.58 + 0.36 * floor(p.x)) / 0.58 - 0.62);
-            float slider = length((pull - vec2(0.0, 0.135)) / vec2(0.143, 0.182));
-            result = mix(result, color3, coverage(slider * 0.143, 0.143));
-            float tab = segment(pull, vec2(0.0, 0.14), vec2(0.0, -0.118));
-            result = mix(result, color2, coverage(tab, 0.08));
-            result = mix(result, color4, coverage(tab, 0.065));
-            result = mix(result, color2, coverage(length(pull - vec2(0.0, -0.107)), 0.034));
+            vec2 q = p * vec2(3.5, 1.0);
+            float x = fract(q.x) - 0.5, side = sign(x);
+            float phase = p.y / toothPitch + phaseX + 0.5 * step(x, 0.0), y = fract(phase) - 0.5;
+            result = mix(color1, color2, 0.22 + 0.14 * cos(q.x * 180.0) * cos(p.y * 330.0));
+            result = mix(result, color3, 0.34 * smoothstep(0.46, 0.50, abs(x)) * tapeWidth);
+            float tape = 1.0 - smoothstep(tapeWidth * 0.5 - 0.015, tapeWidth * 0.5, abs(x));
+            result = mix(result, color2, 0.18 * tape);
+            float d =
+                max(abs(y) - 0.32 + 0.45 * abs(x), abs(x - side * 0.065) - (0.070 + toothHeight * 0.11));
+            vec4 metal = mix(color3, color4, 0.45 + 0.45 * cos(y * 6.0 - x * 11.0));
+            result = mix(result, metal, coverage(d / 8.0, 0.0));
         """.trimIndent()
 
         PatternTextureType.BobbinLace -> """
-            float row = floor(p.y);
-            vec2 q = vec2(p.x + 0.5 * mod(row, 2.0), fract(p.y) - 0.5);
-            float wave = 0.235 + 0.095 * cos(q.x * TAU);
-            float scallop = abs(abs(q.y) - wave);
-            float petal = 1.0;
-            for (int i = -1; i <= 1; i++) {
-                vec2 center = vec2(floor(q.x) + float(i) + 0.5, 0.0);
-                vec2 v = q - center;
-                float a = safeAngle(v), r = length(v);
-                petal = min(petal, abs(r - 0.178 - 0.086 * cos(4.0 * a)));
+            vec2 g = p / meshPitch + vec2(phaseX, 2.0 * phaseY);
+            result = mix(color1, color2, 0.22 * layerNoise(p * 11.0));
+            for (int i = 0; i < 4; i++) {
+                float layer = float(i), dir = mod(layer, 2.0) * 2.0 - 1.0;
+                float turn = g.x * dir + g.y + layer * 0.27 +
+                             scallopDepth * sin(TAU * (g.x + g.y * 0.5) + layer * 1.57);
+                float d = repeatDistance(turn) * meshPitch * 0.70;
+                float h = 0.42 + 0.40 * sin((g.x * dir - g.y) * (3.0 * TAU) + layer * 2.0);
+                result = mix(result, mix(color3, color4, h), reliefBand(d, threadThickness));
             }
-            float meshA = abs(fract((q.x * 0.84 + q.y) * 5.0) - 0.5) / 6.5;
-            float meshB = abs(fract((q.x * 0.84 - q.y) * 5.0) - 0.5) / 6.5;
-            result = mix(color1, color2, coverage(min(meshA, meshB), 0.008) * coverage(abs(q.y), wave));
-            result = mix(result, color3, coverage(min(petal, scallop), 0.026));
-            result = mix(result, color4, coverage(min(petal, scallop), 0.012));
-            vec2 picot = vec2((fract(q.x * 8.0) - 0.5) / 8.0, abs(q.y) - wave - 0.031);
-            result = mix(result, color3, coverage(abs(length(picot) - 0.027), 0.009));
         """.trimIndent()
 
         PatternTextureType.MarquetryCompass -> """
-            vec2 q = fract(p + 0.5) - 0.5;
-            float radius = length(q), angle = safeAngle(q);
-            float sector = floor((angle / TAU + 1.0) * 8.0 + 0.5);
-            float local = (fract(angle / TAU * 8.0 + 0.5) - 0.5) * TAU / 8.0;
-            float tip = mod(sector, 2.0) < 0.5 ? 0.448 : 0.316;
-            float limit =
-                    0.139 * tip /
-                    (0.139 * cos(local) + (tip - 0.139 * cos(TAU / 16.0)) / sin(TAU / 16.0) * abs(sin(local)));
-            float frame = max(abs(q.x), abs(q.y));
-            float grain = noise(vec2(p.x * 49.0, p.y * 2.0)) + 0.4 * noise(vec2(p.x * 90.0, p.y * 3.0));
-            result = mix(color1, color2, 0.18 + 0.24 * grain);
-            result = mix(result, color3, coverage(abs(frame - 0.462), 0.007));
-            result = mix(result, color2, coverage(abs(radius - 0.329), 0.017));
-            result = mix(result, color4, coverage(abs(radius - 0.329), 0.005));
-            vec4 veneer = local < 0.0 ? (mod(sector, 2.0) < 0.5 ? color4 : color3) : color2;
-            float streak = noise(
-                    vec2(dot(q, vec2(cos(angle - local), sin(angle - local))) * 6.0, sin(local) * radius * 103.0));
-            veneer = mix(veneer, color1, streak * 0.14);
-            result = mix(result, color1, coverage(radius, limit + 0.007));
-            result = mix(result, veneer, coverage(radius, limit));
+            vec2 g = p * 3.4 + vec2(phaseX, phaseY), id = floor(g), q = fract(g) - 0.5;
+            float a = safeAngle(q), r = length(q), s = fract(a / TAU * pointCount + 0.5) - 0.5;
+            float tip = 0.41 / (1.0 + 4.6 * abs(s)), h = layerNoise(p * vec2(15.0, 120.0));
+            result = mix(color1, color2, 0.30 + grainContrast * 0.6 * h);
+            vec4 star =
+                mix(color3, color4,
+                    0.2 + 0.58 * step(0.0, s) +
+                        grainContrast * 0.21 *
+                            noise(rotatePoint(q, floor(a / TAU * pointCount + 0.5) * TAU / pointCount) *
+                                  vec2(14.0, 76.0)));
+            result = mix(result, star, coverage((r - tip) / 3.4, 0.0));
+            result = mix(result, color3, reliefBand(r - 0.45, inlayWidth * 0.65));
         """.trimIndent()
 
         PatternTextureType.WaffleIron -> """
-            vec2 board = mat2(0.92388, -0.38268, 0.38268, 0.92388) * p;
-            vec2 cell = floor(board), q = fract(board) - 0.5;
-            float wall = pow(pow(abs(q.x), 7.0) + pow(abs(q.y), 7.0), 1.0 / 7.0);
-            vec2 normal = normalize(sign(q) * pow(abs(q) + 0.001, vec2(6.0)) + vec2(0.0000001));
-            float light = clamp(0.45 + 0.55 * dot(normal, vec2(-0.65, 0.76)), 0.0, 1.0);
-            float toast = noise(p * 6.0) * 0.46 + noise(p * 24.0) * 0.28 + hash(cell) * 0.26;
-            vec4 floorColor = mix(color1, color2, toast * 0.68);
-            vec4 slope = mix(color4, color3, light);
-            result = mix(floorColor, slope, smoothstep(0.21, 0.355, wall));
-            float crumb = smoothstep(0.75, 0.9, noise(p * 38.0));
-            result = mix(result, mix(color3, color2, toast), smoothstep(0.378, 0.465, wall));
-            result = mix(result, color4, 0.28 * crumb);
+            vec2 q = rotatePoint(p, -0.35) * 7.2 + vec2(phaseX, phaseY), t = fract(q) - 0.5;
+            float edge = 0.5 - max(abs(t.x), abs(t.y));
+            float lift = 1.0 - smoothstep(rimWidth * 0.12, rimWidth * 1.3, edge);
+            float light = abs(t.x) > abs(t.y) ? t.x : t.y;
+            float toasted = layerNoise(p * 21.0);
+            result = mix(color2, color3, 0.66 - browning * toasted * 0.67);
+            result = mix(result, mix(color3, color4, 0.4 + 0.52 * light), lift);
+            result = mix(result, color1, cellDepth * 0.44 * smoothstep(0.15, 0.36, light) * (1.0 - lift));
+            result.rgb *= 0.91 + 0.16 * noise(p * 145.0);
         """.trimIndent()
 
         PatternTextureType.CitrusWheels -> """
-            vec2 tile = vec2(p.x + 0.5 * floor(p.y), p.y);
-            vec2 cell = floor(tile), q = fract(tile) - 0.5;
-            float radius = length(q), angle = safeAngle(q) + TAU * hash(cell);
-            float wedges = 8.0 + floor(hash(cell + 1.0) * 3.0);
-            float wedge = floor(angle / TAU * wedges);
-            vec4 fruit = mix(color3, color4, 0.76 * hash(cell + 8.0));
-            float rind = 0.429 + 0.004 * sin(angle * 19.0);
-            result = mix(color1, fruit, coverage(radius, rind));
-            result = mix(result, color2, coverage(radius, rind - 0.027));
-            float seam = abs(sin(angle * wedges * 0.5)) * radius / (0.5 * wedges);
-            float pulp = coverage(radius, rind - 0.06) * (1.0 - coverage(seam, 0.009));
-            vec4 flesh = mix(fruit, color2, 0.08 + 0.19 * hash(vec2(wedge, cell.y)));
-            float sacs = noise(vec2(radius * 41.0, angle * 33.0));
-            flesh = mix(flesh, color2, 0.33 * smoothstep(0.48, 0.82, sacs));
-            result = mix(result, flesh, pulp);
-            result = mix(result, color2, coverage(radius, 0.028));
-            float seedAngle = (fract(angle / TAU * wedges) - 0.46) * TAU / wedges;
-            vec2 pip = vec2((radius - 0.245) / 0.04, seedAngle* radius / 0.013);
-            float pipMask = coverage(length(pip) * 0.018, 0.018) * step(0.78, hash(cell + wedge));
-            result = mix(result, color2, pipMask);
+            vec2 z = p - vec2(-0.90, -0.15);
+            float angle = safeAngle(z), r = length(z);
+            vec2 g = vec2(r / vesicleSize * 0.49, angle / vesicleSize * 2.6);
+            vec3 cell = cellSample(g + 0.18 * vec2(noise(g * 0.76), noise(g * 0.79 + 7.0)));
+            result = mix(color1, color3, 0.34 + 0.49 * cell.z + 0.10 * noise(p * 94.0));
+            result =
+                mix(result, color4, (1.0 - smoothstep(0.02, 0.12, cell.y)) * (0.34 + 0.49 * translucency));
+            result = mix(result, color2, 0.21 * translucency * layerNoise(p * 21.0));
+            result = mix(result, color4, reliefBand(repeatDistance(angle * 2.7), membraneWidth) * 0.82);
         """.trimIndent()
 
         PatternTextureType.SaltedPretzels -> """
-            vec2 tile = vec2(p.x + 0.5 * floor(p.y), p.y);
-            vec2 cell = floor(tile), q = fract(tile) - 0.5;
-            float turn = 0.45 * (hash(cell) - 0.5);
-            q = mat2(cos(turn), -sin(turn), sin(turn), cos(turn)) * q;
-            float dough = 2.0;
-            vec2 previous = vec2(-0.24, 0.21);
-            for (int i = 1; i <= 38; i++) {
-                float t = float(i) / 38.0;
-                vec2 nextPoint =
-                        vec2(0.37 * sin(TAU * (1.35 * t - 0.175)), -0.025 - 0.23 * cos(TAU * (1.83 * t + 0.085)));
-                if (i == 1) previous = vec2(0.37 * sin(-TAU * 0.175), -0.025 - 0.23 * cos(TAU * 0.085));
-                dough = min(dough, segment(q, previous, nextPoint));
-                previous = nextPoint;
-            }
-            result = mix(color1, color2, coverage(dough, 0.076));
-            float bulge = clamp(1.0 - dough / 0.068, 0.0, 1.0);
-            vec4 crust = mix(color2, color3, 0.38 + 0.58 * sqrt(bulge));
-            crust = mix(crust, color2, 0.23 * noise(q * 32.0 + cell));
-            result = mix(result, crust, coverage(dough, 0.065));
-            vec2 grain = q * 25.0;
-            vec2 salt = fract(grain) - (0.22 + 0.56 * hash2(floor(grain) + cell));
-            float crystal = coverage((abs(salt.x) + abs(salt.y)) / 25.0, 0.012);
-            result = mix(result, color4, crystal* coverage(dough, 0.054) * step(0.69, hash(floor(grain))));
+            float bake = layerNoise(p * 8.0), foam = cellSample(p * 18.0).x;
+            result = mix(color2, color3, 0.30 + 0.58 * bake);
+            result = mix(result, color1, toasting * smoothstep(0.26, 0.78, bake) * 0.75);
+            result = mix(result, color1, 0.42 * blisterDensity * (1.0 - smoothstep(0.12, 0.36, foam)));
+            vec2 g = p / (saltSize * 3.0), id = floor(g), q = fract(g) - 0.5 - (hash2(id) - 0.5) * 0.35;
+            q = rotatePoint(q, hash(id + 73.0) * 4.0);
+            float d = max(abs(q.x) * 1.13, abs(q.y)) - 0.13 - 0.14 * hash(id + 4.0);
+            result = mix(result, mix(color3, color4, 0.45 + step(q.x, q.y) * 0.50),
+                         coverage(d * saltSize, 0.0) * step(hash(id), 0.30));
         """.trimIndent()
 
         PatternTextureType.LiquoriceAllsorts -> """
-            vec2 tile = vec2(p.x + 0.5 * floor(p.y), p.y);
-            vec2 cell = floor(tile), q = fract(tile) - 0.5;
-            float angle = (hash(cell) - 0.5) * 1.52;
-            q = mat2(cos(angle), -sin(angle), sin(angle), cos(angle)) * q;
-            float shape = hash(cell + 4.0);
-            vec4 fondant = hash(cell + 9.0) > 0.5 ? color3 : color4;
-            result = color1;
-            if (shape < 0.48) {
-                vec2 corner = abs(q) - vec2(0.294, 0.176);
-                float edge = length(max(corner, 0.0)) + min(max(corner.x, corner.y), 0.0);
-                float bands = abs(fract((q.y + 0.1) * 9.5) - 0.5);
-                vec4 layer = mix(fondant, color2, coverage(bands / 9.5, 0.019));
-                layer = mix(layer, color1, 0.23 * smoothstep(0.17, 0.31, -q.x));
-                result = mix(result, layer, coverage(edge, 0.033));
-            } else if (shape < 0.75) {
-                float r = length(q * vec2(1.0, 1.15));
-                result = mix(result, color2, coverage(r, 0.31));
-                result = mix(result, fondant, coverage(r, 0.178));
-                result = mix(result, color1, 0.28 * coverage(length(q - vec2(-0.065, 0.076)), 0.043));
-            } else {
-                float r = length(q);
-                vec2 sprinkles = q * 18.0;
-                vec2 dotPos = fract(sprinkles) - 0.25 - 0.5 * hash2(floor(sprinkles));
-                vec4 coat = mix(fondant, color2, 0.22);
-                coat = mix(coat, mix(fondant, color1, 0.47), coverage(length(dotPos) / 18.0, 0.021));
-                result = mix(result, coat, coverage(r, 0.272));
-            }
+            vec2 g = p / sliceSize, tile = floor(g), q = fract(g) - 0.5;
+            float winner = 10.0;
+            vec4 best = color1;
+            for (int j = -1; j <= 1; j++)
+                for (int i = -1; i <= 1; i++) {
+                    vec2 id = tile + vec2(float(i), float(j));
+                    vec2 local = g - id - 0.5 - (hash2(id) - 0.5) * 0.58;
+                    float distance2 = dot(local, local);
+                    if (distance2 >= winner)
+                        continue;
+                    winner = distance2;
+                    local = rotatePoint(local, hash(id + 11.0) * 2.5);
+                    vec4 sweet = mix(color2, color4, hash(id + 5.0));
+                    float t = fract((local.y + 0.5) * layerCount);
+                    best = mix(color1, sweet, smoothstep(0.39, 0.43, t));
+                    if (hash(id + 2.1) < ringFraction)
+                        best = mix(color3, color1, smoothstep(0.15, 0.17, length(local)));
+                }
+            result = best;
         """.trimIndent()
 
         PatternTextureType.RavioliStamp -> """
-            vec2 tile = vec2(p.x + 0.5 * floor(p.y), p.y);
-            vec2 cell = floor(tile), q = fract(tile) - 0.5;
-            float angle = 0.42 * (hash(cell) - 0.5);
-            q = mat2(cos(angle), -sin(angle), sin(angle), cos(angle)) * q;
-            vec2 corner = abs(q) - 0.304;
-            float distance = length(max(corner, 0.0)) + min(max(corner.x, corner.y), 0.0);
-            float along = abs(q.x) > abs(q.y) ? q.y : q.x;
-            float crimp = 0.5 + 0.5 * cos(along * TAU * 10.5);
-            float edge = 0.063 + 0.016 * crimp;
-            result = mix(color1, color4, coverage(distance, edge + 0.007));
-            vec4 dough = mix(color2, color3, 0.35 + noise(q * 23.0 + cell) * 0.15);
-            float rim = smoothstep(-0.047, 0.021, distance);
-            dough = mix(dough, color4, 0.28 * crimp * rim);
-            float pillow = length(q * vec2(1.0, 1.1));
-            dough = mix(dough, color3, 0.87 * (1.0 - smoothstep(0.135, 0.234, pillow)));
-            dough = mix(dough, color2, 0.78 * (1.0 - smoothstep(0.045, 0.195, length(q - vec2(-0.049, 0.041)))));
-            result = mix(result, dough, coverage(distance, edge));
+            vec2 g = p * 3.3 + vec2(phaseX, phaseY), q = fract(g) - 0.5;
+            float edge = 0.5 - max(abs(q.x), abs(q.y));
+            float u = abs(q.x) > abs(q.y) ? q.y : q.x;
+            float crimp = cos(TAU * u / (crimpPitch * 3.3));
+            float flank = 1.0 - smoothstep(0.028, 0.17, edge);
+            result = mix(color2, color3, 0.42 + 0.30 * layerNoise(p * 13.0));
+            result = mix(result, color1, flank * pressDepth * (0.28 + 0.48 * (0.5 + 0.5 * crimp)));
+            result = mix(result, color4, flank * 0.43 * (0.5 + 0.5 * sin(TAU * u / (crimpPitch * 3.3))));
+            result = mix(result, color4, flourDust * smoothstep(0.60, 0.85, noise(p * 254.0)) * 0.76);
         """.trimIndent()
 
         PatternTextureType.CameoBrocade -> """
-            float band = p.y * 0.85;
-            vec2 tile = vec2(p.x + 0.5 * floor(band), band);
-            vec2 cell = floor(tile), q = fract(tile) - 0.5;
-            q.x *= 1.18;
-            float oval = length(q * vec2(1.09, 0.92));
-            float angle = safeAngle(q * vec2(1.09, 0.92));
-            float bead = 0.018 * cos(angle * 26.0);
-            result = mix(color1, color3, coverage(oval, 0.366 + bead));
-            result = mix(result, color1, coverage(oval, 0.334));
-            result = mix(result, color4, coverage(oval, 0.318));
-            result = mix(result, color2, coverage(oval, 0.304));
-            q.x *= mod(cell.x + cell.y, 2.0) < 1.0 ? -1.0 : 1.0;
-            float head = length((q - vec2(-0.017, -0.087)) * vec2(1.0, 0.94)) - 0.108;
-            float bun = length((q - vec2(-0.124, -0.092)) * vec2(1.0, 1.18)) - 0.053;
-            float face = length((q - vec2(0.038, -0.041)) * vec2(1.0, 0.76)) - 0.061;
-            float nose = segment(q, vec2(0.081, -0.073), vec2(0.119, -0.031)) - 0.010;
-            float neck = segment(q, vec2(-0.018, -0.011), vec2(-0.043, 0.103)) - 0.041;
-            float shoulder = length((q - vec2(-0.043, 0.166)) * vec2(0.64, 1.0)) - 0.075;
-            float profile = min(min(head, bun), min(face, min(nose, min(neck, shoulder))));
-            result = mix(result, color3, coverage(profile, 0.007));
-            result = mix(result, color4, coverage(profile, 0.0));
-            float hair = length((q - vec2(-0.020, -0.120)) * vec2(0.89, 1.35));
-            float wave = abs(hair - 0.079);
-            result = mix(result, color3,
-                         0.68 * coverage(wave, 0.005) * coverage(q.x, 0.013) * coverage(profile, -0.013));
-            float collar = abs(length((q - vec2(-0.004, 0.065)) * vec2(0.83, 1.6)) - 0.078);
-            result = mix(result, color3,
-                         0.90 * coverage(collar, 0.006) * coverage(profile, -0.012) * step(0.080, q.y));
+            vec2 g = p * vec2(3.6, 2.9) + vec2(phaseX, 2.0 * phaseY);
+            g.x += 0.5 * mod(floor(g.y), 2.0);
+            vec2 q = (fract(g) - 0.5) / medallionSize;
+            float d = length(q / vec2(0.37, 0.47)), a = safeAngle(q);
+            float silk = 0.5 + 0.5 * cos(TAU * (p.x * 0.8 + p.y) / ribPitch);
+            result = mix(color1, color2, 0.14 + 0.15 * silk);
+            result = mix(result, color3, coverage((d - 0.88) / 8.0, 0.0));
+            result = mix(result, color4, reliefBand(d - 0.93 - 0.025 * cos(28.0 * a), 0.042));
+            float head = ellipseDistance(q - vec2(-0.008, -0.095), vec2(0.098, 0.135));
+            head =
+                min(head, ellipseDistance(rotatePoint(q - vec2(0.055, -0.093), -0.32), vec2(0.071, 0.039)));
+            head = min(head,
+                       triangleDistance(q, vec2(0.055, -0.140), vec2(0.142, -0.074), vec2(0.067, -0.063)));
+            head = min(head, ellipseDistance(q - vec2(0.067, -0.047), vec2(0.043, 0.046)));
+            head = min(head, ellipseDistance(q - vec2(-0.035, 0.119), vec2(0.162, 0.065)));
+            head = min(head, ellipseDistance(q - vec2(-0.025, 0.015), vec2(0.054, 0.11)));
+            result = mix(result, mix(color3, color4, 0.57 + 0.36 * reliefHeight), coverage(head, 0.0));
+            result.rgb *= 0.95 + 0.07 * silk;
         """.trimIndent()
 
         PatternTextureType.BowTiePatchwork -> """
-            vec2 tile = floor(p), q = fract(p) - 0.5;
-            if (mod(tile.x + tile.y, 2.0) < 1.0) q = vec2(-q.y, q.x);
-            float crossed = abs(q.y) - 0.72 * abs(q.x) - 0.051;
-            vec4 fabric = mod(tile.x, 2.0) < 1.0 ? color2 : color3;
-            float grain = 0.5 + 0.5 * cos((q.x - q.y) * TAU * 17.0);
-            result = mix(color1, fabric, coverage(crossed, 0.0));
-            result = mix(result, color1, 0.16 * grain);
-            float seam = abs(crossed + 0.038);
-            float dash = 1.0 - smoothstep(0.21, 0.39, abs(fract(abs(q.x) * 16.0) - 0.5));
-            result = mix(result, color1, 0.8 * dash * coverage(seam, 0.008));
-            float knot = abs(q.x) + 0.82 * abs(q.y);
-            result = mix(result, color4, coverage(knot, 0.163));
-            float hem = min(0.5 - abs(q.x), 0.5 - abs(q.y));
-            result = mix(result, mix(fabric, color1, 0.38), coverage(hem, 0.006));
+            vec2 g = p * 4.4 + 3.0 * vec2(phaseX, phaseY), id = mod(floor(g), 3.0), q = fract(g) - 0.5;
+            q = rotatePoint(q, 0.34 + 1.5708 * mod(id.x + id.y, 2.0));
+            float x = abs(q.x), y = abs(q.y);
+            float edge = max(y - x * 0.67 - knotWidth * 0.28, x - 0.425), patch = coverage(edge / 4.4, 0.0);
+            float h = hash(id);
+            vec4 cloth =
+                mix(color2, mix(color1, color3, step(0.5, h)), fabricVariation * (0.22 + 0.70 * h));
+            float gingham = 0.5 + 0.5 * cos(q.x * 88.0) * cos(q.y * 83.0);
+            cloth = mix(cloth, color3, 0.31 * gingham);
+            result = mix(color4, cloth, patch);
+            result = mix(result, color2, coverage((max(x, y) - knotWidth * 0.55) / 4.4, 0.0));
+            float stitch = reliefBand((abs(edge) - 0.016) / 4.4, 0.0014) *
+                           step(0.40, fract((x + y) / (stitchLength * 4.4)));
+            result = mix(result, color3, stitch * 0.80);
+            result.rgb *= 0.96 + 0.068 * noise(p * vec2(157.0, 209.0));
         """.trimIndent()
 
         PatternTextureType.TasselTrim -> """
-            vec2 tile = vec2(p.x * 1.65 + 0.5 * floor(p.y), p.y);
-            vec2 cell = floor(tile), q = vec2(fract(tile.x) - 0.5, fract(tile.y));
-            q.x /= 1.65;
-            vec4 silk = mod(cell.x + cell.y, 3.0) < 1.0 ? color2 : (mod(cell.x, 2.0) < 1.0 ? color3 : color4);
-            float ribbon = abs(q.y - 0.12);
-            result = mix(color1, color2, coverage(ribbon, 0.072));
-            float braid = abs(ribbon - 0.038 * sin(p.x * TAU * 5.0));
-            result = mix(result, color3, coverage(braid, 0.013));
-            float cord = segment(q, vec2(0.0, 0.17), vec2(0.0, 0.372));
-            result = mix(result, color4, coverage(cord, 0.014));
-            float t = clamp((q.y - 0.397) / 0.43, 0.0, 1.0);
-            float strand = 10.0;
-            for (int i = -6; i <= 6; i++) {
-                float n = float(i) / 6.0;
-                float x = n * (0.043 + 0.139 * pow(t, 0.84)) + 0.025 * sin(t * 3.4);
-                float tip = 0.835 + 0.036 * cos(n * 2.3);
-                float d = max(abs(q.x - x), max(0.393 - q.y, q.y - tip));
-                strand = min(strand, d);
-            }
-            result = mix(result, silk, coverage(strand, 0.011));
-            float binding = length((q - vec2(0.0, 0.389)) * vec2(1.0, 1.45));
-            result = mix(result, color3, coverage(binding, 0.072));
-            result = mix(result, color4, coverage(binding, 0.046));
+            vec2 g = p * vec2(7.8, rowDensity) + vec2(phaseX, 2.0 * phaseY);
+            g.x += 0.5 * mod(floor(g.y), 2.0);
+            vec2 q = fract(g) - vec2(0.5, 0.13);
+            float y = q.y / tasselLength;
+            float w = 0.033 + flare * 0.20 * clamp(y, 0.0, 1.0);
+            result = mix(color1, color2, 0.18 * layerNoise(p * 37.0));
+            float warp = q.x / max(w, 0.012);
+            float strands = 0.5 + 0.5 * cos(warp * 43.0 + y * 3.0);
+            float end = 1.0 + 0.055 * cos(warp * 40.0 + 2.0);
+            float mask = coverage(max(abs(q.x) - w, max(-y, y - end)) / 7.8, 0.0);
+            result = mix(result, mix(color2, color4, 0.21 + 0.54 * strands), mask);
+            float bead = ellipseDistance(q - vec2(0.0, 0.045), vec2(0.078, 0.071));
+            result = mix(result, color3, coverage(bead / 7.8, 0.0));
         """.trimIndent()
 
         PatternTextureType.MillefioriCanes -> """
-            vec2 grid = vec2(p.x, p.y / 0.866);
-            vec2 base = floor(grid);
-            vec2 local = vec2(0.0), chosen = base;
-            float nearest = 2.0;
-            for (int y = -1; y <= 1; y++)
-                for (int x = -1; x <= 1; x++) {
-                    vec2 cell = base + vec2(float(x), float(y));
-                    vec2 center = vec2(cell.x + mod(cell.y, 2.0) * 0.5, cell.y * 0.866);
-                    vec2 v = p - center - (hash2(cell) - 0.5) * 0.06;
-                    if (dot(v, v) < nearest) {
-                        nearest = dot(v, v);
-                        local = v;
-                        chosen = cell;
+            vec2 g = p * 5.8;
+            g.x += glassCompression * g.y * 0.37;
+            g += glassCompression * 0.55 * vec2(noise(g * 0.61), noise(g * 0.62 + 9.0));
+            vec2 base = floor(g), q = vec2(0.0);
+            float nearest = 10.0, ident = 0.0;
+            for (int j = -1; j <= 1; j++)
+                for (int i = -1; i <= 1; i++) {
+                    vec2 id = base + vec2(float(i), float(j)),
+                         local = g - id - 0.5 - diameterVariation * (hash2(id) - 0.5);
+                    float d = dot(local, local);
+                    if (d < nearest) {
+                        nearest = d;
+                        q = local;
+                        ident = hash(id);
                     }
                 }
-            float radius = length(local), angle = safeAngle(local);
-            float petals = 5.0 + floor(4.0 * hash(chosen + 5.0));
-            float petal = 0.5 + 0.5 * cos(angle * petals + TAU * hash(chosen));
-            vec4 mantle = hash(chosen + 3.0) < 0.52 ? color2 : color3;
-            vec4 flower = hash(chosen + 3.0) < 0.52 ? color3 : color2;
-            result = mix(color1, mantle, coverage(radius, 0.454));
-            result = mix(result, color4, coverage(radius, 0.389));
-            result = mix(result, color1, coverage(radius, 0.359));
-            result = mix(result, flower, coverage(radius, 0.171 + 0.157 * petal));
-            result = mix(result, color4, coverage(radius, 0.092 + 0.115 * petal));
-            result = mix(result, mantle, coverage(radius, 0.084));
+            float a = safeAngle(q), r = length(q),
+                  flower = 0.26 + 0.077 * cos(petalCount * a + ident * 2.0);
+            result = mix(color1, color4, ident * 0.68);
+            result = mix(result, color3, reliefBand(r - 0.43, 0.025));
+            result = mix(result, color2, coverage((r - flower) / 5.8, 0.0));
+            result = mix(result, color3, reliefBand(r - flower, 0.024));
+            result = mix(result, color4, coverage((r - 0.098) / 5.8, 0.0));
         """.trimIndent()
 
         PatternTextureType.GreekMeander -> """
-            vec2 q = fract(p);
-            float row = mod(floor(p.y), 2.0);
-            if (row > 0.5) q.x = 1.0 - q.x;
-            float key = segment(q, vec2(0.0, 0.74), vec2(0.21, 0.74));
-            key = min(key, segment(q, vec2(0.21, 0.74), vec2(0.21, 0.25)));
-            key = min(key, segment(q, vec2(0.21, 0.25), vec2(0.81, 0.25)));
-            key = min(key, segment(q, vec2(0.81, 0.25), vec2(0.81, 0.60)));
-            key = min(key, segment(q, vec2(0.81, 0.60), vec2(0.43, 0.60)));
-            key = min(key, segment(q, vec2(0.43, 0.60), vec2(0.43, 0.405)));
-            key = min(key, segment(q, vec2(0.43, 0.405), vec2(0.64, 0.405)));
-            key = min(key, segment(q, vec2(0.21, 0.74), vec2(1.0, 0.74)));
-            float border = min(q.y, 1.0 - q.y);
-            result = mix(color1, color3, coverage(border, 0.089));
-            result = mix(result, color4, coverage(abs(border - 0.121), 0.014));
-            result = mix(result, row < 0.5 ? color2 : color4, coverage(key, thickness));
-            float beads = length(vec2((fract(q.x * 5.0) - 0.5) / 5.0, border));
-            result = mix(result, color2, coverage(beads, 0.032));
+            vec2 q = fract(vec2(p.x / meanderPitch, p.y / borderHeight) + vec2(phaseX, phaseY));
+            float d = segment(q, vec2(0.0, 0.28), vec2(0.76, 0.28));
+            d = min(d, segment(q, vec2(0.76, 0.28), vec2(0.76, 0.71)));
+            d = min(d, segment(q, vec2(0.76, 0.71), vec2(0.24, 0.71)));
+            d = min(d, segment(q, vec2(0.24, 0.71), vec2(0.24, 0.45)));
+            d = min(d, segment(q, vec2(0.24, 0.45), vec2(0.57, 0.45)));
+            d = min(d, segment(q, vec2(0.57, 0.45), vec2(0.57, 0.58)));
+            d = min(d, segment(q, vec2(0.57, 0.58), vec2(0.43, 0.58)));
+            d = min(d, segment(q, vec2(0.91, 0.80), vec2(0.91, 0.28)));
+            d = min(d, segment(q, vec2(0.91, 0.28), vec2(1.0, 0.28)));
+            result = mix(color1, color2, 0.11 + 0.17 * noise(p * 93.0));
+            result = mix(result, color4, coverage((d - lineWidth * 0.52) * meanderPitch, 0.0));
+            result = mix(result, color3, reliefBand(q.y - 0.10, 0.022) + reliefBand(q.y - 0.90, 0.022));
         """.trimIndent()
 
         PatternTextureType.PaperChainGarland -> """
-            float row = floor(p.y), stagger = 0.48 * mod(row, 2.0);
-            vec2 q = vec2(p.x + stagger, fract(p.y) - 0.49);
-            float base = floor(q.x * 2.0);
-            result = color1;
-            for (int pass = 0; pass < 2; pass++) {
-                for (int i = -2; i <= 2; i++) {
-                    float link = base + float(i);
-                    if (mod(link, 2.0) != float(pass)) continue;
-                    float center = 0.5 * link;
-                    float sag = 0.19 * cos(center * TAU / 3.5);
-                    float slope = -0.19 * TAU / 3.5 * sin(center * TAU / 3.5);
-                    vec2 v = vec2(q.x - center, q.y - sag);
-                    v = mat2(1.0, -slope, slope, 1.0) * v / sqrt(1.0 + slope * slope);
-                    float foreshortening = pass == 0 ? 1.36 : 3.0;
-                    vec2 ellipse = v * vec2(1.0, foreshortening);
-                    float dist = abs(length(ellipse) - 0.304) /
-                                 length(normalize(ellipse + 0.00001) * vec2(1.0, foreshortening));
-                    float choice = mod(link + row, 3.0);
-                    vec4 paper = choice < 1.0 ? color2 : (choice < 2.0 ? color3 : color4);
-                    float light = 0.2 + 0.7 * smoothstep(-0.31, 0.24, v.x);
-                    paper = mix(paper, color1, (1.0 - light) * 0.34);
-                    result = mix(result, paper, coverage(dist, pass == 0 ? 0.039 : 0.031));
-                }
-            }
+            vec2 g = p * vec2(4.2, 9.0) + vec2(phaseX, 2.0 * phaseY);
+            g.x += 0.5 * mod(floor(g.y), 2.0);
+            vec2 q = fract(g) - 0.5;
+            float u = abs(q.x) * 2.0 / cutLength;
+            float opening = slitOpening * max(0.0, 1.0 - pow(u, 1.65)) * (1.0 - bridgeWidth);
+            float d = abs(q.y) - opening;
+            float ridge = exp(-abs(d) * 17.0);
+            result = mix(color3, color4, 0.36 + 0.30 * layerNoise(p * 47.0));
+            result = mix(result, color2, ridge * (q.y < 0.0 ? 0.49 : 0.12));
+            result = mix(result, color4, ridge * step(0.0, q.y) * 0.80);
+            result = mix(result, color1, coverage(max(d, u - 1.0) / 9.0, 0.0));
         """.trimIndent()
 
         PatternTextureType.RibbonCockade -> """
-            vec2 tile = vec2(p.x + 0.5 * floor(p.y), p.y);
-            vec2 cell = floor(tile), q = fract(tile) - 0.5;
-            q.y += 0.074;
-            vec4 ribbon = mod(cell.x + cell.y, 2.0) < 1.0 ? color2 : color3;
-            vec4 center = mod(cell.x + cell.y, 2.0) < 1.0 ? color3 : color2;
-            result = color1;
-            float tailX = abs(q.x) - (0.057 + 0.36 * q.y);
-            float tail = max(abs(tailX) - 0.066, max(0.066 - q.y, q.y - 0.412 - abs(tailX) * 0.49));
-            result = mix(result, ribbon, coverage(tail, 0.0));
-            result = mix(result, color4, coverage(abs(tailX - 0.036), 0.008) * coverage(tail, 0.0));
-            float a = safeAngle(q), r = length(q);
-            float folds = fract(a / TAU * 17.0);
-            float edge = 0.302 + 0.031 * (1.0 - abs(2.0 * folds - 1.0));
-            vec4 fan = mix(ribbon, color1, 0.41 * (1.0 - folds));
-            fan = mix(fan, color4, 0.27 * smoothstep(0.78, 1.0, folds));
-            result = mix(result, fan, coverage(r, edge));
-            result = mix(result, color4, coverage(r, 0.144));
-            result = mix(result, center, coverage(r, 0.124));
-            float star = 0.050 + 0.020 * cos(5.0 * a);
-            result = mix(result, color4, coverage(r, star));
+            vec2 g = p * 2.8, base = floor(g), q = vec2(0.0);
+            float best = 10.0, tone = 0.0;
+            for (int j = -1; j <= 1; j++)
+                for (int i = -1; i <= 1; i++) {
+                    vec2 id = base + vec2(float(i), float(j)), v = g - id - 0.5 - 0.68 * (hash2(id) - 0.5);
+                    float d = dot(v, v);
+                    if (d < best) {
+                        best = d;
+                        q = v;
+                        tone = hash(id);
+                    }
+                }
+            float arc = fract(safeAngle(q) / TAU * pleatCount + tone), h = 1.0 - abs(arc * 2.0 - 1.0);
+            result =
+                mix(mix(color1, color2, 0.24 + 0.43 * tone), color3, 0.34 + foldDepth * (h - 0.28) * 0.73);
+            result = mix(result, color4, smoothstep(1.0 - highlightWidth, 1.0, h) * 0.44);
+            result.rgb *= 0.91 + 0.15 * layerNoise(p * 41.0);
         """.trimIndent()
 
         PatternTextureType.VenetianShutters -> """
-            vec2 q = fract(p * vec2(1.0, 0.7));
-            float slat = fract(q.y * 9.0);
-            float bevel = smoothstep(0.08, 0.82, slat);
-            result = mix(color2, color3, bevel);
-            result = mix(result, color1, shadows * (1.0 - smoothstep(0.0, 0.23, slat)));
-            result = mix(result, color4, coverage(abs(slat - 0.88) / 9.0, 0.006) * 0.7);
-            float frame = min(min(q.x, 1.0 - q.x), min(q.y, 1.0 - q.y));
-            result = mix(result, color1, coverage(frame, 0.065));
-            result = mix(result, color2, coverage(frame, 0.047));
-            result = mix(result, color3, coverage(abs(frame - 0.042), 0.005));
-            float pin = length(vec2(min(q.x, 1.0 - q.x) - 0.024, abs(q.y - 0.5) - 0.34));
-            result = mix(result, color4, coverage(pin, 0.010));
+            float t = fract(p.y / slatWidth + phaseX), angle = radians(slatTilt);
+            float blade = 1.0 - smoothstep(1.0 - lightGap - 0.014, 1.0 - lightGap, t);
+            float gloss = sin((t / (1.0 - lightGap)) * 0.94 * 3.14159 + angle);
+            result = mix(color1, mix(color2, color3, clamp(0.22 + 0.74 * gloss, 0.0, 1.0)), blade);
+            result = mix(result, color4, 0.54 * reliefBand(t - 0.029, 0.018) * sin(angle));
+            result.rgb *= 0.96 + 0.07 * noise(p * vec2(22.0, 184.0));
         """.trimIndent()
 
         PatternTextureType.SandstoneArcade -> """
-            vec2 q = fract(p * vec2(1.0, 0.76)) - 0.5;
-            vec2 arch = vec2(q.x, min(q.y + 0.01, 0.0));
-            float opening = length(arch);
-            float courses = fract((q.y + 0.5) * 7.0);
-            float seam = min(courses, 1.0 - courses) / 7.0;
-            vec2 block = floor(vec2(p.x * 2.0 + 0.5 * mod(floor((q.y + 0.5) * 7.0), 2.0), p.y * 5.32));
-            result = mix(color2, color3, 0.48 + 0.4 * hash(block));
-            result = mix(result, color2, coverage(seam, 0.004) * 0.72);
-            float band = coverage(opening, radius + 0.10);
-            float joints = abs(fract(safeAngle(arch) * 13.0 / 3.141593 + 0.5) - 0.5);
-            vec4 stone = mix(color4, color2, coverage(joints* max(opening, 0.01) * 0.24, 0.006) * step(q.y, -0.01));
-            result = mix(result, stone, band);
-            result = mix(result, mix(color1, color2, 0.18 + 0.21 * q.y), coverage(opening, radius));
-            float sill = max(abs(q.y - 0.432) - 0.022, abs(q.x) - 0.48);
-            result = mix(result, color4, coverage(sill, 0.0));
+            vec2 g = p * vec2(3.1, 3.7) + 4.0 * vec2(phaseX, phaseY);
+            g.x += 0.5 * mod(floor(g.y), 2.0);
+            vec2 q = fract(g) - vec2(0.5, 0.83);
+            float r = length(q), a = safeAngle(vec2(q.x, -q.y));
+            float band = step(q.y, 0.0) * smoothstep(archRadius * 0.57, archRadius * 0.59, r) *
+                         (1.0 - smoothstep(archRadius, archRadius + 0.013, r));
+            vec2 brick = vec2(g.x * 2.0 + 0.5 * floor(g.y * 4.0), g.y * 4.0);
+            float mortar = min(repeatDistance(brick.x), repeatDistance(brick.y));
+            result =
+                mix(color1, mix(color2, color3, 0.43 + 0.42 * hash(mod(floor(brick), vec2(8.0, 16.0)))),
+                    smoothstep(jointWidth, jointWidth + 0.013, mortar));
+            float joint = min(min(abs(r - archRadius), abs(r - archRadius * 0.57)),
+                              repeatDistance(a / 3.14159 * voussoirCount) * r * 3.14159 / voussoirCount);
+            vec4 stone =
+                mix(color2, color4,
+                    0.41 + 0.39 * hash(vec2(floor(a / 3.14159 * voussoirCount), mod(floor(g.y), 4.0))));
+            result = mix(result,
+                         mix(color1, stone, smoothstep(jointWidth * 0.32, jointWidth * 0.75, joint)), band);
+            result.rgb *= 0.93 + 0.14 * noise(p * 180.0);
         """.trimIndent()
 
         PatternTextureType.GearBlueprint -> """
-            vec2 q = fract(p + 0.5) - 0.5;
-            vec2 grid = abs(fract(p * 10.0 + 0.5) - 0.5) / 10.0;
-            result = mix(color1, color2, 0.38 * coverage(min(grid.x, grid.y), 0.002));
-            float a = safeAngle(q);
-            float r = length(q);
-            float teeth = smoothstep(-0.48, 0.48, cos(a * 18.0));
-            float profile = 0.296 + 0.041 * teeth;
-            float rim = min(min(abs(r - profile), abs(r - 0.245)), abs(r - 0.066));
-            float spokes = abs(sin(a * 3.0)) * r;
-            float spokeEdge = abs(spokes - 0.016);
-            rim = min(rim, max(spokeEdge, max(0.073 - r, r - 0.239)));
-            result = mix(result, color3, coverage(rim, thickness));
-            float center = min(abs(q.x), abs(q.y));
-            float dash = step(0.2, fract(max(abs(q.x), abs(q.y)) * 18.0));
-            result = mix(result, color4, coverage(center, thickness * 0.54) * dash);
-            float corners = min(segment(abs(q), vec2(0.385, 0.385), vec2(0.385, 0.34)),
-                                segment(abs(q), vec2(0.385, 0.385), vec2(0.34, 0.385)));
-            result = mix(result, color2, coverage(corners, thickness));
+            vec2 q = rotatePoint(p, radians(helixAngle));
+            float phase = fract(q.y / threadPitch + phaseX);
+            float flank = smoothstep(0.16, 0.16 + chamferWidth, phase) *
+                          (1.0 - smoothstep(0.71, 0.71 + chamferWidth, phase));
+            result = mix(color1, color3, flank);
+            result = mix(result, color4,
+                         smoothstep(0.15, 0.21, phase) *
+                             (1.0 - smoothstep(0.21, 0.21 + chamferWidth * 0.64, phase)) * 0.87);
+            result = mix(result, color2, smoothstep(0.67, 0.81, phase) * 0.45);
+            result.rgb *= 0.91 + 0.15 * layerNoise(q * vec2(9.0, 121.0));
         """.trimIndent()
 
         PatternTextureType.AdmissionTickets -> """
-            vec2 row = p * vec2(0.78, 1.65);
-            row.x += 0.33 * mod(floor(row.y), 2.0);
-            vec2 cell = floor(row), q = fract(row) - 0.5;
-            vec2 edge = vec2(0.465, 0.415) - abs(q);
-            vec2 notch = vec2(abs(q.x) - 0.465, q.y);
-            float paper = min(min(edge.x, edge.y), length(notch) - radius);
-            vec4 stock = mod(cell.x + cell.y, 3.0) < 1.0 ? color2 : color3;
-            result = mix(color1, stock, 1.0 - coverage(paper, 0.0));
-            float rule = abs(max(abs(q.x + 0.081) - 0.291, abs(q.y) - 0.33));
-            float perf = abs(q.x - 0.255);
-            float printMask = max(coverage(rule, 0.008), coverage(perf, 0.006) * step(0.42, fract(q.y * 16.0)));
-            float rose = length((q + vec2(0.08, 0.0)) * vec2(1.0, 0.64));
-            float burst = 0.132 + 0.020 * cos(10.0 * safeAngle((q + vec2(0.08, 0.0)) * vec2(1.0, 0.64)));
-            printMask = max(printMask, max(coverage(abs(rose - burst), 0.007), coverage(rose, 0.077)));
-            float code = step(0.03, q.x - 0.25) * step(abs(q.y), 0.26) *
-                         step(0.36, hash(vec2(floor(q.y * 42.0), cell.x)));
-            result = mix(result, color4, max(printMask, code* step(q.x, 0.39)) * (1.0 - coverage(paper, 0.0)));
+            vec2 g = vec2(p.x / holePitch + phaseX * 5.0, p.y * 6.4),
+                 tile = vec2(mod(floor(g.x + 0.5), 5.0), floor(g.y + 0.5)), q = fract(g + 0.5) - 0.5;
+            float torn = step(hash(tile + 27.0), tornFraction);
+            float slitLength = 0.45 * (1.0 - bridgeWidth);
+            float dist = length(vec2(max(abs(q.x) - slitLength, 0.0) * holePitch, q.y / 6.4)) - 0.003;
+            float fibre = torn * 0.0024 * noise(p * 287.0);
+            result = mix(color3, color4, 0.42 + 0.35 * layerNoise(p * 18.0));
+            result = mix(result, color2, coverage(dist - 0.0033 - fibre, 0.0));
+            result = mix(result, color1, coverage(dist + fibre, 0.0));
         """.trimIndent()
 
         PatternTextureType.SawtoothRoofscape -> """
-            vec2 q = p * vec2(1.2, 0.86);
-            float y = fract(q.y), row = floor(q.y);
-            float x = fract(q.x + row * 0.37);
-            float peak = 0.22;
-            float glass = max(0.0, (peak - x) / peak);
-            float slope = max(0.0, (x - peak) / (1.0 - peak));
-            float roof = 0.13 + 0.47 * (glass + slope);
-            result = mix(color1, color2, 0.19 * smoothstep(0.0, 0.70, y));
-            vec4 wall = mix(color3, color4, shadows * 0.32 * smoothstep(0.62, 1.0, y));
-            float glazing = step(x, peak) * step(y, 0.605);
-            wall = mix(wall, color2, glazing);
-            float bars = abs(fract(x * 18.0) - 0.5) / 18.0;
-            wall = mix(wall, color4, glazing* coverage(bars, 0.005));
-            wall = mix(wall, color4, coverage(abs(y - roof), 0.018));
-            float window = max(abs(fract(x * 5.0) - 0.5) - 0.29, abs(y - 0.81) * 2.5 - 0.16);
-            wall = mix(wall, color4, coverage(window, 0.0));
-            result = mix(result, wall, smoothstep(roof - pixelWidth, roof + pixelWidth, y));
+            vec2 g = vec2(p.x * 5.3 - p.y * tan(radians(roofAngle)) * 3.2 + phaseX, p.y * 3.2);
+            float t = fract(g.x), frost = layerNoise(p * 25.0);
+            result =
+                mix(color2, color3, clamp(0.13 + 0.70 * t + 0.23 * glassFrost * (frost - 0.25), 0.0, 1.0));
+            result =
+                mix(result, color4, 0.42 * smoothstep(0.74, 0.90, t) * (1.0 - smoothstep(0.95, 1.0, t)));
+            float edge = min(repeatDistance(g.x) / 5.3, repeatDistance(g.y) / 3.2);
+            result = mix(result, color1, reliefBand(edge, mullionWidth * 0.54));
         """.trimIndent()
 
         PatternTextureType.FanVault -> """
-            vec2 q = fract(p) - 0.5;
-            vec2 fan = 0.5 - abs(q);
-            float r = length(fan);
-            float a = safeAngle(fan);
-            float ray = abs(sin(a * 7.0)) * r / 7.0;
-            float rib = min(ray, abs(r - 0.5));
-            float ashlar = abs(fract(r * 11.0 + 0.5) - 0.5) / 11.0;
-            float shade = 0.36 + 0.28 * cos(a * 14.0) - 0.2 * r;
-            result = mix(color1, color2, shade + 0.25);
-            result = mix(result, color3, 0.22 * coverage(ashlar, 0.004));
-            result = mix(result, color1, coverage(rib, thickness * 1.9));
-            result = mix(result, color3, coverage(rib, thickness));
-            result = mix(result, color4, coverage(rib, thickness * 0.39));
-            float boss = length(q);
-            result = mix(result, color3, coverage(boss, 0.072));
-            result = mix(result, color4, coverage(abs(boss - 0.045), thickness * 0.5));
+            vec2 g = p * 3.3 + vec2(phaseX, phaseY), q = fract(g) - 0.5;
+            result = mix(color2, color3, 0.40 + 0.18 * layerNoise(p * 23.0));
+            float dist = 1.0;
+            for (int j = 0; j < 2; j++)
+                for (int i = 0; i < 2; i++) {
+                    vec2 v = q - vec2(float(i) - 0.5, float(j) - 0.5);
+                    float r = length(v);
+                    float ang = atan(abs(v.x), max(0.0001, abs(v.y)));
+                    float rib = repeatDistance(ang / (1.5708 * fanSpread) * ribCount) * 1.5708 * fanSpread *
+                                r / ribCount;
+                    dist = min(dist, max(rib, r - 0.79));
+                    dist = min(dist, abs(r - 0.57));
+                }
+            result = mix(result, color1, reliefBand(dist, 0.033) * 0.51 * ribHeight);
+            result = mix(result, color4, reliefBand(dist, 0.014) * (0.35 + 0.62 * ribHeight));
         """.trimIndent()
 
         PatternTextureType.WoodcutSwells -> """
-            vec2 q = p * vec2(0.72, 1.28);
-            float phase = q.x + 0.10 * sin(q.y * 2.8);
-            float curl = 0.28 * sin(TAU * phase) + 0.09 * sin(TAU * (2.0 * phase + 0.08));
-            float depth = fract(q.y - curl);
-            float ridge = abs(fract(depth * 6.0 + 0.3 * sin(TAU * phase + depth * 2.3)) - 0.5) / 6.0;
-            result = mix(color2, color3, smoothstep(0.03, 0.95, depth));
-            result = mix(result, color1, coverage(ridge, thickness* exp(-2.25 * depth)));
-            result = mix(result, color4, coverage(abs(depth - 0.048), thickness * 0.58));
-            result = mix(result, color1, coverage(depth, thickness * 0.80));
+            float drift = layerNoise(p * vec2(3.1, 3.7));
+            float broad = layerNoise(p * vec2(2.3, 2.2) + vec2(2.0, -3.0));
+            float flow = p.y - 0.25 * p.x + 0.077 * sin(TAU * (1.54 * p.x + 0.39 * p.y + 1.13 * drift)) +
+                         0.12 * sin(TAU * (0.74 * p.x - 0.23 * p.y + 0.78 * broad)) + 0.15 * (drift - 0.5);
+            float n = flow / hatchPitch,
+                  level = layerNoise(vec2(p.x * 5.6 + floor(n) * 0.51, p.y * 6.5 + floor(n) * 0.33));
+            float width = cutWidth * (0.61 + 0.68 * level);
+            float cut = reliefBand((abs(fract(n) - 0.48) + 0.012 * (noise(p * 135.0) - 0.5)) * hatchPitch,
+                                   width * 0.5 * hatchPitch);
+            float sliver =
+                reliefBand((fract(n) - 0.18 - 0.045 * sin(TAU * level)) * hatchPitch, 0.028 * hatchPitch) *
+                smoothstep(0.43, 0.73, level);
+            result = mix(mix(color1, color2, layerNoise(p * 13.0)),
+                         mix(color3, color4, layerNoise(p * vec2(17.0, 33.0))), max(cut, sliver));
         """.trimIndent()
 
         PatternTextureType.ApartmentPlan -> """
-            vec2 q = fract(p) - 0.5;
-            if (mod(floor(p.x) + floor(p.y), 2.0) > 0.5) q.x = -q.x;
-            vec2 edge = 0.5 - abs(q);
-            result = mix(color1, color3, 0.10 * step(0.74, fract((q.x - q.y) * 38.0)));
-            float walls = min(min(edge.x, edge.y),
-                              min(max(abs(q.x + 0.04), 0.22 - q.y), max(abs(q.x + 0.04), q.y - 0.03)));
-            walls = min(walls, max(abs(q.y + 0.09), max(-0.03 - q.x, 0.12 - abs(q.x - 0.25))));
-            result = mix(result, color2, coverage(walls, thickness));
-            vec2 door = q - vec2(-0.04, 0.03);
-            float swing = max(abs(length(door) - 0.19), max(-door.y, -door.x));
-            result = mix(result, color3, coverage(swing, thickness * 0.36));
-            result = mix(result, color2,
-                         coverage(segment(q, vec2(-0.04, 0.03), vec2(0.15, 0.03)), thickness * 0.46));
-            vec2 furniture = q - vec2(-0.30, -0.22);
-            float bed = max(abs(furniture.x) - 0.105, abs(furniture.y) - 0.20);
-            result = mix(result, color4, coverage(abs(bed), thickness * 0.45));
-            result = mix(result, color4,
-                         coverage(segment(furniture, vec2(-0.104, -0.10), vec2(0.104, -0.10)), thickness * 0.4));
-            float window = max(edge.y, abs(q.x - 0.24) - 0.13);
-            result = mix(result, color4, coverage(window, thickness * 0.52));
+            vec2 g = vec2(p.x * 5.2 / slabAspect, p.y * 5.2);
+            g.x += floor(g.y) * 0.41;
+            vec2 q = fract(g) - 0.5, id = floor(g);
+            float edge = min(0.5 - abs(q.x), 0.5 - abs(q.y));
+            float chip = edgeChips * 0.036 * noise(p * 77.0);
+            result = mix(color1,
+                         mix(mix(color2, color3, 0.26 + 0.46 * hash(id + 1.8)), color4,
+                             0.20 + 0.32 * hash(id) + 0.18 * layerNoise(p * 67.0)),
+                         smoothstep(0.007 + chip, 0.02 + chip, edge));
+            float x = q.x - (hash(id + 7.0) - 0.5) * 0.38;
+            vec2 lug = vec2(x, (0.5 - abs(q.y)) * sign(q.y));
+            float metal = min(segment(lug, vec2(-0.087, -0.055), vec2(0.087, 0.055)),
+                              min(segment(lug, vec2(0.087, 0.055), vec2(0.087, 0.094)),
+                                  segment(lug, vec2(-0.087, -0.055), vec2(-0.087, -0.094))));
+            result =
+                mix(result, color1, coverage(metal / 5.2, 0.0043) * step(hash(id + 33.0), crampFrequency));
         """.trimIndent()
 
         PatternTextureType.RooftopTanks -> """
-            vec2 row = p * vec2(1.05, 0.74);
-            row.x += mod(floor(row.y), 2.0) * 0.51;
-            vec2 tile = floor(row), q = fract(row) - 0.5;
-            float lift = (hash(tile) - 0.5) * 0.14;
-            q.y -= lift;
-            result = mix(color1, color2, smoothstep(-0.48, 0.38, q.y));
-            float r = 0.228;
-            float roof = max(abs(q.x) - r - 0.026, max(-0.33 + abs(q.x) * 0.44 - q.y, q.y + 0.206));
-            float drum = max(abs(q.x) - r, max(-0.211 - q.y, q.y - 0.103 + 0.035 * q.x * q.x / (r * r)));
-            float timber = abs(fract(q.x * 28.0) - 0.5) / 28.0;
-            vec4 stave = mix(color3, color4, 0.3 * shadows * (1.0 - q.x / r));
-            stave = mix(stave, color4, coverage(timber, 0.003) * 0.58);
-            float hoops = min(abs(q.y + 0.154), abs(q.y - 0.038));
-            stave = mix(stave, color4, coverage(hoops, 0.008));
-            float legs = min(segment(vec2(abs(q.x), q.y), vec2(0.14, 0.087), vec2(0.20, 0.38)),
-                             segment(q, vec2(-0.13, 0.13), vec2(0.17, 0.35)));
-            legs = min(legs, segment(q, vec2(0.13, 0.13), vec2(-0.17, 0.35)));
-            result = mix(result, color4, coverage(legs, 0.015));
-            result = mix(result, stave, coverage(drum, 0.0));
-            result = mix(result, color4, coverage(roof, 0.0));
-            float cornice = q.y - 0.357 - 0.025 * step(0.25, abs(q.x));
-            result = mix(result, color4, smoothstep(-pixelWidth, pixelWidth, cornice));
+            vec2 q = rotatePoint(p, -0.11);
+            float x = q.x / sheetWidth + 2.0 * phaseX, row = mod(floor(x), 2.0),
+                  y = q.y / (sheetWidth * 1.74) + 0.5 * row;
+            float ageing = layerNoise(q * 8.0 + vec2(row * 0.4, 0.0)) + 0.12 * noise(q * 49.0);
+            float green = smoothstep(0.74 - 0.40 * patinaCoverage, 0.79 - 0.40 * patinaCoverage, ageing);
+            result = mix(mix(color1, color2, 0.33 + 0.46 * layerNoise(q * vec2(11.0, 51.0))),
+                         mix(color3, color4, 0.27 + 0.54 * noise(q * 33.0)), green);
+            float seam = repeatDistance(x) * sheetWidth;
+            float join = repeatDistance(y) * sheetWidth * 1.74;
+            result = mix(result, color1, 0.73 * reliefBand(seam, 0.0043) + 0.20 * reliefBand(join, 0.0019));
+            result =
+                mix(result, color4, 0.45 * reliefBand((fract(x + 0.5) - 0.5) * sheetWidth - 0.005, 0.0016));
         """.trimIndent()
 
         PatternTextureType.BookclothSpines -> """
-            vec2 shelf = p * vec2(2.65, 0.87);
-            shelf.x += 0.43 * floor(shelf.y);
-            vec2 book = floor(shelf), q = fract(shelf);
-            float height = 0.055 + 0.16 * hash(book);
-            float bevel = 1.0 - smoothstep(0.0, 0.32, min(q.x, 1.0 - q.x));
-            vec4 cloth = mix(color1, color2, hash(book + 3.0));
-            float grain = noise(vec2(q.x * 52.0, q.y * 135.0));
-            result = mix(cloth, color3, 0.07 * grain);
-            result.rgb *= 1.0 - bevel * shadows * 0.53;
-            float head = q.y - height;
-            float fillet = min(min(abs(head - 0.038), abs(head - 0.052)), min(abs(q.y - 0.86), abs(q.y - 0.879)));
-            result = mix(result, color3, coverage(fillet, 0.0035));
-            vec2 badge = vec2((q.x - 0.5) / 2.65, head - 0.27);
-            float frame = abs(max(abs(badge.x) - 0.125, abs(badge.y) - 0.116));
-            result = mix(result, color3, coverage(frame, 0.004));
-            float fleuron = abs(badge.x) + abs(badge.y) * 0.57;
-            result = mix(result, color4, coverage(abs(fleuron - 0.035), 0.0045));
-            float seam = min(q.x, 1.0 - q.x) / 2.65;
-            result = mix(result, color1, max(coverage(head, 0.0), coverage(seam, 0.006)));
-            result = mix(result, color3, smoothstep(0.944, 0.955, q.y));
+            vec2 q = rotatePoint(p, 0.045);
+            vec2 loom = q / weavePitch;
+            float a = cos(TAU * loom.x), b = cos(TAU * loom.y);
+            float up = mod(floor(loom.x) + floor(loom.y), 2.0);
+            float weave = mix(a, b, up) * (0.17 - 0.10 * coatingThickness);
+            result = mix(color1, color2, 0.46 + weave + 0.19 * layerNoise(q * 13.0));
+            float fold = repeatDistance(q.x * 4.3 + 0.025 * sin(q.y * 7.0));
+            float age = (1.0 - smoothstep(0.005, 0.055, fold)) * (0.3 + 0.7 * noise(q * vec2(35.0, 94.0)));
+            result = mix(result, mix(color3, color4, noise(q * 109.0)), age * foldWear);
         """.trimIndent()
 
         PatternTextureType.HarbourBunting -> """
-            vec2 row = p * vec2(1.65, 1.20);
-            float y = row.y - 0.12 * cos(row.x * 2.2);
-            vec2 cell = floor(vec2(row.x, y));
-            vec2 q = fract(vec2(row.x, y)) - 0.5;
-            float bend = intensity * 0.052 * sin(q.y * 6.0 + 1.3 * cell.x);
-            vec2 flag = q - vec2(bend, 0.035 * cos(q.x * 8.0 + cell.y));
-            result = mix(color1, color4, 0.36 * noise(p * 2.5));
-            result = mix(result, color3, coverage(abs(q.y + 0.262), 0.009));
-            float side = 0.273 - 0.095 * (flag.y + 0.17);
-            float cut = max(abs(flag.x) - side, max(-0.246 - flag.y, flag.y - 0.265));
-            float style = mod(cell.x + 2.0 * cell.y, 4.0);
-            vec4 cloth = color4;
-            if (style < 1.0)
-                cloth = mix(color4, color2, coverage(abs(flag.x - flag.y), 0.10));
-            else if (style < 2.0)
-                cloth = mix(color2, color3, step(0.0, flag.x* flag.y));
-            else if (style < 3.0)
-                cloth = mix(color3, color4, coverage(min(abs(flag.x), abs(flag.y)), 0.046));
-            else
-                cloth = mix(color4, color2, coverage(length(flag), 0.128));
-            cloth.rgb *= 0.91 + 0.09 * cos(flag.x * 11.0 + flag.y * 2.0);
-            result = mix(result, cloth, coverage(cut, 0.0));
+            vec2 q = rotatePoint(p, -0.35);
+            float g = q.y / panelWidth + 4.0 * phaseX, id = mod(floor(g), 4.0), t = fract(g) - 0.5;
+            result =
+                mix(color3, mix(color1, color2, hash(vec2(id, 0.0))), 0.28 + 0.38 * hash(vec2(id, 4.0)));
+            float mesh = 0.5 + 0.5 * cos(q.x * 545.0) * cos(q.y * 585.0);
+            result = mix(result, color4, clothTranslucency * (0.09 + 0.38 * mesh));
+            float zig = abs(fract(q.x / stitchPitch) - 0.5) * 4.0 - 1.0;
+            float seam = abs(abs(t) - 0.42);
+            result = mix(result, color1, reliefBand(seam * panelWidth, 0.0070) * 0.65);
+            result = mix(result, color4, reliefBand((abs(t) - 0.42) * panelWidth - zig * 0.0048, 0.0018));
         """.trimIndent()
 
         PatternTextureType.PantographLinkage -> """
-            vec2 q = fract(p + 0.5) - 0.5;
-            float tilt = mod(floor(p.y + 0.5), 2.0) * 2.0 - 1.0;
-            q.y *= tilt;
-            vec2 pivot = vec2(-0.37, -0.24), left = vec2(-0.21, 0.17);
-            vec2 upper = vec2(0.21, -0.18), lower = vec2(-0.01, 0.24);
-            vec2 tip = vec2(0.39, -0.11);
-            vec2 ruling = abs(fract(p * 10.0 + 0.5) - 0.5) / 10.0;
-            result = mix(color1, color3, 0.13 * coverage(min(ruling.x, ruling.y), 0.002));
-            float longBar = min(segment(q, pivot, left), segment(q, left, upper));
-            float crossbar = min(segment(q, left, lower), segment(q, lower, tip));
-            crossbar = min(crossbar, segment(q, upper, tip));
-            result = mix(result, color2, coverage(longBar, thickness));
-            result = mix(result, color3, coverage(crossbar, thickness * 0.75));
-            float bolts = min(min(length(q - pivot), length(q - upper)), min(length(q - left), length(q - lower)));
-            result = mix(result, color4, coverage(bolts, thickness * 1.27));
-            result = mix(result, color3, coverage(bolts, thickness * 0.45));
-            result = mix(result, color4, coverage(length(q - tip), thickness * 0.86));
+            float cs = cos(radians(openingAngle)), sn = sin(radians(openingAngle));
+            vec2 g = vec2(p.x * cs + p.y * sn, p.x * cs - p.y * sn) * 6.2 + vec2(phaseX, phaseY);
+            vec2 d = vec2(repeatDistance(g.x), repeatDistance(g.y)) / 6.2;
+            result = mix(color1, color2, 0.12 + 0.15 * layerNoise(p * 32.0));
+            result = mix(result, color2, reliefBand(d.x, barWidth));
+            result = mix(result, color3, reliefBand(d.y, barWidth * 0.88));
+            float rivet = length(d);
+            result = mix(result, color1, coverage(rivet, rivetRadius * 1.2));
+            result = mix(result, color4, coverage(rivet, rivetRadius));
         """.trimIndent()
 
         PatternTextureType.DualTrace -> """
-            vec2 grid = abs(fract(p * 8.0 + 0.5) - 0.5) / 8.0;
-            float axes = min(abs(fract(p.x + 0.5) - 0.5), abs(fract(p.y + 0.5) - 0.5));
-            result = mix(color1, color2, 0.70 * coverage(min(grid.x, grid.y), 0.0012));
-            result = mix(result, color2, coverage(axes, 0.0024));
-            for (int i = 0; i < 2; i++) {
-                float channel = float(i);
-                float phase = TAU * (p.x * (1.7 + 0.55 * channel) + 0.12 * channel);
-                float signal = 0.14 * sin(phase) + 0.025 * sin(3.0 * phase);
-                float slope = TAU * (1.7 + 0.55 * channel) * (0.14 * cos(phase) + 0.075 * cos(3.0 * phase));
-                float scan = abs(fract(p.y - channel * 0.40 - signal + 0.5) - 0.5) / sqrt(1.0 + slope * slope);
-                vec4 ink = i == 0 ? color3 : color4;
-                result = mix(result, ink, exp(-scan * 92.0) * intensity * 0.44);
-                result = mix(result, ink, coverage(scan, 0.004));
-            }
+            float y = p.y * 8.0 + phaseX, x = p.x / signalPeriod;
+            float wave = 0.29 * sin(TAU * x) + 0.12 * sin(TAU * x * 2.0 + 1.0);
+            float wave2 = 0.24 * sin(TAU * (x + tracePhase)) + 0.13 * sin(TAU * (x * 2.0 + tracePhase));
+            float d = repeatDistance(y - wave) / 8.0, e = repeatDistance(y - wave2 - 0.38) / 8.0;
+            result = mix(color1, color2, 0.40 * afterglow * exp(-min(d, e) * 84.0));
+            result = mix(result, color3, reliefBand(d, 0.0015));
+            result = mix(result, color4, reliefBand(e, 0.0013));
         """.trimIndent()
 
         PatternTextureType.StressFringes -> """
@@ -1631,102 +1362,59 @@ internal fun patternShader(type: PatternTextureType): String {
         """.trimIndent()
 
         PatternTextureType.WindBarbs -> """
-            float weather = noise(p * 0.28);
-            float isoline = abs(fract(weather * 9.0 + 0.5) - 0.5);
-            result = mix(color1, color2, weather * 0.75 + 0.22 * coverage(isoline, 0.029));
-            vec2 row = vec2(p.x + 0.5 * mod(floor(p.y + 0.5), 2.0), p.y);
-            vec2 station = floor(row + 0.5), local = fract(row + 0.5) - 0.5;
-            float angle = noise(station * 0.23) * TAU + variability * sin(station.x * 0.6);
-            vec2 q = mat2(cos(angle), -sin(angle), sin(angle), cos(angle)) * local;
-            float d = segment(q, vec2(-0.24, 0.0), vec2(0.27, 0.0));
-            float feathers = 1.0 + floor(hash(station) * 4.0);
-            for (int i = 0; i < 4; i++) {
-                if (float(i) >= feathers) break;
-                float x = 0.27 - float(i) * 0.077;
-                d = min(d, segment(q, vec2(x, 0.0), vec2(x - 0.09, 0.132)));
-            }
-            result = mix(result, color3, coverage(d, 0.015));
-            float ring = length(q + vec2(0.24, 0.0));
-            result = mix(result, color3, coverage(ring, 0.055));
-            result = mix(result, color4, coverage(ring, 0.028));
+            vec2 grid = p * strokeDensity;
+            result = mix(color3, color4, 0.34 + 0.41 * layerNoise(p * 18.0));
+            for (int j = -1; j <= 1; j++)
+                for (int i = -1; i <= 1; i++) {
+                    vec2 id = floor(grid) + vec2(float(i), float(j)), pt = id + hash2(id) * 0.75;
+                    vec2 q = grid - pt;
+                    vec2 v = pt / strokeDensity;
+                    float angle = TAU * noise(v / vortexRadius) + 0.5 * sin(v.y * 12.0);
+                    q = rotatePoint(q, angle);
+                    float d = segment(q, vec2(-0.5 * hatchLength, 0.0),
+                                      vec2(0.5 * hatchLength, 0.07 * hatchLength));
+                    result =
+                        mix(result, mix(color1, color2, hash(id)), coverage(d / strokeDensity, 0.00092));
+                }
         """.trimIndent()
 
         PatternTextureType.AlignmentNomogram -> """
-            vec2 cell = floor(p + 0.5);
-            vec2 q = fract(p + 0.5) - 0.5;
-            float axis = 10.0, ticks = 10.0;
-            for (int i = 0; i < 3; i++) {
-                float n = float(i) - 1.0;
-                float base = n * 0.30;
-                float bend = n * 0.28 * q.y * q.y;
-                float x = q.x - base - bend;
-                axis = min(axis, abs(x));
-                float line = abs(fract(q.y * 32.0 + 0.5) - 0.5) / 32.0;
-                float isMajor = 1.0 - step(0.5, mod(floor(q.y * 32.0 + 0.5), 4.0));
-                ticks = min(ticks, max(line, abs(x - 0.013) - (0.019 + 0.011 * isMajor)));
-            }
-            float mask = coverage(abs(q.y), 0.425);
-            result = mix(color1, color2, coverage(ticks, 0.0026) * mask);
-            result = mix(result, color3, coverage(axis, 0.0045) * mask);
-            for (int i = 0; i < 3; i++) {
-                float n = float(i);
-                float a = (hash(cell + vec2(3.0, n)) - 0.5) * 0.66;
-                float b = (hash(cell + vec2(7.0, n)) - 0.5) * 0.66;
-                vec2 start = vec2(-0.30 - 0.28 * a * a, a), end = vec2(0.30 + 0.28 * b * b, b);
-                result = mix(result, color4, coverage(segment(q, start, end), 0.0052) * (0.60 + 0.15 * n));
-                result = mix(result, color4, coverage(min(length(q - start), length(q - end)), 0.012));
+            vec2 q = rotatePoint(p, 0.33);
+            result = mix(color3, color4, 0.35 + 0.40 * layerNoise(p * 34.0));
+            for (int i = 0; i < 2; i++) {
+                vec2 v = i == 0 ? q : q.yx;
+                float curve =
+                    v.y * 5.0 + scaleCurvature * (sin(v.x * 6.0 + float(i) * 2.0) + 0.33 * sin(v.y * 6.0));
+                float d = (fract(curve + 0.5) - 0.5) / 5.0,
+                      period = repeatDistance(v.x / tickPitch) * tickPitch;
+                float tick =
+                    reliefBand(period, 0.0010) * (1.0 - smoothstep(tickLength * 0.9, tickLength, abs(d)));
+                result = mix(result, i == 0 ? color1 : color2, max(reliefBand(d, 0.0012), tick));
             }
         """.trimIndent()
 
         PatternTextureType.VacuumTriodes -> """
-            vec2 id = floor(p + 0.5), q = fract(p + 0.5) - 0.5;
-            float height = 0.11 + 0.052 * hash(id);
-            float glass = length(vec2(q.x, max(abs(q.y - 0.01) - height, 0.0))) - 0.196;
-            float halo = exp(-max(glass, 0.0) * 16.0);
-            result = mix(color1, color2, halo * 0.16);
-            result = mix(result, color2, coverage(abs(glass), 0.009));
-            float base = max(abs(q.x) - 0.178, abs(q.y + height + 0.13) - 0.048);
-            for (int i = 0; i < 4; i++) {
-                float x = (float(i) - 1.5) * 0.067;
-                float pin = segment(q, vec2(x, -height - 0.14), vec2(x, -height - 0.254));
-                result = mix(result, color2, coverage(pin, 0.008));
-            }
-            result = mix(result, color2, coverage(base, 0.0));
-            float mount = min(abs(q.x - 0.106), abs(q.x + 0.106));
-            result = mix(result, color2, coverage(mount, 0.009) * coverage(abs(q.y), height + 0.09));
-            float rack = abs(fract(q.y * 35.0 + q.x * 1.9 + 0.5) - 0.5) / 35.0;
-            float screen = coverage(abs(q.x), 0.106) * coverage(abs(q.y), height);
-            result = mix(result, color2, coverage(rack, 0.0035) * screen);
-            float filament = abs(q.x - 0.048 * sin((q.y + height) * 35.0));
-            float hot = exp(-filament * 37.0) * coverage(abs(q.y), height + 0.01);
-            result = mix(result, color3, (0.42 + intensity * 0.45) * hot);
-            result = mix(result, color4, hot* hot * 0.92);
-            float glint = segment(q, vec2(-0.158, 0.10), vec2(-0.158, -0.045));
-            result = mix(result, color4, coverage(glint, 0.004) * 0.54);
+            float line1 = p.x * 7.0 + 0.20 * sin(TAU * p.y + 0.4),
+                  line2 = p.x * 7.0 + layerGap + 0.20 * sin(TAU * p.y + 2.0);
+            float heat = repeatDistance(line1);
+            result = mix(color1, color3, filamentHeat * 0.62 * exp(-heat * 11.0));
+            float coil = p.y / helixPitch + phaseX + 0.32 * sin(TAU * line2);
+            result = mix(result, color2, reliefBand(repeatDistance(coil) * helixPitch, 0.0019));
+            result = mix(result, color2, reliefBand(repeatDistance(line2) / 7.0, 0.0022));
+            result = mix(result, color4, reliefBand(heat / 7.0, 0.0021) * filamentHeat);
         """.trimIndent()
 
         PatternTextureType.BasePairs -> """
-            vec2 id = floor(vec2(p.x + 0.5, 0.0));
-            vec2 q = vec2(fract(p.x + 0.5) - 0.5, p.y);
-            float phase = TAU * (q.y * 0.85 + 0.17 * id.x);
-            float wave = 0.27 * sin(phase);
-            float row = floor(q.y * 13.0 + 0.5);
-            float center = row / 13.0;
-            float width = abs(0.27 * sin(TAU * (center * 0.85 + 0.17 * id.x)));
-            float join = segment(q, vec2(-width, center), vec2(width, center));
-            vec4 left = mod(row, 3.0) < 1.0 ? color2 : color3;
-            vec4 right = mod(row, 2.0) < 1.0 ? color4 : color2;
-            result = mix(color1, q.x < 0.0 ? left : right, coverage(join, 0.012) * 0.88);
-            for (int i = 0; i < 2; i++) {
-                float front = cos(phase) > 0.0 ? 1.0 : -1.0;
-                float side = i == 0 ? -front : front;
-                float slope = 0.27 * TAU * 0.85 * cos(phase);
-                float d = abs(q.x - side * wave) / sqrt(1.0 + slope * slope);
-                vec4 strand = side > 0.0 ? color3 : color4;
-                if (i == 0) strand = mix(color1, strand, 0.70);
-                result = mix(result, color1, coverage(d, thickness + 0.009));
-                result = mix(result, strand, coverage(d, thickness));
-            }
+            float xx = p.x * 4.4, id = floor(xx), x = fract(xx) - 0.5;
+            float phase = p.y / helixPitch + phaseX + id * neighbourPhase;
+            float shift = 0.32 * sin(TAU * phase);
+            float r = repeatDistance(phase * rungFrequency);
+            result = mix(color1, color2, 0.18 * layerNoise(p * 32.0));
+            result = mix(result, color2, reliefBand(r, 0.075) * step(abs(x), abs(shift)));
+            float first = reliefBand((x - shift) / 4.4, 0.0028),
+                  second = reliefBand((x + shift) / 4.4, 0.0028);
+            result = mix(result, color3, first);
+            result = mix(result, color4, second * (1.0 - 0.67 * first * step(0.0, cos(TAU * phase))));
         """.trimIndent()
 
         PatternTextureType.HarmonicSpectrogram -> """
@@ -1746,703 +1434,462 @@ internal fun patternShader(type: PatternTextureType): String {
         """.trimIndent()
 
         PatternTextureType.GelBands -> """
-            vec2 page = floor(p + 0.5);
-            vec2 q = fract(p + 0.5) - 0.5;
-            float column = floor(q.x * 9.0 + 0.5);
-            float across = abs(q.x * 9.0 - column);
-            float lane = 1.0 - smoothstep(0.28, 0.48, across);
-            float wells = max(0.0, 1.0 - abs(q.y - 0.43) * 90.0) * lane;
-            float light = 0.0;
-            for (int i = 0; i < 14; i++) {
-                float n = float(i);
-                vec2 id = page * 23.0 + vec2(column, n);
-                float reference = 0.375 - 0.795 * pow(n / 13.0, 1.48);
-                float marker = step(3.5, abs(column));
-                float level = reference + (hash(id) - 0.5) * (1.0 - marker) * 0.018;
-                float present = mix(step(0.48, hash(id + 9.8)), 1.0, marker);
-                float dist = (q.y - level - 0.013 * across * across) / (0.0055 + 0.003 * n / 13.0);
-                light = max(light, lane * present * exp(-dist * dist) * (0.42 + 0.58 * hash(id + 2.3)));
-            }
-            result = mix(color1, color2, 0.20 + (0.24 + 0.14 * q.y) * lane + 0.55 * wells);
-            result = mix(result, color3, smoothstep(0.04, 0.58, light));
-            result = mix(result, color4, smoothstep(0.48, 0.92, light));
+            vec2 g = vec2(p.x * laneCount, p.y * 20.0);
+            vec2 id = floor(g), q = fract(g) - 0.5;
+            q.y -= 0.24 * (hash(id) - 0.5) + 0.13 * q.x * q.x;
+            float t = max(abs(q.x) / (bandWidth * 0.48), abs(q.y) / (0.09 + 0.14 * bandBlur));
+            float mark = exp(-t * t * (2.0 - 1.15 * bandBlur)) * step(hash(id + 33.0), 0.49);
+            result = mix(color1, color2, 0.17 + 0.25 * layerNoise(p * vec2(31.0, 4.0)));
+            result = mix(result, mix(color3, color4, hash(id + 17.0)), mark);
         """.trimIndent()
 
         PatternTextureType.Stereonet -> """
-            vec2 cell = floor(p + 0.5), q = (fract(p + 0.5) - 0.5) / 0.435;
-            float r = length(q), square = dot(q, q);
-            vec3 sphere = vec3(2.0 * q.x, 2.0 * q.y, 1.0 - square) / (1.0 + square);
-            float longitude = atan(sphere.x, max(sphere.z, 0.0001));
-            float latitude = asin(clamp(sphere.y, -1.0, 1.0));
-            float lines = count / TAU;
-            float meridian = abs(fract(longitude * lines + 0.5) - 0.5) * max(cos(latitude), 0.05);
-            float parallel = abs(fract(latitude * lines + 0.5) - 0.5);
-            float grid = min(meridian, parallel) / (lines * 4.4);
-            result = mix(color1, color3, coverage(r, 1.0));
-            result = mix(result, color2, coverage(grid, 0.0034) * coverage(r, 1.0));
-            result = mix(result, color4, coverage(abs(q.x * 0.65 + sphere.z * 0.36), 0.014) * coverage(r, 1.0));
-            result = mix(result, color3, coverage(abs(r - 1.055), 0.010));
+            vec2 g = p * arcCount + vec2(phaseX, phaseY);
+            vec2 w = g + curvature * vec2(0.86 * sin(TAU * p.y) + 0.39 * sin(TAU * (p.x + p.y)),
+                                          0.79 * sin(TAU * p.x));
+            vec2 d = vec2(repeatDistance(w.x), repeatDistance(w.y)) / arcCount;
+            result = mix(color1, color2, 0.26 * layerNoise(p * 14.0));
+            result = mix(result, color3, reliefBand(d.x, threadWidth * 0.90));
+            result = mix(result, color4, reliefBand(d.y, threadWidth));
         """.trimIndent()
 
         PatternTextureType.PressureDials -> """
-            vec2 id = floor(p + 0.5), q = fract(p + 0.5) - 0.5;
-            float radius = length(q);
-            float angle = safeAngle(q);
-            float sweep = mod(angle + TAU * 0.62, TAU);
-            float arc = 1.0 - step(TAU * 0.75, sweep);
-            float division = sweep / (TAU * 0.75) * 30.0;
-            float tick = abs(fract(division + 0.5) - 0.5);
-            float major = 1.0 - step(0.5, mod(floor(division + 0.5), 5.0));
-            float tickmark = coverage(tick * radius * TAU * 0.75 / 30.0, 0.005);
-            result = mix(color1, color2, coverage(radius, 0.454));
-            result = mix(result, color4, coverage(radius, 0.426));
-            result = mix(result, color3, arc* step(22.5, division) * coverage(abs(radius - 0.374), 0.018));
-            result = mix(result, color2,
-                         arc* tickmark* step(0.31 - major * 0.042, radius) * coverage(radius, 0.377));
-            float pointer = -TAU * 0.62 + TAU * 0.75 * (0.13 + 0.74 * hash(id));
-            vec2 direction = vec2(cos(pointer), sin(pointer));
-            result = mix(result, color3, coverage(segment(q, -0.063 * direction, 0.30 * direction), 0.009));
-            result = mix(result, color2, coverage(radius, 0.036));
+            vec2 g = p * 5.4 + vec2(phaseX, 2.0 * phaseY);
+            result = mix(color1, color2, 0.4);
+            for (int j = -1; j <= 1; j++)
+                for (int i = -1; i <= 1; i++) {
+                    float row = floor(g.y) + float(j);
+                    float stagger = mod(row, 2.0) * 0.5;
+                    vec2 c = vec2(floor(g.x - stagger) + float(i) + stagger, row);
+                    vec2 q = g - c;
+                    float radius = 0.63 + 0.55 * spotOverlap, d = length(q);
+                    float a = safeAngle(q);
+                    float light = 0.5 + 0.5 * cos(a + 1.4);
+                    float ring = 0.5 + 0.5 * cos(TAU * d / radius * grindingLines);
+                    vec4 metal = mix(mix(color1, color2, 0.18 + 0.74 * ring),
+                                     mix(color3, color4, 0.08 + 0.72 * ring), light);
+                    result = mix(result, metal, coverage((d - radius) / 5.4, 0.0));
+                }
         """.trimIndent()
 
         PatternTextureType.AirfoilStreamlines -> """
-            vec2 q = fract(p + 0.5) - 0.5;
-            float chord = clamp((q.x + 0.32) / 0.64, 0.0, 1.0);
-            float thickness = 0.18 * (1.50 * sqrt(chord) - 1.08 * chord - 0.42 * chord * chord);
-            float camber = 0.066 * sin(chord * 3.141593);
-            float longitudinal = (q.x + 0.07) / 0.25;
-            float wake = exp(-longitudinal * longitudinal);
-            float above = smoothstep(-0.05, 0.04, q.y);
-            float displacement = wake * mix(-0.068, 0.13, above) * exp(-abs(q.y) * 4.5);
-            float phase = (q.y - displacement) * count;
-            float d = abs(fract(phase + 0.5) - 0.5) / count;
-            vec4 line = mix(color2, color3, 0.34 + 0.46 * above);
-            result = mix(color1, line, coverage(d, 0.0035));
-            float foil = max(abs(q.y - camber) - thickness, max(-0.32 - q.x, q.x - 0.32));
-            result = mix(result, color3, coverage(foil, 0.0));
-            result = mix(result, color4, coverage(abs(foil), 0.004));
+            vec2 q = rotatePoint(p, -0.05);
+            float offset = q.y;
+            for (int i = -1; i <= 1; i++) {
+                float id = floor(q.x * 2.0) + float(i);
+                float cx = (id + 0.43 * hash(vec2(id, 1.0))) / 2.0;
+                float dy = q.y - 0.29 * sin(id * 2.7);
+                float dx = q.x - cx;
+                float wake = exp(-abs(dx) / (dx > 0.0 ? wakeLength : 0.08) - dy * dy / 0.025);
+                offset += deflection * 0.095 * wake * sign(dy + 0.0001) * smoothstep(0.0, 0.085, abs(dy));
+            }
+            float t = repeatDistance(offset / linePitch) * linePitch;
+            result = mix(color1, color2, 0.28 + 0.29 * layerNoise(p * 9.0));
+            result = mix(result, mix(color3, color4, 0.36), reliefBand(t, 0.00155));
         """.trimIndent()
 
         PatternTextureType.MolecularModel -> """
-            vec2 row = vec2(p.x + mod(floor(p.y + 0.5), 2.0) * 0.46, p.y);
-            vec2 cell = floor(row + 0.5), q = fract(row + 0.5) - 0.5;
-            float angle = (hash(cell) - 0.5) * variability;
-            q = mat2(cos(angle), -sin(angle), sin(angle), cos(angle)) * q;
-            result = color1;
-            float bonds = 10.0, atoms = 10.0;
-            for (int i = 0; i < 6; i++) {
-                float a = float(i) * TAU / 6.0;
-                vec2 v = vec2(cos(a), sin(a)), next = vec2(cos(a + TAU / 6.0), sin(a + TAU / 6.0));
-                vec2 node = v * 0.196, neighbour = next * 0.196;
-                bonds = min(bonds, segment(q, node, neighbour));
-                if (mod(float(i), 2.0) < 0.5) bonds = min(bonds, segment(q, node * 0.79, neighbour * 0.79));
-                vec2 end = v * (0.323 + 0.034 * mod(float(i), 3.0));
-                bonds = min(bonds, segment(q, node, end));
-                float endRadius = mod(float(i), 2.0) < 1.0 ? 0.046 : 0.031;
-                atoms = min(atoms, length(q - end) - endRadius);
-            }
-            result = mix(result, color4, coverage(bonds, 0.008));
-            result = mix(result, color2, coverage(atoms, 0.009));
-            result = mix(result, color3, coverage(atoms, -0.001));
+            vec2 g = p / latticePitch;
+            vec3 v = cellSample(g + defectFrequency * 0.75 * vec2(noise(g * 0.63), noise(g * 0.62 + 7.0)));
+            result = mix(color3, color4, 0.42 + 0.34 * layerNoise(p * 23.0));
+            float edge = 1.0 - smoothstep(0.010, 0.067, v.y);
+            result = mix(result, color2, edge);
+            vec2 id = floor(g);
+            float t = 10.0;
+            for (int j = -1; j <= 1; j++)
+                for (int i = -1; i <= 1; i++) {
+                    vec2 tile = id + vec2(float(i), float(j));
+                    vec2 site = tile + 0.10 + 0.80 * hash2(tile);
+                    float distanceTo = length(g - site);
+                    if (hash(tile + 8.0) < 0.18 + defectFrequency * 0.28)
+                        t = min(t, distanceTo);
+                }
+            result = mix(result, color1, coverage(t * latticePitch, nodeSize * 0.62));
         """.trimIndent()
 
         PatternTextureType.MarshHeron -> """
-            vec2 q = p;
-            float waterline = 0.16;
-            result = mix(color1, color2, 0.18 * noise(q * 4.0));
-            result = mix(result, color4, coverage(length(q - vec2(-0.22, -0.22)), 0.132));
-            float water = smoothstep(waterline - pixelWidth, waterline + pixelWidth, q.y);
-            float ripple = sin(q.y * 180.0 + 0.70 * sin(q.x * 21.0) + noise(q * 18.0));
-            result = mix(result, mix(color2, color1, 0.10 + 0.19 * smoothstep(0.66, 0.94, ripple)), water);
-            for (int i = 0; i < 34; i++) {
-                float n = float(i);
-                float x = (hash(vec2(n, 2.0)) - 0.5) * 1.22;
-                float height = 0.038 + 0.13 * hash(vec2(n, 9.0));
-                float foot = waterline + 0.022 * hash(vec2(n, 7.0));
-                vec2 base = vec2(x, foot);
-                vec2 tip = base + vec2((hash(vec2(n, 4.0)) - 0.42) * variability * 0.10, -height);
-                result = mix(result, color2, coverage(segment(q, base, tip), 0.0021));
+            result = mix(color1, color2, layerNoise(p * 9.0));
+            for (int i = 0; i < 4; i++) {
+                float lane = float(i), tilt = (hash(vec2(lane, 12.0)) - .43) * reedTilt * 2.0;
+                float x = (p.x + tilt * p.y + lane * 3.4) * reedCount;
+                float stem = fract(x + .12 * sin(p.y * 8.0 + floor(x) * .7)) - .5;
+                float node = repeatDistance(p.y / internode + hash(vec2(floor(x), lane)));
+                float width = .025 + .032 * hash(vec2(floor(x), lane + 5.0)) +
+                              .021 * (1.0 - smoothstep(.012, .034, node));
+                float edge = 1.0 - smoothstep(width, width + pixelWidth * reedCount, abs(stem));
+                vec4 stalk = mix(color3, color4, .19 + .52 * smoothstep(-width, width, stem));
+                stalk = mix(stalk, color2, .53 * (1.0 - smoothstep(.01, .03, node)));
+                result = mix(result, stalk, edge * (.58 + .10 * lane));
             }
-            vec2 hip = vec2(0.12, 0.065);
-            float legs =
-                    min(segment(q, hip, vec2(0.135, 0.265)), segment(q, vec2(0.135, 0.265), vec2(0.145, 0.34)));
-            legs = min(legs, min(segment(q, hip - vec2(0.045, 0.0), vec2(0.028, 0.195)),
-                                 segment(q, vec2(0.028, 0.195), vec2(-0.043, 0.151))));
-            result = mix(result, color3, coverage(legs, 0.0042));
-            vec2 v = rotatePoint(q - vec2(0.105, 0.016), -0.29);
-            float bird = ellipseDistance(v, vec2(0.16, 0.071));
-            bird = min(bird, triangleDistance(q, vec2(0.15, -0.018), vec2(0.32, 0.125), vec2(0.14, 0.066)));
-            vec2 a = vec2(-0.004, -0.006);
-            for (int i = 1; i <= 16; i++) {
-                float t = float(i) / 16.0;
-                vec2 b = vec2(-0.004 - 0.100 * sin(t * 4.6) - t * 0.048, -0.006 - 0.235 * t);
-                bird = min(bird, segment(q, a, b) - mix(0.029, 0.016, t));
-                a = b;
-            }
-            bird = min(bird, ellipseDistance(q - a + vec2(0.015, 0.0), vec2(0.052, 0.024)));
-            result = mix(result, color3, coverage(bird, 0.0));
-            float bill =
-                    triangleDistance(q, a + vec2(-0.046, -0.009), a + vec2(-0.142, 0.004), a + vec2(-0.044, 0.009));
-            result = mix(result, color4, coverage(bill, 0.0));
-            result = mix(result, color4, coverage(length(q - a + vec2(0.026, 0.004)), 0.0048));
-            float wing = ellipseDistance(rotatePoint(q - vec2(0.105, 0.012), -0.29), vec2(0.103, 0.038));
-            result = mix(result, color2, 0.43 * coverage(wing, 0.0));
         """.trimIndent()
 
         PatternTextureType.SwitchbackPass -> """
-            vec2 q = p;
-            result = mix(color1, color2, 0.16 * noise(q * 2.3));
-            result = mix(result, color2, 0.69 * coverage(length(q - vec2(0.25, -0.30)), 0.085));
-            for (int i = 0; i < 4; i++) {
-                float n = float(i);
-                float ridge = -0.20 + n * 0.102 + 0.085 * sin(5.0 * q.x + 2.3 * n) +
-                              0.085 * noise(vec2(6.0 * q.x, 3.8 * n)) + 0.022 * noise(vec2(q.x * 33.0, n));
-                vec4 rock = mix(color2, color3, n * 0.31);
-                result = mix(result, rock, smoothstep(ridge - pixelWidth, ridge + pixelWidth, q.y));
-            }
-            float front = 0.02 - 0.35 * q.x + 0.060 * sin(q.x * 9.0);
-            vec4 face = mix(color4, color3, 0.16 + 0.25 * noise(q * vec2(4.0, 12.0)));
-            result = mix(result, face, smoothstep(front - pixelWidth, front + pixelWidth, q.y));
-            vec2 last = vec2(0.30, -0.06);
-            float road = 2.0;
-            for (int i = 1; i <= 70; i++) {
-                float t = float(i) / 70.0;
-                float width = 0.0014 + 0.006 * t;
-                vec2 here =
-                        vec2(0.30 - 0.35 * t + (0.018 + 0.29 * t) * sin(22.0 * t) * variability, -0.06 + 0.61 * t);
-                road = min(road, segment(q, last, here) - width);
-                last = here;
-            }
-            result = mix(result, color1, coverage(road, 0.0) * smoothstep(front - 0.012, front + 0.006, q.y));
+            vec2 q = rotatePoint(p, slopeGrade * .81) * 8.0 / rubbleSize;
+            vec4 rock = surfaceCell(q * vec2(1.05, 1.26), .85);
+            vec2 id = floor(q * vec2(1.05, 1.26) - rock.zw);
+            vec2 local = rotatePoint(rock.zw, hash(id + 2.0) * 2.3 + slopeGrade * .44);
+            float aspect = .74 + .64 * hash(id + 8.0);
+            vec2 axis = local * vec2(aspect, 1.0 / aspect);
+            float face = max(max(dot(axis, vec2(.94, .30)), -dot(axis, vec2(.87, .49))),
+                             max(dot(axis, vec2(-.34, .96)), -dot(axis, vec2(-.50, .87))));
+            face = max(face, dot(axis, vec2(-.7, -.71)) * .88);
+            face += .027 * (noise(q * 13.0) - .5);
+            float radius = .13 + .24 * hash(id + 5.0);
+            float chips = noise(q * 31.0);
+            result = mix(color1, color2, .26 + .62 * layerNoise(q * 4.0));
+            vec4 gravel = surfaceCell(q * 4.9 + vec2(0.0, slopeGrade * 0.7 * q.x), .8);
+            float fleck = (1.0 - smoothstep(.12, .23, gravel.x)) *
+                          smoothstep(1.0 - gravelShare, 1.0, noise(q * 1.2) + .33);
+            result = mix(result, color3, fleck * .87);
+            vec4 slab = mix(color2, color4,
+                            .15 + .33 * hash(id) + .19 * chips +
+                                .26 * smoothstep(-.012, .018, local.x + .33 * local.y));
+            slab = mix(slab, color1,
+                       .30 * smoothstep(radius - .06, radius, face) * smoothstep(-.13, .18, local.y));
+            result = mix(result, slab, 1.0 - smoothstep(radius, radius + .022, face));
         """.trimIndent()
 
         PatternTextureType.CicadaAmber -> """
-            vec2 q = p;
-            result = mix(color1, color2, 0.07 + 0.14 * noise(q * 5.0));
-            vec2 mirror = vec2(abs(q.x), q.y);
-            vec2 wing = rotatePoint(mirror - vec2(0.17, 0.012), 0.53);
-            wing.x /= shapeAspect;
-            float outer = ellipseDistance(wing, vec2(0.115, 0.32));
-            vec2 lower = rotatePoint(mirror - vec2(0.111, 0.125), 0.23);
-            float inner = ellipseDistance(lower, vec2(0.080, 0.227));
-            vec4 amber = mix(color2, color3, 0.26 + 0.45 * noise(wing * 9.0));
-            result = mix(result, mix(color2, color3, 0.38), coverage(inner, 0.0));
-            result = mix(result, color4, 0.62 * coverage(abs(inner), 0.003));
-            result = mix(result, amber, coverage(outer, 0.0));
-            float rib = 1.0;
-            for (int i = 0; i < 6; i++) {
-                float n = float(i) / 5.0;
-                vec2 root = vec2(0.004, -0.278);
-                vec2 fork = vec2(-0.090 + 0.16 * n, -0.06 - 0.07 * n);
-                vec2 joint = vec2(-0.094 + 0.20 * n, 0.103 + 0.035 * n);
-                vec2 tip = vec2(-0.113 + 0.182 * n, 0.16 + 0.135 * sin(n * 2.70));
-                rib = min(rib, min(segment(wing, root, fork),
-                                   min(segment(wing, fork, joint), segment(wing, joint, tip))));
-                rib = min(rib, segment(wing, joint, joint + vec2(0.036, 0.057)));
-            }
-            result = mix(result, color1, 0.8 * coverage(rib, 0.0028) * coverage(outer, -0.003));
-            result = mix(result, color4, coverage(abs(outer), 0.0035));
-            float abdomen = ellipseDistance(q - vec2(0.0, 0.057), vec2(0.045, 0.18));
-            vec4 bands = mix(color2, color3, 0.74 * smoothstep(0.65, 0.90, cos(q.y * 155.0)));
-            result = mix(result, bands, coverage(abdomen, 0.0));
-            float thorax = ellipseDistance(q - vec2(0.0, -0.098), vec2(0.067, 0.070));
-            result = mix(result, color2, coverage(thorax, 0.0));
-            float head = ellipseDistance(q - vec2(0.0, -0.17), vec2(0.064, 0.039));
-            result = mix(result, color3, coverage(head, 0.0));
-            result = mix(result, color1, coverage(length(mirror - vec2(0.052, -0.175)), 0.017));
-            result = mix(result, color4, coverage(length(mirror - vec2(0.055, -0.181)), 0.005));
+            vec2 q = rotatePoint(p, -0.37);
+            q.x += 0.15 * sin(4.0 * q.y + 1.0) + 0.19 * q.y + 0.054 * sin(7.0 * q.y + 3.0 * q.x);
+            float rib = q.x * 5.6;
+            vec2 honey = vec2(rib * 2.05, q.y * crossVeins + 0.58 * rib) +
+                         0.45 * vec2(noise(q * 9.0), noise(q * 8.0 + 8.0));
+            vec4 cell = surfaceCell(honey, 0.78);
+            float sheenPhase = 0.5 + 0.5 * sin(13.0 * q.y + 15.0 * q.x + 5.0 * layerNoise(q * 7.0));
+            float pane = hash(floor(honey - cell.zw));
+            vec4 glass = mix(color2, color3, 0.33 + 0.35 * layerNoise(q * 7.0) + 0.3 * pane);
+            glass = mix(glass, color4, membraneSheen * (0.15 + 0.62 * sheenPhase));
+            float vein = min(cell.y, repeatDistance(rib) * 1.50);
+            float network = 1.0 - smoothstep(veinWidth * 0.55, veinWidth + pixelWidth * 6.0, vein);
+            result = mix(glass, color1, network);
+            result = mix(result, color2, (1.0 - smoothstep(0.0, veinWidth * 0.42, vein)) * 0.65);
         """.trimIndent()
 
         PatternTextureType.Passionflower -> """
-            vec2 q = p;
-            float r = length(q), a = safeAngle(q);
-            result = mix(color1, color2, 0.09 * noise(q * 6.0));
-            for (int i = 0; i < 10; i++) {
-                float n = float(i);
-                vec2 v = rotatePoint(q, -n * TAU / 10.0);
-                float curve = 0.024 * sin(v.x * 9.0 + n);
-                float leaf = ellipseDistance(v - vec2(0.194, curve), vec2(0.218, 0.062 + 0.010 * mod(n, 2.0)));
-                vec4 pigment = mix(color2, color3, 0.25 * mod(n, 2.0) + 0.10 * smoothstep(0.05, 0.38, v.x));
-                pigment = mix(pigment, color1, 0.23 * coverage(abs(v.y - curve), 0.0035));
-                result = mix(result, pigment, coverage(leaf, 0.0));
+            vec2 q = p / flowerPitch + 2.0 * vec2(phaseX, phaseY);
+            q.x += .46 * mod(floor(q.y), 2.0);
+            vec2 id = mod(floor(q), 2.0);
+            vec2 uv = fract(q) - .5 - .095 * (hash2(id) - .5);
+            float angle = safeAngle(uv) + hash(id) * 1.9;
+            float d = length(uv);
+            float g = layerNoise(p * 19.0);
+            result = mix(color1, color2, .19 + .34 * g);
+            for (int i = 0; i < 2; i++) {
+                float layer = float(i);
+                float petals = .5 + .5 * cos(10.0 * (angle + layer * .31));
+                float edge = petalLength * (1.0 - .20 * layer) * (.50 + .50 * pow(petals, .42));
+                vec4 silk = mix(color2, color4, .31 + .29 * layer + .25 * d);
+                result = mix(result, silk, 1.0 - smoothstep(edge - .005, edge + .009, d));
             }
-            float reach = 0.28 + 0.013 * sin(a * 11.0) + 0.011 * sin(a * 17.0);
-            float twist = a * count / TAU + 0.44 * sin(22.0 * r + a * 4.0);
-            float thread = abs(fract(twist) - 0.5) * TAU * max(r, 0.03) / count;
-            float corona = coverage(thread, 0.0034) * smoothstep(0.072, 0.087, r) *
-                           (1.0 - smoothstep(reach - 0.008, reach, r));
-            vec4 silk = mix(color3, color2, smoothstep(-0.20, 0.24, cos(r * 88.0)));
-            result = mix(result, silk, corona);
-            result = mix(result, color1, coverage(r, 0.073));
-            for (int i = 0; i < 5; i++) {
-                vec2 s = rotatePoint(q, float(i) * TAU / 5.0);
-                float stem = segment(s, vec2(0.0), vec2(0.094, 0.0));
-                result = mix(result, color2, coverage(stem, 0.006));
-                result = mix(result, color4,
-                             coverage(ellipseDistance(s - vec2(0.091, 0.0), vec2(0.013, 0.028)), 0.0));
-            }
-            result = mix(result, color3, coverage(r, 0.027));
+            float corona = pow(max(0.0, cos(angle * filaments + .82 * sin(18.0 * d + 3.0 * angle))), 4.0);
+            result = mix(result, mix(color3, color4, .5 + .48 * cos(d * 83.0)),
+                         corona * smoothstep(.075, .14, d) * (1.0 - smoothstep(.33, .38, d)));
+            result = mix(result, color2, 1.0 - smoothstep(.073, .092, d));
         """.trimIndent()
 
         PatternTextureType.IcebergKeel -> """
-            vec2 q = p;
-            float level = balance - 0.50;
-            result = mix(color1, color2, 0.19 * noise(q * 4.0));
-            vec4 ocean = mix(color3, color4, smoothstep(level, 0.5, q.y));
-            ocean = mix(ocean, color2, 0.14 * noise(q * vec2(5.0, 17.0)));
-            result = mix(result, ocean, smoothstep(level - pixelWidth, level + pixelWidth, q.y));
-            vec2 v = q - vec2(0.0, level);
-            vec2 peak = vec2(-0.12, -0.235), left = vec2(-0.32, 0.0), tip = vec2(0.29, 0.0);
-            vec2 shoulder = vec2(0.14, -0.12), crown = vec2(0.01, -0.09);
-            float ridge = triangleDistance(v, left, peak, crown);
-            result = mix(result, color2, coverage(ridge, 0.0));
-            ridge = triangleDistance(v, peak, vec2(-0.078, 0.0), crown);
-            result = mix(result, color1, coverage(ridge, 0.0));
-            result = mix(result, color2, coverage(triangleDistance(v, crown, shoulder, tip), 0.0));
-            result = mix(result, mix(color1, color2, 0.45), coverage(triangleDistance(v, left, crown, tip), 0.0));
-            vec2 ledge = vec2(-0.24, 0.15), foot = vec2(-0.08, 0.44), edge = vec2(0.22, 0.23),
-                 heart = vec2(0.035, 0.16);
-            result = mix(result, mix(color2, color3, 0.3), coverage(triangleDistance(v, left, ledge, heart), 0.0));
-            result = mix(result, mix(color3, color2, 0.63), coverage(triangleDistance(v, left, heart, tip), 0.0));
-            result = mix(result, color3, coverage(triangleDistance(v, tip, heart, edge), 0.0));
-            result = mix(result, mix(color3, color2, 0.27), coverage(triangleDistance(v, ledge, foot, heart), 0.0));
-            result = mix(result, mix(color3, color4, 0.46), coverage(triangleDistance(v, foot, edge, heart), 0.0));
-            float seam = abs(v.y - 0.0025 * sin(q.x * 55.0));
-            result = mix(result, color1, 0.76 * coverage(seam, 0.003));
+            vec2 q = rotatePoint(p, .32);
+            float belt = repeatDistance(q.y / bubbleBands + .13 * sin(q.x * 13.0) + .20 * noise(q * 6.0));
+            float cloud = layerNoise(p * 9.0);
+            result = mix(color1, color2, .26 + cloud * .63);
+            result = mix(result, color3, iceCloud * pow(cloud, 2.0) * 1.32);
+            vec2 field = q * 46.0;
+            vec4 cell = surfaceCell(field, .88);
+            float radius = bubbleSize * (.50 + hash(floor(field - cell.zw)));
+            float rim = 1.0 - smoothstep(.012, .053, abs(cell.x - radius));
+            float sheen = .24 + .76 * smoothstep(.02, .09, -cell.z - cell.w);
+            result = mix(result, color4, rim * sheen * (1.0 - smoothstep(.025, .18, belt)));
         """.trimIndent()
 
         PatternTextureType.SoundingFlukes -> """
-            vec2 q = p;
-            float horizon = -0.045;
-            result = mix(color1, color2, 0.42 * smoothstep(-0.5, horizon, q.y));
-            result = mix(result, color2, coverage(length(q - vec2(-0.30, -0.20)), 0.098));
-            float waves = sin(q.y * 123.0 + 1.4 * sin(12.0 * q.x) + noise(q * vec2(9.0, 29.0)) * 3.0);
-            vec4 sea = mix(color3, color4, 0.05 + 0.50 * smoothstep(horizon, 0.5, q.y));
-            sea = mix(sea, color1, (0.08 + 0.26 * smoothstep(-0.75, 0.5, -q.x)) * smoothstep(0.64, 0.99, waves));
-            result = mix(result, sea, smoothstep(horizon - pixelWidth, horizon + pixelWidth, q.y));
-            vec2 tail = rotatePoint(q - vec2(0.06, 0.035), -0.11 + 0.11 * sin(time));
-            float x = abs(tail.x);
-            float t = clamp(x / 0.33, 0.0, 1.0);
-            float upper = -0.01 - 0.07 * sin(3.14159 * t) - 0.125 * t * t;
-            float lower = 0.042 * (1.0 - t) - 0.125 * t * t + 0.012 * sin(t * 22.0) * sin(3.14159 * t);
-            float wing = max(max(upper - tail.y, tail.y - lower), x - 0.33);
-            float gap = 0.040 * (1.0 - smoothstep(0.0, 0.026, x));
-            wing = max(wing, upper + gap - tail.y);
-            float stalk = max(x - (0.022 + 0.027 * (1.0 - smoothstep(0.0, 0.12, tail.y))),
-                              max(-tail.y + 0.015, tail.y - 0.145));
-            float fluke = min(wing, stalk);
-            vec4 skin = mix(color4, color3, 0.19 + 0.16 * noise(tail * 40.0));
-            result = mix(result, skin, coverage(fluke, 0.0));
-            result = mix(result, color1, 0.47 * coverage(abs(tail.y - lower + 0.004), 0.003) * coverage(wing, 0.0));
-            vec2 ring = (q - vec2(0.077, 0.18)) / vec2(1.0, 0.14);
-            float wake = abs(fract(length(ring) * 17.0 - time * 0.5) - 0.5) / 17.0;
-            result = mix(result, color1, coverage(wake, 0.005) * (1.0 - smoothstep(0.11, 0.29, length(ring))));
+            vec2 q = rotatePoint(p, -.43);
+            float lane = fract(q.x * 2.1 + .055 * sin(q.y * 6.0)) - .5;
+            float n = layerNoise(p * 15.0);
+            float phase = (q.y - wakeAngle * abs(lane) / 2.1 + .012 * (noise(p * 27.0) - .5)) / wakePitch;
+            float d = repeatDistance(phase);
+            float strength = .20 + .80 * (1.0 - smoothstep(.10, .5, abs(lane)));
+            result = mix(color1, color2, .24 + .48 * n + .22 * (.5 + .5 * cos(TAU * phase)));
+            result = mix(result, color3, (1.0 - smoothstep(.035, .14, d)) * strength);
+            result = mix(result, color4,
+                         (1.0 - smoothstep(.009, .055, d)) * strength *
+                             smoothstep(.78 - foamCover * .63, .96 - foamCover * .5, noise(p * 120.0)));
         """.trimIndent()
 
         PatternTextureType.SamaraFlight -> """
-            vec2 tile = p + vec2(0.5 * floor(p.y), 0.0);
-            vec2 id = floor(tile);
-            vec2 q = fract(tile) - 0.5;
-            q = rotatePoint(q, (hash(id) - 0.5) * 3.1 * variability + 0.48);
-            result = mix(color1, color3, 0.10 * noise(p * 2.0));
-            for (int i = 0; i < 2; i++) {
-                float side = float(i) * 2.0 - 1.0;
-                vec2 v = rotatePoint(vec2(q.x * side, q.y) - vec2(0.035, 0.075), -0.56);
-                float t = clamp(v.x / 0.34, 0.0, 1.0);
-                float spine = -0.070 * sin(t * 3.14159) - 0.11 * t * t;
-                float width = 0.092 * pow(max(0.0, sin(t * 3.14159)), 0.63) * (0.48 + 0.52 * t);
-                float edge = max(abs(v.y - spine) - width, max(-v.x, v.x - 0.34));
-                vec4 wing = mix(color2, color3, 0.2 + 0.75 * t);
-                float along = (v.y - spine) / max(0.018, width);
-                float vein = abs(fract(along * 2.5 - 1.3 * t) - 0.5) * width / 2.5;
-                wing = mix(wing, color4, 0.75 * coverage(vein, 0.0025));
-                result = mix(result, wing, coverage(edge, 0.0));
-                result = mix(result, color4, 0.65 * coverage(abs(edge), 0.003));
-                float nut = ellipseDistance(v - vec2(0.015, 0.0), vec2(0.047, 0.033));
-                result = mix(result, color2, coverage(nut, 0.0));
+            vec2 q = p * seedDensity;
+            result = mix(color1, color2, .36 + .49 * layerNoise(p * 27.0));
+            for (int j = -1; j <= 1; j++) {
+                for (int i = -1; i <= 1; i++) {
+                    vec2 id = floor(q) + vec2(float(i), float(j));
+                    vec2 delta = q - id - .5 - .48 * (hash2(id) - .5);
+                    float angle = (hash(id + 19.0) - .5) * 5.6 * angleSpread + .34;
+                    for (int n = 0; n < 2; n++) {
+                        if (n == 1 && hash(id + 37.0) < .28)
+                            break;
+                        vec2 uv = rotatePoint(delta, angle + float(n) * 1.13);
+                        float t = uv.y / wingSpan;
+                        float mid = .14 * sin(t * 2.6) - .13 * t;
+                        float width = .16 * smoothstep(-.04, .40, t) * (1.0 - smoothstep(.57, 1.0, t));
+                        float wing = (1.0 - smoothstep(width, width + .009, abs(uv.x - mid))) *
+                                     step(0.0, t) * step(t, 1.0);
+                        float veins = .5 + .5 * cos((uv.x - mid) / (width + .022) * 12.0 + t * 9.0);
+                        result = mix(result, mix(color3, color4, .36 + .51 * veins), wing * .94);
+                        result =
+                            mix(result, color3, 1.0 - smoothstep(.047, .078, length(uv * vec2(1.15, 1.0))));
+                    }
+                }
             }
         """.trimIndent()
 
         PatternTextureType.OctopusArm -> """
-            vec2 q = p;
-            result = mix(color1, color2, 0.12 + 0.22 * noise(p * 4.0));
-            vec2 a = vec2(-0.59, 0.26);
-            float skin = 2.0, underside = 2.0, rim = 2.0, well = 2.0, glint = 2.0;
-            for (int i = 1; i <= 80; i++) {
-                float t = float(i) / 80.0;
-                vec2 b;
-                if (t < 0.45) {
-                    float u = t / 0.45;
-                    b = mix(vec2(-0.59, 0.26), vec2(0.12, 0.205), u);
-                    b.y += 0.10 * sin(TAU * u) * sin(3.14159 * u) * variability;
-                } else {
-                    float u = (t - 0.45) / 0.55;
-                    float angle = 1.5708 - u * (6.45 + 1.75 * variability);
-                    float radius = mix(0.255, 0.023, u);
-                    b = vec2(0.12, -0.05) + radius * vec2(cos(angle), sin(angle));
-                }
-                float width = 0.090 * (1.0 - t) + 0.008;
-                vec2 tangent = b - a;
-                vec2 normal = vec2(-tangent.y, tangent.x) / max(length(tangent), 0.0001);
-                skin = min(skin, segment(q, a, b) - width);
-                underside = min(underside,
-                                segment(q, a + normal * width * 0.34, b + normal * width * 0.34) - width * 0.60);
-                glint = min(glint,
-                            segment(q, a - normal * width * 0.64, b - normal * width * 0.64) - width * 0.075);
-                if (mod(float(i), 3.0) < 0.5) {
-                    vec2 cup = b + normal * width * (0.34 + 0.25 * cos(float(i)));
-                    float radius = width * 0.34;
-                    vec2 v = q - cup;
-                    float d = length(v);
-                    rim = min(rim, d - radius);
-                    well = min(well, length(v - normal * radius * 0.14) - radius * 0.52);
-                }
-                a = b;
-            }
-            vec4 flesh = mix(color3, color1, 0.16 + 0.14 * noise(q * 40.0));
-            result = mix(result, flesh, coverage(skin, 0.0));
-            result = mix(result, color3, 0.78 * coverage(glint, 0.0) * coverage(skin, 0.0));
-            result = mix(result, mix(color3, color4, 0.50), coverage(underside, 0.0) * coverage(skin, 0.0));
-            result = mix(result, color4, coverage(rim, 0.0));
-            result = mix(result, mix(color1, color3, 0.48), coverage(well, 0.0));
+            vec2 q = rotatePoint(p, .33) * vec2(4.5, 5.6) / cupPitch;
+            q.x += .18 * sin(q.y * .9);
+            q.y += .48 * mod(floor(q.x), 2.0);
+            vec2 uv = fract(q) - .5;
+            float d = length(uv * vec2(1.15, 1.0));
+            float grain = layerNoise(q * 5.0);
+            result = mix(color1, color2, .4 + .5 * grain + .07 * skinFolds * sin(q.x * 57.0 + grain * 5.0));
+            float rim = exp(-pow((d - .25) / (.046 + .045 * rimHeight), 2.0));
+            vec4 lip = mix(color3, color4, .36 + .45 * smoothstep(-.17, .18, -uv.x - uv.y));
+            result = mix(result, lip, rim);
+            result = mix(result, color1, (1.0 - smoothstep(.10, .15, d)) * .89);
         """.trimIndent()
 
         PatternTextureType.WardianCase -> """
-            vec2 q = p;
-            result = mix(color1, color2, 0.12 + 0.18 * noise(q * 3.0));
-            float dome = max(length(vec2(q.x, min(q.y + 0.025, 0.0))) - 0.29, q.y - 0.28);
-            vec4 glass = mix(color1, color2, 0.25 + 0.32 * smoothstep(-0.30, 0.32, -q.x));
-            result = mix(result, glass, coverage(dome, 0.0));
-            float earth = 0.16 + 0.02 * sin(13.0 * q.x) + 0.018 * noise(q * vec2(20.0, 0.0));
-            if (q.y > earth) {
-                vec4 bed = mix(color3, color1, 0.49 + 0.18 * noise(q * 65.0));
-                bed = mix(bed, color2, 0.58 * coverage(abs(q.y - earth - 0.036), 0.009));
-                result = mix(result, bed, coverage(dome, -0.005));
-            }
-            for (int i = 0; i < 6; i++) {
-                if (float(i) >= layers) break;
-                float n = float(i);
-                float x = 0.19 * cos(n * 2.39996);
-                vec2 base = vec2(x, 0.178);
-                float a = (hash(vec2(n, 2.0)) - 0.5) * 1.04;
-                vec2 v = rotatePoint(q - base, a);
-                float h = 0.18 + 0.13 * hash(vec2(n, 6.0));
-                float frond = segment(v, vec2(0.0), vec2(0.0, -h));
-                for (int j = 1; j <= 7; j++) {
-                    float u = float(j) / 8.0;
-                    vec2 from = vec2(0.0, -u * h);
-                    vec2 to = from + vec2(0.060 * sin(u * 3.14159), -0.030);
-                    frond = min(frond, segment(vec2(abs(v.x), v.y), from, to));
-                }
-                result = mix(result, mix(color2, color3, 0.23 + 0.42 * hash(vec2(n, 1.0))),
-                             coverage(frond, 0.0044) * coverage(dome, -0.009));
-            }
-            result = mix(result, color4, 0.86 * coverage(abs(dome), 0.0036));
-            float glint = abs(length(vec2(q.x, min(q.y + 0.025, 0.0))) - 0.266);
+            vec2 q = p * 23.0;
+            vec4 drop = surfaceCell(q, .93);
+            float wander = p.x * 5.0 + .21 * sin(p.y * 8.0 + floor(p.x * 5.0) * 1.8) + .14 * noise(p * 7.0);
+            float trail = 1.0 - smoothstep(runWidth, runWidth + .045, repeatDistance(wander));
+            float haze = layerNoise(p * 9.0);
+            result = mix(color1, color2, .20 + .60 * haze);
+            result = mix(result, color3, fogAmount * (.52 + .4 * haze) * (1.0 - .81 * trail));
+            float r = dropSize * (.55 + .89 * hash(floor(q - drop.zw)));
+            float d = length(drop.zw * vec2(1.0, .84));
+            float edge = 1.0 - smoothstep(.012, .046, abs(d - r));
+            result = mix(result, color1, edge * .54);
             result = mix(result, color4,
-                         0.58 * coverage(glint, 0.0047) * smoothstep(0.07, 0.20, -q.x) *
-                                 (1.0 - smoothstep(0.05, 0.14, q.y)));
-            float plinth = max(abs(q.x) - 0.32, abs(q.y - 0.302) - 0.024);
-            result = mix(result, color3, coverage(plinth, 0.0));
-            result = mix(result, color4, coverage(segment(q, vec2(-0.30, 0.289), vec2(0.30, 0.289)), 0.0026));
+                         (1.0 - smoothstep(.025, .067, length(drop.zw + vec2(.45, .5) * r))) * .95 *
+                             (1.0 - .6 * trail));
         """.trimIndent()
 
         PatternTextureType.AntGalleries -> """
-            vec2 q = p;
-            float ground = -0.36 + 0.022 * sin(q.x * 9.0) + 0.014 * noise(vec2(q.x * 18.0, 0.0));
-            float layer = q.y + 0.032 * sin(q.x * 9.0) + 0.027 * noise(q * 6.0);
-            float stratum = 0.5 + 0.5 * sin(layer * 47.0);
-            result = mix(color2, color3, 0.11 + 0.21 * stratum + 0.27 * noise(p * 73.0));
-            result = mix(result, color3, 1.0 - smoothstep(ground - pixelWidth, ground + pixelWidth, q.y));
-            float hollow = 3.0, insects = 3.0;
-            vec2 prev = vec2(-0.19, ground);
-            for (int i = 0; i < 8; i++) {
-                float n = float(i);
-                vec2 c = vec2(-0.15 + 0.085 * sin(n * 2.31) - 0.04 * cos(n), -0.28 + n * 0.106);
-                float side = mod(n, 2.0) * 2.0 - 1.0;
-                float width = 0.21 + 0.12 * hash(vec2(n, 3.0));
-                vec2 pocket = c + vec2(side * width, -0.02 + 0.060 * sin(n * 1.9));
-                if (side < 0.0) pocket.x += 0.08;
-                vec2 arm = c;
-                for (int j = 1; j <= 6; j++) {
-                    float u = float(j) / 6.0;
-                    vec2 v = mix(c, pocket, u);
-                    v.y += 0.033 * sin(3.14159 * u) * cos(2.8 * n + u) * variability;
-                    hollow = min(hollow, segment(q, arm, v) - 0.009);
-                    arm = v;
+            vec2 q = rotatePoint(p, 0.14) * 4.4;
+            float nearest = 2.0;
+            for (int j = -1; j <= 1; j++) {
+                float row = floor(q.y) + float(j);
+                float route = row + 0.5 + 0.24 * sin(q.x * 2.9 + row * 1.9) +
+                              0.30 * (noise(vec2(q.x * 1.3, row * 5.0)) - 0.5);
+                nearest = min(nearest, abs(q.y - route) * 0.79);
+                for (int i = -1; i <= 1; i++) {
+                    vec2 tile = vec2(floor(q.x) + float(i), row);
+                    float x = tile.x + 0.15 + 0.65 * hash(tile + 9.0);
+                    float y = row + 0.5 + 0.24 * sin(x * 2.9 + row * 1.9) +
+                              0.30 * (noise(vec2(x * 1.3, row * 5.0)) - 0.5);
+                    nearest = min(nearest, length((q - vec2(x, y)) * vec2(0.63, 1.0)) -
+                                               roomSize * (0.43 + 0.68 * hash(tile + 3.0)));
+                    float f = q.y - y;
+                    if (f >= 0.0 && f <= 1.10 && hash(tile + 13.0) < junctions) {
+                        nearest =
+                            min(nearest, abs(q.x - x - 0.18 * sin(f * TAU + tile.x) * sin(f * 3.14159)));
+                    }
                 }
-                hollow = min(hollow, segment(q, prev, c) - 0.012);
-                vec2 v = rotatePoint(q - pocket, 0.36 * sin(n * 2.4));
-                float chamber = ellipseDistance(
-                        v, vec2(0.058 + 0.033 * hash(vec2(n, 2.0)), 0.030 + 0.014 * hash(vec2(n, 7.0))));
-                hollow = min(hollow, chamber + 0.004 * sin(v.x * 80.0));
-                float offset = sin(n * 2.23) * 0.035;
-                vec2 ant = v - vec2(offset, 0.006);
-                float bug = min(ellipseDistance(ant + vec2(0.014, 0.0), vec2(0.010, 0.006)),
-                                min(length(ant) - 0.0045, length(ant - vec2(0.010, 0.0)) - 0.0055));
-                for (int k = 0; k < 3; k++) {
-                    float leg = float(k) - 1.0;
-                    bug = min(bug, segment(vec2(ant.x, abs(ant.y)), vec2(leg * 0.004, 0.0025),
-                                           vec2(leg * 0.010 - 0.003, 0.012)) -
-                                           0.0013);
-                }
-                insects = min(insects, bug);
-                prev = c;
             }
-            result = mix(result, color3, coverage(hollow, 0.0055));
-            result = mix(result, mix(color4, color1, 0.40 + 0.35 * noise(p * 17.0)), coverage(hollow, 0.0));
-            result = mix(result, color3, coverage(insects, 0.0));
+            float d = nearest + 0.024 * (noise(q * 16.0) - 0.5);
+            float soil = 0.40 * layerNoise(p * 57.0) + 0.35 * layerNoise(p * 6.0) + 0.25 * noise(p * 360.0);
+            result = mix(color3, color4, soil);
+            result = mix(result, color2, 1.0 - smoothstep(tunnelWidth, tunnelWidth + 0.055, d));
+            result = mix(result, mix(color1, color2, 0.58 * soil),
+                         1.0 - smoothstep(tunnelWidth - 0.02, tunnelWidth + 0.012, d));
         """.trimIndent()
 
         PatternTextureType.RainShafts -> """
-            vec2 q = p;
-            float cloud = -0.16 + 0.070 * sin(q.x * 5.0) + 0.085 * noise(vec2(q.x * 6.0, 1.0)) +
-                          0.023 * noise(vec2(q.x * 28.0, 0.0));
-            vec4 sky = mix(color2, color3, smoothstep(-0.28, 0.29, q.y));
-            sky = mix(sky, color4, 0.68 * exp(-abs(q.y - 0.20) * 5.0) * smoothstep(0.01, 0.36, q.x));
-            result = sky;
-            float falling = q.x + 0.29 * q.y;
-            float curtain =
-                    0.24 + 0.54 * noise(vec2(falling * 5.7, 1.2)) + 0.15 * noise(vec2(falling * 30.0, q.y * 1.2));
-            curtain = smoothstep(0.43, 0.73, curtain) * intensity;
-            float streak = 0.65 + 0.35 * noise(vec2(falling * 148.0, q.y * 2.6));
-            result = mix(result, color2,
-                         curtain* streak* smoothstep(-0.20, 0.08, q.y) * (1.0 - smoothstep(0.26, 0.43, q.y)));
-            vec4 bank = mix(color1, color2, 0.23 + 0.43 * noise(q * vec2(5.0, 12.0)));
-            result = mix(result, bank, 1.0 - smoothstep(cloud - 0.020, cloud + 0.02, q.y));
-            float far = 0.24 + 0.028 * sin(q.x * 12.0) + 0.023 * noise(vec2(q.x * 17.0, 2.0));
-            float near = 0.35 + 0.074 * sin(q.x * 4.4 - 0.4) + 0.022 * noise(vec2(q.x * 15.0, 3.0));
-            result = mix(result, mix(color2, color1, 0.39), smoothstep(far - pixelWidth, far + pixelWidth, q.y));
-            vec4 moor = mix(color1, color2, 0.12 + 0.16 * noise(q * vec2(7.0, 24.0)));
-            result = mix(result, moor, smoothstep(near - pixelWidth, near + pixelWidth, q.y));
+            vec2 q = rotatePoint(p, rainTilt);
+            float fog = layerNoise(q * vec2(4.0, 6.0));
+            result = mix(color1, color2, fog);
+            result = mix(result, color3, veilCover * pow(fog, 2.0) * .79);
+            for (int i = 0; i < 3; i++) {
+                float depth = 1.0 + float(i) * .56;
+                vec2 cell = q * vec2(81.0, 9.0) * depth + float(i) * 13.2;
+                vec2 id = floor(cell);
+                vec2 uv = fract(cell) - .5;
+                float r = hash(id + float(i));
+                float line = (1.0 - smoothstep(.018, .082, abs(uv.x - .46 * (r - .5)))) *
+                             (1.0 - smoothstep(.03, .5 * rainLength + .05, abs(uv.y)));
+                result = mix(result, color4, line * step(1.0 - veilCover, r) * (.32 - .07 * float(i)));
+            }
         """.trimIndent()
 
         PatternTextureType.PitcherPlants -> """
-            vec2 cell = vec2(p.x + floor(p.y) * 0.5, p.y);
-            vec2 q = fract(cell) - 0.5;
-            float tilt = (hash(floor(cell)) - 0.5) * 0.36;
-            vec2 v = rotatePoint(q, tilt);
-            result = mix(color1, color2, 0.13 + 0.20 * noise(p * 3.0));
-            float strand = segment(v, vec2(-0.04, -0.40), vec2(-0.20, -0.23));
-            strand = min(strand, segment(v, vec2(-0.20, -0.23), vec2(-0.19, 0.12)));
-            strand = min(strand, segment(v, vec2(-0.19, 0.12), vec2(-0.070, 0.27)));
-            result = mix(result, color2, coverage(strand, 0.009));
-            float t = clamp((v.y + 0.18) / 0.49, 0.0, 1.0);
-            float radius = (0.13 - 0.052 * sin(t * 4.5)) * sqrt(max(0.0, 1.0 - t * t)) * shapeAspect;
-            float edge = max(abs(v.x - 0.040 * sin(t * 4.0)) - radius, max(-0.18 - v.y, v.y - 0.31));
-            vec4 skin = mix(color2, color3, 0.24 + 0.73 * t);
-            skin = mix(skin, color4, 0.60 * smoothstep(0.58, 0.71, noise(v* vec2(38.0, 25.0))));
-            result = mix(result, skin, coverage(edge, 0.0));
-            vec2 mouth = v - vec2(0.0, -0.178);
-            float lip = ellipseDistance(mouth, vec2(0.144 * shapeAspect, 0.048));
-            result = mix(result, color4, coverage(lip, 0.0));
-            result = mix(
-                    result, color1,
-                    coverage(ellipseDistance(mouth - vec2(0.0, -0.002), vec2(0.115 * shapeAspect, 0.029)), 0.0));
-            float lidStem = segment(v, vec2(0.09, -0.205), vec2(0.135, -0.312));
-            result = mix(result, color2, coverage(lidStem, 0.011));
-            float lid = ellipseDistance(rotatePoint(v - vec2(0.074, -0.316), 0.27), vec2(0.099, 0.031));
-            result = mix(result, color3, coverage(lid, 0.0));
+            vec2 q = p * pitcherDensity;
+            result = mix(color1, color2, .35 + .44 * layerNoise(q * 10.0));
+            float vine = repeatDistance(q.x + .24 * sin(q.y * 2.3) + .17 * q.y);
+            result = mix(result, color2, (1.0 - smoothstep(.006, .017, vine)) * .9);
+            q.x += .5 * mod(floor(q.y), 2.0);
+            vec2 uv = fract(q) - .5;
+            vec2 id = floor(q);
+            uv = rotatePoint(uv, .35 * (hash(id) - .5));
+            float t = (uv.y + .31) / cupDepth;
+            float width = .071 + .11 * smoothstep(.03, .58, t) - .072 * smoothstep(.51, 1.0, t);
+            float axis = .073 * sin(t * 4.9);
+            float mask = (1.0 - smoothstep(width, width + .01, abs(uv.x - axis))) *
+                         smoothstep(-.02, .03, t) * (1.0 - smoothstep(.91, 1.00, t));
+            float fleck = smoothstep(.58, .78, noise(uv * vec2(49.0, 34.0)));
+            result =
+                mix(result,
+                    mix(color3, color4, .38 + .37 * cos((uv.x - axis) / (width + .01) * 2.0) - .26 * fleck),
+                    mask);
+            float mouth = length(vec2((uv.x + .001) / .133, (uv.y + .31) / .041));
+            result = mix(result, color4, 1.0 - smoothstep(.92, 1.04, mouth));
+            result = mix(result, color1, 1.0 - smoothstep(.59, .71, mouth));
+            float thread = segment(uv, vec2(-.035, .26), vec2(-.4 * tendrilReach, .49));
+            result = mix(result, color2, 1.0 - smoothstep(.004, .014, thread));
         """.trimIndent()
 
         PatternTextureType.PoleFoldShibori -> """
-            vec2 q = rotatePoint(p, -0.47);
-            float bend = 0.017 * sin(q.y * 12.0) + 0.014 * sin(q.y * 27.0 + q.x * 4.0);
-            float wick = noise(q * vec2(28.0, 4.0)) * 0.058 + noise(q * 94.0) * 0.014;
-            float pinched = q.x + bend + wick + variability * 0.08 * sin(q.y * 5.0 + q.x * 2.3);
-            float rib = abs(fract(pinched * 10.0 + 0.16 * sin(q.y * 31.0)) - 0.5);
-            float wash = noise(q * vec2(4.0, 10.0));
-            float resist = smoothstep(0.17, 0.4, rib + 0.09 * sin(q.y * 35.0 + q.x * 13.0));
-            float bound = sin(q.y * 42.0 + q.x * 9.0 + 1.5 * wash);
-            vec4 dye = mix(color1, color2, smoothstep(0.16, 0.8, wash));
-            vec4 pale = mix(color3, color4, clamp(0.56 + 0.56 * bound + 0.23 * noise(q * 80.0), 0.0, 1.0));
-            result = mix(dye, pale, resist * (0.57 + 0.4 * smoothstep(-0.4, 0.5, bound)));
+            vec2 q = rotatePoint(p, .56);
+            float wobble = .026 * noise(q * vec2(7.0, 12.0)) + .014 * sin(18.0 * q.y);
+            float pleat = (q.x + wobble) / tiePitch + foldBunch * .38 * sin(26.0 * q.y + q.x * 9.0);
+            float resist = repeatDistance(pleat);
+            float bleed = dyeBleed * (noise(q * vec2(206.0, 32.0)) - .5);
+            float white = 1.0 - smoothstep(.046, .223, resist + bleed * .24);
+            float tie =
+                1.0 - smoothstep(.018, .065, repeatDistance(q.y * 6.0 + .37 * q.x + .11 * noise(q * 19.0)));
+            result = mix(color1, color2, .20 + .64 * layerNoise(q * vec2(48.0, 10.0)));
+            result = mix(result, color3, white * .92);
+            result = mix(result, color4, clamp(white * .79 + tie * .53, 0.0, 1.0));
         """.trimIndent()
 
         PatternTextureType.PeacockMarbling -> """
-            vec2 q = p;
-            q.x += 0.047 * sin(q.y * 5.0) + 0.028 * sin(q.y * 11.0);
-            float drag = 0.05 * sin(q.x * TAU * 2.0 + q.y * 1.8);
-            for (int i = -1; i <= 1; i++) {
-                float pin = floor(q.x) + float(i) + 0.5;
-                float dx = (q.x - pin) / radius;
-                drag += 0.66 * exp(-dx * dx);
-            }
-            float phase = q.y * 3.1 - drag * 3.6;
-            phase += 0.076 * sin((q.x + phase * 0.09) * 40.0) + 0.026 * sin(q.x * 66.0 + phase);
-            float stripe = fract(phase);
-            result = mix(color1, color2, smoothstep(0.08, 0.19, stripe));
-            result = mix(result, color3, smoothstep(0.52, 0.57, stripe));
-            result = mix(result, color4, smoothstep(0.63, 0.69, stripe));
-            result = mix(result, color1, smoothstep(0.91, 0.98, stripe));
-            float vein = abs(fract(phase * 2.0 + 0.09) - 0.5);
-            result = mix(result, color3, 0.72 * coverage(vein * 0.14, 0.004));
+            vec2 q = p / combPitch;
+            q.y += combTravel * (1.17 * cos(q.x * 3.14159) + .53 * cos((q.x + .47) * TAU)) +
+                   .13 * noise(q * vec2(3.0, 1.0));
+            q.x += .22 * sin(q.y * 1.8);
+            q.y += combTravel * .42 * cos(q.x * TAU + .19 * sin(q.y * 2.0));
+            float t = fract(q.y * 2.8 + .13 * sin(q.x * 8.0) + .09 * noise(q * vec2(5.0, 2.0)));
+            result = mix(color1, color2, smoothstep(groundShare - .014, groundShare + .014, t));
+            result = mix(result, color3, smoothstep(.52, .55, t));
+            result = mix(result, color4, smoothstep(.61, .64, t));
+            result = mix(result, color1, smoothstep(.88, .91, t));
         """.trimIndent()
 
         PatternTextureType.LogCabinQuilt -> """
-            vec2 patch = floor(p);
-            vec2 q = fract(p) - 0.5;
-            if (mod(patch.x, 2.0) < 1.0) q.x = -q.x;
-            if (mod(patch.y, 2.0) < 1.0) q.y = -q.y;
-            vec2 local = q + vec2(0.051, -0.037);
-            float ring = floor(max(abs(local.x), abs(local.y)) * 9.0);
-            float angle = safeAngle(local);
-            float side = floor((angle + 0.125 * TAU + TAU) / (TAU * 0.25));
-            float warm = step(0.0, local.x - local.y);
-            float lighter = mod(ring + side, 2.0);
-            vec4 cloth = warm > 0.5 ? mix(color3, color4, lighter * 0.85) : mix(color1, color2, lighter * 0.88);
-            float axis = abs(local.x) > abs(local.y) ? local.y : local.x;
-            float weave = 0.5 + 0.5 * sin((axis * 64.0 + 0.2 * sin(axis * 28.0)) * TAU);
-            result = mix(cloth, color4, 0.08 * weave);
-            float seam = abs(fract(max(abs(local.x), abs(local.y)) * 9.0 + 0.5) - 0.5) / 9.0;
-            result = mix(result, color1, 0.6 * coverage(seam, 0.004));
-            float stitch =
-                    coverage(abs(seam - 0.012), thickness) * coverage(abs(fract(axis * 28.0) - 0.5) / 28.0, 0.010);
-            result = mix(result, color4, stitch * 0.8);
-            result = mix(result, color3, coverage(max(abs(local.x), abs(local.y)), 0.082));
+            vec2 q = p * 3.8 + 2.0 * vec2(phaseX, phaseY);
+            vec2 id = mod(floor(q), 2.0);
+            vec2 uv = fract(q) - .5;
+            if (mod(id.x + id.y, 2.0) > .5 && blockTurn > .5)
+                uv = vec2(uv.y, -uv.x);
+            float radius = max(abs(uv.x), abs(uv.y));
+            float strip = radius * stripCount * 2.0;
+            float side = abs(uv.x) > abs(uv.y) ? (uv.x > 0.0 ? 0.0 : 2.0) : (uv.y > 0.0 ? 1.0 : 3.0);
+            float patch = fract((2.0 * floor(strip) + side + floor(hash(id) * 3.0)) * .267);
+            result = palette(patch);
+            result = mix(result, color2, 1.0 - smoothstep(.89, 1.0, strip));
+            float join = 1.0 - smoothstep(seamWidth * .45, seamWidth, repeatDistance(strip));
+            result = mix(result, color1, join * .65);
+            result.rgb *= .91 + .11 * noise(vec2(uv.x * 95.0, uv.y * 13.0)) +
+                          .06 * sin(uv.x * 657.0) * sin(uv.y * 624.0);
         """.trimIndent()
 
         PatternTextureType.CoiledRagRug -> """
-            vec2 q = vec2(p.x * 0.96, p.y * 1.08);
-            float radius = length(q), angle = safeAngle(q);
-            float turn = radius * 18.0 - angle / TAU;
-            float coil = fract(turn), ridge = max(0.0, 1.0 - pow(2.0 * abs(coil - 0.5), 2.0));
-            float braid = sin(angle * floor(10.0 + radius * 122.0) + sin(TAU * coil) * 3.1);
-            float swath = fract((floor(turn) + angle / TAU) * 0.178 + 0.12 * sin(angle * 2.0));
-            vec4 yarn = swath < 0.25 ? color2 : (swath < 0.53 ? color3 : (swath < 0.78 ? color1 : color4));
-            vec4 fleck = mix(yarn, color4, 0.52);
-            result = mix(yarn, fleck, smoothstep(0.14, 0.81, braid) * 0.75);
-            result = mix(result, color1, shadows * (1.0 - sqrt(ridge)) * 0.80);
-            float fiber = noise(vec2(radius * 225.0, braid * 2.7));
-            result = mix(result, color4, 0.11 * fiber + 0.10 * smoothstep(0.87, 0.99, ridge));
+            vec2 q = p + vec2(.24, -.17);
+            q.y *= 1.08;
+            float a = safeAngle(q), d = length(q);
+            float spiral = d / cordWidth - a / TAU;
+            float t = fract(spiral);
+            float arch = 1.0 - pow(abs(2.0 * t - 1.0), 2.0);
+            float travel = a * d * braidRate;
+            float twist = .5 + .5 * cos(TAU * travel + 5.0 * t);
+            float patch = hash(vec2(floor((a + 3.14159) * 8.0 + floor(spiral) * 1.4), floor(spiral)));
+            result = palette(patch);
+            result.rgb *= .56 + (.25 + .22 * channelDepth) * arch + .16 * twist + .07 * noise(p * 315.0) -
+                          channelDepth * .24 * (1.0 - smoothstep(.04, .16, repeatDistance(t)));
         """.trimIndent()
 
         PatternTextureType.ButtonTufting -> """
-            vec2 grid = vec2(p.x + p.y * 0.6, p.x - p.y * 0.6);
-            vec2 q = fract(grid) - 0.5;
-            vec2 wall = 0.5 - abs(q);
-            float fold = min(wall.x, wall.y);
-            float cushion = pow(max(sin(wall.x * TAU * 0.5) * sin(wall.y * TAU * 0.5), 0.0), 0.43);
-            float lean = 0.5 + 0.5 * sin((q.x + q.y) * 2.5);
-            vec4 velvet = mix(color1, color2, smoothstep(0.01, 0.48, cushion));
-            velvet = mix(velvet, color3, 0.54 * cushion * lean);
-            float pinch = exp(-fold * 26.0) * (0.5 + 0.5 * cos((wall.x + wall.y) * 57.0));
-            result = mix(velvet, color1, shadows * (0.5 * pinch + 0.20 * (1.0 - cushion)));
-            float nap = noise(p * vec2(49.0, 95.0));
-            result = mix(result, color3, 0.065 * nap);
-            vec2 stud = vec2(wall.x + wall.y, wall.x - wall.y) * vec2(0.56, 0.82);
-            float r = length(stud);
-            result = mix(result, color1, coverage(r, 0.068));
-            result = mix(result, color4, coverage(r, 0.045));
-            result = mix(result, color2, 0.38 * coverage(r, 0.022));
+            vec2 q = vec2(p.x * .90 + p.y * diamondAspect, p.x * .90 - p.y * diamondAspect) * 4.5 +
+                     vec2(phaseX, phaseY);
+            vec2 uv = fract(q + .5) - .5;
+            float puff = pow(max(.0001, abs(sin(q.x * 3.14159) * sin(q.y * 3.14159))), .44);
+            float d = length(uv);
+            float pinch = cos(10.0 * safeAngle(uv) + d * 24.0) * (1.0 - smoothstep(.02, .25, d));
+            result = mix(color1, color2, .2 + tuftDepth * .64 * puff);
+            result = mix(result, color3, puff * (.22 + .14 * layerNoise(p * 83.0)) * (.83 + .14 * uv.y));
+            result.rgb *= 1.0 - .15 * pinch * tuftDepth;
+            result = mix(result, color4, 1.0 - smoothstep(buttonSize * .75, buttonSize, d));
         """.trimIndent()
 
         PatternTextureType.TornPosterWall -> """
-            vec2 u = rotatePoint(p, 0.16);
-            float tear = 0.075 * sin(u.x * 9.0) + 0.052 * noise(vec2(u.x * 13.0, 4.3));
-            tear += variability * (0.054 * noise(vec2(u.x * 45.0, 9.0)) + 0.022 * noise(vec2(u.x * 161.0, 2.0)));
-            float y = u.y + tear;
-            float bands = mod(floor(y * 4.0), 4.0);
-            vec4 ground = bands < 1.0 ? color1 : (bands < 2.0 ? color2 : (bands < 3.0 ? color3 : color4));
-            float printShape;
-            if (bands < 1.0) {
-                printShape = coverage(abs(fract(u.x * 4.5) - 0.5) / 4.5, 0.044);
-            } else if (bands < 2.0) {
-                vec2 disk = fract(vec2(u.x * 2.7, u.y * 2.7)) - 0.5;
-                printShape = coverage(abs(length(disk) - 0.35) / 2.7, 0.024);
-            } else {
-                printShape = coverage(abs(fract((u.x + u.y) * 10.0) - 0.5) / 10.0, 0.013);
+            result = mix(color1, color3, .24);
+            for (int i = 0; i < 7; i++) {
+                if (float(i) >= posterLayers)
+                    break;
+                float f = float(i);
+                vec2 q = rotatePoint(p + f * .21, .29 * f - .67) / tearSize;
+                float cut =
+                    fract(q.y + .18 * sin(q.x * 5.4 + f * 3.0) + .11 * noise(q * vec2(21.0, 9.0) + f) +
+                          .033 * edgeFiber * noise(q * 112.0) + f * .16);
+                float print = 1.0 - smoothstep(.018, .05, repeatDistance(q.x * 4.3 + q.y * .7 + f));
+                vec4 sheet = mix(palette(fract(.17 + f * .33)), color1, .21 * print);
+                sheet = mix(sheet, color4, smoothstep(.209, .249, cut) * (.58 + .33 * edgeFiber));
+                result = mix(result, sheet, 1.0 - smoothstep(.243, .255, cut));
             }
-            result = mix(ground, bands < 2.0 ? color4 : color1, printShape * 0.82);
-            float edge = fract(y * 4.0) / 4.0;
-            result = mix(result, color1, 0.68 * coverage(edge, 0.011));
-            result = mix(result, color4, coverage(edge, 0.005 + 0.004 * noise(u * 90.0)));
+            result.rgb *= .95 + .08 * noise(p * 290.0);
         """.trimIndent()
 
         PatternTextureType.LatteRosetta -> """
-            vec2 q = rotatePoint(p, 0.21);
-            float cup = length(q);
-            float crema = noise(q * 15.0) * 0.65 + noise(q * 56.0) * 0.35;
-            result = mix(color1, color2, 0.28 + crema * 0.71);
-            result =
-                    mix(result, color3, 0.42 * coverage(abs(cup - 0.437 - 0.008 * sin(safeAngle(q) * 6.0)), 0.013));
-            float milk = 0.0;
-            for (int i = 0; i < 13; i++) {
-                float t = float(i) / 12.0;
-                float width = 0.040 + 0.245 * sin(t * 2.65);
-                float root = -0.260 + t * 0.475;
-                float x = abs(q.x) / width;
-                float lobe = root - 0.12 * sin(min(x, 1.0) * 1.48) * (1.0 - 0.54 * t);
-                float taper = max(0.0, 1.0 - x * x);
-                milk = max(milk, coverage(abs(q.y - lobe), thickness * (0.42 + 0.58 * t) * taper) *
-                                         coverage(abs(q.x), width));
-            }
-            float stem = segment(q, vec2(0.0, -0.335), vec2(0.003, 0.246));
-            milk = max(milk, coverage(stem, 0.009));
-            result = mix(result, color4, milk);
-            result = mix(result, color3, coverage(abs(cup - 0.469), 0.008));
+            vec2 q = p * 4.8;
+            vec2 fold = vec2(sin(q.y * 1.9 + sin(q.x * 1.2)), cos(q.x * 1.36 - q.y * .7));
+            q += milkCurl * 1.35 * fold;
+            float stream = q.y + .40 * sin(q.x * 2.6 + .51 * q.y) + .22 * noise(q * 1.6);
+            float stripe = repeatDistance(stream * 1.6);
+            float foam = 1.0 - smoothstep(milkShare * .13, milkShare * .54, stripe);
+            result = mix(mix(color1, color2, .34 + .53 * layerNoise(p * 11.0)),
+                         mix(color3, color4, .29 + foam * .67), foam);
+            vec4 bubble = surfaceCell(p * 37.0, .90);
+            float rim = 1.0 - smoothstep(.019, .052, abs(bubble.x - frothSize * (.5 + noise(p * 9.0))));
+            result = mix(result, color4, rim * smoothstep(.29, .68, noise(p * 16.0)) * .65);
         """.trimIndent()
 
         PatternTextureType.SalmonMarbling -> """
-            vec2 q = rotatePoint(p, -0.27);
-            float y = q.y + 0.085 * sin(q.x * 4.0) + 0.022 * sin(q.x * 17.0 + q.y * 2.0);
-            float notch = 0.62 * sqrt(q.x * q.x + 0.012);
-            float phase = (y - notch) * 7.6 + 0.24 * sin(q.x * 4.0 - y) + 0.12 * sin(q.x * 10.0 + y * 3.0);
-            float seam = abs(fract(phase + 0.5) - 0.5);
-            float fiber = 0.5 + 0.5 * sin((q.x - 0.12 * sin(y * 6.0)) * 112.0 + 1.8 * noise(q * 15.0));
-            float tone = 0.3 + 0.56 * noise(q * 5.0) + 0.14 * fiber;
-            result = mix(color1, color2, tone);
-            result = mix(result, color3, 0.27 * smoothstep(0.15, 0.49, seam));
-            float fat = thickness * (0.72 + 0.50 * noise(q * 18.0));
-            result = mix(result, color3, coverage(seam / 7.6, fat * 1.55));
-            result = mix(result, color4, coverage(seam / 7.6, fat));
+            vec2 q = rotatePoint(p, -0.40);
+            float drift = 0.026 * sin(q.x * 9.0 + 1.2) + 0.018 * (layerNoise(q * 6.0) - 0.5);
+            float phase = (q.y * 6.9 + 1.15 * length(vec2(q.x + 0.15 + 0.12 * sin(q.y * 4.0), 0.19)) +
+                           drift * 5.0 + 0.14 * sin(q.x * 5.0 + q.y * 4.0)) /
+                          layerPitch;
+            float width = fatWidth * (0.72 + 0.68 * noise(q * 7.0));
+            float major = 1.0 - smoothstep(width * 0.6, width * 1.25, repeatDistance(phase));
+            float branchA =
+                1.0 - smoothstep(0.012, 0.052,
+                                 repeatDistance(phase + 0.38 * sin(q.x * 8.0 + q.y * 4.0 + 0.8) + 0.19));
+            float branchB =
+                1.0 -
+                smoothstep(0.009, 0.039, repeatDistance(phase + 0.2 * sin(q.x * 14.0 + q.y * 4.5) - 0.28));
+            float level = fatForks + 0.5 * (noise(q * 5.0) - 0.5);
+            float veins = max(major, max(branchA * smoothstep(0.34, 0.54, level),
+                                         branchB * smoothstep(0.55, 0.79, level)) *
+                                         0.87);
+            float fibers = 0.5 + 0.5 * cos(TAU * (phase * 13.5 + 1.45 * noise(q * vec2(15.0, 8.0))));
+            result = mix(mix(color1, color2, 0.28 + 0.44 * layerNoise(q * 15.0) + 0.23 * fibers),
+                         mix(color3, color4, noise(q * vec2(45.0, 87.0))), veins);
         """.trimIndent()
 
         PatternTextureType.PomegranateCut -> """
-            vec2 q = rotatePoint(p, -0.19) - vec2(0.0, 0.022);
-            float angle = safeAngle(q), r = length(q);
-            float outline = 0.393 + 0.023 * sin(angle * 5.0) + 0.008 * sin(3.0 * angle + 0.8);
-            vec2 cap = q - vec2(0.013, -0.378);
-            float calyx = triangleDistance(cap, vec2(-0.080, 0.040), vec2(-0.106, -0.088), vec2(-0.021, -0.040));
-            calyx = min(calyx, triangleDistance(cap, vec2(-0.040, 0.036), vec2(0.004, -0.104), vec2(0.044, 0.032)));
-            calyx = min(calyx, triangleDistance(cap, vec2(0.018, -0.034), vec2(0.104, -0.083), vec2(0.077, 0.042)));
-            result = mix(color1, color2, coverage(calyx, 0.0));
-            result = mix(result, color3, coverage(calyx, -0.012));
-            result = mix(result, color2, coverage(r, outline + 0.014));
-            result = mix(result, color4, coverage(r, outline));
-            vec2 position = q * 16.0;
-            vec2 base = floor(position), nearestCell = base, local = vec2(0.0);
-            float nearest = 5.0, second = 5.0;
-            for (int y = -1; y <= 1; y++)
-                for (int x = -1; x <= 1; x++) {
-                    vec2 cell = base + vec2(float(x), float(y));
-                    vec2 v = position - cell - 0.5 - 0.65 * (hash2(cell) - 0.5);
-                    float d = dot(v, v);
-                    if (d < nearest) {
-                        second = nearest;
-                        nearest = d;
-                        nearestCell = cell;
-                        local = v;
-                    } else {
-                        second = min(second, d);
-                    }
-                }
-            float curled = angle + 0.12 * sin(angle + 6.0 * r) + 0.065 * sin(14.0 * r + angle * 2.0);
-            float pith = abs(sin(curled * 3.0 + 0.62 * sin(9.0 * r))) * r / 3.0;
-            float seeds = coverage(r, outline - 0.023 - 0.012 * sin(angle * 8.0));
-            seeds *= 1.0 - coverage(pith, 0.006 + 0.010 * (1.0 - smoothstep(0.06, 0.3, r)));
-            seeds *= 1.0 - coverage(r, 0.047 + 0.015 * sin(4.0 * angle));
-            float rim = smoothstep(0.025, 0.30, second - nearest);
-            rim *= 1.0 - smoothstep(0.29, 0.62, nearest);
-            vec2 glint = (local + vec2(0.13, 0.14) + 0.10 * (hash2(nearestCell + 5.0) - 0.5)) * vec2(1.3, 0.73);
-            float glow = exp(-9.0 * dot(glint, glint));
-            vec4 aril = mix(color2, color3, (0.3 + 0.50 * hash(nearestCell) + 0.18 * glow) * rim);
-            aril = mix(aril, color4, 0.64 * smoothstep(0.80, 1.0, glow));
-            result = mix(result, aril, seeds);
+            vec2 q = p / arilSize;
+            vec2 bent = q * 3.5 + .40 * vec2(noise(q * 9.0), noise(q * 9.0 + 8.0));
+            vec4 chamber = surfaceCell(bent, .77);
+            vec2 inner = q * 13.0 + .18 * vec2(noise(q * 29.0), noise(q * 29.0 + 20.0));
+            vec4 aril = surfaceCell(inner, .82);
+            vec4 jewel = mix(color1, color2, .38 + hash(floor(inner - aril.zw)) * .48);
+            jewel = mix(jewel, color3, .32 * (1.0 - smoothstep(.18, .54, aril.x)));
+            jewel = mix(jewel, color1, .86 * (1.0 - smoothstep(.02, .095, aril.y)));
+            float glint = 1.0 - smoothstep(.018, .085, length(aril.zw + vec2(.094, .11)));
+            jewel = mix(jewel, color4, glint * arilGloss);
+            result = mix(color4, jewel, smoothstep(septaWidth * .6, septaWidth * 1.5, chamber.y));
         """.trimIndent()
 
         PatternTextureType.LetterpressOverprint -> """
-            vec2 q = fract(p + 0.5) - 0.5;
+            vec2 q = fract(p + vec2(phaseX, phaseY) + 0.5) - 0.5;
             float tooth = noise(p * 118.0);
             result = mix(color1, color4, 0.045 * tooth);
             vec2 orange = q + vec2(offset, 0.014 + offset * 0.35);
@@ -2460,152 +1907,103 @@ internal fun patternShader(type: PatternTextureType): String {
         """.trimIndent()
 
         PatternTextureType.PaperQuilling -> """
-            vec2 q = p + vec2(0.008, 0.018);
-            result = color1;
-            for (int branch = 0; branch < 3; branch++) {
-                vec2 start =
-                        branch == 0 ? vec2(-0.48, 0.36) : (branch == 1 ? vec2(0.30, 0.47) : vec2(-0.01, -0.49));
-                vec2 bend =
-                        branch == 0 ? vec2(-0.24, -0.02) : (branch == 1 ? vec2(-0.06, 0.29) : vec2(0.39, -0.17));
-                vec2 end = branch == 0 ? vec2(-0.032, -0.338)
-                                       : (branch == 1 ? vec2(0.321, -0.068) : vec2(0.364, 0.002));
-                vec2 last = start;
-                float edge = 2.0;
-                for (int j = 1; j <= 13; j++) {
-                    float t = float(j) / 13.0;
-                    vec2 nextPoint = mix(mix(start, bend, t), mix(bend, end, t), t);
-                    edge = min(edge, segment(q, last, nextPoint));
-                    last = nextPoint;
-                }
-                vec4 paper = branch == 0 ? color3 : (branch == 1 ? color4 : color2);
-                result = mix(result, mix(color1, paper, 0.4), coverage(edge, thickness * 1.65));
-                result = mix(result, paper, coverage(edge, thickness * 0.74));
-            }
-            for (int i = 0; i < 5; i++) {
-                float k = float(i);
-                vec2 center = i == 0 ? vec2(-0.17, -0.094)
-                                     : (i == 1 ? vec2(0.217, 0.165)
-                                               : (i == 2 ? vec2(0.205, -0.294)
-                                                         : (i == 3 ? vec2(-0.225, 0.298) : vec2(0.405, -0.05))));
-                vec2 v = q - center;
-                float outer = i == 0 ? 0.312 : (i == 1 ? 0.222 : (i == 3 ? 0.131 : 0.114));
-                float angle = safeAngle(v) / TAU + 0.5;
-                if (i == 1 || i == 3) angle = 1.0 - angle;
-                float r = length(v);
-                float turn = r / outer * 4.1 - angle + 0.29 * k;
-                float strip = abs(fract(turn + 0.5) - 0.5) * outer / 4.1;
-                float margin = outer - 0.026 + 0.026 * sin(angle * TAU + k);
-                result = mix(result, color1, coverage(r, margin - thickness));
-                float body = coverage(r, margin) * smoothstep(0.004, 0.012, r);
-                vec4 paper = i == 0 || i == 4 ? color3 : (i == 1 ? color4 : color2);
-                float relief = 0.24 + 0.65 * smoothstep(-0.7, 0.9, cos(TAU * angle - 0.67));
-                result = mix(result, mix(color1, paper, 0.35 + 0.3 * relief),
-                             coverage(strip, thickness * 1.75) * body);
-                result = mix(result, paper, coverage(strip, thickness * 0.76) * body);
-                float lip = coverage(abs(strip - 0.0025), 0.0018);
-                result = mix(result, color2, 0.41 * lip * relief * body);
-            }
+            vec2 q = p * 5.0 / coilSize;
+            vec4 cell = surfaceCell(q, .93);
+            float d = cell.x, a = safeAngle(cell.zw);
+            vec2 id = floor(q - cell.zw);
+            float phase = d / windPitch - a / TAU + hash(id) * .5;
+            float strip = repeatDistance(phase);
+            result = mix(color1, color2, .12 + .18 * layerNoise(q * 14.0));
+            vec4 pigment = palette(.19 + hash(id) * .62);
+            float rim = 1.0 - smoothstep(paperGauge * .45, paperGauge + .035, strip);
+            result = mix(result, mix(pigment, color4, .15 + .18 * sin(a - .64)),
+                         rim * smoothstep(.015, .085, cell.y));
         """.trimIndent()
 
         PatternTextureType.GoldLeafTransfer -> """
-            vec2 tile = floor(p + vec2(0.16, 0.18)), q = fract(p + vec2(0.16, 0.18));
-            vec2 uv = p + 0.07 * vec2(noise(p * 6.0), noise(p * 6.0 + 13.0));
-            float brush = noise(uv * vec2(3.0, 19.0));
-            float mottling = 0.48 * noise(uv * 3.6) + 0.30 * noise(uv * 9.0) + 0.15 * noise(uv * 25.0) +
-                             0.07 * noise(uv * 72.0);
-            float seam = min(min(q.x, 1.0 - q.x), min(q.y, 1.0 - q.y));
-            float worn = mottling - variability * 0.35 - 0.09 * exp(-seam * 70.0);
-            float leaf = smoothstep(0.233, 0.256, worn);
-            vec4 bole = mix(color1, color2, brush * 0.82);
-            float crinkle = abs(fract(noise(uv * 3.0) * 6.0 + 0.2 * noise(uv * 15.0)) - 0.5);
-            float light = 0.20 + 0.45 * brush + 0.18 * hash(tile) + 0.15 * sin((p.x - p.y * 0.7) * 11.0);
-            vec4 gold = mix(color3, color4, clamp(light + 0.32 * smoothstep(0.3, 0.49, crinkle), 0.0, 1.0));
-            gold = mix(gold, color2, 0.24 * coverage(seam, 0.008));
-            result = mix(bole, gold, leaf);
+            vec2 q = rotatePoint(p, -0.14) * 3.4 / leafSize;
+            vec2 seams = q + 0.025 * (vec2(noise(q * vec2(4.0, 9.0)), noise(q * vec2(8.0, 4.0))) - 0.5);
+            float seam =
+                1.0 - smoothstep(0.005, 0.031, min(repeatDistance(seams.x), repeatDistance(seams.y)));
+            vec2 bent = q * 3.0 + 0.5 * vec2(noise(q * 2.0), noise(q * 2.0 + 5.0));
+            vec4 facets = surfaceCell(bent, 0.83);
+            float leaf = hash(floor(bent - facets.zw));
+            float fold = 1.0 - smoothstep(0.006, 0.075, facets.y);
+            float surface = 0.43 * layerNoise(p * 6.0) + 0.32 * noise(p * 91.0) + 0.25 * noise(p * 210.0) -
+                            0.075 * seam;
+            float metal = 0.31 + 0.32 * leaf + 0.13 * noise(p * 8.0) +
+                          0.28 * sin((q.x * 0.67 + q.y * 0.54) * 3.1 + 1.8 * leaf);
+            vec4 foil = mix(color3, color4, clamp(metal, 0.0, 1.0));
+            foil.rgb *= 1.0 + foilCreases * (0.17 * seam - 0.30 * fold);
+            result = mix(mix(color1, color2, 0.34 + 0.33 * noise(p * 340.0)), foil,
+                         smoothstep(gildingWear - 0.032, gildingWear + 0.034, surface));
         """.trimIndent()
 
         PatternTextureType.CaneWebbing -> """
-            vec2 q = p + 0.009 * vec2(sin(p.y * TAU), sin(p.x* TAU));
-            result = color1;
-            for (int pass = 0; pass < 4; pass++) {
-                float axis, grain;
-                if (pass == 0) {
-                    axis = q.x + q.y;
-                    grain = q.x - q.y;
-                } else if (pass == 1) {
-                    axis = q.x - q.y;
-                    grain = q.x + q.y;
-                } else if (pass == 2) {
-                    axis = q.x;
-                    grain = q.y;
-                } else {
-                    axis = q.y;
-                    grain = q.x;
+            vec2 q = rotatePoint(p, 0.017) * 7.0 + 2.0 * vec2(phaseX, phaseY);
+            result = mix(color1, color2, 0.24 + 0.37 * layerNoise(p * 21.7));
+            float topLayer = -4.0;
+            for (int i = 0; i < 6; i++) {
+                float fi = float(i);
+                float axis = i < 2 ? q.x : (i < 4 ? q.y : (i == 4 ? q.x + q.y + 0.5 : q.x - q.y + 0.5));
+                float along = i < 2 ? q.y : (i < 4 ? q.x : (i == 4 ? q.x - q.y : q.x + q.y));
+                if (i < 4)
+                    axis += mod(fi, 2.0) * 0.26 - 0.13;
+                float dist = fract(axis + 0.5) - 0.5;
+                float width = reedWidth * (i < 4 ? 0.63 : 1.04);
+                float mask =
+                    1.0 - smoothstep(width - pixelWidth * 2.8, width + pixelWidth * 2.8, abs(dist));
+                float height =
+                    0.53 + 0.42 * cos(3.14159 * (floor(axis + 0.5) + floor(along + 0.5) + float(i / 2))) +
+                    0.008 * fi;
+                if (mask > 0.0 && height > topLayer) {
+                    float arch = sqrt(max(0.0, 1.0 - dist * dist / (width * width)));
+                    vec4 strand = mix(
+                        color3, color4,
+                        0.25 + 0.4 * noise(vec2(mod(along, 2.0) * 4.0, mod(floor(axis + 0.5), 2.0) + fi)) +
+                            0.24 * arch);
+                    strand.rgb *= 1.0 + weaveDepth * (0.36 * (arch - 0.5) - 0.12 * dist / width) +
+                                  fiberGrain * 0.11 * cos(dist * 245.0 + noise(p * 105.0));
+                    result = mix(result, strand, mask);
+                    topLayer = height;
                 }
-                float d = abs(fract(axis + 0.5) - 0.5);
-                float transverse = pass < 2 ? d * 0.7071 : abs(d - 0.117);
-                float width = thickness * (pass < 2 ? 1.18 : 0.68);
-                float broadside = sqrt(max(0.0, 1.0 - transverse * transverse / (width * width)));
-                float rough = noise(vec2(grain * 6.0, axis * 55.0));
-                float over = 0.5 + 0.5 * cos(grain * 3.14159 + float(pass));
-                vec4 cane = mix(color2, color3, 0.25 + 0.47 * broadside + 0.21 * rough);
-                cane = mix(cane, color4, 0.40 * broadside * over);
-                result = mix(result, mix(color1, cane, 0.32), coverage(transverse, width + 0.015));
-                result = mix(result, cane, coverage(transverse, width));
             }
         """.trimIndent()
 
         PatternTextureType.PleatedHandFan -> """
-            vec2 v = p - vec2(-0.018, 0.351);
-            float r = length(v), angle = atan(v.x, -v.y);
-            float aperture = 1.27;
-            float wedge = fract((angle / (2.0 * aperture) + 0.5) * count);
-            float face = 1.0 - abs(2.0 * wedge - 1.0);
-            float within = coverage(abs(angle) * max(r, 0.01), aperture* max(r, 0.01));
-            float tip = 0.641 + 0.019 * face;
-            result = color1;
-            float stick = coverage(abs(wedge - 0.5) * r * 2.0 * aperture / count, 0.0055);
-            result = mix(result, color3, stick* within* coverage(r, 0.592));
-            vec4 paper = mix(color2, color3, 0.15 + 0.33 * face);
-            float sea = r - 0.50 - 0.058 * sin(angle * 2.8 + 0.7) - 0.018 * sin(angle * 8.0 + 1.0);
-            paper = mix(paper, color1, 0.78 * (1.0 - smoothstep(-0.004, 0.004, sea)));
-            paper = mix(paper, color4, coverage(abs(sea - 0.014), 0.007));
-            float sun = length(v - vec2(0.176, -0.506));
-            paper = mix(paper, color4, coverage(sun, 0.066));
-            paper = mix(paper, color1, 0.30 * (1.0 - face));
-            float leaf = within * coverage(r, tip) * (1.0 - coverage(r, 0.259));
-            result = mix(result, paper, leaf);
-            result = mix(result, color3, within* coverage(abs(r - tip + 0.016), 0.005));
-            result = mix(result, color4, coverage(r, 0.024));
+            vec2 q = rotatePoint(p, .19);
+            float crest = abs(fract(q.y * 2.1 + .12) - .5);
+            float phase = fract((q.x + .26 * crest) / pleatPitch);
+            float surface = phase < facetBias ? phase / facetBias : (1.0 - phase) / (1.0 - facetBias);
+            float slope = phase < facetBias ? .78 : .30;
+            result = mix(color2, mix(color1, color4, slope), pleatDepth);
+            result = mix(result, color3, .21 * surface + .16 * layerNoise(p * 74.0));
+            result = mix(result, color1,
+                         (1.0 - smoothstep(.008, .06, min(phase, 1.0 - phase))) * pleatDepth * .54);
         """.trimIndent()
 
         PatternTextureType.TailorTape -> """
-            result = mix(color1, color4, 0.12 * noise(p * 25.0));
-            for (int i = 0; i < 3; i++) {
-                float lane = float(i);
-                vec2 q = rotatePoint(p, i == 0 ? -0.66 : (i == 1 ? 0.22 : 0.91));
-                float wiggle = 0.07 + 0.12 * variability;
-                float middle = (lane - 1.0) * 0.14 + wiggle * sin(q.x * (4.0 + lane) + lane * 1.8);
-                float slope = wiggle * (4.0 + lane) * cos(q.x * (4.0 + lane) + lane * 1.8);
-                float side = (q.y - middle) / sqrt(1.0 + slope * slope);
-                float s = q.x + 0.055 * sin(q.x * 5.0 + lane) + lane * 0.031;
-                float index = floor(s * 59.0 + 0.5);
-                float tick = abs(fract(s * 59.0 + 0.5) - 0.5) / 59.0;
-                float major = 1.0 - step(0.45, mod(index, 5.0));
-                float mid = 1.0 - step(0.45, mod(index, 2.0));
-                float height = 0.018 + 0.014 * mid + 0.025 * major;
-                vec4 tape = i == 1 ? color3 : color2;
-                vec4 band = mix(tape, color4, 0.14 * (0.4 + 0.6 * sin(q.x * 10.0 + lane)));
-                float edge = 0.074 - abs(side);
-                band = mix(band, color4, coverage(tick, 0.0021) * coverage(edge, height));
-                band = mix(band, color4, coverage(abs(edge - 0.005), 0.0008));
-                result = mix(result, color4, 0.63 * coverage(abs(side - 0.006), 0.079));
-                result = mix(result, band, coverage(abs(side), 0.074));
+            result = mix(color1, color2, .24 + .31 * layerNoise(p * 22.0));
+            vec2 qa = rotatePoint(p, -.64), qb = rotatePoint(p, .58);
+            float rowA = floor(qa.y * 3.8 + .5), rowB = floor(qb.y * 3.8 + .5);
+            bool swap = mod(rowA + rowB, 2.0) > .5;
+            for (int i = 0; i < 2; i++) {
+                vec2 q = ((i == 0) == swap) ? qa : qb;
+                float c = fract(q.y * 3.8 + tapeBend * sin(q.x * 8.0) + .5) - .5;
+                float tape = 1.0 - smoothstep(tapeWidth, tapeWidth + .014, abs(c));
+                float tick = q.x / tickPitch;
+                float tall = 1.0 - step(.5, mod(floor(tick + .5), 5.0));
+                float line = (1.0 - smoothstep(.045, .12, repeatDistance(tick))) *
+                             smoothstep(.01 - .12 * tall, .04 - .12 * tall, c);
+                vec4 cloth = mix(color3, color4, .63 + .27 * noise(q * vec2(75.0, 33.0)));
+                result = mix(result, color1,
+                             (1.0 - smoothstep(tapeWidth, tapeWidth + .06, abs(c - .027))) * .59);
+                result = mix(result, mix(cloth, color1, .89 * line), tape);
             }
         """.trimIndent()
 
         PatternTextureType.PalmetteFrieze -> """
-            vec2 q = fract(p + vec2(0.5, 0.5)) - 0.5;
+            vec2 q = fract(p + vec2(phaseX + 0.5, 0.5)) - 0.5;
             result = color1;
             float rail = abs(abs(q.y) - 0.425);
             result = mix(result, color3, coverage(rail, 0.014));
@@ -2630,425 +2028,297 @@ internal fun patternShader(type: PatternTextureType): String {
         """.trimIndent()
 
         PatternTextureType.Switchyard -> """
-            vec2 q = fract(p + 0.5) - 0.5;
-            float y = q.y + 0.5;
-            float perspective = 0.24 + 0.86 * y;
-            float x = q.x / perspective + 0.16;
-            float branch = 0.71 * pow(max(0.0, y - 0.12), 1.72) + offset * y;
-            float surface = 0.33 * noise(p * 43.0) + 0.17 * noise(p * 111.0);
-            result = mix(color1, color2, surface);
-            float ties = abs(fract(8.0 * log(0.19 + y)) - 0.5);
-            float bed = min(abs(x), abs(x - branch));
-            float rail = min(abs(abs(x) - 0.112), abs(abs(x - branch) - 0.112));
-            result = mix(result, color2,
-                         coverage(bed* perspective, 0.185 * perspective) * coverage(ties * 0.07, 0.012));
-            result = mix(result, color1, coverage(rail* perspective, 0.014 * perspective));
-            result = mix(result, color3, coverage(rail* perspective, 0.006 * perspective));
-            float lever = segment(q, vec2(-0.342, 0.24), vec2(-0.31, 0.12 - offset * 0.1));
-            result = mix(result, color3, coverage(lever, 0.007));
-            result = mix(result, color4, coverage(length(q - vec2(-0.31, 0.12 - offset * 0.1)), 0.024));
+            vec2 q = rotatePoint(p, .33);
+            vec4 gravel = surfaceCell(q * 57.0 / ballastSize, .94);
+            result = mix(color1, color2, .22 + .61 * hash(floor(q * 57.0 / ballastSize - gravel.zw)));
+            result.rgb *= .74 + .39 * smoothstep(.0, .13, gravel.y);
+            float across = abs(fract(q.x + .5) - .5);
+            float tie = repeatDistance(q.y / tiePitch + phaseX);
+            result = mix(result, mix(color1, color3, .56 + .22 * noise(q * vec2(15.0, 145.0))),
+                         (1.0 - smoothstep(.20, .22, tie)) *
+                             (1.0 - smoothstep(railGauge * .5 + .08, railGauge * .5 + .11, across)));
+            float rail = abs(across - railGauge * .5);
+            result = mix(result, color1, 1.0 - smoothstep(.027, .031, rail));
+            result = mix(result, color3, 1.0 - smoothstep(.018, .021, rail));
+            result = mix(result, color4, 1.0 - smoothstep(.010, .014, rail));
         """.trimIndent()
 
         PatternTextureType.SuspensionSpan -> """
-            vec2 q = fract(p + 0.5) - 0.5;
-            float river = 0.245 + 0.010 * sin(q.x * 15.0);
-            result = mix(color1, color2, 0.65 * smoothstep(-0.42, 0.28, q.y));
-            float hill = 0.095 + 0.085 * sin(q.x * 5.0 + 0.7) + 0.045 * sin(q.x * 12.0);
-            result = mix(result, color2, smoothstep(hill - pixelWidth, hill + pixelWidth, q.y));
-            if (q.y > river) {
-                float glint = sin(q.y * 189.0 + 1.4 * sin(12.0 * q.x + q.y * 16.0));
-                result = mix(color2, color3, 0.21 + 0.40 * smoothstep(0.0, 0.95, glint) * noise(q * 22.0));
-            }
-            float tower = abs(abs(q.x + 0.015) - 0.27);
-            float reach = abs(q.x + 0.015) / 0.27;
-            float sag = -0.26 + intensity * (1.0 - reach * reach);
-            if (reach > 1.0) sag = -0.26 + (reach - 1.0) * 0.47;
-            float cables = abs(q.y - sag);
-            float hanger = abs(fract((q.x + 0.015) * 34.0 + 0.5) - 0.5) / 34.0;
-            float span = max(hanger, max(sag - q.y, q.y - 0.115));
-            result = mix(result, color3, max(coverage(cables, 0.004), coverage(span, 0.0023)));
-            float legs = max(tower - 0.017, max(-0.29 - q.y, q.y - 0.27));
-            result = mix(result, color4, coverage(legs, 0.0));
-            float deck = abs(q.y - 0.127);
-            result = mix(result, color3, coverage(deck, 0.013));
-            result = mix(result, color4, coverage(abs(q.y - 0.110), 0.004));
+            vec2 q = rotatePoint(p, .35);
+            float axis = q.x * 5.1;
+            float core = fract(axis) - .5;
+            float strand =
+                q.y * 3.8 / layPitch + strandCount * .5 * asin(clamp(2.0 * core, -.99, .99)) / 3.14159;
+            float ridge = .5 + .5 * cos(TAU * strand);
+            float wire = .5 + .5 * cos(TAU * (strand * 7.0 + .8 * q.y));
+            result = mix(color1, color2, sqrt(max(0.0, 1.0 - 4.0 * core * core)) * .75);
+            result = mix(result, color3, ridge * (.37 + .42 * wire));
+            result = mix(result, color4,
+                         wireShine * pow(ridge, 3.0) * pow(wire, 4.0) * (.4 + .6 * (1.0 - abs(core))));
+            result.rgb *= .94 + .09 * noise(q * 140.0);
         """.trimIndent()
 
         PatternTextureType.RainCrosswalk -> """
-            vec2 q = fract(p + 0.5) - 0.5;
-            vec2 road = rotatePoint(q, -0.38);
-            float wet = 0.38 * noise(road * vec2(3.0, 15.0)) + 0.27 * noise(road * vec2(29.0, 95.0));
-            result = mix(color1, color2, wet);
-            float stripe = abs(fract((road.y + 0.024 * road.x) * 9.0) - 0.5) / 9.0;
-            float border = max(abs(road.x + 0.06) - 0.263, stripe - 0.024);
-            result = mix(result, color3, coverage(border, 0.0) * (0.70 + 0.23 * noise(road * 100.0)));
-            vec2 drop = q - vec2(-0.105, 0.13);
-            float a = safeAngle(drop);
-            float scallop = (0.96 + 0.04 * cos(a * 8.0)) * radius;
-            float silhouette = length(drop + vec2(-0.022, -0.020)) - radius;
-            result = mix(result, color1, coverage(silhouette, 0.0) * 0.65);
-            float facets = 0.5 + 0.5 * cos(floor(a * 8.0 / TAU) * TAU / 8.0 - 0.5);
-            result = mix(result, mix(color4, color3, facets * 0.30), coverage(length(drop), scallop));
-            float ribs = abs(sin(a * 4.0)) * length(drop) / 4.0;
-            result = mix(result, color1, coverage(ribs, 0.0015) * coverage(length(drop), scallop) * 0.44);
-            result = mix(result, color1, coverage(length(drop), radius * 0.065));
+            vec2 q = rotatePoint(p, -0.37);
+            float stripe = repeatDistance(q.x * 2.65 + phaseX + 0.005 * (noise(p * 120.0) - 0.5));
+            float stencil = 1.0 - smoothstep(markWidth * 0.5 - 0.007, markWidth * 0.5 + 0.007, stripe);
+            float broad = layerNoise(p * 9.0), grit = noise(p * 220.0), dust = noise(p * 440.0);
+            vec4 asphalt = mix(color1, color2, 0.67 * grit + 0.20 * broad + 0.13 * dust);
+            asphalt.rgb *= 1.0 - roadWetness * 0.27;
+            asphalt = mix(asphalt, color2, roadWetness * smoothstep(0.79, 0.97, grit));
+            float chip =
+                0.58 * layerNoise(p * 46.0 + 3.0) + 0.42 * noise(p * 183.0 + 4.0) + 0.26 * (broad - 0.5);
+            vec4 stones = surfaceCell(p * 6.0 + noise(p * 9.0), 0.8);
+            float crack = (1.0 - smoothstep(0.004, 0.025, stones.y)) * smoothstep(0.35, 0.55, broad);
+            result =
+                mix(asphalt, mix(color3, color4, 0.64 * broad + 0.36 * dust),
+                    stencil * smoothstep(paintWear - 0.05, paintWear + 0.05, chip) * (1.0 - 0.84 * crack));
         """.trimIndent()
 
         PatternTextureType.CofferedRotunda -> """
-            vec2 q = fract(p + 0.5) - vec2(0.46, 0.43);
-            float r = length(q);
-            float a = safeAngle(q) / TAU;
-            float radial = log(1.0 + 15.0 * r) * 3.25;
-            float ring = floor(radial);
-            float sector = a * floor(count + 0.5) + 0.5 * mod(ring, 2.0);
-            vec2 tile = fract(vec2(sector, radial));
-            vec2 border = min(tile, 1.0 - tile);
-            float edge = min(border.x, border.y);
-            float lightSide = tile.x + tile.y < 1.0 ? 1.0 : 0.0;
-            result = mix(color1, color2, 0.40 + 0.42 * (1.0 - r));
-            result = mix(result, mix(color2, color3, lightSide * 0.88), coverage(edge * 0.06, 0.0085));
-            result = mix(result, color4, coverage(edge * 0.06, 0.0015));
-            float opening = coverage(r, 0.055);
-            result = mix(result, color4, opening);
-            result = mix(result, color3, coverage(abs(r - 0.062), 0.005));
+            vec2 q = p * vec2(3.8, 3.8 / cofferAspect) + 2.0 * vec2(phaseX, phaseY);
+            vec2 uv = fract(q) - .5;
+            float contour = max(abs(uv.x), abs(uv.y));
+            float side = abs(uv.x) > abs(uv.y) ? -.54 * sign(uv.x) : -.83 * sign(uv.y);
+            result = mix(color2, color3, .40 + .20 * noise(p * 63.0) + .12 * hash(mod(floor(q), 2.0)));
+            for (int i = 0; i < 3; i++) {
+                float edge = .45 - .095 * float(i);
+                float bevel = 1.0 - smoothstep(.53 * rimGauge, 1.18 * rimGauge, abs(contour - edge));
+                result = mix(result, side > 0.0 ? color4 : color1, cofferDepth * abs(side) * bevel);
+                result.rgb *= 1.0 - cofferDepth * .11 * (1.0 - step(edge, contour));
+            }
         """.trimIndent()
 
         PatternTextureType.StationCanopy -> """
-            vec2 q = fract(p + 0.5) - 0.5;
-            vec2 focus = vec2(offset, 0.31);
-            vec2 shaft = q - focus;
-            float depth = max(0.018, -shaft.y);
-            float ray = shaft.x / depth;
-            result = mix(color1, color2, 0.38 + 0.54 * smoothstep(-0.45, 0.3, q.y));
-            float central = 1.0 - smoothstep(0.12, 1.4, abs(ray));
-            result = mix(result, color1, 0.45 * central);
-            float column = abs(fract(ray * 1.75 + 0.5) - 0.5) * depth / 1.75;
-            float level = log(depth + 0.032) * 3.35;
-            float hoop = abs(fract(level) - 0.5) * (depth + 0.032) / 3.35;
-            float visibility = smoothstep(0.06, 0.29, depth);
-            if (shaft.y < -0.012) {
-                result = mix(result, color3, visibility * coverage(column, 0.006 * depth + 0.001));
-                result = mix(result, color3, visibility * coverage(hoop, 0.009 * depth + 0.0015));
-                float junction = abs(fract(ray * 1.75 + fract(level)) - 0.5) * depth / 1.75;
-                result = mix(result, color4, visibility * coverage(junction, 0.002 + 0.002 * depth));
-            } else {
-                float lip = abs(q.y - focus.y - 0.23 * abs(q.x - focus.x));
-                result = mix(color3, color4, coverage(lip, 0.012));
-                float platform = abs(shaft.x) - 1.7 * max(0.0, shaft.y);
-                result = mix(result, color1, coverage(platform, -0.014) * 0.4);
-            }
+            vec2 q = rotatePoint(p, .70) / meshPitch;
+            q += .023 * vec2(noise(q * .7), noise(q * .72 + 7.0));
+            q += vec2(phaseX, phaseY);
+            float wire = min(repeatDistance(q.x), repeatDistance(q.y));
+            float clouds = layerNoise(p * 7.0);
+            result = mix(color1, color2, .38 + .6 * clouds);
+            result = mix(result, color3, glassHaze * (.2 + .65 * clouds));
+            float shadow = 1.0 - smoothstep(wireWidth, wireWidth + .055, wire);
+            result = mix(result, color1, shadow * (.77 - .20 * glassHaze));
+            float glint =
+                1.0 - smoothstep(.006, .023, min(repeatDistance(q.x - .018), repeatDistance(q.y - .018)));
+            result = mix(result, color4, .52 * glint);
         """.trimIndent()
 
         PatternTextureType.PendulumCase -> """
-            vec2 q = fract(p + 0.5) - 0.5;
-            float caseDepth = abs(q.x) + 0.025 * abs(q.y);
-            result = mix(color1, color2, 0.15 + 0.22 * noise(q * vec2(130.0, 3.0)));
-            result = mix(result, color2, coverage(abs(caseDepth - 0.316), 0.012));
-            vec2 clock = q - vec2(0.0, -0.21);
-            float dial = length(clock);
-            result = mix(result, color2, coverage(dial, 0.177));
-            result = mix(result, color3, coverage(dial, 0.156));
-            float a = safeAngle(clock);
-            float minutes = abs(sin(a * 30.0)) * dial / 30.0;
-            result = mix(result, color2, coverage(minutes, 0.0018) * step(0.138, dial) * step(dial, 0.149));
-            float marks = abs(sin(a * 6.0)) * dial / 6.0;
-            result = mix(result, color1, coverage(marks, 0.0037) * step(0.12, dial) * step(dial, 0.149));
-            float hands = min(segment(clock, vec2(0.0), vec2(-0.074, -0.068)),
-                              segment(clock, vec2(0.0), vec2(0.100, -0.054)));
-            result = mix(result, color4, coverage(hands, 0.0055));
-            vec2 hinge = vec2(0.0, -0.018);
-            vec2 bob = hinge + 0.328 * vec2(sin(time) * 0.49, cos(time * 0.47));
-            vec2 v = q - bob;
-            result = mix(result, color2, coverage(segment(q, hinge, bob), 0.005));
-            result = mix(result, color3, coverage(length(v), 0.081));
-            result = mix(result, color2, coverage(abs(length(v) - 0.065), 0.0035));
-            result = mix(result, color4, coverage(length(v + vec2(0.012, 0.005)), 0.017));
+            vec2 q = rotatePoint(p, .29);
+            float row = floor(q.x / .23 + .5);
+            q.x -= row * .23 + .015 * sin(q.y * 6.0 + row);
+            result = mix(color1, color2, .13 + .35 * layerNoise(p * 17.0));
+            float idx = floor(q.y / linkLength);
+            for (int i = -1; i <= 1; i++) {
+                float j = idx + float(i);
+                float end = mod(row + j, 2.0);
+                float scale = mix(.044, .014, end);
+                vec2 local = vec2(q.x, (q.y - j * linkLength));
+                local.y = sign(local.y) * max(abs(local.y) - linkLength * .39, 0.0);
+                vec2 edge = local / vec2(scale, linkLength * .34);
+                float r = length(edge) - 1.0;
+                float w = linkGauge + end * .24;
+                float mask = 1.0 - smoothstep(w, w + .07, abs(r));
+                vec4 metal = mix(color2, color3, .35 + .45 * (1.0 - smoothstep(0.0, w, abs(r))));
+                float light = .45 + .52 * sin(safeAngle(edge) + 2.3);
+                metal = mix(metal, color4, brassShine * light * (1.0 - smoothstep(.05, w, abs(r))));
+                result = mix(result, metal, mask);
+            }
         """.trimIndent()
 
         PatternTextureType.ScrewBookpress -> """
-            vec2 q = fract(p + 0.5) - 0.5;
-            float grain = noise(q * vec2(28.0, 5.0));
-            result = mix(color1, color2, grain * 0.13);
-            float frame = max(abs(abs(q.x) - 0.31) - 0.030, abs(q.y - 0.035) - 0.345);
-            float crown = max(abs(q.x) - 0.36, abs(q.y + 0.27) - 0.034);
-            float foot = max(abs(q.x) - 0.38, abs(q.y - 0.363) - 0.031);
-            result = mix(result, color3, coverage(min(frame, min(crown, foot)), 0.0));
-            float screw = max(abs(q.x) - 0.025, max(-0.402 - q.y, q.y - offset + 0.011));
-            result = mix(result, mix(color2, color3, smoothstep(0.35, 0.7, fract(q.y * 77.0 - q.x * 19.0))),
-                         coverage(screw, 0.0));
-            float bar = segment(q, vec2(-0.142, -0.406), vec2(0.145, -0.343));
-            result = mix(result, color4, coverage(bar, 0.011));
-            float platen = max(abs(q.x) - 0.22, abs(q.y - offset) - 0.025);
-            result = mix(result, color3, coverage(platen, 0.0));
-            float book = max(abs(q.x - 0.012) - 0.225, abs(q.y - 0.258) - 0.067);
-            vec4 pages = mix(color1, color2, 0.53 * smoothstep(0.35, 0.65, fract(q.y * 87.0)));
-            result = mix(result, pages, coverage(book, 0.0));
-            float covers = max(abs(q.x - 0.012) - 0.24, abs(abs(q.y - 0.258) - 0.068) - 0.009);
-            result = mix(result, color4, coverage(covers, 0.0));
+            vec2 q = rotatePoint(p, .68) / toolPitch + vec2(phaseX, 2.0 * phaseY);
+            q.x += .5 * mod(floor(q.y), 2.0);
+            vec2 uv = fract(q) - .5;
+            float eye = abs(length(uv * vec2(1.05, 1.90)) - .35);
+            float tip = abs(uv.y + .10 * sin(uv.x * 8.3));
+            float mark =
+                min(eye, min(max(tip, abs(uv.x) - .20), max(abs(abs(uv.y) - .43), abs(uv.x) * .51)));
+            float edge = 1.0 - smoothstep(.009, .034, mark);
+            float grain = layerNoise(p * 95.0);
+            result = mix(color1, color2, .38 + hideGrain * .60 * grain);
+            result = mix(result, color3, stampDepth * .82 * (1.0 - smoothstep(.039, .079, mark)));
+            result = mix(result, color1, edge * stampDepth);
+            result = mix(result, color4, stampDepth * .25 * edge * smoothstep(-.05, .26, -uv.y));
         """.trimIndent()
 
         PatternTextureType.TheatreWings -> """
-            vec2 q = fract(p + 0.5) - 0.5;
-            result = mix(color1, color2, 0.27 * smoothstep(-0.4, 0.45, q.y));
-            float beam = abs(q.x - (0.07 + q.y * 0.24));
-            float cone = 1.0 - smoothstep(0.27 * (q.y + 0.53) - 0.035, 0.27 * (q.y + 0.53) + 0.035, beam);
-            result = mix(result, color4, cone * (0.13 + 0.20 * smoothstep(-0.35, 0.39, q.y)));
-            for (int i = 0; i < 3; i++) {
-                float layer = float(i);
-                float fold = abs(q.x) - (offset + 0.051 * layer + 0.30 * (1.0 - pow(abs(q.y - 0.19) / 0.72, 1.2)));
-                float pleat =
-                        0.53 + 0.36 * cos((q.x + sign(q.x) * (0.12 * q.y - 0.045 * layer)) * (52.0 + 5.0 * layer));
-                vec4 velvet = mix(color2, color3, pleat * (0.54 + 0.16 * layer));
-                result = mix(result, velvet, 1.0 - coverage(fold, 0.0));
-            }
-            float apron = q.y - 0.38 - 0.06 * q.x * q.x;
-            result = mix(result, color1, smoothstep(-pixelWidth, pixelWidth, apron));
-            float footlight = length(vec2(fract(q.x * 12.0 + 0.5) - 0.5, (q.y - 0.42) * 12.0)) / 12.0;
-            result = mix(result, color4, coverage(footlight, 0.008));
+            vec2 q = vec2(p.x / swagPitch + phaseX, p.y / swagPitch);
+            float arc = pow(abs(sin(q.x * 3.14159)), .72);
+            float wave = q.y - swagDrop * 2.0 * arc;
+            float tier = fract(wave + .43);
+            float pleat = .5 + .5 * cos(TAU * (tier * drapeFolds * .65 + .42 * cos(q.x * TAU)));
+            result = mix(color1, color2, .18 + .49 * arc + .28 * pleat);
+            result = mix(result, color3, pow(pleat, 2.0) * arc * .54);
+            result = mix(result, color4, (1.0 - smoothstep(.012, .044, tier)) * .75);
+            result.rgb *= .96 + .08 * noise(p * vec2(80.0, 230.0));
         """.trimIndent()
 
         PatternTextureType.HornGramophone -> """
-            vec2 q = fract(p + 0.5) - 0.5;
-            vec2 horn = rotatePoint(q - vec2(0.047, -0.14), -0.35);
-            vec2 polar = horn / vec2(1.0, 0.77);
-            float a = safeAngle(polar), r = length(polar);
-            float lip = radius * (0.95 + 0.047 * cos(9.0 * a));
-            result = mix(color1, color2, 0.16 * smoothstep(-0.45, 0.39, q.y));
-            float tube = min(segment(q, vec2(-0.20, 0.185), vec2(-0.26, 0.09)),
-                             segment(q, vec2(-0.26, 0.09), vec2(-0.07, -0.13)));
-            result = mix(result, color3, coverage(tube, 0.022));
-            float petal = 0.48 + 0.40 * cos(a * 9.0);
-            vec4 brass = mix(color2, color3, 0.27 + petal * smoothstep(0.0, radius, r));
-            result = mix(result, brass, coverage(r, lip));
-            result = mix(result, color4, coverage(abs(r - lip), 0.006));
-            float throat = length(polar + vec2(0.055, -0.012));
-            result = mix(result, color1, coverage(throat, radius * 0.19));
-            float box = max(abs(q.x + 0.035) - 0.27, abs(q.y - 0.275) - 0.07);
-            result = mix(result, color2, coverage(box, 0.0));
-            float mould = max(abs(q.x + 0.035) - 0.286, abs(abs(q.y - 0.275) - 0.075) - 0.009);
-            result = mix(result, color3, coverage(mould, 0.0));
-            float platter = ellipseDistance(q - vec2(-0.012, 0.195), vec2(0.19, 0.029));
-            result = mix(result, color1, coverage(platter, 0.0));
-            result = mix(result, color4,
-                         coverage(ellipseDistance(q + vec2(0.012, -0.195), vec2(0.048, 0.009)), 0.0));
+            vec2 q = rotatePoint(p, -.26);
+            vec4 hammer = surfaceCell(q * 24.0, .92);
+            float t = hash(floor(q * 24.0 - hammer.zw));
+            float grain = layerNoise(p * 18.0);
+            result = mix(color2, color3, .28 + .31 * grain + hammerMarks * (.28 * t + .13 * hammer.z));
+            result = mix(result, color1, brassPatina * smoothstep(.48, .72, grain));
+            float x = fract(q.x * 2.45 + .5) - .5;
+            result = mix(result, color1, .70 * (1.0 - smoothstep(.004, .01, abs(x - .032))));
+            vec2 rivet = vec2(x / 2.45, fract(q.y / rivetPitch + .5) * rivetPitch - .5 * rivetPitch);
+            float d = length(rivet) / .018;
+            result = mix(result, color1, (1.0 - smoothstep(.94, 1.16, d)) * .73);
+            result = mix(result, color3, 1.0 - smoothstep(.73, .90, d));
+            result = mix(result, color4, 1.0 - smoothstep(.25, .67, length(rivet / .018 + vec2(.22, .24))));
         """.trimIndent()
 
         PatternTextureType.CanalLock -> """
-            vec2 q = rotatePoint(fract(p + 0.5) - 0.5, 0.28);
-            float x = abs(q.x), y = q.y;
-            float wave = sin(y * 81.0 + 1.5 * sin(q.x * 11.0 + 3.0 * y));
-            result = mix(color1, color2, 0.2 + 0.27 * noise(q * vec2(5.0, 19.0)) + 0.12 * wave);
-            float bank = smoothstep(0.223, 0.233, x);
-            vec4 paving = mix(color3, color4, 0.16 + 0.13 * noise(q * 53.0));
-            float flags = abs(fract(y * 13.0 + 0.5 * mod(floor(x * 23.0), 2.0)) - 0.5) / 13.0;
-            paving = mix(paving, color4, coverage(flags, 0.003) * 0.37);
-            result = mix(result, paving, bank);
-            result = mix(result, color1, coverage(abs(x - 0.255), 0.008));
-            for (int i = 0; i < 2; i++) {
-                float top = -0.245 + 0.49 * float(i);
-                float gate = segment(vec2(x, y), vec2(0.223, top), vec2(0.0, top + offset));
-                result = mix(result, color4, coverage(gate, 0.021));
-                result = mix(result, color3, coverage(gate, 0.005));
-                float rail = segment(vec2(x, y), vec2(0.23, top), vec2(0.37, top - offset * 0.6));
-                result = mix(result, color1, coverage(rail, 0.010));
-            }
+            vec2 q = rotatePoint(p, .11);
+            float phase = fract(q.x / pilePitch);
+            float profile = abs(phase - .5);
+            float wall = smoothstep(.16, .27, profile);
+            float bevel = 1.0 - smoothstep(.01, .062, abs(profile - .22));
+            result = mix(color1, color3, .27 + .34 * wall + .16 * layerNoise(p * 49.0));
+            result = mix(result, phase > .5 ? color1 : color3, bevel * fluteDepth);
+            float oxide = layerNoise(q * vec2(129.0, 21.0 / (runLength + .16)));
+            result = mix(result, color4, smoothstep(.56, .76, oxide) * (.44 + .48 * bevel));
+            result = mix(result, color2, .09);
         """.trimIndent()
 
         PatternTextureType.FunicularIncline -> """
-            vec2 q = fract(p + 0.5) - 0.5;
-            float hill = 0.13 - 0.62 * q.x + 0.075 * sin(q.x * 8.0);
-            result = mix(color1, color2, 0.45 * smoothstep(-0.43, 0.39, q.y));
-            result = mix(result, color2, smoothstep(hill - pixelWidth, hill + pixelWidth, q.y));
-            vec2 track = rotatePoint(q, 0.515);
-            float rail = track.y - 0.140;
-            result = mix(result, color3, coverage(abs(rail), 0.025));
-            float piers = abs(fract(track.x * 7.0 - track.y * 3.8 + 0.5) - 0.5) / 7.0;
-            result = mix(result, color3, coverage(piers, 0.012) * step(0.14, track.y) * 0.8);
-            vec2 car = q - rotatePoint(vec2(offset, 0.11), -0.515);
-            float sill = -0.56 * car.x;
-            float shell = max(abs(car.x) - 0.19, max(sill - 0.141 - car.y, car.y - sill));
-            result = mix(result, color4, coverage(shell, 0.0));
-            float pane = max(abs(fract((car.x + 0.18) * 13.7) - 0.5) - 0.345,
-                             max((sill - 0.12 - car.y) * 13.7, (car.y - sill + 0.057) * 13.7));
-            result = mix(result, color3, coverage(shell, -0.009) * coverage(pane / 13.7, 0.0));
-            result = mix(result, color1, coverage(abs(car.y - sill + 0.031), 0.006) * coverage(shell, -0.004));
+            vec2 q = rotatePoint(p, .38);
+            float y = fract(q.y * 3.25) - .5;
+            float phase = fract(q.x / gearPitch + phaseX) - .5;
+            float top = mix(.07, .23, 1.0 - smoothstep(.10 + .18 * toothForm, .43, abs(phase)));
+            float steel = 1.0 - smoothstep(top - .008, top + .009, abs(y));
+            float shine = 1.0 - smoothstep(.008, .045, abs(abs(y) - top + .022));
+            float grime = layerNoise(p * vec2(49.0, 130.0));
+            result = mix(color1, color2, .20 + .42 * grime);
+            vec4 rack = mix(color2, color3, .26 + .57 * grime);
+            rack = mix(rack, color4, shine * .78);
+            rack = mix(rack, color1, greaseDepth * (1.0 - smoothstep(.05, .16, abs(y))) * grime);
+            result = mix(result, rack, steel);
         """.trimIndent()
 
         PatternTextureType.CinemaMarquee -> """
-            vec2 q = fract(p + 0.5) - 0.5;
-            vec2 vanishing = vec2(0.22, -0.25);
-            vec2 v = q - vanishing;
-            float y = abs(v.y) + 0.065;
-            float blade = v.x + 0.28 * v.y;
-            result = mix(color1, color2, 0.4 * noise(q * vec2(5.0, 9.0)));
-            float signs = abs(fract((v.x + v.y * 0.20) * 8.0) - 0.5);
-            result = mix(result, color3, 0.22 * step(0.26, signs) * smoothstep(0.0, 0.7, q.y + 0.28));
-            for (int i = 0; i < 3; i++) {
-                float facade = float(i);
-                vec2 building = q - vec2(-0.40 + facade * 0.24, 0.0);
-                float roof = 0.16 - 0.32 * hash(vec2(facade, 9.0));
-                if (abs(building.x) < 0.105 && q.y > roof) {
-                    vec2 pane = abs(fract(vec2(building.x * 22.0, (q.y - roof) * 17.0)) - 0.5);
-                    result = mix(color2, color1, 0.69 + 0.12 * facade);
-                    result = mix(result, color3, coverage(max(pane.x - 0.20, pane.y - 0.25) / 20.0, 0.0) * 0.61);
-                }
-            }
-            if (v.y > 0.0 && blade < 0.09 + v.y * 0.36 && blade > -0.16 - v.y * 0.89) {
-                float lane = (blade / y + 0.93) * 4.7;
-                float crossbeam = log(y) * 4.5;
-                vec2 fixture = fract(vec2(lane, crossbeam)) - 0.5;
-                float flank = min(abs(blade - 0.09 - v.y * 0.36), abs(blade + 0.16 + v.y * 0.89));
-                result = mix(color2, color3, 0.44 + 0.22 * cos(lane * TAU));
-                float bulb = length(fixture * vec2(0.88, 1.18));
-                result = mix(result, color4,
-                             min(1.0, intensity * (0.12 * exp(-5.2 * bulb) +
-                                                   coverage(bulb * y / 4.5, 0.175 * y / 4.5))));
-                result = mix(result, color4, coverage(flank, 0.0045));
-            }
+            vec2 q = p * vec2(1.0, .89) / lampPitch + vec2(phaseX, phaseY);
+            vec2 uv = fract(q + .5) - .5;
+            float d = length(uv), power = 1.0 - lampVariance * noise(p / lampPitch * .89 + 7.0);
+            result = mix(color1, color2, layerNoise(p * 8.0));
+            result = mix(result, color3, exp(-d * d / (haloRadius * haloRadius)) * .61 * power);
+            result = mix(result, color1, 1.0 - smoothstep(.185, .211, d));
+            result = mix(result, color2, 1.0 - smoothstep(.157, .177, d));
+            result = mix(result, color4, (1.0 - smoothstep(.115, .15, d)) * (.41 + .58 * power));
+            result = mix(result, color4, 1.0 - smoothstep(.016, .049, length(uv + vec2(.048, .057))));
         """.trimIndent()
 
         PatternTextureType.SolarProminences -> """
-            vec2 q = vec2(p.x, -p.y);
-            float radius = 0.91, disk = length(q - vec2(-0.13, -1.02)) - radius;
-            float granules = noise(q * 52.0) * 0.58 + noise(q * 145.0) * 0.42;
-            float turbulence = noise(q * 17.0 + time * 0.18) - 0.5;
-            float rim = disk + turbulence * 0.009;
-            result = mix(color1, color2, exp(-max(rim, 0.0) * 14.0) * (0.18 + granules * 0.30));
-            for (int i = 0; i < 3; i++) {
-                float n = float(i), angle = 1.16 + n * 0.34 - step(1.5, n) * 0.065;
-                vec2 normal = vec2(cos(angle), sin(angle)), tangent = vec2(normal.y, -normal.x);
-                vec2 delta = q - (vec2(-0.13, -1.02) + normal * radius);
-                vec2 local = vec2(dot(delta, tangent), dot(delta, normal));
-                local.x += 0.008 * sin(local.y * (29.0 + n * 6.0) - time + n);
-                float arch = length(vec2((local.x + local.y * 0.24) / (0.080 + n * 0.018),
-                                         local.y / (0.13 + 0.085 * sin(0.4 + n * 1.45))));
-                float threads = arch + turbulence * (0.075 + 0.20 * smoothstep(0.04, 0.22, local.y));
-                float shell = exp(-pow((threads - 1.0) * 3.1, 2.0)) * smoothstep(-0.03, 0.012, local.y);
-                float filament = 0.5 + 0.5 * cos(65.0 * threads + noise(q * 28.0) * 4.0 + time);
-                result = mix(result, color3, shell * (0.32 + 0.53 * filament));
-                result = mix(result, color4, shell * pow(filament, 4.0) * (0.34 + 0.54 * granules));
-            }
-            vec4 chromosphere = mix(color2, color3, granules * 0.84 + 0.1);
-            result = mix(result, chromosphere, coverage(rim, 0.0));
-            result = mix(result, color4, exp(-abs(rim) * 110.0) * (0.52 + 0.45 * granules));
+            vec2 q = rotatePoint(p, -.48) * loopPitch;
+            result = mix(color1, color2, layerNoise(q * 4.0) * .76);
+            float light = 0.0;
+            for (int j = -1; j <= 1; j++)
+                for (int i = -1; i <= 1; i++) {
+                    vec2 id = floor(q) + vec2(float(i), float(j));
+                    vec2 uv = q - id - .18 - .61 * hash2(id);
+                    uv /= vec2(.36 + .40 * hash(id + 8.0), plumeHeight * (.55 + .5 * hash(id + 6.0)));
+                    float a = safeAngle(uv), d = length(uv) + .028 * sin(a * 5.0 + hash(id) * TAU);
+                    float arc =
+                        exp(-pow((d - 1.0) / (strandWidth * 1.7), 2.0)) * smoothstep(-.04, .24, uv.y);
+                    float fil = pow(.5 + .5 * cos(d * 102.0 + a * 4.0), 3.0);
+                    light += arc * (.19 + .77 * fil) * (.36 + .7 * noise(q * 11.0));
+                }
+            result =
+                mix(result, mix(color3, color4, clamp(light, 0.0, 1.0)), clamp(light * 1.62, 0.0, 1.0));
         """.trimIndent()
 
         PatternTextureType.StellarBowShock -> """
-            vec2 q = rotatePoint(vec2(p.x, -p.y), -0.47);
-            float dust = noise(q * 6.4) * 0.58 + noise(q * 16.0) * 0.29 + 0.13 * noise(q * 47.0);
-            float fine = noise(q * 62.0), curl = (dust - 0.50) * 0.033 * variability;
-            float distance = (q.x - 0.255 + 1.5 * q.y * q.y + curl) / sqrt(1.0 + 9.0 * q.y * q.y);
-            float envelope = exp(-3.5 * q.y * q.y);
-            result = mix(color1, color2, dust* dust * 0.39);
-            float wake = exp(-pow((distance + 0.072) * 10.0, 2.0)) * envelope;
-            result = mix(result, color2, wake * (0.32 + 0.68 * dust));
-            for (int i = 0; i < 4; i++) {
-                float n = float(i);
-                float filament = distance + n * (0.015 + 0.04 * q.y * q.y);
-                float light = exp(-abs(filament) * (77.0 + 24.0 * n)) * envelope;
-                result = mix(result, mix(color3, color4, 0.32 * fine),
-                             light * (0.88 - n * 0.12) * (0.58 + fine * 0.42));
-            }
-            vec2 cell = floor(q * 41.0), dotPos = (fract(q * 41.0) - hash2(cell)) / 41.0;
-            float stars = step(0.915, hash(cell + 4.5)) * coverage(length(dotPos), 0.0018);
-            result = mix(result, color4, stars * 0.68);
-            vec2 star = q - vec2(0.045, -0.017);
-            float core = exp(-length(star) * 88.0);
-            float spikes = exp(-min(abs(star.x), abs(star.y)) * 440.0 - length(star) * 43.0);
-            result = mix(result, color4, clamp(core * 1.45 + spikes * 0.58, 0.0, 1.0));
+            vec2 q = rotatePoint(p, -.54);
+            float turb = layerNoise(q * 5.0);
+            float flow = q.x / frontPitch + shockBend * cos((q.y + .18 * sin(q.x * 5.0)) * 6.0) +
+                         .14 * layerNoise(q * 18.0);
+            float d = repeatDistance(flow), dust = layerNoise(q * vec2(31.0, 16.0));
+            result = mix(color1, color2, turb * .86);
+            result = mix(result, color3, exp(-d * 5.0) * .75);
+            result = mix(result, color4, exp(-d * 11.0) * (.23 + dustDensity * dust) * .96);
         """.trimIndent()
 
         PatternTextureType.HourglassNebula -> """
-            vec2 q = rotatePoint(vec2(p.x, -p.y), 0.27);
-            float gas = noise(q * 8.0) * 0.54 + noise(q * 22.0) * 0.32 + noise(q * 57.0) * 0.14;
-            result = mix(color1, color2, gas* gas * 0.37);
-            float height = abs(q.y);
-            float width = (0.014 + 0.89 * height) * (0.87 + 0.09 * cos(height * 39.0)) * shapeAspect;
-            float tangent = abs(q.x) - width - (gas - 0.5) * 0.032;
-            float extent = 1.0 - smoothstep(0.26, 0.42, height);
-            float inside = 1.0 - smoothstep(-0.02, 0.02, tangent);
-            float ribs = 0.5 + 0.5 * sin(height * 110.0 + gas * 7.0 + 2.0 * q.x / max(width, 0.025));
-            float edge = exp(-abs(tangent) * 49.0);
-            result = mix(result, color2, extent* inside * (0.2 + 0.51 * gas));
-            result = mix(result, color3, extent*(edge * 0.68 + inside * ribs * 0.29));
-            result = mix(result, color4, extent* edge * (0.23 + 0.63 * ribs) * gas);
-            float mouth = abs(length(vec2(q.x / (0.253 * shapeAspect), (height - 0.30) / 0.05)) - 1.0);
-            result = mix(result, color3, exp(-mouth * 6.5) * (0.26 + gas * 0.52));
-            float star = exp(-length(q) * 80.0);
-            result = mix(result, color4, clamp(star * 1.8, 0.0, 1.0));
+            vec2 q = p * 2.7 / cavitySize;
+            vec2 drift = vec2(layerNoise(q * 2.0), layerNoise(q * 2.0 + 13.0));
+            vec4 cell = surfaceCell(q + .56 * drift, .86);
+            float fine = layerNoise(q * 32.0);
+            float shell = exp(-cell.y / (shellWall + .014));
+            float threads = .5 + .5 * cos(cell.y * 108.0 + 4.0 * noise(q * 19.0) + cell.z * 2.0);
+            result = mix(color1, color2, .15 + .48 * drift.x + .28 * shell);
+            result = mix(result, color3, shell * (.25 + .5 * fine));
+            result = mix(result, color4, shell * gasFilaments * pow(threads, 3.0) * (.33 + .49 * fine));
+            float star = hash(floor(p * 172.0));
+            result = mix(result, color4, step(.9985, star) * .70);
         """.trimIndent()
 
         PatternTextureType.RocheLobes -> """
-            vec2 q = rotatePoint(vec2(p.x, -p.y), -0.23) * 3.3;
-            float mu = balance;
-            vec2 primary = vec2(-mu, 0.0), secondary = vec2(1.0 - mu, 0.0);
-            vec2 a = q - primary, b = q - secondary;
-            float ra = max(length(a), 0.07), rb = max(length(b), 0.057);
-            float potential = (1.0 - mu) / ra + mu / rb + dot(q, q) * 0.5;
-            vec2 gradient = q - (1.0 - mu) * a / (ra * ra * ra) - mu * b / (rb * rb * rb);
-            float middle = -mu + 1.0 / (1.0 + pow(mu / (1.0 - mu), 0.4));
-            float critical = (1.0 - mu) / (middle + mu) + mu / (1.0 - mu - middle) + middle * middle * 0.5;
-            float d = (potential - critical) / max(length(gradient), 0.055);
-            float grid = min(abs(fract(q.x * 3.0 + 0.5) - 0.5), abs(fract(q.y * 3.0 + 0.5) - 0.5));
-            result = mix(color1, color2, coverage(grid / 10.0, 0.0011) * 0.36);
-            float levels =
-                    abs(fract((potential - critical) * 5.5 + 0.5) - 0.5) / max(length(gradient) * 18.15, 0.04);
-            float cutoff = smoothstep(0.12, 0.32, min(ra, rb));
-            result = mix(result, color2, cutoff* coverage(levels, 0.0024));
-            result = mix(result, color3, coverage(abs(d) / 3.3, 0.004));
-            result = mix(result, color4, coverage(ra, 0.125 + 0.055 * (1.0 - mu)));
-            result = mix(result, color3, coverage(rb, 0.055 + 0.065 * mu));
+            vec2 q = p * 2.7;
+            float potential = 0.0, star = 2.0;
+            for (int j = -1; j <= 1; j++)
+                for (int i = -1; i <= 1; i++) {
+                    vec2 id = floor(q) + vec2(float(i), float(j));
+                    vec2 uv = q - id - .5 - .19 * (hash2(id) - .5);
+                    uv = rotatePoint(uv, (hash(id + 15.0) - .5) * 1.8);
+                    float r1 = length(uv - vec2(fociGap * .5, 0.0)),
+                          r2 = length(uv + vec2(fociGap * .5, 0.0));
+                    star = min(star, min(r1, r2));
+                    potential += exp(-6.0 * r1) + massRatio * exp(-6.0 * r2);
+                }
+            result = mix(color1, color2, min(.88, potential * .77));
+            result =
+                mix(result, color3, 1.0 - smoothstep(.03, .12, repeatDistance(potential / contourPitch)));
+            result = mix(result, color4, 1.0 - smoothstep(.020, .045, star));
         """.trimIndent()
 
         PatternTextureType.BasaltColonnade -> """
-            vec2 q = vec2(p.x, -p.y);
-            float grain = noise(q * 71.0);
-            result = mix(color1, color3, 0.28 + 0.28 * q.y + 0.06 * grain);
-            for (int j = 0; j < 6; j++) {
-                float row = float(j);
-                float spacing = 0.107 + 0.014 * row;
-                float shift = row * 0.39;
-                float column = floor(q.x / spacing + shift + 0.5);
-                float x = (q.x / spacing + shift - column) * spacing;
-                float h = 0.29 - row * 0.092 + 0.089 * sin(column * 0.52 + row * 0.39);
-                h += variability * 0.11 * (hash(vec2(column, row)) - 0.5);
-                float cap = 0.026 + 0.006 * row;
-                float across = abs(x) / (spacing * 0.5);
-                float front = h - cap * (1.0 - 0.48 * across);
-                float top = h + cap * (1.0 - 0.48 * across);
-                float side = coverage(q.y - front, 0.0);
-                vec4 flank = mix(color1, color2, 0.23 + 0.28 * row / 5.0);
-                flank = mix(flank, color3, (x > 0.0 ? 0.26 : 0.075) + 0.10 * grain);
-                float seam = coverage(1.0 - across, 0.033);
-                flank = mix(flank, color1, seam * 0.78);
-                float stria = pow(0.5 + 0.5 * cos(x * 620.0 + noise(q * 12.0) * 2.2), 7.0);
-                flank = mix(flank, color3, stria * 0.11);
-                result = mix(result, flank, side);
-                float roof = (1.0 - side) * coverage(q.y - top, 0.0);
-                vec4 stone = mix(color3, color4, 0.24 + 0.41 * hash(vec2(column, row) + 8.0));
-                result = mix(result, stone, roof * (0.94 + 0.06 * grain));
-                float frontEdge = coverage(abs(q.y - front), 0.002 + 0.0005 * row);
-                result = mix(result, color4, frontEdge * 0.6);
-            }
+            vec2 q = p * 7.8 / columnSize + .11 * vec2(noise(p * 5.0), noise(p * 6.0 + 7.0));
+            vec2 tile = floor(q / vec2(1.0, .866));
+            float near = 9.0, second = 9.0, h = 0.0;
+            vec2 local = vec2(0.0);
+            for (int j = -1; j <= 1; j++)
+                for (int i = -1; i <= 1; i++) {
+                    vec2 id = tile + vec2(float(i), float(j));
+                    float level = hash(id);
+                    vec2 center = vec2(id.x + .5 * mod(id.y, 2.0), id.y * .866) + .15 * hash2(id + 3.0);
+                    center.y -= level * heightSpread * .24;
+                    vec2 delta = q - center;
+                    float dist = length(delta);
+                    if (dist < near) {
+                        second = near;
+                        near = dist;
+                        local = delta;
+                        h = level;
+                    } else {
+                        second = min(second, dist);
+                    }
+                }
+            float gap = second - near;
+            float face =
+                (1.0 - smoothstep(.05 + .30 * h * heightSpread, .08 + .30 * h * heightSpread, gap)) *
+                smoothstep(-.07, .19, local.y);
+            result = mix(color2, color3, .11 + .55 * h + .29 * layerNoise(q * 13.0));
+            result = mix(result, color1, face * (.45 + .32 * step(0.0, local.x)));
+            result = mix(result, color1, 1.0 - smoothstep(columnGap * .46, columnGap * 1.26, gap));
+            result = mix(result, color4, .07 * noise(q * 28.0));
         """.trimIndent()
 
         PatternTextureType.FaultedStrata -> """
-            vec2 q = vec2(p.x, -p.y);
-            float grit = noise(q * 97.0);
-            float fault = q.x - q.y * 0.51 + (noise(q * 6.0) - 0.5) * 0.026;
-            float right = smoothstep(-pixelWidth, pixelWidth, fault);
-            float bend = 0.038 * sin(q.x * 5.8) + 0.075 * q.x;
-            float drag = 0.042 * exp(-abs(fault) * 10.0) * (1.0 - 2.0 * right);
-            float depth = q.y - bend + right * offset + drag + 0.013 * (noise(q * 11.0) - 0.5);
-            float course = floor(depth * 16.0), local = fract(depth * 16.0);
-            float id = hash(vec2(course, 1.5));
-            vec4 rock = id < 0.32 ? color2 : (id < 0.71 ? color3 : color4);
-            float laminations = 0.5 + 0.5 * cos(local * TAU * (2.0 + floor(id * 4.0)) + 0.5 * noise(q * 36.0));
-            result = mix(rock, color1, 0.14 + 0.20 * (1.0 - grit) + 0.19 * laminations);
-            float contact = min(local, 1.0 - local) / 16.0;
-            result = mix(result, color1, coverage(contact, 0.0026) * 0.8);
-            result = mix(result, color1, coverage(abs(fault), 0.0052));
-            result = mix(result, color4, coverage(abs(fault + 0.007), 0.0016) * 0.72);
+            vec2 q = rotatePoint(p, -0.23);
+            float plane = (q.x * 2.4 + 0.42 * q.y + 0.06 * (layerNoise(q * 4.0) - 0.5)) / faultPitch + 0.22;
+            float block = floor(plane);
+            float v = q.y + faultSlip * (0.74 * block + 0.42 * sin(6.2 * block + 1.0));
+            v += 0.035 * sin(5.7 * q.x + 3.0 * q.y) + 0.035 * (layerNoise(q * 4.0) - 0.5);
+            float bed = v * bedCount + 0.14 * sin(v * 25.0) + 0.043 * (layerNoise(q * 18.0) - 0.5);
+            float material = hash(vec2(floor(bed), 6.0));
+            result = toneRamp(0.15 + material * 0.81);
+            float seam = 1.0 - smoothstep(0.012, 0.12, repeatDistance(bed));
+            result = mix(result, color1, 0.63 * seam);
+            result = mix(result, color1, (1.0 - smoothstep(0.002, 0.01, repeatDistance(plane))) * 0.81);
+            result.rgb *= 0.80 + 0.34 * layerNoise(vec2(q.x * 55.0, v * 180.0)) + 0.06 * sin(bed * 30.0);
         """.trimIndent()
 
         PatternTextureType.GarnetSchist -> """
@@ -3109,245 +2379,1848 @@ internal fun patternShader(type: PatternTextureType): String {
         """.trimIndent()
 
         PatternTextureType.TrilobiteImpression -> """
-            vec2 q = rotatePoint(vec2(p.x, -p.y), -0.29);
-            float sediment = noise(p * 12.0) * 0.47 + noise(p * 51.0) * 0.35 + noise(p * 155.0) * 0.18;
-            result = mix(color2, color3, 0.05 + sediment * 0.71);
-            float head = ellipseDistance(q - vec2(0.0, 0.19), vec2(0.226, 0.137));
-            head = max(head, 0.12 - q.y - abs(q.x) * 0.12);
-            float body = ellipseDistance(q - vec2(0.0, -0.003), vec2(0.18, 0.326));
-            body = max(body, q.y - 0.177);
-            float tip = ellipseDistance(q - vec2(0.0, -0.28), vec2(0.091, 0.091));
-            float spine = segment(vec2(abs(q.x), q.y), vec2(0.207, 0.168), vec2(0.242, 0.030));
-            float silhouette = min(min(head, body), min(tip, spine - 0.005));
-            float height = max(0.0, 1.0 - pow(abs(q.x) / 0.22, 2.0));
-            float stipple = noise(q * 141.0);
-            vec4 shell = mix(color1, color2, (0.18 + 0.46 * height) * (0.68 + 0.44 * sediment));
-            result = mix(result, color4, coverage(silhouette + 0.003 * stipple, 0.006) * (0.48 + 0.35 * sediment));
-            result = mix(result, shell, coverage(silhouette, 0.0));
-            float row = q.y + 0.59 * abs(q.x) - 0.030 * sin(abs(q.x) * 18.0);
-            float spacing = 0.034;
-            float ridge = abs(fract(row / spacing + 0.5) - 0.5) * spacing;
-            float thorax = coverage(body, -0.004) * (1.0 - smoothstep(0.10, 0.13, q.y));
-            result = mix(result, color1, coverage(abs(ridge - 0.006), 0.0022) * thorax * 0.56);
-            result = mix(result, color3, coverage(ridge, 0.0048) * thorax * intensity * (0.70 + 0.28 * stipple));
-            float axis = ellipseDistance(q - vec2(0.0, -0.018), vec2(0.060, 0.283));
-            result = mix(result, color2, coverage(axis, 0.0) * coverage(body, 0.0));
-            float rib = abs(fract((q.y + 0.46 * q.x * q.x) / spacing + 0.5) - 0.5) * spacing;
-            result = mix(result, color4, coverage(rib, 0.0037) * coverage(axis, -0.001) * thorax * intensity);
-            float glabella = ellipseDistance(q - vec2(0.0, 0.195), vec2(0.075, 0.090));
-            result = mix(result, color3, coverage(glabella, 0.0) * (0.38 + 0.35 * sediment));
-            vec2 eyePos = vec2(abs(q.x) - 0.127, q.y - 0.195);
-            float eye = ellipseDistance(rotatePoint(eyePos, -0.47), vec2(0.027, 0.047));
-            result = mix(result, color1, coverage(eye, 0.0) * 0.67);
-            vec2 lens = fract(eyePos * 121.0 + vec2(step(0.5, fract(eyePos.y * 60.5)) * 0.5, 0.0)) - 0.5;
-            result = mix(result, color3, coverage(length(lens) / 121.0, 0.002) * coverage(eye, -0.002) * 0.66);
-            result = mix(result, color3, coverage(abs(eye), 0.003) * 0.59);
-            float cheek = ellipseDistance(q - vec2(0.0, 0.205), vec2(0.180, 0.096));
-            result = mix(result, color2,
-                         coverage(abs(cheek), 0.003) * smoothstep(0.08, 0.135, abs(q.x)) * coverage(head, -0.003));
+            vec2 q = p * fossilCount;
+            vec2 id = floor(q);
+            vec2 uv = rotatePoint(fract(q) - .5 - .16 * (hash2(id) - .5), hash(id + 6.0) * TAU);
+            float shell = length(uv / vec2(.239, .428));
+            float stone = layerNoise(p * 45.0);
+            float shape =
+                (1.0 - smoothstep(.92, 1.02, shell)) *
+                smoothstep(.65 - .58 * preservation, .91 - .54 * preservation, layerNoise(q * 7.0));
+            float rib = .5 + .5 * cos((uv.y + .045 + .62 * max(0.0, abs(uv.x) - .059)) * 98.0);
+            float axis = 1.0 - smoothstep(.028, .078, abs(uv.x));
+            result = mix(color1, color2, .32 + .55 * stone);
+            vec4 imprint = mix(color2, color4, .19 + fossilRelief * (.31 * rib + .20 * axis) + .14 * stone);
+            imprint =
+                mix(imprint, color3, 1.0 - smoothstep(.084, .12, length(vec2(uv.x * .9, uv.y + .28))));
+            result = mix(result, imprint, shape);
         """.trimIndent()
 
         PatternTextureType.DoubleSlit -> """
-            vec2 q = vec2(p.x + 0.21, p.y);
-            float separation = radius;
-            float wavelength = 0.049;
-            float phase = time;
-            float incident = 0.5 + 0.5 * cos(q.x * TAU / wavelength - phase);
-            float a = length(q - vec2(0.0, separation)), b = length(q + vec2(0.0, separation));
-            float wave = 0.5 * (cos(a * TAU / wavelength - phase) + cos(b * TAU / wavelength - phase));
-            float visibility = 1.0 / (1.0 + 1.3 * (a + b));
-            vec4 left = mix(color1, color2, incident * 0.73 + 0.08);
-            left = mix(left, color3, pow(incident, 10.0) * 0.53);
-            vec4 right = mix(color1, color2, 0.46 + wave * 0.42);
-            right = mix(right, color3, smoothstep(0.12, 0.86, wave) * min(1.0, 1.6 * visibility));
-            right = mix(right, color4, smoothstep(0.78, 1.0, wave) * visibility);
-            result = mix(left, right, smoothstep(-pixelWidth, pixelWidth, q.x));
-            float slit = abs(abs(q.y) - separation);
-            float barrier = coverage(abs(q.x), 0.007) * (1.0 - coverage(slit, 0.015));
-            result = mix(result, color4, barrier * 0.93);
+            vec2 q = p * vec2(3.4, 2.8);
+            float wave = 0.0;
+            for (int j = -1; j <= 1; j++)
+                for (int i = -1; i <= 1; i++) {
+                    vec2 uv = fract(q) - .5 - vec2(float(i), float(j));
+                    float a = length(uv - vec2(sourceGap * .5, 0.0)),
+                          b = length(uv + vec2(sourceGap * .5, 0.0));
+                    wave += (cos(a * TAU / waveLength) + cos(b * TAU / waveLength)) *
+                            exp(-(a + b) * (.64 + attenuation * 1.14));
+                }
+            result = toneRamp(clamp(.08 + .65 * abs(wave), 0.0, 1.0));
         """.trimIndent()
 
         PatternTextureType.LensCrossSection -> """
-            vec2 q = vec2(p.x, -p.y);
-            float graticule = min(abs(fract(q.x * 16.0 + 0.5) - 0.5), abs(fract(q.y * 16.0 + 0.5) - 0.5)) / 16.0;
-            result = mix(color1, color2, 0.14 * coverage(graticule, 0.0014));
-            float axis = coverage(abs(q.y), 0.0013) * step(0.32, fract(q.x * 21.0));
-            result = mix(result, color3, axis * 0.47);
-            for (int i = 0; i < 3; i++) {
-                float n = float(i), x = -0.245 + n * 0.164;
-                float aperture = 0.259 - n * 0.043;
-                float height = q.y / aperture, bend = 1.0 - min(height * height, 1.0);
-                float left = x - (0.014 + bend * (i == 1 ? -0.011 : 0.041));
-                float right = x + 0.026 + bend * (i == 1 ? 0.043 : 0.012);
-                float lens = max(max(left - q.x, q.x - right), abs(q.y) - aperture);
-                result = mix(result, color2, coverage(lens, 0.0) * (0.47 + 0.38 * bend));
-                result = mix(result, color3, coverage(abs(lens), 0.0029) * 0.93);
-                float mount = max(abs(q.x - x) - 0.033, abs(abs(q.y) - aperture - 0.022) - 0.021);
-                result = mix(result, color2, coverage(mount, 0.0));
-            }
-            for (int i = -2; i <= 2; i++) {
-                if (i == 0) continue;
-                float y = float(i) * 0.079;
-                vec2 a = vec2(-0.245, y), b = vec2(-0.080, y * 0.86), c = vec2(0.082, y * 0.69);
-                vec2 focus = vec2(offset, 0.0);
-                float ray = min(segment(q, vec2(-6.0, y), a), segment(q, a, b));
-                ray = min(ray, segment(q, b, c));
-                ray = min(ray, segment(q, c, focus + (focus - c) * 9.0));
-                result = mix(result, color4, coverage(ray, 0.0024) * 0.91);
-            }
+            vec2 q = p * 2.4;
+            vec2 shift = .32 * gapSlope * vec2(noise(q * 1.7), noise(q * 1.7 + 4.0));
+            vec4 cell = surfaceCell(q + shift, .72);
+            float phase = fringeRate * (cell.x * cell.x + .15 * gapSlope * layerNoise(q * 2.8));
+            float base = fract(phase);
+            vec4 hue = palette(base);
+            float fringe = .5 + .5 * cos(TAU * phase);
+            result = mix(color1, hue, smoothstep(.03, 1.02 - spectrumWidth * .42, fringe) * .91);
         """.trimIndent()
 
         PatternTextureType.IrisDiaphragm -> """
-            vec2 q = rotatePoint(vec2(p.x, -p.y), 0.26);
-            float r = length(q), a = safeAngle(q);
-            float blades = count, sector = TAU / blades;
-            float index = floor(a / sector + 0.5);
-            float angular = a - index * sector;
-            float aperture = r * cos(angular) - radius;
-            float bladePhase = fract(a / sector - r * 2.8 + 0.18);
-            float edge = min(bladePhase, 1.0 - bladePhase) * sector * max(r, 0.02);
-            float scuff = noise(vec2(r * 120.0, q.x * 14.0 - q.y * 22.0));
-            float sheen = 0.5 + 0.5 * cos(index * sector - 0.66 + 0.85 * bladePhase);
-            vec4 blade = mix(color2, color3, 0.09 + 0.51 * sheen + 0.12 * scuff);
-            result = color1;
-            float ring = coverage(r, 0.443);
-            result = mix(result, blade, ring * (1.0 - coverage(aperture, 0.0)));
-            result = mix(result, color1, ring* coverage(edge, 0.0032) * (1.0 - coverage(aperture, 0.0)));
-            result = mix(result, color4, coverage(abs(aperture), 0.0027) * 0.82);
-            result = mix(result, color2, coverage(abs(r - 0.447), 0.025));
-            result = mix(result, color3, coverage(abs(r - 0.462), 0.0055));
-            float knurl = abs(fract(a / TAU * 90.0 + 0.5) - 0.5);
-            result = mix(result, color4, coverage(abs(r - 0.448), 0.009) * coverage(knurl * 0.031, 0.002));
-            result = mix(result, color4, coverage(abs(r - 0.421), 0.0021));
+            vec2 q = p * 2.8 + vec2(phaseX, phaseY);
+            vec2 uv = fract(q + .5) - .5;
+            float radius = length(uv), angle = safeAngle(uv);
+            float blade = fract(angle / TAU * bladeCount + radius * 3.3);
+            result = mix(color2, color3, (.21 + .66 * blade) * (.78 + .22 * noise(p * 168.0)));
+            result = mix(result, color1, bladeDepth * (1.0 - smoothstep(.018, .14, blade)));
+            result = mix(result, color4, (1.0 - smoothstep(.00, .04, 1.0 - blade)) * .63 * bladeDepth);
+            result = mix(result, color1, 1.0 - smoothstep(aperture, aperture + .01, radius));
         """.trimIndent()
 
         PatternTextureType.EmissionSpectrum -> """
-            vec2 q = vec2(p.x, -p.y);
-            float plate = floor(q.y * 3.40 + 0.5), vertical = fract(q.y * 3.40 + 0.5) - 0.5;
-            float stroke = 0.0, halo = 0.0;
-            float wavelength = q.x * 30.0;
-            float bin = floor(wavelength);
+            float q = p.x * lineCount;
+            result = color1;
             for (int i = -1; i <= 1; i++) {
-                float k = bin + float(i);
-                float center = k + 0.09 + 0.79 * hash(vec2(k, plate));
-                float strength = hash(vec2(k, plate) + 4.3);
-                float delta = abs(wavelength - center);
-                float width = thickness * (0.46 + strength);
-                float main = exp(-pow(delta / max(width, 0.025), 2.0));
-                float pair = exp(-pow((delta - 0.16) / 0.041, 2.0)) * step(0.71, strength) * 0.51;
-                stroke = max(stroke, (main + pair) * (0.18 + 0.82 * strength));
-                halo += strength * exp(-delta * 4.5);
+                float bin = floor(q) + float(i);
+                float d = q - bin - .12 - .70 * hash(vec2(bin, 5.0));
+                float pair = hash(vec2(bin, 16.0));
+                if (pair < doublets)
+                    d = min(abs(d), abs(d - .16 - .11 * pair));
+                float strength = .37 + .63 * hash(vec2(bin, 17.0));
+                vec4 spectral = palette(.25 + .70 * fract(bin * .034));
+                float core = exp(-pow(d / lineWidth, 2.0));
+                float halo = exp(-abs(d) / (lineWidth * 2.9));
+                result = mix(result, spectral, (.87 * core + .13 * halo) * strength);
             }
-            float t = 0.5 + 0.5 * sin(q.x * 4.6);
-            vec4 hue = t < 0.50 ? mix(color2, color3, t * 2.0) : mix(color3, color4, t * 2.0 - 1.0);
-            float slit = 1.0 - smoothstep(0.26, 0.40, abs(vertical));
-            result = mix(color1, hue, clamp((0.027 + halo * 0.30 + stroke * 0.98) * slit, 0.0, 1.0));
-            float ruler = coverage(abs(q.y - (plate - 0.40) / 3.40), 0.0013);
-            float tick = coverage(abs(fract(q.x * 30.0 + 0.5) - 0.5) / 30.0, 0.0011);
-            result = mix(result, color3, (ruler + tick * coverage(abs(vertical + 0.36), 0.027)) * 0.44);
         """.trimIndent()
 
         PatternTextureType.SchlierenPlume -> """
-            vec2 q = vec2(p.x, -p.y);
-            float rise = max(q.y + 0.365, 0.0);
-            float width = 0.016 + 0.21 * rise;
-            float n = noise(vec2(q.x * 11.0, rise * 7.3) + time * 0.16);
-            float flow = 0.70 * sin(rise * 14.0 - time) + 0.47 * sin(rise * 26.0 + 1.1 + n * 3.4);
-            float transverse = (q.x - rise * flow * 0.165) / width;
-            float folds = 0.23 * sin(rise * 39.0 + transverse * 1.8 + n * 3.0);
-            float signedEdge = transverse + folds;
-            float left = exp(-pow((signedEdge + 0.70) / 0.23, 2.0));
-            float right = exp(-pow((signedEdge - 0.63) / 0.30, 2.0));
-            float neck = smoothstep(-0.008, 0.014, q.y + 0.365);
-            float inside = exp(-transverse * transverse * 0.86);
-            float veil = 0.5 + 0.5 * sin(transverse * 14.0 + rise * 27.0 + 11.0 * n);
-            result = mix(color1, color4, 0.08 + inside * neck * (0.11 + 0.41 * veil));
-            result = mix(result, color2, left* neck * (0.53 + n * 0.38));
-            result = mix(result, color3, right* neck * (0.53 + n * 0.34));
-            vec2 burner = q - vec2(0.0, -0.398);
-            float housing = max(abs(burner.x) - 0.034, abs(burner.y) - 0.036);
-            result = mix(result, color2, coverage(housing, 0.0));
-            result = mix(result, color3, coverage(segment(q, vec2(-0.032, -0.363), vec2(0.032, -0.363)), 0.004));
+            vec2 q = p * 5.0 / flowWidth;
+            float dd = .015;
+            float left = q.x + .81 * flowCurl * sin(q.y * 1.85 + .6 * sin(q.x * 2.0)) +
+                         .50 * layerNoise(q * vec2(1.2, .8));
+            vec2 s = q + vec2(dd, 0.0);
+            float right = s.x + .81 * flowCurl * sin(s.y * 1.85 + .6 * sin(s.x * 2.0)) +
+                          .50 * layerNoise(s * vec2(1.2, .8));
+            float fld = sin(TAU * left + .51 * sin(q.y * 5.0 + left)) + .45 * cos(left * 9.0 + q.y * .45);
+            float nextField =
+                sin(TAU * right + .51 * sin(q.y * 5.0 + right)) + .45 * cos(right * 9.0 + q.y * .45);
+            result = toneRamp(clamp(.51 + edgeContrast * (nextField - fld) * 3.1, 0.0, 1.0));
         """.trimIndent()
 
         PatternTextureType.HandRadiograph -> """
-            vec2 q = rotatePoint(vec2(p.x, -p.y), -0.09);
-            float tissue = 0.0, medulla = 0.0, cortex = 0.0;
-            for (int i = 0; i < 5; i++) {
-                float n = float(i);
-                vec2 start, dir;
-                float reach;
-                if (i == 0) {
-                    start = vec2(-0.093, -0.188);
-                    dir = normalize(vec2(-0.79, 0.64));
-                    reach = 0.348;
-                } else {
-                    float finger = n - 1.0;
-                    start = vec2(-0.080 + finger * 0.047, -0.174);
-                    dir = normalize(vec2(-0.11 + finger * 0.125, 1.0));
-                    reach = 0.61 - 0.038 * abs(finger - 1.0) - 0.023 * max(finger - 1.0, 0.0);
-                }
-                for (int j = 0; j < 4; j++) {
-                    if (i == 0 && j == 3) break;
-                    float joint = float(j);
-                    float part = (j == 0 ? 0.41 : (j == 1 ? 0.265 : (j == 2 ? 0.183 : 0.142))) * reach;
-                    if (i == 0) part = (j == 0 ? 0.46 : (j == 1 ? 0.32 : 0.22)) * reach;
-                    vec2 end = start + dir * part;
-                    vec2 shaft = end - start;
-                    float k = clamp(dot(q - start, shaft) / dot(shaft, shaft), 0.0, 1.0);
-                    float distance = length(q - mix(start, end, k));
-                    float girth = (0.021 - joint * 0.0027) * (1.0 + 0.30 * pow(abs(2.0 * k - 1.0), 3.0));
-                    float bone = segment(q, start + 0.023 * dir, end - 0.022 * dir) - girth;
-                    tissue = max(tissue, coverage(distance, girth + 0.009));
-                    medulla = max(medulla, coverage(bone, 0.0));
-                    cortex = max(cortex, coverage(abs(bone + 0.003), 0.0034));
-                    start = end + dir * 0.002;
-                    dir = rotatePoint(dir, (n - 2.0) * (j == 0 ? -0.015 : 0.014));
-                }
-            }
-            for (int i = 0; i < 7; i++) {
-                float n = float(i), row = step(3.5, n);
-                float col = n - row * 4.0;
-                vec2 center = vec2((col - 1.5 + 0.5 * row) * 0.047, -0.209 - 0.037 * row + 0.007 * sin(n));
-                vec2 local = rotatePoint(q - center, n * 1.13);
-                float bone = ellipseDistance(local, vec2(0.021, 0.016));
-                medulla = max(medulla, coverage(bone, 0.0));
-                cortex = max(cortex, coverage(abs(bone + 0.002), 0.0025));
-            }
-            for (int i = 0; i < 2; i++) {
-                float side = float(i);
-                vec2 a = vec2(-0.043 + 0.099 * side, -0.53), b = vec2(-0.044 + 0.111 * side, -0.279);
-                float width = 0.022 - 0.006 * side + 0.017 * smoothstep(-0.43, -0.28, q.y);
-                float bone = segment(q, a, b) - width;
-                medulla = max(medulla, coverage(bone, 0.0));
-                cortex = max(cortex, coverage(abs(bone + 0.003), 0.003));
-            }
-            float palm = ellipseDistance(rotatePoint(q - vec2(-0.001, -0.070), -0.08), vec2(0.143, 0.153));
-            tissue = max(tissue, coverage(palm, 0.0));
-            float grain = noise(q * 92.0);
-            result = mix(color1, color2, 0.06 + tissue * 0.47);
-            result = mix(result, color3, medulla * (0.44 + grain * 0.27));
-            result = mix(result, color4, cortex* intensity);
+            vec2 q = rotatePoint(p, 0.37) * 13.0 * vec2(poreAspect, 1.0 / pow(poreAspect, 0.65)) / poreSize;
+            vec2 warped = q + 1.40 * vec2(noise(q * 0.54), noise(q * 0.54 + 9.0));
+            vec4 cell = surfaceCell(warped, 0.82);
+            float grain = noise(q * 2.6);
+            float wall = cell.y - 0.085 * grain;
+            float porous = 0.40 + 0.60 * smoothstep(0.20, 0.44, noise(q * 0.78 + 42.0));
+            float strut = (1.0 - smoothstep(strutWidth - 0.045, strutWidth + 0.060, wall)) * porous;
+            vec4 cavity = mix(color1, color2, 0.69 * layerNoise(q * 2.2) + 0.20 * strut);
+            vec4 bone =
+                mix(color3, color4, 0.23 + 0.49 * grain + 0.26 * (1.0 - smoothstep(0.0, strutWidth, wall)));
+            result = mix(cavity, bone, smoothstep(0.20, 0.82, strut));
+            result.rgb *= 0.95 + 0.10 * noise(q * 20.0);
         """.trimIndent()
 
         PatternTextureType.LogisticBifurcation -> """
-            vec2 uv = vec2(p.x + 0.5, 0.5 - p.y);
-            float rate = 2.75 + uv.x * 1.25;
-            vec2 grid = abs(fract(uv * vec2(12.5, 10.0) + 0.5) - 0.5) / vec2(12.5, 10.0);
-            result = mix(color1, color2, coverage(min(grid.x, grid.y), 0.0011) * 0.50);
-            if (rate >= 0.0 && rate <= 4.0 && uv.y >= -0.1 && uv.y <= 1.1) {
-                float population = 0.423591;
-                for (int i = 0; i < 64; i++) population = rate * population * (1.0 - population);
-                float nearest = 1.0, visits = 0.0;
-                for (int i = 0; i < 96; i++) {
-                    population = rate * population * (1.0 - population);
-                    float distance = abs(uv.y - population);
-                    nearest = min(nearest, distance);
-                    visits += exp(-distance * 260.0);
+            vec2 q = p * vec2(2.2, 2.6);
+            q.x += .38 * mod(floor(q.y), 2.0);
+            vec2 uv = fract(q);
+            float rate = 3.05 + .94 * uv.x;
+            float target = .07 + .88 * uv.y;
+            float ink = 0.0;
+            for (int i = 0; i < 14; i++) {
+                if (float(i) >= sampleDensity)
+                    break;
+                float value = .13 + .7 * hash(vec2(float(i), floor(q.y) + 4.0));
+                for (int j = 0; j < 28; j++) {
+                    if (float(j) >= mapIterations)
+                        break;
+                    value = rate * value * (1.0 - value);
+                    if (float(j) > mapIterations - 5.0)
+                        ink = max(ink, 1.0 - smoothstep(.001, .009, abs(value - target)));
                 }
-                result = mix(result, color3, 1.0 - exp(-0.23 * visits));
-                result = mix(result, color4, coverage(nearest, thickness) * (0.60 + 0.4 * min(visits, 1.0)));
             }
+            result = mix(color1, color2, layerNoise(q * 5.0) * .47);
+            result = mix(result, mix(color3, color4, uv.x), ink * (.25 + .75 * branchContrast));
+        """.trimIndent()
+
+        PatternTextureType.SunstoneFeldspar -> """
+            vec2 q = rotatePoint(p, -0.39);
+            float veins = layerNoise(q * vec2(4.0, 13.0));
+            result = toneRamp(clamp(0.26 + 0.79 * veins + 0.13 * sin(q.y * 48.0 + 5.0 * veins), 0.0, 1.0));
+            for (int i = 0; i < 2; i++) {
+                float f = i == 0 ? 32.0 : 72.0;
+                vec2 grid = q * f, tile = floor(grid),
+                     local = fract(grid) - 0.5 - 0.32 * (hash2(tile) - 0.5);
+                local =
+                    rotatePoint(local, 0.6 + (1.0 - plateletAlignment) * TAU * (hash(tile + 88.0) - 0.5));
+                float mask = coverage(ellipseDistance(local, vec2(0.34, 0.074)) / f, 0.0) *
+                             step(hash(tile + 71.1), plateletDensity);
+                result = mix(result, mix(color1, color4, smoothstep(0.19, 0.53, hash(tile + 4.1))), mask);
+            }
+            result.rgb *= 0.93 + 0.14 * noise(p * 207.0);
+        """.trimIndent()
+
+        PatternTextureType.RingPunchedSuede -> """
+            vec2 g = p / broguePitch + vec2(phaseX, phaseY);
+            vec2 q = fract(g) - 0.5;
+            float theta = safeAngle(q);
+            float arc = theta / TAU * 16.0;
+            vec2 nearest = vec2(cos(floor(arc + 0.5) * TAU / 16.0), sin(floor(arc + 0.5) * TAU / 16.0));
+            float polar = length(q - nearest * (0.26 + 0.063 * cos(floor(arc + 0.5) * TAU / 4.0)));
+            float holes = min(polar, length(q) * 0.72) * broguePitch;
+            float suede = layerNoise(p * vec2(91.0, 159.0));
+            result = mix(color2, color3, 0.43 + nap * (suede - 0.33));
+            result = mix(result, color4, reliefBand(holes - holeDiameter * 0.52, 0.0016) * 0.80);
+            result = mix(result, color1, coverage(holes, holeDiameter * 0.46));
+        """.trimIndent()
+
+        PatternTextureType.SpindleMoulding -> """
+            vec2 g = vec2(p.x / beadPitch + phaseX, p.y * 4.2);
+            float x = fract(g.x) - 0.5, y = fract(g.y) - 0.5;
+            float cap = sqrt(max(0.0, 1.0 - pow(abs(x) / 0.37, 2.0)));
+            float collar = 1.0 - smoothstep(collarWidth * 0.3, collarWidth, abs(abs(x) - 0.43));
+            float radius = 0.13 + beadSwell * 0.22 * cap + 0.093 * collar;
+            float side = y / radius, surface = sqrt(max(0.0, 1.0 - side * side));
+            float wood = layerNoise(vec2(p.x * 13.0, p.y * 79.0));
+            result = mix(color1, color2, wood * 0.68);
+            vec4 carving =
+                mix(color2, color4, clamp(0.14 + surface * 0.49 - side * 0.39 + 0.23 * wood, 0.0, 1.0));
+            carving = mix(carving, color3, collar * 0.71);
+            carving.rgb *= 0.78 + 0.18 * cap + 0.18 * smoothstep(0.20, 0.79, cos(x * 18.0 - 0.62));
+            result = mix(result, carving, coverage((abs(y) - radius) / 4.2, 0.0));
+        """.trimIndent()
+
+        PatternTextureType.LenoGauze -> """
+            vec2 g = p / vec2(weftPitch * 0.85, weftPitch) + vec2(phaseX, 2.0 * phaseY);
+            float cross = sin(g.y * 3.14159), bend = (0.06 + 0.22 * warpTwist) * cross;
+            float onTop = step(0.0, cos(g.y * 3.14159));
+            float first = reliefBand(repeatDistance(g.x - bend) * weftPitch * 0.85, yarnWidth);
+            float second = reliefBand(repeatDistance(g.x + bend) * weftPitch * 0.85, yarnWidth * 0.92);
+            float weft = reliefBand(repeatDistance(g.y) * weftPitch, yarnWidth * 1.2);
+            result = mix(color1, color2, 0.17 + 0.09 * layerNoise(p * 24.0));
+            result = mix(result, color3, first);
+            result = mix(result, color4, second);
+            result = mix(result, color2, weft);
+            result = mix(result, mix(color3, color4, onTop), mix(first, second, onTop) * weft);
+        """.trimIndent()
+
+        PatternTextureType.SoumakBraid -> """
+            vec2 g = vec2(p.x / wrapPitch, p.y * 11.0);
+            float row = floor(g.y), dir = mod(row, 2.0) * 2.0 - 1.0;
+            float y = fract(g.y) - 0.5;
+            float x = fract(g.x + dir * wrapLean * y + mod(row, 2.0) * 0.5) - 0.5;
+            float cord = abs(x) / 0.45 + pow(abs(y) * 2.04, 4.0);
+            float hairs = layerNoise(vec2(g.x * 5.0 + dir * g.y * 8.0, g.y * 22.0));
+            result = mix(color1, color2, 0.16 + 0.20 * hairs);
+            vec4 wool = mix(color2, mix(color3, color4, step(2.0, mod(row, 4.0))),
+                            0.32 + 0.43 * (1.0 - abs(x) * 1.7));
+            wool.rgb *= 0.88 + 0.22 * woolHair * hairs;
+            result = mix(result, wool, coverage((cord - 1.0) * wrapPitch, 0.0));
+        """.trimIndent()
+
+        PatternTextureType.CouchingLoops -> """
+            vec2 g = p / loopPitch + vec2(phaseX, phaseY);
+            float bend = 0.25 * sin(g.x * TAU);
+            float curve = fract(g.y - bend + 0.5) - 0.5;
+            float gauge = abs(curve) * loopPitch / sqrt(1.0 + 2.46 * pow(abs(cos(g.x * TAU)), 2.0));
+            float glint = 0.5 + 0.5 * cos(p.x * 410.0 + 6.0 * curve);
+            result = mix(color1, color2, 0.18 * layerNoise(p * 105.0));
+            vec4 cord = mix(color3, color4, 0.20 + 0.53 * glint + 0.19 * (1.0 - gauge / cordGauge));
+            result = mix(result, cord, reliefBand(gauge, cordGauge));
+            float tie = reliefBand(repeatDistance(p.x / tieSpacing + curve * 0.9) * tieSpacing, 0.0016);
+            result = mix(result, color2, tie * reliefBand(gauge, cordGauge * 1.26));
+        """.trimIndent()
+
+        PatternTextureType.CrazyQuiltSeams -> """
+            vec2 g = rotatePoint(p, 0.19) / patchSize;
+            vec3 cell = cellSample(g);
+            vec4 patch = toneRamp(0.09 + 0.73 * cell.z);
+            float weave = 0.5 + 0.5 * cos(p.x * 513.0 + cell.z * 5.0) * cos(p.y * 607.0);
+            result = mix(patch, color1, 0.06 + 0.09 * weave);
+            float t = p.x * stitchDensity + p.y * stitchDensity * 0.6;
+            float stitch = abs(cell.y - (0.035 + seamFeather * (1.0 - 2.0 * repeatDistance(t))));
+            result = mix(result, color1, reliefBand(cell.y * patchSize, 0.0018));
+            result = mix(result, color4,
+                         reliefBand(stitch * patchSize, 0.00165) * step(cell.y, seamFeather + 0.055));
+        """.trimIndent()
+
+        PatternTextureType.PassementerieFrogs -> """
+            vec2 g = p / knotPitch + vec2(phaseX, phaseY), q = fract(g) - 0.5;
+            float side = sign(q.x), x = abs(q.x);
+            vec2 bend = vec2(x - loopSpan * 0.51, q.y);
+            float d = abs(ellipseDistance(rotatePoint(bend, 0.31 * side), vec2(loopSpan * 0.63, 0.158)));
+            d = min(d, abs(ellipseDistance(rotatePoint(bend, -0.74 * side), vec2(loopSpan * 0.50, 0.096))));
+            float yarn = pow(0.5 + 0.5 * cos((x + q.y * 0.6) * 151.0), 2.0);
+            d = min(d, abs(ellipseDistance(vec2(x - 0.045, q.y + 0.045), vec2(0.058, 0.083))));
+            result = mix(color1, color2, 0.16 + 0.17 * layerNoise(p * 48.0));
+            result =
+                mix(result, mix(color3, color4, 0.12 + 0.70 * yarn), reliefBand(d * knotPitch, braidGauge));
+            float button = length(q * vec2(1.2, 0.90));
+            result = mix(result, color3, coverage(button * knotPitch, 0.043 * knotPitch));
+        """.trimIndent()
+
+        PatternTextureType.RyaPile -> """
+            vec2 g = p * vec2(13.0, 9.0);
+            result = mix(color1, color2, 0.24 * noise(p * 102.0));
+            for (int j = -1; j <= 1; j++)
+                for (int i = -1; i <= 1; i++) {
+                    vec2 id = floor(g) + vec2(float(i), float(j)),
+                         root = (id + 0.5 + tuftScatter * (hash2(id) - 0.5) * 0.68) / vec2(13.0, 9.0);
+                    vec2 v = p - root;
+                    float h = hash(id + 8.0);
+                    for (int k = 0; k < 6; k++) {
+                        float s = float(k) / 5.0 - 0.5;
+                        float yy = v.y / pileLength;
+                        float dx = v.x - pileLength * (s * 0.76 + 0.40 * (h - 0.5)) * yy -
+                                   fibreCurl * 0.040 *
+                                       (sin(yy * 5.4 + h * 5.0 + s * 0.8) - sin(h * 5.0 + s * 0.8));
+                        float endY = 0.56 + 0.35 * h + 0.17 * hash(id + float(k) * 3.1);
+                        float m = reliefBand(dx, 0.0026) * smoothstep(-0.04, 0.05, yy) *
+                                  (1.0 - smoothstep(endY - 0.08, endY, yy));
+                        result = mix(result, toneRamp(0.20 + 0.49 * h + 0.18 * s + 0.10 * yy), m);
+                    }
+                }
+        """.trimIndent()
+
+        PatternTextureType.OttomanCord -> """
+            float g = p.y / cordGauge + phaseX, t = fract(g) - 0.5;
+            float cross = cos(TAU * p.x * bindingCount / cordGauge);
+            float height = sqrt(max(0.0, 1.0 - pow(abs(t) * 2.0, 2.0)));
+            float tie = step(0.83, cross) * smoothstep(0.15, 0.48, abs(t));
+            result = mix(color1, color2, 0.33 + 0.43 * height);
+            result = mix(result, color3, ribLoft * (0.27 + 0.50 * height - 0.46 * t));
+            result = mix(result, color4, 0.16 * pow(max(cross, 0.0), 3.0) * height);
+            result = mix(result, color1, 0.48 * tie);
+        """.trimIndent()
+
+        PatternTextureType.BattenbergLace -> """
+            vec2 g = p / medallionPitch + vec2(phaseX, phaseY), q = fract(g) - 0.5;
+            float a = safeAngle(q), r = length(q), ro = 0.29 + 0.085 * cos(4.0 * a);
+            float band = abs(r - ro) * medallionPitch;
+            float tie = repeatDistance(a / TAU * brideCount) * TAU * max(r, 0.08) * medallionPitch;
+            result = mix(color1, color2, 0.19 * layerNoise(p * 49.0));
+            result = mix(result, color3, reliefBand(tie, 0.0025) * step(r, ro));
+            result = mix(result, color4, reliefBand(band, tapeWidth * 0.53));
+            result = mix(result, color3, 0.56 * reliefBand(abs(band - tapeWidth * 0.36), 0.0018));
+        """.trimIndent()
+
+        PatternTextureType.TatamiInlay -> """
+            vec2 g = p / matWidth + 4.0 * vec2(phaseX, phaseY), superCell = floor(g * 0.5), q = mod(g, 2.0);
+            bool turn = mod(superCell.x + superCell.y, 2.0) > 0.5;
+            vec2 m = turn ? q.yx : q;
+            float edge = min(repeatDistance(m.x), min(m.y, 2.0 - m.y));
+            float fibre = cos(TAU * m.x * matWidth / rushPitch),
+                  tie = repeatDistance(m.y * 0.5 * matWidth / (rushPitch * 4.0));
+            vec4 reed = mix(color2, color4, 0.35 + 0.26 * fibre + 0.12 * noise(p * 96.0));
+            reed = mix(reed, color3, 0.47 * reliefBand(tie, 0.052));
+            result = mix(color1, reed, smoothstep(borderWidth, borderWidth + 0.016, edge));
+        """.trimIndent()
+
+        PatternTextureType.DarningSampler -> """
+            vec2 g = p * 3.3 + 3.0 * vec2(phaseX, phaseY), id = mod(floor(g), 3.0), q = fract(g) - 0.5;
+            vec2 yarn = q * yarnDensity;
+            float warp = repeatDistance(yarn.x), weft = repeatDistance(yarn.y);
+            float rx = patchWidth * 0.5 + frayedEnds * 0.09 * (noise(vec2(floor(yarn.y), id.x)) - 0.5);
+            float ry =
+                patchWidth * 0.48 + frayedEnds * 0.10 * (noise(vec2(floor(yarn.x), id.y + 7.0)) - 0.5);
+            result = mix(color1, color2, 0.16 + 0.18 * cos(yarn.x * TAU) * cos(yarn.y * TAU));
+            float m1 = reliefBand(warp, 0.20) * step(abs(q.y), ry) * step(abs(q.x), patchWidth * 0.53);
+            float m2 = reliefBand(weft, 0.20) * step(abs(q.x), rx) * step(abs(q.y), patchWidth * 0.51);
+            result = mix(result, color3, m1);
+            result = mix(result, color4, m2);
+            result = mix(result, color3, m1 * m2 * mod(floor(yarn.x + 0.5) + floor(yarn.y + 0.5), 2.0));
+        """.trimIndent()
+
+        PatternTextureType.ChenilleRows -> """
+            vec2 q = rotatePoint(p, 0.67);
+            float g = q.x / walePitch + 4.0 * phaseX;
+            float y = q.y * 136.0, row = mod(floor(g + 0.5), 4.0),
+                  end = noise(vec2(row, floor(y))) * pileFray * 0.16;
+            float dx = fract(g + 0.5) - 0.5;
+            float cut = 1.0 - smoothstep(pileWidth * 0.40 + end, pileWidth * 0.52 + end, abs(dx));
+            float fringe = 0.5 + 0.5 * cos(TAU * y + 7.0 * abs(dx) + 2.0 * noise(vec2(row, y * 0.4)));
+            result = mix(color1, color2, 0.31 * layerNoise(q * 44.0));
+            vec4 pile = mix(color2, color4, 0.30 + 0.47 * fringe + 0.14 * sign(dx));
+            pile = mix(pile, color3, 0.34 * noise(q * 53.0));
+            result = mix(result, pile, cut);
+        """.trimIndent()
+
+        PatternTextureType.SpanishBlackwork -> """
+            vec2 g = p / patternPitch + vec2(phaseX, phaseY), q = abs(fract(g) - 0.5) * 12.0;
+            float border = abs(q.x + q.y - 5.0),
+                  star = abs(max(q.x, q.y) * 0.82 + min(q.x, q.y) * 0.30 - 2.8);
+            float grid = fract(g.x * 12.0) + fract(g.y * 12.0);
+            float diag = repeatDistance(q.x - q.y);
+            float fill = reliefBand(diag * patternPitch / 12.0, stitchGauge) *
+                         step(q.x + q.y, 3.0 + fillDensity * 4.0) * step(0.26, fract((q.x + q.y) * 0.5));
+            float thread = max(fill, max(reliefBand(border * patternPitch / 12.0, stitchGauge),
+                                         reliefBand(star * patternPitch / 12.0, stitchGauge))) *
+                           smoothstep(0.025, 0.14, grid);
+            result = mix(color3, color4, 0.37 + 0.13 * cos(p.x * 700.0) * cos(p.y * 714.0));
+            result = mix(result, mix(color1, color2, 0.15 + 0.24 * noise(p * 156.0)), thread);
+        """.trimIndent()
+
+        PatternTextureType.ShingleFishscale -> """
+            vec2 g = p / vec2(shingleWidth, shingleWidth * 0.69) + 4.0 * vec2(phaseX, phaseY);
+            result = color1;
+            for (int j = 0; j < 3; j++) {
+                float row = floor(g.y) + float(j) - 1.0;
+                float shift = 0.5 * mod(row, 2.0);
+                float ix = floor(g.x + shift), x = fract(g.x + shift) - 0.5, y = g.y - row;
+                float lip = 0.44 + scallopDepth * sqrt(max(0.0, 1.0 - 4.0 * x * x));
+                float d = max(abs(x) - 0.486, max(-0.16 - y, y - lip));
+                float grain = layerNoise(vec2(x * 39.0 + mod(ix, 4.0), y * 3.0 + mod(row, 4.0)));
+                vec4 wood =
+                    mix(color2, color4,
+                        0.14 + 0.32 * hash(mod(vec2(ix, row), 4.0)) + 0.45 * grainWeathering * grain);
+                wood.rgb *= 0.92 + 0.14 * (1.0 - abs(x) * 1.5) - 0.23 * exp(-abs(0.01 + y) * 17.0);
+                wood = mix(wood, color3, 0.62 * smoothstep(lip - 0.048, lip, y));
+                result = mix(result, wood, coverage(d * shingleWidth, 0.0));
+            }
+        """.trimIndent()
+
+        PatternTextureType.TwistedPaperCord -> """
+            vec2 q = rotatePoint(p, -0.46);
+            float g = q.x / cordWidth + phaseX, t = fract(g) - 0.5;
+            float spiral = q.y / twistPitch + 0.5 * t + 0.08 * sin(q.y * 34.0 + fract(g) * TAU);
+            float fold = fract(spiral), seam = repeatDistance(spiral);
+            float height = sqrt(max(0.0, 1.0 - pow(abs(t) * 2.0, 2.0)));
+            result = mix(color1, mix(color2, color4, 0.30 + 0.40 * height - 0.23 * t),
+                         smoothstep(0.0, 0.09, 0.5 - abs(t)));
+            result = mix(result, color2, creaseDepth * (1.0 - smoothstep(0.012, 0.15, seam)) * 0.79);
+            result = mix(result, color3, creaseDepth * smoothstep(0.83, 0.94, fold) * 0.56);
+            result.rgb *= 0.92 + 0.13 * layerNoise(q * vec2(109.0, 34.0));
+        """.trimIndent()
+
+        PatternTextureType.DrypointBurr -> """
+            vec2 q = rotatePoint(p, -0.63);
+            float line = q.y / strokePitch + 0.68 * sin(q.x * 11.0) + 0.43 * layerNoise(q * 5.0);
+            float y = fract(line + 0.5) - 0.5;
+            float burn = noise(vec2(q.x * 147.0, floor(line + 0.5)));
+            result = mix(color4, color3, plateTone * (0.17 + 0.52 * layerNoise(q * vec2(23.0, 7.0))));
+            float burr = exp(-max(y, 0.0) / burrWidth) * step(0.0, y) * (0.28 + 0.72 * burn);
+            result = mix(result, color2, burr * 0.86);
+            result = mix(result, color1, reliefBand(y * strokePitch, 0.0014 + 0.0013 * burn));
+        """.trimIndent()
+
+        PatternTextureType.MezzotintRocker -> """
+            vec2 q = rotatePoint(p, radians(passAngle));
+            float plate = layerNoise(p * 3.8);
+            float pit = 0.0;
+            for (int i = 0; i < 3; i++) {
+                vec2 z = rotatePoint(q, float(i) * radians(passAngle)) * rockerTeeth;
+                z.y += 0.29 * sin(z.x * 0.78 + float(i));
+                z.x += 0.4 * floor(z.y);
+                vec2 id = floor(z), local = fract(z) - 0.5 - 0.25 * (hash2(id) - 0.5);
+                float tip = length(local * vec2(1.0, 0.66));
+                pit = max(pit, 1.0 - smoothstep(0.13, 0.47, tip));
+            }
+            float scrape = smoothstep(0.66 - scrapedLight * 0.5, 0.92 - scrapedLight * 0.42, plate);
+            result = mix(color1, color2, 0.19 + 0.33 * noise(p * 170.0));
+            result =
+                mix(result, mix(color3, color4, scrape), scrape * (1.0 - pit * (0.95 - 0.48 * scrape)));
+        """.trimIndent()
+
+        PatternTextureType.BenDayDots -> """
+            float wash = layerNoise(p * 3.9);
+            result = color1;
+            for (int i = 0; i < 2; i++) {
+                vec2 q = rotatePoint(p, i == 0 ? 0.09 : radians(screenAngle)) / screenPitch;
+                vec2 t = fract(q) - 0.5;
+                float radius = inkCoverage * (i == 0 ? 0.28 + 0.28 * wash : 0.44 - 0.20 * wash);
+                float mask = coverage((length(t) - radius) * screenPitch, 0.0);
+                if (i == 0)
+                    result = mix(result, color2, mask);
+                else {
+                    float prior =
+                        distance(result.rgb, color1.rgb) / max(0.01, distance(color2.rgb, color1.rgb));
+                    result = mix(result, mix(color3, color4, clamp(prior, 0.0, 1.0)), mask);
+                }
+            }
+        """.trimIndent()
+
+        PatternTextureType.SplitFountainInk -> """
+            vec2 q = rotatePoint(p, -0.22);
+            float stripe =
+                fract(q.x / rollerPitch + 0.045 * sin(q.y * 4.1) + 0.035 * layerNoise(q * vec2(12.0, 3.0)));
+            float f1 = smoothstep(0.24 - blendWidth * 0.37, 0.24 + blendWidth * 0.37, stripe),
+                  f2 = smoothstep(0.59 - blendWidth * 0.37, 0.59 + blendWidth * 0.37, stripe);
+            result = mix(mix(color1, color2, f1), color3, f2);
+            result = mix(result, color1, smoothstep(0.87 - blendWidth * 0.22, 1.0, stripe));
+            float drag = layerNoise(q * vec2(183.0, 9.0));
+            float skip = smoothstep(0.89 - inkSkip * 0.37, 0.98 - inkSkip * 0.31, drag);
+            result = mix(result, color4, skip * 0.83 + 0.045 * noise(q * 302.0));
+        """.trimIndent()
+
+        PatternTextureType.StippleAquatint -> """
+            vec2 q = p / rosinGrain;
+            vec3 cells = cellSample(q * 1.7 + 0.28 * vec2(noise(q), noise(q + 16.0)));
+            float field = layerNoise(p * 5.1);
+            float stop = smoothstep(0.74 - stopoutArea * 0.44, 0.78 - stopoutArea * 0.44, field);
+            float resin = smoothstep(0.24 + biteDepth * 0.24, 0.32 + biteDepth * 0.26, cells.x);
+            result = mix(color1, color2, 0.14 + 0.47 * cells.z);
+            result = mix(result, color3, resin * (0.67 + 0.26 * cells.z));
+            result = mix(result, color4, stop * (0.63 + 0.28 * noise(q * 3.0)));
+        """.trimIndent()
+
+        PatternTextureType.ChineColle -> """
+            vec2 g = p / paperFragmentSize;
+            result = mix(color3, color4, 0.54 + 0.18 * layerNoise(p * 46.0));
+            for (int j = -1; j <= 1; j++)
+                for (int i = -1; i <= 1; i++) {
+                    vec2 id = floor(g) + vec2(float(i), float(j)),
+                         v = g - id - 0.5 - 0.48 * (hash2(id) - 0.5);
+                    v = rotatePoint(v, (hash(id) - 0.5) * 1.1);
+                    float d = max(abs(v.x) - 0.42, max(abs(v.y) - 0.31, v.x * 0.64 + v.y - 0.37));
+                    d += deckleDepth * 0.075 * (layerNoise(p * 55.0 + id) - 0.5);
+                    vec4 tissue = mix(color2, color3, hash(id + 8.0));
+                    result = mix(result, tissue, coverage(d * paperFragmentSize, 0.0) * 0.78);
+                }
+            float strokes = 0.5 + 0.5 * cos((p.y + 0.085 * sin(p.x * 11.0)) * TAU * 27.0);
+            result = mix(result, color1,
+                         inkVeil * pow(strokes, 7.0) * smoothstep(0.37, 0.62, layerNoise(p * 7.0)));
+        """.trimIndent()
+
+        PatternTextureType.DeckledPulp -> """
+            float clump = layerNoise(p * 18.0);
+            result = mix(color3, color4, 0.44 + pulpClumps * (clump - 0.35));
+            vec2 g = p * 31.0;
+            for (int j = -1; j <= 1; j++)
+                for (int i = -1; i <= 1; i++) {
+                    vec2 id = floor(g) + vec2(float(i), float(j));
+                    vec2 v = (g - id - hash2(id)) / 31.0;
+                    float h = hash(id + 8.0);
+                    v = rotatePoint(v, (h - 0.5) * TAU);
+                    float y = v.y - 0.003 * sin(v.x * 83.0 + h * 6.0);
+                    float d =
+                        segment(vec2(v.x, y), vec2(-fibreLength * 0.5, 0.0), vec2(fibreLength * 0.5, 0.0));
+                    vec4 thread = mix(color1, color2, h);
+                    result =
+                        mix(result, thread,
+                            coverage(d, 0.0013) * (0.21 + 0.57 * step(hash(id + 9.0), colouredFibres)));
+                }
+        """.trimIndent()
+
+        PatternTextureType.LeatherBasketStamp -> """
+            vec2 g = rotatePoint(p, 0.64) / stampPitch + 2.0 * vec2(phaseX, phaseY);
+            vec2 id = floor(g), q = fract(g) - 0.5;
+            bool turned = mod(id.x + id.y, 2.0) > 0.5;
+            q = turned ? q.yx : q;
+            float d = max(abs(q.x) - 0.397, abs(q.y) - 0.318);
+            float rib =
+                pow(max(0.0, cos(TAU * q.x * ribCount)), 3.0) * (1.0 - smoothstep(0.28, 0.35, abs(q.y)));
+            float grain = layerNoise(p * 100.0);
+            result = mix(color2, color3, 0.25 + 0.42 * grain);
+            result = mix(result, color1, toolDepth * 0.68 * exp(-abs(d) * 27.0));
+            result = mix(result, color4, 0.55 * toolDepth * exp(-abs(d - 0.032) * 37.0) * step(q.y, 0.0));
+            result = mix(result, color1, toolDepth * 0.47 * rib * coverage(d * stampPitch, 0.0));
+        """.trimIndent()
+
+        PatternTextureType.AdzeHewnOak -> """
+            vec2 q = rotatePoint(p, -0.14);
+            float lane = floor(q.x / adzeWidth), x = fract(q.x / adzeWidth) - 0.5;
+            float y = q.y / (adzeWidth * 1.42) + hash(vec2(lane, 3.0));
+            float row = floor(y);
+            y = fract(y) - 0.5;
+            float wobble = 0.16 * (hash(vec2(lane, row)) - 0.5);
+            float lip = y + 0.93 * (x + wobble) * (x + wobble) - 0.23;
+            float gouge = clamp(1.0 - pow(abs(x) * 1.88, 2.0) - pow(abs(y + 0.12) * 1.66, 2.0), 0.0, 1.0);
+            float fibres = layerNoise(q * vec2(121.0, 10.0));
+            result = mix(color2, color3, 0.27 + 0.36 * fibres + 0.19 * hash(vec2(lane, row)));
+            result = mix(result, color1,
+                         cutDepth * 0.80 * exp(-abs(lip) * 16.0) * (0.45 + 0.55 * gouge) +
+                             0.31 * tornGrain * smoothstep(0.67, 0.85, fibres));
+            result = mix(result, color4, cutDepth * 0.53 * gouge * (0.75 - 0.63 * y));
+            result = mix(result, color2,
+                         tornGrain * 0.4 * pow(max(0.0, cos(q.x * 136.0 + fibres * 9.0)), 7.0) * gouge);
+        """.trimIndent()
+
+        PatternTextureType.CloisonneCells -> """
+            vec2 q = p / compartmentSize;
+            vec2 bend = vec2(sin(q.y * 1.6 + 0.45 * sin(q.x)), sin(q.x * 1.3 + 0.7 * cos(q.y)));
+            vec3 v = cellSample(q + 0.31 * bend);
+            vec4 enamel = mix(color1, mix(color2, color3, step(0.55, v.z)), 0.39 + 0.55 * v.z);
+            float glass = 1.0 - exp(-v.y * 5.5);
+            enamel.rgb *= 0.76 + 0.25 * glass +
+                          0.13 * enamelCurvature * max(0.0, cos(q.x * 2.0 + q.y * 1.1 + v.z * 6.0));
+            enamel = mix(enamel, color4, 0.14 * enamelCurvature * exp(-abs(v.y - 0.13) * 18.0));
+            result = mix(enamel, color4,
+                         1.0 - smoothstep(wireGauge * 0.6, wireGauge * 1.35, v.y * compartmentSize));
+        """.trimIndent()
+
+        PatternTextureType.LaidPaperWatermark -> """
+            vec2 q = rotatePoint(p, 0.037);
+            float laid = 0.5 + 0.5 * cos(TAU * q.y / laidPitch),
+                  chain =
+                      1.0 - smoothstep(0.001, 0.006, repeatDistance(q.x / chainInterval) * chainInterval);
+            result = mix(color2, color4, 0.53 + 0.17 * laid + 0.12 * chain + 0.13 * layerNoise(p * 41.0));
+            vec2 g = fract(p * 2.4) - 0.5;
+            float a = safeAngle(g), r = length(g);
+            float flower = abs(r - (0.20 + 0.052 * cos(6.0 * a)));
+            float bezel = min(abs(r - 0.32), abs(r - 0.345));
+            float petal = abs(length(vec2(g.x * 0.78, g.y)) - 0.115);
+            float emboss = exp(-min(min(flower, bezel), petal) * 116.0);
+            result = mix(result, mix(color1, color3, 0.38), markOpacity * 0.83 * emboss);
+        """.trimIndent()
+
+        PatternTextureType.ShellacCheckering -> """
+            vec2 q = rotatePoint(p, -0.13);
+            float wood = layerNoise(q * vec2(7.0, 65.0));
+            result = mix(color2, color3, 0.20 + 0.61 * wood);
+            result = mix(result, color1, 0.35 * glazeTint);
+            vec2 g = q / vec2(checkSpacing * 1.7, checkSpacing * 0.72);
+            g += 0.18 * vec2(noise(g * 1.7), noise(g * 1.8 + 9.0));
+            float longLine = repeatDistance(g.y);
+            float crossLine = repeatDistance(g.x + 0.38 * floor(g.y + 0.5));
+            float edge = min(longLine, crossLine * (1.32 + 0.56 * hash(floor(g))));
+            result = mix(result, color1,
+                         reliefBand(edge, 0.019 + 0.049 * openCracks) * (0.45 + 0.46 * openCracks));
+            result = mix(result, color4,
+                         0.27 * exp(-abs(edge - 0.074) * 25.0) +
+                             0.14 * pow(max(0.0, sin(q.y * 26.0 + wood * 2.0)), 4.0));
+        """.trimIndent()
+
+        PatternTextureType.CombedSlip -> """
+            vec2 q = rotatePoint(p, -0.16);
+            float stroke = q.x / 0.24;
+            float tooth = fract(q.y / combPitch + 0.11 * sin(q.x * 9.0));
+            float drag =
+                drawDepth * (0.44 - 0.88 * repeatDistance(stroke)) * (0.48 + 0.52 * cos(TAU * tooth));
+            float ribbon = fract(q.y / 0.15 + drag);
+            result = mix(color2, color3, smoothstep(slipRatio - 0.025, slipRatio + 0.025, ribbon));
+            result = mix(
+                result, color4,
+                0.73 * smoothstep(0.70, 0.93, ribbon) * smoothstep(slipRatio, slipRatio + 0.10, ribbon));
+            result = mix(result, color1,
+                         0.50 * reliefBand(repeatDistance(q.y / combPitch + drag * 0.55), 0.033));
+            result.rgb *= 0.94 + 0.10 * layerNoise(q * 24.0);
+        """.trimIndent()
+
+        PatternTextureType.ParquetDeVersailles -> """
+            vec2 g = p / panelPitch + vec2(phaseX, phaseY), q = fract(g) - 0.5;
+            float edge = 0.5 - max(abs(q.x), abs(q.y));
+            vec2 bias = rotatePoint(q, 0.785398) / slatWidth;
+            vec2 d = vec2(repeatDistance(bias.x), repeatDistance(bias.y));
+            bool rail = d.x < 0.25 || d.y < 0.25;
+            bool longX = (d.x < 0.25 && d.y < 0.25)
+                             ? mod(floor(bias.x + 0.5) + floor(bias.y + 0.5), 2.0) < 0.5
+                             : d.x < 0.25;
+            vec2 fibre = longX ? bias : bias.yx;
+            float veining = layerNoise(fibre * vec2(18.0, 2.4));
+            result = mix(color2, color4,
+                         rail ? 0.36 + 0.53 * veining : 0.12 + 0.34 * noise(bias * vec2(5.0, 18.0)));
+            float seam = min(abs(d.x - 0.25), abs(d.y - 0.25));
+            result = mix(result, color1, 0.55 * reliefBand(seam, 0.023));
+            vec2 frame = abs(q.x) > abs(q.y) ? q : q.yx;
+            vec4 border = mix(color1, color3, 0.37 + 0.42 * layerNoise(frame * vec2(75.0, 9.0)));
+            result = mix(border, result, smoothstep(frameWidth, frameWidth + 0.009, edge));
+            result = mix(result, color1, 0.63 * reliefBand(edge - frameWidth, 0.005));
+        """.trimIndent()
+
+        PatternTextureType.ScallopValves -> """
+            vec2 q = p * 3.35;
+            result = mix(color1, color2, .17 + .31 * layerNoise(q * 5.0));
+            for (int y = -1; y <= 1; y++)
+                for (int x = -1; x <= 1; x++) {
+                    vec2 id = floor(q) + vec2(float(x), float(y));
+                    vec2 center = id + vec2(.5 + .19 * (hash(id) - .5), .63);
+                    vec2 uv = rotatePoint(q - center, (hash(id + 6.0) - .5) * 1.3);
+                    float r = length(uv);
+                    float a = abs(atan(uv.x, -uv.y));
+                    float rib = .5 + .5 * cos(safeAngle(vec2(-uv.y, uv.x)) * ribs * 3.14159 / valveFan +
+                                              0.23 * sin(r * 16.0));
+                    float edge = .47 + .058 * rib + .042 * hash(id + 2.0);
+                    float mask = (1.0 - smoothstep(valveFan - .04, valveFan + .04, a)) *
+                                 (1.0 - smoothstep(edge - .008, edge + .01, r));
+                    vec4 shell =
+                        mix(color1, color4, .23 + .63 * pow(rib, .73) * lipHeight + .19 * noise(uv * 23.0));
+                    shell = mix(shell, color3, .14 + .27 * (1.0 - smoothstep(.11, .41, r)));
+                    float growth = .5 + .5 * cos(r * 74.0 + .7 * sin(a * 8.0));
+                    shell = mix(shell, color2, .22 * pow(growth, 3.0));
+                    float hinge = max(abs(uv.x) - .15, abs(uv.y + .015) - .028);
+                    result = mix(result, color3, 1.0 - smoothstep(.002, .014, hinge));
+                    shell = mix(shell, color4,
+                                .50 * (1.0 - smoothstep(.011, .044, abs(r - edge + .042))) +
+                                    .10 * (.5 + .5 * cos(r * 130.0)));
+                    result = mix(result, shell, mask);
+                }
+        """.trimIndent()
+
+        PatternTextureType.UrchinTest -> """
+            vec2 q = p / platePitch;
+            float bow = .28 * sin(q.y * .63);
+            q.x += bow;
+            float row = floor(q.y);
+            q.x += .5 * mod(row, 2.0);
+            vec2 id = floor(q), uv = fract(q) - .5;
+            float bevel = max(abs(uv.x) * 1.6, abs(uv.y) * 1.26 + abs(uv.x) * .6);
+            result = mix(color2, color3, .23 + .42 * hash(id) + .17 * noise(q * 13.0));
+            result = mix(result, color1, smoothstep(.78, .84, bevel) * .58);
+            float d = length(uv);
+            result = mix(result, color4, (1.0 - smoothstep(tubercles * .63, tubercles * 1.37, d)) * .87);
+            result = mix(result, color1, (1.0 - smoothstep(tubercles * .22, tubercles * .49, d)) * .68);
+            vec2 holes = vec2(abs(uv.x) - .32, repeatDistance(uv.y / porePairs) * porePairs);
+            float pore = length(holes * vec2(1.1, .72));
+            result = mix(result, color4, 1.0 - smoothstep(.028, .046, pore));
+            result = mix(result, color1, 1.0 - smoothstep(.015, .030, pore));
+        """.trimIndent()
+
+        PatternTextureType.NummuliteBank -> """
+            vec2 q = rotatePoint(p, .32) * 4.75;
+            vec4 cell = surfaceCell(q, .58);
+            vec2 id = floor(q - cell.zw);
+            vec2 uv = rotatePoint(cell.zw, hash(id + 4.0) * 3.14159);
+            uv.y *= .94 + .91 * hash(id + 14.0);
+            float r = length(uv);
+            float radius = fossilSize * (.85 + .31 * hash(id + 7.0));
+            float a = safeAngle(uv) / TAU;
+            float radial = r / radius;
+            float path = radial * whorls + a + .020 * sin(TAU * a * 3.0);
+            float wall = 1.0 - smoothstep(.045, .178, repeatDistance(path));
+            float turns = floor(path + .5);
+            float bars = repeatDistance(a * septalCount + .31 * fract(path + .5) + .19 * turns);
+            float chamber = 1.0 - smoothstep(.030, .122, bars);
+            vec4 matrix = mix(color1, color2, .25 + .53 * layerNoise(q * 13.0));
+            vec4 shell =
+                mix(color3, color4,
+                    .27 + .21 * noise(q * 43.0) + .21 * hash(vec2(turns, floor(a * septalCount + .5))));
+            shell = mix(shell, color2, .84 * chamber);
+            shell = mix(shell, color1, wall * .88);
+            shell = mix(shell, color2, smoothstep(.93, 1.02, radial) * .68);
+            result =
+                mix(matrix, shell, (1.0 - smoothstep(.962, 1.02, radial)) * smoothstep(.012, .067, cell.y));
+        """.trimIndent()
+
+        PatternTextureType.CrinoidColumnals -> """
+            vec2 q = p * 6.0;
+            vec4 cell = surfaceCell(q, .79);
+            vec2 id = floor(q - cell.zw);
+            vec2 uv = rotatePoint(cell.zw, hash(id) * 4.2);
+            uv.y *= 1.0 + .64 * hash(id + 3.0);
+            float r = length(uv), a = safeAngle(uv);
+            float radius = jointSize * (.73 + .5 * hash(id + 2.0));
+            float grooves = .5 + .5 * cos(a * facetCount);
+            float star = .70 + .30 * cos(5.0 * a);
+            vec4 stone = mix(color1, color2, .23 + .57 * layerNoise(q * 9.0));
+            vec4 joint = mix(color3, color4, .18 + .57 * grooves * smoothstep(lumenSize, radius * .91, r));
+            joint = mix(joint, color2, (1.0 - smoothstep(.013, .035, abs(r - radius * .84))) * .71);
+            joint = mix(joint, color1, 1.0 - smoothstep(lumenSize * star, lumenSize * star + .01, r));
+            result =
+                mix(stone, joint,
+                    (1.0 - smoothstep(radius - .008, radius + .007, r)) * smoothstep(.018, .067, cell.y));
+        """.trimIndent()
+
+        PatternTextureType.GraptoliteShale -> """
+            vec2 q = p * 4.0;
+            vec2 id = floor(q);
+            vec2 uv = rotatePoint(fract(q) - .5, (hash(id) - .5) * 5.1);
+            result = mix(color1, color2, .33 + .44 * layerNoise(p * vec2(23.0, 96.0)));
+            float t = uv.y + .39;
+            float x = abs(uv.x) - t * .36 - .035 * sin(6.0 * t);
+            float outline = 1.0 - smoothstep(.006, .020, abs(x));
+            float cups = fract(t / stipeLength * thecae);
+            float spine = 1.0 - smoothstep(.007, .02, abs(x - .073 * cups));
+            spine *= smoothstep(.00, .20, cups) * (1.0 - smoothstep(.67, .94, cups));
+            float fossil = max(outline, spine) * smoothstep(.0, .03, t) *
+                           (1.0 - smoothstep(stipeLength - .04, stipeLength, t));
+            result = mix(result, mix(color3, color4, fossilMetal * (.21 + .68 * noise(q * 42.0))), fossil);
+        """.trimIndent()
+
+        PatternTextureType.StromatoliteDomes -> """
+            vec2 q = rotatePoint(p, .09) * 3.6;
+            float bed = floor(q.y);
+            float layer = q.y;
+            float arc = 0.0;
+            for (int i = -1; i <= 1; i++) {
+                float col = floor(q.x) + float(i), r = .41 + .21 * hash(vec2(col, bed));
+                float x = (q.x - col - .48) / r;
+                arc = max(arc, sqrt(max(0.0, 1.0 - x * x)));
+            }
+            float seams = q.y - domeHeight * arc + .10 * matWobble * layerNoise(q * vec2(12.0, 8.0));
+            float lamina = fract(seams / laminae);
+            result = mix(color1, color2, .31 + .56 * layerNoise(q * 8.0));
+            result =
+                mix(result, color3, smoothstep(.15, .46, lamina) * (1.0 - smoothstep(.67, .88, lamina)));
+            result = mix(result, color4, (1.0 - smoothstep(.04, .12, abs(lamina - .73))) * .73);
+        """.trimIndent()
+
+        PatternTextureType.SeptarianNodules -> """
+            vec2 q = p * 3.4;
+            vec4 knot = surfaceCell(q, .73);
+            vec2 id = floor(q - knot.zw);
+            float r = length(knot.zw * vec2(1.04, 1.24));
+            float radius = noduleSize * (.87 + .28 * hash(id + 2.0));
+            vec2 micro = knot.zw * 6.6 + id * 9.1 + .22 * noise(q * 21.0);
+            vec4 crack = surfaceCell(micro, .80);
+            float dist = crack.y + .08 * noise(q * 41.0);
+            result = mix(color1, color2, .37 + .43 * layerNoise(q * 9.0));
+            vec4 matrix = mix(color1, color2, .49 + .41 * noise(q * 23.0));
+            matrix = mix(matrix, color3, 1.0 - smoothstep(veinGauge, veinGauge + .11 * oxideRim, dist));
+            matrix = mix(matrix, color4, 1.0 - smoothstep(veinGauge * .42, veinGauge + .022, dist));
+            matrix = mix(matrix, color1, smoothstep(radius - .05 * oxideRim, radius, r) * .78);
+            result =
+                mix(result, matrix,
+                    (1.0 - smoothstep(radius - .014, radius + .012, r)) * smoothstep(.012, .07, knot.y));
+        """.trimIndent()
+
+        PatternTextureType.TourmalinePrisms -> """
+            vec2 q = p * 4.5;
+            vec4 cell = surfaceCell(q, .76);
+            vec2 id = floor(q - cell.zw);
+            vec2 uv = rotatePoint(cell.zw, hash(id) * TAU);
+            float angle = safeAngle(uv);
+            float taper = cos(mod(angle + .5236, 1.0472) - .5236);
+            float r = length(uv) * taper / prismRadius;
+            result = mix(color1, color4, .33 + .43 * layerNoise(q * 13.0));
+            vec4 prism = mix(color3, color4, .19 + .29 * noise(q * 26.0));
+            prism = mix(prism, color4, smoothstep(coreFraction - .04, coreFraction + .04, r));
+            prism = mix(prism, color2, smoothstep(coreFraction + .06, coreFraction + .18, r));
+            prism.rgb *=
+                .83 + .23 * zoning * cos(r * 72.0 + 1.4 * noise(q * 15.0)) + .18 * fract(angle / 1.0472);
+            result = mix(result, prism, (1.0 - smoothstep(.99, 1.035, r)) * smoothstep(.02, .071, cell.y));
+        """.trimIndent()
+
+        PatternTextureType.SeleniteBlades -> """
+            vec2 q = p * 5.2;
+            result = mix(color1, color2, .32 + .45 * layerNoise(q * 4.0));
+            for (int j = -1; j <= 1; j++)
+                for (int i = -1; i <= 1; i++) {
+                    vec2 id = floor(q) + vec2(float(i), float(j));
+                    vec2 uv = rotatePoint(q - id - hash2(id), .52 + (hash(id + 7.0) - .5) * 1.6);
+                    float span = bladeLength * (.61 + .60 * hash(id + 3.0));
+                    float tip = abs(uv.y) + 1.9 * abs(uv.x);
+                    float mask = (1.0 - smoothstep(bladeWidth, bladeWidth + .013, abs(uv.x))) *
+                                 (1.0 - smoothstep(span, span + .017, tip));
+                    float facet = uv.x > bladeWidth * .15 ? .64 : .20;
+                    float satin = .5 + .5 * cos(uv.x * 239.0 + .7 * sin(4.0 * uv.y));
+                    vec4 splinter = mix(color2, color4, facet + silkFlash * .28 * satin);
+                    splinter = mix(splinter, color3, smoothstep(span - .14, span, tip) * .65);
+                    result = mix(result, splinter, .84 * mask);
+                }
+        """.trimIndent()
+
+        PatternTextureType.GraphicGranite -> """
+            vec2 q = rotatePoint(p, .40) * 15.0 / glyphScale;
+            vec4 block = surfaceCell(q * .43, .73);
+            vec2 id = floor(q * .43 - block.zw);
+            vec2 uv = rotatePoint(q, hash(id) * 2.7);
+            float cuts = abs(fract(uv.x + .35 * floor(uv.y)) - .5);
+            float stair = abs(fract(uv.y * .84 + .24 * floor(uv.x)) - .5);
+            float shard = max(cuts * .62 + stair * .83 - intergrowth * .38, abs(stair - cuts * .43) - .08);
+            float quartz = 1.0 - smoothstep(.026, .075, shard + .09 * noise(q * 4.0));
+            result = mix(color3, color4, .26 + feldsparGrain * .55 * layerNoise(q * 6.0));
+            result = mix(result, mix(color1, color2, .28 + .44 * noise(q * 19.0)), quartz);
+        """.trimIndent()
+
+        PatternTextureType.PillowBasalt -> """
+            vec2 q = rotatePoint(p, -.18) * 6.2 / vec2(lobeAspect, 1.0);
+            q += .14 * vec2(noise(q * 1.6), noise(q * 1.6 + 7.0));
+            vec4 cell = surfaceCell(q, .67);
+            float skin = smoothstep(.015, rindWidth + .025, cell.y);
+            float a = safeAngle(cell.zw) / TAU;
+            float joints =
+                1.0 - smoothstep(.018, .066, repeatDistance(a * radialCracks + .19 * noise(q * 3.0)));
+            vec4 rock = mix(color2, color3, .21 + .51 * layerNoise(q * 9.0));
+            rock = mix(rock, color1, .65 * joints * smoothstep(.20, .55, cell.x));
+            result = mix(color1, rock, skin);
+            result = mix(result, color4, (1.0 - smoothstep(.009, .045, abs(cell.y - rindWidth))) * .48);
+        """.trimIndent()
+
+        PatternTextureType.ChevronFolds -> """
+            vec2 q = rotatePoint(p, -.16);
+            float phase = q.x * 3.15 + .17 * q.y + .03 * noise(p * 5.0);
+            float turn = fract(phase) - .5;
+            float hinge = sqrt(turn * turn + hingeRound * hingeRound);
+            float strata = (q.y - foldAngle * hinge + .025 * noise(q * vec2(6.0, 9.0))) / bedWidth;
+            float band = floor(strata);
+            float t = fract(strata);
+            result = toneRamp(.17 + .73 * hash(vec2(band, 4.0)));
+            result = mix(result, color1, .54 * (1.0 - smoothstep(.013, .10, min(t, 1.0 - t))));
+            result.rgb *= .91 + .16 * layerNoise(q * vec2(89.0, 141.0));
+        """.trimIndent()
+
+        PatternTextureType.OrbicularDiorite -> """
+            vec2 q = p * 4.5;
+            vec4 cell = surfaceCell(q, .65);
+            vec2 id = floor(q - cell.zw);
+            vec2 uv = rotatePoint(cell.zw, hash(id) * TAU) * vec2(1.23, .92);
+            float r = (length(uv) + .026 * noise(q * 9.0)) / (orbRadius * (.81 + .33 * hash(id + 5.0)));
+            float grit = noise(q * 51.0), mac = layerNoise(q * 8.0);
+            result = mix(color1, color2, .28 + .47 * mac);
+            float shell = .5 + .5 * cos(TAU * (r * mantleCount + .035 * sin(safeAngle(uv) * 8.0)));
+            vec4 orb = mix(color1, color3, .16 + .67 * shell);
+            orb = mix(orb, color4, .33 * crystalFleck * smoothstep(.71, .91, grit));
+            orb = mix(orb, mix(color2, color4, grit), 1.0 - smoothstep(.20, .30, r));
+            result = mix(result, orb, (1.0 - smoothstep(.96, 1.01, r)) * smoothstep(.018, .07, cell.y));
+        """.trimIndent()
+
+        PatternTextureType.DesertRoses -> """
+            vec2 q = rotatePoint(p, -0.21) * 2.55;
+            float sand = layerNoise(q * 21.0);
+            result = mix(color1, color2, .29 + .55 * sand);
+            for (int j = -1; j <= 1; j++)
+                for (int i = -1; i <= 1; i++) {
+                    vec2 id = floor(q) + vec2(float(i), float(j));
+                    vec2 center = id + .43 + .46 * (hash2(id) - .5);
+                    vec2 delta = q - center;
+                    float clusterSize = .72 + .69 * hash(id + 3.0);
+                    if (dot(delta, delta) > .93 * clusterSize * clusterSize)
+                        continue;
+                    for (int k = 0; k < 14; k++) {
+                        if (float(k) >= bladeFans)
+                            break;
+                        float n = float(k);
+                        float a = 6.283185 * (n * .382 + hash(id)) + .42 * (hash(id + n + 5.0) - .5);
+                        vec2 v = rotatePoint(delta / clusterSize, a);
+                        float reach = crystalSpan * (1.06 + .61 * hash(id + n + 8.0));
+                        float y = v.y + .17 * reach;
+                        float t = y / reach;
+                        float broad = .079 + .078 * hash(id + n + 18.0);
+                        float plate = broad * (.45 + .60 * smoothstep(-.05, .52, t));
+                        float x = v.x - .031 * sin(t * 2.7 + n);
+                        float back =
+                            max((abs(x) - plate) / broad, max(-t - .05, t - 1.0 + abs(x / broad) * .24));
+                        float shade = max((abs(x - .020) - plate) / broad,
+                                          max(-t - .09, t - 1.04 + abs(x / broad) * .22));
+                        result = mix(result, color1, .49 * (1.0 - smoothstep(.00, .09, shade)));
+                        if (back < .08) {
+                            float bevel = smoothstep(-.10, .12, x / plate + .18 * t);
+                            vec4 blade = mix(color2, color4, .24 + .55 * bevel + .13 * hash(id + n + 16.0));
+                            float facet = smoothstep(.69, .91, t + .21 * abs(x / plate));
+                            blade = mix(blade, color3, .59 * facet);
+                            float cleavage = repeatDistance(y * 26.0 + x * 4.0 + .1 * noise(v * 21.0));
+                            blade = mix(blade, color1, (1.0 - smoothstep(.01, .056, cleavage)) * .23);
+                            blade = mix(blade, color2, sandCoat * smoothstep(.49, .78, sand) * .87);
+                            result = mix(result, blade, 1.0 - smoothstep(-.03, .08, back));
+                        }
+                    }
+                }
+        """.trimIndent()
+
+        PatternTextureType.RippleCrossbeds -> """
+            vec2 q = rotatePoint(p, -.09);
+            float cut = q.y + .027 * sin(q.x * 8.0) + .01 * noise(p * 16.0);
+            float bed = floor(cut / setDepth), local = fract(cut / setDepth);
+            float angle = (hash(vec2(bed, 1.0)) > .48 ? 1.0 : -1.0) * dipAngle;
+            float lamina =
+                (q.y + angle * (q.x + .059 * sin(q.x * 13.0 + bed)) + .11 * setDepth * local * local) /
+                laminaPitch;
+            float band = .5 + .5 * cos(TAU * lamina);
+            result = mix(color2, color3, .29 + .43 * layerNoise(q * 27.0));
+            result = mix(result, color1, .43 * smoothstep(.69, .95, band));
+            result = mix(result, color4, .50 * (1.0 - smoothstep(.012, .085, min(local, 1.0 - local))));
+        """.trimIndent()
+
+        PatternTextureType.MangroveKnees -> """
+            vec2 q = rotatePoint(p, -.06) * 5.25;
+            result = mix(color1, color2, .25 + .45 * layerNoise(p * vec2(19.0, 34.0)));
+            result = mix(result, color3, mudCover * smoothstep(.4, .72, noise(q * .75)) * .49);
+            for (int y = -1; y <= 1; y++)
+                for (int x = -1; x <= 1; x++) {
+                    vec2 id = floor(q) + vec2(float(x), float(y));
+                    vec2 uv = q - id - .27 - .47 * hash2(id);
+                    float h = rootHeight * (.51 + .55 * hash(id + 3.0));
+                    float radial = length(uv * vec2(1.0, 2.2));
+                    float rings = (1.0 - smoothstep(.026, .11, repeatDistance(radial * 14.0))) *
+                                  (1.0 - smoothstep(rippleReach * .45, rippleReach, radial));
+                    result = mix(result, color4, rings * .37);
+                    float t = -uv.y / h;
+                    float w = .105 * (1.0 - clamp(t, 0.0, 1.0)) + .016;
+                    float tip = (1.0 - smoothstep(w, w + .014, abs(uv.x - .04 * sin(t * 2.5)))) *
+                                smoothstep(-.045, .02, t) * (1.0 - smoothstep(.9, 1.0, t));
+                    result = mix(result, mix(color2, color3, .28 + .56 * smoothstep(-w, w, -uv.x)), tip);
+                }
+        """.trimIndent()
+
+        PatternTextureType.CottonBolls -> """
+            vec2 q = p * 3.8;
+            q.x += .43 * mod(floor(q.y), 2.0);
+            vec2 id = floor(q);
+            vec2 uv = rotatePoint(fract(q) - .5, hash(id) * TAU);
+            float r = length(uv), a = safeAngle(uv);
+            result = mix(color1, color2, .16 + .35 * layerNoise(p * 15.0));
+            float bract = bractLength * (.32 + .68 * pow(.5 + .5 * cos(a * lockCount), 4.0));
+            result = mix(result, color2, 1.0 - smoothstep(bract, bract + .012, r));
+            for (int i = 0; i < 6; i++) {
+                if (float(i) >= lockCount)
+                    break;
+                float angle = TAU * (float(i) + .48) / lockCount;
+                vec2 v = uv - .148 * vec2(cos(angle), sin(angle));
+                float d = length(v) + .050 * (noise(v * 22.0) - .5);
+                float mask = 1.0 - smoothstep(fluffSize * .87, fluffSize * 1.05, d);
+                vec4 tuft =
+                    mix(color3, color4,
+                        .19 + .49 * (1.0 - smoothstep(0.0, fluffSize, d)) + .27 * layerNoise(v * 54.0));
+                result = mix(result, tuft, mask);
+            }
+        """.trimIndent()
+
+        PatternTextureType.BirchLenticels -> """
+            vec2 q = rotatePoint(p, -.06);
+            float mottling = layerNoise(q * vec2(8.0, 23.0));
+            result = mix(color3, color4, .44 + .46 * mottling);
+            result = mix(result, color2, barkTone * smoothstep(.46, .77, mottling) * .82);
+            float row = q.y * 17.0;
+            float line = repeatDistance(row + .045 * noise(q * 37.0));
+            float x = q.x * 3.5 + hash(vec2(floor(row + .5), 2.0));
+            float lens = (1.0 - smoothstep(.021, .094, line)) *
+                         (1.0 - smoothstep(lenticelSpan * .52, lenticelSpan, repeatDistance(x)));
+            result = mix(result, color1, lens * .91);
+            float peel = repeatDistance(q.y * 4.7 + .12 * noise(q * vec2(7.0, 3.0)));
+            result =
+                mix(result, color2,
+                    (1.0 - smoothstep(.002, peelWidth, peel)) * smoothstep(.37, .72, noise(q * 6.0)) * .75);
+        """.trimIndent()
+
+        PatternTextureType.PlaneBark -> """
+            vec2 q = p * 4.3 / patchSize;
+            vec2 drift = .64 * vec2(noise(q * 1.17), noise(q * 1.17 + 12.0));
+            float patch = layerNoise((q + drift) * 1.27);
+            float level = peeling * .26;
+            result = color1;
+            result = mix(result, color2, smoothstep(.36 - level * .36, .372 - level * .36, patch));
+            result = mix(result, color3, smoothstep(.51 - level * .43, .52 - level * .43, patch));
+            result = mix(result, color4, smoothstep(.65 - level * .45, .66 - level * .45, patch));
+            float lip = min(abs(patch - .51 + level * .43), abs(patch - .65 + level * .45));
+            result.rgb *= 1.0 - .27 * (1.0 - smoothstep(.002, lipWidth, lip));
+            result.rgb *= .95 + .087 * noise(q * 49.0);
+        """.trimIndent()
+
+        PatternTextureType.CattailFloss -> """
+            vec2 q = rotatePoint(p, -.24) * tuftDensity;
+            result = mix(color1, color2, .17 + .41 * layerNoise(q * 3.1));
+            for (int j = -1; j <= 1; j++)
+                for (int i = -1; i <= 1; i++) {
+                    vec2 id = floor(q) + vec2(float(i), float(j));
+                    vec2 center = id + .10 + .80 * hash2(id);
+                    vec2 uv = rotatePoint(q - center, .62 + (hash(id + 9.0) - .5) * 2.86);
+                    float t = uv.y / fiberLength;
+                    if (t > 0.0 && t < 1.21) {
+                        float wind = .19 * (hash(id + 23.0) - .28);
+                        float spread = fanSpread * (.11 * t + .42 * t * t);
+                        float bend = wind * t * t + .043 * sin(t * 3.4 + hash(id) * 5.0) * t;
+                        float bundle = (uv.x - bend) / max(.008, spread) * 9.0;
+                        float light = 0.0;
+                        for (int k = -1; k <= 1; k++) {
+                            float hair = floor(bundle + .5) + float(k);
+                            if (abs(hair) > 9.5)
+                                continue;
+                            float variation = hash(id + vec2(hair * 1.33, 37.0));
+                            float lengthRatio = .54 + .66 * variation;
+                            float endT = t / lengthRatio;
+                            float fiber =
+                                bend + (hair + .35 * sin(4.6 * t + variation * TAU)) * spread / 9.0;
+                            fiber += .016 * sin(6.0 * t + variation * 6.0) * t;
+                            float width = .0022 + .0024 * (1.0 - clamp(endT, 0.0, 1.0));
+                            float strand = 1.0 - smoothstep(width * .58, width + .006, abs(uv.x - fiber));
+                            light = max(light, strand * smoothstep(.008, .115, t) *
+                                                   (1.0 - smoothstep(.74, 1.02, endT)));
+                        }
+                        result = mix(result, mix(color3, color4, .32 + .50 * t), light * .95);
+                    }
+                    float achene = length((uv + vec2(.006, .043)) * vec2(3.7, 1.0));
+                    result = mix(result, color3, 1.0 - smoothstep(.052, .091, achene));
+                    result = mix(result, color1, (1.0 - smoothstep(.023, .053, achene)) * .75);
+                }
+        """.trimIndent()
+
+        PatternTextureType.FernSori -> """
+            vec2 q = rotatePoint(p, .43);
+            float row = floor(q.y / frondPitch);
+            q.x += .03 * sin(q.y * 8.0);
+            float u = fract(q.x * 2.6 + .42 * mod(row, 2.0)) - .5;
+            float v = fract(q.y / frondPitch) - .5 - .20 * sin(u * 4.0);
+            float width = .31 * pow(max(0.0, 1.0 - abs(u) * 2.05), .58);
+            float leaf = 1.0 - smoothstep(width, width + .025, abs(v));
+            result = mix(color1, color2, .26 * layerNoise(p * 14.0));
+            vec4 tissue = mix(color1, color2, .45 + .29 * noise(q * 49.0) + .15 * step(0.0, v));
+            float rachis = 1.0 - smoothstep(.014, .04, abs(v));
+            tissue = mix(tissue, color3, .55 * rachis);
+            vec2 sori =
+                vec2(repeatDistance((u + .5) * sorusCount) / sorusCount, (abs(v) - width * .56) * .47);
+            float d = length(sori);
+            tissue = mix(tissue, color3, 1.0 - smoothstep(sorusSize * .38, sorusSize * .72, d));
+            tissue = mix(
+                tissue, color4,
+                (1.0 - smoothstep(sorusSize * .21, sorusSize * .51, d)) * (.40 + .56 * noise(q * 213.0)));
+            result = mix(result, tissue, leaf);
+        """.trimIndent()
+
+        PatternTextureType.EquisetumCrosscuts -> """
+            vec2 q = p * 4.6;
+            vec4 cell = surfaceCell(q, .64);
+            vec2 uv = cell.zw;
+            float a = safeAngle(uv), d = length(uv);
+            float ridged = stalkRadius * (.93 + .055 * cos(a * canalCount));
+            result = mix(color1, color2, .22 + .41 * layerNoise(q * 5.0));
+            vec4 cut = mix(color2, color3, .32 + .43 * noise(q * 42.0));
+            cut = mix(cut, color4, .49 * (1.0 - smoothstep(.01, .036, abs(d - ridged + .03))));
+            cut = mix(cut, color1, 1.0 - smoothstep(pithRadius * .92, pithRadius + .015, d));
+            float local = mod(a + 3.14159 / canalCount, TAU / canalCount) - 3.14159 / canalCount;
+            float canal = length(vec2(sin(local) * d, cos(local) * d - stalkRadius * .69));
+            cut = mix(cut, color4, 1.0 - smoothstep(.042, .065, canal));
+            cut = mix(cut, color1, 1.0 - smoothstep(.029, .049, canal));
+            result = mix(result, cut,
+                         (1.0 - smoothstep(ridged, ridged + .012, d)) * smoothstep(.013, .071, cell.y));
+        """.trimIndent()
+
+        PatternTextureType.LotusSeedheads -> """
+            vec2 q = rotatePoint(p, -0.23) * 2.75;
+            float earth = layerNoise(q * 5.0);
+            result = mix(color1, color2, 0.20 + 0.45 * earth);
+            float pedicel = repeatDistance(q.x + 0.21 * sin(q.y * 4.1) + 0.18 * q.y);
+            result = mix(result, color3, (1.0 - smoothstep(0.017, 0.035, pedicel)) * 0.69);
+            for (int j = -1; j <= 1; j++)
+                for (int i = -1; i <= 1; i++) {
+                    vec2 id = floor(q) + vec2(float(i), float(j));
+                    vec2 center = id + 0.13 + 0.74 * hash2(id);
+                    float size = headSize * (0.62 + 1.14 * hash(id + 7.0));
+                    vec2 local = rotatePoint(q - center, -0.18 + (hash(id + 13.0) - 0.5) * 1.78) / size;
+                    vec2 face = local * vec2(1.0, 1.08 + 0.70 * hash(id + 12.0));
+                    float edge = length(face) + 0.037 * (noise(face * 7.0) - 0.5);
+                    float side = length((face - vec2(0.015, 0.135)) * vec2(1.01, 0.99));
+                    if (side < 1.01) {
+                        float fibers = 0.5 + 0.5 * cos(face.x * 94.0 + 3.1 * face.y);
+                        result = mix(result, mix(color1, color2, 0.11 + 0.30 * fibers),
+                                     1.0 - smoothstep(0.97, 1.01, side));
+                    }
+                    if (edge < 1.015) {
+                        vec2 cells = face * (2.26 + 0.45 * hash(id + 8.0)) + id * 7.62;
+                        vec4 hole = surfaceCell(cells, 0.67);
+                        vec2 v = hole.zw * vec2(1.03, 1.10);
+                        float h = length(v);
+                        float radius = socketSize * 1.75 * (0.86 + 0.23 * hash(floor(cells - hole.zw)));
+                        float ridge = 1.0 - smoothstep(0.0, 0.10, hole.y);
+                        float fib = noise(face * 47.0);
+                        vec4 disk = mix(color2, color3, 0.33 + 0.25 * (1.0 - edge) + 0.19 * fib);
+                        disk = mix(disk, color4,
+                                   0.31 * ridge + 0.27 * (1.0 - smoothstep(0.035, 0.079, abs(h - radius))));
+                        disk = mix(disk, color1, 1.0 - smoothstep(radius * 0.79, radius, h));
+                        float fill = step(hash(floor(cells - hole.zw) + 17.0), seedFill);
+                        float seedRad = length((v - vec2(0.015, 0.035)) * vec2(0.92, 1.13));
+                        vec4 seedCoat =
+                            mix(color1, color2, 0.25 + 0.51 * smoothstep(-0.10, 0.15, -v.x - v.y));
+                        disk = mix(disk, seedCoat,
+                                   fill * (1.0 - smoothstep(radius * 0.54, radius * 0.76, seedRad)));
+                        disk = mix(
+                            disk, color4,
+                            0.79 * (1.0 - smoothstep(0.014, 0.039, length(v + vec2(.045, .027)))) * fill);
+                        disk = mix(disk, color4, 0.50 * smoothstep(.91, .99, edge));
+                        result = mix(result, disk, 1.0 - smoothstep(.98, 1.015, edge));
+                    }
+                }
+        """.trimIndent()
+
+        PatternTextureType.DuckweedRafts -> """
+            vec2 q = p * 11.0;
+            result = mix(color1, color2, .16 + .34 * layerNoise(p * 11.0));
+            for (int j = -1; j <= 1; j++)
+                for (int i = -1; i <= 1; i++) {
+                    vec2 id = floor(q) + vec2(float(i), float(j));
+                    float pool = noise(id * .37);
+                    if (pool < raftGap * .82)
+                        continue;
+                    vec2 uv = rotatePoint(q - id - .21 - .58 * hash2(id), hash(id + 4.0) * TAU);
+                    for (int n = 0; n < 3; n++) {
+                        if (n > 0 && hash(id + float(n) * 12.0) > budding)
+                            continue;
+                        vec2 leaf = n == 0
+                                        ? uv
+                                        : rotatePoint(uv - vec2(float(n) * .13 - .02, float(n) * .15 - .35),
+                                                      float(n) * 1.8);
+                        float r = length(leaf * vec2(1.03, 1.48));
+                        float size = frondSize * (n == 0 ? 1.23 : .83);
+                        float mask = 1.0 - smoothstep(size, size + .014, r);
+                        vec4 frond =
+                            mix(color2, color3,
+                                .32 + .36 * hash(id + float(n)) + .21 * (1.0 - smoothstep(0.0, size, r)));
+                        frond = mix(frond, color4,
+                                    (1.0 - smoothstep(.0, .028, abs(leaf.y))) *
+                                        (1.0 - smoothstep(.027, .14, abs(leaf.x))) * .66);
+                        frond =
+                            mix(frond, color4, .17 * (1.0 - smoothstep(.010, .033, abs(r - size + .025))));
+                        result = mix(result, frond, mask);
+                    }
+                }
+        """.trimIndent()
+
+        PatternTextureType.MapleBurl -> """
+            vec2 q = rotatePoint(p, .18) * 5.2;
+            vec4 knot = surfaceCell(q * vec2(.84, 1.13), .86);
+            float radius = length(knot.zw * vec2(1.65, .86));
+            float lens = exp(-radius * radius / (eyeSize * eyeSize * 2.9));
+            float bend = grainCurl * .19 * lens * (.22 + abs(knot.w) * 3.0);
+            float fiber = q.x / 5.2 + bend + .021 * sin(q.y * 2.0) + .022 * noise(q * vec2(2.7, .81));
+            float ridge = .5 + .5 * cos(TAU * fiber / grainPitch);
+            result = mix(color3, color4, .22 + .42 * noise(q * vec2(19.0, 4.0)) + .21 * ridge);
+            result = mix(result, color2, .49 * pow(ridge, 3.0));
+            result = mix(result, color1, lens * .72);
+            result = mix(result, color2, .75 * (1.0 - smoothstep(.01, .045, abs(radius - eyeSize * .66))));
+        """.trimIndent()
+
+        PatternTextureType.MusselByssus -> """
+            vec2 q = p * 3.8;
+            result = mix(color1, color2, .22 + .53 * layerNoise(q * 6.0));
+            vec4 colony = surfaceCell(q, .64);
+            vec2 id = floor(q - colony.zw);
+            float turn = hash(id + 3.0) * TAU;
+            vec2 origin = -.13 * vec2(cos(turn), sin(turn));
+            for (int k = 0; k < 13; k++) {
+                if (float(k) >= threadCount)
+                    break;
+                float f = float(k), a = turn + anchorSpread * (hash(id + f + 7.0) - .5) * 2.65;
+                vec2 tip = origin + (.27 + .28 * hash(id + f + 21.0)) * vec2(cos(a), sin(a));
+                vec2 mid = mix(origin, tip, .54) + .035 * vec2(-sin(a), cos(a));
+                float line = min(segment(colony.zw, origin, mid), segment(colony.zw, mid, tip));
+                result = mix(result, color3, (1.0 - smoothstep(.005, .017, line)) * .93);
+                float cap = length(rotatePoint(colony.zw - tip, -a) * vec2(.76, 1.66));
+                result = mix(result, color4, 1.0 - smoothstep(plaqueSize * .66, plaqueSize, cap));
+            }
+        """.trimIndent()
+
+        PatternTextureType.SandDollarBed -> """
+            vec2 q = rotatePoint(p, -0.48) * vec2(3.55, 6.7);
+            float chips = layerNoise(p * 77.0);
+            result = mix(color1, color2, .35 + .52 * chips);
+            for (int j = -1; j <= 1; j++)
+                for (int i = -1; i <= 1; i++) {
+                    float row = floor(q.y) + float(j);
+                    vec2 id = vec2(floor(q.x - 0.5 * mod(row, 2.0)) + float(i), row);
+                    vec2 center = id + vec2(0.5 + 0.5 * mod(row, 2.0), 0.52) + 0.28 * (hash2(id) - .5);
+                    vec2 uv = rotatePoint((q - center) * vec2(1.0, 0.92), (hash(id + 5.0) - .5) * .54);
+                    float r0 = testRadius * (1.12 + .49 * hash(id + 2.0));
+                    vec2 v = uv / r0;
+                    float r = length(v) * (1.0 + .028 * cos(5.0 * safeAngle(v) + hash(id) * 2.0));
+                    float shadow = 1.0 - smoothstep(0.94, 1.035, length((uv - vec2(.035, .074)) / r0));
+                    result = mix(result, color1, shadow * .64);
+                    if (r < 1.025) {
+                        float rot = (hash(id + 30.0) - .5) * 2.2;
+                        float a = safeAngle(v) + rot;
+                        float lobe = mod(a + .628319, 1.256637) - .628319;
+                        float lb = petalReach * 2.27;
+                        vec2 z = vec2(cos(lobe), sin(lobe)) * r;
+                        float t = z.x / lb;
+                        float leafWidth = .136 * pow(max(0.0, sin(3.14159 * clamp(t, 0., 1.))), .70);
+                        vec2 pp = vec2(repeatDistance(t * poreRows) * lb / poreRows, abs(z.y) - leafWidth);
+                        float pores = 1.0 - smoothstep(.013, .030, length(pp));
+                        float print =
+                            (1.0 - smoothstep(.012, .031, abs(abs(z.y) - leafWidth))) * .72 + pores * .67;
+                        vec4 shell = mix(color3, color4,
+                                         .41 + .24 * hash(id + 8.0) + .15 * noise(v * 62.0) - .16 * v.y);
+                        shell = mix(shell, color2, min(1.0, print) * step(.035, t) * step(t, 1.0));
+                        float keyhole = length((z - vec2(.765, .0)) * vec2(.62, 1.70));
+                        shell = mix(shell, color1, (1.0 - smoothstep(.033, .060, keyhole)) * .87);
+                        shell = mix(shell, color2, smoothstep(.89, 1.0, r) * .64);
+                        result = mix(result, shell, 1.0 - smoothstep(.979, 1.025, r));
+                    }
+                }
+        """.trimIndent()
+
+        PatternTextureType.ScuteGrowthRings -> """
+            vec2 q = p * 5.6 * vec2(.86, 1.17);
+            vec4 cell = surfaceCell(q, .37);
+            vec2 id = floor(q - cell.zw);
+            float normalized = cell.x / (cell.x + .61 * cell.y + .0001);
+            float ring = repeatDistance(normalized * growthBands + .12 * noise(q * 5.0));
+            result = mix(color2, color3, .38 + .36 * hash(id) + .18 * layerNoise(q * 8.0));
+            result = mix(result, color4, (1.0 - smoothstep(.011, .097, ring)) * (.35 + .34 * normalized));
+            result.rgb *= .78 + scuteDome * .35 * (1.0 - normalized) + .15 * noise(q * 31.0);
+            result = mix(color1, result, smoothstep(sutureWidth * .46, sutureWidth * 1.35, cell.y));
+        """.trimIndent()
+
+        PatternTextureType.CuttlefishMantle -> """
+            vec2 q = rotatePoint(p, -.32);
+            float plume = abs(sin(q.x * 4.2 + q.y * .8));
+            float stripes = q.y / barPitch +
+                            ruffle * (.65 * sin(11.0 * q.x) + .49 * sin(19.0 * q.x + q.y * 4.0)) +
+                            .42 * layerNoise(p * 13.0);
+            float t = repeatDistance(stripes);
+            float bar = 1.0 - smoothstep(.12, .27 + .09 * plume, t);
+            result = mix(color1, color2, .35 + .4 * layerNoise(p * 25.0));
+            result = mix(result, mix(color3, color4, .24 + .47 * plume), bar);
+            vec4 dots = surfaceCell(p * 82.0, .86);
+            float spots = (1.0 - smoothstep(.095, .24, dots.x)) *
+                          smoothstep(.21, .72, hash(floor(p * 82.0 - dots.zw)));
+            result = mix(result, color1, speckles * spots);
+        """.trimIndent()
+
+        PatternTextureType.LimpetRadula -> """
+            vec2 q = rotatePoint(p, .28) / toothSpacing;
+            q.x += .48 * mod(floor(q.y), 2.0);
+            vec2 uv = fract(q) - .5;
+            float phase = fract(q.y);
+            result = mix(color1, color2, .29 + .31 * layerNoise(p * 31.0));
+            result = mix(result, color3, .31 * (1.0 - smoothstep(.015, .045, abs(phase - .16))));
+            float t = (uv.y + .31) / .68;
+            float bend = .04 + hookReach * .39 * t * t;
+            float radius = .13 * (1.0 - clamp(t, 0.0, 1.0)) + .018;
+            float tooth = (1.0 - smoothstep(radius, radius + .018, abs(abs(uv.x) - .12 - bend))) *
+                          smoothstep(-.02, .04, t) * (1.0 - smoothstep(.92, 1.02, t));
+            vec4 crown = mix(color3, color4, .50 + .27 * noise(q * 19.0));
+            crown = mix(crown, color1, tipMineral * smoothstep(.61, .94, t));
+            result = mix(result, crown, tooth);
+        """.trimIndent()
+
+        PatternTextureType.CornerCubeReflector -> """
+            vec2 lattice = vec2(p.x - p.y * 0.57735, p.y * 1.1547) + vec2(phaseX, phaseY);
+            vec2 uv = fract(lattice);
+            float invert = step(1.0, uv.x + uv.y);
+            if (invert > 0.5)
+                uv = 1.0 - uv;
+            vec3 bary = vec3(uv.x, uv.y, 1.0 - uv.x - uv.y);
+            float face = bary.x < bary.y && bary.x < bary.z ? 0.0 : (bary.y < bary.z ? 1.0 : 2.0);
+            float closest = min(bary.x, min(bary.y, bary.z));
+            float farthest = max(bary.x, max(bary.y, bary.z));
+            float middle = 1.0 - closest - farthest;
+            float split = (middle - closest) * 0.46;
+            float shine = 0.5 + 0.5 * cos(face * TAU / 3.0 + radians(lightAzimuth) + invert * 3.14159);
+            vec4 surface = mix(color2, color3, 0.14 + facetRelief * shine * 0.71);
+            surface = mix(surface, color4, pow(shine, 4.0) * facetRelief * (0.58 + 0.25 * farthest));
+            float boundary = coverage(closest * 0.866, reflectorSeam * 0.56);
+            float ridge = coverage(split, reflectorSeam * 0.40);
+            result = mix(surface, color1, max(boundary * 0.91, ridge * 0.69));
+        """.trimIndent()
+
+        PatternTextureType.MicroficheFrames -> """
+            vec2 grid = p * vec2(0.7, 1.0);
+            vec2 cell = floor(grid), local = fract(grid);
+            float paper = min(min(local.x, 1.0 - local.x), min(local.y, 1.0 - local.y));
+            float frame = smoothstep(filmMargin, filmMargin + pixelWidth, paper);
+            float scratch = smoothstep(0.80, 0.91, noise(vec2(p.x * 100.0, p.y * 2.8)));
+            result = mix(color1, color2, (0.12 + 0.35 * noise(p * 0.7) + 0.16 * scratch) * microFog);
+            vec4 emulsion = mix(color2, color3, 0.18 + 0.48 * noise(cell + 7.0));
+            result = mix(result, emulsion, frame);
+            vec2 sheet = (local - filmMargin) / (1.0 - 2.0 * filmMargin);
+            float row = floor(sheet.y * 22.0);
+            float end = mix(0.49, 0.95, hash(cell * 47.0 + row));
+            float column = fract(sheet.x * 2.0);
+            float columnMask = smoothstep(0.07, 0.10, column) * (1.0 - smoothstep(end - 0.02, end, column));
+            float gaps = step(0.18, hash(vec2(floor(column * 33.0), row) + cell));
+            float rules = coverage(abs(fract(sheet.y * 22.0) - 0.48) / 22.0, 0.009) * columnMask;
+            float header =
+                coverage(abs(sheet.y - 0.085), 0.015) * step(0.10, sheet.x) * step(sheet.x, 0.68);
+            float ink = max(header, rules * gaps * step(0.18, sheet.y) * step(sheet.y, 0.92) *
+                                        step(hash(cell + row * 9.1), lineFill));
+            result = mix(result, color4, ink * frame * 0.86);
+        """.trimIndent()
+
+        PatternTextureType.AcousticSlotPanel -> """
+            vec2 grid = p * vec2(1.0, 0.60);
+            grid.y += 0.5 * mod(floor(grid.x), 2.0);
+            vec2 q = fract(grid) - 0.5;
+            float groove = 10.0;
+            for (int i = 0; i < 3; i++) {
+                float x = (float(i) - 1.0) * 0.32;
+                float halfLength = slotLength * (i == 1 ? 0.50 : 0.41);
+                groove = min(groove, segment(q, vec2(x, -halfLength), vec2(x, halfLength)));
+            }
+            float fiber = noise(vec2(p.x * 53.0, p.y * 1.25));
+            result = mix(color2, color3, 0.32 + panelGrain * (fiber - 0.5) * 0.76 + 0.15 * noise(p * 3.0));
+            float lip = coverage(groove, slotWidth + 0.023);
+            result = mix(result, color4, lip * 0.72);
+            result = mix(result, color1, coverage(groove, slotWidth));
+        """.trimIndent()
+
+        PatternTextureType.BearingRaceway -> """
+            vec2 q = fract(p + vec2(phaseX, phaseY)) - 0.5;
+            float lane = abs(q.y), radial = length(q * vec2(1.0, 1.05));
+            float rail = 0.5 + 0.5 * cos((lane - 0.36) * 32.0);
+            result = mix(color1, color2, 0.17 + rail * 0.65);
+            result = mix(result, color4, smoothstep(0.94, 1.0, rail) * steelPolish * 0.60);
+            float cage = coverage(abs(radial - ballRadius - cageWidth * 0.60), cageWidth * 0.63);
+            cage = max(cage, coverage(abs(q.y), cageWidth * 0.46));
+            result = mix(result, color3, cage);
+            float body = coverage(radial, ballRadius);
+            vec2 uv = q / max(ballRadius, 0.01);
+            float z = sqrt(max(0.0, 1.0 - dot(uv, uv)));
+            vec3 normal = vec3(uv, z);
+            float lighting = clamp(dot(normal, normalize(vec3(-0.5, -0.7, 0.8))), 0.0, 1.0);
+            vec4 steel = mix(color1, color2, 0.30 + 0.67 * lighting);
+            steel = mix(
+                steel, color4,
+                steelPolish * (0.73 * pow(lighting, 2.4) + 0.47 * exp(-pow((uv.y - 0.33) / 0.16, 2.0))));
+            result = mix(result, steel, body);
+        """.trimIndent()
+
+        PatternTextureType.PinFinHeatsink -> """
+            vec2 grid = vec2(p.x + 0.22 * p.y, p.y - 0.29 * p.x) + vec2(phaseX, phaseY * 2.0);
+            float row = floor(grid.y);
+            vec2 q = fract(vec2(grid.x + mod(row, 2.0) * 0.5, grid.y)) - 0.5;
+            float topY = -pinHeight * 0.54, bottomY = pinHeight * 0.54;
+            float diamond = abs(q.x) + abs(q.y - topY) * 1.75 - pinRadius;
+            float wall = abs(q.x) + abs(q.y - clamp(q.y, topY, bottomY)) * 1.75 - pinRadius;
+            vec2 projected = q - vec2(0.07, 0.09);
+            float shadow =
+                abs(projected.x) + abs(projected.y - clamp(projected.y, topY, bottomY)) * 1.75 - pinRadius;
+            result = mix(color2, color1, 0.22 + 0.62 * coverage(shadow, 0.027));
+            vec4 side = mix(color1, color2, 0.25 + 0.65 * step(0.0, q.x));
+            result = mix(result, side, coverage(wall, 0.0));
+            vec4 top =
+                mix(color3, color4, 0.23 + 0.27 * clamp((q.x + pinRadius) / (2.0 * pinRadius), 0.0, 1.0));
+            top = mix(top, color4, coverage(abs(diamond), topBevel) * 0.65);
+            result = mix(result, top, coverage(diamond, 0.0));
+        """.trimIndent()
+
+        PatternTextureType.TreadPlate -> """
+            vec2 grid = p + 2.0 * vec2(phaseX, phaseY);
+            vec2 tile = floor(grid), q = fract(grid) - 0.5;
+            q = rotatePoint(q, mix(-0.7854, 0.7854, mod(tile.x + tile.y, 2.0)));
+            float rnd = 0.5 * noise(p * 33.0) + 0.5 * noise(p * 88.0);
+            result = mix(color1, color2, 0.44 + rnd * 0.33);
+            for (int i = 0; i < 3; i++) {
+                float dx = q.x + (float(i) - 1.0) * 0.178;
+                float t = q.y / (lugLength * (i == 1 ? 0.50 : 0.40));
+                float width = lugBreadth * (1.0 - t * t);
+                float d = abs(dx) - max(width, 0.0);
+                float mask = coverage(d, 0.0) * (1.0 - smoothstep(0.95, 1.0, abs(t)));
+                float cross = clamp(dx / max(width, 0.007), -1.0, 1.0);
+                vec4 raised = mix(color2, color3, 0.58 - 0.30 * cross + 0.08 * rnd);
+                raised = mix(raised, color4, edgePolish * exp(-pow((cross + 0.48) * 3.0, 2.0)));
+                result = mix(result, raised, mask);
+            }
+        """.trimIndent()
+
+        PatternTextureType.SplitFlapMatrix -> """
+            vec2 grid = p * vec2(1.18, 0.81), cell = floor(grid), q = fract(grid) - 0.5;
+            vec2 panel = abs(q) - vec2(0.469, 0.463);
+            float card = coverage(max(panel.x, panel.y), 0.0);
+            float patina = noise(cell + 19.0);
+            result = mix(color1, mix(color1, color2, 0.38 + 0.21 * patina + 0.12 * step(q.y, 0.0)), card);
+            float digit = floor(10.0 * hash(cell + 2.7));
+            float code = 119.0;
+            if (digit < 0.5)
+                code = 63.0;
+            else if (digit < 1.5)
+                code = 6.0;
+            else if (digit < 2.5)
+                code = 91.0;
+            else if (digit < 3.5)
+                code = 79.0;
+            else if (digit < 4.5)
+                code = 102.0;
+            else if (digit < 5.5)
+                code = 109.0;
+            else if (digit < 6.5)
+                code = 125.0;
+            else if (digit < 7.5)
+                code = 7.0;
+            else if (digit < 8.5)
+                code = 127.0;
+            else
+                code = 111.0;
+            float ink = 0.0;
+            for (int i = 0; i < 7; i++) {
+                float n = float(i);
+                vec2 v = vec2(0.0), w = vec2(0.0);
+                if (i == 0 || i == 3 || i == 6) {
+                    float y = i == 0 ? -0.31 : (i == 3 ? 0.31 : 0.0);
+                    v = vec2(-0.125, y);
+                    w = vec2(0.125, y);
+                } else {
+                    float x = i == 1 || i == 2 ? 0.155 : -0.155;
+                    float y = i == 1 || i == 5 ? -0.155 : 0.155;
+                    v = vec2(x, y - 0.111);
+                    w = vec2(x, y + 0.111);
+                }
+                ink = max(ink, coverage(segment(q, v, w), segmentStroke) * mod(floor(code / exp2(n)), 2.0));
+            }
+            result = mix(result, mix(color3, color4, patina), ink * step(blankFraction, hash(cell + 4.0)));
+            result = mix(result, color1, coverage(abs(q.y), flapGap));
+        """.trimIndent()
+
+        PatternTextureType.WireRopeSection -> """
+            vec2 grid = p * 1.18, base = floor(grid);
+            float nearest = 9.0, tone = 0.0, spacing = 0.091;
+            vec2 local = vec2(0.0);
+            for (int y = -1; y <= 1; y++)
+                for (int x = -1; x <= 1; x++) {
+                    vec2 id = base + vec2(float(x), float(y));
+                    vec2 center = id + vec2(0.5 + 0.5 * mod(id.y, 2.0), 0.5);
+                    vec2 d = grid - center;
+                    if (dot(d, d) < nearest) {
+                        nearest = dot(d, d);
+                        local = d;
+                        tone = hash(id);
+                    }
+                }
+            result = mix(color1, color2, 0.13 + 0.2 * noise(p * 41.0));
+            float sheath = coverage(abs(length(local) - 0.446), 0.018);
+            result = mix(result, color3, sheath * 0.74);
+            for (int i = 0; i < 7; i++) {
+                float angle = float(i) * TAU / 6.0;
+                vec2 sc = (i == 6 ? vec2(0.0) : vec2(cos(angle), sin(angle)) * 0.289);
+                vec2 strand = local - sc;
+                float group = coverage(length(strand), 0.147);
+                result = mix(result, color1, group);
+                for (int j = 0; j < 7; j++) {
+                    float spin = float(j) * TAU / 6.0 + strandTwist * (tone * 2.6 + float(i) * 0.63);
+                    vec2 w = strand - (j == 6 ? vec2(0.0) : vec2(cos(spin), sin(spin)) * spacing);
+                    float r = (j == 6 ? wireCore * 0.5 : spacing * 0.5) * strandPacking;
+                    float disc = coverage(length(w), r);
+                    float hl =
+                        clamp(0.48 - dot(w, vec2(3.6, 5.0)) + 0.16 * hash(vec2(float(i), float(j)) + tone),
+                              0.0, 1.0);
+                    vec4 metal = mix(color2, color3, hl);
+                    metal = mix(metal, color4, coverage(abs(length(w) - r * 0.8), r * 0.095) * 0.65);
+                    result = mix(result, metal, disc);
+                }
+            }
+        """.trimIndent()
+
+        PatternTextureType.KnurledInsert -> """
+            vec2 g = vec2(p.x + knurlSlant * p.y, p.x - knurlSlant * p.y) + vec2(phaseX, phaseY);
+            vec2 tooth = abs(fract(g) - 0.5) * 2.0;
+            float h = min(tooth.x, tooth.y), cap = 1.0 - knurlFlat;
+            float level = smoothstep(0.0, cap, h);
+            float face = tooth.x < tooth.y ? sign(fract(g.x) - 0.5) : sign(fract(g.y) - 0.5) * 0.47;
+            result = mix(color1, color2, 1.0 - knurlOxide * (1.0 - level));
+            result = mix(result, mix(color2, color3, 0.54 - 0.35 * face), smoothstep(0.025, 0.20, level));
+            result = mix(result, color4, 0.22 * level + 0.57 * smoothstep(cap - 0.03, cap + 0.05, h));
+        """.trimIndent()
+
+        PatternTextureType.BallGridArray -> """
+            vec2 grid = p, cell = floor(grid), q = fract(grid) - 0.5;
+            float disc = length(q), r = 0.5 * solderDiameter;
+            float occupied = step(hash(cell + 4.0), occupiedPads);
+            float stub = segment(q, vec2(0.0), vec2(0.50, 0.28 * sign(hash(cell) - 0.5)));
+            result = mix(color1, color2, 0.20 + 0.38 * noise(p * 18.0));
+            result = mix(result, color2, coverage(stub, 0.023));
+            result = mix(result, color3, coverage(disc, r + padCollar));
+            result = mix(result, color1, coverage(disc, r * 0.63) * (1.0 - occupied) * 0.47);
+            vec2 uv = q / r;
+            float light =
+                clamp(-uv.x * 0.33 - uv.y * 0.41 + sqrt(max(0.0, 1.0 - dot(uv, uv))) * 0.61, 0.0, 1.0);
+            vec4 metal = mix(color1, color4, 0.26 + 0.65 * light);
+            metal = mix(metal, color4, exp(-dot(uv + vec2(0.36, 0.39), uv + vec2(0.36, 0.39)) * 23.0));
+            result = mix(result, metal, coverage(disc, r) * occupied);
+        """.trimIndent()
+
+        PatternTextureType.PiezoComb -> """
+            vec2 q = fract(p + vec2(phaseX, phaseY));
+            float lane = floor(q.y * 2.0 * fingerPairs);
+            float dist = abs(fract(q.y * 2.0 * fingerPairs) - 0.5) / (2.0 * fingerPairs);
+            float u = mix(q.x, 1.0 - q.x, mod(lane, 2.0));
+            float bus = coverage(min(abs(q.x - 0.069), abs(q.x - 0.931)), 0.032);
+            float metal = coverage(dist, fingerWidth / (4.0 * fingerPairs)) * step(0.070, u) *
+                          (1.0 - smoothstep(fingerReach, fingerReach + pixelWidth, u));
+            result = mix(color1, color2, 0.27 + 0.21 * noise(p * 4.0) + 0.10 * noise(p * 32.0));
+            vec4 electrode = mix(color3, color4, 0.17 + 0.52 * (1.0 - q.y) + 0.12 * cos(q.x * TAU));
+            result = mix(result, electrode, max(metal, bus));
+        """.trimIndent()
+
+        PatternTextureType.PolarizerMosaic -> """
+            vec2 g = (p + vec2(phaseX, phaseY)) * 2.0;
+            vec2 tile = mod(floor(g), 2.0), q = fract(g) - 0.5;
+            float orientation = (tile.x + 2.0 * tile.y) * 0.785398;
+            vec2 axis = vec2(cos(orientation), sin(orientation));
+            float stripe = cos(TAU * lamellaCount * dot(q, axis));
+            float visible = clamp(1.0 - pixelWidth * lamellaCount * 2.2, 0.0, 1.0);
+            float energy = cos(orientation - radians(analyzerAngle));
+            energy = polarizerLeak + (1.0 - polarizerLeak) * energy * energy;
+            vec4 film = mix(color2, color3, 0.5 + 0.45 * dot(axis, vec2(0.65, -0.6)));
+            film = mix(color1, film, energy);
+            film = mix(film, color4, (0.5 + 0.5 * visible * stripe) * energy * 0.72);
+            float seam = coverage(min(0.5 - abs(q.x), 0.5 - abs(q.y)), 0.03);
+            result = mix(film, color1, seam);
+        """.trimIndent()
+
+        PatternTextureType.PhosphorTriads -> """
+            vec2 g = p * vec2(1.0, 1.45) + vec2(2.0 * phaseX, phaseY);
+            float column = floor(g.x * 3.0);
+            float channel = mod(column, 3.0);
+            g.y += mod(column, 2.0) * 0.5;
+            vec2 q = vec2(fract(g.x * 3.0) - 0.5, fract(g.y) - 0.5);
+            vec2 edge = abs(q) - vec2(0.45 - maskRatio * 0.29, phosphorHeight * 0.5);
+            float d = length(max(edge + 0.125, vec2(0.0))) + min(max(edge.x + 0.125, edge.y + 0.125), 0.0) -
+                      0.125;
+            vec4 phosphor = channel < 0.5 ? color2 : (channel < 1.5 ? color3 : color4);
+            float halo = exp(-max(0.0, d) * 6.5) * crtBloom * 0.31;
+            float lit = coverage(d, 0.0) * (0.48 + 0.32 * (1.0 - q.y * q.y * 2.5));
+            result = mix(color1, phosphor, min(1.0, lit + halo));
+        """.trimIndent()
+
+        PatternTextureType.AnamorphicStreaks -> """
+            vec2 g = p * vec2(0.77, 1.35), root = floor(g);
+            result = mix(color1, color2, 0.05 + noise(g * 0.43) * 0.17);
+            float streak = 0.0, point = 0.0, ghost = 0.0;
+            for (int y = -1; y <= 1; y++)
+                for (int x = -2; x <= 2; x++) {
+                    vec2 id = root + vec2(float(x), float(y));
+                    vec2 d = g - id - 0.13 - 0.74 * hash2(id);
+                    float power = step(hash(id + 17.0), glintCount) * (0.45 + 0.55 * hash(id + 29.0));
+                    streak += power * exp(-abs(d.x) * 2.3 / streakReach - abs(d.y) * 32.0);
+                    point += power * exp(-dot(d, d) * 280.0);
+                    vec2 g1 = (d - vec2(ghostOffset, 0.018)) * vec2(1.38, 0.9);
+                    ghost += power * (0.35 * exp(-dot(g1, g1) * 43.0) +
+                                      0.85 * exp(-pow((length(g1) - 0.102) / 0.027, 2.0)));
+                }
+            result = mix(result, color2, clamp(streak, 0.0, 0.92));
+            result = mix(result, color3, clamp(ghost + 0.77 * streak, 0.0, 0.92));
+            result = mix(result, color4, clamp(point + 0.18 * streak, 0.0, 1.0));
+        """.trimIndent()
+
+        PatternTextureType.DichroicSplitter -> """
+            vec2 a = rotatePoint(p, 0.21), b = rotatePoint(p, radians(paneTilt) + 0.21);
+            float ua = fract(a.x + 0.16 * hash(vec2(floor(a.x), 3.1))),
+                  ub = fract(b.x + 0.12 * hash(vec2(floor(b.x), 6.0)));
+            float da = abs(ua - 0.5) - glassFraction * 0.5, db = abs(ub - 0.5) - glassFraction * 0.47;
+            float m = coverage(da, 0.0), s = coverage(db, 0.0);
+            float shimmer = 0.5 + 0.5 * cos(TAU * (0.36 * a.y + 0.53 * ua + 0.32 * noise(p * 0.8)));
+            result = mix(color1, color2, 0.10 + 0.13 * noise(p * 2.5));
+            result = mix(result, mix(color2, color4, 0.42 * shimmer), m * (0.28 + 0.58 * coatingMix));
+            result = mix(result, mix(color3, color4, 0.64 * m * shimmer), s * (0.30 + 0.56 * coatingMix));
+            float polished = max(coverage(abs(da), 0.013), coverage(abs(db), 0.012));
+            result = mix(result, color4, 0.74 * polished);
+        """.trimIndent()
+
+        PatternTextureType.TalbotCarpet -> """
+            vec2 q = p + vec2(phaseX, phaseY);
+            vec2 amplitude = vec2(slitFraction, 0.0);
+            for (int j = 1; j <= 11; j++) {
+                float m = float(j);
+                if (m > modeCount)
+                    break;
+                float weight = 2.0 * sin(3.141593 * m * slitFraction) / (3.141593 * m);
+                float travel = TAU * q.y * m * m;
+                float bandLimit = 1.0 - smoothstep(0.18, 0.64, pixelWidth * m * m);
+                float bandwidth = bandLimit * exp(-1.4 * m * m / (modeCount * modeCount));
+                amplitude += vec2(cos(travel), sin(travel)) * weight * cos(TAU * m * q.x) * bandwidth;
+            }
+            float light = dot(amplitude, amplitude),
+                  brilliance = 1.0 - exp(-light * (2.0 + carpetContrast * 4.0));
+            result = mix(color1, color2, smoothstep(0.0, 0.43, brilliance));
+            result = mix(result, color3, smoothstep(0.31, 0.76, brilliance));
+            result = mix(result, color4, smoothstep(0.69, 0.98, brilliance));
+        """.trimIndent()
+
+        PatternTextureType.ConoscopicCrosses -> """
+            vec2 root = floor(p);
+            float nearest = 12.0, second = 12.0, axis = 0.0;
+            vec2 q = vec2(0.0);
+            for (int y = -1; y <= 1; y++)
+                for (int x = -1; x <= 1; x++) {
+                    vec2 id = root + vec2(float(x), float(y));
+                    vec2 d = p - id - 0.5 - (hash2(id) - 0.5) * opticEccentricity;
+                    float length2 = dot(d, d);
+                    second = min(second, max(nearest, length2));
+                    if (length2 < nearest) {
+                        nearest = length2;
+                        q = d;
+                        axis = hash(id + 11.0) * TAU;
+                    }
+                }
+            vec2 r = rotatePoint(q, axis);
+            float retardation = sqrt(dot(r * vec2(1.0, 1.27), r * vec2(1.0, 1.27))) * isochromes;
+            float crossLight =
+                smoothstep(extinctionWidth * 0.12, extinctionWidth, abs(sin(2.0 * safeAngle(r))));
+            vec4 ring = mix(color2, color3, 0.5 + 0.5 * cos(TAU * retardation));
+            ring = mix(ring, color4, 0.58 * (0.5 + 0.5 * cos(TAU * retardation * 0.67 + 0.9)));
+            result =
+                mix(color1, ring, crossLight * (0.53 + 0.47 * smoothstep(0.0, 0.10, second - nearest)));
+        """.trimIndent()
+
+        PatternTextureType.SpeckleShear -> """
+            vec2 q = p * (1.42 - grainRate);
+            vec2 wave = vec2(0.0);
+            for (int j = 0; j < 7; j++) {
+                float i = float(j), ang = TAU * hash(vec2(i, 3.0));
+                float w = TAU * (dot(q, vec2(cos(ang), sin(ang))) * (3.1 + 4.3 * hash(vec2(i, 8.0))) +
+                                 hash(vec2(i, 9.0)));
+                wave += vec2(cos(w), sin(w));
+            }
+            float intensity = 1.0 - exp(-dot(wave, wave) * 0.13);
+            float phase =
+                safeAngle(wave) + TAU * (p.x * (0.7 + shearRate * 1.3) + shearRate * noise(p * 1.7));
+            float fringe = 0.5 + 0.5 * cos(phase);
+            result = mix(color1, color2, intensity * 0.88);
+            result = mix(result, color3, intensity * fringe * fringeGain);
+            result = mix(result, color4, smoothstep(0.68, 0.99, intensity * fringe) * 0.87);
+        """.trimIndent()
+
+        PatternTextureType.PythagoreanTiling -> """
+            float smallSide = insertRatio;
+            vec2 basisX = vec2(1.0, smallSide), basisY = vec2(-smallSide, 1.0);
+            float length2 = 1.0 + smallSide * smallSide;
+            vec2 ij = floor(vec2(dot(p, basisX), dot(p, basisY)) / length2);
+            float signedDistance = 8.0;
+            vec4 stone = color2;
+            for (int y = -1; y <= 1; y++)
+                for (int x = -1; x <= 1; x++) {
+                    vec2 id = ij + vec2(float(x), float(y));
+                    vec2 center = id.x * basisX + id.y * basisY;
+                    vec2 large = abs(p - center);
+                    vec2 inset = abs(p - center - vec2(0.5 + 0.5 * smallSide, -0.5 + 0.5 * smallSide));
+                    float a = max(large.x, large.y) - 0.5;
+                    float b = max(inset.x, inset.y) - smallSide * 0.5;
+                    if (min(a, b) < signedDistance) {
+                        signedDistance = min(a, b);
+                        stone = a < b ? mix(color2, color3, hash(id) * 0.31)
+                                      : mix(color3, color4, 0.30 + 0.34 * hash(id + 9.0));
+                    }
+                }
+            float edge = coverage(signedDistance, -stoneJoint * 0.5);
+            stone = mix(stone, color4, mineralGrain * (0.11 + 0.36 * noise(p * 29.0)));
+            result = mix(color1, stone, edge);
+        """.trimIndent()
+
+        PatternTextureType.MiuraFolds -> """
+            vec2 grid = p + 2.0 * vec2(phaseX, phaseY);
+            float row = floor(grid.y), fy = fract(grid.y);
+            float zig = mix(fy, 1.0 - fy, mod(row, 2.0));
+            float col = grid.x - foldSkew * zig, side = floor(col);
+            float checker = mod(side + row, 2.0);
+            float slope = mix(fract(col), 1.0 - fract(col), mod(row, 2.0));
+            vec4 face = mix(color2, color3, checker);
+            face = mix(face, color4, (0.12 + 0.42 * slope) * foldLight);
+            face = mix(face, color1, foldLight * (0.05 + 0.23 * mod(row, 2.0)));
+            float crease = min(min(fy, 1.0 - fy), min(fract(col), 1.0 - fract(col)));
+            result = mix(face, color1, coverage(crease, creaseWidth) * 0.68);
+        """.trimIndent()
+
+        PatternTextureType.DovetailMesh -> """
+            vec2 g = p + vec2(phaseX, phaseY), q = fract(g) - 0.5;
+            float along = abs(q.x);
+            float flare = mix(0.16, 0.16 + tailFlare, clamp(0.5 + 0.5 * q.y / tailDepth, 0.0, 1.0));
+            float plank = step(q.y, -tailDepth);
+            plank = max(plank, step(q.y, tailDepth) * step(along, flare));
+            float seam = abs(along - flare);
+            if (q.y < -tailDepth || q.y > tailDepth)
+                seam = 8.0;
+            if (along < 0.16 + tailFlare)
+                seam = min(seam, abs(q.y - tailDepth));
+            if (along > 0.16)
+                seam = min(seam, abs(q.y + tailDepth));
+            seam = min(seam, 0.5 - abs(q.y));
+            float grain = mix(noise(p * vec2(2.3, 64.0)), noise(p * vec2(72.0, 2.8)), plank);
+            vec4 board = mix(color2, color3, plank);
+            board = mix(board, color4, 0.11 + 0.26 * grain);
+            result = mix(board, color1, coverage(seam, joinClearance));
+        """.trimIndent()
+
+        PatternTextureType.ReuleauxTripods -> """
+            vec2 g = p + vec2(phaseX, phaseY * 2.0);
+            float row = floor(g.y);
+            g.x += 0.5 * mod(row, 2.0);
+            vec2 q = rotatePoint(fract(g) - 0.5, reuleauxSpin + mod(row, 2.0) * 3.14159);
+            float r = reuleauxSpan / 1.73205;
+            vec2 a = vec2(0.0, -r), b = vec2(0.866025 * r, 0.5 * r), c = vec2(-0.866025 * r, 0.5 * r);
+            float sd = max(length(q - a), max(length(q - b), length(q - c))) - reuleauxSpan;
+            result = mix(color1, color2, 0.19 + 0.23 * cos(TAU * g.x) * cos(TAU * g.y));
+            result = mix(result, color3, coverage(sd, 0.0));
+            result = mix(result, color2, coverage(sd, -reuleauxInset));
+            result = mix(result, color4, coverage(abs(sd + reuleauxInset * 2.2), 0.013) * 0.85);
+        """.trimIndent()
+
+        PatternTextureType.HingedSquares -> """
+            vec2 g = p + 2.0 * vec2(phaseX, phaseY), id = floor(g), q = fract(g) - 0.5;
+            float parity = mod(id.x + id.y, 2.0), alpha = mix(-hingeOpening, hingeOpening, parity);
+            float h = 0.5 / (cos(alpha) + abs(sin(alpha)));
+            vec2 v = rotatePoint(q, alpha), side = abs(v) - h;
+            float plate = max(side.x, side.y);
+            vec4 alloy = mix(color2, color3, parity);
+            alloy = mix(alloy, color4, 0.13 + 0.15 * (v.x - v.y + 0.6));
+            alloy = mix(alloy, color1, coverage(abs(plate + plateLip * 0.5), plateLip * 0.5) * 0.45);
+            result = mix(color1, alloy, coverage(plate, 0.0));
+            vec2 joint = abs(v) - h;
+            result = mix(result, color4, coverage(length(joint), hingeRadius));
+        """.trimIndent()
+
+        PatternTextureType.OctagonCabochons -> """
+            vec2 q = fract(p) - 0.5;
+            float corners = 1.0 - abs(q.x) - abs(q.y);
+            float grout = min(0.5 - max(abs(q.x), abs(q.y)), abs(corners - cabochonSpan) * 0.7071);
+            float streak = sin((p.x - p.y) * 26.0 + 6.0 * noise(p * 2.8) + 2.0 * noise(p * 8.0));
+            float vein = smoothstep(0.82, 0.97, streak) * marbleVeins;
+            vec4 slab = mix(color3, color4, 0.10 + 0.38 * vein + 0.15 * noise(p * 21.0));
+            vec4 pin = mix(color1, color2, 0.52 + 0.36 * noise(p * 13.0));
+            float rim = coverage(abs(corners - cabochonSpan * 0.72), borderGauge * 0.56);
+            pin = mix(pin, color4, rim);
+            result =
+                mix(pin, slab, smoothstep(cabochonSpan - pixelWidth, cabochonSpan + pixelWidth, corners));
+            float actualJoint = corners < cabochonSpan ? abs(corners - cabochonSpan) * 0.7071 : grout;
+            result = mix(result, color1, coverage(actualJoint, 0.010));
+        """.trimIndent()
+
+        PatternTextureType.PentominoMosaic -> """
+            vec2 g = p * 2.4, tile = floor(g), uv = fract(g);
+            vec2 nearSide = step(vec2(0.5), uv) * 2.0 - 1.0;
+            float central = 0.0, dist = 1.0, variant = 0.0;
+            for (int k = 0; k < 3; k++) {
+                vec2 u = tile;
+                if (k == 1)
+                    u.x += nearSide.x;
+                if (k == 2)
+                    u.y += nearSide.y;
+                vec2 board = floor(u / vec2(5.0, 6.0)), v = mod(u, vec2(5.0, 6.0));
+                float selector = hash(board + 33.0);
+                if (hash(board + 12.0) < 0.5)
+                    v.x = 4.0 - v.x;
+                if (hash(board + 18.0) < 0.5)
+                    v.y = 5.0 - v.y;
+                float row = v.y, rowCode = 0.0;
+                if (row < 0.5)
+                    rowCode = selector < 0.333 ? 4672.0 : (selector < 0.667 ? 9288.0 : 4680.0);
+                else if (row < 1.5)
+                    rowCode = selector < 0.333 ? 4098.0 : (selector < 0.667 ? 8776.0 : 5248.0);
+                else if (row < 2.5)
+                    rowCode = selector < 0.333 ? 5778.0 : (selector < 0.667 ? 9408.0 : 13968.0);
+                else if (row < 3.5)
+                    rowCode = selector < 0.333 ? 14100.0 : (selector < 0.667 ? 14020.0 : 18128.0);
+                else if (row < 4.5)
+                    rowCode = selector < 0.333 ? 14116.0 : (selector < 0.667 ? 22308.0 : 18285.0);
+                else if (row < 5.5)
+                    rowCode = selector < 0.333 ? 23405.0 : (selector < 0.667 ? 23404.0 : 18733.0);
+                float key = mod(floor(rowCode / exp2(3.0 * v.x)), 8.0);
+                float identifier = key + hash(board) * 19.0;
+                if (k == 0) {
+                    central = identifier;
+                    variant = hash(board + key * 2.7 + 8.0);
+                } else if (abs(identifier - central) > 0.002) {
+                    float d = k == 1 ? min(uv.x, 1.0 - uv.x) : min(uv.y, 1.0 - uv.y);
+                    dist = min(dist, d);
+                }
+            }
+            vec4 glaze = variant < 0.34 ? color2 : (variant < 0.68 ? color3 : color4);
+            glaze = mix(glaze, color4, min(0.45, glazeMottle * noise(p * 18.0) * 0.45));
+            glaze = mix(glaze, color1, bevelDepth * coverage(dist, jointWidth + 0.042) * 0.58);
+            result = mix(glaze, color1, coverage(dist, jointWidth));
+        """.trimIndent()
+
+        PatternTextureType.VacuumChuck -> """
+            vec2 q = fract(p + vec2(phaseX, phaseY)) - 0.5;
+            vec2 v = abs(q) - vec2(0.43 - cornerFillet, 0.40 - cornerFillet);
+            float hull = length(max(v, vec2(0.0))) + min(max(v.x, v.y), 0.0) - cornerFillet;
+            float pitch = 0.397 / grooveCount;
+            float channel = abs(fract((-hull) / pitch) - 0.5) * pitch;
+            float mask = coverage(channel, 0.15 * pitch) * step(hull, 0.0);
+            float milling = noise(vec2(p.x * 4.0, p.y * 126.0));
+            result = mix(color2, color3, 0.33 + 0.39 * milling);
+            result = mix(result, color4, coverage(channel, 0.27 * pitch) * step(hull, 0.0) * 0.60);
+            result = mix(result, color1, mask);
+            vec2 port = abs(q) - vec2(0.308, 0.265);
+            result = mix(result, color2, coverage(length(port), portRadius + 0.011));
+            result = mix(result, color1, coverage(length(port), portRadius));
+        """.trimIndent()
+
+        PatternTextureType.TorsionSprings -> """
+            vec2 g = p + vec2(phaseX, phaseY);
+            vec2 q = fract(g) - 0.5;
+            result = mix(color1, color2, 0.08 + 0.11 * noise(p * 20.0));
+            for (int depth = 0; depth < 2; depth++) {
+                for (int turn = -1; turn <= 1; turn++) {
+                    for (int j = 0; j < 10; j++) {
+                        float t0 = 0.5 * float(depth) + 0.05 * float(j), t1 = t0 + 0.05;
+                        float a0 = t0 * TAU, a1 = t1 * TAU;
+                        vec2 a = vec2(float(turn) + t0 - 0.5 + helixProjection * sin(a0),
+                                      coilSpan * 0.5 * cos(a0));
+                        vec2 b = vec2(float(turn) + t1 - 0.5 + helixProjection * sin(a1),
+                                      coilSpan * 0.5 * cos(a1));
+                        float d = segment(q, a, b);
+                        float metal = 0.5 + 0.5 * cos((t0 + 0.025) * TAU - 0.7);
+                        vec4 wire = mix(color2, color3, 0.12 + 0.77 * metal);
+                        wire =
+                            mix(wire, color4, exp(-d * d / (wireGauge * wireGauge * 0.27)) * metal * 0.7);
+                        result = mix(result, wire, coverage(d, wireGauge));
+                    }
+                }
+            }
+        """.trimIndent()
+
+        PatternTextureType.CuneiformImpressions -> """
+            vec2 g = p * vec2(0.82, 1.0);
+            vec2 cell = floor(g), q = fract(g) - 0.5;
+            float clay = 0.49 * noise(p * 4.0) + 0.32 * noise(p * 24.0) + 0.19 * noise(p * 78.0);
+            result = mix(color2, color3, 0.24 + clay * 0.62);
+            for (int i = 0; i < 5; i++) {
+                float z = float(i);
+                vec2 anchor = vec2(mod(z, 3.0) * 0.245 - 0.225, floor(z / 3.0) * 0.35 - 0.16);
+                vec2 d = q - anchor - (hash2(cell + z * 13.0) - 0.5) * 0.12;
+                float angle = floor(hash(cell + z * 16.0 + 9.0) * 4.0) * 0.785398;
+                vec2 u = rotatePoint(d, angle);
+                float len = markSize * (0.55 + 0.29 * hash(cell + z * 21.0));
+                vec2 a = vec2(-len * 0.27, -len * 0.31), b = vec2(-len * 0.27, len * 0.31),
+                     c = vec2(len * 0.73, 0.0);
+                float sd = triangleDistance(u, a, b, c);
+                float occupied = step(hash(cell + z * 26.0 + 4.0), markDensity);
+                vec4 cut = mix(color1, color2, 0.12 + 0.59 * smoothstep(-0.025, 0.024, u.y + u.x * 0.09));
+                result = mix(result, color4, coverage(sd, 0.011) * occupied * stylusDepth * 0.75);
+                result = mix(result, cut, coverage(sd, 0.0) * occupied * stylusDepth);
+            }
+        """.trimIndent()
+
+        PatternTextureType.AnechoicWedges -> """
+            vec2 g = p + 2.0 * vec2(phaseX, phaseY);
+            vec2 id = floor(g), q = fract(g) - 0.5;
+            float checker = mod(id.x + id.y, 2.0);
+            float axis = mix(q.x, q.y, checker);
+            float t = fract((axis + 0.5) * wedgePitch);
+            float h = 1.0 - abs(2.0 * t - 1.0);
+            float lighting = mix(0.24, 0.8, step(0.5, t)) * mix(1.0, 0.65, checker);
+            float pores = 0.63 * noise(p * 73.0) + 0.37 * noise(p * 173.0);
+            vec4 foam = mix(color2, color3, 0.17 + lighting * wedgeDepth * 0.77);
+            foam = mix(foam, color1,
+                       (1.0 - h) * wedgeDepth * 0.74 + foamPores * 0.35 * smoothstep(0.55, 0.80, pores));
+            foam = mix(foam, color4, pow(max(h, 0.0), 12.0) * 0.28);
+            float border = min(0.5 - abs(q.x), 0.5 - abs(q.y));
+            result = mix(foam, color1, coverage(border, 0.014) * 0.78);
         """.trimIndent()
     }
     val uniforms = type.parameters.joinToString("\n") { "uniform float ${it.name};" }
@@ -3356,7 +4229,7 @@ internal fun patternShader(type: PatternTextureType): String {
         precision highp float;
         varying vec2 textureCoordinate;
         uniform vec2 aspect;
-        uniform float frequency, offsetX, offsetY, rotation, pixelWidth;
+        uniform float frequency, offsetX, offsetY, rotation, pixelWidth, phaseX, phaseY;
         uniform vec4 color1, color2, color3, color4;
         $uniforms
         $seed
@@ -3400,6 +4273,60 @@ internal fun patternShader(type: PatternTextureType): String {
             return mix(color4,color1,t-3.0);
         }
         vec3 hsv(vec3 c) { return c.z*mix(vec3(1),clamp(abs(fract(c.xxx+vec3(0,0.666667,0.333333))*6.0-3.0)-1.0,0.0,1.0),c.y); }
+        float layerNoise(vec2 p) {
+            return noise(p) * 0.53 + noise(p * 2.07 + 9.1) * 0.27 +
+                noise(p * 4.19 + 17.3) * 0.13 + noise(p * 8.37 - 6.4) * 0.07;
+        }
+        float repeatDistance(float x) {
+            return abs(fract(x + 0.5) - 0.5);
+        }
+        float reliefBand(float d, float w) {
+            float aa = max(pixelWidth * 0.65, 0.0003);
+            return 1.0 - smoothstep(w - aa, w + aa, abs(d));
+        }
+        vec3 cellSample(vec2 p) {
+            vec2 tile = floor(p), f = fract(p);
+            float a = 8.0, b = 8.0, id = 0.0;
+            for (int y = -1; y <= 1; y++) {
+                for (int x = -1; x <= 1; x++) {
+                    vec2 o = vec2(float(x), float(y));
+                    vec2 delta = o + 0.10 + 0.80 * hash2(tile + o) - f;
+                    float ds = dot(delta, delta);
+                    b = min(b, max(a, ds));
+                    if (ds < a) {
+                        a = ds;
+                        id = hash(tile + o + 28.1);
+                    }
+                }
+            }
+            return vec3(sqrt(a), sqrt(b) - sqrt(a), id);
+        }
+        vec4 toneRamp(float t) {
+            float q = clamp(t, 0.0, 1.0) * 3.0;
+            return mix(mix(color1, color2, min(q, 1.0)),
+                mix(color3, color4, clamp(q - 2.0, 0.0, 1.0)), clamp(q - 1.0, 0.0, 1.0));
+        }
+
+        vec4 surfaceCell(vec2 point, float jitter) {
+            vec2 tile = floor(point);
+            float nearest = 10.0, second = 10.0;
+            vec2 delta = vec2(0.0);
+            for (int row = -1; row <= 1; row++) {
+                for (int col = -1; col <= 1; col++) {
+                    vec2 neighbor = tile + vec2(float(col), float(row));
+                    vec2 offset = point - neighbor - mix(vec2(0.5), hash2(neighbor), jitter);
+                    float distanceSq = dot(offset, offset);
+                    if (distanceSq < nearest) {
+                        second = nearest;
+                        nearest = distanceSq;
+                        delta = offset;
+                    } else {
+                        second = min(second, distanceSq);
+                    }
+                }
+            }
+            return vec4(sqrt(nearest), sqrt(second) - sqrt(nearest), delta);
+        }
         void main() {
             vec2 p=(textureCoordinate-.5)*aspect-vec2(offsetX,offsetY);
             float a=radians(rotation);p=mat2(cos(a),-sin(a),sin(a),cos(a))*p*frequency;
