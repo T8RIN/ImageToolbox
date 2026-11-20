@@ -55,6 +55,7 @@ internal fun FastNoiseParams(
             )
         }
         config.values.forEachIndexed { index, info ->
+            if (info == null) return@forEachIndexed
             FloatParam(
                 value = params.values[index],
                 title = stringResource(info.title),
@@ -85,18 +86,22 @@ internal fun FastNoiseParams(
                         )
                     )
                 },
-                shape = ShapeDefaults.center
+                shape = if (!config.showSeed && index == config.colors.lastIndex) {
+                    ShapeDefaults.bottom
+                } else ShapeDefaults.center
             )
         }
-        SeedSelector(
-            value = params.seed,
-            title = stringResource(R.string.seed),
-            valueRange = -10000f..10000f,
-            onValueChange = { seed ->
-                onValueChange(value.copy(fastNoiseParams = params.copy(seed = seed.toInt())))
-            },
-            shape = ShapeDefaults.bottom
-        )
+        if (config.showSeed) {
+            SeedSelector(
+                value = params.seed,
+                title = stringResource(R.string.seed),
+                valueRange = -10000f..10000f,
+                onValueChange = { seed ->
+                    onValueChange(value.copy(fastNoiseParams = params.copy(seed = seed.toInt())))
+                },
+                shape = ShapeDefaults.bottom
+            )
+        }
         GradientPaletteSelector(
             value = remember(params.colors) {
                 GradientPalette.entries.firstOrNull {
@@ -117,8 +122,9 @@ internal fun FastNoiseParams(
 }
 
 private data class FastNoiseConfig(
-    val values: List<ParamInfo>,
-    val colors: List<Int>
+    val values: List<ParamInfo?>,
+    val colors: List<Int>,
+    val showSeed: Boolean
 )
 
 private data class ParamInfo(
@@ -484,7 +490,8 @@ private fun TextureFilterType.fastNoiseConfig(): FastNoiseConfig = when (this) {
         )
     )
 
-    TextureFilterType.Fire -> config(
+    TextureFilterType.Fire,
+    TextureFilterType.EmberVeil -> config(
         param(R.string.texture_flame_frequency, 1f..32f),
         param(R.string.turbulence, 0f..64f),
         unit(R.string.texture_intensity),
@@ -498,7 +505,8 @@ private fun TextureFilterType.fastNoiseConfig(): FastNoiseConfig = when (this) {
         )
     )
 
-    TextureFilterType.Aurora -> config(
+    TextureFilterType.Aurora,
+    TextureFilterType.PolarMist -> config(
         param(R.string.texture_ribbons, 1f..32f),
         distortion(),
         unit(R.string.glow),
@@ -596,7 +604,8 @@ private fun TextureFilterType.fastNoiseConfig(): FastNoiseConfig = when (this) {
         )
     )
 
-    TextureFilterType.Velvet -> config(
+    TextureFilterType.Velvet,
+    TextureFilterType.RibbedSatin -> config(
         unit(R.string.texture_fibers),
         param(R.string.texture_direction, 0f..6.28f),
         unit(R.string.softness),
@@ -624,7 +633,8 @@ private fun TextureFilterType.fastNoiseConfig(): FastNoiseConfig = when (this) {
         )
     )
 
-    TextureFilterType.HolographicFoil -> config(
+    TextureFilterType.HolographicFoil,
+    TextureFilterType.DiffractionGrating -> config(
         param(R.string.texture_spectrum, 1f..32f),
         unit(R.string.texture_crinkles),
         unit(R.string.texture_diffraction),
@@ -652,7 +662,8 @@ private fun TextureFilterType.fastNoiseConfig(): FastNoiseConfig = when (this) {
         )
     )
 
-    TextureFilterType.CosmicVortex -> config(
+    TextureFilterType.CosmicVortex,
+    TextureFilterType.SpiralBeacon -> config(
         param(R.string.texture_arms, 1f..16f),
         param(R.string.texture_twist, 0f..32f),
         unit(R.string.turbulence),
@@ -666,7 +677,8 @@ private fun TextureFilterType.fastNoiseConfig(): FastNoiseConfig = when (this) {
         )
     )
 
-    TextureFilterType.LavaLamp -> config(
+    TextureFilterType.LavaLamp,
+    TextureFilterType.MoltenWax -> config(
         param(R.string.texture_blobs, 1f..16f),
         unit(R.string.softness),
         distortion(),
@@ -736,7 +748,8 @@ private fun TextureFilterType.fastNoiseConfig(): FastNoiseConfig = when (this) {
         )
     )
 
-    TextureFilterType.StrangeAttractor -> config(
+    TextureFilterType.StrangeAttractor,
+    TextureFilterType.PrismLights -> config(
         param(R.string.texture_lobes, 1f..8f),
         param(R.string.texture_orbit_density, 1f..64f),
         param(R.string.texture_curvature, 0f..12f),
@@ -806,7 +819,8 @@ private fun TextureFilterType.fastNoiseConfig(): FastNoiseConfig = when (this) {
         )
     )
 
-    TextureFilterType.NautilusShell -> config(
+    TextureFilterType.NautilusShell,
+    TextureFilterType.FossilCrossSection -> config(
         param(R.string.texture_turns, 1f..8f),
         param(R.string.texture_chambers, 1f..32f),
         unit(R.string.texture_opening),
@@ -834,10 +848,11 @@ private fun TextureFilterType.fastNoiseConfig(): FastNoiseConfig = when (this) {
         )
     )
 
-    TextureFilterType.Geode -> normalizedConfig(
+    TextureFilterType.Geode,
+    TextureFilterType.AgateEye -> normalizedConfig(
         R.string.texture_bands,
         R.string.distortion,
-        R.string.texture_crystal_sharpness,
+        R.string.texture_crystal_sharpness.takeIf { this == TextureFilterType.Geode },
         R.string.sparkle
     )
 
@@ -855,24 +870,27 @@ private fun TextureFilterType.fastNoiseConfig(): FastNoiseConfig = when (this) {
         R.string.glow
     )
 
-    TextureFilterType.KelpForest -> normalizedConfig(
+    TextureFilterType.KelpForest,
+    TextureFilterType.JadeCurrent -> normalizedConfig(
         R.string.density,
         R.string.current,
         R.string.texture_depth_sharpness,
         R.string.texture_light_rays
     )
 
-    TextureFilterType.FrostFern -> normalizedConfig(
+    TextureFilterType.FrostFern,
+    TextureFilterType.FrostSpindle -> normalizedConfig(
         R.string.texture_branches,
         R.string.texture_branching,
-        R.string.texture_crystal_sharpness,
+        R.string.texture_crystal_sharpness.takeIf { this == TextureFilterType.FrostFern },
         R.string.texture_frost_glow
     )
 
-    TextureFilterType.LiquidCrystal -> normalizedConfig(
+    TextureFilterType.LiquidCrystal,
+    TextureFilterType.PrismaticFaults -> normalizedConfig(
         R.string.texture_domains,
         R.string.dispersion,
-        R.string.texture_boundary_sharpness,
+        R.string.texture_boundary_sharpness.takeIf { this == TextureFilterType.LiquidCrystal },
         R.string.shine
     )
 
@@ -890,10 +908,11 @@ private fun TextureFilterType.fastNoiseConfig(): FastNoiseConfig = when (this) {
         R.string.glow
     )
 
-    TextureFilterType.Mycelium -> normalizedConfig(
+    TextureFilterType.Mycelium,
+    TextureFilterType.RootLace -> normalizedConfig(
         R.string.texture_network_density,
         R.string.texture_branching,
-        R.string.texture_fiber_sharpness,
+        R.string.texture_fiber_sharpness.takeIf { this == TextureFilterType.Mycelium },
         R.string.glow
     )
 
@@ -932,10 +951,11 @@ private fun TextureFilterType.fastNoiseConfig(): FastNoiseConfig = when (this) {
         R.string.glow
     )
 
-    TextureFilterType.SnakeSkin -> normalizedConfig(
+    TextureFilterType.SnakeSkin,
+    TextureFilterType.OliveMosaic -> normalizedConfig(
         R.string.texture_scale_density,
         R.string.texture_irregularity,
-        R.string.texture_rim_sharpness,
+        R.string.texture_rim_sharpness.takeIf { this == TextureFilterType.SnakeSkin },
         R.string.texture_sheen
     )
 
@@ -974,14 +994,16 @@ private fun TextureFilterType.fastNoiseConfig(): FastNoiseConfig = when (this) {
         R.string.texture_luminescence
     )
 
-    TextureFilterType.ReactionDiffusion -> normalizedConfig(
+    TextureFilterType.ReactionDiffusion,
+    TextureFilterType.MarbledPatina -> normalizedConfig(
         R.string.texture_pattern_scale,
         R.string.feedback,
         R.string.texture_edge_sharpness,
         R.string.glow
     )
 
-    TextureFilterType.CoralGrowth -> normalizedConfig(
+    TextureFilterType.CoralGrowth,
+    TextureFilterType.CoralSprigs -> normalizedConfig(
         R.string.texture_branch_density,
         R.string.texture_growth_bias,
         R.string.texture_edge_sharpness,
@@ -995,14 +1017,16 @@ private fun TextureFilterType.fastNoiseConfig(): FastNoiseConfig = when (this) {
         R.string.glow
     )
 
-    TextureFilterType.DendriticCrystal -> normalizedConfig(
+    TextureFilterType.DendriticCrystal,
+    TextureFilterType.CrystalSpokes -> normalizedConfig(
         R.string.texture_branch_count,
         R.string.texture_branching,
         R.string.texture_crystal_sharpness,
         R.string.glow
     )
 
-    TextureFilterType.ElectricArcField -> normalizedConfig(
+    TextureFilterType.ElectricArcField,
+    TextureFilterType.PlasmaTendril -> normalizedConfig(
         R.string.texture_arc_count,
         R.string.turbulence,
         R.string.texture_arc_sharpness,
@@ -1023,14 +1047,16 @@ private fun TextureFilterType.fastNoiseConfig(): FastNoiseConfig = when (this) {
         R.string.texture_bleed
     )
 
-    TextureFilterType.CellularEmbryo -> normalizedConfig(
+    TextureFilterType.CellularEmbryo,
+    TextureFilterType.PearlButtons -> normalizedConfig(
         R.string.texture_embryo_density,
         R.string.texture_morphology,
         R.string.texture_membrane_sharpness,
         R.string.glow
     )
 
-    TextureFilterType.NeuralGarden -> normalizedConfig(
+    TextureFilterType.NeuralGarden,
+    TextureFilterType.LinkedNodes -> normalizedConfig(
         R.string.texture_neuron_density,
         R.string.texture_branching,
         R.string.texture_fiber_sharpness,
@@ -1086,7 +1112,8 @@ private fun TextureFilterType.fastNoiseConfig(): FastNoiseConfig = when (this) {
         R.string.glow
     )
 
-    TextureFilterType.VeinedLeaf -> normalizedConfig(
+    TextureFilterType.VeinedLeaf,
+    TextureFilterType.LeafSkeleton -> normalizedConfig(
         R.string.texture_vein_density,
         R.string.texture_curvature,
         R.string.texture_vein_sharpness,
@@ -1100,7 +1127,8 @@ private fun TextureFilterType.fastNoiseConfig(): FastNoiseConfig = when (this) {
         R.string.texture_moisture
     )
 
-    TextureFilterType.RainOnGlass -> normalizedConfig(
+    TextureFilterType.RainOnGlass,
+    TextureFilterType.BeadedCurtain -> normalizedConfig(
         R.string.texture_drop_density,
         R.string.texture_streaking,
         R.string.texture_drop_sharpness,
@@ -1135,7 +1163,8 @@ private fun TextureFilterType.fastNoiseConfig(): FastNoiseConfig = when (this) {
         R.string.glow
     )
 
-    TextureFilterType.LichtenbergFigure -> normalizedConfig(
+    TextureFilterType.LichtenbergFigure,
+    TextureFilterType.SpiralCobweb -> normalizedConfig(
         R.string.texture_branch_count,
         R.string.texture_branching,
         R.string.texture_arc_sharpness,
@@ -1212,16 +1241,19 @@ private fun TextureFilterType.fastNoiseConfig(): FastNoiseConfig = when (this) {
         R.string.texture_wet_sheen
     )
 
-    TextureFilterType.GildedFiligree -> normalizedConfig(
+    TextureFilterType.GildedFiligree,
+    TextureFilterType.GoldenTurbine -> normalizedConfig(
         R.string.texture_curl_density,
         R.string.texture_ornament,
         R.string.texture_line_sharpness,
-        R.string.texture_metallic
+        R.string.texture_metallic,
+        showSeed = this == TextureFilterType.GildedFiligree
     )
 
-    TextureFilterType.AncientRunes -> normalizedConfig(
+    TextureFilterType.AncientRunes,
+    TextureFilterType.RunicTrellis -> normalizedConfig(
         R.string.texture_glyph_density,
-        R.string.texture_erosion,
+        R.string.texture_erosion.takeIf { this == TextureFilterType.AncientRunes },
         R.string.texture_stroke_sharpness,
         R.string.glow
     )
@@ -1233,7 +1265,8 @@ private fun TextureFilterType.fastNoiseConfig(): FastNoiseConfig = when (this) {
         R.string.texture_heat_glow
     )
 
-    TextureFilterType.LunarEjecta -> normalizedConfig(
+    TextureFilterType.LunarEjecta,
+    TextureFilterType.CraterRays -> normalizedConfig(
         R.string.texture_crater_density,
         R.string.texture_ray_length,
         R.string.texture_rim_sharpness,
@@ -1254,7 +1287,8 @@ private fun TextureFilterType.fastNoiseConfig(): FastNoiseConfig = when (this) {
         R.string.texture_paper_glow
     )
 
-    TextureFilterType.NeonCity -> normalizedConfig(
+    TextureFilterType.NeonCity,
+    TextureFilterType.PixelFountain -> normalizedConfig(
         R.string.texture_building_density,
         R.string.texture_perspective,
         R.string.texture_edge_sharpness,
@@ -1275,25 +1309,30 @@ private fun TextureFilterType.fastNoiseConfig(): FastNoiseConfig = when (this) {
         R.string.glow
     )
 
-    TextureFilterType.ApollonianGasket -> normalizedConfig(
+    TextureFilterType.ApollonianGasket,
+    TextureFilterType.CircleLace -> normalizedConfig(
         R.string.texture_recursion,
         R.string.texture_curvature,
         R.string.texture_boundary_sharpness,
-        R.string.glow
+        R.string.glow,
+        showSeed = this == TextureFilterType.ApollonianGasket
     )
 
-    TextureFilterType.HyperbolicTiling -> normalizedConfig(
+    TextureFilterType.HyperbolicTiling,
+    TextureFilterType.HexagonalLace -> normalizedConfig(
         R.string.texture_polygon_sides,
         R.string.texture_curvature,
         R.string.texture_edge_sharpness,
         R.string.glow
     )
 
-    TextureFilterType.MoebiusWeave -> normalizedConfig(
+    TextureFilterType.MoebiusWeave,
+    TextureFilterType.PerforatedRosette -> normalizedConfig(
         R.string.texture_band_count,
         R.string.texture_twist,
         R.string.texture_edge_sharpness,
-        R.string.texture_sheen
+        R.string.texture_sheen,
+        showSeed = this == TextureFilterType.MoebiusWeave
     )
 
     TextureFilterType.RorschachInkblot -> normalizedConfig(
@@ -2358,13 +2397,14 @@ private fun TextureFilterType.fastNoiseConfig(): FastNoiseConfig = when (this) {
 
 private fun normalizedConfig(
     @StringRes value1: Int,
-    @StringRes value2: Int,
-    @StringRes value3: Int,
-    @StringRes value4: Int
+    @StringRes value2: Int?,
+    @StringRes value3: Int?,
+    @StringRes value4: Int,
+    showSeed: Boolean = true
 ) = config(
     unit(value1),
-    unit(value2),
-    unit(value3),
+    value2?.let { unit(it) },
+    value3?.let { unit(it) },
     unit(value4),
     contrast(),
     colors = intArrayOf(
@@ -2372,15 +2412,18 @@ private fun normalizedConfig(
         R.string.texture_primary_color,
         R.string.texture_secondary_color,
         R.string.texture_highlight_color
-    )
+    ),
+    showSeed = showSeed
 )
 
 private fun config(
-    vararg values: ParamInfo,
-    colors: IntArray
+    vararg values: ParamInfo?,
+    colors: IntArray,
+    showSeed: Boolean = true
 ) = FastNoiseConfig(
     values = values.toList(),
-    colors = colors.toList()
+    colors = colors.toList(),
+    showSeed = showSeed
 )
 
 private fun unit(

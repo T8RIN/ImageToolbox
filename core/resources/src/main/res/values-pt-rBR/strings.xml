@@ -3757,6 +3757,7 @@
     <string name="texture_motherboard_heatmap">Mapa de calor da placa-mãe</string>
     <string name="texture_microscopic_diatoms">Diatomáceas microscópicas</string>
     <string name="texture_reaction_diffusion">Difusão de reação</string>
+    <string name="texture_gmic_reaction_diffusion">Difusão de reação (G’MIC)</string>
     <string name="texture_coral_growth">Crescimento de Corais</string>
     <string name="texture_slime_mold">Molde de limo</string>
     <string name="texture_dendritic_crystal">Cristal Dendrítico</string>

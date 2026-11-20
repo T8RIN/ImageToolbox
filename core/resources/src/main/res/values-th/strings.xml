@@ -3755,6 +3755,7 @@
     <string name="texture_motherboard_heatmap">แผนที่ความร้อนของเมนบอร์ด</string>
     <string name="texture_microscopic_diatoms">ไดอะตอมด้วยกล้องจุลทรรศน์</string>
     <string name="texture_reaction_diffusion">การแพร่กระจายของปฏิกิริยา</string>
+    <string name="texture_gmic_reaction_diffusion">การแพร่กระจายของปฏิกิริยา (G’MIC)</string>
     <string name="texture_coral_growth">การเจริญเติบโตของปะการัง</string>
     <string name="texture_slime_mold">สไลม์รา</string>
     <string name="texture_dendritic_crystal">เดนไดรติก คริสตัล</string>

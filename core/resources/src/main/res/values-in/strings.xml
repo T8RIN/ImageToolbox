@@ -3755,6 +3755,7 @@
     <string name="texture_motherboard_heatmap">Peta Panas Motherboard</string>
     <string name="texture_microscopic_diatoms">Diatom Mikroskopis</string>
     <string name="texture_reaction_diffusion">Difusi Reaksi</string>
+    <string name="texture_gmic_reaction_diffusion">Difusi Reaksi (G’MIC)</string>
     <string name="texture_coral_growth">Pertumbuhan Karang</string>
     <string name="texture_slime_mold">Cetakan Lendir</string>
     <string name="texture_dendritic_crystal">Kristal Dendritik</string>

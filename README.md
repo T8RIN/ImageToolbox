@@ -829,7 +829,7 @@ or click one of the badges below.
     - Share created filters by QR code
     - Scan filters from the app to get them on your device
 - Native fractal generation with 75 2D and 3D fractal types
-- Texture generation with more than 250 presets
+- Texture generation with 410 presets
 
   <details>
   <summary>Available textures</summary>
@@ -1039,9 +1039,167 @@ or click one of the badges below.
     * Iridescent Foam
     * Lava Crust
     * Abyssal Vent
+    * Ember Veil
+    * Polar Mist
+    * Ribbed Satin
+    * Diffraction Grating
+    * Spiral Beacon
+    * Molten Wax
+    * Prism Lights
+    * Fossil Cross Section
+    * Agate Eye
+    * Jade Current
+    * Frost Spindle
+    * Prismatic Faults
+    * Root Lace
+    * Olive Mosaic
+    * Marbled Patina
+    * Coral Sprigs
+    * Crystal Spokes
+    * Plasma Tendril
+    * Pearl Buttons
+    * Linked Nodes
+    * Leaf Skeleton
+    * Beaded Curtain
+    * Spiral Cobweb
+    * Golden Turbine
+    * Runic Trellis
+    * Crater Rays
+    * Pixel Fountain
+    * Circle Lace
+    * Hexagonal Lace
+    * Perforated Rosette
+    * Lunaria Pods
+    * Horsetail Stems
+    * Dandelion Clocks
+    * Calico Koi
+    * Lily of the Valley
+    * Silk Poppies
+    * Fly Agaric Grove
+    * Beach Pebbles
+    * Travertine Pools
+    * Tidepool Stars
+    * Wave-cut Cliffs
+    * Sailing Regatta
+    * Barnacle Colony
+    * Flying Petrels
+    * Moon Phases
+    * Sidereal Trails
+    * Orion Chart
+    * Meteor Shower
+    * Clockwork Orrery
+    * Comet Plume
+    * Binary Sunset
+    * Pivot Irrigation
+    * Alluvial Meanders
+    * Raked Sand Garden
+    * Balloon Festival
+    * Harbour Light
+    * Paper Lanterns
+    * Parasol Market
+    * Backgammon points
+    * Domino table
+    * Playing card suits
+    * Record sleeves
+    * Music box roll
+    * Zipper tape
+    * Bobbin lace
+    * Compass rose inlay
+    * Waffle pockets
+    * Citrus wheels
+    * Salted pretzels
+    * Liquorice allsorts
+    * Hand-cut ravioli
+    * Cameo medallions
+    * Bow tie patchwork
+    * Tassel fringe
+    * Millefiori glass
+    * Greek meander
+    * Paper chain garlands
+    * Ribbon cockades
+    * Venetian shutters
+    * Sandstone arcade
+    * Gear blueprint
+    * Admission tickets
+    * Sawtooth roofs
+    * Fan vault
+    * Woodcut swells
+    * Apartment floor plan
+    * Rooftop water tanks
+    * Clothbound spines
+    * Harbour signal flags
+    * Drawing pantograph
+    * Dual-trace oscilloscope
+    * Photoelastic fringes
+    * Wind barbs
+    * Alignment nomogram
+    * Vacuum triodes
+    * Base pairs
+    * Harmonic spectrogram
+    * Electrophoresis gel
+    * Stereographic net
+    * Pressure dials
+    * Airfoil streamlines
+    * Ball-and-stick model
+    * Heron in the reeds
+    * Switchback pass
+    * Amber cicada
+    * Passionflower
+    * Iceberg keel
+    * Sounding flukes
+    * Drifting maple keys
+    * Octopus arm
+    * Glasshouse terrarium
+    * Ant galleries
+    * Rain over the moor
+    * Pitcher plants
+    * Pole-wrapped shibori
+    * Peacock marbled paper
+    * Log cabin quilt
+    * Coiled rag rug
+    * Tufted upholstery
+    * Torn poster layers
+    * Latte rosetta
+    * Salmon marbling
+    * Pomegranate cut
+    * Letterpress overprint
+    * Quilled paper curls
+    * Gold leaf on bole
+    * Octagonal cane webbing
+    * Pleated hand fan
+    * Tailor’s tape
+    * Palmette frieze
+    * Railway turnout
+    * Suspension span
+    * Crossing in the rain
+    * Coffered rotunda
+    * Station canopy
+    * Regulator clock
+    * Bindery screw press
+    * Theatre wings
+    * Horn gramophone
+    * Canal lock
+    * Funicular incline
+    * Cinema marquee
+    * Solar prominences
+    * Stellar bow shock
+    * Hourglass nebula
+    * Roche lobes
+    * Basalt colonnade
+    * Faulted strata
+    * Garnet schist
+    * Oolitic limestone
+    * Trilobite impression
+    * Double slit
+    * Lens cross section
+    * Iris diaphragm
+    * Emission spectrum
+    * Schlieren plume
+    * Hand radiograph
+    * Bifurcation diagram
     * Maze
     * Organic Fibers
-    * Reaction Diffusion
+    * Reaction Diffusion (G’MIC)
     * Truchet
     * Bent rows
     * Circle ripple illusion

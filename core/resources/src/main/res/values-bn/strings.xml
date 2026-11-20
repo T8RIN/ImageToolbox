@@ -3756,6 +3756,7 @@
     <string name="texture_motherboard_heatmap">মাদারবোর্ড হিটম্যাপ</string>
     <string name="texture_microscopic_diatoms">মাইক্রোস্কোপিক ডায়াটম</string>
     <string name="texture_reaction_diffusion">প্রতিক্রিয়া বিস্তার</string>
+    <string name="texture_gmic_reaction_diffusion">প্রতিক্রিয়া বিস্তার (G’MIC)</string>
     <string name="texture_coral_growth">প্রবাল বৃদ্ধি</string>
     <string name="texture_slime_mold">স্লাইম ছাঁচ</string>
     <string name="texture_dendritic_crystal">ডেনড্রাইটিক ক্রিস্টাল</string>

@@ -3755,6 +3755,7 @@
     <string name="texture_motherboard_heatmap">마더보드 히트맵</string>
     <string name="texture_microscopic_diatoms">미세한 규조류</string>
     <string name="texture_reaction_diffusion">반응확산</string>
+    <string name="texture_gmic_reaction_diffusion">반응확산 (G’MIC)</string>
     <string name="texture_coral_growth">산호 성장</string>
     <string name="texture_slime_mold">점액 곰팡이</string>
     <string name="texture_dendritic_crystal">수지상 결정</string>

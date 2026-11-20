@@ -3760,6 +3760,7 @@
     <string name="texture_motherboard_heatmap">خريطة الحرارة للوحة الأم</string>
     <string name="texture_microscopic_diatoms">الدياتومات المجهرية</string>
     <string name="texture_reaction_diffusion">انتشار رد الفعل</string>
+    <string name="texture_gmic_reaction_diffusion">انتشار رد الفعل (G’MIC)</string>
     <string name="texture_coral_growth">نمو المرجان</string>
     <string name="texture_slime_mold">العفن الوحل</string>
     <string name="texture_dendritic_crystal">كريستال شجيري</string>

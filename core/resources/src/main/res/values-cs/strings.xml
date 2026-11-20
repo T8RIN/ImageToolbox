@@ -3758,6 +3758,7 @@
     <string name="texture_motherboard_heatmap">Heatmap základní desky</string>
     <string name="texture_microscopic_diatoms">Mikroskopické rozsivky</string>
     <string name="texture_reaction_diffusion">Reakční difúze</string>
+    <string name="texture_gmic_reaction_diffusion">Reakční difúze (G’MIC)</string>
     <string name="texture_coral_growth">Růst korálů</string>
     <string name="texture_slime_mold">Slizovka</string>
     <string name="texture_dendritic_crystal">Dendritický krystal</string>

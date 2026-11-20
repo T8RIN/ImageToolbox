@@ -3757,6 +3757,7 @@
     <string name="texture_motherboard_heatmap">Хеатмап матичне плоче</string>
     <string name="texture_microscopic_diatoms">Мицросцопиц Диатомс</string>
     <string name="texture_reaction_diffusion">Реацтион Диффусион</string>
+    <string name="texture_gmic_reaction_diffusion">Реацтион Диффусион (G’MIC)</string>
     <string name="texture_coral_growth">Цорал Гровтх</string>
     <string name="texture_slime_mold">Слиме Молд</string>
     <string name="texture_dendritic_crystal">Дендритски кристал</string>

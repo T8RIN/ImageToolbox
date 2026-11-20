@@ -3758,6 +3758,7 @@
     <string name="texture_motherboard_heatmap">Pagrindinės plokštės šilumos žemėlapis</string>
     <string name="texture_microscopic_diatoms">Mikroskopinės diatomės</string>
     <string name="texture_reaction_diffusion">Reakcijų difuzija</string>
+    <string name="texture_gmic_reaction_diffusion">Reakcijų difuzija (G’MIC)</string>
     <string name="texture_coral_growth">Koralų augimas</string>
     <string name="texture_slime_mold">Gleivinės formos</string>
     <string name="texture_dendritic_crystal">Dendritinis kristalas</string>

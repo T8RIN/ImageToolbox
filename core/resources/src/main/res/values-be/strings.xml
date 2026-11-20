@@ -3757,6 +3757,7 @@
     <string name="texture_motherboard_heatmap">Цеплавая карта мацярынскай платы</string>
     <string name="texture_microscopic_diatoms">Мікраскапічныя дыятамеі</string>
     <string name="texture_reaction_diffusion">Рэакцыя дыфузіі</string>
+    <string name="texture_gmic_reaction_diffusion">Рэакцыя дыфузіі (G’MIC)</string>
     <string name="texture_coral_growth">Рост каралаў</string>
     <string name="texture_slime_mold">Слізевая цвіль</string>
     <string name="texture_dendritic_crystal">Дэндрытныя крышталь</string>

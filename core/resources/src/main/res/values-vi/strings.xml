@@ -3755,6 +3755,7 @@
     <string name="texture_motherboard_heatmap">Bản đồ nhiệt bo mạch chủ</string>
     <string name="texture_microscopic_diatoms">Tảo cát hiển vi</string>
     <string name="texture_reaction_diffusion">Phản ứng khuếch tán</string>
+    <string name="texture_gmic_reaction_diffusion">Phản ứng khuếch tán (G’MIC)</string>
     <string name="texture_coral_growth">Tăng trưởng san hô</string>
     <string name="texture_slime_mold">Khuôn chất nhờn</string>
     <string name="texture_dendritic_crystal">tinh thể đuôi gai</string>

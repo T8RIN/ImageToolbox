@@ -3758,6 +3758,7 @@
     <string name="texture_motherboard_heatmap">מפת חום של לוח אם</string>
     <string name="texture_microscopic_diatoms">דיאטומים מיקרוסקופיים</string>
     <string name="texture_reaction_diffusion">פיזור תגובה</string>
+    <string name="texture_gmic_reaction_diffusion">פיזור תגובה (G’MIC)</string>
     <string name="texture_coral_growth">צמיחת אלמוגים</string>
     <string name="texture_slime_mold">תבנית סליים</string>
     <string name="texture_dendritic_crystal">קריסטל דנדריטי</string>

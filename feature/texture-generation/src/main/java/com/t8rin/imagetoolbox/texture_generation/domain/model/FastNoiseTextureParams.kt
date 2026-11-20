@@ -157,12 +157,14 @@ data class FastNoiseTextureParams(
                 -14080746, -14072548, -10190780, -5128855
             )
 
-            TextureFilterType.Fire -> create(
+            TextureFilterType.Fire,
+            TextureFilterType.EmberVeil -> create(
                 0.006f, 8f, 36f, 0.78f, 0.18f, 0.62f,
                 -15726585, -4908280, -34294, -5750
             )
 
-            TextureFilterType.Aurora -> create(
+            TextureFilterType.Aurora,
+            TextureFilterType.PolarMist -> create(
                 0.004f, 7f, 34f, 0.72f, 0.2f, 1.32f,
                 -16379353, -12396128, -10099480, -5935646
             )
@@ -197,7 +199,8 @@ data class FastNoiseTextureParams(
                 -16579054, -14334296, -9909761, -852737
             )
 
-            TextureFilterType.Velvet -> create(
+            TextureFilterType.Velvet,
+            TextureFilterType.RibbedSatin -> create(
                 0.014f, 0.78f, 0.18f, 0.7f, 0.62f, 0.34f,
                 -15268578, -10610838, -4110152, -1005864
             )
@@ -207,7 +210,8 @@ data class FastNoiseTextureParams(
                 -792109, -15316104, -6477495, -14936015
             )
 
-            TextureFilterType.HolographicFoil -> create(
+            TextureFilterType.HolographicFoil,
+            TextureFilterType.DiffractionGrating -> create(
                 0.008f, 12f, 0.7f, 0.82f, 0.3f, 0.72f,
                 -3287842, -11672094, -1484088, -529806
             )
@@ -217,12 +221,14 @@ data class FastNoiseTextureParams(
                 -16573926, -16035507, -14620990, -3866639
             )
 
-            TextureFilterType.CosmicVortex -> create(
+            TextureFilterType.CosmicVortex,
+            TextureFilterType.SpiralBeacon -> create(
                 0.008f, 5f, 12f, 0.52f, 0.28f, 0.82f,
                 -16645365, -14202200, -7520574, -8800
             )
 
-            TextureFilterType.LavaLamp -> create(
+            TextureFilterType.LavaLamp,
+            TextureFilterType.MoltenWax -> create(
                 0.007f, 6f, 0.24f, 32f, 0.58f, 1.3f,
                 -14939863, -49791, -30172, -11172
             )
@@ -247,7 +253,8 @@ data class FastNoiseTextureParams(
                 -16645366, -9020417, -25787, -1
             )
 
-            TextureFilterType.StrangeAttractor -> create(
+            TextureFilterType.StrangeAttractor,
+            TextureFilterType.PrismLights -> create(
                 0.01f, 3f, 18f, 6f, 0.035f, 0.8f,
                 -16579311, -15410747, -50567, -3659
             )
@@ -272,7 +279,8 @@ data class FastNoiseTextureParams(
                 -16378609, -15303339, -15578948, -1786811
             )
 
-            TextureFilterType.NautilusShell -> create(
+            TextureFilterType.NautilusShell,
+            TextureFilterType.FossilCrossSection -> create(
                 0.011f, 3.4f, 19f, 0.13f, 0.68f, 0.46f,
                 -15392216, -11915998, -2511495, -3887
             )
@@ -282,7 +290,8 @@ data class FastNoiseTextureParams(
                 -16645107, -15391923, -1733534, -7770
             )
 
-            TextureFilterType.Geode -> create(
+            TextureFilterType.Geode,
+            TextureFilterType.AgateEye -> create(
                 0.008f, 0.78f, 0.42f, 0.82f, 0.58f, 1.45f,
                 0xFF120E20.toInt(), 0xFF7046A8.toInt(), 0xFF3ED7D1.toInt(), 0xFFF4DDA6.toInt()
             )
@@ -297,17 +306,20 @@ data class FastNoiseTextureParams(
                 0xFF120F18.toInt(), 0xFF2E8BD2.toInt(), 0xFFE54472.toInt(), 0xFFFFD34E.toInt()
             )
 
-            TextureFilterType.KelpForest -> create(
+            TextureFilterType.KelpForest,
+            TextureFilterType.JadeCurrent -> create(
                 0.006f, 0.72f, 0.78f, 0.68f, 0.64f, 1.45f,
                 0xFF031C22.toInt(), 0xFF07594F.toInt(), 0xFF42A66E.toInt(), 0xFFD1F29B.toInt()
             )
 
-            TextureFilterType.FrostFern -> create(
+            TextureFilterType.FrostFern,
+            TextureFilterType.FrostSpindle -> create(
                 0.008f, 0.78f, 0.62f, 0.82f, 0.68f, 1.45f,
                 0xFF10273A.toInt(), 0xFF559AB4.toInt(), 0xFFB8E8ED.toInt(), 0xFFE8FBFF.toInt()
             )
 
-            TextureFilterType.LiquidCrystal -> create(
+            TextureFilterType.LiquidCrystal,
+            TextureFilterType.PrismaticFaults -> create(
                 0.008f, 0.66f, 0.62f, 0.58f, 0.72f, 1.30f,
                 0xFF090A18.toInt(), 0xFF18BFD2.toInt(), 0xFFE142A9.toInt(), 0xFFFFE96A.toInt()
             )
@@ -322,7 +334,8 @@ data class FastNoiseTextureParams(
                 0xFF020B12.toInt(), 0xFF0B4D49.toInt(), 0xFF80D85A.toInt(), 0xFFFFFFB0.toInt()
             )
 
-            TextureFilterType.Mycelium -> create(
+            TextureFilterType.Mycelium,
+            TextureFilterType.RootLace -> create(
                 0.008f, 0.78f, 0.72f, 0.80f, 0.66f, 1.55f,
                 0xFF07100B.toInt(), 0xFF24452E.toInt(), 0xFFB7C985.toInt(), 0xFFF4E8C1.toInt()
             )
@@ -352,7 +365,8 @@ data class FastNoiseTextureParams(
                 0xFF070914.toInt(), 0xFF2747A5.toInt(), 0xFFBD4BC8.toInt(), 0xFFF2EAFB.toInt()
             )
 
-            TextureFilterType.SnakeSkin -> create(
+            TextureFilterType.SnakeSkin,
+            TextureFilterType.OliveMosaic -> create(
                 0.009f, 0.62f, 0.40f, 0.72f, 0.40f, 1.35f,
                 0xFF17170E.toInt(), 0xFF4E5A2D.toInt(), 0xFF9DA75A.toInt(), 0xFFB8D7A4.toInt()
             )
@@ -382,12 +396,14 @@ data class FastNoiseTextureParams(
                 0xFF082431.toInt(), 0xFF1E7181.toInt(), 0xFF74D8C9.toInt(), 0xFFD9C8FF.toInt()
             )
 
-            TextureFilterType.ReactionDiffusion -> create(
+            TextureFilterType.ReactionDiffusion,
+            TextureFilterType.MarbledPatina -> create(
                 0.009f, 0.82f, 0.74f, 0.80f, 0.50f, 1.60f,
                 0xFF090B17.toInt(), 0xFF303785.toInt(), 0xFFE64C93.toInt(), 0xFF59EBB0.toInt()
             )
 
-            TextureFilterType.CoralGrowth -> create(
+            TextureFilterType.CoralGrowth,
+            TextureFilterType.CoralSprigs -> create(
                 0.008f, 0.68f, 0.62f, 0.70f, 0.72f, 1.40f,
                 0xFF071D2A.toInt(), 0xFFEA536E.toInt(), 0xFFFFA468.toInt(), 0xFFFFC2D8.toInt()
             )
@@ -397,12 +413,14 @@ data class FastNoiseTextureParams(
                 0xFF08110A.toInt(), 0xFF596F17.toInt(), 0xFFD5D928.toInt(), 0xFFFFF5A0.toInt()
             )
 
-            TextureFilterType.DendriticCrystal -> create(
+            TextureFilterType.DendriticCrystal,
+            TextureFilterType.CrystalSpokes -> create(
                 0.008f, 0.68f, 0.52f, 0.80f, 0.82f, 1.50f,
                 0xFF071829.toInt(), 0xFF25678C.toInt(), 0xFFA8E5F0.toInt(), 0xFFDFFFFF.toInt()
             )
 
-            TextureFilterType.ElectricArcField -> create(
+            TextureFilterType.ElectricArcField,
+            TextureFilterType.PlasmaTendril -> create(
                 0.008f, 0.72f, 0.72f, 0.82f, 0.90f, 1.55f,
                 0xFF030511.toInt(), 0xFF173A91.toInt(), 0xFF32C8FF.toInt(), 0xFFFFFFFF.toInt()
             )
@@ -417,12 +435,14 @@ data class FastNoiseTextureParams(
                 0xFFF0E8D8.toInt(), 0xFF174A72.toInt(), 0xFF9E284F.toInt(), 0xFF171629.toInt()
             )
 
-            TextureFilterType.CellularEmbryo -> create(
+            TextureFilterType.CellularEmbryo,
+            TextureFilterType.PearlButtons -> create(
                 0.008f, 0.62f, 0.48f, 0.72f, 0.58f, 1.35f,
                 0xFF220E26.toInt(), 0xFF723259.toInt(), 0xFFE07B93.toInt(), 0xFFFFD0B3.toInt()
             )
 
-            TextureFilterType.NeuralGarden -> create(
+            TextureFilterType.NeuralGarden,
+            TextureFilterType.LinkedNodes -> create(
                 0.008f, 0.76f, 0.82f, 0.84f, 0.64f, 1.65f,
                 0xFF06120D.toInt(), 0xFF11684A.toInt(), 0xFF6BD87A.toInt(), 0xFFB8FFBA.toInt()
             )
@@ -462,8 +482,10 @@ data class FastNoiseTextureParams(
                 0xFF010208.toInt(), 0xFF182B69.toInt(), 0xFF6B3EA0.toInt(), 0xFFFFE9CA.toInt()
             )
 
-            TextureFilterType.VeinedLeaf -> create(
-                0.008f, 0.68f, 0.52f, 0.78f, 0.62f, 1.40f,
+            TextureFilterType.VeinedLeaf,
+            TextureFilterType.LeafSkeleton -> create(
+                if (type == TextureFilterType.LeafSkeleton) 0.004f else 0.008f,
+                0.68f, 0.52f, 0.78f, 0.62f, 1.40f,
                 0xFF07180C.toInt(), 0xFF1E6732.toInt(), 0xFF75BC50.toInt(), 0xFFD6E782.toInt()
             )
 
@@ -472,7 +494,8 @@ data class FastNoiseTextureParams(
                 0xFF5B3718.toInt(), 0xFFB16C27.toInt(), 0xFFE5B24E.toInt(), 0xFFFFE2A0.toInt()
             )
 
-            TextureFilterType.RainOnGlass -> create(
+            TextureFilterType.RainOnGlass,
+            TextureFilterType.BeadedCurtain -> create(
                 0.008f, 0.68f, 0.58f, 0.74f, 0.78f, 1.40f,
                 0xFF071728.toInt(), 0xFF194C70.toInt(), 0xFF69BDD2.toInt(), 0xFFDFFBFF.toInt()
             )
@@ -497,7 +520,8 @@ data class FastNoiseTextureParams(
                 0xFF071426.toInt(), 0xFF176FB0.toInt(), 0xFF55D3DE.toInt(), 0xFFFF6500.toInt()
             )
 
-            TextureFilterType.LichtenbergFigure -> create(
+            TextureFilterType.LichtenbergFigure,
+            TextureFilterType.SpiralCobweb -> create(
                 0.008f, 0.72f, 0.66f, 0.84f, 0.90f, 1.60f,
                 0xFF08030C.toInt(), 0xFF5E176E.toInt(), 0xFFE544A7.toInt(), 0xFFFFE9FF.toInt()
             )
@@ -552,12 +576,14 @@ data class FastNoiseTextureParams(
                 0xFF100C12.toInt(), 0xFF553444.toInt(), 0xFFB97472.toInt(), 0xFFF0CAB0.toInt()
             )
 
-            TextureFilterType.GildedFiligree -> create(
+            TextureFilterType.GildedFiligree,
+            TextureFilterType.GoldenTurbine -> create(
                 0.008f, 0.68f, 0.46f, 0.82f, 0.74f, 1.55f,
                 0xFF0A1019.toInt(), 0xFF163B58.toInt(), 0xFFC38A2A.toInt(), 0xFFFFE49A.toInt()
             )
 
-            TextureFilterType.AncientRunes -> create(
+            TextureFilterType.AncientRunes,
+            TextureFilterType.RunicTrellis -> create(
                 0.008f, 0.62f, 0.54f, 0.78f, 0.72f, 1.50f,
                 0xFF0B0C12.toInt(), 0xFF34364A.toInt(), 0xFFA85F35.toInt(), 0xFFFFD27A.toInt()
             )
@@ -567,7 +593,8 @@ data class FastNoiseTextureParams(
                 0xFF1C0502.toInt(), 0xFF8B2108.toInt(), 0xFFF06A12.toInt(), 0xFFFFF0A0.toInt()
             )
 
-            TextureFilterType.LunarEjecta -> create(
+            TextureFilterType.LunarEjecta,
+            TextureFilterType.CraterRays -> create(
                 0.008f, 0.64f, 0.48f, 0.80f, 0.50f, 1.50f,
                 0xFF0B0D11.toInt(), 0xFF353A42.toInt(), 0xFF8B9098.toInt(), 0xFFE6E1D5.toInt()
             )
@@ -582,7 +609,8 @@ data class FastNoiseTextureParams(
                 0xFFF1EBDD.toInt(), 0xFF9A9A91.toInt(), 0xFF444844.toInt(), 0xFF111716.toInt()
             )
 
-            TextureFilterType.NeonCity -> create(
+            TextureFilterType.NeonCity,
+            TextureFilterType.PixelFountain -> create(
                 0.008f, 0.68f, 0.52f, 0.80f, 0.86f, 1.55f,
                 0xFF02040C.toInt(), 0xFF142D59.toInt(), 0xFFE638A1.toInt(), 0xFF57F5E9.toInt()
             )
@@ -597,17 +625,20 @@ data class FastNoiseTextureParams(
                 0xFF050713.toInt(), 0xFF244B9A.toInt(), 0xFF46BFD0.toInt(), 0xFFFFE49A.toInt()
             )
 
-            TextureFilterType.ApollonianGasket -> create(
+            TextureFilterType.ApollonianGasket,
+            TextureFilterType.CircleLace -> create(
                 0.008f, 0.66f, 0.52f, 0.80f, 0.72f, 1.50f,
                 0xFF080511.toInt(), 0xFF542778.toInt(), 0xFFD34EAD.toInt(), 0xFF75E8FF.toInt()
             )
 
-            TextureFilterType.HyperbolicTiling -> create(
+            TextureFilterType.HyperbolicTiling,
+            TextureFilterType.HexagonalLace -> create(
                 0.008f, 0.62f, 0.72f, 0.80f, 0.74f, 1.50f,
                 0xFF050A14.toInt(), 0xFF2454A0.toInt(), 0xFF30B9B0.toInt(), 0xFFFF7A8A.toInt()
             )
 
-            TextureFilterType.MoebiusWeave -> create(
+            TextureFilterType.MoebiusWeave,
+            TextureFilterType.PerforatedRosette -> create(
                 0.008f, 0.66f, 0.62f, 0.76f, 0.68f, 1.45f,
                 0xFF080A16.toInt(), 0xFF374A94.toInt(), 0xFFB34EC2.toInt(), 0xFF8FE3FF.toInt()
             )

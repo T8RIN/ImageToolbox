@@ -3757,6 +3757,7 @@
     <string name="texture_motherboard_heatmap">Harta termică a plăcii de bază</string>
     <string name="texture_microscopic_diatoms">Diatomee microscopice</string>
     <string name="texture_reaction_diffusion">Difuzia de reacție</string>
+    <string name="texture_gmic_reaction_diffusion">Difuzia de reacție (G’MIC)</string>
     <string name="texture_coral_growth">Creșterea coralilor</string>
     <string name="texture_slime_mold">Mucegai pentru slime</string>
     <string name="texture_dendritic_crystal">Cristal dendritic</string>

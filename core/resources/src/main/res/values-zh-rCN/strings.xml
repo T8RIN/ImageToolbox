@@ -3753,6 +3753,7 @@
     <string name="texture_motherboard_heatmap">主板热图</string>
     <string name="texture_microscopic_diatoms">微观硅藻</string>
     <string name="texture_reaction_diffusion">反应扩散</string>
+    <string name="texture_gmic_reaction_diffusion">反应扩散 (G’MIC)</string>
     <string name="texture_coral_growth">珊瑚生长</string>
     <string name="texture_slime_mold">粘菌</string>
     <string name="texture_dendritic_crystal">树枝状晶体</string>

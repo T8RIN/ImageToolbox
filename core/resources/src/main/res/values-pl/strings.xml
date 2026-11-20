@@ -3758,6 +3758,7 @@
     <string name="texture_motherboard_heatmap">Mapa cieplna płyty głównej</string>
     <string name="texture_microscopic_diatoms">Mikroskopijne okrzemki</string>
     <string name="texture_reaction_diffusion">Dyfuzja reakcji</string>
+    <string name="texture_gmic_reaction_diffusion">Dyfuzja reakcji (G’MIC)</string>
     <string name="texture_coral_growth">Wzrost koralowców</string>
     <string name="texture_slime_mold">Szlamowa pleśń</string>
     <string name="texture_dendritic_crystal">Kryształ dendrytyczny</string>

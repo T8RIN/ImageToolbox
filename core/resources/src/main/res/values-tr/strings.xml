@@ -3756,6 +3756,7 @@
     <string name="texture_motherboard_heatmap">Anakart Isı Haritası</string>
     <string name="texture_microscopic_diatoms">Mikroskobik Diatomlar</string>
     <string name="texture_reaction_diffusion">Reaksiyon Difüzyonu</string>
+    <string name="texture_gmic_reaction_diffusion">Reaksiyon Difüzyonu (G’MIC)</string>
     <string name="texture_coral_growth">Mercan Büyümesi</string>
     <string name="texture_slime_mold">Balçık Kalıp</string>
     <string name="texture_dendritic_crystal">Dendritik Kristal</string>
