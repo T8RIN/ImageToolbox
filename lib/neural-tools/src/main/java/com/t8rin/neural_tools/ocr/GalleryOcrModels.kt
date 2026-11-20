@@ -17,6 +17,7 @@
 
 package com.t8rin.neural_tools.ocr
 
+import android.content.Context
 import com.t8rin.neural_tools.NeuralTool
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.currentCoroutineContext
@@ -28,12 +29,20 @@ import java.io.InputStream
 import java.security.MessageDigest
 import java.util.zip.ZipFile
 
-class GalleryOcrModels(private val directory: File) : NeuralTool() {
+class GalleryOcrModels(context: Context) : NeuralTool() {
+
+    private val root = File(context.filesDir, "ai_models/gallery-ocr/$VERSION").let { target ->
+        val legacy = File(context.noBackupFilesDir, "gallery-ocr/$VERSION")
+        if (!target.exists() && File(legacy, COMPLETE).isFile) {
+            target.parentFile?.mkdirs()
+            if (!legacy.renameTo(target)) return@let legacy
+        }
+        target
+    }
 
     val isInstalled: Boolean
-        get() = File(root, ".complete").isFile
+        get() = File(root, COMPLETE).isFile
 
-    private val root get() = File(directory, VERSION)
     internal val detector get() = File(root, DETECTOR)
     internal val router get() = File(root, ROUTER)
     internal val labels
@@ -72,10 +81,8 @@ class GalleryOcrModels(private val directory: File) : NeuralTool() {
             "Invalid gallery OCR archive"
         }
 
-        directory.mkdirs()
-        val staging = File(directory, "$VERSION.tmp")
-        staging.deleteRecursively()
-        check(staging.mkdir())
+        val staging = File.createTempFile("gallery-ocr-", ".tmp", context.cacheDir)
+        check(staging.delete() && staging.mkdir())
         try {
             ZipFile(archive).use { zip ->
                 val assets = JSONObject(
@@ -115,7 +122,10 @@ class GalleryOcrModels(private val directory: File) : NeuralTool() {
                 check(languages.delete())
             }
             currentCoroutineContext().ensureActive()
-            check(File(staging, ".complete").createNewFile())
+            if (isInstalled) return@coroutineScope
+            check(File(staging, COMPLETE).createNewFile())
+            val directory = checkNotNull(root.parentFile)
+            check(directory.mkdirs() || directory.isDirectory)
             check(!root.exists() || root.deleteRecursively())
             check(staging.renameTo(root)) { "Could not install gallery OCR models" }
         } finally {
@@ -185,6 +195,7 @@ class GalleryOcrModels(private val directory: File) : NeuralTool() {
 
     companion object {
         private const val VERSION = "0.1.0"
+        private const val COMPLETE = ".complete"
         private const val SHA256 =
             "ab4fdb4f330d65230c7375dff0de9b2495d2fad4b626a81934334af162e3ea4e"
         const val ARCHIVE_SIZE = 227_830_216L
