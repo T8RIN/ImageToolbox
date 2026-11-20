@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">問題が発生しました: %1$s</string>
     <string name="check_source_code_sub">最新のアップデートを入手し、問題を議論するなど</string>
     <string name="color_red">赤</string>
@@ -9059,10 +9058,8 @@
     <string name="texture_param_bract_length">苞の長さ</string>
     <string name="texture_param_lenticel_length">レンチセルの長さ</string>
     <string name="texture_param_peeling_strip_width">剥離ストリップ幅</string>
-    <string name="texture_param_bark_mottling" />
     <string name="texture_param_bark_scale">樹皮鱗</string>
     <string name="texture_param_peeling_extent">剥離程度</string>
-    <string name="texture_param_peeling_lip" />
     <string name="texture_param_tuft_density">タフト密度</string>
     <string name="texture_param_fiber_length">繊維長</string>
     <string name="texture_param_tuft_spread">タフトスプレッド</string>
@@ -9070,24 +9067,12 @@
     <string name="texture_param_sorus_pairs">ソーラスペア</string>
     <string name="texture_param_sorus_diameter">ソーラス直径</string>
     <string name="texture_param_canal_count">運河の数</string>
-    <string name="texture_param_pith_opening" />
-    <string name="texture_param_stem_radius" />
     <string name="texture_param_seedhead_diameter">シードヘッドの直径</string>
-    <string name="texture_param_socket_diameter" />
     <string name="texture_param_filled_sockets">埋められたソケット</string>
-    <string name="texture_param_frond_size" />
     <string name="texture_param_daughter_fronds">娘の葉</string>
-    <string name="texture_param_raft_openings" />
     <string name="texture_param_eye_size">目のサイズ</string>
-    <string name="texture_param_grain_spacing" />
-    <string name="texture_param_grain_deflection" />
-    <string name="texture_param_attachment_spread" />
     <string name="texture_param_thread_count">スレッド数</string>
-    <string name="texture_param_plaque_size" />
-    <string name="texture_param_test_radius" />
     <string name="texture_param_petal_reach">花びらの到達範囲</string>
-    <string name="texture_param_growth_bands" />
-    <string name="texture_param_scute_convexity" />
     <string name="texture_param_suture_width">縫合糸の幅</string>
     <string name="texture_param_mantle_bars">マントルバー</string>
     <string name="texture_param_band_ruffling">バンドのフリル</string>
@@ -9096,8 +9081,6 @@
     <string name="texture_param_hook_curvature">フックの曲率</string>
     <string name="texture_param_mineral_tips">ミネラルのヒント</string>
     <string name="texture_param_facet_relief">ファセットレリーフ</string>
-    <string name="texture_param_cell_border" />
-    <string name="texture_param_light_angle" />
     <string name="texture_param_frame_margin">フレームマージン</string>
     <string name="texture_param_line_density">線の密度</string>
     <string name="texture_param_film_fog">映画は</string>
