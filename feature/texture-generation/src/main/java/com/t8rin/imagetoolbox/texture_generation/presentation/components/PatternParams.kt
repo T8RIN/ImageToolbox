@@ -24,8 +24,6 @@ import androidx.compose.ui.res.stringResource
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.SeedSelector
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
-import com.t8rin.imagetoolbox.core.ui.widget.other.ExpandableItem
-import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
 import com.t8rin.imagetoolbox.texture_generation.domain.model.PatternPlacement
 import com.t8rin.imagetoolbox.texture_generation.domain.model.TextureParams
 
@@ -130,27 +128,23 @@ internal fun PatternParams(value: TextureParams, onValueChange: (TextureParams) 
             )
         }
         if (hasPhase) {
-            ExpandableItem(
-                visibleContent = { TitleItem(text = stringResource(R.string.position)) },
-                expandableContent = {
-                    val twoAxes = type.placement == PatternPlacement.PhaseXY
-                    FloatParam(
-                        value = params.phaseX,
-                        title = stringResource(if (twoAxes) R.string.texture_phase_x else R.string.phase),
-                        range = 0f..1f,
-                        onValueChange = { onValueChange(value.copy(patternParams = params.copy(phaseX = it))) }
-                    )
-                    if (twoAxes) {
-                        FloatParam(
-                            value = params.phaseY,
-                            title = stringResource(R.string.texture_phase_y),
-                            range = 0f..1f,
-                            onValueChange = { onValueChange(value.copy(patternParams = params.copy(phaseY = it))) }
-                        )
-                    }
-                },
-                shape = ShapeDefaults.bottom
+            val twoAxes = type.placement == PatternPlacement.PhaseXY
+            FloatParam(
+                value = params.phaseX,
+                title = stringResource(if (twoAxes) R.string.texture_phase_x else R.string.phase),
+                range = 0f..1f,
+                onValueChange = { onValueChange(value.copy(patternParams = params.copy(phaseX = it))) },
+                shape = if (twoAxes) ShapeDefaults.center else ShapeDefaults.bottom
             )
+            if (twoAxes) {
+                FloatParam(
+                    value = params.phaseY,
+                    title = stringResource(R.string.texture_phase_y),
+                    range = 0f..1f,
+                    onValueChange = { onValueChange(value.copy(patternParams = params.copy(phaseY = it))) },
+                    shape = ShapeDefaults.bottom
+                )
+            }
         }
     }
 }

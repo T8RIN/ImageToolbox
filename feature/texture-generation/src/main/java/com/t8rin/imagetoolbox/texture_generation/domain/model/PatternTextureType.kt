@@ -481,7 +481,7 @@ enum class PatternTextureType(
         hasRotation = true
     ),
     DominoTable(
-        1f, 0xFF716957, 0xFFB0A88B, 0xFFDBCFB2, 0xFFF1E7C9,
+        1f, 0xFF3E3029, 0xFF856647, 0xFFD2B385, 0xFFF1E6C6,
         PatternParameter("inlayAspect", 1.7f, 0.85f..2.9f, title = R.string.texture_param_inlay_aspect),
         PatternParameter("jointWidth", 0.022f, 0.006f..0.08f, title = R.string.texture_param_joint_width),
         PatternParameter("pegSize", 0.065f, 0.025f..0.14f, title = R.string.texture_param_peg_size),
@@ -497,7 +497,7 @@ enum class PatternTextureType(
         hasRotation = true
     ),
     VinylCrate(
-        1f, 0xFF142632, 0xFF263B47, 0xFF52717D, 0xFFA6AAA0,
+        1f, 0xFF10202B, 0xFF344553, 0xFF64818A, 0xFFCFCAB3,
         PatternParameter("groovePitch", 0.012f, 0.006f..0.025f, title = R.string.texture_param_groove_pitch),
         PatternParameter("grooveModulation", 0.5f, 0.02f..1f, title = R.string.texture_param_groove_modulation),
         PatternParameter("dustSpecks", 0.25f, 0f..0.95f, title = R.string.texture_param_dust_specks),
@@ -565,7 +565,7 @@ enum class PatternTextureType(
         patternSeed
     ),
     RavioliStamp(
-        1f, 0xFFB29263, 0xFFD2AD78, 0xFFE5C691, 0xFFF2DDB8,
+        1f, 0xFF85572F, 0xFFBF8B52, 0xFFE5BE7B, 0xFFF8E4B6,
         PatternParameter("crimpPitch", 0.019f, 0.01f..0.033f, title = R.string.texture_param_crimp_pitch),
         PatternParameter("pressDepth", 0.68f, 0.04f..1f, title = R.string.texture_param_press_depth),
         PatternParameter("flourDust", 0.39f, 0f..1f, title = R.string.texture_param_flour_dust),
@@ -737,7 +737,7 @@ enum class PatternTextureType(
         hasRotation = true
     ),
     WindBarbs(
-        1f, 0xFF656D64, 0xFF969E88, 0xFFCCC8A9, 0xFFE5DBBB,
+        1f, 0xFF40534F, 0xFF778970, 0xFFC8C8A7, 0xFFE8E0C5,
         PatternParameter("hatchLength", 0.61f, 0.18f..0.95f, title = R.string.texture_param_hatch_length),
         PatternParameter("strokeDensity", 37f, 18f..55f, integer = true, title = R.string.texture_param_stroke_density),
         PatternParameter("vortexRadius", 0.28f, 0.09f..0.52f, title = R.string.texture_param_vortex_radius),
@@ -1533,7 +1533,7 @@ enum class PatternTextureType(
         hasRotation = true
     ),
     StromatoliteDomes(
-        1f, 0xFF494F49, 0xFF7C7863, 0xFFB39D79, 0xFFDDCB9E,
+        1f, 0xFF444E49, 0xFF726D59, 0xFFB29B71, 0xFFE1C99D,
         PatternParameter("domeHeight", 0.42f, 0.13f..0.76f, title = R.string.texture_param_dome_height),
         PatternParameter("laminae", 0.06f, 0.03f..0.11f, title = R.string.texture_param_lamina_spacing),
         PatternParameter("matWobble", 0.48f, 0.05f..0.93f, title = R.string.texture_param_mat_irregularity),
