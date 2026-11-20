@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">大小 %1$s</string>
     <string name="loading">載入中…</string>
     <string name="no_exif">沒有發現 EXIF 資料</string>
@@ -8522,33 +8521,23 @@
     <string name="filename_pattern_save_setting">在匯出中，當「%1$s」開啟時，此欄位可用。</string>
     <string name="filename_pattern_help_geometry">\\g 給出寬度和高度的最低比例，以 x 分隔。例如，1920 和 1080 都除以 120，得到 16x9。如果任一維度缺失或為零，則影像幾何欄位為空。</string>
     <string name="filename_pattern_help_date_weekdays">E、EE 和 EEE 給了工作日的短名稱，EEEE 為全名，EEEEE 為最窄形式。在 Android 上，c 給出具有相同寬度的獨立工作日名稱。使用 u 作為週一 (1) 到週日 (7) 的編號。</string>
-    <string name="texture_dandelion_clocks" />
-    <string name="texture_calico_koi" />
     <string name="texture_valley_bells">鈴蘭印花棉布</string>
     <string name="texture_silk_poppies">木版印刷罌粟花</string>
-    <string name="texture_fly_agaric_grove" />
     <string name="texture_tidepool_stars">海星皮膚</string>
     <string name="texture_wave_cut_cliffs">波浪切槽</string>
-    <string name="texture_sailing_regatta" />
     <string name="texture_flying_petrels">羽翼</string>
     <string name="texture_moon_phases">月球角礫岩</string>
     <string name="texture_orion_chart">本地星圖</string>
     <string name="texture_clockwork_orrery">面耦合齒</string>
-    <string name="texture_comet_plume" />
-    <string name="texture_balloon_festival" />
-    <string name="texture_harbor_light" />
     <string name="texture_paper_lanterns">羅紋紙燈罩</string>
-    <string name="texture_parasol_market" />
     <string name="texture_backgammon_points">楔形嵌花</string>
     <string name="texture_domino_table">骨鑲嵌</string>
     <string name="texture_playing_card_suits">花紋沖孔</string>
-    <string name="texture_vinyl_crate" />
     <string name="texture_citrus_wheels">柑橘漿</string>
     <string name="texture_salted_pretzels">鹽殼</string>
     <string name="texture_ravioli_stamp">捲曲義大利麵</string>
     <string name="texture_cameo_brocade">浮雕錦</string>
     <string name="texture_paper_chain_garland">擴充剪紙</string>
-    <string name="texture_ribbon_cockade" />
     <string name="texture_venetian_shutters">威尼斯板條</string>
     <string name="texture_sandstone_arcade">砌體段</string>
     <string name="texture_gear_blueprint">蝸桿螺紋</string>
@@ -8620,7 +8609,6 @@
     <string name="texture_param_vein_frequency">靜脈頻率</string>
     <string name="texture_param_terrace_spacing">露台間距</string>
     <string name="texture_param_rim_width">輪圈寬度</string>
-    <string name="texture_param_row_spacing" />
     <string name="texture_param_spine_size">書脊尺寸</string>
     <string name="texture_param_skin_roughness">皮膚粗糙度</string>
     <string name="texture_param_groove_spacing">凹槽間距</string>
@@ -8649,7 +8637,6 @@
     <string name="texture_param_tooth_height">齒高</string>
     <string name="texture_param_crest_width">波峰寬度</string>
     <string name="texture_param_stream_frequency">串流頻率</string>
-    <string name="texture_param_fade_length" />
     <string name="texture_param_feathering">羽化</string>
     <string name="texture_param_sun_diameter">太陽直徑(%)</string>
     <string name="texture_param_distance_between_suns">太陽之間的距離（%）</string>
@@ -8685,7 +8672,6 @@
     <string name="texture_param_groove_pitch">槽距</string>
     <string name="texture_param_groove_modulation">凹槽調製</string>
     <string name="texture_param_dust_specks">灰塵斑點</string>
-    <string name="texture_param_track_count" />
     <string name="texture_param_punch_density">沖孔密度</string>
     <string name="texture_param_slot_length">槽長</string>
     <string name="texture_param_tape_width">膠帶寬度</string>
@@ -8695,7 +8681,6 @@
     <string name="texture_param_point_count">點數</string>
     <string name="texture_param_inlay_width">鑲嵌寬度</string>
     <string name="texture_param_cell_depth">單元深度</string>
-    <string name="texture_param_browning" />
     <string name="texture_param_vesicle_size">囊泡大小</string>
     <string name="texture_param_membrane_width">膜寬度</string>
     <string name="texture_param_salt_size">鹽尺寸</string>
