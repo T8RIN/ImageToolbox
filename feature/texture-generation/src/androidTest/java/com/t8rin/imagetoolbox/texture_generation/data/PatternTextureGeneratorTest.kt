@@ -35,6 +35,29 @@ class PatternTextureGeneratorTest {
     private val types = TextureFilterType.entries.filter { it.pattern != null }
 
     @Test
+    fun patternControlsChangeTheRenderedPixels() {
+        fun checkValues(type: TextureFilterType, parameter: String, values: List<Float>) {
+            val params = TextureParams.Default.withDefaultsFor(type)
+            val results = mutableSetOf<List<Int>>()
+            for (value in values) {
+                val pattern = params.patternParams
+                val bitmap = generatePatternTexture(
+                    96, 72, params.copy(patternParams = pattern.copy(values = pattern.values + (parameter to value))),
+                    context
+                )
+                val pixels = IntArray(bitmap.width * bitmap.height)
+                bitmap.getPixels(pixels, 0, bitmap.width, 0, 0, bitmap.width, bitmap.height)
+                bitmap.recycle()
+                assertTrue("$type: $parameter=$value repeats a previous render", results.add(pixels.asList()))
+            }
+        }
+
+        checkValues(TextureFilterType.PlaidPattern, "seed", listOf(0f, 42f))
+        checkValues(TextureFilterType.XorPattern, "intensity", (1..16).map(Int::toFloat))
+        checkValues(TextureFilterType.SmoothHatch, "hardness", listOf(0.1f, 0.3f, 0.5f))
+    }
+
+    @Test
     fun allPatternsRenderAtDefaultAndExtremeSettings() {
         for (type in types) {
             val pattern = requireNotNull(type.pattern)

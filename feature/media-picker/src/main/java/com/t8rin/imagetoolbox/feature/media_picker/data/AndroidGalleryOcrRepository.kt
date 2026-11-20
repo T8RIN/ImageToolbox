@@ -52,7 +52,7 @@ internal class AndroidGalleryOcrRepository @Inject constructor(
     dispatchers: DispatchersHolder
 ) : GalleryOcrRepository, DispatchersHolder by dispatchers {
 
-    private val models = GalleryOcrModels(File(context.noBackupFilesDir, "gallery-ocr"))
+    private val models = GalleryOcrModels(File(context.filesDir, "gallery-ocr"))
     private val _state = MutableStateFlow(GalleryOcrState(modelsReady = models.isInstalled))
     override val state = _state.asStateFlow()
 

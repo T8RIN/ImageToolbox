@@ -829,7 +829,7 @@ or click one of the badges below.
     - Share created filters by QR code
     - Scan filters from the app to get them on your device
 - Native fractal generation with 75 2D and 3D fractal types
-- Texture generation with 410 presets
+- Texture generation with 500 presets
 
   <details>
   <summary>Available textures</summary>
@@ -1071,132 +1071,132 @@ or click one of the badges below.
     * Perforated Rosette
     * Lunaria Pods
     * Horsetail Stems
-    * Dandelion Clocks
-    * Calico Koi
-    * Lily of the Valley
-    * Silk Poppies
-    * Fly Agaric Grove
+    * Starburst Down
+    * Calico Koi Markings
+    * Lily of the Valley Chintz
+    * Block Printed Poppies
+    * Amanita Cap Flecks
     * Beach Pebbles
     * Travertine Pools
-    * Tidepool Stars
-    * Wave-cut Cliffs
-    * Sailing Regatta
+    * Sea Star Skin
+    * Wave Cut Grooves
+    * Weathered Hull Paint
     * Barnacle Colony
-    * Flying Petrels
-    * Moon Phases
-    * Sidereal Trails
-    * Orion Chart
+    * Feather Vane
+    * Lunar Breccia
+    * Sidereal Star Trails
+    * Local Star Atlas
     * Meteor Shower
-    * Clockwork Orrery
-    * Comet Plume
+    * Face Coupling Teeth
+    * Comet Filaments
     * Binary Sunset
-    * Pivot Irrigation
+    * Pivot Irrigation Fields
     * Alluvial Meanders
     * Raked Sand Garden
-    * Balloon Festival
-    * Harbour Light
-    * Paper Lanterns
-    * Parasol Market
-    * Backgammon points
-    * Domino table
-    * Playing card suits
-    * Record sleeves
-    * Music box roll
-    * Zipper tape
-    * Bobbin lace
-    * Compass rose inlay
-    * Waffle pockets
-    * Citrus wheels
-    * Salted pretzels
-    * Liquorice allsorts
-    * Hand-cut ravioli
-    * Cameo medallions
-    * Bow tie patchwork
-    * Tassel fringe
-    * Millefiori glass
-    * Greek meander
-    * Paper chain garlands
-    * Ribbon cockades
-    * Venetian shutters
-    * Sandstone arcade
-    * Gear blueprint
-    * Admission tickets
-    * Sawtooth roofs
-    * Fan vault
-    * Woodcut swells
-    * Apartment floor plan
-    * Rooftop water tanks
-    * Clothbound spines
-    * Harbour signal flags
-    * Drawing pantograph
-    * Dual-trace oscilloscope
+    * Stitched Balloon Silk
+    * Fluted Lens Glass
+    * Ribbed Paper Lampshade
+    * Parasol Sectors
+    * Wedge Intarsia
+    * Bone Inlay
+    * Figured Punchwork
+    * Vinyl Groove
+    * Music Box Punch Roll
+    * Zipper Tape
+    * Bobbin Lace
+    * Veneer Compass Rose
+    * Waffle Cells
+    * Citrus Pulp
+    * Salt Crust
+    * Liquorice Allsorts
+    * Crimped Pasta
+    * Cameo Brocade
+    * Bow Tie Patchwork
+    * Tassel Trim
+    * Millefiori Glass
+    * Greek Meander
+    * Expanded Kirigami Paper
+    * Radial Pleating
+    * Venetian Slats
+    * Voussoir Masonry
+    * Worm Thread
+    * Tear Away Perforation
+    * Sawtooth Glazing
+    * Fan Vault Ribs
+    * Woodcut Swells
+    * Cramped Stone Slabs
+    * Standing Seam Copper
+    * Bookbinding Buckram
+    * Sailcloth Zigzag
+    * Hinged Lattice
+    * Phosphor Traces
     * Photoelastic fringes
-    * Wind barbs
-    * Alignment nomogram
-    * Vacuum triodes
-    * Base pairs
+    * Wind Field Hatching
+    * Engraved Coordinates
+    * Cathode Grid
+    * Interleaved Helices
     * Harmonic spectrogram
-    * Electrophoresis gel
-    * Stereographic net
-    * Pressure dials
-    * Airfoil streamlines
-    * Ball-and-stick model
-    * Heron in the reeds
-    * Switchback pass
-    * Amber cicada
+    * Electrophoresis Gel
+    * Curved Netting
+    * Watchmaker Perlage
+    * Flow Streamlines
+    * Connected Molecular Mesh
+    * Reed Mat
+    * Rock Scree
+    * Cicada Wing
     * Passionflower
-    * Iceberg keel
-    * Sounding flukes
-    * Drifting maple keys
-    * Octopus arm
-    * Glasshouse terrarium
-    * Ant galleries
-    * Rain over the moor
-    * Pitcher plants
-    * Pole-wrapped shibori
-    * Peacock marbled paper
-    * Log cabin quilt
-    * Coiled rag rug
-    * Tufted upholstery
-    * Torn poster layers
-    * Latte rosetta
-    * Salmon marbling
-    * Pomegranate cut
+    * Bubbles in Ice
+    * Wake Ripples
+    * Whirling Samaras
+    * Sucker Rows
+    * Condensation Glass
+    * Ant Galleries
+    * Slanting Rain
+    * Pitcher Plants
+    * Pole-Wrapped Shibori
+    * Peacock Marbling
+    * Log Cabin Quilt
+    * Coiled Rag Rug
+    * Button Tufting
+    * Torn Poster Wall
+    * Coffee Crema
+    * Marbled Salmon
+    * Pomegranate Arils
     * Letterpress overprint
-    * Quilled paper curls
-    * Gold leaf on bole
-    * Octagonal cane webbing
-    * Pleated hand fan
-    * Tailor’s tape
+    * Paper Quilling
+    * Gilded Leaf
+    * Octagonal Cane Webbing
+    * Paper Pleats
+    * Tailor Tape
     * Palmette frieze
-    * Railway turnout
-    * Suspension span
-    * Crossing in the rain
-    * Coffered rotunda
-    * Station canopy
-    * Regulator clock
-    * Bindery screw press
-    * Theatre wings
-    * Horn gramophone
-    * Canal lock
-    * Funicular incline
-    * Cinema marquee
-    * Solar prominences
-    * Stellar bow shock
-    * Hourglass nebula
-    * Roche lobes
-    * Basalt colonnade
-    * Faulted strata
+    * Railway Ballast
+    * Steel Wire Rope
+    * Worn Road Markings
+    * Coffered Ceiling
+    * Wired Glass
+    * Clock Chain
+    * Blind-Tooled Leather
+    * Festoon Drapery
+    * Riveted Brass
+    * Steel Sheet Piling
+    * Greased Gear Rack
+    * Marquee Lights
+    * Solar Prominences
+    * Stellar Bow Shock
+    * Gas Shells
+    * Roche Lobes
+    * Columnar Basalt
+    * Faulted Beds
     * Garnet schist
     * Oolitic limestone
-    * Trilobite impression
-    * Double slit
-    * Lens cross section
-    * Iris diaphragm
-    * Emission spectrum
-    * Schlieren plume
-    * Hand radiograph
-    * Bifurcation diagram
+    * Trilobite Impressions
+    * Double-Slit Interference
+    * Newton Rings
+    * Iris Diaphragm
+    * Emission Spectrum
+    * Schlieren Convection
+    * Trabecular Bone
+    * Bifurcation Fans
     * Maze
     * Organic Fibers
     * Reaction Diffusion (G’MIC)
@@ -1245,6 +1245,96 @@ or click one of the badges below.
     * Infinite Structure
     * Möbius Torus
     * Torus Gem
+    * Sunstone Feldspar
+    * Brogue Punching
+    * Bead and Reel Moulding
+    * Leno Gauze
+    * Soumak Weft
+    * Couched Gold Cord
+    * Crazy Quilt Seams
+    * Frog Fastenings
+    * Rya Wool Pile
+    * Ottoman Rib
+    * Battenberg Tape Lace
+    * Tatami Mats
+    * Visible Darning
+    * Cut Chenille
+    * Blackwork Embroidery
+    * Scalloped Shingles
+    * Twisted Paper Cord
+    * Drypoint Burr
+    * Mezzotint Rocker
+    * Ben Day Colour Screens
+    * Split Fountain Ink
+    * Aquatint Islands
+    * Chine Colle
+    * Deckled Pulp
+    * Basket Stamped Leather
+    * Adze Hewn Oak
+    * Cloisonne Enamel
+    * Laid Paper Watermark
+    * French Polish Crazing
+    * Combed Slipware
+    * Versailles Parquet
+    * Scallop Valves
+    * Urchin Test
+    * Nummulite Limestone
+    * Crinoid Columnals
+    * Graptolite Shale
+    * Stromatolite Domes
+    * Septarian Nodules
+    * Banded Tourmaline
+    * Selenite Blades
+    * Graphic Granite
+    * Pillow Basalt
+    * Chevron Folds
+    * Orbicular Diorite
+    * Gypsum Desert Roses
+    * Ripple Cross-Bedding
+    * Mangrove Root Knees
+    * Cotton Bolls
+    * Birch Lenticels
+    * Plane Tree Bark
+    * Cattail Floss
+    * Fern Sori
+    * Horsetail Cross Sections
+    * Lotus Seedheads
+    * Duckweed Rafts
+    * Birdseye Maple
+    * Mussel Byssus
+    * Sand Dollar Bed
+    * Tortoise Scutes
+    * Cuttlefish Mantle
+    * Limpet Radula
+    * Corner-cube reflector
+    * Microfiche frames
+    * Slotted acoustic panel
+    * Ball-bearing races
+    * Pin-fin heat sink
+    * Raised tread plate
+    * Split-flap matrix
+    * Wire-rope cross section
+    * Diamond knurl
+    * Solder ball array
+    * Interdigital electrodes
+    * Micro-polarizer mosaic
+    * CRT phosphor triads
+    * Anamorphic glints
+    * Dichroic glass strips
+    * Talbot carpet
+    * Conoscopic figures
+    * Sheared speckle
+    * Pythagorean paving
+    * Miura folds
+    * Sliding dovetails
+    * Reuleaux lattice
+    * Hinged squares
+    * Octagon and dot
+    * Pentomino mosaic
+    * Vacuum grooves
+    * Coil windings
+    * Wedge impressions
+    * Anechoic wedges
 
   </details>
 

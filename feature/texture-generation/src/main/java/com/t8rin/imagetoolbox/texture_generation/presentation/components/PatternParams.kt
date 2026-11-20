@@ -24,6 +24,7 @@ import androidx.compose.ui.res.stringResource
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.SeedSelector
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
+import com.t8rin.imagetoolbox.texture_generation.domain.model.PatternPlacement
 import com.t8rin.imagetoolbox.texture_generation.domain.model.TextureParams
 
 @Composable
@@ -45,25 +46,11 @@ internal fun PatternParams(value: TextureParams, onValueChange: (TextureParams) 
                 shape = if (index == 0) ShapeDefaults.top else ShapeDefaults.center
             )
         }
-        type.parameters.forEach { parameter ->
-            val title = stringResource(
-                when (parameter.name) {
-                    "hardness" -> R.string.procedural_hardness
-                    "shapeAspect" -> R.string.procedural_shape_aspect
-                    "seed" -> R.string.procedural_seed
-                    "variability" -> R.string.procedural_variability
-                    "thickness" -> R.string.texture_thickness
-                    "balance" -> R.string.balance
-                    "intensity" -> R.string.intensity
-                    "count" -> R.string.procedural_count
-                    "shadows" -> R.string.shadows
-                    "radius" -> R.string.radius
-                    "offset" -> R.string.offset
-                    "layers" -> R.string.texture_pattern_layers
-                    "time" -> R.string.time
-                    else -> error("Unknown pattern parameter: ${parameter.name}")
-                }
-            )
+        type.parameters.forEachIndexed { index, parameter ->
+            val title = stringResource(parameter.title)
+            val shape = if (!type.hasScale && index == type.parameters.lastIndex) {
+                ShapeDefaults.bottom
+            } else ShapeDefaults.center
             val update: (Float) -> Unit = {
                 onValueChange(value.copy(patternParams = params.copy(values = values + (parameter.name to it))))
             }
@@ -72,47 +59,92 @@ internal fun PatternParams(value: TextureParams, onValueChange: (TextureParams) 
                     value = values.getValue(parameter.name),
                     title = title,
                     valueRange = parameter.range,
-                    onValueChange = update
+                    onValueChange = update,
+                    shape = if (type.placement == PatternPlacement.Canvas) ShapeDefaults.default else shape
                 )
             } else if (parameter.integer) {
                 IntParam(
                     value = values.getValue(parameter.name).toInt(),
                     title = title,
                     range = parameter.range,
-                    onValueChange = { update(it.toFloat()) })
+                    onValueChange = { update(it.toFloat()) },
+                    shape = shape
+                )
             } else {
                 FloatParam(
                     value = values.getValue(parameter.name),
                     title = title,
                     range = parameter.range,
-                    onValueChange = update
+                    roundTo = when {
+                        type.placement == PatternPlacement.Canvas -> 2
+                        parameter.range.endInclusive - parameter.range.start <= 0.1f -> 4
+                        parameter.range.endInclusive - parameter.range.start <= 1f -> 3
+                        else -> 2
+                    },
+                    onValueChange = update,
+                    shape = shape
                 )
             }
         }
-        FloatParam(
-            value = params.frequency,
-            title = stringResource(R.string.frequency),
-            range = 0.1f..64f,
-            onValueChange = { onValueChange(value.copy(patternParams = params.copy(frequency = it))) }
-        )
-        FloatParam(
-            value = params.offsetX,
-            title = stringResource(R.string.offset_x),
-            range = -1f..1f,
-            onValueChange = { onValueChange(value.copy(patternParams = params.copy(offsetX = it))) }
-        )
-        FloatParam(
-            value = params.offsetY,
-            title = stringResource(R.string.offset_y),
-            range = -1f..1f,
-            onValueChange = { onValueChange(value.copy(patternParams = params.copy(offsetY = it))) }
-        )
-        FloatParam(
-            value = params.rotation,
-            title = stringResource(R.string.rotation),
-            range = -180f..180f,
-            onValueChange = { onValueChange(value.copy(patternParams = params.copy(rotation = it))) },
-            shape = ShapeDefaults.bottom
-        )
+        val hasPhase = type.placement == PatternPlacement.Phase ||
+            type.placement == PatternPlacement.PhaseXY
+        if (type.placement == PatternPlacement.Canvas) {
+            FloatParam(
+                value = params.frequency,
+                title = stringResource(R.string.frequency),
+                range = 0.1f..64f,
+                onValueChange = { onValueChange(value.copy(patternParams = params.copy(frequency = it))) }
+            )
+            FloatParam(
+                value = params.offsetX,
+                title = stringResource(R.string.offset_x),
+                range = -1f..1f,
+                onValueChange = { onValueChange(value.copy(patternParams = params.copy(offsetX = it))) }
+            )
+            FloatParam(
+                value = params.offsetY,
+                title = stringResource(R.string.offset_y),
+                range = -1f..1f,
+                onValueChange = { onValueChange(value.copy(patternParams = params.copy(offsetY = it))) }
+            )
+        } else if (type.hasScale) {
+            FloatParam(
+                value = type.defaultFrequency / type.resolveFrequency(params.frequency),
+                title = stringResource(R.string.scale),
+                range = 0.25f..4f,
+                onValueChange = {
+                    onValueChange(value.copy(patternParams = params.copy(frequency = type.defaultFrequency / it)))
+                },
+                shape = if (type.hasRotation || hasPhase) ShapeDefaults.center else ShapeDefaults.bottom
+            )
+        }
+        if (type.hasRotation) {
+            FloatParam(
+                value = params.rotation,
+                title = stringResource(R.string.rotation),
+                range = -180f..180f,
+                onValueChange = { onValueChange(value.copy(patternParams = params.copy(rotation = it))) },
+                shape = if (hasPhase) ShapeDefaults.center else ShapeDefaults.bottom
+            )
+        }
+        if (hasPhase) {
+            val twoAxes = type.placement == PatternPlacement.PhaseXY
+            FloatParam(
+                value = params.phaseX,
+                title = stringResource(if (twoAxes) R.string.texture_phase_x else R.string.phase),
+                range = 0f..1f,
+                onValueChange = { onValueChange(value.copy(patternParams = params.copy(phaseX = it))) },
+                shape = if (twoAxes) ShapeDefaults.center else ShapeDefaults.bottom
+            )
+            if (twoAxes) {
+                FloatParam(
+                    value = params.phaseY,
+                    title = stringResource(R.string.texture_phase_y),
+                    range = 0f..1f,
+                    onValueChange = { onValueChange(value.copy(patternParams = params.copy(phaseY = it))) },
+                    shape = ShapeDefaults.bottom
+                )
+            }
+        }
     }
 }
