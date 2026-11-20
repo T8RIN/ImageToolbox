@@ -42,6 +42,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.withContext
+import java.io.File
 import javax.inject.Inject
 
 internal class AndroidGalleryOcrRepository @Inject constructor(
@@ -51,7 +52,7 @@ internal class AndroidGalleryOcrRepository @Inject constructor(
     dispatchers: DispatchersHolder
 ) : GalleryOcrRepository, DispatchersHolder by dispatchers {
 
-    private val models = GalleryOcrModels(context)
+    private val models = GalleryOcrModels(File(context.filesDir, "gallery-ocr"))
     private val _state = MutableStateFlow(GalleryOcrState(modelsReady = models.isInstalled))
     override val state = _state.asStateFlow()
 
