@@ -29,17 +29,20 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.t8rin.imagetoolbox.core.domain.JAVA_FORMAT_SPECIFICATION
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Info
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageSelector
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
+import com.t8rin.imagetoolbox.core.ui.widget.text.DateFormatHelpSheet
 import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextField
 import com.t8rin.imagetoolbox.feature.watermarking.domain.WatermarkParams
 import com.t8rin.imagetoolbox.feature.watermarking.domain.WatermarkingType
@@ -133,6 +136,7 @@ fun WatermarkDataSelector(
                 WatermarkingType.Stamp.Time::class.qualifiedName -> {
                     val type = value.watermarkingType as? WatermarkingType.Stamp.Time
                         ?: return@AnimatedContent
+                    var showFormatHelp by rememberSaveable { mutableStateOf(false) }
 
                     RoundedTextField(
                         modifier = modifier
@@ -153,11 +157,8 @@ fun WatermarkDataSelector(
                             Text(stringResource(R.string.format_pattern))
                         },
                         endIcon = {
-                            val linkHandler = LocalUriHandler.current
                             EnhancedIconButton(
-                                onClick = {
-                                    linkHandler.openUri(JAVA_FORMAT_SPECIFICATION)
-                                }
+                                onClick = { showFormatHelp = true }
                             ) {
                                 Icon(
                                     imageVector = Icons.Outlined.Info,
@@ -165,6 +166,11 @@ fun WatermarkDataSelector(
                                 )
                             }
                         }
+                    )
+
+                    DateFormatHelpSheet(
+                        visible = showFormatHelp,
+                        onDismiss = { showFormatHelp = false }
                     )
                 }
             }

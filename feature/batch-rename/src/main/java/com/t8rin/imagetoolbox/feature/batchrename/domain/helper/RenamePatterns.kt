@@ -21,6 +21,7 @@ import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern
 import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.Date
 import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.Extension
 import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.FileSize
+import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.Geometry
 import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.Height
 import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.OriginalName
 import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.ParentFolder
@@ -38,6 +39,7 @@ internal object RenamePatterns {
         OriginalName,
         Width,
         Height,
+        Geometry,
         Date,
         Rand,
         Sequence,

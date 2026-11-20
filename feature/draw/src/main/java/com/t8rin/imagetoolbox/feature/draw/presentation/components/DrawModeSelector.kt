@@ -20,7 +20,6 @@ package com.t8rin.imagetoolbox.feature.draw.presentation.components
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
@@ -40,7 +39,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.t8rin.imagetoolbox.core.domain.model.Pt
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.FilterTemplateCreationSheetComponent
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.addFilters.AddFiltersSheetComponent
@@ -63,6 +61,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedVerticalScroll
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
+import com.t8rin.imagetoolbox.core.ui.widget.sheets.InfoSheetCard
 import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawMode
@@ -196,31 +195,12 @@ fun DrawModeSelector(
                 verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
                 values.forEachIndexed { index, item ->
-                    Column(
-                        Modifier
-                            .fillMaxWidth()
-                            .container(
-                                shape = ShapeDefaults.byIndex(
-                                    index = index,
-                                    size = values.size
-                                ),
-                                resultPadding = 0.dp
-                            )
+                    InfoSheetCard(
+                        title = stringResource(item.getTitle()),
+                        icon = item.getIcon(),
+                        shape = ShapeDefaults.byIndex(index, values.size)
                     ) {
-                        TitleItem(
-                            text = stringResource(item.getTitle()),
-                            icon = item.getIcon()
-                        )
-                        Text(
-                            text = stringResource(item.getSubtitle()),
-                            modifier = Modifier.padding(
-                                start = 16.dp,
-                                end = 16.dp,
-                                bottom = 16.dp
-                            ),
-                            fontSize = 14.sp,
-                            lineHeight = 18.sp
-                        )
+                        Text(stringResource(item.getSubtitle()))
                     }
                 }
             }

@@ -48,6 +48,7 @@ import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull
+import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.io.File
@@ -74,6 +75,33 @@ class SavingRegressionInstrumentedTest {
         dispatchersHolder = dispatchers
     )
 
+    private fun filenameCreator(
+        settings: MutableStateFlow<SettingsState>
+    ) = AndroidFilenameCreator(
+        randomStringGenerator = object : RandomStringGenerator {
+            override fun generate(length: Int) = "a".repeat(length)
+        },
+        context = context,
+        settingsManager = object : SettingsManager by context
+            .entryPoint<SettingsStateEntryPoint>().settingsManager {
+            override val settingsState = settings
+        },
+        dispatchersHolder = dispatchers,
+        resourceManager = object : ResourceManager {
+            override fun getString(resId: Int) = context.getString(resId)
+            override fun getString(resId: Int, vararg formatArgs: Any) =
+                context.getString(resId, *formatArgs)
+
+            override fun getStringLocalized(resId: Int, language: String) = getString(resId)
+            override fun getStringLocalized(
+                resId: Int,
+                language: String,
+                vararg formatArgs: Any
+            ) =
+                getString(resId, *formatArgs)
+        }
+    )
+
     @After
     fun tearDown() {
         appJob.cancel()
@@ -96,30 +124,7 @@ class SavingRegressionInstrumentedTest {
                 filenameBehavior = FilenameBehavior.None()
             )
         )
-        val creator = AndroidFilenameCreator(
-            randomStringGenerator = object : RandomStringGenerator {
-                override fun generate(length: Int) = "a".repeat(length)
-            },
-            context = context,
-            settingsManager = object : SettingsManager by context
-                .entryPoint<SettingsStateEntryPoint>().settingsManager {
-                override val settingsState = settings
-            },
-            dispatchersHolder = dispatchers,
-            resourceManager = object : ResourceManager {
-                override fun getString(resId: Int) = context.getString(resId)
-                override fun getString(resId: Int, vararg formatArgs: Any) =
-                    context.getString(resId, *formatArgs)
-
-                override fun getStringLocalized(resId: Int, language: String) = getString(resId)
-                override fun getStringLocalized(
-                    resId: Int,
-                    language: String,
-                    vararg formatArgs: Any
-                ) =
-                    getString(resId, *formatArgs)
-            }
-        )
+        val creator = filenameCreator(settings)
         val target = ImageSaveTarget(
             imageInfo = ImageInfo(width = 16, height = 12, imageFormat = ImageFormat.Jpg),
             originalUri = File(directory, "Инструкция.RAW-01.COVER (4).webp").toUri().toString(),
@@ -157,6 +162,59 @@ class SavingRegressionInstrumentedTest {
         assertEquals(
             "Инструкция.RAW-01.COVER (4)[014].jpg",
             creator.constructImageFilename(target, pattern = "\\o[\\c{10:2:3}].\\e")
+        )
+    }
+
+    @Test
+    fun savesWithRandomFilenamePatternAndOutputExtension() {
+        val settings = MutableStateFlow(
+            SettingsState.Default.copy(
+                addOriginalFilename = true,
+                addSizeInFilename = true,
+                addSequenceNumber = true,
+                filenameBehavior = FilenameBehavior.None(),
+                filenamePattern = "\\o{snake}_\\g_\\c{3}_\\r{9:alnum}-\\r{3:[Я]}"
+            )
+        )
+        val creator = filenameCreator(settings)
+        val target = ImageSaveTarget(
+            imageInfo = ImageInfo(width = 1920, height = 1080, imageFormat = ImageFormat.Jpg),
+            originalUri = File(directory, "Rome/Summer Trip.png").toUri().toString(),
+            sequenceNumber = 4,
+            data = byteArrayOf()
+        )
+
+        val filename = creator.constructImageFilename(target)
+        val expected = Regex("""summer_trip_16x9_004_[a-zA-Z0-9]{9}-ЯЯЯ\.jpg""")
+        assertTrue(filename, filename.matches(expected))
+        assertEquals("Rome_ROME.jpg", creator.constructImageFilename(target, pattern = "\\f_\\F"))
+
+        assertEquals(
+            "16x9.jpg",
+            creator.constructImageFilename(target.copy(originalUri = ""), pattern = "\\g")
+        )
+
+        assertEquals(
+            "photo.jpg",
+            creator.constructImageFilename(
+                target,
+                forceNotAddSizeInFilename = true,
+                pattern = "photo\\w\\h\\g"
+            )
+        )
+
+        settings.value = settings.value.copy(
+            addOriginalFilename = false,
+            addSizeInFilename = false,
+            addSequenceNumber = false,
+            addTimestampToFilename = false
+        )
+        assertEquals(
+            "ЖЖ.JPG",
+            creator.constructImageFilename(
+                saveTarget = target,
+                pattern = "\\o{snake}\\g\\c{3}\\d{yyyy}\\r{2:[Ж]}.\\E"
+            )
         )
     }
 

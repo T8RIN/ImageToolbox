@@ -67,23 +67,7 @@ data class PatternHighlightTransformation(
 
     companion object {
         @Composable
-        fun default(): PatternHighlightTransformation {
-            val color = takeColorFromScheme {
-                primary.blend(primaryContainer, 0.1f)
-            }
-            val colorUpper = takeColorFromScheme {
-                tertiary.blend(tertiaryContainer, 0.1f)
-            }
-
-            return remember(color, colorUpper) {
-                PatternHighlightTransformation(
-                    mapOf(
-                        PATTERN_TOKENS to color,
-                        UPPER_PATTERN_TOKENS to colorUpper
-                    )
-                )
-            }
-        }
+        fun default() = forPatterns(FilenamePattern.entries)
 
         @Composable
         fun forPatterns(
@@ -98,6 +82,8 @@ data class PatternHighlightTransformation(
 
             return remember(color, colorUpper, allowedPatterns) {
                 val lowerLetters = allowedPatterns
+                    .asSequence()
+                    .filterNot { it == FilenamePattern.Geometry }
                     .map { it.value.last() }
                     .distinct()
                     .sorted()
@@ -116,6 +102,9 @@ data class PatternHighlightTransformation(
 
                 PatternHighlightTransformation(
                     buildMap {
+                        if (FilenamePattern.Geometry in allowedPatterns) {
+                            put(FilenamePattern.geometryPattern, color)
+                        }
                         if (lowerLetters.isNotEmpty()) {
                             put(
                                 Regex("""\\[$lowerLetters](\{[^}]*\})?"""),
@@ -135,14 +124,6 @@ data class PatternHighlightTransformation(
     }
 
 }
-
-private val PATTERN_TOKENS = Regex(
-    """\\[pwdhrcoimsefu](\{[^}]*\})?"""
-)
-
-private val UPPER_PATTERN_TOKENS = Regex(
-    """\\[PDOIMSEFU](\{[^}]*\})?"""
-)
 
 @Preview
 @Composable

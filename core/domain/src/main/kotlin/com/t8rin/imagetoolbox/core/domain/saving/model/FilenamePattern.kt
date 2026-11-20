@@ -19,6 +19,8 @@
 
 package com.t8rin.imagetoolbox.core.domain.saving.model
 
+import com.t8rin.imagetoolbox.core.domain.utils.trimTrailingZero
+
 @JvmInline
 value class FilenamePattern(
     val value: String
@@ -29,11 +31,67 @@ value class FilenamePattern(
 
     fun hasUpper() = upperEntries.contains(this.upper())
 
+    enum class NameCase {
+        Lower, Upper, Spaces, Title, Snake, Kebab, Camel, Pascal;
+
+        val token: String get() = "${OriginalName}{${name.lowercase()}}"
+
+        fun format(originalName: String): String {
+            if (this == Lower) return originalName.lowercase()
+            if (this == Upper) return originalName.uppercase()
+
+            val words = originalName.split(WORD_BOUNDARY).filter(String::isNotEmpty)
+            if (this == Spaces) return words.joinToString(" ")
+
+            val separator = when (this) {
+                Title -> " "
+                Snake -> "_"
+                Kebab -> "-"
+                else -> ""
+            }
+            return words.mapIndexed { index, word ->
+                val lower = word.lowercase()
+                if (this == Title || this == Pascal || (this == Camel && index > 0)) {
+                    lower.replaceFirstChar(Char::titlecase)
+                } else lower
+            }.joinToString(separator)
+        }
+    }
+
+    enum class GeometryFormat(private val suffix: String) {
+        Ratio(""),
+        Orientation("{orientation}"),
+        Megapixels("{mp}");
+
+        val token: String get() = "$Geometry$suffix"
+
+        fun format(width: Int?, height: Int?): String {
+            if (width == null || height == null || width <= 0 || height <= 0) return ""
+
+            return when (this) {
+                Ratio -> {
+                    val divisor = gcd(width, height)
+                    "${width / divisor}x${height / divisor}"
+                }
+
+                Orientation -> when {
+                    width > height -> "landscape"
+                    width < height -> "portrait"
+                    else -> "square"
+                }
+
+                Megapixels -> "%.2f".format(width.toLong() * height / 1_000_000.0)
+                    .trimTrailingZero()
+            }
+        }
+    }
+
     companion object {
         val Prefix = FilenamePattern("\\p")
         val OriginalName = FilenamePattern("\\o")
         val Width = FilenamePattern("\\w")
         val Height = FilenamePattern("\\h")
+        val Geometry = FilenamePattern("\\g")
         val Date = FilenamePattern("\\d")
         val Rand = FilenamePattern("\\r")
         val Sequence = FilenamePattern("\\c")
@@ -73,12 +131,35 @@ value class FilenamePattern(
             ignoreCase = ignoreCase
         )
 
+        fun String.replaceNameCases(originalName: String): String = replace(NAME_CASE_PATTERN) {
+            nameCases.getValue(it.value).format(originalName)
+        }
+
+        fun String.replaceGeometry(width: Int?, height: Int?): String = replace(geometryPattern) {
+            geometryFormats.getValue(it.value).format(width, height)
+        }
+
+        private val WORD_BOUNDARY = Regex(
+            """[^\p{L}\p{M}\p{N}]+|(?<=[\p{Ll}\p{N}])(?=\p{Lu})|(?<=\p{Lu})(?=\p{Lu}\p{Ll})"""
+        )
+        private val nameCases = NameCase.entries.associateBy(NameCase::token)
+        private val geometryFormats = GeometryFormat.entries.associateBy(GeometryFormat::token)
+        private val NAME_CASE_PATTERN =
+            Regex(nameCases.keys.joinToString("|", transform = Regex::escape))
+        val geometryPattern = Regex(geometryFormats.keys.joinToString("|") { token ->
+            if (token == Geometry.value) """\\g(?!\{)""" else Regex.escape(token)
+        })
+
+        private tailrec fun gcd(first: Int, second: Int): Int =
+            if (second == 0) first else gcd(second, first % second)
+
         val entries by lazy {
             listOf(
                 Prefix,
                 OriginalName,
                 Width,
                 Height,
+                Geometry,
                 Date,
                 Rand,
                 Sequence,
@@ -97,6 +178,7 @@ value class FilenamePattern(
                 OriginalNameUpper,
                 DateUpper,
                 ParentFolderUpper,
+                FileSizeUpper,
                 UuidUpper,
                 PresetInfoUpper,
                 ScaleModeUpper,

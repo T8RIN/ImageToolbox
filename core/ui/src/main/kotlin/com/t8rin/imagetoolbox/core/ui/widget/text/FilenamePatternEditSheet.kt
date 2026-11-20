@@ -26,25 +26,24 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.unit.dp
-import com.t8rin.imagetoolbox.core.domain.JAVA_FORMAT_SPECIFICATION
 import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern
 import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.Date
 import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.Extension
 import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.FileSize
+import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.Geometry
 import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.Height
 import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.OriginalName
 import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.ParentFolder
@@ -66,6 +65,7 @@ import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.utils.provider.SafeLocalContainerColor
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBadge
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedVerticalScroll
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
@@ -84,6 +84,7 @@ fun FilenamePatternEditSheet(
     exampleFilename: (@Composable ColumnScope.() -> Unit)? = null
 ) {
     val settingsState = LocalSettingsState.current
+    val patterns = allowedPatterns ?: FilenamePattern.entries
     var selection by remember { mutableStateOf(TextRange(value.length)) }
 
     fun insertPattern(insertion: String) {
@@ -152,9 +153,7 @@ fun FilenamePatternEditSheet(
                 singleLine = false,
                 hint = { Text(stringResource(R.string.format_pattern)) },
                 label = null,
-                visualTransformation = allowedPatterns?.let {
-                    PatternHighlightTransformation.forPatterns(allowedPatterns)
-                } ?: PatternHighlightTransformation.default()
+                visualTransformation = PatternHighlightTransformation.forPatterns(patterns)
             )
 
             Spacer(Modifier.height(4.dp))
@@ -165,14 +164,22 @@ fun FilenamePatternEditSheet(
                     alignment = Alignment.CenterVertically
                 ),
             ) {
-                val linkHandler = LocalUriHandler.current
+                var helpPattern by rememberSaveable { mutableStateOf(Date.value) }
+                var showHelp by rememberSaveable { mutableStateOf(false) }
 
-                (allowedPatterns ?: FilenamePattern.entries).forEachIndexed { index, pattern ->
+                FilenamePatternHelpSheet(
+                    visible = showHelp,
+                    pattern = FilenamePattern(helpPattern),
+                    showSaveSetting = allowedPatterns == null,
+                    onDismiss = { showHelp = false }
+                )
+
+                patterns.forEachIndexed { index, pattern ->
                     PreferenceItemOverload(
                         title = when (pattern) {
                             Date -> pattern.value + "{pattern}"
-                            Rand -> pattern.value + "{count}"
-                            OriginalName -> pattern.value + "{start:end}"
+                            Rand -> pattern.value + "{count:set}"
+                            OriginalName, Geometry -> pattern.value + "{format}"
                             Sequence -> pattern.value + "{start:step:padding}"
                             FileSize -> pattern.value + "{unit}"
                             else -> pattern.value
@@ -182,6 +189,7 @@ fun FilenamePatternEditSheet(
                             OriginalName -> stringResource(R.string.original_filename_pattern_description)
                             Width -> stringResource(R.string.width_pattern_description)
                             Height -> stringResource(R.string.height_pattern_description)
+                            Geometry -> stringResource(R.string.geometry_pattern_description)
                             Date -> stringResource(R.string.formatted_timestamp_pattern_description)
                             Rand -> stringResource(R.string.random_numbers_pattern_description)
                             Sequence -> stringResource(R.string.sequence_number_pattern_description)
@@ -220,11 +228,12 @@ fun FilenamePatternEditSheet(
                                 onSurface
                             }
                         },
-                        endIcon = if (pattern == Date) {
+                        endIcon = if (pattern.helpTitle != null) {
                             {
-                                IconButton(
+                                EnhancedIconButton(
                                     onClick = {
-                                        linkHandler.openUri(JAVA_FORMAT_SPECIFICATION)
+                                        helpPattern = pattern.value
+                                        showHelp = true
                                     }
                                 ) {
                                     Icon(
@@ -244,7 +253,7 @@ fun FilenamePatternEditSheet(
                         },
                         shape = ShapeDefaults.byIndex(
                             index = index,
-                            size = allowedPatterns?.size ?: FilenamePattern.entries.size
+                            size = patterns.size
                         ),
                         modifier = Modifier
                     )

@@ -19,6 +19,9 @@ package com.t8rin.imagetoolbox.feature.batchrename.domain.helper
 
 import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern
 import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.replace
+import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.replaceGeometry
+import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.replaceNameCases
+import com.t8rin.imagetoolbox.core.domain.saving.model.RandomFilenamePattern
 import com.t8rin.imagetoolbox.core.domain.utils.humanFileSize
 import com.t8rin.imagetoolbox.core.domain.utils.slice
 import com.t8rin.imagetoolbox.core.domain.utils.timestamp
@@ -40,12 +43,6 @@ class FilenamePatternResolver(
         sequence: Int,
         dateMillis: Long
     ): String {
-        fun randomDigits(count: Int): String = buildString {
-            repeat(count.coerceIn(0, 500)) {
-                append(random.nextInt(10))
-            }
-        }
-
         var result = pattern
 
         result = runCatching {
@@ -69,15 +66,13 @@ class FilenamePatternResolver(
             }
         }.getOrDefault(result)
 
-        result = runCatching {
-            result.replace(RANDOM_PATTERN) { match ->
-                randomDigits(match.groupValues[1].toIntOrNull() ?: DEFAULT_RANDOM_LENGTH)
-            }
-        }.getOrDefault(result)
+        result = RandomFilenamePattern.replaceIn(result, random)
 
         val extension = file.extension
         val originalName = file.nameWithoutExtension
         val defaultDate = timestamp(date = dateMillis)
+
+        result = result.replaceGeometry(file.width, file.height).replaceNameCases(originalName)
 
         result = runCatching {
             result.replace(ORIGINAL_NAME_SLICE_PATTERN) { match ->
@@ -127,7 +122,6 @@ class FilenamePatternResolver(
             .replace(FilenamePattern.OriginalName, originalName)
             .replace(FilenamePattern.Sequence, sequence.toString())
             .replace(FilenamePattern.Extension, extension)
-            .replace(FilenamePattern.Rand, randomDigits(DEFAULT_RANDOM_LENGTH))
             .replace(FilenamePattern.Date, defaultDate)
             .replace(FilenamePattern.ParentFolder, parentFolder)
             .replace(FilenamePattern.FileSize, fileSize)
@@ -143,11 +137,8 @@ class FilenamePatternResolver(
     }
 
     private companion object {
-        const val DEFAULT_RANDOM_LENGTH = 4
-
         val DATE_PATTERN = """\\d[{]([^}]*)[}]""".toRegex()
         val DATE_PATTERN_UPPER = """\\D[{]([^}]*)[}]""".toRegex()
-        val RANDOM_PATTERN = """\\r[{](\d+)[}]""".toRegex()
         val ORIGINAL_NAME_SLICE_PATTERN = """\\o\{(-?\d+)?:(-?\d+)?\}""".toRegex()
         val ORIGINAL_NAME_SLICE_PATTERN_UPPER = """\\O\{(-?\d+)?:(-?\d+)?\}""".toRegex()
         val ORIGINAL_NAME_TRANS_PATTERN = """\\o\{t\}""".toRegex()

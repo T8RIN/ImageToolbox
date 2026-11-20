@@ -43,7 +43,6 @@ import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion
 import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.PrefixUpper
 import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.PresetInfo
 import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.PresetInfoUpper
-import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.Rand
 import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.ScaleMode
 import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.ScaleModeUpper
 import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.Sequence
@@ -53,7 +52,10 @@ import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion
 import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.UuidUpper
 import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.Width
 import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.replace
+import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.replaceGeometry
+import com.t8rin.imagetoolbox.core.domain.saving.model.FilenamePattern.Companion.replaceNameCases
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
+import com.t8rin.imagetoolbox.core.domain.saving.model.RandomFilenamePattern
 import com.t8rin.imagetoolbox.core.domain.utils.slice
 import com.t8rin.imagetoolbox.core.domain.utils.timestamp
 import com.t8rin.imagetoolbox.core.domain.utils.transliterate
@@ -66,7 +68,6 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import java.util.Date
 import java.util.Locale
 import javax.inject.Inject
-import kotlin.random.Random
 import kotlin.uuid.Uuid as UUID
 
 internal class AndroidFilenameCreator @Inject constructor(
@@ -94,9 +95,10 @@ internal class AndroidFilenameCreator @Inject constructor(
             is FilenameBehavior.Checksum -> "${behavior.hashingType.computeFromByteArray(saveTarget.data)}.$extension"
             is FilenameBehavior.Random -> "${randomStringGenerator.generate(32)}.$extension"
             is FilenameBehavior.Overwrite,
-            is FilenameBehavior.None -> constructImageFilename(
+            is FilenameBehavior.None -> constructFilenameFromPattern(
                 saveTarget = saveTarget,
                 oneTimePrefix = oneTimePrefix,
+                includeSize = settingsState.addSizeInFilename && !forceNotAddSizeInFilename,
                 pattern = (pattern ?: settingsState.filenamePattern).orEmpty().ifBlank {
                     if (settingsState.addOriginalFilename && saveTarget.sequenceNumber != null) {
                         FilenamePattern.ForOriginal
@@ -108,22 +110,18 @@ internal class AndroidFilenameCreator @Inject constructor(
         }.makeLog("Filename")
     }
 
-    private fun constructImageFilename(
+    private fun constructFilenameFromPattern(
         saveTarget: ImageSaveTarget,
         oneTimePrefix: String?,
+        includeSize: Boolean,
         pattern: String
     ): String {
-        val random = Random(Date().time)
         val extension = saveTarget.extension
 
         val isOriginalEmpty = saveTarget.originalUri.toUri() == Uri.EMPTY
 
-        val widthString = if (settingsState.addSizeInFilename) {
-            if (isOriginalEmpty) "" else saveTarget.imageInfo.width.toString()
-        } else ""
-        val heightString = if (settingsState.addSizeInFilename) {
-            if (isOriginalEmpty) "" else saveTarget.imageInfo.height.toString()
-        } else ""
+        val size = saveTarget.imageInfo.takeIf { includeSize }
+        val originalSize = size.takeUnless { isOriginalEmpty }
 
         val prefix = oneTimePrefix ?: settingsState.filenamePrefix
         val suffix = settingsState.filenameSuffix
@@ -146,17 +144,9 @@ internal class AndroidFilenameCreator @Inject constructor(
                 ).replace(" ", "-")
             } else ""
 
-        val randomNumber: (count: Int) -> String = { count ->
-            buildString {
-                repeat(count.coerceAtMost(500)) {
-                    append(random.nextInt(0, 10))
-                }
-            }.take(count)
-        }
-
         val timestampString = if (settingsState.addTimestampToFilename) {
             if (settingsState.useFormattedFilenameTimestamp) {
-                "${timestamp()}_${randomNumber(4)}"
+                "${timestamp()}_${RandomFilenamePattern.Digits.generate()}"
             } else Date().time.toString()
         } else ""
 
@@ -190,13 +180,7 @@ internal class AndroidFilenameCreator @Inject constructor(
             it.makeLog("pattern date")
         }
 
-        runCatching {
-            result = result.replace("""\\r\{(\d+)\}""".toRegex()) { match ->
-                randomNumber(match.groupValues[1].toIntOrNull() ?: 4)
-            }
-        }.onFailure {
-            it.makeLog("pattern random")
-        }
+        result = RandomFilenamePattern.replaceIn(result)
 
         runCatching {
             result = result.replace("""\\c\{([^}]*)\}""".toRegex()) { match ->
@@ -214,6 +198,8 @@ internal class AndroidFilenameCreator @Inject constructor(
         }.onFailure {
             it.makeLog("pattern sequence")
         }
+
+        result = result.replaceGeometry(size?.width, size?.height).replaceNameCases(originalName)
 
         runCatching {
             result = result.replace("""\\o\{(-?\d+)?:(-?\d+)?\}""".toRegex()) { match ->
@@ -283,8 +269,8 @@ internal class AndroidFilenameCreator @Inject constructor(
         }.orEmpty()
 
         return result
-            .replace(Width, widthString)
-            .replace(Height, heightString)
+            .replace(Width, originalSize?.width?.toString().orEmpty())
+            .replace(Height, originalSize?.height?.toString().orEmpty())
             .replace(Prefix, prefix)
             .replace(Suffix, suffix)
             .replace(OriginalName, originalName)
@@ -292,7 +278,6 @@ internal class AndroidFilenameCreator @Inject constructor(
             .replace(PresetInfo, presetInfo)
             .replace(ScaleMode, scaleModeInfo)
             .replace(Extension, extension)
-            .replace(Rand, randomNumber(4))
             .replace(Date, timestampString)
             .replace(ParentFolder, parentFolder)
             .replace(Uuid, UUID.random().toString())
@@ -319,7 +304,7 @@ internal class AndroidFilenameCreator @Inject constructor(
                     if (hasExtension) filename.substringBeforeLast('.') else filename.trimEnd('.')
 
                 when {
-                    name.isBlank() -> "image${randomNumber(4)}.$extension"
+                    name.isBlank() -> "image${RandomFilenamePattern.Digits.generate()}.$extension"
                     hasExtension -> filename
                     else -> "$name.$extension"
                 }
