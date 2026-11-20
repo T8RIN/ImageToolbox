@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">大小 %1$s</string>
     <string name="loading">載入中…</string>
     <string name="no_exif">沒有發現 EXIF 資料</string>
@@ -8404,12 +8403,10 @@
     <string name="filename_pattern_date_zone">時區名稱和偏移量</string>
     <string name="filename_pattern_date_iso_zone">ISO 8601 偏移</string>
     <string name="filename_pattern_literals">文字和分隔符</string>
-    <string name="filename_pattern_save_setting" />
     <string name="filename_pattern_help_name">\\o 給予原始檔名，不含副檔名。 lower 和 upper 更改每個字母的大小寫並保留現有的分隔符號。 \\O 是 \\o{upper} 的縮寫形式。 title 將每個單字的第一個字母大寫，其餘字母小寫，並用空格分隔單字。</string>
     <string name="filename_pattern_help_word_styles">單字在空格、標點符號和大小寫變化處被分割。 space 將它們與單一空格連接起來並保留它們的大小寫。蛇用底線連接小寫單字，kebab用連字符連接。 Camel 和 pascal 連接單字時不使用分隔符，除了 Camel 中的第一個單字外，每個單字都大寫。</string>
     <string name="filename_pattern_help_name_parts">在 \\o{start:end} 中，計數從 0 開始。切片包括 start 並在 end 之前停止。省略 start 以從第一個字元開始，或省略 end 以保留名稱的其餘部分。負數位置從末尾開始倒數，因此 -1 是最後一個字元。使用 \\O，名稱在切片之前變為大寫。</string>
     <string name="filename_pattern_help_text_changes">\\o{t} 將俄文字母音譯為拉丁文字母。在 \\o{s/from/to/} 中，每個出現的 from 都被替換為 to。匹配區分大小寫。保留為空以刪除符合的文字。 \\O 在將名稱大寫後套用相同的動作。</string>
-    <string name="filename_pattern_help_geometry" />
     <string name="filename_pattern_help_orientation">当图像的宽度大于高度时，方向为横向。较高的图像为肖像，相同尺寸的图像为正方形。這些單字始終以小寫英文書寫。</string>
     <string name="filename_pattern_help_megapixels">将宽度（以像素为单位）乘以高度，然后除以一百万。 mp 将结果四舍五入到小数点后两位，删除尾随零并使用小数点。結果是一個沒有單位的數字。</string>
     <string name="filename_pattern_help_sequence">在 \\c{start:step:padding} 中，第一個檔案開始，每個後續檔案新增步驟。負步遞減計數，零步重複相同的數字。空的開始或步長預設為 1。可選的填充會新增前導零以達到所選的寬度。透過開始 10 和步驟 2，檔案 14 得到 10 + 13 × 2 = 36。</string>
@@ -8428,7 +8425,6 @@
     <string name="filename_pattern_help_date_years">G 命名時代。在公曆中，y 給出該時代的年份。恰好兩個字母 (yy) 保留其最後兩位數字。對於大多數數字，重複字母會設定最小寬度並根據需要添加前導零。</string>
     <string name="filename_pattern_help_date_months">M 和 MM 給出 1 到 12 的月份數。 MMM 給出縮寫名稱，MMMM 給出全名，MMMMM 給出最窄形式。在日期中使用 M，單獨使用 L 表示一個月。 L遵循相同的寬度。在具有語法情況的語言中，這兩種形式可能有所不同。</string>
     <string name="filename_pattern_help_date_days">d 是該月中的第幾天 (1–31)。 D 計算 1 月 1 日開始的天數（1 到 365，或閏年為 366）。 F 計算本月中該工作日的出現次數。例如，第二個星期六給出 2。</string>
-    <string name="filename_pattern_help_date_weekdays" />
     <string name="filename_pattern_help_date_weeks">w 計算一年中的週數，W 計算一個月中的週數。區域設定決定一週的第一天以及第一週由多少天組成。一個月的第 1 週之前的天數可以屬於第 0 週。將 Y 與 w 一起使用。臨近新年的那一周可以屬於上一年或下一年，即使 y 保持不變。</string>
     <string name="filename_pattern_help_date_seconds">m 給出分鐘，s 給出秒 (0–59)。在 Android 上，S 表示十分之一秒，SS 表示百分之一秒，SSS 表示全部三位毫秒數字。第四個 S 新增尾隨零。更多的數字並不會提高時鐘的精確度。</string>
     <string name="filename_pattern_help_date_zone">z 給予一個短區域名稱，而 zzzz 給予一個長區域名稱。如果名稱不可用，Android 將顯示 GMT 偏移量。此偏移量包括夏令時（生效時）。 Z、ZZ 和 ZZZ 給小時和分鐘，不含冒號。在 Android 上，ZZZZ 增加 GMT 和冒號，而 ZZZZZ 單獨保留冒號。</string>
