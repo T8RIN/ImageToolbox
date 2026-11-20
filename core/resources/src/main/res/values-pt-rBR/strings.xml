@@ -2051,12 +2051,12 @@
     <string name="prefix_pattern_description">Texto personalizado colocado logo no início do nome do arquivo, perfeito para nomes de projetos, marcas ou tags pessoais.</string>
     <string name="width_pattern_description">A largura da imagem em pixels, útil para rastrear alterações de resolução ou resultados de dimensionamento.</string>
     <string name="height_pattern_description">A altura da imagem em pixels, útil ao trabalhar com proporções ou exportações.</string>
-    <string name="random_numbers_pattern_description">Gera dígitos aleatórios para garantir nomes de arquivos exclusivos; adicione mais dígitos para segurança extra contra duplicatas.</string>
+    <string name="random_numbers_pattern_description">Letras ou dígitos aleatórios. O \\r, por si só, gera quatro dígitos.</string>
     <string name="preset_info_pattern_description">Insere o nome da predefinição aplicada no nome do arquivo para que você possa lembrar facilmente como a imagem foi processada.</string>
     <string name="scale_mode_pattern_description">Exibe o modo de dimensionamento da imagem usado durante o processamento, ajudando a distinguir imagens redimensionadas, cortadas ou ajustadas.</string>
     <string name="suffix_pattern_description">Texto personalizado colocado no final do nome do arquivo, útil para controle de versão como _v2, _edited ou _final.</string>
     <string name="extension_pattern_description">A extensão do arquivo (png, jpg, webp, etc.), correspondendo automaticamente ao formato real salvo.</string>
-    <string name="formatted_timestamp_pattern_description">Um carimbo de data/hora personalizável que permite definir seu próprio formato por especificação Java para uma classificação perfeita.</string>
+    <string name="formatted_timestamp_pattern_description">Data e hora no formato de data Java.</string>
     <string name="fling_type">Tipo de arremesso</string>
     <string name="android_native">Android nativo</string>
     <string name="ios_style">Estilo iOS</string>
@@ -2599,7 +2599,7 @@
     <string name="help_tip_filename_patterns_description">As configurações de padrão de nome de arquivo podem transformar arquivos exportados em um histórico útil do que aconteceu com eles. Isso é importante em lotes porque a visualização da pasta pode ser o único lugar onde você pode distinguir tamanho original, predefinição, formato e ordem de processamento.</string>
     <string name="help_tip_filename_patterns_step_1">Use nome de arquivo, prefixo, sufixo e carimbo de data/hora originais quando precisar de nomes legíveis para classificação manual.</string>
     <string name="help_tip_filename_patterns_step_2">Adicione informações de predefinição, modo de escala, tamanho de arquivo ou soma de verificação quando as saídas precisarem documentar como foram produzidas.</string>
-    <string name="help_tip_filename_patterns_step_3">Evite nomes aleatórios para fluxos de trabalho em que os arquivos precisam ficar emparelhados com os originais ou com a ordem das páginas.</string>
+    <string name="help_tip_filename_patterns_step_3">O padrão \\o{kebab}_\\g.\\e transforma o arquivo Summer Trip.jpg, com resolução de 1920 × 1080, em summer-trip_16x9.jpg.</string>
     <string name="help_tip_save_location_title">Escolha onde os arquivos serão salvos</string>
     <string name="help_tip_save_location_subtitle">Evite perder exportações definindo pastas, salvando a pasta original e salvando locais únicos</string>
     <string name="help_tip_save_location_page_title">Mantenha os resultados previsíveis</string>
@@ -3680,10 +3680,10 @@
     <string name="batch_rename_success">Arquivos renomeados com sucesso</string>
     <string name="batch_rename_failed">Alguns arquivos não puderam ser renomeados</string>
     <string name="permission_not_granted">A permissão não foi concedida</string>
-    <string name="original_filename_pattern_description">Usa o nome do arquivo original sem extensão, ajudando a manter intacta a identificação da fonte. Também suporta fatiamento com \\o{start:end}, transliteração com \\o{t} e substituição por \\o{s/old/new/}.</string>
-    <string name="sequence_number_pattern_description">Contador de incremento automático. Suporta formatação personalizada: \\c{padding} (por exemplo, \\c{3} -&gt; 001), \\c{start:step} ou \\c{start:step:padding}.</string>
+    <string name="original_filename_pattern_description">O nome original sem a extensão, com alterações opcionais de maiúsculas e minúsculas, espaçamento ou texto.</string>
+    <string name="sequence_number_pattern_description">Numeração de arquivos com um número inicial, um intervalo e zeros à esquerda opcionais.</string>
     <string name="parent_folder_pattern_description">O nome da pasta pai onde o arquivo original estava localizado.</string>
-    <string name="file_size_pattern_description">O tamanho do arquivo original. Suporta unidades: \\z{b}, \\z{kb}, \\z{mb} ou apenas \\z para formato legível por humanos.</string>
+    <string name="file_size_pattern_description">Tamanho do arquivo de origem em bytes, KB, MB ou uma unidade automática.</string>
     <string name="uuid_pattern_description">Gera um identificador universalmente exclusivo (UUID) aleatório para garantir a exclusividade do nome do arquivo.</string>
     <string name="rename_cannot_undone">A renomeação de arquivos não pode ser desfeita. Certifique-se de que os novos nomes estejam corretos antes de continuar.</string>
     <string name="confirm_rename_title">Confirmar renomeação</string>
