@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="something_went_wrong">发生错误</string>
     <string name="pick_image">选择图片以开始</string>
     <string name="close">关闭</string>
@@ -4459,7 +4458,7 @@
     <string name="tag_raw_developing_software">RAW冲洗软件</string>
     <string name="tag_shading_correction">阴影校正</string>
     <string name="image_info">图像信息</string>
-    <string name="mime_type">默剧类型</string>
+    <string name="mime_type">MIME类型</string>
     <string name="help_tip_gmic_filters_title">探索 G\'MIC 过滤器</string>
     <string name="help_tip_gmic_filters_subtitle">将大型效果库转变为精心编辑，从微妙的清理到大胆的风格化</string>
     <string name="help_tip_gmic_filters_page_title">从图像的工作开始</string>
@@ -8079,11 +8078,11 @@
     <string name="gallery_ocr_download_hint">首次使用时下载 228 MB。</string>
     <string name="gallery_ocr_permission">允许照片访问索引文本</string>
     <string name="gallery_ocr_progress">为照片中的文本编制索引：%1$d（共 %2$d）</string>
-    <string name="gallery_ocr_pending">正在准备文本搜索...</string>
+    <string name="gallery_ocr_pending">正在准备文本搜索…</string>
     <string name="gallery_ocr_disabled">打开照片中的文本搜索功能，可按图像中包含的文字查找图像。</string>
     <string name="gallery_ocr_search_hint">文件名或文本</string>
     <string name="gallery_search_content_hint">文件名、描述或文本</string>
-    <string name="gallery_faces_queued">等待准备面孔...</string>
+    <string name="gallery_faces_queued">正在等待准备人脸…</string>
     <string name="help_tip_gallery_search_query_types">同一字段搜索文件名，并在启用后识别文本和照片内容。输入标志上的单词以查找可读文本，或描述场景以查找视觉相关的照片。</string>
     <string name="help_tip_gallery_search_index_progress">打开搜索设置以查看每个功能旁边的进度。在对照片进行索引时，如果允许通知，进度也会显示在通知中。点击下载指示器可取消模型下载。</string>
     <string name="help_tip_gallery_search_resume_index">如果发生错误后准备停止，请检查照片访问和可用空间。模型下载也需要访问互联网。关闭并重新打开受影响的功能以恢复准备。</string>
