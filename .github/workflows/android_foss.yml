@@ -37,14 +37,21 @@ jobs:
       - name: Sign FOSS APKs
         run: |
           ANDROID_SDK_PATH=$ANDROID_HOME/build-tools/35.0.0/apksigner
-          for apk in app/build/outputs/apk/foss/release/*.apk; do
-            $ANDROID_SDK_PATH sign \
-              --ks $RUNNER_TEMP/keystores/keystore.jks \
+          for apk in app/build/outputs/apk/foss/release/*-release*.apk; do
+            filename=${apk##*/}
+            filename=${filename//-release/}
+            filename=${filename//-unsigned/}
+            filename=${filename//-signed/}
+            filename=${filename//-market/}
+            "$ANDROID_SDK_PATH" sign \
+              --ks "$RUNNER_TEMP/keystores/keystore.jks" \
               --ks-key-alias ${{ secrets.ALIAS }} \
               --ks-pass pass:${{ secrets.KEY_STORE_PASS }} \
               --key-pass pass:${{ secrets.KEY_STORE_PASS }} \
-              --out "$apk" \
+              --v4-signing-enabled false \
+              --out "${apk%/*}/$filename" \
               "$apk"
+            rm "$apk"
           done
 
       - name: Upload FOSS APKs
