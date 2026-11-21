@@ -9265,4 +9265,5 @@
     <string name="texture_torsion_springs">코일 권선</string>
     <string name="texture_cuneiform_impressions">웨지 노출</string>
     <string name="texture_anechoic_wedges">무향 웨지</string>
+    <string name="texture_quarter_turns">4분의 1회전</string>
 </resources>

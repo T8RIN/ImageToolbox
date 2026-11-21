@@ -9265,4 +9265,5 @@
     <string name="texture_torsion_springs">ขดลวดขด</string>
     <string name="texture_cuneiform_impressions">การแสดงผลลิ่ม</string>
     <string name="texture_anechoic_wedges">เวดจ์ไร้เสียงสะท้อน</string>
+    <string name="texture_quarter_turns">เทิร์นควอเตอร์</string>
 </resources>

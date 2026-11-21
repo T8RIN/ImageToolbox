@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -14,7 +13,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">問題が発生しました: %1$s</string>
     <string name="check_source_code_sub">最新のアップデートを入手し、問題を議論するなど</string>
     <string name="color_red">赤</string>
@@ -9248,4 +9249,21 @@
     <string name="texture_torsion_springs">コイル巻線</string>
     <string name="texture_cuneiform_impressions">ウェッジの印象</string>
     <string name="texture_anechoic_wedges">無響ウェッジ</string>
+    <string name="texture_quarter_turns">4分の1回転</string>
+    <string name="texture_param_bark_mottling">樹皮の斑点</string>
+    <string name="texture_param_peeling_lip">唇の皮をむく</string>
+    <string name="texture_param_pith_opening">髄の開口部</string>
+    <string name="texture_param_stem_radius">ステム半径</string>
+    <string name="texture_param_socket_diameter">ソケット径</string>
+    <string name="texture_param_frond_size">葉の大きさ</string>
+    <string name="texture_param_raft_openings">いかだの開口部</string>
+    <string name="texture_param_grain_spacing">粒子の間隔</string>
+    <string name="texture_param_grain_deflection">粒子のたわみ</string>
+    <string name="texture_param_attachment_spread">アタッチメントスプレッド</string>
+    <string name="texture_param_plaque_size">プラークサイズ</string>
+    <string name="texture_param_test_radius">テスト半径</string>
+    <string name="texture_param_growth_bands">成長帯</string>
+    <string name="texture_param_scute_convexity">鋭角凸面</string>
+    <string name="texture_param_cell_border">セルの境界線</string>
+    <string name="texture_param_light_angle">光の角度</string>
 </resources>
