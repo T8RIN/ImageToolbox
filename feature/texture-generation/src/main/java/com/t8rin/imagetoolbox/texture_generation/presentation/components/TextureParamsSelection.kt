@@ -83,27 +83,20 @@ fun TextureParamsSelection(
     var category by rememberSaveable { mutableStateOf(TextureCategory.All) }
     var showSearchSheet by rememberSaveable { mutableStateOf(false) }
 
-    val categoryEntries = remember(favoriteTextureTypes) {
-        TextureCategory.entries.filterNot {
-            it == TextureCategory.Favorites && favoriteTextureTypes.isEmpty()
-        }
+    val typesByCategory = remember(favoriteTextureTypes) {
+        val types = TextureFilterType.entries
+        types.groupBy { it.category } + mapOf(
+            TextureCategory.All to types,
+            TextureCategory.Favorites to types.filter { it in favoriteTextureTypes }
+        )
     }
+    val categoryEntries = remember(typesByCategory) {
+        TextureCategory.entries.filter { !typesByCategory[it].isNullOrEmpty() }
+    }
+    val filteredTypes = typesByCategory[category].orEmpty()
 
     LaunchedEffect(category, categoryEntries) {
         if (category !in categoryEntries) category = TextureCategory.All
-    }
-
-    val filteredTypes = remember(
-        category,
-        favoriteTextureTypes
-    ) {
-        TextureFilterType.entries.filter { type ->
-            when (category) {
-                TextureCategory.All -> true
-                TextureCategory.Favorites -> type in favoriteTextureTypes
-                else -> type.category == category
-            }
-        }
     }
 
     Column(
@@ -127,7 +120,7 @@ fun TextureParamsSelection(
                     onValueChange(value.withDefaultsFor(it))
                 },
                 entries = filteredTypes,
-                title = stringResource(R.string.texture_type),
+                title = stringResource(if (category == TextureCategory.All) R.string.texture_type else category.titleRes),
                 titleIcon = Icons.TwoTone.Brick,
                 badgeContent = {
                     Text(filteredTypes.size.toString())
@@ -182,7 +175,15 @@ fun TextureParamsSelection(
                                             MaterialTheme.colorScheme.surfaceContainerHigh
                                         }
                                     ) {
-                                        Text(stringResource(item.titleRes))
+                                        Text(
+                                            text = stringResource(item.titleRes),
+                                            modifier = Modifier.weight(1f)
+                                        )
+                                        Spacer(Modifier.width(8.dp))
+                                        Text(
+                                            text = typesByCategory.getValue(item).size.toString(),
+                                            style = MaterialTheme.typography.labelMedium
+                                        )
                                     }
                                 }
                             }

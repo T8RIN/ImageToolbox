@@ -3951,6 +3951,16 @@
     <string name="texture_category_space">kalawakan</string>
     <string name="texture_category_patterns">Mga pattern</string>
     <string name="texture_category_abstract">Abstract</string>
+    <string name="texture_category_ornaments">Mga palamuti</string>
+    <string name="texture_category_botany">Botanika</string>
+    <string name="texture_category_landscapes">Mga tanawin</string>
+    <string name="texture_category_elements">Puwersa ng kalikasan</string>
+    <string name="texture_category_minerals">Mga mineral</string>
+    <string name="texture_category_textiles">Mga tela</string>
+    <string name="texture_category_graphics">Grapika</string>
+    <string name="texture_category_technology">Teknolohiya</string>
+    <string name="texture_category_optics">Optika</string>
+    <string name="texture_category_science">Agham</string>
     <string name="exif_removal_preset">Preset ng pag-alis</string>
     <string name="exif_preset_all_metadata">Lahat ng metadata</string>
     <string name="exif_preset_privacy">Pagkapribado</string>

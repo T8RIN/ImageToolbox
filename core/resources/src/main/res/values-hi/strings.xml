@@ -3951,6 +3951,16 @@
     <string name="texture_category_space">अंतरिक्ष</string>
     <string name="texture_category_patterns">पैटर्न्स</string>
     <string name="texture_category_abstract">अमूर्त</string>
+    <string name="texture_category_ornaments">सजावटी रूपांकन</string>
+    <string name="texture_category_botany">वनस्पति विज्ञान</string>
+    <string name="texture_category_landscapes">परिदृश्य</string>
+    <string name="texture_category_elements">प्राकृतिक शक्तियाँ</string>
+    <string name="texture_category_minerals">खनिज</string>
+    <string name="texture_category_textiles">वस्त्र</string>
+    <string name="texture_category_graphics">ग्राफ़िक्स</string>
+    <string name="texture_category_technology">तकनीक</string>
+    <string name="texture_category_optics">प्रकाशिकी</string>
+    <string name="texture_category_science">विज्ञान</string>
     <string name="exif_removal_preset">निष्कासन पूर्व निर्धारित</string>
     <string name="exif_preset_all_metadata">सभी मेटाडेटा</string>
     <string name="exif_preset_privacy">गोपनीयता</string>

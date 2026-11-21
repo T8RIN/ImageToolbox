@@ -3951,6 +3951,16 @@
     <string name="texture_category_space">Kosmos</string>
     <string name="texture_category_patterns">Mustrid</string>
     <string name="texture_category_abstract">Abstraktne</string>
+    <string name="texture_category_ornaments">Ornamendid</string>
+    <string name="texture_category_botany">Botaanika</string>
+    <string name="texture_category_landscapes">Maastikud</string>
+    <string name="texture_category_elements">Loodusjõud</string>
+    <string name="texture_category_minerals">Mineraalid</string>
+    <string name="texture_category_textiles">Tekstiilid</string>
+    <string name="texture_category_graphics">Graafika</string>
+    <string name="texture_category_technology">Tehnika</string>
+    <string name="texture_category_optics">Optika</string>
+    <string name="texture_category_science">Teadus</string>
     <string name="exif_removal_preset">Eemaldamise eelseade</string>
     <string name="exif_preset_all_metadata">Kõik metaandmed</string>
     <string name="exif_preset_privacy">Privaatsus</string>

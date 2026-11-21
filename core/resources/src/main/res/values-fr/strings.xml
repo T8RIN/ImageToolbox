@@ -3951,6 +3951,16 @@
     <string name="texture_category_space">Espace</string>
     <string name="texture_category_patterns">Motifs</string>
     <string name="texture_category_abstract">Abstrait</string>
+    <string name="texture_category_ornaments">Ornements</string>
+    <string name="texture_category_botany">Botanique</string>
+    <string name="texture_category_landscapes">Paysages</string>
+    <string name="texture_category_elements">Forces de la nature</string>
+    <string name="texture_category_minerals">Minéraux</string>
+    <string name="texture_category_textiles">Textiles</string>
+    <string name="texture_category_graphics">Graphisme</string>
+    <string name="texture_category_technology">Technologie</string>
+    <string name="texture_category_optics">Optique</string>
+    <string name="texture_category_science">Science</string>
     <string name="exif_removal_preset">Préréglage de suppression</string>
     <string name="exif_preset_all_metadata">Toutes les métadonnées</string>
     <string name="exif_preset_privacy">Confidentialité</string>

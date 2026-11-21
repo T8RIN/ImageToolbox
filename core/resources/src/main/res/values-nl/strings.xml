@@ -3951,6 +3951,16 @@
     <string name="texture_category_space">Ruimte</string>
     <string name="texture_category_patterns">Patronen</string>
     <string name="texture_category_abstract">Abstract</string>
+    <string name="texture_category_ornaments">Ornamenten</string>
+    <string name="texture_category_botany">Plantkunde</string>
+    <string name="texture_category_landscapes">Landschappen</string>
+    <string name="texture_category_elements">Natuurkrachten</string>
+    <string name="texture_category_minerals">Mineralen</string>
+    <string name="texture_category_textiles">Textiel</string>
+    <string name="texture_category_graphics">Grafiek</string>
+    <string name="texture_category_technology">Technologie</string>
+    <string name="texture_category_optics">Optiek</string>
+    <string name="texture_category_science">Wetenschap</string>
     <string name="exif_removal_preset">Voorinstelling voor verwijderen</string>
     <string name="exif_preset_all_metadata">Alle metagegevens</string>
     <string name="exif_preset_privacy">Privacy</string>

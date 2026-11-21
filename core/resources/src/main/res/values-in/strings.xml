@@ -3950,6 +3950,16 @@
     <string name="texture_category_space">Ruang angkasa</string>
     <string name="texture_category_patterns">Pola</string>
     <string name="texture_category_abstract">Abstrak</string>
+    <string name="texture_category_ornaments">Ornamen</string>
+    <string name="texture_category_botany">Botani</string>
+    <string name="texture_category_landscapes">Lanskap</string>
+    <string name="texture_category_elements">Gejala alam</string>
+    <string name="texture_category_minerals">Mineral</string>
+    <string name="texture_category_textiles">Tekstil</string>
+    <string name="texture_category_graphics">Seni grafis</string>
+    <string name="texture_category_technology">Teknologi</string>
+    <string name="texture_category_optics">Optik</string>
+    <string name="texture_category_science">Sains</string>
     <string name="exif_removal_preset">Prasetel penghapusan</string>
     <string name="exif_preset_all_metadata">Semua metadata</string>
     <string name="exif_preset_privacy">Pribadi</string>

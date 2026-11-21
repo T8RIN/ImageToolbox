@@ -3952,6 +3952,16 @@
     <string name="texture_category_space">Spaţiu</string>
     <string name="texture_category_patterns">Modele</string>
     <string name="texture_category_abstract">Abstract</string>
+    <string name="texture_category_ornaments">Ornamente</string>
+    <string name="texture_category_botany">Botanică</string>
+    <string name="texture_category_landscapes">Peisaje</string>
+    <string name="texture_category_elements">Forțele naturii</string>
+    <string name="texture_category_minerals">Minerale</string>
+    <string name="texture_category_textiles">Textile</string>
+    <string name="texture_category_graphics">Grafică</string>
+    <string name="texture_category_technology">Tehnologie</string>
+    <string name="texture_category_optics">Optică</string>
+    <string name="texture_category_science">Știință</string>
     <string name="exif_removal_preset">Demontare prestabilită</string>
     <string name="exif_preset_all_metadata">Toate metadatele</string>
     <string name="exif_preset_privacy">Confidențialitate</string>

@@ -19,11 +19,17 @@ package com.t8rin.imagetoolbox.core.ui.widget.enhanced
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ScrollState
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.material3.DropdownMenu
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.DropdownMenuPopup
 import androidx.compose.material3.LocalAbsoluteTonalElevation
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MenuAnchorPosition
+import androidx.compose.material3.MenuDefaults
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
@@ -35,6 +41,7 @@ import androidx.compose.ui.window.PopupProperties
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.theme.toAmoled
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
 
 @Composable
 fun EnhancedDropdownMenu(
@@ -53,24 +60,38 @@ fun EnhancedDropdownMenu(
     CompositionLocalProvider(
         LocalAbsoluteTonalElevation provides (-3).dp
     ) {
-        DropdownMenu(
+        DropdownMenuPopup(
             expanded = expanded,
             onDismissRequest = onDismissRequest,
-            modifier = modifier,
-            offset = offset,
-            shape = shape,
-            scrollState = scrollState,
-            properties = properties,
-            content = content,
-            containerColor = containerColor.toAmoled(),
-            tonalElevation = 0.dp,
-            shadowElevation = if (settings.drawContainerShadows && enableAutoShadows) 1.dp else 0.dp,
-            border = if (settings.borderWidth > 0.dp) {
-                BorderStroke(
-                    width = settings.borderWidth,
-                    color = MaterialTheme.colorScheme.outlineVariant()
+            popupPositionProvider = MenuDefaults.rememberDropdownMenuPopupPositionProvider(
+                dropdownMenuAnchorPosition = MenuAnchorPosition.Below,
+                offset = offset
+            ),
+            properties = properties
+        ) {
+            Surface(
+                shape = shape,
+                color = containerColor.toAmoled(),
+                shadowElevation = if (settings.drawContainerShadows && enableAutoShadows) 1.dp else 0.dp,
+                border = if (settings.borderWidth > 0.dp) {
+                    BorderStroke(
+                        width = settings.borderWidth,
+                        color = MaterialTheme.colorScheme.outlineVariant()
+                    )
+                } else null
+            ) {
+                Column(
+                    modifier = modifier
+                        .fadingEdges(
+                            scrollableState = scrollState,
+                            isVertical = true,
+                            length = 24.dp
+                        )
+                        .verticalScroll(scrollState)
+                        .padding(vertical = 8.dp),
+                    content = content
                 )
-            } else null
-        )
+            }
+        }
     }
 }

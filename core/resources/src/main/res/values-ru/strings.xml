@@ -4062,6 +4062,16 @@
     <string name="texture_category_space">Космос</string>
     <string name="texture_category_patterns">Узоры</string>
     <string name="texture_category_abstract">Абстракция</string>
+    <string name="texture_category_ornaments">Орнаменты</string>
+    <string name="texture_category_botany">Ботаника</string>
+    <string name="texture_category_landscapes">Пейзажи</string>
+    <string name="texture_category_elements">Стихии</string>
+    <string name="texture_category_minerals">Минералы</string>
+    <string name="texture_category_textiles">Текстиль</string>
+    <string name="texture_category_graphics">Графика</string>
+    <string name="texture_category_technology">Техника</string>
+    <string name="texture_category_optics">Оптика</string>
+    <string name="texture_category_science">Наука</string>
     <string name="texture_geode">Жеода/Агат</string>
     <string name="texture_prismatic_light">Призматический свет</string>
     <string name="texture_stained_glass">Витражи</string>

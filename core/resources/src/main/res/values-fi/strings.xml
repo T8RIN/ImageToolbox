@@ -3951,6 +3951,16 @@
     <string name="texture_category_space">Avaruus</string>
     <string name="texture_category_patterns">kuvioita</string>
     <string name="texture_category_abstract">Abstrakti</string>
+    <string name="texture_category_ornaments">Ornamentit</string>
+    <string name="texture_category_botany">Kasvitiede</string>
+    <string name="texture_category_landscapes">Maisemat</string>
+    <string name="texture_category_elements">Luonnonvoimat</string>
+    <string name="texture_category_minerals">Mineraalit</string>
+    <string name="texture_category_textiles">Tekstiilit</string>
+    <string name="texture_category_graphics">Grafiikka</string>
+    <string name="texture_category_technology">Tekniikka</string>
+    <string name="texture_category_optics">Optiikka</string>
+    <string name="texture_category_science">Tiede</string>
     <string name="exif_removal_preset">Poiston esiasetus</string>
     <string name="exif_preset_all_metadata">Kaikki metatiedot</string>
     <string name="exif_preset_privacy">Yksityisyys</string>

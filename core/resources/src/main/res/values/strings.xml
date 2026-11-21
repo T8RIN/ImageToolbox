@@ -4509,6 +4509,16 @@
     <string name="texture_category_space">Space</string>
     <string name="texture_category_patterns">Patterns</string>
     <string name="texture_category_abstract">Abstract</string>
+    <string name="texture_category_ornaments">Ornaments</string>
+    <string name="texture_category_botany">Botany</string>
+    <string name="texture_category_landscapes">Landscapes</string>
+    <string name="texture_category_elements">Elements</string>
+    <string name="texture_category_minerals">Minerals</string>
+    <string name="texture_category_textiles">Textiles</string>
+    <string name="texture_category_graphics">Graphics</string>
+    <string name="texture_category_technology">Technology</string>
+    <string name="texture_category_optics">Optics</string>
+    <string name="texture_category_science">Science</string>
     <string name="network_host_unreachable">Couldn’t reach the server. Check your internet connection, VPN, or the address and try again</string>
     <string name="network_timeout">The connection timed out. Check your connection and try again</string>
     <string name="network_connection_failed">Couldn’t connect to the server. Check your connection or try again later</string>
