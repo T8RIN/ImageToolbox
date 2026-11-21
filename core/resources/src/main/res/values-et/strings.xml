@@ -9266,4 +9266,5 @@
     <string name="texture_torsion_springs" />
     <string name="texture_cuneiform_impressions" />
     <string name="texture_anechoic_wedges" />
+    <string name="texture_quarter_turns">Veerandpöörded</string>
 </resources>

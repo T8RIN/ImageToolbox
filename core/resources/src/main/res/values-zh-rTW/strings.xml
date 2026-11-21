@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -14,7 +13,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">大小 %1$s</string>
     <string name="loading">載入中…</string>
     <string name="no_exif">沒有發現 EXIF 資料</string>
@@ -9250,4 +9251,19 @@
     <string name="texture_torsion_springs">線圈繞組</string>
     <string name="texture_cuneiform_impressions">楔形印模</string>
     <string name="texture_anechoic_wedges">消音楔塊</string>
+    <string name="texture_quarter_turns">四分之一圈</string>
+    <string name="texture_dandelion_clocks">星爆墜落</string>
+    <string name="texture_calico_koi">印花布錦鯉標記</string>
+    <string name="texture_fly_agaric_grove">鵝膏菌帽斑點</string>
+    <string name="texture_sailing_regatta">風化的船體油漆</string>
+    <string name="texture_comet_plume">彗星絲</string>
+    <string name="texture_balloon_festival">縫製氣球絲</string>
+    <string name="texture_harbor_light">凹槽鏡片玻璃</string>
+    <string name="texture_parasol_market">陽繖扇形</string>
+    <string name="texture_vinyl_crate">乙烯基凹槽</string>
+    <string name="texture_ribbon_cockade">徑向褶皺</string>
+    <string name="texture_param_row_spacing">行距</string>
+    <string name="texture_param_fade_length">淡入淡出長度</string>
+    <string name="texture_param_track_count">曲目數</string>
+    <string name="texture_param_browning">布朗寧</string>
 </resources>

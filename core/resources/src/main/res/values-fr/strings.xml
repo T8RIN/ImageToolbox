@@ -9266,4 +9266,5 @@
     <string name="texture_torsion_springs">Enroulements de bobine</string>
     <string name="texture_cuneiform_impressions">Impressions en coin</string>
     <string name="texture_anechoic_wedges">Coins anéchoïques</string>
+    <string name="texture_quarter_turns">Quart de tour</string>
 </resources>

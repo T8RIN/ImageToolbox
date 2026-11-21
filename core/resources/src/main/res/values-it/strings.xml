@@ -9266,4 +9266,5 @@
     <string name="texture_torsion_springs">Avvolgimenti della bobina</string>
     <string name="texture_cuneiform_impressions">Impressioni del cuneo</string>
     <string name="texture_anechoic_wedges">Cunei anecoici</string>
+    <string name="texture_quarter_turns">Quarti di giro</string>
 </resources>

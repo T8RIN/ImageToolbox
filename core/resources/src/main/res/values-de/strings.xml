@@ -9266,4 +9266,5 @@
     <string name="texture_torsion_springs">Spulenwicklungen</string>
     <string name="texture_cuneiform_impressions">Keilabdrücke</string>
     <string name="texture_anechoic_wedges">Echofreie Keile</string>
+    <string name="texture_quarter_turns">Vierteldrehungen</string>
 </resources>
