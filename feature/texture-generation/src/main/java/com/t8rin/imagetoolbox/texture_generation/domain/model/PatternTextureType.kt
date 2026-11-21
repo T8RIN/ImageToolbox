@@ -60,7 +60,7 @@ enum class PatternTextureType(
             PatternParameter("thickness", 0.4f, 0.05f..0.95f)
         ),
         colorCount = 2,
-        defaultFrequency = 5f
+        defaultFrequency = 3f
     ),
     CrossStitchPattern(
         listOf(
@@ -701,14 +701,22 @@ enum class PatternTextureType(
         hasRotation = true
     ),
     BookclothSpines(
-        1f, 0xFF3E5E56, 0xFF66827A, 0xFFA89C74, 0xFFC3AC83,
+        1f,
+        0xFF29423F,
+        0xFF839D89,
+        0xFFB29C70,
+        0xFFE4D1A8,
         PatternParameter("weavePitch", 0.011f, 0.006f..0.024f, title = R.string.texture_param_weave_pitch),
         PatternParameter("coatingThickness", 0.52f, 0.04f..0.94f, title = R.string.texture_param_coating_thickness),
         PatternParameter("foldWear", 0.45f, 0.01f..1f, title = R.string.texture_param_fold_wear),
         hasRotation = true
     ),
     HarbourBunting(
-        1f, 0xFF5B7774, 0xFFAF846A, 0xFFD5C3A1, 0xFFECE0BA,
+        1f,
+        0xFF475550,
+        0xFFAC8868,
+        0xFFD2BD96,
+        0xFFF5E9CC,
         PatternParameter("panelWidth", 0.2f, 0.11f..0.35f, title = R.string.texture_param_panel_width),
         PatternParameter("stitchPitch", 0.016f, 0.007f..0.031f, title = R.string.texture_param_stitch_pitch),
         PatternParameter("clothTranslucency", 0.4f, 0.03f..0.88f, title = R.string.texture_param_cloth_translucency),
@@ -1950,7 +1958,7 @@ enum class PatternTextureType(
         hasRotation = true
     );
 
-    private constructor(
+    constructor(
         frequency: Float,
         background: Long,
         primary: Long,

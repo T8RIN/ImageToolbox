@@ -25,7 +25,9 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.SeedSelector
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.texture_generation.domain.model.PatternPlacement
+import com.t8rin.imagetoolbox.texture_generation.domain.model.PatternTextureType
 import com.t8rin.imagetoolbox.texture_generation.domain.model.TextureParams
+import kotlin.math.abs
 
 @Composable
 internal fun PatternParams(value: TextureParams, onValueChange: (TextureParams) -> Unit) {
@@ -95,18 +97,24 @@ internal fun PatternParams(value: TextureParams, onValueChange: (TextureParams) 
                 range = 0.1f..64f,
                 onValueChange = { onValueChange(value.copy(patternParams = params.copy(frequency = it))) }
             )
-            FloatParam(
-                value = params.offsetX,
-                title = stringResource(R.string.offset_x),
-                range = -1f..1f,
-                onValueChange = { onValueChange(value.copy(patternParams = params.copy(offsetX = it))) }
-            )
-            FloatParam(
-                value = params.offsetY,
-                title = stringResource(R.string.offset_y),
-                range = -1f..1f,
-                onValueChange = { onValueChange(value.copy(patternParams = params.copy(offsetY = it))) }
-            )
+            val hatchAngle =
+                if (type == PatternTextureType.HatchPattern) abs(params.rotation % 180f) else null
+            if (hatchAngle != 90f) {
+                FloatParam(
+                    value = params.offsetX,
+                    title = stringResource(R.string.offset_x),
+                    range = -1f..1f,
+                    onValueChange = { onValueChange(value.copy(patternParams = params.copy(offsetX = it))) }
+                )
+            }
+            if (hatchAngle != 0f) {
+                FloatParam(
+                    value = params.offsetY,
+                    title = stringResource(R.string.offset_y),
+                    range = -1f..1f,
+                    onValueChange = { onValueChange(value.copy(patternParams = params.copy(offsetY = it))) }
+                )
+            }
         } else if (type.hasScale) {
             FloatParam(
                 value = type.defaultFrequency / type.resolveFrequency(params.frequency),

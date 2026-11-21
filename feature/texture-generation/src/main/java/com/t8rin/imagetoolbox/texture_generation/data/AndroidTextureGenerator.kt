@@ -171,7 +171,7 @@ internal class AndroidTextureGenerator @Inject constructor(
         TextureFilterType.Cellular -> CellularFilter().apply {
             setScale(textureParams.scale)
             setStretch(textureParams.stretch)
-            setAngle(textureParams.angle)
+            setAngle(textureParams.angleRadians)
             setAngleCoefficient(textureParams.angleCoefficient)
             gradientCoefficient = textureParams.gradientCoefficient
             f1 = textureParams.f1
@@ -194,14 +194,14 @@ internal class AndroidTextureGenerator @Inject constructor(
             xScale = textureParams.xScale
             yScale = textureParams.yScale
             fuzziness = textureParams.fuzziness
-            angle = textureParams.angle
+            angle = textureParams.angleRadians
         }
 
         TextureFilterType.FBM -> FBMFilter().apply {
             amount = textureParams.amount
             scale = textureParams.scale
             stretch = textureParams.stretch
-            angle = textureParams.angle
+            angle = textureParams.angleRadians
             octaves = textureParams.octaves
             h = textureParams.h
             lacunarity = textureParams.lacunarity
@@ -212,7 +212,7 @@ internal class AndroidTextureGenerator @Inject constructor(
         TextureFilterType.Marble -> MarbleTexFilter().apply {
             scale = textureParams.scale
             stretch = textureParams.stretch
-            angle = textureParams.angle
+            angle = textureParams.angleRadians
             turbulence = textureParams.turbulence
             turbulenceFactor = textureParams.turbulenceFactor
         }
@@ -260,7 +260,7 @@ internal class AndroidTextureGenerator @Inject constructor(
             bias = textureParams.bias
             scale = textureParams.scale
             stretch = textureParams.stretch
-            angle = textureParams.angle
+            angle = textureParams.angleRadians
         }
 
         else -> error("Unsupported JH Labs texture type: ${textureParams.textureFilterType}")
@@ -312,6 +312,9 @@ internal class AndroidTextureGenerator @Inject constructor(
         }
     }
 }
+
+private val TextureParams.angleRadians: Float
+    get() = Math.toRadians((angle % 360f).toDouble()).toFloat()
 
 private val TextureFilterType.isGmic: Boolean
     get() = this == TextureFilterType.OrganicFibers ||

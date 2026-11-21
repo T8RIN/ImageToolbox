@@ -122,24 +122,26 @@ internal fun RaymarchParams(
                 onValueChange = { onValueChange(value.copy(raymarchParams = params.copy(roundness = it))) }
             )
         }
-        FloatParam(
-            value = params.rotationX,
-            title = stringResource(R.string.texture_rotation_x),
-            range = -180.0f..180.0f,
-            onValueChange = { onValueChange(value.copy(raymarchParams = params.copy(rotationX = it))) }
-        )
-        FloatParam(
-            value = params.rotationY,
-            title = stringResource(R.string.texture_rotation_y),
-            range = -180.0f..180.0f,
-            onValueChange = { onValueChange(value.copy(raymarchParams = params.copy(rotationY = it))) }
-        )
-        FloatParam(
-            value = params.rotationZ,
-            title = stringResource(R.string.texture_rotation_z),
-            range = -180.0f..180.0f,
-            onValueChange = { onValueChange(value.copy(raymarchParams = params.copy(rotationZ = it))) }
-        )
+        if (value.textureFilterType != TextureFilterType.Sphere3D) {
+            FloatParam(
+                value = params.rotationX,
+                title = stringResource(R.string.texture_rotation_x),
+                range = -180.0f..180.0f,
+                onValueChange = { onValueChange(value.copy(raymarchParams = params.copy(rotationX = it))) }
+            )
+            FloatParam(
+                value = params.rotationY,
+                title = stringResource(R.string.texture_rotation_y),
+                range = -180.0f..180.0f,
+                onValueChange = { onValueChange(value.copy(raymarchParams = params.copy(rotationY = it))) }
+            )
+            FloatParam(
+                value = params.rotationZ,
+                title = stringResource(R.string.texture_rotation_z),
+                range = -180.0f..180.0f,
+                onValueChange = { onValueChange(value.copy(raymarchParams = params.copy(rotationZ = it))) }
+            )
+        }
         FloatParam(
             value = params.cameraDistance,
             title = stringResource(R.string.texture_camera_distance),

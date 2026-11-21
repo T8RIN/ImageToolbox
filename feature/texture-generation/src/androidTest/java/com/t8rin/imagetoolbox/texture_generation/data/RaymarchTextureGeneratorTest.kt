@@ -59,6 +59,20 @@ class RaymarchTextureGeneratorTest {
     }
 
     @Test
+    fun portraitCanvasKeepsTheSameSilhouetteWidthAsASquare() {
+        val params = TextureParams.Default.withDefaultsFor(TextureFilterType.Sphere3D).copy(
+            backgroundColor = ColorModel(Color.TRANSPARENT)
+        )
+        val square = generateRaymarchTexture(64, 64, params, context)
+        val portrait = generateRaymarchTexture(64, 192, params, context)
+        for (x in 0 until square.width) {
+            assertEquals(Color.alpha(square.getPixel(x, 32)), Color.alpha(portrait.getPixel(x, 96)))
+        }
+        square.recycle()
+        portrait.recycle()
+    }
+
+    @Test
     fun environmentImageChangesReflectionsWithoutChangingTheSilhouette() {
         val params = TextureParams.Default.withDefaultsFor(TextureFilterType.Sphere3D)
         val red = createBitmap(17, 11).apply { eraseColor(Color.RED) }

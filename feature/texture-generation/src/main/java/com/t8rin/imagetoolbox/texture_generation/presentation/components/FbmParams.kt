@@ -30,9 +30,9 @@ internal fun FbmParams(
 ) {
     ParamColumn {
         FloatParam(
-            value = value.amount,
+            value = value.amount.coerceIn(0.01f, 1f),
             title = stringResource(R.string.amount),
-            range = 0.01f..10f,
+            range = 0.01f..1f,
             onValueChange = { onValueChange(value.copy(amount = it)) },
             shape = ShapeDefaults.top
         )

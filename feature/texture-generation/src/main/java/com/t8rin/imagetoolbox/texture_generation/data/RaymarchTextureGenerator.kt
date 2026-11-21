@@ -207,7 +207,7 @@ private fun raymarchShader(type: TextureFilterType): String {
             return clamp(1.0-occlusion*2.5,.45,1.0);
         }
         void main() {
-            vec2 uv = (textureCoordinate * 2.0 - 1.0) * vec2(aspect, -1.0);
+            vec2 uv = (textureCoordinate * 2.0 - 1.0) * vec2(max(aspect, 1.0), -max(1.0 / aspect, 1.0));
             float yaw = radians(cameraYaw), pitch = radians(cameraPitch);
             vec3 origin = cameraDistance * vec3(sin(yaw)*cos(pitch), sin(pitch), cos(yaw)*cos(pitch));
             vec3 forward = normalize(-origin);

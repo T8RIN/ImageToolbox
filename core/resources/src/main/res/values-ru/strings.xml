@@ -8258,6 +8258,7 @@
     <string name="arcade_hilldrive_sub">Ездите по холмам, собирайте монеты и канистры и получайте бонусы за сальто</string>
     <string name="texture_loop_width">Ширина петли</string>
     <string name="texture_strip_width">Ширина полосы</string>
+    <string name="texture_quarter_turns">Четверти оборота</string>
     <string name="texture_ring_radius">Радиус кольца</string>
     <string name="texture_wire_width">Толщина проволоки</string>
     <string name="texture_flattening">Сплющивание</string>

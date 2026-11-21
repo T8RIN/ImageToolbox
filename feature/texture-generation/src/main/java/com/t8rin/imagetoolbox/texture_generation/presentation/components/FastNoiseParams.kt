@@ -860,7 +860,8 @@ private fun TextureFilterType.fastNoiseConfig(): FastNoiseConfig = when (this) {
         R.string.texture_facets,
         R.string.dispersion,
         R.string.texture_beam_sharpness,
-        R.string.bloom
+        R.string.bloom,
+        showSeed = false
     )
 
     TextureFilterType.StainedGlass -> normalizedConfig(
@@ -927,7 +928,8 @@ private fun TextureFilterType.fastNoiseConfig(): FastNoiseConfig = when (this) {
         R.string.texture_weave_density,
         R.string.texture_twill,
         R.string.texture_fiber_sharpness,
-        R.string.texture_sheen
+        R.string.texture_sheen,
+        showSeed = false
     )
 
     TextureFilterType.CircuitBoard -> normalizedConfig(
@@ -948,7 +950,8 @@ private fun TextureFilterType.fastNoiseConfig(): FastNoiseConfig = when (this) {
         R.string.frequency,
         R.string.offset,
         R.string.texture_line_sharpness,
-        R.string.glow
+        R.string.glow,
+        showSeed = false
     )
 
     TextureFilterType.SnakeSkin,
@@ -1153,14 +1156,16 @@ private fun TextureFilterType.fastNoiseConfig(): FastNoiseConfig = when (this) {
         R.string.texture_mode_count,
         R.string.texture_asymmetry,
         R.string.texture_line_sharpness,
-        R.string.texture_metallic
+        R.string.texture_metallic,
+        showSeed = false
     )
 
     TextureFilterType.CymaticRosette -> normalizedConfig(
         R.string.texture_petal_count,
         R.string.texture_resonance,
         R.string.texture_ridge_sharpness,
-        R.string.glow
+        R.string.glow,
+        showSeed = false
     )
 
     TextureFilterType.LichtenbergFigure,
@@ -1175,35 +1180,40 @@ private fun TextureFilterType.fastNoiseConfig(): FastNoiseConfig = when (this) {
         R.string.texture_symmetry,
         R.string.texture_phase_warp,
         R.string.texture_ridge_sharpness,
-        R.string.glow
+        R.string.glow,
+        showSeed = false
     )
 
     TextureFilterType.Mandelbrot -> normalizedConfig(
         R.string.texture_iteration_detail,
         R.string.texture_center_offset,
         R.string.texture_boundary_sharpness,
-        R.string.glow
+        R.string.glow,
+        showSeed = false
     )
 
     TextureFilterType.BurningShip -> normalizedConfig(
         R.string.texture_iteration_detail,
         R.string.texture_center_offset,
         R.string.texture_boundary_sharpness,
-        R.string.glow
+        R.string.glow,
+        showSeed = false
     )
 
     TextureFilterType.JuliaSet -> normalizedConfig(
         R.string.iterations,
         R.string.texture_constant_phase,
         R.string.texture_filament_sharpness,
-        R.string.glow
+        R.string.glow,
+        showSeed = false
     )
 
     TextureFilterType.KaleidoscopeCrystal -> normalizedConfig(
         R.string.texture_segments,
         R.string.texture_fold_warp,
         R.string.texture_facet_sharpness,
-        R.string.glow
+        R.string.glow,
+        showSeed = false
     )
 
     TextureFilterType.SpectralPrism -> normalizedConfig(
@@ -1217,7 +1227,8 @@ private fun TextureFilterType.fastNoiseConfig(): FastNoiseConfig = when (this) {
         R.string.texture_turns,
         R.string.texture_twist,
         R.string.texture_tube_sharpness,
-        R.string.glow
+        R.string.glow,
+        showSeed = false
     )
 
     TextureFilterType.XRayBotanical -> normalizedConfig(
@@ -1306,7 +1317,8 @@ private fun TextureFilterType.fastNoiseConfig(): FastNoiseConfig = when (this) {
         R.string.texture_depth,
         R.string.rotation,
         R.string.texture_edge_sharpness,
-        R.string.glow
+        R.string.glow,
+        showSeed = false
     )
 
     TextureFilterType.ApollonianGasket,
@@ -1332,7 +1344,7 @@ private fun TextureFilterType.fastNoiseConfig(): FastNoiseConfig = when (this) {
         R.string.texture_twist,
         R.string.texture_edge_sharpness,
         R.string.texture_sheen,
-        showSeed = this == TextureFilterType.MoebiusWeave
+        showSeed = false
     )
 
     TextureFilterType.RorschachInkblot -> normalizedConfig(
@@ -1409,7 +1421,8 @@ private fun TextureFilterType.fastNoiseConfig(): FastNoiseConfig = when (this) {
             R.string.texture_primary_color,
             R.string.texture_secondary_color,
             R.string.texture_highlight_color
-        )
+        ),
+        showSeed = false
     )
 
     TextureFilterType.HerringboneParquet -> config(
@@ -1479,7 +1492,8 @@ private fun TextureFilterType.fastNoiseConfig(): FastNoiseConfig = when (this) {
             R.string.texture_primary_color,
             R.string.texture_secondary_color,
             R.string.texture_highlight_color
-        )
+        ),
+        showSeed = false
     )
 
     TextureFilterType.PenroseTiling -> config(
@@ -1682,14 +1696,15 @@ private fun TextureFilterType.fastNoiseConfig(): FastNoiseConfig = when (this) {
         param(R.string.gallery_order, 2f..7f, 0),
         unit(R.string.texture_ribbon_width),
         unit(R.string.glow),
-        unit(R.string.rotation),
+        param(R.string.texture_quarter_turns, 0f..3f, 0),
         unit(R.string.texture_highlight),
         colors = intArrayOf(
             R.string.texture_background_color,
             R.string.texture_primary_color,
             R.string.texture_secondary_color,
             R.string.texture_highlight_color
-        )
+        ),
+        showSeed = false
     )
 
     TextureFilterType.Malachite -> config(

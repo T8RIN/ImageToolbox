@@ -8302,6 +8302,7 @@
     <string name="arcade_hilldrive_sub">Drive over hills, collect coins and fuel, and land flips for bonus points</string>
     <string name="texture_loop_width">Loop width</string>
     <string name="texture_strip_width">Strip width</string>
+    <string name="texture_quarter_turns">Quarter turns</string>
     <string name="texture_ring_radius">Ring radius</string>
     <string name="texture_wire_width">Wire width</string>
     <string name="texture_flattening">Flattening</string>
