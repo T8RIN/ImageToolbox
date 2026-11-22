@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">大小 %1$s</string>
     <string name="loading">載入中…</string>
     <string name="no_exif">沒有發現 EXIF 資料</string>
@@ -8090,11 +8089,11 @@
     <string name="gallery_ocr_download_hint">首次使用時下載 228 MB。</string>
     <string name="gallery_ocr_permission">允許照片存取索引文本</string>
     <string name="gallery_ocr_progress">為照片中的文字編製索引：%1$d（共 %2$d）</string>
-    <string name="gallery_ocr_pending">正在準備文字搜尋...</string>
+    <string name="gallery_ocr_pending">正在準備文字搜尋…</string>
     <string name="gallery_ocr_disabled">開啟照片中的文字搜尋功能，可按圖像中包含的文字尋找圖像。</string>
     <string name="gallery_ocr_search_hint">檔案名稱或文字</string>
     <string name="gallery_search_content_hint">檔案名稱、描述或文字</string>
-    <string name="gallery_faces_queued">等待準備面孔...</string>
+    <string name="gallery_faces_queued">正在等待準備臉部…</string>
     <string name="help_tip_gallery_search_query_types">同一欄位搜尋檔案名，並在啟用後識別文字和照片內容。輸入標誌上的單字以尋找可讀文本，或描述場景以查找視覺相關的照片。</string>
     <string name="help_tip_gallery_search_index_progress">開啟搜尋設定以查看每個功能旁邊的進度。在對照片進行索引時，如果允許通知，進度也會顯示在通知中。點選下載指示器可取消模型下載。</string>
     <string name="help_tip_gallery_search_resume_index">如果發生錯誤後準備停止，請檢查照片訪問和可用空間。模型下載也需要存取互聯網。關閉並重新開啟受影響的功能以恢復準備。</string>
@@ -9071,7 +9070,7 @@
     <string name="texture_param_seedhead_diameter">種頭直徑</string>
     <string name="texture_param_socket_diameter">插座直徑</string>
     <string name="texture_param_filled_sockets">填充插座</string>
-    <string name="texture_param_frond_size">葉體​​尺寸</string>
+    <string name="texture_param_frond_size">葉片尺寸</string>
     <string name="texture_param_daughter_fronds">子葉</string>
     <string name="texture_param_raft_openings">筏板開口</string>
     <string name="texture_param_eye_size">眼睛大小</string>
