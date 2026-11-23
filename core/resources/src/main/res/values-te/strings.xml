@@ -722,7 +722,7 @@
     <string name="check_for_updates">తాజాకరణలకోసం ప్రయత్నించండి</string>
     <string name="def">డిఫాల్ట్</string>
     <string name="email">ఇమెయిల్</string>
-    <string name="delete_exif_sub">ఏదైనా చిత్రాల సెట్ నుండి EXIF మెటాడేటాను తొలగించండి</string>
+    <string name="delete_exif_sub">చిత్రాల బ్యాచ్‌లో EXIF మెటాడేటాను తీసివేయండి లేదా భర్తీ చేయండి</string>
     <string name="photo_picker">ఫోటో పికర్</string>
     <string name="gallery_picker">గ్యాలరీ</string>
     <string name="file_explorer_picker">ఫైల్ ఎక్స్‌ప్లోరర్</string>
@@ -2153,7 +2153,7 @@
     <string name="remove_pages_pdf">PDF పేజీలను తీసివేయండి</string>
     <string name="remove_pages_pdf_sub">PDF పత్రం నుండి నిర్దిష్ట పేజీలను తీసివేయండి</string>
     <string name="tap_to_remove">తీసివేయడానికి నొక్కండి</string>
-    <string name="manually">మానవీయంగా</string>
+    <string name="manually">మాన్యువల్‌గా</string>
     <string name="crop_pdf">PDFని కత్తిరించండి</string>
     <string name="crop_pdf_sub">డాక్యుమెంట్ పేజీలను ఏదైనా హద్దులకు కత్తిరించండి</string>
     <string name="flatten_pdf">PDFని చదును చేయండి</string>
@@ -3194,7 +3194,7 @@
     <string name="search_keywords_cipher">సాంకేతికలిపి ఎన్‌క్రిప్ట్ డీక్రిప్ట్ పాస్‌వర్డ్ రహస్యం</string>
     <string name="search_keywords_erase_background">బ్యాక్‌గ్రౌండ్ రిమూవర్ ఎరేస్ కటౌట్ పారదర్శక ఆల్ఫాను తీసివేయండి</string>
     <string name="search_keywords_load_net_image">url వెబ్ డౌన్‌లోడ్ ఇంటర్నెట్ లింక్ చిత్రం</string>
-    <string name="search_keywords_delete_exif">exif మెటాడేటా గోప్యత స్ట్రిప్ క్లీన్ gps స్థానాన్ని తీసివేస్తుంది</string>
+    <string name="search_keywords_delete_exif">EXIF మెటాడేటా గోప్యత తొలగింపు శుభ్రపరచడం GPS స్థానం భర్తీ యాదృచ్ఛిక నకిలీ కెమెరా ప్రొఫైల్</string>
     <string name="search_keywords_compare">తర్వాత ముందు తేడా తేడాను సరిపోల్చండి</string>
     <string name="search_keywords_limit_resize">పరిమితి పరిమాణాన్ని గరిష్టంగా నిమి మెగాపిక్సెల్స్ కొలతలు బిగింపు</string>
     <string name="search_keywords_gradient_maker">గ్రేడియంట్ నేపథ్య రంగు మెష్</string>
@@ -3967,6 +3967,7 @@
     <string name="exif_preset_location_only">స్థానం మాత్రమే</string>
     <string name="exif_preset_keep_date_copyright">తేదీలు మరియు కాపీరైట్ ఉంచండి</string>
     <string name="exif_tags_selected">%1$s • %2$d ట్యాగ్‌లు</string>
+    <string name="exif_tag_count">%1$d ట్యాగ్‌లు</string>
     <string name="duplicate_scan_mode">స్కాన్ మోడ్</string>
     <string name="duplicate_scan_exact_only">ఖచ్చితమైన కాపీలు మాత్రమే</string>
     <string name="duplicate_scan_exact_and_similar">ఖచ్చితమైన మరియు సారూప్యమైనది</string>
@@ -9277,4 +9278,30 @@
     <string name="texture_cuneiform_impressions">చీలిక ముద్రలు</string>
     <string name="texture_anechoic_wedges">అనెకోయిక్ చీలికలు</string>
     <string name="texture_quarter_turns">క్వార్టర్ మలుపులు</string>
+    <string name="replace_exif">EXIFని భర్తీ చేయండి</string>
+    <string name="exif_camera_profile">కెమెరా ప్రొఫైల్</string>
+    <string name="exif_profile_smartphone">స్మార్ట్ఫోన్</string>
+    <string name="exif_profile_dslr">DSLR</string>
+    <string name="exif_profile_mirrorless">అద్దం లేని</string>
+    <string name="exif_profile_compact">కాంపాక్ట్ కెమెరా</string>
+    <string name="exif_profile_action_camera">యాక్షన్ కెమెరా</string>
+    <string name="exif_profile_random_phone">యాదృచ్ఛిక స్మార్ట్‌ఫోన్</string>
+    <string name="exif_profile_random_camera">యాదృచ్ఛిక కెమెరా</string>
+    <string name="exif_random_gps">0°, 0° దగ్గర</string>
+    <string name="exif_no_gps">GPS లేదు</string>
+    <string name="exif_manual_gps">కోఆర్డినేట్లు</string>
+    <string name="exif_generation_settings">జనరేషన్ సెట్టింగ్‌లు</string>
+    <string name="exif_generated_tags">EXIF ప్రివ్యూ</string>
+    <string name="exif_shuffle_tags">కొత్త విలువలను రూపొందించండి</string>
+    <string name="exif_same_for_batch">అన్ని చిత్రాలకు ఒకే ట్యాగ్‌లు</string>
+    <string name="exif_random_date">యాదృచ్ఛిక తేదీ</string>
+    <string name="exif_lighting_daylight">పగలు</string>
+    <string name="exif_lighting_indoors">ఇంటి లోపల</string>
+    <string name="exif_manual_white_balance">మాన్యువల్ వైట్ బ్యాలెన్స్</string>
+    <string name="exif_metering_multi_segment">బహుళ-విభాగం</string>
+    <string name="exif_metering_center_weighted">సెంటర్-వెయిటెడ్</string>
+    <string name="exif_metering_spot">స్పాట్</string>
+    <string name="exif_include_software">సాఫ్ట్‌వేర్ ట్యాగ్‌ని చేర్చండి</string>
+    <string name="exif_no_software">సాఫ్ట్‌వేర్ ట్యాగ్ లేదు</string>
+    <string name="edit_exif_template">EXIF టెంప్లేట్‌ని సవరించండి</string>
 </resources>

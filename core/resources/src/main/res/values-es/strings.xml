@@ -246,7 +246,7 @@
     <string name="reorder">Reordenar</string>
     <string name="fast_blur">Desenfoque rápido</string>
     <string name="delete_exif">Eliminar EXIF</string>
-    <string name="delete_exif_sub">Eliminar metadatos EXIF de cualquier par de imágenes</string>
+    <string name="delete_exif_sub">Eliminar o reemplazar metadatos EXIF en un lote de imágenes</string>
     <string name="load_image_from_net">Cargar imagen en línea</string>
     <string name="options_arrangement">Acomodo de opciones</string>
     <string name="edit">Editar</string>
@@ -3200,7 +3200,7 @@
     <string name="search_keywords_load_net_image">url web descargar internet enlace imagen</string>
     <string name="search_keywords_pick_color_from_image">selector cuentagotas muestra hex rgb color</string>
     <string name="search_keywords_palette_tools">paleta colores muestras extraer dominante</string>
-    <string name="search_keywords_delete_exif">privacidad de metadatos exif eliminar tira limpiar ubicación gps</string>
+    <string name="search_keywords_delete_exif">EXIF metadatos privacidad eliminar borrar limpiar GPS ubicación reemplazar aleatorizar simular perfil de cámara</string>
     <string name="search_keywords_compare">comparar diferencia diferencial antes después</string>
     <string name="search_keywords_limit_resize">límite cambiar tamaño máximo mínimo megapíxeles dimensiones abrazadera</string>
     <string name="search_keywords_pdf_tools">herramientas de páginas de documentos pdf</string>
@@ -3967,6 +3967,7 @@
     <string name="exif_preset_location_only">Solo ubicación</string>
     <string name="exif_preset_keep_date_copyright">Mantener fechas y derechos de autor</string>
     <string name="exif_tags_selected">%1$s • %2$d etiquetas</string>
+    <string name="exif_tag_count">%1$d etiquetas</string>
     <string name="duplicate_scan_mode">Modo de escaneo</string>
     <string name="duplicate_scan_exact_only">Sólo copias exactas</string>
     <string name="duplicate_scan_exact_and_similar">Exactos y similares</string>
@@ -9277,4 +9278,30 @@
     <string name="texture_cuneiform_impressions">Impresiones de cuña</string>
     <string name="texture_anechoic_wedges">Cuñas anecoicas</string>
     <string name="texture_quarter_turns">Cuartos de vuelta</string>
+    <string name="replace_exif">Reemplazar EXIF</string>
+    <string name="exif_camera_profile">Perfil de cámara</string>
+    <string name="exif_profile_smartphone">Teléfono inteligente</string>
+    <string name="exif_profile_dslr">Réflex digital</string>
+    <string name="exif_profile_mirrorless">Sin espejo</string>
+    <string name="exif_profile_compact">Cámara compacta</string>
+    <string name="exif_profile_action_camera">Cámara de acción</string>
+    <string name="exif_profile_random_phone">Teléfono aleatorio</string>
+    <string name="exif_profile_random_camera">Cámara aleatoria</string>
+    <string name="exif_random_gps">Cerca de 0°, 0°</string>
+    <string name="exif_no_gps">Sin GPS</string>
+    <string name="exif_manual_gps">Coordenadas</string>
+    <string name="exif_generation_settings">Configuración de generación</string>
+    <string name="exif_generated_tags">Vista previa de EXIF</string>
+    <string name="exif_shuffle_tags">Generar nuevos valores</string>
+    <string name="exif_same_for_batch">Mismas etiquetas para todas las imágenes</string>
+    <string name="exif_random_date">Fecha aleatoria</string>
+    <string name="exif_lighting_daylight">Luz diurna</string>
+    <string name="exif_lighting_indoors">Interior</string>
+    <string name="exif_manual_white_balance">Balance de blancos manual</string>
+    <string name="exif_metering_multi_segment">Multisegmento</string>
+    <string name="exif_metering_center_weighted">Ponderado al centro</string>
+    <string name="exif_metering_spot">Puntual</string>
+    <string name="exif_include_software">Incluir etiqueta de software</string>
+    <string name="exif_no_software">Sin etiqueta de software</string>
+    <string name="edit_exif_template">Editar plantilla EXIF</string>
 </resources>

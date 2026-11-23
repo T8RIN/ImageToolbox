@@ -144,7 +144,7 @@
     <string name="emoji">Смайли</string>
     <string name="add_file_size">Додати розмір файлу</string>
     <string name="delete_exif">Видалити EXIF</string>
-    <string name="delete_exif_sub">Видалення метаданих EXIF з будь-якої пари зображень</string>
+    <string name="delete_exif_sub">Видаліть або замініть метадані EXIF у групі зображень</string>
     <string name="add_file_size_sub">Якщо увімкнено, додає ширину та висоту збереженого зображення до назви вихідного файлу</string>
     <string name="image_preview">Попередній перегляд зображення</string>
     <string name="image_preview_sub">Переглядайте будь-які типи зображень: GIF, SVG тощо</string>
@@ -3202,7 +3202,7 @@
     <string name="search_keywords_load_net_image">URL-адреса веб-завантаження Інтернет-посилання зображення</string>
     <string name="search_keywords_pick_color_from_image">вибір піпетки зразок шістнадцяткового кольору rgb</string>
     <string name="search_keywords_palette_tools">палітра кольорів зразки екстракт домінанта</string>
-    <string name="search_keywords_delete_exif">конфіденційність метаданих exif видалити смугу, очистити розташування GPS</string>
+    <string name="search_keywords_delete_exif">EXIF метадані приватність видалити очистити GPS розташування замінити рандомізувати підмінити профіль камери</string>
     <string name="search_keywords_compare">порівняти відмінність різниці до після</string>
     <string name="search_keywords_limit_resize">ліміт зміна розміру макс. мін. мегапікселів розміри затиск</string>
     <string name="search_keywords_pdf_tools">Інструменти сторінок документа pdf</string>
@@ -3969,6 +3969,7 @@
     <string name="exif_preset_location_only">Лише розташування</string>
     <string name="exif_preset_keep_date_copyright">Зберігайте дати та авторські права</string>
     <string name="exif_tags_selected">%1$s • %2$d тегів</string>
+    <string name="exif_tag_count">%1$d тегу</string>
     <string name="duplicate_scan_mode">Режим сканування</string>
     <string name="duplicate_scan_exact_only">Тільки точні копії</string>
     <string name="duplicate_scan_exact_and_similar">Точно і схоже</string>
@@ -9279,4 +9280,30 @@
     <string name="texture_cuneiform_impressions">Відбитки клина</string>
     <string name="texture_anechoic_wedges">Безехові клини</string>
     <string name="texture_quarter_turns">Чверть обертів</string>
+    <string name="replace_exif">Замінити EXIF</string>
+    <string name="exif_camera_profile">Профіль камери</string>
+    <string name="exif_profile_smartphone">Смартфон</string>
+    <string name="exif_profile_dslr">DSLR</string>
+    <string name="exif_profile_mirrorless">Бездзеркальна камера</string>
+    <string name="exif_profile_compact">Компактна камера</string>
+    <string name="exif_profile_action_camera">Екшн-камера</string>
+    <string name="exif_profile_random_phone">Випадковий смартфон</string>
+    <string name="exif_profile_random_camera">Випадкова камера</string>
+    <string name="exif_random_gps">Близько 0°, 0°</string>
+    <string name="exif_no_gps">Немає GPS</string>
+    <string name="exif_manual_gps">Координати</string>
+    <string name="exif_generation_settings">Налаштування генерації</string>
+    <string name="exif_generated_tags">Попередній перегляд EXIF</string>
+    <string name="exif_shuffle_tags">Згенерувати нові значення</string>
+    <string name="exif_same_for_batch">Однакові теги для всіх зображень</string>
+    <string name="exif_random_date">Випадкова дата</string>
+    <string name="exif_lighting_daylight">Денне світло</string>
+    <string name="exif_lighting_indoors">В приміщенні</string>
+    <string name="exif_manual_white_balance">Ручний баланс білого</string>
+    <string name="exif_metering_multi_segment">Багатосегментний</string>
+    <string name="exif_metering_center_weighted">Центрозважений</string>
+    <string name="exif_metering_spot">Точковий</string>
+    <string name="exif_include_software">Додавати тег ПЗ</string>
+    <string name="exif_no_software">Без тегу ПЗ</string>
+    <string name="edit_exif_template">Редагувати шаблон EXIF</string>
 </resources>

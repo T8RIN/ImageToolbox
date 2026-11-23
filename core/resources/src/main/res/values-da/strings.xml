@@ -177,7 +177,7 @@
     <string name="add_file_size">Tilføj filstørrelse</string>
     <string name="add_file_size_sub">Hvis det er aktiveret, tilføjes bredden og højden af det gemte billede til navnet på outputfilen</string>
     <string name="delete_exif">Slet EXIF</string>
-    <string name="delete_exif_sub">Slet EXIF-metadata fra et par billeder</string>
+    <string name="delete_exif_sub">Fjern eller erstat EXIF-metadata i en batch af billeder</string>
     <string name="image_preview_sub">Forhåndsvis enhver type billeder: GIF, SVG og så videre</string>
     <string name="image_source">Billedkilde</string>
     <string name="photo_picker">Fotovælger</string>
@@ -3200,7 +3200,7 @@
     <string name="search_keywords_load_net_image">url web download internet link billede</string>
     <string name="search_keywords_pick_color_from_image">picker pipette prøve hex rgb farve</string>
     <string name="search_keywords_palette_tools">palette farver farveprøver uddrag dominerende</string>
-    <string name="search_keywords_delete_exif">exif metadata privatliv fjern strip ren gps placering</string>
+    <string name="search_keywords_delete_exif">EXIF metadata privatliv fjern slet ryd GPS placering erstat tilfældigt efterlign kameraprofil</string>
     <string name="search_keywords_compare">sammenligne diff forskel før efter</string>
     <string name="search_keywords_limit_resize">grænse ændre størrelse maks. min. megapixel dimensioner klemme</string>
     <string name="search_keywords_pdf_tools">Værktøjer til pdf-dokumentsider</string>
@@ -3967,6 +3967,7 @@
     <string name="exif_preset_location_only">Kun beliggenhed</string>
     <string name="exif_preset_keep_date_copyright">Hold datoer og copyright</string>
     <string name="exif_tags_selected">%1$s • %2$d tags</string>
+    <string name="exif_tag_count">%1$d tags</string>
     <string name="duplicate_scan_mode">Scanningstilstand</string>
     <string name="duplicate_scan_exact_only">Kun nøjagtige kopier</string>
     <string name="duplicate_scan_exact_and_similar">Præcis og lignende</string>
@@ -9277,4 +9278,30 @@
     <string name="texture_cuneiform_impressions">Kile indtryk</string>
     <string name="texture_anechoic_wedges">Ekkofri kiler</string>
     <string name="texture_quarter_turns">Kvart omgange</string>
+    <string name="replace_exif">Udskift EXIF</string>
+    <string name="exif_camera_profile">Kameraprofil</string>
+    <string name="exif_profile_smartphone">Smartphone</string>
+    <string name="exif_profile_dslr">DSLR</string>
+    <string name="exif_profile_mirrorless">Spejlløst</string>
+    <string name="exif_profile_compact">Kompakt kamera</string>
+    <string name="exif_profile_action_camera">Actionkamera</string>
+    <string name="exif_profile_random_phone">Tilfældig telefon</string>
+    <string name="exif_profile_random_camera">Tilfældigt kamera</string>
+    <string name="exif_random_gps">Tæt på 0°, 0°</string>
+    <string name="exif_no_gps">Ingen GPS</string>
+    <string name="exif_manual_gps">Koordinater</string>
+    <string name="exif_generation_settings">Indstillinger for generering</string>
+    <string name="exif_generated_tags">EXIF-forhåndsvisning</string>
+    <string name="exif_shuffle_tags">Generer nye værdier</string>
+    <string name="exif_same_for_batch">Samme tags for alle billeder</string>
+    <string name="exif_random_date">Tilfældig dato</string>
+    <string name="exif_lighting_daylight">Dagslys</string>
+    <string name="exif_lighting_indoors">Indendørs</string>
+    <string name="exif_manual_white_balance">Manuel hvidbalance</string>
+    <string name="exif_metering_multi_segment">Multi-segment</string>
+    <string name="exif_metering_center_weighted">Centervægtet</string>
+    <string name="exif_metering_spot">Spot</string>
+    <string name="exif_include_software">Inkluder software-tag</string>
+    <string name="exif_no_software">Ingen software-tag</string>
+    <string name="edit_exif_template">Rediger EXIF-skabelon</string>
 </resources>

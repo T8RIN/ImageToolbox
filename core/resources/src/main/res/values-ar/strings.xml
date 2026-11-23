@@ -145,7 +145,7 @@
     <string name="add_file_size">أضف حجم الملف</string>
     <string name="add_file_size_sub">إذا فُعّل، يضيف عرض وارتفاع الصورة المحفوظة إلى اسم الملف الناتج</string>
     <string name="delete_exif">احذف EXIF</string>
-    <string name="delete_exif_sub">احذف البيانات الوصفية EXIF من أي مجموعة صور</string>
+    <string name="delete_exif_sub">قم بإزالة بيانات تعريف EXIF أو استبدالها في مجموعة من الصور</string>
     <string name="image_preview">معاينة الصورة</string>
     <string name="image_source">مصدر الصورة</string>
     <string name="file_explorer_picker_sub">استخدم نية GetContent لاختيار صورة. تعمل في كل مكان، لكن من المعروف أن بها مشاكل في استقبال الصور المختارة على بعض الأجهزة. هذا ليس خطئي.</string>
@@ -3204,7 +3204,7 @@
     <string name="search_keywords_load_net_image">رابط تحميل الويب رابط الصورة على الإنترنت</string>
     <string name="search_keywords_pick_color_from_image">عينة قطارة المنتقى ذات اللون السداسي rgb</string>
     <string name="search_keywords_palette_tools">لوحة الألوان حوامل استخراج المهيمنة</string>
-    <string name="search_keywords_delete_exif">خصوصية البيانات الوصفية exif، إزالة موقع GPS النظيف</string>
+    <string name="search_keywords_delete_exif">EXIF بيانات وصفية خصوصية إزالة تنظيف استبدال عشوائي موقع GPS تمويه ملف تعريف الكاميرا</string>
     <string name="search_keywords_compare">قارن الفرق قبل وبعد</string>
     <string name="search_keywords_limit_resize">الحد الأقصى لتغيير الحجم والحد الأدنى لأبعاد الميجابكسل</string>
     <string name="search_keywords_pdf_tools">أدوات صفحات وثيقة pdf</string>
@@ -3971,6 +3971,7 @@
     <string name="exif_preset_location_only">الموقع فقط</string>
     <string name="exif_preset_keep_date_copyright">الحفاظ على التواريخ وحقوق النشر</string>
     <string name="exif_tags_selected">%1$s • %2$d العلامات</string>
+    <string name="exif_tag_count">%1$d وسم</string>
     <string name="duplicate_scan_mode">وضع المسح</string>
     <string name="duplicate_scan_exact_only">النسخ الدقيقة فقط</string>
     <string name="duplicate_scan_exact_and_similar">بالضبط وما شابه</string>
@@ -9281,4 +9282,30 @@
     <string name="texture_cuneiform_impressions">انطباعات إسفين</string>
     <string name="texture_anechoic_wedges">أسافين عديمة الصدى</string>
     <string name="texture_quarter_turns">ربع دورة</string>
+    <string name="replace_exif">استبدال EXIF</string>
+    <string name="exif_camera_profile">ملف تعريف الكاميرا</string>
+    <string name="exif_profile_smartphone">الهاتف الذكي</string>
+    <string name="exif_profile_dslr">DSLR</string>
+    <string name="exif_profile_mirrorless">كاميرا دون مرآة</string>
+    <string name="exif_profile_compact">كاميرا مدمجة</string>
+    <string name="exif_profile_action_camera">كاميرا حركة</string>
+    <string name="exif_profile_random_phone">هاتف عشوائي</string>
+    <string name="exif_profile_random_camera">كاميرا عشوائية</string>
+    <string name="exif_random_gps">بالقرب من 0°، 0°</string>
+    <string name="exif_no_gps">بلا GPS</string>
+    <string name="exif_manual_gps">الإحداثيات</string>
+    <string name="exif_generation_settings">إعدادات التوليد</string>
+    <string name="exif_generated_tags">معاينة EXIF</string>
+    <string name="exif_shuffle_tags">توليد قيم جديدة</string>
+    <string name="exif_same_for_batch">نفس العلامات لجميع الصور</string>
+    <string name="exif_random_date">تاريخ عشوائي</string>
+    <string name="exif_lighting_daylight">ضوء النهار</string>
+    <string name="exif_lighting_indoors">في الداخل</string>
+    <string name="exif_manual_white_balance">توازن اللون الأبيض اليدوي</string>
+    <string name="exif_metering_multi_segment">متعدد القطاعات</string>
+    <string name="exif_metering_center_weighted">مرجّح للوسط</string>
+    <string name="exif_metering_spot">نقطي</string>
+    <string name="exif_include_software">تضمين علامة البرنامج</string>
+    <string name="exif_no_software">لا توجد علامة البرمجيات</string>
+    <string name="edit_exif_template">تحرير قالب EXIF</string>
 </resources>

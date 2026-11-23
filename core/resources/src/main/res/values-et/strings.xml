@@ -157,7 +157,7 @@
     <string name="add_file_size">Lisa faili suurus</string>
     <string name="add_file_size_sub">Kui see on lubatud, lisab salvestatud pildi laiuse ja kõrguse väljundfaili nimele</string>
     <string name="delete_exif">Kustuta EXIF</string>
-    <string name="delete_exif_sub">Kustutage EXIF-i metaandmed mis tahes pildikomplektist</string>
+    <string name="delete_exif_sub">Eemaldage või asendage piltide komplektis EXIF-metaandmed</string>
     <string name="image_preview">Pildi eelvaade</string>
     <string name="image_preview_sub">Saate vaadata mis tahes tüüpi kujutiste eelvaateid: GIF, SVG ja nii edasi</string>
     <string name="image_source">Pildi allikas</string>
@@ -3200,7 +3200,7 @@
     <string name="search_keywords_load_net_image">url veebi allalaadimine Interneti-lingi pilt</string>
     <string name="search_keywords_pick_color_from_image">korjaja silmatilguti näidis hex rgb värv</string>
     <string name="search_keywords_palette_tools">palett värvid proovid väljavõte domineeriv</string>
-    <string name="search_keywords_delete_exif">exif metaandmete privaatsus eemalda riba puhas gps-i asukoht</string>
+    <string name="search_keywords_delete_exif">EXIF metaandmed privaatsus eemalda kustuta puhasta GPS asukoht asenda juhuslik võlts kaamera profiil</string>
     <string name="search_keywords_compare">võrrelda erinevust enne pärast</string>
     <string name="search_keywords_limit_resize">piirata suurust max min megapikslid mõõtmed klamber</string>
     <string name="search_keywords_pdf_tools">pdf-dokumentide lehtede tööriistad</string>
@@ -3967,6 +3967,7 @@
     <string name="exif_preset_location_only">Ainult asukoht</string>
     <string name="exif_preset_keep_date_copyright">Hoidke kuupäevi ja autoriõigusi</string>
     <string name="exif_tags_selected">%1$s • %2$d silte</string>
+    <string name="exif_tag_count">%1$d silti</string>
     <string name="duplicate_scan_mode">Skannimisrežiim</string>
     <string name="duplicate_scan_exact_only">Ainult täpsed koopiad</string>
     <string name="duplicate_scan_exact_and_similar">Täpne ja sarnane</string>
@@ -9277,4 +9278,30 @@
     <string name="texture_cuneiform_impressions" />
     <string name="texture_anechoic_wedges" />
     <string name="texture_quarter_turns">Veerandpöörded</string>
+    <string name="replace_exif">Asendage EXIF</string>
+    <string name="exif_camera_profile">Kaamera profiil</string>
+    <string name="exif_profile_smartphone">Nutitelefon</string>
+    <string name="exif_profile_dslr">DSLR</string>
+    <string name="exif_profile_mirrorless">Peeglita</string>
+    <string name="exif_profile_compact">Kompaktne kaamera</string>
+    <string name="exif_profile_action_camera">Action kaamera</string>
+    <string name="exif_profile_random_phone">Juhuslik telefon</string>
+    <string name="exif_profile_random_camera">Juhuslik kaamera</string>
+    <string name="exif_random_gps">0°, 0° lähedal</string>
+    <string name="exif_no_gps">GPS puudub</string>
+    <string name="exif_manual_gps">Koordinaadid</string>
+    <string name="exif_generation_settings">Genereerimise seaded</string>
+    <string name="exif_generated_tags">EXIF-i eelvaade</string>
+    <string name="exif_shuffle_tags">Looge uusi väärtusi</string>
+    <string name="exif_same_for_batch">Kõigi piltide jaoks samad sildid</string>
+    <string name="exif_random_date">Juhuslik kuupäev</string>
+    <string name="exif_lighting_daylight">Päevavalgus</string>
+    <string name="exif_lighting_indoors">Siseruumides</string>
+    <string name="exif_manual_white_balance">Käsitsi valge tasakaal</string>
+    <string name="exif_metering_multi_segment">Mitmesegmendiline</string>
+    <string name="exif_metering_center_weighted">Keskele kaalutud</string>
+    <string name="exif_metering_spot">Punktmõõtmine</string>
+    <string name="exif_include_software">Kaasa tarkvara silt</string>
+    <string name="exif_no_software">Tarkvaramärgis puudub</string>
+    <string name="edit_exif_template">Redigeerige EXIF-malli</string>
 </resources>

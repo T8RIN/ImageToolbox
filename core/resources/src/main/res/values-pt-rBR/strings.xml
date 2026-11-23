@@ -146,7 +146,7 @@
     <string name="add_file_size">Adicionar tamanho de arquivo</string>
     <string name="add_file_size_sub">Se ativado, adiciona largura e altura da imagem salva ao nome do arquivo de saída</string>
     <string name="delete_exif">Excluir EXIF</string>
-    <string name="delete_exif_sub">Exclua metadados EXIF de qualquer conjunto de imagens</string>
+    <string name="delete_exif_sub">Remova ou substitua metadados EXIF em um lote de imagens</string>
     <string name="image_preview">Previa de Imagem</string>
     <string name="image_preview_sub">Visualize qualquer tipo de imagem: GIF, SVG e assim por diante</string>
     <string name="image_source">Origem da imagem</string>
@@ -3201,7 +3201,7 @@
     <string name="search_keywords_load_net_image">url web download internet link imagem</string>
     <string name="search_keywords_pick_color_from_image">selecionador conta-gotas amostra hex rgb cor</string>
     <string name="search_keywords_palette_tools">paleta cores amostras extrair dominante</string>
-    <string name="search_keywords_delete_exif">privacidade de metadados exif remover localização GPS limpa</string>
+    <string name="search_keywords_delete_exif">EXIF metadados privacidade remover apagar limpar GPS localização substituir aleatório simular perfil de câmera</string>
     <string name="search_keywords_compare">compare a diferença antes depois</string>
     <string name="search_keywords_limit_resize">limite redimensionar max min megapixels dimensões braçadeira</string>
     <string name="search_keywords_pdf_tools">ferramentas de páginas de documentos pdf</string>
@@ -3968,6 +3968,7 @@
     <string name="exif_preset_location_only">Apenas localização</string>
     <string name="exif_preset_keep_date_copyright">Mantenha datas e direitos autorais</string>
     <string name="exif_tags_selected">%1$s • Etiquetas %2$d</string>
+    <string name="exif_tag_count">%1$d tags</string>
     <string name="duplicate_scan_mode">Modo de digitalização</string>
     <string name="duplicate_scan_exact_only">Somente cópias exatas</string>
     <string name="duplicate_scan_exact_and_similar">Exato e semelhante</string>
@@ -9278,4 +9279,30 @@
     <string name="texture_cuneiform_impressions">Impressões de cunha</string>
     <string name="texture_anechoic_wedges">Cunhas anecóicas</string>
     <string name="texture_quarter_turns">Quartos de volta</string>
+    <string name="replace_exif">Substituir EXIF</string>
+    <string name="exif_camera_profile">Perfil da câmera</string>
+    <string name="exif_profile_smartphone">Smartphone</string>
+    <string name="exif_profile_dslr">DSLR</string>
+    <string name="exif_profile_mirrorless">Sem espelho</string>
+    <string name="exif_profile_compact">Câmera compacta</string>
+    <string name="exif_profile_action_camera">Câmera de ação</string>
+    <string name="exif_profile_random_phone">Telefone aleatório</string>
+    <string name="exif_profile_random_camera">Câmera aleatória</string>
+    <string name="exif_random_gps">Perto de 0°, 0°</string>
+    <string name="exif_no_gps">Sem GPS</string>
+    <string name="exif_manual_gps">Coordenadas</string>
+    <string name="exif_generation_settings">Configurações de geração</string>
+    <string name="exif_generated_tags">Visualização EXIF</string>
+    <string name="exif_shuffle_tags">Gerar novos valores</string>
+    <string name="exif_same_for_batch">Mesmas tags para todas as imagens</string>
+    <string name="exif_random_date">Data aleatória</string>
+    <string name="exif_lighting_daylight">Luz do dia</string>
+    <string name="exif_lighting_indoors">Dentro de casa</string>
+    <string name="exif_manual_white_balance">Balanço de branco manual</string>
+    <string name="exif_metering_multi_segment">Multissegmento</string>
+    <string name="exif_metering_center_weighted">Ponderado centralmente</string>
+    <string name="exif_metering_spot">Pontual</string>
+    <string name="exif_include_software">Incluir tag de software</string>
+    <string name="exif_no_software">Sem tag de software</string>
+    <string name="edit_exif_template">Editar modelo EXIF</string>
 </resources>

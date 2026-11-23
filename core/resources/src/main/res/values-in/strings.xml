@@ -145,7 +145,7 @@
     <string name="add_file_size">Tambah ukuran file</string>
     <string name="add_file_size_sub">Jika diaktifkan, menambahkan lebar dan tinggi gambar yang disimpan ke nama file output</string>
     <string name="delete_exif">Hapus EXIF</string>
-    <string name="delete_exif_sub">Hapus metadata EXIF dari beberapa gambar</string>
+    <string name="delete_exif_sub">Hapus atau ganti metadata EXIF dalam kumpulan gambar</string>
     <string name="image_preview_sub">Pratinjau semua jenis gambar: GIF, SVG, dan sebagainya</string>
     <string name="image_preview">Pratinjau gambar</string>
     <string name="order_sub">Menentukan urutan alat di layar utama</string>
@@ -3199,7 +3199,7 @@
     <string name="search_keywords_load_net_image">url web unduh gambar tautan internet</string>
     <string name="search_keywords_pick_color_from_image">pemilih pipet sampel warna hex rgb</string>
     <string name="search_keywords_palette_tools">contoh warna palet ekstrak dominan</string>
-    <string name="search_keywords_delete_exif">privasi metadata Exic hapus hapus lokasi gps yang bersih</string>
+    <string name="search_keywords_delete_exif">EXIF metadata privasi hapus bersihkan GPS lokasi ganti acak tiru profil kamera</string>
     <string name="search_keywords_compare">bandingkan perbedaan perbedaan sebelum sesudahnya</string>
     <string name="search_keywords_limit_resize">batas ubah ukuran penjepit dimensi maks min megapiksel</string>
     <string name="search_keywords_pdf_tools">alat halaman dokumen pdf</string>
@@ -3666,7 +3666,7 @@
     <string name="date_source_created">Tanggal pembuatan file</string>
     <string name="date_source_current">Tanggal saat ini</string>
     <string name="date_source_manual">Tanggal petunjuk</string>
-    <string name="manual_date">Tanggal petunjuk</string>
+    <string name="manual_date">Tanggal manual</string>
     <string name="manual_time">Waktu manual</string>
     <string name="date_source_fallback">Tanggal yang dipilih tidak tersedia untuk beberapa file. Tanggal saat ini akan digunakan untuk mereka.</string>
     <string name="rename_error_empty_pattern">Masukkan pola nama file</string>
@@ -3966,6 +3966,7 @@
     <string name="exif_preset_location_only">Hanya lokasi</string>
     <string name="exif_preset_keep_date_copyright">Catat tanggal dan hak cipta</string>
     <string name="exif_tags_selected">%1$s • %2$d tag</string>
+    <string name="exif_tag_count">%1$d tag</string>
     <string name="duplicate_scan_mode">Modus pemindaian</string>
     <string name="duplicate_scan_exact_only">Hanya salinan persisnya</string>
     <string name="duplicate_scan_exact_and_similar">Tepat dan serupa</string>
@@ -9276,4 +9277,30 @@
     <string name="texture_cuneiform_impressions">Kesan baji</string>
     <string name="texture_anechoic_wedges">Irisan anechoic</string>
     <string name="texture_quarter_turns">Seperempat putaran</string>
+    <string name="replace_exif">Ganti EXIF</string>
+    <string name="exif_camera_profile">Profil kamera</string>
+    <string name="exif_profile_smartphone">Ponsel pintar</string>
+    <string name="exif_profile_dslr">DSLR</string>
+    <string name="exif_profile_mirrorless">Tanpa cermin</string>
+    <string name="exif_profile_compact">Kamera kompak</string>
+    <string name="exif_profile_action_camera">Kamera aksi</string>
+    <string name="exif_profile_random_phone">Telepon acak</string>
+    <string name="exif_profile_random_camera">Kamera acak</string>
+    <string name="exif_random_gps">Dekat 0°, 0°</string>
+    <string name="exif_no_gps">Tidak ada GPS</string>
+    <string name="exif_manual_gps">Koordinat</string>
+    <string name="exif_generation_settings">Pengaturan generasi</string>
+    <string name="exif_generated_tags">Pratinjau EXIF</string>
+    <string name="exif_shuffle_tags">Buat nilai baru</string>
+    <string name="exif_same_for_batch">Tag yang sama untuk semua gambar</string>
+    <string name="exif_random_date">Tanggal acak</string>
+    <string name="exif_lighting_daylight">Siang hari</string>
+    <string name="exif_lighting_indoors">Di dalam ruangan</string>
+    <string name="exif_manual_white_balance">Keseimbangan putih manual</string>
+    <string name="exif_metering_multi_segment">Multi-segmen</string>
+    <string name="exif_metering_center_weighted">Berbobot tengah</string>
+    <string name="exif_metering_spot">Titik</string>
+    <string name="exif_include_software">Sertakan tag perangkat lunak</string>
+    <string name="exif_no_software">Tidak ada tag perangkat lunak</string>
+    <string name="edit_exif_template">Edit templat EXIF</string>
 </resources>

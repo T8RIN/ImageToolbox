@@ -167,7 +167,7 @@
     <string name="cannot_change_palette_while_dynamic_colors_applied">Az alkalmazás színsémája nem módosítható, amíg a dinamikus színek be vannak kapcsolva</string>
     <string name="add_file_size_sub">Ha engedélyezett, hozzáadja a kép magasságát és szélességét a kép fájlnevéhez</string>
     <string name="nothing_found_by_search">Semmi nem található a keresésre</string>
-    <string name="delete_exif_sub">EXIF Adat törlése bármennyi képnél</string>
+    <string name="delete_exif_sub">Távolítsa el vagy cserélje ki az EXIF metaadatokat egy köteg képben</string>
     <string name="border_thickness">Határ vastagsága</string>
     <string name="language">Nyelv</string>
     <string name="check_updates">Frissítések keresése</string>
@@ -3200,7 +3200,7 @@
     <string name="search_keywords_load_net_image">url web letöltés internetes link kép</string>
     <string name="search_keywords_pick_color_from_image">picker szemcsepp minta hex rgb szín</string>
     <string name="search_keywords_palette_tools">paletta színek színminták kivonat domináns</string>
-    <string name="search_keywords_delete_exif">exif metaadat adatvédelem távolítsa el a csík tiszta gps helyét</string>
+    <string name="search_keywords_delete_exif">EXIF metaadatok adatvédelem eltávolítás törlés tisztítás GPS hely csere véletlen hamisítás kameraprofil</string>
     <string name="search_keywords_compare">hasonlítsa össze a különbség különbséget előtte utána</string>
     <string name="search_keywords_limit_resize">limit átméretezés max min megapixel méretek bilincs</string>
     <string name="search_keywords_pdf_tools">pdf dokumentumoldalak eszközei</string>
@@ -3967,6 +3967,7 @@
     <string name="exif_preset_location_only">Csak hely</string>
     <string name="exif_preset_keep_date_copyright">Tartsa meg a dátumokat és a szerzői jogokat</string>
     <string name="exif_tags_selected">%1$s • %2$d címkék</string>
+    <string name="exif_tag_count">%1$d címke</string>
     <string name="duplicate_scan_mode">Szkennelési mód</string>
     <string name="duplicate_scan_exact_only">Csak pontos másolatok</string>
     <string name="duplicate_scan_exact_and_similar">Pontos és hasonló</string>
@@ -9277,4 +9278,30 @@
     <string name="texture_param_central_opening">Központi nyitás</string>
     <string name="texture_param_ossicle_size">Csont mérete</string>
     <string name="texture_param_stipe_length">Lépéshossz</string>
+    <string name="replace_exif">Cserélje ki az EXIF-et</string>
+    <string name="exif_camera_profile">Fényképezőgép-profil</string>
+    <string name="exif_profile_smartphone">Okostelefon</string>
+    <string name="exif_profile_dslr">DSLR</string>
+    <string name="exif_profile_mirrorless">Tükör nélküli</string>
+    <string name="exif_profile_compact">Kompakt fényképezőgép</string>
+    <string name="exif_profile_action_camera">Akciókamera</string>
+    <string name="exif_profile_random_phone">Véletlenszerű telefon</string>
+    <string name="exif_profile_random_camera">Véletlenszerű kamera</string>
+    <string name="exif_random_gps">0°, 0° közelében</string>
+    <string name="exif_no_gps">Nincs GPS</string>
+    <string name="exif_manual_gps">Koordináták</string>
+    <string name="exif_generation_settings">Generálási beállítások</string>
+    <string name="exif_generated_tags">EXIF előnézet</string>
+    <string name="exif_shuffle_tags">Hozzon létre új értékeket</string>
+    <string name="exif_same_for_batch">Minden képhez ugyanazok a címkék</string>
+    <string name="exif_random_date">Véletlen dátum</string>
+    <string name="exif_lighting_daylight">Napfény</string>
+    <string name="exif_lighting_indoors">Fedett</string>
+    <string name="exif_manual_white_balance">Manuális fehéregyensúly</string>
+    <string name="exif_metering_multi_segment">Több szegmensű</string>
+    <string name="exif_metering_center_weighted">Középre súlyozott</string>
+    <string name="exif_metering_spot">Pontszerű</string>
+    <string name="exif_include_software">Tartalmazza a szoftvercímkét</string>
+    <string name="exif_no_software">Nincs szoftvercímke</string>
+    <string name="edit_exif_template">EXIF sablon szerkesztése</string>
 </resources>

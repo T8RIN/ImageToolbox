@@ -174,7 +174,7 @@
     <string name="add_file_size">Pridėti failo dydį</string>
     <string name="add_file_size_sub">Jei įjungta, prie išvesties failo pavadinimo pridedamas išsaugoto vaizdo plotis ir aukštis</string>
     <string name="delete_exif">Ištrinkite EXIF</string>
-    <string name="delete_exif_sub">Ištrinkite EXIF metaduomenis iš bet kurio vaizdų rinkinio</string>
+    <string name="delete_exif_sub">Pašalinkite arba pakeiskite EXIF metaduomenis vaizdų pakete</string>
     <string name="image_preview">Vaizdo peržiūra</string>
     <string name="image_preview_sub">Peržiūrėkite bet kokio tipo vaizdus: GIF, SVG ir pan</string>
     <string name="image_source">Vaizdo šaltinis</string>
@@ -3202,7 +3202,7 @@
     <string name="search_keywords_load_net_image">url web atsisiųsti interneto nuorodos paveikslėlį</string>
     <string name="search_keywords_pick_color_from_image">rinkiklis lašintuvo pavyzdys šešiakampio rgb spalvos</string>
     <string name="search_keywords_palette_tools">paletės spalvos swatches ekstraktas dominuoja</string>
-    <string name="search_keywords_delete_exif">exif metaduomenų privatumas pašalinkite juostelę išvalykite GPS vietą</string>
+    <string name="search_keywords_delete_exif">EXIF metaduomenys privatumas šalinti ištrinti išvalyti GPS vieta pakeisti atsitiktinai suklastoti kameros profilis</string>
     <string name="search_keywords_compare">palyginkite skirtumą prieš po</string>
     <string name="search_keywords_limit_resize">limito dydžio keitimas max min megapikseliai matmenys spaustukas</string>
     <string name="search_keywords_pdf_tools">Pdf dokumentų puslapių įrankiai</string>
@@ -3969,6 +3969,7 @@
     <string name="exif_preset_location_only">Tik vieta</string>
     <string name="exif_preset_keep_date_copyright">Išsaugokite datas ir autorių teises</string>
     <string name="exif_tags_selected">%1$s • %2$d žymos</string>
+    <string name="exif_tag_count">%1$d žymų</string>
     <string name="duplicate_scan_mode">Nuskaitymo režimas</string>
     <string name="duplicate_scan_exact_only">Tik tikslios kopijos</string>
     <string name="duplicate_scan_exact_and_similar">Tikslūs ir panašūs</string>
@@ -9279,4 +9280,30 @@
     <string name="texture_cuneiform_impressions">Pleišto įspaudai</string>
     <string name="texture_anechoic_wedges">Aidos pleištai</string>
     <string name="texture_quarter_turns">Ketvirčio apsisukimai</string>
+    <string name="replace_exif">Pakeiskite EXIF</string>
+    <string name="exif_camera_profile">Kameros profilis</string>
+    <string name="exif_profile_smartphone">Išmanusis telefonas</string>
+    <string name="exif_profile_dslr">DSLR</string>
+    <string name="exif_profile_mirrorless">Be veidrodžio</string>
+    <string name="exif_profile_compact">Kompaktiška kamera</string>
+    <string name="exif_profile_action_camera">Veiksmo kamera</string>
+    <string name="exif_profile_random_phone">Atsitiktinis telefonas</string>
+    <string name="exif_profile_random_camera">Atsitiktinė kamera</string>
+    <string name="exif_random_gps">Netoli 0°, 0°</string>
+    <string name="exif_no_gps">Nėra GPS</string>
+    <string name="exif_manual_gps">Koordinatės</string>
+    <string name="exif_generation_settings">Generavimo nustatymai</string>
+    <string name="exif_generated_tags">EXIF peržiūra</string>
+    <string name="exif_shuffle_tags">Generuoti naujas reikšmes</string>
+    <string name="exif_same_for_batch">Visiems vaizdams tos pačios žymos</string>
+    <string name="exif_random_date">Atsitiktinė data</string>
+    <string name="exif_lighting_daylight">Dienos šviesa</string>
+    <string name="exif_lighting_indoors">Patalpose</string>
+    <string name="exif_manual_white_balance">Rankinis baltos spalvos balansas</string>
+    <string name="exif_metering_multi_segment">Kelių segmentų</string>
+    <string name="exif_metering_center_weighted">Svertinis centre</string>
+    <string name="exif_metering_spot">Taškinis</string>
+    <string name="exif_include_software">Įtraukite programinės įrangos žymą</string>
+    <string name="exif_no_software">Nėra programinės įrangos žymos</string>
+    <string name="edit_exif_template">Redaguoti EXIF šabloną</string>
 </resources>

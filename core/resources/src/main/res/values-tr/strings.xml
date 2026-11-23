@@ -146,7 +146,7 @@
     <string name="add_file_size">Dosya boyutu ekle</string>
     <string name="add_file_size_sub">Etkinleştirilirse, kaydedilen resmin genişliğini ve yüksekliğini çıktı dosyasının adına ekler</string>
     <string name="delete_exif">EXIF Sil</string>
-    <string name="delete_exif_sub">Herhangi bir resim setinden EXIF meta verilerini silin</string>
+    <string name="delete_exif_sub">Bir grup görüntüdeki EXIF meta verilerini kaldırın veya değiştirin</string>
     <string name="image_preview">Resim Önizleme</string>
     <string name="image_preview_sub">Her tür resmi önizleyin: GIF, SVG ve benzeri</string>
     <string name="image_source">Resim kaynağı</string>
@@ -3200,7 +3200,7 @@
     <string name="search_keywords_load_net_image">url web indir internet bağlantısı resmi</string>
     <string name="search_keywords_pick_color_from_image">seçici damlalık örneği hex rgb rengi</string>
     <string name="search_keywords_palette_tools">palet renkleri renk örnekleri özü baskın</string>
-    <string name="search_keywords_delete_exif">exif meta veri gizliliği şeridi kaldır gps konumunu temizle</string>
+    <string name="search_keywords_delete_exif">EXIF meta veri gizlilik kaldır sil temizle GPS konum değiştir rastgele sahte kamera profili</string>
     <string name="search_keywords_compare">fark farkını karşılaştırın önce sonra</string>
     <string name="search_keywords_limit_resize">sınır yeniden boyutlandırma maksimum min megapiksel boyutlar kelepçe</string>
     <string name="search_keywords_pdf_tools">pdf belge sayfaları araçları</string>
@@ -3967,6 +3967,7 @@
     <string name="exif_preset_location_only">Yalnızca konum</string>
     <string name="exif_preset_keep_date_copyright">Tarihleri ve telif haklarını koruyun</string>
     <string name="exif_tags_selected">%1$s • %2$d etiketleri</string>
+    <string name="exif_tag_count">%1$d etiket</string>
     <string name="duplicate_scan_mode">Tarama modu</string>
     <string name="duplicate_scan_exact_only">Yalnızca tam kopyalar</string>
     <string name="duplicate_scan_exact_and_similar">Tam ve benzer</string>
@@ -9277,4 +9278,30 @@
     <string name="texture_cuneiform_impressions">Kama gösterimleri</string>
     <string name="texture_anechoic_wedges">Yankısız takozlar</string>
     <string name="texture_quarter_turns">Çeyrek dönüşler</string>
+    <string name="replace_exif">EXIF\'i değiştir</string>
+    <string name="exif_camera_profile">Kamera profili</string>
+    <string name="exif_profile_smartphone">Akıllı telefon</string>
+    <string name="exif_profile_dslr">DSLR</string>
+    <string name="exif_profile_mirrorless">Aynasız</string>
+    <string name="exif_profile_compact">Kompakt kamera</string>
+    <string name="exif_profile_action_camera">Aksiyon kamerası</string>
+    <string name="exif_profile_random_phone">Rastgele telefon</string>
+    <string name="exif_profile_random_camera">Rastgele kamera</string>
+    <string name="exif_random_gps">0°, 0° civarı</string>
+    <string name="exif_no_gps">GPS yok</string>
+    <string name="exif_manual_gps">Koordinatlar</string>
+    <string name="exif_generation_settings">Üretim ayarları</string>
+    <string name="exif_generated_tags">EXIF önizlemesi</string>
+    <string name="exif_shuffle_tags">Yeni değerler üretin</string>
+    <string name="exif_same_for_batch">Tüm görseller için aynı etiketler</string>
+    <string name="exif_random_date">Rastgele tarih</string>
+    <string name="exif_lighting_daylight">Gün ışığı</string>
+    <string name="exif_lighting_indoors">Kapalı alanlarda</string>
+    <string name="exif_manual_white_balance">Manuel beyaz dengesi</string>
+    <string name="exif_metering_multi_segment">Çok segmentli</string>
+    <string name="exif_metering_center_weighted">Merkez ağırlıklı</string>
+    <string name="exif_metering_spot">Noktasal</string>
+    <string name="exif_include_software">Yazılım etiketini dahil et</string>
+    <string name="exif_no_software">Yazılım etiketi yok</string>
+    <string name="edit_exif_template">EXIF şablonunu düzenle</string>
 </resources>

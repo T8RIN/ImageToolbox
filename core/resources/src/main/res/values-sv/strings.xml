@@ -92,7 +92,7 @@
     <string name="add_file_size">Lägg till fil-storlek</string>
     <string name="add_file_size_sub">Om aktiverad läggs bredd och höjd till i fil-namnet</string>
     <string name="delete_exif">Radera EXIF</string>
-    <string name="delete_exif_sub">Ta bort EXIF-metadata från en uppsättning bilder</string>
+    <string name="delete_exif_sub">Ta bort eller ersätt EXIF-metadata i en grupp bilder</string>
     <string name="image_preview">Förhandsgranskning</string>
     <string name="image_preview_sub">Förhandsgranska bild: GIF, SVG, and so on</string>
     <string name="image_source">Bild-källa</string>
@@ -3200,7 +3200,7 @@
     <string name="search_keywords_load_net_image">url webb ladda ner internetlänk bild</string>
     <string name="search_keywords_pick_color_from_image">plockare pipett prov hex rgb färg</string>
     <string name="search_keywords_palette_tools">palett färger swatches extrahera dominant</string>
-    <string name="search_keywords_delete_exif">exif metadata sekretess ta bort strip ren gps-plats</string>
+    <string name="search_keywords_delete_exif">EXIF metadata integritet ta bort rensa GPS plats ersätt slumpa förfalska kameraprofil</string>
     <string name="search_keywords_compare">jämför skillnaden före efter</string>
     <string name="search_keywords_limit_resize">gräns ändra storlek max min megapixel mått klämma</string>
     <string name="search_keywords_pdf_tools">Verktyg för pdf-dokumentsidor</string>
@@ -3967,6 +3967,7 @@
     <string name="exif_preset_location_only">Endast plats</string>
     <string name="exif_preset_keep_date_copyright">Håll datum och upphovsrätt</string>
     <string name="exif_tags_selected">%1$s • %2$d taggar</string>
+    <string name="exif_tag_count">%1$d taggar</string>
     <string name="duplicate_scan_mode">Skanningsläge</string>
     <string name="duplicate_scan_exact_only">Endast exakta kopior</string>
     <string name="duplicate_scan_exact_and_similar">Exakt och liknande</string>
@@ -9277,4 +9278,30 @@
     <string name="texture_cuneiform_impressions">Kila intryck</string>
     <string name="texture_anechoic_wedges">Ekofria kilar</string>
     <string name="texture_quarter_turns">Kvartsvarv</string>
+    <string name="replace_exif">Byt ut EXIF</string>
+    <string name="exif_camera_profile">Kameraprofil</string>
+    <string name="exif_profile_smartphone">Smartphone</string>
+    <string name="exif_profile_dslr">DSLR</string>
+    <string name="exif_profile_mirrorless">Spegellöst</string>
+    <string name="exif_profile_compact">Kompakt kamera</string>
+    <string name="exif_profile_action_camera">Actionkamera</string>
+    <string name="exif_profile_random_phone">Slumpmässig telefon</string>
+    <string name="exif_profile_random_camera">Slumpmässig kamera</string>
+    <string name="exif_random_gps">Nära 0°, 0°</string>
+    <string name="exif_no_gps">Ingen GPS</string>
+    <string name="exif_manual_gps">Koordinater</string>
+    <string name="exif_generation_settings">Genereringsinställningar</string>
+    <string name="exif_generated_tags">EXIF-förhandsvisning</string>
+    <string name="exif_shuffle_tags">Skapa nya värden</string>
+    <string name="exif_same_for_batch">Samma taggar för alla bilder</string>
+    <string name="exif_random_date">Slumpmässigt datum</string>
+    <string name="exif_lighting_daylight">Dagsljus</string>
+    <string name="exif_lighting_indoors">Inomhus</string>
+    <string name="exif_manual_white_balance">Manuell vitbalans</string>
+    <string name="exif_metering_multi_segment">Flersegment</string>
+    <string name="exif_metering_center_weighted">Centerviktad</string>
+    <string name="exif_metering_spot">Punktmätning</string>
+    <string name="exif_include_software">Inkludera programvarutagg</string>
+    <string name="exif_no_software">Ingen programvarutagg</string>
+    <string name="edit_exif_template">Redigera EXIF-mall</string>
 </resources>

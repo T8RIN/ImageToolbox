@@ -146,7 +146,7 @@
     <string name="add_file_size">ফাইলের আকার যোগ করুন</string>
     <string name="add_file_size_sub">যদি সক্রিয় থাকে, আউটপুট ফাইলের নামে সংরক্ষিত চিত্রের প্রস্থ এবং উচ্চতা যোগ করে</string>
     <string name="delete_exif">EXIF মুছুন</string>
-    <string name="delete_exif_sub">যেকোন ছবির সেট থেকে EXIF মেটাডেটা মুছুন</string>
+    <string name="delete_exif_sub">চিত্রের একটি ব্যাচে EXIF মেটাডেটা সরান বা প্রতিস্থাপন করুন</string>
     <string name="image_preview">ছবির পূর্বরূপ</string>
     <string name="image_preview_sub">যেকোন ধরনের ছবির পূর্বরূপ দেখুন: GIF, SVG, ইত্যাদি</string>
     <string name="image_source">ইমেজ সোর্স</string>
@@ -3196,7 +3196,7 @@
     <string name="search_keywords_erase_background">ব্যাকগ্রাউন্ড রিমুভার মুছে ফেলুন কাটআউট স্বচ্ছ আলফা</string>
     <string name="search_keywords_image_stitching">স্টিচ মার্জ একত্রিত প্যানোরামা দীর্ঘ স্ক্রিনশট</string>
     <string name="search_keywords_pick_color_from_image">পিকার আইড্রপার নমুনা হেক্স আরজিবি রঙ</string>
-    <string name="search_keywords_delete_exif">exif মেটাডেটা গোপনীয়তা স্ট্রিপ পরিষ্কার জিপিএস অবস্থান অপসারণ</string>
+    <string name="search_keywords_delete_exif">EXIF মেটাডেটা গোপনীয়তা সরান মুছুন পরিষ্কার GPS অবস্থান প্রতিস্থাপন এলোমেলো নকল ক্যামেরা প্রোফাইল</string>
     <string name="search_keywords_limit_resize">সীমিত আকার পরিবর্তন করুন সর্বোচ্চ মিনিট মেগাপিক্সেল মাত্রা বাতা</string>
     <string name="search_keywords_pdf_tools">পিডিএফ ডকুমেন্ট পেজ টুলস</string>
     <string name="search_keywords_recognize_text">ocr পাঠ্য নির্যাস স্ক্যান সনাক্ত</string>
@@ -3967,6 +3967,7 @@
     <string name="exif_preset_location_only">শুধুমাত্র অবস্থান</string>
     <string name="exif_preset_keep_date_copyright">তারিখ এবং কপিরাইট রাখুন</string>
     <string name="exif_tags_selected">%1$s • %2$d ট্যাগ</string>
+    <string name="exif_tag_count">%1$d ট্যাগ</string>
     <string name="duplicate_scan_mode">স্ক্যান মোড</string>
     <string name="duplicate_scan_exact_only">শুধুমাত্র সঠিক কপি</string>
     <string name="duplicate_scan_exact_and_similar">সঠিক এবং অনুরূপ</string>
@@ -9277,4 +9278,30 @@
     <string name="texture_cuneiform_impressions">কীলক ছাপ</string>
     <string name="texture_anechoic_wedges">Anechoic wedges</string>
     <string name="texture_quarter_turns">কোয়ার্টার বাঁক</string>
+    <string name="replace_exif">EXIF প্রতিস্থাপন করুন</string>
+    <string name="exif_camera_profile">ক্যামেরা প্রোফাইল</string>
+    <string name="exif_profile_smartphone">স্মার্টফোন</string>
+    <string name="exif_profile_dslr">ডিএসএলআর</string>
+    <string name="exif_profile_mirrorless">আয়নাবিহীন</string>
+    <string name="exif_profile_compact">কমপ্যাক্ট ক্যামেরা</string>
+    <string name="exif_profile_action_camera">অ্যাকশন ক্যামেরা</string>
+    <string name="exif_profile_random_phone">এলোমেলো স্মার্টফোন</string>
+    <string name="exif_profile_random_camera">এলোমেলো ক্যামেরা</string>
+    <string name="exif_random_gps">0°, 0° এর কাছাকাছি</string>
+    <string name="exif_no_gps">জিপিএস নেই</string>
+    <string name="exif_manual_gps">স্থানাঙ্ক</string>
+    <string name="exif_generation_settings">জেনারেশন সেটিংস</string>
+    <string name="exif_generated_tags">EXIF প্রিভিউ</string>
+    <string name="exif_shuffle_tags">নতুন মান তৈরি করুন</string>
+    <string name="exif_same_for_batch">সব ছবির জন্য একই ট্যাগ</string>
+    <string name="exif_random_date">এলোমেলো তারিখ</string>
+    <string name="exif_lighting_daylight">দিবালোক</string>
+    <string name="exif_lighting_indoors">ঘরের ভিতরে</string>
+    <string name="exif_manual_white_balance">ম্যানুয়াল সাদা ভারসাম্য</string>
+    <string name="exif_metering_multi_segment">মাল্টি-সেগমেন্ট</string>
+    <string name="exif_metering_center_weighted">কেন্দ্র-ভারিত</string>
+    <string name="exif_metering_spot">স্পট</string>
+    <string name="exif_include_software">সফ্টওয়্যার ট্যাগ অন্তর্ভুক্ত করুন</string>
+    <string name="exif_no_software">সফটওয়্যার ট্যাগ নেই</string>
+    <string name="edit_exif_template">EXIF টেমপ্লেট সম্পাদনা করুন</string>
 </resources>

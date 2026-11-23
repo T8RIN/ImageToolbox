@@ -164,7 +164,7 @@
     <string name="add_file_size">Dodaj rozmiar pliku</string>
     <string name="add_file_size_sub">Jeśli włączone, szerokość i wysokość zapisanego obrazu zostanie dodana do nazwy pliku wyjściowego</string>
     <string name="delete_exif">Usuń dane EXIF</string>
-    <string name="delete_exif_sub">Usuń metadane EXIF z dowolnego zestawu obrazów</string>
+    <string name="delete_exif_sub">Usuń lub zastąp metadane EXIF w grupie obrazów</string>
     <string name="image_preview">Podgląd obrazu</string>
     <string name="image_preview_sub">Wyświetl podgląd dowolnego typu obrazów: GIF, SVG itd.</string>
     <string name="image_source">Źródło obrazu</string>
@@ -3202,7 +3202,7 @@
     <string name="search_keywords_load_net_image">adres URL pobierz obraz łącza internetowego</string>
     <string name="search_keywords_pick_color_from_image">próbka kroplomierza próbka szesnastkowego koloru rgb</string>
     <string name="search_keywords_palette_tools">paleta kolorów próbki wyodrębnia dominujący</string>
-    <string name="search_keywords_delete_exif">Prywatność metadanych exif usuń czystą lokalizację GPS</string>
+    <string name="search_keywords_delete_exif">EXIF metadane prywatność usuń wyczyść GPS położenie lokalizacja zastąp losowo podmień profil aparatu</string>
     <string name="search_keywords_compare">porównaj różnice różnica przed i po</string>
     <string name="search_keywords_limit_resize">limit zmień rozmiar max min megapiksele wymiary zacisk</string>
     <string name="search_keywords_pdf_tools">narzędzia stron dokumentów PDF</string>
@@ -3969,6 +3969,7 @@
     <string name="exif_preset_location_only">Tylko lokalizacja</string>
     <string name="exif_preset_keep_date_copyright">Zachowaj daty i prawa autorskie</string>
     <string name="exif_tags_selected">%1$s • %2$d tagi</string>
+    <string name="exif_tag_count">%1$d tagów</string>
     <string name="duplicate_scan_mode">Tryb skanowania</string>
     <string name="duplicate_scan_exact_only">Tylko dokładne kopie</string>
     <string name="duplicate_scan_exact_and_similar">Dokładne i podobne</string>
@@ -9279,4 +9280,30 @@
     <string name="texture_cuneiform_impressions">Wrażenia klinowe</string>
     <string name="texture_anechoic_wedges">Kliny bezechowe</string>
     <string name="texture_quarter_turns">Ćwierć obrotu</string>
+    <string name="replace_exif">Zamień EXIF</string>
+    <string name="exif_camera_profile">Profil aparatu</string>
+    <string name="exif_profile_smartphone">Smartfon</string>
+    <string name="exif_profile_dslr">DSLR</string>
+    <string name="exif_profile_mirrorless">Bezlusterkowy</string>
+    <string name="exif_profile_compact">Kompaktowy aparat</string>
+    <string name="exif_profile_action_camera">Kamera akcji</string>
+    <string name="exif_profile_random_phone">Losowy smartfon</string>
+    <string name="exif_profile_random_camera">Losowy aparat</string>
+    <string name="exif_random_gps">Blisko 0°, 0°</string>
+    <string name="exif_no_gps">Brak GPS-u</string>
+    <string name="exif_manual_gps">Współrzędne</string>
+    <string name="exif_generation_settings">Ustawienia generacji</string>
+    <string name="exif_generated_tags">Podgląd EXIF-a</string>
+    <string name="exif_shuffle_tags">Wygeneruj nowe wartości</string>
+    <string name="exif_same_for_batch">Te same tagi dla wszystkich obrazów</string>
+    <string name="exif_random_date">Losowa data</string>
+    <string name="exif_lighting_daylight">Światło dzienne</string>
+    <string name="exif_lighting_indoors">W pomieszczeniu</string>
+    <string name="exif_manual_white_balance">Ręczny balans bieli</string>
+    <string name="exif_metering_multi_segment">Wielosegmentowy</string>
+    <string name="exif_metering_center_weighted">Centralnie ważony</string>
+    <string name="exif_metering_spot">Punktowy</string>
+    <string name="exif_include_software">Dołącz znacznik oprogramowania</string>
+    <string name="exif_no_software">Brak znacznika oprogramowania</string>
+    <string name="edit_exif_template">Edytuj szablon EXIF</string>
 </resources>

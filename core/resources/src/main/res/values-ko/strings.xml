@@ -161,7 +161,7 @@
     <string name="file_explorer_picker_sub">GetContent 의도를 사용하여 이미지를 선택하고 모든 곳에서 작동하지만 일부 장치에서 선택한 이미지를 수신하는 데 문제가 있을 수 있습니다. 제 잘못이 아닙니다</string>
     <string name="replace_sequence_number">시퀀스 번호 바꾸기</string>
     <string name="emoji_sub">메인 화면에 표시할 이모티콘 선택</string>
-    <string name="delete_exif_sub">모든 이미지에서 EXIF 메타데이터 삭제</string>
+    <string name="delete_exif_sub">여러 이미지의 EXIF 메타데이터 제거 또는 교체</string>
     <string name="image_preview">이미지 미리보기</string>
     <string name="image_preview_sub">모든 유형의 이미지 미리보기: GIF, SVG 등</string>
     <string name="order_sub">메인 화면에서 도구의 순서를 결정합니다.</string>
@@ -3226,7 +3226,7 @@
     <string name="search_keywords_erase_background">배경 제거제 지우기 제거 컷아웃 투명 알파</string>
     <string name="search_keywords_image_preview">미리보기 뷰어 갤러리 검사 열기</string>
     <string name="search_keywords_palette_tools">팔레트 색상 견본 추출물 지배적</string>
-    <string name="search_keywords_delete_exif">EXIF 메타데이터 개인 정보 보호 스트립 청소 GPS 위치 제거</string>
+    <string name="search_keywords_delete_exif">EXIF 메타데이터 개인정보 삭제 제거 정리 GPS 위치정보 변경 무작위 위조 카메라 프로필</string>
     <string name="search_keywords_compare">전후 차이 비교</string>
     <string name="search_keywords_pdf_tools">pdf 문서 페이지 도구</string>
     <string name="search_keywords_gradient_maker">그라데이션 배경 색상 메쉬</string>
@@ -3966,6 +3966,7 @@
     <string name="exif_preset_location_only">위치만</string>
     <string name="exif_preset_keep_date_copyright">날짜와 저작권을 유지하세요</string>
     <string name="exif_tags_selected">%1$s • %2$d 태그</string>
+    <string name="exif_tag_count">%1$d 태그</string>
     <string name="duplicate_scan_mode">스캔 모드</string>
     <string name="duplicate_scan_exact_only">정확한 사본만</string>
     <string name="duplicate_scan_exact_and_similar">정확하고 유사함</string>
@@ -9276,4 +9277,30 @@
     <string name="texture_cuneiform_impressions">웨지 노출</string>
     <string name="texture_anechoic_wedges">무향 웨지</string>
     <string name="texture_quarter_turns">4분의 1회전</string>
+    <string name="replace_exif">EXIF 교체</string>
+    <string name="exif_camera_profile">카메라 프로필</string>
+    <string name="exif_profile_smartphone">스마트폰</string>
+    <string name="exif_profile_dslr">DSLR</string>
+    <string name="exif_profile_mirrorless">미러리스</string>
+    <string name="exif_profile_compact">컴팩트 카메라</string>
+    <string name="exif_profile_action_camera">액션 카메라</string>
+    <string name="exif_profile_random_phone">무작위 스마트폰</string>
+    <string name="exif_profile_random_camera">무작위 카메라</string>
+    <string name="exif_random_gps">0°, 0° 근처</string>
+    <string name="exif_no_gps">GPS 없음</string>
+    <string name="exif_manual_gps">좌표</string>
+    <string name="exif_generation_settings">생성 설정</string>
+    <string name="exif_generated_tags">EXIF 미리보기</string>
+    <string name="exif_shuffle_tags">새 값 생성</string>
+    <string name="exif_same_for_batch">모든 이미지에 동일한 태그</string>
+    <string name="exif_random_date">임의의 날짜</string>
+    <string name="exif_lighting_daylight">일광</string>
+    <string name="exif_lighting_indoors">실내</string>
+    <string name="exif_manual_white_balance">수동 화이트 밸런스</string>
+    <string name="exif_metering_multi_segment">다분할</string>
+    <string name="exif_metering_center_weighted">중앙 중점</string>
+    <string name="exif_metering_spot">스팟</string>
+    <string name="exif_include_software">소프트웨어 태그 포함</string>
+    <string name="exif_no_software">소프트웨어 태그 없음</string>
+    <string name="edit_exif_template">EXIF 템플릿 편집</string>
 </resources>

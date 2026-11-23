@@ -643,7 +643,7 @@
     <string name="emoji_sub">Негізгі экранда қандай эмодзи көрсетілетінін таңдаңыз</string>
     <string name="add_file_size">Файл өлшемін қосыңыз</string>
     <string name="add_file_size_sub">Қосылған болса, шығыс файлының атына сақталған кескіннің енін және биіктігін қосады</string>
-    <string name="delete_exif_sub">Кез келген кескіндер жинағынан EXIF метадеректерін жойыңыз</string>
+    <string name="delete_exif_sub">Кескіндер топтамасындағы EXIF метадеректерін жойыңыз немесе ауыстырыңыз</string>
     <string name="image_preview_sub">Кескіндердің кез келген түрін алдын ала қараңыз: GIF, SVG және т.б</string>
     <string name="image_source">Сурет көзі</string>
     <string name="photo_picker">Фото таңдаушы</string>
@@ -3200,7 +3200,7 @@
     <string name="search_keywords_load_net_image">url веб жүктеп алу интернет сілтеме суреті</string>
     <string name="search_keywords_pick_color_from_image">таңдағыш көз тамшысының үлгісі hex rgb түсі</string>
     <string name="search_keywords_palette_tools">палитра түс үлгілері сығындысы басым</string>
-    <string name="search_keywords_delete_exif">exif метадеректерінің құпиялылығы жолақты таза gps орнын жою</string>
+    <string name="search_keywords_delete_exif">EXIF метадеректер құпиялылық жою тазалау GPS орналасу ауыстыру кездейсоқ жалған камера профилі</string>
     <string name="search_keywords_compare">кейінгі айырмашылықты салыстырыңыз</string>
     <string name="search_keywords_limit_resize">шектеу өлшемін өзгерту максимум мин мегапиксель өлшемдер қысқыш</string>
     <string name="search_keywords_pdf_tools">pdf құжат беттерінің құралдары</string>
@@ -3967,6 +3967,7 @@
     <string name="exif_preset_location_only">Тек орналасқан жері</string>
     <string name="exif_preset_keep_date_copyright">Күндерді және авторлық құқықты сақтаңыз</string>
     <string name="exif_tags_selected">%1$s • %2$d тегтері</string>
+    <string name="exif_tag_count">%1$d тег</string>
     <string name="duplicate_scan_mode">Сканерлеу режимі</string>
     <string name="duplicate_scan_exact_only">Тек нақты көшірмелер</string>
     <string name="duplicate_scan_exact_and_similar">Дәл және ұқсас</string>
@@ -9277,4 +9278,30 @@
     <string name="texture_cuneiform_impressions">Сына әсерлері</string>
     <string name="texture_anechoic_wedges">Анекотикалық сыналар</string>
     <string name="texture_quarter_turns">Ширек бұрылыстар</string>
+    <string name="replace_exif">EXIF ауыстырыңыз</string>
+    <string name="exif_camera_profile">Камера профилі</string>
+    <string name="exif_profile_smartphone">Смартфон</string>
+    <string name="exif_profile_dslr">DSLR</string>
+    <string name="exif_profile_mirrorless">Айнасыз</string>
+    <string name="exif_profile_compact">Шағын камера</string>
+    <string name="exif_profile_action_camera">Экшн камерасы</string>
+    <string name="exif_profile_random_phone">Кездейсоқ телефон</string>
+    <string name="exif_profile_random_camera">Кездейсоқ камера</string>
+    <string name="exif_random_gps">0°, 0°-қа жақын</string>
+    <string name="exif_no_gps">GPS жоқ</string>
+    <string name="exif_manual_gps">Координаттар</string>
+    <string name="exif_generation_settings">Генерация параметрлері</string>
+    <string name="exif_generated_tags">EXIF алдын ала қарау</string>
+    <string name="exif_shuffle_tags">Жаңа мәндерді жасаңыз</string>
+    <string name="exif_same_for_batch">Барлық кескіндер үшін бірдей тегтер</string>
+    <string name="exif_random_date">Кездейсоқ күн</string>
+    <string name="exif_lighting_daylight">Күндізгі жарық</string>
+    <string name="exif_lighting_indoors">Үй ішінде</string>
+    <string name="exif_manual_white_balance">Қолмен ақ баланс</string>
+    <string name="exif_metering_multi_segment">Көп сегментті</string>
+    <string name="exif_metering_center_weighted">Орталықтан өлшенген</string>
+    <string name="exif_metering_spot">Нүктелік</string>
+    <string name="exif_include_software">Бағдарламалық тегті қосыңыз</string>
+    <string name="exif_no_software">Бағдарламалық құрал тегі жоқ</string>
+    <string name="edit_exif_template">EXIF үлгісін өңдеу</string>
 </resources>

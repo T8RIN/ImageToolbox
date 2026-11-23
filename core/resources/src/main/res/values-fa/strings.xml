@@ -163,7 +163,7 @@
     <string name="add_file_size">افزودن اندازه پرونده</string>
     <string name="add_file_size_sub">در صورت فعال بودن، عرض و ارتفاع تصویر ذخیره شده را به نام فایل خروجی اضافه می کند</string>
     <string name="delete_exif">برداشتن EXIF</string>
-    <string name="delete_exif_sub">ابرداده EXIF را از هر مجموعه ای از تصاویر حذف کنید</string>
+    <string name="delete_exif_sub">ابرداده EXIF را در دسته ای از تصاویر حذف یا جایگزین کنید</string>
     <string name="image_preview">پیش‌نمایش تصویر</string>
     <string name="image_preview_sub">پیش نمایش هر نوع تصویر: GIF، SVG، و غیره</string>
     <string name="image_source">منبع تصویر</string>
@@ -3200,7 +3200,7 @@
     <string name="search_keywords_load_net_image">آدرس وب دانلود تصویر لینک اینترنتی</string>
     <string name="search_keywords_pick_color_from_image">نمونه قطره چکان هگز rgb رنگ</string>
     <string name="search_keywords_palette_tools">پالت رنگ نمونه استخراج غالب</string>
-    <string name="search_keywords_delete_exif">حریم خصوصی ابرداده exif حذف نوار پاک کردن مکان GPS</string>
+    <string name="search_keywords_delete_exif">EXIF فراداده حریم خصوصی حذف پاک کردن GPS موقعیت جایگزینی تصادفی جعل پروفایل دوربین</string>
     <string name="search_keywords_compare">مقایسه تفاوت تفاوت قبل از بعد</string>
     <string name="search_keywords_limit_resize">محدودیت تغییر اندازه حداکثر حداقل مگاپیکسل ابعاد گیره</string>
     <string name="search_keywords_pdf_tools">ابزار صفحات سند پی دی اف</string>
@@ -3967,6 +3967,7 @@
     <string name="exif_preset_location_only">فقط مکان</string>
     <string name="exif_preset_keep_date_copyright">تاریخ ها و حق چاپ را حفظ کنید</string>
     <string name="exif_tags_selected">%1$s • برچسب های %2$d</string>
+    <string name="exif_tag_count">%1$d برچسب</string>
     <string name="duplicate_scan_mode">حالت اسکن</string>
     <string name="duplicate_scan_exact_only">فقط کپی های دقیق</string>
     <string name="duplicate_scan_exact_and_similar">دقیق و مشابه</string>
@@ -9277,4 +9278,30 @@
     <string name="texture_cuneiform_impressions">برداشت های گوه ای</string>
     <string name="texture_anechoic_wedges">گوه های بی صدا</string>
     <string name="texture_quarter_turns">یک چهارم نوبت</string>
+    <string name="replace_exif">EXIF را جایگزین کنید</string>
+    <string name="exif_camera_profile">پروفایل دوربین</string>
+    <string name="exif_profile_smartphone">گوشی هوشمند</string>
+    <string name="exif_profile_dslr">DSLR</string>
+    <string name="exif_profile_mirrorless">بدون آینه</string>
+    <string name="exif_profile_compact">دوربین کامپکت</string>
+    <string name="exif_profile_action_camera">دوربین اکشن</string>
+    <string name="exif_profile_random_phone">تلفن تصادفی</string>
+    <string name="exif_profile_random_camera">دوربین تصادفی</string>
+    <string name="exif_random_gps">نزدیک به 0 درجه، 0 درجه</string>
+    <string name="exif_no_gps">بدون جی پی اس</string>
+    <string name="exif_manual_gps">مختصات</string>
+    <string name="exif_generation_settings">تنظیمات تولید</string>
+    <string name="exif_generated_tags">پیش نمایش EXIF</string>
+    <string name="exif_shuffle_tags">مقادیر جدید تولید کنید</string>
+    <string name="exif_same_for_batch">برچسب های یکسان برای همه تصاویر</string>
+    <string name="exif_random_date">تاریخ تصادفی</string>
+    <string name="exif_lighting_daylight">نور روز</string>
+    <string name="exif_lighting_indoors">در داخل خانه</string>
+    <string name="exif_manual_white_balance">تعادل رنگ سفید دستی</string>
+    <string name="exif_metering_multi_segment">چند بخش</string>
+    <string name="exif_metering_center_weighted">مرکز وزن</string>
+    <string name="exif_metering_spot">نقطه‌ای</string>
+    <string name="exif_include_software">شامل برچسب نرم افزار</string>
+    <string name="exif_no_software">بدون برچسب نرم افزاری</string>
+    <string name="edit_exif_template">ویرایش قالب EXIF</string>
 </resources>

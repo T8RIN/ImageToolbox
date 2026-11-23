@@ -156,7 +156,7 @@
     <string name="emojis_count">इमोजी की गिनती</string>
     <string name="sequence_num">sequenceNum</string>
     <string name="original_filename">originalFilename</string>
-    <string name="delete_exif_sub">छवियों के किसी भी समूह से EXIF मेटाडेटा मिटाएं</string>
+    <string name="delete_exif_sub">छवियों के एक बैच में EXIF मेटाडेटा को हटाएँ या बदलें</string>
     <string name="image_preview_sub">किसी भी प्रकार की छवियों का पूर्वावलोकन करें: GIF, SVG, इत्यादि</string>
     <string name="photo_picker_sub">Android आधुनिक फोटो चयनकर्ता जो स्क्रीन के नीचे दिखाई देता है, केवल Android 12+ पर काम कर सकता हैै। इसमें EXIF मेटाडेटा प्राप्त करने में भी समस्याएं हैं</string>
     <string name="file_explorer_picker_sub">छवि चुनने के लिए GetContent आशय का उपयोग करें। हर जगह काम करता है, लेकिन कुछ डिवाइसों पर चुनी गई छवियां प्राप्त करने में समस्याएं आती हैं। वह मेरी गलती नहीं है।</string>
@@ -3200,7 +3200,7 @@
     <string name="search_keywords_load_net_image">यूआरएल वेब डाउनलोड इंटरनेट लिंक छवि</string>
     <string name="search_keywords_pick_color_from_image">पिकर आईड्रॉपर नमूना हेक्स आरजीबी रंग</string>
     <string name="search_keywords_palette_tools">पैलेट रंग नमूने प्रमुख निकालते हैं</string>
-    <string name="search_keywords_delete_exif">एक्सिफ़ मेटाडेटा गोपनीयता स्ट्रिप क्लीन जीपीएस स्थान को हटा दें</string>
+    <string name="search_keywords_delete_exif">EXIF मेटाडेटा गोपनीयता हटाएँ मिटाएँ साफ़ GPS स्थान बदलें यादृच्छिक नकली कैमरा प्रोफ़ाइल</string>
     <string name="search_keywords_compare">पहले के बाद के अंतर की तुलना करें</string>
     <string name="search_keywords_limit_resize">सीमा आकार अधिकतम न्यूनतम मेगापिक्सेल आयाम क्लैंप</string>
     <string name="search_keywords_pdf_tools">पीडीएफ दस्तावेज़ पृष्ठ उपकरण</string>
@@ -3967,6 +3967,7 @@
     <string name="exif_preset_location_only">केवल स्थान</string>
     <string name="exif_preset_keep_date_copyright">दिनांक और कॉपीराइट रखें</string>
     <string name="exif_tags_selected">%1$s • %2$d टैग</string>
+    <string name="exif_tag_count">%1$d टैग</string>
     <string name="duplicate_scan_mode">स्कैन मोड</string>
     <string name="duplicate_scan_exact_only">केवल सटीक प्रतिलिपियाँ</string>
     <string name="duplicate_scan_exact_and_similar">सटीक और समान</string>
@@ -9277,4 +9278,30 @@
     <string name="texture_cuneiform_impressions">वेज इंप्रेशन</string>
     <string name="texture_anechoic_wedges">एनेकोइक वेजेज</string>
     <string name="texture_quarter_turns">क्वार्टर बदल जाता है</string>
+    <string name="replace_exif">EXIF बदलें</string>
+    <string name="exif_camera_profile">कैमरा प्रोफ़ाइल</string>
+    <string name="exif_profile_smartphone">स्मार्टफ़ोन</string>
+    <string name="exif_profile_dslr">DSLR</string>
+    <string name="exif_profile_mirrorless">दर्पण रहित</string>
+    <string name="exif_profile_compact">कॉम्पैक्ट कैमरा</string>
+    <string name="exif_profile_action_camera">एक्शन कैमरा</string>
+    <string name="exif_profile_random_phone">यादृच्छिक फ़ोन</string>
+    <string name="exif_profile_random_camera">यादृच्छिक कैमरा</string>
+    <string name="exif_random_gps">0°, 0° के निकट</string>
+    <string name="exif_no_gps">कोई जीपीएस नहीं</string>
+    <string name="exif_manual_gps">निर्देशांक</string>
+    <string name="exif_generation_settings">जनरेशन सेटिंग्स</string>
+    <string name="exif_generated_tags">EXIF पूर्वावलोकन</string>
+    <string name="exif_shuffle_tags">नए मान बनाएँ</string>
+    <string name="exif_same_for_batch">सभी छवियों के लिए समान टैग</string>
+    <string name="exif_random_date">यादृच्छिक तिथि</string>
+    <string name="exif_lighting_daylight">दिन का प्रकाश</string>
+    <string name="exif_lighting_indoors">घर के अंदर</string>
+    <string name="exif_manual_white_balance">मैन्युअल श्वेत संतुलन</string>
+    <string name="exif_metering_multi_segment">बहु-खंड</string>
+    <string name="exif_metering_center_weighted">केंद्र-भारित</string>
+    <string name="exif_metering_spot">स्पॉट</string>
+    <string name="exif_include_software">सॉफ़्टवेयर टैग शामिल करें</string>
+    <string name="exif_no_software">कोई सॉफ़्टवेयर टैग नहीं</string>
+    <string name="edit_exif_template">EXIF टेम्पलेट संपादित करें</string>
 </resources>

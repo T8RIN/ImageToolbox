@@ -188,7 +188,7 @@
     <string name="bilaterial_blur">Obojstranné rozostrenie</string>
     <string name="add_file_size">Pridajte veľkosť súboru</string>
     <string name="add_file_size_sub">Ak je povolené, pridá k názvu výstupného súboru šírku a výšku uloženého obrázka</string>
-    <string name="delete_exif_sub">Odstráňte metadáta EXIF z ľubovoľného páru obrázkov</string>
+    <string name="delete_exif_sub">Odstráňte alebo nahraďte metadáta EXIF v dávke obrázkov</string>
     <string name="file_explorer_picker_sub">Použite zámer GetContent na výber obrázka, funguje všade, ale môže mať problémy s prijímaním vybratých obrázkov na niektorých zariadeniach, nie je to moja chyba</string>
     <string name="options_arrangement">Usporiadanie možností</string>
     <string name="edit">Upraviť</string>
@@ -3202,7 +3202,7 @@
     <string name="search_keywords_load_net_image">url web na stiahnutie obrázok internetového odkazu</string>
     <string name="search_keywords_pick_color_from_image">zberač kvapkadlo vzorka hex rgb farba</string>
     <string name="search_keywords_palette_tools">vzorkovník farieb palety extrakt dominantný</string>
-    <string name="search_keywords_delete_exif">exif metadata privacy remove strip clean gps location</string>
+    <string name="search_keywords_delete_exif">EXIF metadáta súkromie odstrániť vymazať vyčistiť GPS poloha nahradiť náhodne podvrhnúť profil fotoaparátu</string>
     <string name="search_keywords_compare">porovnať rozdiel rozdielu pred po</string>
     <string name="search_keywords_limit_resize">limit resize max min megapixely rozmery svorka</string>
     <string name="search_keywords_pdf_tools">nástroje na stránky dokumentov pdf</string>
@@ -3969,6 +3969,7 @@
     <string name="exif_preset_location_only">Iba miesto</string>
     <string name="exif_preset_keep_date_copyright">Dodržujte dátumy a autorské práva</string>
     <string name="exif_tags_selected">%1$s • %2$d značiek</string>
+    <string name="exif_tag_count">%1$d značiek</string>
     <string name="duplicate_scan_mode">Režim skenovania</string>
     <string name="duplicate_scan_exact_only">Iba presné kópie</string>
     <string name="duplicate_scan_exact_and_similar">Presné a podobné</string>
@@ -9279,4 +9280,30 @@
     <string name="texture_cuneiform_impressions">Klinové dojmy</string>
     <string name="texture_anechoic_wedges">Anechoické kliny</string>
     <string name="texture_quarter_turns">Štvrť otáčky</string>
+    <string name="replace_exif">Nahradiť EXIF</string>
+    <string name="exif_camera_profile">Profil fotoaparátu</string>
+    <string name="exif_profile_smartphone">Smartfón</string>
+    <string name="exif_profile_dslr">DSLR</string>
+    <string name="exif_profile_mirrorless">Bez zrkadla</string>
+    <string name="exif_profile_compact">Kompaktný fotoaparát</string>
+    <string name="exif_profile_action_camera">Akčná kamera</string>
+    <string name="exif_profile_random_phone">Náhodný telefón</string>
+    <string name="exif_profile_random_camera">Náhodný fotoaparát</string>
+    <string name="exif_random_gps">Blízko 0°, 0°</string>
+    <string name="exif_no_gps">Bez GPS</string>
+    <string name="exif_manual_gps">Súradnice</string>
+    <string name="exif_generation_settings">Nastavenia generovania</string>
+    <string name="exif_generated_tags">EXIF náhľad</string>
+    <string name="exif_shuffle_tags">Generovať nové hodnoty</string>
+    <string name="exif_same_for_batch">Rovnaké značky pre všetky obrázky</string>
+    <string name="exif_random_date">Náhodný dátum</string>
+    <string name="exif_lighting_daylight">Denné svetlo</string>
+    <string name="exif_lighting_indoors">V interiéri</string>
+    <string name="exif_manual_white_balance">Manuálne vyváženie bielej</string>
+    <string name="exif_metering_multi_segment">Viacsegmentové</string>
+    <string name="exif_metering_center_weighted">Stredovo zvýraznené</string>
+    <string name="exif_metering_spot">Bodové</string>
+    <string name="exif_include_software">Zahrnúť značku softvéru</string>
+    <string name="exif_no_software">Bez značky softvéru</string>
+    <string name="edit_exif_template">Upraviť šablónu EXIF</string>
 </resources>

@@ -103,7 +103,7 @@
     <string name="delete_exif">Suprimeix l\'EXIF</string>
     <string name="check_updates_sub">Si està habilitat, es mostrarà el diàleg d\'actualització en iniciar l\'aplicació</string>
     <string name="share">Comparteix</string>
-    <string name="delete_exif_sub">Suprimeix les metadades EXIF de qualsevol conjunt d\'imatges</string>
+    <string name="delete_exif_sub">Elimina o substitueix les metadades EXIF en un lot d\'imatges</string>
     <string name="image_preview">Previsualització de la imatge</string>
     <string name="image_preview_sub">Previsualitza qualsevol tipus d\'imatges: GIF, SVG, etc.</string>
     <string name="image_source">Font de la imatge</string>
@@ -3226,7 +3226,7 @@
     <string name="search_keywords_load_net_image">URL de descàrrega web imatge d\'enllaç a Internet</string>
     <string name="search_keywords_pick_color_from_image">selector comptagotes mostra hexadecimal color rgb</string>
     <string name="search_keywords_palette_tools">paleta de colors mostres extracte dominant</string>
-    <string name="search_keywords_delete_exif">privadesa de les metadades d\'exif eliminar la franja neta de la ubicació del GPS</string>
+    <string name="search_keywords_delete_exif">EXIF metadades privadesa elimina esborra neteja GPS ubicació substitueix aleatori simula perfil càmera</string>
     <string name="search_keywords_compare">compara la diferència de diferència abans després</string>
     <string name="search_keywords_limit_resize">límit canvia la mida màxima min megapíxels dimensions pinça</string>
     <string name="search_keywords_recognize_text">ocr text reconeix l\'extracte d\'exploració</string>
@@ -3967,6 +3967,7 @@
     <string name="exif_preset_location_only">Només ubicació</string>
     <string name="exif_preset_keep_date_copyright">Conserva les dates i els drets d\'autor</string>
     <string name="exif_tags_selected">%1$s • %2$d etiquetes</string>
+    <string name="exif_tag_count">%1$d etiquetes</string>
     <string name="duplicate_scan_mode">Mode d\'escaneig</string>
     <string name="duplicate_scan_exact_only">Només còpies exactes</string>
     <string name="duplicate_scan_exact_and_similar">Exactes i semblants</string>
@@ -9277,4 +9278,30 @@
     <string name="texture_cuneiform_impressions">Impressions de falca</string>
     <string name="texture_anechoic_wedges">Falques anecoiques</string>
     <string name="texture_quarter_turns">Quarts de volta</string>
+    <string name="replace_exif">Substitueix EXIF</string>
+    <string name="exif_camera_profile">Perfil de la càmera</string>
+    <string name="exif_profile_smartphone">Smartphone</string>
+    <string name="exif_profile_dslr">DSLR</string>
+    <string name="exif_profile_mirrorless">Sense mirall</string>
+    <string name="exif_profile_compact">Càmera compacta</string>
+    <string name="exif_profile_action_camera">Càmera d\'acció</string>
+    <string name="exif_profile_random_phone">Telèfon intel·ligent aleatori</string>
+    <string name="exif_profile_random_camera">Càmera aleatòria</string>
+    <string name="exif_random_gps">Prop de 0°, 0°</string>
+    <string name="exif_no_gps">Sense GPS</string>
+    <string name="exif_manual_gps">Coordenades</string>
+    <string name="exif_generation_settings">Configuració de generació</string>
+    <string name="exif_generated_tags">Vista prèvia EXIF</string>
+    <string name="exif_shuffle_tags">Genera valors nous</string>
+    <string name="exif_same_for_batch">Les mateixes etiquetes per a totes les imatges</string>
+    <string name="exif_random_date">Data aleatòria</string>
+    <string name="exif_lighting_daylight">Llum del dia</string>
+    <string name="exif_lighting_indoors">A l\'interior</string>
+    <string name="exif_manual_white_balance">Balanç de blancs manual</string>
+    <string name="exif_metering_multi_segment">Multisegment</string>
+    <string name="exif_metering_center_weighted">Ponderat al centre</string>
+    <string name="exif_metering_spot">Puntual</string>
+    <string name="exif_include_software">Inclou l\'etiqueta de programari</string>
+    <string name="exif_no_software">Sense etiqueta de programari</string>
+    <string name="edit_exif_template">Edita la plantilla EXIF</string>
 </resources>

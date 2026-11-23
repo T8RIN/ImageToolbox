@@ -172,7 +172,7 @@
     <string name="emoji_sub">Изаберите који емотикони ће бити приказани на главном екрану</string>
     <string name="add_file_size">Додајте величину датотеке</string>
     <string name="add_file_size_sub">Ако је омогућено, додаје ширину и висину сачуване слике имену излазне датотеке</string>
-    <string name="delete_exif_sub">Избришите ЕКСИФ метаподатке са било које пар слика</string>
+    <string name="delete_exif_sub">Уклоните или замените EXIF метаподатке у групи слика</string>
     <string name="image_preview_sub">Прегледајте било коју врсту слика: ГИФ, СВГ и тако даље</string>
     <string name="file_explorer_picker">Филе екплорер</string>
     <string name="photo_picker_sub">Андроид модерни бирач фотографија који се појављује на дну екрана, може да ради само на андроиду 12+ и такође има проблема са примањем ЕКСИФ метаподатака</string>
@@ -3201,7 +3201,7 @@
     <string name="search_keywords_load_net_image">урл веб слика за преузимање интернет везе</string>
     <string name="search_keywords_pick_color_from_image">пицкер узорак капаљке хек ргб боја</string>
     <string name="search_keywords_palette_tools">Палета боја узорци издвајају доминантне</string>
-    <string name="search_keywords_delete_exif">екиф метаподаци приватност уклонити стрип цлеан ГПС локацију</string>
+    <string name="search_keywords_delete_exif">EXIF метаподаци приватност уклони обриши очисти GPS локација замени насумично лажирај профил камере</string>
     <string name="search_keywords_compare">упореди разлику разлика пре после</string>
     <string name="search_keywords_limit_resize">лимит ресизе мак мин мегапиксели димензије стезаљка</string>
     <string name="search_keywords_pdf_tools">пдф алати за странице докумената</string>
@@ -3968,6 +3968,7 @@
     <string name="exif_preset_location_only">Само локација</string>
     <string name="exif_preset_keep_date_copyright">Чувајте датуме и ауторска права</string>
     <string name="exif_tags_selected">%1$s • %2$d ознаке</string>
+    <string name="exif_tag_count">%1$d ознака</string>
     <string name="duplicate_scan_mode">Режим скенирања</string>
     <string name="duplicate_scan_exact_only">Само тачне копије</string>
     <string name="duplicate_scan_exact_and_similar">Тачно и слично</string>
@@ -9278,4 +9279,30 @@
     <string name="texture_cuneiform_impressions">Утисци клина</string>
     <string name="texture_anechoic_wedges">Анехогени клинови</string>
     <string name="texture_quarter_turns">Четвртина окрета</string>
+    <string name="replace_exif">Замените EXIF</string>
+    <string name="exif_camera_profile">Профил камере</string>
+    <string name="exif_profile_smartphone">Паметни телефон</string>
+    <string name="exif_profile_dslr">DSLR</string>
+    <string name="exif_profile_mirrorless">Без огледала</string>
+    <string name="exif_profile_compact">Компактна камера</string>
+    <string name="exif_profile_action_camera">Акциона камера</string>
+    <string name="exif_profile_random_phone">Случајни телефон</string>
+    <string name="exif_profile_random_camera">Случајна камера</string>
+    <string name="exif_random_gps">Близу 0°, 0°</string>
+    <string name="exif_no_gps">Нема ГПС-а</string>
+    <string name="exif_manual_gps">Координате</string>
+    <string name="exif_generation_settings">Подешавања генерисања</string>
+    <string name="exif_generated_tags">EXIF преглед</string>
+    <string name="exif_shuffle_tags">Генеришите нове вредности</string>
+    <string name="exif_same_for_batch">Исте ознаке за све слике</string>
+    <string name="exif_random_date">Случајни датум</string>
+    <string name="exif_lighting_daylight">Дневно светло</string>
+    <string name="exif_lighting_indoors">У затвореном</string>
+    <string name="exif_manual_white_balance">Ручни баланс белог</string>
+    <string name="exif_metering_multi_segment">Вишесегментно</string>
+    <string name="exif_metering_center_weighted">Централно пондерисано</string>
+    <string name="exif_metering_spot">Тачкасто</string>
+    <string name="exif_include_software">Укључите софтверску ознаку</string>
+    <string name="exif_no_software">Нема софтверске ознаке</string>
+    <string name="edit_exif_template">Уредите EXIF шаблон</string>
 </resources>

@@ -542,7 +542,7 @@
     <string name="add_file_size">Дадайце памер файла</string>
     <string name="add_file_size_sub">Калі ўключана, дадае шырыню і вышыню захаванай выявы да назвы выходнага файла</string>
     <string name="delete_exif">Выдаліць EXIF</string>
-    <string name="delete_exif_sub">Выдаліць метададзеныя EXIF з любога набору малюнкаў</string>
+    <string name="delete_exif_sub">Выдаліць або замяніць метаданыя EXIF у групе малюнкаў</string>
     <string name="image_preview">Папярэдні прагляд выявы</string>
     <string name="image_preview_sub">Папярэдні прагляд малюнкаў любога тыпу: GIF, SVG і гэтак далей</string>
     <string name="image_source">Крыніца выявы</string>
@@ -3202,7 +3202,7 @@
     <string name="search_keywords_load_net_image">URL-адрас вэб-спасылкі для спампоўкі ў Інтэрнэце</string>
     <string name="search_keywords_pick_color_from_image">выбар піпеткі ўзор шаснаццатковага колеру rgb</string>
     <string name="search_keywords_palette_tools">палітра колераў узоры экстракт дамінанта</string>
-    <string name="search_keywords_delete_exif">exif metadata privacy выдаліць палоску ачысціць месцазнаходжанне GPS</string>
+    <string name="search_keywords_delete_exif">EXIF метаданыя прыватнасць выдаліць ачысціць GPS геалакацыя замяніць выпадковыя тэгі падмена профіль камеры</string>
     <string name="search_keywords_compare">параўнаць розніцу да пасля</string>
     <string name="search_keywords_limit_resize">ліміт змены памеру макс. мін. мегапікселяў памеры заціск</string>
     <string name="search_keywords_pdf_tools">Інструменты старонак дакументаў pdf</string>
@@ -3969,6 +3969,7 @@
     <string name="exif_preset_location_only">Толькі месцазнаходжанне</string>
     <string name="exif_preset_keep_date_copyright">Захоўвайце даты і аўтарскія правы</string>
     <string name="exif_tags_selected">%1$s • %2$d тэгаў</string>
+    <string name="exif_tag_count">%1$d тэга</string>
     <string name="duplicate_scan_mode">Рэжым сканавання</string>
     <string name="duplicate_scan_exact_only">Толькі дакладныя копіі</string>
     <string name="duplicate_scan_exact_and_similar">Дакладныя і падобныя</string>
@@ -9279,4 +9280,30 @@
     <string name="texture_cuneiform_impressions">Клін уражанні</string>
     <string name="texture_anechoic_wedges">Безэховые кліны</string>
     <string name="texture_quarter_turns">Чвэрць абаротаў</string>
+    <string name="replace_exif">Замяніць EXIF</string>
+    <string name="exif_camera_profile">Профіль камеры</string>
+    <string name="exif_profile_smartphone">Смартфон</string>
+    <string name="exif_profile_dslr">DSLR</string>
+    <string name="exif_profile_mirrorless">Безлюстраная камера</string>
+    <string name="exif_profile_compact">Кампактная камера</string>
+    <string name="exif_profile_action_camera">Экшн-камера</string>
+    <string name="exif_profile_random_phone">Выпадковы тэлефон</string>
+    <string name="exif_profile_random_camera">Выпадковая камера</string>
+    <string name="exif_random_gps">Каля 0°, 0°</string>
+    <string name="exif_no_gps">Няма GPS</string>
+    <string name="exif_manual_gps">Каардынаты</string>
+    <string name="exif_generation_settings">Налады генерацыі</string>
+    <string name="exif_generated_tags">Папярэдні прагляд EXIF</string>
+    <string name="exif_shuffle_tags">Стварыць новыя значэнні</string>
+    <string name="exif_same_for_batch">Аднолькавыя тэгі для ўсіх выяў</string>
+    <string name="exif_random_date">Выпадковая дата</string>
+    <string name="exif_lighting_daylight">Дзённае святло</string>
+    <string name="exif_lighting_indoors">У памяшканні</string>
+    <string name="exif_manual_white_balance">Ручной баланс белага</string>
+    <string name="exif_metering_multi_segment">Шматсегментны</string>
+    <string name="exif_metering_center_weighted">Цэнтраўзважаны</string>
+    <string name="exif_metering_spot">Кропкавы</string>
+    <string name="exif_include_software">Уключыць тэг праграмнага забеспячэння</string>
+    <string name="exif_no_software">Няма тэга праграмнага забеспячэння</string>
+    <string name="edit_exif_template">Рэдагаваць шаблон EXIF</string>
 </resources>

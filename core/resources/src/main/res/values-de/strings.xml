@@ -145,7 +145,7 @@
     <string name="add_file_size">Dateigröße hinzufügen</string>
     <string name="add_file_size_sub">Wenn aktiviert, werden Breite und Höhe des gespeicherten Bildes zum Namen der Ausgabedatei hinzugefügt</string>
     <string name="delete_exif">EXIF löschen</string>
-    <string name="delete_exif_sub">EXIF-Metadaten von einem beliebigen Bilderpaar löschen</string>
+    <string name="delete_exif_sub">Entfernen oder ersetzen Sie EXIF-Metadaten in einem Bilderstapel</string>
     <string name="image_preview">Bildvorschau</string>
     <string name="image_preview_sub">Sieh dir jegliches Bildformat an: GIF, SVG usw.</string>
     <string name="image_source">Bildquelle</string>
@@ -3200,7 +3200,7 @@
     <string name="search_keywords_load_net_image">URL-Web-Download-Internet-Link-Bild</string>
     <string name="search_keywords_pick_color_from_image">Picker Pipette Probe Hex RGB-Farbe</string>
     <string name="search_keywords_palette_tools">Farbfelder der Palette extrahieren dominant</string>
-    <string name="search_keywords_delete_exif">Exif-Metadaten-Datenschutz entfernen, GPS-Standort entfernen und bereinigen</string>
+    <string name="search_keywords_delete_exif">EXIF Metadaten Datenschutz entfernen löschen bereinigen GPS Standort ersetzen Zufall verfälschen Kameraprofil</string>
     <string name="search_keywords_compare">vergleiche diff differenz vorher nachher</string>
     <string name="search_keywords_limit_resize">Begrenzung der Größenänderung, max. min. Megapixel, Abmessungen, Klemme</string>
     <string name="search_keywords_pdf_tools">Tools für PDF-Dokumentseiten</string>
@@ -3967,6 +3967,7 @@
     <string name="exif_preset_location_only">Nur Standort</string>
     <string name="exif_preset_keep_date_copyright">Termine und Urheberrecht einhalten</string>
     <string name="exif_tags_selected">%1$s • %2$d Tags</string>
+    <string name="exif_tag_count">%1$d Tags</string>
     <string name="duplicate_scan_mode">Scanmodus</string>
     <string name="duplicate_scan_exact_only">Nur exakte Kopien</string>
     <string name="duplicate_scan_exact_and_similar">Genau und ähnlich</string>
@@ -9277,4 +9278,30 @@
     <string name="texture_cuneiform_impressions">Keilabdrücke</string>
     <string name="texture_anechoic_wedges">Echofreie Keile</string>
     <string name="texture_quarter_turns">Vierteldrehungen</string>
+    <string name="replace_exif">EXIF ersetzen</string>
+    <string name="exif_camera_profile">Kameraprofil</string>
+    <string name="exif_profile_smartphone">Smartphone</string>
+    <string name="exif_profile_dslr">DSLR</string>
+    <string name="exif_profile_mirrorless">Spiegellos</string>
+    <string name="exif_profile_compact">Kompaktkamera</string>
+    <string name="exif_profile_action_camera">Actionkamera</string>
+    <string name="exif_profile_random_phone">Zufälliges Telefon</string>
+    <string name="exif_profile_random_camera">Zufällige Kamera</string>
+    <string name="exif_random_gps">Nahe 0°, 0°</string>
+    <string name="exif_no_gps">Kein GPS</string>
+    <string name="exif_manual_gps">Koordinaten</string>
+    <string name="exif_generation_settings">Generierungseinstellungen</string>
+    <string name="exif_generated_tags">EXIF-Vorschau</string>
+    <string name="exif_shuffle_tags">Neue Werte erzeugen</string>
+    <string name="exif_same_for_batch">Gleiche Tags für alle Bilder</string>
+    <string name="exif_random_date">Zufälliges Datum</string>
+    <string name="exif_lighting_daylight">Tageslicht</string>
+    <string name="exif_lighting_indoors">Drinnen</string>
+    <string name="exif_manual_white_balance">Manueller Weißabgleich</string>
+    <string name="exif_metering_multi_segment">Mehrsegmentig</string>
+    <string name="exif_metering_center_weighted">Mittenbetont</string>
+    <string name="exif_metering_spot">Spot</string>
+    <string name="exif_include_software">Software-Tag einschließen</string>
+    <string name="exif_no_software">Kein Software-Tag</string>
+    <string name="edit_exif_template">EXIF-Vorlage bearbeiten</string>
 </resources>

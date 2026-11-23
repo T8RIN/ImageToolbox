@@ -171,7 +171,7 @@
     <string name="zoom_blur">ซูมเบลอ</string>
     <string name="luminance_threshold">เกณฑ์ความสว่าง</string>
     <string name="add_file_size_sub">หากเปิดใช้ ให้เพิ่มความกว้างและความสูงของภาพที่บันทึกไว้ในชื่อไฟล์ที่ส่งออก</string>
-    <string name="delete_exif_sub">ลบข้อมูลเมตา EXIF ออกจากภาพสองสามภาพ</string>
+    <string name="delete_exif_sub">ลบหรือแทนที่ข้อมูลเมตา EXIF ในชุดรูปภาพ</string>
     <string name="file_explorer_picker">ตัวสำรวจไฟล์</string>
     <string name="photo_picker_sub">เครื่องมือเลือกรูปภาพที่ทันสมัยของ Android ซึ่งปรากฏที่ด้านล่างของหน้าจอ อาจใช้งานได้กับ Android 12+ เท่านั้น และยังมีปัญหาเกี่ยวกับการรับข้อมูลเมตา EXIF</string>
     <string name="gallery_picker_sub">เครื่องมือเลือกรูปภาพในแกลเลอรีอย่างง่ายจะทำงานได้ก็ต่อเมื่อคุณมีแอปนั้น</string>
@@ -3199,7 +3199,7 @@
     <string name="search_keywords_load_net_image">url เว็บ ดาวน์โหลด ลิงค์อินเตอร์เน็ต รูปภาพ</string>
     <string name="search_keywords_pick_color_from_image">ตัวเลือก eyedropper ตัวอย่างสี hex rgb</string>
     <string name="search_keywords_palette_tools">จานสี swatches แยกส่วนที่โดดเด่น</string>
-    <string name="search_keywords_delete_exif">ความเป็นส่วนตัวของข้อมูลเมตา exif ลบแถบตำแหน่ง GPS ที่สะอาด</string>
+    <string name="search_keywords_delete_exif">EXIF ข้อมูลเมตา ความเป็นส่วนตัว ลบ ล้าง GPS ตำแหน่ง แทนที่ สุ่ม จำลอง โปรไฟล์กล้อง</string>
     <string name="search_keywords_compare">เปรียบเทียบความแตกต่างก่อนหลัง</string>
     <string name="search_keywords_limit_resize">จำกัดการปรับขนาดสูงสุดขั้นต่ำเมกะพิกเซลขนาดแคลมป์</string>
     <string name="search_keywords_pdf_tools">เครื่องมือหน้าเอกสาร PDF</string>
@@ -3966,6 +3966,7 @@
     <string name="exif_preset_location_only">สถานที่ตั้งเท่านั้น</string>
     <string name="exif_preset_keep_date_copyright">เก็บวันที่และลิขสิทธิ์ไว้</string>
     <string name="exif_tags_selected">%1$s • %2$d แท็ก</string>
+    <string name="exif_tag_count">%1$d แท็ก</string>
     <string name="duplicate_scan_mode">โหมดสแกน</string>
     <string name="duplicate_scan_exact_only">สำเนาถูกต้องเท่านั้น</string>
     <string name="duplicate_scan_exact_and_similar">ตรงและคล้ายกัน</string>
@@ -9276,4 +9277,30 @@
     <string name="texture_cuneiform_impressions">การแสดงผลลิ่ม</string>
     <string name="texture_anechoic_wedges">เวดจ์ไร้เสียงสะท้อน</string>
     <string name="texture_quarter_turns">เทิร์นควอเตอร์</string>
+    <string name="replace_exif">แทนที่ EXIF</string>
+    <string name="exif_camera_profile">โปรไฟล์กล้อง</string>
+    <string name="exif_profile_smartphone">สมาร์ทโฟน</string>
+    <string name="exif_profile_dslr">กล้อง DSLR</string>
+    <string name="exif_profile_mirrorless">มิเรอร์เลส</string>
+    <string name="exif_profile_compact">กล้องคอมแพ็ค</string>
+    <string name="exif_profile_action_camera">กล้องแอ็คชั่น</string>
+    <string name="exif_profile_random_phone">โทรศัพท์แบบสุ่ม</string>
+    <string name="exif_profile_random_camera">กล้องสุ่ม</string>
+    <string name="exif_random_gps">ใกล้ 0°, 0°</string>
+    <string name="exif_no_gps">ไม่มีจีพีเอส</string>
+    <string name="exif_manual_gps">พิกัด</string>
+    <string name="exif_generation_settings">การตั้งค่าการสร้าง</string>
+    <string name="exif_generated_tags">การแสดงตัวอย่าง EXIF</string>
+    <string name="exif_shuffle_tags">สร้างค่าใหม่</string>
+    <string name="exif_same_for_batch">แท็กเดียวกันสำหรับภาพทั้งหมด</string>
+    <string name="exif_random_date">วันที่สุ่ม</string>
+    <string name="exif_lighting_daylight">กลางวัน</string>
+    <string name="exif_lighting_indoors">ในร่ม</string>
+    <string name="exif_manual_white_balance">สมดุลสีขาวแบบแมนนวล</string>
+    <string name="exif_metering_multi_segment">หลายส่วน</string>
+    <string name="exif_metering_center_weighted">เน้นกลางภาพ</string>
+    <string name="exif_metering_spot">เฉพาะจุด</string>
+    <string name="exif_include_software">รวมแท็กซอฟต์แวร์</string>
+    <string name="exif_no_software">ไม่มีแท็กซอฟต์แวร์</string>
+    <string name="edit_exif_template">แก้ไขเทมเพลต EXIF</string>
 </resources>

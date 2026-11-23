@@ -244,7 +244,7 @@
     <string name="color_balance">Echilibrul culorilor</string>
     <string name="luminance_threshold">Pragul de luminanță</string>
     <string name="delete_exif">Ștergeți EXIF</string>
-    <string name="delete_exif_sub">Ștergeți metadatele EXIF din orice set de imagini</string>
+    <string name="delete_exif_sub">Eliminați sau înlocuiți metadatele EXIF dintr-un lot de imagini</string>
     <string name="image_source">Sursa imaginii</string>
     <string name="photo_picker">Selector de fotografii</string>
     <string name="gallery_picker">Galerie</string>
@@ -3212,7 +3212,7 @@
     <string name="search_keywords_load_net_image">url web descărcare imagine link internet</string>
     <string name="search_keywords_pick_color_from_image">picker eyedropper eșantion hex culoare rgb</string>
     <string name="search_keywords_palette_tools">paleta de culori eșantioane extras dominant</string>
-    <string name="search_keywords_delete_exif">confidențialitatea metadatelor exif eliminați banda curată locația gps</string>
+    <string name="search_keywords_delete_exif">EXIF metadate confidențialitate elimină șterge curăță GPS locație înlocuiește aleatoriu imită profil cameră</string>
     <string name="search_keywords_compare">comparați diferența înainte și după</string>
     <string name="search_keywords_limit_resize">limita redimensionare max min megapixeli dimensiuni clema</string>
     <string name="search_keywords_pdf_tools">instrumente pentru paginile documentului pdf</string>
@@ -3968,6 +3968,7 @@
     <string name="exif_preset_location_only">Doar locație</string>
     <string name="exif_preset_keep_date_copyright">Păstrați datele și drepturile de autor</string>
     <string name="exif_tags_selected">%1$s • %2$d etichete</string>
+    <string name="exif_tag_count">%1$d de etichete</string>
     <string name="duplicate_scan_mode">Modul de scanare</string>
     <string name="duplicate_scan_exact_only">Numai copii exacte</string>
     <string name="duplicate_scan_exact_and_similar">Exact și asemănător</string>
@@ -9278,4 +9279,30 @@
     <string name="texture_cuneiform_impressions">Amprente de pană</string>
     <string name="texture_anechoic_wedges">Pene anechoice</string>
     <string name="texture_quarter_turns">Sferturi de rotație</string>
+    <string name="replace_exif">Înlocuiește EXIF</string>
+    <string name="exif_camera_profile">Profilul camerei</string>
+    <string name="exif_profile_smartphone">Smartphone</string>
+    <string name="exif_profile_dslr">DSLR</string>
+    <string name="exif_profile_mirrorless">Fără oglindă</string>
+    <string name="exif_profile_compact">Aparat foto compact</string>
+    <string name="exif_profile_action_camera">Cameră de acțiune</string>
+    <string name="exif_profile_random_phone">Telefon aleatoriu</string>
+    <string name="exif_profile_random_camera">Cameră aleatoare</string>
+    <string name="exif_random_gps">Aproape de 0°, 0°</string>
+    <string name="exif_no_gps">Fără GPS</string>
+    <string name="exif_manual_gps">Coordonate</string>
+    <string name="exif_generation_settings">Setări de generare</string>
+    <string name="exif_generated_tags">Previzualizare EXIF</string>
+    <string name="exif_shuffle_tags">Generați noi valori</string>
+    <string name="exif_same_for_batch">Aceleași etichete pentru toate imaginile</string>
+    <string name="exif_random_date">Data aleatorie</string>
+    <string name="exif_lighting_daylight">Lumina zilei</string>
+    <string name="exif_lighting_indoors">În interior</string>
+    <string name="exif_manual_white_balance">Balans manual de alb</string>
+    <string name="exif_metering_multi_segment">Multi-segment</string>
+    <string name="exif_metering_center_weighted">Ponderată central</string>
+    <string name="exif_metering_spot">Punctuală</string>
+    <string name="exif_include_software">Includeți eticheta software</string>
+    <string name="exif_no_software">Fără etichetă software</string>
+    <string name="edit_exif_template">Editați șablonul EXIF</string>
 </resources>

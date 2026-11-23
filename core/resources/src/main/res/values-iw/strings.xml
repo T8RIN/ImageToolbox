@@ -183,7 +183,7 @@
     <string name="add_file_size_sub">אם מופעל מוסיף רוחב וגובה של התמונה השמורה לשם ה קובץ</string>
     <string name="emoji">אימוג\'י</string>
     <string name="emoji_sub">בחר איזה אמוג\'י יוצג במסך הראשי</string>
-    <string name="delete_exif_sub">מחק מטא נתונים של EXIF מכל סט תמונות</string>
+    <string name="delete_exif_sub">הסר או החלף מטא נתונים של EXIF בקבוצת תמונות</string>
     <string name="image_preview">תצוגה מקדימה של תמונה</string>
     <string name="image_preview_sub">תצוגה מקדימה של כל סוג של תמונות: GIF, SVG וכן הלאה</string>
     <string name="image_source">מקור תמונה</string>
@@ -3202,7 +3202,7 @@
     <string name="search_keywords_load_net_image">כתובת אתר להורדת קישור לאינטרנט</string>
     <string name="search_keywords_pick_color_from_image">בוחר טפטפת מדגם hex rgb צבע</string>
     <string name="search_keywords_palette_tools">פלטת צבעים דוגמיות לחלץ דומיננטי</string>
-    <string name="search_keywords_delete_exif">exif metadata פרטיות הסר פס נקי מיקום GPS</string>
+    <string name="search_keywords_delete_exif">EXIF מטא נתונים פרטיות הסרה מחיקה ניקוי GPS מיקום החלפה אקראי זיוף פרופיל מצלמה</string>
     <string name="search_keywords_compare">השווה הבדל הבדל לפני אחרי</string>
     <string name="search_keywords_limit_resize">הגבל שינוי גודל מקסימום דקות מגה פיקסל ממדים מהדק</string>
     <string name="search_keywords_pdf_tools">כלים לדפי מסמך pdf</string>
@@ -3969,6 +3969,7 @@
     <string name="exif_preset_location_only">מיקום בלבד</string>
     <string name="exif_preset_keep_date_copyright">שמור על תאריכים וזכויות יוצרים</string>
     <string name="exif_tags_selected">%1$s • %2$d תגים</string>
+    <string name="exif_tag_count">%1$d תגים</string>
     <string name="duplicate_scan_mode">מצב סריקה</string>
     <string name="duplicate_scan_exact_only">עותקים מדויקים בלבד</string>
     <string name="duplicate_scan_exact_and_similar">מדוייק ודומה</string>
@@ -9279,4 +9280,30 @@
     <string name="texture_cuneiform_impressions">טביעות טריז</string>
     <string name="texture_anechoic_wedges">טריזים אקוניים</string>
     <string name="texture_quarter_turns">רבע סיבובים</string>
+    <string name="replace_exif">החלף את ה-EXIF</string>
+    <string name="exif_camera_profile">פרופיל מצלמה</string>
+    <string name="exif_profile_smartphone">סמארטפון</string>
+    <string name="exif_profile_dslr">DSLR</string>
+    <string name="exif_profile_mirrorless">ללא מראה</string>
+    <string name="exif_profile_compact">מצלמה קומפקטית</string>
+    <string name="exif_profile_action_camera">מצלמת פעולה</string>
+    <string name="exif_profile_random_phone">טלפון אקראי</string>
+    <string name="exif_profile_random_camera">מצלמה אקראית</string>
+    <string name="exif_random_gps">ליד 0°, 0°</string>
+    <string name="exif_no_gps">אין GPS</string>
+    <string name="exif_manual_gps">קואורדינטות</string>
+    <string name="exif_generation_settings">הגדרות יצירה</string>
+    <string name="exif_generated_tags">תצוגה מקדימה של EXIF</string>
+    <string name="exif_shuffle_tags">צור ערכים חדשים</string>
+    <string name="exif_same_for_batch">אותם תגים לכל התמונות</string>
+    <string name="exif_random_date">תאריך אקראי</string>
+    <string name="exif_lighting_daylight">אור יום</string>
+    <string name="exif_lighting_indoors">בתוך מבנה</string>
+    <string name="exif_manual_white_balance">איזון לבן ידני</string>
+    <string name="exif_metering_multi_segment">רב-אזורית</string>
+    <string name="exif_metering_center_weighted">משוקללת למרכז</string>
+    <string name="exif_metering_spot">נקודתית</string>
+    <string name="exif_include_software">כלול תג תוכנה</string>
+    <string name="exif_no_software">אין תג תוכנה</string>
+    <string name="edit_exif_template">ערוך תבנית EXIF</string>
 </resources>

@@ -146,7 +146,7 @@
     <string name="add_file_size">Lisää tiedosto koko</string>
     <string name="add_file_size_sub">Jos käytössä, lisää leveyden ja pituuden tallennettuihin kuviin tulostiedoston nimeen</string>
     <string name="delete_exif">Poista EXIF</string>
-    <string name="delete_exif_sub">Poistaa EXIF metatiedot mistä vain kuvasetistä</string>
+    <string name="delete_exif_sub">Poista tai korvaa EXIF-metatiedot kuvaerästä</string>
     <string name="image_preview">Kuvan esikatselu</string>
     <string name="image_preview_sub">Esikatsele minkä vain tyyppisiä kuvia: GIF, SVG, ja niin edelleen</string>
     <string name="image_source">Kuvan lähde</string>
@@ -3200,7 +3200,7 @@
     <string name="search_keywords_load_net_image">url web lataa Internet-linkin kuva</string>
     <string name="search_keywords_pick_color_from_image">picker pipetti näyte hex rgb väri</string>
     <string name="search_keywords_palette_tools">paletin värit väritilkut ote hallitseva</string>
-    <string name="search_keywords_delete_exif">exif-metatietojen yksityisyys poista nauha puhtaasta gps-sijainnista</string>
+    <string name="search_keywords_delete_exif">EXIF metatiedot yksityisyys poista tyhjennä puhdista GPS sijainti korvaa satunnaista väärennä kameraprofiili</string>
     <string name="search_keywords_compare">vertaa eroa ennen jälkeen</string>
     <string name="search_keywords_limit_resize">rajoittaa kokoa max min megapikseliä mitat kiinnike</string>
     <string name="search_keywords_pdf_tools">pdf-dokumenttisivujen työkalut</string>
@@ -3967,6 +3967,7 @@
     <string name="exif_preset_location_only">Vain sijainti</string>
     <string name="exif_preset_keep_date_copyright">Pidä päivämäärät ja tekijänoikeudet</string>
     <string name="exif_tags_selected">%1$s • %2$d -tunnisteet</string>
+    <string name="exif_tag_count">%1$d tunnistetta</string>
     <string name="duplicate_scan_mode">Skannaustila</string>
     <string name="duplicate_scan_exact_only">Vain tarkat kopiot</string>
     <string name="duplicate_scan_exact_and_similar">Tarkkaa ja vastaavaa</string>
@@ -9277,4 +9278,30 @@
     <string name="texture_cuneiform_impressions">Kiilajäljennöksiä</string>
     <string name="texture_anechoic_wedges">Kaiuttomat kiilat</string>
     <string name="texture_quarter_turns">Neljännesvuorot</string>
+    <string name="replace_exif">Vaihda EXIF</string>
+    <string name="exif_camera_profile">Kameran profiili</string>
+    <string name="exif_profile_smartphone">Älypuhelin</string>
+    <string name="exif_profile_dslr">DSLR</string>
+    <string name="exif_profile_mirrorless">Peilitön</string>
+    <string name="exif_profile_compact">Kompakti kamera</string>
+    <string name="exif_profile_action_camera">Toimintakamera</string>
+    <string name="exif_profile_random_phone">Satunnainen puhelin</string>
+    <string name="exif_profile_random_camera">Satunnainen kamera</string>
+    <string name="exif_random_gps">Lähellä 0°, 0°</string>
+    <string name="exif_no_gps">Ei GPS:ää</string>
+    <string name="exif_manual_gps">Koordinaatit</string>
+    <string name="exif_generation_settings">Luontiasetukset</string>
+    <string name="exif_generated_tags">EXIF-esikatselu</string>
+    <string name="exif_shuffle_tags">Luo uusia arvoja</string>
+    <string name="exif_same_for_batch">Samat tunnisteet kaikille kuville</string>
+    <string name="exif_random_date">Satunnainen päivämäärä</string>
+    <string name="exif_lighting_daylight">Päivänvalo</string>
+    <string name="exif_lighting_indoors">Sisällä</string>
+    <string name="exif_manual_white_balance">Manuaalinen valkotasapaino</string>
+    <string name="exif_metering_multi_segment">Monialue</string>
+    <string name="exif_metering_center_weighted">Keskipainotettu</string>
+    <string name="exif_metering_spot">Piste</string>
+    <string name="exif_include_software">Sisällytä ohjelmistotunniste</string>
+    <string name="exif_no_software">Ei ohjelmistotunnistetta</string>
+    <string name="edit_exif_template">Muokkaa EXIF-mallia</string>
 </resources>

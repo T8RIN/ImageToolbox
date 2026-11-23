@@ -145,7 +145,7 @@
     <string name="add_file_size">ファイルサイズを追加</string>
     <string name="add_file_size_sub">有効にすると、出力ファイルの名前に保存済み画像の幅と高さが追加されます</string>
     <string name="delete_exif">EXIFを削除</string>
-    <string name="delete_exif_sub">任意の画像セットからEXIFメタデータを削除</string>
+    <string name="delete_exif_sub">複数の画像のEXIFメタデータを削除または置換</string>
     <string name="image_preview">画像プレビュー</string>
     <string name="image_preview_sub">GIF、SVGなど、あらゆるタイプの画像をプレビュー</string>
     <string name="photo_picker_sub">画面下部に表示されるAndroidのモダンなフォトピッカーで、Android 12以上でのみ動作する可能性があります。EXIFメタデータの取得に問題がある場合があります</string>
@@ -3199,7 +3199,7 @@
     <string name="search_keywords_load_net_image">URL Web ダウンロード インターネット リンク 画像</string>
     <string name="search_keywords_pick_color_from_image">ピッカー スポイト サンプル 16 進数 RGB カラー</string>
     <string name="search_keywords_palette_tools">パレットの色見本抽出優勢</string>
-    <string name="search_keywords_delete_exif">exif メタデータ プライバシー 削除 ストリップ クリーン GPS 位置情報</string>
+    <string name="search_keywords_delete_exif">EXIF メタデータ プライバシー 削除 消去 GPS 位置情報 置換 ランダム化 偽装 カメラ プロファイル</string>
     <string name="search_keywords_compare">前後の差分の差を比較する</string>
     <string name="search_keywords_limit_resize">サイズ変更の制限 最大最小メガピクセル 寸法 クランプ</string>
     <string name="search_keywords_pdf_tools">PDFドキュメントページツール</string>
@@ -3395,7 +3395,7 @@
     <string name="texture_vertical_threads">縦糸</string>
     <string name="texture_fuzz">ファズ</string>
     <string name="texture_veins">静脈</string>
-    <string name="texture_lighting">点灯</string>
+    <string name="texture_lighting">照明</string>
     <string name="texture_crack_width">亀裂の幅</string>
     <string name="texture_frost">霜</string>
     <string name="texture_flow">流れ</string>
@@ -3966,6 +3966,7 @@
     <string name="exif_preset_location_only">場所のみ</string>
     <string name="exif_preset_keep_date_copyright">日付と著作権を保持する</string>
     <string name="exif_tags_selected">%1$s • %2$d タグ</string>
+    <string name="exif_tag_count">%1$d タグ</string>
     <string name="duplicate_scan_mode">スキャンモード</string>
     <string name="duplicate_scan_exact_only">正確なコピーのみ</string>
     <string name="duplicate_scan_exact_and_similar">全く同じもの</string>
@@ -9276,4 +9277,30 @@
     <string name="texture_param_scute_convexity">鋭角凸面</string>
     <string name="texture_param_cell_border">セルの境界線</string>
     <string name="texture_param_light_angle">光の角度</string>
+    <string name="replace_exif">EXIFを置き換える</string>
+    <string name="exif_camera_profile">カメラプロファイル</string>
+    <string name="exif_profile_smartphone">スマートフォン</string>
+    <string name="exif_profile_dslr">デジタル一眼レフカメラ</string>
+    <string name="exif_profile_mirrorless">ミラーレス</string>
+    <string name="exif_profile_compact">コンパクトカメラ</string>
+    <string name="exif_profile_action_camera">アクションカメラ</string>
+    <string name="exif_profile_random_phone">ランダムなスマートフォン</string>
+    <string name="exif_profile_random_camera">ランダムなカメラ</string>
+    <string name="exif_random_gps">緯度0°・経度0°付近</string>
+    <string name="exif_no_gps">GPSなし</string>
+    <string name="exif_manual_gps">座標</string>
+    <string name="exif_generation_settings">生成設定</string>
+    <string name="exif_generated_tags">EXIFプレビュー</string>
+    <string name="exif_shuffle_tags">新しい値を生成</string>
+    <string name="exif_same_for_batch">すべての画像に同じタグ</string>
+    <string name="exif_random_date">ランダムな日付</string>
+    <string name="exif_lighting_daylight">昼光</string>
+    <string name="exif_lighting_indoors">屋内</string>
+    <string name="exif_manual_white_balance">マニュアルホワイトバランス</string>
+    <string name="exif_metering_multi_segment">マルチセグメント</string>
+    <string name="exif_metering_center_weighted">中央重点</string>
+    <string name="exif_metering_spot">スポット</string>
+    <string name="exif_include_software">ソフトウェアタグを含める</string>
+    <string name="exif_no_software">ソフトウェアタグなし</string>
+    <string name="edit_exif_template">EXIFテンプレートを編集する</string>
 </resources>

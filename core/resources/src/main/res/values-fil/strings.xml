@@ -145,7 +145,7 @@
     <string name="add_file_size">Ilagay ang laki ng file</string>
     <string name="add_file_size_sub">Kung nakabukas, ilalagay sa pangalan ng output file ang lapad at taas ng na-save na larawan</string>
     <string name="delete_exif">Magtanggal ng EXIF</string>
-    <string name="delete_exif_sub">Magtanggal ng EXIF metadata sa anumang pares ng larawan</string>
+    <string name="delete_exif_sub">Alisin o palitan ang EXIF metadata sa isang batch ng mga larawan</string>
     <string name="image_preview">Pasilip sa larawan</string>
     <string name="image_preview_sub">I-preview ang anumang uri ng mga larawana: GIF, SVG, at iba pa</string>
     <string name="image_source">Pinagmulan ng larawan</string>
@@ -2153,7 +2153,7 @@
     <string name="remove_pages_pdf">Alisin ang mga pahinang PDF</string>
     <string name="remove_pages_pdf_sub">Alisin ang mga partikular na pahina mula sa dokumentong PDF</string>
     <string name="tap_to_remove">I-tap ang Upang Alisin</string>
-    <string name="manually">Manu-manong</string>
+    <string name="manually">Manu-mano</string>
     <string name="crop_pdf">I-crop ang PDF</string>
     <string name="crop_pdf_sub">I-crop ang mga pahina ng dokumento sa anumang mga hangganan</string>
     <string name="flatten_pdf">I-flatte ang PDF</string>
@@ -3200,7 +3200,7 @@
     <string name="search_keywords_load_net_image">url web download larawan ng link sa internet</string>
     <string name="search_keywords_pick_color_from_image">picker eyedropper sample hex rgb color</string>
     <string name="search_keywords_palette_tools">Mga kulay ng palette swatch extract nangingibabaw</string>
-    <string name="search_keywords_delete_exif">exif metadata privacy alisin ang strip malinis na lokasyon ng gps</string>
+    <string name="search_keywords_delete_exif">EXIF metadata privacy alisin tanggalin linisin GPS lokasyon palitan random gayahin profile ng camera</string>
     <string name="search_keywords_compare">ihambing ang pagkakaiba ng pagkakaiba bago pagkatapos</string>
     <string name="search_keywords_limit_resize">limitahan ang resize max min megapixels dimensyon clamp</string>
     <string name="search_keywords_pdf_tools">Mga tool sa pahina ng dokumento ng pdf</string>
@@ -3967,6 +3967,7 @@
     <string name="exif_preset_location_only">Lokasyon lang</string>
     <string name="exif_preset_keep_date_copyright">Panatilihin ang mga petsa at copyright</string>
     <string name="exif_tags_selected">%1$s • %2$d tag</string>
+    <string name="exif_tag_count">%1$d tag</string>
     <string name="duplicate_scan_mode">Scan mode</string>
     <string name="duplicate_scan_exact_only">Mga eksaktong kopya lamang</string>
     <string name="duplicate_scan_exact_and_similar">Eksaktong at katulad</string>
@@ -9277,4 +9278,30 @@
     <string name="texture_cuneiform_impressions">Mga impression ng wedge</string>
     <string name="texture_anechoic_wedges">Anechoic wedges</string>
     <string name="texture_quarter_turns">Pagliko ng quarter</string>
+    <string name="replace_exif">Palitan ang EXIF</string>
+    <string name="exif_camera_profile">Profile ng camera</string>
+    <string name="exif_profile_smartphone">Smartphone</string>
+    <string name="exif_profile_dslr">DSLR</string>
+    <string name="exif_profile_mirrorless">Mirrorless</string>
+    <string name="exif_profile_compact">Compact na camera</string>
+    <string name="exif_profile_action_camera">Action camera</string>
+    <string name="exif_profile_random_phone">Random na smartphone</string>
+    <string name="exif_profile_random_camera">Random na camera</string>
+    <string name="exif_random_gps">Malapit sa 0°, 0°</string>
+    <string name="exif_no_gps">Walang GPS</string>
+    <string name="exif_manual_gps">Mga coordinate</string>
+    <string name="exif_generation_settings">Mga setting sa pagbuo</string>
+    <string name="exif_generated_tags">Preview ng EXIF</string>
+    <string name="exif_shuffle_tags">Bumuo ng mga bagong halaga</string>
+    <string name="exif_same_for_batch">Parehong mga tag para sa lahat ng mga larawan</string>
+    <string name="exif_random_date">Random na petsa</string>
+    <string name="exif_lighting_daylight">Liwanag ng araw</string>
+    <string name="exif_lighting_indoors">Sa loob ng bahay</string>
+    <string name="exif_manual_white_balance">Manu-manong white balance</string>
+    <string name="exif_metering_multi_segment">Multi-segment</string>
+    <string name="exif_metering_center_weighted">Center-weighted</string>
+    <string name="exif_metering_spot">Spot</string>
+    <string name="exif_include_software">Isama ang software tag</string>
+    <string name="exif_no_software">Walang software tag</string>
+    <string name="edit_exif_template">I-edit ang EXIF template</string>
 </resources>

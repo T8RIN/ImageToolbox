@@ -146,7 +146,7 @@
     <string name="add_file_size">Thêm kích thước tập tin</string>
     <string name="add_file_size_sub">Nếu được bật, sẽ thêm chiều rộng và chiều cao của hình ảnh đã lưu vào tên tệp đầu ra</string>
     <string name="delete_exif">Xóa EXIF</string>
-    <string name="delete_exif_sub">Xóa siêu dữ liệu EXIF khỏi bất kỳ bộ hình ảnh nào</string>
+    <string name="delete_exif_sub">Xóa hoặc thay thế siêu dữ liệu EXIF trong một loạt hình ảnh</string>
     <string name="image_preview">Xem trước hình ảnh</string>
     <string name="image_preview_sub">Xem trước mọi loại hình ảnh: GIF, SVG, v.v.</string>
     <string name="image_source">Nguồn hình ảnh</string>
@@ -3201,7 +3201,7 @@
     <string name="search_keywords_load_net_image">url web tải xuống liên kết internet hình ảnh</string>
     <string name="search_keywords_pick_color_from_image">picker eyedropper mẫu màu hex rgb</string>
     <string name="search_keywords_palette_tools">bảng màu mẫu trích xuất chiếm ưu thế</string>
-    <string name="search_keywords_delete_exif">Quyền riêng tư của siêu dữ liệu Exif xóa dải vị trí gps sạch</string>
+    <string name="search_keywords_delete_exif">EXIF siêu dữ liệu quyền riêng tư xóa dọn sạch GPS vị trí thay thế ngẫu nhiên giả lập hồ sơ máy ảnh</string>
     <string name="search_keywords_compare">so sánh sự khác biệt trước sau</string>
     <string name="search_keywords_limit_resize">giới hạn thay đổi kích thước tối thiểu megapixel kích thước kẹp</string>
     <string name="search_keywords_pdf_tools">công cụ tạo trang tài liệu pdf</string>
@@ -3966,6 +3966,7 @@
     <string name="exif_preset_location_only">Chỉ vị trí</string>
     <string name="exif_preset_keep_date_copyright">Giữ ngày tháng và bản quyền</string>
     <string name="exif_tags_selected">%1$s • %2$d thẻ</string>
+    <string name="exif_tag_count">%1$d thẻ</string>
     <string name="duplicate_scan_mode">Chế độ quét</string>
     <string name="duplicate_scan_exact_only">Chỉ bản sao chính xác</string>
     <string name="duplicate_scan_exact_and_similar">Chính xác và tương tự</string>
@@ -9276,4 +9277,30 @@
     <string name="texture_cuneiform_impressions">Số lần hiển thị nêm</string>
     <string name="texture_anechoic_wedges">Nêm không phản xạ</string>
     <string name="texture_quarter_turns">lượt quý</string>
+    <string name="replace_exif">Thay thế EXIF</string>
+    <string name="exif_camera_profile">Hồ sơ máy ảnh</string>
+    <string name="exif_profile_smartphone">Điện thoại thông minh</string>
+    <string name="exif_profile_dslr">máy ảnh DSLR</string>
+    <string name="exif_profile_mirrorless">Không gương lật</string>
+    <string name="exif_profile_compact">Máy ảnh nhỏ gọn</string>
+    <string name="exif_profile_action_camera">Camera hành động</string>
+    <string name="exif_profile_random_phone">Điện thoại ngẫu nhiên</string>
+    <string name="exif_profile_random_camera">Máy ảnh ngẫu nhiên</string>
+    <string name="exif_random_gps">Gần 0°, 0°</string>
+    <string name="exif_no_gps">Không có GPS</string>
+    <string name="exif_manual_gps">Tọa độ</string>
+    <string name="exif_generation_settings">Cài đặt tạo EXIF</string>
+    <string name="exif_generated_tags">Xem trước EXIF</string>
+    <string name="exif_shuffle_tags">Tạo giá trị mới</string>
+    <string name="exif_same_for_batch">Cùng bộ thẻ cho mọi ảnh</string>
+    <string name="exif_random_date">Ngày ngẫu nhiên</string>
+    <string name="exif_lighting_daylight">Ánh sáng ban ngày</string>
+    <string name="exif_lighting_indoors">Trong nhà</string>
+    <string name="exif_manual_white_balance">Cân bằng trắng thủ công</string>
+    <string name="exif_metering_multi_segment">Đa vùng</string>
+    <string name="exif_metering_center_weighted">Ưu tiên trung tâm</string>
+    <string name="exif_metering_spot">Đo điểm</string>
+    <string name="exif_include_software">Bao gồm thẻ phần mềm</string>
+    <string name="exif_no_software">Không có thẻ phần mềm</string>
+    <string name="edit_exif_template">Chỉnh sửa mẫu EXIF</string>
 </resources>

@@ -90,7 +90,7 @@
     <string name="zoom">Beeldzoom</string>
     <string name="add_file_size_sub">Indien ingeschakeld, worden breedte en hoogte van de opgeslagen afbeelding toegevoegd aan de naam van het uitvoerbestand</string>
     <string name="delete_exif">EXIF verwijderen</string>
-    <string name="delete_exif_sub">EXIF-metagegevens verwijderen van alle afbeeldingen</string>
+    <string name="delete_exif_sub">Verwijder of vervang EXIF-metagegevens in een batch afbeeldingen</string>
     <string name="image_preview">Afbeeldingsvoorbeeld</string>
     <string name="image_preview_sub">Bekijk een voorbeeld van elk type afbeelding: GIF, SVG, enzovoort</string>
     <string name="image_source">Afbeeldingsbron</string>
@@ -3200,7 +3200,7 @@
     <string name="search_keywords_load_net_image">URL webdownload internetlink afbeelding</string>
     <string name="search_keywords_pick_color_from_image">picker pipet monster hex rgb kleur</string>
     <string name="search_keywords_palette_tools">paletkleurenstalen extraheren dominant</string>
-    <string name="search_keywords_delete_exif">exif metadata privacy verwijder strip schone gps-locatie</string>
+    <string name="search_keywords_delete_exif">EXIF metadata privacy verwijderen wissen opschonen GPS locatie vervangen willekeurig nabootsen cameraprofiel</string>
     <string name="search_keywords_compare">vergelijk diff verschil voor na</string>
     <string name="search_keywords_limit_resize">limiet formaat wijzigen max. min. megapixels afmetingen klem</string>
     <string name="search_keywords_pdf_tools">Hulpmiddelen voor pdf-documentpagina\'s</string>
@@ -3967,6 +3967,7 @@
     <string name="exif_preset_location_only">Alleen locatie</string>
     <string name="exif_preset_keep_date_copyright">Houd data en copyright bij</string>
     <string name="exif_tags_selected">%1$s • %2$d tags</string>
+    <string name="exif_tag_count">%1$d tags</string>
     <string name="duplicate_scan_mode">Scanmodus</string>
     <string name="duplicate_scan_exact_only">Alleen exacte kopieën</string>
     <string name="duplicate_scan_exact_and_similar">Exact en vergelijkbaar</string>
@@ -9277,4 +9278,30 @@
     <string name="texture_cuneiform_impressions">Wig-indrukken</string>
     <string name="texture_anechoic_wedges">Echovrije wiggen</string>
     <string name="texture_quarter_turns">Kwartslag</string>
+    <string name="replace_exif">Vervang EXIF</string>
+    <string name="exif_camera_profile">Cameraprofiel</string>
+    <string name="exif_profile_smartphone">Smartphone</string>
+    <string name="exif_profile_dslr">DSLR</string>
+    <string name="exif_profile_mirrorless">Spiegelloos</string>
+    <string name="exif_profile_compact">Compactcamera</string>
+    <string name="exif_profile_action_camera">Actiecamera</string>
+    <string name="exif_profile_random_phone">Willekeurige telefoon</string>
+    <string name="exif_profile_random_camera">Willekeurige camera</string>
+    <string name="exif_random_gps">Dichtbij 0°, 0°</string>
+    <string name="exif_no_gps">Geen GPS</string>
+    <string name="exif_manual_gps">Coördinaten</string>
+    <string name="exif_generation_settings">Generatie-instellingen</string>
+    <string name="exif_generated_tags">EXIF-voorbeeld</string>
+    <string name="exif_shuffle_tags">Genereer nieuwe waarden</string>
+    <string name="exif_same_for_batch">Dezelfde tags voor alle afbeeldingen</string>
+    <string name="exif_random_date">Willekeurige datum</string>
+    <string name="exif_lighting_daylight">Daglicht</string>
+    <string name="exif_lighting_indoors">Binnenshuis</string>
+    <string name="exif_manual_white_balance">Handmatige witbalans</string>
+    <string name="exif_metering_multi_segment">Meerdere segmenten</string>
+    <string name="exif_metering_center_weighted">Centrumgewogen</string>
+    <string name="exif_metering_spot">Spot</string>
+    <string name="exif_include_software">Inclusief softwaretag</string>
+    <string name="exif_no_software">Geen softwaretag</string>
+    <string name="edit_exif_template">EXIF-sjabloon bewerken</string>
 </resources>

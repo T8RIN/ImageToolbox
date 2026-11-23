@@ -119,6 +119,9 @@
 -keep class com.t8rin.imagetoolbox.feature.code_preview.presentation.model.CodePreviewStyle { *; }
 -keep class com.t8rin.imagetoolbox.feature.code_preview.presentation.model.CodePreviewStyles { *; }
 
+# Moshi reflects saved EXIF templates.
+-keep class com.t8rin.imagetoolbox.feature.delete_exif.presentation.screenLogic.ExifTemplates { *; }
+
 # Moshi reflects polymorphic settings and default markup text styles.
 -keep class com.t8rin.imagetoolbox.core.settings.domain.model.ShapeType { *; }
 -keep class com.t8rin.imagetoolbox.core.settings.domain.model.ShapeType$* { *; }

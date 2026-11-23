@@ -173,7 +173,7 @@
     <string name="add_file_size">கோப்பு அளவைச் சேர்க்கவும்</string>
     <string name="add_file_size_sub">இயக்கப்பட்டால், சேமித்த படத்தின் அகலத்தையும் உயரத்தையும் வெளியீட்டு கோப்பின் பெயரில் சேர்க்கும்</string>
     <string name="delete_exif">EXIF ஐ நீக்கு</string>
-    <string name="delete_exif_sub">எந்தவொரு படத்தொகுப்பிலிருந்தும் EXIF மெட்டாடேட்டாவை நீக்கவும்</string>
+    <string name="delete_exif_sub">படங்களின் தொகுப்பில் EXIF மெட்டாடேட்டாவை அகற்றவும் அல்லது மாற்றவும்</string>
     <string name="image_preview">பட முன்னோட்டம்</string>
     <string name="image_preview_sub">எந்த வகையான படங்களையும் முன்னோட்டமிடவும்: GIF, SVG மற்றும் பல</string>
     <string name="image_source">படத்தின் ஆதாரம்</string>
@@ -3221,7 +3221,7 @@
     <string name="search_keywords_load_net_image">url இணைய பதிவிறக்க இணைய இணைப்பு படம்</string>
     <string name="search_keywords_pick_color_from_image">பிக்கர் ஐட்ராப்பர் மாதிரி ஹெக்ஸ் ஆர்ஜிபி நிறம்</string>
     <string name="search_keywords_palette_tools">தட்டு நிறங்கள் swatches சாறு ஆதிக்கம்</string>
-    <string name="search_keywords_delete_exif">exif மெட்டாடேட்டா தனியுரிமை துண்டு சுத்தமான ஜிபிஎஸ் இருப்பிடத்தை நீக்குகிறது</string>
+    <string name="search_keywords_delete_exif">EXIF மெட்டாடேட்டா தனியுரிமை நீக்கு அழி சுத்தம் GPS இருப்பிடம் மாற்று சீரற்ற போலி கேமரா சுயவிவரம்</string>
     <string name="search_keywords_compare">பின் வேறுபாட்டை ஒப்பிடு</string>
     <string name="search_keywords_limit_resize">வரம்பு மறுஅளவிடுதல் அதிகபட்சம் நிமிடம் மெகாபிக்சல்கள் பரிமாணங்கள் கிளாம்ப்</string>
     <string name="search_keywords_recognize_text">ocr உரை அங்கீகரிக்கப்பட்ட சாறு ஸ்கேன்</string>
@@ -3967,6 +3967,7 @@
     <string name="exif_preset_location_only">இடம் மட்டும்</string>
     <string name="exif_preset_keep_date_copyright">தேதிகள் மற்றும் பதிப்புரிமை வைத்திருங்கள்</string>
     <string name="exif_tags_selected">%1$s • %2$d குறிச்சொற்கள்</string>
+    <string name="exif_tag_count">%1$d குறிச்சொற்கள்</string>
     <string name="duplicate_scan_mode">ஸ்கேன் பயன்முறை</string>
     <string name="duplicate_scan_exact_only">சரியான பிரதிகள் மட்டுமே</string>
     <string name="duplicate_scan_exact_and_similar">துல்லியமான மற்றும் ஒத்த</string>
@@ -9277,4 +9278,30 @@
     <string name="texture_cuneiform_impressions">ஆப்பு பதிவுகள்</string>
     <string name="texture_anechoic_wedges">அனெகோயிக் குடைமிளகாய்</string>
     <string name="texture_quarter_turns">காலாண்டு திருப்பங்கள்</string>
+    <string name="replace_exif">EXIF ஐ மாற்றவும்</string>
+    <string name="exif_camera_profile">கேமரா சுயவிவரம்</string>
+    <string name="exif_profile_smartphone">ஸ்மார்ட்போன்</string>
+    <string name="exif_profile_dslr">டி.எஸ்.எல்.ஆர்</string>
+    <string name="exif_profile_mirrorless">கண்ணாடியற்றது</string>
+    <string name="exif_profile_compact">சிறிய கேமரா</string>
+    <string name="exif_profile_action_camera">அதிரடி கேமரா</string>
+    <string name="exif_profile_random_phone">சீரற்ற தொலைபேசி</string>
+    <string name="exif_profile_random_camera">சீரற்ற கேமரா</string>
+    <string name="exif_random_gps">0°, 0°க்கு அருகில்</string>
+    <string name="exif_no_gps">ஜிபிஎஸ் இல்லை</string>
+    <string name="exif_manual_gps">ஒருங்கிணைப்புகள்</string>
+    <string name="exif_generation_settings">உருவாக்க அமைப்புகள்</string>
+    <string name="exif_generated_tags">EXIF முன்னோட்டம்</string>
+    <string name="exif_shuffle_tags">புதிய மதிப்புகளை உருவாக்குங்கள்</string>
+    <string name="exif_same_for_batch">எல்லா படங்களுக்கும் ஒரே குறிச்சொற்கள்</string>
+    <string name="exif_random_date">சீரற்ற தேதி</string>
+    <string name="exif_lighting_daylight">பகல் வெளிச்சம்</string>
+    <string name="exif_lighting_indoors">உட்புறம்</string>
+    <string name="exif_manual_white_balance">கைமுறை வெள்ளைச் சமநிலை</string>
+    <string name="exif_metering_multi_segment">பல பிரிவு</string>
+    <string name="exif_metering_center_weighted">மைய எடையுடையது</string>
+    <string name="exif_metering_spot">ஸ்பாட்</string>
+    <string name="exif_include_software">மென்பொருள் குறிச்சொல்லைச் சேர்க்கவும்</string>
+    <string name="exif_no_software">மென்பொருள் குறிச்சொல் இல்லை</string>
+    <string name="edit_exif_template">EXIF டெம்ப்ளேட்டைத் திருத்தவும்</string>
 </resources>

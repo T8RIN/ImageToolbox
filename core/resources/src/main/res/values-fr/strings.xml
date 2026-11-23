@@ -145,7 +145,7 @@
     <string name="add_file_size">Ajouter la taille du fichier</string>
     <string name="add_file_size_sub">Si activé, ajoute la largeur et la hauteur de l\'image enregistrée au nom du fichier de sortie</string>
     <string name="delete_exif">Supprimer EXIF</string>
-    <string name="delete_exif_sub">Supprimer les métadonnées EXIF de tout ensemble d\'images</string>
+    <string name="delete_exif_sub">Supprimer ou remplacer les métadonnées EXIF dans un lot d\'images</string>
     <string name="image_preview">Aperçu de l\'Image</string>
     <string name="image_preview_sub">Aperçu de tout type d’images : GIF, SVG, et ainsi de suite</string>
     <string name="photo_picker_sub">Sélecteur moderne de photos Android apparaissant en bas de l\'écran, ne fonctionne que sur Android 12+.A des problèmes de réception des métadonnées EXIF</string>
@@ -3200,7 +3200,7 @@
     <string name="search_keywords_load_net_image">url web télécharger internet lien image</string>
     <string name="search_keywords_pick_color_from_image">sélecteur pipette échantillon hex rgb couleur</string>
     <string name="search_keywords_palette_tools">palette couleurs échantillons extraire dominante</string>
-    <string name="search_keywords_delete_exif">confidentialité des métadonnées exif supprimer la suppression de l\'emplacement GPS propre</string>
+    <string name="search_keywords_delete_exif">EXIF métadonnées confidentialité supprimer effacer nettoyer GPS localisation remplacer aléatoire simuler profil appareil photo</string>
     <string name="search_keywords_compare">comparer la différence avant après</string>
     <string name="search_keywords_limit_resize">limite redimensionner max min mégapixels dimensions pince</string>
     <string name="search_keywords_pdf_tools">outils de pages de documents pdf</string>
@@ -3967,6 +3967,7 @@
     <string name="exif_preset_location_only">Localisation uniquement</string>
     <string name="exif_preset_keep_date_copyright">Conserver les dates et les droits d\'auteur</string>
     <string name="exif_tags_selected">%1$s • %2$d balises</string>
+    <string name="exif_tag_count">%1$d balises</string>
     <string name="duplicate_scan_mode">Mode de numérisation</string>
     <string name="duplicate_scan_exact_only">Copies exactes uniquement</string>
     <string name="duplicate_scan_exact_and_similar">Exact et similaire</string>
@@ -9277,4 +9278,30 @@
     <string name="texture_cuneiform_impressions">Impressions en coin</string>
     <string name="texture_anechoic_wedges">Coins anéchoïques</string>
     <string name="texture_quarter_turns">Quart de tour</string>
+    <string name="replace_exif">Remplacer EXIF</string>
+    <string name="exif_camera_profile">Profil d’appareil photo</string>
+    <string name="exif_profile_smartphone">Smartphone</string>
+    <string name="exif_profile_dslr">Reflex numérique</string>
+    <string name="exif_profile_mirrorless">Hybride</string>
+    <string name="exif_profile_compact">Appareil photo compact</string>
+    <string name="exif_profile_action_camera">Caméra d\'action</string>
+    <string name="exif_profile_random_phone">Smartphone aléatoire</string>
+    <string name="exif_profile_random_camera">Appareil photo aléatoire</string>
+    <string name="exif_random_gps">Près de 0°, 0°</string>
+    <string name="exif_no_gps">Pas de GPS</string>
+    <string name="exif_manual_gps">Coordonnées</string>
+    <string name="exif_generation_settings">Paramètres de génération</string>
+    <string name="exif_generated_tags">Aperçu EXIF</string>
+    <string name="exif_shuffle_tags">Générer de nouvelles valeurs</string>
+    <string name="exif_same_for_batch">Mêmes balises pour toutes les images</string>
+    <string name="exif_random_date">Date aléatoire</string>
+    <string name="exif_lighting_daylight">Lumière du jour</string>
+    <string name="exif_lighting_indoors">À l\'intérieur</string>
+    <string name="exif_manual_white_balance">Balance des blancs manuelle</string>
+    <string name="exif_metering_multi_segment">Multi-segments</string>
+    <string name="exif_metering_center_weighted">Pondération centrale</string>
+    <string name="exif_metering_spot">Spot</string>
+    <string name="exif_include_software">Inclure la balise logicielle</string>
+    <string name="exif_no_software">Aucune balise logicielle</string>
+    <string name="edit_exif_template">Modifier le modèle EXIF</string>
 </resources>
