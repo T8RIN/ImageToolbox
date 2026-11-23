@@ -87,6 +87,9 @@ internal fun ExifReplacementControls(component: DeleteExifComponent) {
             entries = ExifReplacementPreset.entries,
             title = stringResource(R.string.exif_camera_profile),
             titleIcon = Icons.Rounded.WandStars,
+            badgeContent = {
+                Text(ExifReplacementPreset.entries.size.toString())
+            },
             itemContentText = {
                 when (it) {
                     ExifReplacementPreset.Custom -> stringResource(R.string.custom)
@@ -97,10 +100,10 @@ internal fun ExifReplacementControls(component: DeleteExifComponent) {
                     ExifReplacementPreset.ActionCamera -> stringResource(R.string.exif_profile_action_camera)
                     ExifReplacementPreset.RandomPhone -> stringResource(R.string.exif_profile_random_phone)
                     ExifReplacementPreset.RandomCamera -> stringResource(R.string.exif_profile_random_camera)
-                    else -> it.phoneName.orEmpty()
+                    else -> it.cameraName.orEmpty()
                 }
             },
-            spanCount = 1,
+            spanCount = 3,
             modifier = Modifier.fillMaxWidth(),
             shape = ShapeDefaults.extraLarge
         )
@@ -165,7 +168,12 @@ internal fun ExifReplacementControls(component: DeleteExifComponent) {
                 visible = showPreview,
                 onDismiss = { showPreview = false },
                 tags = tags,
-                onRegenerate = component::regenerateTags,
+                onRegenerate = when (component.replacementPreset) {
+                    ExifReplacementPreset.RandomPhone,
+                    ExifReplacementPreset.RandomCamera -> component::regenerateTags
+
+                    else -> null
+                },
                 onEdit = {
                     showPreview = false
                     component.editGeneratedTags()
@@ -250,7 +258,7 @@ private fun GeneratedExifSheet(
     visible: Boolean,
     onDismiss: () -> Unit,
     tags: Map<MetadataTag, String>,
-    onRegenerate: () -> Unit,
+    onRegenerate: (() -> Unit)?,
     onEdit: () -> Unit
 ) {
     EnhancedModalBottomSheet(
@@ -280,14 +288,16 @@ private fun GeneratedExifSheet(
             verticalArrangement = Arrangement.spacedBy(4.dp),
             flingBehavior = enhancedFlingBehavior()
         ) {
-            item {
-                PreferenceItem(
-                    title = stringResource(R.string.exif_shuffle_tags),
-                    startIcon = Icons.Rounded.Shuffle,
-                    onClick = onRegenerate,
-                    shape = ShapeDefaults.extraLarge,
-                    modifier = Modifier.fillMaxWidth()
-                )
+            if (onRegenerate != null) {
+                item {
+                    PreferenceItem(
+                        title = stringResource(R.string.exif_shuffle_tags),
+                        startIcon = Icons.Rounded.Shuffle,
+                        onClick = onRegenerate,
+                        shape = ShapeDefaults.extraLarge,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
             }
             itemsIndexed(
                 tags.entries.toList(),

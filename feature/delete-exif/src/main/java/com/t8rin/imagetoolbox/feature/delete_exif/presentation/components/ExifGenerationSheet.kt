@@ -33,6 +33,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.domain.utils.toCoordinateOrNull
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.AccessTime
@@ -56,7 +57,6 @@ import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
 import com.t8rin.imagetoolbox.feature.delete_exif.domain.model.ExifLighting
 import com.t8rin.imagetoolbox.feature.delete_exif.domain.model.ExifLocation
 import com.t8rin.imagetoolbox.feature.delete_exif.domain.model.ExifMetering
-import com.t8rin.imagetoolbox.feature.delete_exif.domain.model.toCoordinateOrNull
 import com.t8rin.imagetoolbox.feature.delete_exif.presentation.screenLogic.DeleteExifComponent
 import java.time.Instant
 import java.time.LocalDateTime

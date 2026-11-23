@@ -32,8 +32,7 @@ import kotlin.time.Duration
 
 inline fun <reified T> T?.notNullAnd(
     predicate: (T) -> Boolean
-): Boolean = if (this != null) predicate(this)
-else false
+): Boolean = this != null && predicate(this)
 
 fun CharSequence.isBase64() = isNotEmpty() && BASE64_PATTERN.matches(this)
 
@@ -112,3 +111,6 @@ fun <T> Flow<T>.onEachDebounced(
 }
 
 inline fun <T : Closeable?, R> T.applyUse(block: T.() -> R): R = use(block)
+
+fun String.toCoordinateOrNull(max: Int): Double? =
+    trim().replace(',', '.').toDoubleOrNull()?.takeIf { it in -max.toDouble()..max.toDouble() }
