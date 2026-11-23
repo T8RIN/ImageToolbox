@@ -26,10 +26,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
@@ -40,11 +40,15 @@ import com.t8rin.imagetoolbox.core.ui.widget.buttons.ZoomButton
 import com.t8rin.imagetoolbox.core.ui.widget.controls.UndoRedoButtons
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.LoadingDialog
+import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeImagePickingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
 import com.t8rin.imagetoolbox.core.ui.widget.image.AutoFilePicker
+import com.t8rin.imagetoolbox.core.ui.widget.image.ImageContainer
+import com.t8rin.imagetoolbox.core.ui.widget.image.ImageCounter
 import com.t8rin.imagetoolbox.core.ui.widget.image.ImageNotPickedWidget
-import com.t8rin.imagetoolbox.core.ui.widget.image.SimplePicture
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.detectSwipes
 import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
+import com.t8rin.imagetoolbox.core.ui.widget.sheets.PickImageFromUrisSheet
 import com.t8rin.imagetoolbox.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import com.t8rin.imagetoolbox.core.ui.widget.sheets.ZoomModalSheet
 import com.t8rin.imagetoolbox.core.ui.widget.text.TopAppBarTitle
@@ -52,29 +56,32 @@ import com.t8rin.imagetoolbox.feature.screenshot_framing.presentation.components
 import com.t8rin.imagetoolbox.feature.screenshot_framing.presentation.screenLogic.ScreenshotFramingComponent
 
 @Composable
-fun ScreenshotFramingContent(component: ScreenshotFramingComponent) {
+fun ScreenshotFramingContent(
+    component: ScreenshotFramingComponent
+) {
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
-    var showFolderSelectionDialog by rememberSaveable { mutableStateOf(false) }
     var showZoomSheet by rememberSaveable { mutableStateOf(false) }
+    var showPickImageFromUrisSheet by rememberSaveable { mutableStateOf(false) }
     var editSheetData by remember { mutableStateOf(emptyList<Uri>()) }
     val isPortrait by isPortraitOrientationAsState()
-    val imagePicker = rememberImagePicker { uri: Uri -> component.setUri(uri) }
-    val canExport =
-        component.previewBitmap != null && !component.isSaving && !component.isImageLoading
+    val imagePicker = rememberImagePicker { uris: List<Uri> -> component.setUris(uris) }
+    val pickImage = imagePicker::pickImage
+    val isLoading = component.previewBitmap == null &&
+            (component.isImageLoading || component.isPreviewLoading)
 
     AutoFilePicker(
-        onAutoPick = imagePicker::pickImage,
-        isPickedAlready = component.initialUri != null
+        onAutoPick = pickImage,
+        isPickedAlready = !component.initialUris.isNullOrEmpty()
     )
 
     AdaptiveLayoutScreen(
-        isLoading = component.isPreviewLoading,
+        isLoading = isLoading,
         shouldDisableBackHandler = !component.haveChanges,
         title = {
             TopAppBarTitle(
                 title = stringResource(R.string.screenshot_framing),
-                input = component.previewBitmap,
-                isLoading = component.isPreviewLoading,
+                input = component.previewBitmap != null,
+                isLoading = isLoading,
                 size = null
             )
         },
@@ -84,12 +91,10 @@ fun ScreenshotFramingContent(component: ScreenshotFramingComponent) {
         },
         actions = {
             ShareButton(
-                enabled = canExport,
-                onShare = component::shareBitmap,
-                onCopy = { component.cacheBitmap(Clipboard::copy) },
-                onEdit = {
-                    component.cacheBitmap { editSheetData = listOf(it) }
-                }
+                enabled = component.previewBitmap != null,
+                onShare = component::shareBitmaps,
+                onCopy = { component.cacheCurrentImage(Clipboard::copy) },
+                onEdit = { component.cacheImages { editSheetData = it } }
             )
             UndoRedoButtons(
                 canUndo = component.canUndo,
@@ -107,42 +112,63 @@ fun ScreenshotFramingContent(component: ScreenshotFramingComponent) {
             )
         },
         imagePreview = {
-            SimplePicture(
-                bitmap = component.previewBitmap,
-                loading = component.isPreviewLoading,
-                enableContainer = false,
-                shape = RectangleShape
+            ImageContainer(
+                modifier = Modifier
+                    .detectSwipes(
+                        onSwipeRight = component::selectLeftUri,
+                        onSwipeLeft = component::selectRightUri
+                    ),
+                imageInside = isPortrait,
+                showOriginal = false,
+                previewBitmap = component.previewBitmap,
+                originalBitmap = null,
+                isLoading = isLoading,
+                shouldShowPreview = true,
+                generatePreviews = true
             )
         },
-        controls = { ScreenshotFramingControls(component) },
+        controls = {
+            ImageCounter(
+                imageCount = component.uris.size.takeIf { it > 1 },
+                onRepick = { showPickImageFromUrisSheet = true }
+            )
+            ScreenshotFramingControls(component)
+        },
         noDataControls = {
-            ImageNotPickedWidget(onPickImage = imagePicker::pickImage)
+            ImageNotPickedWidget(onPickImage = pickImage)
         },
         buttons = { actions ->
+            var showFolderSelectionDialog by rememberSaveable { mutableStateOf(false) }
+            var showOneTimeImagePickingDialog by rememberSaveable { mutableStateOf(false) }
             BottomButtonsBlock(
-                isNoData = component.uri == null,
-                onSecondaryButtonClick = imagePicker::pickImage,
-                onPrimaryButtonClick = { component.saveBitmap(null) },
+                isNoData = component.uris.isEmpty(),
+                onSecondaryButtonClick = pickImage,
+                onPrimaryButtonClick = { component.saveBitmaps(null) },
                 onPrimaryButtonLongClick = { showFolderSelectionDialog = true },
-                isPrimaryButtonEnabled = canExport,
-                actions = { if (isPortrait) actions() }
+                isPrimaryButtonEnabled = component.previewBitmap != null,
+                actions = { if (isPortrait) actions() },
+                onSecondaryButtonLongClick = { showOneTimeImagePickingDialog = true }
+            )
+            OneTimeSaveLocationSelectionDialog(
+                visible = showFolderSelectionDialog,
+                onDismiss = { showFolderSelectionDialog = false },
+                onSaveRequest = component::saveBitmaps,
+                formatForFilenameSelection = component.getFormatForFilenameSelection()
+            )
+            OneTimeImagePickingDialog(
+                onDismiss = { showOneTimeImagePickingDialog = false },
+                picker = Picker.Multiple,
+                imagePicker = imagePicker,
+                visible = showOneTimeImagePickingDialog
             )
         },
-        canShowScreenData = component.uri != null
+        canShowScreenData = component.uris.isNotEmpty()
     )
 
     ZoomModalSheet(
         data = component.previewBitmap,
         visible = showZoomSheet,
         onDismiss = { showZoomSheet = false }
-    )
-
-    OneTimeSaveLocationSelectionDialog(
-        visible = showFolderSelectionDialog,
-        onDismiss = { showFolderSelectionDialog = false },
-        onSaveRequest = component::saveBitmap,
-        formatForFilenameSelection = component.params.outputFormat,
-        hasOriginalUri = true
     )
 
     ProcessImagesPreferenceSheet(
@@ -152,6 +178,16 @@ fun ScreenshotFramingContent(component: ScreenshotFramingComponent) {
         onNavigate = component.onNavigate
     )
 
+    PickImageFromUrisSheet(
+        visible = showPickImageFromUrisSheet,
+        onDismiss = { showPickImageFromUrisSheet = false },
+        uris = component.uris,
+        selectedUri = component.selectedUri,
+        onUriPicked = component::updateSelectedUri,
+        onUriRemoved = component::updateUrisSilently,
+        columns = if (isPortrait) 2 else 4
+    )
+
     ExitWithoutSavingDialog(
         onExit = component.onGoBack,
         onDismiss = { showExitDialog = false },
@@ -159,8 +195,9 @@ fun ScreenshotFramingContent(component: ScreenshotFramingComponent) {
     )
 
     LoadingDialog(
-        visible = component.isSaving || component.isImageLoading,
-        onCancelLoading = component::cancelSaving,
-        canCancel = component.isSaving
+        visible = component.isSaving,
+        done = component.done,
+        left = component.left,
+        onCancelLoading = component::cancelSaving
     )
 }

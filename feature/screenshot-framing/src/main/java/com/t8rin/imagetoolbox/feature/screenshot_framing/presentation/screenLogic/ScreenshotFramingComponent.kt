@@ -20,6 +20,7 @@ package com.t8rin.imagetoolbox.feature.screenshot_framing.presentation.screenLog
 import android.graphics.Bitmap
 import android.net.Uri
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.lerp
@@ -38,6 +39,11 @@ import com.t8rin.imagetoolbox.core.domain.model.DomainAspectRatio
 import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
+import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
+import com.t8rin.imagetoolbox.core.domain.saving.model.onSuccess
+import com.t8rin.imagetoolbox.core.domain.saving.updateProgress
+import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.leftFrom
+import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.rightFrom
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.resources.R
@@ -58,14 +64,13 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.withContext
 
 class ScreenshotFramingComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
-    @Assisted val initialUri: Uri?,
+    @Assisted val initialUris: List<Uri>?,
     @Assisted val onGoBack: () -> Unit,
     @Assisted val onNavigate: (Screen) -> Unit,
     private val imageGetter: ImageGetter<Bitmap>,
@@ -85,8 +90,11 @@ class ScreenshotFramingComponent @AssistedInject internal constructor(
     internal val styles: List<Pair<String, ScreenshotFramingStyle>>
         get() = savedStyles.styles.toList()
 
-    private val _uri = mutableStateOf<Uri?>(null)
-    val uri: Uri? by _uri
+    private val _uris = mutableStateOf(emptyList<Uri>())
+    val uris by _uris
+
+    private val _selectedUri = mutableStateOf<Uri?>(null)
+    val selectedUri by _selectedUri
 
     private var sourceBitmap: Bitmap? = null
 
@@ -96,19 +104,25 @@ class ScreenshotFramingComponent @AssistedInject internal constructor(
     private val _isSaving = mutableStateOf(false)
     val isSaving: Boolean by _isSaving
 
+    private val _done = mutableIntStateOf(0)
+    val done by _done
+
+    private val _left = mutableIntStateOf(-1)
+    val left by _left
+
     private val _isPreviewLoading = mutableStateOf(false)
     val isPreviewLoading: Boolean by _isPreviewLoading
 
-    private var loadingJob: Job? by smartJob()
+    private var imageLoadingJob: Job? by smartJob()
     private var previewJob: Job? by smartJob()
     private var savingJob: Job? by smartJob()
 
     init {
         resetHistory()
-        initialUri?.let(::setUri)
+        initialUris?.let(::setUris)
 
         doOnDestroy {
-            loadingJob = null
+            imageLoadingJob = null
             previewJob = null
             savingJob = null
             sourceBitmap = null
@@ -116,33 +130,70 @@ class ScreenshotFramingComponent @AssistedInject internal constructor(
         }
     }
 
-    fun setUri(value: Uri) {
-        loadingJob = componentScope.launch {
-            _isImageLoading.value = true
-            try {
-                runSuspendCatching {
-                    val bitmap = withContext(defaultDispatcher) {
-                        imageGetter.getScreenshotFramingImage(value, maxSide = 1600)
-                    } ?: error(getString(R.string.failed_to_open))
+    fun setUris(uris: List<Uri>) {
+        val uri = uris.firstOrNull() ?: return
+        _uris.value = uris.distinct()
+        _selectedUri.value = uri
+        registerChanges()
+        loadSelectedUri(uri, isNewSelection = true)
+    }
+
+    fun updateUrisSilently(removedUri: Uri) {
+        val index = uris.indexOf(removedUri)
+        if (index < 0 || uris.size <= 1) return
+
+        _uris.value = uris - removedUri
+        if (removedUri == selectedUri) updateSelectedUri(uris[(index - 1).coerceAtLeast(0)])
+        registerChanges()
+    }
+
+    fun selectLeftUri() {
+        val index = uris.indexOf(selectedUri)
+        if (index >= 0 && uris.size > 1) updateSelectedUri(uris.leftFrom(index))
+    }
+
+    fun selectRightUri() {
+        val index = uris.indexOf(selectedUri)
+        if (index >= 0 && uris.size > 1) updateSelectedUri(uris.rightFrom(index))
+    }
+
+    fun updateSelectedUri(uri: Uri) {
+        if (uri == selectedUri) return
+        _selectedUri.value = uri
+        loadSelectedUri(uri)
+    }
+
+    private fun loadSelectedUri(uri: Uri, isNewSelection: Boolean = false) {
+        previewJob = null
+        _isPreviewLoading.value = false
+        _isImageLoading.value = true
+        sourceBitmap = null
+
+        imageLoadingJob = componentScope.launch {
+            runSuspendCatching {
+                val bitmap = withContext(defaultDispatcher) {
+                    imageGetter.getScreenshotFramingImage(uri, maxSide = 1600)
+                } ?: error(getString(R.string.failed_to_open))
+                if (isNewSelection && params.preset == null) {
                     val colors = withContext(defaultDispatcher) {
                         val primary = bitmap.extractPrimaryColor(default = 0xFF6D5DFB.toInt())
                             .copy(alpha = 1f)
-                        listOf(lerp(primary, Color.White, 0.6f), lerp(primary, Color.Black, 0.18f))
+                        listOf(
+                            lerp(primary, Color.White, 0.6f),
+                            lerp(primary, Color.Black, 0.18f)
+                        )
                     }
-                    ensureActive()
-                    sourceBitmap = bitmap
-                    _previewBitmap.value = null
-                    _uri.value = value
-                    if (params.preset == null) {
-                        _params.value = params.copy(backgroundColors = colors)
-                    }
-                    resetHistory()
-                    registerChanges()
-                    updatePreview(debounce = false)
-                }.onFailure(AppToastHost::showFailureToast)
-            } finally {
-                _isImageLoading.value = false
+                    _params.value = params.copy(backgroundColors = colors)
+                }
+                ensureActive()
+                if (isNewSelection) resetHistory()
+                sourceBitmap = bitmap
+                updatePreview(debounce = false)
+            }.onFailure {
+                _previewBitmap.value = null
+                AppToastHost.showFailureToast(it)
             }
+            _isImageLoading.value = false
         }
     }
 
@@ -244,101 +295,155 @@ class ScreenshotFramingComponent @AssistedInject internal constructor(
     private fun updatePreview(debounce: Boolean = true) {
         val image = sourceBitmap ?: return
         val renderParams = params
+        _isPreviewLoading.value = true
         previewJob = componentScope.launch {
-            _isPreviewLoading.value = true
+            if (debounce) delay(100)
+            runSuspendCatching {
+                val result = withContext(defaultDispatcher) {
+                    renderScreenshotFramingBitmap(
+                        image = image,
+                        params = renderParams,
+                        maxBitmapPixels = 1_500_000f
+                    )
+                }
+                ensureActive()
+                if (
+                    sourceBitmap === image &&
+                    params.copy(outputFormat = renderParams.outputFormat) == renderParams
+                ) {
+                    _previewBitmap.value = result
+                }
+            }.onFailure {
+                _previewBitmap.value = null
+                AppToastHost.showFailureToast(it)
+            }
+            _isPreviewLoading.value = false
+        }
+    }
+
+    fun saveBitmaps(oneTimeSaveLocationUri: String?) {
+        val renderParams = params
+        savingJob = trackProgress {
+            _isSaving.value = true
+            _done.intValue = 0
+            _left.intValue = uris.size
             try {
-                if (debounce) delay(100)
-                runSuspendCatching {
-                    val result = withContext(defaultDispatcher) {
-                        renderScreenshotFramingBitmap(
-                            image = image,
-                            params = renderParams,
-                            maxBitmapPixels = 1_500_000f
+                val results = uris.mapIndexed { index, uri ->
+                    val result = runSuspendCatching {
+                        fileController.save(
+                            saveTarget = saveTarget(
+                                uri = uri,
+                                params = renderParams,
+                                sequenceNumber = (index + 1).takeIf { uris.size > 1 }
+                            ),
+                            keepOriginalMetadata = false,
+                            oneTimeSaveLocationUri = oneTimeSaveLocationUri
                         )
-                    }
-                    ensureActive()
-                    if (
-                        sourceBitmap === image &&
-                        params.copy(outputFormat = renderParams.outputFormat) == renderParams
-                    ) {
-                        _previewBitmap.value = result
-                    }
-                }.onFailure(AppToastHost::showFailureToast)
+                    }.getOrElse { SaveResult.Error.Exception(it) }
+                    _done.intValue = index + 1
+                    updateProgress(done = done, total = left)
+                    result
+                }
+                parseSaveResults(results.onSuccess(::registerSave))
             } finally {
-                _isPreviewLoading.value = false
+                _isSaving.value = false
+                _left.intValue = -1
             }
         }
     }
 
-    fun saveBitmap(oneTimeSaveLocationUri: String?) = exportBitmap { bitmap, renderParams, source ->
-        parseSaveResult(
-            fileController.save(
-                saveTarget = ImageSaveTarget(
-                    imageInfo = bitmap.imageInfo(renderParams.outputFormat),
-                    originalUri = source.toString(),
-                    sequenceNumber = null,
-                    data = imageCompressor.compress(
-                        image = bitmap,
-                        imageFormat = renderParams.outputFormat,
-                        quality = Quality.Base(100)
-                    )
-                ),
-                keepOriginalMetadata = false,
-                oneTimeSaveLocationUri = oneTimeSaveLocationUri
-            ).onSuccess {
-                if (params == renderParams && uri == source) registerSave()
-            }
-        )
+    fun shareBitmaps() {
+        cacheImages { uris ->
+            shareProvider.shareUris(uris.map(Uri::toString))
+            AppToastHost.showConfetti()
+        }
     }
 
-    fun shareBitmap() = exportBitmap { bitmap, renderParams, _ ->
-        shareProvider.shareImage(
-            image = bitmap,
-            imageInfo = bitmap.imageInfo(renderParams.outputFormat),
-            onComplete = AppToastHost::showConfetti
-        )
+    fun cacheCurrentImage(onComplete: (Uri) -> Unit) {
+        cacheImages(uris = listOfNotNull(selectedUri)) {
+            it.firstOrNull()?.let(onComplete)
+        }
     }
 
-    fun cacheBitmap(onComplete: (Uri) -> Unit) = exportBitmap { bitmap, renderParams, _ ->
-        shareProvider.cacheImage(
-            image = bitmap,
-            imageInfo = bitmap.imageInfo(renderParams.outputFormat)
-        )?.let { onComplete(it.toUri()) }
-    }
-
-    private fun exportBitmap(
-        action: suspend (Bitmap, ScreenshotFramingParams, Uri) -> Unit
+    fun cacheImages(
+        uris: List<Uri> = this.uris,
+        onComplete: suspend (List<Uri>) -> Unit
     ) {
-        val source = uri ?: return
         val renderParams = params
         savingJob = trackProgress {
             _isSaving.value = true
+            _done.intValue = 0
+            _left.intValue = uris.size
             try {
-                runSuspendCatching {
-                    val result = withContext(defaultDispatcher) {
-                        val image = imageGetter.getScreenshotFramingImage(
-                            uri = source,
-                            maxSide = 4096
-                        ) ?: error(getString(R.string.failed_to_open))
-                        ensureActive()
-                        renderScreenshotFramingBitmap(image, renderParams)
+                var failure: Throwable? = null
+                val cached = uris.mapIndexedNotNull { index, uri ->
+                    val result = runSuspendCatching {
+                        cacheImage(uri, renderParams)
+                    }.onFailure {
+                        if (failure == null) failure = it
                     }
-                    try {
-                        currentCoroutineContext().ensureActive()
-                        action(result, renderParams, source)
-                    } finally {
-                        result.recycle()
-                    }
-                }.onFailure(AppToastHost::showFailureToast)
+                    _done.intValue = index + 1
+                    updateProgress(done = done, total = left)
+                    result.getOrNull()
+                }
+                failure?.let(AppToastHost::showFailureToast)
+                onComplete(cached)
             } finally {
                 _isSaving.value = false
+                _left.intValue = -1
             }
         }
     }
 
     fun cancelSaving() {
-        savingJob = null
-        _isSaving.value = false
+        savingJob?.cancel()
+    }
+
+    fun getFormatForFilenameSelection(): ImageFormat? =
+        params.outputFormat.takeIf { uris.size == 1 }
+
+    private suspend fun saveTarget(
+        uri: Uri,
+        params: ScreenshotFramingParams,
+        sequenceNumber: Int?
+    ): ImageSaveTarget {
+        val bitmap = getFramedBitmap(uri, params)
+        return try {
+            ImageSaveTarget(
+                imageInfo = bitmap.imageInfo(params.outputFormat),
+                originalUri = uri.toString(),
+                sequenceNumber = sequenceNumber,
+                data = imageCompressor.compress(
+                    image = bitmap,
+                    imageFormat = params.outputFormat,
+                    quality = Quality.Base(100)
+                )
+            )
+        } finally {
+            bitmap.recycle()
+        }
+    }
+
+    private suspend fun cacheImage(uri: Uri, params: ScreenshotFramingParams): Uri? {
+        val bitmap = getFramedBitmap(uri, params)
+        return try {
+            shareProvider.cacheImage(
+                image = bitmap,
+                imageInfo = bitmap.imageInfo(params.outputFormat).copy(originalUri = uri.toString())
+            )?.toUri()
+        } finally {
+            bitmap.recycle()
+        }
+    }
+
+    private suspend fun getFramedBitmap(
+        uri: Uri,
+        params: ScreenshotFramingParams
+    ): Bitmap = withContext(defaultDispatcher) {
+        val image = imageGetter.getScreenshotFramingImage(uri, maxSide = 4096)
+            ?: error(getString(R.string.failed_to_open))
+        ensureActive()
+        renderScreenshotFramingBitmap(image, params)
     }
 
     private fun Bitmap.imageInfo(format: ImageFormat) = ImageInfo(
@@ -351,7 +456,7 @@ class ScreenshotFramingComponent @AssistedInject internal constructor(
     fun interface Factory {
         operator fun invoke(
             componentContext: ComponentContext,
-            initialUri: Uri?,
+            initialUris: List<Uri>?,
             onGoBack: () -> Unit,
             onNavigate: (Screen) -> Unit
         ): ScreenshotFramingComponent

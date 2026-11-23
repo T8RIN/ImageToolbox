@@ -579,7 +579,7 @@ internal sealed interface NavigationChild {
 
     class ScreenshotFraming(private val component: ScreenshotFramingComponent) : NavigationChild {
         override fun assistantScreen(source: Screen?) = source.assistantScreen(
-            listOfNotNull(component.uri),
+            component.uris,
             "isPreviewLoading" to component.isPreviewLoading
         )
 

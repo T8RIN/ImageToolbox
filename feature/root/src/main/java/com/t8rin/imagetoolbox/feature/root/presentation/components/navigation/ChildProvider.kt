@@ -586,7 +586,7 @@ internal class ChildProvider @Inject constructor(
         is Screen.ScreenshotFraming -> ScreenshotFraming(
             screenshotFramingComponentFactory(
                 componentContext = componentContext,
-                initialUri = config.uri,
+                initialUris = config.uris,
                 onGoBack = ::navigateBack,
                 onNavigate = ::navigateTo
             )

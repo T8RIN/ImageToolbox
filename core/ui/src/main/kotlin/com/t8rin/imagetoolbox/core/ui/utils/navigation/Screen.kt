@@ -1400,7 +1400,7 @@ sealed class Screen(
 
     @Serializable
     data class ScreenshotFraming(
-        val uri: Uri? = null
+        val uris: List<Uri>? = null
     ) : Screen(
         id = 83,
         title = R.string.screenshot_framing,

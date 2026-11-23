@@ -158,7 +158,7 @@ fun List<Uri>.screensFor(
             ),
             Screen.AiTools(uris),
             Screen.MarkupLayers(uris.firstOrNull()),
-            Screen.ScreenshotFraming(uris.firstOrNull()),
+            Screen.ScreenshotFraming(uris),
             Screen.Watermarking(uris),
             Screen.ImageStitching(uris),
             Screen.ImageStacking(uris),
@@ -266,6 +266,7 @@ fun List<Uri>.screensFor(
                 )
             )
             add(Screen.Watermarking(uris))
+            add(Screen.ScreenshotFraming(uris))
             add(
                 Screen.GifTools(
                     Screen.GifTools.Type.ImageToGif(uris)

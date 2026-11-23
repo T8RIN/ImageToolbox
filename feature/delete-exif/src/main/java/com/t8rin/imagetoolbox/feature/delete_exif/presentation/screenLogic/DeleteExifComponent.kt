@@ -244,7 +244,7 @@ class DeleteExifComponent @AssistedInject internal constructor(
 
     fun saveBitmaps(oneTimeSaveLocationUri: String?) {
         val uris = uris.orEmpty()
-        if (uris.isEmpty() || !canSave || savingJob?.isActive == true) return
+        if (uris.isEmpty() || !canSave) return
 
         val replacement = replacementMetadata()
         val tagsToRemove = selectedTags.ifEmpty { MetadataTag.entries }
@@ -383,7 +383,7 @@ class DeleteExifComponent @AssistedInject internal constructor(
         onComplete: suspend (List<Uri>) -> Unit
     ) {
         val images = uris.orEmpty()
-        if (images.isEmpty() || !canSave || savingJob?.isActive == true) return
+        if (images.isEmpty() || !canSave) return
 
         val replacement = replacementMetadata()
         val tagsToRemove = selectedTags.ifEmpty { MetadataTag.entries }
