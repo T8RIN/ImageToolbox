@@ -9296,7 +9296,6 @@
     <string name="exif_random_date">ランダムな日付</string>
     <string name="exif_lighting_daylight">昼光</string>
     <string name="exif_lighting_indoors">屋内</string>
-    <string name="exif_manual_white_balance">マニュアルホワイトバランス</string>
     <string name="exif_metering_multi_segment">マルチセグメント</string>
     <string name="exif_metering_center_weighted">中央重点</string>
     <string name="exif_metering_spot">スポット</string>

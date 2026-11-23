@@ -9297,7 +9297,6 @@
     <string name="exif_random_date">Rastgele tarih</string>
     <string name="exif_lighting_daylight">Gün ışığı</string>
     <string name="exif_lighting_indoors">Kapalı alanlarda</string>
-    <string name="exif_manual_white_balance">Manuel beyaz dengesi</string>
     <string name="exif_metering_multi_segment">Çok segmentli</string>
     <string name="exif_metering_center_weighted">Merkez ağırlıklı</string>
     <string name="exif_metering_spot">Noktasal</string>

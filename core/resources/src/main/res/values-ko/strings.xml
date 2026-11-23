@@ -9296,7 +9296,6 @@
     <string name="exif_random_date">임의의 날짜</string>
     <string name="exif_lighting_daylight">일광</string>
     <string name="exif_lighting_indoors">실내</string>
-    <string name="exif_manual_white_balance">수동 화이트 밸런스</string>
     <string name="exif_metering_multi_segment">다분할</string>
     <string name="exif_metering_center_weighted">중앙 중점</string>
     <string name="exif_metering_spot">스팟</string>

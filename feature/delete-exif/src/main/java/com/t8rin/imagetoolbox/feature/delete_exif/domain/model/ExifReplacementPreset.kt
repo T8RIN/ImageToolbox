@@ -466,7 +466,7 @@ internal enum class ExifReplacementPreset(private val camera: Camera? = null) {
             put(MetadataTag.ExposureProgram, "2")
             put(MetadataTag.ExposureMode, "0")
             put(MetadataTag.ExposureBiasValue, "0/1")
-            put(MetadataTag.WhiteBalance, if (settings.manualWhiteBalance) "1" else "0")
+            put(MetadataTag.WhiteBalance, "0")
             put(MetadataTag.MeteringMode, settings.metering.exifValue)
             put(MetadataTag.Flash, "16")
             put(MetadataTag.DigitalZoomRatio, "0/1")

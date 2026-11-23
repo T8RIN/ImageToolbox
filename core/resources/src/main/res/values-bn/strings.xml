@@ -9297,7 +9297,6 @@
     <string name="exif_random_date">এলোমেলো তারিখ</string>
     <string name="exif_lighting_daylight">দিবালোক</string>
     <string name="exif_lighting_indoors">ঘরের ভিতরে</string>
-    <string name="exif_manual_white_balance">ম্যানুয়াল সাদা ভারসাম্য</string>
     <string name="exif_metering_multi_segment">মাল্টি-সেগমেন্ট</string>
     <string name="exif_metering_center_weighted">কেন্দ্র-ভারিত</string>
     <string name="exif_metering_spot">স্পট</string>

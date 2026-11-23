@@ -9296,7 +9296,6 @@
     <string name="exif_random_date">Ngày ngẫu nhiên</string>
     <string name="exif_lighting_daylight">Ánh sáng ban ngày</string>
     <string name="exif_lighting_indoors">Trong nhà</string>
-    <string name="exif_manual_white_balance">Cân bằng trắng thủ công</string>
     <string name="exif_metering_multi_segment">Đa vùng</string>
     <string name="exif_metering_center_weighted">Ưu tiên trung tâm</string>
     <string name="exif_metering_spot">Đo điểm</string>

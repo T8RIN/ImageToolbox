@@ -9297,7 +9297,6 @@
     <string name="exif_random_date">Willekeurige datum</string>
     <string name="exif_lighting_daylight">Daglicht</string>
     <string name="exif_lighting_indoors">Binnenshuis</string>
-    <string name="exif_manual_white_balance">Handmatige witbalans</string>
     <string name="exif_metering_multi_segment">Meerdere segmenten</string>
     <string name="exif_metering_center_weighted">Centrumgewogen</string>
     <string name="exif_metering_spot">Spot</string>

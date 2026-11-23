@@ -9297,7 +9297,6 @@
     <string name="exif_random_date">Data casuale</string>
     <string name="exif_lighting_daylight">Luce del giorno</string>
     <string name="exif_lighting_indoors">Al chiuso</string>
-    <string name="exif_manual_white_balance">Bilanciamento del bianco manuale</string>
     <string name="exif_metering_multi_segment">Multisegmento</string>
     <string name="exif_metering_center_weighted">Ponderata al centro</string>
     <string name="exif_metering_spot">Spot</string>

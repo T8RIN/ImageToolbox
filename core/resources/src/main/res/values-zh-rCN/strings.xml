@@ -9296,7 +9296,6 @@
     <string name="exif_random_date">随机日期</string>
     <string name="exif_lighting_daylight">日光</string>
     <string name="exif_lighting_indoors">室内</string>
-    <string name="exif_manual_white_balance">手动白平衡</string>
     <string name="exif_metering_multi_segment">多区</string>
     <string name="exif_metering_center_weighted">中央重点测光</string>
     <string name="exif_metering_spot">点测光</string>

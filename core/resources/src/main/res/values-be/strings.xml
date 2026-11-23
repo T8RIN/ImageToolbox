@@ -9299,7 +9299,6 @@
     <string name="exif_random_date">Выпадковая дата</string>
     <string name="exif_lighting_daylight">Дзённае святло</string>
     <string name="exif_lighting_indoors">У памяшканні</string>
-    <string name="exif_manual_white_balance">Ручной баланс белага</string>
     <string name="exif_metering_multi_segment">Шматсегментны</string>
     <string name="exif_metering_center_weighted">Цэнтраўзважаны</string>
     <string name="exif_metering_spot">Кропкавы</string>

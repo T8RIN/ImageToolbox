@@ -9297,7 +9297,6 @@
     <string name="exif_random_date">Véletlen dátum</string>
     <string name="exif_lighting_daylight">Napfény</string>
     <string name="exif_lighting_indoors">Fedett</string>
-    <string name="exif_manual_white_balance">Manuális fehéregyensúly</string>
     <string name="exif_metering_multi_segment">Több szegmensű</string>
     <string name="exif_metering_center_weighted">Középre súlyozott</string>
     <string name="exif_metering_spot">Pontszerű</string>

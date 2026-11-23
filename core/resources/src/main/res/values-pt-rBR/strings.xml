@@ -9298,7 +9298,6 @@
     <string name="exif_random_date">Data aleatória</string>
     <string name="exif_lighting_daylight">Luz do dia</string>
     <string name="exif_lighting_indoors">Dentro de casa</string>
-    <string name="exif_manual_white_balance">Balanço de branco manual</string>
     <string name="exif_metering_multi_segment">Multissegmento</string>
     <string name="exif_metering_center_weighted">Ponderado centralmente</string>
     <string name="exif_metering_spot">Pontual</string>

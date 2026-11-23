@@ -911,7 +911,6 @@
     <string name="exif_random_date">Случайная дата</string>
     <string name="exif_lighting_daylight">День</string>
     <string name="exif_lighting_indoors">Внутри</string>
-    <string name="exif_manual_white_balance">Ручной баланс белого</string>
     <string name="exif_metering_multi_segment">Матричный</string>
     <string name="exif_metering_center_weighted">Центровзвешенный</string>
     <string name="exif_metering_spot">Точечный</string>

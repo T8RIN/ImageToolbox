@@ -17,11 +17,13 @@
 
 package com.t8rin.imagetoolbox.feature.delete_exif.presentation.components
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.material3.rememberTimePickerState
@@ -32,6 +34,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.utils.toCoordinateOrNull
 import com.t8rin.imagetoolbox.core.resources.Icons
@@ -39,10 +42,12 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.AccessTime
 import com.t8rin.imagetoolbox.core.resources.icons.CalendarMonth
 import com.t8rin.imagetoolbox.core.resources.icons.CenterFocusStrong
-import com.t8rin.imagetoolbox.core.resources.icons.LightMode
+import com.t8rin.imagetoolbox.core.resources.icons.Latitude
 import com.t8rin.imagetoolbox.core.resources.icons.LocationOn
+import com.t8rin.imagetoolbox.core.resources.icons.Longitude
 import com.t8rin.imagetoolbox.core.resources.icons.Tune
 import com.t8rin.imagetoolbox.core.resources.icons.WandStars
+import com.t8rin.imagetoolbox.core.ui.utils.helper.rememberPrevious
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.DataSelector
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedDatePickerDialog
@@ -50,6 +55,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTimePickerDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedVerticalScroll
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextField
@@ -85,6 +91,8 @@ internal fun ExifGenerationSheet(
         }
     ) {
         val settings = component.replacementSettings
+        val captureTime = settings.captureTime
+        val previousCaptureTime = rememberPrevious(captureTime) { _, value -> value != null }
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -99,17 +107,6 @@ internal fun ExifGenerationSheet(
                 title = stringResource(R.string.texture_lighting),
                 titleIcon = Icons.Rounded.WandStars,
                 itemContentText = { stringResource(it.titleRes()) },
-                spanCount = 1,
-                shape = ShapeDefaults.extraLarge,
-                modifier = Modifier.fillMaxWidth()
-            )
-            DataSelector(
-                value = settings.manualWhiteBalance,
-                onValueChange = { component.updateReplacementSettings { copy(manualWhiteBalance = it) } },
-                entries = listOf(false, true),
-                title = stringResource(R.string.tag_white_balance),
-                titleIcon = Icons.Outlined.LightMode,
-                itemContentText = { stringResource(if (it) R.string.manually else R.string.auto) },
                 spanCount = 1,
                 shape = ShapeDefaults.extraLarge,
                 modifier = Modifier.fillMaxWidth()
@@ -131,7 +128,7 @@ internal fun ExifGenerationSheet(
                 modifier = Modifier.fillMaxWidth()
             )
             DataSelector(
-                value = settings.captureTime != null,
+                value = captureTime != null,
                 onValueChange = { manual ->
                     component.updateReplacementSettings {
                         val date = captureTime ?: LocalDateTime.now().withSecond(0).withNano(0)
@@ -148,11 +145,16 @@ internal fun ExifGenerationSheet(
                 shape = ShapeDefaults.extraLarge,
                 modifier = Modifier.fillMaxWidth()
             )
-            settings.captureTime?.let { date ->
-                CaptureTimeControls(
-                    value = date,
-                    onValueChange = { component.updateReplacementSettings { copy(captureTime = it) } }
-                )
+            AnimatedVisibility(
+                visible = captureTime != null,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                (captureTime ?: previousCaptureTime)?.let { date ->
+                    CaptureTimeControls(
+                        value = date,
+                        onValueChange = { component.updateReplacementSettings { copy(captureTime = it) } }
+                    )
+                }
             }
             DataSelector(
                 value = settings.location,
@@ -165,27 +167,44 @@ internal fun ExifGenerationSheet(
                 shape = ShapeDefaults.extraLarge,
                 modifier = Modifier.fillMaxWidth()
             )
-            if (settings.location == ExifLocation.Manual) {
-                RoundedTextField(
-                    value = settings.latitude,
-                    onValueChange = { component.updateReplacementSettings { copy(latitude = it) } },
-                    label = stringResource(R.string.latitude),
-                    hint = "-90 … 90",
-                    isError = settings.latitude.isNotEmpty() && settings.latitude.toCoordinateOrNull(
-                        90
-                    ) == null,
-                    modifier = Modifier.fillMaxWidth()
-                )
-                RoundedTextField(
-                    value = settings.longitude,
-                    onValueChange = { component.updateReplacementSettings { copy(longitude = it) } },
-                    label = stringResource(R.string.longitude),
-                    hint = "-180 … 180",
-                    isError = settings.longitude.isNotEmpty() && settings.longitude.toCoordinateOrNull(
-                        180
-                    ) == null,
-                    modifier = Modifier.fillMaxWidth()
-                )
+            AnimatedVisibility(
+                visible = settings.location == ExifLocation.Manual,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .container(
+                            shape = ShapeDefaults.extraLarge,
+                            resultPadding = 8.dp
+                        ),
+                    verticalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    RoundedTextField(
+                        value = settings.latitude,
+                        onValueChange = { component.updateReplacementSettings { copy(latitude = it) } },
+                        label = stringResource(R.string.latitude),
+                        startIcon = Icons.Outlined.Latitude,
+                        shape = ShapeDefaults.top,
+                        formatText = { replace(',', '.') },
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.DecimalSigned),
+                        isError = settings.latitude.isNotEmpty() &&
+                                settings.latitude.toCoordinateOrNull(90) == null,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                    RoundedTextField(
+                        value = settings.longitude,
+                        onValueChange = { component.updateReplacementSettings { copy(longitude = it) } },
+                        label = stringResource(R.string.longitude),
+                        startIcon = Icons.Outlined.Longitude,
+                        shape = ShapeDefaults.bottom,
+                        formatText = { replace(',', '.') },
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.DecimalSigned),
+                        isError = settings.longitude.isNotEmpty() &&
+                                settings.longitude.toCoordinateOrNull(180) == null,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
             }
             Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                 PreferenceRowSwitch(
