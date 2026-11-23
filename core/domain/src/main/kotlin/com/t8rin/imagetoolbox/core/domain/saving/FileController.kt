@@ -32,6 +32,7 @@ interface FileController : ObjectSaver, MetadataProvider {
         keepOriginalMetadata: Boolean,
         oneTimeSaveLocationUri: String? = null,
         allowOverwrite: Boolean = true,
+        replaceExif: Boolean = false
     ): SaveResult
 
     suspend fun move(
@@ -66,7 +67,8 @@ interface FileController : ObjectSaver, MetadataProvider {
 
     suspend fun writeMetadata(
         imageUri: String,
-        metadata: Metadata?
+        metadata: Metadata?,
+        replaceExif: Boolean = false
     )
 
     suspend fun listFilesInDirectory(treeUri: String): List<String>

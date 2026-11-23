@@ -38,6 +38,14 @@ interface Metadata {
     ): Metadata
 }
 
+fun Metadata(
+    initialTags: Map<MetadataTag, String>,
+    shouldClearAllAttributes: Boolean = false
+): Metadata = TagMapMetadata(
+    initialTags = initialTags,
+    shouldClearAllAttributes = shouldClearAllAttributes
+)
+
 private class TagMapMetadata(
     initialTags: Map<MetadataTag, String>,
     shouldClearAllAttributes: Boolean

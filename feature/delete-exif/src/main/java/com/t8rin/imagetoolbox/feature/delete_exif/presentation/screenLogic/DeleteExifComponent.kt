@@ -28,7 +28,10 @@ import com.arkivanov.decompose.ComponentContext
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.domain.image.ImageScaler
+import com.t8rin.imagetoolbox.core.domain.image.Metadata
 import com.t8rin.imagetoolbox.core.domain.image.ShareProvider
+import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
+import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
 import com.t8rin.imagetoolbox.core.domain.image.model.MetadataTag
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.FilenameCreator
@@ -40,16 +43,27 @@ import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.leftFrom
 import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.rightFrom
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
+import com.t8rin.imagetoolbox.core.ui.utils.state.savable
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
+import com.t8rin.imagetoolbox.core.utils.getString
+import com.t8rin.imagetoolbox.core.utils.imageSize
+import com.t8rin.imagetoolbox.feature.delete_exif.domain.model.ExifLocation
 import com.t8rin.imagetoolbox.feature.delete_exif.domain.model.ExifRemovalPreset
+import com.t8rin.imagetoolbox.feature.delete_exif.domain.model.ExifReplacementPreset
+import com.t8rin.imagetoolbox.feature.delete_exif.domain.model.ExifReplacementSettings
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.withContext
+import java.time.LocalDateTime
+import java.time.ZoneOffset
+import kotlin.random.Random
 
 class DeleteExifComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
@@ -94,6 +108,100 @@ class DeleteExifComponent @AssistedInject internal constructor(
     private val _removalPreset = mutableStateOf(ExifRemovalPreset.AllMetadata)
     val removalPreset by _removalPreset
 
+    private val _replaceExif = mutableStateOf(false)
+    internal val replaceExif by _replaceExif
+
+    private val _replacementPreset = mutableStateOf(ExifReplacementPreset.Custom)
+    internal val replacementPreset by _replacementPreset
+
+    private val _replacementSettings = mutableStateOf(ExifReplacementSettings())
+    internal val replacementSettings by _replacementSettings
+
+    private val _customTags = mutableStateOf<Map<MetadataTag, String>>(emptyMap())
+    internal val customTags by _customTags
+
+    private var savedTemplates by fileController.savable(
+        scope = componentScope,
+        initial = ExifTemplates(),
+        key = "ExifTemplates"
+    )
+    internal val templates get() = savedTemplates.tagsByName.toList()
+    internal val customTemplate get() = customTags.mapKeys { (tag, _) -> tag.key }
+    internal val canSave
+        get() = when {
+            !replaceExif -> true
+            replacementPreset == ExifReplacementPreset.Custom -> customTags.isNotEmpty()
+            replacementSettings.location == ExifLocation.Manual -> replacementSettings.coordinates != null
+            else -> true
+        }
+
+    internal val generatedTags
+        get() = replacementPreset.generateTags(
+            settings = replacementSettings,
+            index = uris.orEmpty().indexOf(selectedUri).coerceAtLeast(0)
+        )
+
+    internal fun setReplaceExif(value: Boolean) {
+        _replaceExif.value = value
+    }
+
+    internal fun setReplacementPreset(value: ExifReplacementPreset) {
+        _replacementPreset.value = value
+    }
+
+    internal fun updateReplacementSettings(
+        block: ExifReplacementSettings.() -> ExifReplacementSettings
+    ) {
+        _replacementSettings.update(block)
+    }
+
+    internal fun regenerateTags() = updateReplacementSettings {
+        copy(seed = Random.nextLong(), now = LocalDateTime.now(ZoneOffset.UTC))
+    }
+
+    internal fun editGeneratedTags() {
+        _customTags.value = generatedTags
+        _replacementPreset.value = ExifReplacementPreset.Custom
+    }
+
+    internal fun updateCustomTag(tag: MetadataTag, value: String) {
+        if (value.isBlank()) removeCustomTag(tag)
+        else _customTags.update { it + (tag to value) }
+    }
+
+    internal fun removeCustomTag(tag: MetadataTag) {
+        _customTags.update { it - tag }
+    }
+
+    internal fun clearCustomTags() {
+        _customTags.value = emptyMap()
+    }
+
+    internal fun applyTemplate(template: Map<String, String>) {
+        _customTags.value = MetadataTag.commonWritableEntries.mapNotNull { tag ->
+            template[tag.key]?.takeIf(String::isNotBlank)?.let { tag to it }
+        }.toMap()
+    }
+
+    internal fun saveTemplate(name: String) {
+        val trimmedName = name.trim()
+        if (trimmedName.isEmpty() || customTags.isEmpty()) return
+
+        savedTemplates = savedTemplates.copy(
+            tagsByName = mapOf(trimmedName to customTemplate) +
+                    savedTemplates.tagsByName.filterKeys {
+                        !it.equals(
+                            trimmedName,
+                            ignoreCase = true
+                        )
+                    }
+        )
+    }
+
+    internal fun deleteTemplate(name: String) {
+        savedTemplates = savedTemplates.copy(tagsByName = savedTemplates.tagsByName - name)
+    }
+
     fun updateUris(
         uris: List<Uri>?
     ) {
@@ -134,48 +242,82 @@ class DeleteExifComponent @AssistedInject internal constructor(
         _isSaving.update { false }
     }
 
-    fun saveBitmaps(
-        oneTimeSaveLocationUri: String?
-    ) {
+    fun saveBitmaps(oneTimeSaveLocationUri: String?) {
+        val uris = uris.orEmpty()
+        if (uris.isEmpty() || !canSave || savingJob?.isActive == true) return
+
+        val replacement = replacementMetadata()
+        val tagsToRemove = selectedTags.ifEmpty { MetadataTag.entries }
         savingJob = trackProgress {
             _isSaving.value = true
-            val results = mutableListOf<SaveResult>()
             _done.value = 0
-            uris?.forEach { uri ->
-                runSuspendCatching {
-                    imageGetter.getImage(uri.toString())
-                }.getOrNull()?.let {
-                    val metadata = it.metadata?.clearAttributes(
-                        selectedTags.ifEmpty { MetadataTag.entries }
-                    )
-
-                    results.add(
+            try {
+                val results = uris.mapIndexed { index, uri ->
+                    val result = runSuspendCatching {
                         fileController.save(
-                            ImageSaveTarget(
-                                imageInfo = it.imageInfo,
-                                originalUri = uri.toString(),
-                                sequenceNumber = _done.value,
-                                metadata = metadata,
-                                data = ByteArray(0),
-                                readFromUriInsteadOfData = true
+                            saveTarget = saveTarget(
+                                uri,
+                                index,
+                                tagsToRemove,
+                                replacement?.invoke(index)
                             ),
                             keepOriginalMetadata = false,
-                            oneTimeSaveLocationUri = oneTimeSaveLocationUri
+                            oneTimeSaveLocationUri = oneTimeSaveLocationUri,
+                            replaceExif = replacement != null
                         )
-                    )
-                } ?: results.add(
-                    SaveResult.Error.Exception(Throwable())
-                )
-
-                _done.value += 1
-                updateProgress(
-                    done = done,
-                    total = uris.orEmpty().size
-                )
+                    }.getOrElse { SaveResult.Error.Exception(it) }
+                    _done.value = index + 1
+                    updateProgress(done = done, total = uris.size)
+                    result
+                }
+                parseSaveResults(results.onSuccess(::registerSave))
+            } finally {
+                _isSaving.value = false
             }
-            parseSaveResults(results.onSuccess(::registerSave))
-            _isSaving.value = false
         }
+    }
+
+    private fun replacementMetadata(): ((Int) -> Metadata)? {
+        if (!replaceExif) return null
+
+        val preset = replacementPreset
+        if (preset == ExifReplacementPreset.Custom) {
+            val tags = customTags
+            return { Metadata(tags) }
+        }
+
+        val settings = replacementSettings
+        return { Metadata(preset.generateTags(settings, it)) }
+    }
+
+    private suspend fun saveTarget(
+        uri: Uri,
+        index: Int,
+        tagsToRemove: List<MetadataTag>,
+        replacement: Metadata?
+    ): ImageSaveTarget {
+        val originalUri = uri.toString()
+        val (imageInfo, metadata) = if (replacement == null) {
+            val imageData = imageGetter.getImage(originalUri)
+                ?: error(getString(R.string.failed_to_open))
+            imageData.imageInfo to imageData.metadata?.clearAttributes(tagsToRemove)
+        } else withContext(ioDispatcher) {
+            val size = uri.imageSize()
+            ImageInfo(
+                width = size?.width ?: 0,
+                height = size?.height ?: 0,
+                imageFormat = ImageFormat[imageGetter.getExtension(originalUri)],
+                originalUri = originalUri
+            ) to replacement
+        }
+        return ImageSaveTarget(
+            imageInfo = imageInfo,
+            originalUri = originalUri,
+            sequenceNumber = index,
+            metadata = metadata,
+            data = ByteArray(0),
+            readFromUriInsteadOfData = true
+        )
     }
 
     fun updateSelectedUri(
@@ -197,12 +339,10 @@ class DeleteExifComponent @AssistedInject internal constructor(
     }
 
     fun shareBitmaps() {
-        _isSaving.update { true }
         cacheImages { uris ->
-            savingJob = trackProgress {
+            if (uris.isNotEmpty()) {
                 shareProvider.shareUris(uris.map(Uri::toString))
                 AppToastHost.showConfetti()
-                _isSaving.update { false }
             }
         }
     }
@@ -240,52 +380,55 @@ class DeleteExifComponent @AssistedInject internal constructor(
 
     fun cacheImages(
         uris: List<Uri>? = this.uris,
-        onComplete: (List<Uri>) -> Unit
+        onComplete: suspend (List<Uri>) -> Unit
     ) {
+        val images = uris.orEmpty()
+        if (images.isEmpty() || !canSave || savingJob?.isActive == true) return
+
+        val replacement = replacementMetadata()
+        val tagsToRemove = selectedTags.ifEmpty { MetadataTag.entries }
+        val sourceUris = this.uris.orEmpty()
         savingJob = trackProgress {
             _isSaving.value = true
             _done.value = 0
-            val list = mutableListOf<Uri>()
-            uris?.forEach { uri ->
-                imageGetter.getImage(
-                    uri.toString()
-                )?.let {
-                    val metadata = it.metadata?.clearAttributes(
-                        selectedTags.ifEmpty { MetadataTag.entries }
-                    )
-
-                    shareProvider.cacheData(
-                        writeData = { w ->
-                            w.writeBytes(
-                                fileController.readBytes(uri.toString())
-                            )
-                        },
-                        filename = filenameCreator.constructImageFilename(
-                            saveTarget = ImageSaveTarget(
-                                imageInfo = it.imageInfo.copy(originalUri = uri.toString()),
-                                originalUri = uri.toString(),
-                                sequenceNumber = done,
-                                metadata = metadata,
-                                data = ByteArray(0)
-                            )
-                        )
-                    )?.let { uri ->
-                        fileController.writeMetadata(
-                            imageUri = uri,
-                            metadata = metadata
-                        )
-                        list.add(uri.toUri())
+            try {
+                var failure: Throwable? = null
+                val cached = images.mapIndexedNotNull { index, uri ->
+                    val result = runSuspendCatching {
+                        val imageIndex = if (images === sourceUris) index else {
+                            sourceUris.indexOf(uri).takeIf { it >= 0 } ?: index
+                        }
+                        val target =
+                            saveTarget(uri, index, tagsToRemove, replacement?.invoke(imageIndex))
+                        cacheImage(target, replaceExif = replacement != null)
+                    }.onFailure {
+                        if (failure == null) failure = it
                     }
+                    _done.value = index + 1
+                    updateProgress(done = done, total = images.size)
+                    result.getOrNull()
                 }
-                _done.value++
-                updateProgress(
-                    done = done,
-                    total = uris.size
-                )
+                failure?.let(AppToastHost::showFailureToast)
+                onComplete(cached)
+            } finally {
+                _isSaving.value = false
             }
-            onComplete(list)
-            _isSaving.value = false
         }
+    }
+
+    private suspend fun cacheImage(target: ImageSaveTarget, replaceExif: Boolean): Uri {
+        val filename = filenameCreator.constructImageFilename(
+            saveTarget = target,
+            forceNotAddSizeInFilename = target.imageInfo.width <= 0 || target.imageInfo.height <= 0
+        )
+        val cachedUri = shareProvider.cacheDataOrThrow(filename) { output ->
+            val result = fileController.transferBytes(target.originalUri, output)
+            if (result is SaveResult.Error) throw result.throwable
+        }
+        withContext(ioDispatcher) {
+            fileController.writeMetadata(cachedUri, target.metadata, replaceExif = replaceExif)
+        }
+        return cachedUri.toUri()
     }
 
     fun selectLeftUri() {
@@ -319,3 +462,7 @@ class DeleteExifComponent @AssistedInject internal constructor(
         ): DeleteExifComponent
     }
 }
+
+private data class ExifTemplates(
+    val tagsByName: Map<String, Map<String, String>> = emptyMap()
+)

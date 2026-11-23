@@ -52,6 +52,7 @@ import com.t8rin.imagetoolbox.core.domain.image.get
 import com.t8rin.imagetoolbox.core.domain.image.model.MetadataTag
 import com.t8rin.imagetoolbox.core.domain.image.readOnly
 import com.t8rin.imagetoolbox.core.domain.image.set
+import com.t8rin.imagetoolbox.core.domain.image.toMap
 import com.t8rin.imagetoolbox.core.domain.json.JsonParser
 import com.t8rin.imagetoolbox.core.domain.resource.ResourceManager
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
@@ -85,6 +86,8 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.io.File
+import java.io.FileDescriptor
 import java.io.FileOutputStream
 import javax.inject.Inject
 import kotlin.reflect.KClass
@@ -120,12 +123,14 @@ internal class AndroidFileController @Inject constructor(
         keepOriginalMetadata: Boolean,
         oneTimeSaveLocationUri: String?,
         allowOverwrite: Boolean,
+        replaceExif: Boolean
     ): SaveResult {
         val result = saveImpl(
             saveTarget = saveTarget,
             keepOriginalMetadata = keepOriginalMetadata,
             oneTimeSaveLocationUri = oneTimeSaveLocationUri,
-            allowOverwrite = allowOverwrite
+            allowOverwrite = allowOverwrite,
+            replaceExif = replaceExif
         )
 
         Triple(
@@ -154,12 +159,14 @@ internal class AndroidFileController @Inject constructor(
         keepOriginalMetadata: Boolean,
         oneTimeSaveLocationUri: String?,
         allowOverwrite: Boolean,
+        replaceExif: Boolean
     ): SaveResult = withContext(ioDispatcher) {
         if (!context.isExternalStorageWritable()) {
             return@withContext SaveResult.Error.MissingPermissions
         }
 
-        val shouldKeepMetadata = keepOriginalMetadata && !settingsState.isAlwaysClearExif
+        val clearExif = settingsState.isAlwaysClearExif && !replaceExif
+        val shouldKeepMetadata = keepOriginalMetadata && !clearExif && !replaceExif
         val data = if (saveTarget is ImageSaveTarget && saveTarget.readFromUriInsteadOfData) {
             readBytes(saveTarget.originalUri)
         } else {
@@ -178,11 +185,13 @@ internal class AndroidFileController @Inject constructor(
                 )?.toUri()?.let { uri ->
                     if (saveTarget is ImageSaveTarget) {
                         copyMetadata(
-                            initialExif = saveTarget.metadata.takeUnless { settingsState.isAlwaysClearExif },
+                            initialExif = saveTarget.metadata.takeUnless { clearExif },
                             fileUri = uri,
                             keepOriginalMetadata = shouldKeepMetadata,
                             originalUri = saveTarget.originalUri.toUri(),
-                            imageSaveTarget = saveTarget
+                            imageSaveTarget = saveTarget,
+                            replaceExif = replaceExif,
+                            deleteOnFailure = true
                         )
                     }
                     @Suppress("UsePropertyAccessSyntax")
@@ -222,11 +231,14 @@ internal class AndroidFileController @Inject constructor(
             ) {
                 val providedMetadata = (saveTarget as? ImageSaveTarget)
                     ?.metadata
-                    ?.takeUnless { settingsState.isAlwaysClearExif }
+                    ?.takeUnless { clearExif }
                 val targetMetadata = if (shouldKeepMetadata) {
                     readMetadata(originalUri.toString()) ?: providedMetadata
                 } else {
                     providedMetadata
+                }
+                val replacement = providedMetadata?.takeIf {
+                    replaceExif && saveTarget?.readFromUriInsteadOfData == true
                 }
 
                 val parcel = runCatching {
@@ -234,7 +246,7 @@ internal class AndroidFileController @Inject constructor(
 
                     context.openFileDescriptor(
                         uri = originalUri,
-                        mode = FileMode.WriteTruncate
+                        mode = if (replacement != null) FileMode.ReadWrite else FileMode.WriteTruncate
                     )
                 }.getOrNull()
 
@@ -246,16 +258,21 @@ internal class AndroidFileController @Inject constructor(
                 }
 
                 parcel.use {
-                    FileOutputStream(parcel.fileDescriptor).use { out ->
-                        out.write(data)
+                    if (replacement != null) {
+                        replacement.replaceAttributes(parcel.fileDescriptor)
+                    } else {
+                        FileOutputStream(parcel.fileDescriptor).use { out ->
+                            out.write(data)
 
-                        copyMetadata(
-                            initialExif = targetMetadata,
-                            fileUri = originalUri,
-                            keepOriginalMetadata = shouldKeepMetadata,
-                            originalUri = originalUri,
-                            imageSaveTarget = saveTarget as? ImageSaveTarget
-                        )
+                            copyMetadata(
+                                initialExif = targetMetadata,
+                                fileUri = originalUri,
+                                keepOriginalMetadata = shouldKeepMetadata,
+                                originalUri = originalUri,
+                                imageSaveTarget = saveTarget as? ImageSaveTarget,
+                                replaceExif = replaceExif
+                            )
+                        }
                     }
 
                     imageLoader.apply {
@@ -314,7 +331,7 @@ internal class AndroidFileController @Inject constructor(
                 var initialExif: Metadata? = null
 
                 val newSaveTarget = if (saveTarget is ImageSaveTarget) {
-                    initialExif = saveTarget.metadata.takeUnless { settingsState.isAlwaysClearExif }
+                    initialExif = saveTarget.metadata.takeUnless { clearExif }
 
                     saveTarget.copy(
                         filename = filenameCreator.constructImageFilename(
@@ -345,7 +362,9 @@ internal class AndroidFileController @Inject constructor(
                     fileUri = savingFolder.fileUri,
                     keepOriginalMetadata = shouldKeepMetadata,
                     originalUri = saveTarget.originalUri.toUri(),
-                    imageSaveTarget = saveTarget as? ImageSaveTarget
+                    imageSaveTarget = saveTarget as? ImageSaveTarget,
+                    replaceExif = replaceExif,
+                    deleteOnFailure = savingFolder.fileUri != treeUri?.toUri()
                 )
 
                 if (settingsState.deleteOriginalsAfterSave && settingsState.filenameBehavior !is FilenameBehavior.Overwrite) {
@@ -857,7 +876,7 @@ internal class AndroidFileController @Inject constructor(
             UriReadable(
                 uri = UriReplacements.resolve(fromUri.toUri()),
                 context = context
-            ).copyTo(to)
+            ).use { it.copyTo(to) }
         }.onSuccess {
             return@withContext SaveResult.Success(
                 message = null,
@@ -912,14 +931,16 @@ internal class AndroidFileController @Inject constructor(
 
     override suspend fun writeMetadata(
         imageUri: String,
-        metadata: Metadata?
+        metadata: Metadata?,
+        replaceExif: Boolean
     ) {
         UriReplacements.resolve(imageUri.toUri()).let { resolvedUri ->
             copyMetadata(
                 initialExif = metadata,
                 fileUri = resolvedUri,
                 keepOriginalMetadata = false,
-                originalUri = resolvedUri
+                originalUri = resolvedUri,
+                replaceExif = replaceExif
             )
         }
     }
@@ -951,8 +972,21 @@ internal class AndroidFileController @Inject constructor(
         fileUri: Uri,
         keepOriginalMetadata: Boolean,
         originalUri: Uri,
-        imageSaveTarget: ImageSaveTarget? = null
-    ) = runSuspendCatching {
+        imageSaveTarget: ImageSaveTarget? = null,
+        replaceExif: Boolean = false,
+        deleteOnFailure: Boolean = false
+    ) = if (replaceExif && initialExif != null) {
+        runCatching {
+            checkNotNull(openFileDescriptor(fileUri)) {
+                getString(R.string.failed_to_open)
+            }.use {
+                initialExif.replaceAttributes(it.fileDescriptor)
+            }
+        }.onFailure {
+            if (deleteOnFailure) deleteFailedOutput(fileUri)
+            throw it
+        }
+    } else runSuspendCatching {
         if (initialExif != null) {
             openFileDescriptor(fileUri)?.use {
                 initialExif.makeLog("initialMetadata")
@@ -992,6 +1026,20 @@ internal class AndroidFileController @Inject constructor(
                 imageSaveTarget = imageSaveTarget
             )
         }
+    }
+
+    private fun deleteFailedOutput(uri: Uri) {
+        runCatching {
+            val resolved = UriReplacements.resolve(uri)
+            when {
+                resolved.scheme == "file" -> resolved.path?.let { File(it).delete() }
+                DocumentFile.isDocumentUri(context, resolved) -> {
+                    DocumentFile.fromSingleUri(context, resolved)?.delete()
+                }
+
+                else -> context.contentResolver.delete(resolved, null, null)
+            }
+        }.onFailure { it.makeLog("deleteFailedOutput") }
     }
 
     private fun addImageToolboxMetadata(
@@ -1061,6 +1109,26 @@ private fun ImageSaveTarget.imageToolboxMetadata(): String {
         separator = "; "
     )
 }
+
+private fun Metadata.replaceAttributes(
+    fileDescriptor: FileDescriptor
+) {
+    ExifInterface(fileDescriptor).apply {
+        val orientation = getAttributeInt(
+            ExifInterface.TAG_ORIENTATION,
+            ExifInterface.ORIENTATION_UNDEFINED
+        )
+        clearAttributes()
+        if (orientation in ExifInterface.ORIENTATION_FLIP_HORIZONTAL..ExifInterface.ORIENTATION_ROTATE_270) {
+            setAttribute(ExifInterface.TAG_ORIENTATION, orientation.toString())
+        }
+        this@replaceAttributes.toMap().forEach { (tag, value) ->
+            setAttribute(tag.key, value)
+        }
+        saveAttributes()
+    }
+}
+
 
 private const val FILE_EXPLORER_PICKER_MODE = 3
 private const val IMAGETOOLBOX_METADATA_PREFIX = "ImageToolbox parameters: "

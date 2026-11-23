@@ -19,11 +19,16 @@ package com.t8rin.imagetoolbox.feature.delete_exif.presentation
 
 
 import android.net.Uri
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -52,11 +57,13 @@ import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.LoadingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeImagePickingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButtonGroup
 import com.t8rin.imagetoolbox.core.ui.widget.image.AutoFilePicker
 import com.t8rin.imagetoolbox.core.ui.widget.image.ImageContainer
 import com.t8rin.imagetoolbox.core.ui.widget.image.ImageCounter
 import com.t8rin.imagetoolbox.core.ui.widget.image.ImageNotPickedWidget
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.detectSwipes
 import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
@@ -67,8 +74,8 @@ import com.t8rin.imagetoolbox.core.ui.widget.sheets.ZoomModalSheet
 import com.t8rin.imagetoolbox.core.ui.widget.text.TopAppBarTitle
 import com.t8rin.imagetoolbox.core.ui.widget.utils.AutoContentBasedColors
 import com.t8rin.imagetoolbox.core.utils.appContext
-import com.t8rin.imagetoolbox.core.utils.getString
 import com.t8rin.imagetoolbox.feature.delete_exif.domain.model.ExifRemovalPreset
+import com.t8rin.imagetoolbox.feature.delete_exif.presentation.components.ExifReplacementControls
 import com.t8rin.imagetoolbox.feature.delete_exif.presentation.screenLogic.DeleteExifComponent
 
 @Composable
@@ -121,7 +128,9 @@ fun DeleteExifContent(
         shouldDisableBackHandler = !component.haveChanges,
         title = {
             TopAppBarTitle(
-                title = stringResource(R.string.delete_exif),
+                title = stringResource(
+                    if (component.replaceExif) R.string.replace_exif else R.string.delete_exif
+                ),
                 input = component.bitmap,
                 isLoading = component.isImageLoading,
                 size = rememberFileSize(component.selectedUri)
@@ -137,6 +146,7 @@ fun DeleteExifContent(
                     mutableStateOf(listOf<Uri>())
                 }
                 ShareButton(
+                    enabled = component.canSave,
                     onShare = component::shareBitmaps,
                     onCopy = {
                         component.cacheCurrentImage(Clipboard::copy)
@@ -182,36 +192,6 @@ fun DeleteExifContent(
             )
         },
         controls = {
-            val selectedTags = component.selectedTags
-            val removalPreset = component.removalPreset
-            val removalPresetName = stringResource(
-                when (removalPreset) {
-                    ExifRemovalPreset.AllMetadata -> R.string.exif_preset_all_metadata
-                    ExifRemovalPreset.Privacy -> R.string.exif_preset_privacy
-                    ExifRemovalPreset.LocationOnly -> R.string.exif_preset_location_only
-                    ExifRemovalPreset.KeepDateAndCopyright -> {
-                        R.string.exif_preset_keep_date_copyright
-                    }
-
-                    ExifRemovalPreset.Custom -> R.string.custom
-                }
-            )
-            val subtitle by remember(selectedTags, removalPreset, removalPresetName) {
-                derivedStateOf {
-                    when {
-                        removalPreset == ExifRemovalPreset.AllMetadata -> getString(R.string.all)
-                        removalPreset != ExifRemovalPreset.Custom -> getString(
-                            R.string.exif_tags_selected,
-                            removalPresetName,
-                            selectedTags.size
-                        )
-
-                        else -> selectedTags.joinToString(", ") {
-                            it.localizedName(appContext)
-                        }
-                    }
-                }
-            }
             ImageCounter(
                 imageCount = component.uris?.size?.takeIf { it > 1 },
                 onRepick = {
@@ -219,43 +199,94 @@ fun DeleteExifContent(
                 }
             )
             Spacer(modifier = Modifier.height(8.dp))
-            DataSelector(
-                value = component.removalPreset,
-                onValueChange = component::setRemovalPreset,
-                entries = remember {
-                    ExifRemovalPreset.entries.filterNot {
-                        it == ExifRemovalPreset.Custom
-                    }
-                },
-                title = stringResource(R.string.exif_removal_preset),
-                titleIcon = Icons.Rounded.WandStars,
-                itemContentText = {
-                    stringResource(
-                        when (it) {
-                            ExifRemovalPreset.AllMetadata -> R.string.exif_preset_all_metadata
-                            ExifRemovalPreset.Privacy -> R.string.exif_preset_privacy
-                            ExifRemovalPreset.LocationOnly -> R.string.exif_preset_location_only
-                            ExifRemovalPreset.KeepDateAndCopyright -> R.string.exif_preset_keep_date_copyright
-                            ExifRemovalPreset.Custom -> R.string.custom
-                        }
-                    )
-                },
-                spanCount = 1,
-                modifier = Modifier.fillMaxWidth(),
-                shape = ShapeDefaults.extraLarge,
+            EnhancedButtonGroup(
+                items = listOf(
+                    stringResource(R.string.delete_exif),
+                    stringResource(R.string.replace_exif)
+                ),
+                selectedIndex = if (component.replaceExif) 1 else 0,
+                onIndexChange = { component.setReplaceExif(it == 1) },
+                title = stringResource(R.string.mode),
+                isScrollable = false,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .container(ShapeDefaults.extraLarge)
             )
             Spacer(modifier = Modifier.height(8.dp))
-            PreferenceItem(
-                onClick = {
-                    showExifSelection = true
-                },
-                modifier = Modifier.fillMaxWidth(),
-                title = stringResource(R.string.tags_to_remove),
-                subtitle = subtitle,
-                shape = ShapeDefaults.extraLarge,
-                startIcon = Icons.Rounded.Exif,
-                endIcon = Icons.Rounded.MiniEdit
-            )
+            AnimatedContent(
+                targetState = component.replaceExif,
+                transitionSpec = { fadeIn() togetherWith fadeOut() },
+                modifier = Modifier.fillMaxWidth()
+            ) { replaceExif ->
+                if (replaceExif) {
+                    ExifReplacementControls(component)
+                } else {
+                    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                        val selectedTags = component.selectedTags
+                        val removalPreset = component.removalPreset
+                        val removalPresetName = stringResource(
+                            when (removalPreset) {
+                                ExifRemovalPreset.AllMetadata -> R.string.exif_preset_all_metadata
+                                ExifRemovalPreset.Privacy -> R.string.exif_preset_privacy
+                                ExifRemovalPreset.LocationOnly -> R.string.exif_preset_location_only
+                                ExifRemovalPreset.KeepDateAndCopyright -> {
+                                    R.string.exif_preset_keep_date_copyright
+                                }
+
+                                ExifRemovalPreset.Custom -> R.string.custom
+                            }
+                        )
+                        val subtitle = when (removalPreset) {
+                            ExifRemovalPreset.AllMetadata -> stringResource(R.string.all)
+                            ExifRemovalPreset.Custom -> selectedTags.joinToString(", ") {
+                                it.localizedName(appContext)
+                            }
+
+                            else -> stringResource(
+                                R.string.exif_tags_selected,
+                                removalPresetName,
+                                selectedTags.size
+                            )
+                        }
+                        DataSelector(
+                            value = component.removalPreset,
+                            onValueChange = component::setRemovalPreset,
+                            entries = remember {
+                                ExifRemovalPreset.entries.filterNot {
+                                    it == ExifRemovalPreset.Custom
+                                }
+                            },
+                            title = stringResource(R.string.exif_removal_preset),
+                            titleIcon = Icons.Rounded.WandStars,
+                            itemContentText = {
+                                stringResource(
+                                    when (it) {
+                                        ExifRemovalPreset.AllMetadata -> R.string.exif_preset_all_metadata
+                                        ExifRemovalPreset.Privacy -> R.string.exif_preset_privacy
+                                        ExifRemovalPreset.LocationOnly -> R.string.exif_preset_location_only
+                                        ExifRemovalPreset.KeepDateAndCopyright -> R.string.exif_preset_keep_date_copyright
+                                        ExifRemovalPreset.Custom -> R.string.custom
+                                    }
+                                )
+                            },
+                            spanCount = 1,
+                            modifier = Modifier.fillMaxWidth(),
+                            shape = ShapeDefaults.extraLarge,
+                        )
+                        PreferenceItem(
+                            onClick = {
+                                showExifSelection = true
+                            },
+                            modifier = Modifier.fillMaxWidth(),
+                            title = stringResource(R.string.tags_to_remove),
+                            subtitle = subtitle,
+                            shape = ShapeDefaults.extraLarge,
+                            startIcon = Icons.Rounded.Exif,
+                            endIcon = Icons.Rounded.MiniEdit
+                        )
+                    }
+                }
+            }
         },
         buttons = { actions ->
             var showFolderSelectionDialog by rememberSaveable {
@@ -266,6 +297,7 @@ fun DeleteExifContent(
             }
             BottomButtonsBlock(
                 isNoData = component.uris.isNullOrEmpty(),
+                isPrimaryButtonEnabled = component.canSave,
                 onSecondaryButtonClick = pickImage,
                 onPrimaryButtonClick = {
                     saveBitmaps(null)
