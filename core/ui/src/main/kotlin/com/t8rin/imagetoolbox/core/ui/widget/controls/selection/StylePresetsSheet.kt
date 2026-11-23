@@ -44,6 +44,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.Icons
@@ -78,6 +79,8 @@ internal fun <T> StylePresetsSheet(
     styles: List<Pair<String, T>>,
     selectedName: String?,
     showSelection: Boolean,
+    icon: ImageVector?,
+    titleIcon: ImageVector?,
     listStateKey: String,
     summary: @Composable (T) -> String,
     onDismiss: () -> Unit,
@@ -90,7 +93,7 @@ internal fun <T> StylePresetsSheet(
         onDismiss = { if (!it) onDismiss() },
         title = {
             TitleItem(
-                icon = Icons.Rounded.Palette,
+                icon = titleIcon ?: Icons.Rounded.Palette,
                 text = stringResource(R.string.style_presets)
             )
         },
@@ -114,6 +117,7 @@ internal fun <T> StylePresetsSheet(
             if (selectedName == null) {
                 item("AddStylePreset") {
                     AddStylePresetBlock(
+                        icon = icon ?: Icons.Outlined.Palette,
                         subtitle = summary(currentStyle),
                         onSave = onSave,
                         modifier = Modifier
@@ -143,6 +147,7 @@ internal fun <T> StylePresetsSheet(
 
 @Composable
 private fun AddStylePresetBlock(
+    icon: ImageVector,
     subtitle: String,
     onSave: (String) -> Unit,
     modifier: Modifier = Modifier
@@ -156,7 +161,7 @@ private fun AddStylePresetBlock(
         )
     ) {
         TitleItem(
-            icon = Icons.Outlined.Palette,
+            icon = icon,
             text = stringResource(R.string.save_style_preset),
             modifier = Modifier,
             subtitle = subtitle

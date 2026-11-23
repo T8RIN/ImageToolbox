@@ -22,6 +22,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
@@ -41,7 +42,9 @@ fun <T> StylePresetSelector(
     onDelete: (String) -> Unit,
     shape: Shape = ShapeDefaults.large,
     showSelection: Boolean = true,
-    state: StylePresetSelectorState = rememberStylePresetSelectorState()
+    state: StylePresetSelectorState = rememberStylePresetSelectorState(),
+    icon: ImageVector? = null,
+    titleIcon: ImageVector? = null
 ) {
     val selectedName = remember(currentStyle, styles, showSelection) {
         styles.firstOrNull { showSelection && it.second == currentStyle }?.first
@@ -63,6 +66,8 @@ fun <T> StylePresetSelector(
         styles = styles,
         selectedName = selectedName,
         showSelection = showSelection,
+        icon = icon,
+        titleIcon = titleIcon,
         listStateKey = listStateKey,
         summary = summary,
         onDismiss = { state.showSheet = false },
