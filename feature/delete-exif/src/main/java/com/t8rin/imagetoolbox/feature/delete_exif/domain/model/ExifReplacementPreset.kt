@@ -24,6 +24,7 @@ import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 import java.util.Locale
 import kotlin.math.abs
+import kotlin.math.log2
 import kotlin.math.roundToInt
 import kotlin.math.roundToLong
 import kotlin.random.Random
@@ -429,6 +430,8 @@ internal enum class ExifReplacementPreset(private val camera: Camera? = null) {
             random.nextLong(ChronoUnit.SECONDS.between(start, settings.now) + 1)
         )
         val timestamp = date.format(dateFormat)
+        val shutterSpeed = lighting.shutterSpeeds.random(random)
+        val iso = lighting.isoValues.random(random).toString()
 
         return buildMap {
             put(MetadataTag.Make, camera.make)
@@ -436,6 +439,15 @@ internal enum class ExifReplacementPreset(private val camera: Camera? = null) {
             if (settings.includeSoftware) camera.software?.let { put(MetadataTag.Software, it) }
             put(MetadataTag.LensMake, lens.make ?: camera.make)
             lens.name?.let { put(MetadataTag.LensModel, it) }
+            put(
+                MetadataTag.LensSpecification,
+                listOf(
+                    lens.focalLengths.min(),
+                    lens.focalLengths.max(),
+                    lens.wideAperture,
+                    lens.aperture
+                ).joinToString(",") { "$it/100" }
+            )
             put(MetadataTag.Datetime, timestamp)
             put(MetadataTag.DatetimeOriginal, timestamp)
             put(MetadataTag.DatetimeDigitized, timestamp)
@@ -445,12 +457,20 @@ internal enum class ExifReplacementPreset(private val camera: Camera? = null) {
                 (focalLength * lens.cropFactor / 100).roundToInt().toString()
             )
             put(MetadataTag.FNumber, "$aperture/100")
-            put(MetadataTag.ExposureTime, "1/${lighting.shutterSpeeds.random(random)}")
-            put(MetadataTag.PhotographicSensitivity, lighting.isoValues.random(random).toString())
+            put(MetadataTag.ApertureValue, (2 * log2(aperture / 100.0)).toExifRational())
+            put(MetadataTag.ExposureTime, "1/$shutterSpeed")
+            put(MetadataTag.ShutterSpeedValue, log2(shutterSpeed.toDouble()).toExifRational())
+            put(MetadataTag.PhotographicSensitivity, iso)
+            put(MetadataTag.SensitivityType, "3")
+            put(MetadataTag.IsoSpeed, iso)
             put(MetadataTag.ExposureProgram, "2")
+            put(MetadataTag.ExposureMode, "0")
+            put(MetadataTag.ExposureBiasValue, "0/1")
             put(MetadataTag.WhiteBalance, if (settings.manualWhiteBalance) "1" else "0")
             put(MetadataTag.MeteringMode, settings.metering.exifValue)
             put(MetadataTag.Flash, "16")
+            put(MetadataTag.DigitalZoomRatio, "0/1")
+            put(MetadataTag.SceneCaptureType, "0")
             val coordinates = when (settings.location) {
                 ExifLocation.None -> null
                 ExifLocation.Random -> random.nextDouble(-0.25, 0.25) to random.nextDouble(
@@ -492,7 +512,8 @@ internal enum class ExifReplacementPreset(private val camera: Camera? = null) {
                     "EF-S18-135mm f/3.5-5.6 IS USM",
                     listOf(1800, 3500, 5000, 8500, 13500),
                     560,
-                    1.6
+                    1.6,
+                    wideAperture = 350
                 ),
                 earliestDate = LocalDateTime.of(2019, 9, 30, 0, 0)
             )
@@ -501,7 +522,13 @@ internal enum class ExifReplacementPreset(private val camera: Camera? = null) {
             make = "SONY",
             model = "ILCE-7M3",
             software = null,
-            lens = Lens("FE 28-70mm F3.5-5.6 OSS", listOf(2800, 3500, 5000, 7000), 560, 1.0),
+            lens = Lens(
+                "FE 28-70mm F3.5-5.6 OSS",
+                listOf(2800, 3500, 5000, 7000),
+                560,
+                1.0,
+                wideAperture = 350
+            ),
             earliestDate = LocalDateTime.of(2018, 4, 9, 0, 0)
         )
         private val compact = Camera(
@@ -513,7 +540,8 @@ internal enum class ExifReplacementPreset(private val camera: Camera? = null) {
                 focalLengths = listOf(900, 1800, 3600, 5400, 7200),
                 aperture = 450,
                 cropFactor = 2.78,
-                make = "ZEISS"
+                make = "ZEISS",
+                wideAperture = 280
             ),
             earliestDate = LocalDateTime.of(2019, 8, 1, 0, 0)
         )
@@ -547,7 +575,8 @@ private data class Lens(
     val aperture: Int,
     val cropFactor: Double,
     val fixedAperture: Boolean = false,
-    val make: String? = null
+    val make: String? = null,
+    val wideAperture: Int = aperture
 )
 
 private fun phone(
@@ -575,6 +604,8 @@ private fun phone(
     ),
     earliestDate = LocalDate.parse(releaseDate).atStartOfDay()
 )
+
+private fun Double.toExifRational(): String = "${(this * 1000).roundToInt()}/1000"
 
 private fun Double.toDms(): String {
     val seconds = (abs(this) * 3600 * 1_000_000).roundToLong()
