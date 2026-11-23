@@ -1847,7 +1847,6 @@
     <string name="exif_random_date">Random date</string>
     <string name="exif_lighting_daylight">Daylight</string>
     <string name="exif_lighting_indoors">Indoors</string>
-    <string name="exif_manual_white_balance">Manual white balance</string>
     <string name="exif_metering_multi_segment">Multi-segment</string>
     <string name="exif_metering_center_weighted">Center-weighted</string>
     <string name="exif_metering_spot">Spot</string>

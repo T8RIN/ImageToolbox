@@ -9297,7 +9297,6 @@
     <string name="exif_random_date">Slumpmässigt datum</string>
     <string name="exif_lighting_daylight">Dagsljus</string>
     <string name="exif_lighting_indoors">Inomhus</string>
-    <string name="exif_manual_white_balance">Manuell vitbalans</string>
     <string name="exif_metering_multi_segment">Flersegment</string>
     <string name="exif_metering_center_weighted">Centerviktad</string>
     <string name="exif_metering_spot">Punktmätning</string>

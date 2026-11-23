@@ -9296,7 +9296,6 @@
     <string name="exif_random_date">Tanggal acak</string>
     <string name="exif_lighting_daylight">Siang hari</string>
     <string name="exif_lighting_indoors">Di dalam ruangan</string>
-    <string name="exif_manual_white_balance">Keseimbangan putih manual</string>
     <string name="exif_metering_multi_segment">Multi-segmen</string>
     <string name="exif_metering_center_weighted">Berbobot tengah</string>
     <string name="exif_metering_spot">Titik</string>

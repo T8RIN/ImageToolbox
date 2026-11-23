@@ -9297,7 +9297,6 @@
     <string name="exif_random_date">تاریخ تصادفی</string>
     <string name="exif_lighting_daylight">نور روز</string>
     <string name="exif_lighting_indoors">در داخل خانه</string>
-    <string name="exif_manual_white_balance">تعادل رنگ سفید دستی</string>
     <string name="exif_metering_multi_segment">چند بخش</string>
     <string name="exif_metering_center_weighted">مرکز وزن</string>
     <string name="exif_metering_spot">نقطه‌ای</string>

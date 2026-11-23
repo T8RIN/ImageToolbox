@@ -9298,7 +9298,6 @@
     <string name="exif_random_date">Data aleatorie</string>
     <string name="exif_lighting_daylight">Lumina zilei</string>
     <string name="exif_lighting_indoors">În interior</string>
-    <string name="exif_manual_white_balance">Balans manual de alb</string>
     <string name="exif_metering_multi_segment">Multi-segment</string>
     <string name="exif_metering_center_weighted">Ponderată central</string>
     <string name="exif_metering_spot">Punctuală</string>

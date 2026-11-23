@@ -9297,7 +9297,6 @@
     <string name="exif_random_date">यादृच्छिक तिथि</string>
     <string name="exif_lighting_daylight">दिन का प्रकाश</string>
     <string name="exif_lighting_indoors">घर के अंदर</string>
-    <string name="exif_manual_white_balance">मैन्युअल श्वेत संतुलन</string>
     <string name="exif_metering_multi_segment">बहु-खंड</string>
     <string name="exif_metering_center_weighted">केंद्र-भारित</string>
     <string name="exif_metering_spot">स्पॉट</string>

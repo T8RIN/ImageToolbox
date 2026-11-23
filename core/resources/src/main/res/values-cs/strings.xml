@@ -9299,7 +9299,6 @@
     <string name="exif_random_date">Náhodné datum</string>
     <string name="exif_lighting_daylight">Denní světlo</string>
     <string name="exif_lighting_indoors">Uvnitř</string>
-    <string name="exif_manual_white_balance">Manuální vyvážení bílé</string>
     <string name="exif_metering_multi_segment">Vícesegmentové</string>
     <string name="exif_metering_center_weighted">Se zdůrazněným středem</string>
     <string name="exif_metering_spot">Bodové</string>

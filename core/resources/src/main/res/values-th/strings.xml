@@ -9296,7 +9296,6 @@
     <string name="exif_random_date">วันที่สุ่ม</string>
     <string name="exif_lighting_daylight">กลางวัน</string>
     <string name="exif_lighting_indoors">ในร่ม</string>
-    <string name="exif_manual_white_balance">สมดุลสีขาวแบบแมนนวล</string>
     <string name="exif_metering_multi_segment">หลายส่วน</string>
     <string name="exif_metering_center_weighted">เน้นกลางภาพ</string>
     <string name="exif_metering_spot">เฉพาะจุด</string>

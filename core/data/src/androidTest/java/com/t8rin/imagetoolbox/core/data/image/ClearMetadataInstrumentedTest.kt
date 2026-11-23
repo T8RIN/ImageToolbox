@@ -431,8 +431,9 @@ class ClearMetadataInstrumentedTest {
                         settings.toggleAlwaysClearExif()
                     }
                     settings.setCopyToClipboardMode(original.copyToClipboardMode)
+                    @Suppress("UsePropertyAccessSyntax")
                     if (originalClip == null) clipboard.clearPrimaryClip()
-                    else clipboard.primaryClip = originalClip
+                    else clipboard.setPrimaryClip(originalClip)
                 }
             }
         } finally {

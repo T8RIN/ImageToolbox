@@ -9299,7 +9299,6 @@
     <string name="exif_random_date">Losowa data</string>
     <string name="exif_lighting_daylight">Światło dzienne</string>
     <string name="exif_lighting_indoors">W pomieszczeniu</string>
-    <string name="exif_manual_white_balance">Ręczny balans bieli</string>
     <string name="exif_metering_multi_segment">Wielosegmentowy</string>
     <string name="exif_metering_center_weighted">Centralnie ważony</string>
     <string name="exif_metering_spot">Punktowy</string>

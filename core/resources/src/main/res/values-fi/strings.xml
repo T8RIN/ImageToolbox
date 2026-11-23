@@ -9297,7 +9297,6 @@
     <string name="exif_random_date">Satunnainen päivämäärä</string>
     <string name="exif_lighting_daylight">Päivänvalo</string>
     <string name="exif_lighting_indoors">Sisällä</string>
-    <string name="exif_manual_white_balance">Manuaalinen valkotasapaino</string>
     <string name="exif_metering_multi_segment">Monialue</string>
     <string name="exif_metering_center_weighted">Keskipainotettu</string>
     <string name="exif_metering_spot">Piste</string>

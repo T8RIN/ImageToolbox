@@ -9297,7 +9297,6 @@
     <string name="exif_random_date">சீரற்ற தேதி</string>
     <string name="exif_lighting_daylight">பகல் வெளிச்சம்</string>
     <string name="exif_lighting_indoors">உட்புறம்</string>
-    <string name="exif_manual_white_balance">கைமுறை வெள்ளைச் சமநிலை</string>
     <string name="exif_metering_multi_segment">பல பிரிவு</string>
     <string name="exif_metering_center_weighted">மைய எடையுடையது</string>
     <string name="exif_metering_spot">ஸ்பாட்</string>

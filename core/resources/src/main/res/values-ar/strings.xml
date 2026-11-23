@@ -9301,7 +9301,6 @@
     <string name="exif_random_date">تاريخ عشوائي</string>
     <string name="exif_lighting_daylight">ضوء النهار</string>
     <string name="exif_lighting_indoors">في الداخل</string>
-    <string name="exif_manual_white_balance">توازن اللون الأبيض اليدوي</string>
     <string name="exif_metering_multi_segment">متعدد القطاعات</string>
     <string name="exif_metering_center_weighted">مرجّح للوسط</string>
     <string name="exif_metering_spot">نقطي</string>

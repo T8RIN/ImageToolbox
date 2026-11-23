@@ -9298,7 +9298,6 @@
     <string name="exif_random_date">Случајни датум</string>
     <string name="exif_lighting_daylight">Дневно светло</string>
     <string name="exif_lighting_indoors">У затвореном</string>
-    <string name="exif_manual_white_balance">Ручни баланс белог</string>
     <string name="exif_metering_multi_segment">Вишесегментно</string>
     <string name="exif_metering_center_weighted">Централно пондерисано</string>
     <string name="exif_metering_spot">Тачкасто</string>

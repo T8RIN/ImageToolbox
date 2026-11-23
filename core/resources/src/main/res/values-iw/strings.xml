@@ -9299,7 +9299,6 @@
     <string name="exif_random_date">תאריך אקראי</string>
     <string name="exif_lighting_daylight">אור יום</string>
     <string name="exif_lighting_indoors">בתוך מבנה</string>
-    <string name="exif_manual_white_balance">איזון לבן ידני</string>
     <string name="exif_metering_multi_segment">רב-אזורית</string>
     <string name="exif_metering_center_weighted">משוקללת למרכז</string>
     <string name="exif_metering_spot">נקודתית</string>

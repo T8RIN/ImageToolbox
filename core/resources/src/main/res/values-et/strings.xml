@@ -9297,7 +9297,6 @@
     <string name="exif_random_date">Juhuslik kuupäev</string>
     <string name="exif_lighting_daylight">Päevavalgus</string>
     <string name="exif_lighting_indoors">Siseruumides</string>
-    <string name="exif_manual_white_balance">Käsitsi valge tasakaal</string>
     <string name="exif_metering_multi_segment">Mitmesegmendiline</string>
     <string name="exif_metering_center_weighted">Keskele kaalutud</string>
     <string name="exif_metering_spot">Punktmõõtmine</string>

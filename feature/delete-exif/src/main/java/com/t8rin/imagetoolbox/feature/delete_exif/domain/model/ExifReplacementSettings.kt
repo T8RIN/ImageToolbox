@@ -24,7 +24,6 @@ import kotlin.random.Random
 
 internal data class ExifReplacementSettings(
     val lighting: ExifLighting = ExifLighting.Auto,
-    val manualWhiteBalance: Boolean = false,
     val metering: ExifMetering = ExifMetering.MultiSegment,
     val includeSoftware: Boolean = true,
     val location: ExifLocation = ExifLocation.None,

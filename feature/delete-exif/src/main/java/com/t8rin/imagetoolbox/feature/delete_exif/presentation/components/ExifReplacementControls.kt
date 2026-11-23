@@ -93,7 +93,6 @@ internal fun ExifReplacementControls(component: DeleteExifComponent) {
             itemContentText = {
                 when (it) {
                     ExifReplacementPreset.Custom -> stringResource(R.string.custom)
-                    ExifReplacementPreset.Smartphone -> stringResource(R.string.exif_profile_smartphone)
                     ExifReplacementPreset.Dslr -> stringResource(R.string.exif_profile_dslr)
                     ExifReplacementPreset.Mirrorless -> stringResource(R.string.exif_profile_mirrorless)
                     ExifReplacementPreset.Compact -> stringResource(R.string.exif_profile_compact)
@@ -199,7 +198,6 @@ private fun ExifReplacementSettings.summary(): String {
         stringResource(lighting.titleRes()),
         date,
         location,
-        if (manualWhiteBalance) stringResource(R.string.exif_manual_white_balance) else null,
         if (metering != ExifMetering.MultiSegment) stringResource(metering.titleRes()) else null,
         if (!includeSoftware) stringResource(R.string.exif_no_software) else null,
         if (sameForBatch) stringResource(R.string.exif_same_for_batch) else null

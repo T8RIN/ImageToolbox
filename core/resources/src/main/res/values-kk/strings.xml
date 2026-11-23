@@ -9297,7 +9297,6 @@
     <string name="exif_random_date">Кездейсоқ күн</string>
     <string name="exif_lighting_daylight">Күндізгі жарық</string>
     <string name="exif_lighting_indoors">Үй ішінде</string>
-    <string name="exif_manual_white_balance">Қолмен ақ баланс</string>
     <string name="exif_metering_multi_segment">Көп сегментті</string>
     <string name="exif_metering_center_weighted">Орталықтан өлшенген</string>
     <string name="exif_metering_spot">Нүктелік</string>

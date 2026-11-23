@@ -9299,7 +9299,6 @@
     <string name="exif_random_date">Atsitiktinė data</string>
     <string name="exif_lighting_daylight">Dienos šviesa</string>
     <string name="exif_lighting_indoors">Patalpose</string>
-    <string name="exif_manual_white_balance">Rankinis baltos spalvos balansas</string>
     <string name="exif_metering_multi_segment">Kelių segmentų</string>
     <string name="exif_metering_center_weighted">Svertinis centre</string>
     <string name="exif_metering_spot">Taškinis</string>

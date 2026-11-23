@@ -31,24 +31,12 @@ import kotlin.random.Random
 
 internal enum class ExifReplacementPreset(private val camera: Camera? = null) {
     Custom,
-    Smartphone(
-        phone(
-            name = "Pixel 7",
-            make = "Google",
-            focalLength = 681,
-            equivalentFocalLength = 24,
-            aperture = 185,
-            releaseDate = "2022-10-13",
-            lensName = "Pixel 7 back camera 6.81mm f/1.85",
-            software = "HDR+"
-        )
-    ),
+    RandomPhone,
+    RandomCamera,
     Dslr,
     Mirrorless,
     Compact,
     ActionCamera,
-    RandomPhone,
-    RandomCamera,
     FujifilmX100VI(
         Camera(
             name = "Fujifilm X100VI",
@@ -116,6 +104,18 @@ internal enum class ExifReplacementPreset(private val camera: Camera? = null) {
             equivalentFocalLength = 27,
             aperture = 173,
             releaseDate = "2022-07-28"
+        )
+    ),
+    Pixel7(
+        phone(
+            name = "Pixel 7",
+            make = "Google",
+            focalLength = 681,
+            equivalentFocalLength = 24,
+            aperture = 185,
+            releaseDate = "2022-10-13",
+            lensName = "Pixel 7 back camera 6.81mm f/1.85",
+            software = "HDR+"
         )
     ),
     Pixel8Pro(
@@ -466,7 +466,7 @@ internal enum class ExifReplacementPreset(private val camera: Camera? = null) {
             put(MetadataTag.ExposureProgram, "2")
             put(MetadataTag.ExposureMode, "0")
             put(MetadataTag.ExposureBiasValue, "0/1")
-            put(MetadataTag.WhiteBalance, if (settings.manualWhiteBalance) "1" else "0")
+            put(MetadataTag.WhiteBalance, "0")
             put(MetadataTag.MeteringMode, settings.metering.exifValue)
             put(MetadataTag.Flash, "16")
             put(MetadataTag.DigitalZoomRatio, "0/1")
