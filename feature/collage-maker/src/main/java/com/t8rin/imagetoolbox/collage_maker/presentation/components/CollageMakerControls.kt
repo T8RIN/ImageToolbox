@@ -48,6 +48,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.RoundedCorner
 import com.t8rin.imagetoolbox.core.resources.icons.SwipeVertical
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.BackgroundColorSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageFormatSelector
+import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.OutputScaleSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.QualitySelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.StylePresetSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.StylePresetSelectorState
@@ -203,7 +204,7 @@ internal fun CollageMakerControls(
             icon = Icons.Rounded.RoundedCorner,
             shape = ShapeDefaults.extraLarge
         )
-        CollageOutputScaleSelector(
+        OutputScaleSelector(
             value = component.params.outputScaleRatio,
             onValueChange = component::setOutputScaleRatio,
             outputSize = outputSize

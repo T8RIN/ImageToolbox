@@ -81,7 +81,8 @@ import com.t8rin.imagetoolbox.feature.document_scanner.presentation.screenLogic.
 fun DocumentScannerContent(
     component: DocumentScannerComponent
 ) {
-    var showExitDialog by rememberSaveable { mutableStateOf(false) }
+    val canShowScreenData = component.uris.isNotEmpty()
+    var showExitDialog by rememberSaveable(canShowScreenData) { mutableStateOf(false) }
 
     val savePdfLauncher = rememberFileCreator(
         mimeType = MimeType.Pdf,
@@ -140,7 +141,7 @@ fun DocumentScannerContent(
     }
 
     AdaptiveLayoutScreen(
-        shouldDisableBackHandler = false,
+        shouldDisableBackHandler = !canShowScreenData,
         title = {
             Text(
                 text = stringResource(R.string.document_scanner),
@@ -151,7 +152,11 @@ fun DocumentScannerContent(
             TopAppBarEmoji()
         },
         onGoBack = {
-            showExitDialog = true
+            if (canShowScreenData) {
+                showExitDialog = true
+            } else {
+                component.onGoBack()
+            }
         },
         actions = {},
         imagePreview = {
@@ -306,7 +311,7 @@ fun DocumentScannerContent(
                 visible = showOneTimeImagePickingDialog
             )
         },
-        canShowScreenData = component.uris.isNotEmpty()
+        canShowScreenData = canShowScreenData
     )
 
     ImagePager(
@@ -325,7 +330,7 @@ fun DocumentScannerContent(
     ExitWithoutSavingDialog(
         onExit = component.onGoBack,
         onDismiss = { showExitDialog = false },
-        visible = showExitDialog
+        visible = canShowScreenData && showExitDialog
     )
 
     LoadingDialog(

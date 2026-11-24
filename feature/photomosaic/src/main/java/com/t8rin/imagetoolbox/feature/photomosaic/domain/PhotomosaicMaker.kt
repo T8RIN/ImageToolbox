@@ -17,7 +17,11 @@
 
 package com.t8rin.imagetoolbox.feature.photomosaic.domain
 
+import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
+
 interface PhotomosaicMaker<I> {
+    suspend fun getTargetSize(targetUri: String): IntegerSize?
+
     suspend fun create(
         targetUri: String,
         tileUris: List<String>,

@@ -31,6 +31,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
@@ -44,6 +45,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil3.toBitmap
+import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.BrokenImageAlt
@@ -68,6 +70,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.buttons.ZoomButton
 import com.t8rin.imagetoolbox.core.ui.widget.controls.ImageReorderCarousel
 import com.t8rin.imagetoolbox.core.ui.widget.controls.UndoRedoButtons
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageFormatSelector
+import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.OutputScaleSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.QualitySelector
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.LoadingDialog
@@ -114,6 +117,12 @@ fun PhotomosaicContent(component: PhotomosaicComponent) {
     var showCompareSheet by rememberSaveable { mutableStateOf(false) }
     var editSheetData by remember { mutableStateOf(listOf<Uri>()) }
     val isPortrait by isPortraitOrientationAsState()
+
+    val selectedUri = component.selectedUri
+    var targetSize by remember(selectedUri) { mutableStateOf<IntegerSize?>(null) }
+    LaunchedEffect(selectedUri) {
+        targetSize = selectedUri?.let { component.getTargetSize(it) }
+    }
 
     val onBack = {
         if (component.haveChanges) {
@@ -321,6 +330,12 @@ fun PhotomosaicContent(component: PhotomosaicComponent) {
                     },
                     shape = ShapeDefaults.extraLarge
                 )
+                OutputScaleSelector(
+                    value = component.params.outputScaleRatio,
+                    onValueChange = component::setOutputScaleRatio,
+                    outputSize = targetSize?.let(component.params::outputSize)
+                        ?.let { it.width to it.height }
+                )
                 QualitySelector(
                     imageFormat = component.imageFormat,
                     quality = component.quality,
@@ -372,7 +387,7 @@ fun PhotomosaicContent(component: PhotomosaicComponent) {
         canShowScreenData = component.uris.isNotEmpty()
     )
 
-    val transformations by remember(component.params, component.tileUris) {
+    val transformations by remember(component.previewParams, component.tileUris) {
         derivedStateOf {
             listOf(component.getPhotomosaicTransformation())
         }

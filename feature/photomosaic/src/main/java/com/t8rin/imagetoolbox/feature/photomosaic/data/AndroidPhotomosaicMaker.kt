@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.feature.photomosaic.data
 
+import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
@@ -24,15 +25,21 @@ import android.graphics.Paint
 import android.graphics.Rect
 import android.graphics.RectF
 import androidx.core.graphics.createBitmap
+import androidx.core.graphics.scale
+import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.data.utils.getSuitableConfig
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.domain.image.ImageScaler
 import com.t8rin.imagetoolbox.core.domain.image.model.ResizeType
+import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
+import com.t8rin.imagetoolbox.core.domain.model.sizeTo
+import com.t8rin.imagetoolbox.core.utils.imageSize
 import com.t8rin.imagetoolbox.feature.photomosaic.domain.AdaptiveTileLayout
 import com.t8rin.imagetoolbox.feature.photomosaic.domain.LabColor
 import com.t8rin.imagetoolbox.feature.photomosaic.domain.PhotomosaicMaker
 import com.t8rin.imagetoolbox.feature.photomosaic.domain.PhotomosaicParams
+import com.t8rin.imagetoolbox.feature.photomosaic.domain.PhotomosaicParams.Companion.MAX_OUTPUT_SIZE
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -48,6 +55,29 @@ internal class AndroidPhotomosaicMaker @Inject constructor(
     dispatchersHolder: DispatchersHolder
 ) : DispatchersHolder by dispatchersHolder, PhotomosaicMaker<Bitmap> {
 
+    override suspend fun getTargetSize(targetUri: String): IntegerSize? =
+        loadTarget(targetUri, MAX_OUTPUT_SIZE)?.run { width sizeTo height }
+
+    private suspend fun loadTarget(targetUri: String, maxSide: Int): Bitmap? =
+        withContext(defaultDispatcher) {
+            val sourceSize = withContext(ioDispatcher) { targetUri.toUri().imageSize() }
+            val target = if (sourceSize != null) {
+                val side = minOf(maxSide, maxOf(sourceSize.width, sourceSize.height))
+                imageGetter.getImage(data = targetUri, size = side sizeTo side)
+            } else {
+                imageGetter.getImage(data = targetUri, size = maxSide)
+            } ?: return@withContext null
+
+            val longestSide = maxOf(target.width, target.height)
+            if (longestSide <= maxSide) return@withContext target
+
+            val scale = maxSide.toDouble() / longestSide
+            target.scale(
+                width = (target.width * scale).roundToInt().coerceAtLeast(1),
+                height = (target.height * scale).roundToInt().coerceAtLeast(1)
+            )
+        }
+
     override suspend fun create(
         targetUri: String,
         tileUris: List<String>,
@@ -55,9 +85,9 @@ internal class AndroidPhotomosaicMaker @Inject constructor(
         preview: Boolean,
         onProgress: (Int, Int) -> Unit
     ): Bitmap? = withContext(defaultDispatcher) {
-        val target = imageGetter.getImage(
-            data = targetUri,
-            size = if (preview) PREVIEW_TARGET_SIZE else MAX_OUTPUT_SIZE
+        val target = loadTarget(
+            targetUri = targetUri,
+            maxSide = if (preview) PREVIEW_TARGET_SIZE else MAX_OUTPUT_SIZE
         ) ?: return@withContext null
 
         create(
@@ -77,6 +107,8 @@ internal class AndroidPhotomosaicMaker @Inject constructor(
         onProgress: (Int, Int) -> Unit
     ): Bitmap? = withContext(defaultDispatcher) {
         val normalizedParams = params.normalized()
+        val targetSize = target.width sizeTo target.height
+        val outputSize = if (preview) targetSize else normalizedParams.outputSize(targetSize)
 
         val columns = normalizedParams.columns.coerceAtMost(target.width)
         val requestedTiles = tileUris
@@ -88,11 +120,11 @@ internal class AndroidPhotomosaicMaker @Inject constructor(
         val sampleSize = if (preview) {
             PREVIEW_TILE_SIZE
         } else {
-            val desiredSize = (target.width / columns)
+            val desiredSize = (outputSize.width / columns)
                 .coerceIn(MIN_TILE_SIZE, MAX_TILE_SIZE)
             val memorySafeSize = sqrt(
                 MAX_TILE_MEMORY_BYTES.toDouble() /
-                    (requestedTiles.size.coerceAtLeast(1) * BYTES_PER_PIXEL)
+                        (requestedTiles.size.coerceAtLeast(1) * BYTES_PER_PIXEL)
             ).toInt()
 
             desiredSize.coerceAtMost(memorySafeSize.coerceAtLeast(MIN_TILE_SIZE))
@@ -149,20 +181,18 @@ internal class AndroidPhotomosaicMaker @Inject constructor(
         onProgress(requestedTiles.size, totalProgress)
 
         createBitmap(
-            width = target.width,
-            height = target.height,
+            width = outputSize.width,
+            height = outputSize.height,
             config = getSuitableConfig()
         ).also { result ->
             val canvas = Canvas(result)
-            val source = Rect(0, 0, target.width, target.height)
-            val destination = Rect(0, 0, result.width, result.height)
-            canvas.drawBitmap(
-                target,
-                source,
-                destination,
-                Paint(Paint.FILTER_BITMAP_FLAG)
+            canvas.scale(
+                result.width / target.width.toFloat(),
+                result.height / target.height.toFloat()
             )
+            val bounds = Rect(0, 0, target.width, target.height)
             val paint = Paint(Paint.FILTER_BITMAP_FLAG)
+            canvas.drawBitmap(target, bounds, bounds, paint)
 
             placements.forEachIndexed { index, placement ->
                 coroutineContext.ensureActive()
@@ -183,12 +213,7 @@ internal class AndroidPhotomosaicMaker @Inject constructor(
 
             if (normalizedParams.colorBlend > 0f) {
                 paint.alpha = (normalizedParams.colorBlend * ALPHA_MAX).roundToInt()
-                canvas.drawBitmap(
-                    target,
-                    source,
-                    destination,
-                    paint
-                )
+                canvas.drawBitmap(target, bounds, bounds, paint)
             }
         }
     }
@@ -228,6 +253,7 @@ internal class AndroidPhotomosaicMaker @Inject constructor(
         )
     }
 
+    @SuppressLint("UseKtx")
     private fun Bitmap.detailAt(y: Int): Float {
         val step = (width / DETAIL_SAMPLE_COUNT).coerceAtLeast(1)
         val offset = (minOf(width, height) / DETAIL_OFFSET_DIVISOR).coerceAtLeast(1)
@@ -321,10 +347,10 @@ internal class AndroidPhotomosaicMaker @Inject constructor(
             b = 200.0 * (fy - fz)
         )
     }
+
     private companion object {
         const val PREVIEW_TILE_SIZE = 48
         const val PREVIEW_TARGET_SIZE = 1024
-        const val MAX_OUTPUT_SIZE = 4096
         const val MIN_TILE_SIZE = 32
         const val MAX_TILE_SIZE = 192
         const val MAX_TILE_MEMORY_BYTES = 24 * 1024 * 1024

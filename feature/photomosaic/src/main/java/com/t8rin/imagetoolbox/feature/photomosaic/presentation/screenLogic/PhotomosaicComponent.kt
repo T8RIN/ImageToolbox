@@ -26,6 +26,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.core.net.toUri
 import coil3.transform.Transformation
 import com.arkivanov.decompose.ComponentContext
+import com.t8rin.colors.util.roundToTwoDigits
 import com.t8rin.imagetoolbox.core.data.utils.toCoil
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageCompressor
@@ -35,6 +36,7 @@ import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
 import com.t8rin.imagetoolbox.core.domain.image.model.Quality
 import com.t8rin.imagetoolbox.core.domain.image.model.ResizeType
+import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
@@ -91,6 +93,7 @@ class PhotomosaicComponent @AssistedInject internal constructor(
 
     private val _params: MutableState<PhotomosaicParams> = mutableStateOf(PhotomosaicParams())
     val params by _params
+    internal val previewParams get() = params.copy(outputScaleRatio = 1f)
 
     private val _previewBitmap: MutableState<Bitmap?> = mutableStateOf(null)
     val previewBitmap by _previewBitmap
@@ -168,14 +171,21 @@ class PhotomosaicComponent @AssistedInject internal constructor(
         if (normalized == params) return
 
         beginPendingHistoryTransaction()
+        val previousPreviewParams = previewParams
         _params.update { normalized }
         if (tileUris.size > params.maxTiles) {
             _tileUris.update { it.take(params.maxTiles) }
         }
         registerChanges()
-        calculatePreview()
+        if (previousPreviewParams != previewParams) calculatePreview()
         schedulePendingHistoryCommit()
     }
+
+    fun setOutputScaleRatio(value: Float) =
+        updateParams(params.copy(outputScaleRatio = value.roundToTwoDigits()))
+
+    suspend fun getTargetSize(uri: Uri): IntegerSize? =
+        photomosaicMaker.getTargetSize(uri.toString())
 
     fun setImageFormat(value: ImageFormat) {
         if (value == imageFormat) return
@@ -213,7 +223,7 @@ class PhotomosaicComponent @AssistedInject internal constructor(
                 photomosaicMaker.create(
                     targetUri = target.toString(),
                     tileUris = tileUris.map(Uri::toString),
-                    params = params,
+                    params = previewParams,
                     preview = true,
                     onProgress = { _, _ -> }
                 )
@@ -356,7 +366,7 @@ class PhotomosaicComponent @AssistedInject internal constructor(
     }
 
     fun getPhotomosaicTransformation(): Transformation {
-        val transformationParams = params
+        val transformationParams = previewParams
         val transformationTileUris = tileUris.map(Uri::toString)
 
         return GenericTransformation<Bitmap>(
@@ -394,11 +404,15 @@ class PhotomosaicComponent @AssistedInject internal constructor(
     )
 
     override fun applyHistorySnapshot(snapshot: HistorySnapshot) {
+        val previousTileUris = tileUris
+        val previousPreviewParams = previewParams
         _tileUris.update { snapshot.tileUris }
         _params.update { snapshot.params }
         _imageFormat.update { snapshot.imageFormat }
         _quality.update { snapshot.quality }
-        calculatePreview()
+        if (previousTileUris != tileUris || previousPreviewParams != previewParams) {
+            calculatePreview()
+        }
     }
 
     data class HistorySnapshot(

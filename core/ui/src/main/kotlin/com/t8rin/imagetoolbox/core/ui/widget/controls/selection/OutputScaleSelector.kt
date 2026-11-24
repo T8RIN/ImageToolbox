@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.collage_maker.presentation.components
+package com.t8rin.imagetoolbox.core.ui.widget.controls.selection
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -44,7 +44,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 
 @Composable
-internal fun CollageOutputScaleSelector(
+fun OutputScaleSelector(
     value: Float,
     onValueChange: (Float) -> Unit,
     outputSize: Pair<Int, Int>?
