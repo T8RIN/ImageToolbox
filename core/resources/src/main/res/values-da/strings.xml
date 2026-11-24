@@ -9303,4 +9303,7 @@
     <string name="exif_include_software">Inkluder software-tag</string>
     <string name="exif_no_software">Ingen software-tag</string>
     <string name="edit_exif_template">Rediger EXIF-skabelon</string>
+    <string name="magnifier_dot">Midterprik for forstørrelsesglas</string>
+    <string name="magnifier_dot_sub">Hjælper med at lokalisere, hvor du rører ved billedet</string>
+    <string name="magnifier_dot_size">Prikstørrelse</string>
 </resources>

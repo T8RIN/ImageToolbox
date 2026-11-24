@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -14,7 +13,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">大小 %1$s</string>
     <string name="loading">載入中…</string>
     <string name="no_exif">沒有發現 EXIF 資料</string>
@@ -9301,4 +9302,7 @@
     <string name="exif_include_software">包含軟體標籤</string>
     <string name="exif_no_software">無軟體標籤</string>
     <string name="edit_exif_template">編輯 EXIF 範本</string>
+    <string name="magnifier_dot">放大鏡中心點</string>
+    <string name="magnifier_dot_sub">幫助確定您觸摸影像的位置</string>
+    <string name="magnifier_dot_size">網點尺寸</string>
 </resources>

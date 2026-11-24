@@ -9302,4 +9302,7 @@
     <string name="exif_include_software">ソフトウェアタグを含める</string>
     <string name="exif_no_software">ソフトウェアタグなし</string>
     <string name="edit_exif_template">EXIFテンプレートを編集する</string>
+    <string name="magnifier_dot">拡大鏡の中心点</string>
+    <string name="magnifier_dot_sub">画像に触れた場所を特定するのに役立ちます</string>
+    <string name="magnifier_dot_size">ドットサイズ</string>
 </resources>

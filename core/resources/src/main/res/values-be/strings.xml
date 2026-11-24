@@ -9305,4 +9305,7 @@
     <string name="exif_include_software">Уключыць тэг праграмнага забеспячэння</string>
     <string name="exif_no_software">Няма тэга праграмнага забеспячэння</string>
     <string name="edit_exif_template">Рэдагаваць шаблон EXIF</string>
+    <string name="magnifier_dot">Цэнтральная кропка лупы</string>
+    <string name="magnifier_dot_sub">Дапамагае дакладна вызначыць, дзе вы дакранаецеся да выявы</string>
+    <string name="magnifier_dot_size">Памер кропкі</string>
 </resources>

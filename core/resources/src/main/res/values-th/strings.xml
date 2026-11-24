@@ -9302,4 +9302,7 @@
     <string name="exif_include_software">รวมแท็กซอฟต์แวร์</string>
     <string name="exif_no_software">ไม่มีแท็กซอฟต์แวร์</string>
     <string name="edit_exif_template">แก้ไขเทมเพลต EXIF</string>
+    <string name="magnifier_dot">จุดศูนย์กลางแว่นขยาย</string>
+    <string name="magnifier_dot_sub">ช่วยระบุตำแหน่งที่คุณสัมผัสภาพ</string>
+    <string name="magnifier_dot_size">ขนาดจุด</string>
 </resources>

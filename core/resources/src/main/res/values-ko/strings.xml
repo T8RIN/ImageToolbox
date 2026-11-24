@@ -9302,4 +9302,7 @@
     <string name="exif_include_software">소프트웨어 태그 포함</string>
     <string name="exif_no_software">소프트웨어 태그 없음</string>
     <string name="edit_exif_template">EXIF 템플릿 편집</string>
+    <string name="magnifier_dot">돋보기 중앙 점</string>
+    <string name="magnifier_dot_sub">이미지를 터치하는 위치를 정확히 찾아내는 데 도움이 됩니다.</string>
+    <string name="magnifier_dot_size">도트 크기</string>
 </resources>

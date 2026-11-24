@@ -9304,4 +9304,7 @@
     <string name="exif_include_software">Includeți eticheta software</string>
     <string name="exif_no_software">Fără etichetă software</string>
     <string name="edit_exif_template">Editați șablonul EXIF</string>
+    <string name="magnifier_dot">Punct central lupă</string>
+    <string name="magnifier_dot_sub">Ajută la identificarea locului în care atingeți imaginea</string>
+    <string name="magnifier_dot_size">Dimensiunea punctului</string>
 </resources>

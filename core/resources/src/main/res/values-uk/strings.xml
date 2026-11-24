@@ -9305,4 +9305,7 @@
     <string name="exif_include_software">Додавати тег ПЗ</string>
     <string name="exif_no_software">Без тегу ПЗ</string>
     <string name="edit_exif_template">Редагувати шаблон EXIF</string>
+    <string name="magnifier_dot">Центральна точка лупи</string>
+    <string name="magnifier_dot_sub">Допомагає точно визначити, де ви торкаєтеся зображення</string>
+    <string name="magnifier_dot_size">Розмір точки</string>
 </resources>

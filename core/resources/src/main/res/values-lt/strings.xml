@@ -9305,4 +9305,7 @@
     <string name="exif_include_software">Įtraukite programinės įrangos žymą</string>
     <string name="exif_no_software">Nėra programinės įrangos žymos</string>
     <string name="edit_exif_template">Redaguoti EXIF šabloną</string>
+    <string name="magnifier_dot">Didintuvo centrinis taškas</string>
+    <string name="magnifier_dot_sub">Padeda tiksliai nustatyti, kur paliečiate vaizdą</string>
+    <string name="magnifier_dot_size">Taško dydis</string>
 </resources>

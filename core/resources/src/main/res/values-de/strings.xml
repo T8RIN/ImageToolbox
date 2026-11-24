@@ -9303,4 +9303,7 @@
     <string name="exif_include_software">Software-Tag einschließen</string>
     <string name="exif_no_software">Kein Software-Tag</string>
     <string name="edit_exif_template">EXIF-Vorlage bearbeiten</string>
+    <string name="magnifier_dot">Mittelpunkt der Lupe</string>
+    <string name="magnifier_dot_sub">Hilft dabei, genau zu bestimmen, wo Sie das Bild berühren</string>
+    <string name="magnifier_dot_size">Punktgröße</string>
 </resources>

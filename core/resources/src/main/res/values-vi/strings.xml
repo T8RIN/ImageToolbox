@@ -9302,4 +9302,7 @@
     <string name="exif_include_software">Bao gồm thẻ phần mềm</string>
     <string name="exif_no_software">Không có thẻ phần mềm</string>
     <string name="edit_exif_template">Chỉnh sửa mẫu EXIF</string>
+    <string name="magnifier_dot">Dấu chấm ở giữa kính lúp</string>
+    <string name="magnifier_dot_sub">Giúp xác định chính xác nơi bạn chạm vào hình ảnh</string>
+    <string name="magnifier_dot_size">Kích thước chấm</string>
 </resources>

@@ -9303,4 +9303,7 @@
     <string name="exif_include_software">Yazılım etiketini dahil et</string>
     <string name="exif_no_software">Yazılım etiketi yok</string>
     <string name="edit_exif_template">EXIF şablonunu düzenle</string>
+    <string name="magnifier_dot">Büyüteç merkez noktası</string>
+    <string name="magnifier_dot_sub">Resme dokunduğunuz yeri belirlemenize yardımcı olur</string>
+    <string name="magnifier_dot_size">Nokta boyutu</string>
 </resources>

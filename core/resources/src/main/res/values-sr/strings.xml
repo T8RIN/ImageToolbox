@@ -9304,4 +9304,7 @@
     <string name="exif_include_software">Укључите софтверску ознаку</string>
     <string name="exif_no_software">Нема софтверске ознаке</string>
     <string name="edit_exif_template">Уредите EXIF шаблон</string>
+    <string name="magnifier_dot">Централна тачка лупе</string>
+    <string name="magnifier_dot_sub">Помаже да се прецизно одреди где додирујете слику</string>
+    <string name="magnifier_dot_size">Величина тачке</string>
 </resources>

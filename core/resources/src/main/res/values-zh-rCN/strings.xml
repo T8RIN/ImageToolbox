@@ -9302,4 +9302,7 @@
     <string name="exif_include_software">包含软件标签</string>
     <string name="exif_no_software">无软件标签</string>
     <string name="edit_exif_template">编辑 EXIF 模板</string>
+    <string name="magnifier_dot">放大镜中心点</string>
+    <string name="magnifier_dot_sub">帮助确定您触摸图像的位置</string>
+    <string name="magnifier_dot_size">网点尺寸</string>
 </resources>

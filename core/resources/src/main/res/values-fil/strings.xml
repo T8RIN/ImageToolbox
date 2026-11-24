@@ -9303,4 +9303,7 @@
     <string name="exif_include_software">Isama ang software tag</string>
     <string name="exif_no_software">Walang software tag</string>
     <string name="edit_exif_template">I-edit ang EXIF template</string>
+    <string name="magnifier_dot">Dot sa gitna ng magnifier</string>
+    <string name="magnifier_dot_sub">Tumutulong na matukoy kung saan mo hinawakan ang larawan</string>
+    <string name="magnifier_dot_size">Laki ng tuldok</string>
 </resources>

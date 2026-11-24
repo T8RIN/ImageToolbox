@@ -9303,4 +9303,7 @@
     <string name="exif_include_software">Inclou l\'etiqueta de programari</string>
     <string name="exif_no_software">Sense etiqueta de programari</string>
     <string name="edit_exif_template">Edita la plantilla EXIF</string>
+    <string name="magnifier_dot">Punt central de la lupa</string>
+    <string name="magnifier_dot_sub">Ajuda a identificar on toqueu la imatge</string>
+    <string name="magnifier_dot_size">Mida del punt</string>
 </resources>

@@ -9303,4 +9303,7 @@
     <string name="exif_include_software">Kaasa tarkvara silt</string>
     <string name="exif_no_software">Tarkvaramärgis puudub</string>
     <string name="edit_exif_template">Redigeerige EXIF-malli</string>
+    <string name="magnifier_dot">Suurendi keskpunkt</string>
+    <string name="magnifier_dot_sub">Aitab määrata pildi puudutamise koha</string>
+    <string name="magnifier_dot_size">Punkti suurus</string>
 </resources>

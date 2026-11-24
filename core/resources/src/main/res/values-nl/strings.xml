@@ -9303,4 +9303,7 @@
     <string name="exif_include_software">Inclusief softwaretag</string>
     <string name="exif_no_software">Geen softwaretag</string>
     <string name="edit_exif_template">EXIF-sjabloon bewerken</string>
+    <string name="magnifier_dot">Vergrootglas middenpunt</string>
+    <string name="magnifier_dot_sub">Helpt te bepalen waar u de afbeelding aanraakt</string>
+    <string name="magnifier_dot_size">Puntgrootte</string>
 </resources>

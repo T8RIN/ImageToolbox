@@ -9305,4 +9305,7 @@
     <string name="exif_include_software">כלול תג תוכנה</string>
     <string name="exif_no_software">אין תג תוכנה</string>
     <string name="edit_exif_template">ערוך תבנית EXIF</string>
+    <string name="magnifier_dot">נקודת מרכז זכוכית מגדלת</string>
+    <string name="magnifier_dot_sub">עוזר לזהות היכן אתה נוגע בתמונה</string>
+    <string name="magnifier_dot_size">גודל נקודה</string>
 </resources>

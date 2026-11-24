@@ -9303,4 +9303,7 @@
     <string name="exif_include_software">Inkludera programvarutagg</string>
     <string name="exif_no_software">Ingen programvarutagg</string>
     <string name="edit_exif_template">Redigera EXIF-mall</string>
+    <string name="magnifier_dot">Förstoringsglas mittpunkt</string>
+    <string name="magnifier_dot_sub">Hjälper till att lokalisera var du trycker på bilden</string>
+    <string name="magnifier_dot_size">Punktstorlek</string>
 </resources>

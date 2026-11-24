@@ -9303,4 +9303,7 @@
     <string name="exif_include_software">மென்பொருள் குறிச்சொல்லைச் சேர்க்கவும்</string>
     <string name="exif_no_software">மென்பொருள் குறிச்சொல் இல்லை</string>
     <string name="edit_exif_template">EXIF டெம்ப்ளேட்டைத் திருத்தவும்</string>
+    <string name="magnifier_dot">உருப்பெருக்கி மையப் புள்ளி</string>
+    <string name="magnifier_dot_sub">நீங்கள் படத்தை எங்கு தொடுகிறீர்கள் என்பதைக் கண்டறிய உதவுகிறது</string>
+    <string name="magnifier_dot_size">புள்ளி அளவு</string>
 </resources>

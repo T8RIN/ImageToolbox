@@ -9307,4 +9307,7 @@
     <string name="exif_include_software">تضمين علامة البرنامج</string>
     <string name="exif_no_software">لا توجد علامة البرمجيات</string>
     <string name="edit_exif_template">تحرير قالب EXIF</string>
+    <string name="magnifier_dot">نقطة وسط المكبر</string>
+    <string name="magnifier_dot_sub">يساعد على تحديد المكان الذي تلمس فيه الصورة</string>
+    <string name="magnifier_dot_size">حجم النقطة</string>
 </resources>

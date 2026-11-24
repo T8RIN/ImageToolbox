@@ -9303,4 +9303,7 @@
     <string name="exif_include_software">సాఫ్ట్‌వేర్ ట్యాగ్‌ని చేర్చండి</string>
     <string name="exif_no_software">సాఫ్ట్‌వేర్ ట్యాగ్ లేదు</string>
     <string name="edit_exif_template">EXIF టెంప్లేట్‌ని సవరించండి</string>
+    <string name="magnifier_dot">మాగ్నిఫైయర్ సెంటర్ డాట్</string>
+    <string name="magnifier_dot_sub">మీరు చిత్రాన్ని ఎక్కడ తాకుతున్నారో గుర్తించడంలో సహాయపడుతుంది</string>
+    <string name="magnifier_dot_size">చుక్క పరిమాణం</string>
 </resources>

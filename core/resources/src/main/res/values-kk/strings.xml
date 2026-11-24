@@ -9303,4 +9303,7 @@
     <string name="exif_include_software">Бағдарламалық тегті қосыңыз</string>
     <string name="exif_no_software">Бағдарламалық құрал тегі жоқ</string>
     <string name="edit_exif_template">EXIF үлгісін өңдеу</string>
+    <string name="magnifier_dot">Үлкейткіш орталық нүкте</string>
+    <string name="magnifier_dot_sub">Кескінді қай жерде түртетініңізді анықтауға көмектеседі</string>
+    <string name="magnifier_dot_size">Нүкте өлшемі</string>
 </resources>

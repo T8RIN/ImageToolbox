@@ -9303,4 +9303,7 @@
     <string name="exif_include_software">Includi tag software</string>
     <string name="exif_no_software">Nessun tag software</string>
     <string name="edit_exif_template">Modifica modello EXIF</string>
+    <string name="magnifier_dot">Punto centrale della lente d\'ingrandimento</string>
+    <string name="magnifier_dot_sub">Aiuta a individuare il punto in cui tocchi l\'immagine</string>
+    <string name="magnifier_dot_size">Dimensione del punto</string>
 </resources>

@@ -9304,4 +9304,7 @@
     <string name="exif_include_software">Incluir tag de software</string>
     <string name="exif_no_software">Sem tag de software</string>
     <string name="edit_exif_template">Editar modelo EXIF</string>
+    <string name="magnifier_dot">Ponto central da lupa</string>
+    <string name="magnifier_dot_sub">Ajuda a identificar onde você toca na imagem</string>
+    <string name="magnifier_dot_size">Tamanho do ponto</string>
 </resources>

@@ -9303,4 +9303,7 @@
     <string name="exif_include_software">सॉफ़्टवेयर टैग शामिल करें</string>
     <string name="exif_no_software">कोई सॉफ़्टवेयर टैग नहीं</string>
     <string name="edit_exif_template">EXIF टेम्पलेट संपादित करें</string>
+    <string name="magnifier_dot">आवर्धक केंद्र बिंदु</string>
+    <string name="magnifier_dot_sub">यह इंगित करने में मदद करता है कि आप छवि को कहां छूते हैं</string>
+    <string name="magnifier_dot_size">बिंदु का आकार</string>
 </resources>

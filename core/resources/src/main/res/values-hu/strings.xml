@@ -9303,4 +9303,7 @@
     <string name="exif_include_software">Tartalmazza a szoftvercímkét</string>
     <string name="exif_no_software">Nincs szoftvercímke</string>
     <string name="edit_exif_template">EXIF sablon szerkesztése</string>
+    <string name="magnifier_dot">Nagyító középpontja</string>
+    <string name="magnifier_dot_sub">Segít meghatározni, hol érinti meg a képet</string>
+    <string name="magnifier_dot_size">Pont mérete</string>
 </resources>

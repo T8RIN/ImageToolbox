@@ -9303,4 +9303,7 @@
     <string name="exif_include_software">Inclure la balise logicielle</string>
     <string name="exif_no_software">Aucune balise logicielle</string>
     <string name="edit_exif_template">Modifier le modèle EXIF</string>
+    <string name="magnifier_dot">Point central de la loupe</string>
+    <string name="magnifier_dot_sub">Aide à identifier l\'endroit où vous touchez l\'image</string>
+    <string name="magnifier_dot_size">Taille du point</string>
 </resources>

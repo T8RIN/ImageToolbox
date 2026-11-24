@@ -9305,4 +9305,7 @@
     <string name="exif_include_software">Zahrnout softwarový štítek</string>
     <string name="exif_no_software">Bez značky softwaru</string>
     <string name="edit_exif_template">Upravit šablonu EXIF</string>
+    <string name="magnifier_dot">Středová tečka lupy</string>
+    <string name="magnifier_dot_sub">Pomáhá určit, kde se dotýkáte obrázku</string>
+    <string name="magnifier_dot_size">Velikost bodu</string>
 </resources>

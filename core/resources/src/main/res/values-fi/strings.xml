@@ -9303,4 +9303,7 @@
     <string name="exif_include_software">Sisällytä ohjelmistotunniste</string>
     <string name="exif_no_software">Ei ohjelmistotunnistetta</string>
     <string name="edit_exif_template">Muokkaa EXIF-mallia</string>
+    <string name="magnifier_dot">Suurennuslasin keskipiste</string>
+    <string name="magnifier_dot_sub">Auttaa paikantamaan, missä kosketat kuvaa</string>
+    <string name="magnifier_dot_size">Pisteen koko</string>
 </resources>

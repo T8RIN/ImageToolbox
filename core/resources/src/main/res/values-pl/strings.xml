@@ -9305,4 +9305,7 @@
     <string name="exif_include_software">Dołącz znacznik oprogramowania</string>
     <string name="exif_no_software">Brak znacznika oprogramowania</string>
     <string name="edit_exif_template">Edytuj szablon EXIF</string>
+    <string name="magnifier_dot">Środkowa kropka lupy</string>
+    <string name="magnifier_dot_sub">Pomaga wskazać miejsce dotknięcia obrazu</string>
+    <string name="magnifier_dot_size">Rozmiar kropki</string>
 </resources>

@@ -9303,4 +9303,7 @@
     <string name="exif_include_software">شامل برچسب نرم افزار</string>
     <string name="exif_no_software">بدون برچسب نرم افزاری</string>
     <string name="edit_exif_template">ویرایش قالب EXIF</string>
+    <string name="magnifier_dot">نقطه مرکزی ذره بین</string>
+    <string name="magnifier_dot_sub">کمک می کند تا دقیقاً جایی که تصویر را لمس می کنید</string>
+    <string name="magnifier_dot_size">اندازه نقطه</string>
 </resources>

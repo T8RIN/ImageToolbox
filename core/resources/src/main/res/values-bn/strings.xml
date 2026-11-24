@@ -9303,4 +9303,7 @@
     <string name="exif_include_software">সফ্টওয়্যার ট্যাগ অন্তর্ভুক্ত করুন</string>
     <string name="exif_no_software">সফটওয়্যার ট্যাগ নেই</string>
     <string name="edit_exif_template">EXIF টেমপ্লেট সম্পাদনা করুন</string>
+    <string name="magnifier_dot">ম্যাগনিফায়ার সেন্টার ডট</string>
+    <string name="magnifier_dot_sub">আপনি ছবিটি কোথায় স্পর্শ করবেন তা চিহ্নিত করতে সহায়তা করে</string>
+    <string name="magnifier_dot_size">ডট সাইজ</string>
 </resources>

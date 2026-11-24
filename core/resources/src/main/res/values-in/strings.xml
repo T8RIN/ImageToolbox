@@ -9302,4 +9302,7 @@
     <string name="exif_include_software">Sertakan tag perangkat lunak</string>
     <string name="exif_no_software">Tidak ada tag perangkat lunak</string>
     <string name="edit_exif_template">Edit templat EXIF</string>
+    <string name="magnifier_dot">Titik tengah kaca pembesar</string>
+    <string name="magnifier_dot_sub">Membantu menentukan di mana Anda menyentuh gambar</string>
+    <string name="magnifier_dot_size">Ukuran titik</string>
 </resources>
