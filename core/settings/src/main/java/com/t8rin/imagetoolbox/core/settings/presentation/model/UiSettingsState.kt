@@ -147,6 +147,9 @@ data class UiSettingsState(
     val filenameSuffix: String,
     val defaultImageScaleMode: ImageScaleMode,
     val magnifierEnabled: Boolean,
+    val magnifierDotEnabled: Boolean,
+    val magnifierDotSize: Dp,
+    val magnifierDotColor: Color,
     val cropOverlayDraggable: Boolean,
     val drawBitmapBorder: Boolean,
     val exifWidgetInitialState: Boolean,
@@ -237,7 +240,10 @@ data class UiSettingsState(
     val motionDurationScale: Float,
     val markupLayerTextDefaults: MarkupLayerTextDefaults,
     val rawDevelopSettings: RawDevelopSettings,
-)
+) {
+    val activeMagnifierDotColor: Color
+        get() = if (magnifierDotEnabled) magnifierDotColor else Color.Unspecified
+}
 
 fun UiSettingsState.isFirstLaunch(
     approximate: Boolean = true,
@@ -455,6 +461,9 @@ fun SettingsState.toUiState(
                 filenameSuffix = filenameSuffix,
                 defaultImageScaleMode = defaultImageScaleMode,
                 magnifierEnabled = magnifierEnabled,
+                magnifierDotEnabled = magnifierDotEnabled,
+                magnifierDotSize = magnifierDotSize.dp,
+                magnifierDotColor = Color(magnifierDotColor.colorInt),
                 cropOverlayDraggable = cropOverlayDraggable,
                 drawBitmapBorder = drawBitmapBorder,
                 exifWidgetInitialState = exifWidgetInitialState,

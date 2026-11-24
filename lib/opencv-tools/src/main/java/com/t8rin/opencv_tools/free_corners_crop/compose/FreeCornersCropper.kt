@@ -32,7 +32,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.magnifier
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -73,7 +72,6 @@ import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
@@ -81,6 +79,7 @@ import androidx.compose.ui.util.fastAny
 import androidx.compose.ui.util.fastForEach
 import com.t8rin.gesture.detectTransformGestures
 import com.t8rin.image.ImageWithConstraints
+import com.t8rin.image.imageMagnifier
 import com.t8rin.opencv_tools.free_corners_crop.FreeCrop
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -107,7 +106,9 @@ fun FreeCornersCropper(
     overlayColor: Color = Color.Black.copy(0.55f),
     contentPadding: PaddingValues = PaddingValues(24.dp),
     gridColor: Color,
-    handlesColor: Color
+    handlesColor: Color,
+    magnifierDotColor: Color = Color.Unspecified,
+    magnifierDotSize: Dp = 4.dp
 ) {
     val density = LocalDensity.current
     val context = LocalContext.current
@@ -640,16 +641,10 @@ fun FreeCornersCropper(
                 .size(maxWidth, maxHeight)
                 .then(
                     if (showMagnifier && magnifierCenter.isSpecified) {
-                        Modifier.magnifier(
-                            magnifierCenter = {
-                                magnifierCenter - Offset(0f, 100.dp.toPx())
-                            },
-                            sourceCenter = {
-                                magnifierCenter
-                            },
-                            size = DpSize(100.dp, 100.dp),
-                            cornerRadius = 50.dp,
-                            elevation = 2.dp
+                        Modifier.imageMagnifier(
+                            sourceCenter = { magnifierCenter },
+                            dotColor = magnifierDotColor,
+                            dotSize = magnifierDotSize
                         )
                     } else {
                         Modifier

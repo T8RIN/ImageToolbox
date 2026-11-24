@@ -161,7 +161,9 @@ fun BitmapDrawer(
             currentDrawPosition = currentDrawPosition,
             zoomState = zoomState,
             globalTouchPointersCount = globalTouchPointersCount,
-            panEnabled = panEnabled
+            panEnabled = panEnabled,
+            magnifierDotColor = settingsState.activeMagnifierDotColor,
+            magnifierDotSize = settingsState.magnifierDotSize
         ),
         contentAlignment = Alignment.Center
     ) {

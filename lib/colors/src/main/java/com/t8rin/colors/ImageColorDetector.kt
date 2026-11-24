@@ -33,7 +33,6 @@ import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.magnifier
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -70,7 +69,7 @@ import androidx.compose.ui.input.pointer.PointerInputChange
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Density
-import androidx.compose.ui.unit.DpSize
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntRect
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
@@ -78,6 +77,7 @@ import androidx.core.graphics.get
 import com.t8rin.gesture.observePointersCountWithOffset
 import com.t8rin.gesture.pointerMotionEvents
 import com.t8rin.image.ImageWithConstraints
+import com.t8rin.image.imageMagnifier
 import com.t8rin.imagetoolbox.core.resources.utils.animation.animateColorAsState
 import kotlinx.coroutines.delay
 import net.engawapg.lib.zoomable.ZoomState
@@ -95,7 +95,9 @@ fun ImageColorDetector(
     isMagnifierEnabled: Boolean,
     boxModifier: Modifier = Modifier,
     onColorChange: (Color) -> Unit,
-    zoomState: ZoomState? = rememberZoomState()
+    zoomState: ZoomState? = rememberZoomState(),
+    magnifierDotColor: Color = Color.Unspecified,
+    magnifierDotSize: Dp = 4.dp
 ) {
     var pickerOffset by remember {
         mutableStateOf(Offset.Unspecified)
@@ -117,19 +119,15 @@ fun ImageColorDetector(
             }
             .then(
                 if (magnifierEnabled && globalTouchPointersCount == 1) {
-                    Modifier.magnifier(
+                    Modifier.imageMagnifier(
                         sourceCenter = {
                             if (pickerOffset.isSpecified) {
                                 globalTouchPosition
                             } else Offset.Unspecified
                         },
-                        magnifierCenter = {
-                            globalTouchPosition - Offset(0f, 100.dp.toPx())
-                        },
-                        size = DpSize(height = 100.dp, width = 100.dp),
-                        zoom = 2f / (zoomState?.scale ?: 1f),
-                        cornerRadius = 50.dp,
-                        elevation = 2.dp
+                        dotColor = magnifierDotColor,
+                        dotSize = magnifierDotSize,
+                        zoom = 2f / (zoomState?.scale ?: 1f)
                     )
                 } else Modifier
             )

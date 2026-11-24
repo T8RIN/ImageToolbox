@@ -18,7 +18,6 @@
 package com.t8rin.imagetoolbox.feature.draw.presentation.components.utils
 
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.magnifier
 import androidx.compose.runtime.MutableIntState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -29,9 +28,10 @@ import androidx.compose.ui.composed
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.isSpecified
-import androidx.compose.ui.unit.DpSize
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.Dp
 import com.t8rin.gesture.pointerMotionEvents
+import com.t8rin.image.imageMagnifier
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.observePointersCountWithOffset
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.smartDelayAfterDownInMillis
 import net.engawapg.lib.zoomable.ZoomState
@@ -43,7 +43,9 @@ fun Modifier.pointerDrawObserver(
     currentDrawPosition: Offset,
     zoomState: ZoomState,
     globalTouchPointersCount: MutableIntState,
-    panEnabled: Boolean
+    panEnabled: Boolean,
+    magnifierDotColor: Color,
+    magnifierDotSize: Dp
 ) = this.composed {
     var globalTouchPosition by remember { mutableStateOf(Offset.Unspecified) }
 
@@ -55,18 +57,14 @@ fun Modifier.pointerDrawObserver(
         }
         .then(
             if (magnifierEnabled) {
-                Modifier.magnifier(
+                Modifier.imageMagnifier(
                     sourceCenter = {
                         if (currentDrawPosition.isSpecified) {
                             globalTouchPosition
                         } else Offset.Unspecified
                     },
-                    magnifierCenter = {
-                        globalTouchPosition - Offset(0f, 100.dp.toPx())
-                    },
-                    size = DpSize(height = 100.dp, width = 100.dp),
-                    cornerRadius = 50.dp,
-                    elevation = 2.dp
+                    dotColor = magnifierDotColor,
+                    dotSize = magnifierDotSize
                 )
             } else Modifier
         )

@@ -484,6 +484,12 @@ class SettingsComponent @AssistedInject internal constructor(
 
     fun toggleMagnifierEnabled() = settingsScope { toggleMagnifierEnabled() }
 
+    fun toggleMagnifierDotEnabled() = settingsScope { toggleMagnifierDotEnabled() }
+
+    fun setMagnifierDotSize(size: Int) = settingsScope { setMagnifierDotSize(size) }
+
+    fun setMagnifierDotColor(color: ColorModel) = settingsScope { setMagnifierDotColor(color) }
+
     fun toggleDrawBitmapBorder() = settingsScope { toggleDrawBitmapBorder() }
 
     fun toggleExifWidgetInitialState() = settingsScope { toggleExifWidgetInitialState() }

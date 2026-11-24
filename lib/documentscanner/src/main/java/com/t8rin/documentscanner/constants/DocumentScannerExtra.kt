@@ -29,6 +29,8 @@ class DocumentScannerExtra {
         const val EXTRA_CROPPER_HANDLE_OUTLINE_COLOR = "cropperHandleOutlineColor"
         const val EXTRA_CROPPER_FRAME_COLOR = "cropperFrameColor"
         const val EXTRA_CROPPER_STROKE_WIDTH_DP = "cropperStrokeWidthDp"
+        const val EXTRA_MAGNIFIER_DOT_COLOR = "magnifierDotColor"
+        const val EXTRA_MAGNIFIER_DOT_SIZE_DP = "magnifierDotSizeDp"
         const val EXTRA_BUTTON_TINT_COLOR = "buttonTintColor"
         const val EXTRA_BUTTON_CONTAINER_COLOR = "buttonContainerColor"
         const val EXTRA_DONE_BUTTON_TINT_COLOR = "doneButtonTintColor"

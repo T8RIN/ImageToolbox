@@ -17,8 +17,6 @@
 
 package com.t8rin.documentscanner.ui
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.content.Context
@@ -26,21 +24,25 @@ import android.graphics.Bitmap
 import android.graphics.BitmapShader
 import android.graphics.Canvas
 import android.graphics.Color
+import android.graphics.Matrix
 import android.graphics.Paint
+import android.graphics.Path
 import android.graphics.PointF
 import android.graphics.RectF
 import android.graphics.Shader
 import android.util.AttributeSet
 import android.view.MotionEvent
-import android.view.animation.DecelerateInterpolator
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.graphics.drawable.toBitmap
+import androidx.core.graphics.withClip
 import com.t8rin.documentscanner.R
 import com.t8rin.documentscanner.enums.QuadCorner
 import com.t8rin.documentscanner.extensions.changeByteCountByResizing
 import com.t8rin.documentscanner.extensions.distance
 import com.t8rin.documentscanner.extensions.drawQuad
 import com.t8rin.documentscanner.models.Quad
+import kotlin.math.abs
+import kotlin.math.roundToInt
 
 /**
  * This class contains the original document photo, and a cropper. The user can drag the corners
@@ -69,16 +71,6 @@ class ImageCropView(context: Context, attrs: AttributeSet) : AppCompatImageView(
     private var dragTarget: CropperDragTarget? = null
 
     /**
-     * @property selectedCornerProgress animated selected state for each cropper corner
-     */
-    private val selectedCornerProgress = mutableMapOf<QuadCorner, Float>()
-
-    /**
-     * @property selectedCornerAnimators active corner selection animations
-     */
-    private val selectedCornerAnimators = mutableMapOf<QuadCorner, ValueAnimator>()
-
-    /**
      * @property cropperLineStyle paint style for connecting lines
      */
     private val cropperLineStyle = Paint(Paint.ANTI_ALIAS_FLAG)
@@ -93,11 +85,20 @@ class ImageCropView(context: Context, attrs: AttributeSet) : AppCompatImageView(
      */
     private val cropperCornerOutlineStyle = Paint(Paint.ANTI_ALIAS_FLAG)
 
-    /**
-     * @property cropperSelectedCornerFillStyles when you tap and drag a cropper corner the circle
-     * acts like a magnifying glass
-     */
-    private val cropperSelectedCornerFillStyles = Paint()
+    private val magnifierPaint = Paint(Paint.ANTI_ALIAS_FLAG or Paint.FILTER_BITMAP_FLAG)
+    private val magnifierMatrix = Matrix()
+    private val magnifierClip = Path()
+    private val magnifierDotPaint = Paint(Paint.ANTI_ALIAS_FLAG)
+    private var magnifierDotRadius = 0f
+    private var magnifierBelowTouch = false
+    private var magnifierSideProgress = -1f
+    private var magnifierSideAnimator: ValueAnimator? = null
+    private val magnifierRadius: Float
+        get() {
+            val inset = MagnifierInsetDp.dpToPx()
+            val halfHeight = height / 2f - MagnifierGapDp.dpToPx() - inset
+            return minOf(MagnifierRadiusDp.dpToPx(), width / 2f - inset, halfHeight / 2f)
+        }
 
     /**
      * @property imagePreviewHeight this is needed because height doesn't update immediately
@@ -235,6 +236,12 @@ class ImageCropView(context: Context, attrs: AttributeSet) : AppCompatImageView(
         invalidate()
     }
 
+    internal fun setMagnifierDot(color: Int, sizeDp: Float) {
+        magnifierDotPaint.color = color
+        magnifierDotRadius = sizeDp.dpToPx() / 2f
+        invalidate()
+    }
+
     /**
      * @property imagePreviewBounds image coordinates - if the image ratio is different than
      * the image container ratio then there's blank space either at the top and bottom of the
@@ -274,8 +281,7 @@ class ImageCropView(context: Context, attrs: AttributeSet) : AppCompatImageView(
      * This gets called once we insert an image in this image view
      */
     private fun onSetImage() {
-        cropperSelectedCornerFillStyles.style = Paint.Style.FILL
-        cropperSelectedCornerFillStyles.shader = BitmapShader(
+        magnifierPaint.shader = BitmapShader(
             drawable.toBitmap(),
             Shader.TileMode.CLAMP,
             Shader.TileMode.CLAMP
@@ -300,10 +306,11 @@ class ImageCropView(context: Context, attrs: AttributeSet) : AppCompatImageView(
             .mapNotNull { (firstCorner, secondCorner) ->
                 val firstPoint = quad!!.corners[firstCorner] ?: return@mapNotNull null
                 val secondPoint = quad!!.corners[secondCorner] ?: return@mapNotNull null
-                val distanceSquared = touchPoint.distanceToSegmentSquared(firstPoint, secondPoint)
+                val distance = touchPoint.closestPointOnSegment(firstPoint, secondPoint)
+                    .distance(touchPoint)
 
-                if (distanceSquared <= touchRadius * touchRadius) {
-                    CropperDragTarget.Edge(firstCorner, secondCorner) to distanceSquared
+                if (distance <= touchRadius) {
+                    CropperDragTarget.Edge(firstCorner, secondCorner) to distance
                 } else null
             }
             .minByOrNull { it.second }
@@ -341,23 +348,116 @@ class ImageCropView(context: Context, attrs: AttributeSet) : AppCompatImageView(
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
-        if (quad !== null) {
-            // draw 4 corners and connecting lines
-            canvas.drawQuad(
-                quad!!,
-                resources.getDimension(R.dimen.cropper_corner_radius),
-                cropperLineStyle,
-                cropperCornerStyle,
-                cropperCornerOutlineStyle,
-                cropperSelectedCornerFillStyles,
-                selectedCornerProgress,
-                imagePreviewBounds,
-                ratio,
-                resources.getDimension(R.dimen.cropper_selected_corner_radius_magnification),
-                resources.getDimension(R.dimen.cropper_selected_corner_background_magnification)
+        val quad = quad ?: return
+        canvas.drawQuad(
+            quad,
+            resources.getDimension(R.dimen.cropper_corner_radius),
+            cropperLineStyle,
+            cropperCornerStyle,
+            cropperCornerOutlineStyle
+        )
+
+        val touchPoint = prevTouchPoint ?: return
+        val source = when (val target = dragTarget) {
+            is CropperDragTarget.Corner -> quad.corners.getValue(target.corner)
+            is CropperDragTarget.Edge -> touchPoint.closestPointOnSegment(
+                quad.corners.getValue(target.firstCorner),
+                quad.corners.getValue(target.secondCorner)
+            )
+
+            null -> return
+        }
+        drawMagnifier(canvas, quad, touchPoint, source)
+    }
+
+    private fun drawMagnifier(canvas: Canvas, quad: Quad, touchPoint: PointF, source: PointF) {
+        val shader = magnifierPaint.shader ?: return
+        val radius = magnifierRadius
+        val alpha = (abs(magnifierSideProgress) * 255).roundToInt()
+        if (radius <= 0f || alpha == 0) return
+
+        val margin = radius + MagnifierInsetDp.dpToPx()
+        val centerX = touchPoint.x.coerceIn(margin, width - margin)
+        val offsetY = radius + MagnifierGapDp.dpToPx()
+        val preferredY = touchPoint.y + if (magnifierSideProgress < 0f) -offsetY else offsetY
+        val centerY = preferredY.coerceIn(margin, height - margin)
+        val layer = if (alpha < 255) {
+            canvas.saveLayerAlpha(
+                centerX - margin, centerY - margin, centerX + margin, centerY + margin, alpha
+            )
+        } else null
+
+        val bounds = imagePreviewBounds
+        val scale = bounds.height() / drawable.intrinsicHeight * MagnifierZoom
+        magnifierMatrix.setScale(scale, scale)
+        magnifierMatrix.postTranslate(
+            centerX - (source.x - bounds.left) * MagnifierZoom,
+            centerY - (source.y - bounds.top) * MagnifierZoom
+        )
+        shader.setLocalMatrix(magnifierMatrix)
+        canvas.drawCircle(centerX, centerY, radius, magnifierPaint)
+
+        magnifierClip.rewind()
+        magnifierClip.addCircle(centerX, centerY, radius, Path.Direction.CW)
+        canvas.withClip(magnifierClip) {
+            for (edge in quad.edges) {
+                drawLine(
+                    centerX + (edge.from.x - source.x) * MagnifierZoom,
+                    centerY + (edge.from.y - source.y) * MagnifierZoom,
+                    centerX + (edge.to.x - source.x) * MagnifierZoom,
+                    centerY + (edge.to.y - source.y) * MagnifierZoom,
+                    cropperLineStyle
+                )
+            }
+        }
+        canvas.drawCircle(centerX, centerY, radius, cropperCornerStyle)
+        canvas.drawCircle(
+            centerX,
+            centerY,
+            radius + cropperCornerOutlineStyle.strokeWidth,
+            cropperCornerOutlineStyle
+        )
+
+        if (magnifierDotRadius > 0f) {
+            canvas.drawCircle(
+                centerX,
+                centerY,
+                magnifierDotRadius.coerceAtMost(radius),
+                magnifierDotPaint
             )
         }
+        layer?.let(canvas::restoreToCount)
+    }
 
+    private fun updateMagnifierSide(touchY: Float, animate: Boolean) {
+        val radius = magnifierRadius
+        if (radius <= 0f) return
+
+        val lensSpace = radius * 2f + MagnifierInsetDp.dpToPx()
+        val minimumSpace = lensSpace + 8f.dpToPx()
+        val showBelow = when {
+            !animate -> touchY < lensSpace + MagnifierGapDp.dpToPx()
+            magnifierBelowTouch -> height - touchY >= minimumSpace
+            else -> touchY < minimumSpace
+        }
+        if (animate && showBelow == magnifierBelowTouch) return
+
+        magnifierBelowTouch = showBelow
+        magnifierSideAnimator?.cancel()
+        val target = if (showBelow) 1f else -1f
+        if (animate && isAttachedToWindow) {
+            // Fade out before drawing the magnifier on the other side of the finger.
+            magnifierSideAnimator = ValueAnimator.ofFloat(magnifierSideProgress, target).apply {
+                duration = 140L
+                addUpdateListener {
+                    magnifierSideProgress = it.animatedValue as Float
+                    invalidate()
+                }
+                start()
+            }
+        } else {
+            magnifierSideProgress = target
+        }
     }
 
     /**
@@ -368,6 +468,7 @@ class ImageCropView(context: Context, attrs: AttributeSet) : AppCompatImageView(
      */
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent): Boolean {
+        val quad = quad ?: return false
         // keep track of the touched point
         val touchPoint = PointF(event.x, event.y)
 
@@ -377,14 +478,11 @@ class ImageCropView(context: Context, attrs: AttributeSet) : AppCompatImageView(
                 // corner or edge to the touch point
                 prevTouchPoint = touchPoint
                 dragTarget = findDragTarget(touchPoint)
-                animateSelectedCorners(dragTarget?.corners ?: emptySet())
+                updateMagnifierSide(touchPoint.y, animate = false)
             }
 
             MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
-                // when the user stops touching the screen reset these values
-                prevTouchPoint = null
-                dragTarget = null
-                animateSelectedCorners(emptySet())
+                clearDrag()
             }
 
             MotionEvent.ACTION_MOVE -> {
@@ -395,19 +493,14 @@ class ImageCropView(context: Context, attrs: AttributeSet) : AppCompatImageView(
                     touchPoint.y - prevTouchPoint!!.y
                 ).coerceDragAmountFor(target.corners)
 
-                if (target.corners.isNotEmpty()) {
-                    target.corners.forEach { corner ->
-                        quad!!.moveCorner(
-                            corner,
-                            touchMoveDistance.x,
-                            touchMoveDistance.y
-                        )
-                    }
+                target.corners.forEach { corner ->
+                    quad.moveCorner(corner, touchMoveDistance.x, touchMoveDistance.y)
                 }
 
                 // record the point touched, so we can use it to calculate how far to move corner
                 // next time the user drags (assuming they don't stop touching the screen)
                 prevTouchPoint = touchPoint
+                updateMagnifierSide(touchPoint.y, animate = true)
             }
         }
 
@@ -418,59 +511,15 @@ class ImageCropView(context: Context, attrs: AttributeSet) : AppCompatImageView(
     }
 
     override fun onDetachedFromWindow() {
-        val animators = selectedCornerAnimators.values.toList()
-        selectedCornerAnimators.clear()
-        selectedCornerProgress.clear()
-        animators.forEach { it.cancel() }
+        clearDrag()
         super.onDetachedFromWindow()
     }
 
-    private fun animateSelectedCorners(selectedCorners: Set<QuadCorner>) {
-        val cornersToUpdate = selectedCornerProgress.keys + selectedCorners
-
-        cornersToUpdate.forEach { corner ->
-            animateCornerSelection(
-                corner = corner,
-                targetProgress = if (corner in selectedCorners) 1f else 0f
-            )
-        }
-    }
-
-    private fun animateCornerSelection(corner: QuadCorner, targetProgress: Float) {
-        val currentProgress = selectedCornerProgress[corner] ?: 0f
-        if (currentProgress == targetProgress) return
-
-        selectedCornerAnimators.remove(corner)?.cancel()
-
-        val animator = ValueAnimator.ofFloat(currentProgress, targetProgress).apply {
-            duration = CornerSelectionAnimationDurationMs
-            interpolator = DecelerateInterpolator()
-            addUpdateListener { animation ->
-                val progress = animation.animatedValue as Float
-                if (progress <= 0f) {
-                    selectedCornerProgress.remove(corner)
-                } else {
-                    selectedCornerProgress[corner] = progress
-                }
-                invalidate()
-            }
-            addListener(object : AnimatorListenerAdapter() {
-                override fun onAnimationEnd(animation: Animator) {
-                    if (selectedCornerAnimators[corner] != animation) return
-
-                    selectedCornerAnimators.remove(corner)
-                    if (targetProgress <= 0f) {
-                        selectedCornerProgress.remove(corner)
-                    } else {
-                        selectedCornerProgress[corner] = targetProgress
-                    }
-                    invalidate()
-                }
-            })
-        }
-
-        selectedCornerAnimators[corner] = animator
-        animator.start()
+    private fun clearDrag() {
+        prevTouchPoint = null
+        dragTarget = null
+        magnifierSideAnimator?.cancel()
+        magnifierSideAnimator = null
     }
 
     private fun Float.dpToPx(): Float = this * resources.displayMetrics.density
@@ -489,30 +538,24 @@ class ImageCropView(context: Context, attrs: AttributeSet) : AppCompatImageView(
             }
     }
 
-    private fun PointF.distanceToSegmentSquared(start: PointF, end: PointF): Float {
+    private fun PointF.closestPointOnSegment(start: PointF, end: PointF): PointF {
         val segmentX = end.x - start.x
         val segmentY = end.y - start.y
         val lengthSquared = segmentX * segmentX + segmentY * segmentY
 
-        if (lengthSquared == 0f) {
-            val xDistance = x - start.x
-            val yDistance = y - start.y
-            return xDistance * xDistance + yDistance * yDistance
-        }
+        if (lengthSquared == 0f) return start
 
         val projection = (((x - start.x) * segmentX + (y - start.y) * segmentY) / lengthSquared)
             .coerceIn(0f, 1f)
-        val closestX = start.x + projection * segmentX
-        val closestY = start.y + projection * segmentY
-        val xDistance = x - closestX
-        val yDistance = y - closestY
-
-        return xDistance * xDistance + yDistance * yDistance
+        return PointF(start.x + projection * segmentX, start.y + projection * segmentY)
     }
 
     private companion object {
         private const val DefaultCropperStrokeWidthDp = 1.2f
-        private const val CornerSelectionAnimationDurationMs = 140L
+        private const val MagnifierRadiusDp = 50f
+        private const val MagnifierInsetDp = 4f
+        private const val MagnifierGapDp = 24f
+        private const val MagnifierZoom = 5f
 
         val cropperEdges = listOf(
             QuadCorner.TOP_LEFT to QuadCorner.TOP_RIGHT,

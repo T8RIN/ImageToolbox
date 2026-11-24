@@ -49,6 +49,8 @@ import java.io.File
  * @param buttonContainerColor color of scanner button containers
  * @param doneButtonTintColor color of finish button icon
  * @param doneButtonContainerColor color of finish button inner circle
+ * @param magnifierDotColor color of the center dot, or null to hide it
+ * @param magnifierDotSizeDp diameter of the center dot in dp
  * @constructor creates document scanner
  */
 class DocumentScanner(
@@ -67,7 +69,9 @@ class DocumentScanner(
     private val buttonTintColor: Int? = null,
     private val buttonContainerColor: Int? = null,
     private val doneButtonTintColor: Int? = null,
-    private val doneButtonContainerColor: Int? = null
+    private val doneButtonContainerColor: Int? = null,
+    private val magnifierDotColor: Int? = null,
+    private val magnifierDotSizeDp: Float = 4f
 ) {
     init {
         responseType = responseType ?: DefaultSetting.RESPONSE_TYPE
@@ -105,6 +109,13 @@ class DocumentScanner(
         }
         cropperStrokeWidthDp?.let {
             documentScanIntent.putExtra(DocumentScannerExtra.EXTRA_CROPPER_STROKE_WIDTH_DP, it)
+        }
+        magnifierDotColor?.let {
+            documentScanIntent.putExtra(DocumentScannerExtra.EXTRA_MAGNIFIER_DOT_COLOR, it)
+            documentScanIntent.putExtra(
+                DocumentScannerExtra.EXTRA_MAGNIFIER_DOT_SIZE_DP,
+                magnifierDotSizeDp
+            )
         }
         buttonTintColor?.let {
             documentScanIntent.putExtra(DocumentScannerExtra.EXTRA_BUTTON_TINT_COLOR, it)

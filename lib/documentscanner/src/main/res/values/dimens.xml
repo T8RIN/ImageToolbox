@@ -22,8 +22,6 @@
     <dimen name="buttons_container_horizontal_padding">5dp</dimen>
     <dimen name="buttons_container_min_height">200dp</dimen>
     <dimen name="cropper_corner_radius">25px</dimen>
-    <dimen name="cropper_selected_corner_radius_magnification">4px</dimen>
-    <dimen name="cropper_selected_corner_background_magnification">5px</dimen>
     <dimen name="grown_button_elevation">1dp</dimen>
     <dimen name="grown_button_zoom">1.07</dimen>
     <dimen name="image_crop_view_initial_height">0dp</dimen>

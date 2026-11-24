@@ -190,6 +190,12 @@ interface SettingsInteractor : SimpleSettingsInteractor {
 
     suspend fun setVibrationStrength(strength: Int)
 
+    suspend fun toggleMagnifierDotEnabled()
+
+    suspend fun setMagnifierDotSize(size: Int)
+
+    suspend fun setMagnifierDotColor(color: ColorModel)
+
     suspend fun setFilenameSuffix(name: String)
 
     suspend fun setDefaultImageScaleMode(imageScaleMode: ImageScaleMode)

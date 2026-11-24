@@ -156,6 +156,9 @@ internal fun Preferences.toSettingsState(
     filenameSuffix = this[FILENAME_SUFFIX] ?: default.filenameSuffix,
     defaultImageScaleMode = this.toDefaultImageScaleMode(default),
     magnifierEnabled = this[MAGNIFIER_ENABLED] ?: default.magnifierEnabled,
+    magnifierDotEnabled = this[MAGNIFIER_DOT_ENABLED] ?: default.magnifierDotEnabled,
+    magnifierDotSize = this[MAGNIFIER_DOT_SIZE] ?: default.magnifierDotSize,
+    magnifierDotColor = this[MAGNIFIER_DOT_COLOR]?.let(::ColorModel) ?: default.magnifierDotColor,
     cropOverlayDraggable = this[CROP_OVERLAY_DRAGGABLE] ?: default.cropOverlayDraggable,
     drawBitmapBorder = this[DRAW_BITMAP_BORDER] ?: default.drawBitmapBorder,
     exifWidgetInitialState = this[EXIF_WIDGET_INITIAL_STATE]

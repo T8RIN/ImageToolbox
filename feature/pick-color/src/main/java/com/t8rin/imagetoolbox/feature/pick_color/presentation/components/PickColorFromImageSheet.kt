@@ -243,6 +243,8 @@ fun PickColorFromImageSheet(
                 imageBitmap = it,
                 onColorChange = onColorChange,
                 isMagnifierEnabled = settingsState.magnifierEnabled,
+                magnifierDotColor = settingsState.activeMagnifierDotColor,
+                magnifierDotSize = settingsState.magnifierDotSize,
                 boxModifier = Modifier.fillMaxSize()
             )
         } ?: Box(

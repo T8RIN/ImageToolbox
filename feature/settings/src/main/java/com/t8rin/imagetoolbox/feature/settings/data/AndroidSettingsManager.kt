@@ -196,6 +196,9 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.LAMA_THREADS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.LAST_CACHE_AUTO_CLEAR_TIMESTAMP_MILLIS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.LOADING_GAME
 import com.t8rin.imagetoolbox.feature.settings.data.keys.LOCK_DRAW_ORIENTATION
+import com.t8rin.imagetoolbox.feature.settings.data.keys.MAGNIFIER_DOT_COLOR
+import com.t8rin.imagetoolbox.feature.settings.data.keys.MAGNIFIER_DOT_ENABLED
+import com.t8rin.imagetoolbox.feature.settings.data.keys.MAGNIFIER_DOT_SIZE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.MAGNIFIER_ENABLED
 import com.t8rin.imagetoolbox.feature.settings.data.keys.MAIN_SCREEN_TITLE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.MARKUP_LAYER_TEXT_DEFAULTS
@@ -862,6 +865,19 @@ internal class AndroidSettingsManager @Inject constructor(
         key = MAGNIFIER_ENABLED,
         defaultValue = default.magnifierEnabled
     )
+
+    override suspend fun toggleMagnifierDotEnabled() = toggle(
+        key = MAGNIFIER_DOT_ENABLED,
+        defaultValue = default.magnifierDotEnabled
+    )
+
+    override suspend fun setMagnifierDotSize(size: Int) = edit {
+        it[MAGNIFIER_DOT_SIZE] = size
+    }
+
+    override suspend fun setMagnifierDotColor(color: ColorModel) = edit {
+        it[MAGNIFIER_DOT_COLOR] = color.colorInt
+    }
 
     override suspend fun toggleCropOverlayDraggable() = toggle(
         key = CROP_OVERLAY_DRAGGABLE,

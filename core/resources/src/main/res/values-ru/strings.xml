@@ -628,6 +628,9 @@
     <string name="force_exif_widget_initial_value_sub">EXIF переключатель будет в положении ВКЛ автоматически</string>
     <string name="allow_multiple_languages">Разрешить несколько языков</string>
     <string name="magnifier">Лупа</string>
+    <string name="magnifier_dot">Точка в центре лупы</string>
+    <string name="magnifier_dot_sub">Помогает точнее определить место касания</string>
+    <string name="magnifier_dot_size">Размер точки</string>
     <string name="force_exif_widget_initial_value">Начальное значение</string>
     <string name="side_by_side">Бок о бок</string>
     <string name="transparency">Прозрачность</string>

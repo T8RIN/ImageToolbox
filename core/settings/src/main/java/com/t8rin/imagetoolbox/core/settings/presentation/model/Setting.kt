@@ -452,6 +452,12 @@ sealed class Setting(
     )
 
     @Serializable
+    data object MagnifierDot : Setting(
+        title = R.string.magnifier_dot,
+        subtitle = R.string.magnifier_dot_sub
+    )
+
+    @Serializable
     data object DrawBitmapBorder : Setting(
         title = R.string.draw_bitmap_border,
         subtitle = R.string.draw_bitmap_border_sub

@@ -1549,6 +1549,9 @@
     <string name="saved_to_original">Overwritten file with name %1$s at original destination</string>
     <string name="magnifier">Magnifier</string>
     <string name="magnifier_sub">Enables magnifier at the top of finger in drawing modes for better accessibility</string>
+    <string name="magnifier_dot">Magnifier center dot</string>
+    <string name="magnifier_dot_sub">Helps pinpoint where you touch the image</string>
+    <string name="magnifier_dot_size">Dot size</string>
     <string name="crop_overlay_draggable">Movable crop area</string>
     <string name="crop_overlay_draggable_sub">Allows moving the entire crop area by dragging inside it</string>
     <string name="draw_bitmap_border">Drawing border</string>

@@ -26,15 +26,17 @@ import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.graphics.isSpecified
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.CameraAlt
+import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.onPrimaryContainerFixed
 import com.t8rin.imagetoolbox.core.ui.theme.primaryContainerFixed
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
@@ -77,6 +79,10 @@ internal fun rememberDocumentScannerImpl(
     val cropperStrokeWidthDp = 1.2f
     val doneButtonTintColor = colorScheme.onPrimaryFixed
     val doneButtonContainerColor = colorScheme.primaryFixed
+    val settingsState = LocalSettingsState.current
+    val magnifierDotColor = settingsState.activeMagnifierDotColor
+        .takeIf { it.isSpecified }?.toArgb()
+    val magnifierDotSizeDp = settingsState.magnifierDotSize.value
 
     val scanner = remember(
         context,
@@ -87,7 +93,9 @@ internal fun rememberDocumentScannerImpl(
         buttonContainerColor,
         cropperStrokeWidthDp,
         doneButtonTintColor,
-        doneButtonContainerColor
+        doneButtonContainerColor,
+        magnifierDotColor,
+        magnifierDotSizeDp
     ) {
         DocumentScannerDelegate(
             activity = context,
@@ -99,6 +107,8 @@ internal fun rememberDocumentScannerImpl(
             buttonContainerColor = buttonContainerColor.toArgb(),
             doneButtonTintColor = doneButtonTintColor.toArgb(),
             doneButtonContainerColor = doneButtonContainerColor.toArgb(),
+            magnifierDotColor = magnifierDotColor,
+            magnifierDotSizeDp = magnifierDotSizeDp,
             successHandler = { imageUris ->
                 onSuccess(
                     ScanResult(imageUris.map { it.toUri() })

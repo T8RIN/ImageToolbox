@@ -211,6 +211,7 @@ sealed class SettingsGroup(
             Setting.DefaultDrawColor,
             Setting.DefaultDrawPathMode,
             Setting.Magnifier,
+            Setting.MagnifierDot,
             Setting.DrawBitmapBorder
         ),
         initialState = false

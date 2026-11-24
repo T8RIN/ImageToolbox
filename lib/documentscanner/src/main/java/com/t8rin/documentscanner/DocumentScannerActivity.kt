@@ -33,7 +33,6 @@ import androidx.core.graphics.Insets
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
-import com.t8rin.opencv_tools.document_detector.DocumentDetector
 import com.t8rin.documentscanner.constants.DefaultSetting
 import com.t8rin.documentscanner.constants.DocumentScannerExtra
 import com.t8rin.documentscanner.extensions.move
@@ -48,6 +47,7 @@ import com.t8rin.documentscanner.ui.DoneButton
 import com.t8rin.documentscanner.ui.ImageCropView
 import com.t8rin.documentscanner.utils.FileUtil
 import com.t8rin.documentscanner.utils.ImageUtil
+import com.t8rin.opencv_tools.document_detector.DocumentDetector
 import org.opencv.android.OpenCVLoader
 import org.opencv.core.Point
 import java.io.File
@@ -261,6 +261,13 @@ class DocumentScannerActivity : AppCompatActivity() {
             frameColor = cropperFrameColor,
             handleOutlineColor = cropperHandleOutlineColor,
             strokeWidthDp = cropperStrokeWidthDp
+        )
+        imageView.setMagnifierDot(
+            color = intent.getIntExtra(
+                DocumentScannerExtra.EXTRA_MAGNIFIER_DOT_COLOR,
+                Color.TRANSPARENT
+            ),
+            sizeDp = intent.getFloatExtra(DocumentScannerExtra.EXTRA_MAGNIFIER_DOT_SIZE_DP, 0f)
         )
         if (shouldApplyButtonColors) {
             retakePhotoButton.setColors(

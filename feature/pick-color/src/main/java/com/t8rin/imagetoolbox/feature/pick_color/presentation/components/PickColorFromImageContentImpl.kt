@@ -42,7 +42,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.union
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -55,6 +54,7 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.colors.ImageColorDetector
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.AddPhotoAlt
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
@@ -108,6 +108,8 @@ internal fun PickColorFromImageContentImpl(
                             )
                             .transparencyChecker(),
                         isMagnifierEnabled = settingsState.magnifierEnabled,
+                        magnifierDotColor = settingsState.activeMagnifierDotColor,
+                        magnifierDotSize = settingsState.magnifierDotSize,
                         onColorChange = onColorChange
                     )
                 }
@@ -143,6 +145,8 @@ internal fun PickColorFromImageContentImpl(
                                         .clip(ShapeDefaults.small)
                                         .transparencyChecker(),
                                     isMagnifierEnabled = settingsState.magnifierEnabled,
+                                    magnifierDotColor = settingsState.activeMagnifierDotColor,
+                                    magnifierDotSize = settingsState.magnifierDotSize,
                                     onColorChange = onColorChange
                                 )
                             }

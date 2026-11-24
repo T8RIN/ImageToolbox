@@ -497,6 +497,14 @@ internal fun SettingItem(
                 MagnifierSettingItem(onClick = component::toggleMagnifierEnabled)
             }
 
+            Setting.MagnifierDot -> {
+                MagnifierDotSettingItem(
+                    onClick = component::toggleMagnifierDotEnabled,
+                    onSizeChange = component::setMagnifierDotSize,
+                    onColorChange = component::setMagnifierDotColor
+                )
+            }
+
             Setting.DrawBitmapBorder -> {
                 DrawBitmapBorderSettingItem(onClick = component::toggleDrawBitmapBorder)
             }

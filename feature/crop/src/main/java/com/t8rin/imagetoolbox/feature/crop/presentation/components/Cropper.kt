@@ -245,6 +245,8 @@ fun Cropper(
                                 zoomLevel = newZoom
                             },
                             showMagnifier = settingsState.magnifierEnabled,
+                            magnifierDotColor = settingsState.activeMagnifierDotColor,
+                            magnifierDotSize = settingsState.magnifierDotSize,
                             isOverlayDraggable = settingsState.cropOverlayDraggable,
                             gridColor = MaterialTheme.colorScheme.primaryFixed.copy(0.5f),
                             handlesColor = MaterialTheme.colorScheme.primaryFixed
