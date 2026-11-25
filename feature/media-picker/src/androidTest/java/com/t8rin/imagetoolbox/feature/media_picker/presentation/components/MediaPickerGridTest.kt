@@ -25,7 +25,9 @@ import android.graphics.Shader
 import android.os.Debug
 import android.os.SystemClock
 import android.util.Log
+import android.view.InputDevice
 import android.view.MotionEvent
+import android.view.ViewConfiguration
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.core.LinearEasing
@@ -35,12 +37,16 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.runtime.withFrameNanos
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.layout.positionInWindow
 import androidx.test.core.app.ActivityScenario
 import androidx.test.platform.app.InstrumentationRegistry
 import com.t8rin.imagetoolbox.core.ui.theme.ImageToolboxThemeForPreview
@@ -48,7 +54,9 @@ import com.t8rin.imagetoolbox.feature.media_picker.domain.model.Media
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.MediaItem
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.MediaState
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import java.io.File
@@ -62,6 +70,130 @@ class MediaPickerGridTest {
 
     @Test
     fun scrollTwentyColumns() = scroll(20)
+
+    @Test
+    fun longPressAndDragSelectsRangeFromEmptyGallerySelection() {
+        val columns = 4
+        val media = List(80) { index ->
+            Media(
+                id = index.toLong(), label = "$index.png", uri = "file:///missing-$index.png",
+                path = "", relativePath = "", albumID = 1, albumLabel = "", timestamp = 1,
+                mimeType = "image/png", size = 0
+            )
+        }
+        val items = media.map { MediaItem.MediaViewItem(it.id.toString(), it) }
+        val state = MediaState(
+            media = media,
+            mappedMedia = items.take(columns) +
+                    MediaItem.Header(
+                        "header_day",
+                        "Day",
+                        media.drop(columns)
+                    ) + items.drop(columns),
+            isLoading = false
+        )
+        val selected = mutableStateListOf<Media>()
+        val laidOut = CountDownLatch(1)
+        val selectedAfterScroll = CountDownLatch(1)
+        lateinit var grid: LazyGridState
+        var gridPosition = Offset.Zero
+        var lastVisibleId = media.last().id
+        ActivityScenario.launch(ComponentActivity::class.java).use { scenario ->
+            scenario.onActivity { activity ->
+                activity.setContent {
+                    ImageToolboxThemeForPreview(
+                        false,
+                        mapSettings = { it.copy(galleryColumns = columns) }
+                    ) {
+                        grid = rememberLazyGridState()
+                        LaunchedEffect(Unit) {
+                            snapshotFlow { selected.any { it.id > lastVisibleId } }.first { it }
+                            selectedAfterScroll.countDown()
+                        }
+                        Box(
+                            Modifier
+                                .fillMaxSize()
+                                .onGloballyPositioned {
+                                    gridPosition = it.positionInWindow()
+                                    laidOut.countDown()
+                                }
+                        ) {
+                            MediaPickerGrid(
+                                albumId = 1, state = state, gridState = grid,
+                                isSelectionOfAll = true, selectedMedia = selected,
+                                allowMultiple = true, isGalleryMode = true,
+                                isButtonVisible = false, useDateTaken = false,
+                                onRequestManagePermission = {}, isManagePermissionAllowed = true
+                            )
+                        }
+                    }
+                }
+            }
+            assertTrue(laidOut.await(10, TimeUnit.SECONDS))
+            var downTime = 0L
+
+            fun touch(action: Int, position: (ComponentActivity) -> Offset) {
+                scenario.onActivity { activity ->
+                    val point = gridPosition + position(activity)
+                    val time = SystemClock.uptimeMillis()
+                    if (action == MotionEvent.ACTION_DOWN) downTime = time
+                    val event = MotionEvent.obtain(downTime, time, action, point.x, point.y, 0)
+                    try {
+                        event.source = InputDevice.SOURCE_TOUCHSCREEN
+                        activity.dispatchTouchEvent(event)
+                    } finally {
+                        event.recycle()
+                    }
+                }
+            }
+
+            fun touchItem(action: Int, index: Int) = touch(action) {
+                val item = grid.layoutInfo.visibleItemsInfo.first { it.key == items[index].key }
+                Offset(item.offset.x + item.size.width / 2f, item.offset.y + item.size.height / 2f)
+            }
+
+            fun longPress(index: Int) {
+                touchItem(MotionEvent.ACTION_DOWN, index)
+                SystemClock.sleep(ViewConfiguration.getLongPressTimeout() + 150L)
+            }
+
+            longPress(1)
+            scenario.onActivity { assertEquals(listOf(media[1]), selected.toList()) }
+            touchItem(MotionEvent.ACTION_MOVE, 6)
+            scenario.onActivity { assertEquals(media.subList(1, 7), selected.toList()) }
+            touchItem(MotionEvent.ACTION_MOVE, 2)
+            touchItem(MotionEvent.ACTION_UP, 2)
+            scenario.onActivity { assertEquals(media.subList(1, 3), selected.toList()) }
+
+            touchItem(MotionEvent.ACTION_DOWN, 6)
+            touchItem(MotionEvent.ACTION_UP, 6)
+            longPress(1)
+            touchItem(MotionEvent.ACTION_MOVE, 7)
+            scenario.onActivity { assertEquals(media.subList(1, 8).toSet(), selected.toSet()) }
+            touchItem(MotionEvent.ACTION_MOVE, 3)
+            scenario.onActivity {
+                assertEquals(listOf(media[1], media[2], media[6], media[3]), selected.toList())
+                lastVisibleId = grid.layoutInfo.visibleItemsInfo.maxOf {
+                    it.key.toString().toLongOrNull() ?: -1L
+                }
+            }
+
+            val bottomEdge = { activity: ComponentActivity ->
+                val size = grid.layoutInfo.viewportSize
+                Offset(
+                    size.width / (columns * 2f),
+                    size.height - 24 * activity.resources.displayMetrics.density
+                )
+            }
+            touch(MotionEvent.ACTION_MOVE, bottomEdge)
+            assertTrue(
+                "Drag did not select more photos while scrolling",
+                selectedAfterScroll.await(5, TimeUnit.SECONDS)
+            )
+            touch(MotionEvent.ACTION_UP, bottomEdge)
+            scenario.onActivity { assertTrue(grid.firstVisibleItemIndex > 0) }
+        }
+    }
 
     @Test
     fun replacingSelectionWithoutChangingItsSizeUpdatesTheHeaderAndDragSelection() {
@@ -138,13 +270,13 @@ class MediaPickerGridTest {
 
             tap(0)
             scenario.onActivity {
-                org.junit.Assert.assertEquals(
+                assertEquals(
                     listOf(second, first),
                     selected.toList()
                 )
             }
             tap(0)
-            scenario.onActivity { org.junit.Assert.assertEquals(listOf(second), selected.toList()) }
+            scenario.onActivity { assertEquals(listOf(second), selected.toList()) }
             tap(2)
             scenario.onActivity { assertTrue(selected.isEmpty()) }
         }
@@ -216,7 +348,7 @@ class MediaPickerGridTest {
                                 kotlin.math.abs(it.size.width - it.size.height) <= 1
                             )
                         }
-                        org.junit.Assert.assertEquals(selectionSize, selected.size)
+                        assertEquals(selectionSize, selected.size)
                     }
                 }
             }
@@ -232,28 +364,28 @@ class MediaPickerGridTest {
                 pinch(checkNotNull(activity), 0.3f, 0.06f)
                 scenario.onActivity {
                     val columnsAfter = grid.layoutInfo.visibleItemsInfo.maxOf { it.column } + 1
-                    org.junit.Assert.assertEquals(20, columnsAfter)
+                    assertEquals(20, columnsAfter)
                     assertTrue(
                         "Zoom lost anchor: ${grid.firstVisibleItemIndex}",
                         grid.firstVisibleItemIndex in 782..801
                     )
-                    org.junit.Assert.assertEquals(media.subList(800, 850), selected.toList())
+                    assertEquals(media.subList(800, 850), selected.toList())
                 }
                 pinch(checkNotNull(activity), 0.06f, 0.3f)
                 var position = 0 to 0
                 scenario.onActivity {
                     val columnsAfter = grid.layoutInfo.visibleItemsInfo.maxOf { it.column } + 1
-                    org.junit.Assert.assertEquals(4, columnsAfter)
+                    assertEquals(4, columnsAfter)
                     assertTrue(
                         "Zoom lost anchor: ${grid.firstVisibleItemIndex}",
                         grid.firstVisibleItemIndex in 779..801
                     )
                     position = grid.firstVisibleItemIndex to grid.firstVisibleItemScrollOffset
-                    org.junit.Assert.assertEquals(media.subList(800, 850), selected.toList())
+                    assertEquals(media.subList(800, 850), selected.toList())
                 }
                 SystemClock.sleep(500)
                 scenario.onActivity {
-                    org.junit.Assert.assertEquals(
+                    assertEquals(
                         position,
                         grid.firstVisibleItemIndex to grid.firstVisibleItemScrollOffset
                     )
@@ -391,7 +523,7 @@ class MediaPickerGridTest {
                         size = 1f
                     }
                 },
-                0, 0, 1f, 1f, 0, 0, android.view.InputDevice.SOURCE_TOUCHSCREEN, 0
+                0, 0, 1f, 1f, 0, 0, InputDevice.SOURCE_TOUCHSCREEN, 0
             )
             try {
                 instrumentation.runOnMainSync { activity.dispatchTouchEvent(event) }

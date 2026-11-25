@@ -102,6 +102,7 @@ internal fun BoxScope.MediaPickerGrid(
     val settingsState = LocalSettingsState.current
     val useGalleryStyleSelection = isGalleryMode || settingsState.useGalleryStyleSelection
     val previewOnTap = useGalleryStyleSelection && selectedMedia.isEmpty()
+    val useGridSelection = isSelectionOfAll && allowMultiple
     val hapticFeedback = LocalHapticFeedback.current
 
     var imagePreviewUri by rememberSaveable(albumId) {
@@ -260,7 +261,7 @@ internal fun BoxScope.MediaPickerGrid(
                     }
                 }
                 .dragHandler(
-                    enabled = isSelectionOfAll && allowMultiple && !previewOnTap,
+                    enabled = useGridSelection,
                     key = state.mappedMedia,
                     itemIndex = { item ->
                         (item.index - if (isManagePermissionAllowed) 0 else 1)
@@ -277,12 +278,14 @@ internal fun BoxScope.MediaPickerGrid(
                         selectedMedia.addAll(media)
                     },
                     onLongTap = {
-                        if (selectedMedia.isEmpty()) {
+                        if (!useGalleryStyleSelection && selectedMedia.isEmpty()) {
                             imagePreviewUri =
-                                (state.mappedMedia[it + 1] as? MediaItem.MediaViewItem)?.media?.uri
+                                (state.mappedMedia.getOrNull(it + 1) as? MediaItem.MediaViewItem)
+                                    ?.media?.uri
                         }
                     },
-                    shouldHandleLongTap = selectedMedia.isNotEmpty()
+                    shouldHandleLongTap = useGalleryStyleSelection || selectedMedia.isNotEmpty(),
+                    tapEnabled = !previewOnTap
                 ),
             columns = MediaGridCells(animatedColumns),
             horizontalArrangement = MediaGridArrangement,
@@ -356,7 +359,7 @@ internal fun BoxScope.MediaPickerGrid(
                             thumbnailSize = thumbnailSize,
                             uncheckedIcon = uncheckedIcon,
                             isInSelection = !isGalleryMode || selectionIndex >= 0,
-                            canClick = previewOnTap || !isSelectionOfAll || !allowMultiple,
+                            canClick = previewOnTap || !useGridSelection,
                             onItemClick = {
                                 if (previewOnTap) {
                                     imagePreviewUri = it.uri
@@ -365,11 +368,13 @@ internal fun BoxScope.MediaPickerGrid(
                                     onMediaClick(it)
                                 }
                             },
-                            onItemLongClick = {
-                                if (useGalleryStyleSelection) {
-                                    onMediaClick(it)
-                                } else {
-                                    imagePreviewUri = it.uri
+                            onItemLongClick = if (useGridSelection) null else {
+                                {
+                                    if (useGalleryStyleSelection) {
+                                        onMediaClick(it)
+                                    } else {
+                                        imagePreviewUri = it.uri
+                                    }
                                 }
                             },
                             selectionIndex = if (selectedMedia.size > 1) selectionIndex else -1,

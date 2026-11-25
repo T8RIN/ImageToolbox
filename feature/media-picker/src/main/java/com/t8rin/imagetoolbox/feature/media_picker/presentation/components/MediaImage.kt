@@ -104,7 +104,7 @@ fun MediaImage(
     selectionIndex: Int,
     canClick: Boolean,
     onItemClick: (Media) -> Unit,
-    onItemLongClick: (Media) -> Unit,
+    onItemLongClick: ((Media) -> Unit)?,
     showFileSize: Boolean = true,
     showFileExtension: Boolean = true,
     uncheckedIcon: Painter? = null,
@@ -192,9 +192,11 @@ fun MediaImage(
                             haptics.longPress()
                             onItemClick(media)
                         },
-                        onLongClick = {
-                            haptics.longPress()
-                            onItemLongClick(media)
+                        onLongClick = onItemLongClick?.let { onLongClick ->
+                            {
+                                haptics.longPress()
+                                onLongClick(media)
+                            }
                         }
                     )
                 } else Modifier
