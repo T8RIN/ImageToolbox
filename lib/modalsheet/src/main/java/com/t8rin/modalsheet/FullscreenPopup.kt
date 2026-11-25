@@ -21,7 +21,11 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
+import android.graphics.Canvas
+import android.os.Handler
+import android.os.Looper
 import android.view.KeyEvent
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.compose.foundation.layout.Box
@@ -119,7 +123,61 @@ private class PopupLayout(
     private var placeAboveAll: Boolean
 ) : AbstractComposeView(composeView.context), ViewRootForInspector {
 
-    private val decorView = findOwner<Activity>(composeView.context)?.window?.decorView as ViewGroup
+    private val ownerActivity = findOwner<Activity>(composeView.context)
+
+    private val decorView: ViewGroup? =
+        ownerActivity?.window?.decorView as? ViewGroup ?: composeView.rootView as? ViewGroup
+
+    private val mainHandler = Handler(Looper.getMainLooper())
+    private var isDismissed = false
+
+    private val showRunnable = Runnable {
+        val targetDecorView = decorView ?: return@Runnable
+        if (isDismissed || ownerActivity?.isFinishing == true || ownerActivity?.isDestroyed == true) {
+            return@Runnable
+        }
+
+        if (parent !== targetDecorView) {
+            (parent as? ViewGroup)?.removeView(this)
+
+            // Place popup above all current views
+            val aboveAllViews = mutableListOf<View>()
+            val topView = targetDecorView.children
+                .filter { it !== this }
+                .maxByOrNull {
+                    if (it.z == ABOVE_ALL_Z) {
+                        aboveAllViews.add(it)
+                        -ABOVE_ALL_Z
+                    } else {
+                        it.z
+                    }
+                }
+
+            z = if (placeAboveAll) {
+                ABOVE_ALL_Z
+            } else {
+                (topView?.z ?: 0f) + 1f
+            }
+
+            targetDecorView.addView(
+                this,
+                0,
+                MarginLayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
+            )
+
+            aboveAllViews.forEach { it.bringToFront() }
+            (targetDecorView as View).invalidate()
+        }
+
+        requestFocus()
+    }
+
+    private val dismissRunnable = Runnable {
+        if (!isDismissed) return@Runnable
+        (parent as? ViewGroup)?.removeView(this)
+        setViewTreeLifecycleOwner(null)
+        setViewTreeSavedStateRegistryOwner(null)
+    }
 
     override val subCompositionView: AbstractComposeView get() = this
 
@@ -139,28 +197,12 @@ private class PopupLayout(
         private set
 
     fun show() {
-        // Place popup above all current views
-        var placeAboveAllView: View? = null
-        val topView = decorView.children.maxBy {
-            if (it.z == ABOVE_ALL_Z) {
-                placeAboveAllView = it
-                -ABOVE_ALL_Z
-            } else it.z
-        }
-
-        z = if (placeAboveAll) ABOVE_ALL_Z
-        else topView.z + 1
-
-        decorView.addView(
-            this,
-            0,
-            MarginLayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
-        )
-
-        placeAboveAllView?.bringToFront()
-        (decorView as View).invalidate()
-
-        requestFocus()
+        isDismissed = false
+        visibility = VISIBLE
+        mainHandler.removeCallbacks(dismissRunnable)
+        mainHandler.removeCallbacks(showRunnable)
+        // Defer DecorView mutations until after any active measure/layout/draw pass finishes.
+        mainHandler.post(showRunnable)
     }
 
     fun setContent(parent: CompositionContext, content: @Composable () -> Unit) {
@@ -174,8 +216,20 @@ private class PopupLayout(
         content()
     }
 
+    override fun dispatchDraw(canvas: Canvas) {
+        if (!isDismissed) {
+            super.dispatchDraw(canvas)
+        }
+    }
+
+    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
+        if (isDismissed) return false
+        return super.dispatchTouchEvent(ev)
+    }
+
     @Suppress("ReturnCount")
     override fun dispatchKeyEvent(event: KeyEvent): Boolean {
+        if (isDismissed) return false
         if (event.keyCode == KeyEvent.KEYCODE_BACK && onDismiss != null) {
             if (keyDispatcherState == null) {
                 return super.dispatchKeyEvent(event)
@@ -204,8 +258,13 @@ private class PopupLayout(
     }
 
     fun dismiss() {
-        setViewTreeLifecycleOwner(null)
-        decorView.removeView(this)
+        isDismissed = true
+        shouldCreateCompositionOnAttachedToWindow = false
+        visibility = GONE
+        mainHandler.removeCallbacks(showRunnable)
+        mainHandler.removeCallbacks(dismissRunnable)
+        // Defer DecorView.removeView so we never mutate mChildren during DecorView.dispatchDraw().
+        mainHandler.post(dismissRunnable)
     }
 }
 
